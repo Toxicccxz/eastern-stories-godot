@@ -305,7 +305,10 @@ round:
    `playtest-<date>` on it (its message names the commit and the world revision), pushes the tag,
    and runs `ci.yml` by hand on it (`workflow_dispatch`): the `Windows Release Build` job makes the
    ZIP from exactly that commit (`build-manifest.json` records it, `tools/build/build.py`). Pushing a
-   tag is the owner's call: the agent cuts a round only when the owner says so.
+   tag is the owner's call: the agent cuts a round only when the owner says so. If the push or the
+   dispatch fails, or the run fails, run `cut` again with the same `--name`: a tag already on origin
+   (on the same commit as the local one) is resumed — CI is started on it again unless a run on it
+   succeeded or is still going. A failed command prints what `git` or `gh` said.
 2. **Fetch.** When the run is green, `python tools/build/playtest_round.py fetch playtest-<date>`
    downloads the artifact into `build/playtest/<tag>/` and unpacks `game/` there: that `.exe` is the
    game of the round, from New Game or Continue, in the release save slot. Beside it,

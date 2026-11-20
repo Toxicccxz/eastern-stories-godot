@@ -321,7 +321,8 @@ func _test_keep(tree: SceneTree, session: WorldSessionController) -> void:
 	await walker.round_trip(tree, session, Work.capture(session), "%s: with the feather" % ledger)
 	_check(walker._failures.is_empty(), "%s: a save with the feather reads back exactly: %s" % [ledger, walker._failures])
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter8_done.bind(false, true, true))
+	# the feather: ChapterStart.carried gives it for the starts after
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter8_done.bind(false, true, true), [], [ChapterStart.FEATHER])
 	_check(handoff.is_empty(), "湖底 played (kept) leaves what chapter8_done(keep) writes: %s" % [handoff])
 
 
@@ -375,7 +376,8 @@ func _test_pull(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(cave.map_id() == &"village.icecave" and ui.log_lines().any(func(line: String) -> bool: return line.contains("到人家里去")) and _count_in(session, &"village.seal_altar", LIHONG_WEAK) == 0, "%s: back in the hall, 璃虹 gone ashore ahead" % ledger)
 	await _test_night(tree, session, ledger)
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter8_done.bind(true, false, false))
+	# 穿灵: ChapterStart.carried gives it for the starts after
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter8_done.bind(true, false, false), [], [ChapterStart.IMPALER])
 	_check(handoff.is_empty(), "湖底 played (pulled, the night) leaves what chapter8_done(pull) writes: %s" % [handoff])
 
 

@@ -302,7 +302,8 @@ func _test_taken(tree: SceneTree, session: WorldSessionController) -> void:
 	var snapshot: GameSaveSnapshot = _capture(session)
 	_check(snapshot != null, "Save")
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter4_taken)
+	# 神教杀手倒了: the spared killer is gone for good; WorldSpawnClearings writes it on the journal's next beat.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter4_taken, ["神教杀手倒了"])
 	_check(handoff.is_empty(), "宝衣 played (taken) leaves what chapter4_taken writes: %s" % [handoff])
 
 

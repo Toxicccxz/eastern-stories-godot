@@ -110,7 +110,8 @@ func _test_slay(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.active_map().map_id() == &"village.main" and session.day_phase_id() == &"dawn" and state.marks.get("终章上了岸", 0) == 1 and StoryQuestLog.current_step(state, quest).step_id == &"home", "up at dawn to the lakeside; home next")
 	# 章与章之间的衔接: what this package played out holds what C's fixture writes (but for the earlier
 	# chapters' choices, which _ledger() sets, TEST-ONLY).
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.finale_ended.bind("slay", "self", "expose", false), TABLE)
+	# the suite's choices at the 封坛; the 三器 the suite gives as ChapterStart.carried does
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.finale_ended.bind("slay", "self", "expose", false), TABLE + ["能灭它", "宝衣烧了"], [ChapterStart.IMPALER, ChapterStart.XUANMANG, ChapterStart.FEATHER])
 	_check(handoff.is_empty(), "终章 B played (灭) leaves what finale_ended(slay) writes: %s" % [handoff])
 
 
@@ -163,7 +164,8 @@ func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	_check(_first(session, ALTAR, &"native.npc.elon_ice") != null and _first(session, ALTAR, &"native.npc.elon_altar") == null, "瑷伦 in the ice now")
 	_check(_first(session, ALTAR, &"native.npc.nan_weishui_altar") == null and _first(session, ALTAR, &"native.npc.xiao_pichen_altar") == null and _first(session, ALTAR, &"native.npc.nan_weishui_ice") == null, "the others gone home; only who stayed is in the ice")
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.finale_ended.bind("seal_elon", "xiao", "deal", true), TABLE)
+	# the suite's choices at the 封坛; the 三器 the suite gives as ChapterStart.carried does
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.finale_ended.bind("seal_elon", "xiao", "deal", true), TABLE + ["能灭它", "宝衣烧了"], [ChapterStart.IMPALER, ChapterStart.XUANMANG, ChapterStart.FEATHER])
 	_check(handoff.is_empty(), "终章 B played (瑷伦 stays) leaves what finale_ended(seal_elon) writes: %s" % [handoff])
 
 

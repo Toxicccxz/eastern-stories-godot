@@ -266,7 +266,8 @@ func _test_escorted(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(guo != null and state.marks.get("郭承跟上了", 0) == 1 and guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and ui.log_lines().any(func(line: String) -> bool: return line.contains("六骑听你的")), "郭承: 王爷的话到了 — he follows: %s" % [ui.log_lines().slice(-3)])
 	_check(_ask(court, guo, "潜入").any(func(line: String) -> bool: return line.contains("白天踏过去")), "潜入 of 郭承 after 借兵: 不用潜")
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_planned.bind(true))
+	# played on past the fixture's step (卢卡, 郭承: the later fixtures'); a bought sword and the 酒肆's 老秦 are the suite's errands
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_planned.bind(true), ["卢卡说了鬼", "卢卡说了番坊", "郭承跟上了", "郭承提过霍铮", "买了卢卡的剑", "老秦认出你"], [])
 	_check(handoff.is_empty(), "关北 A–B played (借兵) leaves what chapter6_planned(raid) writes: %s" % [handoff])
 
 
@@ -460,7 +461,8 @@ func _test_raid(tree: SceneTree, session: WorldSessionController) -> void:
 	var lao_qin: NpcRuntimeState = await _beside(tree, session, inn, &"guanbei.inn_hall.lao_qin.1")
 	_check(_ask(inn, lao_qin, "工地").any(func(line: String) -> bool: return line.contains("该踏平")), "老秦: 那地方该踏平")
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(true))
+	# played on into 关北 D (chapter6_done writes those); 老秦 is the suite's errand
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(true), ["卢卡说了鬼", "卢卡说了番坊", "关北一章", "程朔知道了", "得了刀谱", "老秦认出你"], [])
 	_check(handoff.is_empty(), "关北 C played (the raid) leaves what chapter6_site_done(raid) writes: %s" % [handoff])
 
 
@@ -651,7 +653,8 @@ func _test_sneak(tree: SceneTree, session: WorldSessionController) -> void:
 	var cheng2: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.palace_hall.cheng_shuo.1")
 	_check(hall2 != null and state.marks.get("程朔知道了", 0) == 1 and state.marks.get("王府干净", 0) == 1 and cheng2 != null and cheng2.has_flag(StringName(NpcMood.FLAG_PREFIX + "clean")) and ui.log_lines().any(func(line: String) -> bool: return line.contains("王府不知道")), "程朔 in his 干净 mood: 夜里的事，王府不知道: %s" % [ui.log_lines().slice(-3)])
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(false))
+	# played on into 关北 D (chapter6_done writes those)
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(false), ["吕隼说了少了四个", "见过车路过", "得了刀谱", "程朔知道了"], [])
 	_check(handoff.is_empty(), "关北 C played (the sneak) leaves what chapter6_site_done(sneak) writes: %s" % [handoff])
 
 
