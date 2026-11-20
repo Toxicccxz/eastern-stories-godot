@@ -3,12 +3,6 @@ extends RefCounted
 
 const ContextType := preload("res://core/death/death_context.gd")
 const FactsType := preload("res://core/death/death_item_facts.gd")
-const PolicyRegistryType := preload(
-	"res://core/death/death_item_policy_registry.gd"
-)
-const PolicyResultType := preload(
-	"res://core/death/death_item_policy_result.gd"
-)
 const RewearRegistryType := preload(
 	"res://core/death/death_rewear_policy_registry.gd"
 )
@@ -37,30 +31,24 @@ const TransferServiceType := preload(
 )
 const ItemInstanceType := preload("res://core/items/item_instance.gd")
 const ItemDefinitionType := preload("res://core/items/item_definition.gd")
-const LifecycleResultType := preload(
-	"res://core/items/lifecycle/item_lifecycle_result.gd"
-)
-const LifecycleServiceType := preload(
-	"res://core/items/lifecycle/item_lifecycle_service.gd"
-)
-const SpawnIntentType := preload(
-	"res://core/death/deferred_npc_spawn_intent.gd"
-)
 
 const LEGACY_FEMALE: StringName = &"女性"
 
 
+## chard.c make_corpse() of `context`'s victim: every item they carry directly survives (the
+## game has no item that dies with its owner here: 风泉's sword answers its owner's death through
+## its item data, ItemContentDefinition.owner_killed_npc(), WorldMapCombatLifecycle), into the
+## corpse (worn armour worn again) or, for a ghost, onto the floor.
 static func process(
 	context: ContextType,
 	inventory: InventoryState,
 	stacks: CombinedStackCollection,
 	item_facts: Array[FactsType],
-	policy_registry: PolicyRegistryType,
 	rewear_registry: RewearRegistryType,
 	corpse_item: ItemInstanceType = null,
 	corpse_definition: ItemDefinitionType = null,
 ) -> ResultType:
-	if inventory == null or stacks == null or policy_registry == null or rewear_registry == null:
+	if inventory == null or stacks == null or rewear_registry == null:
 		return ResultType.new(ResultType.Outcome.INVALID_DOMAIN_STATE)
 	if context == null or not context.is_valid():
 		return ResultType.new(ResultType.Outcome.INVALID_CONTEXT)
@@ -80,14 +68,7 @@ static func process(
 				ResultType.Branch.GHOST,
 				ghost_snapshot,
 			)
-		return _process_ghost(
-			context,
-			inventory,
-			stacks,
-			ghost_snapshot,
-			ghost_facts,
-			policy_registry,
-		)
+		return _process_ghost(context, inventory, ghost_snapshot)
 
 	if (
 		corpse_item == null
@@ -128,9 +109,6 @@ static func process(
 			[],
 			[],
 			[],
-			[],
-			[],
-			[],
 			corpse_item.item_instance_id,
 			corpse,
 			placement,
@@ -146,9 +124,6 @@ static func process(
 			direct_snapshot,
 			[],
 			[],
-			[],
-			[],
-			[],
 			corpse,
 			placement,
 			initial_intent,
@@ -156,10 +131,8 @@ static func process(
 	return _process_normal(
 		context,
 		inventory,
-		stacks,
 		direct_snapshot,
 		facts_by_id,
-		policy_registry,
 		rewear_registry,
 		corpse,
 		placement,
@@ -195,74 +168,14 @@ static func _facts_cover_snapshot(
 	return true
 
 
+## chard.c of a ghost: no corpse; what it carried falls where it stood, last first.
 static func _process_ghost(
 	context: ContextType,
 	inventory: InventoryState,
-	stacks: CombinedStackCollection,
 	direct_snapshot: Array[StringName],
-	facts_by_id: Dictionary[StringName, FactsType],
-	policy_registry: PolicyRegistryType,
 ) -> ResultType:
-	var policy_results: Array[PolicyResultType] = []
-	var policy_lifecycle_results: Array[LifecycleResultType] = []
-	var destroyed_ids: Array[StringName] = []
-	var deferred: Array[SpawnIntentType] = []
-	var survivors: Array[StringName] = []
-	for item_instance_id: StringName in direct_snapshot:
-		var policy: PolicyResultType = policy_registry.evaluate(
-			context,
-			facts_by_id[item_instance_id],
-		)
-		policy_results.append(policy)
-		if policy.outcome == PolicyResultType.Outcome.KEEP:
-			survivors.append(item_instance_id)
-		elif policy.outcome == PolicyResultType.Outcome.DESTROY_ITEM:
-			var lifecycle: LifecycleResultType = LifecycleServiceType.destroy_item(
-				inventory,
-				stacks,
-				item_instance_id,
-				LifecycleResultType.ChildDisposition.DESTROY_SUBTREE,
-				context.victim_owner,
-			)
-			policy_lifecycle_results.append(lifecycle)
-			if not lifecycle.succeeded:
-				return _result(
-					ResultType.Outcome.POLICY_DESTRUCTION_FAILED,
-					ResultType.Branch.GHOST,
-					direct_snapshot,
-					policy_results,
-					destroyed_ids,
-					[],
-					[],
-					deferred,
-					null,
-					null,
-					item_instance_id,
-					policy_lifecycle_results,
-				)
-			destroyed_ids.append_array(lifecycle.removed_instance_ids)
-		else:
-			if policy.spawn_intent != null:
-				deferred.append(policy.spawn_intent)
-			return _result(
-				(
-					ResultType.Outcome.DEFERRED_RUNTIME_EFFECT
-					if policy.outcome == PolicyResultType.Outcome.DEFERRED_RUNTIME_EFFECT
-					else ResultType.Outcome.POLICY_DEPENDENCY_UNAVAILABLE
-				),
-				ResultType.Branch.GHOST,
-				direct_snapshot,
-				policy_results,
-				destroyed_ids,
-				[],
-				[],
-				deferred,
-				null,
-				null,
-				item_instance_id,
-				policy_lifecycle_results,
-			)
 	var transfers: Array[TransferResultType] = []
+	var survivors: Array[StringName] = direct_snapshot.duplicate()
 	survivors.reverse()
 	for item_instance_id: StringName in survivors:
 		transfers.append(
@@ -278,90 +191,22 @@ static func _process_ghost(
 		ResultType.Outcome.COMPLETED,
 		ResultType.Branch.GHOST,
 		direct_snapshot,
-		policy_results,
-		destroyed_ids,
 		transfers,
 		[],
-		deferred,
-		null,
-		null,
-		&"",
-		policy_lifecycle_results,
 	)
 
 
 static func _process_normal(
 	context: ContextType,
 	inventory: InventoryState,
-	stacks: CombinedStackCollection,
 	direct_snapshot: Array[StringName],
 	facts_by_id: Dictionary[StringName, FactsType],
-	policy_registry: PolicyRegistryType,
 	rewear_registry: RewearRegistryType,
 	corpse: CorpseStateType,
 	placement: TransferResultType,
 	initial_intent: DecayIntentType,
 ) -> ResultType:
-	var policy_results: Array[PolicyResultType] = []
-	var policy_lifecycle_results: Array[LifecycleResultType] = []
-	var destroyed_ids: Array[StringName] = []
-	var deferred: Array[SpawnIntentType] = []
-	var survivors: Array[StringName] = []
-	for item_instance_id: StringName in direct_snapshot:
-		var policy: PolicyResultType = policy_registry.evaluate(
-			context,
-			facts_by_id[item_instance_id],
-		)
-		policy_results.append(policy)
-		if policy.outcome == PolicyResultType.Outcome.KEEP:
-			survivors.append(item_instance_id)
-		elif policy.outcome == PolicyResultType.Outcome.DESTROY_ITEM:
-			var lifecycle: LifecycleResultType = LifecycleServiceType.destroy_item(
-				inventory,
-				stacks,
-				item_instance_id,
-				LifecycleResultType.ChildDisposition.DESTROY_SUBTREE,
-				context.victim_owner,
-			)
-			policy_lifecycle_results.append(lifecycle)
-			if not lifecycle.succeeded:
-				return _normal_result(
-					ResultType.Outcome.POLICY_DESTRUCTION_FAILED,
-					direct_snapshot,
-					policy_results,
-					destroyed_ids,
-					[],
-					[],
-					deferred,
-					corpse,
-					placement,
-					initial_intent,
-					item_instance_id,
-					policy_lifecycle_results,
-				)
-			destroyed_ids.append_array(lifecycle.removed_instance_ids)
-		else:
-			if policy.spawn_intent != null:
-				deferred.append(policy.spawn_intent)
-			return _normal_result(
-				(
-					ResultType.Outcome.DEFERRED_RUNTIME_EFFECT
-					if policy.outcome == PolicyResultType.Outcome.DEFERRED_RUNTIME_EFFECT
-					else ResultType.Outcome.POLICY_DEPENDENCY_UNAVAILABLE
-				),
-				direct_snapshot,
-				policy_results,
-				destroyed_ids,
-				[],
-				[],
-				deferred,
-				corpse,
-				placement,
-				initial_intent,
-				item_instance_id,
-				policy_lifecycle_results,
-			)
-
+	var survivors: Array[StringName] = direct_snapshot.duplicate()
 	var corpse_destination: DestinationType = DestinationType.new(
 		EndpointType.new(EndpointType.Kind.ITEM, corpse.corpse_item_instance_id),
 		true,
@@ -377,6 +222,13 @@ static func _process_normal(
 		var worn_slot: StringName = (
 			context.victim_owner.armor_state.slot_for_instance(item_instance_id)
 		)
+		## Native (owner 2026-11-19; DECISIONS「死后留在身上」): what the player wields and
+		## wears stays on them; the rest goes into the corpse as chard.c moves it.
+		if context.victim_keeps_equipped and (
+			worn_slot != &""
+			or context.victim_owner.equipment_state.has_weapon_instance(item_instance_id)
+		):
+			continue
 		if worn_slot != &"":
 			var worn_facts: FactsType = facts_by_id[item_instance_id]
 			if (
@@ -386,16 +238,12 @@ static func _process_normal(
 				return _normal_result(
 					ResultType.Outcome.INVALID_ITEM_FACTS,
 					direct_snapshot,
-					policy_results,
-					destroyed_ids,
 					transfers,
 					rewear_results,
-					deferred,
 					corpse,
 					placement,
 					initial_intent,
 					item_instance_id,
-					policy_lifecycle_results,
 				)
 		var transfer: TransferResultType = TransferServiceType.new().transfer(
 			inventory,
@@ -418,30 +266,21 @@ static func _process_normal(
 				return _normal_result(
 					ResultType.Outcome.REWEAR_DEPENDENCY_UNAVAILABLE,
 					direct_snapshot,
-					policy_results,
-					destroyed_ids,
 					transfers,
 					rewear_results,
-					deferred,
 					corpse,
 					placement,
 					initial_intent,
 					item_instance_id,
-					policy_lifecycle_results,
 				)
 	return _normal_result(
 		ResultType.Outcome.COMPLETED,
 		direct_snapshot,
-		policy_results,
-		destroyed_ids,
 		transfers,
 		rewear_results,
-		deferred,
 		corpse,
 		placement,
 		initial_intent,
-		&"",
-		policy_lifecycle_results,
 	)
 
 
@@ -575,32 +414,24 @@ static func _fallback_after_failed_wear(
 static func _normal_result(
 	outcome: int,
 	direct_snapshot: Array[StringName],
-	policy_results: Array[PolicyResultType],
-	destroyed_ids: Array[StringName],
 	transfers: Array[TransferResultType],
 	rewear_results: Array[RewearResultType],
-	deferred: Array[SpawnIntentType],
 	corpse: CorpseStateType,
 	placement: TransferResultType,
 	initial_intent: DecayIntentType,
 	stopped_item_id: StringName = &"",
-	policy_lifecycle_results: Array[LifecycleResultType] = [],
 ) -> ResultType:
 	return ResultType.new(
 		outcome,
 		ResultType.Branch.NORMAL,
 		direct_snapshot,
-		policy_results,
-		destroyed_ids,
 		transfers,
 		rewear_results,
-		deferred,
 		corpse.corpse_item_instance_id,
 		corpse,
 		placement,
 		initial_intent,
 		stopped_item_id,
-		policy_lifecycle_results,
 	)
 
 
@@ -608,29 +439,7 @@ static func _result(
 	outcome: int,
 	branch: int,
 	direct_snapshot: Array[StringName],
-	policy_results: Array[PolicyResultType],
-	destroyed_ids: Array[StringName],
 	transfers: Array[TransferResultType],
 	rewear_results: Array[RewearResultType],
-	deferred: Array[SpawnIntentType],
-	corpse: CorpseStateType = null,
-	placement: TransferResultType = null,
-	stopped_item_id: StringName = &"",
-	policy_lifecycle_results: Array[LifecycleResultType] = [],
 ) -> ResultType:
-	return ResultType.new(
-		outcome,
-		branch,
-		direct_snapshot,
-		policy_results,
-		destroyed_ids,
-		transfers,
-		rewear_results,
-		deferred,
-		&"" if corpse == null else corpse.corpse_item_instance_id,
-		corpse,
-		placement,
-		null,
-		stopped_item_id,
-		policy_lifecycle_results,
-	)
+	return ResultType.new(outcome, branch, direct_snapshot, transfers, rewear_results)

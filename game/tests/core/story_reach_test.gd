@@ -19,6 +19,15 @@ extends RefCounted
 ##    room reset remakes (not staged, or an ES2 resident on the stage: NpcSpawnDefinition.resident).
 ##    An act's branch that asks `present` / `by` of someone hangs on the one of them in that act's
 ##    room. A condition the check does not know how to judge is a failure, not a pass.
+## 3. DECISIONS「说话的人得在场」: an NPC's act (its calls, a scene's above all) whose steps are spoken `by`
+##    another person asks that person `present`, so it is never played to the air (黄霸 kneeling to a
+##    霍铮 lost on the way) nor half played. Not asked: one the NPC's own acts bring into the room
+##    (`comes`, `summon`; anyone after a `restage`, and in one act anyone after a step that brings people
+##    on), and a `by` step with its own `when` (who came says
+##    their line). Exempt as a kind, not one by one: a room's act service (world.json `services`) — the
+##    player's own action comes first there and whoever speaks `by` after it only answers it; one not
+##    there cuts the answer short (番坊's 对质: 安敦's thanks after 冯禄 has gone), it must not keep the
+##    player from acting.
 ## The data is read raw (res://data/**/*.json) for who writes and reads what; the catalog for the
 ## quests, the NPCs and the spawns.
 
@@ -162,9 +171,91 @@ func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
 		_check(false, problem)
 	for problem: String in hanging_steps(catalog):
 		_check(false, problem)
+	for problem: String in speakers_unasked(DATA_ROOT, catalog):
+		_check(false, problem)
 	_test_what_it_sees(catalog)
 	_test_conditions_read(catalog)
+	_test_speakers_seen(catalog)
 	return {"assertions": _count, "failures": _failures}
+
+
+## Check 3 over every NPC record of the data: "<file>:<npc>.<path> is spoken by <id> and does not ask them present".
+func speakers_unasked(root: String, catalog: ContentCatalog) -> Array[String]:
+	var problems: Array[String] = []
+	for path: String in _json_files(root):
+		if not path.ends_with("npcs.json"):
+			continue
+		var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+		if not data is Dictionary or not data.get("npcs") is Array:
+			continue
+		for record: Variant in data["npcs"]:
+			if record is Dictionary and record.get("id") is String:
+				problems.append_array(speakers_unasked_in(record, path.trim_prefix(root + "/"), catalog))
+	return problems
+
+
+## Check 3 for one NPC record.
+static func speakers_unasked_in(record: Dictionary, origin: String, catalog: ContentCatalog) -> Array[String]:
+	var acts: Array = []
+	_acts_in(record, record["id"], acts)
+	# Who its own acts bring into the room: they are not there when the scene's calls are judged.
+	var brought: Dictionary[String, bool] = {}
+	var anyone: bool = false
+	for found: Array in acts:
+		for step: Variant in found[1]["steps"]:
+			if not step is Dictionary:
+				continue
+			if step.get("comes") is String:
+				brought[step["comes"]] = true
+			if step.get("summon") is String:
+				var spawn: NpcSpawnDefinition = catalog.spawn(StringName(step["summon"]))
+				if spawn != null:
+					brought[String(spawn.npc_definition_id)] = true
+			if step.get("restage", false):
+				anyone = true
+	var problems: Array[String] = []
+	for found: Array in acts:
+		var act: Dictionary = found[1]
+		var asked: Array = _strings(act.get("present"))
+		var stirred: bool = false
+		for step: Variant in act["steps"]:
+			if not step is Dictionary:
+				continue
+			# After the act brings people on (a summon may stage more than its own spawn: 关北's riders
+			# and 裴昭 with them), whoever speaks is one who came.
+			if step.has("comes") or step.has("summon") or step.has("restage"):
+				stirred = true
+			if not step.get("by") is String or step.has("when"):
+				continue
+			var speaker: String = step["by"]
+			if speaker != record["id"] and not asked.has(speaker) and not brought.has(speaker) and not anyone and not stirred:
+				problems.append("%s:%s.%s is spoken by %s and does not ask them present" % [origin, record["id"], found[0], speaker])
+	return problems
+
+
+## Every act (a record with `steps`) under `value`, with where it is.
+static func _acts_in(value: Variant, where: String, into: Array) -> void:
+	if value is Array:
+		for index: int in value.size():
+			_acts_in(value[index], "%s[%d]" % [where, index], into)
+	elif value is Dictionary:
+		if value.get("steps") is Array:
+			into.append([where, value])
+		for key: Variant in value:
+			if key != "steps":
+				_acts_in(value[key], "%s.%s" % [where, key], into)
+
+
+## Check 3 sees what it is meant to (made-up records): a call spoken by another who is not asked present,
+## and not one who is asked, brought in by the NPC's own `comes`, or given a `when` of their own.
+func _test_speakers_seen(catalog: ContentCatalog) -> void:
+	var by_other: Array = [{"by": "t.npc.other"}, {"say": "一"}]
+	_check(speakers_unasked_in({"id": "t.npc", "calls": [{"after": 1, "scene": true, "steps": by_other}]}, "t", catalog).size() == 1, "a call spoken by another, not asked present: caught")
+	_check(speakers_unasked_in({"id": "t.npc", "calls": [{"after": 1, "scene": true, "present": "t.npc.other", "steps": by_other}]}, "t", catalog).is_empty(), "asked present: fine")
+	_check(speakers_unasked_in({"id": "t.npc", "calls": [{"after": 1, "scene": true, "present": ["t.npc.x", "t.npc.other"], "steps": by_other}]}, "t", catalog).is_empty(), "asked among several: fine")
+	_check(speakers_unasked_in({"id": "t.npc", "calls": [{"after": 1, "steps": [{"comes": "t.npc.other", "from": "t.zone"}]}, {"after": 2, "steps": by_other}]}, "t", catalog).is_empty(), "brought in by its own comes: fine")
+	_check(speakers_unasked_in({"id": "t.npc", "calls": [{"after": 1, "steps": [{"by": "t.npc.other", "when": {"mark": "t:came"}}, {"say": "一"}]}]}, "t", catalog).is_empty(), "a by with its own when: fine")
+	_check(speakers_unasked_in({"id": "t.npc", "calls": [{"after": 1, "steps": [{"by": "t.npc"}, {"say": "一"}]}]}, "t", catalog).is_empty(), "its own lines: fine")
 
 
 ## The check sees what it is meant to (each on made-up tables, in a fresh copy of the check): an
@@ -781,6 +872,10 @@ func _walk(value: Variant, path: Array[String], source: Source) -> void:
 	# An act's branch for one standing there.
 	if record.get("present") is String:
 		here = here.with_gate(StringName(record["present"]))
+	elif record.get("present") is Array and record.has("steps"):
+		for npc_id: Variant in record["present"]:
+			if npc_id is String:
+				here = here.with_gate(StringName(npc_id))
 	# What the rule (the branch) asks of the one doing it.
 	var need_marks: Array = []
 	var need_items: Array = []

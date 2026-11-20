@@ -318,19 +318,19 @@
 			},
 			"scene_mark": "隘口的道士",
 			"calls": [
-				{ "after": 1, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 1, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.white_officer", "steps": [
 					{ "line": "一名白衣武官从山壁下的土坑里捧出一只尺许长的石匣，匣面刻着一圈风纹。" },
 					{ "by": "native.npc.white_officer" },
 					{ "say": "总教头，挖出来了！" }
 				] },
-				{ "after": 5, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 5, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.feng_ce", "steps": [
 					{ "by": "native.npc.feng_ce" },
 					{ "say": "打开。" }
 				] },
 				{ "after": 8, "scene": true, "not_mark": "隘口的道士", "steps": [
 					{ "say": "冯总教头，匣子开不得。这是岚城的风铃，寻风的人才用得上，旁人开了，只会招祸。" }
 				] },
-				{ "after": 12, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 12, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.black_taoist_pass", "steps": [
 					{ "line": "崖上忽然一道黑影掠下，一个黑衣黑冠的道士落在土坑边，一把抢过石匣，转身便往山壁上纵去！" },
 					{ "by": "native.npc.black_taoist_pass" },
 					{ "say": "多谢诸位代劳！" },
@@ -339,14 +339,14 @@
 					{ "line": "黑衣道士衣角一扯，一块布条飘落在地。他几个起落，已经翻上山壁，往北面的老松岭去了。" },
 					{ "leave": true }
 				] },
-				{ "after": 16, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 16, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.white_officer", "steps": [
 					{ "by": "native.npc.white_officer" },
 					{ "say": "追！" },
 					{ "leave": true },
 					{ "by": "native.npc.white_officer" },
 					{ "leave": true }
 				] },
-				{ "after": 19, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 19, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.feng_ce", "steps": [
 					{ "by": "native.npc.feng_ce" },
 					{ "emote": "回过头来，目光落在你身上。" },
 					{ "say": "这不是你该来的地方。" }
@@ -622,6 +622,7 @@
 					"after": 1,
 					"scene": true,
 					"not_mark": "见过庾家拦路",
+					"present": "choyin.npc.sergeant",
 					"steps": [
 						{
 							"emote": "从酒楼对面的屋檐下走出来，拦在街心。身后三个便衣的汉子散开，手都按着刀柄。"
@@ -635,6 +636,7 @@
 					"after": 4,
 					"scene": true,
 					"not_mark": "见过庾家拦路",
+					"present": "choyin.npc.sergeant",
 					"steps": [
 						{
 							"by": "choyin.npc.sergeant"
@@ -651,6 +653,7 @@
 					"after": 7,
 					"scene": true,
 					"not_mark": "见过庾家拦路",
+					"present": "choyin.npc.sergeant",
 					"steps": [
 						{
 							"by": "native.npc.yu_steward"
@@ -1259,6 +1262,7 @@
 					"after": 13,
 					"scene": true,
 					"not_mark": "商玦劝过你",
+					"present": "native.npc.lihong",
 					"steps": [
 						{
 							"say": "你拿着剑，鬼醒了才找得到头；找到了头，才灭得了它。你以为它封着就是安稳？它在长。三百年，长了三百年。"
@@ -4510,6 +4514,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4546,6 +4551,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4565,6 +4571,7 @@
 					},
 					"mark": "大秦人留下了",
 					"not_mark": "内院撞见了",
+					"present": "native.npc.shield_youth",
 					"steps": [
 						{
 							"by": "native.npc.shield_youth"
@@ -4629,6 +4636,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4648,6 +4656,7 @@
 					},
 					"mark": "竹书给了柳绘心",
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4706,6 +4715,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -5748,6 +5758,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5774,6 +5785,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5838,6 +5850,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5933,6 +5946,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5991,6 +6005,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -6116,6 +6131,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -6230,6 +6246,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -6272,6 +6289,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -10140,7 +10158,7 @@
 							}
 						]
 					},
-					"present": "native.npc.luo_jianzhang",
+					"present": ["native.npc.luo_jianzhang", "native.npc.wei_zhizhong"],
 					"steps": [
 						{
 							"by": "native.npc.wei_zhizhong"

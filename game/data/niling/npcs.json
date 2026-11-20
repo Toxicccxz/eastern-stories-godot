@@ -1167,6 +1167,7 @@
 					"after": 5,
 					"scene": true,
 					"not_mark": "见过唤首",
+					"present": "native.npc.xuan_mingzi",
 					"steps": [
 						{
 							"by": "native.npc.xuan_mingzi"
@@ -1234,6 +1235,7 @@
 					"after": 20,
 					"scene": true,
 					"not_mark": "见过唤首",
+					"present": "native.npc.xuan_mingzi",
 					"steps": [
 						{
 							"by": "native.npc.xuan_mingzi"

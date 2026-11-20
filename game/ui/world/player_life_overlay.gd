@@ -9,6 +9,8 @@ extends CanvasLayer
 ## text the game puts up (show_card(): the opening's theme story, 拜师) with 继续, world
 ## time held under it (hold_world_time) until the player goes on; a death takes its place.
 const REVIVED_NOTICE_SECONDS: float = 4.0
+## Each line past the first two of that notice keeps it up this much longer.
+const NOTICE_LINE_SECONDS: float = 1.5
 ## Basic skill names follow cmds/std/enable.c valid_types.
 const SKILL_NAMES: Dictionary[StringName, String] = {
 	&"unarmed": "基本拳脚", &"sword": "基本剑法", &"parry": "基本招架",
@@ -38,6 +40,11 @@ var _card_held: bool = false
 ## The card's panel showed last frame: hidden under the shell's pause and shown again, 继续
 ## takes the focus back (the pause's own focus went with it).
 var _panel_was_shown: bool = false
+## Someone who attacks on sight stood by the corpse as the death card came up (WorldLeftBehind;
+## looked at once, not every frame: it reads every map).
+var _corpse_guarded: bool = false
+## The corpse holds something (what the player wields and wears stays on them).
+var _corpse_holds: bool = true
 
 
 func configure(session: WorldSessionController) -> void:
@@ -114,7 +121,8 @@ func _process(delta: float) -> void:
 	_reincarnations_told = _session.reincarnations()
 	if woke or reincarnated:
 		_notice = tr("慢慢地你终於又有了知觉....") if woke else _revived_notice(flow)
-		_notice_remaining = REVIVED_NOTICE_SECONDS
+		# A longer word after the return to life (what waits where) stays a little longer.
+		_notice_remaining = REVIVED_NOTICE_SECONDS + NOTICE_LINE_SECONDS * maxi(_notice.count("\n") - 1, 0)
 		# The defeat heading no longer describes the player.
 		if _session.shared_ui() != null:
 			_session.shared_ui().show_combat_result(_notice)
@@ -140,6 +148,8 @@ func _process(delta: float) -> void:
 		PlayerLifeFlow.Phase.DEATH_SEQUENCE:
 			if not death_card_up:
 				_to_autosave.visible = _shell_autosave() != null
+				_corpse_guarded = WorldLeftBehind.corpse_guarded(_session, flow.corpse_item_instance_id)
+				_corpse_holds = WorldLeftBehind.corpses(_session).any(func(place: WorldLeftBehind.Place) -> bool: return place.id == flow.corpse_item_instance_id)
 			_show(_death_text(flow), true, true)
 		_:
 			if _session.opening_card_due():
@@ -175,8 +185,10 @@ func _show(value: String, can_continue: bool, blocking: bool) -> void:
 	# frame (the menu opened over it keeps its own).
 	var focused: Control = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
 	var wanted: bool = blocking or (_card_held and (reappeared or focused == null) and not _menu_open())
+	# On the death card 回到上次自动存档 takes it when it is there (DECISIONS「死前存档」): 继续 is
+	# chosen, not pressed by a reflex.
 	if can_continue and wanted and is_inside_tree() and _world_has_focus() and focused not in [_continue, _to_autosave]:
-		_continue.grab_focus()
+		(_to_autosave if _to_autosave.visible else _continue).grab_focus()
 	_dim.color.a = 0.72 if blocking else 0.0
 	_dim.mouse_filter = Control.MOUSE_FILTER_STOP if blocking else Control.MOUSE_FILTER_IGNORE
 
@@ -237,7 +249,18 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 	if not flow.corpse_place.is_empty():
 		var corpse: StringName = flow.corpse_item_instance_id
 		if corpse.is_empty() or _session.inventory_state().is_registered(corpse):
-			lines.append(tr("你的尸体和随身物品留在：%s") % flow.corpse_place)
+			var keeps: bool = GameContent.catalog().pacing().death_keeps_equipped
+			if keeps and not _corpse_holds:
+				# TRANSLATORS: the death card (DECISIONS「死后留在身上」): the wielded weapon and worn things stay on the player, nothing else was carried.
+				lines.append(tr("兵器和身上穿的还在你身上；尸体上没有留下东西。"))
+			elif keeps:
+				# TRANSLATORS: the death card (DECISIONS「死后留在身上」): the wielded weapon and worn things stay on the player; money and the bag lie with the corpse at %s.
+				lines.append(tr("兵器和身上穿的还在你身上；钱和背包里的东西留在尸体上：%s") % flow.corpse_place)
+			else:
+				lines.append(tr("你的尸体和随身物品留在：%s") % flow.corpse_place)
+			if _corpse_guarded and _corpse_holds:
+				# TRANSLATORS: the death card: someone who attacks on sight stands where the corpse lies (DECISIONS「死前存档」).
+				lines.append(tr("尸体旁还守着见人就打的对手，回去取东西要先过他这一关。"))
 			if _session.corpse_waits(corpse):
 				lines.append(tr("尸体不会腐烂，等你回去取。"))
 		elif _session.corpse_scattered(corpse):
@@ -249,11 +272,14 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 	return "\n".join(lines).strip_edges()
 
 
-## Back at the temple; where the corpse waits, if it does (DECISIONS「减轻死亡」).
-func _revived_notice(flow: PlayerLifeFlow) -> String:
+## Back at the temple: where each corpse with things in it lies and who waits apart, read from the
+## world (WorldLeftBehind; DECISIONS「减轻死亡」「尸体和走散的同伴」), and how to get 精气神 back.
+func _revived_notice(_flow: PlayerLifeFlow) -> String:
 	var lines: Array[String] = [tr("一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。")]
-	if not flow.corpse_place.is_empty() and _session.corpse_waits(flow.corpse_item_instance_id):
-		lines.append(tr("你的尸体和随身物品还在：%s") % flow.corpse_place)
+	for place: WorldLeftBehind.Place in WorldLeftBehind.all(_session):
+		lines.append(WorldLeftBehind.line(_session, place))
+	# TRANSLATORS: after the return to life: 精, 气 and 神 are at 1 (damage.c die()); 歇到回满 is the button on the 武学 page (DECISIONS「歇到回满」).
+	lines.append(tr("精、气、神都只剩 1：在武学页按「歇到回满」，养足了再上路。"))
 	return "\n".join(lines)
 
 
