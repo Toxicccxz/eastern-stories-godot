@@ -10,6 +10,8 @@ extends VBoxContainer
 
 # TRANSLATORS: the 任务 page before any quest began or story entry was recorded.
 const NOTHING_YET: String = "你还没有记下什么江湖见闻。"
+# TRANSLATORS: the 任务 page: the heading over where the player's corpse lies and who waits apart (DECISIONS「尸体和走散的同伴」).
+const LEFT_BEHIND: String = "留在路上的"
 
 ## quest.c's lines for 朱鸿雪's task (the 差事 column).
 var quest_text: Label
@@ -32,10 +34,11 @@ func _init() -> void:
 	_left_behind = card(self)
 	_left_behind.name = "LeftBehind"
 	_left_lines = _left_behind.get_child(0) as VBoxContainer
-	# TRANSLATORS: the 任务 page: the heading over where the player's corpse lies and who waits apart.
-	var left_heading := _label(_left_lines, tr("留在路上的"), Color(0, 0, 0, 0))
+	var left_heading := _label(_left_lines, LEFT_BEHIND, Color(0, 0, 0, 0))
 	left_heading.name = "Heading"
 	left_heading.theme_type_variation = &"HeadingLabel"
+	# A message of its own (the POT knows it): translated as the page shows, as the columns' names.
+	left_heading.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_INHERIT
 	_left_behind.visible = false
 	for line: String in StoryQuestDefinition.LINES:
 		var section := VBoxContainer.new()

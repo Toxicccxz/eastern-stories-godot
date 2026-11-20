@@ -12153,7 +12153,7 @@ msgstr ""
 msgid "精、气、神都只剩 1：在武学页按「歇到回满」，养足了再上路。"
 msgstr ""
 
-#. the 任务 page: the heading over where the player's corpse lies and who waits apart.
+#. the 任务 page: the heading over where the player's corpse lies and who waits apart (DECISIONS「尸体和走散的同伴」).
 #: ui/world/quest_page.gd
 msgid "留在路上的"
 msgstr ""
