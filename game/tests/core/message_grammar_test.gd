@@ -50,6 +50,10 @@ func _test_possessive() -> void:
 func _test_capitalize() -> void:
 	var before: String = TranslationServer.get_locale()
 	TranslationServer.set_locale("en")
+	_same(MessageGrammar.capitalize("you leap."), "you leap.", "no translation loaded (the source language under any system locale): no capitals")
+	var english := Translation.new()
+	english.locale = "en"
+	TranslationServer.add_translation(english)
 	_same(MessageGrammar.capitalize("you leap straight up. the bandit's attack misses!"),
 		"You leap straight up. The bandit's attack misses!", "line and sentence starts")
 	_same(MessageGrammar.capitalize("“you again?” he says."), "“You again?” he says.", "past an opening quote")
@@ -60,6 +64,7 @@ func _test_capitalize() -> void:
 		"You hit the bandit.", "fill() puts it together")
 	_same(MessageGrammar.fill("$N {N:hit|hits} $n.", MessageGrammar.other(), "the bandit", MessageGrammar.you(), "you"),
 		"The bandit hits you.", "and the other way round")
+	TranslationServer.remove_translation(english)
 	TranslationServer.set_locale("zh_CN")
 	_same(MessageGrammar.capitalize("you leap. a b"), "you leap. a b", "Chinese locale: no capitals")
 	TranslationServer.set_locale(before)

@@ -73,7 +73,9 @@ Chinese has one form for 你 and a name; English does not. In a line with $N (th
 * `{N:flick|flicks}` — the first form when $N is the player, the second otherwise (`{n:…}` for $n).
   Every verb whose subject is $N or $n carries it: `$N {N:are|is}`, `$n {n:leap|leaps}`.
 * `{N:he}` `{N:him}` `{N:his}` `{N:himself}` — you / you / your / yourself for the player, else by gender
-  (she / her, it for a beast). Never `$P` / `$p` in English.
+  (she / her, it for a beast). Never `$P` / `$p` in English. A few sites do not know the other
+  side's gender (an apprenticeship's accept line, a spell's target, a move's hover line): there the
+  marks give "it", so write those lines without that role's pronoun, or pass the gender first.
 * `$N's` / `$n's` — becomes "your" for the player; a name keeps its 's. With $N as subject write
   `{N:his} $w`; `$N's $w` when the weapon is the subject.
 * A sentence that opens with "you" or a lower-case name is capitalised for you. Do not open a sentence

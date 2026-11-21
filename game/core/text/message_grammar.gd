@@ -86,9 +86,11 @@ static func fill(text: String, actor: Role, actor_text: String, target: Role = n
 
 
 ## Upper-cases a Latin letter that opens the line or a sentence (after . ! ? and a space,
-## past an opening quote or bracket). Chinese text is left alone.
+## past an opening quote or bracket). Only under a loaded translation: the source language
+## (Chinese) has none, whatever the system locale is before Settings applies one.
 static func capitalize(text: String) -> String:
-	if TranslationServer.get_locale().begins_with("zh") or text.is_empty():
+	var locale: String = TranslationServer.get_locale()
+	if text.is_empty() or locale.begins_with("zh") or TranslationServer.get_translation_object(locale) == null:
 		return text
 	var chars: PackedStringArray = []
 	var opens: bool = true
