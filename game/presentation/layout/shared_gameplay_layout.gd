@@ -340,7 +340,7 @@ func _attach() -> void:
 func _reflow(metrics: SafeAreaMetrics) -> void:
 	var area: Rect2 = metrics.content_rect()
 	_bar_area = area
-	if metrics.touch_sized():
+	if metrics.touch_controls():
 		# The card ends above the movement pad's corner; taller (waits), it scrolls.
 		# Not below the name, the bars and the navigation row (a very short screen keeps the
 		# whole height, as before).
@@ -363,15 +363,15 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	for button: Node in contexts.get_children():
 		(button as Control).custom_minimum_size = button_size
 	# Touch screens keep the world visible: shorter toasts, the full text in Messages/Look,
-	# right of the movement pad's corner.
+	# right of the movement pad's corner while the pad is there (not with a gamepad).
 	var toast_area: Rect2 = area
-	if metrics.touch_sized():
+	if metrics.touch_controls():
 		var pad: Rect2 = metrics.future_movement_rect()
 		toast_area = Rect2(Vector2(pad.end.x + 8.0, area.position.y), Vector2(maxf(1.0, area.end.x - pad.end.x - 8.0), area.size.y))
 	toasts.place(toast_area, minf(TOAST_WIDTH, maxf(1, toast_area.size.x - (72 if metrics.touch_sized() else 0))), 2 if metrics.touch_sized() else 3)
 	fit_bar()
 	var panel_area := area
-	if metrics.touch_sized():
+	if metrics.touch_controls():
 		panel_area.position.y += 72
 		panel_area.size.y = maxf(1, panel_area.size.y - 72)
 	_panel_metrics = metrics

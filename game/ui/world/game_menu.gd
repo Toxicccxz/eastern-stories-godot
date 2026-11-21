@@ -188,12 +188,13 @@ func _attach() -> void:
 
 
 ## The window keeps one size whatever the tab but 地图 (centred in the safe area); touch
-## screens keep the top strip for the pause button, as the shared frame does.
+## screens keep the top strip for the pause button while it is there (not with a gamepad), as
+## the shared frame does.
 func _reflow(metrics: SafeAreaMetrics) -> void:
 	if metrics == null:
 		return
 	var area: Rect2 = metrics.content_rect()
-	if metrics.touch_sized():
+	if metrics.touch_controls():
 		area.position.y += 72
 		area.size.y = maxf(1, area.size.y - 72)
 	var wanted: Vector2 = area.size - Vector2(MAP_MARGIN, MAP_MARGIN) * 2.0 if _current == Tab.MAP else WINDOW_SIZE

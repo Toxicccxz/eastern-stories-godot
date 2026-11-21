@@ -11,5 +11,5 @@ func measure(viewport: Viewport) -> SafeAreaMetrics:
 	var screen_transform: Transform2D = viewport.get_screen_transform()
 	return SafeAreaMetrics.normalize(
 		logical, screen_transform * logical, Rect2(DisplayServer.get_display_safe_area()),
-		screen_transform, mobile, ui_scale_of(viewport),
+		screen_transform, mobile, ui_scale_of(viewport), not MobileTouchAdapter.gamepad_connected(),
 	)

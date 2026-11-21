@@ -440,7 +440,7 @@ func _process(_delta: float) -> void:
 ## 1280×720 at 100 %): the page says so rather than offer three choices that change nothing.
 func _show_ui_scale_note() -> void:
 	var base := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1280)), int(ProjectSettings.get_setting("display/window/size/viewport_height", 720)))
-	var differ: bool = ApplicationUiScale.levels_differ(get_tree().root.size, base)
+	var differ: bool = ApplicationUiScale.levels_differ(get_tree().root.size, base, OS.has_feature("android") or OS.has_feature("ios"))
 	if ui_scale_note.visible == differ:
 		ui_scale_note.visible = not differ
 

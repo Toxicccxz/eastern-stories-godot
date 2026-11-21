@@ -119,7 +119,7 @@ func _snap_ui_scale() -> void:
 	if tree == null or tree.root == null:
 		return
 	var base := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1280)), int(ProjectSettings.get_setting("display/window/size/viewport_height", 720)))
-	var whole: float = ApplicationUiScale.pixel_factor(_ui_percent, tree.root.size, base)
+	var whole: float = ApplicationUiScale.pixel_factor(_ui_percent, tree.root.size, base, OS.has_feature("android") or OS.has_feature("ios"))
 	if not is_equal_approx(tree.root.content_scale_factor, whole):
 		tree.root.content_scale_factor = whole
 

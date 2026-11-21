@@ -23,15 +23,27 @@ static func factor(percent: int) -> float:
 const PIXEL_SCALE_STEP: float = 2.0 / 3.0
 
 
+## The logical area a phone's interface keeps (the MOBILE contract's qualified safe landscape).
+const MOBILE_LEAST := Vector2(800, 480)
+
+
 ## The content scale for `percent` in a `window` (screen pixels) over the project's `base`
 ## size: the nearest whole-pixel scale to what the setting asks for, never under one step and
 ## never over the largest setting's (the interface is laid out down to 150 % of the base
 ## size). Whole steps are coarse on a small screen: at 1280×720 and on a Steam Deck the three
 ## settings all draw at 4/3; at 1920×1080 125 % and 150 % both draw at 2.
-static func pixel_factor(percent: int, window: Vector2i, base: Vector2i) -> float:
+## On a phone or tablet (`mobile`) it is as large as the layouts allow, whatever the setting:
+## the largest whole step that still leaves MOBILE_LEAST logical units (owner, 2026-11-21:
+## 界面太小、字也太小 — a 2400×1080 phone drew the 100 % interface at 4/3, 16-pixel text on a
+## 6.5-inch screen; now at 2). A phone held in the hand shows the 1280×720 base far smaller
+## than any monitor, so the settings all come out alike there (levels_differ()).
+static func pixel_factor(percent: int, window: Vector2i, base: Vector2i, mobile: bool = false) -> float:
 	if window.x <= 0 or window.y <= 0 or base.x <= 0 or base.y <= 0:
 		return factor(percent)
 	var stretch: float = minf(float(window.x) / float(base.x), float(window.y) / float(base.y))
+	if mobile:
+		var fit: int = floori(minf(float(window.x) / MOBILE_LEAST.x, float(window.y) / MOBILE_LEAST.y) / PIXEL_SCALE_STEP + 0.001)
+		return float(maxi(1, fit)) * PIXEL_SCALE_STEP / stretch
 	var most: int = maxi(1, floori(stretch * factor(PERCENTS[PERCENTS.size() - 1]) / PIXEL_SCALE_STEP + 0.001))
 	var steps: int = clampi(roundi(stretch * factor(percent) / PIXEL_SCALE_STEP), 1, most)
 	return float(steps) * PIXEL_SCALE_STEP / stretch
@@ -39,5 +51,5 @@ static func pixel_factor(percent: int, window: Vector2i, base: Vector2i) -> floa
 
 ## Whether the three settings draw differently in `window`: on a small one they all come out
 ## at the same whole step, and the 设置 page says so.
-static func levels_differ(window: Vector2i, base: Vector2i) -> bool:
-	return not is_equal_approx(pixel_factor(PERCENTS[0], window, base), pixel_factor(PERCENTS[PERCENTS.size() - 1], window, base))
+static func levels_differ(window: Vector2i, base: Vector2i, mobile: bool = false) -> bool:
+	return not is_equal_approx(pixel_factor(PERCENTS[0], window, base, mobile), pixel_factor(PERCENTS[PERCENTS.size() - 1], window, base, mobile))

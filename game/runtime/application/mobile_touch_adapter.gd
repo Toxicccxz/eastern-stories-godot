@@ -194,7 +194,9 @@ func _joypads_changed(_device: int, _connected: bool) -> void:
 	_sync_presentation()
 
 
-static func _gamepad_connected() -> bool:
+## A gamepad is connected: the touch controls step aside (and the HUD's room for them,
+## GodotSafeAreaCapability).
+static func gamepad_connected() -> bool:
 	return not Input.get_connected_joypads().is_empty()
 
 
@@ -209,7 +211,7 @@ func _sync_presentation() -> void:
 		_blocker_id = id
 		_exploration_blocked = exploration_blocked
 	var playing: bool = _active and _shell.interaction_allowed() and _shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING
-	var touch_controls: bool = playing and not _gamepad_connected()
+	var touch_controls: bool = playing and not gamepad_connected()
 	_pause.visible = touch_controls
 	_pad.visible = touch_controls and blocker == null and not exploration_blocked and pad_rect().size == Vector2(192, 192)
 
