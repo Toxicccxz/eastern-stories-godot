@@ -158,6 +158,10 @@ func _test_graph_capture_restore_and_continuation() -> void:
 	if not capture.succeeded:
 		return
 	_assert_eq(capture.snapshot.schema_version, 3, "composition reuses current native item schema")
+	var handed: NativeItemSnapshotCaptureResult = NativeItemPersistenceComposition.capture(inventory_a, stacks_a, index_a, equipment_sources, armor_sources, definitions)
+	var taken: NativeItemStateSnapshot = handed.take_snapshot()
+	_assert_true(taken != null and taken.item_records.size() == capture.snapshot.item_records.size(), "a game save takes the captured snapshot itself (OldPineWorldSaveCapture)")
+	_assert_true(not handed.succeeded and handed.take_snapshot() == null, "and the result holds it no more")
 	var restored: NativeItemRestoreCompositionResult = NativeItemPersistenceComposition.restore(
 		capture.snapshot,
 		definitions,

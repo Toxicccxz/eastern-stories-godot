@@ -524,6 +524,11 @@ func _execute_end_session() -> void:
 			OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
 		)
 	else:
+		# A start in slices takes the world down in slices too (WorldSessionController.take_down_slice()).
+		var slice: int = _start_slice_usec()
+		if slice > 0:
+			while not session.take_down_slice(slice):
+				await _frame
 		session_slot.remove_child(session)
 		_current_session = null
 		session.queue_free()

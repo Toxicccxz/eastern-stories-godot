@@ -344,6 +344,11 @@ func restage() -> void:
 	for entry: Dictionary in geometry.staged_props:
 		(entry["node"] as Node3D).visible = WorldStoryPresence.look_on_stage(entry["look"],player,session.player_held_item_ids(),session.player_worn_item_ids(),session.day_phase_id())
 
+## Whether a voxel world stands here or is being built (release_world() lets it go).
+func holds_world() -> bool:
+	return _built or _building
+
+
 func release_world() -> void:
 	if not _built and not _building:
 		return

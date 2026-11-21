@@ -113,6 +113,7 @@ func capture(
 			_position_snapshot(player_body.global_position),
 			Values.PlayerIdentitySnapshot.new(player.facts.display_name, player.facts.title, player.facts.age, player.facts.race_id),
 			Values.PlayerBodySnapshot.new(player.body_facts.body_weight, player.maximum_encumbrance),
+			true,
 		)
 	)
 	# The player's set_temp() flags (owner): a quest chain's steps survive Continue.
@@ -174,6 +175,7 @@ func capture(
 			_position_snapshot(saved_position),
 			live_loadout_ids,
 			npc.revive_in_ms,
+			true,
 		)
 		# Its memory (owner, 乔阴 B): the flags as they stand, a changed chat chance, its pills,
 		# how often a thief was caught.
@@ -273,16 +275,17 @@ func capture(
 		player_snapshot,
 		npc_snapshots,
 		corpse_snapshots,
-		item_capture.snapshot,
+		item_capture.take_snapshot(),
 		session.combat_random_source().capture_random_state(),
 		session.npc_random_source().capture_random_state(),
 		session.world_interaction_random_source().capture_random_state(),
 		session.world_content_revision(),
+		true,
 	).with_floor_items(floor_snapshots).with_maze_notes(maze_notes).with_away_ms(session.away_owed_by_map()).with_day_seconds(session.day_clock().day_seconds()).with_sky(session.sky_state().level(), session.sky_state().minutes_left()).with_summary(session.played_seconds(), _objective(session.player_runtime().state))
 	# The autosave checks on its own thread (GameAutosave); the world goes on meanwhile. So
 	# does a Save in play (OldPineSessionLoadCoordinator.save_current_aside()).
 	if not checked:
-		return Result.success(snapshot)
+		return Result.success(snapshot, true)
 	return check(snapshot)
 
 
@@ -422,6 +425,7 @@ func _character_snapshot(
 			raw_levels,
 			learned,
 			mappings,
+			true,
 		),
 		conditions,
 		Values.FamilySnapshot.new(
@@ -434,6 +438,7 @@ func _character_snapshot(
 			state.apprenticeship.betrayer_count,
 		),
 		state.affiliation,
+		true,
 	).with_marks(state.marks).with_timed_applies(state.timed_applies.entries()).with_quest(state.quest).with_vendetta(state.vendetta).with_applies(state.applies).with_seen_npcs(state.seen_npcs).with_journal(state.journal, state.known_items).with_known_moves(state.known_moves, state.insights).with_atlas(state.visited_maps, state.waypoint_map, state.waypoint_zone).with_counters(state.counters).with_ghost(state.ghost).with_milestones(state.milestones).with_bounty(state.bounty).with_quests(state.quests).with_deeds(state.deeds)
 
 

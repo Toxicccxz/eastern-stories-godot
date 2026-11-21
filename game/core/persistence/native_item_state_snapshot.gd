@@ -50,38 +50,43 @@ func _init(
 	p_character_armor_records: Array[NativeCharacterArmorRecord] = [],
 	p_food_consumable_records: Array[NativeFoodConsumableRecord] = [],
 	p_liquid_consumable_records: Array[NativeLiquidConsumableRecord] = [],
+	p_adopt: bool = false,
 ) -> void:
 	_schema_version = p_schema_version
-	for record: NativeLiquidConsumableRecord in p_liquid_consumable_records:
-		_liquid_consumable_records.append(null if record == null else record.duplicate_snapshot())
+	if p_adopt:
+		# The records are new and nothing else holds them (a capture's, a decoder's): this
+		# snapshot's own as they are (GameSaveValueTypes.CharacterStateSnapshot).
+		_item_records = p_item_records
+		_combined_stack_records = p_combined_stack_records
+		_character_equipment_records = p_character_equipment_records
+		_character_armor_records = p_character_armor_records
+		_food_consumable_records = p_food_consumable_records
+		_liquid_consumable_records = p_liquid_consumable_records
+	else:
+		for record: NativeItemRecord in p_item_records:
+			_item_records.append(null if record == null else record.duplicate_snapshot())
+		for record: NativeCombinedStackRecord in p_combined_stack_records:
+			_combined_stack_records.append(null if record == null else record.duplicate_snapshot())
+		for record: NativeCharacterEquipmentRecord in p_character_equipment_records:
+			_character_equipment_records.append(null if record == null else record.duplicate_snapshot())
+		for record: NativeCharacterArmorRecord in p_character_armor_records:
+			_character_armor_records.append(null if record == null else record.duplicate_snapshot())
+		for record: NativeFoodConsumableRecord in p_food_consumable_records:
+			_food_consumable_records.append(null if record == null else record.duplicate_snapshot())
+		for record: NativeLiquidConsumableRecord in p_liquid_consumable_records:
+			_liquid_consumable_records.append(null if record == null else record.duplicate_snapshot())
 	_liquid_consumable_records.sort_custom(func(a: NativeLiquidConsumableRecord, b: NativeLiquidConsumableRecord) -> bool:
 		if a == null:
 			return b != null
 		return b != null and String(a.item_instance_id) < String(b.item_instance_id))
-	for record: NativeFoodConsumableRecord in p_food_consumable_records:
-		_food_consumable_records.append(null if record == null else record.duplicate_snapshot())
 	_food_consumable_records.sort_custom(func(a: NativeFoodConsumableRecord, b: NativeFoodConsumableRecord) -> bool:
 		if a == null:
 			return b != null
 		return b != null and String(a.item_instance_id) < String(b.item_instance_id))
-	for record: NativeItemRecord in p_item_records:
-		_item_records.append(null if record == null else record.duplicate_snapshot())
-	for record: NativeCombinedStackRecord in p_combined_stack_records:
-		_combined_stack_records.append(
-			null if record == null else record.duplicate_snapshot()
-		)
-	for record: NativeCharacterEquipmentRecord in p_character_equipment_records:
-		_character_equipment_records.append(
-			null if record == null else record.duplicate_snapshot()
-		)
-	for record: NativeCharacterArmorRecord in p_character_armor_records:
-		_character_armor_records.append(
-			null if record == null else record.duplicate_snapshot()
-		)
-	_item_records.sort_custom(_item_record_less_than)
-	_combined_stack_records.sort_custom(_stack_record_less_than)
-	_character_equipment_records.sort_custom(_equipment_record_less_than)
-	_character_armor_records.sort_custom(_armor_record_less_than)
+	_item_records.sort_custom(NativeItemRecord.before)
+	_combined_stack_records.sort_custom(NativeCombinedStackRecord.before)
+	_character_equipment_records.sort_custom(NativeCharacterEquipmentRecord.before)
+	_character_armor_records.sort_custom(NativeCharacterArmorRecord.before)
 
 
 func duplicate_snapshot() -> NativeItemStateSnapshot:
@@ -122,44 +127,3 @@ func _duplicate_armor_records() -> Array[NativeCharacterArmorRecord]:
 	for record: NativeCharacterArmorRecord in _character_armor_records:
 		result.append(null if record == null else record.duplicate_snapshot())
 	return result
-
-
-func _item_record_less_than(left: NativeItemRecord, right: NativeItemRecord) -> bool:
-	if left == null:
-		return right != null
-	if right == null:
-		return false
-	return String(left.item_instance_id) < String(right.item_instance_id)
-
-
-func _stack_record_less_than(
-	left: NativeCombinedStackRecord,
-	right: NativeCombinedStackRecord,
-) -> bool:
-	if left == null:
-		return right != null
-	if right == null:
-		return false
-	return String(left.item_instance_id) < String(right.item_instance_id)
-
-
-func _equipment_record_less_than(
-	left: NativeCharacterEquipmentRecord,
-	right: NativeCharacterEquipmentRecord,
-) -> bool:
-	if left == null:
-		return right != null
-	if right == null:
-		return false
-	return String(left.character_id) < String(right.character_id)
-
-
-func _armor_record_less_than(
-	left: NativeCharacterArmorRecord,
-	right: NativeCharacterArmorRecord,
-) -> bool:
-	if left == null:
-		return right != null
-	if right == null:
-		return false
-	return String(left.character_id) < String(right.character_id)

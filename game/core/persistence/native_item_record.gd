@@ -51,3 +51,11 @@ func duplicate_snapshot() -> NativeItemRecord:
 		_own_weight,
 		_direct_parent,
 	)
+
+
+## The order NativeItemStateSnapshot keeps these records in: by item instance ID, a missing record first.
+## Reads the fields themselves, not their getters: a save sorts thousands of records.
+static func before(left: NativeItemRecord, right: NativeItemRecord) -> bool:
+	if left == null:
+		return right != null
+	return right != null and String(left._item_instance_id) < String(right._item_instance_id)
