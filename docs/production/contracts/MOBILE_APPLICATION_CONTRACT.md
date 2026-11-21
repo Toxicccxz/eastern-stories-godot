@@ -42,7 +42,8 @@ fallback, not a claim of verified native-safe bounds.
 
 Qualified usable safe landscape size is at least 800x480 logical units. Smaller areas use
 bounded scrolling/fallback without claiming full gameplay usability. Standard safe-content
-padding is 16; touch-sized buttons are at least 64x64 with spacing at least 8, except the contiguous
+padding is 16; touch-sized buttons (a phone played by touch, without a gamepad connected; with one
+it keeps the desktop's controls) are at least 64x64 with spacing at least 8, except the contiguous
 pad cells. These logical units are not physical Android dp/iOS-point certification.
 Dialogs, HUD and Inventory/Loot retain existing actions and typed signals; long content
 wraps/scrolls and does not require hover. Modal barriers still cover the entire viewport.

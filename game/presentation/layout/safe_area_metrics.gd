@@ -93,8 +93,12 @@ func is_compact() -> bool:
 	return unscaled.x < 1100.0 or unscaled.y < 640.0
 
 
+## Touch-sized controls (64-unit buttons, dialog text raised to 20, list rows stacked): a phone
+## played by touch, or a small window. A phone with a gamepad connected keeps the desktop's
+## slimmer controls (owner, 2026-11-21: 「切至左侧」「菜单」 and 设置's buttons far too thick):
+## nothing is tapped then, and the interface is already drawn at its largest (ApplicationUiScale).
 func touch_sized() -> bool:
-	return _mobile or is_compact()
+	return (_mobile and _touch_controls) or is_compact()
 
 
 ## Whether the movement pad and the pause button are on the screen (future_movement_rect(),

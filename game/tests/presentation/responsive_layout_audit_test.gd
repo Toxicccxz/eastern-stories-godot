@@ -129,11 +129,16 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	var phone := Rect2(0, 0, 1200, 540)
 	var hud_layout: SharedGameplayLayout = hud.get_node("PresentationLayout") as SharedGameplayLayout
 	for pad_shown: bool in [true, false]:
-		capability.metrics = SafeAreaMetrics.new(phone, phone, false, true, 1.0, pad_shown)
+		# The 8T's 2400×1080: drawn at 2 over the base's 1.5 stretch, 4/3 of content scale.
+		capability.metrics = SafeAreaMetrics.new(phone, phone, false, true, 4.0 / 3.0, pad_shown)
 		presenter.refresh()
 		await _settle(tree)
 		var toasts_x: float = capability.metrics.future_movement_rect().end.x + 8.0 if pad_shown else capability.metrics.content_rect().position.x
 		_check(is_equal_approx(hud_layout.toasts.position.x, toasts_x), "a phone %s: the toasts from x %.0f (at %.0f)" % ["with the pad" if pad_shown else "with a gamepad", toasts_x, hud_layout.toasts.position.x])
+		# Touch-sized buttons only when played by touch (owner, 2026-11-21: too thick with a gamepad).
+		var tall: float = 64.0 if pad_shown else SharedGameplayLayout.HUD_CHIP_HEIGHT
+		var toggle: Control = hud_layout.menu_button.get_parent().get_node("ViewSide") as Control
+		_check(capability.metrics.touch_sized() == pad_shown and is_equal_approx(hud_layout.menu_button.custom_minimum_size.y, tall) and is_equal_approx(toggle.custom_minimum_size.y, tall), "a phone %s: 菜单 and the view side %.0f tall" % ["with the pad" if pad_shown else "with a gamepad", tall])
 	capability.metrics = _window(Rect2(0, 0, 1280.0 / 1.5, 480), 1.5)
 	presenter.refresh()
 	# The interaction popup (DECISIONS「说话和交互」): each landmark's action label, as its
