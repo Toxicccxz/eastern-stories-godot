@@ -69,8 +69,14 @@ func advance(delta: float, hidden: bool) -> void:
 	_since_refresh += delta
 	if _since_refresh >= REFRESH_SECONDS:
 		_since_refresh = 0.0
+		# The player's facts taken once for all the commands (ActService.offers_player_given).
+		var known: ScriptedAct.Facts = null
 		for id: StringName in _acts:
-			points[id].visible = _acts[id].offers_player()
+			if known == null:
+				if _acts[id].map == null:
+					continue
+				known = _acts[id].map.acts.facts()
+			points[id].visible = _acts[id].offers_player_given(known)
 	for id: StringName in points:
 		var point: MeshInstance3D = points[id]
 		if not point.visible:

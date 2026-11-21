@@ -154,6 +154,24 @@ func update(camera: Camera3D, points: PackedVector4Array) -> void:
 	if plain_when_clear:
 		_choose_materials(camera)
 
+## plain_when_clear, under the loading screen: the grid for `camera`'s angle and every surface on
+## its plain material (no one stands anywhere yet), so the first frame shown only puts the few a
+## subject is behind on their see-through.
+func prepare(camera: Camera3D) -> void:
+	var basis: Basis = camera.global_basis
+	var key: String = "%.4f,%.4f,%.4f" % [basis.z.x, basis.z.y, basis.z.z]
+	if not _grids.has(key):
+		_build_grid(basis)
+		_grids[key] = [_grid, _extents]
+	_grid = _grids[key][0]
+	_extents = _grids[key][1]
+	_grid_key = key
+	_last_key = key
+	for index: int in surfaces.size():
+		_wear(index, true)
+	_behind.clear()
+	_chosen = true
+
 ## plain_when_clear: the see-through only on the surfaces a subject may be behind — its box in
 ## the camera's plane overlapping the subject's opening (local_reveal's reach: the subject's `w`
 ## across, 1.25 times that up) and some of it nearer the eye than the subject. Every surface

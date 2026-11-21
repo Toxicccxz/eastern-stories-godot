@@ -18,7 +18,40 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_test_quads_are_surface_tool_triangles()
 	_test_room_floors()
 	_test_plain_occluders(tree)
+	_test_plain_occluders_prepared(tree)
 	return {"assertions": assertions, "failures": failures}
+
+
+## Prepared under the loading screen (VoxelOcclusion.prepare): every surface plain at once, and
+## the very first frame shown puts the one between the eye and a person on its see-through.
+func _test_plain_occluders_prepared(tree: SceneTree) -> void:
+	var camera := Camera3D.new()
+	tree.root.add_child(camera)
+	camera.position = Vector3(21.213203, 26, 21.213203)
+	camera.look_at(Vector3.ZERO, Vector3.UP)
+	var holder := Node3D.new()
+	tree.root.add_child(holder)
+	var walls: Array[MeshInstance3D] = []
+	for at: Vector3 in [camera.global_basis.z * 4.0, Vector3(30, 1, -30)]:
+		var wall := MeshInstance3D.new()
+		var box := BoxMesh.new()
+		box.size = Vector3(2, 2, 2)
+		wall.mesh = box
+		var colour := StandardMaterial3D.new()
+		colour.albedo_color = Color("6e5a44")
+		wall.material_override = colour
+		wall.position = at
+		holder.add_child(wall)
+		walls.append(wall)
+	var occlusion := VoxelOcclusion.new()
+	occlusion.register(holder)
+	occlusion.plain_when_clear = true
+	occlusion.prepare(camera)
+	_check(_flat(occlusion, walls[0]) and _flat(occlusion, walls[1]), "prepared: every surface plain before anyone is placed")
+	occlusion.update(camera, PackedVector4Array([Vector4(0, 1, 0, 1.75)]))
+	_check(not _flat(occlusion, walls[0]) and _flat(occlusion, walls[1]), "and the first frame shown sees through the wall in front of the person only")
+	for node: Node in [camera, holder]:
+		node.free()
 
 
 ## A phone's plain occluders (DECISIONS「手机画质」): only a surface someone may be behind wears the

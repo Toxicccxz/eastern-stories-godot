@@ -303,6 +303,17 @@ func _build() -> void:
 	var indoor: bool = layout.get("indoor",false)
 	lighting.build(world,occlusion,indoor,VoxelLighting.merge_profile(_region_light(indoor),layout.get("light",{})))
 	_sync_light(true)
+	# The figures of everyone here, under the loading screen too: made on the first frame shown,
+	# a town's dozens of them stalled it (a phone's for seconds). Hidden until that frame, which
+	# shows each as first seen (one lying is down already, VoxelPerson).
+	for body: WorldCharacterBody2D in _bodies():
+		if not actors.has(body.character_id):
+			_make_actor(body)
+			actors[body.character_id].visible = false
+			await geometry.breathe()
+	# The phone's plain occluders find who is behind what by a grid for the camera's angle.
+	if occlusion.plain_when_clear and camera != null:
+		occlusion.prepare(camera)
 	_built = true
 	_building = false
 	if covered:
@@ -717,6 +728,16 @@ func _label(parent: Node3D, text: String, height: float = 2.2) -> Label3D:
 	parent.add_child(label)
 	return label
 
+## The player's body and every resident's here.
+func _bodies() -> Array[WorldCharacterBody2D]:
+	var bodies: Array[WorldCharacterBody2D] = [map.player_body]
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
+		if body != null:
+			bodies.append(body)
+	return bodies
+
+
 func _sync_actors(delta: float) -> void:
 	var hovered: StringName = pick_at(get_viewport().get_mouse_position()) if _context_names else &""
 	var bodies: Array[WorldCharacterBody2D] = [map.player_body]
@@ -729,11 +750,17 @@ func _sync_actors(delta: float) -> void:
 			bodies.append(body)
 	var seen: Dictionary[StringName,bool] = {}
 	var fall_seconds: float = GameContent.catalog().pacing().feel.fall_seconds
+	# At most one figure made a frame (several arriving at once stalled a phone's frame); the next
+	# waits a frame, unseen.
+	var made: bool = false
 	for body: WorldCharacterBody2D in bodies:
 		var id: StringName = body.character_id
 		seen[id] = true
 		var fresh: bool = not actors.has(id)
 		if fresh:
+			if made and body != map.player_body:
+				continue
+			made = true
 			_make_actor(body)
 		var actor: Node3D = actors[id]
 		# Whether the figure was hidden until now (one dead and gone that is back: it stands at once).
