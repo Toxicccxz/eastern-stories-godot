@@ -1237,6 +1237,33 @@ func _exit_tree() -> void:
 	_resident_maps.clear()
 
 
+## Back to the title in slices: the world comes down a part at a time while 正在返回主菜单……
+## shows, not in one frame (手机试玩, 2026-11-20: most of a second on a phone). Each call
+## frees the maps the player is not on until `budget_usec` is spent, then, once none is left, the
+## player's map's voxel world; true when only the session itself is left to free. Only for a
+## session out of play that is freed next: it stops processing, and nothing reads those maps again.
+func take_down_slice(budget_usec: int) -> bool:
+	process_mode = Node.PROCESS_MODE_DISABLED
+	var began: int = Time.get_ticks_usec()
+	for map_id: StringName in _resident_maps.keys():
+		var value: Variant = _resident_maps.get(map_id)
+		if not is_instance_valid(value):
+			continue
+		var resident: WorldResidentMapController = value as WorldResidentMapController
+		if resident == null or resident.get_parent() != null:
+			continue
+		_resident_maps.erase(map_id)
+		resident.free()
+		if Time.get_ticks_usec() - began >= budget_usec:
+			return false
+	var active: WorldResidentMapController = active_map()
+	var view: WorldVoxelView = null if active == null else active.get_node_or_null("MapView") as WorldVoxelView
+	if view != null and view.holds_world():
+		view.release_world()
+		return false
+	return true
+
+
 func initialize_session() -> bool:
 	if _initialized:
 		return true
