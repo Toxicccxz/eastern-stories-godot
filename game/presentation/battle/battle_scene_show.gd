@@ -251,8 +251,8 @@ func end() -> void:
 	_effects.clear()
 	_effect_tweens.clear()
 	# A staged camera is the opening's to give back (BattleStageOpening.close()).
-	if view != null and is_instance_valid(view) and view.zoom() != 1.0 and not view.staged:
-		_zoom(1.0)
+	if view != null and is_instance_valid(view) and not is_equal_approx(view.zoom(), view.rest_zoom) and not view.staged:
+		_zoom(view.rest_zoom)
 	view = null
 
 

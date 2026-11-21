@@ -45,6 +45,10 @@ var labels: Dictionary[StringName, Label3D] = {}
 var _camera_base_size: float = 24.0
 var _zoom: float = 1.0
 var _zoom_tween: Tween
+## The push-in the camera rests at between shows: 1.0 on a desktop; on a phone or tablet the
+## feel's phone_view_percent (nearer: the people larger on a small screen). A show works from
+## the layout's size as before and gives the camera back to this (unstage()).
+var rest_zoom: float = 1.0
 ## 战斗演出 B (DECISIONS「战斗演出 B」): the view staged for a show (a fight's opening) — the camera
 ## eased onto `_stage_target` instead of the player (_stage_blend 0 → 1), lower over it
 ## (_view_height under VIEW_HEIGHT: a flatter pitch), the exit arrows and the quest marker away.
@@ -154,6 +158,16 @@ var _weather_fresh: bool = true
 func _ready() -> void:
 	map = get_parent() as WorldMapController
 	process_priority = -20
+	rest_zoom = device_rest_zoom()
+	_zoom = rest_zoom
+
+
+## The camera's resting push-in on this device (rest_zoom).
+static func device_rest_zoom() -> float:
+	var percent: int = GameContent.catalog().pacing().feel.phone_view_percent
+	if percent <= 0 or not (OS.has_feature("android") or OS.has_feature("ios")):
+		return 1.0
+	return clampf(percent / 100.0, 0.3, 1.0)
 
 func _exit_tree() -> void:
 	_deactivate()
@@ -359,7 +373,7 @@ func release_world() -> void:
 	camera = null
 	if _zoom_tween != null and _zoom_tween.is_valid():
 		_zoom_tween.kill()
-	_zoom = 1.0
+	_zoom = rest_zoom
 	if _stage_tween != null and _stage_tween.is_valid():
 		_stage_tween.kill()
 	staged = false
@@ -562,7 +576,7 @@ func picture_lines() -> float:
 	return float(viewport.get_texture().get_size().y)*viewport.scaling_3d_scale
 
 ## 战斗拍数 C: the camera pushes in to `factor` of the layout's size (below 1: nearer) over
-## `seconds` (0: at once); 1.0 brings it back. The ground's projection follows in _follow().
+## `seconds` (0: at once); rest_zoom brings it back. The ground's projection follows in _follow().
 func set_zoom(factor: float, seconds: float = 0.0) -> void:
 	_zoom = clampf(factor,0.3,1.0)
 	if _zoom_tween != null and _zoom_tween.is_valid():
@@ -575,7 +589,7 @@ func set_zoom(factor: float, seconds: float = 0.0) -> void:
 	_zoom_tween = create_tween()
 	_zoom_tween.tween_property(camera,"size",_camera_base_size*_zoom,seconds).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 
-## The camera's push-in now (1.0: the layout's size).
+## The camera's push-in now (1.0: the layout's size; rest_zoom between shows).
 func zoom() -> float:
 	return _zoom
 
@@ -593,7 +607,7 @@ func unstage(seconds: float) -> void:
 	if quest_marker != null:
 		quest_marker.visible = true
 	_ease_stage(0.0, VIEW_HEIGHT, seconds)
-	set_zoom(1.0, seconds)
+	set_zoom(rest_zoom, seconds)
 
 func _ease_stage(blend: float, height: float, seconds: float) -> void:
 	if _stage_tween != null and _stage_tween.is_valid():
