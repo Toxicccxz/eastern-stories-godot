@@ -10,6 +10,9 @@ var raised: bool = false
 ## The size the panel keeps whatever its content, within the area (the interaction popup:
 ## owner, 2026-10-17); zero: it fits its content.
 var fixed_size: Vector2 = Vector2.ZERO
+## On a touch screen the panel's buttons grow to touch size and its text to 20 at least; false
+## keeps it as authored (the title's menu: its lettered rows are big enough to tap).
+var touch_sized: bool = true
 ## Metadata on a control that keeps its authored width (see _prepare_controls).
 const KEEPS_WIDTH: StringName = &"keeps_width"
 
@@ -56,7 +59,7 @@ func apply(metrics: SafeAreaMetrics, rect: Rect2, centered: bool = false, prefer
 	_available = rect
 	_centered = centered
 	_preferred_width = preferred_width
-	_touch = metrics.touch_sized()
+	_touch = touch_sized and metrics.touch_sized()
 	_prepare_controls(content)
 	queue_layout()
 

@@ -14,6 +14,7 @@ var failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary:
 	_test_data()
 	_test_logo_blocks()
+	await _test_wide_screens(tree)
 	await _test_shell(tree)
 	return {"assertions": assertions, "failures": failures}
 
@@ -96,6 +97,58 @@ func _test_logo_blocks() -> void:
 		node.free()
 
 
+## Wider than 16:9 the title keeps its 16:9 size and place for the screen's height, and the menu's
+## column stays under its line, on a phone too (owner, 2026-11-20: on a 20:9 phone the menu sat in
+## the middle of the screen, over the lettering, which had also grown with the width).
+func _test_wide_screens(tree: SceneTree) -> void:
+	var definition: TitleScreenDefinition = GameContent.catalog().title_screen()
+	var logo := TitleLogo.new()
+	logo.at = Vector2(definition.logo_percent[0], definition.logo_percent[1]) / 100.0
+	logo.width_px = definition.logo_width_px
+	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true)
+	var letters: TextureRect = logo.get_node("LogoView/Letters") as TextureRect
+	var line: Label = logo.get_node("LogoView/Line") as Label
+	logo.place_for(Vector2(1280, 800))
+	_check(is_equal_approx(letters.size.x, logo.width_px), "the Steam Deck's 16:10 keeps its title: %.1f wide" % letters.size.x)
+	logo.place_for(Vector2(1920, 1080))
+	_check(is_equal_approx(letters.size.x, logo.width_px * 1.5), "so does 16:9: %.1f wide" % letters.size.x)
+	var sixteen_nine: Array[Rect2] = [letters.get_rect(), line.get_rect()]
+	# The line's letters end a font's height under its top (its box is taller).
+	var line_bottoms: Dictionary[Vector2, float] = {Vector2(1920, 1080): _letters_bottom(line)}
+	for screen: Vector2 in [Vector2(2400, 1080), Vector2(2560, 1080), Vector2(3840, 1080)]:
+		logo.place_for(screen)
+		_check(letters.get_rect().is_equal_approx(sixteen_nine[0]) and line.get_rect().is_equal_approx(sixteen_nine[1]), "%s keeps the 16:9 title at the left, the rest for the 沙盘: %s" % [screen, letters.get_rect()])
+		line_bottoms[screen] = _letters_bottom(line)
+	logo.free()
+	var shell: ApplicationShellController = SHELL_SCENE.instantiate()
+	shell.configure_before_start(GameSaveStorageProfile.isolated_test("title-wide"), ShellTests.MemoryFiles.new(), null, ShellTests.MemoryFiles.new())
+	tree.root.add_child(shell)
+	for i: int in 6:
+		await tree.process_frame
+	var presenter: SafeAreaPresenter = shell.get_node("SafeAreaPresentation") as SafeAreaPresenter
+	var panel: Control = shell.get_node("ShellCanvas/MainMenuPanel/Center/Panel") as Control
+	var scroll: ScrollContainer = panel.get_node("ResponsiveScroll") as ScrollContainer
+	# Screens 1080 pixels high draw 720 UI pixels: 1.5 to one. The phone (20:9) is touch-sized.
+	for screen_case: Array in [[Vector2(1920, 1080), false, "16:9"], [Vector2(2560, 1080), false, "a 21:9 monitor"], [Vector2(2400, 1080), true, "a 20:9 phone"]]:
+		var screen: Vector2 = screen_case[0]
+		var view := Rect2(Vector2.ZERO, (screen / 1.5).floor())
+		presenter.set_capability(FixedSafeArea.new(SafeAreaMetrics.new(view, view, false, screen_case[1])))
+		for i: int in 4:
+			await tree.process_frame
+		var first: Rect2 = shell.new_game_button.get_global_rect()
+		var menu: Rect2 = panel.get_global_rect()
+		_check(first.position.y * 1.5 >= line_bottoms[screen], "%s: the menu starts under the title's line (%.0f ≥ %.0f px)" % [screen_case[2], first.position.y * 1.5, line_bottoms[screen]])
+		_check(menu.position.x < view.size.x * 0.15 and menu.end.y <= view.end.y, "%s: a column at the lower left: %s" % [screen_case[2], menu])
+		_check(scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_DISABLED, "%s: all of it shows, without scrolling" % screen_case[2])
+	presenter.set_capability(GodotSafeAreaCapability.new())
+	shell.queue_free()
+	await tree.process_frame
+
+
+static func _letters_bottom(line: Label) -> float:
+	return line.position.y + line.get_theme_font("font").get_height(line.get_theme_font_size("font_size"))
+
+
 func _test_shell(tree: SceneTree) -> void:
 	var shell: ApplicationShellController = SHELL_SCENE.instantiate()
 	shell.configure_before_start(GameSaveStorageProfile.isolated_test("title-screen"), ShellTests.MemoryFiles.new(), null, ShellTests.MemoryFiles.new())
@@ -153,3 +206,14 @@ func _test_shell(tree: SceneTree) -> void:
 	_check(not title.visible and not title.entering(), "then the title is gone")
 	shell.queue_free()
 	await tree.process_frame
+
+
+## Measures the screen it is given: one this test cannot open.
+class FixedSafeArea extends SafeAreaCapability:
+	var _metrics: SafeAreaMetrics
+
+	func _init(metrics: SafeAreaMetrics) -> void:
+		_metrics = metrics
+
+	func measure(_viewport: Viewport) -> SafeAreaMetrics:
+		return _metrics

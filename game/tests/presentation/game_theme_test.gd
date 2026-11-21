@@ -141,6 +141,15 @@ func _test_pixel_scale() -> void:
 		_check(is_equal_approx(ApplicationUiScale.pixel_factor(percent, Vector2i(1088, 612), base) * 0.85, 2.0 / 3.0), "1088×612 at %d percent: the smallest step" % percent)
 	_check(not ApplicationUiScale.levels_differ(Vector2i(1088, 612), base) and not ApplicationUiScale.levels_differ(Vector2i(1280, 800), base) and not ApplicationUiScale.levels_differ(Vector2i(1280, 720), base), "the three settings draw alike at 1088×612, 1280×800 and 1280×720: 设置 says so")
 	_check(ApplicationUiScale.levels_differ(Vector2i(1920, 1080), base) and ApplicationUiScale.levels_differ(Vector2i(2560, 1440), base), "and differ at 1920×1080 and 2560×1440")
+	# A phone or tablet draws as large as the layouts allow, whatever the setting (owner,
+	# 2026-11-21: 字太小): the largest whole step that leaves 800×480 logical units.
+	for window: Vector2i in [Vector2i(2400, 1080), Vector2i(1600, 720), Vector2i(2732, 2048)]:
+		var stretch: float = minf(float(window.x) / base.x, float(window.y) / base.y)
+		var whole: float = ApplicationUiScale.pixel_factor(100, window, base, true) * stretch
+		var logical: Vector2 = Vector2(window) / whole
+		_check(is_equal_approx(fmod(whole + 0.0001, ApplicationUiScale.PIXEL_SCALE_STEP), 0.0001) and logical.x >= 800.0 and logical.y >= 480.0 and (logical.x * whole / (whole + ApplicationUiScale.PIXEL_SCALE_STEP) < 800.0 or logical.y * whole / (whole + ApplicationUiScale.PIXEL_SCALE_STEP) < 480.0), "a %s phone draws at %.2f, %s logical: one step more would not fit" % [window, whole, logical])
+		_check(not ApplicationUiScale.levels_differ(window, base, true), "a %s phone's three settings draw alike" % window)
+	_check(is_equal_approx(ApplicationUiScale.pixel_factor(100, Vector2i(2400, 1080), base, true) * 1.5, 2.0), "a 2400×1080 phone at 2 (24-pixel text), not 4/3")
 	for window: Vector2i in [Vector2i(1366, 768), Vector2i(1600, 900), Vector2i(1920, 1200), Vector2i(3840, 2160), Vector2i(800, 600)]:
 		for percent: int in ApplicationUiScale.PERCENTS:
 			var stretch: float = minf(window.x / 1280.0, window.y / 720.0)

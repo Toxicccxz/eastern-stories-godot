@@ -401,6 +401,15 @@ func _fight(tree: SceneTree) -> void:
 		await tree.process_frame
 	_check(not is_instance_valid(arena), "the base taken down")
 	_check(not view.staged and is_equal_approx(view.view_height(), WorldVoxelView.VIEW_HEIGHT) and is_equal_approx(view.zoom(), 1.0), "the camera given back (height %.2f, zoom %.2f)" % [view.view_height(), view.zoom()])
+	# A phone's camera rests nearer (the feel's phone_view_percent): a show starts from the
+	# layout's size and gives it back to that rest, not to the layout's.
+	view.rest_zoom = 0.75 # TEST-ONLY: what device_rest_zoom() gives on a phone
+	view.stage(view.camera_offset(), WorldVoxelView.VIEW_HEIGHT, 0.5, 0.0)
+	view.unstage(0.0)
+	_check(is_equal_approx(view.zoom(), 0.75) and is_equal_approx(view.camera.size, view.base_size() * 0.75), "a phone's camera given back to its own rest (zoom %.2f)" % view.zoom())
+	view.rest_zoom = 1.0
+	view.set_zoom(1.0)
+	_check(is_equal_approx(WorldVoxelView.device_rest_zoom(), 1.0), "a desktop's camera rests at the layout's size")
 	for _frame: int in 60:
 		if not ui.opening.landing():
 			break
