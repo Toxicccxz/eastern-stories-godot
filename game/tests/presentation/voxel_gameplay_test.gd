@@ -210,6 +210,22 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check(not foliage.trails.is_empty(),"moving contact leaves a grass recovery trail")
 	foliage.advance(1.0,PackedVector3Array())
 	_check(foliage.trails.is_empty() and foliage.contacts.is_empty(),"vacated grass recovers after contact fades")
+	# A phone's thinner meadow (DECISIONS「手机画质」): a share of the tufts, spread evenly; a lone
+	# tuft in its patch stays; the planted roots and flowers (contacts, butterflies) keep them all.
+	var thin := VoxelFoliage.new()
+	thin.density = 0.5
+	thin.butterfly_count = 0
+	for i: int in 10:
+		thin.plant(Vector3(i*0.5,0,0),0,1.0,0.0)
+	thin.plant(Vector3(40,0,40),2,1.0,0.0)
+	thin.finish()
+	var counts: Array[int] = []
+	for child: Node in thin.get_children():
+		if child is MultiMeshInstance3D:
+			counts.append((child as MultiMeshInstance3D).multimesh.instance_count)
+	counts.sort()
+	_check(counts == [1,5] and thin.roots.size() == 11 and thin.flowers.size() == 1,"half the meadow drawn, a lone flower kept, every root still planted: %s" % [counts])
+	thin.free()
 	_check(street_view.camera.basis.is_equal_approx(basis),"same fixed camera angle in the street")
 	_check(await MapPlaces.take_passage(tree,outdoor,mill.portal_id),"the revealed mill entrance is physically usable")
 	await _frames(tree,4)

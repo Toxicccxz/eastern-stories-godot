@@ -14,6 +14,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_finite_position_and_duplicate_failures()
 	_test_known_condition_payload_compatibility()
 	_test_input_arrays_are_defensive()
+	_test_adopted_parts()
 	_test_npc_memory()
 	_test_player_temps()
 	_test_counters_and_chant()
@@ -449,6 +450,38 @@ func _test_input_arrays_are_defensive() -> void:
 	conditions.clear()
 	_assert_eq(character.conditions.size(), 1, "character snapshot copies caller condition array")
 	_assert_eq(character.conditions[0].remaining, 3, "character snapshot copies caller condition payload")
+
+
+## `adopt` (the save capture's and the decoder's own parts): a snapshot takes them as they are,
+## no copy, and still sorts them; without it the copies above stay. Every round trip here goes
+## through it (the decoder builds with it).
+func _test_adopted_parts() -> void:
+	var raw: Array[GameSaveValueTypes.SkillValueSnapshot] = [
+		GameSaveValueTypes.SkillValueSnapshot.new(&"unarmed", 8),
+		GameSaveValueTypes.SkillValueSnapshot.new(&"force", 9),
+	]
+	var skills := GameSaveValueTypes.SkillStateSnapshot.new(true, false, raw, [], [], true)
+	_assert_eq(skills.raw_levels[0].skill_id, &"force", "an adopted skill list is still sorted")
+	var affiliation := CharacterAffiliationState.legacy(false)
+	var character := GameSaveValueTypes.CharacterStateSnapshot.new(&"女性", null, null, null, null, null, null, skills, [], null, null, affiliation, true)
+	_assert_true(character.skills == skills, "an adopted part is the snapshot's own, not a copy")
+	_assert_true(character.affiliation != affiliation, "the affiliation, a live state, is copied either way")
+	var location := GameSaveValueTypes.WorldLocationSnapshot.new(&"snow", &"snow.outdoor", &"snow.square", &"")
+	var loadout: Array[StringName] = [&"b", &"a"]
+	var npc := GameSaveValueTypes.NpcSpawnStateSnapshot.new(&"spawn", &"point", &"npc", &"npc#1", true, &"active", true, character, 20, 100, 1000, location, null, loadout, 0, true)
+	_assert_true(npc.character == character and npc.world_location == location, "an adopted NPC record keeps its character and place")
+	_assert_eq(npc.live_loadout_item_ids, [&"a", &"b"] as Array[StringName], "and still sorts its loadout")
+	var copied := GameSaveValueTypes.NpcSpawnStateSnapshot.new(&"spawn", &"point", &"npc", &"npc#1", true, &"active", true, character, 20, 100, 1000, location)
+	_assert_true(copied.character != character and copied.world_location != location, "without adopt the record copies them")
+	var player := GameSaveValueTypes.PlayerRuntimeSnapshot.new(&"player", character, &"active", true, true, location, null, null, null, true)
+	_assert_true(player.character == character and player.world_location == location, "an adopted player record keeps its parts")
+	var later := GameSaveValueTypes.NpcSpawnStateSnapshot.new(&"spawn", &"point-2", &"npc", &"npc#2", true, &"active", true, null, 20, 100, 1000, null, null, [], 0, true)
+	var records: Array[GameSaveValueTypes.NpcSpawnStateSnapshot] = [later, npc]
+	var snapshot := GameSaveSnapshot.new(null, GameSaveSnapshot.SESSION_KIND_OLDPINE, null, player, records, [], null, null, null, null, WorldContentRevision.Value.LEGACY_OLDPINE_V1, true)
+	_assert_eq(snapshot.npc_spawn_states[0].spawn_point_id, &"point", "an adopted save still sorts its NPC records")
+	var items: Array[NativeItemRecord] = [NativeItemRecord.new(&"item-b", &"sword"), NativeItemRecord.new(&"item-a", &"sword")]
+	var item_snapshot := NativeItemStateSnapshot.new(NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION, items, [], [], [], [], [], true)
+	_assert_eq(item_snapshot.item_records[0].item_instance_id, &"item-a", "an adopted item snapshot still sorts its records")
 
 
 func _decode_root(root: Dictionary) -> GameSaveResult:

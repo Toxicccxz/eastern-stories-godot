@@ -130,6 +130,8 @@ var _frame_usec: int = 0
 ## the map with fewer pixels, GodotWindowModeCapability._draw_picture()).
 const SLOW_HINT_HIGH: String = "画面卡顿时，可以在「设置」里把「画质」调低；全屏时调低「分辨率」也会更流畅"
 const SLOW_HINT_LOW: String = "画面仍然卡顿时，可以在「设置」里调低「分辨率」：全屏时画面会更流畅"
+## A phone has no 分辨率 to lower (DECISIONS「手机画质」): on 高 the 画质 alone, on 低 nothing.
+const SLOW_HINT_PHONE: String = "画面卡顿时，可以在「设置」里把「画质」调低"
 var _target: Vector3
 var _offset := Vector3(21.213203,26,21.213203)
 var _view_yaw: float = VIEW_SIDE_ANGLE
@@ -221,8 +223,11 @@ func _apply_quality() -> void:
 		weather.queue_free()
 		weather = null
 	lighting.lamp_shadow_limit = GraphicsQuality.lamp_shadows()
+	lighting.lamp_light_limit = GraphicsQuality.lamp_lights()
+	occlusion.plain_when_clear = GraphicsQuality.plain_occluders()
 	if lighting.sun != null:
 		lighting.sun.directional_shadow_mode = GraphicsQuality.sun_shadow_mode()
+		lighting.sun.directional_shadow_max_distance = GraphicsQuality.sun_shadow_distance()
 	if _active:
 		get_viewport().msaa_3d = GraphicsQuality.msaa()
 
@@ -234,13 +239,15 @@ func _watch_frames() -> void:
 	var real: float = 0.0 if _frame_usec == 0 else float(now-_frame_usec)/1000000.0
 	_frame_usec = now
 	var due: int = GraphicsQuality.slow_hint_due()
+	if GraphicsQuality.phone and due == GraphicsQuality.Value.LOW:
+		due = -1
 	if due < 0 or map.session == null or DisplayServer.get_name() == "headless":
 		return
 	if _slow_watch == null or _slow_level != due:
 		_slow_watch = GraphicsQualityHint.new()
 		_slow_level = due
 	if _slow_watch.advance(real):
-		map.session.shared_ui().toasts().push(tr(SLOW_HINT_HIGH if due == GraphicsQuality.Value.HIGH else SLOW_HINT_LOW))
+		map.session.shared_ui().toasts().push(tr(SLOW_HINT_PHONE if GraphicsQuality.phone else SLOW_HINT_HIGH if due == GraphicsQuality.Value.HIGH else SLOW_HINT_LOW))
 		GraphicsQuality.note_slow_hint_told()
 
 ## 第十章 A (DECISIONS「风」): a map's guiding wind (WorldMapWinds) shown: the long grass leans along
@@ -301,13 +308,26 @@ func _build() -> void:
 		occlusion.register(entry["node"])
 		await geometry.breathe()
 	for shutter: Node3D in shutters.values()+opened.values():
-		occlusion.register(shutter)
+		occlusion.register(shutter, true)
+	# A world built again after a release has a new VoxelOcclusion: the 画质's part again.
+	occlusion.plain_when_clear = GraphicsQuality.plain_occluders()
 	if geometry.foliage != null:
 		occlusion.share_show(geometry.foliage.material)
 	await geometry.breathe()
 	var indoor: bool = layout.get("indoor",false)
 	lighting.build(world,occlusion,indoor,VoxelLighting.merge_profile(_region_light(indoor),layout.get("light",{})))
 	_sync_light(true)
+	# The figures of everyone here, under the loading screen too: made on the first frame shown,
+	# a town's dozens of them stalled it (a phone's for seconds). Hidden until that frame, which
+	# shows each as first seen (one lying is down already, VoxelPerson).
+	for body: WorldCharacterBody2D in _bodies():
+		if not actors.has(body.character_id):
+			_make_actor(body)
+			actors[body.character_id].visible = false
+			await geometry.breathe()
+	# The phone's plain occluders find who is behind what by a grid for the camera's angle.
+	if occlusion.plain_when_clear and camera != null:
+		occlusion.prepare(camera)
 	_built = true
 	_building = false
 	if covered:
@@ -337,6 +357,11 @@ func restage() -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime() as WorldPlayerRuntimeState
 	for entry: Dictionary in geometry.staged_props:
 		(entry["node"] as Node3D).visible = WorldStoryPresence.look_on_stage(entry["look"],player,session.player_held_item_ids(),session.player_worn_item_ids(),session.day_phase_id())
+
+## Whether a voxel world stands here or is being built (release_world() lets it go).
+func holds_world() -> bool:
+	return _built or _building
+
 
 func release_world() -> void:
 	if not _built and not _building:
@@ -722,6 +747,16 @@ func _label(parent: Node3D, text: String, height: float = 2.2) -> Label3D:
 	parent.add_child(label)
 	return label
 
+## The player's body and every resident's here.
+func _bodies() -> Array[WorldCharacterBody2D]:
+	var bodies: Array[WorldCharacterBody2D] = [map.player_body]
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
+		if body != null:
+			bodies.append(body)
+	return bodies
+
+
 func _sync_actors(delta: float) -> void:
 	var hovered: StringName = pick_at(get_viewport().get_mouse_position()) if _context_names else &""
 	var bodies: Array[WorldCharacterBody2D] = [map.player_body]
@@ -734,11 +769,17 @@ func _sync_actors(delta: float) -> void:
 			bodies.append(body)
 	var seen: Dictionary[StringName,bool] = {}
 	var fall_seconds: float = GameContent.catalog().pacing().feel.fall_seconds
+	# At most one figure made a frame (several arriving at once stalled a phone's frame); the next
+	# waits a frame, unseen.
+	var made: bool = false
 	for body: WorldCharacterBody2D in bodies:
 		var id: StringName = body.character_id
 		seen[id] = true
 		var fresh: bool = not actors.has(id)
 		if fresh:
+			if made and body != map.player_body:
+				continue
+			made = true
 			_make_actor(body)
 		var actor: Node3D = actors[id]
 		# Whether the figure was hidden until now (one dead and gone that is back: it stands at once).

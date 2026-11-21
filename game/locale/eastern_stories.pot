@@ -9415,6 +9415,10 @@ msgstr ""
 msgid "画面仍然卡顿时，可以在「设置」里调低「分辨率」：全屏时画面会更流畅"
 msgstr ""
 
+#: presentation/voxel/world_voxel_view.gd
+msgid "画面卡顿时，可以在「设置」里把「画质」调低"
+msgstr ""
+
 #. the marker's label in the voxel view: where the player chose on the 地图 page (指路), or where the tracked quest leads (目标).
 #: presentation/voxel/world_voxel_view.gd
 msgid "指路"

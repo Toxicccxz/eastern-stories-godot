@@ -35,6 +35,18 @@ func offers_player() -> bool:
 	return _act_for_player() != null
 
 
+## offers_player() with the player's facts already taken (WorldMapActs.facts()): only the room's
+## own flags are this command's. VoxelGlints asks all of a map's commands with one taking — each
+## taking its own cost a town's frame 15 ms on a desktop and a phone's several times that.
+func offers_player_given(known: ScriptedAct.Facts) -> bool:
+	if map == null or map.player_runtime() == null:
+		return false
+	if map.session != null:
+		known.room = map.session.room_states().flags(definition.zone_id)
+	var state: CharacterState = map.player_runtime().state
+	return definition.act.act_for(state.gender, state.affiliation.class_id, known) != null
+
+
 ## The button: the player's branch, asked first when it must be.
 func interact() -> void:
 	if not in_reach():

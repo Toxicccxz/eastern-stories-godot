@@ -155,14 +155,21 @@ static func capture(
 		armor_records,
 		food_records,
 		liquid_records,
+		true,
 	)
-	var validation: NativeItemStateValidationResult = NativeItemStateValidator.validate(
-		snapshot,
+	# The snapshot took the records as they are (and sorted them): checked where they lie.
+	var validation: NativeItemStateValidationResult = NativeItemStateValidator.validate_records(
+		item_records,
+		stack_records,
+		equipment_records,
+		armor_records,
+		food_records,
+		liquid_records,
 		definitions,
 	)
 	if not validation.succeeded:
 		return NativeItemSnapshotCaptureResult.new(null, validation)
-	return NativeItemSnapshotCaptureResult.new(snapshot, validation)
+	return NativeItemSnapshotCaptureResult.new(snapshot, validation, true)
 
 
 static func _failure(
