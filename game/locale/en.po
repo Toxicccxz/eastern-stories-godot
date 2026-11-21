@@ -380,7 +380,7 @@ msgid "( $N{status} )"
 msgstr "( $N {status} )"
 
 msgid "{npc}{action}"
-msgstr "{npc} {action}"
+msgstr "{npc}{action}"
 
 msgid "{npc}说道：{line}"
 msgstr "{npc} says, \"{line}\""
