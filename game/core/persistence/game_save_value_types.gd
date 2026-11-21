@@ -200,17 +200,23 @@ class SkillStateSnapshot extends RefCounted:
 				result.append(null if record == null else record.duplicate_snapshot())
 			return result
 
+	## `p_adopt`: see CharacterStateSnapshot.
 	func _init(
 		p_has_skills_mapping: bool = false, p_has_learned_mapping: bool = false,
 		p_raw_levels: Array[SkillValueSnapshot] = [], p_learned_progress: Array[SkillValueSnapshot] = [],
-		p_mappings: Array[SkillMappingSnapshot] = [],
+		p_mappings: Array[SkillMappingSnapshot] = [], p_adopt: bool = false,
 	) -> void:
 		has_skills_mapping = p_has_skills_mapping
 		has_learned_mapping = p_has_learned_mapping
-		_raw_levels = _copy_skill_values(p_raw_levels)
-		_learned_progress = _copy_skill_values(p_learned_progress)
-		for record: SkillMappingSnapshot in p_mappings:
-			_mappings.append(null if record == null else record.duplicate_snapshot())
+		if p_adopt:
+			_raw_levels = p_raw_levels
+			_learned_progress = p_learned_progress
+			_mappings = p_mappings
+		else:
+			_raw_levels = _copy_skill_values(p_raw_levels)
+			_learned_progress = _copy_skill_values(p_learned_progress)
+			for record: SkillMappingSnapshot in p_mappings:
+				_mappings.append(null if record == null else record.duplicate_snapshot())
 		_raw_levels.sort_custom(_skill_value_before)
 		_learned_progress.sort_custom(_skill_value_before)
 		_mappings.sort_custom(_skill_mapping_before)
@@ -345,28 +351,45 @@ class CharacterStateSnapshot extends RefCounted:
 	## CharacterState.ghost (damage.c); false for most characters.
 	var ghost: bool = false
 
+	## A snapshot keeps copies of the parts it is given, so nothing that made them can change it
+	## afterwards. `p_adopt`: the parts are new and nothing else holds them (a save capture's own,
+	## made for this snapshot alone): they become its own as they are (手机试玩, 2026-11-20: each
+	## NPC's record was copied over and over on the way into a save, most of a second on a phone).
+	## The affiliation, a live state, is copied either way.
 	func _init(
 		p_gender: StringName = &"", p_attributes: BaseAttributesSnapshot = null,
 		p_gin: ResourceTrackSnapshot = null, p_kee: ResourceTrackSnapshot = null, p_sen: ResourceTrackSnapshot = null,
 		p_internal_resources: InternalResourcesSnapshot = null, p_progression: ProgressionSnapshot = null,
 		p_skills: SkillStateSnapshot = null, p_conditions: Array[ConditionSnapshot] = [],
 		p_family: FamilySnapshot = null, p_apprenticeship: ApprenticeshipSnapshot = null,
-		p_affiliation: CharacterAffiliationState = null,
+		p_affiliation: CharacterAffiliationState = null, p_adopt: bool = false,
 	) -> void:
 		gender = p_gender
-		attributes = BaseAttributesSnapshot.new() if p_attributes == null else p_attributes.duplicate_snapshot()
-		gin = ResourceTrackSnapshot.new() if p_gin == null else p_gin.duplicate_snapshot()
-		kee = ResourceTrackSnapshot.new() if p_kee == null else p_kee.duplicate_snapshot()
-		sen = ResourceTrackSnapshot.new() if p_sen == null else p_sen.duplicate_snapshot()
-		internal_resources = InternalResourcesSnapshot.new() if p_internal_resources == null else p_internal_resources.duplicate_snapshot()
-		progression = ProgressionSnapshot.new() if p_progression == null else p_progression.duplicate_snapshot()
-		skills = SkillStateSnapshot.new() if p_skills == null else p_skills.duplicate_snapshot()
-		for record: ConditionSnapshot in p_conditions:
-			_conditions.append(null if record == null else record.duplicate_snapshot())
+		if p_adopt:
+			attributes = BaseAttributesSnapshot.new() if p_attributes == null else p_attributes
+			gin = ResourceTrackSnapshot.new() if p_gin == null else p_gin
+			kee = ResourceTrackSnapshot.new() if p_kee == null else p_kee
+			sen = ResourceTrackSnapshot.new() if p_sen == null else p_sen
+			internal_resources = InternalResourcesSnapshot.new() if p_internal_resources == null else p_internal_resources
+			progression = ProgressionSnapshot.new() if p_progression == null else p_progression
+			skills = SkillStateSnapshot.new() if p_skills == null else p_skills
+			_conditions = p_conditions
+			family = FamilySnapshot.new() if p_family == null else p_family
+			apprenticeship = ApprenticeshipSnapshot.new() if p_apprenticeship == null else p_apprenticeship
+		else:
+			attributes = BaseAttributesSnapshot.new() if p_attributes == null else p_attributes.duplicate_snapshot()
+			gin = ResourceTrackSnapshot.new() if p_gin == null else p_gin.duplicate_snapshot()
+			kee = ResourceTrackSnapshot.new() if p_kee == null else p_kee.duplicate_snapshot()
+			sen = ResourceTrackSnapshot.new() if p_sen == null else p_sen.duplicate_snapshot()
+			internal_resources = InternalResourcesSnapshot.new() if p_internal_resources == null else p_internal_resources.duplicate_snapshot()
+			progression = ProgressionSnapshot.new() if p_progression == null else p_progression.duplicate_snapshot()
+			skills = SkillStateSnapshot.new() if p_skills == null else p_skills.duplicate_snapshot()
+			for record: ConditionSnapshot in p_conditions:
+				_conditions.append(null if record == null else record.duplicate_snapshot())
+			family = FamilySnapshot.new() if p_family == null else p_family.duplicate_snapshot()
+			apprenticeship = ApprenticeshipSnapshot.new() if p_apprenticeship == null else p_apprenticeship.duplicate_snapshot()
 		_conditions.sort_custom(_condition_before)
-		family = FamilySnapshot.new() if p_family == null else p_family.duplicate_snapshot()
-		apprenticeship = ApprenticeshipSnapshot.new() if p_apprenticeship == null else p_apprenticeship.duplicate_snapshot()
-		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
+		affiliation =CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
 		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_journal(journal, known_items).with_known_moves(known_moves, insights).with_atlas(visited_maps, waypoint_map, waypoint_zone).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_quests(quests).with_deeds(deeds)
@@ -549,12 +572,20 @@ class PlayerRuntimeSnapshot extends RefCounted:
 		p_combat_available: bool = true,
 		p_world_location: WorldLocationSnapshot = null, p_map_position: MapPositionSnapshot = null,
 		p_identity: PlayerIdentitySnapshot = null, p_body_facts: PlayerBodySnapshot = null,
+		p_adopt: bool = false,
 	) -> void:
 		character_id = p_character_id
-		character = CharacterStateSnapshot.new() if p_character == null else p_character.duplicate_snapshot()
 		life_status = p_life_status
 		exists_in_world = p_exists_in_world
 		combat_available = p_combat_available
+		if p_adopt: # See CharacterStateSnapshot.
+			character = CharacterStateSnapshot.new() if p_character == null else p_character
+			identity = p_identity
+			body_facts = p_body_facts
+			world_location = WorldLocationSnapshot.new() if p_world_location == null else p_world_location
+			map_position = MapPositionSnapshot.new() if p_map_position == null else p_map_position
+			return
+		character = CharacterStateSnapshot.new() if p_character == null else p_character.duplicate_snapshot()
 		identity = null if p_identity == null else p_identity.duplicate_snapshot()
 		body_facts = null if p_body_facts == null else p_body_facts.duplicate_snapshot()
 		world_location = WorldLocationSnapshot.new() if p_world_location == null else p_world_location.duplicate_snapshot()
@@ -613,6 +644,7 @@ class NpcSpawnStateSnapshot extends RefCounted:
 		p_world_location: WorldLocationSnapshot = null, p_map_position: MapPositionSnapshot = null,
 		p_live_loadout_item_ids: Array[StringName] = [],
 		p_revive_in_ms: int = 0,
+		p_adopt: bool = false,
 	) -> void:
 		revive_in_ms = p_revive_in_ms
 		spawn_id = p_spawn_id
@@ -622,13 +654,19 @@ class NpcSpawnStateSnapshot extends RefCounted:
 		exists_in_world = p_exists_in_world
 		life_status = p_life_status
 		combat_available = p_combat_available
-		character = CharacterStateSnapshot.new() if p_character == null else p_character.duplicate_snapshot()
 		age = p_age
 		body_weight = p_body_weight
 		maximum_encumbrance = p_maximum_encumbrance
-		world_location = WorldLocationSnapshot.new() if p_world_location == null else p_world_location.duplicate_snapshot()
-		map_position = MapPositionSnapshot.new() if p_map_position == null else p_map_position.duplicate_snapshot()
-		_live_loadout_item_ids = p_live_loadout_item_ids.duplicate()
+		if p_adopt: # See CharacterStateSnapshot.
+			character = CharacterStateSnapshot.new() if p_character == null else p_character
+			world_location = WorldLocationSnapshot.new() if p_world_location == null else p_world_location
+			map_position = MapPositionSnapshot.new() if p_map_position == null else p_map_position
+			_live_loadout_item_ids = p_live_loadout_item_ids
+		else:
+			character = CharacterStateSnapshot.new() if p_character == null else p_character.duplicate_snapshot()
+			world_location = WorldLocationSnapshot.new() if p_world_location == null else p_world_location.duplicate_snapshot()
+			map_position = MapPositionSnapshot.new() if p_map_position == null else p_map_position.duplicate_snapshot()
+			_live_loadout_item_ids = p_live_loadout_item_ids.duplicate()
 		_live_loadout_item_ids.sort_custom(func(left: StringName, right: StringName) -> bool: return String(left) < String(right))
 
 	func duplicate_snapshot() -> NpcSpawnStateSnapshot:

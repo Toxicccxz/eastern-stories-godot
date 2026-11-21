@@ -66,6 +66,24 @@ var lamp_shadow_limit: int = LAMP_SHADOWS:
 			_rank_in = 0.0
 ## The lamps casting a shadow now (lamp_shadow_limit), nearest first.
 var casting: Array[Light3D] = []
+## Lamps lit at all out of doors (DECISIONS「手机画质」; the view sets it from the 画质): -1 every
+## one; otherwise the nearest that give light now (a window lamp is dark by day, one on a cut-away
+## wall is hidden with it). A light changing hands fades out before the next fades in, over
+## LAMP_LIGHT_FADE_SECONDS; on entering a map or a switch at once they light at once. Rooms keep
+## every lamp. A lamp's meta `presence` (0 .. 1) scales its energy.
+var lamp_light_limit: int = -1:
+	set(value):
+		if value != lamp_light_limit:
+			lamp_light_limit = value
+			_lamps_chosen = false
+const LAMP_LIGHT_FADE_SECONDS: float = 0.4
+var _lamps_chosen: bool = false
+var _lights_limited: bool = false
+## The lamps lamp_light_limit lights, read again every LAMP_SHADOW_RANK_SECONDS, and those whose
+## `presence` is above 0 now (lit or fading).
+var _lit_near: Array[Light3D] = []
+var _present: Array[Light3D] = []
+var _light_rank_in: float = 0.0
 var _rank_in: float = 0.0
 var _shadows_ranked: bool = false
 var _shadows_settled: bool = false
@@ -187,6 +205,10 @@ func release() -> void:
 	casting.clear()
 	_shadows_ranked = false
 	_shadows_settled = false
+	_lamps_chosen = false
+	_lights_limited = false
+	_lit_near.clear()
+	_present.clear()
 	windows.clear()
 	hazes.clear()
 	flickering.clear()
@@ -201,6 +223,7 @@ func set_frame(frame: String, immediate: bool = false) -> void:
 		_target[name] = 1.0 if name == frame else 0.0
 	if immediate:
 		weights = _target.duplicate()
+		_lamps_chosen = false
 		_apply()
 
 ## Day or night at once (the older two-frame call, kept for the suites and kits).
@@ -317,6 +340,7 @@ func advance(delta: float, player: Vector3) -> void:
 		# Clouds passing over: the sun's energy follows the drifting noise every frame.
 		if _shadow > 0.0:
 			changed = true
+	_limit_lamps(delta)
 	if changed:
 		_apply()
 	elif not indoor or not flickering.is_empty():
@@ -391,13 +415,82 @@ func _nearest_lamps() -> Array[Light3D]:
 			reach.resize(count)
 	return found
 
+## lamp_light_limit's choice, out of doors: each lamp's `presence` toward 1 for the nearest that
+## give light now, toward 0 for the rest, never more lit than the limit while one fades.
+func _limit_lamps(delta: float) -> void:
+	if lamp_light_limit < 0 or indoor:
+		if _lights_limited:
+			_lights_limited = false
+			for lamp: Light3D in lamps:
+				lamp.set_meta("presence",1.0)
+		return
+	if not _lights_limited:
+		# Every lamp was lit: they fade out from there (or go at once, a first choice).
+		_lights_limited = true
+		_present.clear()
+		for lamp: Light3D in lamps:
+			if lamp != carried and float(lamp.get_meta("presence",0.0)) > 0.0:
+				_present.append(lamp)
+	_light_rank_in -= delta
+	if not _lamps_chosen or _light_rank_in <= 0.0:
+		_light_rank_in = LAMP_SHADOW_RANK_SECONDS
+		_lit_near = _nearest_giving(lamp_light_limit)
+	var step: float = delta/LAMP_LIGHT_FADE_SECONDS if _lamps_chosen else INF
+	_lamps_chosen = true
+	for lamp: Light3D in _present.duplicate():
+		if not _lit_near.has(lamp):
+			var fading: float = move_toward(float(lamp.get_meta("presence",0.0)),0.0,step)
+			lamp.set_meta("presence",fading)
+			if fading <= 0.0:
+				_present.erase(lamp)
+	for lamp: Light3D in _lit_near:
+		var presence: float = float(lamp.get_meta("presence",0.0))
+		if presence > 0.0 or _present.size() < lamp_light_limit:
+			if not _present.has(lamp):
+				_present.append(lamp)
+			lamp.set_meta("presence",move_toward(presence,1.0,step))
+
+## The `count` lamps nearest the player (on the ground plane) that give light now and are not
+## hidden with their wall, nearest first; never the carried light.
+func _nearest_giving(count: int) -> Array[Light3D]:
+	var found: Array[Light3D] = []
+	var reach: PackedFloat32Array = []
+	if count <= 0:
+		return found
+	for lamp: Light3D in lamps:
+		if lamp == carried:
+			continue
+		var far: float = _planar_distance(lamp)
+		if far >= LAMP_FADE_END or not lamp.get_parent().is_visible_in_tree() or _unlimited_energy(lamp,amount) <= 0.0:
+			continue
+		var at: int = reach.size()
+		while at > 0 and reach[at-1] > far:
+			at -= 1
+		if at >= count:
+			continue
+		found.insert(at,lamp)
+		reach.insert(at,far)
+		if found.size() > count:
+			found.resize(count)
+			reach.resize(count)
+	return found
+
+## A lamp's day/night energy, faded with its distance out of doors: before any limit or flicker.
+func _unlimited_energy(lamp: Light3D, blend: float) -> float:
+	var fade: float = 1.0
+	if not indoor:
+		fade = 1.0-smoothstep(LAMP_FADE_BEGIN,LAMP_FADE_END,_planar_distance(lamp))
+	return lerpf(float(lamp.get_meta("day_energy")),float(lamp.get_meta("night_energy")),blend)*fade
+
+func _planar_distance(lamp: Light3D) -> float:
+	var offset: Vector3 = lamp.global_position-_player
+	return Vector2(offset.x,offset.z).length()
+
 func _apply_lamps(blend: float) -> void:
 	for lamp: Light3D in lamps:
-		var fade: float = 1.0
-		if not indoor:
-			var offset: Vector3 = lamp.global_position-_player
-			fade = 1.0-smoothstep(LAMP_FADE_BEGIN,LAMP_FADE_END,Vector2(offset.x,offset.z).length())
-		var energy: float = lerpf(float(lamp.get_meta("day_energy")),float(lamp.get_meta("night_energy")),blend)*fade
+		var energy: float = _unlimited_energy(lamp,blend)
+		if lamp != carried and _lights_limited:
+			energy *= float(lamp.get_meta("presence",0.0))
 		if lamp.has_meta("flicker"):
 			var phase: float = lamp.global_position.x*3.1+lamp.global_position.z*1.7
 			energy *= 1.0+float(lamp.get_meta("flicker"))*(sin(_clock*13.0+phase)*0.5+sin(_clock*7.3+phase*2.0)*0.35+sin(_clock*29.0)*0.15)

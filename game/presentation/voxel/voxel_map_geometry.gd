@@ -234,6 +234,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 		foliage.petals = flora.get("flower_colors",foliage.petals)
 		foliage.gust = float(flora.get("wind",0.0))
 		foliage.butterfly_count = int(flora.get("butterflies",8))
+		foliage.density = GraphicsQuality.grass()
 		add_child(foliage)
 	for building: Dictionary in layout.get("buildings", []):
 		var a: Array = building["rect"]

@@ -183,10 +183,13 @@ func _test_sliced_start(tree: SceneTree) -> void:
 	var shell: ApplicationShellController = SHELL_SCENE.instantiate()
 	shell.configure_before_start(GameSaveStorageProfile.isolated_test("focus-pause-sliced"), ShellTests.MemoryFiles.new(), null, ShellTests.MemoryFiles.new())
 	tree.root.add_child(shell)
-	await _frames(tree, 3)
+	# A start in slices looks at the saves on a worker thread, queued behind every map scene it
+	# reads ahead: the menu takes 新的旅程 once that is done, not after a set count of frames (a
+	# busy runner took more than three).
+	await _until(tree, func() -> bool: return shell.shell_state().mode() == ApplicationShellState.Mode.MAIN_MENU)
 	shell.lifecycle_adapter().set_capability(InputPaths.DesktopWindow.new())
 	shell.runtime_host().opening_card = false
-	shell.request_new_game_from_menu()
+	_check(shell.request_new_game_from_menu(), "the main menu takes 新的旅程")
 	shell.player_name_edit.text = "分帧"
 	shell.select_new_game_gender(CharacterState.GENDER_FEMALE)
 	_check(shell.submit_new_game_setup(), "a sliced New Game")

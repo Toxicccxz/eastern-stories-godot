@@ -54,6 +54,14 @@ Opening a panel blocks underlying input; the menu window and the interaction pop
 world time, as the [Shell contract](APPLICATION_SHELL_CONTRACT.md#shared-gameplay-presentation)
 states. Neither changes Save eligibility.
 
+## Render quality
+
+On Android/iOS the 画质 levels take `graphics_quality.json`'s `phone` overrides and a first start
+takes the phone's default (低): a smaller 3D picture (the UI keeps the screen's resolution), the
+nearest few lamps lit out of doors, thinner grass, plain occluders where no one can be behind them
+([DECISIONS「手机画质」](../../migration/DECISIONS.md)). Desktop levels are unchanged. Measured on
+one phone (OnePlus 8T); other devices are unqualified.
+
 ## Touch and desktop coexistence
 
 - A fixed 192x192 pad has eight digital directions and a neutral center. It emits paired
