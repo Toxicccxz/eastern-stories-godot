@@ -113,6 +113,8 @@ func _init() -> void:
 	_line = Label.new()
 	_line.name = "Line"
 	_line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	# The line is the title in the other language (title_screen.json), never a translation.
+	_line.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	_line.add_theme_constant_override("shadow_offset_x", 0)
 	_line.add_theme_constant_override("shadow_offset_y", 2)
 	_line.add_theme_constant_override("shadow_outline_size", 10)

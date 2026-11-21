@@ -123,6 +123,6 @@ static func _pronoun_index(role: Role) -> int:
 		return 0
 	if role.gender == CharacterState.GENDER_FEMALE:
 		return 2
-	if role.gender == CharacterState.GENDER_MALE or role.gender == &"中性神":
+	if role.gender == CharacterState.GENDER_MALE or role.gender == &"中性神":  # NO_TRANSLATE: a gender value
 		return 1
 	return 3

@@ -78,8 +78,8 @@ func vision_at(target: SpecialSide, template: String, color: StringName = Colore
 
 ## message_vision(template, target, me): $N is `target`, $n the character (你 as it reads it).
 func vision_by(target: SpecialSide, template: String, color: StringName = ColoredLine.PLAIN, target_name: String = "") -> void:
-	# TRANSLATORS: message_vision(): the character an exert line names as its $n.
 	var text: String = MessageGrammar.resolve(ExertFunction._t(template), _role(target), MessageGrammar.you())
+	# TRANSLATORS: message_vision(): the character an exert line names as its $n.
 	lines.append(ColoredLine.new(MessageGrammar.capitalize(text.replace("$N", _name(target, target_name)).replace("$n", ExertFunction._t("你"))), color))
 	vision_lines.append(VisionLine.new(template, target.character_id, actor_id, color))
 

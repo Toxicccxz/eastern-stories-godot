@@ -944,8 +944,8 @@ static func move_tooltip(move: CombatActionDefinition) -> String:
 	var tag: String = CombatMoveTags.description(move.tag)
 	if move.legacy_action_text.is_empty():
 		return tag
-	# TRANSLATORS: the words standing for the one hit, the limb and the weapon in a move's hover line (no one is hit yet).
 	var action: String = MessageGrammar.resolve(TranslationServer.translate(move.legacy_action_text), MessageGrammar.you(), MessageGrammar.other())
+	# TRANSLATORS: the words standing for the one hit, the limb and the weapon in a move's hover line (no one is hit yet).
 	var line: String = (TranslationServer.translate("{action}！").format({"action": action})
 		.replace("$N", TranslationServer.translate("你")).replace("$P", TranslationServer.translate("你"))
 		.replace("$n", TranslationServer.translate("对手")).replace("$p", TranslationServer.translate("对手"))

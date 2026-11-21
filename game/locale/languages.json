@@ -6,6 +6,13 @@
 			"name": "简体中文",
 			"script": "Hans",
 			"fonts": ["Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei"]
+		},
+		{
+			"code": "en",
+			"name": "English (preview)",
+			"translation": "res://locale/en.po",
+			"preview": true,
+			"fonts": ["Segoe UI", "Helvetica Neue", "Noto Sans", "DejaVu Sans"]
 		}
 	]
 }

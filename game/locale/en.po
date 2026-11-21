@@ -1,0 +1,3041 @@
+# Eastern Stories — English.
+# Style, names and the grammar marks: docs/production/english_style.md.
+# Check: python tools/l10n/check_po.py game/locale/en.po
+msgid ""
+msgstr ""
+"Project-Id-Version: Eastern Stories\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "新游戏"
+msgstr "New Game"
+
+msgid "继续"
+msgstr "Continue"
+
+msgid "读取存档"
+msgstr "Load Game"
+
+msgid "恢复存档"
+msgstr "Recover a Save"
+
+msgid "设置"
+msgstr "Settings"
+
+msgid "退出游戏"
+msgstr "Quit"
+
+msgid "正在检查存档……"
+msgstr "Checking saves..."
+
+msgid "新的旅程"
+msgstr "A New Journey"
+
+msgid "姓名"
+msgstr "Name"
+
+msgid "1–24 个字符，可用各语言文字"
+msgstr "1–24 characters, any script"
+
+msgid "随机名字"
+msgstr "Random Name"
+
+msgid "性别"
+msgstr "Gender"
+
+msgid "男性"
+msgstr "Male"
+
+msgid "女性"
+msgstr "Female"
+
+msgid "开始旅程"
+msgstr "Set Out"
+
+msgid "取消"
+msgstr "Cancel"
+
+msgid "暂停"
+msgstr "Paused"
+
+msgid "继续游戏"
+msgstr "Resume"
+
+msgid "存档"
+msgstr "Save"
+
+msgid "读档"
+msgstr "Load"
+
+msgid "返回主菜单"
+msgstr "Main Menu"
+
+msgid "窗口模式"
+msgstr "Window Mode"
+
+msgid "分辨率"
+msgstr "Resolution"
+
+msgid "界面缩放"
+msgstr "UI Scale"
+
+msgid "画质"
+msgstr "Graphics"
+
+msgid "这个窗口大小下，三档界面缩放画出来一样大。"
+msgstr "At this window size, all three UI scales come out the same."
+
+msgid "语言"
+msgstr "Language"
+
+msgid "切出窗口时暂停"
+msgstr "Pause when the window loses focus"
+
+msgid "战斗速度"
+msgstr "Battle Speed"
+
+msgid "受击闪红与震动"
+msgstr "Hit flash and shake"
+
+msgid "击倒后"
+msgstr "After a Knockdown"
+
+msgid "目标提示"
+msgstr "Quest Markers"
+
+msgid "昼夜"
+msgstr "Day and Night"
+
+msgid "自动存档提示"
+msgstr "Autosave Notice"
+
+msgid "总音量"
+msgstr "Master Volume"
+
+msgid "80%"
+msgstr "80%"
+
+msgid "战斗开场"
+msgstr "Battle Intro"
+
+msgid "应用"
+msgstr "Apply"
+
+msgid "按键一览"
+msgstr "Controls"
+
+msgid "请选择一份检查过的存档来恢复。游戏不会替你选择。"
+msgstr "Pick a checked save to recover from. The game won't choose for you."
+
+msgid "上一次完整的存档"
+msgstr "The last complete save"
+
+msgid "存档中断时留下的存档"
+msgstr "A save left by an interrupted write"
+
+msgid "开始新游戏"
+msgstr "Start a New Game"
+
+msgid "胆识"
+msgstr "Courage"
+
+msgid "定力"
+msgstr "Resolve"
+
+msgid "灵性"
+msgstr "Spirituality"
+
+msgid "实战经验"
+msgstr "Combat Experience"
+
+msgid "精"
+msgstr "Essence"
+
+msgid "气"
+msgstr "Qi"
+
+msgid "神"
+msgstr "Spirit"
+
+msgid "内力"
+msgstr "Inner Force"
+
+msgid "法力"
+msgstr "Arcane Power"
+
+msgid "灵力"
+msgstr "Mystic Power"
+
+msgid "潜能"
+msgstr "Potential"
+
+msgid "加力"
+msgstr "Extra Force"
+
+msgid "食物"
+msgstr "Food"
+
+msgid "当前 / 有效 / 最大"
+msgstr "Current / Effective / Max"
+
+msgid "当前是眼下的数；有效是受伤压低的上限，歇着会慢慢长回来，疗伤更快；最大是你的本钱。"
+msgstr "Current is what you have right now. Effective is the cap your wounds hold down — it creeps back as you rest, faster if you treat them. Max is your full measure."
+
+msgid "学武功、自学、修行都耗精，歇着慢慢回来；归零就昏倒。"
+msgstr "Learning, studying on your own and cultivation all spend it. It comes back as you rest. Hit zero and you pass out."
+
+msgid "挨打、练功、打坐都耗气，歇着慢慢回来；归零就昏倒。"
+msgstr "Taking hits, training and meditating all spend it. It comes back as you rest. Hit zero and you pass out."
+
+msgid "研读、冥思都耗神，歇着慢慢回来；归零就昏倒。"
+msgstr "Reading and contemplation spend it. It comes back as you rest. Hit zero and you pass out."
+
+msgid "打坐得来，运功和加力都要用它；上限看基本内功。"
+msgstr "Built up by meditating. Exerting and Extra Force both draw on it; its cap depends on Basic Force."
+
+msgid "每一击多灌进这么多内力，打得更重，内力也耗得更快。"
+msgstr "This much more Inner Force goes into every blow: you hit harder, and burn through it faster."
+
+msgid "施法要用。冥思得来，上限看基本咒文。"
+msgstr "Spells need it. Built up by contemplation; its cap depends on Basic Incantation."
+
+msgid "施展神通要用。修行得来，上限看基本法术。"
+msgstr "Mystic powers need it. Built up through cultivation; its cap depends on Basic Mysticism."
+
+msgid "杀气"
+msgstr "Bloodlust"
+
+msgid "杀人会涨，胆气也跟着壮；太重学不了佛道心法，还可能失控伤人。运功或捐香火能压下去。"
+msgstr "Killing raises it, and your nerve with it. Too much and the Buddhist and Daoist arts are closed to you — you may even lash out. Exerting your Inner Force or giving incense money brings it down."
+
+msgid "随时间消耗，吃东西补；见底后内力、法力、灵力不再恢复。"
+msgstr "Drains over time; eat to fill it. Once it runs dry, Inner Force, Arcane Power and Mystic Power stop coming back."
+
+msgid "饮水"
+msgstr "Water"
+
+msgid "随时间消耗，喝东西补；见底后什么都不再恢复。"
+msgstr "Drains over time; drink to fill it. Once it runs dry, nothing comes back at all."
+
+msgid "打架、办事得来；武功能练到多高看它。"
+msgstr "Earned from fights and errands. How far your martial arts can go depends on it."
+
+msgid "打架、办事得来，请教和自学要花它；没用掉的有上限。"
+msgstr "Earned from fights and errands, and spent when you learn from a shifu or study on your own. Unspent Potential has a cap."
+
+msgid "综合评价"
+msgstr "Standing"
+
+msgid "江湖上对你的总评：办成差事会涨，认输会掉。"
+msgstr "What the jianghu thinks of you, all told. Getting jobs done raises it; conceding a fight lowers it."
+
+msgid "杀过的人"
+msgstr "Kills"
+
+msgid "你亲手杀过多少人。"
+msgstr "How many people you have killed with your own hands."
+
+msgid "负重"
+msgstr "Load"
+
+msgid "身上东西的总重和能背的上限，上限看膂力。"
+msgstr "What you're carrying, and how much you can carry. The limit depends on Strength."
+
+msgid "体重"
+msgstr "Weight"
+
+msgid "你自己的分量，也决定肚子能装多少吃喝。"
+msgstr "Your own weight. It also decides how much food and drink your stomach can hold."
+
+msgid "膂力"
+msgstr "Strength"
+
+msgid "力气：打得更重，背得更多，拿得动沉重的兵器。"
+msgstr "Muscle: you hit harder, carry more, and can wield heavy weapons."
+
+msgid "敢不敢抢攻：自动对打时，胆识高的人出手更勤；不少师父也看它。"
+msgstr "Whether you dare strike first: in a straight fight the bold attack more often. Plenty of shifu look at it, too."
+
+msgid "悟性"
+msgstr "Wits"
+
+msgid "天资：学武功更快，耗精更少，打架时也更容易长进。"
+msgstr "Talent: you pick up martial arts faster, spend less Essence doing it, and grow more from every fight."
+
+msgid "精神方面的体质：冥思和修行涨得更快，不少法门也看它。"
+msgstr "Your spiritual makeup: contemplation and cultivation come faster, and many mystic arts look at it."
+
+msgid "临危不乱：对手抢攻前要过你这一关，定力越高他们越容易转为守势；打空时也不易露破绽，还压得住杀气。"
+msgstr "Nerve under pressure: an opponent has to get past it before seizing the initiative — the higher it is, the more often they fall back to guarding. You leave fewer openings when you miss, and you keep your Bloodlust in check."
+
+msgid "容貌"
+msgstr "Looks"
+
+msgid "长相：有人看脸说话，也有师父看长相收人；容貌高，杀气重的人也不易对你翻脸。"
+msgstr "Appearance: some folk judge by faces, and some shifu take students by looks. Good looks also make the bloodthirsty slower to turn on you."
+
+msgid "根骨"
+msgstr "Constitution"
+
+msgid "体质：精气神恢复得更快，打坐涨内力更快，昏倒后醒得更早，酒量也大。"
+msgstr "Physique: Essence, Qi and Spirit recover faster, meditation builds Inner Force faster, you come round sooner after passing out — and you hold your drink better."
+
+msgid "福缘"
+msgstr "Fortune"
+
+msgid "运气：容易遇上一般人碰不到的机缘，好事坏事都有。"
+msgstr "Luck: you stumble on chances most people never meet. Good ones and bad."
+
+msgid "东方故事"
+msgstr "Eastern Stories"
+
+msgid "雪亭镇"
+msgstr "Snow Pavilion"
+
+msgid "正纷扰间，一匹快马冲进了广场，两名老者立即站了起来。"
+msgstr "In the middle of the commotion, a fast horse galloped into the square, and the two old men rose at once."
+
+msgid "不料一名老者忽然说道：「大声点，让众位兄弟都听见了。」"
+msgstr "But one of the old men suddenly said, \"Louder. Let all the brothers hear it.\""
+
+msgid "那人一怔，随即大声说道：「方位是在西南二十四里，黄石隘口。」"
+msgstr "The rider faltered, then called out, \"The bearing is southwest, twenty-four li — Yellow Rock Pass.\""
+
+msgid "时间是天朝佑圣元年，岁次甲子，年仅十六岁的皇帝刚刚登基，雪亭镇上熙来攘往，一队身著白衣的朝廷武官和两名老者在镇前的广场中坐著，四面来来往往的人当中，有不少显然是武林中人，正探头探脑地向著广场张望。"
+msgstr "It was the first year of the Yousheng reign. The Emperor, only sixteen, had just taken the throne. Snow Pavilion bustled with comings and goings. In the square at the edge of town sat a troop of imperial officers in white, and two old men. Among the people drifting past, more than a few were plainly of the wulin, craning their necks toward the square."
+
+msgid "马上乘客一跃而下，快步走到老者身前，躬身说道：「禀将军，时辰已到，白道长命下官回禀，方位是在....」，说著压低了声音。"
+msgstr "The rider leapt from the saddle, strode up to the old men and bowed. \"General, the hour has come. Daoist Bai sends me to report that the bearing is....\" And here he lowered his voice."
+
+msgid "广场西边一家小客栈里，一个年约十四岁的少年问店里的小二道：「这些人神秘得紧，却不知到底在玩什麽把戏？」"
+msgstr "In a small inn on the west side of the square, a youth of about fourteen asked the waiter, \"These folks are awful mysterious. What game are they playing?\""
+
+msgid "小二抄起脖子上的毛巾，抹了抹脸，说道：「小哥您有所不知，这些个爷儿们可是大内来的高手，这次是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的，那骑马的官爷所称的白道长，便是咱们这附近有名的太乙观观主....」"
+msgstr "The waiter pulled the towel off his neck and mopped his face. \"You wouldn't know, friend — these fine gentlemen are masters from the Palace itself. His Majesty sent them to Lancheng, the Wind City, to find some sword they call the Whirling Edge. And the Daoist Bai that rider mentioned, he's the abbot of Taiyi Abbey, famous round these parts....\""
+
+msgid "少年奇道：「岚城？那是什麽地方？怎麽我从小到大不曾听过有这个地方？」"
+msgstr "The youth was puzzled. \"Lancheng? Where's that? I've never heard of it in my whole life.\""
+
+msgid "少年听著出了神，怔怔地望著外面的天空，一朵朵的浮云飘来飘去，他的心思也不由自主地飞了起来。"
+msgstr "The youth listened, spellbound, gazing at the sky outside. Cloud after cloud drifted past, and the youth's thoughts drifted off with them."
+
+msgid "那少年，便是你。"
+msgstr "That youth was you."
+
+msgid "寻剑令"
+msgstr "The Sword Decree"
+
+msgid "大内高手在找一把剑。去西南二十四里的黄石隘口，看他们找什么。"
+msgstr "Palace masters are hunting for a sword. Go to Yellow Rock Pass, twenty-four li southwest, and see what they're after."
+
+msgid "在黄石隘口看着官队挖出石匣、又被黑衣道士抢走"
+msgstr "Watched the officials dig up a stone casket at Yellow Rock Pass — and a Daoist in black snatch it away"
+
+msgid "跟店小二打听广场上的「官爷」。"
+msgstr "Ask the waiter about the \"officials\" in the square."
+
+msgid "店小二说外头广场上来了大内的官爷，叫你去瞧瞧。"
+msgstr "The waiter says officials from the Palace have turned up in the square outside, and you should go take a look."
+
+msgid "去镇前的广场，看看官爷们在做什么。"
+msgstr "Go to the square at the edge of town and see what the officials are up to."
+
+msgid "冯策叫信使大声报了方位：西南二十四里，黄石隘口。"
+msgstr "Feng Ce had the messenger call out the bearing: southwest, twenty-four li, Yellow Rock Pass."
+
+msgid "在广场上当面向大内的总教头问了寻剑的事"
+msgstr "Asked the Palace's chief instructor about the sword hunt, face to face in the square"
+
+msgid "围观的江湖客悄悄告诉你：官爷们要去西南二十四里的黄石隘口。"
+msgstr "A wanderer in the crowd tells you quietly: the officials are headed for Yellow Rock Pass, twenty-four li southwest."
+
+msgid "在广场上向围观的江湖人打听了官队的去处"
+msgstr "Asked the onlookers in the square where the officials were headed"
+
+msgid "去西南二十四里的黄石隘口，看他们找什么。"
+msgstr "Go to Yellow Rock Pass, twenty-four li southwest, and see what they're after."
+
+msgid "你到了黄石隘口。官队正在山壁下挖土，白道长守在坑边。"
+msgstr "You reach Yellow Rock Pass. The officials are digging at the foot of the cliff, and Daoist Bai stands watch by the pit."
+
+msgid "看官队在山壁下挖什么。"
+msgstr "See what the officials are digging for under the cliff."
+
+msgid "官队挖出一只刻着风纹的石匣；一个黑衣黑冠的道士从崖上掠下，抢了匣子就逃，掉下一块布条。白道长说匣里是岚城的风铃。"
+msgstr "The officials unearth a stone casket carved with wind patterns. A Daoist in a black robe and black cap swoops down from the cliff, grabs the casket and runs, dropping a strip of cloth. Daoist Bai says the casket held Lancheng's wind bells."
+
+msgid "拾起黑衣道士掉下的布条。"
+msgstr "Pick up the strip of cloth the Daoist in black dropped."
+
+msgid "布条上刻着老松寨的记号：黑衣道士往老松岭去了。"
+msgstr "The strip bears the mark of Old Pine Stockade: the Daoist in black went toward Old Pine Ridge."
+
+msgid "{action}！"
+msgstr "{action}!"
+
+msgid "( $N{status} )"
+msgstr "( $N {status} )"
+
+msgid "{npc}{action}"
+msgstr "{npc} {action}"
+
+msgid "{npc}说道：{line}"
+msgstr "{npc} says, \"{line}\""
+
+msgid "{npc}在你的耳边悄声说道：{line}"
+msgstr "{npc} whispers in your ear, \"{line}\""
+
+msgid "这里"
+msgstr "Here"
+
+msgid "名字"
+msgstr "Name"
+
+msgid "传闻"
+msgstr "Rumors"
+
+msgid "%s摇摇头，说道：没听说过。"
+msgstr "\"Never heard of it,\" says %s, with a shake of the head."
+
+msgid "%s睁大眼睛望著你，显然不知道你在说什麽。"
+msgstr "%s stares at you wide-eyed, plainly with no idea what you're on about."
+
+msgid "%s耸了耸肩，很抱歉地说：无可奉告。"
+msgstr "%s shrugs apologetically. \"Nothing I can tell you.\""
+
+msgid "%s说道：嗯....这我可不清楚，你最好问问别人吧。"
+msgstr "\"Hmm... can't say I know,\" says %s. \"Better ask someone else.\""
+
+msgid "%s想了一会儿，说道：对不起，你问的事我实在没有印象。"
+msgstr "%s thinks for a moment. \"Sorry — I can't recall a thing about that.\""
+
+msgid "你向{npc}问道：敢问{respect}尊姓大名？"
+msgstr "You ask {npc}, \"May I ask your name, {respect}?\""
+
+msgid "你向{npc}问道：这位{respect}，{self}初到贵宝地，不知这里有些什麽风土人情？"
+msgstr "You ask {npc}, \"I'm new to these parts, {respect}. What should I know about the place?\""
+
+msgid "你向{npc}问道：这位{respect}，不知最近有没有听说什麽消息？"
+msgstr "You ask {npc}, \"Heard any news lately, {respect}?\""
+
+msgid "你向{npc}打听有关『{topic}』的消息。"
+msgstr "You ask {npc} about \"{topic}.\""
+
+msgid "但是很显然的，%s现在的状况没有办法给你任何答覆。"
+msgstr "But plainly, %s is in no state to give you any answer."
+
+msgid "{npc}对你把眼一瞪：{self}的名字是可以随便提的吗？！我看你这{rude}是活腻了！"
+msgstr "{npc} glares at you. \"Who are you to throw my name around?! Tired of living, you {rude}?\""
+
+msgid "{npc}对你哈哈一笑：{npc}便是{self}！"
+msgstr "{npc} laughs. \"{npc}? That'd be me!\""
+
+msgid "{npc}对你作了一揖：这位{respect}可真会开玩笑，怎么会突然问起{self}的名字？"
+msgstr "{npc} clasps hands and bows. \"You're quite the joker, {respect}. Why ask my name all of a sudden?\""
+
+msgid "{npc}对你说道：这里是{place}，至于其它的，{self}不便多说。"
+msgstr "{npc} tells you, \"This is {place}. As for the rest — not for me to say.\""
+
+msgid "小师太"
+msgstr "young Sister"
+
+msgid "师太"
+msgstr "Sister"
+
+msgid "小仙姑"
+msgstr "young Daoist Sister"
+
+msgid "仙姑"
+msgstr "Daoist Sister"
+
+msgid "小姑娘"
+msgstr "little miss"
+
+msgid "姑娘"
+msgstr "miss"
+
+msgid "婆婆"
+msgstr "granny"
+
+msgid "小师父"
+msgstr "young Brother"
+
+msgid "大师"
+msgstr "Venerable"
+
+msgid "道兄"
+msgstr "young Daoist"
+
+msgid "道长"
+msgstr "good Daoist"
+
+msgid "小老弟"
+msgstr "young fellow"
+
+msgid "壮士"
+msgstr "good sir"
+
+msgid "老前辈"
+msgstr "elder"
+
+msgid "小兄弟"
+msgstr "young friend"
+
+msgid "老爷子"
+msgstr "old sir"
+
+msgid "贫尼"
+msgstr "this poor nun"
+
+msgid "老尼"
+msgstr "this old nun"
+
+msgid "小女子"
+msgstr "I"
+
+msgid "妾身"
+msgstr "I"
+
+msgid "贫僧"
+msgstr "this poor monk"
+
+msgid "老纳"
+msgstr "this old monk"
+
+msgid "贫道"
+msgstr "this poor Daoist"
+
+msgid "在下"
+msgstr "I"
+
+msgid "老头子"
+msgstr "this old man"
+
+msgid "你"
+msgstr "you"
+
+msgid "对手"
+msgstr "your opponent"
+
+msgid "要害"
+msgstr "vitals"
+
+msgid "兵刃"
+msgstr "weapon"
+
+msgid "贼尼"
+msgstr "thieving nun"
+
+msgid "妖女"
+msgstr "witch"
+
+msgid "小贱人"
+msgstr "little wretch"
+
+msgid "死老太婆"
+msgstr "old hag"
+
+msgid "死秃驴"
+msgstr "bald donkey"
+
+msgid "老秃驴"
+msgstr "old bald donkey"
+
+msgid "死牛鼻子"
+msgstr "ox-nose"
+
+msgid "小王八蛋"
+msgstr "little bastard"
+
+msgid "臭贼"
+msgstr "stinking thief"
+
+msgid "老匹夫"
+msgstr "old fool"
+
+msgid "刘安禄"
+msgstr "Liu Anlu"
+
+msgid "门房"
+msgstr "Gatekeeper"
+
+msgid "看见你，放下了手里的扫帚。"
+msgstr " sees you and sets down his broom."
+
+msgid "李教头同我说了。……那句话是你替我挡的。"
+msgstr "Instructor Li told me. ...You took that one for me."
+
+msgid "我欠你一句话。哪天你用得着野羊山的人，开口。"
+msgstr "I owe you one. Day you need somebody from Goathill, just say the word."
+
+msgid "背着一个青布包袱，望着往野羊山去的那条路。"
+msgstr " has a blue cloth bundle on his back, eyes on the road to Goathill."
+
+msgid "话是你说的。我不怨你——五年前我就该走。"
+msgstr "You said it. I don't hold it against you — I should've left five years ago."
+
+msgid "馆主留我到今天，是他的情分；武馆的规矩，是老馆主的。两样都没错。"
+msgstr "The master kept me on till today. That was his kindness. The hall's rules were the old master's. Neither one was wrong."
+
+msgid "刘安禄的来历不简单。当面问出这个名字，是把事情挑明——他未必肯善罢甘休。要问吗？"
+msgstr "There's more to Liu Anlu than meets the eye. Saying this name to his face drags it all into the open — he may not take that lying down. Ask anyway?"
+
+msgid "……老子认了，还问什么。你要问野羊寨的事，问大寨主。"
+msgstr "...I've owned up to it. What's left to ask? You want to know about Goathill Stockade, ask the Chief."
+
+msgid "老子就是血手刘三，血手刘三就是你老子！纳命来！"
+msgstr "I'm Bloody-Hand Liu, and Bloody-Hand Liu is your old man! Come and die!"
+
+msgid "我...不知道！"
+msgstr "I... I don't know!"
+
+msgid "血手刘三"
+msgstr "Bloody-Hand Liu"
+
+msgid "刘安禄眼中突然放出异样的光芒，颤声说道：看来...你都知道了？"
+msgstr "A strange light flares in Liu Anlu's eyes. His voice shakes. \"So... you know everything?\""
+
+msgid "刘安禄大喝一声，叫道：既然如此，老子今天豁出去了，纳命来！"
+msgstr "Liu Anlu lets out a roar. \"Fine, then! Today I got nothin' left to lose — come and die!\""
+
+msgid "刘安禄使开单刀，招数精奇，沈猛狠辣，和刚才简直判若两人！"
+msgstr "Liu Anlu cuts loose with his saber — tricky, savage, ruthless. He's a different man from a moment ago!"
+
+msgid "刘安禄沉默了半晌，低声道：野羊寨的大寨主霍铮，是我拜过把子的大哥。"
+msgstr "Liu Anlu is silent a long while. Then, low: \"Huo Zheng, Chief of Goathill Stockade — he's my sworn big brother.\""
+
+msgid "半年前，北麓那座黑砖道观的道士上山要人。大哥跟他们走了，再没回来。那伙人自称逆灵宫。"
+msgstr "Half a year back, Daoists from that black-brick abbey on the north slope came up the mountain asking for him. Big Brother went with 'em and never came back. That lot calls itself the Black Palace."
+
+msgid "黄霸——老三——把寨子接了过去，每年给道观纳供，金帛、牲口，要什么送什么。我不肯伺候那群臭道士，就下了山。"
+msgstr "Huang Ba — our Third — took over the stockade. Pays the abbey tribute every year: gold, silk, livestock, whatever they want. I wasn't gonna wait on those stinking Daoists hand and foot, so I came down the mountain."
+
+msgid "纳供的车这几天就上山。到了山路转角，道士从北边山壁的裂口把东西吊上去——道观就在裂口上头。你要去，替我看一眼大哥。"
+msgstr "The tribute carts go up any day now. At the bend in the mountain road, the Daoists haul the goods up through a crack in the north cliff — the abbey sits right on top of it. If you're going, take a look at my big brother for me."
+
+msgid "……大哥的事，等你知道野羊山北麓是个什么地方再说。"
+msgstr "...Big Brother's business can wait till you know what kind of place the north slope of Goathill is."
+
+msgid "大寨主？我是淳风武馆的门房，哪来的什么大寨主。"
+msgstr "Chief? I'm the gatekeeper at Pure Wind Hall. What chief?"
+
+msgid "野羊山寨二寨主"
+msgstr "Second Chief of Goathill Stockade"
+
+msgid "武馆弟子"
+msgstr "Hall Disciple"
+
+msgid "店小二"
+msgstr "Waiter"
+
+msgid "小二哥"
+msgstr "waiter"
+
+msgid "笑咪咪地说道：这位$RESPECT，进来喝杯茶，歇歇腿吧。"
+msgstr " says with a grin, \"Come on in for a cup of tea and rest your legs, $RESPECT.\""
+
+msgid "用脖子上的毛巾抹了抹手，说道：这位$RESPECT，请进请进。"
+msgstr " wipes his hands on the towel round his neck. \"Come in, come in, $RESPECT!\""
+
+msgid "这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖子里开封的哟。"
+msgstr "Come in for a cup or two of our red wine, $RESPECT — only just unsealed from the cellar!"
+
+msgid "鸡腿骨头别扔，东街那两条野狗见了骨头就跟人走，怪得很。"
+msgstr "Don't toss those chicken bones. The two strays on East Street'll follow anybody with a bone. Funny thing."
+
+msgid "哟，可算清净了！来，刚烤好的鸡腿，小店的一点心意。"
+msgstr "Ooh, peace and quiet at last! Here — a fresh-roasted chicken leg, on the house."
+
+msgid "唉，别提了。楼上几间客房闹老鼠，客人嫌吵，掌柜的又舍不得请人。这位$RESPECT要是肯上去收拾收拾，小店请您吃顿热的。"
+msgstr "Ugh, don't get me started. Rats in the rooms upstairs, the guests complain about the racket, and the boss is too stingy to hire anybody. If you'd go up and clear them out, $RESPECT, there's a hot meal in it for you."
+
+msgid "多亏了您！……他们把您楼上那屋翻了个底朝天，问那只匣子问了三遍，小的说不知道。"
+msgstr "Thank heavens for you! ...They turned your room upstairs inside out and asked about that casket three times. I told them I didn't know a thing."
+
+msgid "掌柜的说了：楼上那间屋给您留着，往后不收钱。您是咱们雪亭的人。"
+msgstr "The boss says the room upstairs is yours, free from now on. You're one of us Snow Pavilion folk."
+
+msgid "捂着青了半边的脸，压低了声音。"
+msgstr " covers the bruised half of his face and drops his voice."
+
+msgid "两个白衣的官爷，拿着一张画像，说您是什么逆灵宫的同党……就在里头翻呢！掌柜的拦了一下，挨了一脚。"
+msgstr "Two officials in white, with a portrait — saying you're in league with the Black Palace or some such... they're tearing the place apart in there! The boss tried to stop them and got a boot for it."
+
+msgid "白衣人？前些日子广场上那队官爷，都是穿白的。"
+msgstr "Men in white? That troop of officials in the square the other day — they all wore white."
+
+msgid "外头广场上来了官爷，一队白衣的武官，还有两位老者坐着，说是大内来的高手。这位$RESPECT要是闲，去瞧瞧热闹也好。"
+msgstr "There's officials out in the square — a troop of officers in white, and two old gents sitting with them. Masters from the Palace, they say. If you've got the time, $RESPECT, go have a look. Quite the show."
+
+msgid "小哥您有所不知，这些个爷儿们是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的。他们等的白道长，便是咱们这附近有名的太乙观观主。"
+msgstr "You wouldn't know, friend — these fine gentlemen are on His Majesty's own orders, off to Lancheng to find some sword they call the Whirling Edge. The Daoist Bai they're waiting on, he's the abbot of Taiyi Abbey, famous round these parts."
+
+msgid "$RESPECT，您来的那天傍晚说是来投淳风武馆的，饭没吃完就困得睁不开眼，是小的扶您上的楼。这封信落在桌上了，小的一直替您收着呢。"
+msgstr "The evening you got here, $RESPECT, you said you'd come to join Pure Wind Hall — then you could hardly keep your eyes open before you'd finished supper, and I helped you up the stairs. You left this letter on the table. I've been keeping it for you."
+
+msgid "从柜台底下摸出一封折了又折的信，递给你。"
+msgstr " pulls a letter, folded over and over, from under the counter and hands it to you."
+
+msgid "对了，外头广场上来了官爷，一队白衣的武官，还有两位老者坐着，说是大内来的高手。$RESPECT要是闲，去瞧瞧热闹也好。"
+msgstr "Oh, and — there's officials out in the square. A troop of officers in white, and two old gents sitting with them. Masters from the Palace, they say. If you've got the time, $RESPECT, go have a look."
+
+msgid "这些个爷儿们是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的。他们等的白道长，便是咱们这附近有名的太乙观观主。"
+msgstr "These fine gentlemen are on His Majesty's own orders, off to Lancheng to find some sword they call the Whirling Edge. The Daoist Bai they're waiting on, he's the abbot of Taiyi Abbey, famous round these parts."
+
+msgid "请柬早给您了。正月十七，水烟阁外头的虹台——您可别忘了。"
+msgstr "I gave you the invitation already. Seventeenth of the first month, the Rainbow Terrace outside Waterfog Pavilion — don't you forget."
+
+msgid "哟，您可回来了！前两天水烟阁差人送来一张帖子，指名道姓给您的。"
+msgstr "Well, look who's back! Couple days ago Waterfog Pavilion sent a man over with an invitation — addressed to you, by name."
+
+msgid "从柜台底下摸出一张大红帖子，在围裙上擦了擦手，双手递给你。"
+msgstr " pulls a big red invitation card from under the counter, wipes his hands on his apron, and offers it to you with both hands."
+
+msgid "请柬？没有您的信啊。"
+msgstr "An invitation? Nothing's come for you."
+
+msgid "看见你进门，眼睛一亮，从柜台后头钻了出来。"
+msgstr " spots you coming in, lights up, and scurries out from behind the counter."
+
+msgid "$RESPECT，您可回来了！前两天水烟阁差人送来一张帖子，指名道姓给您的。"
+msgstr "You're back at last, $RESPECT! Couple days ago Waterfog Pavilion sent a man over with an invitation — addressed to you, by name."
+
+msgid "正月十七，水烟阁外头的虹台，九派选盟主——小的长这么大，还没见过咱们雪亭的人拿这种帖子。"
+msgstr "Seventeenth of the first month, at the Rainbow Terrace outside Waterfog Pavilion, the nine schools pick an Alliance Leader. All my life I never saw one of us Snow Pavilion folk get an invitation like that."
+
+msgid "柳绘心"
+msgstr "Liu Huixin"
+
+msgid "封山剑派北宗"
+msgstr "Empty Mountain School, North Branch"
+
+msgid "弟子"
+msgstr "Disciple"
+
+msgid "我每天夜里读一页。爹爹年轻的时候，字写得比现在放得开。"
+msgstr "I read one page every night. When Father was young, his hand was freer than it is now."
+
+msgid "爹爹把它锁起来了，是不是？……他什么都锁起来。"
+msgstr "Father locked it away, didn't he? ...He locks everything away."
+
+msgid "爹爹在天驼关写过一卷书，我只听李教头提过一句。他从来不让我看。"
+msgstr "Father wrote a book at Camelback Pass. Instructor Li mentioned it once, that's all. Father never lets me see it."
+
+msgid "虹台上的事还没完。等散了会再说。"
+msgstr "The Rainbow Terrace business isn't over. Let's talk once the gathering breaks up."
+
+msgid "北宗现在有两个人了。"
+msgstr "The North Branch has two people now."
+
+msgid "你选了爹爹那一边。我不怪你。"
+msgstr "You chose Father's side. I don't blame you."
+
+msgid "的眼圈红了一下，很快又忍了回去。"
+msgstr "'s eyes redden for a moment. She quickly holds it back."
+
+msgid "那北宗就有两个人了。"
+msgstr "Then the North Branch has two people."
+
+msgid "「点」字诀爹爹没教过我，是我自己看他练剑悟的：劲不在手臂上，在剑尖上。你看——"
+msgstr "Father never taught me the \"Point\" technique. I worked it out watching him practice: the force isn't in your arm. It's in the tip of the sword. Look —"
+
+msgid "的细剑平平递出，剑尖在廊柱上一点，柱子背面迸出一小块木屑。"
+msgstr "'s slender sword slides straight out. Its tip touches a pillar of the walkway — and a chip of wood bursts from the far side."
+
+msgid "内力不够的时候别使，剑会脱手。我脱过好几回。"
+msgstr "Don't use it when your inner force is low — the sword'll fly out of your hand. Mine has, plenty of times."
+
+msgid "爹爹不会再教你了。对不起。……可是阿桂他们，往后也算你的师弟师妹。"
+msgstr "Father won't teach you anymore. I'm sorry. ...But Agui and the others — from now on they're your juniors too."
+
+msgid "北宗？绮云镇口的公告上还这么写呢。爹爹说那是旧名。"
+msgstr "The North Branch? The notice at the Cloudweave Town gate still says so. Father says that's an old name."
+
+msgid "劲不在手臂上，在剑尖上。内力不够别使，剑会脱手。"
+msgstr "The force isn't in your arm. It's in the tip of the sword. Don't use it when your inner force is low — the sword'll fly out of your hand."
+
+msgid "爹爹练剑的时候，我在窗后头看过。"
+msgstr "When Father practiced, I used to watch from behind the window."
+
+msgid "正月十七的事过去了。北宗的剑，照旧教人。"
+msgstr "The seventeenth is behind us. The North Branch's sword still teaches."
+
+msgid "北宗这一票，正月十七照你说的投。"
+msgstr "The North Branch votes the way you said, on the seventeenth."
+
+msgid "颜违许了北宗一个座。北宗能在虹台上坐下来，是你陪我走出来的——这一票投颜违，是说好了的。"
+msgstr "Yan Wei promised the North Branch a seat. We got to sit on the Rainbow Terrace because you walked out with me — this vote goes to Yan Wei. That was the deal."
+
+msgid "把剑在膝上横过来，想了想。"
+msgstr " lays the sword across her knees and thinks it over."
+
+msgid "可你要是想自己站出来，这一票我给你。"
+msgstr "But if you want to stand up yourself, this vote is yours."
+
+msgid "虹台？那是爹爹的事。"
+msgstr "The Rainbow Terrace? That's Father's business."
+
+msgid "虹台上已经入了席。票就是票了。"
+msgstr "We've taken our seats on the Rainbow Terrace. A vote is a vote."
+
+msgid "封山那一票在爹爹手里。你去问他。"
+msgstr "The Empty Mountain vote is in Father's hands. Go ask him."
+
+msgid "说过了。北宗听你的。"
+msgstr "We've been through this. The North Branch goes with you."
+
+msgid "笑了一下。"
+msgstr " smiles a little."
+
+msgid "好。北宗的座，听你的。"
+msgstr "All right. The North Branch's seat is yours to call."
+
+msgid "……"
+msgstr "......"
+
+msgid "这是爹爹收起来的那一卷……你从哪里拿来的？还回去吧。"
+msgstr "This is the book Father put away... Where did you get it? Put it back."
+
+msgid "接过书，翻开第一页，手停住了。"
+msgstr " takes the book and opens to the first page. Her hand stops."
+
+msgid "「直竹贵地生，风吹动不止」……这是爹爹的字。他从来没给我看过。"
+msgstr "\"Straight bamboo, rooted deep in good earth; the wind blows, and it never stops moving.\" ...This is Father's hand. He never showed me this."
+
+msgid "「起迄中空立，随风飘不定」——原来他年轻的时候，也想过剑可以是弯的。"
+msgstr "\"Hollow it stands, from root to tip; it sways with the wind, never still.\" — So when he was young, he thought a sword could bend too."
+
+msgid "把书抱在怀里。"
+msgstr " hugs the book to her chest."
+
+msgid "你……过两日到内院来。我给你看一样东西。别告诉爹爹。"
+msgstr "You... come to the inner court in a couple of days. I want to show you something. Don't tell Father."
+
+msgid "这上头是……爹爹的名字？你先去见过爹爹再说吧。"
+msgstr "Is this... Father's name on it? Go and see Father first."
+
+msgid "北宗就我们两个人，打坏了谁教阿桂他们？"
+msgstr "There's only two of us in the North Branch. If one of us gets hurt, who teaches Agui and the rest?"
+
+msgid "师姐！别整天想著练功嘛，我们去花园摘花儿玩嘛？"
+msgstr "Big Sister! Don't think about training all day — let's go pick flowers in the garden, okay?"
+
+msgid "我才不要，你们去找李教头练吧！"
+msgstr "No way! Go train with Instructor Li!"
+
+msgid "爹爹说过，不能跟你们这些江湖人物比武过招。"
+msgstr "Father says I'm not allowed to spar with you jianghu types."
+
+msgid "柳淳风"
+msgstr "Liu Chunfeng"
+
+msgid "风雨双侠"
+msgstr "the Wind-and-Rain Swordsman"
+
+msgid "柳馆主"
+msgstr "Master Liu"
+
+msgid "封山剑派"
+msgstr "Empty Mountain School"
+
+msgid "掌门人"
+msgstr "Master"
+
+msgid "书在匣里。年轻时的糊涂话，留着给自己看。"
+msgstr "The book is in the box. Foolish words from my youth. I keep them for myself."
+
+msgid "书在绘心那里。……她读得比我当年明白。"
+msgstr "The book is with Huixin. ...She reads it more clearly than I did at her age."
+
+msgid "竹林道尽头那块大黄石，照我教你的法子推。书取出来，带回来。"
+msgstr "The big yellow boulder at the end of the bamboo path — push it the way I taught you. Take the book out, and bring it back."
+
+msgid "看着窗外的竹影，半晌才开口。"
+msgstr " looks at the bamboo shadows outside the window for a long time before he speaks."
+
+msgid "二十岁那年，我在天驼关的竹林里住过一冬，悟出一点架剑的道理，写成一卷，起名《悟疾风劲竹书》，留在竹林尽头的石室里。"
+msgstr "The year I turned twenty, I spent a winter in the bamboo grove at Camelback Pass. I came to understand a little about how a sword holds its ground, and I wrote it into a book. I called it \"Bamboo Against the Gale,\" and I left it in the stone chamber at the far end of the grove."
+
+msgid "石室的口子有一块大黄石堵着。硬推，没有几十年的内力推不动——我当年也推不动。"
+msgstr "A great yellow boulder blocks the mouth of the chamber. Shove it, and without decades of inner force it will not move. I could not move it then, either."
+
+msgid "那块石头不是那样推的。贴着它左下角那道青苔印，肩抵住，脚蹬石根；等风过竹林、石头自己松那一下，再发力。竹子是这么弯的，石头也是这么开的。"
+msgstr "That is not how the stone is pushed. Set your shoulder against the moss mark at its lower left, brace your feet at its base, and wait — when the wind runs through the bamboo, the stone gives a little on its own. Push then. That is how bamboo bends, and that is how the stone opens."
+
+msgid "书只有那一本。你替我取出来。"
+msgstr "There is only the one copy. Bring it out for me."
+
+msgid "一卷旧书罢了。"
+msgstr "Just an old book."
+
+msgid "本宗的规矩，从今往后是你我两个人守。"
+msgstr "From now on, the rules of our school are kept by two people: you and me."
+
+msgid "你选了。武馆的门不拦你——只是剑，我不能再教了。"
+msgstr "You have chosen. The hall's door is not closed to you — but the sword, I can no longer teach you."
+
+msgid "点了点头，像是早知道，又像是松了一口气。"
+msgstr " nods, as if he knew all along — or as if something has been lifted from him."
+
+msgid "好。那从今日起，「点」字诀归你。"
+msgstr "Good. Then from today, the \"Point\" technique is yours."
+
+msgid "平时使剑，内力聚在手臂上；「点」字诀把劲力聚在剑尖，以意使剑。刺出去的那一下，比你现在重得多——内力不够的时候别使，剑会脱手。"
+msgstr "When you use a sword, your inner force gathers in your arm. The \"Point\" technique gathers it in the tip of the blade, and the mind drives the sword. That one thrust strikes far harder than anything you have now. Do not use it when your inner force is low — the sword will leave your hand."
+
+msgid "拔出玄苏剑，剑尖在你面前的青砖上轻轻一点。砖没有裂，砖下的土陷下去一个指头深的坑。"
+msgstr " draws his sword and touches its tip lightly to the stone tile in front of you. The tile does not crack. The earth beneath it sinks a finger deep."
+
+msgid "封山这一辈，掌门的剑往后传给你。"
+msgstr "In this generation of Empty Mountain, the Master's sword passes to you."
+
+msgid "绘心……她要走，我不拦。"
+msgstr "Huixin... If she wants to leave, I will not stop her."
+
+msgid "封山剑派只有一宗。"
+msgstr "There is only one Empty Mountain School."
+
+msgid "劲在剑尖，意在剑先。内力不够的时候别使。"
+msgstr "The force in the tip, the mind ahead of the sword. Do not use it when your inner force is low."
+
+msgid "绘心自己悟的那一路，劲发得早了半分。你替我告诉她——不，不必说是我说的。"
+msgstr "The way Huixin worked out for herself releases the force a hair too early. Tell her for me — no. No need to say it came from me."
+
+msgid "「点」字诀是掌门一脉单传的。"
+msgstr "The \"Point\" technique passes from Master to heir, one at a time."
+
+msgid "镇上清净了。门户的名头不是谁都能借的——这一回，是你替武馆拿回来的。"
+msgstr "The town is quiet again. Not just anyone may borrow our school's name — this time, you won it back for the hall."
+
+msgid "镇西官道上那几个人，你去会一会。先看清他们凭的是什么，再动手。"
+msgstr "Those men on the road west of town — go and meet them. See first what they are relying on. Then act."
+
+msgid "放下手里的茶，看了你一眼。"
+msgstr " sets down his tea and looks at you."
+
+msgid "既入了门，武馆的事你也该担一件。"
+msgstr "You have joined us. It is time you shouldered some of the hall's business."
+
+msgid "这几日有来投师的人说，在镇西的青石官道上交过「拜师钱」——十两银子，收钱的自称封山弟子。淳风武馆收徒，从来不收这个钱。"
+msgstr "These past few days, people who came to join us say they paid an \"entrance fee\" on the Bluestone Road west of town — ten taels of silver, to men calling themselves Empty Mountain disciples. Pure Wind Hall has never charged a student a single coin."
+
+msgid "我不便去。掌门出手打几个骗子，传出去是笑话。你是新面孔，他们不认得你——去看看他们凭的是什么。"
+msgstr "It would not do for me to go. A Master beating up a few swindlers would be the joke of the town. You are a new face; they will not know you. Go and see what they are relying on."
+
+msgid "武馆自家的事，不劳外人费心。"
+msgstr "The hall's own affairs are no concern of outsiders."
+
+msgid "牌我收着。逄师弟什么时候自己来取，什么时候还他。"
+msgstr "I will keep the token. Whenever Brother Pang comes for it himself, he shall have it back."
+
+msgid "他认了就好。牌给我吧。"
+msgstr "If he has owned up, that is enough. Give me the token."
+
+msgid "牌没带回来？……丢了也好，省得再有人拿它骗人。"
+msgstr "You did not bring the token back? ...Perhaps it is as well it is lost. No one else can cheat with it."
+
+msgid "门户的名头，不是谁都能借的。这件事你办得干净——从今日起，你是这一辈的大弟子。"
+msgstr "Not just anyone may borrow our school's name. You handled this cleanly — from today, you are the senior disciple of your generation."
+
+msgid "还有一件事，李教头会同你说。"
+msgstr "There is one more thing. Instructor Li will tell you."
+
+msgid "接过腰牌翻过来，看见背面那个字，半晌没有说话。"
+msgstr " takes the waist token and turns it over. Seeing the name on the back, he says nothing for a long while."
+
+msgid "逄……是逄义师弟的牌。同辈里他的剑不比我差，只是好赌。"
+msgstr "Pang... This is Brother Pang Yi's token. Among our generation his sword was no worse than mine. He was only too fond of gambling."
+
+msgid "牌是真的，人是假的——那就是牌从他手里流出去了。他这些年多半泡在绮云镇的赌场里。"
+msgstr "The token is real; the man was not. So it passed out of his hands. These years he has most likely been soaking in the gambling dens of Cloudweave Town."
+
+msgid "你去问他一句：牌是怎么到外人手里的。问明白了，再把牌带回来。"
+msgstr "Go and ask him one thing: how the token came into a stranger's hands. When you have the answer, bring the token back."
+
+msgid "把腰牌递还给你。"
+msgstr " hands the waist token back to you."
+
+msgid "封山弟子人人有一块腰牌，正面一座山，背面是自己的姓。你的那块，等你的剑入了门再说。"
+msgstr "Every Empty Mountain disciple has a waist token: a mountain on the front, the owner's surname on the back. Yours will come when your sword is worthy of the school."
+
+msgid "他肯认，就还是封山的人。"
+msgstr "If he owns up, he is still one of Empty Mountain."
+
+msgid "逄师弟与我同辈，剑上的天分不在我之下。……好赌，多年不回武馆了。"
+msgstr "Brother Pang is of my generation. His gift with the sword was no less than mine. ...He loves to gamble. He has not come back to the hall in years."
+
+msgid "淳风武馆是先父所创，在下辱承其名，虽忝掌封山门户，不敢忘了先人遗志。"
+msgstr "My late father founded Pure Wind Hall, and I am unworthy of the name I bear. I keep the door of the Empty Mountain School only as a caretaker, and I have not forgotten what our forebears meant it to be."
+
+msgid "先父临终之时将这武馆交到在下手中，需得好好照看。"
+msgstr "On his deathbed, my late father placed this hall in my hands. I must look after it well."
+
+msgid "刘兄弟在寒舍管事已经五年了，过去之事不须再提。"
+msgstr "Brother Liu has kept house for me these five years. What lies in the past need not be raised again."
+
+msgid "你既然知道我是柳馆主，怎麽不知道我是柳淳风？"
+msgstr "If you know I am Master Liu, how do you not know I am Liu Chunfeng?"
+
+msgid "这里便是淳风武馆。"
+msgstr "This is Pure Wind Hall."
+
+msgid "听说大内的人在黄石隘口挖出了东西，又被人抢了去。抢东西的若是往老松岭去了，多半是投老松寨。"
+msgstr "I hear the Palace men dug something up at Yellow Rock Pass, and someone snatched it from them. If the thief went toward Old Pine Ridge, he has most likely gone to Old Pine Stockade."
+
+msgid "老松寨的常老大，人称泼风刀王，什么钱都收。要过他的寨门，带够银子；有本事的，就在寨门外叫阵——硬闯的人，没几个回来。"
+msgstr "Boss Chang of Old Pine Stockade — they call him the Storm-Blade King — takes any money going. To pass his gate, bring enough silver. If you have the skill, call him out at the gate. Of those who force their way in, few come back."
+
+msgid "黑冠黑衣的道士？这一带没有道观。你若在老松岭遇上，小心些，那种人下手没有分寸。"
+msgstr "A Daoist in a black cap and black robe? There is no abbey around here. If you meet him on Old Pine Ridge, be careful. His kind do not know when to stop."
+
+msgid "老岑的信，你留着。末一行我不认得——他说过他在山里见过一座城，我只当是饿昏了的话。"
+msgstr "Keep Old Cen's letter. The last line I cannot make out — he once told me he saw a city in the mountains. I took it for hunger talking."
+
+msgid "接过信，看了很久，又折好还给你。"
+msgstr " takes the letter and looks at it a long time, then folds it and gives it back."
+
+msgid "老岑……二十多年前我在山里迷了路，三天没吃东西，是个砍柴的老人领我下的山。他不识几个字——这封信，他写了多久啊。"
+msgstr "Old Cen... More than twenty years ago I got lost in the mountains and went three days without food. An old woodcutter led me down. He barely knew how to write — how long this letter must have taken him."
+
+msgid "他托你来，武馆的门你随时进。拜不拜师，你自己定。"
+msgstr "He sent you to me, so the hall's door is open to you whenever you like. Whether you become my student is yours to decide."
+
+msgid "末一行我不认得。他说过他在山里见过一座城，铃声满耳……我只当是饿昏了的话。你收好。"
+msgstr "The last line I cannot make out. He once told me he saw a city in the mountains, its bells ringing in his ears... I took it for hunger talking. Keep it safe."
+
+msgid "什么信？"
+msgstr "What letter?"
+
+msgid "柳淳风的引荐信"
+msgstr "Liu Chunfeng's Letter of Introduction"
+
+msgid "看了你一眼。"
+msgstr " glances at you."
+
+msgid "信没了？……罢了，我再写一封。"
+msgstr "The letter is gone? ...Never mind. I will write another."
+
+msgid "提笔又写了一封信，封好了交给你。"
+msgstr " takes up his brush, writes another letter, seals it and hands it to you."
+
+msgid "这回收好。潘军禅认信不认人。"
+msgstr "Keep this one safe. Pan Junchan honors the letter, not the face."
+
+msgid "信已经给你了。去水烟阁找潘军禅，他是我的结拜义弟，见信如见我。"
+msgstr "I have given you the letter. Go to Waterfog Pavilion and find Pan Junchan. He is my sworn brother; my letter is as good as my presence."
+
+msgid "听你说完山洞里的事，沉默了半晌。"
+msgstr " hears out what happened in the cave, then is silent a long while."
+
+msgid "洞里那个道士，是你杀的？……头一回手上沾血，夜里睡得着就好。睡不着，来武馆找我，我陪你坐一坐。"
+msgstr "The Daoist in the cave — you killed him? ...The first blood on your hands. If you can sleep tonight, good. If you cannot, come to the hall. I will sit with you a while."
+
+msgid "二十年前，振远镖局押一趟镖过老松岭，镖师随从一个都没回来。镖局丢了脸，陈剑秋到今天都不肯提。"
+msgstr "Twenty years ago, the Zhenyuan Escorts — the Far-Road Escorts — took a shipment over Old Pine Ridge. Not one guard or porter came back. The agency lost face, and Chen Jianqiu will not speak of it to this day."
+
+msgid "那具骸骨若真是水烟阁的人，这事就该问水烟阁。我写一封信，你拿去给执法使潘军禅，他是我的结拜义弟。"
+msgstr "If those bones truly belong to one of Waterfog Pavilion's people, then this is a question for Waterfog Pavilion. I will write a letter. Take it to their Enforcer, Pan Junchan. He is my sworn brother."
+
+msgid "提笔写了一封信，封好了交给你。"
+msgstr " takes up his brush, writes a letter, seals it and hands it to you."
+
+msgid "先去绮云镇问问陈剑秋，把镖单要来。上了山，别带着兵刃进阁。"
+msgstr "First go to Cloudweave Town and ask Chen Jianqiu for the shipment ledger. When you go up the mountain, do not carry a weapon into the Pavilion."
+
+msgid "还有一件：前夜老松岭上起了火，山下都看得见——是老松寨。那道士的同伙回来了，挨个问寨里的人：匣子在谁手里。夜里睡觉，把门闩上。"
+msgstr "One more thing. The night before last there was a fire on Old Pine Ridge — you could see it from the foot of the mountain. It was Old Pine Stockade. That Daoist's friends came back and asked everyone in the stockade, one by one, who has the casket. Bar your door when you sleep."
+
+msgid "水烟阁在青石官道西头的山上，武者同盟的总坛。"
+msgstr "Waterfog Pavilion is on the mountain at the west end of the Bluestone Road. It is the seat of the Martial Alliance."
+
+msgid "虹台上的事定了。封山守封山的规矩。"
+msgstr "The Rainbow Terrace is settled. Empty Mountain keeps Empty Mountain's rules."
+
+msgid "封山这一票，正月十七照你说的投。"
+msgstr "Empty Mountain votes the way you said, on the seventeenth."
+
+msgid "把手里的茶盏放下，半晌没有说话。"
+msgstr " sets down his teacup and says nothing for a long while."
+
+msgid "颜违许了北宗一个座。北宗的人上得了虹台，封山这一票，就跟着颜违走了。"
+msgstr "Yan Wei promised the North Branch a seat. If the North Branch can take its place on the Rainbow Terrace, then Empty Mountain's vote goes with Yan Wei."
+
+msgid "那一票不在我手里。你要说什么，去内院同绘心说。"
+msgstr "That vote is not in my hands. Whatever you have to say, say it to Huixin in the inner court."
+
+msgid "等盟主回来。二十年了，虹台上那把石椅，封山不替任何人去坐。"
+msgstr "We wait for the Alliance Leader to return. Twenty years — and Empty Mountain will sit in that stone chair on the Rainbow Terrace for no one."
+
+msgid "……你是掌门传人。你要这一票投你自己，你开口。"
+msgstr "...You are the Master's heir. If you want this vote for yourself, you have only to ask."
+
+msgid "封山这一票，等盟主回来。"
+msgstr "Empty Mountain's vote waits for the Alliance Leader to return."
+
+msgid "颜违要把那个「代」字去掉——他去他的。封山的剑不外传，封山的票也不跟着人走。"
+msgstr "Yan Wei wants to strike out the word \"Acting.\" Let him. Empty Mountain's sword is not taught to outsiders, and Empty Mountain's vote does not follow a man."
+
+msgid "正月十七的事？湖上的事还没了，说那个早了。"
+msgstr "The seventeenth? The business on the lake is not finished. It is too early to speak of that."
+
+msgid "那一票不在我手里。"
+msgstr "That vote is not in my hands."
+
+msgid "说过了。封山听你的。"
+msgstr "We have been through this. Empty Mountain goes with you."
+
+msgid "看了你很久，点了点头。"
+msgstr " looks at you a long while, then nods."
+
+msgid "好。封山听你的。"
+msgstr "Good. Empty Mountain goes with you."
+
+msgid "规矩是规矩。北宗的人，我不能再教了。"
+msgstr "Rules are rules. I can no longer teach anyone of the North Branch."
+
+msgid "这卷书，你不是已经给了绘心么。……拿回去还她。"
+msgstr "Did you not already give this book to Huixin? ...Take it back to her."
+
+msgid "接过书，没有翻开，用袖口把封皮上的灰擦了。"
+msgstr " takes the book without opening it, and wipes the dust from the cover with his sleeve."
+
+msgid "直竹贵地生……二十岁写的。那时候以为自己什么都懂。"
+msgstr "Straight bamboo, rooted deep... I wrote this at twenty. I thought I understood everything then."
+
+msgid "年轻时的糊涂话，收起来罢。"
+msgstr "Foolish words from my youth. Put them away."
+
+msgid "把书收进了案头的匣里。"
+msgstr " puts the book in the box on his desk."
+
+msgid "绘心这些日子常往内院去，一去就是半天。你改日替我看一眼。"
+msgstr "Huixin goes to the inner court often these days, and stays half the day. Look in on her for me sometime."
+
+msgid "这卷书……你从竹林里取出来的？先留着读。武馆的事办完了，再同我说。"
+msgstr "This book... you brought it out of the bamboo grove? Keep it and read it for now. When the hall's business is done, we will talk."
+
+msgid "把腰牌收进袖里。"
+msgstr " tucks the waist token into his sleeve."
+
+msgid "找回来了？我替他收着。"
+msgstr "You found it? I will keep it for him."
+
+msgid "牌我替他收着。他什么时候戒了赌，什么时候自己来取。"
+msgstr "I will keep the token for him. When he gives up gambling, he can come for it himself."
+
+msgid "牌是逄师弟的。你先去绮云镇问他一句，牌是怎么到外人手里的。"
+msgstr "The token is Brother Pang's. First go to Cloudweave Town and ask him how it came into a stranger's hands."
+
+msgid "你跟了她。……也好。她一个人，我不放心。"
+msgstr "You went with her. ...Perhaps that is best. I would not want her on her own."
+
+msgid "武馆的门不拦你。剑，我不能再教了——规矩是规矩。"
+msgstr "The hall's door is not closed to you. But the sword I can no longer teach you — rules are rules."
+
+msgid "刘兄弟的事，李教头回过我了。规矩是先父立的，我不能为他破。"
+msgstr "Instructor Li has told me about Brother Liu. The rule was my father's; I cannot break it for him."
+
+msgid "五年前我留他，是我的事；今天你说破，是你的事。都没有错。"
+msgstr "Five years ago I kept him on; that was my doing. Today you spoke it aloud; that was yours. Neither of us was wrong."
+
+msgid "……说到规矩。我年轻时在天驼关的竹林里留过一卷书，写的也是这两个字。改日同你说。"
+msgstr "...Speaking of rules. When I was young I left a book in the bamboo grove at Camelback Pass, and that is what it was about. I will tell you of it some other day."
+
+msgid "李教头说，那伙人认错了人。"
+msgstr "Instructor Li says those men had the wrong man."
+
+msgid "看了你很久。"
+msgstr " looks at you for a long while."
+
+msgid "刘兄弟的来历，五年前我就知道。你替他担了这句话——往后，也替武馆担着。"
+msgstr "I have known where Brother Liu came from for five years. You took that word on his behalf — from now on, carry it for the hall as well."
+
+msgid "你跟了绘心，就是北宗的人。本宗的门，我不能再为你开。"
+msgstr "You went with Huixin, so you belong to the North Branch. I can no longer open our school's door to you."
+
+msgid "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？"
+msgstr "One who studies the sword must be bold and careful both. To my eye, $RESPECT, your gifts do not seem suited to it."
+
+msgid "很好，$RESPECT多加努力，他日必定有成。"
+msgstr "Very good, $RESPECT. Work hard, and one day you will surely succeed."
+
+msgid "瘀伤"
+msgstr "bruise"
+
+msgid "抓伤"
+msgstr "scratch"
+
+msgid "刺伤"
+msgstr "stab wound"
+
+msgid "$N注视著$n的行动，企图寻找机会出手。"
+msgstr "$N {N:watch|watches} $n's every move, looking for a chance to strike."
+
+msgid "$N正盯著$n的一举一动，随时准备发动攻势。"
+msgstr "$N {N:keep|keeps} a close eye on $n, ready to attack at any moment."
+
+msgid "$N缓缓地移动脚步，想要找出$n的破绽。"
+msgstr "$N {N:shift|shifts} slowly on {N:his} feet, hunting for a gap in $n's guard."
+
+msgid "$N目不转睛地盯著$n的动作，寻找进攻的最佳时机。"
+msgstr "$N {N:stare|stares} hard at $n, waiting for the perfect moment to attack."
+
+msgid "$N慢慢地移动著脚步，伺机出手。"
+msgstr "$N {N:edge|edges} slowly about, biding {N:his} time."
+
+msgid "$N哈哈大笑，说道：承让了！"
+msgstr "$N {N:laugh|laughs} out loud. \"Thanks for going easy on me!\""
+
+msgid "$N双手一拱，笑著说道：承让！"
+msgstr "$N {N:clasp|clasps} {N:his} hands with a grin. \"You went easy on me!\""
+
+msgid "$N胜了这招，向後跃开三尺，笑道：承让！"
+msgstr "$N {N:take|takes} the exchange and {N:spring|springs} back three paces, laughing. \"Thanks for going easy on me!\""
+
+msgid "$n脸色微变，说道：佩服，佩服！"
+msgstr "$n {n:pale|pales} a little. \"Impressive. Truly impressive!\""
+
+msgid "$n向後退了几步，说道：这场比试算我输了，佩服，佩服！"
+msgstr "$n {n:fall|falls} back a few steps. \"This bout is yours. Impressive — truly impressive!\""
+
+msgid "$n向後一纵，躬身做揖说道：阁下武艺不凡，果然高明！"
+msgstr "$n {n:spring|springs} back and {n:bow|bows}, fist in palm. \"Your skill is remarkable. Masterful indeed!\""
+
+msgid "$N受到$n的内力反震，闷哼一声。"
+msgstr "$N {N:are|is} jolted by $n's inner force and {N:grunt|grunts}."
+
+msgid "$N被$n以内力反震，「嘿」地一声退了两步。"
+msgstr "$n's inner force throws $N back two steps. \"Hngh!\""
+
+msgid "$N被$n以内力一震，胸口有如受到一记重击，连退了五六步！"
+msgstr "$n's inner force hits $N like a hammer to the chest — $N {N:stagger|staggers} back five or six steps!"
+
+msgid "$N被$n的内力一震，眼前一黑，身子向後飞出丈许！！"
+msgstr "$n's inner force slams into $N. Everything goes black, and $N {N:fly|flies} a good ten feet backward!!"
+
+msgid "$N一击不中，露出了破绽！"
+msgstr "$N {N:miss|misses} and {N:leave|leaves} an opening!"
+
+msgid "$N见$n攻击失误，趁机发动攻击！"
+msgstr "$N {N:see|sees} $n's attack go wide and {N:seize|seizes} the chance!"
+
+msgid "结果没有造成任何伤害。"
+msgstr "It does no harm at all."
+
+msgid "擦伤"
+msgstr "graze"
+
+msgid "割伤"
+msgstr "cut"
+
+msgid "结果只是轻轻地划破$p的皮肉。"
+msgstr "It barely breaks {n:his} skin."
+
+msgid "结果在$p$l划出一道细长的血痕。"
+msgstr "It leaves a long, thin line of blood across {n:his} $l."
+
+msgid "结果「嗤」地一声划出一道伤口！"
+msgstr "With a hiss, it opens a wound!"
+
+msgid "结果「嗤」地一声划出一道血淋淋的伤口！"
+msgstr "With a hiss, it opens a bloody wound!"
+
+msgid "结果「嗤」地一声划出一道又长又深的伤口，溅得$N满脸鲜血！"
+msgstr "With a hiss, it opens a long, deep wound — blood sprays all over $N's face!"
+
+msgid "结果只听见$n一声惨嚎，$w已在$p$l划出一道深及见骨的可怕伤口！！"
+msgstr "$n {n:let|lets} out a terrible scream as $N's $w carves a gruesome wound to the bone in {n:his} $l!!"
+
+msgid "结果只是轻轻地刺破$p的皮肉。"
+msgstr "It barely pricks {n:his} skin."
+
+msgid "结果在$p$l刺出一个创口。"
+msgstr "It leaves a puncture in {n:his} $l."
+
+msgid "结果「噗」地一声刺入了$n$l寸许！"
+msgstr "With a thud, it sinks an inch into $n's $l!"
+
+msgid "结果「噗」地一声刺进$n的$l，使$p不由自主地退了几步！"
+msgstr "With a thud, it drives into $n's $l, forcing {n:him} back a few steps!"
+
+msgid "结果「噗嗤」地一声，$w已在$p$l刺出一个血肉模糊的血窟窿！"
+msgstr "With a wet thud, $N's $w punches a bloody hole in {n:his} $l!"
+
+msgid "结果只听见$n一声惨嚎，$w已在$p的$l对穿而出，鲜血溅得满地！！"
+msgstr "$n {n:let|lets} out a terrible scream as $N's $w runs clean through {n:his} $l — blood everywhere!!"
+
+msgid "结果只是轻轻地碰到，比拍苍蝇稍微重了点。"
+msgstr "It barely lands — a little harder than swatting a fly."
+
+msgid "结果在$p的$l造成一处瘀青。"
+msgstr "It leaves a bruise on {n:his} $l."
+
+msgid "结果一击命中，$n的$l登时肿了一块老高！"
+msgstr "A clean hit — $n's $l swells up at once!"
+
+msgid "结果一击命中，$n闷哼了一声显然吃了不小的亏！"
+msgstr "A clean hit — $n {n:grunt|grunts}, clearly hurting."
+
+msgid "结果「砰」地一声，$n退了两步！"
+msgstr "Thud! $n {n:stagger|staggers} back two steps!"
+
+msgid "结果这一下「砰」地一声打得$n连退了好几步，差一点摔倒！"
+msgstr "Thud! The blow knocks $n back several steps — {n:he} nearly {n:go|goes} down!"
+
+msgid "结果重重地击中，$n「哇」地一声吐出一口鲜血！"
+msgstr "A heavy hit — $n {n:cough|coughs} up a mouthful of blood!"
+
+msgid "结果只听见「砰」地一声巨响，$n像一捆稻草般飞了出去！！"
+msgstr "With a mighty thud, $n {n:go|goes} flying like a bundle of straw!!"
+
+msgid "结果只是勉强造成一处轻微{type}！"
+msgstr "It barely leaves a light {type}!"
+
+msgid "结果造成轻微的{type}！"
+msgstr "It leaves a light {type}!"
+
+msgid "结果造成一处{type}！"
+msgstr "It leaves a {type}!"
+
+msgid "结果造成一处严重{type}！"
+msgstr "It leaves a serious {type}!"
+
+msgid "结果造成颇为严重的{type}！"
+msgstr "It leaves a rather serious {type}!"
+
+msgid "结果造成相当严重的{type}！"
+msgstr "It leaves a very serious {type}!"
+
+msgid "结果造成十分严重的{type}！"
+msgstr "It leaves an extremely serious {type}!"
+
+msgid "结果造成极其严重的{type}！"
+msgstr "It leaves a grievous {type}!"
+
+msgid "结果造成非常可怕的严重{type}！"
+msgstr "It leaves a horrifying {type}!"
+
+msgid "伤害"
+msgstr "wound"
+
+msgid "看起来气血充盈，并没有受伤。"
+msgstr "{N:look|looks} hale and unhurt."
+
+msgid "似乎受了点轻伤，不过光从外表看不大出来。"
+msgstr "{N:seem|seems} lightly hurt, though it hardly shows."
+
+msgid "看起来可能受了点轻伤。"
+msgstr "{N:look|looks} like {N:he} might be lightly hurt."
+
+msgid "受了几处伤，不过似乎并不碍事。"
+msgstr "{N:have|has} taken a few wounds, but nothing serious."
+
+msgid "受伤不轻，看起来状况并不太好。"
+msgstr "{N:are|is} hurt badly and {N:look|looks} in poor shape."
+
+msgid "气息粗重，动作开始散乱，看来所受的伤著实不轻。"
+msgstr "{N:are|is} breathing hard, movements getting ragged — those wounds are no joke."
+
+msgid "已经伤痕累累，正在勉力支撑著不倒下去。"
+msgstr "{N:are|is} covered in wounds, struggling to stay on {N:his} feet."
+
+msgid "受了相当重的伤，只怕会有生命危险。"
+msgstr "{N:are|is} gravely wounded — {N:his} life may be in danger."
+
+msgid "伤重之下已经难以支撑，眼看就要倒在地上。"
+msgstr "{N:are|is} too badly hurt to hold out much longer — about to hit the ground."
+
+msgid "受伤过重，已经奄奄一息，命在旦夕了。"
+msgstr "{N:are|is} at death's door, barely breathing."
+
+msgid "受伤过重，已经有如风中残烛，随时都可能断气。"
+msgstr "{N:are|is} a candle in the wind, ready to go out at any moment."
+
+msgid "看起来充满活力，一点也不累。"
+msgstr "{N:look|looks} full of energy, not tired at all."
+
+msgid "似乎有些疲惫，但是仍然十分有活力。"
+msgstr "{N:seem|seems} a bit tired, but still plenty lively."
+
+msgid "看起来可能有些累了。"
+msgstr "{N:look|looks} like {N:he} might be getting tired."
+
+msgid "动作似乎开始有点不太灵光，但是仍然有条不紊。"
+msgstr "{N:are|is} starting to slow down, but still holding it together."
+
+msgid "气喘嘘嘘，看起来状况并不太好。"
+msgstr "{N:are|is} gasping for breath and {N:look|looks} in poor shape."
+
+msgid "似乎十分疲惫，看来需要好好休息了。"
+msgstr "{N:seem|seems} worn out — badly in need of rest."
+
+msgid "已经一副头重脚轻的模样，正在勉力支撑著不倒下去。"
+msgstr "{N:are|is} light-headed and heavy-footed, struggling to stay upright."
+
+msgid "看起来已经力不从心了。"
+msgstr "{N:look|looks} completely spent."
+
+msgid "摇头晃脑、歪歪斜斜地站都站不稳，眼看就要倒在地上。"
+msgstr "{N:are|is} reeling and swaying, barely able to stand — about to drop."
+
+msgid "已经陷入半昏迷状态，随时都可能摔倒晕去。"
+msgstr "{N:are|is} half-conscious, ready to keel over at any moment."
+
+msgid "中性神"
+msgstr "genderless"
+
+msgid "他"
+msgstr "him"
+
+msgid "她"
+msgstr "her"
+
+msgid "它"
+msgstr "it"
+
+msgid "挫伤"
+msgstr "contusion"
+
+msgid "鞭伤"
+msgstr "welt"
+
+msgid "挥拳"
+msgstr "Punch"
+
+msgid "$N挥拳攻击$n的$l"
+msgstr "$N {N:throw|throws} a punch at $n's $l"
+
+msgid "一抓"
+msgstr "Grab"
+
+msgid "$N往$n的$l一抓"
+msgstr "$N {N:grab|grabs} at $n's $l"
+
+msgid "踢腿"
+msgstr "Kick"
+
+msgid "$N往$n的$l狠狠地踢了一脚"
+msgstr "$N {N:kick|kicks} hard at $n's $l"
+
+msgid "捶击"
+msgstr "Hammer Fist"
+
+msgid "$N提起拳头往$n的$l捶去"
+msgstr "$N {N:raise|raises} a fist and {N:bring|brings} it down on $n's $l"
+
+msgid "横拳"
+msgstr "Hook"
+
+msgid "$N对准$n的$l用力挥出一拳"
+msgstr "$N {N:swing|swings} a hook square at $n's $l"
+
+msgid "斩"
+msgstr "Slash"
+
+msgid "$N挥动$w，斩向$n的$l"
+msgstr "$N {N:swing|swings} {N:his} $w in a slash at $n's $l"
+
+msgid "砍"
+msgstr "Hack"
+
+msgid "$N用$w往$n的$l砍去"
+msgstr "$N {N:hack|hacks} at $n's $l with {N:his} $w"
+
+msgid "砍伤"
+msgstr "gash"
+
+msgid "劈"
+msgstr "Cleave"
+
+msgid "$N的$w朝著$n的$l劈将过去"
+msgstr "$N's $w comes cleaving down at $n's $l"
+
+msgid "劈伤"
+msgstr "cleaving wound"
+
+msgid "乱砍"
+msgstr "Flurry"
+
+msgid "$N挥舞$w，对准$n的$l一阵乱砍"
+msgstr "$N {N:whirl|whirls} {N:his} $w and {N:hack|hacks} wildly at $n's $l"
+
+msgid "刺"
+msgstr "Thrust"
+
+msgid "$N用$w往$n的$l刺去"
+msgstr "$N {N:thrust|thrusts} {N:his} $w at $n's $l"
+
+msgid "捅"
+msgstr "Jab"
+
+msgid "$N的$w往$n的$l狠狠地一捅"
+msgstr "$N's $w jabs viciously at $n's $l"
+
+msgid "抽"
+msgstr "Lash"
+
+msgid "$N将$w一扬，往$n的$l抽去"
+msgstr "$N {N:raise|raises} {N:his} $w and {N:lash|lashes} at $n's $l"
+
+msgid "戳"
+msgstr "Poke"
+
+msgid "$N用$w往$n的$l直戳过去"
+msgstr "$N {N:drive|drives} {N:his} $w straight at $n's $l"
+
+msgid "射"
+msgstr "Shoot"
+
+msgid "$N将$w对准$n的$l射了过去"
+msgstr "$N {N:aim|aims} {N:his} $w at $n's $l and {N:let|lets} fly"
+
+msgid "砸"
+msgstr "Smash"
+
+msgid "$N挥舞$w，往$n的$l用力一砸"
+msgstr "$N {N:swing|swings} {N:his} $w and {N:smash|smashes} it down at $n's $l"
+
+msgid "当头砸"
+msgstr "Overhead Smash"
+
+msgid "$N高高举起$w，往$n的$l当头砸下"
+msgstr "$N {N:raise|raises} {N:his} $w high and {N:bring|brings} it crashing down on $n's $l"
+
+msgid "猛挥"
+msgstr "Wild Swing"
+
+msgid "$N手握$w，眼露凶光，猛地对准$n的$l挥了过去"
+msgstr "$N {N:grip|grips} {N:his} $w, eyes blazing, and {N:swing|swings} hard at $n's $l"
+
+msgid "{who} · {move} → {whom} · 闪开了"
+msgstr "{who} · {move} → {whom} · dodged"
+
+msgid "{who} · {move} → {whom} · 挡开了"
+msgstr "{who} · {move} → {whom} · parried"
+
+msgid "{who} · {move} → {whom} · 没伤到"
+msgstr "{who} · {move} → {whom} · no damage"
+
+msgid "绝招"
+msgstr "Special Move"
+
+msgid "你看不见对手，无从下手。"
+msgstr "You can't see your opponent — nothing to strike at."
+
+msgid "但是和$p$l偏了几寸。"
+msgstr "But it misses {n:his} $l by a few inches."
+
+msgid "但是被$p机灵地躲开了。"
+msgstr "But {n:he} nimbly {n:dodge|dodges} it."
+
+msgid "但是$n身子一侧，闪了开去。"
+msgstr "But $n {n:turn|turns} aside and {n:slip|slips} away."
+
+msgid "但是被$p及时避开。"
+msgstr "But {n:he} {n:avoid|avoids} it just in time."
+
+msgid "但是$n已有准备，不慌不忙的躲开。"
+msgstr "But $n {n:are|is} ready for it and calmly {n:step|steps} out of the way."
+
+msgid "只听见「锵」一声，被$p格开了。"
+msgstr "Clang! {n:he} {n:turn|turns} it aside."
+
+msgid "结果「当」地一声被$p挡开了。"
+msgstr "Clank! {n:he} {n:block|blocks} it."
+
+msgid "但是被$n用手中兵刃架开。"
+msgstr "But $n {n:turn|turns} it aside with {n:his} weapon."
+
+msgid "但是$n身子一侧，用手中兵刃格开。"
+msgstr "But $n {n:twist|twists} aside and {n:deflect|deflects} it with {n:his} weapon."
+
+msgid "但是被$p格开了。"
+msgstr "But {n:he} {n:turn|turns} it aside."
+
+msgid "结果被$p挡开了。"
+msgstr "But {n:he} {n:block|blocks} it."
+
+msgid "头部"
+msgstr "head"
+
+msgid "颈部"
+msgstr "neck"
+
+msgid "胸口"
+msgstr "chest"
+
+msgid "後心"
+msgstr "back"
+
+msgid "左肩"
+msgstr "left shoulder"
+
+msgid "右肩"
+msgstr "right shoulder"
+
+msgid "左臂"
+msgstr "left arm"
+
+msgid "右臂"
+msgstr "right arm"
+
+msgid "左手"
+msgstr "left hand"
+
+msgid "右手"
+msgstr "right hand"
+
+msgid "腰间"
+msgstr "waist"
+
+msgid "小腹"
+msgstr "belly"
+
+msgid "左腿"
+msgstr "left leg"
+
+msgid "右腿"
+msgstr "right leg"
+
+msgid "左脚"
+msgstr "left foot"
+
+msgid "右脚"
+msgstr "right foot"
+
+msgid "关闭"
+msgstr "Close"
+
+msgid "目标：{next}"
+msgstr "Objective: {next}"
+
+msgid "「"
+msgstr "\""
+
+msgid "」"
+msgstr "\""
+
+msgid "、"
+msgstr ","
+
+msgid "【见闻】{text}"
+msgstr "[Journal] {text}"
+
+msgid "下一步：{next}"
+msgstr "Next: {next}"
+
+msgid "【任务】{title}：{summary}"
+msgstr "[Quest] {title}: {summary}"
+
+msgid "【任务完成】{title}"
+msgstr "[Quest Complete] {title}"
+
+msgid "【任务中止】{title}：{text}"
+msgstr "[Quest Abandoned] {title}: {text}"
+
+msgid "攻击"
+msgstr "Attack"
+
+msgid "切磋"
+msgstr "Spar"
+
+msgid "菜单"
+msgstr "Menu"
+
+msgid "草往哪边倒，风就往哪边吹。"
+msgstr "The grass leans the way the wind blows."
+
+msgid "目标"
+msgstr "Objective"
+
+msgid "交互"
+msgstr "Interact"
+
+msgid "查看"
+msgstr "Look"
+
+msgid "打听"
+msgstr "Ask"
+
+msgid "通行"
+msgstr "Pass"
+
+msgid "拾取"
+msgstr "Pick Up"
+
+msgid "偷窃"
+msgstr "Steal"
+
+msgid "行贿"
+msgstr "Bribe"
+
+msgid "返回"
+msgstr "Back"
+
+msgid "跪下受戒就是剃度出家：{npc}会剃去你的头发，你从此是僧人。\n你的名字会改成法名：「{prefixes}」中随机一字，加上你名字的第一个字「{first}」（例如「{example}」），原来的名字从此不再使用。\n确定要跪下受戒吗？"
+msgstr "Kneeling for the precepts means taking the tonsure: {npc} will shave your head, and from then on you are a monk.\nYour name becomes a dharma name: one character at random from \"{prefixes}\", plus the first character of your name, \"{first}\" (for example \"{example}\"). Your old name is never used again.\nKneel for the precepts?"
+
+msgid "你可以打听这些事情："
+msgstr "You can ask about:"
+
+msgid "告辞"
+msgstr "Take Leave"
+
+msgid "接话：{line}"
+msgstr "Reply: {line}"
+
+msgid "打听 · %s"
+msgstr "Ask · %s"
+
+msgid "问"
+msgstr "Ask"
+
+msgid "确定受戒"
+msgstr "Take the Precepts"
+
+msgid "当前 {current} / 有效 {effective} / 最大 {maximum}"
+msgstr "Current {current} / Effective {effective} / Max {maximum}"
+
+msgid "建议：{next}"
+msgstr "Hint: {next}"
+
+msgid "切至左侧"
+msgstr "View Left"
+
+msgid "切换左侧与右侧 45° 固定视角"
+msgstr "Switch between the left and right fixed 45° views"
+
+msgid "切至右侧"
+msgstr "View Right"
+
+msgid "{action}：{what}"
+msgstr "{action}: {what}"
+
+msgid "拆招"
+msgstr "Drill"
+
+msgid "门派：{family}"
+msgstr "School: {family}"
+
+msgid "这里不准战斗。"
+msgstr "No fighting here."
+
+msgid "这里禁止战斗。"
+msgstr "Fighting is forbidden here."
+
+msgid "%s已经无法战斗了。"
+msgstr "%s can't fight anymore."
+
+msgid "你必须先把%s弄醒。"
+msgstr "You'll have to wake %s up first."
+
+msgid "发誓恪守门规"
+msgstr "Swear to Keep the Rules"
+
+msgid "接受测试"
+msgstr "Take the Test"
+
+msgid "取消拜师请求"
+msgstr "Withdraw Request"
+
+msgid "确定拜师"
+msgstr "Become a Disciple"
+
+msgid "确定发誓"
+msgstr "Swear"
+
+msgid "；"
+msgstr ";"
+
+msgid "{action}{thing}"
+msgstr "{action} {thing}"
+
+msgid "昏迷不醒，约 {n} 秒后醒来"
+msgstr "Unconscious — wakes in about {n} s"
+
+msgid "昏迷不醒"
+msgstr "Unconscious"
+
+msgid "正等着你留下买路财"
+msgstr "Waiting for you to pay the toll"
+
+msgid "{pronoun}是你的{relation}。"
+msgstr "Your {relation}."
+
+msgid "里面有{count}件物品。"
+msgstr "Items inside: {count}."
+
+msgid "离得太远，够不着。"
+msgstr "Too far away to reach."
+
+msgid "打开"
+msgstr "Open"
+
+msgid "请教打法"
+msgstr "Ask How It Fights"
+
+msgid "听{npc}用自己的话讲这门功夫怎么打。"
+msgstr "Have {npc} explain how this art wins its fights."
+
+msgid "三回合，点到为止、不伤人；打完{npc}会点破这门功夫靠什么赢。"
+msgstr "Three rounds, stopping short of harm. Afterward {npc} points out what this art wins with."
+
+msgid "请安"
+msgstr "Pay Respects"
+
+msgid "拜师"
+msgstr "Become a Disciple"
+
+msgid "给予"
+msgstr "Give"
+
+msgid "{npc}昏迷不醒，收不了东西。"
+msgstr "{npc} is unconscious and can't take anything."
+
+msgid "确定{action}吗？"
+msgstr "{action} — are you sure?"
+
+msgid "确定要拜{npc}为师吗？"
+msgstr "Become {npc}'s disciple?"
+
+msgid "收徒条件："
+msgstr "Requirements:"
+
+msgid "· {condition} ✓"
+msgstr "· {condition} ✓"
+
+msgid "· {condition} ✗"
+msgstr "· {condition} ✗"
+
+msgid "· {condition}"
+msgstr "· {condition}"
+
+msgid "还差：{conditions}"
+msgstr "Still missing: {conditions}"
+
+msgid "不收徒。"
+msgstr "Takes no students."
+
+msgid "拜师条件都已满足（详见拜师）。"
+msgstr "You meet every requirement (see Become a Disciple)."
+
+msgid "拜师条件还差 {missing} 项（详见拜师）。"
+msgstr "Requirements still unmet: {missing} (see Become a Disciple)."
+
+msgid "确定向{npc}发誓恪守门规吗？"
+msgstr "Swear to {npc} that you will keep the school's rules?"
+
+msgid "确定取消拜师请求吗？"
+msgstr "Withdraw your request?"
+
+msgid "确定取消"
+msgstr "Withdraw"
+
+msgid "传授：{skills}"
+msgstr "Teaches: {skills}"
+
+msgid "{skill}：{line}"
+msgstr "{skill}: {line}"
+
+msgid "没有找到存档。"
+msgstr "No saves found."
+
+msgid "有一份存档可以继续。"
+msgstr "There's a save you can continue."
+
+msgid "主存档无法使用，但有可以恢复的存档。"
+msgstr "The main save can't be used, but there's a save you can recover."
+
+msgid "存档无法读取。"
+msgstr "The save can't be read."
+
+msgid "此存档来自不兼容的开发版本，请开始新游戏。"
+msgstr "This save is from an incompatible development version. Please start a new game."
+
+msgid "这份存档来自不支持的版本。"
+msgstr "This save is from an unsupported version."
+
+msgid "现在无法检查存档。"
+msgstr "Can't check saves right now."
+
+msgid "操作完成。"
+msgstr "Done."
+
+msgid "还有一项操作没有完成。"
+msgstr "Something else is still in progress."
+
+msgid "无法开始这段旅程。"
+msgstr "Couldn't start this journey."
+
+msgid "存档无法恢复。"
+msgstr "The save couldn't be recovered."
+
+msgid "这份存档之后地图改过，存档时你站的地方现在站不了人，读不进来。"
+msgstr "The map has changed since this save: the spot you saved on can't be stood on anymore, so it won't load."
+
+msgid "手动存档不受影响；新角色第一次自动存档时会覆盖现在的自动存档。"
+msgstr "Manual saves aren't affected. The new character's first autosave will overwrite the current autosave."
+
+msgid "覆盖这一位的存档？"
+msgstr "Overwrite the save in this slot?"
+
+msgid "读取这份存档？上次存档之后的进度会丢失。"
+msgstr "Load this save? Anything since you last saved will be lost."
+
+msgid "回到上次自动存档？这之后的进度都会丢失。"
+msgstr "Go back to the last autosave? Everything since then will be lost."
+
+msgid "已存档。"
+msgstr "Saved."
+
+msgid "战斗中或动作还没完成时不能存档。"
+msgstr "You can't save during a fight or while an action is still going."
+
+msgid "这段戏还没演完，看完再存档。"
+msgstr "This scene isn't over yet — save once it's done."
+
+msgid "在两个地区之间移动时不能存档。"
+msgstr "You can't save while traveling between regions."
+
+msgid "角色的生死状态还在变化，暂时不能存档。"
+msgstr "Someone's life hangs in the balance — you can't save just now."
+
+msgid "身上有无法保存的临时效果，暂时不能存档。"
+msgstr "You're under a temporary effect that can't be saved — you can't save just now."
+
+msgid "旅程还没准备好，暂时不能存档。"
+msgstr "The journey isn't ready yet — you can't save just now."
+
+msgid "这里不能存档，挪一步再试。"
+msgstr "You can't save here. Take a step and try again."
+
+msgid "有人正在替你做的事还没完，等一会儿再存档。"
+msgstr "Someone's still doing something for you — wait a moment, then save."
+
+msgid "无法整理当前旅程以便存档。"
+msgstr "Couldn't gather up the current journey to save it."
+
+msgid "存档无法写入。"
+msgstr "The save couldn't be written."
+
+msgid "上次存档之后的进度可能会丢失。"
+msgstr "Progress since your last save may be lost."
+
+msgid "操作无法完成。"
+msgstr "That couldn't be done."
+
+msgid "快"
+msgstr "Fast"
+
+msgid "窗口模式由这个平台管理。"
+msgstr "This platform manages the window mode."
+
+msgid "语言已切换，但这项设置未能保存。"
+msgstr "Language switched, but the setting couldn't be saved."
+
+msgid "无法切换到这种语言。"
+msgstr "Can't switch to this language."
+
+msgid "界面缩放已生效，但未能保存。"
+msgstr "UI scale applied, but it couldn't be saved."
+
+msgid "战斗设置已生效，但未能保存。"
+msgstr "Battle settings applied, but they couldn't be saved."
+
+msgid "目标提示已生效，但未能保存。"
+msgstr "Quest markers applied, but the setting couldn't be saved."
+
+msgid "切出窗口时暂停已生效，但未能保存。"
+msgstr "Pause-when-unfocused applied, but the setting couldn't be saved."
+
+msgid "自动存档提示已生效，但未能保存。"
+msgstr "Autosave notice applied, but the setting couldn't be saved."
+
+msgid "画质已生效，但未能保存。"
+msgstr "Graphics applied, but the setting couldn't be saved."
+
+msgid "昼夜设置已生效，但未能保存。"
+msgstr "Day and night applied, but the setting couldn't be saved."
+
+msgid "战斗开场已生效，但未能保存。"
+msgstr "Battle intro applied, but the setting couldn't be saved."
+
+msgid "音量已生效，但未能保存。"
+msgstr "Volume applied, but it couldn't be saved."
+
+msgid "窗口模式已在本次运行中生效，但这项设置未能保存。"
+msgstr "Window mode applied for this session, but the setting couldn't be saved."
+
+msgid "无法切换窗口模式。"
+msgstr "Can't switch the window mode."
+
+msgid "上一份自动存档"
+msgstr "The previous autosave"
+
+msgid "请输入名称（1–24个字符），并选择性别。"
+msgstr "Enter a name (1–24 characters) and choose a gender."
+
+msgid "名称限1–24个字符；支持各语言文字及附加符，可在文字间使用半角空格、-、'、’或·，分隔符不能连用；不支持数字、表情或其它符号。"
+msgstr "Names are 1–24 characters: letters of any script and their marks, with a single space, -, ', ’ or · between them (never two in a row). No digits, emoji or other symbols."
+
+msgid "请选择性别。"
+msgstr "Choose a gender."
+
+msgid "正在存档……"
+msgstr "Saving..."
+
+msgid "正在返回主菜单……"
+msgstr "Returning to the main menu..."
+
+msgid "正在恢复存档……"
+msgstr "Recovering the save..."
+
+msgid "正在读取存档……"
+msgstr "Loading the save..."
+
+msgid "正在开始旅程……"
+msgstr "Setting out..."
+
+msgid "覆盖"
+msgstr "Overwrite"
+
+msgid "读取"
+msgstr "Load"
+
+msgid "窗口"
+msgstr "Windowed"
+
+msgid "无边框窗口"
+msgstr "Borderless"
+
+msgid "全屏"
+msgstr "Fullscreen"
+
+msgid "窗口下是窗口的大小；全屏和无边框窗口铺满显示器，这里定地图画得多清楚，界面不变。全屏时调低它，画面会更流畅"
+msgstr "In a window, this is the window's size. Fullscreen and borderless fill the monitor, and this sets how sharp the map is drawn — the UI stays the same. Lower it in fullscreen for a smoother picture"
+
+msgid "自动"
+msgstr "Auto"
+
+msgid "跟随系统"
+msgstr "Follow System"
+
+msgid "慢"
+msgstr "Slow"
+
+msgid "标准"
+msgstr "Normal"
+
+msgid "询问"
+msgstr "Ask"
+
+msgid "直接了结"
+msgstr "Finish Them"
+
+msgid "打倒你要杀的人时：先问你了结还是放过，或者直接下杀手"
+msgstr "When you knock down someone you meant to kill: ask whether to finish or spare them, or just finish them"
+
+msgid "全程"
+msgstr "Full"
+
+msgid "简短"
+msgstr "Short"
+
+msgid "关"
+msgstr "Off"
+
+msgid "进战斗时搭擂台、镜头拉近的那一段：全程（每次开游戏的头几场完整、之后简短）、一直简短，或者不放"
+msgstr "The arena and close-up when a fight begins: Full (the first few fights each session in full, then short), always Short, or Off"
+
+msgid "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
+msgstr "The \"Objective\" line on the status card and \"Next\" in journal popups; turn it off and only the Quests page is left"
+
+msgid "切到别的窗口时游戏暂停，回来后按「继续」接着玩；关掉后照样走，但窗口在后台时手柄不起作用"
+msgstr "Pause the game when you switch to another window, and pick up again with \"Continue\". When off, the game keeps running, but the gamepad won't work while the window is in the background"
+
+msgid "自动存档后左下角提示一行；关掉后照样自动存档，只是不提示"
+msgstr "Show a line at the bottom left after an autosave. When off, it still autosaves — just quietly"
+
+msgid "跟随游戏时间"
+msgstr "Follow Game Time"
+
+msgid "一直白天"
+msgstr "Always Day"
+
+msgid "一直夜晚"
+msgstr "Always Night"
+
+msgid "地图的光照：跟着游戏里的一天走（黎明、白天、黄昏、夜、深夜），或者一直是白天、一直是夜晚"
+msgstr "Map lighting: follow the in-game day (dawn, day, dusk, night, late night), or keep it always day, or always night"
+
+msgid "高"
+msgstr "High"
+
+msgid "低"
+msgstr "Low"
+
+msgid "高：影子边缘柔和、斜线平滑、近处的灯都投影；低：影子边缘硬、斜线有锯齿、只有最近的几盏灯投影，画面更流畅"
+msgstr "High: soft shadow edges, smooth diagonals, nearby lamps cast shadows. Low: hard shadow edges, jagged diagonals, only the nearest few lamps cast shadows — smoother framerate"
+
+msgid "游戏里所有声音的音量；拉到 0 就没有声音"
+msgstr "The volume of every sound in the game; drag it to 0 for silence"
+
+msgid "%d%%"
+msgstr "%d%%"
+
+msgid "重"
+msgstr "Heavy"
+
+msgid "虚"
+msgstr "Feint"
+
+msgid "守"
+msgstr "Guard"
+
+msgid "平"
+msgstr "Plain"
+
+msgid "快：命中高、伤害低；克重招。"
+msgstr "Fast: hits often, low damage. Beats Heavy."
+
+msgid "重：伤害高、命中低；克守招。"
+msgstr "Heavy: high damage, misses more. Beats Guard."
+
+msgid "虚：对方难以招架、伤害低，打中就打断对方的蓄势；克快招。"
+msgstr "Feint: hard to parry, low damage; a hit breaks the opponent's build-up. Beats Fast."
+
+msgid "守：这一回合自己更难被打中，伤害低；克虚招。"
+msgstr "Guard: harder to hit you this round, low damage. Beats Feint."
+
+msgid "平：没有偏向。"
+msgstr "Plain: no leaning either way."
+
+msgid "压制杀气"
+msgstr "Suppress Bloodlust"
+
+msgid "召护法"
+msgstr "Call a Guardian"
+
+msgid "三"
+msgstr "three"
+
+msgid "四"
+msgstr "four"
+
+msgid "五"
+msgstr "five"
+
+msgid "两"
+msgstr "two"
+
+msgid "运功"
+msgstr "Exert"
+
+msgid "收势"
+msgstr "Hold"
+
+msgid "放弃这一回合剩下的手，让对手出招；赢来的手照样归你。"
+msgstr "Give up the rest of your beats this round and let your opponent act. Beats you've earned still count for you."
+
+msgid "取消已排定的操作"
+msgstr "Cancel the queued action"
+
+msgid "现在没有可用的操作。"
+msgstr "No actions available right now."
+
+msgid "出手后自己要忙 {busy} 手。"
+msgstr "Busy for {busy} after this."
+
+msgid "运功：选一项内功的用法。"
+msgstr "Exert: choose how to use an inner art."
+
+msgid "{action} · 目标：{target}"
+msgstr "{action} · target: {target}"
+
+msgid "%d手"
+msgstr "×%d"
+
+msgid "{action} · {cost} 手"
+msgstr "{action} · ×{cost}"
+
+msgid "等你出招"
+msgstr "Your move"
+
+msgid "排定：%s"
+msgstr "Queued: %s"
+
+msgid "还剩 %d 手"
+msgstr "Beats left: %d"
+
+msgid "没手了"
+msgstr "Out of beats"
+
+msgid "多一手（{word}）"
+msgstr "Extra beat ({word})"
+
+msgid "多一手"
+msgstr "Extra beat"
+
+msgid "这一手你在忙"
+msgstr "You're busy this beat"
+
+msgid "这一手你停了"
+msgstr "You're stopped this beat"
+
+msgid "你出了{action}"
+msgstr "You used {action}"
+
+msgid "你出{mine}"
+msgstr "You: {mine}"
+
+msgid "克！"
+msgstr "Counter!"
+
+msgid "被克"
+msgstr "Countered"
+
+msgid "你出{mine} · {verdict}"
+msgstr "You: {mine} · {verdict}"
+
+msgid "你出{mine}，对上他的{theirs} · {verdict}"
+msgstr "You: {mine} vs. {theirs} · {verdict}"
+
+msgid "？"
+msgstr "?"
+
+msgid "守势"
+msgstr "On guard"
+
+msgid "他没手了，你还有 {left} 手"
+msgstr "Opponent's out of beats — you have {left} left"
+
+msgid "他起手：%s"
+msgstr "Opponent opens with: %s"
+
+msgid "；出手后自己要忙 {busy} 手"
+msgstr "; then busy for {busy}"
+
+msgid "不够：{name}要 {cost} 手，你还剩 {left} 手"
+msgstr "Not enough: {name} needs {cost}, you have {left}"
+
+msgid "{name}占 {cost} 手，出完还剩 {after} 手"
+msgstr "{name} takes {cost}, leaving {after}"
+
+msgid "{name}占 {cost} 手，出完你这回合没手了，他连出 {theirs} 手"
+msgstr "{name} takes {cost} — you're out after it, and they get {theirs} in a row"
+
+msgid "{name}占 {cost} 手，出完你这回合没手了"
+msgstr "{name} takes {cost} — you're out after it"
+
+msgid "忙"
+msgstr "Busy"
+
+msgid "停"
+msgstr "Stopped"
+
+msgid "加力 +%d"
+msgstr "Extra Force +%d"
+
+msgid "改为自动"
+msgstr "Switch to Auto"
+
+msgid "改为手动"
+msgstr "Switch to Manual"
+
+msgid "现在：每一手等你出招；按下后战斗自己打，手自动补满、演出加快。"
+msgstr "Now: every beat waits for your move. Press to let the fight play itself — beats refill on their own and the show speeds up."
+
+msgid "现在：战斗自己打；按下后每一手等你出招。"
+msgstr "Now: the fight plays itself. Press to choose every beat yourself."
+
+msgid "{tag} · {cost} 手"
+msgstr "{tag} · ×{cost}"
+
+msgid "等你空下来"
+msgstr "Waiting till you're free"
+
+msgid "就绪"
+msgstr "Ready"
+
+msgid "战斗记录"
+msgstr "Battle Log"
+
+msgid "天邪虎啸要耗 {force} 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n确定要发出虎啸吗？"
+msgstr "The Wayward Tiger Roar costs {force} Inner Force. The roar wounds the Spirit of everyone here; anyone who can't withstand it — whoever they are — will try to kill you, and even a spar becomes a fight to the death.\nRoar anyway?"
+
+msgid "在战斗中运功压制杀气，可能当场昏倒：以你现在的定力和内功，{odds}。昏倒以后，要杀你的人不会停手。\n确定要压制杀气吗？"
+msgstr "Suppressing your Bloodlust mid-fight may knock you out on the spot. With your Resolve and inner arts as they are, {odds}. Once you're out, anyone trying to kill you won't stop.\nSuppress your Bloodlust?"
+
+msgid "召天将要耗 {mana} 点法力和 {sen} 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n确定要召唤天将吗？"
+msgstr "Summoning a heavenly general costs {mana} Arcane Power and {sen} Spirit. The general will try to kill your opponent the moment it arrives, and your opponent will fight back — a spar becomes a fight to the death, and your opponent may die. Every kill it makes counts as yours; if it kills your shifu, you've killed your own master.\nSummon a heavenly general?"
+
+msgid "召护法要耗 {mana} 点法力和 {sen} 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n确定要召护法吗？"
+msgstr "Calling a guardian costs {mana} Arcane Power and {sen} Spirit. The heavenly general or ghost soldier that comes will try to kill your opponent, and your opponent will fight back — a spar becomes a fight to the death, and your opponent may die. Every kill it makes counts as yours; if it kills your shifu, you've killed your own master.\nCall a guardian?"
+
+msgid "来相助的护法会替你杀{npc}。{npc}不是你亲手杀的，你会昏倒，也悟不到咒术的道理。\n确定要召唤吗？"
+msgstr "The guardian that comes will kill {npc} for you. Since {npc} won't die by your own hand, you'll pass out, and you won't grasp the secret of the spell.\nSummon anyway?"
+
+msgid "胜"
+msgstr "Won"
+
+msgid "败"
+msgstr "Lost"
+
+msgid "失衡"
+msgstr "Off balance"
+
+msgid "露空"
+msgstr "Exposed"
+
+msgid "{name}又出{count}招 {results}"
+msgstr "{name} throws {count} more: {results}"
+
+msgid "战斗无法正常结束，不会自动重试。"
+msgstr "The fight couldn't end properly. It won't be retried on its own."
+
+msgid "目标：%s"
+msgstr "Target: %s"
+
+msgid "战斗描写会显示在这里。"
+msgstr "The fight's blow-by-blow shows up here."
+
+msgid "换目标"
+msgstr "Switch Target"
+
+msgid "（-%d）"
+msgstr "(-%d)"
+
+msgid "换目标：%s"
+msgstr "Switch target: %s"
+
+msgid "召唤天将"
+msgstr "Summon a Heavenly General"
+
+msgid "确定施展"
+msgstr "Cast It"
+
+msgid "确定攻击"
+msgstr "Attack"
+
+msgid "发出虎啸"
+msgstr "Roar"
+
+msgid "一定会昏倒"
+msgstr "You will pass out"
+
+msgid "昏倒的可能很小"
+msgstr "Little chance of passing out"
+
+msgid "约有 {tenths} 成会昏倒"
+msgstr "About {tenths} in 10 that you pass out"
+
+msgid "下令：%s"
+msgstr "Command: %s"
+
+msgid "对手倒下了，先在右边的旗上选「了结」或「放过」。"
+msgstr "Your opponent is down. First choose Finish or Spare on the banner to the right."
+
+msgid "取消：%s"
+msgstr "Cancel: %s"
+
+msgid "饮风客栈"
+msgstr "Drinkwind Inn"
+
+msgid "你现在正站在雪亭镇南边的一家小客栈里，这家客栈虽小，却是方圆\n五百里内最负盛名的一家，客栈的主人据说是一位云游四海的仙人，如果\n你的福缘深厚的话，也许可以在这里遇到他。除此之外，来自各地的旅人\n都喜欢聚集在这里交换旅途上的见闻，你也可以在这里打听到许多有趣的\n消息。靠近门口的地方有一块乌木雕成的招牌(sign)。\n西北边有一个红木门(door)，门上泛著一层白色的光晕，一种令人感觉\n很有力量，又很柔和的光芒。\n"
+msgstr "You are standing in a small inn on the south side of Snow Pavilion. Small as it is, it's the best-known inn for five hundred li around. Its owner, they say, is an immortal who wanders the four seas — if your Fortune runs deep, you might meet him here. Travelers from all over gather here to swap news of the road, so you can pick up plenty of interesting gossip too. Near the door hangs a signboard carved from ebony (sign). To the northwest is a redwood door (door), glowing with a faint white halo — a light that feels both powerful and gentle."
+
+msgid "广场"
+msgstr "Town Square"
+
+msgid "这里是雪亭镇镇前广场的空地，地上整齐地铺著大石板。广场中央有\n一个木头搭的架子，经过多年的风吹日晒雨淋，看来非常破旧。四周建筑\n林立。往西你可以看到一间客栈，看来生意似乎很好。\n"
+msgstr "This is the open square at the front of Snow Pavilion, paved with neat flagstones. In the middle stands a wooden rack, so weathered by years of wind, sun and rain that it looks ready to fall apart. Buildings crowd round on every side. To the west you can see an inn that seems to be doing good business."
+
+msgid "雪亭镇街道"
+msgstr "Snow Pavilion Street"
+
+msgid "你现在正走在雪亭镇的街道上，东边不远处有一间高大的院子，门\n口立著一根粗大的旗杆，旗子上写著「淳风武馆」，往南只听得人声鼎\n沸，是个五十尺见方的广场，人来人往相当热闹。往北可望见一座牌坊\n，年代久远，上面的字迹早已看不出是什么字，出了牌坊就是镇外。\n"
+msgstr "You are walking along a street in Snow Pavilion. Not far to the east is a tall compound; a thick flagpole stands at its gate, and the banner reads \"Pure Wind Hall.\" To the south comes the roar of a crowd — a square fifty feet on a side, busy with people coming and going. To the north you can see an archway, so old its inscription has long worn away. Past the archway lies the open country."
+
+msgid "淳风武馆大门"
+msgstr "Pure Wind Hall Gate"
+
+msgid "你现在正站在一间大宅院的入口，两只巨大的石狮镇守在大门的两\n侧，一阵阵吆喝与刀剑碰撞的声音从院子中传来。通过红漆大门(door)\n往东可以望见许多身穿灰衣的汉子正在操练。\n"
+msgstr "You stand at the entrance of a great compound. Two huge stone lions guard either side of the gate, and shouts and the clash of blades drift out from the yard. Through the red-lacquered door (door) to the east, you can see a crowd of men in grey at their drills."
+
+msgid "淳风武馆教练场"
+msgstr "Pure Wind Hall Training Ground"
+
+msgid "你现在正站在一个宽敞的教练场中，地上铺著黄色的细砂，许多人\n正在这里努力地操练著，北边是一间高大的兵器厅，往东则是武馆师父\n们休息的大厅。\n"
+msgstr "You stand on a wide training ground covered in fine yellow sand, where many people are hard at their drills. To the north is a tall armory; to the east, the hall where the teachers rest."
+
+msgid "淳风武馆大厅"
+msgstr "Pure Wind Hall, Main Hall"
+
+msgid "这里是淳风武馆的正厅，五张太师椅一字排开面对著门口，这是武\n馆中四位大师傅与馆主柳淳风的座位，和一般武馆不同的是，墙上竟然\n挂著几幅风骨颇为不俗的书画，显示这里的主人并非大字不识的粗汉，\n而是文武双全的高人。\n"
+msgstr "This is the main hall of Pure Wind Hall. Five grand armchairs stand in a row facing the door — the seats of the four senior teachers and the master, Liu Chunfeng. Unlike most martial halls, the walls here hang with paintings and calligraphy of real character: the master of this house is no unlettered brawler, but a man of both pen and sword."
+
+msgid "饮风客栈二楼"
+msgstr "Drinkwind Inn, Upstairs"
+
+msgid "你现在来到了饮风客栈的二楼，这家客栈有个很奇怪的规矩，就是只留宿\n名头够大的客人，如果你只是一个无名小卒，不论出再多银两都租不到一间空\n房，墙边有一道楼梯通往一楼的茶座。\n"
+msgstr "You've come up to the second floor of Drinkwind Inn. The inn has one odd rule: it only lodges guests with a big enough name. If you're a nobody, no amount of silver will get you an empty room. A staircase along the wall leads down to the tea room."
+
+msgid "客房"
+msgstr "Guest Room"
+
+msgid "这是一间打扫得相当乾净的客房，虽然所有的家俱看起来都相当朴\n素，比不上县城里几家著名的大酒馆，但是自有一种敦厚亲切的感觉，\n你在这里相信可以安心的休息。\n"
+msgstr "A guest room swept quite clean. The furniture is plain — nothing to match the famous taverns in the county town — but there's a warm, honest homeliness to it. You can rest easy here."
+
+msgid "天井"
+msgstr "Courtyard"
+
+msgid "这里是淳风武馆中的天井，往西走可以回到正厅，往北边是书房，\n南边是招待客人的厢房，往东一条长廊通往武馆内院，天井中种满了许\n多奇花异草，中央立著一根石柱(pillar)，上面似乎刻著字。\n"
+msgstr "This is the courtyard of Pure Wind Hall. West leads back to the main hall; north is the study; south, the guest wing. To the east a long gallery runs to the hall's inner court. The courtyard is full of rare flowers and plants, and in the middle stands a stone pillar (pillar) that seems to have words carved on it."
+
+msgid "武馆内院"
+msgstr "Inner Court"
+
+msgid "这里是淳风武馆的内院，平常武馆弟子没有馆主的允许是不敢到这\n里来的，往东是柳家的祠堂，馆主和家眷的卧房分别位于往北一条走道\n的两旁，厨房以及柴房、仆役的卧房都在往南的走道两旁，往西则是天\n井。\n"
+msgstr "This is the inner court of Pure Wind Hall. Disciples don't dare come here without the master's leave. To the east is the Liu family shrine; the bedrooms of the master and his family line the passage to the north, while the kitchen, woodshed and servants' rooms line the passage to the south. West is the courtyard."
+
+msgid "刘安禄是淳风武馆的门房，除了馆主柳淳风没有人知道他的出身来历，只知\n到他的武艺不弱，一手快刀在这一带罕有敌手。\n"
+msgstr "Liu Anlu is the gatekeeper of Pure Wind Hall. Nobody but the master, Liu Chunfeng, knows where he came from — only that his martial skill is no joke, and few in these parts can match his quick saber."
+
+msgid "刘安禄说道：你当这里是什么地方，敢来这里撒野？\n"
+msgstr "Liu Anlu says, \"What do you take this place for? Come to make trouble, have you?\""
+
+msgid "刘安禄说道：想我堂堂....呃....连我这个淳风武馆的小小的门房都可以收拾你！\n"
+msgstr "Liu Anlu says, \"I, the great... er... even a lowly gatekeeper of Pure Wind Hall can deal with the likes of you!\""
+
+msgid "刘安禄忽然挥出一刀，招数精奇，但是刀到中途忽然像是想起什么，急忙收招。\n"
+msgstr "Liu Anlu suddenly lashes out with his saber — a strange, clever stroke — but halfway through he seems to remember something and hastily pulls it back."
+
+msgid "刘安禄说道：你快走吧，就算我输了你啦....\n"
+msgstr "Liu Anlu says, \"Just go, would you. Fine — call it your win...\""
+
+msgid "刘老三"
+msgstr "Liu the Third"
+
+msgid "大寨主"
+msgstr "The Chief"
+
+msgid "刘安禄望着北边，低声道：大哥……\n"
+msgstr "Liu Anlu looks north and says under his breath, \"Big Brother...\""
+
+msgid "刘安禄叫道：老子已经认输了，你还要怎样！\n"
+msgstr "Liu Anlu shouts, \"I already gave up! What more d'you want from me?!\""
+
+msgid "你看到一位身材高大的汉子，正在辛苦地操练著。\n"
+msgstr "You see a big, strapping man hard at his drills."
+
+msgid "这位店小二正笑咪咪地忙著，还不时拿起挂在脖子上的抹布擦脸。\n"
+msgstr "The waiter is bustling about with a grin, now and then wiping his face with the cloth hung round his neck."
+
+msgid "老鼠"
+msgstr "Rats"
+
+msgid "楼上"
+msgstr "Upstairs"
+
+msgid "白衣人"
+msgstr "Men in White"
+
+msgid "官爷"
+msgstr "The Officials"
+
+msgid "请柬"
+msgstr "Invitation"
+
+msgid "柳绘心是淳风武馆馆主柳淳风的独生女。\n"
+msgstr "Liu Huixin is the only daughter of Liu Chunfeng, master of Pure Wind Hall."
+
+msgid "柳绘心秀眉微蹙，说道：喂！我哪里得罪你了？干嘛这样跟我拼死拼活？\n"
+msgstr "Liu Huixin knits her brows. \"Hey! What did I ever do to you? Why fight me like your life depends on it?\""
+
+msgid "柳绘心不住地望著窗外：你还是快走吧，我没空陪你练功夫！\n"
+msgstr "Liu Huixin keeps glancing out the window. \"You'd better go. I don't have time to train with you!\""
+
+msgid "竹书"
+msgstr "The Bamboo Book"
+
+msgid "北宗"
+msgstr "North Branch"
+
+msgid "跟柳绘心立北宗：封山的剑往外传。\n你转入封山剑派北宗，和她同辈；她把自己悟出来的「点」字诀教给你。柳淳风不再教你武功，「掌门传人」的名分没有了。这不算叛师：评价不清零，也不记背叛。封山在虹台上的那一票，会被颜违拿「给北宗一个座」来换（已经入了虹台的席的，这一票不再跟着变）。\n这是封山这条线的大分裂，选了不能改。要跟她吗？"
+msgstr "Stand with Liu Huixin and found the North Branch: Empty Mountain's sword will be taught to outsiders.\nYou move to the Empty Mountain School's North Branch, as her equal, and she teaches you the \"Point\" technique she worked out herself. Liu Chunfeng will teach you no more, and the title of Master's heir is gone. This doesn't count as betraying your shifu: your Standing isn't wiped and no betrayal is recorded. Yan Wei will trade Empty Mountain's vote on the Rainbow Terrace for \"a seat for the North Branch\" (once seats are taken on the Rainbow Terrace, the vote no longer changes).\nThis is the great split in the Empty Mountain line, and it can't be undone. Go with her?"
+
+msgid "点字诀"
+msgstr "The Point Technique"
+
+msgid "虹台"
+msgstr "Rainbow Terrace"
+
+msgid "这一票"
+msgstr "This Vote"
+
+msgid "请柳绘心把北宗这一票交给你：正月十七虹台上，封山的座听你的——颜违许的那个座还是北宗的，这一票不再投他。\n要这么说吗？"
+msgstr "Ask Liu Huixin to hand the North Branch's vote to you: on the seventeenth, on the Rainbow Terrace, Empty Mountain's seat goes the way you say. The seat Yan Wei promised stays with the North Branch, but the vote no longer goes to him.\nSay it?"
+
+msgid "把《悟疾风劲竹书》交给柳绘心。\n她会头一回读到父亲年轻时写的字。书只有这一本，给出去就读不到了；柳淳风不会再见到它。\n要交给她吗？"
+msgstr "Give \"Bamboo Against the Gale\" to Liu Huixin.\nShe'll read her father's young hand for the first time. There's only this one copy: once you give it away you can't read it, and Liu Chunfeng will never see it again.\nGive it to her?"
+
+msgid "柳淳风是个相当高大的中年儒生，若不是从他腰间挂著的「玄苏剑」你\n大概猜不到眼前这个温文儒雅的中年人竟是家大武馆的馆主。\n"
+msgstr "Liu Chunfeng is a tall, middle-aged scholar. If not for the sword hanging at his waist, you'd hardly guess that this gentle, cultured man is master of a great martial hall."
+
+msgid "本宗"
+msgstr "Our School"
+
+msgid "跟柳淳风守本宗：封山的剑不外传。\n他亲传你「点」字诀，你是掌门传人；柳绘心会离开武馆，带着「北宗」两个字去绮云镇。封山在虹台上的那一票跟着柳淳风——等盟主回来（已经入了虹台的席的，这一票不再跟着变）。\n这是封山这条线的大分裂，选了不能改。要跟师父吗？"
+msgstr "Keep faith with Liu Chunfeng and the school: Empty Mountain's sword is not taught to outsiders.\nHe personally teaches you the \"Point\" technique, and you become the Master's heir. Liu Huixin will leave the hall, taking the name \"North Branch\" with her to Cloudweave Town. Empty Mountain's vote on the Rainbow Terrace follows Liu Chunfeng — it waits for the Alliance Leader to return (once seats are taken on the Rainbow Terrace, the vote no longer changes).\nThis is the great split in the Empty Mountain line, and it can't be undone. Stand with your shifu?"
+
+msgid "武馆的事"
+msgstr "The Hall's Business"
+
+msgid "腰牌"
+msgstr "Waist Token"
+
+msgid "逄义"
+msgstr "Pang Yi"
+
+msgid "淳风武馆"
+msgstr "Pure Wind Hall"
+
+msgid "先人遗志"
+msgstr "Our Forebears' Wishes"
+
+msgid "隘口"
+msgstr "The Pass"
+
+msgid "老松寨"
+msgstr "Old Pine Stockade"
+
+msgid "黑衣道士"
+msgstr "The Daoist in Black"
+
+msgid "荐信"
+msgstr "Letter of Introduction"
+
+msgid "水烟阁"
+msgstr "Waterfog Pavilion"
+
+msgid "请柳淳风把封山这一票交给你：正月十七虹台上，封山听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Ask Liu Chunfeng to hand Empty Mountain's vote to you: on the seventeenth, on the Rainbow Terrace, Empty Mountain goes the way you say. Stand up yourself and the vote is yours; if not, you decide who gets it.\nSay it?"
+
+msgid "把《悟疾风劲竹书》交给柳淳风。\n他会把它收进匣里，不再示人。书只有这一本，给出去就读不到了；柳绘心也读不到。\n要交给他吗？"
+msgstr "Give \"Bamboo Against the Gale\" to Liu Chunfeng.\nHe'll lock it in his box and show it to no one. There's only this one copy: once you give it away you can't read it, and Liu Huixin won't either.\nGive it to him?"
+
+msgid "雪亭镇的头几天"
+msgstr "First Days in Snow Pavilion"
+
+msgid "你在饮风客栈醒来，店小二笑着招呼了你。"
+msgstr "You wake up in Drinkwind Inn, and the waiter greets you with a grin."
+
+msgid "跟店小二打听「楼上」。"
+msgstr "Ask the waiter about \"Upstairs.\""
+
+msgid "店小二说楼上客房闹老鼠，请你上去收拾。"
+msgstr "The waiter says the guest rooms upstairs have rats, and asks you to go deal with them."
+
+msgid "上楼收拾老鼠。"
+msgstr "Go upstairs and deal with the rats."
+
+msgid "楼上的老鼠都收拾干净了。"
+msgstr "The rats upstairs are all cleared out."
+
+msgid "下楼找店小二。"
+msgstr "Go back down and find the waiter."
+
+msgid "店小二谢了你一根烤鸡腿。"
+msgstr "The waiter thanks you with a roast chicken leg."
+
+msgid "去淳风武馆拜柳淳风为师。"
+msgstr "Go to Pure Wind Hall and become Liu Chunfeng's disciple."
+
+msgid "你拜入了封山剑派。"
+msgstr "You joined the Empty Mountain School."
+
+msgid "向柳淳风请教基本剑法。"
+msgstr "Ask Liu Chunfeng to teach you Basic Sword."
+
+msgid "你跟柳淳风学了基本剑法。"
+msgstr "You learned Basic Sword from Liu Chunfeng."
+
+msgid "去武馆和弟子切磋一场，胜了算。"
+msgstr "Go to the hall and spar with a disciple. A win counts."
+
+msgid "你第一次在切磋中胜过了武馆弟子。"
+msgstr "You beat a hall disciple in a spar for the first time."
+
+msgid "到武学页打坐，把内力练到 10。"
+msgstr "Meditate on the Martial Arts page until your Inner Force reaches 10."
+
+msgid "你的内力练到了 10。"
+msgstr "Your Inner Force has reached 10."
+
+msgid "再切磋，再打坐：内力练到 25。"
+msgstr "Spar again, meditate again: get your Inner Force to 25."
+
+msgid "你的内力练到了 25。"
+msgstr "Your Inner Force has reached 25."
+
+msgid "向李教头讨教一场，然后打坐到内力 50。"
+msgstr "Ask Instructor Li for a bout, then meditate until your Inner Force reaches 50."
+
+msgid "你的内力练到了 50，够学封山剑法了。"
+msgstr "Your Inner Force has reached 50 — enough to learn Empty Mountain Sword."
+
+msgid "向柳淳风请教封山剑法；教练场的木人也等着你。"
+msgstr "Ask Liu Chunfeng to teach you Empty Mountain Sword. The wooden dummies on the training ground are waiting for you too."
+
+msgid "你学会了封山剑法。"
+msgstr "You learned Empty Mountain Sword."
+
+msgid "去雪亭驿找杜宽，问问「送信」；门外的悬赏榜也看一眼。"
+msgstr "Go to the Snow Pavilion Post Station, find Du Kuan and ask about \"Delivering Letters.\" Have a look at the bounty board outside the door, too."
+
+msgid "你揭了雪亭驿门外的一张悬赏。"
+msgstr "You took a bounty off the board outside the Snow Pavilion Post Station."
+
+msgid "出镇南行，过卧龙岗，去绮云镇看看。"
+msgstr "Head south out of town, over Crouching Dragon Ridge, and have a look at Cloudweave Town."
+
+msgid "你第一次来到绮云镇。雪亭镇的头几天到此为止，往后的路自己走。"
+msgstr "You've reached Cloudweave Town for the first time. Your first days in Snow Pavilion end here — the road ahead is yours to walk."
+
+msgid "旅客"
+msgstr "Traveler"
+
+msgid "{npc}往{direction}离开。"
+msgstr "{npc} heads {direction}."
+
+msgid "东"
+msgstr "east"
+
+msgid "西"
+msgstr "west"
+
+msgid "南"
+msgstr "south"
+
+msgid "北"
+msgstr "north"
+
+msgid "上"
+msgstr "up"
+
+msgid "下"
+msgstr "down"
+
+msgid "东北"
+msgstr "northeast"
+
+msgid "西北"
+msgstr "northwest"
+
+msgid "东南"
+msgstr "southeast"
+
+msgid "西南"
+msgstr "southwest"
+
+msgid "封山剑法"
+msgstr "Empty Mountain Sword"
+
+msgid "基本剑法"
+msgstr "Basic Sword"
+
+msgid "攻"
+msgstr "Attack"
+
+msgid "游走"
+msgstr "Evade"
+
+msgid "攻：伤害高，闪躲、招架低；有内功时加力到上限的一半。"
+msgstr "Attack: high damage, low dodge and parry. With an inner art, Extra Force goes up to half its max."
+
+msgid "守：招架高，伤害低。"
+msgstr "Guard: high parry, low damage."
+
+msgid "游走：闪躲高，命中低。"
+msgstr "Evade: high dodge, low accuracy."
+
+msgid "稳赢"
+msgstr "Sure win"
+
+msgid "占优"
+msgstr "Favored"
+
+msgid "五五开"
+msgstr "Even"
+
+msgid "吃亏"
+msgstr "Outmatched"
+
+msgid "必败"
+msgstr "Hopeless"
+
+msgid "稳赢：{pronoun}远不是你的对手。"
+msgstr "Sure win: no match for you."
+
+msgid "占优：你比{pronoun}强一些。"
+msgstr "Favored: you're a bit stronger."
+
+msgid "五五开：{pronoun}和你不相上下。"
+msgstr "Even: you're about equal."
+
+msgid "吃亏：{pronoun}比你强，打起来要吃亏。"
+msgstr "Outmatched: stronger than you — this will hurt."
+
+msgid "必败：{pronoun}远比你强，别打。"
+msgstr "Hopeless: far stronger than you. Don't fight."
+
+msgid "{pronoun}这边有 {count} 个人一起上。"
+msgstr "{count} on that side, all at once."
+
+msgid "{pronoun}的闪躲比你高得多，你很难打中。"
+msgstr "Dodges far better than you — you'll struggle to land a hit."
+
+msgid "{pronoun}有兵刃在手，你空手难以近身。"
+msgstr "Has a weapon in hand — bare-handed, you'll struggle to get close."
+
+msgid "{pronoun}的经验比你多得多，你的拳脚落不实。"
+msgstr "Far more experienced — your blows won't land clean."
+
+msgid "{pronoun}下手太重，你撑不了几回合。"
+msgstr "Hits too hard — you won't last many rounds."
+
+msgid "你有兵刃在手，{pronoun}空手挡不住。"
+msgstr "You're armed — bare hands won't stop you."
+
+msgid "切磋稳赢：{pronoun}的招式你一眼看穿。"
+msgstr "Spar, sure win: you can read every move."
+
+msgid "切磋占优：你多半先打中{pronoun}。"
+msgstr "Spar, favored: you'll most likely land first."
+
+msgid "切磋五五开：谁先打中谁赢。"
+msgstr "Spar, even: whoever lands first wins."
+
+msgid "切磋吃亏：{pronoun}多半先打中你。"
+msgstr "Spar, outmatched: they'll most likely land first."
+
+msgid "切磋必输：{pronoun}的招式你接不住。"
+msgstr "Spar, hopeless: you can't handle these moves."
+
+msgid "逃跑"
+msgstr "Flee"
+
+msgid "投降"
+msgstr "Surrender"
+
+msgid "运功{function}"
+msgstr "Exert {function}"
+
+msgid "使出{action}"
+msgstr "Use {action}"
+
+msgid "施法「{spell}」"
+msgstr "Cast \"{spell}\""
+
+msgid "用 {force} 点内力恢复{track}"
+msgstr "Spend {force} Inner Force to restore {track}"
+
+msgid "用 {force} 点内力和 {sen} 点神恢复法力"
+msgstr "Spend {force} Inner Force and {sen} Spirit to restore Arcane Power"
+
+msgid "用 {force} 点内力，一段时间内攻击和闪避提升，杀气也随之上升"
+msgstr "Spend {force} Inner Force: attack and dodge rise for a while, and so does your Bloodlust"
+
+msgid "用 {force} 点内力和 {sen} 点神压下杀气，战斗中可能昏倒"
+msgstr "Spend {force} Inner Force and {sen} Spirit to suppress your Bloodlust; you may pass out mid-fight"
+
+msgid "用 {force} 点内力和 {kee} 点气长啸，在场受不住的人都会受伤"
+msgstr "Spend {force} Inner Force and {kee} Qi on a roar that wounds everyone here who can't take it"
+
+msgid "用 {force} 点内力和 {sen} 点神以目光摄住对手，伤其精（对手可能避开）"
+msgstr "Spend {force} Inner Force and {sen} Spirit to pin your opponent with a stare, wounding their Essence (they may evade)"
+
+msgid "脱离战斗，回到{region}{room}（{mana} 法力，可能失败）"
+msgstr "Escape the fight and return to {room}, {region} ({mana} Arcane Power, may fail)"
+
+msgid "困住对手，让对方一段时间无法出手（{mana} 法力，可能失败）"
+msgstr "Bind your opponent so they can't act for a while ({mana} Arcane Power, may fail)"
+
+msgid "召来一名天将相助（{mana} 法力，可能失败）"
+msgstr "Summon a heavenly general to help ({mana} Arcane Power, may fail)"
+
+msgid "召来一名天将或阴鬼卒相助（{mana} 法力、{sen} 神，可能失败）"
+msgstr "Summon a heavenly general or ghost soldier to help ({mana} Arcane Power, {sen} Spirit, may fail)"
+
+msgid "看得见鬼魂，持续的秒数等于你的有效咒文等级（{mana} 法力、{sen} 神）"
+msgstr "See ghosts for as many seconds as your effective Incantation level ({mana} Arcane Power, {sen} Spirit)"
+
+msgid "吸取对方的精"
+msgstr "Drain their Essence"
+
+msgid "伤对方的神"
+msgstr "Wound their Spirit"
+
+msgid "伤对方的气"
+msgstr "Wound their Qi"
+
+msgid "{hurts}（{mana} 法力、{sen} 神，可能失败）"
+msgstr "{hurts} ({mana} Arcane Power, {sen} Spirit, may fail)"
+
+msgid "你也上去和对手性命相搏，对手会反过来对你下杀手"
+msgstr "You join the fight to the death — your opponent will turn to kill you"
+
+msgid "绝"
+msgstr "Special"
+
+msgid "已接受"
+msgstr "Accepted"
+
+msgid "已取消"
+msgstr "Canceled"
+
+msgid "请求无效"
+msgstr "Invalid request"
+
+msgid "战斗已经结束"
+msgstr "The fight is already over"
+
+msgid "游戏暂停中"
+msgstr "The game is paused"
+
+msgid "世界状态不符"
+msgstr "World state mismatch"
+
+msgid "只能由你下令"
+msgstr "Only you can give orders"
+
+msgid "战斗状态无效"
+msgstr "Invalid battle state"
+
+msgid "你现在无法行动"
+msgstr "You can't act right now"
+
+msgid "没有这个操作"
+msgstr "No such action"
+
+msgid "操作类型不符"
+msgstr "Wrong kind of action"
+
+msgid "目标无效"
+msgstr "Invalid target"
+
+msgid "条件不足"
+msgstr "Requirements not met"
+
+msgid "重复的请求"
+msgstr "Duplicate request"
+
+msgid "要取消的操作已经变了"
+msgstr "The action to cancel has changed"
+
+msgid "操作次数已用尽"
+msgstr "No uses left"
+
+msgid "这个操作还不能用"
+msgstr "This action isn't available yet"
+
+msgid "没有进行中的战斗"
+msgstr "No fight in progress"
+
+msgid "战斗已经变了"
+msgstr "The fight has changed"
+
+msgid "战斗状态不符"
+msgstr "Battle state mismatch"
+
+msgid "无法选为目标"
+msgstr "Can't be targeted"
+
+msgid "目标未变"
+msgstr "Target unchanged"
+
+msgid "已更换目标"
+msgstr "Target switched"
+
+msgid "你借遁术脱离了战斗。"
+msgstr "You slip out of the fight by sorcery."
+
+msgid "战斗结束。"
+msgstr "The fight is over."
+
+msgid "双方都停了手，战斗结束。"
+msgstr "Both sides stop. The fight is over."
+
+msgid "你赢了这场战斗。"
+msgstr "You won the fight."
+
+msgid "你赢了这场战斗。选择倒下对手的尸体可以查看或搜刮。"
+msgstr "You won the fight. Select your fallen opponent's body to look at it or search it."
+
+msgid "你输了这场战斗，你死了。"
+msgstr "You lost the fight. You are dead."
+
+msgid "你输了这场战斗，昏了过去。"
+msgstr "You lost the fight and passed out."
+
+msgid "切磋结束。"
+msgstr "The spar is over."
+
+msgid "三回合拆完了。"
+msgstr "Three rounds done."
+
+msgid "你逃离了战斗。走远一些才能摆脱危险。"
+msgstr "You fled the fight. Get farther away to shake off the danger."
+
+msgid "战斗出错，已中止。"
+msgstr "The fight hit an error and was stopped."
+
+msgid "{name}脚下一个不稳，跌在地上一动也不动了。"
+msgstr "{name} stumbles, falls, and lies still."
+
+msgid "{name}死了。"
+msgstr "{name} is dead."
+
+msgid "{name}慢慢睁开眼睛，清醒了过来。"
+msgstr "{name} slowly comes to."
+
+msgid "你住了手，放了{name}一条生路。"
+msgstr "You hold back and spare {name}'s life."
+
+msgid "你住了手：{name}还有用，留{name}一条命。"
+msgstr "You hold back: {name} is still useful. You let {name} live."
+
+msgid "未知结果"
+msgstr "Unknown result"
+
+msgid "你把目标转向%s。"
+msgstr "You turn to face %s."
+
+msgid "你准备%s。"
+msgstr "You ready %s."
+
+msgid "你放弃了%s。"
+msgstr "You drop %s."
+
+msgid "你无法%s：%s。"
+msgstr "Can't %s: %s."
+
+msgid "你脱离了战斗。"
+msgstr "You left the fight."
+
+msgid "%s生效了。"
+msgstr "%s took effect."
+
+msgid "%s失败了。"
+msgstr "%s failed."
+
+msgid "%s无法执行。"
+msgstr "%s couldn't be carried out."
+
+msgid "了结"
+msgstr "Finish"
+
+msgid "放过"
+msgstr "Spare"
+
+msgid "深浅未明"
+msgstr "Unknown strength"
+
+msgid "参战"
+msgstr "In the fight"
+
+msgid "已排定目标"
+msgstr "Target queued"
+
+msgid "忙 %d"
+msgstr "Busy %d"
+
+msgid "死亡"
+msgstr "Dead"
+
+msgid "昏迷"
+msgstr "Unconscious"
+
+msgid "约 {n} 秒后醒来"
+msgstr "Wakes in about {n} s"
+
+msgid "无法行动"
+msgstr "Can't act"
+
+msgid "剩 %d 手"
+msgstr "Beats left: %d"
+
+msgid "…+%d"
+msgstr "...+%d"
+
+msgid "还有：%s"
+msgstr "Also: %s"
+
+msgid "起手：守势"
+msgstr "Opens: Guard"
+
+msgid "守势：它在等你打空，打空了就反击。"
+msgstr "Guard: it's waiting for you to miss, then it counters."
+
+msgid "起手：？"
+msgstr "Opens: ?"
+
+msgid "还没看熟这一招。"
+msgstr "You haven't read this move yet."
+
+msgid "起手：%s"
+msgstr "Opens: %s"
+
+msgid "破绽：{tag}招可破。"
+msgstr "Weak spot: a {tag} move breaks it."
+
+msgid "要出 {move}"
+msgstr "About to use {move}"
+
+msgid "选为目标：%s"
+msgstr "Target: %s"
+
+msgid "内力 {force}/{max_force}"
+msgstr "Inner Force {force}/{max_force}"
+
+msgid "加力 {factor}"
+msgstr "Extra Force {factor}"
+
+msgid "法力 {mana}/{max_mana}"
+msgstr "Arcane Power {mana}/{max_mana}"
+
+msgid "灵力 {atman}/{max_atman}"
+msgstr "Mystic Power {atman}/{max_atman}"
+
+msgid "{name}：{hint}"
+msgstr "{name}: {hint}"
+
+msgid "{name} {current} / 有效 {effective} / 最大 {maximum}：{hint}"
+msgstr "{name} {current} / Effective {effective} / Max {maximum}: {hint}"
+
+msgid "任务目标"
+msgstr "Quest target"
+
+msgid "弑师"
+msgstr "Kills your shifu"
+
+msgid "了结（{marks}）"
+msgstr "Finish ({marks})"
+
+msgid "了结{name}：下一招就会要了{name}的命。"
+msgstr "Finish {name}: the next blow will take {name}'s life."
+
+msgid "放{name}一条生路：你这一方不再出手，{name}昏在原地，到时自己醒来。"
+msgstr "Spare {name}: your side stops attacking, and {name} stays down, unconscious, to come to in time."
+
+msgid "气 %s"
+msgstr "Qi %s"
+
+msgid "精 %s · 神 %s"
+msgstr "Essence %s · Spirit %s"
+
+msgid "精 %d　神 %d"
+msgstr "Essence %d  Spirit %d"
