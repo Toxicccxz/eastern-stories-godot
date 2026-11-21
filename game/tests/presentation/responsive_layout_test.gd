@@ -19,6 +19,7 @@ const FakeSafe := preload("res://tests/presentation/fake_safe_area_capability.gd
 const SettingsFixtures := preload("res://tests/application/application_shell_phase10c1c_test.gd")
 const RecoveryFixtures := preload("res://tests/application/application_shell_phase10c1b_test.gd")
 const ShellScene: PackedScene = preload("res://scenes/application/application_shell.tscn")
+const SqueezedLabels := preload("res://tests/support/squeezed_labels.gd")
 
 var _assertions: int = 0
 var _failures: Array[String] = []
@@ -155,10 +156,18 @@ func _hud(tree: SceneTree, hud: SharedGameplayUI, metrics: SafeAreaMetrics) -> v
 	var overlay: Control = hud.get_node("Overlay") as Control
 	var action_panel: PanelContainer = overlay.get_node("ExplorationHUD") as PanelContainer
 	_check(metrics.content_rect().grow(0.5).encloses(action_panel.get_global_rect()), "HUD action panel inside the window")
+	_upright_text(overlay, "the HUD at %s" % metrics.viewport_rect().size)
 	var buttons: Array[BaseButton] = []
 	_collect_buttons(action_panel, buttons)
 	_check(buttons.size() >= 1 and buttons.size() <= 9, "the 菜单 entry persists; context controls appear only when available")
 	await _buttons(tree, action_panel, metrics)
+	# The menu window's eight pages: no text stands on end on any of them.
+	for tab: int in GameMenu.TAB_TITLES.size():
+		hud.menu.show_tab(tab)
+		await _settle(tree)
+		_upright_text(hud.menu, "菜单's %s at %s" % [GameMenu.TAB_TITLES[tab], metrics.viewport_rect().size])
+	hud.menu.close()
+	await _settle(tree)
 	var rows: Array[PlayerInventoryRowProjection] = []
 	for index: int in 5:
 		rows.append(PlayerInventoryRowProjection.new(StringName("qa:%d" % index), &"qa", "A long readable item name", "Long description ".repeat(20), 1, &"weapon", PlayerInventoryRowProjection.EquipmentSlot.NONE, &"sword", 25, 0, true))
@@ -188,7 +197,15 @@ func _surface(tree: SceneTree, root: Control, metrics: SafeAreaMetrics) -> void:
 			continue
 		_check(metrics.content_rect().grow(0.5).encloses(_visible_rect(panel)), "safe panel %s: %s within %s" % [root.name, panel.get_global_rect(), metrics.content_rect()])
 		_check(panel.size.is_finite() and panel.size.x > 0 and panel.size.y > 0, "positive finite panel")
+	_upright_text(root, "%s at %s" % [root.name, metrics.viewport_rect().size])
 	await _buttons(tree, root, metrics)
+
+
+## No text stands on end: a wrapping label squeezed to a column of one or two characters a line
+## (设置's 总音量 showed "80%" as "8 / 0 / %", owner 2026-11-21).
+func _upright_text(root: Node, where: String) -> void:
+	var squeezed: Array[String] = SqueezedLabels.under(root)
+	_check(squeezed.is_empty(), "text stands on end in %s: %s" % [where, "; ".join(squeezed)])
 
 
 func _buttons(tree: SceneTree, root: Control, metrics: SafeAreaMetrics) -> void:
