@@ -277,7 +277,7 @@ func _goes_ahead(function_id: StringName, atman_cost: int) -> bool:
 func _show(context: SpecialContext, target: String) -> void:
 	var lines: Array[ColoredLine] = []
 	for line: VisionLine in context.report().lines():
-		lines.append(ColoredLine.new(TranslationServer.translate(line.template).replace("$N", TranslationServer.translate("你")).replace("$n", target), line.color))
+		lines.append(ColoredLine.new(MessageGrammar.fill(TranslationServer.translate(line.template), MessageGrammar.you(), TranslationServer.translate("你"), MessageGrammar.other(), target), line.color))
 	last_lines = lines
 	var hud: SharedGameplayUI = _session.shared_ui()
 	if hud != null and not lines.is_empty():

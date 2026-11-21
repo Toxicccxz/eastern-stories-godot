@@ -743,7 +743,7 @@ func _chant_stage(npc: NpcRuntimeState) -> void:
 		_map.hud().npc_says(npc, [ColoredLine.new(said)], [said])
 		# What happens with it (narration, not speech) is the game's own message.
 		if not stage.line.is_empty():
-			_map.hud().append_log_lines([tr(stage.line).replace("$N", name)])
+			_map.hud().append_log_lines([MessageGrammar.fill(tr(stage.line), MessageGrammar.other(npc.character_state.gender), name)])
 	npc.character_state.progression.combat_experience += stage.combat_exp
 	var next: int = npc.chant_stage + 1
 	var wait: float = 0.0
@@ -1328,7 +1328,7 @@ func _special(npc: NpcRuntimeState, action: NpcSpecialAction) -> void:
 	var lines: Array[ColoredLine] = []
 	for line: VisionLine in context.lines:
 		# Out of a fight only exert lines show: $N is the NPC.
-		lines.append(ColoredLine.new(tr(line.template).strip_edges().replace("$N", tr(npc.definition().display_name)), line.color))
+		lines.append(ColoredLine.new(MessageGrammar.fill(tr(line.template).strip_edges(), MessageGrammar.other(npc.character_state.gender), tr(npc.definition().display_name)), line.color))
 	_map.hud().append_colored_lines(lines)
 
 

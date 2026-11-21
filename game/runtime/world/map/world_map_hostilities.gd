@@ -392,7 +392,7 @@ func alert_seconds_left() -> float:
 ## combatd.c start_hatred()'s message_vision(): one of catch_hunt_msg, `npc` the hunter.
 func catch_hunt_line(npc: NpcRuntimeState) -> String:
 	var line: String = CATCH_HUNT[clampi(_world_interaction_random.legacy_random(CATCH_HUNT.size()), 0, CATCH_HUNT.size() - 1)]
-	return tr(line).replace("$N", tr(npc.definition().display_name)).replace("$n", tr("你"))
+	return MessageGrammar.fill(tr(line), MessageGrammar.other(npc.character_state.gender), tr(npc.definition().display_name), MessageGrammar.you(), tr("你"))
 
 
 ## gangster.c init(): call_out("greeting", 1). The toll-taker's greeting attacks a
@@ -876,7 +876,7 @@ func _accept_kill(target_id: StringName) -> Array[String]:
 						for key: String in line.slots:
 							slots[key] = tr(line.slots[key])
 						text = text.format(slots)
-					lines.append(text.replace("$N", name))
+					lines.append(MessageGrammar.fill(text, MessageGrammar.other(npc.character_state.gender), name))
 	var joins: Array[CombatJoin] = []
 	if rule.fellows:
 		var here: WorldLocationState = npc.world_location()

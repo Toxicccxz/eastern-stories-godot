@@ -80,7 +80,7 @@ static func practice(result: PracticeResult, special: SkillDefinition, conjured_
 			return [ColoredLine.new(_t("你试著练习%s，但是并没有任何进步。") % name)]
 		PracticeResult.FailureReason.PRACTICE_CONJURED_STANDING:
 			if conjuring != null:
-				return [ColoredLine.new(_t(conjuring.standing).replace("$N", _t(result.standing_conjured)))]
+				return [ColoredLine.new(MessageGrammar.fill(_t(conjuring.standing), MessageGrammar.other(), _t(result.standing_conjured)))]
 			return _plain(["你现在不能练习这项技能。"])
 		PracticeResult.FailureReason.PRACTICE_CONJURED:
 			# write() before the draw, the conjuring's write(), then its notify_fail().
@@ -88,7 +88,7 @@ static func practice(result: PracticeResult, special: SkillDefinition, conjured_
 			if not special.practice_done.is_empty():
 				came.append(ColoredLine.new(_t(special.practice_done)))
 			for line: String in [conjuring.came, conjuring.caught]:
-				came.append(ColoredLine.new(_t(line).replace("$N", _t(conjured_name))))
+				came.append(ColoredLine.new(MessageGrammar.fill(_t(line), MessageGrammar.other(), _t(conjured_name))))
 			return came
 		_:
 			# A rule the game does not have for this skill: practice.c's first notify_fail().

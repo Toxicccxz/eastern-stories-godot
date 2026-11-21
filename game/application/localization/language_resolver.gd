@@ -4,6 +4,7 @@ extends RefCounted
 ## Which listed language follows a system locale. Godot's own matching ranks by language
 ## first, so with only Traditional Chinese loaded a zh_CN or zh_SG system would get it:
 ## Chinese is matched by script here (Hans: CN, SG, MY and no region; Hant: TW, HK, MO).
+## A language still in preview is only ever chosen by hand.
 const TRADITIONAL_REGIONS: PackedStringArray = ["TW", "HK", "MO"]
 
 
@@ -24,7 +25,7 @@ static func resolve(os_locale: String, catalog: LanguageCatalog) -> String:
 		script_tag = "Hant" if TRADITIONAL_REGIONS.has(region) else "Hans"
 	var candidates: Array[LanguageDefinition] = []
 	for candidate: LanguageDefinition in catalog.languages():
-		if candidate.language() == language:
+		if candidate.language() == language and not candidate.preview:
 			candidates.append(candidate)
 	if candidates.is_empty():
 		return catalog.default_code()
