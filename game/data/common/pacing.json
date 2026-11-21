@@ -134,6 +134,7 @@
 			"world_fx_ms": 260,
 			"training_auto_step_ms": 60,
 			"corner_slide_px": 12,
+			"phone_view_percent": 75,
 			"voxel_worlds_kept": 3,
 			"map_loading_slice_ms": 40,
 			"map_loading_delay_ms": 200,

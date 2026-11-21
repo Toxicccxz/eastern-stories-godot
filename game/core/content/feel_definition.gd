@@ -55,6 +55,10 @@ extends RefCounted
 ##   胜 / 败 stamp over the cards during the end hold; turn_cue_ms the chosen move's bounce
 ##   when the fight comes back to waiting for the player; intent_pulse_ms the 起手 / 要出
 ##   line's gold flash when it changes.
+## - phone_view_percent: on a phone or tablet the voxel view's camera rests this near, in percent
+##   of a map's own framing (75: the people and the map drawn 4/3 as large; owner, 2026-11-21:
+##   人物很小 on a phone's screen); a fight's camera still frames from the map's own size, and
+##   comes back to this (0: as on a desktop).
 ## - voxel_worlds_kept: how many of the maps the player walked through keep their built
 ##   voxel world (the most recent, the player's included); an older map's is freed and
 ##   built again on coming back (0: every map keeps its world; DECISIONS「固定俯视体素地图」).
@@ -118,6 +122,7 @@ var _growth_moment_ms: int = 0
 var _world_fx_ms: int = 0
 var _training_auto_step_ms: int = 0
 var _corner_slide_px: int = 0
+var _phone_view_percent: int = 0
 var _voxel_worlds_kept: int = 0
 var _map_loading_slice_ms: int = 0
 var _map_loading_delay_ms: int = 0
@@ -194,6 +199,9 @@ var move_stop_seconds: float:
 var corner_slide_px: float:
 	get:
 		return float(_corner_slide_px)
+var phone_view_percent: int:
+	get:
+		return _phone_view_percent
 var speech_reach: float:
 	get:
 		return float(_speech_reach_px)
@@ -408,6 +416,7 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_world_fx_ms = int(values.get("world_fx_ms", _world_fx_ms))
 	_training_auto_step_ms = int(values.get("training_auto_step_ms", _training_auto_step_ms))
 	_corner_slide_px = int(values.get("corner_slide_px", _corner_slide_px))
+	_phone_view_percent = int(values.get("phone_view_percent", _phone_view_percent))
 	_voxel_worlds_kept = int(values.get("voxel_worlds_kept", _voxel_worlds_kept))
 	_map_loading_slice_ms = int(values.get("map_loading_slice_ms", _map_loading_slice_ms))
 	_map_loading_delay_ms = int(values.get("map_loading_delay_ms", _map_loading_delay_ms))
@@ -461,7 +470,7 @@ const KEYS: Array[String] = [
 	"map_fade_out_ms", "map_fade_in_ms", "map_banner_ms", "door_fade_out_ms", "door_fade_in_ms", "camera_follow_speed", "move_accel_ms",
 	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "speech_reach_px", "dialogue_char_ms", "room_text_ms", "room_text_char_ms", "menu_fade_ms", "battle_slow_percent",
 	"battle_fast_percent", "battle_line_ms", "bar_tween_ms", "hit_flash_ms", "battle_end_hold_ms",
-	"training_step_ms", "training_auto_step_ms", "training_stage_ms", "growth_moment_ms", "world_fx_ms", "corner_slide_px", "voxel_worlds_kept",
+	"training_step_ms", "training_auto_step_ms", "training_stage_ms", "growth_moment_ms", "world_fx_ms", "corner_slide_px", "phone_view_percent", "voxel_worlds_kept",
 	"map_loading_slice_ms", "map_loading_delay_ms", "map_loading_min_ms", "map_loading_fade_ms", "session_start_slice_ms", "coach_ride_ms",
 	"move_title_ms", "special_title_ms", "damage_float_ms", "hit_shake_ms", "crack_flash_ms", "mend_ms", "fall_ms", "end_stamp_ms",
 	"turn_cue_ms", "intent_pulse_ms", "beat_chip_ms", "beat_fill_ms", "knockout_choice_guard_ms",
@@ -478,4 +487,6 @@ static func from_record(reader: ContentRecordReader) -> FeelDefinition:
 	for key: String in KEYS:
 		if int(values[key]) < 0:
 			reader.fail(key, "must not be negative")
+	if int(values["phone_view_percent"]) > 100:
+		reader.fail("phone_view_percent", "at most 100 (a phone's camera rests no farther out than the map's own framing)")
 	return FeelDefinition.new().with_values(values)

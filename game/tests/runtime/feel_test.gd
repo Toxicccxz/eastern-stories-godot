@@ -45,6 +45,10 @@ func _test_data() -> void:
 	var errors: Array[String] = []
 	PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000, "feel": {"map_fade_in_ms": -1, "bubbles": 1}}, "pacing", errors))
 	_check(errors.size() == 2, "a negative time and an unknown knob are refused: %s" % [errors])
+	_check(feel.phone_view_percent == 75, "pacing.json: a phone's camera rests at 75 % of a map's framing")
+	errors.clear()
+	PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000, "feel": {"phone_view_percent": 120}}, "pacing", errors))
+	_check(errors.size() == 1, "a phone's camera never rests farther out than the map's framing: %s" % [errors])
 
 
 func _test_camera_limits() -> void:

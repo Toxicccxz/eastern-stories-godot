@@ -124,6 +124,16 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		_check(hud.is_ancestor_of(actions[index]), "reparent retains unique-name identity")
 	for control: Control in [hud.player_vitality, hud.player_vitality_text, hud.selected_target_label, hud.target_vitality, hud.target_vitality_text, hud.inspection_text, hud.combat_log]:
 		_check(hud.is_ancestor_of(control), "reparent preserves authored information identity")
+	# A phone (owner, 2026-11-21): the movement pad's corner is kept clear only while the pad is
+	# on the screen; with a gamepad connected the toasts stand at the bottom left, as on a desktop.
+	var phone := Rect2(0, 0, 1200, 540)
+	var hud_layout: SharedGameplayLayout = hud.get_node("PresentationLayout") as SharedGameplayLayout
+	for pad_shown: bool in [true, false]:
+		capability.metrics = SafeAreaMetrics.new(phone, phone, false, true, 1.0, pad_shown)
+		presenter.refresh()
+		await _settle(tree)
+		var toasts_x: float = capability.metrics.future_movement_rect().end.x + 8.0 if pad_shown else capability.metrics.content_rect().position.x
+		_check(is_equal_approx(hud_layout.toasts.position.x, toasts_x), "a phone %s: the toasts from x %.0f (at %.0f)" % ["with the pad" if pad_shown else "with a gamepad", toasts_x, hud_layout.toasts.position.x])
 	capability.metrics = _window(Rect2(0, 0, 1280.0 / 1.5, 480), 1.5)
 	presenter.refresh()
 	# The interaction popup (DECISIONS「说话和交互」): each landmark's action label, as its

@@ -11,9 +11,12 @@ var _fallback: bool
 var _mobile: bool
 ## The 界面缩放 factor (ApplicationUiScale) the logical rects are drawn at.
 var _ui_scale: float
+## Whether the on-screen movement pad and pause button are drawn (a phone with no gamepad
+## connected: MobileTouchAdapter): only then does the HUD keep their corners clear.
+var _touch_controls: bool
 
 
-func _init(viewport: Rect2, safe: Rect2, fallback: bool = false, mobile: bool = false, ui_scale: float = 1.0) -> void:
+func _init(viewport: Rect2, safe: Rect2, fallback: bool = false, mobile: bool = false, ui_scale: float = 1.0, touch_controls: bool = false) -> void:
 	_viewport = viewport if _valid_rect(viewport) else Rect2(0, 0, 1, 1)
 	_safe = safe.intersection(_viewport) if _valid_rect(safe) else Rect2()
 	_fallback = fallback or _viewport != viewport or not _valid_rect(_safe)
@@ -21,6 +24,7 @@ func _init(viewport: Rect2, safe: Rect2, fallback: bool = false, mobile: bool = 
 		_safe = _viewport
 	_mobile = mobile
 	_ui_scale = ui_scale if is_finite(ui_scale) and ui_scale > 0.0 else 1.0
+	_touch_controls = touch_controls
 
 
 static func normalize(
@@ -30,11 +34,12 @@ static func normalize(
 	logical_to_screen: Transform2D,
 	mobile: bool = false,
 	ui_scale: float = 1.0,
+	touch_controls: bool = false,
 ) -> SafeAreaMetrics:
 	var viewport: Rect2 = logical_viewport
 	if not _valid_rect(viewport):
 		viewport = Rect2(0, 0, 1, 1)
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale, touch_controls)
 	var determinant: float = logical_to_screen.determinant()
 	if (
 		not _valid_rect(physical_content)
@@ -43,20 +48,20 @@ static func normalize(
 		or not is_finite(determinant)
 		or determinant == 0.0
 	):
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale, touch_controls)
 	var intersection: Rect2 = physical_content.intersection(physical_safe)
 	if not _valid_rect(intersection):
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale, touch_controls)
 	var inverse: Transform2D = logical_to_screen.affine_inverse()
 	if not inverse.is_finite():
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale, touch_controls)
 	var transformed: Rect2 = inverse * intersection
 	if not _valid_rect(transformed):
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale, touch_controls)
 	var safe: Rect2 = transformed.intersection(viewport)
 	if not _valid_rect(safe):
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
-	return SafeAreaMetrics.new(viewport, safe, false, mobile, ui_scale)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale, touch_controls)
+	return SafeAreaMetrics.new(viewport, safe, false, mobile, ui_scale, touch_controls)
 
 
 static func _valid_rect(rect: Rect2) -> bool:
@@ -92,6 +97,13 @@ func touch_sized() -> bool:
 	return _mobile or is_compact()
 
 
+## Whether the movement pad and the pause button are on the screen (future_movement_rect(),
+## future_pause_rect()): not while a gamepad is connected (owner, 2026-11-21: the pad's corner
+## stood empty and the messages popped up beside it).
+func touch_controls() -> bool:
+	return _touch_controls
+
+
 func is_qualified() -> bool:
 	return _safe.size.x >= 800.0 and _safe.size.y >= 480.0
 
@@ -109,4 +121,4 @@ func future_pause_rect() -> Rect2:
 
 
 func equivalent(other: SafeAreaMetrics) -> bool:
-	return other != null and _viewport.is_equal_approx(other._viewport) and _safe.is_equal_approx(other._safe) and _fallback == other._fallback and _mobile == other._mobile and is_equal_approx(_ui_scale, other._ui_scale)
+	return other != null and _viewport.is_equal_approx(other._viewport) and _safe.is_equal_approx(other._safe) and _fallback == other._fallback and _mobile == other._mobile and is_equal_approx(_ui_scale, other._ui_scale) and _touch_controls == other._touch_controls
