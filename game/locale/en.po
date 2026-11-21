@@ -6600,3 +6600,558 @@ msgstr "$n suddenly {n:soar|soars} upward, and $N's attack meets nothing but air
 
 msgid "$n右足一点，身影向左滑开数尺，避了开去。"
 msgstr "$n {n:push|pushes} off with the right foot and {n:glide|glides} several feet to the left, out of the way."
+
+msgid "尸体"
+msgstr "corpse"
+
+msgid "自动存档"
+msgstr "Autosave"
+
+msgid "决战前"
+msgstr "Before the Final Battle"
+
+msgid "死前存档"
+msgstr "Before Death"
+
+msgid "手动存档 %d"
+msgstr "Manual Save %d"
+
+msgid "{slot}（主存档丢失，可以恢复）"
+msgstr "{slot} (main save lost; can be recovered)"
+
+msgid "{slot}（空）"
+msgstr "{slot} (empty)"
+
+msgid "{slot}（无法读取）"
+msgstr "{slot} (can't be read)"
+
+msgid "{slot}（来自不兼容的版本）"
+msgstr "{slot} (from an incompatible version)"
+
+msgid "{name}（鬼魂）"
+msgstr "{name} (ghost)"
+
+msgid "{place}    时长 {played}    {saved}"
+msgstr "{place}    Played {played}    {saved}"
+
+msgid "不到一分钟前"
+msgstr "less than a minute ago"
+
+msgid "%d 分钟前"
+msgstr "%d min ago"
+
+msgid "%d 小时前"
+msgstr "%d h ago"
+
+msgid "{count}{unit}{item}"
+msgstr "{count} × {item}"
+
+msgid "一{unit}{item}"
+msgstr "a {item}"
+
+msgid "{npc}没有收下。"
+msgstr "{npc} won't take it."
+
+msgid "{item}对你而言太重了，掉在你的脚边。"
+msgstr "The {item} is too heavy for you and falls at your feet."
+
+msgid "这样东西不能随便给人。"
+msgstr "You can't just give this away."
+
+msgid "你拿出{item}给{npc}。"
+msgstr "You take out the {item} and give it to {npc}."
+
+msgid "你给{npc}{item}。"
+msgstr "You give {npc} the {item}."
+
+msgid "{item}对{holder}而言太重了。"
+msgstr "The {item} is too heavy for {holder}."
+
+msgid "{npc}丢下{item}。"
+msgstr "{npc} drops the {item}."
+
+msgid "这样东西不能随意丢弃。"
+msgstr "You can't just throw this away."
+
+msgid "你丢下%s。"
+msgstr "You drop the %s."
+
+msgid "因为这样东西并不值钱，所以人们并不会注意到它的存在。"
+msgstr "It isn't worth anything, so nobody will even notice it's there."
+
+msgid "这个东西还是小心保管的好，不必放在别处。"
+msgstr "Better keep this one safe; no need to put it anywhere else."
+
+msgid "你将{item}放进{container}。"
+msgstr "You put the {item} into the {container}."
+
+msgid "你从{container}中拿出{item}。"
+msgstr "You take the {item} out of the {container}."
+
+msgid "你身上没有这样东西。"
+msgstr "You don't have that on you."
+
+msgid "你没有那麽多的%s。"
+msgstr "You don't have that many %s."
+
+msgid "{npc}拿起{container}咕噜噜地喝了几口{liquid}。"
+msgstr "{npc} lifts the {container} and gulps down some {liquid}."
+
+msgid "{npc}说过：{line}"
+msgstr "{npc} once said: {line}"
+
+msgid "拳脚"
+msgstr "Fists"
+
+msgid "势"
+msgstr "Stance"
+
+msgid "功"
+msgstr "Exert"
+
+msgid "物"
+msgstr "Item"
+
+msgid "逃"
+msgstr "Flee"
+
+msgid "法"
+msgstr "Spell"
+
+msgid "得"
+msgstr "Got it"
+
+msgid "倒"
+msgstr "Down"
+
+msgid "亡"
+msgstr "Dead"
+
+msgid "闪"
+msgstr "Dodge"
+
+msgid "挡"
+msgstr "Block"
+
+msgid "无伤"
+msgstr "No harm"
+
+msgid "毒"
+msgstr "Poison"
+
+msgid "醉"
+msgstr "Drunk"
+
+msgid "迷药"
+msgstr "Drugged"
+
+msgid "冰"
+msgstr "Frozen"
+
+msgid "包扎"
+msgstr "Bandaged"
+
+msgid "中毒：每次心跳掉气，一半成伤。"
+msgstr "Poisoned: loses Qi every heartbeat, half of it as wounds."
+
+msgid "蛇毒：每次心跳伤气 10、掉神 10。"
+msgstr "Snake venom: every heartbeat, 10 Qi wounded and 10 Spirit lost."
+
+msgid "火玫瑰毒：每次心跳伤神 20、掉气 10。"
+msgstr "Fire Rose poison: every heartbeat, 20 Spirit wounded and 10 Qi lost."
+
+msgid "醉了：越醉越站不稳，醉过头会昏倒。"
+msgstr "Drunk: the drunker, the less steady on your feet; drink too much and you pass out."
+
+msgid "蒙汗药：药力发作，撑不住就会昏倒。"
+msgstr "Knockout drops: the drug is taking hold; if you can't hold out, you pass out."
+
+msgid "意寒掌毒：每次心跳伤精、气、神各 25。"
+msgstr "Chill Palm poison: every heartbeat, 25 each of Essence, Qi and Spirit wounded."
+
+msgid "包扎着：每次心跳回气 3。"
+msgstr "Bandaged: recovers 3 Qi every heartbeat."
+
+msgid "克制：快克重、重克守、守克虚、虚克快。箭头从克的一方指向被克的一方；想克他起手的那一类，就找指向它的那一印。"
+msgstr "Counters: Fast beats Heavy, Heavy beats Guard, Guard beats Feint, Feint beats Fast. The arrows point from the winner to the one it beats; to beat the kind they open with, find the seal pointing at it."
+
+msgid "克制"
+msgstr "Counters"
+
+msgid "克"
+msgstr "Beats"
+
+msgid "怕"
+msgstr "Weak to"
+
+msgid "死斗"
+msgstr "Death Match"
+
+msgid "交手"
+msgstr "Bout"
+
+msgid "点到为止"
+msgstr "Stop at a touch"
+
+msgid "生死各安天命"
+msgstr "Life and death as fate decides"
+
+msgid "三合为限"
+msgstr "Three rounds only"
+
+msgid "{line} [color=#8b959e]（-{damage}）[/color]"
+msgstr "{line} [color=#8b959e](-{damage})[/color]"
+
+msgid "{line}（-{damage}）"
+msgstr "{line} (-{damage})"
+
+msgid "$N抢得一手"
+msgstr "$N {N:seize|seizes} an extra beat"
+
+msgid "$N被震得失衡"
+msgstr "$N {N:are|is} knocked off balance"
+
+msgid "$N一招落空"
+msgstr "$N {N:swing|swings} at nothing"
+
+msgid "无碍"
+msgstr "Fine"
+
+msgid "受伤不轻"
+msgstr "Hurt"
+
+msgid "伤势沉重"
+msgstr "Badly Hurt"
+
+msgid "濒死"
+msgstr "Near Death"
+
+msgid "江湖常识"
+msgstr "Jianghu Basics"
+
+msgid "物品"
+msgstr "Items"
+
+msgid "人物"
+msgstr "People"
+
+msgid "基本功夫"
+msgstr "Basic Arts"
+
+msgid "特殊技能"
+msgstr "Special Skills"
+
+msgid "知识"
+msgstr "Knowledge"
+
+msgid "武功"
+msgstr "Martial Arts"
+
+msgid "可以激发为：{uses}"
+msgstr "Can be applied as: {uses}"
+
+msgid "运功：{functions}"
+msgstr "Exert: {functions}"
+
+msgid "你的等级：{level}"
+msgstr "Your level: {level}"
+
+msgid "禽兽"
+msgstr "Beasts"
+
+msgid "破绽：{tag}"
+msgstr "Weak spot: {tag}"
+
+msgid "见过 {n} 次"
+msgstr "Seen {n} times"
+
+msgid "见识录 · {school}"
+msgstr "What You've Seen · {school}"
+
+msgid "看熟一招（见过 {n} 次）就认得它的快、重、虚、守和破绽；自家门派的招一学就认得。"
+msgstr "Once you've seen a move enough (seen {n} times) you know whether it's Fast, Heavy, Feint or Guard, and its weak spot; your own school's moves you know as soon as you learn them."
+
+msgid "这一路的招你都认得。"
+msgstr "You know every move of this style."
+
+msgid "打法 · {word}：{line}"
+msgstr "How It Fights · {word}: {line}"
+
+msgid "{npc}讲过：{line}"
+msgstr "{npc} told you: {line}"
+
+msgid "{npc}拆过招，说：{line}"
+msgstr "{npc} drilled with you and said: {line}"
+
+msgid "{tag}招"
+msgstr "{tag} move"
+
+msgid "{npc}的第 {beat} 手总是{tag}（看过 {n} 回）。"
+msgstr "{npc}'s beat {beat} is always {tag} (seen {n} times)."
+
+msgid "{npc}的第 {beat} 手多半是{tag}（{m} 回里有 {n} 回）。"
+msgstr "{npc}'s beat {beat} is usually {tag} ({n} times out of {m})."
+
+msgid "没有什么特别之处。"
+msgstr "Nothing special about it."
+
+msgid "为首的是{head}，在{seat}。"
+msgstr "Led by {head}, at {seat}."
+
+msgid "你是{family}的弟子。"
+msgstr "You're a disciple of {family}."
+
+msgid "你见过的门人：{names}"
+msgstr "Members you've met: {names}"
+
+msgid "你没有特别留意过此人的模样。"
+msgstr "You never paid much attention to what this one looks like."
+
+msgid "{skill}　{level} 级"
+msgstr "{skill}  level {level}"
+
+msgid "习得　{skill}"
+msgstr "Learned  {skill}"
+
+msgid "{power}上限　{value}"
+msgstr "{power} max  {value}"
+
+msgid "拜入　{family}"
+msgstr "Joined  {family}"
+
+msgid "拜师　{master}"
+msgstr "Became the disciple of  {master}"
+
+msgid "任务完成　{title}"
+msgstr "Quest Complete  {title}"
+
+msgid "获得　{item}"
+msgstr "Got  {item}"
+
+msgid "叉"
+msgstr "Cross"
+
+msgid "圈"
+msgstr "Circle"
+
+msgid "方"
+msgstr "Square"
+
+msgid "三角"
+msgstr "Triangle"
+
+msgid "大"
+msgstr "Large"
+
+msgid "小"
+msgstr "Small"
+
+msgid "画面卡顿时，可以在「设置」里把「画质」调低；全屏时调低「分辨率」也会更流畅"
+msgstr "If the picture stutters, lower \"Graphics\" in Settings; in fullscreen, lowering \"Resolution\" also makes it smoother"
+
+msgid "画面仍然卡顿时，可以在「设置」里调低「分辨率」：全屏时画面会更流畅"
+msgstr "If the picture still stutters, lower \"Resolution\" in Settings — it runs smoother in fullscreen"
+
+msgid "指路"
+msgstr "Guide"
+
+msgid "版本 %s"
+msgstr "Version %s"
+
+msgid "支付货币"
+msgstr "Pay with"
+
+msgid "取得货币"
+msgstr "Receive"
+
+msgid "支付数量（正整数）"
+msgstr "Amount to pay (whole number)"
+
+msgid "请选择货币与数量。同币种亦可兑换。"
+msgstr "Choose the coins and the amount. You can exchange within the same coin too."
+
+msgid "铜钱 · 文"
+msgstr "Copper · wen"
+
+msgid "银子 · 两"
+msgstr "Silver · taels"
+
+msgid "黄金 · 两"
+msgstr "Gold · taels"
+
+msgid "兑换成功：扣除 {paid}，取得 {received}。"
+msgstr "Exchanged: paid {paid}, received {received}."
+
+msgid "换成这么多你拿不动：身上太重，这笔没有换。少换一些，或先放下些东西。"
+msgstr "You couldn't carry that much — you're too loaded down, so nothing was exchanged. Exchange less, or put something down first."
+
+msgid "你没有直接携带这种货币。"
+msgstr "You don't have that kind of money on you."
+
+msgid "所选货币数量不足。"
+msgstr "You don't have enough of that money."
+
+msgid "数量不足以兑换一单位目标货币。"
+msgstr "Not enough to exchange for even one unit."
+
+msgid "请输入有效的正整数。"
+msgstr "Enter a valid whole number."
+
+msgid "兑换状态异常，请停止操作。"
+msgstr "Something went wrong with the exchange. Please stop."
+
+msgid "确定"
+msgstr "OK"
+
+msgid "切到别的窗口时，游戏暂停了。"
+msgstr "The game paused when you switched to another window."
+
+msgid "不想这样暂停，可以在「设置」里关掉「切出窗口时暂停」。"
+msgstr "If you don't want it to pause like this, turn off \"Pause when the window loses focus\" in Settings."
+
+msgid "走路"
+msgstr "Walk"
+
+msgid "交互 · 继续"
+msgstr "Interact · Continue"
+
+msgid "确认"
+msgstr "Confirm"
+
+msgid "返回 · 取消"
+msgstr "Back · Cancel"
+
+msgid "观察"
+msgstr "Look Around"
+
+msgid "菜单翻页"
+msgstr "Turn Menu Page"
+
+msgid "暂停（系统）"
+msgstr "Pause (System)"
+
+msgid "滚动长文"
+msgstr "Scroll Long Text"
+
+msgid "战斗：换目标"
+msgstr "Battle: Switch Target"
+
+msgid "战斗：记录"
+msgstr "Battle: Log"
+
+msgid "战斗：收回指令"
+msgstr "Battle: Take Back Order"
+
+msgid "字母键按键盘上的位置算，这里写的是你的键盘在那个位置印的字。暂时不能改键；手柄可以在 Steam 的控制器设置里改。"
+msgstr "Letter keys go by their position on the keyboard; what's written here is the letter your keyboard prints in that spot. Keys can't be rebound yet; a gamepad can be remapped in Steam's controller settings."
+
+msgid "动作"
+msgstr "Action"
+
+msgid "键盘"
+msgstr "Keyboard"
+
+msgid "手柄"
+msgstr "Gamepad"
+
+msgid "方向键"
+msgstr "Arrow keys"
+
+msgid "十字键"
+msgstr "D-pad"
+
+msgid "停止"
+msgstr "Stop"
+
+msgid "{what}：已做 {count} 次"
+msgstr "{what}: done {count} times"
+
+msgid "{what}：已做 {count} 次，{rest}"
+msgstr "{what}: done {count} times, {rest}"
+
+msgid "，上限 {maximum} → {target}，还差 {left}"
+msgstr ", max {maximum} → {target}, {left} to go"
+
+msgid "你现在是{title}。改投{master}门下，就是背叛师门：\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n· 门派、师父和称号都换成{family}的；已经学会的武功保留。\n· 日后再改投别派，又算一次背叛。\n{lines}确定要改投吗？"
+msgstr "You are {title}. Switching to {master}'s school means betraying your own:\n· Your Standing is wiped (it's {score} now).\n· Your count of betrayals becomes {next}. From then on, a master who takes students teaches you only up to their own level minus 20 × your betrayals.\n· Your school, shifu and title all become {family}'s; arts you've already learned stay.\n· Switching schools again later counts as another betrayal.\n{lines}Switch schools?"
+
+msgid "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n· 综合评价清零。\n· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n{lines}确定要拜师吗？"
+msgstr "Become {master}'s disciple and you join {family}. If you ever switch to another school later, that's betraying your school:\n· Your Standing is wiped.\n· Your count of betrayals goes up by one. From then on, a master who takes students teaches you only up to their own level minus 20 × your betrayals.\n{lines}Become a disciple?"
+
+msgid "· 「{title}」这条线就此中止，以后再也接不上。\n"
+msgstr "· The \"{title}\" line ends here and can never be picked up again.\n"
+
+msgid "· 「{title}」这条线从此不会再出现。\n"
+msgstr "· The \"{title}\" line will never come up again.\n"
+
+msgid "你现在是{current}的嫡传弟子。改拜{master}为师，{current}就不再是你的师父：\n· 门派不变，辈分随{master}。\n{teach}确定要改拜{master}为师吗？"
+msgstr "You are {current}'s direct disciple. Take {master} as your shifu instead, and {current} is no longer your shifu:\n· Your school stays the same; your generation follows {master}.\n{teach}Take {master} as your shifu?"
+
+msgid "· 以后{current}只教你{pronoun}的等级超过你三倍的武功。\n"
+msgstr "· From then on, {current} only teaches you arts in which their level is more than three times yours.\n"
+
+msgid "· {current}只教嫡传弟子，以后不再教你。\n"
+msgstr "· {current} only teaches direct disciples and will no longer teach you.\n"
+
+msgid "· 你现在是{current}的嫡传弟子；三招都接住，便改拜{master}为师，{current}就不再是你的师父。\n{teach}"
+msgstr "· You are {current}'s direct disciple; take all three moves and you'll take {master} as your shifu, and {current} will no longer be your shifu.\n{teach}"
+
+msgid "{master}的三招是真打：\n· 每一招都实打实地落在你身上，挨中了会受伤。\n· 哪一招接不住，测试就算失败，你随后会昏倒。\n· 伤得太重会死。\n{after}\n确定接受测试吗？"
+msgstr "{master}'s three moves are for real:\n· Every move lands on you for real, and if it hits, you're hurt.\n· Fail to take any one of them and you fail the test — and then pass out.\n· Get hurt badly enough and you die.\n{after}\nTake the test?"
+
+msgid "· 三招都接住，便拜入{master}门下，成为{family}的弟子。"
+msgstr "· Take all three moves and you join {master}'s school as a disciple of {family}."
+
+msgid "· 这是你第一次拜师；日后再改投别派，就是背叛师门。"
+msgstr "· This is your first shifu; switching to another school later is betraying your school."
+
+msgid "· 你现在是{title}；三招都接住，就改投{master}门下，等于背叛师门：综合评价清零（现在是 {score}），背叛师门的次数变成 {next} 次；门派、师父和称号都换成{family}的，已经学会的武功保留。"
+msgstr "· You are {title}; take all three moves and you switch to {master}'s school, which is betraying your own: your Standing is wiped (it's {score} now), your count of betrayals becomes {next}, your school, shifu and title all become {family}'s, and the arts you've learned stay."
+
+msgid "· 三招都接住，{master}便愿意收你为徒，再向{pronoun}拜师即可。"
+msgstr "· Take all three moves and {master} will be willing to take you on; then just ask to become a disciple."
+
+msgid "{master}只收没有门派的普通百姓为徒。你现在是{title}，向{pronoun}拜师：\n· {pronoun}会当你要背叛师门，当众大声喝破。\n· 然后当场出手要杀你，这是一场生死之战。\n确定要向{pronoun}拜师吗？"
+msgstr "{master} only takes commoners with no school as disciples. You are {title}; ask to become a disciple and:\n· {master} will take you for a traitor to your school and call it out for all to hear.\n· Then attack to kill you on the spot — a fight to the death.\nAsk anyway?"
+
+msgid "拜师 / 向师父请安"
+msgstr "Become a Disciple / Pay Respects"
+
+msgid "离开"
+msgstr "Leave"
+
+msgid "请教%s（一次）"
+msgstr "Learn %s (once)"
+
+msgid "连续请教"
+msgstr "Keep Learning"
+
+msgid "{skill} {level} · 学习进度 {progress} · 耗精 {cost}"
+msgstr "{skill} {level} · progress {progress} · Essence {cost}"
+
+msgid "有效{skill} {level}"
+msgstr "Effective {skill} {level}"
+
+msgid "精 {gin}（须大于消耗才可进步） · 可用潜能 {potential} · 实战经验 {exp}"
+msgstr "Essence {gin} (must be more than the cost to improve) · Potential to spend {potential} · Combat Experience {exp}"
+
+msgid "不拜了"
+msgstr "Never Mind"
+
+msgid "确定改投"
+msgstr "Switch Schools"
+
+msgid "不改投了"
+msgstr "Don't Switch"
+
+msgid "再想想"
+msgstr "Let Me Think"
+
+msgid "不试了"
+msgstr "Skip the Test"
+
+msgid "连续请教「%s」"
+msgstr "Keep Learning \"%s\""
+
+msgid "无法计算"
+msgstr "Can't calculate"

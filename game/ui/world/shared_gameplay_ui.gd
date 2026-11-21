@@ -346,6 +346,8 @@ func _notification(what: int) -> void:
 		# The selection's name and an open panel were put together in the old language;
 		# the heading and the status line follow on the next refresh, the log keeps its lines.
 		selected_target_label.text = selection.selection_text()
+		# An open 打听 list reads its topics, speaker and prompt again in the new language.
+		ask.relabel()
 		_presentation_layout.close_frame()
 		# The card shows behind 系统 too, where the language is changed (设置): its lines now.
 		if _player != null:

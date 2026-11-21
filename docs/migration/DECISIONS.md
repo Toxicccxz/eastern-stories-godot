@@ -337,6 +337,7 @@
   own, until it is complete. The pilot covers the shell, the opening, the inn and Pure Wind Hall's people,
   the first-days quests and the fight screen (about 1,000 messages of 13,589); the second batch adds all of Snow Pavilion, the game menu pages, training, common items and the Empty Mountain and basic arts (about 2,200).
 - The title's other-language line is never translated (it is the title in the other language).
+- Switching the language mid-game (Settings) also re-reads what was put together before and still shows: the room panel at the top, the ways-out names over the map and an open 打听 list. The log and toasts keep their lines (as before).
 
 ## 手机试玩：标题菜单和手柄 (owner 2026-11-20 在一加 8T 上试玩：「主界面显示菜单的位置有问题，还有，去掉虚拟摇杆，我是要接手柄玩的」)
 

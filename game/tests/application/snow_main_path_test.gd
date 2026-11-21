@@ -105,6 +105,17 @@ func _switch_language(tree: SceneTree) -> bool:
 	check(_shell.apply_settings() and TranslationServer.get_locale() == PseudoLocale.CODE, "Apply switches the language at once")
 	check(_shell.request_resume(), "back to the journey")
 	await _frames(tree, 6)
+	# What was put together before the switch and still shows: the room panel at the top and the
+	# ways-out names over the map read again in the new language.
+	var room: String = _session.shared_ui().view_overlay.room_text()
+	check(PseudoLocale.untranslated(room, _allowed_text()).is_empty(), "the room panel follows the switch: %s" % room)
+	var view: WorldVoxelView = _session.active_map().get_node_or_null("MapView") as WorldVoxelView
+	var exits: int = 0
+	for label: Node in ([] if view == null else view.find_children("*", "Label3D", true, false)):
+		if label.has_meta(&"entrance_title"):
+			exits += 1
+			check(PseudoLocale.untranslated((label as Label3D).text.trim_suffix("  ›")).is_empty(), "a way out's name follows the switch: %s" % (label as Label3D).text)
+	check(view == null or exits > 0, "the map shows its ways out")
 	return check(_settings_files.files.has(ApplicationSettingsRepository.SETTINGS_PATH), "the choice is kept in the settings")
 
 
