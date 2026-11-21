@@ -3039,3 +3039,3564 @@ msgstr "Essence %s · Spirit %s"
 
 msgid "精 %d　神 %d"
 msgstr "Essence %d  Spirit %d"
+
+msgid "空无一物"
+msgstr "Nothing at all"
+
+msgid "背包"
+msgstr "Inventory"
+
+msgid "当"
+msgstr "Pawn"
+
+msgid "暗器"
+msgstr "Hidden Weapons"
+
+msgid "法术"
+msgstr "Spells"
+
+msgid "打坐"
+msgstr "Meditate"
+
+msgid "冥思"
+msgstr "Contemplate"
+
+msgid "修行"
+msgstr "Cultivate"
+
+msgid "无"
+msgstr "None"
+
+msgid "武学"
+msgstr "Martial Arts"
+
+msgid "你没有足够的零钱，而对方也找不开...。"
+msgstr "You don't have small enough change, and they can't break it either..."
+
+msgid "你的钱不够。"
+msgstr "You don't have enough money."
+
+msgid "交易未完成，状态异常；已发生的扣款不会退回。"
+msgstr "The trade didn't finish properly; money already taken won't be refunded."
+
+msgid "道："
+msgstr "says:"
+
+msgid "未装备"
+msgstr "Not equipped"
+
+msgid "任务"
+msgstr "Quests"
+
+msgid "购买"
+msgstr "Buy"
+
+msgid "角色"
+msgstr "Character"
+
+msgid "地图"
+msgstr "Map"
+
+msgid "官府悬赏：捉拿以下恶人者，赏银由雪亭驿代付。放过的恶人押送官府，一样领赏。"
+msgstr "Wanted by the magistrate: a reward for each of these outlaws, paid on the magistrate's behalf by the Snow Pavilion Post Station. Outlaws you spare and hand over pay just the same."
+
+msgid "榜上暂时没有与阁下相称的悬赏，过些时候再来看看吧。"
+msgstr "Nothing on the board suits you just now, friend. Check back later."
+
+msgid "{outlaw} · 出没于{region}{place}一带 · 赏银{silver}两"
+msgstr "{outlaw} · seen around {place}, {region} · reward {silver} taels"
+
+msgid "（已揭）"
+msgstr "(taken)"
+
+msgid "放弃"
+msgstr "Give Up"
+
+msgid "揭榜"
+msgstr "Take It"
+
+msgid "一次只能揭一张榜。"
+msgstr "You can only take one notice at a time."
+
+msgid "你揭下了告示。"
+msgstr "You tear down the notice."
+
+msgid "你放弃了这张悬赏。"
+msgstr "You give up this bounty."
+
+msgid "你身上没有钱。"
+msgstr "You have no money on you."
+
+msgid "算了"
+msgstr "Never mind"
+
+msgid "拿多少钱塞给{npc}？"
+msgstr "How much do you slip {npc}?"
+
+msgid "身份"
+msgstr "Identity"
+
+msgid "历练"
+msgstr "Deeds"
+
+msgid "精气神"
+msgstr "Essence, Qi, Spirit"
+
+msgid "修为"
+msgstr "Cultivation"
+
+msgid "天赋"
+msgstr "Gifts"
+
+msgid "{name} · {gender} · {age}岁"
+msgstr "{name} · {gender} · age {age}"
+
+msgid "(鬼气) "
+msgstr "(ghostly)"
+
+msgid "{potential}（已用 {spent}）"
+msgstr "{potential} (spent {spent})"
+
+msgid "总共杀过 {kills} 个人。"
+msgstr "Killed {kills} in all."
+
+msgid "可用潜能 {unspent} / {cap}"
+msgstr "Potential to spend: {unspent} / {cap}"
+
+msgid "（已满，先去请教或自学）"
+msgstr "(full — go learn from a shifu or study on your own)"
+
+msgid "落后补偿：{region}推荐实战经验 {recommended}，你在这里所得的经验和潜能 +{percent}%，赶上后恢复。"
+msgstr "Catch-up bonus: {region} expects about {recommended} Combat Experience; you get +{percent}% experience and Potential here until you catch up."
+
+msgid "还没有历练。切磋取胜、了结一段经历、第一次到一个地方，都算。"
+msgstr "No deeds yet. Winning a spar, settling an affair and reaching a place for the first time all count."
+
+msgid "……还有 {count} 项"
+msgstr "...and {count} more"
+
+msgid "生在{name}"
+msgstr "Born in {name}"
+
+msgid "切磋胜过{name}"
+msgstr "Beat {name} in a spar"
+
+msgid "击败{name}"
+msgstr "Defeated {name}"
+
+msgid "了结「{name}」"
+msgstr "Settled \"{name}\""
+
+msgid "读通{name}"
+msgstr "Mastered {name}"
+
+msgid "到过{name}"
+msgstr "Reached {name}"
+
+msgid "内力练到 {name}"
+msgstr "Inner Force reached {name}"
+
+msgid "办成「{name}」"
+msgstr "Completed \"{name}\""
+
+msgid "你还没有学会任何武学。"
+msgstr "You haven't learned any martial arts yet."
+
+msgid "你还没有拿过任何东西。"
+msgstr "You haven't picked anything up yet."
+
+msgid "你还没有遇见过任何门派的人。"
+msgstr "You haven't met anyone from any school yet."
+
+msgid "你还没有遇见过任何人。"
+msgstr "You haven't met anyone yet."
+
+msgid "你想跳哪一曲？"
+msgstr "Which dance?"
+
+msgid "跳「{name}」"
+msgstr "Dance \"{name}\""
+
+msgid "随意起舞"
+msgstr "Dance freely"
+
+msgid "你还没有见过什么人。"
+msgstr "You haven't seen anyone yet."
+
+msgid "中止施法"
+msgstr "Stop Casting"
+
+msgid "声望"
+msgstr "Reputation"
+
+msgid "百科"
+msgstr "Codex"
+
+msgid "系统"
+msgstr "System"
+
+msgid "战斗中只能使用系统功能。"
+msgstr "Only system functions can be used during a fight."
+
+msgid "确认给予"
+msgstr "Confirm Gift"
+
+msgid "还剩 {portions} 份 · 价值 {value} 文"
+msgstr "{portions} portions left · worth {value} wen"
+
+msgid "里面是空的 · 最多装 {maximum} 份"
+msgstr "Empty · holds up to {maximum} portions"
+
+msgid "装着{liquid} · {portions}/{maximum} 份"
+msgstr "Holds {liquid} · {portions}/{maximum} portions"
+
+msgid "喝一份{liquid}"
+msgstr "Drink some {liquid}"
+
+msgid "你将剩下的%s吃得乾乾净净。"
+msgstr "You polish off the last of the %s."
+
+msgid "你拿起%s咬了几口。"
+msgstr "You pick up the %s and take a few bites."
+
+msgid "你已经是鬼了，不能吃东西！"
+msgstr "You're a ghost — you can't eat!"
+
+msgid "你已经吃太饱了，再也塞不下任何东西了。"
+msgstr "You're stuffed. You couldn't fit in another bite."
+
+msgid "你肚子太涨了，再也撑不下任何东东了。!"
+msgstr "Your belly's about to burst. Not one more thing!"
+
+msgid "只能吃自己直接携带的食物。"
+msgstr "You can only eat food you're carrying yourself."
+
+msgid "战斗中暂不能吃东西。"
+msgstr "You can't eat in the middle of a fight."
+
+msgid "你上一个动作还没有完成。"
+msgstr "You haven't finished what you were doing."
+
+msgid "物品状态异常，请停止操作。"
+msgstr "Something's wrong with this item. Please stop."
+
+msgid "现在不能吃这个物品。"
+msgstr "You can't eat this right now."
+
+msgid "你将%s装满清水。"
+msgstr "You fill the %s with clean water."
+
+msgid "你将{container}里剩下的{liquid}倒掉。"
+msgstr "You pour out the {liquid} left in the {container}."
+
+msgid "你拿起{container}咕噜噜地喝了几口{liquid}。"
+msgstr "You lift the {container} and gulp down some {liquid}."
+
+msgid "你已经将{container}里的{liquid}喝得一滴也不剩了。"
+msgstr "You've drunk every last drop of the {liquid} in the {container}."
+
+msgid "你已经是鬼了，不能喝东西！"
+msgstr "You're a ghost — you can't drink!"
+
+msgid "你已经喝太多了，再也灌不下一滴水了。"
+msgstr "You've had way too much to drink. Not one more drop!"
+
+msgid "%s已经被喝得一滴也不剩了"
+msgstr "The %s has been drunk to the last drop"
+
+msgid "这里没有地方可以装水。"
+msgstr "There's nowhere to fill it here."
+
+msgid "战斗中暂不能装水或饮用。"
+msgstr "You can't fill or drink from it in the middle of a fight."
+
+msgid "现在不能使用这个酒袋。"
+msgstr "You can't use this wineskin right now."
+
+msgid "请选择随身物品。"
+msgstr "Choose something you're carrying."
+
+msgid "估价"
+msgstr "Appraise"
+
+msgid "卖断…"
+msgstr "Sell Outright..."
+
+msgid "确认卖断（不可撤销）"
+msgstr "Confirm Sale (can't be undone)"
+
+msgid "价值{value}文 · 卖断可得{payout}文（以实际交付为准）。"
+msgstr "Worth {value} wen · selling outright gets you {payout} wen (as actually paid)."
+
+msgid "一文不值，不能卖断。"
+msgstr "Worthless — can't be sold."
+
+msgid "掌柜把它推了回来：这是要紧的东西，您还用得着，小号不收。"
+msgstr "The shopkeeper pushes it back: \"That's something important — you'll still be needing it. We don't take that here.\""
+
+msgid "物品已变化或现在不可交易，请重新选择。"
+msgstr "The item has changed or can't be traded right now. Please choose again."
+
+msgid "卖断完成，物品已移除；实际收到%d文。部分钱款因负重不足未能交付，已销毁，不会补发或退款。"
+msgstr "Sold; the item is gone. You actually received %d wen. Part of the money couldn't be handed over because you can't carry it; it's lost and won't be paid again or refunded."
+
+msgid "卖断完成，物品已移除；实际收到%d文。"
+msgstr "Sold; the item is gone. You actually received %d wen."
+
+msgid "这笔钱你拿不动：身上太重，没有卖。先放下些东西再来。"
+msgstr "You can't carry this much money — you're too loaded down, so nothing was sold. Put something down and come back."
+
+msgid "交易技术异常（阶段{stage}），请停止操作。已交付{delivered}文；物品与钱款以当前实际状态为准，未回滚，请勿重复尝试。"
+msgstr "The trade hit a technical problem (stage {stage}). Please stop. {delivered} wen was paid; the item and money stand as they are now and were not rolled back. Don't try again."
+
+msgid "卖断未执行，物品状态已变化；请重新选择。"
+msgstr "The sale didn't go through; the item has changed. Please choose again."
+
+msgid "全部"
+msgstr "All"
+
+msgid "装备"
+msgstr "Gear"
+
+msgid "补给"
+msgstr "Supplies"
+
+msgid "书籍"
+msgstr "Books"
+
+msgid "杂物"
+msgstr "Odds and Ends"
+
+msgid "身上空无一物。"
+msgstr "You're carrying nothing."
+
+msgid "没有带着兵器或衣甲。"
+msgstr "No weapons or armor on you."
+
+msgid "没有带着吃的、喝的或伤药。"
+msgstr "Nothing to eat, drink or heal with on you."
+
+msgid "没有带着书。"
+msgstr "No books on you."
+
+msgid "没有带着要紧的东西。"
+msgstr "Nothing important on you."
+
+msgid "没有别的杂物。"
+msgstr "No other odds and ends."
+
+msgid "你还没有记下什么江湖见闻。"
+msgstr "You haven't noted anything from the jianghu yet."
+
+msgid "{title} · {region}"
+msgstr "{title} · {region}"
+
+msgid "车马行的车上路了……"
+msgstr "The coach sets off..."
+
+msgid "这条路通向哪里，走了才知道。"
+msgstr "Where this road goes, you'll only know by walking it."
+
+msgid "适合经验 {exp} 上下"
+msgstr "Suits about {exp} experience"
+
+msgid "指路到这里"
+msgstr "Guide Me Here"
+
+msgid "{word}  {who} · {place}"
+msgstr "{word}  {who} · {place}"
+
+msgid "取消指路"
+msgstr "Stop Guiding"
+
+msgid "还有 {count} 处没进去过"
+msgstr "{count} places not yet entered"
+
+msgid "车钱 {fare}　路上约{time}"
+msgstr "Fare {fare}  About {time} on the road"
+
+msgid "坐车去这里"
+msgstr "Ride Here"
+
+msgid "车马行的车就停在这里。"
+msgstr "The coach stops right here."
+
+msgid "车马行的车不到这里。"
+msgstr "The coach doesn't come here."
+
+msgid "目标  {objective}"
+msgstr "Objective  {objective}"
+
+msgid "你就在这里。"
+msgstr "You're here."
+
+msgid "从这里认不得路。"
+msgstr "Can't find the way from here."
+
+msgid "已指路：{place}"
+msgstr "Guiding you to: {place}"
+
+msgid "已取消指路。"
+msgstr "Stopped guiding."
+
+msgid "标"
+msgstr "Q"
+
+msgid "师"
+msgstr "T"
+
+msgid "店"
+msgstr "S"
+
+msgid "钱"
+msgstr "$"
+
+msgid "榜"
+msgstr "B"
+
+msgid "尸"
+msgstr "X"
+
+msgid "伴"
+msgstr "F"
+
+msgid "差"
+msgstr "J"
+
+msgid "近看"
+msgstr "Close Up"
+
+msgid "全图"
+msgstr "Whole Map"
+
+msgid "初学乍练"
+msgstr "Novice"
+
+msgid "粗通皮毛"
+msgstr "Smattering"
+
+msgid "半生不熟"
+msgstr "Half-Learned"
+
+msgid "马马虎虎"
+msgstr "So-So"
+
+msgid "驾轻就熟"
+msgstr "Practiced"
+
+msgid "出类拔萃"
+msgstr "Outstanding"
+
+msgid "神乎其技"
+msgstr "Uncanny"
+
+msgid "出神入化"
+msgstr "Transcendent"
+
+msgid "登峰造极"
+msgstr "Peerless"
+
+msgid "一代宗师"
+msgstr "Grandmaster"
+
+msgid "深不可测"
+msgstr "Unfathomable"
+
+msgid "新学乍用"
+msgstr "Just Learned"
+
+msgid "初窥门径"
+msgstr "First Glimpse"
+
+msgid "略知一二"
+msgstr "Acquainted"
+
+msgid "已有小成"
+msgstr "Competent"
+
+msgid "心领神会"
+msgstr "Understood"
+
+msgid "了然於胸"
+msgstr "Well Versed"
+
+msgid "豁然贯通"
+msgstr "Enlightened"
+
+msgid "举世无双"
+msgstr "Unrivaled"
+
+msgid "震古铄今"
+msgstr "Legendary"
+
+msgid "施展「空识神通」：静思入定，有机会把灵力化为潜能（50 灵力、50 精）；也可能潜能降低，或一无所获。"
+msgstr "Use \"Empty Mind\": sink into stillness, with a chance to turn Mystic Power into Potential (50 Mystic Power, 50 Essence). Potential may also drop, or nothing may come of it."
+
+msgid "施展「游识神通」：去到一个你见过的人身边，可以跨地图（75 灵力、30 精）。对方的灵力越强，越难感应得到。"
+msgstr "Use \"Wandering Mind\": go to the side of someone you've met, even on another map (75 Mystic Power, 30 Essence). The stronger their Mystic Power, the harder they are to sense."
+
+msgid "施展「阴阳眼」：看得见鬼魂，持续的秒数等于你的有效咒文等级（30 法力、5 神）。"
+msgstr "Use \"Ghost Sight\": see ghosts for as many seconds as your effective Incantation level (30 Arcane Power, 5 Spirit)."
+
+msgid "技能"
+msgstr "Skills"
+
+msgid "使用中的特殊技能"
+msgstr "Special skills in use"
+
+msgid "你现在没有使用任何特殊技能。"
+msgstr "You aren't using any special skills right now."
+
+msgid "神通"
+msgstr "Mystic Powers"
+
+msgid "自学"
+msgstr "Self-Study"
+
+msgid "研读"
+msgstr "Read"
+
+msgid "每次花费的气"
+msgstr "Qi per session"
+
+msgid "连续打坐"
+msgstr "Keep Meditating"
+
+msgid "连续打坐练到这个内力上限再停；不限则上限每涨一点就停"
+msgstr "Keep meditating until your Inner Force cap reaches this; with no limit, stop each time the cap rises by one"
+
+msgid "不限"
+msgstr "No limit"
+
+msgid "练到 {target}"
+msgstr "Up to {target}"
+
+msgid "每次花费的神"
+msgstr "Spirit per session"
+
+msgid "连续冥思"
+msgstr "Keep Contemplating"
+
+msgid "每次花费的精"
+msgstr "Essence per session"
+
+msgid "连续修行"
+msgstr "Keep Cultivating"
+
+msgid "内力 {force} / {max_force}"
+msgstr "Inner Force {force} / {max_force}"
+
+msgid "法力 {mana} / {max_mana}"
+msgstr "Arcane Power {mana} / {max_mana}"
+
+msgid "灵力 {atman} / {max_atman}"
+msgstr "Mystic Power {atman} / {max_atman}"
+
+msgid "{mark}{skill} - {rank} {level}/{progress}"
+msgstr "{mark}{skill} - {rank} {level}/{progress}"
+
+msgid "你目前并没有学会任何技能。"
+msgstr "You haven't learned any skills yet."
+
+msgid "{use}：{skill} · 有效等级 {level}"
+msgstr "{use}: {skill} · effective level {level}"
+
+msgid "最大{resource}可练到 {cap}"
+msgstr "Max {resource} can be trained to {cap}"
+
+msgid "最大{resource}已到瓶颈（{cap}），先提高{basic}"
+msgstr "Max {resource} has hit its limit ({cap}); raise {basic} first"
+
+msgid "练习可练到 {level} 级（{basic}的等级）"
+msgstr "Practice can take it to level {level} (your {basic} level)"
+
+msgid "练习只攒进度，{basic}到 {level} 级才会升级"
+msgstr "Practice only builds progress; it levels up once {basic} reaches {level}"
+
+msgid "这一级的进度已攒满，先把{basic}提高到 {level} 级"
+msgstr "This level's progress is full; raise {basic} to level {level} first"
+
+msgid "激发%s"
+msgstr "Apply %s"
+
+msgid "练习"
+msgstr "Practice"
+
+msgid "连续练习"
+msgstr "Keep Practicing"
+
+msgid "停用"
+msgstr "Stop Using"
+
+msgid "自学%s"
+msgstr "Study %s"
+
+msgid "研读%s"
+msgstr "Read %s"
+
+msgid "连续练习%s"
+msgstr "Keep Practicing %s"
+
+msgid "{item} ×{amount}"
+msgstr "{item} ×{amount}"
+
+msgid "拿取"
+msgstr "Take"
+
+msgid "武器"
+msgstr "Weapons"
+
+msgid "防具"
+msgstr "Armor"
+
+msgid "钱币"
+msgstr "Money"
+
+msgid "饮品"
+msgstr "Drinks"
+
+msgid "剑"
+msgstr "Sword"
+
+msgid "刀"
+msgstr "Saber"
+
+msgid "斧"
+msgstr "Axe"
+
+msgid "锤"
+msgstr "Hammer"
+
+msgid "匕首"
+msgstr "Dagger"
+
+msgid "杖"
+msgstr "Staff"
+
+msgid "棍"
+msgstr "Club"
+
+msgid "鞭"
+msgstr "Whip"
+
+msgid "衣服"
+msgstr "Clothes"
+
+msgid "铠甲"
+msgstr "Armor"
+
+msgid "外衣"
+msgstr "Cloak"
+
+msgid "靴子"
+msgstr "Boots"
+
+msgid "盾牌"
+msgstr "Shield"
+
+msgid "手腕"
+msgstr "Wrist"
+
+msgid "手指"
+msgstr "Finger"
+
+msgid "手部"
+msgstr "Hands"
+
+msgid "腰部"
+msgstr "Waist"
+
+msgid "负重 {percent}%"
+msgstr "Load {percent}%"
+
+msgid "{section} {count}"
+msgstr "{section} {count}"
+
+msgid "钱袋：{coins}"
+msgstr "Purse: {coins}"
+
+msgid "空"
+msgstr "Empty"
+
+msgid "钱袋"
+msgstr "Purse"
+
+msgid "身上一文钱也没有。"
+msgstr "Not a single wen on you."
+
+msgid "合计价值：{value} 文"
+msgstr "Total value: {value} wen"
+
+msgid "类别：%s"
+msgstr "Kind: %s"
+
+msgid "装备：%s"
+msgstr "Equipped: %s"
+
+msgid "兵器：%s"
+msgstr "Weapon: %s"
+
+msgid "伤害：%d"
+msgstr "Damage: %d"
+
+msgid "数量：%d"
+msgstr "Amount: %d"
+
+msgid "价值：%d"
+msgstr "Value: %d"
+
+msgid "部位：%s"
+msgstr "Slot: %s"
+
+msgid "防护：%+d"
+msgstr "Armor: %+d"
+
+msgid "里面有："
+msgstr "Inside:"
+
+msgid "现在手上没有兵器。"
+msgstr "You have no weapon in hand right now."
+
+msgid "和手上的{item}比：伤害 {damage}"
+msgstr "Against the {item} in your hand: damage {damage}"
+
+msgid "这个部位现在什么也没穿。"
+msgstr "You're wearing nothing in this slot right now."
+
+msgid "和身上的{item}比：防护 {armor}"
+msgstr "Against the {item} you're wearing: armor {armor}"
+
+msgid "，轻功 {dodge}"
+msgstr ", dodge {dodge}"
+
+msgid "放下"
+msgstr "Put Down"
+
+msgid "穿戴"
+msgstr "Wear"
+
+msgid "脱掉"
+msgstr "Take Off"
+
+msgid "吃一份"
+msgstr "Eat Some"
+
+msgid "装满清水（倒掉现有内容）"
+msgstr "Fill with Water (pours out what's in it)"
+
+msgid "吹奏"
+msgstr "Play"
+
+msgid "上吊"
+msgstr "Hang Yourself"
+
+msgid "化去{corpse}"
+msgstr "Dissolve {corpse}"
+
+msgid "画追魂符：{name}"
+msgstr "Draw a Soul-Chasing Charm: {name}"
+
+msgid "贴到{zombie}身上"
+msgstr "Stick It on {zombie}"
+
+msgid "倒进{container}"
+msgstr "Pour into {container}"
+
+msgid "取出{item}"
+msgstr "Take Out {item}"
+
+msgid "放进%s"
+msgstr "Put into %s"
+
+msgid "丢下"
+msgstr "Drop"
+
+msgid "轻功：%+d"
+msgstr "Dodge: %+d"
+
+msgid "{item} · {slot}"
+msgstr "{item} · {slot}"
+
+msgid "基本拳脚"
+msgstr "Basic Fist"
+
+msgid "基本招架"
+msgstr "Basic Parry"
+
+msgid "基本轻功"
+msgstr "Basic Lightfoot"
+
+msgid "基本内功"
+msgstr "Basic Force"
+
+msgid "柳家拳"
+msgstr "Liu Family Fist"
+
+msgid "回到上次自动存档"
+msgstr "Back to the Last Autosave"
+
+msgid "慢慢地你终於又有了知觉...."
+msgstr "Slowly, you feel your senses coming back...."
+
+msgid "你的眼前一黑，接著什麽也不知道了...."
+msgstr "Everything goes black, and then you know nothing more...."
+
+msgid "（约 %d 秒后醒来）"
+msgstr "(waking in about %d s)"
+
+msgid "（仍然昏迷不醒……）"
+msgstr "(still out cold...)"
+
+msgid "你的眼前一黑，接著什麽也不知道了....\n\n{wake}"
+msgstr "Everything goes black, and then you know nothing more....\n\n{wake}"
+
+msgid "你死了。"
+msgstr "You are dead."
+
+msgid "实战经验 -%d"
+msgstr "Combat Experience -%d"
+
+msgid "潜能 -%d"
+msgstr "Potential -%d"
+
+msgid "杀气清零"
+msgstr "Bloodlust cleared"
+
+msgid "%s 学习进度清空"
+msgstr "%s: progress lost"
+
+msgid "%s 失传"
+msgstr "%s: lost to you"
+
+msgid "{skill} {before}→{after}"
+msgstr "{skill} {before}→{after}"
+
+msgid "技能：%s"
+msgstr "Skill: %s"
+
+msgid "已启用的特殊武功全部取消启用"
+msgstr "All special arts in use have been switched off"
+
+msgid "兵器和身上穿的还在你身上；尸体上没有留下东西。"
+msgstr "Your weapon and what you're wearing are still on you; nothing was left on the body."
+
+msgid "兵器和身上穿的还在你身上；钱和背包里的东西留在尸体上：%s"
+msgstr "Your weapon and what you're wearing are still on you; your money and pack stayed on the body: %s"
+
+msgid "你的尸体和随身物品留在：%s"
+msgstr "Your body and belongings were left at: %s"
+
+msgid "尸体旁还守着见人就打的对手，回去取东西要先过他这一关。"
+msgstr "Someone who attacks on sight is still standing guard by the body — you'll have to get past them to get your things back."
+
+msgid "尸体不会腐烂，等你回去取。"
+msgstr "The body won't rot; it'll wait for you to come back."
+
+msgid "你的尸体已经化成骨灰，随身物品散落在：%s"
+msgstr "Your body has turned to ash, and your belongings lie scattered at: %s"
+
+msgid "你的尸体已经不在了。"
+msgstr "Your body is gone."
+
+msgid "一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。"
+msgstr "A thick fog clears, and you find yourself standing in Snow Pavilion's Town God Temple."
+
+msgid "精、气、神都只剩 1：在武学页按「歇到回满」，养足了再上路。"
+msgstr "Your Essence, Qi and Spirit are down to 1: press \"Rest Until Full\" on the Martial Arts page and recover before you set out again."
+
+msgid "留在路上的"
+msgstr "Left on the road"
+
+msgid "{title} · {region} · 已完成"
+msgstr "{title} · {region} · done"
+
+msgid "{title} · {region} · 已中止"
+msgstr "{title} · {region} · abandoned"
+
+msgid "{label}：{have}／{want}"
+msgstr "{label}: {have}/{want}"
+
+msgid "  {row} ✓"
+msgstr "  {row} ✓"
+
+msgid "  {row} ✗——{missing}"
+msgstr "  {row} ✗ — {missing}"
+
+msgid "  {row} ✗"
+msgstr "  {row} ✗"
+
+msgid "  · {row}"
+msgstr "  · {row}"
+
+msgid "{master}是你的师父。攻击就是生死相搏；若你亲手杀了{master}，便是弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要攻击吗？"
+msgstr "{master} is your shifu. Attacking means a fight to the death; if you kill {master} with your own hand, you've killed your own master, which counts as betraying your school:\n· You'll be cast out of {family}: no school, no shifu, no title.\n· Your Standing is wiped (it's {score} now).\n· Your count of betrayals becomes {next}.\nAttack anyway?"
+
+msgid "消息记录"
+msgstr "Message Log"
+
+msgid "刀剑无眼：有人手持兵刃时，切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n确定要和{npc}切磋吗？"
+msgstr "Blades have no eyes: when someone holds a weapon, cuts taken in a spar are real wounds, and bad enough ones can still kill.\nSpar with {npc}?"
+
+msgid "{npc}不会只跟你点到为止：这一场切磋会变成生死相搏。\n确定要和{npc}切磋吗？"
+msgstr "{npc} won't stop at a touch: this spar will turn into a fight to the death.\nSpar with {npc}?"
+
+msgid "{npc}看起来比你强得多：即使只是切磋，一招就可能把你打昏。\n确定要和{npc}切磋吗？"
+msgstr "{npc} looks far stronger than you: even in a spar, one blow could knock you out.\nSpar with {npc}?"
+
+msgid "{npc}看起来比你强得多，而且有人手持兵刃：切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n确定要和{npc}切磋吗？"
+msgstr "{npc} looks far stronger than you, and someone holds a weapon: cuts taken in a spar are real wounds, and bad enough ones can still kill.\nSpar with {npc}?"
+
+msgid "施法驱尸要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n确定要施法吗？"
+msgstr "Raising the corpse costs {sen} Spirit, more than you can take right now — you'll pass out on the spot.\nCast anyway?"
+
+msgid "运功「疗伤他人」：把真气输入对方体内，为他疗伤（耗 150 点内力，内力须比最大内力多 150 以上；双方都不能在战斗中）。"
+msgstr "Exert \"Heal Another\": pour your true qi into them to heal their wounds (costs 150 Inner Force, and your Inner Force must be at least 150 over its max; neither of you can be in a fight)."
+
+msgid "施展「心识神通」：救醒昏迷的人（50 灵力、30 神）。最大灵力不过 101 必定失败，失败时你自己会昏倒。"
+msgstr "Use \"Mind Sense\": revive someone who's unconscious (50 Mystic Power, 30 Spirit). With max Mystic Power of 101 or less it always fails, and when it fails you pass out yourself."
+
+msgid "心识神通要耗去 {atman} 点灵力和 {sen} 点神。能否救醒{npc}，全看你的灵力修为（最大灵力 {max_atman}）：{odds}\n确定要施展吗？"
+msgstr "Mind Sense costs {atman} Mystic Power and {sen} Spirit. Whether you can revive {npc} depends entirely on your Mystic Power (max {max_atman}): {odds}\nUse it?"
+
+msgid "最大灵力不过 101 必定失败，失败时你自己会当场昏过去。"
+msgstr "With max Mystic Power of 101 or less it always fails, and when it fails you pass out on the spot."
+
+msgid "约有 {percent}% 的机会失败，失败时你自己会当场昏过去。"
+msgstr "About a {percent}% chance it fails, and if it does, you pass out on the spot."
+
+msgid "你现在的神撑不住这一下，无论成败都会当场昏过去。"
+msgstr "Your Spirit can't take this right now — success or not, you'll pass out on the spot."
+
+msgid "偷窃：从对方身上偷一样东西（三秒后见分晓）。失手被发现，对方会和你拼命，城里的巡捕也会把你当贼抓。"
+msgstr "Steal: lift one thing off them (you'll know in three seconds). Get caught, and they'll fight you to the death — and the town's constables will treat you as a thief."
+
+msgid "行贿：塞钱给押着你的巡捕，钱给够了他就放你走；给少了反倒罪加一等。"
+msgstr "Bribe: slip money to the constable holding you. Give enough and he lets you go; give too little and it only makes things worse."
+
+msgid "{npc}看起来比你强得多：要是失手被发现，{npc}会和你拼个你死我活。\n确定要下手吗？"
+msgstr "{npc} looks far stronger than you: get caught, and {npc} will fight you to the death.\nGo ahead?"
+
+msgid "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
+msgstr "Cast \"Raise Corpse\": make this body stand up and follow you (50 Arcane Power, 30 Spirit). The zombie lives on your Mystic Power; when that runs low, it falls and melts into blood."
+
+msgid "确定施法驱尸吗？"
+msgstr "Cast Raise Corpse?"
+
+msgid "确定施法"
+msgstr "Cast It"
+
+msgid "确定为{npc}运功疗伤吗？"
+msgstr "Exert your inner force to heal {npc}?"
+
+msgid "确定运功"
+msgstr "Exert"
+
+msgid "下手目标：{item}"
+msgstr "Go for: {item}"
+
+msgid "随手摸一样"
+msgstr "Grab Whatever"
+
+msgid "确定下手"
+msgstr "Go Ahead"
+
+msgid "失手被发现，{npc}会和你拼命。确定要下手吗？"
+msgstr "Get caught, and {npc} will fight you to the death. Go ahead?"
+
+msgid "攻击就是生死相搏。确定要攻击{npc}吗？"
+msgstr "Attacking means a fight to the death. Attack {npc}?"
+
+msgid "切磋点到为止。确定要和{npc}切磋吗？"
+msgstr "A spar stops short of harm. Spar with {npc}?"
+
+msgid "确定切磋"
+msgstr "Spar"
+
+msgid "{npc}会拆三回合给你看，点到为止、不伤人。确定要讨教吗？"
+msgstr "{npc} will go three rounds to show you, stopping short of harm. Ask for the lesson?"
+
+msgid "确定讨教"
+msgstr "Ask"
+
+msgid "化尸粉会把{name}连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n确定要化掉吗？"
+msgstr "The corpse powder will melt {name}, with the {count} items inside, into a puddle of yellow water. Whatever melts is gone for good.\nMelt it?"
+
+msgid "把绳子往脖子上一套，就是寻死：你会就此死去，和战死一样付出死亡的代价。\n确定要上吊吗？"
+msgstr "Put the rope round your neck and you're choosing death: you'll die here, and pay the price of death just as if you'd fallen in a fight.\nHang yourself?"
+
+msgid "画这道符要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n确定要画吗？"
+msgstr "Drawing this charm costs {sen} Spirit, more than you can take right now — you'll pass out on the spot.\nDraw it anyway?"
+
+msgid "你伤得太重了：画符要咬破手指流血，这一点血就会要了你的命。\n确定要画吗？"
+msgstr "You're too badly hurt: drawing the charm means biting your finger to bleed, and that little blood will kill you.\nDraw it anyway?"
+
+msgid "{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要贴上这道符吗？"
+msgstr "{master} is your shifu. {zombie} will hunt {master} down, and if it succeeds, you've killed your own master, which counts as betraying your school:\n· You'll be cast out of {family}: no school, no shifu, no title.\n· Your Standing is wiped (it's {score} now).\n· Your count of betrayals becomes {next}.\nStick the charm on anyway?"
+
+msgid "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
+msgstr "You're wearing {item}. Give it to {npc}? Things you give away usually don't come back."
+
+msgid "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
+msgstr "Give {money} to {npc}? Money you give away usually doesn't come back."
+
+msgid "{npc}收下{item}，就会当场收你为徒。\n{warning}"
+msgstr "Once {npc} accepts {item}, you'll be taken on as a disciple on the spot.\n{warning}"
+
+msgid "{item}不值钱，丢在地上就没人会注意它——丢下就再也找不回来了。\n确定要丢下吗？"
+msgstr "{item} is worthless; drop it and no one will notice it — once it's down, it's gone for good.\nDrop it?"
+
+msgid "确定送出"
+msgstr "Give It"
+
+msgid "给予 · {npc}"
+msgstr "Give · {npc}"
+
+msgid "确定丢下"
+msgstr "Drop It"
+
+msgid "确定化掉"
+msgstr "Melt It"
+
+msgid "确定画符"
+msgstr "Draw It"
+
+msgid "确定贴符"
+msgstr "Stick It On"
+
+msgid "确定上吊"
+msgstr "Hang Yourself"
+
+msgid "这是女人的衣衫，你一个大男人也想穿，羞也不羞？"
+msgstr "These are women's clothes. A grown man like you wants to wear them? Have you no shame?"
+
+msgid "【{title}】{description}"
+msgstr "[{title}] {description}"
+
+msgid "{sky}。"
+msgstr "{sky}."
+
+msgid "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n确定要施展吗？"
+msgstr "Empty Mind costs {gin} Essence, more than you can take right now — you'll pass out on the spot.\nUse it anyway?"
+
+msgid "游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n确定要施展吗？"
+msgstr "Wandering Mind costs {gin} Essence, more than you can take right now — you'll pass out once it's done.\nUse it anyway?"
+
+msgid "施展{spell}要耗去 {sen} 点神，你现在撑不住，施展完就会昏过去。\n确定要施展吗？"
+msgstr "{spell} costs {sen} Spirit, more than you can take right now — you'll pass out once it's done.\nUse it anyway?"
+
+msgid "请确认"
+msgstr "Please Confirm"
+
+msgid "走开"
+msgstr "Walk Away"
+
+msgid "请回答"
+msgstr "Please Answer"
+
+msgid "{name} · {count}件物品"
+msgstr "{name} · {count} items"
+
+msgid "目标详情"
+msgstr "Objective Details"
+
+msgid "前往"
+msgstr "Go"
+
+msgid "忙碌：约 {n} 秒后空下来"
+msgstr "Busy: free in about {n} s"
+
+msgid "朱鸿雪的任务：时间已过"
+msgstr "Zhu Hongxue's errand: time's up"
+
+msgid "朱鸿雪的任务：还有{time}"
+msgstr "Zhu Hongxue's errand: {time} left"
+
+msgid "江湖上还没有哪一家记得你。"
+msgstr "No house in the jianghu remembers you yet."
+
+msgid "{name} · {layer} · {place}"
+msgstr "{name} · {layer} · {place}"
+
+msgid "想从{npc}身上偷什么？"
+msgstr "What do you want to steal from {npc}?"
+
+msgid "已付款，%s已放入你的随身物品。"
+msgstr "Paid. The %s is with your things now."
+
+msgid "这笔钱凑不整：店家找不开，你也没有合适的零钱，没有付钱。先去钱庄换些碎银或铜钱再来。"
+msgstr "The money doesn't come out even: the shop can't make change and you don't have the right small coins, so nothing was paid. Go to a bank for some small silver or copper first."
+
+msgid "你身上太重，拿不动%s了，没有付钱。先放下些东西再来买。"
+msgstr "You're too loaded down to carry the %s, so nothing was paid. Put something down and come back to buy it."
+
+msgid "已付款，但未收到%s。"
+msgstr "Paid, but the %s never arrived."
+
+msgid "负重过高。"
+msgstr "Too heavy a load."
+
+msgid "工作 · 消耗精30 / 神30 · 工钱一两"
+msgstr "Work · costs 30 Essence / 30 Spirit · pays one tael"
+
+msgid "靠近磨盘，可以在这里工作。"
+msgstr "You're by the millstone. You can work here."
+
+msgid "精 {gin} / 神 {sen} · 银子 {silver} 两"
+msgstr "Essence {gin} / Spirit {sen} · {silver} taels of silver"
+
+msgid "你完成了一份工作，得到一两银子。"
+msgstr "You finish a shift and earn a tael of silver."
+
+msgid "你的精神太差了，现在不能工作。"
+msgstr "You're too worn out to work right now."
+
+msgid "你身上太重，干完活也拿不动工钱。先放下些东西再来。"
+msgstr "You're too loaded down — you couldn't even carry the pay. Put something down and come back."
+
+msgid "工作状态异常，请停止操作。"
+msgstr "Something's wrong with the work. Please stop."
+
+msgid "载入中"
+msgstr "Loading"
+
+msgid "{region} · {place}"
+msgstr "{region} · {place}"
+
+msgid "这里没有这个人。"
+msgstr "There's no one like that here."
+
+msgid "这里没有这样东西。"
+msgstr "There's nothing like that here."
+
+msgid "你上一个动作还没有完成！"
+msgstr "You haven't finished what you were doing!"
+
+msgid "这个东西拿不起来。"
+msgstr "This can't be picked up."
+
+msgid "%s对你而言太重了。"
+msgstr "The %s is too heavy for you."
+
+msgid "你要驱动哪一具尸体？"
+msgstr "Which corpse do you want to raise?"
+
+msgid "你对著{npc}喝道：「{rude}！今日不是你死就是我活！」"
+msgstr "You roar at {npc}, \"{rude}! Today it's you or me!\""
+
+msgid "{action}：{landmark}"
+msgstr "{action}: {landmark}"
+
+msgid "你答道：{answer}"
+msgstr "You answer: {answer}"
+
+msgid "{option}（{why}）"
+msgstr "{option} ({why})"
+
+msgid "你选了：{option}"
+msgstr "You chose: {option}"
+
+msgid "{npc}将{door}关上。"
+msgstr "{npc} shuts the {door}."
+
+msgid "你的%s用完了！"
+msgstr "Your %s is used up!"
+
+msgid "{who}只觉得手中{weapon}一震，险些脱手！"
+msgstr "{who} feels the {weapon} jolt in hand — it nearly flies loose!"
+
+msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
+msgstr "{who} loses grip of the {weapon}, and it flies out of hand!"
+
+msgid "只听见「啪」地一声，{who}手中的{weapon}已经断为两截！"
+msgstr "Crack! The {weapon} in {who}'s hand snaps in two!"
+
+msgid "{me}的{weapon}和{who}的{other}相击，冒出点点的火星。"
+msgstr "{me}'s {weapon} clashes with {who}'s {other}, throwing off sparks."
+
+msgid "%s脚下一个不稳，跌在地上一动也不动了。"
+msgstr "%s stumbles, falls, and lies still."
+
+msgid "{who}用指甲挑了一点化尸粉在{corpse}上，只听见一阵「嗤嗤」声响带著一股可怕的恶臭，{corpse}只剩下一滩黄水。"
+msgstr "{who} flicks a pinch of corpse powder onto {corpse} with a fingernail. There's a hissing, a horrible stench — and all that's left of {corpse} is a puddle of yellow water."
+
+msgid "这副骸骨已经躺在这里很久了。"
+msgstr "These bones have lain here a long time."
+
+msgid "这具尸体显然已经躺在这里有一段时间了，正散发著一股腐尸的味道。"
+msgstr "This body has clearly been lying here a while; it gives off the stink of rot."
+
+msgid "一阵风吹过，把{name}化成骨灰吹散了。"
+msgstr "A gust of wind blows {name} away as ash."
+
+msgid "{name}开始腐烂了，发出一股难闻的恶臭。"
+msgstr "{name} has begun to rot, giving off a foul stench."
+
+msgid "{name}被风吹乾了，变成一具骸骨。"
+msgstr "The wind has dried {name} out to a skeleton."
+
+msgid "这笔钱凑不整：对方找不开，你也没有合适的零钱。先去钱庄换些碎银或铜钱再来。"
+msgstr "The money doesn't come out even: they can't make change and you don't have the right small coins. Go to a bank for some small silver or copper first."
+
+msgid "你拿起一根%s呜嘟嘟地吹了起来。"
+msgstr "You put a %s to your lips and toot away on it."
+
+msgid "你四处看看, 实在找不到地方挂绳子说..."
+msgstr "You look all around, but there's nowhere to hang the rope..."
+
+msgid "你把绳子一端挂好, 另一端往脖子上一套....."
+msgstr "You tie one end of the rope up, and slip the other round your neck....."
+
+msgid "{npc}捡起{item}。"
+msgstr "{npc} picks up {item}."
+
+msgid "你捡起%s。"
+msgstr "You pick up the %s."
+
+msgid "你附近没有这样东西。"
+msgstr "There's nothing like that near you."
+
+msgid "{container}里什麽也没有，先装些水酒才能溶化药粉。"
+msgstr "There's nothing in the {container}. Fill it with some water or wine first to dissolve the powder."
+
+msgid "你将一些{powder}倒进{container}，摇晃了几下。"
+msgstr "You pour some {powder} into the {container} and give it a shake."
+
+msgid "$N和$n仇人相见分外眼红，立刻打了起来！"
+msgstr "$N and $n lock eyes — old enemies — and the fight is on!"
+
+msgid "$N对著$n大喝：「可恶，又是你！」"
+msgstr "$N {N:roar|roars} at $n, \"Damn it, you again!\""
+
+msgid "$N和$n一碰面，二话不说就打了起来！"
+msgstr "$N and $n meet, and without a word they're at each other!"
+
+msgid "$N一眼瞥见$n，「哼」的一声冲了过来！"
+msgstr "$N {N:spot|spots} $n, snorts, and charges!"
+
+msgid "$N一见到$n，愣了一愣，大叫：「我宰了你！」"
+msgstr "$N {N:see|sees} $n, freezes for a moment, and yells, \"I'll kill you!\""
+
+msgid "$N喝道：「$n，我们的帐还没算完，看招！」"
+msgstr "$N {N:shout|shouts}, \"$n! We've still got a score to settle — have at you!\""
+
+msgid "$N喝道：「$n，看招！」"
+msgstr "$N {N:shout|shouts}, \"$n! Have at you!\""
+
+msgid "{npc}发现了你！"
+msgstr "{npc} spots you!"
+
+msgid "{npc}发现了你，大喝一声！"
+msgstr "{npc} spots you and lets out a roar!"
+
+msgid "%s用一种异样的眼神扫视著在场的每一个人。"
+msgstr "%s sweeps a strange look over everyone here."
+
+msgid "{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。"
+msgstr "{npc} snarls at you, \"I don't like the look of you. Die.\""
+
+msgid "{npc}对著你喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
+msgstr "{npc} shouts at you, \"Hey! You {rude}! I'm itching for a fight — come on, let's go a couple rounds!\""
+
+msgid "刀剑无眼，持兵刃比试可能真的受伤。"
+msgstr "Blades have no eyes: sparring with weapons can really hurt someone."
+
+msgid "你用一种异样的眼神扫视著在场的每一个人。"
+msgstr "You sweep a strange look over everyone here."
+
+msgid "你对著{npc}喝道：{self}看你实在很不顺眼，去死吧。"
+msgstr "You snarl at {npc}, \"I don't like the look of you. Die.\""
+
+msgid "你对著{npc}喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
+msgstr "You shout at {npc}, \"Hey! You {rude}! I'm itching for a fight — come on, let's go a couple rounds!\""
+
+msgid "%s突然转过头来瞪你一眼。"
+msgstr "%s suddenly turns and glares at you."
+
+msgid "{npc}拔刀上前，和你并肩而立！"
+msgstr "{npc} draws a blade and steps up to stand beside you!"
+
+msgid "%s慢慢睁开眼睛，清醒了过来。"
+msgstr "%s slowly comes to."
+
+msgid "{npc}的测试：第 {n} / {total} 招"
+msgstr "{npc}'s test: move {n} of {total}"
+
+msgid "{npc}：第 {n} / {total} 句"
+msgstr "{npc}: line {n} of {total}"
+
+msgid "{name}走了过来。"
+msgstr "{name} comes over."
+
+msgid "你忽然觉得身上一轻，{item}不见了！"
+msgstr "You suddenly feel lighter — your {item} is gone!"
+
+msgid "你昏迷不醒的时候，身上的{item}被人拿走了！"
+msgstr "While you were out cold, someone took your {item}!"
+
+msgid "你一回头，正好发现{npc}的手正抓著你身上的{item}！"
+msgstr "You turn round just in time to catch {npc}'s hand on your {item}!"
+
+msgid "你喝道：「干什麽！」"
+msgstr "You shout, \"What do you think you're doing!\""
+
+msgid "{npc}穿上一{unit}{item}。"
+msgstr "{npc} puts on a {item}."
+
+msgid "{npc}戴上一{unit}{item}。"
+msgstr "{npc} puts on a {item}."
+
+msgid "{npc}将一{unit}绑在腰间。"
+msgstr "{npc} ties it round the waist."
+
+msgid "{npc}装备{item}。"
+msgstr "{npc} equips the {item}."
+
+msgid "{npc}装备{item}作武器。"
+msgstr "{npc} takes up the {item} as a weapon."
+
+msgid "{npc}收了刀，走了。"
+msgstr "{npc} puts the blade away and leaves."
+
+msgid "%s急急忙忙地离开了。"
+msgstr "%s hurries off."
+
+msgid "（{npc}要把你押到县衙受审：被押着走不开；可以向他行贿，也可以拒捕跟他动手。）"
+msgstr "({npc} is taking you to the county court for trial: you can't get away while you're held. You can bribe him, or resist arrest and fight.)"
+
+msgid "木人是武馆拆招用的，只能切磋，打坏了还得赔。"
+msgstr "The wooden dummies are for drilling at the hall — spar only. Break one and you pay for it."
+
+msgid "你身上带着伤，先养好了再来拆招。"
+msgstr "You're carrying wounds. Heal up first, then come drill."
+
+msgid "你是别派的弟子，我不便指点。"
+msgstr "You're a disciple of another school. It isn't my place to coach you."
+
+msgid "来，拆三回合，点到为止。"
+msgstr "Come on — three rounds, stopping short of harm."
+
+msgid "{npc}已经倒了。{npc}还有用，留{npc}一条命。"
+msgstr "{npc} is down. {npc} is still useful — you let {npc} live."
+
+msgid "你想攻击谁？"
+msgstr "Who do you want to attack?"
+
+msgid "加油！加油！加油！"
+msgstr "Come on! Come on! Come on!"
+
+msgid "你对著{npc}说道：{self}{name}，领教{respect}的高招！"
+msgstr "You say to {npc}, \"I'm {name}. Show me what you've got, {respect}!\""
+
+msgid "看起来%s并不想跟你较量。"
+msgstr "Looks like %s doesn't want to fight you."
+
+msgid "你向{npc}讨教{skill}，请{npc}拆几招给你看。"
+msgstr "You ask {npc} to show you a few moves of {skill}."
+
+msgid "{npc}给你{item}。"
+msgstr "{npc} gives you {item}."
+
+msgid "你可以购买下列这些东西："
+msgstr "You can buy these:"
+
+msgid "{item}：{price}"
+msgstr "{item}: {price}"
+
+msgid "两{unit}{item}"
+msgstr "two {item}"
+
+msgid "你说道：%s"
+msgstr "You say, \"%s\""
+
+msgid "关闭%s"
+msgstr "Close the %s"
+
+msgid "打开%s"
+msgstr "Open the %s"
+
+msgid "你咬破手指，用鲜血在{paper}上画了一道僵尸追魂符，写上了{name}的名字。"
+msgstr "You bite your finger and, in blood, draw a zombie soul-chasing charm on the {paper}, writing {name}'s name on it."
+
+msgid "这里没有{name}。"
+msgstr "{name} isn't here."
+
+msgid "等待机会对{npc}下手"
+msgstr "Waiting for a chance at {npc}"
+
+msgid "这里禁止行窃。"
+msgstr "Stealing is forbidden here."
+
+msgid "你已经在找机会下手了！"
+msgstr "You're already waiting for your chance!"
+
+msgid "你想行窃的对象不在这里。"
+msgstr "The one you want to rob isn't here."
+
+msgid "{npc}身上看起来没有什麽值钱的东西好偷。"
+msgstr "{npc} doesn't look like they're carrying anything worth stealing."
+
+msgid "你不动声色地慢慢靠近{npc}，等待机会下手 ..."
+msgstr "Casually, quietly, you edge closer to {npc} and wait for your chance..."
+
+msgid "太可惜了，你下手的目标已经走了。"
+msgstr "What a shame — your mark has left."
+
+msgid "你摸到{item}，可是对你而言太重了，不得不放弃。"
+msgstr "You get your fingers on the {item}, but it's too heavy for you. You have to let it go."
+
+msgid "得手了！"
+msgstr "Got it!"
+
+msgid "你成功地偷到{item}！"
+msgstr "You've stolen the {item}!"
+
+msgid "{npc}不经意地一转头，你急忙将手缩了回去！"
+msgstr "{npc} happens to turn — you snatch your hand back just in time!"
+
+msgid "还好，没有被发现。"
+msgstr "Phew. Nobody noticed."
+
+msgid "糟糕！你失手了！"
+msgstr "Damn! You fumbled it!"
+
+msgid "{npc}一回头，正好发现你的手正抓著{pronoun}身上的{item}！"
+msgstr "{npc} turns round just in time to catch your hand on the {item}!"
+
+msgid "{npc}喝道：「干什麽！」"
+msgstr "{npc} shouts, \"What do you think you're doing!\""
+
+msgid "！"
+msgstr "!"
+
+msgid "{name}喝道：{text}"
+msgstr "{name} shouts: {text}"
+
+msgid "风停了。草直直地立着，雾也不动了，四下里一点声音都没有。"
+msgstr "The wind has died. The grass stands straight, the mist hangs still, and there isn't a sound anywhere."
+
+msgid "一阵乱风打着旋卷过去，辨不出是从哪边来的。"
+msgstr "A gust whirls past in circles; you can't tell where it came from."
+
+msgid "风从{quarter}边吹过来，草都朝一边倒。"
+msgstr "The wind blows from the {quarter}, and the grass all leans one way."
+
+msgid "怀里的风铃轻轻响了一声，清清楚楚。"
+msgstr "The wind bell in your coat gives a single soft, clear ring."
+
+msgid "怀里的风铃叮叮地响，声音清亮。"
+msgstr "The wind bell in your coat tinkles, bright and clear."
+
+msgid "怀里的风铃闷闷地响了两下。"
+msgstr "The wind bell in your coat gives two muffled rings."
+
+msgid "风：停了"
+msgstr "Wind: still"
+
+msgid "风：乱风"
+msgstr "Wind: gusting"
+
+msgid "风：{quarter}风 {arrow}"
+msgstr "Wind: from the {quarter} {arrow}"
+
+msgid "主手"
+msgstr "Main hand"
+
+msgid "副手"
+msgstr "Off hand"
+
+msgid "已穿戴"
+msgstr "Worn"
+
+msgid "每次练习耗 {mana} 点法力、{sen} 点神。心神一乱会变出{npcs}，它会立刻攻击你，活着时不能再练。亲手杀了它，{skill}会有长进；被别人杀了，你会昏倒。"
+msgstr "Each practice costs {mana} Arcane Power and {sen} Spirit. If your mind wavers you'll conjure a {npcs} that attacks at once, and while it lives you can't practice again. Kill it with your own hands and {skill} improves; if someone else kills it, you pass out."
+
+msgid "或"
+msgstr "or"
+
+msgid "需要先学会基本咒文，法力才能增长。"
+msgstr "You need to learn Basic Incantation before your Arcane Power can grow."
+
+msgid "需要先学会基本法术，灵力才能增长。"
+msgstr "You need to learn Basic Mysticism before your Mystic Power can grow."
+
+msgid "{verb}要耗去{cost}，你现在撑不住，会当场昏过去。\n确定要{verb}吗？"
+msgstr "{verb} costs {cost}, more than you can take right now — you'll pass out on the spot.\n{verb} anyway?"
+
+msgid " {amount} 点{resource}"
+msgstr " {amount} {resource}"
+
+msgid "确定{verb}"
+msgstr "{verb}"
+
+msgid "和"
+msgstr "and"
+
+msgid "兑换"
+msgstr "Exchange"
+
+msgid "%s · 兑换（非存取款）"
+msgstr "%s · Exchange (no deposits or withdrawals)"
+
+msgid "直接携带（每种选定一堆）：\n铜钱 {coins} 文 / 银子 {silver} 两 / 黄金 {gold} 两"
+msgstr "Carried on you (one pile of each, chosen):\nCopper {coins} wen / Silver {silver} taels / Gold {gold} taels"
+
+msgid "异常"
+msgstr "Error"
+
+msgid "现在无法在此兑换。"
+msgstr "You can't exchange here right now."
+
+msgid "请输入范围内的正整数，不支持小数或自动取整。"
+msgstr "Enter a whole number in range — no decimals, no rounding."
+
+msgid "看榜"
+msgstr "Read the Board"
+
+msgid "坐车"
+msgstr "Take a Coach"
+
+msgid "车夫摇摇头：「这会儿去不了。」"
+msgstr "The driver shakes his head. \"Can't go there just now.\""
+
+msgid "你的钱不够付车钱。"
+msgstr "You can't afford the fare."
+
+msgid "坐车去{place}？车钱{fare}，路上约{time}。"
+msgstr "Take a coach to {place}? Fare {fare}, about {time} on the road."
+
+msgid "车夫摇摇头：「这会儿走不了。」"
+msgstr "The driver shakes his head. \"Can't set off just now.\""
+
+msgid "你付了{fare}车钱。"
+msgstr "You pay the {fare} fare."
+
+msgid "车马行的车走了{time}，把你送到了{place}。"
+msgstr "The coach rolls on for {time} and sets you down at {place}."
+
+msgid "车马行的车把你送到了{place}。"
+msgstr "The coach sets you down at {place}."
+
+msgid "这一曲要耗去 {sen} 点神，你现在撑不住，跳完就会昏过去。\n确定要跳吗？"
+msgstr "This dance costs {sen} Spirit, more than you can take right now — you'll pass out once it's done.\nDance anyway?"
+
+msgid "跳舞"
+msgstr "Dance"
+
+msgid "确定起舞"
+msgstr "Dance"
+
+msgid "交易"
+msgstr "Trade"
+
+msgid "%s · 估价 / 卖断"
+msgstr "%s · Appraise / Sell Outright"
+
+msgid "已持用 · 主手"
+msgstr "In hand · main"
+
+msgid "已持用 · 副手"
+msgstr "In hand · off"
+
+msgid "{money} ×{amount}{unit}"
+msgstr "{money} ×{amount} {unit}"
+
+msgid "直接携带的钱：%s"
+msgstr "Money carried: %s"
+
+msgid "卖断 {item}\n报价{price}文。物品将永久移除。"
+msgstr "Sell {item} outright\nOffer: {price} wen. The item will be gone for good."
+
+msgid "位置或物品状态已变化，未执行卖断；请重新选择。"
+msgstr "Your position or the item has changed; nothing was sold. Please choose again."
+
+msgid "看货"
+msgstr "Browse"
+
+msgid "你看到:"
+msgstr "You see:"
+
+msgid "请教"
+msgstr "Learn"
+
+msgid "{master}收下了你。\n\n你成了{family}第{generation}代弟子。往后向师父请教，就能学他会的武功；请教页写着每门能学到几级，武学页能打坐练内力。"
+msgstr "{master} takes you on.\n\nYou are now a {generation}th-generation disciple of {family}. From now on, ask your shifu to teach you and you can learn the arts he knows; the Learn page shows how far each can go, and on the Martial Arts page you can meditate to build Inner Force."
+
+msgid "{liquid}{portions}份"
+msgstr "{portions} portions of {liquid}"
+
+msgid "买一%s"
+msgstr "Buy a %s"
+
+msgid "%d两黄金"
+msgstr "%d taels of gold"
+
+msgid "%d两银子"
+msgstr "%d taels of silver"
+
+msgid "%d文钱"
+msgstr "%d wen"
+
+msgid "工作"
+msgstr "Work"
+
+msgid "你揭下了雪亭驿的悬赏告示：{outlaw}，最近在{region}的{place}一带出没。"
+msgstr "You take down the Snow Pavilion Post Station's bounty notice: {outlaw}, lately seen around {place}, {region}."
+
+msgid "你放弃了捉拿{outlaw}的悬赏。"
+msgstr "You give up the bounty on {outlaw}."
+
+msgid "路旁人影一晃，{outlaw}跳了出来！"
+msgstr "A figure flickers by the road — {outlaw} jumps out!"
+
+msgid "你把{outlaw}捆了个结实，托路过的官差押往雪亭驿。"
+msgstr "You tie {outlaw} up tight and ask a passing constable to take the outlaw to the Snow Pavilion Post Station."
+
+msgid "雪亭驿付给你{silver}两银子的赏银。"
+msgstr "The Snow Pavilion Post Station pays you {silver} taels of silver as a reward."
+
+msgid "其中{silver}两你拿不动，掉在你的脚边。"
+msgstr "{silver} taels of it are too heavy for you and fall at your feet."
+
+msgid "你的尸体"
+msgstr "Your body"
+
+msgid "你的尸体和留在上面的东西还在：{place}"
+msgstr "Your body and what's left on it are still at: {place}"
+
+msgid "{name}倒在{place}，没能跟上你。"
+msgstr "{name} fell at {place} and couldn't keep up with you."
+
+msgid "{name}还在{place}等你。"
+msgstr "{name} is still waiting for you at {place}."
+
+msgid "你的实战经验还不够，过不去。"
+msgstr "You don't have the combat experience to get through."
+
+msgid "你来到%s。"
+msgstr "You arrive at %s."
+
+msgid "%s锁着。"
+msgstr "The %s is locked."
+
+msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或自学，用掉一些潜能吧。"
+msgstr "Potential is full (at most {cap} unspent); more fighting won't add any. Go learn from your shifu or study on your own to spend some."
+
+msgid "{name}找了过来，又跟在你身边。"
+msgstr "{name} catches up and falls in beside you again."
+
+msgid "{name}没有跟上来，还在{place}。"
+msgstr "{name} didn't keep up — still at {place}."
+
+msgid "到了，指路收起。"
+msgstr "You're there. Guide off."
+
+msgid "【晋阶】你现在是{title}。"
+msgstr "[Promotion] You are now {title}."
+
+msgid "【分宗】你现在是{title}。"
+msgstr "[New Branch] You are now {title}."
+
+msgid "临阵磨枪？来不及啦。"
+msgstr "Cramming right before the fight? Too late now."
+
+msgid "你的潜能已经发挥到极限了，没有办法再成长了。"
+msgstr "You've reached the limit of your potential. There's no more room to grow."
+
+msgid "你今天太累了，结果什麽也没有学到。"
+msgstr "You're too tired today. You didn't learn a thing."
+
+msgid "{head}。"
+msgstr "{head}."
+
+msgid "你的「%s」进步了！"
+msgstr "Your \"%s\" has improved!"
+
+msgid "没有这个技能种类，用 enable ? 可以查看有哪些种类。"
+msgstr "There's no such kind of skill. Use \"enable ?\" to see which kinds there are."
+
+msgid "「{skill}」是所有{kind}的基础，不需要 enable。"
+msgstr "\"{skill}\" is the basis of every {kind}; it doesn't need enabling."
+
+msgid "你不会这种技能。"
+msgstr "You don't know that skill."
+
+msgid "你连「{basic}」都没学会，更别提{skill}了。"
+msgstr "You haven't even learned \"{basic},\" let alone {skill}."
+
+msgid "这个技能不能当成这种用途。"
+msgstr "This skill can't be used that way."
+
+msgid "你改用另一种法术系，灵力必须重新锻炼。"
+msgstr "You've switched to another school of mysticism; your Mystic Power must be built up again."
+
+msgid "你改用另一种内功，内力必须重新锻炼。"
+msgstr "You've switched to another inner art; your Inner Force must be built up again."
+
+msgid "你改用另一种咒文系，法力必须重新修炼。"
+msgstr "You've switched to another school of incantation; your Arcane Power must be built up again."
+
+msgid "你已经在战斗中了，学一点实战经验吧。"
+msgstr "You're already in a fight — pick up some real experience."
+
+msgid "你只能练习用 enable 指定的特殊技能。"
+msgstr "You can only practice special skills you've enabled."
+
+msgid "你好像还没「学会」这项技能吧？最好先去请教别人。"
+msgstr "You don't seem to have \"learned\" this skill yet. Better ask someone to teach you first."
+
+msgid "你对这方面的技能还是一窍不通，最好从先从基本学起。"
+msgstr "You don't know the first thing about this kind of skill. Better start with the basics."
+
+msgid "你现在不能练习这项技能。"
+msgstr "You can't practice this skill right now."
+
+msgid "你试著练习%s，但是并没有任何进步。"
+msgstr "You try practicing %s, but make no progress at all."
+
+msgid "你的%s进步了！"
+msgstr "Your %s has improved!"
+
+msgid "战斗中不能练内功，会走火入魔。"
+msgstr "You can't train an inner art mid-fight — you'd lose control of your qi."
+
+msgid "你必须先用 enable 选择你要用的内功心法。"
+msgstr "First choose the inner art you want to use with enable."
+
+msgid "你最少要花 10 点「气」才能练功。"
+msgstr "You need to spend at least 10 Qi to train."
+
+msgid "你现在的气太少了，无法产生内息运行全身经脉。"
+msgstr "Your Qi is too low to send your breath through your meridians."
+
+msgid "你现在精神状况太差了，无法凝神专一！"
+msgstr "Your Spirit is too low — you can't concentrate!"
+
+msgid "你现在精力不够，无法控制内息的流动！"
+msgstr "Your Essence is too low to control the flow of your breath!"
+
+msgid "你现在无法练功。"
+msgstr "You can't train right now."
+
+msgid "你坐下来运气用功，一股内息开始在体内流动。"
+msgstr "You sit down and work your qi; a current of inner breath begins to flow through you."
+
+msgid "但是当你行功完毕，只觉得全身酸麻。"
+msgstr "But when you finish, you only feel sore and numb all over."
+
+msgid "当你的内息遍布全身经脉时却没有功力提升的迹象，似乎内力修为已经遇到了瓶颈。"
+msgstr "Your breath fills every meridian, yet your power shows no sign of growing — your Inner Force seems to have hit a wall."
+
+msgid "你的内力增强了！"
+msgstr "Your Inner Force grows stronger!"
+
+msgid "战斗中冥思——找死吗？"
+msgstr "Contemplating in the middle of a fight — do you want to die?"
+
+msgid "你最少要花 10 点「神」才能冥思。"
+msgstr "You need to spend at least 10 Spirit to contemplate."
+
+msgid "你现在精神太差了，进行冥思将会迷失，永远醒不过来！"
+msgstr "Your Spirit is too low — contemplate now and you'll lose yourself and never wake up!"
+
+msgid "你现在身体状况太差了，无法集中精神！"
+msgstr "You're in too poor a shape to focus your mind!"
+
+msgid "你现在身体状况太虚弱了，无法进入冥思的状态！"
+msgstr "Your body is too weak to enter contemplation!"
+
+msgid "你现在无法冥思。"
+msgstr "You can't contemplate right now."
+
+msgid "你盘膝而坐，静坐冥思了一会儿。"
+msgstr "You sit cross-legged and contemplate in silence for a while."
+
+msgid "但是当你睁开眼睛，只觉得脑中一片空白。"
+msgstr "But when you open your eyes, your mind is a blank."
+
+msgid "当你的法力增加的瞬间你忽然觉得脑中一片混乱，似乎魔力的提升已经到了瓶颈。"
+msgstr "Just as your Arcane Power rises, your head swims — your magic seems to have hit a wall."
+
+msgid "你的魔力提高了！"
+msgstr "Your magic grows stronger!"
+
+msgid "战斗也是一种修行，但不能和灵力的修行同时进行。"
+msgstr "Fighting is a kind of cultivation too — but not one you can do while cultivating Mystic Power."
+
+msgid "你最少要花 10 点精力才能进行修行。"
+msgstr "You need to spend at least 10 Essence to cultivate."
+
+msgid "你现在精力不足，无法修行灵力！"
+msgstr "Your Essence is too low to cultivate Mystic Power!"
+
+msgid "你现在精神状况太差了，无法控制自己的心灵！"
+msgstr "Your Spirit is too low — you can't control your own mind!"
+
+msgid "你现在无法修行。"
+msgstr "You can't cultivate right now."
+
+msgid "你闭上眼睛开始打坐。"
+msgstr "You close your eyes and begin to sit in meditation."
+
+msgid "但是你一不小心却睡著了。"
+msgstr "But you carelessly nod off."
+
+msgid "你忽然觉得一阵天旋地转，头涨得像要裂开一样，似乎灵力的修行已经遇到了瓶颈。"
+msgstr "The world suddenly spins and your head feels ready to split — your Mystic Power seems to have hit a wall."
+
+msgid "你的道行提高了！"
+msgstr "Your attainment in the Way grows!"
+
+msgid "这项技能不能通过自学取得进步！"
+msgstr "This skill can't be improved by studying on your own!"
+
+msgid "你得有「%s」的入门知识才行。"
+msgstr "You need a grounding in \"%s\" first."
+
+msgid "你现在无法自学。"
+msgstr "You can't study on your own right now."
+
+msgid "你开始钻研有关「%s」的问题。"
+msgstr "You set to working through questions of \"%s.\""
+
+msgid "也许是缺乏实战经验，结果是一无所获。"
+msgstr "Maybe for lack of real experience, you come away with nothing."
+
+msgid "你苦思冥想，似乎有些心得。"
+msgstr "You think long and hard, and seem to gain some insight."
+
+msgid "你无法在战斗中专心下来研读新知！"
+msgstr "You can't settle down to study in the middle of a fight!"
+
+msgid "你无法从这样东西学到任何东西。"
+msgstr "There's nothing you can learn from this."
+
+msgid "你是个文盲，先学学读书识字(literate)吧。"
+msgstr "You can't read. Learn your letters (literate) first."
+
+msgid "你的实战经验不足，再怎麽读也没用。"
+msgstr "You don't have the combat experience — reading more won't help."
+
+msgid "以你目前的能力，还没有办法学这个技能。"
+msgstr "As you are now, you can't learn this skill yet."
+
+msgid "你现在过於疲倦，无法专心下来研读新知。"
+msgstr "You're too tired to settle down and study."
+
+msgid "你研读了一会儿，但是发现上面所说的对你而言都太浅了，没有学到任何东西。"
+msgstr "You read for a while, but it's all too elementary for you. You learn nothing."
+
+msgid "你研读有关%s的技巧，似乎有点心得。"
+msgstr "You read up on the finer points of %s and seem to gain some insight."
+
+msgid "你现在无法研读。"
+msgstr "You can't read right now."
+
+msgid "你向{npc}请教「{skill}」{count} 次"
+msgstr "You ask {npc} to teach you \"{skill}\" {count} times"
+
+msgid "你练习{skill} {count} 次"
+msgstr "You practice {skill} {count} times"
+
+msgid "你打坐 {count} 次"
+msgstr "You meditate {count} times"
+
+msgid "你冥思 {count} 次"
+msgstr "You contemplate {count} times"
+
+msgid "你修行 {count} 次"
+msgstr "You cultivate {count} times"
+
+msgid "（其间歇了 {rests} 回，共{time}）"
+msgstr "(resting {rests} times along the way, {time} in all)"
+
+msgid "{head}：{changes}。"
+msgstr "{head}: {changes}."
+
+msgid "，"
+msgstr ","
+
+msgid "{skill} {from}→{to} 级"
+msgstr "{skill} level {from}→{to}"
+
+msgid "{skill}进度 {change}"
+msgstr "{skill} progress {change}"
+
+msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。精要时间才回得来，窗口开着时间不走：点「歇到回满」歇一会儿再来；学了内功的，也可以在武学页运功恢复精。"
+msgstr "Stopped: not enough Essence. Each lesson costs {cost} Essence, and you need more than that (you have {have}). Essence takes time to come back, and time doesn't pass while a window is open: press \"Rest Until Full\" and come back. If you've learned an inner art, you can also exert it on the Martial Arts page to restore Essence."
+
+msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。"
+msgstr "Stopped: not enough Essence. Each lesson costs {cost} Essence, and you need more than that (you have {have})."
+
+msgid "身上有限时的差事，歇着时限照走，所以没有自己歇；要歇就点「歇到回满」。"
+msgstr "You're on a timed errand, and the clock keeps running while you rest, so you didn't rest on your own. To rest, press \"Rest Until Full.\""
+
+msgid "停下：实战经验不足。「{skill}」{level} 级要再学，须实战经验 ≥ {required}（你 {have}）。"
+msgstr "Stopped: not enough combat experience. To learn more of \"{skill}\" past level {level} you need Combat Experience ≥ {required} (you have {have})."
+
+msgid "停下：「{skill}」这一级的进度已经攒满。先把{basic}提高到 {level} 级，再练才有长进。"
+msgstr "Stopped: this level of \"{skill}\" is fully built up. Raise {basic} to level {level} first, then practice to improve."
+
+msgid "停下：每次只花 {amount} 点{source}，{action}不会有任何长进；多花一些再试。"
+msgstr "Stopped: spending only {amount} {source} each time, {action} won't get you anywhere. Spend more and try again."
+
+msgid "停下：{resource}的修为已到瓶颈（上限 {maximum}），再{action}，{resource}只会回落到 {maximum}。先提高{basic}吧。"
+msgstr "Stopped: your {resource} has hit its limit (max {maximum}); {action} more and your {resource} will only fall back to {maximum}. Raise {basic} first."
+
+msgid "停下：你被打断了。"
+msgstr "Stopped: you were interrupted."
+
+msgid "你停了下来。"
+msgstr "You stop."
+
+msgid "停下：已经连续 {count} 次了，歇一歇吧。"
+msgstr "Stopped: {count} times in a row — take a break."
+
+msgid "Ok."
+msgstr "Ok."
+
+msgid "赌"
+msgstr "Gamble"
+
+msgid "山烟寺"
+msgstr "Mountain Mist Temple"
+
+msgid "桑邻药铺"
+msgstr "Mulberry Herb Shop"
+
+msgid "疗伤"
+msgstr "Heal Wounds"
+
+msgid "读书识字"
+msgstr "Literacy"
+
+msgid "身体"
+msgstr "body"
+
+msgid "前脚"
+msgstr "forepaw"
+
+msgid "尾巴"
+msgstr "tail"
+
+msgid "乞丐"
+msgstr "Beggar"
+
+msgid "疯狗"
+msgstr "Mad Dog"
+
+msgid "野狗"
+msgstr "Stray Dog"
+
+msgid "杜宽"
+msgstr "Du Kuan"
+
+msgid "收破烂的"
+msgstr "Junk Collector"
+
+msgid "王铁匠"
+msgstr "Smith Wang"
+
+msgid "魏无极"
+msgstr "Wei Wuji"
+
+msgid "李火狮"
+msgstr "Li Huoshi"
+
+msgid "农夫"
+msgstr "Farmer"
+
+msgid "樵夫"
+msgstr "Woodcutter"
+
+msgid "安惜迩"
+msgstr "An Xi'er"
+
+msgid "后脚"
+msgstr "hind paw"
+
+msgid "铁锤"
+msgstr "iron hammer"
+
+msgid "这是一位来雪亭镇的外地旅客.\n"
+msgstr "A traveler from out of town, passing through Snow Pavilion."
+
+msgid "一只浑身脏兮兮的野狗。\n"
+msgstr "A filthy stray dog."
+
+msgid "野狗用鼻子闻了闻你的脚。\n"
+msgstr "The stray dog sniffs at your feet."
+
+msgid "野狗在你的脚边挨挨擦擦的，想讨东西吃。\n"
+msgstr "The stray dog rubs up against your legs, hoping for a scrap."
+
+msgid "野狗对著你摇了摇尾巴。\n"
+msgstr "The stray dog wags its tail at you."
+
+msgid "野狗用后腿抓了抓自己的耳朵。\n"
+msgstr "The stray dog scratches its ear with a hind leg."
+
+msgid "高兴地汪汪叫了起来。"
+msgstr " barks happily."
+
+msgid "庙祝"
+msgstr "Temple Keeper"
+
+msgid "这个老人看起来七十多岁了，看著他佝偻的身影，你忽然觉得心情沈重了下来。\n"
+msgstr "The old man looks past seventy. Watching his stooped figure, you suddenly feel heavy-hearted."
+
+msgid "这位$RESPECT，捐点香火钱积点阴德吧。"
+msgstr "A little incense money, $RESPECT? Earn yourself some merit."
+
+msgid "多谢这位$RESPECT，神明一定会保佑你的。"
+msgstr "Thank you, $RESPECT. The gods will surely watch over you."
+
+msgid "醉汉"
+msgstr "Drunk"
+
+msgid "一个喝得醉醺醺的年轻人.....\n"
+msgstr "A young man, drunk as a lord....."
+
+msgid "酒..... 给我酒...."
+msgstr "Wine..... gimme wine...."
+
+msgid "去去去去去.. 我又不是收破烂的..."
+msgstr "Go 'way, go 'way.. I ain't a junk man..."
+
+msgid "真没诚意, 剩么一点... "
+msgstr "Cheapskate, that's all you got..."
+
+msgid "多谢, 不过我还有酒... "
+msgstr "Thanks, but I still got wine..."
+
+msgid "听说沈记商行有在卖蒙汗药...\n"
+msgstr "Heard Shen's Trading House sells knockout drops..."
+
+msgid "嗯.. 你是想问我玉佩的事吧? 我卖给沈老板了, 那东西不吉祥...\n"
+msgstr "Mm.. you're askin' about the jade pendant, huh? Sold it to Boss Shen. Thing was bad luck..."
+
+msgid "多谢啦....."
+msgstr "Thanks a lot....."
+
+msgid "这个人不但自己收破烂，身上也穿得破烂不堪。\n"
+msgstr "Not only does this man collect junk, he's dressed in it."
+
+msgid "收破烂的吆喝道：收～破～烂～哪～\n"
+msgstr "The junk collector calls out, \"Junk! Any junk! Ju-unk!\""
+
+msgid "收破烂的嘴里嘟哝著，不知道说些什么。\n"
+msgstr "The junk collector mumbles something under his breath."
+
+msgid "收破烂的伸手捉住了身上的虱子，一脚踩得扁扁的。 \n"
+msgstr "The junk collector picks a louse off himself and squashes it flat underfoot."
+
+msgid "$RESPECT饶命！小的这就离开！"
+msgstr "Spare me, $RESPECT! I'm going, I'm going!"
+
+msgid "多谢这位$RESPECT！"
+msgstr "Thank you kindly, $RESPECT!"
+
+msgid "拳法教练"
+msgstr "Fist Instructor"
+
+msgid "李火狮是个孔武有力的大块头，他正在训练他的弟子们习练「柳家拳\n法」。\n"
+msgstr "Li Huoshi is a big, burly man. He's drilling his students in the Liu Family Fist."
+
+msgid "这里当然是淳风武馆，不然还是哪里？\n"
+msgstr "This is Pure Wind Hall, of course. Where else would it be?"
+
+msgid "在下姓李，名字就叫火狮，人称李教头的便是我。\n"
+msgstr "The name's Li — Li Huoshi. Folks call me Instructor Li."
+
+msgid "柳家拳法"
+msgstr "Liu Family Fist"
+
+msgid "哦....说来惭愧，小弟这套拳法还没学得到家, 柳馆主就教我在这里传艺。\n"
+msgstr "Oh... I'm ashamed to say I haven't got the Fist down all the way myself, but Master Liu had me teach it here anyway."
+
+msgid "话是你说的，馆主也认了。老刘回了野羊山——这扇门，他不会再进了。"
+msgstr "You said it, and the master accepted it. Old Liu went back to Goathill — he'll never come through that door again."
+
+msgid "话是你说的，馆主也认了。武馆的规矩，谁也不能例外。……老刘走的时候，把门房的钥匙擦得干干净净。"
+msgstr "You said it, and the master accepted it. The hall's rules make no exceptions. ...When Old Liu left, he wiped the gatehouse key clean and left it behind."
+
+msgid "你说认错了人，我就当是认错了人。弟子们那边，我去压。"
+msgstr "You say they had the wrong man, so they had the wrong man. I'll keep the disciples quiet."
+
+msgid "老刘前些日子不辞而别，门房的桌子空着。偏偏那几个骗子又在镇上嚷，说他是野羊山的二寨主。"
+msgstr "Old Liu left without a word a while back, and the gatehouse table's been empty since. And now those swindlers are going round town saying he's the Second Chief of Goathill."
+
+msgid "弟子们都在猜。有人说该报官，有人说该上野羊山问个明白。"
+msgstr "The disciples are all guessing. Some say report it to the magistrate; some say go up Goathill and find out."
+
+msgid "馆主不开口。骗子是你打发的——老刘到底是什么人，你给大伙一句话：说破，还是替他瞒下来。"
+msgstr "The master isn't saying anything. You're the one who ran off those swindlers — so you tell everyone what Old Liu really is: say it out loud, or cover for him."
+
+msgid "那天你和老刘在门口动了刀，弟子们都看见了——那套刀法，不是一个门房使得出来的。"
+msgstr "That day you and Old Liu drew blades at the gate, the disciples all saw it — that saber work is nothing a gatekeeper could pull off."
+
+msgid "偏偏那几个骗子又在镇上嚷，说他是野羊山的血手刘三。"
+msgstr "And now those swindlers are going round town saying he's Bloody-Hand Liu of Goathill."
+
+msgid "馆主不开口。你和他交过手，你最清楚——他是什么人，你给大伙一句话：说破，还是替他瞒下来。"
+msgstr "The master isn't saying anything. You crossed blades with him; you know best. So you tell everyone what he is: say it out loud, or cover for him."
+
+msgid "那几个骗子在镇上嚷，说咱们门房老刘是野羊山的二寨主，叫什么血手刘三。"
+msgstr "Those swindlers are going round town saying our gatekeeper, Old Liu, is the Second Chief of Goathill — Bloody-Hand Liu, they call him."
+
+msgid "老刘在武馆五年，扫地、守门、记账，没出过一回错。可弟子们听见了，就得有个说法：武馆不留匪，这是老馆主立的规矩。"
+msgstr "Old Liu's been at the hall five years — sweeping, minding the gate, keeping the books — and never put a foot wrong. But the disciples have heard it, so there has to be an answer: the hall doesn't keep bandits. That's the old master's rule."
+
+msgid "馆主不开口。骗子是你打发的，话是你听见的——他是什么人，你给大伙一句话：说破，还是替他瞒下来。"
+msgstr "The master isn't saying anything. You ran off the swindlers, you heard what they said — so you tell everyone what he is: say it out loud, or cover for him."
+
+msgid "门房老刘？在武馆五年了，话不多，人勤快。"
+msgstr "Old Liu at the gate? Five years at the hall. Doesn't talk much. Hard worker."
+
+msgid "说破门房的来历"
+msgstr "Expose the Gatekeeper's Past"
+
+msgid "告诉李火狮：门房刘安禄就是野羊山的血手刘三。\n武馆不留匪——这句话出口，武馆从此没有他的位置，弟子们会记得是你说的。\n要说破吗？"
+msgstr "Tell Li Huoshi: the gatekeeper, Liu Anlu, is Bloody-Hand Liu of Goathill.\nThe hall doesn't keep bandits — once you say it, there's no place for him at the hall again, and the disciples will remember it was you who said it.\nExpose him?"
+
+msgid "你已经说过了。"
+msgstr "You've already said it."
+
+msgid "你前头说的是认错了人。话出了口，就别改了。"
+msgstr "You said before they had the wrong man. Once a thing's said, don't take it back."
+
+msgid "的脸沉了下来。"
+msgstr "'s face darkens."
+
+msgid "……血手刘三。五年，我天天和他一张桌子吃饭。"
+msgstr "...Bloody-Hand Liu. Five years I ate at the same table with him every day."
+
+msgid "规矩是老馆主立的，我去回馆主。你做得对——只是往后弟子们看你，眼神会不一样。"
+msgstr "The rule's the old master's. I'll go tell the master. You did right — only, from now on the disciples will look at you a little differently."
+
+msgid "说破什么？"
+msgstr "Expose what?"
+
+msgid "替门房瞒下来"
+msgstr "Cover for the Gatekeeper"
+
+msgid "告诉李火狮：那伙骗子认错了人。\n武馆里没人再提这件事，刘安禄欠你一句话；可这句话从此算在你头上，日后再有人认出他，弟子们先问的是你。\n要替他瞒吗？"
+msgstr "Tell Li Huoshi: those swindlers had the wrong man.\nNo one at the hall will bring it up again, and Liu Anlu will owe you one. But from now on that's on you: if anyone ever recognizes him, the disciples will come asking you first.\nCover for him?"
+
+msgid "认错了人。我已经同弟子们说过了。"
+msgstr "The wrong man. I've already told the disciples."
+
+msgid "话已经出了口，瞒不回去了。"
+msgstr "It's been said. You can't take it back now."
+
+msgid "盯着你看了一会儿，慢慢点了点头。"
+msgstr " studies you for a while, then slowly nods."
+
+msgid "认错了人。好，我就这么同弟子们说。"
+msgstr "The wrong man. Fine — that's what I'll tell the disciples."
+
+msgid "你担着这句话，就担到底。"
+msgstr "You took this on. Carry it all the way."
+
+msgid "瞒什么？"
+msgstr "Cover for what?"
+
+msgid "点了点头。"
+msgstr " nods."
+
+msgid "进招吧。"
+msgstr "Come at me."
+
+msgid "馆主吩咐过，不许和来这里的客人过招。"
+msgstr "The master's orders: no sparring with guests."
+
+msgid "对不起，这位$RESPECT，您不是我们武馆的弟子。"
+msgstr "Sorry, $RESPECT, you're not a student of our hall."
+
+msgid "李火狮不愿意教你拳法。"
+msgstr "Li Huoshi won't teach you the Fist."
+
+msgid "你看到一位面色黝黑的农夫。\n"
+msgstr "You see a farmer with a sun-darkened face."
+
+msgid "农夫叫道：杀人哪！杀人哪！\n"
+msgstr "The farmer yells, \"Murder! Murder!\""
+
+msgid "农夫叫道：有土匪哪！光天化日下打劫哪！\n"
+msgstr "The farmer yells, \"Bandits! Robbery in broad daylight!\""
+
+msgid "一只浑身脏兮兮的野狗，一双眼睛正恶狠狠地瞪著你。\n"
+msgstr "A filthy stray dog, glaring at you with mean eyes."
+
+msgid "教书先生"
+msgstr "Schoolteacher"
+
+msgid "魏无极是个博学多闻的教书先生，他年轻时曾经中过举人，但是\n因为生性喜爱自由而不愿做官，魏无极以教书为业，如果你付他\n一笔学费，就可以成为他的弟子学习读书识字。\n"
+msgstr "Wei Wuji is a well-read schoolteacher. As a young man he passed the provincial exams, but he loves his freedom too much to take an official post, so he teaches for a living. Pay him a fee and you can become his student and learn to read and write."
+
+msgid "学费"
+msgstr "Fee"
+
+msgid "嗯 ... 读书识字是做人的第一步。"
+msgstr "Hm... reading and writing are the first step in being a person."
+
+msgid "学好了读书识字的本领，胜过于百万的家财。"
+msgstr "Learning to read and write is worth more than a fortune."
+
+msgid "所以说学问是金钱买不到的。"
+msgstr "Which is to say, learning is something money can't buy."
+
+msgid "虽然学问是无价的，不过如果你有心的话 ..."
+msgstr "Though learning is priceless, if you're truly willing..."
+
+msgid "只要五两银子。"
+msgstr "...it's only five taels of silver."
+
+msgid "手头紧？街东头的谷场正缺短工，干一回给一两。"
+msgstr "Short on money? The grain mill at the east end of the street needs day laborers — a tael a shift."
+
+msgid "对，读书识字。"
+msgstr "That's right — reading and writing."
+
+msgid "哦 ... 你是说野羊山寨的二寨主，人称血手刘三的刘安禄吗？"
+msgstr "Oh... you mean Liu Anlu, Second Chief of the Goathill Stockade — the one they call Bloody-Hand Liu?"
+
+msgid "他又出来做恶了？"
+msgstr "Is he up to his evil ways again?"
+
+msgid "你带我去见他，让我跟他说几句话。"
+msgstr "Take me to him. Let me have a few words with him."
+
+msgid "点了点头，说道：哦，向你这么有心的学生还真是不多见，好好努力将来必定前途无量，谢了。"
+msgstr " nods. \"Oh, a student as eager as you is rare indeed. Work hard and your future is boundless. Thank you.\""
+
+msgid "点了点头，说道：很好，从今天起你随时可以来问我有关读书识字(literate)的任何问题。"
+msgstr " nods. \"Very good. From today you may come and ask me anything about reading and writing (literate).\""
+
+msgid "你的诚意不够，这钱还是拿回去吧。"
+msgstr "You're not sincere enough. Take your money back."
+
+msgid "咦？我不记得收过你这个学生啊...."
+msgstr "Eh? I don't remember taking you as a student..."
+
+msgid "你看到一个粗壮的大汉，身上穿著普通樵夫的衣服。\n"
+msgstr "You see a big, sturdy man in a common woodcutter's clothes."
+
+msgid "樵夫说道：野羊山那群臭道士真是该千刀万剐....\n"
+msgstr "The woodcutter says, \"Those stinking Daoists on Goathill ought to be cut into a thousand pieces....\""
+
+msgid "樵夫说道：不知道那些牛鼻子施了什么妖法，前天回家差点迷了路。\n"
+msgstr "The woodcutter says, \"Don't know what spell those ox-noses cast — day before yesterday I nearly got lost on my way home.\""
+
+msgid "樵夫说道：唉....日子越来越不好过罗。\n"
+msgstr "The woodcutter says, \"Sigh.... Life gets harder every day.\""
+
+msgid "雪亭驿长"
+msgstr "Postmaster"
+
+msgid "杜宽担任雪亭驿的驿长已经有十几年了，虽然期间有几次升迁的\n机会，但是他都因为舍不得离开这个小山村而放弃了，雪亭镇的\n居民对杜宽的风评相当不错，常常会来到驿站跟他聊天。\n"
+msgstr "Du Kuan has been postmaster of the Snow Pavilion Post Station for over ten years. He's had a few chances at promotion, but he turned them all down rather than leave this little mountain town. The people of Snow Pavilion think well of him, and often drop by the post station for a chat."
+
+msgid "驿站"
+msgstr "Post Station"
+
+msgid "是啊... 这里就是雪亭驿，你要寄信吗？"
+msgstr "That's right... this is the Snow Pavilion Post Station. Got a letter to send?"
+
+msgid "官府的信差都改走飞鸢栈道了，咱这儿如今只剩百姓的信。"
+msgstr "The official couriers all go by the Flying Kite Plank Road now. All we get here these days is folks' letters."
+
+msgid "送信"
+msgstr "Delivering Letters"
+
+msgid "往后有信，还找你。"
+msgstr "If there's another letter, I'll come to you."
+
+msgid "送到了？好，说好的脚钱。往后有信，还找你。"
+msgstr "Delivered? Good — here's your fee, like we said. If there's another letter, I'll come to you."
+
+msgid "信丢了？……还好驿里留着底子，我再誊一封。这回别再弄丢了，陈镖头的镖局就在绮云镇街上。"
+msgstr "Lost the letter? ...Good thing the station keeps a copy; I'll write it out again. Don't lose it this time. Escort Chief Chen's agency is on the street in Cloudweave Town."
+
+msgid "信送到了么？陈镖头的镖局就在绮云镇街上。"
+msgstr "Delivered the letter yet? Escort Chief Chen's agency is on the street in Cloudweave Town."
+
+msgid "正好有封信，要送到绮云镇振远镖局陈镖头手里。驿里就我一个走不开——你若肯跑这一趟，回来给你一两脚钱。出镇往南过卧龙岗，岗上有强人，别跟他们纠缠，走你的路就是。"
+msgstr "As it happens, there's a letter for Escort Chief Chen at the Zhenyuan Escorts in Cloudweave Town. I'm the only one here and I can't get away — if you'll make the run, there's a tael in it for you when you get back. Head south out of town over Crouching Dragon Ridge. There are robbers on the ridge; don't tangle with them, just keep walking."
+
+msgid "悬赏"
+msgstr "Bounties"
+
+msgid "门外那张榜是乔阴府发的悬赏。榜上的恶人要是教你拿住了，赏银照榜发——拿不住也别逞强。"
+msgstr "That board outside is the bounty list from Tallshade Prefecture. Catch any of the outlaws on it and you get the reward as posted — and if you can't catch them, don't play the hero."
+
+msgid "一只贼头贼脑的大老鼠。\n"
+msgstr "A big, sneaky-looking rat."
+
+msgid "钱庄老板"
+msgstr "Banker"
+
+msgid "安惜迩是个看起来相当斯文的年轻人，不过有时候会有些心不在焉的\n样子，雪亭镇的居民对安惜迩都觉得有点神秘莫测的感觉，为什么他\n年纪轻轻就身为一家大钱庄的老板，还有他一身稀奇古怪的武功，所\n幸安惜迩似乎天性恬淡，甚至有些隐者的风骨，只要旁人不去惹他，\n他也绝不会去招惹旁人。\n"
+msgstr "An Xi'er looks like a rather refined young man, though now and then he seems a little absent. The people of Snow Pavilion find him something of a mystery: how did someone so young come to own a big bank, and where did he get his strange martial arts? Luckily he seems calm by nature, with something of the hermit about him. Leave him alone and he'll never bother you."
+
+msgid "安惜迩似笑非笑地望著你，脸上的神气古理古怪，不知道在想些什么？\n"
+msgstr "An Xi'er gazes at you with a half-smile and an odd look on his face. What is he thinking?"
+
+msgid "安惜迩的身影晃了一下，似乎在你身上各处大穴摸了一下，不过也许是你的错觉。\n"
+msgstr "An Xi'er's figure flickers — he seems to touch every vital point on your body at once. Or maybe you imagined it."
+
+msgid "安惜迩神情忽然严肃了起来，不过好像是在想自己的事，与你无关。\n"
+msgstr "An Xi'er suddenly turns grave, but he seems to be thinking of something of his own, nothing to do with you."
+
+msgid "安惜迩忽然呵呵呵地笑了起来，却不知道在笑些什么....\n"
+msgstr "An Xi'er suddenly chuckles to himself. Who knows what at...."
+
+msgid "咦... 要打就真打吧，光是较量多没意思？"
+msgstr "Huh... if we're going to fight, let's really fight. Where's the fun in just testing each other?"
+
+msgid "王铁匠正用铁钳夹住一块红热的铁块放进炉中。\n"
+msgstr "Smith Wang is holding a red-hot lump of iron in his tongs, pushing it into the forge."
+
+msgid "小人姓王，单名一个恒字，可是小人西瓜大的字识不到一担，只有王字会写。\n"
+msgstr "The name's Wang, sir — Wang Heng. Couldn't read a word if it was as big as a watermelon; only one I can write is my own name."
+
+msgid "这里是小人糊口的铺子，小人一家五口都住在后边的屋子。\n"
+msgstr "This is the shop that keeps me fed. My family of five lives in the rooms out back."
+
+msgid "锄头"
+msgstr "Hoe"
+
+msgid "锄头... 抱歉，锄头已经卖光了...\n"
+msgstr "A hoe... sorry, hoes are all sold out..."
+
+msgid "铲子"
+msgstr "Shovel"
+
+msgid "对不起，小人店里的铲子都给人订走了。\n"
+msgstr "Sorry, every shovel in the shop's been ordered already."
+
+msgid "铁锤？小人做的铁锤坚固又耐用，一把只要三百文钱。\n"
+msgstr "An iron hammer? Mine are solid and they last. Only three hundred wen apiece."
+
+msgid "杨掌柜"
+msgstr "Shopkeeper Yang"
+
+msgid "杨掌柜是这附近相当有名的大善人，常常施舍草药给付不起药钱的穷人\n。此外他的医术也不错，年轻时曾经跟著山烟寺的玄智和尚学医，一般\n的伤寒小病直接问他开药吃比医生还灵。\n"
+msgstr "Shopkeeper Yang is well known around here as a generous soul who often gives herbs to poor folk who can't pay. He's a decent healer too — as a young man he studied medicine under the monk Xuanzhi of Mountain Mist Temple — and for a common cold or a small ailment, asking him for a remedy works better than seeing a doctor."
+
+msgid "治伤"
+msgstr "Treat Wounds"
+
+msgid "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。"
+msgstr "You look in fine health, $RESPECT. Doesn't look like you're hurt at all."
+
+msgid "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。"
+msgstr "Let me see... just a few scrapes. Buy a packet of wound salve, put it on, and you'll be fine."
+
+msgid "开药"
+msgstr "Make Up a Prescription"
+
+msgid "麝香给你了。替我问玄智师父好。"
+msgstr "Here's your musk. Give my regards to Master Xuanzhi."
+
+msgid "玄智师父开的方子？我看看——附子、麝香、鬼臼。"
+msgstr "A prescription from Master Xuanzhi? Let me see — aconite, musk, mayapple root."
+
+msgid "脸色沉了下来。"
+msgstr "'s face darkens."
+
+msgid "鬼臼以毒攻毒……这是阴寒入骨的方子。乔阴那边，又不太平了？"
+msgstr "Mayapple root, poison to fight poison... this is a remedy for cold that's sunk into the bone. Is there trouble in Tallshade again?"
+
+msgid "从药柜最上头一格取下一个小罐，用桑皮纸包了一小包，递给你。"
+msgstr " takes a small jar down from the top shelf of the medicine cabinet, wraps a little packet in mulberry paper, and hands it to you."
+
+msgid "师父要的东西，不收钱。我年轻时跟着他学医三年，他教的头一句：药是凉的，人心得是热的。"
+msgstr "It's for my master — no charge. I studied medicine with him for three years when I was young. The first thing he taught me: medicine is cold, so the heart has to be warm."
+
+msgid "山烟寺？我年轻时曾经跟著山烟寺的玄智和尚学医。玄智师父的医术，天底下没几个人比得上。"
+msgstr "Mountain Mist Temple? As a young man I studied medicine under the monk Xuanzhi there. There aren't many in the world who can match Master Xuanzhi's healing."
+
+msgid "一个满脸风霜之色的老乞丐。\n"
+msgstr "An old beggar with a weather-beaten face."
+
+msgid "乞丐说道：好心的大爷哪～ 赏我要饭的几文钱吧～\n"
+msgstr "The beggar says, \"Kind sir, spare a few coins for a poor beggar...\""
+
+msgid "乞丐懒洋洋地打了个哈欠。\n"
+msgstr "The beggar yawns lazily."
+
+msgid "乞丐伸手捉住了身上的虱子，骂道：老子身上没几两肉，全叫你们给咬糜了。 \n"
+msgstr "The beggar picks a louse off himself and grumbles, \"Ain't got much meat on me, and you lot've chewed it all to mush.\""
+
+msgid "多谢这位$RESPECT，您好心一定会有好报的！"
+msgstr "Thank you, $RESPECT. Kindness like yours always comes back around!"
+
+msgid "逄义是封山派中和柳淳风同辈的弟子，但是生性好赌的他并不受师父\n及同门师兄弟的喜爱，因此辈分虽高，却未曾担任门中任何重要职务\n。逄义经常外出，美其名曰：旅行，实则避债，碍于门规又不敢做那\n打家劫舍的勾当，因此经常四处寻找赚钱发财的机会。\n"
+msgstr "Pang Yi is a disciple of the Empty Mountain School of Liu Chunfeng's generation. But he loves to gamble, so neither his master nor his fellow disciples think much of him; senior as he is, he has never held any post in the school. He's often away — \"traveling,\" he calls it, though really he's dodging debts — and since the school's rules won't let him turn to robbery, he's always looking for some chance to make money."
+
+msgid "赚钱"
+msgstr "Making Money"
+
+msgid "真的？哪里有钱赚？"
+msgstr "Really? Where's there money to be made?"
+
+msgid "发财"
+msgstr "Getting Rich"
+
+msgid "发财我倒不敢想，只要有人肯雇用(employment)我，手边有几百两银子就好了。"
+msgstr "Getting rich I wouldn't dare dream of. If someone would just hire me (employment), a few hundred taels in hand would do."
+
+msgid "是的，一天一百两银子，只要不违背侠义道，我可以做任何事。"
+msgstr "That's right — a hundred taels a day, and so long as it doesn't go against the code of chivalry, I'll do anything."
+
+msgid "柳淳风是在下同门师兄。"
+msgstr "Liu Chunfeng is my senior brother in the school."
+
+msgid "阁下如果也爱好此道，不如改天兄弟陪阁下玩几手？"
+msgstr "If you're fond of a little game yourself, friend, why don't I play you a few hands some day?"
+
+msgid "牌你带回去交给师兄。我没脸拿。"
+msgstr "Take the token back to my senior brother. I don't have the face to keep it."
+
+msgid "手里的骰子掉在了桌上。"
+msgstr " drops the dice in his hand onto the table."
+
+msgid "……是我的牌。"
+msgstr "...That's my token."
+
+msgid "上个月手气背，欠了场子里一个姓罗的十二两。他不要银子，只要这块牌，说是拿去「挂两天」。我当他要个彩头。"
+msgstr "Last month my luck was bad and I owed twelve taels to a man named Luo at the gambling hall. He didn't want the silver — he wanted this token. Said he'd \"hang onto it a couple days.\" I figured he wanted a lucky charm."
+
+msgid "他拿去雪亭收拜师钱？打的是师兄的旗号？"
+msgstr "He took it to Snow Pavilion to collect entrance fees? Under my senior brother's name?"
+
+msgid "半天没说话，把面前剩的几个筹码推开了。"
+msgstr " says nothing for a long while, then pushes away the few chips left in front of him."
+
+msgid "门规我没犯过——不偷不抢，不打家劫舍。可牌是我押出去的，这一条赖不掉。你带回去交给师兄，就说逄义认了。"
+msgstr "I never broke the school's rules — never stole, never robbed, never raided a house. But I pawned that token, and there's no getting out of that. Take it back to my senior brother and tell him Pang Yi owns up."
+
+msgid "什么腰牌？在下的腰牌好好地……"
+msgstr "What waist token? Mine's right here..."
+
+msgid "摸了摸腰间，没有说下去。"
+msgstr " feels at his waist and doesn't go on."
+
+msgid "储藏室"
+msgstr "Storeroom"
+
+msgid "地下密室"
+msgstr "Secret Cellar"
+
+msgid "山路"
+msgstr "Mountain Road"
+
+msgid "书院"
+msgstr "Schoolhouse"
+
+msgid "安记钱庄"
+msgstr "An's Bank"
+
+msgid "丰登当铺"
+msgstr "Harvest Pawnshop"
+
+msgid "山坳"
+msgstr "Mountain Hollow"
+
+msgid "青石官道"
+msgstr "Bluestone Road"
+
+msgid "黄土小径"
+msgstr "Yellow Earth Path"
+
+msgid "打铁铺子"
+msgstr "Smithy"
+
+msgid "雪亭驿"
+msgstr "Snow Pavilion Post Station"
+
+msgid "谷物加工厂"
+msgstr "Grain Mill"
+
+msgid "城隍庙"
+msgstr "Town God Temple"
+
+msgid "兵器储藏室"
+msgstr "Armory"
+
+msgid "书房"
+msgstr "Study"
+
+msgid "架子"
+msgstr "rack"
+
+msgid "车马行"
+msgstr "Coach Station"
+
+msgid "官府悬赏"
+msgstr "Wanted Notices"
+
+msgid "这里是雪亭镇的街道，往北是一个热闹的广场，南边是条小路通往\n一座林子，东边则有一条小径沿著山腰通往山上，往西是一条比较窄的\n街道，参差不齐的瓦屋之间传来几声犬吠。\n"
+msgstr "This is a street in Snow Pavilion. To the north is a busy square; to the south a small path leads into a wood; to the east a trail climbs along the mountainside; and to the west is a narrower street, where a few dogs bark among the ragged tiled houses."
+
+msgid "这是一条普通的黄土小径，弯弯曲曲往东一路盘旋上山，北边有\n一间城隍庙，往西则是雪亭镇的街道。\n"
+msgstr "An ordinary yellow-earth path, winding east up the mountain. To the north is a Town God temple; to the west, the streets of Snow Pavilion."
+
+msgid "这是一条普通的黄土小径，小径往西南通往一处山间的平地，从这\n里可以望见不少房屋错落在平地上，往北则一路上山。\n"
+msgstr "An ordinary yellow-earth path. It runs southwest to a flat stretch among the hills, where you can see houses scattered about; to the north it climbs on up the mountain."
+
+msgid "这是一条说宽不宽，说窄倒也不窄的山路，路面用几块生满青苔的\n大石铺成，西面是一段坡地，从这里可以望见西边有几间房屋错落在林\n木间，东面则是山壁，山路往西衔接一条黄土小径，往北则是通往山\n上的石阶。\n"
+msgstr "A mountain road neither wide nor narrow, paved with a few big moss-covered stones. To the west is a slope, and you can see a few houses scattered among the trees; to the east is the cliff face. The road joins a yellow-earth path to the west, and to the north stone steps lead up the mountain."
+
+msgid "这是一间十分老旧的城隍庙，在你面前的神桌上供奉著一尊红脸的城\n隍，庙虽老旧，但是神案四周已被香火薰成乌黑的颜色，显示这里必定相\n当受到信徒的敬仰。\n"
+msgstr "A very old Town God temple. On the altar before you sits a red-faced Town God. Old as the temple is, the walls around the altar are blackened by incense smoke — plainly the faithful think highly of the place."
+
+msgid "你现在正走在雪亭镇的大街，往南直走不远处是镇上的广场，在你\n的东边是一间大宅院，不过正门不在这个方向，往西是一家打铁铺子，\n叮叮当当的声音大老远可以听得到，街道往北边一直通往镇外。\n"
+msgstr "You are walking along Snow Pavilion's main street. Not far south is the town square. To your east is a big compound, though its front gate isn't on this side; to the west is a smithy, and you can hear its clanging from a long way off. The street runs north out of town."
+
+msgid "这里是雪亭镇的大街，东边有一栋陈旧的建筑，看起来像是什么店\n铺，但是并没有任何招牌，只有一扇门(door)上面写著一个大大的「当\n」字，往西是一间药铺，大街往南北两个方向延伸。\n"
+msgstr "This is Snow Pavilion's main street. To the east is a run-down building that looks like some kind of shop, though it has no signboard — only a door (door) with a big \"Pawn\" written on it. To the west is a herb shop. The street runs north and south."
+
+msgid "这里是雪亭镇的大街，一条小巷子通往东边，西边则是一间驿站，\n由于雪亭镇来往的商旅、官员并不很多，因此虽然是官府的驿站，也接\n受百姓的信件，大街往北是一处山坳，从这里远远地可以望见北方的野\n羊山，出了山坳就是一条碎石路通往山上。\n"
+msgstr "This is Snow Pavilion's main street. A lane leads east, and to the west is a post station; since few merchants or officials pass through Snow Pavilion, the official post takes ordinary folks' letters too. North of the street is a mountain hollow, and from here you can see Goathill far to the north; past the hollow a gravel road leads up the mountain."
+
+msgid "这里是一处山坳，往南就是雪亭镇，一条蜿蜒的小径往东通往另一\n个邻近的小山村，一块官府立的告示牌立在路旁，上面写著有关野羊山\n土匪出没的警告标志。\n"
+msgstr "This is a mountain hollow. South is Snow Pavilion, and a winding path leads east to another little mountain village nearby. By the road stands a notice put up by the magistrate, warning of bandits on Goathill."
+
+msgid "这是一间谷物加工厂，这里是谷子脱壳成米的地方。米厂老板是一个一\n看就知道是十分精明的干瘦的中年人，老是带着一脸奸笑。你可以看到\n许多人正在忙忙碌碌的工作着，门口挂著一块牌子(sign)，往西是通往\n雪亭镇大街的大门。\n"
+msgstr "This is a grain mill, where grain is husked into rice. The mill's owner is a scrawny, middle-aged man you can tell at a glance is sharp as a tack, always wearing a sly grin. You can see lots of people busily at work. A sign (sign) hangs at the door; to the west is the gate out to Snow Pavilion's main street."
+
+msgid "这是一间素来以公平信用著称的钱庄，钱庄的老板还是个曾经中过\n举人的读书人，你可以看到钱庄里里外外都打扫得乾乾净净，一个胖胖\n的中年人坐在柜台后面，柜台上放著一块牌子(sign)，往东是通往雪亭\n镇大街的大门。\n"
+msgstr "This bank has always been known for fair and honest dealing, and its owner is a scholar who once passed the provincial exams. The place is swept clean inside and out. A plump, middle-aged man sits behind the counter, and on the counter sits a sign (sign). To the east is the door out to Snow Pavilion's main street."
+
+msgid "这是一家中等规模的当铺，老旧的柜台上放著一张木牌(sign)，屋\n里的光线不是很亮，往东的出口被一块蓝色布帘遮著，上面有「非请莫\n入」的字样，西边有一扇木雕门(door)通往大街。\n"
+msgstr "A pawnshop of middling size. On the old counter sits a wooden sign (sign). The room isn't very bright. The exit to the east is hung with a blue cloth curtain that reads \"No Entry Without Leave\"; to the west a carved wooden door (door) leads to the main street."
+
+msgid "这里是雪亭镇的街道，你的北边有一家客栈，从这里就可以听到客\n栈里人们饮酒谈笑的声音，街道往东不远处有个转角往北，如果你往东\n直走就是上山的小径了，往西则可以走到车马来往络绎不绝的官道。\n"
+msgstr "This is a street in Snow Pavilion. To your north is an inn — from here you can hear people inside drinking and laughing. Not far east the street turns north at a corner; keep going east and you'll reach the trail up the mountain; to the west is the highway, busy with carts and horses coming and going."
+
+msgid "这是一条宽敞坚实的青石板铺成的大道，路上车马的痕迹已经在路\n面上留下一条条明显的凹痕，往东是一条较小的街道通往雪亭镇，大路\n从这里往北可达水烟阁，往西南穿过黄石隘口则通往戍守京畿重地的天\n驼关。\n"
+msgstr "A broad, solid road paved with bluestone slabs, worn into clear ruts by years of carts and horses. To the east a smaller street leads to Snow Pavilion. From here the highway runs north to Waterfog Pavilion, and southwest through Yellow Rock Pass to Camelback Pass, which guards the approaches to the capital."
+
+msgid "这是一条宽敞坚实的青石板大道，大道两旁种著整齐的花木，从这\n里往北通往水烟阁，往东则是衔接雪亭镇街道的路口。\n"
+msgstr "A broad, solid bluestone highway lined with neat rows of trees and flowers. From here it runs north to Waterfog Pavilion; to the east is the turning onto Snow Pavilion's street."
+
+msgid "这是一条宽敞坚实的青石板大道，大道两旁种著整齐的花木，从这\n里往西通往水烟阁，往南则是衔接雪亭镇街道的路口。\n"
+msgstr "A broad, solid bluestone highway lined with neat rows of trees and flowers. From here it runs west to Waterfog Pavilion; to the south is the turning onto Snow Pavilion's street."
+
+msgid "这里是一间宽敞的书院，虽然房子看起来很老旧了，但是打扫得很\n整洁。墙壁上挂著一幅山水画，意境颇为不俗。书院的大门开在北边，\n西边有一扇木门通往边厢。\n"
+msgstr "This is a roomy schoolhouse. The building looks old, but it's kept neat and tidy. A landscape painting of real feeling hangs on the wall. The schoolhouse door opens to the north, and to the west a wooden door leads to a side room."
+
+msgid "这里是一间打铁铺子，从火炉中冒出的火光将墙壁映得通红，屋子\n的角落里堆满了各式铁器的完成品或未完成品，像是锄头、铁锤、铲子\n等，叮叮当当的声音敲得满屋子响。\n"
+msgstr "This is a smithy. Firelight from the forge turns the walls red, and the corners are heaped with all kinds of ironware, finished and unfinished — hoes, hammers, shovels and the like. The clanging fills the whole room."
+
+msgid "这里是一间规模不小的药铺，奇怪的是，在这里你闻不到一丝药铺\n应有的药味，有的只是一股淡淡的檀香，令人觉得心旷神怡，药铺的柜\n台就在店铺靠北的一面，柜台后是一个巨大的药柜(cabinet)， 上面的\n小抽屉只怕有七、八百个之多，但是全部没有贴标签，药铺的出口在东\n边，柜台上贴著一张发黄的纸片(sign)。\n"
+msgstr "This is a sizable herb shop. Oddly, you can't smell a trace of the medicine an herb shop ought to smell of — only a faint, pleasant whiff of sandalwood. The counter is along the north side of the shop, and behind it is a huge medicine cabinet (cabinet) with what must be seven or eight hundred little drawers, none of them labeled. The exit is to the east, and a yellowed scrap of paper (sign) is stuck on the counter."
+
+msgid "这里是负责雪亭镇官府文书跟军令往来的雪亭驿，但是因为出了雪\n亭镇往北的野羊山近年来有盗匪盘据，官府的信差最近都改走东边的飞\n鸢栈道，所以雪亭驿来往的人就少了，驿站的官员索性就开始接一些百\n姓的信件，一方面打发时间，一方面也有点事做以免被上级裁撤。驿站\n大门口上悬著一块木牌(sign)，上面写了些字。\n"
+msgstr "This is the Snow Pavilion Post Station, which handles the town's official papers and military orders. But since bandits took over Goathill, north of town, the official couriers have all gone by the Flying Kite Plank Road to the east instead, and hardly anyone comes through here. So the station's officials have taken to carrying ordinary folks' letters — partly to pass the time, partly to have something to do so their superiors don't shut them down. A wooden sign (sign) with some writing on it hangs over the gate."
+
+msgid "这里是丰登当铺的储藏室，有时候当铺里的大朝奉会把铺里存不下\n的死当货物拿出来拍卖，不过你现在只能看见一个个锁著的箱子。往西\n边穿过一道布帘可以回到当铺店面。\n"
+msgstr "This is the Harvest Pawnshop's storeroom. Now and then the head clerk auctions off unredeemed goods the shop has no room for, but right now all you can see are locked chests. To the west, through a cloth curtain, is the shop front."
+
+msgid "这里是一间布置得相当雅致的厢房，从窗子可以看到北边的天井跟\n南边的庭园中各式各样的奇花异草，以及他们所带来的淡淡香气，厢房\n的东面墙上还挂著一幅仕女图(painting)，画中是一位宫装美妇，往西\n是通往天井的出口。\n"
+msgstr "This is a tastefully furnished side room. Through the window you can see all kinds of rare flowers in the courtyard to the north and the garden to the south, and smell their faint fragrance. On the east wall hangs a painting of a lady (painting), a beauty in court dress. The way out to the courtyard is to the west."
+
+msgid "这里是一间整理得相当乾净的书房，红木桌椅上铺著蓝绸巾，显得\n十分考究，西面的立著一个书架，上面放著一排排的古书，往南走出房\n门可以看到天井。\n"
+msgstr "This is a study, kept very clean. A blue silk cloth is spread over the redwood desk and chairs — quite refined. Against the west wall stands a bookcase holding row upon row of old books. South, out the door, you can see the courtyard."
+
+msgid "这是一间堆满各式兵器、刀械的储藏室，各式武器都依照种类、长\n短、依次放在一起，并且擦拭得一尘不染，储藏室的出口在你的南边，\n面对出口的左手边有一个架子(shelf)。\n"
+msgstr "A storeroom piled with all sorts of weapons and blades, every one sorted by kind and length and wiped spotless. The exit is to your south, and to the left as you face it is a rack (shelf)."
+
+msgid "这里是一间窄小的密室，你的面前只有一个破旧的小床(bed)跟一\n些乾草。\n"
+msgstr "A cramped little secret room. All that's in front of you is a shabby little bed (bed) and some straw."
+
+msgid "短工"
+msgstr "Day Laborer"
+
+msgid "钱庄"
+msgstr "Bank"
+
+msgid "红漆大门"
+msgstr "red-lacquered door"
+
+msgid "木雕门"
+msgstr "carved wooden door"
+
+msgid "房门"
+msgstr "door"
+
+msgid "往左推"
+msgstr "Push Left"
+
+msgid "这个架子上空荡荡的，什么都没有。\n"
+msgstr "The rack is bare; there's nothing on it."
+
+msgid "你将架子往左推...，忽然「喀」一声架子又移回原位。"
+msgstr "You push the rack to the left... and with a click it slides back into place."
+
+msgid "地板忽然发出轧轧的声音，一块地面缓缓移动著，露出一个向下的阶梯。"
+msgstr "The floor suddenly grinds and creaks; a patch of floor slowly slides aside, revealing steps leading down."
+
+msgid "地板忽然发出轧轧的声音，一块地面缓缓移动著，将向下的通道盖住了。"
+msgstr "The floor suddenly grinds and creaks; a patch of floor slowly slides back over the passage down."
+
+msgid "车马行 · 靠近坐车"
+msgstr "Coach Station · come close to ride"
+
+msgid "楼梯 · 上楼"
+msgstr "Stairs · up"
+
+msgid "楼梯 · 下楼"
+msgstr "Stairs · down"
+
+msgid "小床"
+msgstr "little bed"
+
+msgid "向上的阶梯"
+msgstr "steps up"
+
+msgid "向下的阶梯"
+msgstr "steps down"
+
+msgid "山水画"
+msgstr "landscape painting"
+
+msgid "柜台 · 靠近兑换"
+msgstr "Counter · come close to exchange"
+
+msgid "药柜"
+msgstr "medicine cabinet"
+
+msgid "柜台 · 估价 / 卖断"
+msgstr "Counter · appraise / sell outright"
+
+msgid "布帘"
+msgstr "cloth curtain"
+
+msgid "红木门"
+msgstr "redwood door"
+
+msgid "招牌"
+msgstr "signboard"
+
+msgid "柜台"
+msgstr "counter"
+
+msgid "饮风客栈 · 二楼"
+msgstr "Drinkwind Inn · upstairs"
+
+msgid "官府悬赏 · 靠近看榜"
+msgstr "Wanted Notices · come close to read"
+
+msgid "木架子"
+msgstr "wooden rack"
+
+msgid "牌坊"
+msgstr "archway"
+
+msgid "告示牌"
+msgstr "notice board"
+
+msgid "石狮"
+msgstr "stone lion"
+
+msgid "旗杆"
+msgstr "flagpole"
+
+msgid "北 · 野羊山"
+msgstr "North · Goathill"
+
+msgid "东 · 青石村"
+msgstr "East · Bluestone Village"
+
+msgid "南 · 卧龙岗"
+msgstr "South · Crouching Dragon Ridge"
+
+msgid "南 · 老松岭"
+msgstr "South · Old Pine Ridge"
+
+msgid "石阶 · 茅山"
+msgstr "Stone steps · Mount Mao"
+
+msgid "西 · 水烟阁"
+msgstr "West · Waterfog Pavilion"
+
+msgid "西南 · 黄石隘口"
+msgstr "Southwest · Yellow Rock Pass"
+
+msgid "淳风武馆收徒"
+msgstr "Pure Wind Hall Takes Students"
+
+msgid "[启事] 由此过路收取黄金一两"
+msgstr "[Notice] Toll for passing: one tael of gold"
+
+msgid "太师椅"
+msgstr "armchair"
+
+msgid "石柱"
+msgstr "stone pillar"
+
+msgid "书架"
+msgstr "bookcase"
+
+msgid "仕女图"
+msgstr "painting of a lady"
+
+msgid "火炉"
+msgstr "forge"
+
+msgid "神桌"
+msgstr "altar"
+
+msgid "磨盘 · 靠近做工"
+msgstr "Millstone · come close to work"
+
+msgid "红酒"
+msgstr "red wine"
+
+msgid "这是流通中单位最小的货币，约要一百文钱才值得一两银子。\n"
+msgstr "The smallest coin in circulation. It takes about a hundred wen to make a tael of silver."
+
+msgid "文"
+msgstr "wen"
+
+msgid "银子"
+msgstr "silver"
+
+msgid "白花花的银子，人见人爱的银子。\n"
+msgstr "Bright, shining silver. Everybody loves silver."
+
+msgid "黄金"
+msgstr "gold"
+
+msgid "黄澄澄的金子，人见人爱的金子，啊～～金子！\n"
+msgstr "Gleaming yellow gold. Everybody loves gold. Ahh, gold!"
+
+msgid "布衣"
+msgstr "cloth robe"
+
+msgid "一件普通的粗布衣服，不值什么钱。\n"
+msgstr "An ordinary robe of coarse cloth. Not worth much."
+
+msgid "包子"
+msgstr "steamed bun"
+
+msgid "一个香喷喷、热腾腾的大包子。\n"
+msgstr "A big steamed bun, hot and fragrant."
+
+msgid "烤鸡腿"
+msgstr "roast chicken leg"
+
+msgid "一枝烤得香喷喷鸡腿，你还犹豫什麽？准备胃液吧。\n"
+msgstr "A chicken leg roasted till it smells heavenly. What are you waiting for? Get those stomach juices going."
+
+msgid "啃得精光的鸡腿骨头"
+msgstr "chicken bone, gnawed clean"
+
+msgid "一根啃得精光的鸡腿骨头。\n"
+msgstr "A chicken-leg bone, gnawed clean."
+
+msgid "牛皮酒袋"
+msgstr "leather wineskin"
+
+msgid "一个牛皮缝的大酒袋，大概装得八、九升的酒。\n"
+msgstr "A big wineskin of stitched oxhide. It holds maybe eight or nine sheng of wine."
+
+msgid "旧书"
+msgstr "old book"
+
+msgid "这本旧书的纸张都已经泛黄了，上面只有一些字迹模糊的字句，似乎\n提到一些呼吸方法什么的。\n"
+msgstr "The pages of this old book have long gone yellow. There are only a few blurred lines of writing, something about ways of breathing."
+
+msgid "金疮药"
+msgstr "wound salve"
+
+msgid "一颗金疮药, 可以用来敷上(apply)治伤 。\n"
+msgstr "A pill of wound salve. You can put it on (apply) to treat wounds."
+
+msgid "长剑"
+msgstr "long sword"
+
+msgid "这是一把看起相当普通的长剑，份量大约有十来斤左右。\n"
+msgstr "A fairly ordinary-looking long sword, about ten jin in weight."
+
+msgid "玄苏剑"
+msgstr "Xuansu"
+
+msgid "这是一把通体黝黑的重剑，上面生满了尖锐的倒钩，乃是乔阴柳家\n历代相传的宝剑，据说这把剑杀人不沾血，永远保持杀气。\n"
+msgstr "A heavy sword, black from end to end and covered in sharp barbs — the treasured sword handed down through the generations of the Liu family of Tallshade. They say it kills without blood touching it, and never loses its killing edge."
+
+msgid "丝绸马褂"
+msgstr "silk riding jacket"
+
+msgid "化尸粉"
+msgstr "corpse powder"
+
+msgid "这是一包用来毁尸灭迹的化尸粉，只要用一丁点就可以\n化去(dissolve)一具尸体！\n"
+msgstr "A packet of corpse powder for getting rid of bodies. Just a pinch will dissolve (dissolve) a whole corpse!"
+
+msgid "蛇药"
+msgstr "snake antidote"
+
+msgid "这是一包用来解蛇毒的药\n可以用(apply)来解蛇毒!\n"
+msgstr "A packet of medicine for snake venom. You can use it (apply) to cure snakebite!"
+
+msgid "飞镖"
+msgstr "dart"
+
+msgid "飞镖是一种十分常见的暗器。\n"
+msgstr "A dart — a very common hidden weapon."
+
+msgid "极乐逍遥散"
+msgstr "Bliss Powder"
+
+msgid "这是一种毒性猛烈的春药，你可以把它倒(pour)在酒水之中使用。\n"
+msgstr "A potent and poisonous aphrodisiac. You use it by pouring (pour) it into wine or water."
+
+msgid "这是一把看起相当普通的匕首。\n"
+msgstr "A fairly ordinary-looking dagger."
+
+msgid "单刀"
+msgstr "saber"
+
+msgid "这是一寻常的单刀，份量大约六、七斤重。\n"
+msgstr "An ordinary single-edged saber, about six or seven jin in weight."
+
+msgid "布袋"
+msgstr "cloth bag"
+
+msgid "这是一口寻常的布袋，可以用来装一些杂物。\n"
+msgstr "An ordinary cloth bag, good for carrying odds and ends."
+
+msgid "皮鞭"
+msgstr "leather whip"
+
+msgid "牛皮盾"
+msgstr "oxhide shield"
+
+msgid "八角锤"
+msgstr "octagonal hammer"
+
+msgid "这是一把八角铜锤，沉甸甸的。\n"
+msgstr "An eight-sided bronze hammer. Heavy."
+
+msgid "细剑"
+msgstr "slender sword"
+
+msgid "这是一把又细又长的剑，轻飘飘的像是女孩子家的玩意。\n"
+msgstr "A long, slender sword, so light it seems like a girl's plaything."
+
+msgid "妖刀狗屠"
+msgstr "Dogslayer, the Cursed Blade"
+
+msgid "这是一把暗绿色的鬼头刀，拿在手中沈甸甸地。\n"
+msgstr "A dark green ghost-head saber, heavy in the hand."
+
+msgid "吹雪残云靴"
+msgstr "Snowdrift Boots"
+
+msgid "吹雪残云带"
+msgstr "Snowdrift Sash"
+
+msgid "吹雪残云衣"
+msgstr "Snowdrift Robe"
+
+msgid "吹雪残云巾"
+msgstr "Snowdrift Headscarf"
+
+msgid "邪剑穿灵"
+msgstr "Spiritpiercer, the Evil Sword"
+
+msgid "这是一把血红色的的长剑，份量大约有十来斤左右。\n"
+msgstr "A blood-red long sword, about ten jin in weight."
+
+msgid "蒙汗药"
+msgstr "knockout drops"
+
+msgid "这是寻常的绿林盗贼用来作案的蒙汗药，你可以把它倒(pour)在\n酒水之中使用。\n"
+msgstr "The knockout drops common bandits use on the job. You use them by pouring (pour) them into wine or water."
+
+msgid "金刚杖"
+msgstr "vajra staff"
+
+msgid "这是一条紫铜杖，杖的两端似乎封这密文。\n"
+msgstr "A staff of red copper. Both ends seem to be sealed with secret writing."
+
+msgid "紫金冠"
+msgstr "purple-gold crown"
+
+msgid "天兵战甲"
+msgstr "Heavenly Soldier's Armor"
+
+msgid "金锋剑"
+msgstr "Goldedge Sword"
+
+msgid "一把闪闪发著金光的长剑。\n"
+msgstr "A long sword that gleams with golden light."
+
+msgid "咒剑王禅"
+msgstr "Wang Chan, the Spell Sword"
+
+msgid "这是一把桃木雕成的古剑，闻起来有一股香味，剑身刻著许多你从未见过的咒\n文，只有剑柄部份有两个依稀可以辨认的篆字：「 王 禅 」\n"
+msgstr "An ancient sword carved from peach wood. It smells faintly sweet, and its blade is cut with spells you've never seen. Only on the hilt can you make out two seal-script characters: \"Wang Chan.\""
+
+msgid "王禅剑发出一股金色的罡气，流遍$N的全身。"
+msgstr "The Wang Chan sword gives off a golden aura that flows all through $N."
+
+msgid "天师道袍"
+msgstr "Celestial Master's Robe"
+
+msgid "三清神冠"
+msgstr "Crown of the Three Pure Ones"
+
+msgid "七星翻云靴"
+msgstr "Seven-Star Cloudstride Boots"
+
+msgid "重钢战甲"
+msgstr "heavy steel armor"
+
+msgid "五股钢叉"
+msgstr "five-pronged steel fork"
+
+msgid "桃符纸"
+msgstr "peachwood charm paper"
+
+msgid "这是道士们用来画符的符纸，具有封存法力的功用。\n"
+msgstr "The charm paper Daoists use to draw talismans. It can seal away magic power."
+
+msgid "魔鞭翩珑"
+msgstr "Pianlong, the Demon Whip"
+
+msgid "穿花蛇影鞋"
+msgstr "Flower-Threading Snakeshadow Shoes"
+
+msgid "软金束带"
+msgstr "soft gold sash"
+
+msgid "紫霜血蝉衣"
+msgstr "Purple Frost Blood Cicada Robe"
+
+msgid "菩提禅杖"
+msgstr "bodhi staff"
+
+msgid "一条又粗又长，非常沈重的黄铜禅杖，上面镶著六个铜环。\n"
+msgstr "A thick, long and very heavy brass monk's staff, set with six bronze rings."
+
+msgid "风泉之剑"
+msgstr "Windspring Sword"
+
+msgid "这是步玄派历代相传的掌门信物，湛蓝色的剑身跟鹅黄色剑柄，使\n得风泉之剑成为具有「剑之王者」的美誉，除此之外，这把剑也是\n削铁如泥的利器。\n"
+msgstr "The token of the Mystic Step School's Master, handed down through the generations. With its deep blue blade and pale gold hilt, the Windspring Sword is famed as \"the King of Swords\" — and it cuts through iron like mud besides."
+
+msgid "你看到风泉之剑掉落在地上 ..."
+msgstr "You see the Windspring Sword fall to the ground..."
+
+msgid "不 ... 它飘了起来！一个人形忽然浮现，手中正握著风泉之剑！"
+msgstr "No... it's rising into the air! A human shape suddenly appears, the Windspring Sword in its hand!"
+
+msgid "飞刀"
+msgstr "throwing knife"
+
+msgid "飞刀是一种十分轻、锐利的匕首，用来当作暗器使用。\n"
+msgstr "A very light, sharp little knife used as a hidden weapon."
+
+msgid "粗布衣"
+msgstr "coarse cloth robe"
+
+msgid "蓑衣"
+msgstr "straw raincoat"
+
+msgid "草鞋"
+msgstr "straw sandals"
+
+msgid "铁斧"
+msgstr "iron axe"
+
+msgid "这是一把沈重的铁斧，用来砍柴。\n"
+msgstr "A heavy iron axe for chopping wood."
+
+msgid "这是一把沈重的铁锤，打造的相当坚实。\n"
+msgstr "A heavy iron hammer, solidly made."
+
+msgid "功德箱"
+msgstr "offering box"
+
+msgid "这是寺庙接受善男信女捐献香油钱的功德箱，你可以把想捐的钱\n放进去。\n"
+msgstr "The box where the faithful put their donations of incense money. You can put whatever you want to give in it."
+
+msgid "竹剑"
+msgstr "bamboo sword"
+
+msgid "这是一把练习剑法用的竹剑，剑尖处用布包了起来以免误伤同伴。\n"
+msgstr "A bamboo sword for sword practice, its tip wrapped in cloth so no one gets hurt by accident."
+
+msgid "粉红绸衫"
+msgstr "pink silk blouse"
+
+msgid "这件粉红色的绸衫上面绣著几只黄鹊，闻起来还有一股淡香。\n"
+msgstr "A pink silk blouse embroidered with a few orioles. It smells faintly of perfume."
+
+msgid "绣花小鞋"
+msgstr "embroidered slippers"
+
+msgid "残破刀谱"
+msgstr "tattered saber manual"
+
+msgid "这似乎是一本什么刀谱的前几页，虽然并没有关于招式的详细解说，可是\n前面有关刀法的总纲与精义倒是不少。\n"
+msgstr "These look like the first few pages of some saber manual. There's no detailed explanation of any moves, but plenty on the principles and essence of the saber."
+
+msgid "杀"
+msgstr "Kill"
+
+msgid "县城官兵"
+msgstr "county soldier"
+
+msgid "李师师"
+msgstr "Li Shishi"
+
+msgid "宝官"
+msgstr "Croupier"
+
+msgid "知客僧"
+msgstr "Guest Monk"
+
+msgid "裁缝"
+msgstr "Tailor"
+
+msgid "茶工"
+msgstr "Tea Picker"
+
+msgid "扫地僧"
+msgstr "Sweeping Monk"
+
+msgid "进香客"
+msgstr "Pilgrim"
+
+msgid "卖饼大叔"
+msgstr "Uncle Pancake"
+
+msgid "卖糖葫芦的"
+msgstr "Candied-Haw Seller"
+
+msgid "卖包子的"
+msgstr "Bun Seller"
+
+msgid "家丁"
+msgstr "Servant"
+
+msgid "岩蛭"
+msgstr "rock leech"
+
+msgid "蜘蛛"
+msgstr "spider"
+
+msgid "金丝雀"
+msgstr "canary"
+
+msgid "药僧"
+msgstr "Medicine Monk"
+
+msgid "船夫"
+msgstr "Boatman"
+
+msgid "潘若秋"
+msgstr "Pan Ruoqiu"
+
+msgid "鸨母"
+msgstr "Madam"
+
+msgid "杂货贩"
+msgstr "Peddler"
+
+msgid "贵公子"
+msgstr "Young Lord"
+
+msgid "玄真"
+msgstr "Xuanzhen"
+
+msgid "蝴蝶"
+msgstr "butterfly"
+
+msgid "芳绫"
+msgstr "Fangling"
+
+msgid "弈者"
+msgstr "Go Player"
+
+msgid "化缘和尚"
+msgstr "Alms Monk"
+
+msgid "护寺武僧"
+msgstr "Temple Guard Monk"
+
+msgid "肥岩蛭"
+msgstr "fat rock leech"
+
+msgid "大岩蛭"
+msgstr "big rock leech"
+
+msgid "昭仪"
+msgstr "Zhaoyi"
+
+msgid "圆春"
+msgstr "Yuanchun"
+
+msgid "惜春"
+msgstr "Xichun"
+
+msgid "跛僧人"
+msgstr "Lame Monk"
+
+msgid "明心"
+msgstr "Mingxin"
+
+msgid "郑屠夫"
+msgstr "Butcher Zheng"
+
+msgid "僵尸侍者"
+msgstr "Zombie Attendant"
+
+msgid "清虚"
+msgstr "Qingxu"
+
+msgid "卧龙岗强盗"
+msgstr "Crouching Dragon Bandit"
+
+msgid "彩衣少女"
+msgstr "Girl in Colors"
+
+msgid "飞贼"
+msgstr "Cat Burglar"
+
+msgid "巨岩蛭"
+msgstr "giant rock leech"
+
+msgid "土匪爪牙"
+msgstr "bandit thug"
+
+msgid "兵器贩子"
+msgstr "Arms Dealer"
+
+msgid "袭人"
+msgstr "Xiren"
+
+msgid "土匪首领"
+msgstr "Bandit Leader"
+
+msgid "趟子手"
+msgstr "Escort Runner"
+
+msgid "老队长"
+msgstr "Old Captain"
+
+msgid "老兵"
+msgstr "Veteran"
+
+msgid "大队长"
+msgstr "Captain"
+
+msgid "小队长"
+msgstr "Squad Leader"
+
+msgid "小兵"
+msgstr "Soldier"
+
+msgid "僵尸护法"
+msgstr "Zombie Guardian"
+
+msgid "赫造基"
+msgstr "He Zaoji"
+
+msgid "清云"
+msgstr "Qingyun"
+
+msgid "清玄"
+msgstr "Qingxuan"
+
+msgid "独眼头陀"
+msgstr "One-Eyed Ascetic"
+
+msgid "守城官兵"
+msgstr "City Guard"
+
+msgid "芙云"
+msgstr "Fuyun"
+
+msgid "梦玉楼"
+msgstr "Meng Yulou"
+
+msgid "武官"
+msgstr "Officer"
+
+msgid "李信"
+msgstr "Li Xin"
+
+msgid "严廷殷"
+msgstr "Yan Tingyin"
+
+msgid "狼狗"
+msgstr "wolfhound"
+
+msgid "常老大"
+msgstr "Boss Chang"
+
+msgid "蓝雨梅"
+msgstr "Lan Yumei"
+
+msgid "蓝筱薇"
+msgstr "Lan Xiaowei"
+
+msgid "疯老头子"
+msgstr "Mad Old Man"
+
+msgid "莫欣芳"
+msgstr "Mo Xinfang"
+
+msgid "邢千慧"
+msgstr "Xing Qianhui"
+
+msgid "【 鬼  魂 】"
+msgstr "[ Ghost ]"
+
+msgid "【 惯  窃 】"
+msgstr "[ Thief ]"
+
+msgid "【 尼  姑 】"
+msgstr "[ Nun ]"
+
+msgid "【 僧  人 】"
+msgstr "[ Monk ]"
+
+msgid "【 女  冠 】"
+msgstr "[ Daoist ]"
+
+msgid "【 道  士 】"
+msgstr "[ Daoist ]"
+
+msgid "【 女飞贼 】"
+msgstr "[ Thief ]"
+
+msgid "【 盗  贼 】"
+msgstr "[ Thief ]"
+
+msgid "【 舞  妓 】"
+msgstr "[ Dancer ]"
+
+msgid "【 平  民 】"
+msgstr "[ Commoner ]"
+
+msgid "【 才  女 】"
+msgstr "[ Lady Scholar ]"
+
+msgid "【 书  生 】"
+msgstr "[ Scholar ]"
+
+msgid "【 女  官 】"
+msgstr "[ Official ]"
+
+msgid "【 官  差 】"
+msgstr "[ Constable ]"
+
+msgid "【 女武者 】"
+msgstr "[ Fighter ]"
+
+msgid "【 武  者 】"
+msgstr "[ Fighter ]"
+
+msgid "【 女剑士 】"
+msgstr "[ Swordswoman ]"
+
+msgid "【 剑  士 】"
+msgstr "[ Swordsman ]"
+
+msgid "【 方  士 】"
+msgstr "[ Magus ]"
+
+msgid "【 巫  医 】"
+msgstr "[ Shaman ]"
+
+msgid "【 叫化子 】"
+msgstr "[ Beggar ]"
+
+msgid "本姑娘"
+msgstr "yours truly"
+
+msgid "老娘"
+msgstr "this old lady"
+
+msgid "大和尚我"
+msgstr "this big monk"
+
+msgid "老和尚我"
+msgstr "this old monk"
+
+msgid "本山人"
+msgstr "this hermit"
+
+msgid "大爷我"
+msgstr "yours truly"
+
+msgid "老子"
+msgstr "I"
+
+msgid "【事迹】{did}"
+msgstr "[Deed] {did}"
+
+msgid "（在{place}，无人看见）"
+msgstr "(at {place}, unseen)"
+
+msgid "（在{place}，{who}看见了）"
+msgstr "(at {place}, seen by {who})"
+
+msgid "门派"
+msgstr "Schools"
+
+msgid "交情"
+msgstr "Ties"
+
+msgid "秘密"
+msgstr "Secrets"
+
+msgid "寻"
+msgstr "Find"
+
+msgid "朱鸿雪奇怪的眼神盯着你,说:\n就凭你这种小角色也想? 还不快滚!"
+msgstr "Zhu Hongxue gives you a strange look and says:\nA nobody like you? Get lost!"
+
+msgid "朱鸿雪摆了摆手，说道：\n『{target}』那件事不必办了。"
+msgstr "Zhu Hongxue waves a hand and says:\nThat business with \"{target}\" — forget it."
+
+msgid "朱鸿雪向你一甩袍袖，说道：\n真没用！不过看在你还回来见我的份上，就在给你一次机会．"
+msgstr "Zhu Hongxue flicks a sleeve at you and says:\nUseless! But since you had the nerve to come back to me, I'll give you one more chance."
+
+msgid "朱鸿雪沉思了一会儿，说道：\n请在{time}内找回『{target}』给我。"
+msgstr "Zhu Hongxue thinks for a moment and says:\nBring me back \"{target}\" within {time}."
+
+msgid "朱鸿雪沉思了一会儿，说道：\n请在{time}内替我杀了『{target}』。"
+msgstr "Zhu Hongxue thinks for a moment and says:\nKill \"{target}\" for me within {time}."
+
+msgid "你现在没有任何任务！"
+msgstr "You don't have a task right now!"
+
+msgid "你现在的任务是{type}『{target}』。"
+msgstr "Your task right now: {type} \"{target}\"."
+
+msgid "你还有{time}去完成它。"
+msgstr "You still have {time} to do it."
+
+msgid "但是你已经没有足够的时间来完成它了。"
+msgstr "But you no longer have enough time to do it."
+
+msgid "{n}天"
+msgstr "{n}d"
+
+msgid "{n}小时"
+msgstr "{n}h"
+
+msgid "{n}分"
+msgstr "{n}m"
+
+msgid "{n}秒"
+msgstr "{n}s"
+
+msgid "主线"
+msgstr "Main Story"
+
+msgid "势力"
+msgstr "Factions"
+
+msgid "地区"
+msgstr "Local"
+
+msgid "差事"
+msgstr "Errands"
+
+msgid "普通百姓"
+msgstr "Commoner"
+
+msgid "拳脚功夫的根底，出拳踢腿、闪身贴近都从这里练起。柳家拳、天邪神掌这类拳掌指爪的专门功夫都要激发在它上面，根底越厚，激发出来越有分量。勤练拳脚，膂力也会慢慢长起来。"
+msgstr "The foundation of all fist work: punching, kicking, slipping in close all start here. Specialized hand arts — the Liu Family Fist, the Wayward Palm and other fist, palm, finger and claw styles — are all applied on top of it, and the deeper the foundation, the more weight they carry. Train your fists and feet hard and your Strength will slowly grow too."
+
+msgid "由於你勤练武艺，你的膂力提高了。"
+msgstr "Thanks to your hard training, your Strength has improved."
+
+msgid "使剑的根底：握剑、出剑、收剑的规矩都在这里。封山剑法、六阴追魂剑这些剑法都激发在它上面；没学过专门剑法的人，手里有剑也只能凭它出招。"
+msgstr "The foundation of the sword: the rules for gripping, thrusting and recovering are all here. Sword styles such as Empty Mountain Sword and Six-Chaos Sword are applied on top of it; someone who's never learned a proper sword style can only fight with this, sword in hand or not."
+
+msgid "基本刀法"
+msgstr "Basic Saber"
+
+msgid "使刀的根底：劈、砍、撩、斩的力道与分寸都从这里练起。春风快意刀、短歌刀法这些刀法都激发在它上面。"
+msgstr "The foundation of the saber: the force and timing of every chop, hack, sweep and slash are trained here. Saber styles such as Spring Blade and Shortsong Blade are applied on top of it."
+
+msgid "用手中兵刃或一双肉掌格开来招的功夫。不少剑法、刀法、杖法也能激发为招架，用本门的招式化解对方的攻势。"
+msgstr "The art of turning aside an attack with a weapon or your bare hands. Many sword, saber and staff styles can also be applied as a parry, using their own moves to break up an opponent's attack."
+
+msgid "闪身避让的功夫，对方的招式能不能落在身上，多半看它。倒乱七星步、火蝠身法、七宝天岚舞这类身法都激发在它上面。"
+msgstr "The art of slipping aside. Whether an opponent's moves land on you mostly comes down to this. Footwork such as the Seven-Star Chaos Steps, Pyrobat Steps and Stormdance are all applied on top of it."
+
+msgid "一切内功的根基。内力的上限看它，打坐积下的内力才有地方存，运功调息、回气提神也都靠它；封山派内功、天邪神功等各家心法都要激发在它上面。内功修炼有成，根骨也会随之改善。"
+msgstr "The root of every inner art. It sets your Inner Force cap, gives the force you build by meditating somewhere to go, and powers exerting, steadying your breath and restoring yourself. Every school's method — Empty Mountain Force, the Wayward Art and the rest — is applied on top of it. As your inner art matures, your Constitution improves with it."
+
+msgid "由於你的内功修炼有成，你的体质改善了。"
+msgstr "Your inner art has matured, and your Constitution has improved."
+
+msgid "乔阴柳家的柳东芦于七十年前所创：他是封山剑派第十二代掌门，以剑术成名，却把家传拳法融进封山剑意，创出这套适合膂力不强之人习练的拳法，补上了封山剑派近战的短处，后来更凭它力压群雄，夺得第九代武林盟主之位。柳家拳分内八套、外八套，流传在外的多是外八套，不须内功根基，容易上手；内八套是柳家秘传，外形一样，内力窍门却全然不同。练时须空手。"
+msgstr "Created seventy years ago by Liu Donglu of the Liu family of Tallshade. Twelfth Master of the Empty Mountain School and famous for his swordsmanship, he worked his family's fist into the spirit of the Empty Mountain sword, making a fist style suited to people of no great strength. It covered the Empty Mountain School's weakness at close quarters, and later he used it to beat every rival and become the ninth Alliance Leader of the wulin. The Liu Family Fist has eight inner forms and eight outer; what's spread outside the family is mostly the outer eight, which need no inner-art grounding and are easy to pick up. The inner eight are the Liu family's secret — the same forms on the outside, but entirely different tricks of inner force. It must be practiced bare-handed."
+
+msgid "你的体力不够了，休息一下再练吧。"
+msgstr "You're out of strength. Rest a while before you train again."
+
+msgid "练柳家拳法必须空手。"
+msgstr "The Liu Family Fist must be practiced bare-handed."
+
+msgid "逼"
+msgstr "Press"
+
+msgid "压"
+msgstr "Crush"
+
+msgid "抢压"
+msgstr "Rush In"
+
+msgid "先打实一拳贴上去，贴着才打得出重拳，一拳比一拳沉；打空了就被拉开。"
+msgstr "Land one real punch and stick close — only up close can you throw the heavy ones, each harder than the last. Miss and you're pushed back out."
+
+msgid "$N使一招「古松挂月」，对准$n的$l「呼」地一拳"
+msgstr "$N {N:use|uses} \"Moon on the Old Pine,\" whooshing a punch at $n's $l"
+
+msgid "$N扬起拳头，一招「傲雪冬梅」便往$n的$l招呼过去"
+msgstr "$N {N:raise|raises} a fist and {N:send|sends} \"Plum Defying the Snow\" at $n's $l"
+
+msgid "$N左手虚晃，右拳「孤崖听涛」往$n的$l击出"
+msgstr "$N {N:feint|feints} with the left and {N:strike|strikes} at $n's $l with the right — \"Surf Below a Lone Cliff\""
+
+msgid "$N步履一沉，左拳拉开，右拳使出「荒山虎吟」击向$n$l"
+msgstr "$N {N:sink|sinks} into {N:his} stance, draws back the left fist, and {N:drive|drives} the right at $n's $l — \"Tiger's Growl on a Barren Hill\""
+
+msgid "封山派内功"
+msgstr "Empty Mountain Force"
+
+msgid "封山剑派的本门内功，只能向师长学，或在运功中慢慢精熟。封山剑法必须配合它才能练；运起功来，还能为自己疗伤。"
+msgstr "The Empty Mountain School's own inner art. It can only be learned from one's elders, or slowly perfected by exerting it. Empty Mountain Sword can only be practiced with it, and when exerted it can heal your own wounds."
+
+msgid "封山派内功只能用学的，或是从运用(exert)中增加熟练度。"
+msgstr "Empty Mountain Force can only be learned, or improved by using it (exert)."
+
+msgid "封山剑派是当今武林最大的一支剑派，这套剑法是当年创派的三位剑术名家在封山灵狐顶相互印证、合力创出的。招式并不难学，难在剑意：自「剑气」练起，次练「剑心」「剑芒」「剑神」，四者都练到登峰造极的人少之又少，所以同是封山剑法，造诣深浅不同的人使出来，威力差之千里。剑中有「封」「点」「逐」「缺」四字诀，须以封山派内功为根基。"
+msgstr "The Empty Mountain School is the largest sword school in the wulin today. This sword style was forged by its three founding swordmasters, testing their skills against each other on Spirit Fox Peak of the Sealed Mountain. The moves aren't hard to learn; the hard part is the spirit of the sword. One starts with \"Sword Qi,\" then \"Sword Heart,\" \"Sword Edge\" and \"Sword Spirit\" — and few ever master all four, so the same Empty Mountain Sword can differ a world apart depending on who wields it. The sword holds four secrets — Seal, Point, Chase and Gap — and it rests on Empty Mountain Force."
+
+msgid "你按著所学练了一遍封山剑法。"
+msgstr "You run through Empty Mountain Sword as you were taught."
+
+msgid "你的内力或气不够，没有办法练习封山剑法。"
+msgstr "Your Inner Force or Qi isn't enough to practice Empty Mountain Sword."
+
+msgid "你的内力不够，没有办法练封山剑法。"
+msgstr "Your Inner Force isn't enough to practice Empty Mountain Sword."
+
+msgid "封山剑法必须配合封山派内功才能练。"
+msgstr "Empty Mountain Sword can only be practiced together with Empty Mountain Force."
+
+msgid "你必须先找一把剑才能练剑法。"
+msgstr "You need to find a sword before you can practice swordplay."
+
+msgid "引"
+msgstr "Lure"
+
+msgid "逐"
+msgstr "Chase"
+
+msgid "候隙"
+msgstr "Wait for an Opening"
+
+msgid "不抢先：对方刺空或被架开，那一下就多出一剑，可以追，也可以封。"
+msgstr "Don't strike first: when the opponent thrusts wide or gets parried, that moment gives you an extra thrust — to chase, or to seal."
+
+msgid "隙"
+msgstr "Opening"
+
+msgid "$N使一招「峰回路转」，手中$w如一条银蛇般刺向$n的$l"
+msgstr "$N {N:use|uses} \"Peaks Turn, Paths Wind,\" and {N:his} $w darts like a silver snake at $n's $l"
+
+msgid "$N使出封山剑法中的「空山鸟语」，剑光霍霍斩向$n的$l"
+msgstr "$N {N:use|uses} the Empty Mountain Sword's \"Birdsong in Empty Mountains,\" {N:his} blade flashing down at $n's $l"
+
+msgid "$N一招「御风而行」，身形陡然滑出数尺，手中$w斩向$n的$l"
+msgstr "$N {N:use|uses} \"Riding the Wind,\" suddenly gliding several feet and slashing {N:his} $w at $n's $l"
+
+msgid "$N手中$w中宫直进，一式「旭日东升」对准$n的$l刺出一剑"
+msgstr "$N {N:drive|drives} {N:his} $w straight down the middle — \"Sunrise in the East\" — thrusting at $n's $l"
+
+msgid "$N纵身一跃，手中$w一招「金光泻地」对准$n的$l斜斜刺出一剑"
+msgstr "$N {N:leap|leaps}, and {N:his} $w comes slanting down at $n's $l — \"Gold Light Floods the Earth\""
+
+msgid "$N的$w凭空一指，一招「童子引路」刺向$n的$l"
+msgstr "$N's $w points out of nowhere — \"A Boy Shows the Way\" — thrusting at $n's $l"
+
+msgid "$N手中$w向外一分，使一招「柳暗花明」反手对准$n$l一剑刺去"
+msgstr "$N {N:sweep|sweeps} {N:his} $w outward, then {N:turn|turns} it back — \"Willows Dark, Flowers Bright\" — thrusting at $n's $l"
+
+msgid "$N横剑上前，身形一转手中$w使一招「空谷秋虹」画出一道光弧斩向$n的$l"
+msgstr "$N {N:step|steps} in, sword level, and with a turn {N:his} $w draws an arc of light at $n's $l — \"Autumn Rainbow in an Empty Valley\""
+
+msgid "认字读书的本事。不识字就读不了任何书谱；识字越深，研读书册时长进越快。勤学苦读，悟性也会慢慢提高，有些讲究文墨的心法也要它做底子。"
+msgstr "The ability to read and write. If you can't read, you can't study any book or manual; the better you read, the faster you learn from books. Study hard and your Wits will slowly improve too, and some arts with a scholarly bent need it as their grounding."
+
+msgid "由於你的勤学苦读，你的悟性提高了。"
+msgstr "Thanks to your hard study, your Wits have improved."
+
+msgid "基本行动"
+msgstr "Basic Movement"
+
+msgid "赶路奔走的根底。脚下快的人追得上人，也甩得开追兵；倒乱七星步、步玄七诀、火蝠身法这类身法，都能激发为行动。"
+msgstr "The foundation of getting about. Quick feet can catch people and shake off pursuers; footwork such as the Seven-Star Chaos Steps, the Mystic Step Seven Secrets and Pyrobat Steps can all be applied as movement."
+
+msgid "基本杖法"
+msgstr "Basic Staff"
+
+msgid "使杖、使棍的根底。山烟寺的流云杖法、绝尘派的金刚杖法都激发在它上面。"
+msgstr "The foundation of staff and cudgel. Mountain Mist Temple's Cloudflow Staff and the Dustless School's Vajra Staff are applied on top of it."
+
+msgid "基本暗器"
+msgstr "Basic Throwing"
+
+msgid "暗器出手的功夫，准头与劲道都看它。晚月庄、花紫会的人多精于此道。"
+msgstr "The art of loosing hidden weapons; your aim and force both depend on it. People of Latemoon Manor and the Beggars' Guild are mostly skilled at it."
+
+msgid "基本鞭法"
+msgstr "Basic Whip"
+
+msgid "使鞭的根底，软鞭出手要收得回来。晚月庄的寒雪鞭法激发在它上面。"
+msgstr "The foundation of the whip — a soft whip that goes out has to come back. Latemoon Manor's Cold Snow Whip is applied on top of it."
+
+msgid "步玄七诀"
+msgstr "Mystic Step Seven Secrets"
+
+msgid "四百年前「秃笔狂生」骆步玄的成名武功。他原是一介书生，未曾拜师学艺，十九岁起赴京应试，屡试不中，某年考完步出试场，偶一抬头望见街边书肆的一幅对子，竟悟出一套神奇的武功，从此闯荡江湖未逢敌手，五十岁回京定居，创立了步玄派。步玄七诀号称天下轻功「轻捷第一」，姿态潇洒有如书法，第一式「玄羽乱舞」能在短时间里加快身法；须配合步玄心法，又以音律之学为根底。"
+msgstr "The art that made the name of Luo Buxuan, \"the Mad Scholar of the Bald Brush,\" four hundred years ago. He was a mere scholar who never studied under any master. From nineteen on he sat the capital examinations and failed every time; one year, walking out of the examination hall, he happened to glance up at a pair of scrolls in a bookshop by the street, and from them worked out a marvelous martial art. After that he roamed the jianghu and never met his match, and at fifty he settled in the capital and founded the Mystic Step School. The Seven Secrets are said to be the nimblest lightfoot under heaven, as graceful as calligraphy; the first form, \"Dark Feathers Dancing,\" quickens your movements for a short while. It must be used with the Mystic Step Method, and rests on a grounding in music."
+
+msgid "你的气或神不够，不能练步玄七诀。"
+msgstr "Your Qi or Spirit isn't enough to practice the Mystic Step Seven Secrets."
+
+msgid "步玄七诀必须配合步玄心法使用。"
+msgstr "The Mystic Step Seven Secrets must be used with the Mystic Step Method."
+
+msgid "你的音律之学修为不够，无法领悟更高深的步玄七诀。"
+msgstr "Your study of music isn't deep enough to grasp the higher Mystic Step Seven Secrets."
+
+msgid "$n身影一转，轻易地避开了这一招。"
+msgstr "$n {n:turn|turns} aside and easily {n:avoid|avoids} the move."
+
+msgid "$n身法飘忽，左一点，右一顿，早已闪在一旁。"
+msgstr "$n {n:drift|drifts} — a touch left, a pause right — and {n:are|is} already off to the side."
+
+msgid "但是$n身影一侧，在间不容发之际从容地避开了这一招。"
+msgstr "But $n {n:lean|leans} aside and, with a hair's breadth to spare, calmly {n:avoid|avoids} the move."
+
+msgid "$n身形陡然拔高，使$N的攻势尽数落空。"
+msgstr "$n suddenly {n:soar|soars} upward, and $N's attack meets nothing but air."
+
+msgid "$n右足一点，身影向左滑开数尺，避了开去。"
+msgstr "$n {n:push|pushes} off with the right foot and {n:glide|glides} several feet to the left, out of the way."

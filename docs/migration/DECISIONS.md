@@ -335,7 +335,7 @@
   every site that fills $N/$n; a Chinese line is untouched. A sentence opening with "you" is capitalised.
 - English is listed with `"preview": true`: chosen by hand only, never given to an English system on its
   own, until it is complete. The pilot covers the shell, the opening, the inn and Pure Wind Hall's people,
-  the first-days quests and the fight screen (about 1,000 messages of 13,589).
+  the first-days quests and the fight screen (about 1,000 messages of 13,589); the second batch adds all of Snow Pavilion, the game menu pages, training, common items and the Empty Mountain and basic arts (about 2,200).
 - The title's other-language line is never translated (it is the title in the other language).
 
 ## 侮天鬼的黑焰 (「空手对兵器」改成只帮玩家之后侮天鬼的剑系 74% → 100%、拳系 50%，调数值放不进两种角色的区间；owner 2026-11-20「A」：给它一件当兵器的黑焰，两种角色重调到约六成，四种形态借机重新拉开)
