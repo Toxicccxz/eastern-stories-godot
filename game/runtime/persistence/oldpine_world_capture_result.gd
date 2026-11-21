@@ -22,19 +22,22 @@ func _init(
 	p_path: String = "",
 	p_detail: String = "",
 	p_snapshot: GameSaveSnapshot = null,
+	p_adopt: bool = false,
 ) -> void:
 	outcome = p_outcome
 	path = p_path
 	detail = p_detail
-	snapshot = null if p_snapshot == null else p_snapshot.duplicate_snapshot()
+	snapshot = p_snapshot if p_snapshot == null or p_adopt else p_snapshot.duplicate_snapshot()
 
 
 func succeeded() -> bool:
 	return outcome == Outcome.SUCCESS and snapshot != null
 
 
-static func success(value: GameSaveSnapshot) -> OldPineWorldCaptureResult:
-	return OldPineWorldCaptureResult.new(Outcome.SUCCESS, "", "", value)
+## `adopt`: `value` is new and nothing else holds it (the capture's own): the result keeps it as it
+## is, without a copy.
+static func success(value: GameSaveSnapshot, adopt: bool = false) -> OldPineWorldCaptureResult:
+	return OldPineWorldCaptureResult.new(Outcome.SUCCESS, "", "", value, adopt)
 
 
 static func failure(

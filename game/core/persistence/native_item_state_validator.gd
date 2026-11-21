@@ -18,10 +18,32 @@ static func validate(
 		return _failure(ResultType.Outcome.INVALID_SNAPSHOT)
 	if snapshot.schema_version != SnapshotType.CURRENT_SCHEMA_VERSION:
 		return _failure(ResultType.Outcome.INVALID_SCHEMA_VERSION)
+	return validate_records(
+		snapshot.item_records,
+		snapshot.combined_stack_records,
+		snapshot.character_equipment_records,
+		snapshot.character_armor_records,
+		snapshot.food_consumable_records,
+		snapshot.liquid_consumable_records,
+		definitions,
+	)
+
+
+## validate()'s checks on the records of a snapshot of the current schema, read where they lie:
+## NativeItemStateCapture passes the records its snapshot took as they are, without the copies
+## the snapshot's getters make (a save checks thousands of records). Changes none of them.
+static func validate_records(
+	item_records: Array[NativeItemRecord],
+	combined_stack_records: Array[NativeCombinedStackRecord],
+	character_equipment_records: Array[NativeCharacterEquipmentRecord],
+	character_armor_records: Array[NativeCharacterArmorRecord],
+	food_consumable_records: Array[NativeFoodConsumableRecord],
+	liquid_consumable_records: Array[NativeLiquidConsumableRecord],
+	definitions: NativeItemDefinitionProjections,
+) -> NativeItemStateValidationResult:
 	if definitions == null or not definitions.is_valid:
 		return _failure(ResultType.Outcome.INVALID_DEFINITION_PROJECTIONS)
 
-	var item_records: Array[NativeItemRecord] = snapshot.item_records
 	var items: Dictionary[StringName, NativeItemRecord] = {}
 	var parents: Dictionary[StringName, ContainmentEndpoint] = {}
 	for record: NativeItemRecord in item_records:
@@ -73,7 +95,7 @@ static func validate(
 		return cycle_result
 
 	var stack_ids: Dictionary[StringName, bool] = {}
-	for record: NativeCombinedStackRecord in snapshot.combined_stack_records:
+	for record: NativeCombinedStackRecord in combined_stack_records:
 		if record == null or record.item_instance_id == &"":
 			return _failure(ResultType.Outcome.MALFORMED_STACK_RECORD)
 		if stack_ids.has(record.item_instance_id):
@@ -112,7 +134,7 @@ static func validate(
 			)
 
 	var food_ids: Dictionary[StringName, bool] = {}
-	for record: NativeFoodConsumableRecord in snapshot.food_consumable_records:
+	for record: NativeFoodConsumableRecord in food_consumable_records:
 		if record == null or not items.has(record.item_instance_id):
 			return _failure(ResultType.Outcome.INVALID_FOOD_RECORD)
 		if food_ids.has(record.item_instance_id):
@@ -127,7 +149,7 @@ static func validate(
 			return _failure(ResultType.Outcome.MISSING_FOOD_STATE, id)
 
 	var liquid_ids: Dictionary[StringName, bool] = {}
-	for record: NativeLiquidConsumableRecord in snapshot.liquid_consumable_records:
+	for record: NativeLiquidConsumableRecord in liquid_consumable_records:
 		if record == null or not items.has(record.item_instance_id):
 			return _failure(ResultType.Outcome.INVALID_LIQUID_RECORD)
 		if liquid_ids.has(record.item_instance_id):
@@ -146,7 +168,7 @@ static func validate(
 
 	var equipment_characters: Dictionary[StringName, bool] = {}
 	var hand_instances: Dictionary[StringName, bool] = {}
-	for record: NativeCharacterEquipmentRecord in snapshot.character_equipment_records:
+	for record: NativeCharacterEquipmentRecord in character_equipment_records:
 		if record == null or record.character_id == &"":
 			return _failure(ResultType.Outcome.MALFORMED_EQUIPMENT_RECORD)
 		if equipment_characters.has(record.character_id):
@@ -199,7 +221,7 @@ static func validate(
 
 	var armor_characters: Dictionary[StringName, bool] = {}
 	var all_armor_instances: Dictionary[StringName, bool] = {}
-	for record: NativeCharacterArmorRecord in snapshot.character_armor_records:
+	for record: NativeCharacterArmorRecord in character_armor_records:
 		if record == null or record.character_id == &"":
 			return _failure(ResultType.Outcome.MALFORMED_ARMOR_RECORD)
 		if armor_characters.has(record.character_id):

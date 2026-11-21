@@ -357,6 +357,7 @@ func _encode_items(value: NativeItemStateSnapshot) -> Dictionary[String, Variant
 	return {"schema_version": NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION, "records": records, "combined_stacks": stacks, "equipment": equipment, "armor": armor, "food_consumables": foods, "liquid_consumables": liquids}
 
 
+## Every part is made here for the snapshot alone: the snapshots take them as they are (`adopt`).
 func _decode_root(value: Variant) -> GameSaveSnapshot:
 	if typeof(value) != TYPE_DICTIONARY:
 		_fail(GameSaveResult.Outcome.INVALID_ROOT, "root", "expected object")
@@ -440,7 +441,7 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	var objective: String = _string(root["objective"], "objective") if root.has("objective") else ""
 	var rng_object: Dictionary = _obj(root["rng"], "rng", ["combat", "npc_initialization", "world_interaction"])
 	if _error: return null
-	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items).with_maze_notes(maze_notes).with_away_ms(away_ms).with_day_seconds(day_seconds).with_sky(sky_level, sky_minutes_left).with_summary(played_seconds, objective)
+	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision, true).with_floor_items(floor_items).with_maze_notes(maze_notes).with_away_ms(away_ms).with_day_seconds(day_seconds).with_sky(sky_level, sky_minutes_left).with_summary(played_seconds, objective)
 
 
 func _decode_character(value: Variant, path: String) -> Values.CharacterStateSnapshot:
@@ -494,7 +495,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	for index: int in range(mapping_values.size()):
 		var mapping: Dictionary = _obj(mapping_values[index], path + ".skills.mappings[%d]" % index, ["use_id", "skill_id"])
 		mappings.append(Values.SkillMappingSnapshot.new(StringName(_string(mapping.get("use_id"), path + ".skills.mappings[%d].use_id" % index)), StringName(_string(mapping.get("skill_id"), path + ".skills.mappings[%d].skill_id" % index))))
-	var skills := Values.SkillStateSnapshot.new(_bool(skills_object.get("has_skills_mapping"), path + ".skills.has_skills_mapping"), _bool(skills_object.get("has_learned_mapping"), path + ".skills.has_learned_mapping"), raw, learned, mappings)
+	var skills := Values.SkillStateSnapshot.new(_bool(skills_object.get("has_skills_mapping"), path + ".skills.has_skills_mapping"), _bool(skills_object.get("has_learned_mapping"), path + ".skills.has_learned_mapping"), raw, learned, mappings, true)
 	var condition_values: Array = _array(object["conditions"], path + ".conditions")
 	var conditions: Array[Values.ConditionSnapshot] = []
 	for index: int in range(condition_values.size()): conditions.append(_decode_condition(condition_values[index], path + ".conditions[%d]" % index))
@@ -586,7 +587,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	if object.has("bounty"):
 		bounty = _decode_bounty(object["bounty"], path + ".bounty")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_known_moves(known_moves, insights).with_atlas(visited_maps, waypoint_map, waypoint_zone).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_quests(quests).with_deeds(deeds)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation, true).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_known_moves(known_moves, insights).with_atlas(visited_maps, waypoint_map, waypoint_zone).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_quests(quests).with_deeds(deeds)
 
 
 ## A non-empty list of deeds (DeedLog), each {did, where?, seen_by?}.
@@ -799,7 +800,7 @@ func _decode_player(value: Variant, path: String) -> Values.PlayerRuntimeSnapsho
 	if _error: return null
 	var identity := Values.PlayerIdentitySnapshot.new(_string(i["display_name"], path + ".identity.display_name"), _string(i["title"], path + ".identity.title"), _int64(i["age"], path + ".identity.age"), StringName(_string(i["race_id"], path + ".identity.race_id")))
 	var body := Values.PlayerBodySnapshot.new(_int64(b["body_weight"], path + ".body_facts.body_weight"), _int64(b["maximum_encumbrance"], path + ".body_facts.maximum_encumbrance"))
-	var player := Values.PlayerRuntimeSnapshot.new(StringName(_string(object["character_id"], path + ".character_id")), _decode_character(object["character"], path + ".character"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["exists_in_world"], path + ".exists_in_world"), _bool(object["combat_available"], path + ".combat_available"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), identity, body)
+	var player := Values.PlayerRuntimeSnapshot.new(StringName(_string(object["character_id"], path + ".character_id")), _decode_character(object["character"], path + ".character"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["exists_in_world"], path + ".exists_in_world"), _bool(object["combat_available"], path + ".combat_available"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), identity, body, true)
 	if object.has("temps"):
 		if typeof(object["temps"]) != TYPE_DICTIONARY or (object["temps"] as Dictionary).is_empty():
 			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".temps", "expected a non-empty object (none are not written)")
@@ -828,7 +829,7 @@ func _decode_npc(value: Variant, path: String) -> Values.NpcSpawnStateSnapshot:
 	var ids: Array[StringName] = _decode_id_array(object["live_loadout_item_ids"], path + ".live_loadout_item_ids")
 	var revive_in_ms: int = _int64(object["revive_in_ms"], path + ".revive_in_ms") if object.has("revive_in_ms") else 0
 	if revive_in_ms < 0 or (object.has("revive_in_ms") and revive_in_ms == 0): _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".revive_in_ms", "expected a positive count")
-	var decoded := Values.NpcSpawnStateSnapshot.new(StringName(_string(object["spawn_id"], path + ".spawn_id")), StringName(_string(object["spawn_point_id"], path + ".spawn_point_id")), StringName(_string(object["npc_definition_id"], path + ".npc_definition_id")), StringName(_string(object["character_id"], path + ".character_id")), _bool(object["exists_in_world"], path + ".exists_in_world"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["combat_available"], path + ".combat_available"), _decode_character(object["character"], path + ".character"), _int64(object["age"], path + ".age"), _int64(object["body_weight"], path + ".body_weight"), _int64(object["maximum_encumbrance"], path + ".maximum_encumbrance"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), ids, revive_in_ms)
+	var decoded := Values.NpcSpawnStateSnapshot.new(StringName(_string(object["spawn_id"], path + ".spawn_id")), StringName(_string(object["spawn_point_id"], path + ".spawn_point_id")), StringName(_string(object["npc_definition_id"], path + ".npc_definition_id")), StringName(_string(object["character_id"], path + ".character_id")), _bool(object["exists_in_world"], path + ".exists_in_world"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["combat_available"], path + ".combat_available"), _decode_character(object["character"], path + ".character"), _int64(object["age"], path + ".age"), _int64(object["body_weight"], path + ".body_weight"), _int64(object["maximum_encumbrance"], path + ".maximum_encumbrance"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), ids, revive_in_ms, true)
 	if object.has("memory"):
 		_decode_memory(object["memory"], path + ".memory", decoded)
 	if object.has("busy"):
@@ -1005,7 +1006,7 @@ func _decode_items(value: Variant, path: String) -> NativeItemStateSnapshot:
 			))
 	# v1: no food/liquid; v2: no liquid. Definition validation rejects a live
 	# consumable missing its record. Never synthesize/refill on legacy decode.
-	return NativeItemStateSnapshot.new(NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION, records, stacks, equipment, armor, foods, liquids)
+	return NativeItemStateSnapshot.new(NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION, records, stacks, equipment, armor, foods, liquids, true)
 
 
 func _liquid_content_value(value: String, path: String) -> LiquidState.Content:

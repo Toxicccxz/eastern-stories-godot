@@ -92,6 +92,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	indoor.advance(1.0,Vector3.ZERO)
 	_check(window.visible and window.shadow_enabled and is_equal_approx(window.light_energy,1.2) and is_zero_approx(indoor.amount) and indoor.lamp_shadow_count() == VoxelLighting.LAMP_SHADOWS,"interior windows retain stable authored lighting across a large compound, and cast by day too (indoors the lamps are the light)")
 	interior.free()
+	_check_lamp_light_limit(tree)
 	_check_frames(tree)
 	_check_cloud(tree)
 	# The headless dummy renderer returns identity for every MultiMesh transform.
@@ -99,6 +100,95 @@ func run_all(tree: SceneTree) -> Dictionary:
 	if DisplayServer.get_name()!="headless":
 		await _check_light_batches(tree)
 	return {"assertions":assertions,"failures":failures}
+
+## A phone's lamp light limit (DECISIONS「手机画质」): out of doors only the nearest lamps that give
+## light now light at all; a light changing hands fades out before the next fades in, so never
+## more than the limit light and none pops; a window lamp dark by day takes no place; rooms and
+## no limit keep every lamp.
+func _check_lamp_light_limit(tree: SceneTree) -> void:
+	var world := Node3D.new()
+	tree.root.add_child(world)
+	for i: int in 12:
+		var lamp := OmniLight3D.new()
+		lamp.position = Vector3((i%4)*2.0,2.0,(i/4)*2.0)
+		lamp.light_energy = 0.5
+		lamp.set_meta("night_energy",2.0)
+		world.add_child(lamp)
+	# Nearest of all to where the walk starts, but a window: dark by day.
+	var window := OmniLight3D.new()
+	window.position = Vector3(-3.0,2.0,2.0)
+	window.set_meta("day_energy",0.0)
+	window.set_meta("night_energy",1.5)
+	world.add_child(window)
+	var lighting := VoxelLighting.new()
+	lighting.lamp_light_limit = 2
+	lighting.build(world,VoxelOcclusion.new(),false)
+	lighting.set_night(true,true)
+	var start := Vector3(-4.0,0,2)
+	lighting.advance(0.05,start)
+	_check(_lit(lighting) == _nearest_lit(lighting,start,2) and _lit(lighting).size() == 2 and is_equal_approx(window.light_energy,1.5),"at night the two nearest lamps light at once, the window among them, the rest are dark: %s" % str(_lit(lighting)))
+	var most: int = 0
+	var soft: bool = true
+	var before: Array[float] = _presences(lighting)
+	for step: int in 80:
+		lighting.advance(0.05,start+Vector3(step*0.15,0,0))
+		var now: Array[float] = _presences(lighting)
+		for index: int in now.size():
+			soft = soft and absf(now[index]-before[index]) <= 0.05/VoxelLighting.LAMP_LIGHT_FADE_SECONDS+0.001
+		before = now
+		most = maxi(most,_lit(lighting).size())
+	var away: Vector3 = start+Vector3(79*0.15,0,0)
+	for step: int in 20:
+		lighting.advance(0.05,away)
+	_check(soft and most <= 2 and _lit(lighting) == _nearest_lit(lighting,away,2),"walking along the lamps, lights change hands by fading, never more than two at once (most %d, soft %s)" % [most,soft])
+	lighting.set_night(false,true)
+	lighting.advance(0.05,start)
+	_check(not _lit(lighting).has(window) and _lit(lighting).size() == 2 and _lit(lighting) == _nearest_lit(lighting,start,2),"by day the dark window takes no place: the two nearest lamps that give light do")
+	lighting.lamp_light_limit = -1
+	lighting.advance(0.05,start)
+	_check(_lit(lighting).size() == 12,"without a limit every lamp lights again (the desktop): %d" % _lit(lighting).size())
+	world.free()
+	var room := Node3D.new()
+	tree.root.add_child(room)
+	for i: int in 5:
+		var lamp := OmniLight3D.new()
+		lamp.position = Vector3(i*3.0,2.0,0)
+		lamp.light_energy = 1.0
+		room.add_child(lamp)
+	var indoor := VoxelLighting.new()
+	indoor.lamp_light_limit = 2
+	indoor.build(room,VoxelOcclusion.new(),true)
+	indoor.advance(0.1,Vector3.ZERO)
+	_check(_lit(indoor).size() == 5,"a room keeps every lamp: the lamps are its light")
+	room.free()
+
+## The lamps giving light now (not the carried one), in the lamps' order.
+func _lit(lighting: VoxelLighting) -> Array[Light3D]:
+	var result: Array[Light3D] = []
+	for lamp: Light3D in lighting.lamps:
+		if lamp != lighting.carried and lamp.visible and lamp.light_energy > 0.0:
+			result.append(lamp)
+	return result
+
+## The `count` lamps nearest `at` (on the ground plane) whose light is on now, in the lamps' order.
+func _nearest_lit(lighting: VoxelLighting, at: Vector3, count: int) -> Array[Light3D]:
+	var giving: Array[Light3D] = []
+	for lamp: Light3D in lighting.lamps:
+		if lamp != lighting.carried and lighting._unlimited_energy(lamp,lighting.amount) > 0.0:
+			giving.append(lamp)
+	giving.sort_custom(func(a: Light3D, b: Light3D) -> bool: return Vector2(a.position.x-at.x,a.position.z-at.z).length() < Vector2(b.position.x-at.x,b.position.z-at.z).length())
+	var chosen: Array[Light3D] = giving.slice(0,count)
+	var result: Array[Light3D] = []
+	for lamp: Light3D in lighting.lamps:
+		if chosen.has(lamp):
+			result.append(lamp)
+	return result
+
+func _presences(lighting: VoxelLighting) -> Array[float]:
+	var result: Array[float] = []
+	for lamp: Light3D in lighting.lamps:
+		result.append(float(lamp.get_meta("presence",0.0)))
+	return result
 
 ## Five frames (DECISIONS「昼夜」): a frame map, the older [day, night] pair reading as before,
 ## a missing frame interpolated, the time of day blending frames, the lamps up from dusk.
