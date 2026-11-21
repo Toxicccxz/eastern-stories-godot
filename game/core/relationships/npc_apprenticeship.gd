@@ -369,7 +369,7 @@ func _accept(npc: String, rule: NpcTeaching.ApprenticeRule, respect: String, stu
 		_say(npc, rule.accept_say, respect)
 	if rule.accept_vision != null and rule.accept_vision.applies(student.attributes.personality, age):
 		# TRANSLATORS: message_vision() in ES2 lines: $N the actor, $n the one who reads it (你).
-		lines.append(_t(rule.accept_vision.line).replace("$N", npc).replace("$n", _t("你")))
+		lines.append(MessageGrammar.fill(_t(rule.accept_vision.line), MessageGrammar.other(), npc, MessageGrammar.you(), _t("你")))
 
 
 ## taolord.c do_recruit(), the answer `answer_after` seconds after a request: one short of

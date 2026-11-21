@@ -74,6 +74,8 @@ func _allowed_text() -> PackedStringArray:
 		allowed.append(_session.player_runtime().facts.display_name)
 	for language: LanguageDefinition in _languages.languages():
 		allowed.append(language.name)
+	# The title's line is the title in the other language, never translated (title_screen.json).
+	allowed.append("东方故事")
 	return allowed
 
 
@@ -95,7 +97,7 @@ func _switch_language(tree: SceneTree) -> bool:
 		return false
 	await _frames(tree, 2)
 	var option: OptionButton = _shell.language_option
-	if not check(_shell.language_row.visible and option.item_count == 3, "the language row lists 跟随系统 and both languages"):
+	if not check(_shell.language_row.visible and option.item_count == 4, "the language row lists 跟随系统, 简体中文, English (preview) and the test language"):
 		return false
 	for index: int in option.item_count:
 		if String(option.get_item_metadata(index)) == PseudoLocale.CODE:

@@ -16,6 +16,9 @@ var translation_path: String
 var font_names: PackedStringArray
 ## A translation built in memory (the test pseudo-locale); otherwise loaded from translation_path.
 var translation: Translation
+## A language still being translated ("preview" in languages.json): a player can choose it in
+## Settings, but a system in that language is not given it on its own.
+var preview: bool = false
 
 
 func _init(

@@ -944,12 +944,13 @@ static func move_tooltip(move: CombatActionDefinition) -> String:
 	var tag: String = CombatMoveTags.description(move.tag)
 	if move.legacy_action_text.is_empty():
 		return tag
+	var action: String = MessageGrammar.resolve(TranslationServer.translate(move.legacy_action_text), MessageGrammar.you(), MessageGrammar.other())
 	# TRANSLATORS: the words standing for the one hit, the limb and the weapon in a move's hover line (no one is hit yet).
-	var line: String = (TranslationServer.translate("{action}！").format({"action": TranslationServer.translate(move.legacy_action_text)})
+	var line: String = (TranslationServer.translate("{action}！").format({"action": action})
 		.replace("$N", TranslationServer.translate("你")).replace("$P", TranslationServer.translate("你"))
 		.replace("$n", TranslationServer.translate("对手")).replace("$p", TranslationServer.translate("对手"))
 		.replace("$l", TranslationServer.translate("要害")).replace("$w", TranslationServer.translate("兵刃")))
-	return "%s\n%s" % [line, tag]
+	return "%s\n%s" % [MessageGrammar.capitalize(line), tag]
 
 
 ## The keys and the pad walk the rows (DECISIONS「战斗界面」): left and right along the moves

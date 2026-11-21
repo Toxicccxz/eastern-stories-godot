@@ -49,9 +49,16 @@ choice and the Settings language.
    work too) and translate. Untranslated messages show the Simplified source.
 2. Add the language to `game/locale/languages.json`: `code`, its own `name`, `script` (Hans or
    Hant for Chinese), `translation` (`res://locale/<code>.po`) and the system `fonts` to try.
-   Settings lists it under 语言 (跟随系统 and each language by its own name).
+   Settings lists it under 语言 (跟随系统 and each language by its own name). While it is still
+   being translated add `"preview": true`: players can choose it, but a system in that language
+   is not given it on its own.
 3. When the source text changes later, regenerate the template and update each `.po` from it
    (Poedit: Update from POT; `msgmerge`); changed messages come back fuzzy.
+4. `python tools/l10n/check_po.py` checks every `.po` against the template (slots kept, no stale
+   messages, grammar marks well formed); `tools/tests/test_translations.py` runs it in the gate.
+
+English: style, names, terms and the grammar marks ES2's templates need are in
+[english_style.md](english_style.md).
 
 A system's language is matched by `LanguageResolver`: Chinese by script (Hans for CN, SG, MY or
 no region; Hant for TW, HK, MO), others by language; anything not listed reads Simplified.

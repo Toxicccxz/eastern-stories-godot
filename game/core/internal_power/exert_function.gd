@@ -24,11 +24,12 @@ func exert(_context: ExertContext) -> bool:
 	return false
 
 
-## message_vision() as its actor sees it: $N is 你, and $P (its pronoun) too.
-static func _as_actor(template: String) -> String:
+## message_vision() as its actor sees it: $N is 你, and $P (its pronoun) too; `target` is
+## who $n is for an English line's grammar forms (MessageGrammar).
+static func _as_actor(template: String, target: MessageGrammar.Role = null) -> String:
 	# TRANSLATORS: message_vision(): the actor of an exert line, for its $N.
 	var you: String = _t("你")
-	return _t(template).replace("$N", you).replace("$P", you)
+	return MessageGrammar.resolve(_t(template), MessageGrammar.you(), target).replace("$N", you).replace("$P", you)
 
 
 static func _t(text: String) -> String:

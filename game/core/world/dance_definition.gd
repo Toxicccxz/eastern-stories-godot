@@ -101,7 +101,7 @@ func dance(state: CharacterState, step: Step) -> Result:
 		result.lines.append(TranslationServer.translate(clumsy))
 		return result
 	# TRANSLATORS: message_vision(): the dancer ($N) as they read it.
-	result.lines.append(TranslationServer.translate(step.line).replace("$N", TranslationServer.translate("你")))
+	result.lines.append(MessageGrammar.fill(TranslationServer.translate(step.line), MessageGrammar.you(), TranslationServer.translate("你")))
 	if step.sen > 0:
 		state.spirit.apply_damage(step.sen)
 		result.sen_spent += step.sen

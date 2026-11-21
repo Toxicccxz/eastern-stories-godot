@@ -54,7 +54,7 @@ func _init(
 ## message_vision(template, me): the line as the character reads it ($N is 你) and
 ## as everyone else does.
 func vision(template: String, color: StringName = ColoredLine.PLAIN) -> void:
-	lines.append(ColoredLine.new(ExertFunction._as_actor(template), color))
+	lines.append(ColoredLine.new(MessageGrammar.capitalize(ExertFunction._as_actor(template)), color))
 	vision_lines.append(VisionLine.new(template, actor_id, &"", color))
 
 
@@ -71,15 +71,21 @@ func pick_offensive_target() -> SpecialSide:
 ## message_vision(template, me, target): $N the character, $n `target`. As the character
 ## reads it, $N is 你 and $n `target_name` (its short() as shown).
 func vision_at(target: SpecialSide, template: String, color: StringName = ColoredLine.PLAIN, target_name: String = "") -> void:
-	lines.append(ColoredLine.new(ExertFunction._as_actor(template).replace("$n", _name(target, target_name)), color))
+	var text: String = ExertFunction._as_actor(template, _role(target)).replace("$n", _name(target, target_name))
+	lines.append(ColoredLine.new(MessageGrammar.capitalize(text), color))
 	vision_lines.append(VisionLine.new(template, actor_id, target.character_id, color))
 
 
 ## message_vision(template, target, me): $N is `target`, $n the character (你 as it reads it).
 func vision_by(target: SpecialSide, template: String, color: StringName = ColoredLine.PLAIN, target_name: String = "") -> void:
+	var text: String = MessageGrammar.resolve(ExertFunction._t(template), _role(target), MessageGrammar.you())
 	# TRANSLATORS: message_vision(): the character an exert line names as its $n.
-	lines.append(ColoredLine.new(ExertFunction._t(template).replace("$N", _name(target, target_name)).replace("$n", ExertFunction._t("你")), color))
+	lines.append(ColoredLine.new(MessageGrammar.capitalize(text.replace("$N", _name(target, target_name)).replace("$n", ExertFunction._t("你"))), color))
 	vision_lines.append(VisionLine.new(template, target.character_id, actor_id, color))
+
+
+static func _role(target: SpecialSide) -> MessageGrammar.Role:
+	return MessageGrammar.other(&"" if target == null or target.state == null else target.state.gender)
 
 
 func _name(target: SpecialSide, target_name: String) -> String:

@@ -171,12 +171,12 @@ func pass_sentence(judge: NpcRuntimeState) -> void:
 	var lines: Array[ColoredLine] = []
 	var fainted: bool = false
 	if level > 0:
-		lines.append(ColoredLine.new(tr(sentence.beat_line).replace("$N", you).format({"boards": ChineseNumber.of(level * 10)}), ColoredLine.HIR))
+		lines.append(ColoredLine.new(MessageGrammar.fill(tr(sentence.beat_line), MessageGrammar.you(), you).format({"boards": ChineseNumber.of(level * 10)}), ColoredLine.HIR))
 		fainted = NpcSentence.beat(state, level).fainted
 		if fainted:
 			for index: int in range(sentence.faint_lines.size()):
-				lines.append(ColoredLine.new(tr(sentence.faint_lines[index]).replace("$N", you), ColoredLine.HIR if index == 0 else ColoredLine.PLAIN))
-		lines.append(ColoredLine.new(tr(sentence.warn_line).replace("$N", tr(judge.definition().display_name)).replace("$n", you), ColoredLine.HIR))
+				lines.append(ColoredLine.new(MessageGrammar.fill(tr(sentence.faint_lines[index]), MessageGrammar.you(), you), ColoredLine.HIR if index == 0 else ColoredLine.PLAIN))
+		lines.append(ColoredLine.new(MessageGrammar.fill(tr(sentence.warn_line), MessageGrammar.other(judge.character_state.gender), tr(judge.definition().display_name), MessageGrammar.you(), you), ColoredLine.HIR))
 		CrimeRecord.clear_crime(state)
 	else:
 		lines.append(ColoredLine.new(tr(sentence.sorry_line)))

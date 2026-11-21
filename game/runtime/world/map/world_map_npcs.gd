@@ -1007,7 +1007,7 @@ func dismiss_summoned() -> void:
 			if summoning != null and _map.npc_life.player_hears(npc) and session != null and not departing:
 				var lines: Array[ColoredLine] = []
 				for text: String in summoning.leave:
-					lines.append(ColoredLine.new(tr(text).replace("$N", tr(npc.definition().display_name)), summoning.color))
+					lines.append(ColoredLine.new(MessageGrammar.fill(tr(text), MessageGrammar.other(npc.character_state.gender), tr(npc.definition().display_name)), summoning.color))
 				session.shared_ui().append_after_fight(lines)
 			_take_away(npc)
 		_summon_spawns.erase(npc.spawn_id)

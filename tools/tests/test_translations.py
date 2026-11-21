@@ -1,0 +1,53 @@
+"""The translations in game/locale against the template (tools/l10n/check_po.py)."""
+
+from __future__ import annotations
+
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+REPOSITORY = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPOSITORY / "tools/l10n"))
+
+import check_po  # noqa: E402
+
+
+def _po(entries: list[tuple[str, str]]) -> Path:
+    lines = ['msgid ""', 'msgstr ""', '"Language: en\\n"', ""]
+    for msgid, msgstr in entries:
+        lines += [f'msgid "{msgid}"', f'msgstr "{msgstr}"', ""]
+    handle = tempfile.NamedTemporaryFile("w", suffix=".po", delete=False, encoding="utf-8")
+    handle.write("\n".join(lines))
+    handle.close()
+    return Path(handle.name)
+
+
+class TranslationsTest(unittest.TestCase):
+    def test_shipped_translations_are_clean(self) -> None:
+        for path in sorted((REPOSITORY / "game/locale").glob("*.po")):
+            with self.subTest(path=path.name):
+                self.assertEqual(check_po.problems_in(path), [])
+
+    def test_the_checker_catches_slips(self) -> None:
+        cases = {
+            "not in the template": ("没有这句话的原文", "Nothing"),
+            "lost $l": ("$N挥拳攻击$n的$l", "$N {N:punch|punches} $n"),
+            "$P/$p": ("结果只是轻轻地划破$p的皮肉。", "It barely breaks $p skin."),
+            "bad form": ("$N挥拳攻击$n的$l", "$N {N:punch|punches|x} $n's $l"),
+            "unknown pronoun": ("$N挥拳攻击$n的$l", "$N {N:hers} punches $n's $l"),
+            "invents the slot": ("{npc}{action}", "{npc} {action} {mood}"),
+            "slots differ": ("%s摇摇头，说道：没听说过。", "“Never heard of it.”"),
+            "opens with a form of address": ("这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖子里开封的哟。", "$RESPECT, come in."),
+        }
+        for label, entry in cases.items():
+            with self.subTest(label=label):
+                problems = check_po.problems_in(_po([entry]))
+                self.assertTrue(any(label in problem for problem in problems), problems)
+
+    def test_a_dropped_slot_is_allowed(self) -> None:
+        self.assertEqual(check_po.problems_in(_po([("{npc}对你哈哈一笑：{npc}便是{self}！", "{npc} laughs. “That'd be me!”")])), [])
+
+
+if __name__ == "__main__":
+    unittest.main()
