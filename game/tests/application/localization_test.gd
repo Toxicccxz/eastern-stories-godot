@@ -140,7 +140,8 @@ func _shell_screens(tree: SceneTree) -> void:
 	shell.configure_before_start(profile, files, null, settings, null, catalog)
 	tree.root.add_child(shell)
 	await _frames(tree, 4)
-	var allowed := PackedStringArray(["简体中文", "English (preview)", "伪语言"])
+	# The title's line is the title in the other language, never translated (title_screen.json).
+	var allowed := PackedStringArray(["简体中文", "English (preview)", "伪语言", "东方故事"])
 	check(TranslationServer.get_locale() == PseudoLocale.CODE, "the shell starts in the kept language")
 	_scan(shell, allowed, "main menu")
 	check(shell.request_new_game_from_menu() and shell.result_overlay.visible, "New Game over a save asks first")
