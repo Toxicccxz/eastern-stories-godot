@@ -27,7 +27,11 @@ desktop and mobile alike (a 19.5:9 phone widens it to about 1560x720, a 4:3 tabl
 1280x960). Phones and tablets play full screen; sensor landscape supports both landscape
 directions; portrait gameplay, split-screen and platform multiwindow qualification are not promised.
 The 界面缩放 (100/125/150%) is the root window's content scale; it does not count towards the
-compact layout, and the world camera divides it back out.
+compact layout, and the world camera divides it back out. On a phone or tablet the interface is
+drawn as large as the layouts allow, whatever the setting: the largest whole-pixel step that still
+leaves 800x480 logical units (`ApplicationUiScale.pixel_factor`); the voxel camera rests at the
+feel's `phone_view_percent` of a map's framing, and a show frames from the map's own size and
+comes back to it ([DECISIONS「手机试玩：标题菜单和手柄」](../../migration/DECISIONS.md)).
 
 `GodotSafeAreaCapability` is the production native measurement boundary; `SafeAreaMetrics`
 normalizes physical content/safe bounds through the root viewport screen transform into
@@ -70,6 +74,11 @@ states. Neither changes Save eligibility.
 - Touch Pause emits `pause_game`. Existing keyboard/mouse/controller Shell semantics remain
   shared; touch UI is hidden on ordinary desktop. This does not add controller locomotion,
   remapping or physical-controller qualification.
+- While a gamepad is connected (Godot's joypad list; on Android a device reporting a gamepad or
+  joystick source), the pad and Touch Pause are hidden and held contacts are cancelled, and the HUD
+  stops keeping their corners clear (`SafeAreaMetrics.touch_controls()`); they return when it
+  disconnects. Pointer taps keep working
+  ([DECISIONS「手机试玩：标题菜单和手柄」](../../migration/DECISIONS.md)).
 
 ## Android Back
 

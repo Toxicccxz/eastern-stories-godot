@@ -185,13 +185,21 @@ func _place() -> void:
 		return
 	var window: Vector2i = get_tree().root.size.max(Vector2i(64, 64))
 	_view.size = window
-	var screen := Vector2(window)
-	var unit: float = screen.x / 1280.0
+	place_for(Vector2(window))
+
+
+## Lays the title out for a window `screen` pixels big. A screen wider than 16:9 (a phone, an
+## ultrawide monitor) keeps the title it has at 16:9 for its height, at the left: the extra width
+## goes to the 沙盘, and the menu's column stays under the line (owner, 2026-11-20: grown with the
+## width, the lettering came down over the menu on a 20:9 phone).
+func place_for(screen: Vector2) -> void:
+	var box: Vector2 = title_box(screen)
+	var unit: float = box.x / 1280.0
 	var letters: Texture2D = _letters.texture
 	if letters == null:
 		return
 	var size_px := Vector2(width_px * unit, width_px * unit * letters.get_height() / letters.get_width())
-	var middle: Vector2 = at * screen
+	var middle: Vector2 = at * box
 	_letters.size = size_px
 	_letters.position = middle - size_px / 2.0
 	# The ink's own box inside the padded mask.
@@ -225,6 +233,12 @@ func _place() -> void:
 	_smoke.emission_rect_extents = Vector2(ink_wide, ink_tall) * 0.5
 	_smoke.scale_amount_min = 10.0 * unit / 32.0
 	_smoke.scale_amount_max = 26.0 * unit / 32.0
+
+
+## The part of a `screen` the title is laid out in: all of it up to 16:9, the 16:9 at its left
+## beyond that.
+static func title_box(screen: Vector2) -> Vector2:
+	return Vector2(minf(screen.x, screen.y * 16.0 / 9.0), screen.y)
 
 
 func _rect(node_name: String, mat: ShaderMaterial) -> TextureRect:

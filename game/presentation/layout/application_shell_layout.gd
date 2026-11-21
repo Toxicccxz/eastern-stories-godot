@@ -52,6 +52,9 @@ func _ready() -> void:
 	# The title's menu column never scrolls (owner, 2026-11-07): it moves up to fit instead
 	# (_menu_column); only a screen too short for it at all scrolls it, with no bar.
 	_dialogs[0].scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	# Its lettered rows keep their height on a phone: touch-sized, the column rose over the
+	# title's line (owner, 2026-11-20).
+	_dialogs[0].touch_sized = false
 	_dialogs[0].content.minimum_size_changed.connect(_queue_reflow)
 	_busy = shell.get_node("ShellCanvas/BusyOverlay/BusyCenter/BusyLabel") as Label
 	_busy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -125,12 +128,11 @@ const MENU_HIGHEST_SHARE: float = 0.30
 
 
 ## The main menu on the title (DECISIONS「标题画面」): a column at the lower left, leaving the
-## logo above it and the 沙盘's place to its right; a phone keeps it in the middle. A short
-## screen lifts it towards the logo, so all `needed` of it shows without scrolling.
+## logo above it and the 沙盘's place to its right, on a phone too (owner, 2026-11-20: kept in the
+## middle there, it sat over the logo). A short screen lifts it towards the logo, so all `needed`
+## of it shows without scrolling.
 static func _menu_column(metrics: SafeAreaMetrics, needed: float = 0.0) -> Rect2:
 	var area: Rect2 = metrics.content_rect()
-	if metrics.touch_sized():
-		return area
 	var top: float = floorf(clampf(area.size.y - needed, area.size.y * MENU_HIGHEST_SHARE, area.size.y * MENU_TOP_SHARE))
 	return Rect2(area.position + Vector2(area.size.x * 0.06, top), Vector2(minf(340.0, area.size.x * 0.5), area.size.y - top))
 
