@@ -139,6 +139,11 @@
 			"revision": "SOURCE_ENTRY_BLACK_FLAME_V1",
 			"spawn_points": 887,
 			"fingerprint": "cc39c3bb9bed516591ff82f7309260a86550dee2ea066c30aad088786a933dff"
+		},
+		{
+			"revision": "SOURCE_ENTRY_JUECHEN_B_V1",
+			"spawn_points": 892,
+			"fingerprint": "99f439329e6a1147432d4615ecd13bc6291d2f5a233ebbe525786974038a13d0"
 		}
 	]
 }

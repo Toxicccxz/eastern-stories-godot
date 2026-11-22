@@ -11,6 +11,9 @@ messages it does not translate yet, as a batch for `po_batch.py apply`:
   interface text the words a Taiwan player knows (設定, 視窗, 解析度);
 * “ ” and ‘ ’ become 「 」 and 『 』, the marks the rest of the text uses.
 
+`draft --changed` lists instead the translated messages the rules would now write differently
+(after a rule is added; a hand edit shows up too, so read the list before applying it).
+
 `check` reads the .po back: every message converts back to its source (OpenCC tw2s) except
 where a rule changed a word, so a hand edit that lost or changed text shows up.
 
@@ -127,6 +130,7 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("command", choices=["draft", "check"])
     parser.add_argument("po", type=Path)
+    parser.add_argument("--changed", action="store_true", help="draft: translated messages the rules now write differently")
     args = parser.parse_args(argv)
     sys.stdout.reconfigure(encoding="utf-8")
     po = parse(args.po.read_text(encoding="utf-8"))
