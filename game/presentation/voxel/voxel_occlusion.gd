@@ -30,8 +30,9 @@ var _sharing: Array[ShaderMaterial] = []
 ## can stand behind draws with its plain material — the same surface without the see-through, so
 ## a phone's GPU neither searches the subjects for every pixel of every building nor loses its
 ## early depth test to the dots' discard; only the surfaces a subject may be behind wear the
-## see-through, and every one does while the camera turns or a show is held. False: every
-## occluder wears it (the desktop).
+## see-through, and every one does while the camera turns. While a show is held, so do those
+## that reach into its space or stand before it (a fight's stage clears them; the rest of the map
+## stays plain through the fight). False: every occluder wears it (the desktop).
 var plain_when_clear: bool = false:
 	set(value):
 		plain_when_clear = value
@@ -53,6 +54,10 @@ var _grid_key: String = ""
 var _extents := PackedVector4Array()
 var _grids: Dictionary[String, Array] = {}
 var _last_key: String = ""
+## The held show's space in the world: its box's eight corners, out to the dots' outer rim
+## (show_space.gdshaderinc: 0.7). Empty: none.
+var _show_corners := PackedVector3Array()
+const SHOW_RIM: float = 0.7
 
 ## `moves`: a part that swings or slides (a door's leaf, a shutter) keeps the see-through always,
 ## its box not being where it was built.
@@ -109,6 +114,11 @@ func register(root: Node3D, moves: bool = false) -> void:
 ## its height over the foot.
 func hold_show(stage: Transform3D, footprint: Rect2, low: float, high: float) -> void:
 	show = {"inverse": Projection(stage.affine_inverse()), "box": Vector4(footprint.position.x, footprint.position.y, footprint.end.x, footprint.end.y), "span": Vector2(low, high)}
+	_show_corners = PackedVector3Array()
+	for x: float in [footprint.position.x - SHOW_RIM, footprint.end.x + SHOW_RIM]:
+		for y: float in [low - SHOW_RIM, high + SHOW_RIM]:
+			for z: float in [footprint.position.y - SHOW_RIM, footprint.end.y + SHOW_RIM]:
+				_show_corners.append(stage * Vector3(x, y, z))
 	for material: ShaderMaterial in materials.values():
 		_show_on(material)
 	for material: ShaderMaterial in _sharing:
@@ -117,6 +127,7 @@ func hold_show(stage: Transform3D, footprint: Rect2, low: float, high: float) ->
 ## The show is over: every occluder whole again (but where a person opens it).
 func clear_show() -> void:
 	show = {}
+	_show_corners = PackedVector3Array()
 	for material: ShaderMaterial in materials.values():
 		_show_on(material)
 	for material: ShaderMaterial in _sharing:
@@ -174,14 +185,15 @@ func prepare(camera: Camera3D) -> void:
 
 ## plain_when_clear: the see-through only on the surfaces a subject may be behind — its box in
 ## the camera's plane overlapping the subject's opening (local_reveal's reach: the subject's `w`
-## across, 1.25 times that up) and some of it nearer the eye than the subject. Every surface
-## wears it while the camera turns (its angle not yet held for two frames) or a show is held.
+## across, 1.25 times that up) and some of it nearer the eye than the subject — and, while a show
+## is held, on those its space clears (_mark_show). Every surface wears it while the camera turns
+## (its angle not yet held for two frames).
 func _choose_materials(camera: Camera3D) -> void:
 	var basis: Basis = camera.global_basis
 	var key: String = "%.4f,%.4f,%.4f" % [basis.z.x, basis.z.y, basis.z.z]
 	var held: bool = key == _last_key
 	_last_key = key
-	if not held or not show.is_empty():
+	if not held:
 		_reveal_all()
 		return
 	if key != _grid_key:
@@ -204,6 +216,7 @@ func _choose_materials(camera: Camera3D) -> void:
 					var span: Vector4 = _extents[index*2]
 					if span.x <= right+reach.x and span.y >= right-reach.x and span.z <= up+reach.y and span.w >= up-reach.y and _extents[index*2+1].x > depth+0.1:
 						behind[index] = true
+	_mark_show(basis, behind)
 	if not _chosen:
 		_chosen = true
 		for index: int in surfaces.size():
@@ -216,6 +229,28 @@ func _choose_materials(camera: Camera3D) -> void:
 			if not _behind.has(index):
 				_wear(index, false)
 	_behind = behind
+
+## A held show: every surface whose box meets the show's space in the camera's plane and comes
+## nearer the eye than the space's far side — standing in it or before it, which the space clears
+## (show_space.gdshaderinc: show_reveal) — wears the see-through; behind it or off to the side a
+## surface stays plain.
+func _mark_show(basis: Basis, behind: Dictionary[int, bool]) -> void:
+	if _show_corners.is_empty():
+		return
+	var low := Vector2(INF, INF)
+	var high := Vector2(-INF, -INF)
+	var far: float = INF
+	for corner: Vector3 in _show_corners:
+		var at := Vector2(corner.dot(basis.x), corner.dot(basis.y))
+		low = low.min(at)
+		high = high.max(at)
+		far = minf(far, corner.dot(basis.z))
+	for x: int in range(floori(low.x/CELL), floori(high.x/CELL)+1):
+		for y: int in range(floori(low.y/CELL), floori(high.y/CELL)+1):
+			for index: int in _grid.get(Vector2i(x, y), []):
+				var span: Vector4 = _extents[index*2]
+				if span.x <= high.x and span.y >= low.x and span.z <= high.y and span.w >= low.y and _extents[index*2+1].x > far:
+					behind[index] = true
 
 ## Surface `index` on its plain material (`flat`) or its see-through; a moving part always sees
 ## through.
