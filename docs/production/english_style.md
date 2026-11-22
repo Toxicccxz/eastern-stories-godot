@@ -51,7 +51,7 @@ name; pinyin is a person's name, or what a local calls a place in speech.
   pinyin and their usual title (Zhenwu, King Yama, the Jade Emperor, Meng Po); 心经 the Heart Sutra;
   天师道 the Way of the Celestial Masters; 武状元 Martial Champion; offices follow Hucker's *Dictionary
   of Official Titles* (County Magistrate, Minister, Censor, Head Constable); 时辰 is a double-hour; 两 of silver is the
-  established tael; other measures stay pinyin (jin, li, wen); 丈 is about ten feet; 正月十七 the seventeenth day of the first month.
+  established tael; other measures stay pinyin (jin, li, wen); 丈 is about ten feet; 正月十七 the seventeenth of the first month.
 * Neither free nor literal: keep each sentence's facts, order and mood; carry the mood in the English
   sentence, not word for word ("老松寨是老子的寨子" Old Pine Stockade is mine). Form may change where the
   form is the joke (a list stays a list); ES2's engine marks such as (sign) are not prose.
