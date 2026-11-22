@@ -6,6 +6,8 @@
 #   phrases win over shorter ones.
 # char <TAB> from <TAB> to — one Traditional form is folded into the Ministry of Education's
 #   standard one everywhere (s2tw mixes them).
+# message <TAB> Simplified <TAB> Traditional — a whole message on its own (a unit word, where
+#   the phrase rules have no neighbours to go by).
 # ui <TAB> Traditional <TAB> Taiwan word — only in interface text (scripts, scenes, the 入门
 #   guide): the story and the people keep the shared written language.
 # Lines starting with # are notes.
@@ -48,10 +50,21 @@ phrase	汗干了	汗乾了
 phrase	汗还没干	汗還沒乾
 phrase	一行还没干	一行還沒乾
 phrase	已经干了	已經乾了
-phrase	唯一干净	唯一乾淨
+phrase	干净	乾淨
+phrase	干饼	乾餅
 phrase	让干的	讓幹的
 phrase	桃干仙	桃幹仙
 phrase	图干山	圖干山
+# names: 辟 as in 辟邪 (not 闢 "open up"); the surname 游
+phrase	萧辟尘	蕭辟塵
+# 郁 in names (苗郁淑, 阮欣郁) is 郁; 丑 in 丑阴 is the earthly branch, like 子阴 and 申阴
+phrase	苗郁淑	苗郁淑
+phrase	欣郁	欣郁
+phrase	丑阴	丑陰
+phrase	郁郁	鬱鬱
+phrase	给游 	給游 
+# 只只: one by one, a measure word
+phrase	只只	隻隻
 # 准: allow (准) or accurate (準)
 phrase	不准	不准
 phrase	不准备	不準備
@@ -73,6 +86,16 @@ phrase	喂老	餵老
 phrase	喂药	餵藥
 # 卷: a scroll (卷) or rolling (捲)
 phrase	那卷	那卷
+phrase	卷沙	捲沙
+phrase	帘卷	簾捲
+phrase	发卷卷	髮捲捲
+phrase	发卷得	髮捲得
+phrase	帆卷	帆捲
+phrase	盖卷	蓋捲
+phrase	，卷得整	，捲得整
+phrase	文书卷起	文書捲起
+phrase	他卷出	他捲出
+phrase	半卷着	半捲著
 # 划: rowing (划) or cutting (劃)
 phrase	划向$	劃向$
 phrase	湖心划去	湖心划去
@@ -94,6 +117,8 @@ phrase	直摆手	直擺手
 phrase	一声钟	一聲鐘
 phrase	一出	一出
 phrase	发茬	髮茬
+phrase	佛云	佛云
+phrase	冲鼻	衝鼻
 phrase	香烟	香煙
 phrase	烟灰	煙灰
 phrase	别着	別著
@@ -115,6 +140,7 @@ phrase	烂席	爛蓆
 phrase	披于军	披於軍
 phrase	大川后	大川後
 phrase	半坛	半罈
+phrase	瓷坛	瓷罈
 phrase	坛口拿	罈口拿
 phrase	石制	石製
 phrase	冰制	冰製
@@ -123,6 +149,14 @@ phrase	彷佛	彷彿
 phrase	游晋	游晉
 phrase	游公	游公
 phrase	姓游	姓游
+
+# measure words shown alone (an item's unit: 一只风铃, 一坛酒)
+message	只	隻
+message	坛	罈
+# ES2's stray Latin marks in a message of their own
+message	你敷上金疮药 .	你敷上金瘡藥。
+message	你看到:	你看到：
+message	Ok.	好。
 
 # the Ministry of Education's standard form, one form throughout
 char	伕	夫
@@ -139,6 +173,7 @@ char	齣	出
 char	菸	煙
 char	剋	克
 char	閤	合
+char	嫋	裊
 
 # interface words (Taiwan)
 ui	設置	設定
