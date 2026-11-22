@@ -5015,7 +5015,7 @@ msgid "后脚"
 msgstr "hind paw"
 
 msgid "铁锤"
-msgstr "Iron Hammer"
+msgstr "iron hammer"
 
 msgid "这是一位来雪亭镇的外地旅客.\n"
 msgstr "A traveler from out of town, passing through Snow Pavilion."
@@ -5069,7 +5069,7 @@ msgid "多谢, 不过我还有酒... "
 msgstr "Thanks, but I still got wine..."
 
 msgid "听说沈记商行有在卖蒙汗药...\n"
-msgstr "Heard Shen's Trading House sells knockout drops..."
+msgstr "Heard Shen's Trading House sells knockout powder..."
 
 msgid "嗯.. 你是想问我玉佩的事吧? 我卖给沈老板了, 那东西不吉祥...\n"
 msgstr "Mm... you're askin' about the jade pendant, huh? Sold it to Boss Shen. Thing was bad luck..."
@@ -5912,10 +5912,10 @@ msgid "这是一把血红色的的长剑，份量大约有十来斤左右。\n"
 msgstr "A blood-red long sword, about ten jin in weight."
 
 msgid "蒙汗药"
-msgstr "Knockout Drops"
+msgstr "Knockout Powder"
 
 msgid "这是寻常的绿林盗贼用来作案的蒙汗药，你可以把它倒在\n酒水之中使用。\n"
-msgstr "The knockout drops common bandits use on the job. You use them by pouring them into wine or water."
+msgstr "The knockout powder common bandits use on the job. You use them by pouring them into wine or water."
 
 msgid "金刚杖"
 msgstr "vajra staff"
@@ -13214,10 +13214,10 @@ msgid "石室大厅"
 msgstr "Stone Chamber Hall"
 
 msgid "木剑"
-msgstr "Wooden Sword"
+msgstr "wooden sword"
 
 msgid "蒲团"
-msgstr "Prayer Cushion"
+msgstr "meditation cushion"
 
 msgid "土地庙"
 msgstr "Earth God Shrine"
@@ -18692,28 +18692,28 @@ msgid "这是一副八卦阵图,图下面有一行模糊的小字：八卦古阵
 msgstr "This is a trigram formation chart. Below the picture is a line of small, blurred writing: The Ancient Eight-Trigram Formation."
 
 msgid "路牌上写着：  坤--坤为地，遇青龙而生，遇玄武而死，遇白虎而困，遇朱雀而涉。\n"
-msgstr "The signpost reads:  Kun -- Kun is Earth. Meeting the Azure Dragon, it lives; meeting the Black Tortoise, it dies; meeting the White Tiger, it is trapped; meeting the Vermilion Bird, it wades."
+msgstr "The signpost reads: Kun—Kun is Earth. Meeting the Azure Dragon, it lives; meeting the Black Tortoise, it dies; meeting the White Tiger, it is trapped; meeting the Vermilion Bird, it wades."
 
 msgid "路牌上写着：  艮--艮为山，遇青龙而涉，遇玄武而生，遇白虎而死，遇朱雀而困。\n"
-msgstr "The signpost reads:  Gen -- Gen is Mountain. Meeting the Azure Dragon, it wades; meeting the Black Tortoise, it lives; meeting the White Tiger, it dies; meeting the Vermilion Bird, it is trapped."
+msgstr "The signpost reads: Gen—Gen is Mountain. Meeting the Azure Dragon, it wades; meeting the Black Tortoise, it lives; meeting the White Tiger, it dies; meeting the Vermilion Bird, it is trapped."
 
 msgid "路牌上写着：  坎--坎为水，遇青龙而死，遇玄武而涉，遇白虎而生，遇朱雀而困。\n"
-msgstr "The signpost reads:  Kan -- Kan is Water. Meeting the Azure Dragon, it dies; meeting the Black Tortoise, it wades; meeting the White Tiger, it lives; meeting the Vermilion Bird, it is trapped."
+msgstr "The signpost reads: Kan—Kan is Water. Meeting the Azure Dragon, it dies; meeting the Black Tortoise, it wades; meeting the White Tiger, it lives; meeting the Vermilion Bird, it is trapped."
 
 msgid "路牌上写着：  巽--巽为风，遇青龙而生，遇玄武而死，遇白虎而涉，遇朱雀而困。\n"
-msgstr "The signpost reads:  Xun -- Xun is Wind. Meeting the Azure Dragon, it lives; meeting the Black Tortoise, it dies; meeting the White Tiger, it wades; meeting the Vermilion Bird, it is trapped."
+msgstr "The signpost reads: Xun—Xun is Wind. Meeting the Azure Dragon, it lives; meeting the Black Tortoise, it dies; meeting the White Tiger, it wades; meeting the Vermilion Bird, it is trapped."
 
 msgid "路牌上写着：  震--震为雷，遇青龙而涉，遇玄武而生，遇白虎而困，遇朱雀而死。\n"
-msgstr "The signpost reads:  Zhen -- Zhen is Thunder. Meeting the Azure Dragon, it wades; meeting the Black Tortoise, it lives; meeting the White Tiger, it is trapped; meeting the Vermilion Bird, it dies."
+msgstr "The signpost reads: Zhen—Zhen is Thunder. Meeting the Azure Dragon, it wades; meeting the Black Tortoise, it lives; meeting the White Tiger, it is trapped; meeting the Vermilion Bird, it dies."
 
 msgid "路牌上写着：  离--离为火，遇青龙而死，遇玄武而涉，遇白虎而生，遇朱雀而困。\n"
-msgstr "The signpost reads:  Li -- Li is Fire. Meeting the Azure Dragon, it dies; meeting the Black Tortoise, it wades; meeting the White Tiger, it lives; meeting the Vermilion Bird, it is trapped."
+msgstr "The signpost reads: Li—Li is Fire. Meeting the Azure Dragon, it dies; meeting the Black Tortoise, it wades; meeting the White Tiger, it lives; meeting the Vermilion Bird, it is trapped."
 
 msgid "路牌上写着：  兑--兑为泽，遇青龙而困，遇玄武而生，遇白虎而死，遇朱雀而涉。\n"
-msgstr "The signpost reads:  Dui -- Dui is Marsh. Meeting the Azure Dragon, it is trapped; meeting the Black Tortoise, it lives; meeting the White Tiger, it dies; meeting the Vermilion Bird, it wades."
+msgstr "The signpost reads: Dui—Dui is Lake. Meeting the Azure Dragon, it is trapped; meeting the Black Tortoise, it lives; meeting the White Tiger, it dies; meeting the Vermilion Bird, it wades."
 
 msgid "路牌上写着：  乾--乾为天，遇青龙而死，遇玄武而困，遇白虎而涉，遇朱雀而生。\n"
-msgstr "The signpost reads:  Qian -- Qian is Heaven. Meeting the Azure Dragon, it dies; meeting the Black Tortoise, it is trapped; meeting the White Tiger, it wades; meeting the Vermilion Bird, it lives."
+msgstr "The signpost reads: Qian—Qian is Heaven. Meeting the Azure Dragon, it dies; meeting the Black Tortoise, it is trapped; meeting the White Tiger, it wades; meeting the Vermilion Bird, it lives."
 
 msgid "推"
 msgstr "Push"
@@ -21677,7 +21677,7 @@ msgid "好大的口气！"
 msgstr "Big talk!"
 
 msgid "朝寨子里扯着嗓子喊：有人叫阵——！"
-msgstr " shouts into the stockade, \"We got a challenger--!\""
+msgstr " shouts into the stockade, \"We got a challenger—!\""
 
 msgid "进去吧，聚义厅在东头。常老大一个人等你，寨里的弟兄不插手。"
 msgstr "Go on in. Brotherhood Hall's at the east end. Boss Chang waits for ya alone, and the brothers in the stockade won't butt in."
@@ -21770,13 +21770,13 @@ msgid "你现在正走在一条松树林间的小路，西边有一座小石桥�
 msgstr "You are walking along a path through a pine wood. To the west a small stone bridge spans a mountain stream; not far to the east the wood seems to end, and a dilapidated plank road runs along the cliff up the mountain. You notice wet footprints on the ground, but there are so many that you cannot tell which way they lead.\n"
 
 msgid "你现在正站在瀑布前的一个小水潭里，水潭大约深可及胸，淹不死\n人，一条白练般的瀑布从数百丈高的悬崖上冲激而下，溅\n得你全身湿透，水潭三面都被高耸的山壁所包围，只有南面沿\n著一条山涧可以出去。\n"
-msgstr "You are standing in a small pool before the waterfall. The water is about chest deep, not enough to drown you. A white ribbon of water crashes down from a cliff hundreds of feet high and soaks you through. The pool is walled in on three sides by towering rock; the only way out is south, along the stream.\n"
+msgstr "You are standing in a small pool before the waterfall. The water is about chest deep, not enough to drown you. A white ribbon of water crashes down from a cliff thousands of feet high and soaks you through. The pool is walled in on three sides by towering rock; the only way out is south, along the stream."
 
 msgid "你现在正站在一个深不见底的水潭边上，从潭底不时有气泡冒上来\n，散发著一股诡异的香味，水潭边长满了黄色叶子的怪草，四周陡峭的\n山壁近乎直立，抬头只见一个半圆形的天空，唯一的出路大概只有往北\n山泉流入水潭的缺口。\n"
 msgstr "You are standing at the edge of a bottomless pool. Bubbles rise from its depths now and then, giving off an uncanny fragrance, and weeds with yellow leaves grow thick along the water. The cliffs around you are nearly sheer; looking up you see only a half-round of sky. The only way out seems to be north, through the gap where the spring water flows into the pool.\n"
 
 msgid "你现在正站在一条山涧中的岩石上，几股泉水正从你脚边流过，水\n花溅得四处飞散，南边是一个深不见底的水潭，两边的山壁看起\n来又高又陡，看来要爬上岸边实在很不容易，你的北方有一座小石桥高\n高地跨过两边的山壁，可是桥的高度太高，即使是轻功绝顶的高手也跃\n不上去。\n"
-msgstr "You are standing on a rock in a mountain stream. Several threads of spring water run past your feet, the spray flying everywhere. To the south is a bottomless pool. The cliffs on both sides look high and steep; climbing up to the bank would be no easy matter. To your north a small stone bridge arches high across the cliffs, but it is too high to reach, even for a lightfoot master.\n"
+msgstr "You are standing on a rock in a mountain stream. Several threads of spring water run past your feet, the spray flying everywhere. To the south is a bottomless pool. The cliffs on both sides look high and steep; climbing up to the bank would be no easy matter. To your north a small stone bridge arches high across the cliffs, but it is too high to reach, even for the finest qinggong master."
 
 msgid "你现在正站在一条山涧中的岩石上，一座小石桥正高高地从你的头\n顶横跨过山涧两边的石壁，一个瀑布就在你的北方不远处，从一\n处更高的悬崖上垂了下来。\n"
 msgstr "You are standing on a rock in a mountain stream. A small stone bridge arches high over your head, spanning the rock walls on both sides, and not far to your north a waterfall drops from a still higher cliff.\n"
@@ -21799,8 +21799,8 @@ msgstr "You are clinging to the trunk of a big pine, seventy or eighty feet off 
 msgid "哇....你终于爬上这株松树的树顶了，一阵阵凉风从四面八方吹来\n，使你觉得心旷神怡，虽然你的经验告诉你在这种地方往下看是十分不\n智的，但是你还是忍不住看了一眼，这里离地面至少也有十五、六丈高\n，一阵晕眩警告你最好在跌下去以前离开这个地方。\n"
 msgstr "Wow... you have finally climbed to the top of the pine! Cool breezes blow from every side and your heart lifts. Your experience tells you that looking down from a place like this is very unwise, but you cannot help one glance. You are at least a hundred and fifty feet off the ground, and a wave of dizziness warns you to leave before you fall.\n"
 
-msgid "你现在正站在一个岩石的通道之中，在你南边有一片亮晶晶的帘幕\n(curtain)，从帘幕后面传来阵阵轰隆隆的水声，通道两边的石壁上安置\n著许多铜铸的烛台，照亮了这个岩穴，往北似乎有亮光。\n"
-msgstr "You are standing in a rock passage. To your south hangs a glittering curtain (curtain), and behind it comes the roar of water. On both walls of the passage are set many bronze candlesticks that light the grotto. To the north there seems to be light.\n"
+msgid "你现在正站在一个岩石的通道之中，在你南边有一片亮晶晶的帘幕\n，从帘幕后面传来阵阵轰隆隆的水声，通道两边的石壁上安置\n著许多铜铸的烛台，照亮了这个岩穴，往北似乎有亮光。\n"
+msgstr "You are standing in a rock passage. To your south hangs a glittering curtain, and behind it comes the roar of water. On both walls of the passage are set many bronze candlesticks that light the grotto. To the north there seems to be light."
 
 msgid "    你现在正站在一个阴森森的山洞之中, 一条昂首吐信的金银花蛇,\n爬伏在一块突出的大青石上, 令人望而生畏, 也许你该回头逃跑了。\n"
 msgstr "    You are standing in a gloomy cave. A gold-and-silver snake, head raised and tongue flicking, lies coiled on a jutting slab of bluestone, a fearsome sight. Perhaps you should turn back and run.\n"
@@ -21929,7 +21929,7 @@ msgid "你一付认真的表情，开始小心翼翼地攀著石壁爬了上去�
 msgstr "With a serious look, you start carefully climbing the rock wall."
 
 msgid "「官府告示：此处常有歹人出没。」\n"
-msgstr "\"Government notice: Villains often lurk here.\"\n"
+msgstr "\"Official notice: bandits often lurk here.\""
 
 msgid "一块旧木牌，刻着三行字：\n「往西，雪亭镇。」\n「往东，小石桥。」\n「往南，下坡道。」\n"
 msgstr "An old wooden sign with three lines carved on it:\n\"To the west, Snow Pavilion.\"\n\"To the east, the little stone bridge.\"\n\"To the south, the downhill slope.\"\n"
@@ -21950,13 +21950,13 @@ msgid "一些杂乱的脚印，不但有人的脚印，看起来还有不少马�
 msgstr "A jumble of footprints—not only men's, but, it seems, plenty of hoofprints too.\n"
 
 msgid "这个瀑布从数百丈高的山壁上冲激而下，流入一个山涧底的小水潭\n，水潭两边的石壁垂下许多的藤蔓，你注意到瀑布后面似乎\n有什么东西在发著光。\n"
-msgstr "This waterfall crashes down a cliff hundreds of feet high into a small pool at the bottom of the gorge. Many vines hang down the rock walls on both sides of the pool. You notice something behind the falls seems to be glowing.\n"
+msgstr "This waterfall crashes down a cliff thousands of feet high into a small pool at the bottom of the gorge. Many vines hang down the rock walls on both sides of the pool. You notice something behind the falls seems to be glowing."
 
 msgid "这个瀑布水势并不是很大，但是高度却极高，水珠溅在你的脸上\n打得隐隐生疼。你注意到瀑布后面似乎有什么东西在发著光。\n"
 msgstr "This waterfall is not very strong, but it is very high; the spray stings your face. You notice something behind the falls seems to be glowing.\n"
 
 msgid "水潭四周的山壁都有数百丈高，想要爬上去「肯定」是休想。\n"
-msgstr "The cliffs around the pool are hundreds of feet high. Climbing out is \"definitely\" out of the question.\n"
+msgstr "The cliffs around the pool are thousands of feet high. Climbing out is \"definitely\" out of the question."
 
 msgid "这里的山壁比北边高度稍低了点，但是对凡人而言想要爬上去仍然\n还有一段差距。\n"
 msgstr "The cliff here is a bit lower than in the north, but for a mortal it is still a long way up.\n"
@@ -23485,8 +23485,8 @@ msgstr "You have come to the gate of the Chancellor's House. Although the Chance
 msgid "你现在正走在京师的街道上。东边是进出紫禁城的午门，西边则\n是当朝地位显赫的相国的府宅，而北边不远处“太白酒楼”的喧哗声\n依稀可闻。\n"
 msgstr "You are walking on a street in the Capital. To the east is the Meridian Gate, the way in and out of the Palace City, and to the west is the residence of the Chancellor, a man of high standing at court. Not far to the north you can faintly hear the din of Taibai Tavern.\n"
 
-msgid "这里是京师的午门。午门进出紫禁城的要道，北面那庄严的大门\n(gate)后面便是神秘的紫禁城。大门的两侧放着一对石狮，\n虎视眈眈地盯着来往的人群。南面是历年选武状元的校武场，也不知\n现在有没有人。东西向的街道围绕着紫禁城。\n"
-msgstr "This is the Meridian Gate of the Capital. This is the main way in and out of the Palace City, and behind the solemn great gate to the north (gate) lies the mysterious Palace City. A pair of stone lions stand on either side of the gate, glaring at the people who come and go. To the south is the Drill Ground, where the Martial Champions were chosen in past years, and who knows whether anyone is there now. The streets east and west run around the Palace City.\n"
+msgid "这里是京师的午门。午门进出紫禁城的要道，北面那庄严的大门\n后面便是神秘的紫禁城。大门的两侧放着一对石狮，\n虎视眈眈地盯着来往的人群。南面是历年选武状元的校武场，也不知\n现在有没有人。东西向的街道围绕着紫禁城。\n"
+msgstr "This is the Meridian Gate of the Capital. This is the main way in and out of the Palace City, and behind the solemn great gate to the north lies the mysterious Palace City. A pair of stone lions stand on either side of the gate, glaring at the people who come and go. To the south is the Drill Ground, where the Martial Champions were chosen in past years, and who knows whether anyone is there now. The streets east and west run around the Palace City.\n"
 
 msgid "这是京师东街的南段。整个东街都被掌管天下兵马印的尚书府占\n据了，东边便是尚书府的大门，南边则是尚书府高耸的围墙，\n北去的道路一直通向振远总局。\n"
 msgstr "This is the southern stretch of the Capital's East Street. The whole of East Street is taken up by the Minister's Mansion, which holds the seal of the empire's armies. To the east is the mansion's gate, and to the south is the mansion's towering wall. The road to the north runs straight to the Far-Road Head Office.\n"
@@ -35588,7 +35588,7 @@ msgid "林忌说了地牢里新关的三个人，和账房铁匣里那本名册�
 msgstr "Lin Ji told of three people newly locked in the dungeon, and of the original register in the iron box in the Counting Room."
 
 msgid "地牢里新关了三个人。牢门的钥匙在狱卒腰上：给他一袋酒（或者往石阶边他那只酒坛里下蒙汗药），他醉倒了，钥匙就是你的；子时他歪在长凳上打盹，钥匙挂在头顶的铁钉上；第三章那把钥匙还在身上的，也开得了。狱卒醒着的时候，谁也近不了牢门。开了门，他们自己从货栈的侧门走。"
-msgstr "Three people have been newly locked in the dungeon. The cell key is on the jailer's belt: give him a skin of wine (or drug the wine jar by the stone steps with knockout drops), and when he passes out the key is yours; at midnight he dozes slumped on the bench, with the key on the iron nail above his head; if you still have the key from Chapter 3, it opens them too. While the jailer is awake, no one gets near the cells. Once the doors are open, they will leave on their own by the Storehouse side door."
+msgstr "Three people have been newly locked in the dungeon. The cell key is on the jailer's belt: give him a skin of wine (or drug the wine jar by the stone steps with knockout powder), and when he passes out the key is yours; at midnight he dozes slumped on the bench, with the key on the iron nail above his head; if you still have the key from Chapter 3, it opens them too. While the jailer is awake, no one gets near the cells. Once the doors are open, they will leave on their own by the Storehouse side door."
 
 msgid "地牢里新关的三个人，从货栈的侧门走了。"
 msgstr "The three newly locked in the dungeon have left by the Storehouse side door."
@@ -37976,16 +37976,16 @@ msgid "你给雪亭镇的醉汉送酒，他悄声说：玉佩他卖给沈老板�
 msgstr "You bring wine to the drunk in Snow Pavilion. He whispers that he sold the jade pendant to Boss Shen, and that the thing is unlucky."
 
 msgid "你又给醉汉送酒，他悄声说：听说沈记商行有在卖蒙汗药。"
-msgstr "You bring the drunk more wine. He whispers that he has heard Shen's Store sells knockout drops."
+msgstr "You bring the drunk more wine. He whispers that he has heard Shen's Store sells knockout powder."
 
 msgid "你向沈记商行的沈万年问起玉佩，得到了那块刻著行气口诀的玉佩。"
 msgstr "You ask Shen Wannian of Shen's Store about the jade pendant, and get the pendant carved with a formula for moving qi."
 
 msgid "你向沈万年打听蒙汗药，他悄声说一份只要十两银子，保证有效。"
-msgstr "You ask Shen Wannian about knockout drops. He whispers that a dose costs only ten taels of silver, guaranteed to work."
+msgstr "You ask Shen Wannian about knockout powder. He whispers that a dose costs only ten taels of silver, guaranteed to work."
 
 msgid "你付给沈万年十两银子，他塞给你一包蒙汗药。"
-msgstr "You pay Shen Wannian ten taels of silver, and he slips you a packet of knockout drops."
+msgstr "You pay Shen Wannian ten taels of silver, and he slips you a packet of knockout powder."
 
 msgid "你依着路牌穿过了山路尽头的迷阵。"
 msgstr "Following the signposts, you make it through the Trigram Maze at Road's End."
@@ -38291,7 +38291,7 @@ msgid "身体的力气。挨打掉的是气，练功、打坐也耗气。"
 msgstr "The strength of your body. Getting hit costs Qi, and practicing and meditating cost Qi too."
 
 msgid "心神。研读、冥思都耗神，迷药和蒙汗药伤的也是神。"
-msgstr "The mind. Reading and contemplating cost Spirit, and drugs and knockout drops harm Spirit too."
+msgstr "The mind. Reading and contemplating cost Spirit, and drugs and knockout powder harm Spirit too."
 
 msgid "当前、有效、最大"
 msgstr "Current, Effective, Max"
