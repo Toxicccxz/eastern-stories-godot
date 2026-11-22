@@ -366,7 +366,16 @@ static func _limb_and_weapon(text: String, limb: String, weapon: String) -> Stri
 ## adm/simul_efun/message.c message_vision(msg, me, you) as the player sees it:
 ## as me, as you, or as someone else in the room. `message` is already in the shown
 ## language; the names, 你 and the pronouns go in translated.
+## An English line's grammar forms (MessageGrammar) go first; a sentence it opens with "you"
+## or a name in lower case comes out capitalised.
 static func vision(message: String, me: StringName, you: StringName, cast: BattlePresentationProjection) -> String:
+	var viewer: StringName = cast.player_id
+	var target: MessageGrammar.Role = null if you.is_empty() else MessageGrammar.Role.new(viewer == you, cast.gender(you))
+	message = MessageGrammar.resolve(message, MessageGrammar.Role.new(viewer == me, cast.gender(me)), target)
+	return MessageGrammar.capitalize(_filled(message, me, you, cast))
+
+
+static func _filled(message: String, me: StringName, you: StringName, cast: BattlePresentationProjection) -> String:
 	var viewer: StringName = cast.player_id
 	var my_name: String = _t(cast.display_name(me))
 	# TRANSLATORS: message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.

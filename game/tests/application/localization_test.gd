@@ -55,6 +55,11 @@ func _catalog() -> void:
 	var source: LanguageDefinition = catalog.find("zh_CN")
 	check(catalog.default_code() == "zh_CN" and source != null and source.is_source() and source.name == "简体中文", "languages.json: Simplified Chinese is the source, by its own name")
 	check(not source.font_names.is_empty(), "the source language names its fonts")
+	var english: LanguageDefinition = catalog.find("en")
+	check(english != null and english.preview and not english.is_source() and ResourceLoader.exists(english.translation_path), "English is listed in preview, with its .po")
+	check(LanguageResolver.resolve("en_US", catalog) == "zh_CN", "a language in preview is never given to a system on its own")
+	var both: LanguageCatalog = LanguageCatalog.source_only().with_language(_language("en", ""))
+	check(LanguageResolver.resolve("en_US", both) == "en", "once out of preview, an English system gets it")
 	var broken: LanguageCatalog = LanguageCatalog.load_from("res://locale/no_such_languages.json")
 	check(broken.languages().size() == 1 and broken.find("zh_CN") != null, "an unreadable list leaves the source language")
 
@@ -135,7 +140,8 @@ func _shell_screens(tree: SceneTree) -> void:
 	shell.configure_before_start(profile, files, null, settings, null, catalog)
 	tree.root.add_child(shell)
 	await _frames(tree, 4)
-	var allowed := PackedStringArray(["简体中文", "伪语言"])
+	# The title's line is the title in the other language, never translated (title_screen.json).
+	var allowed := PackedStringArray(["简体中文", "English (preview)", "伪语言", "东方故事"])
 	check(TranslationServer.get_locale() == PseudoLocale.CODE, "the shell starts in the kept language")
 	_scan(shell, allowed, "main menu")
 	check(shell.request_new_game_from_menu() and shell.result_overlay.visible, "New Game over a save asks first")
@@ -145,18 +151,18 @@ func _shell_screens(tree: SceneTree) -> void:
 	check(shell.request_settings_from_main_menu() and shell.language_row.visible, "Settings shows the language row")
 	_scan(shell, allowed, "Settings")
 	var option: OptionButton = shell.language_option
-	check(option.item_count == 3 and String(option.get_item_metadata(option.selected)) == PseudoLocale.CODE, "跟随系统 and both languages, the kept one selected")
+	check(option.item_count == 4 and String(option.get_item_metadata(option.selected)) == PseudoLocale.CODE, "跟随系统 and the three languages, the kept one selected")
 	option.select(0)
 	check(shell.apply_settings() and TranslationServer.get_locale() == "zh_CN", "跟随系统 applies at once (an English or Chinese system reads Simplified)")
 	check(settings.files.has(ApplicationSettingsRepository.SETTINGS_PATH) and ApplicationSettingsRepository.new(settings).load().snapshot().language() == "", "and is kept")
 	shell.free()
 	await _frames(tree, 2)
-	# As shipped: Simplified Chinese alone, still listed in Settings.
+	# As shipped: Simplified Chinese and English in preview, listed in Settings.
 	var shipped: ApplicationShellController = SHELL.instantiate()
 	shipped.configure_before_start(GameSaveStorageProfile.isolated_test("localization-shipped"), ShellTests.MemoryFiles.new(), null, ShellTests.MemoryFiles.new())
 	tree.root.add_child(shipped)
 	await _frames(tree, 4)
-	check(shipped.request_settings_from_main_menu() and shipped.language_row.visible and shipped.language_option.item_count == 2, "as shipped, Settings lists 跟随系统 and 简体中文")
+	check(shipped.request_settings_from_main_menu() and shipped.language_row.visible and shipped.language_option.item_count == 3, "as shipped, Settings lists 跟随系统, 简体中文 and English (preview)")
 	check(String(shipped.language_option.get_item_metadata(shipped.language_option.selected)) == LocalizationService.FOLLOW_SYSTEM, "following the system by default")
 	shipped.free()
 	await _frames(tree, 2)

@@ -122,7 +122,7 @@ func raised_heal_up(npc: NpcRuntimeState, count: int) -> void:
 			return
 		if _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 			continue
-		_map.hud().append_colored_lines([ColoredLine.new(tr(raising.tell).replace("$N", tr(npc.definition().display_name)), raising.color)])
+		_map.hud().append_colored_lines([ColoredLine.new(MessageGrammar.fill(tr(raising.tell), MessageGrammar.other(npc.character_state.gender), tr(npc.definition().display_name)), raising.color)])
 		raising.drain(_player.state)
 	# receive_damage("gin", 1) can leave the master below zero: char.c's next beat.
 	_map.combat_lifecycle.player_fall_below_zero()
@@ -133,7 +133,7 @@ func dispell(npc: NpcRuntimeState) -> void:
 	if npc == null or npc.definition().raising() == null or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 		return
 	if _map.npc_life.player_hears(npc):
-		_map.hud().append_log_lines([tr(npc.definition().raising().dissolve).replace("$N", tr(npc.definition().display_name))])
+		_map.hud().append_log_lines([MessageGrammar.fill(tr(npc.definition().raising().dissolve), MessageGrammar.other(npc.character_state.gender), tr(npc.definition().display_name))])
 	_map.npcs.destruct_summoned(npc)
 
 
@@ -330,7 +330,7 @@ func attach_sheet(sheet_id: StringName) -> bool:
 		push_error("putting %s on %s failed: the item state is inconsistent" % [sheet_id, carrier.character_id])
 	carrier.set_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER, false)
 	carrier.set_flag(NpcDefinition.FLAG_SENT, true)
-	var line: String = tr(HauntScribe.KILL_LINE).replace("$N", tr(carrier.definition().display_name)).replace("$n", tr(target.definition().display_name))
+	var line: String = MessageGrammar.fill(tr(HauntScribe.KILL_LINE), MessageGrammar.other(carrier.character_state.gender), tr(carrier.definition().display_name), MessageGrammar.other(target.character_state.gender), tr(target.definition().display_name))
 	_map.hud().append_colored_lines([ColoredLine.new(line, ColoredLine.RED)])
 	session.combat_encounter_coordinator().note_opening([line], [])
 	return true
@@ -349,7 +349,7 @@ func _player_side() -> SpecialSide:
 
 ## message_vision() as the player reads it: 你 for $N, `target` for $n.
 func _vision(template: String, target: String) -> String:
-	return tr(template).replace("$N", tr("你")).replace("$n", target)
+	return MessageGrammar.fill(tr(template), MessageGrammar.you(), tr("你"), MessageGrammar.other(), target)
 
 
 ## A spell's or 符's cost can leave the player below zero: char.c's next beat lets them fall.

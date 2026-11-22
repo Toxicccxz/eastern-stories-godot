@@ -17,6 +17,7 @@
 - 标题画面：开场满屏云，云从太阳处散开、光柱从 logo 笔画间射到沙盘上（拨云见日）；logo 是平面的水墨题字，不做浮雕和金属质感：标题（中文云峰飞云体毛笔字「东方故事」，粗犷带毛边，四个字大小不同、挨得紧、沿中线小幅起伏，带一点枯笔飞白；英文 Cinzel 大写 EASTERN STORIES；按语言一种为主）下方一行另一种语言拉开到和标题同宽，右下朱红「侠」印；标题和菜单在左侧排成一列（手机上也是；比 16:9 宽的屏幕上标题保持 16:9 时的大小和位置，多出的宽度给沙盘），屏幕左侧一层暮色渐变，沙盘留在右边。开场以云为纸：黑墨从笔画中心洇开、从左到右写成，副标浮现，印章独占一拍盖下；云散时一道金色光带从左扫过，墨字变成宣纸白、暮色随之出现，之后菜单才出；选项切换时金光扫过、选项天气等菜单出来才飘；菜单是左下一列像素体素字，选中时朱笔垫底、镜头飞到那一项的地方并写出地名、那里的天气从这一项飘出；开始旅程时字微亮、从左到右化作云烟升散（此时太阳压低），烟散后云才合拢、白光后进世界，开始本身不等动画。「标题画面」「手机试玩：标题菜单和手柄」
 - 界面是做旧的乌木、铁、青铜、朱漆和纸：框里乌木长板、四角包锈铁的窗口，铆钉铁板按钮（下沿流锈，按下下沉），长铜绿的青铜小按钮，掉漆的朱漆主要按钮，暗红危险按钮，撕边纸气泡；轮廓有缺角，面上按控件撒裂纹、锈斑、砍痕等痕迹；灯火黄方框加晃动箭头的焦点。所有文字是缝合像素 12 px（18 / 36 两档，霞鹜文楷补缺字），界面缩放对齐到整数个屏幕像素一个字点。颜色只在 `UiPalette`，样式只在 `GameTheme`。「像素界面」游戏菜单开着时状态卡和提示收起；角色、武学、任务分成凹槽卡片，武学左技能右修炼，背包和百科都是左列表右正文、选中即读（「背包」；B / Esc 关菜单），系统按钮居中一列。世界里的 HUD 卡片、交互窗口、对话框（名牌）、气泡（纸）、提示条也换成方块；交互窗口约占屏幕六成，标题是名字加强弱小牌（放不下时从前面整段截掉称号，名字留全，整个称号在悬停里），「E 交互」在目标脚下，不再有光圈（「交互闪光点」）；会拼命、会昏倒、会丢东西的确认用暗红。战斗面板也用这一套：卡片按内容收紧、居中并排，目标是灯火色边，招式和姿态选中是朱漆。「界面样式」
 - 简体中文是源语言，消息 ID 就是源文本；`tools/l10n/extract_pot.py` 是唯一的提取器；语言跟系统或设置。「Localization: the source text is the key」
+- 英文（预览）：设置里能选，系统是英文也不自动给；口吻、嗓音分级、译名和术语照 [english_style](../production/english_style.md)；ES2 模板的动词形式、代词和 your 由 MessageGrammar 按谁是「你」选，中文输出不变。「English (preview)」
 
 **全局驱动规则**
 - MudOS `random(n)` 在 n ≤ 0 时为 0 且不抽数；每个移植的 `random()` 都走 `legacy_random(n)`。「MudOS random(n <= 0) is 0, everywhere」
@@ -322,6 +323,21 @@
 - 岚城（原生）：寻风地带一张图——幻影道、风口、石林雾野、卜风坛、兵部旧营、三处石坳（A）；镜子里的上道在第九章做完后通幻影道；白石街（白石门、两折长街、铃匠铺、萧家旧院、街尾）与风铃阁（十铃架、静室）两张图，伏地进城、白石门出城回到风停的那处石坳（B）；风铃阁西墙的梯子上云台（台心旋风里转着旋芒、云边「乘风」回天驼关镜子前）（C）。「第十章 A」「第十章 B」「第十章 C」
 - 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
 - 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
+## English (preview) (owner 2026-11-20「开始翻译游戏文本，先搞英文」, 2026-11-21 译名定稿)
+
+- The tone, voice levels, names and terms were settled with Muse and the owner (english_style.md): plain,
+  period, spoken; Wuxia Society's frame for schools (School / Order / Guild, Sect and Cult only from
+  those who condemn them); maps use English picture names, pinyin only for people and in speech;
+  ES2's own English coinages kept (Waterfog, Latemoon, Goathill); 内力 Inner Force, 师父 Shifu, 掌门 Master.
+- ES2's templates fill $N with 你 or a name and need no grammar in Chinese. English marks verb forms and
+  pronouns (`{N:flick|flicks}`, `{n:his}`) and `MessageGrammar` resolves them for who is the player at
+  every site that fills $N/$n; a Chinese line is untouched. A sentence opening with "you" is capitalised.
+- English is listed with `"preview": true`: chosen by hand only, never given to an English system on its
+  own, until it is complete. The pilot covers the shell, the opening, the inn and Pure Wind Hall's people,
+  the first-days quests and the fight screen (about 1,000 messages of 13,589); the second batch adds all of Snow Pavilion, the game menu pages, training, common items and the Empty Mountain and basic arts (about 2,200).
+- The title's other-language line is never translated (it is the title in the other language).
+- Switching the language mid-game (Settings) also re-reads what was put together before and still shows: the room panel at the top, the ways-out names over the map and an open 打听 list. The log and toasts keep their lines (as before).
 
 ## 手机画质 (owner 2026-11-20 在一加 8T 上试玩：「帮我做一点针对手机的优化，我的 OnePlus 8T 性能还不算太落后，应该能流畅的跑起来才行」；接着草稿 PR #161 的做法)
 

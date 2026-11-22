@@ -189,7 +189,7 @@ static func player_side(player: WorldPlayerRuntimeState) -> SpecialSide:
 func _vision_lines(context: SpecialContext) -> Array[ColoredLine]:
 	var lines: Array[ColoredLine] = []
 	for line: VisionLine in context.report().lines():
-		lines.append(ColoredLine.new(tr(line.template).replace("$N", tr("你")), line.color))
+		lines.append(ColoredLine.new(MessageGrammar.fill(tr(line.template), MessageGrammar.you(), tr("你")), line.color))
 	return lines
 
 

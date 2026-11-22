@@ -25,6 +25,8 @@ const QUEST_ARROW_SCALE: float = 1.25
 const QUEST_SPIN: float = 2.4
 @export_file("*.json") var layout_path: String
 var map: WorldMapController
+## The ways-out names over the map (their source name in meta entrance_title).
+var _entrance_labels: Array[Label3D] = []
 ## 第十章 A: the guiding wind as shown, easing toward the rule's (WorldMapWinds.vector()).
 var _wind_shown: Vector2 = Vector2.ZERO
 var camera: Camera3D
@@ -175,6 +177,14 @@ func _exit_tree() -> void:
 	_deactivate()
 	if _building:
 		release_world()
+
+## The language changed mid-game (Settings): the ways out read their names again.
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_TRANSLATION_CHANGED:
+		return
+	for label: Label3D in _entrance_labels:
+		if is_instance_valid(label):
+			label.text = tr(String(label.get_meta(&"entrance_title", ""))) + "  ›"
 
 func _process(delta: float) -> void:
 	if map == null or map.player_body == null or not map.player_body.player_controlled:
@@ -1345,6 +1355,7 @@ func _draw_object(node: Node3D, id: StringName, corpse: bool) -> void:
 	s.flush()
 
 func _make_entrances() -> void:
+	_entrance_labels.clear()
 	for node: Node in geometry.areas:
 		var passage := node as WorldPassageArea2D
 		if passage == null:
@@ -1359,6 +1370,10 @@ func _make_entrances() -> void:
 		marker.position = VoxelMapGeometry.point(passage.global_position)
 		world.add_child(marker)
 		var label: Label3D = _label(marker,title+"  ›",float(settings.get("label_height",1.6)))
+		# The source name, read again when the language changes (_notification).
+		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+		label.set_meta(&"entrance_title", String(settings.get("title",zone.display_name)))
+		_entrance_labels.append(label)
 		label.modulate = Color("f6d98e")
 		label.font_size = 36
 		label.outline_size = 9
