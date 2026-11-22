@@ -336,6 +336,17 @@
 - English is listed with `"preview": true`: chosen by hand only, never given to an English system on its
   own, until it is complete. The pilot covers the shell, the opening, the inn and Pure Wind Hall's people,
   the first-days quests and the fight screen (about 1,000 messages of 13,589); the second batch adds all of Snow Pavilion, the game menu pages, training, common items and the Empty Mountain and basic arts (about 2,200).
+- All 13,590 messages are translated (2026-11-22). Owner the same day: no leaning to free or literal
+  translation, an established English name first, check often, Muse reviews each batch; so the style
+  guide ranks names (official > published translations > community > our own, for the same thing only:
+  养心殿 Hall of Mental Cultivation, 心经 Heart Sutra, 武状元 Martial Champion, 市舶司 Maritime Trade
+  Office, 内功 neigong, 轻功 qinggong, 两 taels; 紫禁城 is not the Forbidden City, our capital is made
+  up), `check_po.py` also fails on modern words (dude, okay...), and every batch is sampled against
+  the Chinese before merging.
+- In English a number the Chinese writes in characters (十文, 第三代) is shown in digits
+  (`ChineseNumber.of`); Chinese is unchanged.
+- ES2 typos are read as meant in English only (乔阴 east gate written 北门 twice: "East Gate");
+  the Chinese text stays as it is.
 - The title's other-language line is never translated (it is the title in the other language).
 - Switching the language mid-game (Settings) also re-reads what was put together before and still shows: the room panel at the top, the ways-out names over the map and an open 打听 list. The log and toasts keep their lines (as before).
 
