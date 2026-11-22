@@ -335,7 +335,7 @@ msgid "在黄石隘口看着官队挖出石匣、又被黑衣道士抢走"
 msgstr "Watched the officials dig up a stone casket at Yellow Rock Pass—and a Daoist in black snatch it away"
 
 msgid "跟店小二打听广场上的「官爷」。"
-msgstr "Ask the waiter about the \"The Officials\" in the square."
+msgstr "Ask the waiter about \"The Officials\" in the square."
 
 msgid "店小二说外头广场上来了大内的官爷，叫你去瞧瞧。"
 msgstr "The waiter says officials from the Palace have turned up in the square outside, and you should go take a look."
@@ -15080,7 +15080,7 @@ msgid "宝衣在瑷伦身上"
 msgstr "Ailun is wearing the robe"
 
 msgid "她在晚月庄东厢等你去叫（问她「湖底」）"
-msgstr "She's waiting in the east wing of Latemoon Manor for you to call her (ask her about the \"The Lakebed\")"
+msgstr "She's waiting in the east wing of Latemoon Manor for you to call her (ask her about \"The Lakebed\")"
 
 msgid "宝衣在安妮儿身上，她在岸边"
 msgstr "Anni'er is wearing the robe; she's on the shore"
