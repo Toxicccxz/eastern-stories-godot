@@ -106,7 +106,7 @@ static func bubble_text(line: String) -> String:
 	var mark: int = text.find(said)
 	if mark >= 0 and mark <= SPEECH_MARK_REACH:
 		text = text.substr(mark + said.length()).strip_edges()
-		var closing: String = {"“": "”", "\"": "\"", "「": "」"}.get(said.right(1), "")
+		var closing: String = {"“": "”", "\"": "\"", "「": "」"}.get(said.right(1), "")  # NO_TRANSLATE: quote marks
 		if not closing.is_empty() and text.ends_with(closing):
 			text = text.left(-1).strip_edges()
 	return KoreanText.shown(text)

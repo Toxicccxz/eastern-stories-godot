@@ -21,7 +21,7 @@ extends RefCounted
 const PAIRS: Array[Array] = [
 	["은", "는"], ["이", "가"], ["을", "를"], ["과", "와"], ["아", "야"], ["이여", "여"], ["이었", "였"],
 ]
-const _CLOSERS: String = "』」”’\"')]>》〉"
+const _CLOSERS: String = "』」”’\"')]>》〉"  # NO_TRANSLATE: closing quotes and brackets
 
 static var _pattern: RegEx
 
