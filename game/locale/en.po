@@ -308,13 +308,13 @@ msgid "时间是天朝佑圣元年，岁次甲子，年仅十六岁的皇帝刚�
 msgstr "It was the first year of the Yousheng reign. The Emperor, only sixteen, had just taken the throne. Snow Pavilion bustled with comings and goings. In the square at the edge of town sat a troop of imperial officers in white, and two old men. Among the people drifting past, more than a few were plainly of the wulin, craning their necks toward the square."
 
 msgid "马上乘客一跃而下，快步走到老者身前，躬身说道：「禀将军，时辰已到，白道长命下官回禀，方位是在....」，说著压低了声音。"
-msgstr "The rider leapt from the saddle, strode up to the old men and bowed. \"General, the hour has come. Daoist Bai sends me to report that the bearing is....\" And here he lowered his voice."
+msgstr "The rider leapt from the saddle, strode up to the old men and bowed. \"General, the hour has come. Daoist Bai sends me to report that the bearing is...\" And here he lowered his voice."
 
 msgid "广场西边一家小客栈里，一个年约十四岁的少年问店里的小二道：「这些人神秘得紧，却不知到底在玩什麽把戏？」"
 msgstr "In a small inn on the west side of the square, a youth of about fourteen asked the waiter, \"These folks are awful mysterious. What game are they playing?\""
 
 msgid "小二抄起脖子上的毛巾，抹了抹脸，说道：「小哥您有所不知，这些个爷儿们可是大内来的高手，这次是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的，那骑马的官爷所称的白道长，便是咱们这附近有名的太乙观观主....」"
-msgstr "The waiter pulled the towel off his neck and mopped his face. \"You wouldn't know, friend—these fine gentlemen are masters from the Palace itself. His Majesty sent them to the Wind City, the Wind City, to find some sword they call Whirling Edge. And the Daoist Bai that rider mentioned, he's the abbot of Taiyi Abbey, famous round these parts....\""
+msgstr "The waiter pulled the towel off his neck and mopped his face. \"You wouldn't know, young sir—these fine gentlemen are masters from the Palace itself. His Majesty sent them to the Wind City, to find some sword they call Whirling Edge. And the Daoist Bai that rider mentioned, he's the abbot of Taiyi Abbey, famous round these parts...\""
 
 msgid "少年奇道：「岚城？那是什麽地方？怎麽我从小到大不曾听过有这个地方？」"
 msgstr "The youth was puzzled. \"The Wind City? Where's that? I've never heard of it in my whole life.\""
@@ -599,7 +599,7 @@ msgid "刘安禄眼中突然放出异样的光芒，颤声说道：看来...你�
 msgstr "A strange light flares in Liu Anlu's eyes. His voice shakes. \"So... you know everything?\""
 
 msgid "刘安禄大喝一声，叫道：既然如此，老子今天豁出去了，纳命来！"
-msgstr "Liu Anlu lets out a roar. \"Fine, then! Today I got nothin' left to lose—come and die!\""
+msgstr "Liu Anlu lets out a roar. \"Fine, then! Today I've got nothing left to lose—come and die!\""
 
 msgid "刘安禄使开单刀，招数精奇，沈猛狠辣，和刚才简直判若两人！"
 msgstr "Liu Anlu cuts loose with his saber—tricky, savage, ruthless. He's a different man from a moment ago!"
@@ -608,7 +608,7 @@ msgid "刘安禄沉默了半晌，低声道：野羊寨的大寨主霍铮，是�
 msgstr "Liu Anlu is silent a long while. Then, low: \"Huo Zheng, Chief of Goathill Stockade—he's my sworn big brother.\""
 
 msgid "半年前，北麓那座黑砖道观的道士上山要人。大哥跟他们走了，再没回来。那伙人自称逆灵宫。"
-msgstr "Half a year back, Daoists from that black-brick abbey on the north slope came up the mountain asking for him. Big Brother went with 'em and never came back. That lot calls itself the Black Palace."
+msgstr "Half a year back, Daoists from that black-brick abbey on the north slope came up the mountain asking for him. Big Brother went with them and never came back. That lot calls itself the Black Palace."
 
 msgid "黄霸——老三——把寨子接了过去，每年给道观纳供，金帛、牲口，要什么送什么。我不肯伺候那群臭道士，就下了山。"
 msgstr "Huang Ba—our Third—took over the stockade. Pays the abbey tribute every year: gold, silk, livestock, whatever they want. I wasn't gonna wait on those stinking Daoists hand and foot, so I came down the mountain."
@@ -671,7 +671,7 @@ msgid "外头广场上来了官爷，一队白衣的武官，还有两位老者�
 msgstr "There's officials out in the square—a troop of officers in white, and two old gents sitting with them. Masters from the Palace, they say. If you've got the time, $RESPECT, go have a look. Quite the show."
 
 msgid "小哥您有所不知，这些个爷儿们是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的。他们等的白道长，便是咱们这附近有名的太乙观观主。"
-msgstr "You wouldn't know, friend—these fine gentlemen are on His Majesty's own orders, off to the Wind City to find some sword they call Whirling Edge. The Daoist Bai they're waiting on, he's the abbot of Taiyi Abbey, famous round these parts."
+msgstr "You wouldn't know, young sir—these fine gentlemen are on His Majesty's own orders, off to the Wind City to find some sword they call Whirling Edge. The Daoist Bai they're waiting on, he's the abbot of Taiyi Abbey, famous round these parts."
 
 msgid "$RESPECT，您来的那天傍晚说是来投淳风武馆的，饭没吃完就困得睁不开眼，是小的扶您上的楼。这封信落在桌上了，小的一直替您收着呢。"
 msgstr "The evening you got here, $RESPECT, you said you'd come to join Pure Wind Hall—then you could hardly keep your eyes open before you'd finished supper, and I helped you up the stairs. You left this letter on the table. I've been keeping it for you."
@@ -794,7 +794,7 @@ msgid "好。北宗的座，听你的。"
 msgstr "All right. The North Branch's seat is yours to call."
 
 msgid "……"
-msgstr "......"
+msgstr "..."
 
 msgid "这是爹爹收起来的那一卷……你从哪里拿来的？还回去吧。"
 msgstr "This is the book Father put away... Where did you get it? Put it back."
@@ -2426,7 +2426,7 @@ msgid "刘安禄望着北边，低声道：大哥……\n"
 msgstr "Liu Anlu looks north and says under his breath, \"Big Brother...\""
 
 msgid "刘安禄叫道：老子已经认输了，你还要怎样！\n"
-msgstr "Liu Anlu shouts, \"I already gave up! What more d'you want from me?!\""
+msgstr "Liu Anlu shouts, \"I already gave up! What more do you want from me?!\""
 
 msgid "你看到一位身材高大的汉子，正在辛苦地操练著。\n"
 msgstr "You see a big, strapping man hard at his drills."
@@ -3836,10 +3836,10 @@ msgid "回到上次自动存档"
 msgstr "Back to the Last Autosave"
 
 msgid "慢慢地你终於又有了知觉...."
-msgstr "Slowly, you feel your senses coming back...."
+msgstr "Slowly, you feel your senses coming back..."
 
 msgid "你的眼前一黑，接著什麽也不知道了...."
-msgstr "Everything goes black, and then you know nothing more...."
+msgstr "Everything goes black, and then you know nothing more..."
 
 msgid "（约 %d 秒后醒来）"
 msgstr "(waking in about %d s)"
@@ -3848,7 +3848,7 @@ msgid "（仍然昏迷不醒……）"
 msgstr "(still out cold...)"
 
 msgid "你的眼前一黑，接著什麽也不知道了....\n\n{wake}"
-msgstr "Everything goes black, and then you know nothing more....\n\n{wake}"
+msgstr "Everything goes black, and then you know nothing more...\n\n{wake}"
 
 msgid "你死了。"
 msgstr "You are dead."
@@ -4244,7 +4244,7 @@ msgid "你四处看看, 实在找不到地方挂绳子说..."
 msgstr "You look all around, but there's nowhere to hang the rope..."
 
 msgid "你把绳子一端挂好, 另一端往脖子上一套....."
-msgstr "You tie one end of the rope up, and slip the other round your neck....."
+msgstr "You tie one end of the rope up, and slip the other round your neck..."
 
 msgid "{npc}捡起{item}。"
 msgstr "{npc} picks up {item}."
@@ -5054,13 +5054,13 @@ msgid "醉汉"
 msgstr "Drunk"
 
 msgid "一个喝得醉醺醺的年轻人.....\n"
-msgstr "A young man, drunk as a lord....."
+msgstr "A young man, drunk as a skunk..."
 
 msgid "酒..... 给我酒...."
-msgstr "Wine..... gimme wine...."
+msgstr "Wine... give me wine..."
 
 msgid "去去去去去.. 我又不是收破烂的..."
-msgstr "Go 'way, go 'way... I ain't a junk man..."
+msgstr "Go away, go away... I ain't a junk man..."
 
 msgid "真没诚意, 剩么一点... "
 msgstr "Cheapskate, that's all you got..."
@@ -5075,7 +5075,7 @@ msgid "嗯.. 你是想问我玉佩的事吧? 我卖给沈老板了, 那东西不
 msgstr "Mm... you're askin' about the jade pendant, huh? Sold it to Boss Shen. Thing was bad luck..."
 
 msgid "多谢啦....."
-msgstr "Thanks a lot....."
+msgstr "Thanks a lot..."
 
 msgid "这个人不但自己收破烂，身上也穿得破烂不堪。\n"
 msgstr "Not only does this man collect junk, he's dressed in it."
@@ -5282,13 +5282,13 @@ msgid "你看到一个粗壮的大汉，身上穿著普通樵夫的衣服。\n"
 msgstr "You see a big, sturdy man in a common woodcutter's clothes."
 
 msgid "樵夫说道：野羊山那群臭道士真是该千刀万剐....\n"
-msgstr "The woodcutter says, \"Those stinking Daoists on Goathill ought to be cut into a thousand pieces....\""
+msgstr "The woodcutter says, \"Those stinking Daoists on Goathill ought to be cut into a thousand pieces...\""
 
 msgid "樵夫说道：不知道那些牛鼻子施了什么妖法，前天回家差点迷了路。\n"
 msgstr "The woodcutter says, \"Don't know what spell those ox-noses cast—day before yesterday I nearly got lost on my way home.\""
 
 msgid "樵夫说道：唉....日子越来越不好过罗。\n"
-msgstr "The woodcutter says, \"Sigh.... Life gets harder every day.\""
+msgstr "The woodcutter says, \"Sigh... Life gets harder every day.\""
 
 msgid "雪亭驿长"
 msgstr "Postmaster"
@@ -5321,7 +5321,7 @@ msgid "信送到了么？陈镖头的镖局就在绮云镇街上。"
 msgstr "Delivered the letter yet? Escort Chief Chen's agency is on the street in Cloudweave Town."
 
 msgid "正好有封信，要送到绮云镇振远镖局陈镖头手里。驿里就我一个走不开——你若肯跑这一趟，回来给你一两脚钱。出镇往南过卧龙岗，岗上有强人，别跟他们纠缠，走你的路就是。"
-msgstr "As it happens, there's a letter for Escort Chief Chen at the Zhenyuan Escorts in Cloudweave Town. I'm the only one here and I can't get away—if you'll make the run, there's a tael in it for you when you get back. Head south out of town over Crouching Dragon Ridge. There are robbers on the ridge; don't tangle with them, just keep walking."
+msgstr "As it happens, there's a letter for Escort Chief Chen at the Far-Road Escorts in Cloudweave Town. I'm the only one here and I can't get away—if you'll make the run, there's a tael in it for you when you get back. Head south out of town over Crouching Dragon Ridge. There are robbers on the ridge; don't tangle with them, just keep walking."
 
 msgid "悬赏"
 msgstr "Bounties"
@@ -5348,7 +5348,7 @@ msgid "安惜迩神情忽然严肃了起来，不过好像是在想自己的事�
 msgstr "An Xi'er suddenly turns grave, but he seems to be thinking of something of his own, nothing to do with you."
 
 msgid "安惜迩忽然呵呵呵地笑了起来，却不知道在笑些什么....\n"
-msgstr "An Xi'er suddenly chuckles to himself. Who knows what at...."
+msgstr "An Xi'er suddenly chuckles to himself. Who knows what he's laughing at..."
 
 msgid "咦... 要打就真打吧，光是较量多没意思？"
 msgstr "Huh... if we're going to fight, let's really fight. Where's the fun in just testing each other?"
@@ -5426,7 +5426,7 @@ msgid "乞丐懒洋洋地打了个哈欠。\n"
 msgstr "The beggar yawns lazily."
 
 msgid "乞丐伸手捉住了身上的虱子，骂道：老子身上没几两肉，全叫你们给咬糜了。 \n"
-msgstr "The beggar picks a louse off himself and grumbles, \"Ain't got much meat on me, and you lot've chewed it all to mush.\""
+msgstr "The beggar picks a louse off himself and grumbles, \"Ain't got much meat on me, and you chewed it all to mush.\""
 
 msgid "多谢这位$RESPECT，您好心一定会有好报的！"
 msgstr "Thank you, $RESPECT. Kindness like yours always comes back around!"
@@ -5453,7 +5453,7 @@ msgid "柳淳风是在下同门师兄。"
 msgstr "Liu Chunfeng is my senior brother in the school."
 
 msgid "阁下如果也爱好此道，不如改天兄弟陪阁下玩几手？"
-msgstr "If you're fond of a little game yourself, friend, why don't I play you a few hands some day?"
+msgstr "If you're fond of a little game yourself, sir, why don't I play you a few hands some day?"
 
 msgid "牌你带回去交给师兄。我没脸拿。"
 msgstr "Take the token back to my senior brother. I don't have the face to keep it."
@@ -7328,7 +7328,7 @@ msgid "$N很快地转过头去，避开了$n的目光。"
 msgstr "$N quickly {N:turn|turns} away from $n's gaze."
 
 msgid "但是$N对$n的注视视若无睹....。"
-msgstr "But $N {N:shrug|shrugs} off $n's stare...."
+msgstr "But $N {N:shrug|shrugs} off $n's stare..."
 
 msgid "$N被$n的目光所摄，不自禁地打了个寒噤。"
 msgstr "$N {N:are|is} caught by $n's gaze and can't help shivering."
@@ -7409,7 +7409,7 @@ msgid "你全身放松，坐下来开始运功疗伤。"
 msgstr "You relax your whole body, sit down and begin to heal yourself with your neigong."
 
 msgid "$N坐了下来运起内功，将手掌贴在$n背心，缓缓地将真气输入$n体内...."
-msgstr "$N {N:sit|sits} down, {N:summon|summons} {N:his} neigong, and {N:lay|lays} a palm on $n's back, easing true qi into $n's body...."
+msgstr "$N {N:sit|sits} down, {N:summon|summons} {N:his} neigong, and {N:lay|lays} a palm on $n's back, easing true qi into $n's body..."
 
 msgid "过了不久，$N额头上冒出豆大的汗珠，$n吐出一口瘀血，脸色看起来红润多了。"
 msgstr "Before long, beads of sweat stand out on $N's brow; $n {n:cough|coughs} up a mouthful of bad blood and {n:look|looks} much healthier."
@@ -7430,7 +7430,7 @@ msgid "你现在毫无杀气。"
 msgstr "You have no Bloodlust at all right now."
 
 msgid "$N微一凝神，运起天邪神功，放慢呼吸，开始收敛自己的杀气 ...."
-msgstr "$N {N:focus|focuses}, {N:summon|summons} the Wayward Art, slows {N:his} breathing and {N:begin|begins} to rein in {N:his} Bloodlust...."
+msgstr "$N {N:focus|focuses}, {N:summon|summons} the Wayward Art, slows {N:his} breathing and {N:begin|begins} to rein in {N:his} Bloodlust..."
 
 msgid "$N微一凝神，运起天邪神功，全身骨节发出一阵爆豆般的声响！"
 msgstr "$N {N:focus|focuses} and {N:summon|summons} the Wayward Art—every joint in {N:his} body cracks like popping beans!"
@@ -7490,7 +7490,7 @@ msgid "你要向谁求教？"
 msgstr "Learn from whom?"
 
 msgid "嗯....你得先把%s弄醒再说。"
-msgstr "Hmm.... you'd better wake %s up first."
+msgstr "Hmm... you'd better wake %s up first."
 
 msgid "这项技能你恐怕必须找别人学了。"
 msgstr "You'll have to learn this skill from someone else."
@@ -7502,7 +7502,7 @@ msgid "%s说道：嗯 .... 师父能教你的都教了，其他的你自己练�
 msgstr "\"Hmm...,\" says %s. \"I've taught you all a Shifu can. The rest you'll have to practice yourself.\""
 
 msgid "%s说道：虽然你是我门下的弟子，可是并非我的嫡传弟子 ...."
-msgstr "\"You're a disciple of my school,\" says %s, \"but not my direct disciple....\""
+msgstr "\"You're a disciple of my school,\" says %s, \"but not my direct disciple...\""
 
 msgid "%s说道：我只能教你这些粗浅的本门功夫，其他的还是去找你师父学吧。"
 msgstr "\"I can only teach you these basic arts of our school,\" says %s. \"For the rest, go to your own Shifu.\""
@@ -7952,13 +7952,13 @@ msgid "你要移动到哪一个人身边？"
 msgstr "Whose side do you want to move to?"
 
 msgid "你无法感受到这个人的灵力 ...."
-msgstr "You can't feel this person's Mystic Power...."
+msgstr "You can't feel this person's Mystic Power..."
 
 msgid "中止施法。"
 msgstr "You stop casting."
 
 msgid "$N低头闭目，开始施展游识神通 ...."
-msgstr "$N {N:lower|lowers} {N:his} head, {N:close|closes} {N:his} eyes and {N:begin|begins} to work the Drifting Sense...."
+msgstr "$N {N:lower|lowers} {N:his} head, {N:close|closes} {N:his} eyes and {N:begin|begins} to work the Drifting Sense..."
 
 msgid "战斗中无法使用游识神通！"
 msgstr "You can't use the Drifting Sense in a fight!"
@@ -8069,7 +8069,7 @@ msgid "但是$N找不到机会出手！"
 msgstr "But $N can't find an opening!"
 
 msgid "$N眼睛忽然睁开，喃喃地说道：杀....死....$n...."
-msgstr "$N's eyes snap open, and {N:he} {N:mutter|mutters}, \"Kill.... kill.... $n....\""
+msgstr "$N's eyes snap open, and {N:he} {N:mutter|mutters}, \"Kill... kill... $n...\""
 
 msgid "你要在这张符上写谁的名字？"
 msgstr "Whose name do you write on this charm?"
@@ -8171,13 +8171,13 @@ msgid "结果「嗤」地一声，青光从$p身上透体而过，无声无息�
 msgstr "With a hiss the blue light passes clean through $n and sinks silently into the ground!"
 
 msgid "投降？现在没有人在打你啊....？"
-msgstr "Surrender? Nobody's fighting you....?"
+msgstr "Surrender? Nobody's fighting you...?"
 
 msgid "$n向$N求饶，但是$N大声说道：{rude}废话少说，纳命来！"
 msgstr "$n {n:beg|begs} $N for mercy, but $N {N:roar|roars}, \"{rude}Enough talk—your life is mine!\""
 
 msgid "$N说道：「不打了，不打了，我投降....。」"
-msgstr "$N {N:say|says}, \"No more, no more—I give up....\""
+msgstr "$N {N:say|says}, \"No more, no more—I give up...\""
 
 msgid "「逐」字诀"
 msgstr "\"Chase\" Secret"
@@ -15728,7 +15728,7 @@ msgid "祈祷"
 msgstr "Pray"
 
 msgid "你双手合掌，虔诚的祈祷。\n手上的镯子嗡嗡作响。 突然一阵烟雾.... \n"
-msgstr "You press your palms together and pray with devotion.\nThe bracelet on your hand hums. Suddenly a cloud of smoke.... \n"
+msgstr "You press your palms together and pray with devotion.\nThe bracelet on your hand hums. Suddenly a cloud of smoke... \n"
 
 msgid "这是一卷由上等丝绸编成，以湘绣作成的舞曲图。上有记载一些舞曲 \n每一曲都有它独特的风格与内涵。一幅幅玄天玉女翩然起舞，十分壮观。\n\n  曲目： \n \n  广陵散 \n  春宫怨 \n \n对你而言基本舞步你可以参悟，至于较高深步法似乎需人指导了。 \n"
 msgstr "This is a scroll of fine silk, embroidered in Xiang style with dance pieces. It records several dances, \neach with its own style and meaning. Scene after scene shows the Jade Maiden of Dark Heaven dancing, a magnificent sight.\n\n  Pieces: \n \n  Song of Guangling \n  Spring Palace Lament \n \nYou can work out the basic steps for yourself; the higher steps seem to need someone to teach you. \n"
@@ -15737,7 +15737,7 @@ msgid "跳「春宫怨」"
 msgstr "Dance \"Spring Palace Lament\""
 
 msgid "你双手合掌，脚步轻盈。一曲『 春宫怨 』......\n"
-msgstr "You press your palms together, your steps light. A dance, 'Spring Palace Lament'......\n"
+msgstr "You press your palms together, your steps light. A dance, 'Spring Palace Lament'...\n"
 
 msgid "这似乎是一本寒雪鞭法的前几页，虽然并没有关於招式的详细解说，可是\n前面有关鞭法的总纲与精义倒是不少。\n"
 msgstr "This seems to be the first few pages of a Cold Snow Whip manual. It has no detailed explanation of the moves, \nbut there is a good deal in front on the whip's general principles and essence.\n"
@@ -15770,7 +15770,7 @@ msgid "学舞"
 msgstr "Learn to dance"
 
 msgid "来!我教你...『西出阳关』是 ..... \n经过雨梅指导后你渐渐懂了! \n"
-msgstr "Come! I'll teach you... 'Westward Out of Yangguan' is ..... \nWith Yumei's guidance, you gradually understand! \n"
+msgstr "Come! I'll teach you... 'Westward Out of Yangguan' is ... \nWith Yumei's guidance, you gradually understand! \n"
 
 msgid "舞"
 msgstr "Dance"
@@ -15929,7 +15929,7 @@ msgid "过了一会说：好吧!偷偷跟你说，你可以查看墙上的图。
 msgstr "After a while she says, \"Fine! I'll tell you a secret. You can look at the chart on the wall. (dragon-dance)\""
 
 msgid "...."
-msgstr "...."
+msgstr "..."
 
 msgid "昭仪很高兴的看著你，说道:嘻!你对舞有兴趣呀!"
 msgstr "Zhaoyi looks at you happily and says, \"Hee! So you're interested in dance!\""
@@ -15938,10 +15938,10 @@ msgid "这有一幅图画，我从那悟到好多新舞步哦! "
 msgstr "There's a picture here. I learned lots of new dance steps from it!"
 
 msgid "『 沧海龙吟』是一首失传以久的舞曲。传说...."
-msgstr "'Dragon's Song on the Blue Sea' is a dance lost for a long time. They say...."
+msgstr "'Dragon's Song on the Blue Sea' is a dance lost for a long time. They say..."
 
 msgid "......"
-msgstr "......"
+msgstr "..."
 
 msgid "她长得十分漂亮！让你忍不住多瞧她几眼，从她身上\n你闻到淡淡的香气。她很有礼貌的向你点头，优雅的\n动作，轻盈的步伐，好美哦!\n"
 msgstr "She is very beautiful! You can't help looking at her a few more times, and from her\nyou catch a faint fragrance. She nods to you with great courtesy. Her graceful\nmovements and light steps are so lovely!\n"
@@ -16736,7 +16736,7 @@ msgid "这里是晚月庄接待宾客的傍厅，厅中摆了一张桌几，上�
 msgstr "This is the side hall where Latemoon Manor receives guests. A table stands in the hall, covered with a red cloth trimmed in gold, and against the east wall, facing west, are a half-worn blue satin cushion for leaning on and two grand armchairs. On the table is a delicate teapot, with fine tea poured beside it.\n"
 
 msgid "这是晚月庄后的小小庭院，面积似乎不大，但花木扶疏，举目四望，\n竟种满了无数梅花，婉约娟秀，别有一番滋味。清风徐来，梅花特有的\n清香弥漫在风中.....\n"
-msgstr "This is a small courtyard at the back of the manor. It doesn't look large, but the flowers and trees are lush and spread out, and wherever you look it is planted with countless plum blossoms, graceful and delicate, with a charm all its own. When a breeze comes, the special fragrance of plum blossoms drifts through the wind.....\n"
+msgstr "This is a small courtyard at the back of the manor. It doesn't look large, but the flowers and trees are lush and spread out, and wherever you look it is planted with countless plum blossoms, graceful and delicate, with a charm all its own. When a breeze comes, the special fragrance of plum blossoms drifts through the wind...\n"
 
 msgid "你走在一条长廊上，两旁都是庭台堂庑，廊上弥漫著一股\n香郁的气息，廊下是由青石砖铺成，一边接后厅内院，一边的\n尽头则是一幅大石壁画，西侧似有一铜门。\n有一间书房。\n"
 msgstr "You are walking along a long corridor, with halls and rooms on both sides. A rich fragrance fills the corridor, and the floor below is paved with bluestone bricks. One end joins the inner court of the back hall, and the other ends at a great stone wall painting. On the west side there seems to be a bronze door.\nThere is a study.\n"
@@ -18200,7 +18200,7 @@ msgid "能做相公的老师，真是三生有幸。"
 msgstr "To be your teacher, sir, is great good fortune, three lifetimes in the making."
 
 msgid "李师师说道：咦？我不记得您啊......\n"
-msgstr "Li Shishi says: Hm? I don't remember you, sir......"
+msgstr "Li Shishi says: Hm? I don't remember you, sir..."
 
 msgid "小女子哪里是您的对手？"
 msgstr "How could a poor girl like me be a match for you?"
@@ -18551,7 +18551,7 @@ msgid "北边那个山洞？那道门是我拴的。洞里冷，绝对不可以�
 msgstr "That cave to the north? I bolted that door myself. It is cold in there. It must never be opened."
 
 msgid "村长说道：国之将亡.....\n"
-msgstr "The Village Head says: When a country is about to fall....."
+msgstr "The Village Head says: When a country is about to fall..."
 
 msgid "必有妖孽"
 msgstr "monsters are sure to rise"
@@ -18743,7 +18743,7 @@ msgid "溪水很清澈，水中忽然有一道亮光闪过，不过看不清是�
 msgstr "The stream is clear. Suddenly a flash of light goes by in the water, but you cannot see what it was."
 
 msgid "你跳入溪水之中，开始仔细寻找...."
-msgstr "You jump into the stream and begin searching carefully...."
+msgstr "You jump into the stream and begin searching carefully..."
 
 msgid "你竟从水中找出一把追风剑!"
 msgstr "You pull a Windchaser sword out of the water!"
@@ -18755,7 +18755,7 @@ msgid "一个很大的蜘蛛网.\n"
 msgstr "A very big cobweb."
 
 msgid "突然你觉得头上有个阴影, 不自觉的抬起头来一看 ............好大的 ..... 蜘蛛..... \n"
-msgstr "Suddenly you feel a shadow overhead and look up without thinking ............ What a huge ..... spider....."
+msgstr "Suddenly you feel a shadow overhead and look up without thinking ... What a huge ... spider..."
 
 msgid "你向石洞走去，忽然一阵狂风涌至，你抵受不住，只好退了回来"
 msgstr "You walk toward the stone cave, but a sudden gale surges up and you cannot withstand it, so you retreat."
@@ -18839,7 +18839,7 @@ msgid "看着你，半晌才开口。"
 msgstr " looks at you, and only after a long while speaks."
 
 msgid "你站到颜违那边去了。……老夫替盟主守了二十年的口，守的就是那把椅子。"
-msgstr "You have gone over to Yan Wei's side.... This old man has held his tongue for the Alliance Leader for twenty years. It was that chair that I was guarding."
+msgstr "You have gone over to Yan Wei's side... This old man has held his tongue for the Alliance Leader for twenty years. It was that chair that I was guarding."
 
 msgid "五长老"
 msgstr "Fifth Elder"
@@ -18857,7 +18857,7 @@ msgid "盯着你手里的腰牌，脸色一点点白了。"
 msgstr " stares at the waist token in your hand, and his face slowly goes white."
 
 msgid "背面一个「岭」字……阿岭的腰牌。你从山洞里拿来的。"
-msgstr "The character \"Ling\" on the back.... A-Ling's waist token. You took it from the cave."
+msgstr "The character \"Ling\" on the back... A-Ling's waist token. You took it from the cave."
 
 msgid "看了看镖单，又看了看你。"
 msgstr " looks at the waybill, then at you."
@@ -18869,7 +18869,7 @@ msgid "死的是老夫的随从阿岭。那年老夫押着盟主印和密件过�
 msgstr "The dead man is A-Ling, this old man's attendant. The year this old man escorted the Alliance seal and the secret papers through Old Pine Ridge, the officers in white ambushed us before the waterfall. A-Ling took the blade for me, and the Alliance Leader, Wei Canglan, was carried off by them. This old man fled into the cave and carved those words on the rock wall, so that people would think Nan Weishui died there."
 
 msgid "两块碑你都看过了。……空口说的事，老夫不认。拿出凭据来——镖局的镖单，或是山洞里的东西。"
-msgstr "You have seen both steles.... This old man does not accept words alone. Bring proof: a waybill from the escort agency, or something from the cave."
+msgstr "You have seen both steles... This old man does not accept words alone. Bring proof: a waybill from the escort agency, or something from the cave."
 
 msgid "老夫不知道你在说什么。"
 msgstr "This old man does not know what you are talking about."
@@ -19178,7 +19178,7 @@ msgid "本座也算一个。"
 msgstr "I count as one too."
 
 msgid "二十年没上过这座台了。……诸位定吧，老夫听着。"
-msgstr "Twenty years since this old man was last on this terrace.... Decide, gentlemen. This old man is listening."
+msgstr "Twenty years since this old man was last on this terrace... Decide, gentlemen. This old man is listening."
 
 msgid "封山剑派，等盟主回来。"
 msgstr "Empty Mountain waits for the Alliance Leader to return."
@@ -19979,7 +19979,7 @@ msgid "救我！救救我呀！"
 msgstr "Save me! Please, save me!"
 
 msgid "竭力挣扎，渐渐从绳索里摆脱出来……。"
-msgstr " struggles with all her strength, slowly working free of the ropes...."
+msgstr " struggles with all her strength, slowly working free of the ropes..."
 
 msgid "小娟遍体鳞伤，只剩一口气，这一击会要了她的命。确定要攻击她吗？"
 msgstr "Xiaojuan is covered in wounds and has only a breath left; this blow would kill her. Attack her anyway?"
@@ -20105,7 +20105,7 @@ msgid "很沉重的石板，但你似乎可以推动它。\n"
 msgstr "A very heavy stone slab, but it seems you could push it."
 
 msgid "你试著往上用力推动石板，石板变得越来越松动了...."
-msgstr "You push up hard on the slab, and it grows looser and looser...."
+msgstr "You push up hard on the slab, and it grows looser and looser..."
 
 msgid "石板终于被推的斜立起来，露出一个向上的缝隙。"
 msgstr "At last the slab is pushed up on its edge, leaving a gap leading upward."
@@ -20219,25 +20219,25 @@ msgid "屋里相当冷清, 外面的浓雾还不时地从半开著的门缝飘�
 msgstr "The room is rather bleak. Thick fog from outside drifts in now and then through the half-open door. Worn, broken things are scattered on the floor, but they are so decayed you can no longer tell what they were. Scrawled writing is carved on the wall. A lantern in the corner struggles to give off a faint glow, which makes the words look all the stranger."
 
 msgid "你走在一条阴森森的路上, 浓浓的雾环绕在你的四周, 好像永\n远都不会散去似的. 整条路前后只看到零星的几盏灯笼........\n \n"
-msgstr "You are walking on a gloomy road. Thick fog wraps around you, as if it will never lift. Along the whole road you can see only a few scattered lanterns........"
+msgstr "You are walking on a gloomy road. Thick fog wraps around you, as if it will never lift. Along the whole road you can see only a few scattered lanterns..."
 
 msgid "浓雾在这里聚成一堵墙，路到这里就断了。\n"
 msgstr "The fog has piled up into a wall here, and the road ends."
 
 msgid "一个空洞的声音在你耳边响起...."
-msgstr "A hollow voice sounds in your ear...."
+msgstr "A hollow voice sounds in your ear..."
 
 msgid "没有回头路了!"
 msgstr "There is no way back!"
 
 msgid "你走著走著..... 发现四周景色居然都没有变...."
-msgstr "You walk and walk..... and find that the scenery around you has not changed at all...."
+msgstr "You walk and walk... and find that the scenery around you has not changed at all..."
 
 msgid "从你站的位置很难辨别出那几个人的容貌, 四个披著黑斗蓬的人斜靠在壁\n炉边的角落, 偶尔传来其中几人说话的声音, 不过从这个距离你无法听到\n他们讨论的内容. 当你还在考虑要不要靠过去一点时, 其中一人回头看了\n你一眼, 你愣住了... 那人... 那人......... 居然长得跟你一模一样!\n"
-msgstr "From where you stand it is hard to make out their faces. Four people in black cloaks lean in the corner by the hearth, and now and then you hear one of them speak, but from this far you cannot make out what they are saying. While you are still wondering whether to move closer, one of them turns to look at you, and you freeze... That person... that person........ looks exactly like you!"
+msgstr "From where you stand it is hard to make out their faces. Four people in black cloaks lean in the corner by the hearth, and now and then you hear one of them speak, but from this far you cannot make out what they are saying. While you are still wondering whether to move closer, one of them turns to look at you, and you freeze... That person... that person... looks exactly like you!"
 
 msgid "几行你勉强分辨得出来的字:\n我被困在这里了.... 我要回家啦!!!!!!!!!!!\n                      ^^^^\n                        靠自己啦...\n什么叫靠自己啊?!?!? 这里连个活人都没有...\n\n看到你自己时问一下吧... 自己人都会互相帮忙的说.. \n                                    ^^^^\n                                 你... 确... 定?!?!\n喔.. \n"
-msgstr "A few lines you can just make out:\nI'm stuck here.... I want to go home!!!!!!!!!!!\n                      ^^^^\n                        Count on yourself...\nWhat does that mean, count on yourself?!?!? There isn't a living soul here...\n\nAsk when you see yourself... Your own people always help each other, y'know... \n                                    ^^^^\n                                 You... are... sure?!?!\nOh..."
+msgstr "A few lines you can just make out:\nI'm stuck here... I want to go home!!!!!!!!!!!\n                      ^^^^\n                        Count on yourself...\nWhat does that mean, count on yourself?!?!? There isn't a living soul here...\n\nAsk when you see yourself... Your own people always help each other, y'know... \n                                    ^^^^\n                                 You... are... sure?!?!\nOh..."
 
 msgid "打听「回家」"
 msgstr "Ask about \"Go Home\""
@@ -20246,7 +20246,7 @@ msgid "你走上前去, 低声的向那个长得跟你一样的人询问回家�
 msgstr "You step forward and quietly ask the one who looks like you about going home."
 
 msgid "那人一句话也不说就往你这边撞过来, 你眼前一阵黑....\n"
-msgstr "Without a word the figure slams into you. Everything goes black...."
+msgstr "Without a word the figure slams into you. Everything goes black..."
 
 msgid "一棵翠绿色的小草，发着晶莹的光芒和醉人的香味。\n"
 msgstr "A small, jade-green plant, glowing with a crystal light and giving off an intoxicating fragrance.\n"
@@ -21305,13 +21305,13 @@ msgid "    这是一条铺著砾石的上路，险峻难行。南面一座高山
 msgstr "A gravel-paved road leading up, steep and hard going. To the south is a tall mountain, wreathed in clouds and mist, extremely perilous. On a broken stele in front of the mountain the characters are faintly legible: \"Mount Guye\". Legend says an immortal once lived here, and it is unknown whether he is still there..."
 
 msgid "    采药人言曰：有仙人乘鹤飞升，径入此山，不知所终.....\n此地林木繁茂，藤蔓错杂。南耸绝壁，下临深谷.\n半山腰处，隐隐可见一洞，流云出岫。\n"
-msgstr "A herb gatherer once said: an immortal rode a crane up to heaven and went straight into this mountain, and where he ended up no one knows..... Here the trees are lush and the vines tangled. To the south a sheer cliff looms over a deep valley. Halfway up the mountain a cave can faintly be seen, with clouds drifting from its mouth."
+msgstr "A herb gatherer once said: an immortal rode a crane up to heaven and went straight into this mountain, and where he ended up no one knows... Here the trees are lush and the vines tangled. To the south a sheer cliff looms over a deep valley. Halfway up the mountain a cave can faintly be seen, with clouds drifting from its mouth."
 
 msgid "古树果非寻常之物，树冠白雾升腾，上接霄汉，如仙境一般，让人流连忘返...\n"
 msgstr "The old tree is surely no ordinary thing. White mist rises from its crown, reaching up to the heavens like a land of immortals, so lovely that you linger and forget to leave..."
 
 msgid "这里就是半山腰处的山洞。四壁空无一物，极为荒凉......\n"
-msgstr "This is the cave halfway up the mountain. The four walls are bare, and it is very desolate......"
+msgstr "This is the cave halfway up the mountain. The four walls are bare, and it is very desolate..."
 
 msgid "姑射之巅，祥云朵朵，瑞彩千条。藐姑射之山，有神人居焉，肌肤若冰雪，绰约如处子..\n仙踪难觅，只觉风声飒然，云开之出，凸现一座云台\n"
 msgstr "On the summit of Mount Guye, auspicious clouds float in drifts, and a thousand colors gleam. On the far mountain of Guye lives a divine person, with skin like ice and snow and a gentle grace like a maiden... The immortal's trail is hard to find, and you feel only the sough of the wind. Where the clouds part, a Cloud Terrace stands revealed."
@@ -21374,7 +21374,7 @@ msgid "几上的书信手而放，装帧古朴，竟是宋版书，还有几卷�
 msgstr "The books on the table lie where a hand left them, plainly bound. They are actually Song editions, and there are several rolls of original Han stele rubbings too. You cannot hold back your curiosity and want to pick one up and study it closely."
 
 msgid "你伸手往不远处的一根藤蔓抓去...."
-msgstr "You reach for a vine not far away...."
+msgstr "You reach for a vine not far away..."
 
 msgid "只听见一声杀猪般的惨叫，你已坠落深谷。。"
 msgstr "You let out a scream like a pig being slaughtered and plunge into the deep valley..."
@@ -21512,7 +21512,7 @@ msgid "是"
 msgstr "Yes"
 
 msgid "好吧，跟我来...."
-msgstr "All right, follow me...."
+msgstr "All right, follow me..."
 
 msgid "衙门的大门「吱呀」一声开了。带刀侍卫转身进去，没有回头。\n"
 msgstr "The yamen gate creaks open. The armed guard turns and goes in without looking back."
@@ -21815,7 +21815,7 @@ msgid "你现在已经到达山洞的深处了, 四面八方都是些黑漆漆�
 msgstr "You have reached the depths of the cave. All around are black little stone holes, and you have no idea which way to go. Were it not for a bit of light to the north, you would give up all hope.\n"
 
 msgid "你现在已经到达山洞的深处了, 耶...东面就是洞口了, 还可以听\n见外面瀑布的水声, 仔细的观察石壁, 可以发现上面有一些用利\n剑雕刻的字....\n"
-msgstr "You have reached the depths of the cave. Ah... the cave mouth is to the east, and you can hear the waterfall outside. Look closely at the wall and you will find words carved into it with a sharp sword....\n"
+msgstr "You have reached the depths of the cave. Ah... the cave mouth is to the east, and you can hear the waterfall outside. Look closely at the wall and you will find words carved into it with a sharp sword...\n"
 
 msgid "这里只见一个木头搭成的大门，门框上挂著四、五的不知道是什么\n动物的头骨跟一些铁链，外面再铺上一层乾枯的松枝，在这样一个森林\n里还真不容易发觉。\n"
 msgstr "Here stands a big gate built of logs. On the door frame hang four or five skulls of some animals, and iron chains, all covered with a layer of dried pine twigs. In a forest like this it is hard to spot.\n"
@@ -21854,10 +21854,10 @@ msgid "抓住藤蔓"
 msgstr "Grab a vine"
 
 msgid "其中有一根藤蔓距离你比较近，你可以试著抓住藤蔓，看看\n能不能像泰山一样荡过去，看看瀑布后面有什么？\n对了，提醒你一点，这座石桥下面是高约百丈的山涧深谷....。\n"
-msgstr "One of the vines hangs fairly close to you. You can try to hold it, swing across like Tarzan and see what is behind the waterfall.\nBy the way, a reminder: below this stone bridge is a gorge about a thousand feet deep....\n"
+msgstr "One of the vines hangs fairly close to you. You can try to hold it, swing across like Tarzan and see what is behind the waterfall.\nBy the way, a reminder: below this stone bridge is a gorge about a thousand feet deep...\n"
 
 msgid "你爬上石桥的护栏，伸手往不远处的一根藤蔓抓去...."
-msgstr "You climb onto the bridge railing and reach for a vine not far off...."
+msgstr "You climb onto the bridge railing and reach for a vine not far off..."
 
 msgid "只听见一声杀猪般的惨叫，你已经往山涧中坠了下去。"
 msgstr "With a scream like a stuck pig, you plunge into the gorge."
@@ -21866,7 +21866,7 @@ msgid "你听到有人高声惊叫，一条人影从上方掉了下来，「扑�
 msgstr "You hear someone cry out. A figure falls from above and lands in the pool with a splash."
 
 msgid "你手脚俐落地攀附著藤蔓，慢慢地爬下山涧....。"
-msgstr "Hand over hand, you nimbly cling to the vine and slowly climb down into the gorge...."
+msgstr "Hand over hand, you nimbly cling to the vine and slowly climb down into the gorge..."
 
 msgid "忽然一条人影从南边的帘幕穿了出来。"
 msgstr "Suddenly a figure bursts out through the curtain to the south."
@@ -21908,7 +21908,7 @@ msgid "埋葬骸骨"
 msgstr "Bury the bones"
 
 msgid "老夫南危水, 乃是昔年水烟阁五长老中第一高手,\n一生醉心武学, 集天邪、封山两派之所长, 为营救盟主遭小人暗算,\n埋骨于此。男子汉大丈夫死不足惜, 只可恨一身武学尚无传人!\n葬我遗骨者老夫将赠以过招要旨, 唉......\n"
-msgstr "I, Nan Weishui, was once the foremost fighter among the five elders of Waterfog Pavilion.\nAll my life I was devoted to martial arts, combining the best of the Wayward and Empty Mountain schools.\nTo rescue the Alliance Leader I was struck down by a villain's trick, and my bones lie buried here.\nA man need not fear death, but I hate that my arts have no heir!\nWhoever buries my remains, I will reward with the essentials of parrying. Alas......\n"
+msgstr "I, Nan Weishui, was once the foremost fighter among the five elders of Waterfog Pavilion.\nAll my life I was devoted to martial arts, combining the best of the Wayward and Empty Mountain schools.\nTo rescue the Alliance Leader I was struck down by a villain's trick, and my bones lie buried here.\nA man need not fear death, but I hate that my arts have no heir!\nWhoever buries my remains, I will reward with the essentials of parrying. Alas...\n"
 
 msgid "你小心翼翼地埋好了那具骸骨。"
 msgstr "You carefully bury the skeleton."
@@ -21995,7 +21995,7 @@ msgid "看了一眼叶边那行字，没有接。"
 msgstr " looks at the line along the edge of the leaf and does not take it."
 
 msgid "师父的字……你拿着。问我「经」。"
-msgstr "My master's writing.... Keep it. Ask me about \"Sutra.\""
+msgstr "My master's writing... Keep it. Ask me about \"Sutra.\""
 
 msgid "病人"
 msgstr "Patient"
@@ -22052,7 +22052,7 @@ msgid "摸了摸那只瞎眼上的眼罩。"
 msgstr " touches the patch over the blind eye."
 
 msgid "我练的经，玄智的寺里不认。三十年前不认，今天也不认。……别的，去问我师父。"
-msgstr "The sutra I practice, Xuanzhi's temple does not recognize. It did not recognize it thirty years ago, and it does not today.... For the rest, ask my Shifu."
+msgstr "The sutra I practice, Xuanzhi's temple does not recognize. It did not recognize it thirty years ago, and it does not today... For the rest, ask my Shifu."
 
 msgid "经"
 msgstr "Sutra"
@@ -22115,13 +22115,13 @@ msgid "方丈说，早十年就该开那道门。"
 msgstr "The Abbot said that door should have been opened ten years ago."
 
 msgid "鬼卒抓的伤，流云轩还是治不了。……方丈说，本寺一脉。"
-msgstr "A wound from a Ghost Soldier's grab, Drifting Cloud Lodge still cannot treat.... The Abbot said, this temple keeps to its own line."
+msgstr "A wound from a Ghost Soldier's grab, Drifting Cloud Lodge still cannot treat... The Abbot said, this temple keeps to its own line."
 
 msgid "老葛回乔阴了。方丈守了他三天三夜……那只右手是保不住了。"
-msgstr "Old Ge went back to Tallshade. The Abbot kept watch over him three days and nights.... That right hand could not be saved."
+msgstr "Old Ge went back to Tallshade. The Abbot kept watch over him three days and nights... That right hand could not be saved."
 
 msgid "老葛好了，回乔阴去了。……那头陀的手，热得跟炭一样。"
-msgstr "Old Ge is well and has gone back to Tallshade.... That ascetic's hands were as hot as coals."
+msgstr "Old Ge is well and has gone back to Tallshade... That ascetic's hands were as hot as coals."
 
 msgid "药喂下去了，寒气还是退不下去。"
 msgstr "The medicine has gone down, and still the chill will not go down."
@@ -22538,7 +22538,7 @@ msgid "前些日子茅山灵心观来了个小道士，说是替他们的林忌�
 msgstr "A few days back a little Daoist came from Clear Heart Abbey on Mount Mao, said he was askin' for Sage Lin Ji about that abbey at the north foot. Whether anyone in the stockade ever went in and still came out."
 
 msgid "老子说有一个。……你要是不想再跟那群牛鼻子打交道，就当老子没说。"
-msgstr "I said there was one.... If ya don't wanna deal with that pack of ox-noses anymore, just pretend I never said it."
+msgstr "I said there was one... If ya don't wanna deal with that pack of ox-noses anymore, just pretend I never said it."
 
 msgid "茅山？牛鼻子道士，老子不认得。"
 msgstr "Mount Mao? Ox-nose Daoists, don't know 'em."
@@ -22790,7 +22790,7 @@ msgid "黑你没商量神情忽然严肃了起来，不过好像是在想自己�
 msgstr "The No-Haggle Fleecer suddenly turns solemn, though he seems to be thinking of his own affairs, nothing to do with you.\n"
 
 msgid "黑你没商量忽然呵呵呵地笑了起来，却不知道在笑些什么....\n"
-msgstr "The No-Haggle Fleecer suddenly breaks into a heh-heh-heh laugh, and no one knows what he is laughing at....\n"
+msgstr "The No-Haggle Fleecer suddenly breaks into a heh-heh-heh laugh, and no one knows what he is laughing at...\n"
 
 msgid "黑你没商量一翻三角眼，不知又想出了什么坏主意。\n"
 msgstr "The No-Haggle Fleecer rolls his triangular eyes, up to some new piece of mischief.\n"
@@ -22874,7 +22874,7 @@ msgid "账已经上路了。"
 msgstr "The ledger is already on the road."
 
 msgid "剑秋说了到此为止。……生意上的事，好说。"
-msgstr "Jianqiu said to stop here.... Business matters, we can talk about."
+msgstr "Jianqiu said to stop here... Business matters, we can talk about."
 
 msgid "把总账合上，用一块蓝布包了。"
 msgstr "Closes the master ledger and wraps it in a piece of blue cloth."
@@ -23027,7 +23027,7 @@ msgid "把总账丢进了脚边的火盆。"
 msgstr "Throws the master ledger into the brazier at his feet."
 
 msgid "到此为止。……往后你来，只谈生意。"
-msgstr "Let it end here.... From now on, when you come, we speak only of business."
+msgstr "Let it end here... From now on, when you come, we speak only of business."
 
 msgid "陈天星收下陈剑秋的推荐信，就愿意收你为徒，你再向他拜师，便成为振远镖局的弟子。信交出去就要不回来了。\n确定把信交给陈天星吗？"
 msgstr "If Chen Tianxing takes Chen Jianqiu's letter of recommendation, he will accept you as his student. If you then ask him to take you on, you become a disciple of the Far-Road Escorts. Once the letter is handed over, you cannot get it back.\nHand the letter to Chen Tianxing?"
@@ -23042,7 +23042,7 @@ msgid "接过信，看了很久。"
 msgstr "Takes the letter and reads it for a long time."
 
 msgid "兵部的人在岭上等着，镖头说照走……底账上那一笔，信里也有。"
-msgstr "The Ministry of War's men were waiting on the ridge, and the escort head said go on as planned.... The entry in the underlying ledger is in the letter too."
+msgstr "The Ministry of War's men were waiting on the ridge, and the escort head said go on as planned... The entry in the underlying ledger is in the letter too."
 
 msgid "贺长庚的儿子。他该恨振远。"
 msgstr "He Changgeng's son. He has every reason to hate Far-Road."
@@ -23189,7 +23189,7 @@ msgid "尚书府的门房虽然没什么官衔，但所有想晋见\n尚书的�
 msgstr "The Minister's Mansion's gatekeeper holds no official rank, but every commoner who wants an audience with the Minister treats him with deep respect.\n"
 
 msgid "门房慢吞吞地说：是。。想见尚书大人的吗？。。\n"
-msgstr "The gatekeeper says slowly, \"Yes.... You want to see His Excellency the Minister?....\"\n"
+msgstr "The gatekeeper says slowly, \"Yes... You want to see His Excellency the Minister?...\"\n"
 
 msgid "门房嘿嘿地笑了笑，手里比划着一个数字.\n"
 msgstr "The gatekeeper chuckles, and holds up a number with his fingers.\n"
@@ -23351,7 +23351,7 @@ msgid "骆先生？客厅里写字的那位。老爷的信，十封有九封是�
 msgstr "Mr. Luo? The one who writes in the parlor. Nine of every ten of the master's letters are in his hand."
 
 msgid "老爷下了狱，小姐去了相国府。……我在这儿把花浇完，也该走了。"
-msgstr "The master is in prison, and the young lady has gone to the Chancellor's House.... Once I finish watering the flowers here, it will be time for me to go too."
+msgstr "The master is in prison, and the young lady has gone to the Chancellor's House... Once I finish watering the flowers here, it will be time for me to go too."
 
 msgid "什么？清尘出事了？\n"
 msgstr "What? Qingchen is in trouble?\n"
@@ -23372,7 +23372,7 @@ msgid "放下手里的符纸，看了你一眼，又看了一眼帘子外头。"
 msgstr "Puts down the talisman paper in her hand, looks at you, then looks once more at the outside of the curtain."
 
 msgid "你不是府里的人。……是花匠伯伯让你来的？"
-msgstr "You are not from the household.... Did Uncle Gardener send you?"
+msgstr "You are not from the household... Did Uncle Gardener send you?"
 
 msgid "那天夜里我睡不着，走到小屋外头，听见我爹和一个黑衣人说话。黑衣人说「湖底」，我爹说「子时之前」。"
 msgstr "That night I could not sleep, and I walked out to the little house, and I heard my father talking with a man in black. The man in black said \"the lake bottom,\" and my father said \"before the hour of Zi.\""
@@ -28637,7 +28637,7 @@ msgid "知道了，就快缴钱。\n"
 msgstr "Got it? Then pay up, quick.\n"
 
 msgid "ㄟ....Ｔhank Ｙou!!!"
-msgstr "Eh.... Thank you!!!"
+msgstr "Eh... Thank you!!!"
 
 msgid "大队长说道:哦喔！还真有心啊，真是谢谢你了。\n"
 msgstr "The Captain says, \"Oh! You really mean it. Thank you very much.\"\n"
@@ -28976,7 +28976,7 @@ msgid "即然你那么有心，那我就勉强收起来了。"
 msgstr "Since you are so earnest, I will reluctantly put it away."
 
 msgid "在那片光滑的山壁前发誓 我爱.....。"
-msgstr "Swear before that smooth stretch of cliff: I love....."
+msgstr "Swear before that smooth stretch of cliff: I love..."
 
 msgid "或许你可以发现奇特的事喔。"
 msgstr "Perhaps you will find something curious."
@@ -30716,7 +30716,7 @@ msgid "风"
 msgstr "Wind"
 
 msgid "卜风道士道：风往哪边吹，剑就在哪边。……三天了。三天了。"
-msgstr "The Wind Diviner says, \"Whichever way the wind blows, the sword is that way.... Three days. Three days.\""
+msgstr "The Wind Diviner says, \"Whichever way the wind blows, the sword is that way... Three days. Three days.\""
 
 msgid "卜风道士尖声道：剑是宫主的！\n"
 msgstr "The Wind Diviner shrieks, \"The sword is the Palace Master's!\"\n"
@@ -30773,7 +30773,7 @@ msgid "烟城的人二十年前来过，你们先帝派的。他们站在门口�
 msgstr "The people of Mist City came twenty years ago, sent by your late Emperor. They stood at the gate and asked about the sword, and when they had asked they left. The wind had not yet stopped when they left. They did not lie down."
 
 msgid "让我看看。……「寻剑，不得扰民一户。」你们先帝要的剑，是不扰民的剑。他要对了。"
-msgstr "Let me see.... \"Seek the sword, and trouble not one household.\" The sword your late Emperor wanted is a sword that troubles no one. He asked rightly."
+msgstr "Let me see... \"Seek the sword, and trouble not one household.\" The sword your late Emperor wanted is a sword that troubles no one. He asked rightly."
 
 msgid "你们的先帝找了一辈子。他的人到过烟城，没到过这里。"
 msgstr "Your late Emperor searched all his life. His men reached Mist City. They did not reach here."
@@ -32741,7 +32741,7 @@ msgid "一个面色青白的中年人，目光扫过来便叫人背脊发凉。�
 msgstr "A pale, blue-faced man in middle age; one sweep of his gaze sends a chill down your back. The notice says he butchered a whole household in the next county in a single night. The authorities have posted the highest reward.\n"
 
 msgid "玉螺湖那一夜烧了半个村子——是你拔的剑。……拔了就往前走，别回头。"
-msgstr "The night half of Jade Conch Village burned—you were the one who drew the sword.... Once drawn, walk on. Do not look back."
+msgstr "The night half of Jade Conch Village burned—you were the one who drew the sword... Once drawn, walk on. Do not look back."
 
 msgid "你在湖底没动那把剑。老夫活了五十八年，见过的人十个有九个会动。"
 msgstr "You left that sword alone at the bottom of the lake. This old man has lived fifty-eight years, and of ten men I have met, nine would have touched it."
@@ -34085,7 +34085,7 @@ msgid "我来拜师！听说天邪派拜师要接三招……我练了一个冬�
 msgstr "I've come to find a master! I heard the Wayward School makes you take three moves to be accepted... I practiced all winter."
 
 msgid "卫盟主！我爹说，那年正月十七，他一个人在虹台上打下了九派。……可我爹也说，他二十年没下过山了。"
-msgstr "Alliance Leader Wei! My father says that year, on the seventeenth of the first month, he beat all nine schools alone on the terrace.... But my father also says Alliance Leader Wei has not come down the mountain in twenty years."
+msgstr "Alliance Leader Wei! My father says that year, on the seventeenth of the first month, he beat all nine schools alone on the terrace... But my father also says Alliance Leader Wei has not come down the mountain in twenty years."
 
 msgid "路引？我从雪亭镇一路走上来的，要什么路引。"
 msgstr "A travel pass? I walked all the way up from Snow Pavilion. What would I need a pass for?"
@@ -34541,7 +34541,7 @@ msgid "劫镖"
 msgstr "Escort Robbery"
 
 msgid "交了官，天驼关的人押走了。……那后生使的是振远的刀，你看出来没有？"
-msgstr "You handed him to the law, and the men of Camelback Pass took him away.... That young fellow used Far-Road's saber. Did you notice?"
+msgstr "You handed him to the law, and the men of Camelback Pass took him away... That young fellow used Far-Road's saber. Did you notice?"
 
 msgid "放了？……也好。那后生使的是振远的刀，春风快意刀。谁教的，我不问。"
 msgstr "You let him go? ...Fine. That young fellow used Far-Road's saber, the Spring Blade. Who taught him, I will not ask."
@@ -34739,7 +34739,7 @@ msgid "关北的河要人挖。兵部的令——你有意见，去兵部说。"
 msgstr "The rivers of Beyond the Pass need men to dig them. Ministry of War order. If you have objections, take them to the Ministry."
 
 msgid "什么契？没有的事。……你是哪家的？"
-msgstr "What deed? No such thing.... Who are you with?"
+msgstr "What deed? No such thing... Who are you with?"
 
 msgid "一个满脸风霜的老乞丐，缩在广场边的墙根下晒太阳。他腰里挂着一只大皮酒囊，网绳上打着结——你数了数，二十个。\n"
 msgstr "A weather-beaten old beggar huddled at the foot of a wall at the edge of the square, sunning himself. A big leather wineskin hangs at his waist, knots tied in its net cord. You count them: twenty.\n"
@@ -36899,7 +36899,7 @@ msgid "贫道是出家人，不便收女徒，得罪了。"
 msgstr "This poor Daoist has left the world and cannot take female disciples. Forgive me."
 
 msgid "嗯... 想入我茅山派？也好...."
-msgstr "Hmm... You want to join our Mount Mao School? Very well...."
+msgstr "Hmm... You want to join our Mount Mao School? Very well..."
 
 msgid "慢著，一个一个来。"
 msgstr "Slow down. One at a time."
@@ -36926,7 +36926,7 @@ msgid "你的观想虫被人杀死了！"
 msgstr "Someone has killed your Mind Bug!"
 
 msgid "你觉得一阵天旋地转...."
-msgstr "The world spins around you...."
+msgstr "The world spins around you..."
 
 msgid "这是一只由修道人的杂念绮思所化的观想兽，会缠住人的魂魄。\n"
 msgstr "This is a Mind Beast, born of a cultivator's stray and idle thoughts. It entangles a person's soul.\n"
@@ -36980,7 +36980,7 @@ msgid "很好，只要你对本庄主忠心耿耿，好处是少不了的。"
 msgstr "Very good. Stay loyal to me, and you will not go without your rewards."
 
 msgid "$N暧昧地抚摸著$n的脸，说道：特别是像你这样的女孩 ...."
-msgstr "$N {N:stroke|strokes} $n's face suggestively. \"Especially a girl like you....\""
+msgstr "$N {N:stroke|strokes} $n's face suggestively. \"Especially a girl like you...\""
 
 msgid "看了你一眼，没有笑。"
 msgstr " looks at you and does not smile."
@@ -38576,7 +38576,7 @@ msgid "广场西边一家小客栈里，一个年约十四岁的少年问店里�
 msgstr "In a small inn on the west side of the square, a youth of about fourteen asked the waiter, \"These folks are awful mysterious. What game are they playing?\""
 
 msgid "小二抄起脖子上的毛巾，抹了抹脸，说道：「小哥您有所不知，这些个爷儿们可是大内来的高手，这次是奉了咱们皇上的命令，要去岚城找一把叫做什么『旋芒宝剑』的，那骑马的官爷所称的白道长，便是咱们这附近有名的太乙观观主……」"
-msgstr "The waiter pulled the towel off his neck and mopped his face. \"You wouldn't know, friend—these fine gentlemen are masters from the Palace itself. His Majesty sent them to the Wind City, the Wind City, to find some sword they call Whirling Edge. And the Daoist Bai that rider mentioned, he's the abbot of Taiyi Abbey, famous round these parts...\""
+msgstr "The waiter pulled the towel off his neck and mopped his face. \"You wouldn't know, young sir—these fine gentlemen are masters from the Palace itself. His Majesty sent them to the Wind City, to find some sword they call Whirling Edge. And the Daoist Bai that rider mentioned, he's the abbot of Taiyi Abbey, famous round these parts...\""
 
 msgid "少年奇道：「岚城？那是什么地方？怎么我从小到大不曾听过有这个地方？」"
 msgstr "The youth was puzzled. \"The Wind City? Where's that? I've never heard of it in my whole life.\""

@@ -74,6 +74,7 @@ the Heaven-Defier (侮天鬼).
 精 Essence · 气 Qi · 神 Spirit · 内力 Inner Force (never qi) · 内功 neigong · 轻功 qinggong · 潜能 Potential · 加力 Extra Force ·
 杀气 Bloodlust · 法力 Arcane Power · 灵力 Mystic Power · 定力 Resolve · 实战经验 Combat Experience ·
 师父 Shifu · 掌门 Master (a title: Master Liu) · 师兄/师妹 Senior Brother / Junior Sister · 长老 Elder ·
+小哥 young sir · a monk is Master Xuanzhi to others, Shifu to his own disciples · 师姐 Big Sister from a child, Senior Sister otherwise ·
 江湖 jianghu · 武林 wulin · 手 (a fight's turn) beat · money wen · distance li.
 No HP or MP. The HUD may shorten to ESS / QI / SPI / POT / Lv.; every number's hover says the full word,
 and reward lines always write it out ("Potential +12").
@@ -110,6 +111,7 @@ Chinese has one form for 你 and a name; English does not. In a line with $N (th
 * Straight quotes `"` and `'`, and `...` for an ellipsis: the pixel font's curly quotes and … are
   full-width Chinese forms.
 * One dash: an em dash with no spaces (`word—word`), never ` - ` or ` — `. Ask topics are Title Case.
+* An ellipsis is three dots, whatever the Chinese has (…… or .....).
 * An NPC's action line follows its name directly (`{npc}{action}`): start it with a space
   (" sees you and sets down his broom.") or with "'s" ("'s eyes redden for a moment.").
 * Plurals: Chinese has none, so avoid "%d beats": write "Beats left: %d", "×%d", "Items inside: {count}."
