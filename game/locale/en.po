@@ -20087,7 +20087,7 @@ msgid "青石板劳牢的镶在地下，但它下面似乎是空的。\n"
 msgstr "The slab of blue-gray stone is set firmly into the ground, but it seems to be hollow underneath."
 
 msgid "这是一块千斤巨石，阻住了通向北面的路。\n"
-msgstr "This is a boulder weighing a thousand catties, blocking the way north."
+msgstr "This is a boulder weighing a thousand jin, blocking the way north."
 
 msgid "这是一道三丈高，厚达尺许的石墙。墙上的圆孔很适合用来发暗箭。\n"
 msgstr "A stone wall thirty feet high and about a foot thick. The round holes in it are just right for shooting hidden arrows."
@@ -20174,7 +20174,7 @@ msgid "白无常「哼」的一声，从袖中掏出一本像帐册的东西翻�
 msgstr "White Impermanence snorts and pulls a book like an account ledger from his sleeve, leafing through it."
 
 msgid "白无常阁上册子，说道：咦？阳寿未尽？怎么可能？"
-msgstr "White Impermanence snaps the book shut. \"Huh? Your years are not used up? How can that be?\""
+msgstr "White Impermanence snaps the book shut. \"Huh? Your allotted years are not up? How can that be?\""
 
 msgid "白无常搔了搔头，叹道：罢了罢了，你走吧。"
 msgstr "White Impermanence scratches his head and sighs, \"Oh, never mind. Go on, off with you.\""
