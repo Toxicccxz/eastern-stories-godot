@@ -109,8 +109,9 @@ static func duration_text(minutes: int) -> String:
 		return TranslationServer.translate("半个时辰")
 	@warning_ignore("integer_division")
 	var whole: int = halves / 2
-	# TRANSLATORS: the number two before a measure word (两个时辰), not counted as 二.
-	var number: String = TranslationServer.translate("两") if whole == 2 else ChineseNumber.of(whole)
+	# TRANSLATORS: the number two before a measure word (两个时辰), not counted as 二. Only Chinese
+	# reads it here; elsewhere 两 is the tael of silver (a language writing digits gets 2).
+	var number: String = TranslationServer.translate("两") if whole == 2 and MessageGrammar.shows_chinese() else ChineseNumber.of(whole)
 	if halves % 2 == 1:
 		# TRANSLATORS: a 车马行 ride's time on the road: {count} 时辰 and a half.
 		return TranslationServer.translate("{count}个半时辰").format({"count": number})

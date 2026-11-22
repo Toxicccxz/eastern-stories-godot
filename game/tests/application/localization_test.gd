@@ -97,6 +97,7 @@ func _service() -> void:
 	check(service.apply("ja") and TranslationServer.translate("新游戏") == "はじめから" and TranslationServer.translate("返回主菜单") == "タイトルに戻る", "日本語: its catalog is loaded")
 	check(face.data == (load(service.catalog().find("ja").face_path) as FontFile).data, "and the theme's pixel face draws Japanese glyph forms")
 	check(not MessageGrammar.shows_chinese() and ChineseNumber.of(10) == "10", "numbers the game fills are digits")
+	check(TranslationServer.translate("两") == "両", "两 is the tael of silver there (the number two before a measure word is a digit outside Chinese)")
 	service.apply("zh_Hant")
 	service.release()
 	check(TranslationServer.get_locale() == before and face.data == bundled, "release puts the locale and the face back")

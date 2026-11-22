@@ -7910,7 +7910,7 @@ msgid "对守衣人说，还不知道拿寒於宝衣做什么"
 msgstr "衣の守り手に、寒於の宝衣をどうするかまだわからないと告げた"
 
 msgid "宝衣在第二密室的冰匣里，匣只认「有凤来仪」：女子自己跳，男子请内厅的筱薇或禁闭房的芳绫替跳。第二密室从内厅穿堂南边的花门进，或在第一密室跳「有凤来仪」。"
-msgstr "宝衣は第二の隠し部屋の氷の箱の中にあり、箱は「有鳳来儀」にしか応えない。女なら自分で舞い、男なら奥の広間の筱薇か謹慎部屋の芳綾に代わりに舞ってもらう。第二の隠し部屋へは、奥の広間の通り抜けの南にある花門から入るか、第一の隠し部屋で「有鳳来儀」を舞う。"
+msgstr "宝衣は第二の隠し部屋の氷の箱の中にあり、箱は『有鳳来儀』にしか応えない。女なら自分で舞い、男なら奥の広間の筱薇か謹慎部屋の芳綾に代わりに舞ってもらう。第二の隠し部屋へは、奥の広間の通り抜けの南にある花門から入るか、第一の隠し部屋で『有鳳来儀』を舞う。"
 
 msgid "冰匣开了。一件月白的衣落在地上，寒气扑面。"
 msgstr "氷の箱が開いた。月白の衣が床に落ち、冷気が顔に吹きつけた。"
@@ -15540,3 +15540,2103 @@ msgstr "「ドーン」という音とともに、上から落ちてきた！痛
 
 msgid "茶"
 msgstr "茶"
+
+msgid "尸体"
+msgstr "死体"
+
+msgid "空无一物"
+msgstr "何もない"
+
+msgid "背包"
+msgstr "持ち物"
+
+msgid "没有找到存档。"
+msgstr "記録が見つかりません。"
+
+msgid "有一份存档可以继续。"
+msgstr "続きから遊べる記録があります。"
+
+msgid "主存档无法使用，但有可以恢复的存档。"
+msgstr "メインの記録は使えませんが、復元できる記録があります。"
+
+msgid "存档无法读取。"
+msgstr "記録を読み込めません。"
+
+msgid "此存档来自不兼容的开发版本，请开始新游戏。"
+msgstr "この記録は互換性のない開発版のものです。「はじめから」で始めてください。"
+
+msgid "这份存档来自不支持的版本。"
+msgstr "この記録は対応していない版のものです。"
+
+msgid "现在无法检查存档。"
+msgstr "今は記録を確認できません。"
+
+msgid "操作完成。"
+msgstr "完了しました。"
+
+msgid "还有一项操作没有完成。"
+msgstr "まだ終わっていない操作があります。"
+
+msgid "无法开始这段旅程。"
+msgstr "この旅を始められません。"
+
+msgid "存档无法恢复。"
+msgstr "記録を復元できません。"
+
+msgid "这份存档之后地图改过，存档时你站的地方现在站不了人，读不进来。"
+msgstr "この記録の後でマップが変わり、保存したときにいた場所に今は立てなくなったため、読み込めません。"
+
+msgid "手动存档不受影响；新角色第一次自动存档时会覆盖现在的自动存档。"
+msgstr "手動保存の記録はそのまま残ります。新しい人物が初めて自動保存するとき、今の自動保存の記録は上書きされます。"
+
+msgid "覆盖这一位的存档？"
+msgstr "この枠の記録を上書きしますか？"
+
+msgid "读取这份存档？上次存档之后的进度会丢失。"
+msgstr "この記録を読み込みますか？ 最後に保存してからの進行は失われます。"
+
+msgid "回到上次自动存档？这之后的进度都会丢失。"
+msgstr "最後の自動保存に戻りますか？ それ以降の進行はすべて失われます。"
+
+msgid "已存档。"
+msgstr "保存しました。"
+
+msgid "战斗中或动作还没完成时不能存档。"
+msgstr "戦闘中や動作の途中では保存できません。"
+
+msgid "这段戏还没演完，看完再存档。"
+msgstr "この場面はまだ終わっていません。見終えてから保存してください。"
+
+msgid "在两个地区之间移动时不能存档。"
+msgstr "地域の間を移動している間は保存できません。"
+
+msgid "角色的生死状态还在变化，暂时不能存档。"
+msgstr "人物の生死がまだ定まっていないため、今は保存できません。"
+
+msgid "身上有无法保存的临时效果，暂时不能存档。"
+msgstr "保存できない一時的な効果を受けているため、今は保存できません。"
+
+msgid "旅程还没准备好，暂时不能存档。"
+msgstr "旅の準備がまだ整っていないため、今は保存できません。"
+
+msgid "这里不能存档，挪一步再试。"
+msgstr "ここでは保存できません。少し動いてから、もう一度お試しください。"
+
+msgid "有人正在替你做的事还没完，等一会儿再存档。"
+msgstr "代わりに誰かがしていることがまだ終わっていません。少し待ってから保存してください。"
+
+msgid "无法整理当前旅程以便存档。"
+msgstr "保存のために今の旅をまとめることができませんでした。"
+
+msgid "存档无法写入。"
+msgstr "記録を書き込めません。"
+
+msgid "上次存档之后的进度可能会丢失。"
+msgstr "最後に保存してからの進行が失われるかもしれません。"
+
+msgid "操作无法完成。"
+msgstr "操作を完了できません。"
+
+msgid "自动存档"
+msgstr "自動保存"
+
+msgid "决战前"
+msgstr "決戦前"
+
+msgid "死前存档"
+msgstr "死の直前"
+
+msgid "手动存档 %d"
+msgstr "手動保存 %d"
+
+msgid "{slot}（主存档丢失，可以恢复）"
+msgstr "{slot}（本体が失われました・復元可）"
+
+msgid "{slot}（空）"
+msgstr "{slot}（空き）"
+
+msgid "{slot}（无法读取）"
+msgstr "{slot}（読込不可）"
+
+msgid "{slot}（来自不兼容的版本）"
+msgstr "{slot}（互換性のない版）"
+
+msgid "{name}（鬼魂）"
+msgstr "{name}（亡魂）"
+
+msgid "{place}    时长 {played}    {saved}"
+msgstr "{place}    プレイ時間 {played}    {saved}"
+
+msgid "不到一分钟前"
+msgstr "1分以内"
+
+msgid "%d 分钟前"
+msgstr "%d分前"
+
+msgid "%d 小时前"
+msgstr "%d時間前"
+
+msgid "{count}{unit}{item}"
+msgstr "{item}{count}{unit}"
+
+msgid "一{unit}{item}"
+msgstr "{item}"
+
+msgid "{npc}没有收下。"
+msgstr "{npc}は受け取らなかった。"
+
+msgid "{item}对你而言太重了，掉在你的脚边。"
+msgstr "{item}は重すぎて持ちきれず、足もとに落ちた。"
+
+msgid "这里没有这个人。"
+msgstr "ここにそのような人はいない。"
+
+msgid "这样东西不能随便给人。"
+msgstr "これは気安く人に渡せるものではない。"
+
+msgid "你拿出{item}给{npc}。"
+msgstr "{item}を取り出して{npc}に渡した。"
+
+msgid "你给{npc}{item}。"
+msgstr "{npc}に{item}を渡した。"
+
+msgid "{item}对{holder}而言太重了。"
+msgstr "{item}は{holder}には重すぎる。"
+
+msgid "{npc}丢下{item}。"
+msgstr "{npc}は{item}を放り出した。"
+
+msgid "这样东西不能随意丢弃。"
+msgstr "これは勝手に捨てられない。"
+
+msgid "你丢下%s。"
+msgstr "%sを捨てた。"
+
+msgid "因为这样东西并不值钱，所以人们并不会注意到它的存在。"
+msgstr "値打ちのない物なので、誰も気に留めないだろう。"
+
+msgid "这里没有这样东西。"
+msgstr "ここにそのような物はない。"
+
+msgid "这个东西还是小心保管的好，不必放在别处。"
+msgstr "これは大事に持っておいたほうがいい。よそに置くまでもない。"
+
+msgid "你将{item}放进{container}。"
+msgstr "{item}を{container}に入れた。"
+
+msgid "你上一个动作还没有完成！"
+msgstr "まだ前の動作が終わっていない！"
+
+msgid "这个东西拿不起来。"
+msgstr "これは持ち上げられない。"
+
+msgid "%s对你而言太重了。"
+msgstr "%sは重すぎて持てない。"
+
+msgid "你从{container}中拿出{item}。"
+msgstr "{container}から{item}を取り出した。"
+
+msgid "你身上没有这样东西。"
+msgstr "そのような物は持っていない。"
+
+msgid "你没有那麽多的%s。"
+msgstr "%sをそんなに持っていない。"
+
+msgid "{npc}拿起{container}咕噜噜地喝了几口{liquid}。"
+msgstr "{npc}は{container}を持ち上げ、{liquid}をごくごくと何口か飲んだ。"
+
+msgid "你胸中杀气翻涌，渐渐压不住了：杀气这么重，走进有人的地方时，你可能会控制不住，向人出手。"
+msgstr "胸の内で殺気が渦巻き、次第に抑えきれなくなってきた。これほど殺気が強いと、人のいる場所に入ったとき、我を忘れて人に襲いかかるかもしれない。"
+
+msgid "普通百姓"
+msgstr "庶民"
+
+msgid "【 鬼  魂 】"
+msgstr "【 亡  魂 】"
+
+msgid "【 惯  窃 】"
+msgstr "【 盗  人 】"
+
+msgid "【 尼  姑 】"
+msgstr "【 尼  僧 】"
+
+msgid "【 僧  人 】"
+msgstr "【 僧  侶 】"
+
+msgid "【 女  冠 】"
+msgstr "【 女道士 】"
+
+msgid "【 道  士 】"
+msgstr "【 道  士 】"
+
+msgid "【 女飞贼 】"
+msgstr "【 女盗賊 】"
+
+msgid "【 盗  贼 】"
+msgstr "【 盗  賊 】"
+
+msgid "【 舞  妓 】"
+msgstr "【 舞  姫 】"
+
+msgid "【 平  民 】"
+msgstr "【 平  民 】"
+
+msgid "【 才  女 】"
+msgstr "【 才  女 】"
+
+msgid "【 书  生 】"
+msgstr "【 書  生 】"
+
+msgid "【 女  官 】"
+msgstr "【 女  官 】"
+
+msgid "【 官  差 】"
+msgstr "【 役  人 】"
+
+msgid "【 女武者 】"
+msgstr "【 女武者 】"
+
+msgid "【 武  者 】"
+msgstr "【 武  者 】"
+
+msgid "【 女剑士 】"
+msgstr "【 女剣士 】"
+
+msgid "【 剑  士 】"
+msgstr "【 剣  士 】"
+
+msgid "【 方  士 】"
+msgstr "【 方  士 】"
+
+msgid "【 巫  医 】"
+msgstr "【 呪  医 】"
+
+msgid "【 叫化子 】"
+msgstr "【 物乞い 】"
+
+msgid "贼尼"
+msgstr "生臭尼"
+
+msgid "妖女"
+msgstr "妖女"
+
+msgid "小贱人"
+msgstr "小娘"
+
+msgid "死老太婆"
+msgstr "くそ婆あ"
+
+msgid "死秃驴"
+msgstr "くそ坊主"
+
+msgid "老秃驴"
+msgstr "老いぼれ坊主"
+
+msgid "死牛鼻子"
+msgstr "くそ道士"
+
+msgid "小王八蛋"
+msgstr "くそガキ"
+
+msgid "臭贼"
+msgstr "こそ泥"
+
+msgid "老匹夫"
+msgstr "老いぼれ"
+
+msgid "本姑娘"
+msgstr "私"
+
+msgid "老娘"
+msgstr "あたし"
+
+msgid "大和尚我"
+msgstr "大和尚様"
+
+msgid "老和尚我"
+msgstr "老和尚様"
+
+msgid "本山人"
+msgstr "山人"
+
+msgid "大爷我"
+msgstr "俺様"
+
+msgid "老子"
+msgstr "俺"
+
+msgid "{pronoun}看起来远不如你。"
+msgstr "{pronoun}はあなたよりはるかに格下に見える。"
+
+msgid "{pronoun}看起来不如你。"
+msgstr "{pronoun}はあなたより格下に見える。"
+
+msgid "{pronoun}看起来和你不相上下。"
+msgstr "{pronoun}はあなたと互角に見える。"
+
+msgid "{pronoun}看起来比你强。"
+msgstr "{pronoun}はあなたより格上に見える。"
+
+msgid "{pronoun}看起来比你强得多。"
+msgstr "{pronoun}はあなたよりはるかに格上に見える。"
+
+msgid "歇到回满"
+msgstr "全快まで休む"
+
+msgid "找个地方坐下歇着，让时间走起来：精、气、神慢慢回满就起身。世界照常运转，有人来袭会把你惊起。"
+msgstr "腰を下ろして休み、時を進めます。精・気・神が満ちたら立ち上がります。その間も世の中は動いていて、誰かに襲われれば飛び起きます。"
+
+msgid "你找个地方坐下，歇一歇。"
+msgstr "適当な場所に腰を下ろし、ひと休みする。"
+
+msgid "身上的限时差事照样计时：歇得越久，剩下的时辰越少。"
+msgstr "期限付きの頼み事も、時間はそのまま進みます。長く休むほど、残りの時間は減っていきます。"
+
+msgid "歇息中……已歇{time}"
+msgstr "休息中……{time}経過"
+
+msgid "起身"
+msgstr "立ち上がる"
+
+msgid "正在打斗，歇不下来。"
+msgstr "戦っている最中で、休めない。"
+
+msgid "你精神饱满，用不着歇。"
+msgstr "気力は十分で、休む必要はない。"
+
+msgid "你口干舌燥，歇着也回不过精神来：先找水喝。"
+msgstr "喉がからからで、休んでも元気が戻らない。まず水を飲もう。"
+
+msgid "现在歇不下来。"
+msgstr "今は休めない。"
+
+msgid "你歇了{time}，精、气、神都回满了。"
+msgstr "{time}休んだ。精・気・神がすべて満ちた。"
+
+msgid "你歇了{time}，起身活动活动。精、气、神还没全回满：伤要慢慢养，金疮药和运功疗伤快得多。"
+msgstr "{time}休み、立ち上がって体をほぐした。精・気・神はまだ満ちきっていない。傷はゆっくりとしか癒えない。金創薬や運功での治療のほうがずっと早い。"
+
+msgid "你歇了{time}，站了起来。"
+msgstr "{time}休み、立ち上がった。"
+
+msgid "你歇了{time}，忽然有人来袭，你一跃而起！"
+msgstr "{time}休んだところで、不意に誰かが襲ってきた。とっさに跳ね起きる！"
+
+msgid "你歇了{time}，身上一阵难受，歇不下去了。"
+msgstr "{time}休んだが、体に不快感が走り、休んでいられなくなった。"
+
+msgid "你歇了{time}，口干舌燥，再歇也回不过来：先找水喝。"
+msgstr "{time}休んだが、喉がからからで、これ以上休んでも回復しない。まず水を飲もう。"
+
+msgid "你歇了{time}，听见动静，站了起来。"
+msgstr "{time}休んだところで物音が聞こえ、立ち上がった。"
+
+msgid "你歇了{time}。"
+msgstr "{time}休んだ。"
+
+msgid "快"
+msgstr "速"
+
+msgid "重"
+msgstr "重"
+
+msgid "虚"
+msgstr "虚"
+
+msgid "守"
+msgstr "守"
+
+msgid "平"
+msgstr "平"
+
+msgid "快：命中高、伤害低；克重招。"
+msgstr "速：命中が高く、ダメージは低い。重に強い。"
+
+msgid "重：伤害高、命中低；克守招。"
+msgstr "重：ダメージが高く、命中は低い。守に強い。"
+
+msgid "虚：对方难以招架、伤害低，打中就打断对方的蓄势；克快招。"
+msgstr "虚：相手は招架しにくく、ダメージは低い。当たれば相手の溜めを断ち切る。速に強い。"
+
+msgid "守：这一回合自己更难被打中，伤害低；克虚招。"
+msgstr "守：このラウンドは自分が当たりにくくなるが、ダメージは低い。虚に強い。"
+
+msgid "平：没有偏向。"
+msgstr "平：偏りなし。"
+
+msgid "隙"
+msgstr "隙"
+
+msgid "压"
+msgstr "圧"
+
+msgid "连"
+msgstr "連"
+
+msgid "对方打空得 1 手"
+msgstr "相手の空振りで1手"
+
+msgid "近身打中得 1 手"
+msgstr "近間で当てて1手"
+
+msgid "换招连打得 1 手"
+msgstr "技を替えた連打で1手"
+
+msgid "够不着"
+msgstr "届かない"
+
+msgid "攻"
+msgstr "攻"
+
+msgid "游走"
+msgstr "遊撃"
+
+msgid "攻：伤害高，闪躲、招架低；有内功时加力到上限的一半。"
+msgstr "攻：ダメージが高く、回避と招架は低い。内功があれば、加力が上限の半分まで上がる。"
+
+msgid "守：招架高，伤害低。"
+msgstr "守：招架が高く、ダメージは低い。"
+
+msgid "游走：闪躲高，命中低。"
+msgstr "遊撃：回避が高く、命中は低い。"
+
+msgid "稳赢"
+msgstr "楽勝"
+
+msgid "占优"
+msgstr "優勢"
+
+msgid "五五开"
+msgstr "五分"
+
+msgid "吃亏"
+msgstr "劣勢"
+
+msgid "必败"
+msgstr "必敗"
+
+msgid "稳赢：{pronoun}远不是你的对手。"
+msgstr "楽勝：{pronoun}はあなたの敵ではない。"
+
+msgid "占优：你比{pronoun}强一些。"
+msgstr "優勢：あなたのほうが{pronoun}より少し強い。"
+
+msgid "五五开：{pronoun}和你不相上下。"
+msgstr "五分：{pronoun}とあなたは互角だ。"
+
+msgid "吃亏：{pronoun}比你强，打起来要吃亏。"
+msgstr "劣勢：{pronoun}はあなたより強く、戦えば分が悪い。"
+
+msgid "必败：{pronoun}远比你强，别打。"
+msgstr "必敗：{pronoun}はあなたよりはるかに強い。戦わないほうがいい。"
+
+msgid "{pronoun}这边有 {count} 个人一起上。"
+msgstr "{pronoun}の側は{count}人がかりで来る。"
+
+msgid "{pronoun}的闪躲比你高得多，你很难打中。"
+msgstr "{pronoun}は回避があなたよりはるかに高く、なかなか当たらない。"
+
+msgid "{pronoun}有兵刃在手，你空手难以近身。"
+msgstr "{pronoun}は武器を手にしている。素手では懐に入りにくい。"
+
+msgid "{pronoun}的经验比你多得多，你的拳脚落不实。"
+msgstr "{pronoun}は経験があなたよりはるかに豊富で、拳脚がまともに入らない。"
+
+msgid "{pronoun}下手太重，你撑不了几回合。"
+msgstr "{pronoun}の攻撃は重すぎて、何合ももたない。"
+
+msgid "你有兵刃在手，{pronoun}空手挡不住。"
+msgstr "あなたは武器を手にしている。{pronoun}の素手では防ぎきれない。"
+
+msgid "切磋稳赢：{pronoun}的招式你一眼看穿。"
+msgstr "手合わせ・楽勝：{pronoun}の技は一目で見切れる。"
+
+msgid "切磋占优：你多半先打中{pronoun}。"
+msgstr "手合わせ・優勢：たいていはあなたが先に当てる。"
+
+msgid "切磋五五开：谁先打中谁赢。"
+msgstr "手合わせ・五分：先に当てたほうが勝つ。"
+
+msgid "切磋吃亏：{pronoun}多半先打中你。"
+msgstr "手合わせ・劣勢：たいていは{pronoun}が先に当てる。"
+
+msgid "切磋必输：{pronoun}的招式你接不住。"
+msgstr "手合わせ・必敗：{pronoun}の技は受けきれない。"
+
+msgid "{name}打了个隔，不过依然烂醉如泥。"
+msgstr "{name}はしゃっくりをしたが、相変わらず泥酔している。"
+
+msgid "你觉得脑中昏昏沉沉，身子轻飘飘地，大概是醉了。"
+msgstr "頭がぼんやりとして、体がふわふわする。どうやら酔ったらしい。"
+
+msgid "{name}摇头晃脑地站都站不稳，显然是喝醉了。"
+msgstr "{name}は頭をふらつかせ、まともに立っていられない。すっかり酔っているようだ。"
+
+msgid "你觉得一阵酒意上冲，眼皮有些沉重了。"
+msgstr "酔いがぐっと回ってきて、まぶたが少し重くなった。"
+
+msgid "{name}脸上已经略显酒意了。"
+msgstr "{name}の顔には、もうほんのりと酔いが出ている。"
+
+msgid "你中的意寒掌毒发作了！"
+msgstr "意寒掌の毒が回った！"
+
+msgid "意寒掌毒"
+msgstr "意寒掌の毒"
+
+msgid "你中的火玫瑰毒发作了！"
+msgstr "火薔薇の毒が回った！"
+
+msgid "火玫瑰毒"
+msgstr "火薔薇の毒"
+
+msgid "你觉得脑中昏昏沉沉，心中空荡荡的，直想躺下来睡一觉。"
+msgstr "頭がぼんやりとして心がからっぽになり、ただ横になって眠りたくなる。"
+
+msgid "{name}摇头晃脑地站都站不稳，显然是蒙汗药的药力发作了。"
+msgstr "{name}は頭をふらつかせ、まともに立っていられない。しびれ薬が効いてきたようだ。"
+
+msgid "你中的蛇毒发作了！"
+msgstr "蛇の毒が回った！"
+
+msgid "蛇毒"
+msgstr "蛇毒"
+
+msgid "{name}({id})。\n"
+msgstr "{name}（{id}）。\n"
+
+msgid "僵尸追魂符（{name}）"
+msgstr "キョンシー追魂符（{name}）"
+
+msgid "断掉的{weapon}"
+msgstr "折れた{weapon}"
+
+msgid "歇到回满's pace and longest rest must not be negative"
+msgstr "「全快まで休む」の速さと最長の休息は負の値にできません"
+
+msgid "a run that rests by itself needs 歇到回满 (rest_world_scale)"
+msgstr "自分で休む連続動作には「全快まで休む」（rest_world_scale）が必要です"
+
+msgid "恭喜你！你又完成了一项任务！"
+msgstr "おめでとうございます！ また任務を一つ果たしました！"
+
+msgid "你被奖励了：\n{exp}点实战经验\n{pot}点潜能\n{score}点综合评价"
+msgstr "報酬を得た：\n実戦経験 {exp}点\n潜在力 {pot}点\n総合評価 {score}点"
+
+msgid "你亲手杀了自己的师父，被逐出了{family}！"
+msgstr "自らの手で師父を殺し、{family}を破門された！"
+
+msgid "弑师等同背叛师门：综合评价清零，背叛师门的次数变成 {count} 次。"
+msgstr "師を殺すことは師門に背くのと同じです。総合評価は0になり、師門に背いた回数は{count}回になりました。"
+
+msgid "「意寒睨」之术只能在战斗中使用。"
+msgstr "『意寒睨』の術は戦闘中にしか使えない。"
+
+msgid "你的内力不够。"
+msgstr "内力が足りない。"
+
+msgid "你要对谁施展「意寒睨」之术？"
+msgstr "誰に『意寒睨』の術をかける？"
+
+msgid "$N眼神忽然发出异光，双瞳犹如两把利刃般盯著$n！"
+msgstr "$Nの目が不意に異様な光を放ち、二つの瞳が刃のように$nを射すくめる！"
+
+msgid "$N很快地转过头去，避开了$n的目光。"
+msgstr "$Nはさっと顔をそむけ、$nの視線を避けた。"
+
+msgid "但是$N对$n的注视视若无睹....。"
+msgstr "だが$Nは$nの視線を意にも介さない……。"
+
+msgid "$N被$n的目光所摄，不自禁地打了个寒噤。"
+msgstr "$Nは$nの眼光に気圧され、思わず身震いした。"
+
+msgid "$N闭目凝神，用谷衣心法的内力运转了一次「灵神诀」..."
+msgstr "$Nは目を閉じて心を静め、谷衣心法の内力で『霊神訣』を一巡りさせた……"
+
+msgid "一股青气从$N身上散出，汇聚在$P的顶心，然後缓缓淡去。"
+msgstr "青い気が$Nの体から立ちのぼって$Pの頭頂に集まり、やがてゆっくりと薄れていった。"
+
+msgid "你必须先 enable 一种内功。"
+msgstr "まず使う内功を一つ選ばなければならない。"
+
+msgid "你只能用 none 表示不运内力，或数字表示每一击用几点内力。"
+msgstr "内力を使わないなら none、一撃ごとに使う内力の量なら数字で指定する。"
+
+msgid "疗伤"
+msgstr "治療"
+
+msgid "疗伤他人"
+msgstr "他人を治療"
+
+msgid "灵神诀"
+msgstr "霊神訣"
+
+msgid "恢复气"
+msgstr "気を回復"
+
+msgid "恢复神"
+msgstr "神を回復"
+
+msgid "恢复精"
+msgstr "精を回復"
+
+msgid "提升战斗力"
+msgstr "戦闘力を高める"
+
+msgid "压制杀气"
+msgstr "殺気を抑える"
+
+msgid "天邪虎啸"
+msgstr "天邪虎嘯"
+
+msgid "意寒睨"
+msgstr "意寒睨"
+
+msgid "你的气已经恢复到上限了。"
+msgstr "気はもう上限まで回復している。"
+
+msgid "$N深深吸了几口气，脸色看起来好多了。"
+msgstr "$Nは何度か深く息を吸った。顔色がずいぶんよくなったようだ。"
+
+msgid "你的神已经恢复到上限了。"
+msgstr "神はもう上限まで回復している。"
+
+msgid "$N微一凝神，缓缓地吸了口气，看起来有精神多了。"
+msgstr "$Nはわずかに心を凝らし、ゆっくりと息を吸った。ずいぶん気力が戻ったようだ。"
+
+msgid "你的精力已经恢复到上限了。"
+msgstr "精はもう上限まで回復している。"
+
+msgid "$N深深地吸了口气，手脚活动了几下，看起来有活力多了。"
+msgstr "$Nは深く息を吸い、手足を軽く動かした。ずいぶん活力が戻ったようだ。"
+
+msgid "( 你上一个动作还没有完成，不能施用内功。)"
+msgstr "（まだ前の動作が終わっていないので、内功は使えない。）"
+
+msgid "你请先用 enable 指令选择你要使用的内功。"
+msgstr "まず使う内功を選ばなければならない。"
+
+msgid "你所学的内功中没有这种功能。"
+msgstr "学んだ内功には、そのような働きはない。"
+
+msgid "战斗中运功疗伤？找死吗？"
+msgstr "戦闘中に運功で治療？ 死にたいのか？"
+
+msgid "你的真气不够。"
+msgstr "真気が足りない。"
+
+msgid "你已经受伤过重，只怕一运真气便有生命危险！"
+msgstr "傷が深すぎる。真気を巡らせたとたん、命が危うくなりかねない！"
+
+msgid "你全身放松，坐下来开始运功疗伤。"
+msgstr "全身の力を抜いて腰を下ろし、運功で傷を癒やしはじめた。"
+
+msgid "$N坐了下来运起内功，将手掌贴在$n背心，缓缓地将真气输入$n体内...."
+msgstr "$Nは腰を下ろして内功を巡らせ、$nの背に掌を当てて、ゆっくりと真気を$nの体内へ送り込む……"
+
+msgid "过了不久，$N额头上冒出豆大的汗珠，$n吐出一口瘀血，脸色看起来红润多了。"
+msgstr "しばらくすると$Nの額に玉のような汗が浮かび、$nはどす黒い血をひと口吐いた。顔色にずいぶん赤みが差してきた。"
+
+msgid "你要用真气为谁疗伤？"
+msgstr "誰を真気で治療する？"
+
+msgid "战斗中无法运功疗伤！"
+msgstr "戦闘中は運功で治療できない！"
+
+msgid "{name}已经受伤过重，经受不起你的真气震荡！"
+msgstr "{name}は傷が深すぎて、あなたの真気の衝撃に耐えられない！"
+
+msgid "你已经在运功中了。"
+msgstr "すでに運功している。"
+
+msgid "你现在毫无杀气。"
+msgstr "今は殺気がまったくない。"
+
+msgid "$N微一凝神，运起天邪神功，放慢呼吸，开始收敛自己的杀气 ...."
+msgstr "$Nはわずかに心を凝らして天邪神功を巡らせ、呼吸をゆるめて、自らの殺気を収めはじめた……"
+
+msgid "$N微一凝神，运起天邪神功，全身骨节发出一阵爆豆般的声响！"
+msgstr "$Nはわずかに心を凝らして天邪神功を巡らせた。全身の関節が豆のはじけるような音を立てる！"
+
+msgid "天邪虎啸只能在战斗中使用。"
+msgstr "天邪虎嘯は戦闘中にしか使えない。"
+
+msgid "$N深深地吸一口气，开始发出有如猛虎般的啸声！"
+msgstr "$Nは深く息を吸い込み、猛虎のような咆哮を上げはじめた！"
+
+msgid "吃"
+msgstr "食べる"
+
+msgid "使用"
+msgstr "使う"
+
+msgid "你没有中蛇毒。"
+msgstr "蛇の毒には冒されていない。"
+
+msgid "但是你中的蛇毒并没有完全清除。"
+msgstr "だが、蛇の毒はまだ抜けきっていない。"
+
+msgid "你终于清除了体内所有的蛇毒！"
+msgstr "ついに体内の蛇の毒がすべて抜けた！"
+
+msgid "你服下蛇药，顿时感觉好多了。{after}"
+msgstr "蛇毒消しを飲むと、たちまち楽になった。{after}"
+
+msgid "体内的蛇毒还剩 {left} 分：每服一剂解去一分，每次毒发也会消退一分。"
+msgstr "体内の蛇の毒は残り{left}。一服ごとに1減り、毒が回るたびにも1減ります。"
+
+msgid "战斗中不能用药治伤!"
+msgstr "戦闘中に薬で傷の手当てはできない！"
+
+msgid "你没有受伤啊?"
+msgstr "傷は負っていないが？"
+
+msgid "你敷上金疮药 ."
+msgstr "金創薬を塗った。"
+
+msgid "你拿出一朵小花蕊，一口给吞了下去。"
+msgstr "小さな花蕊を一つ取り出し、ひと口で飲み込んだ。"
+
+msgid "只见你脸上泛起一阵红晕，整个人看起来好多了!"
+msgstr "顔がぽっと赤らみ、すっかり元気になったようだ！"
+
+msgid "你拿出一粒仙丹，纳入口中. 吃的太急, 鼻涕眼泪流了满脸.."
+msgstr "仙丹を一粒取り出して口に含んだ。あわてて飲んだせいで、鼻水と涙で顔じゅうがぐしゃぐしゃになった……"
+
+msgid "红酒"
+msgstr "紅酒"
+
+msgid "清水"
+msgstr "清水"
+
+msgid "你向{npc}请教有关「{skill}」的疑问。"
+msgstr "{npc}に『{skill}』について教えを請うた。"
+
+msgid "临阵磨枪？来不及啦。"
+msgstr "今さら泥縄か？ もう間に合わない。"
+
+msgid "你要向谁求教？"
+msgstr "誰に教えを請う？"
+
+msgid "嗯....你得先把%s弄醒再说。"
+msgstr "うーん……まず%sを起こさないと。"
+
+msgid "这项技能你恐怕必须找别人学了。"
+msgstr "この技能は、ほかの誰かに習うしかなさそうだ。"
+
+msgid "%s神色间似乎对你不是十分信任，也许是想起你从前背叛师门的事情 ...。"
+msgstr "%sはどうもあまり信用してくれていないようだ。かつて師門に背いたことを思い出しているのかもしれない……。"
+
+msgid "%s说道：嗯 .... 师父能教你的都教了，其他的你自己练吧。"
+msgstr "%s「うむ……師父として教えられることは、すべて教えた。あとは自分で鍛えるといい」"
+
+msgid "%s说道：虽然你是我门下的弟子，可是并非我的嫡传弟子 ...."
+msgstr "%s「門下の弟子ではあるが、私の直弟子ではない……」"
+
+msgid "%s说道：我只能教你这些粗浅的本门功夫，其他的还是去找你师父学吧。"
+msgstr "%s「私が教えられるのは、この門の初歩の功夫だけだ。あとは自分の師父に習うといい」"
+
+msgid "%s不愿意教你这项技能。"
+msgstr "%sはこの技能を教えてくれない。"
+
+msgid "这项技能你的程度已经不输你师父了。"
+msgstr "この技能については、もう師父に引けを取らない。"
+
+msgid "依你目前的能力，没有办法学习这种技能。"
+msgstr "今の力では、この技能を学ぶことはできない。"
+
+msgid "%s说道：%s"
+msgstr "%s「%s」"
+
+msgid "你的潜能已经发挥到极限了，没有办法再成长了。"
+msgstr "潜在力はもう限界まで引き出した。これ以上は伸びない。"
+
+msgid "但是%s现在并不准备回答你的问题。"
+msgstr "だが、%sは今、問いに答える気がないようだ。"
+
+msgid "但是%s显然太累了，没有办法教你什麽。"
+msgstr "だが、%sは見るからに疲れきっていて、何も教えられそうにない。"
+
+msgid "你向%s请教，但这次请教无法进行。"
+msgstr "%sに教えを請うたが、今回は教えを受けられなかった。"
+
+msgid "也许是缺乏实战经验，你对%s的回答总是无法领会。"
+msgstr "実戦経験が足りないせいか、%sの答えがどうにも呑み込めない。"
+
+msgid "你今天太累了，结果什麽也没有学到。"
+msgstr "今日は疲れすぎていて、結局何も身につかなかった。"
+
+msgid "你听了%s的指导，似乎有些心得。"
+msgstr "%sの指導を聞いて、何かつかめた気がする。"
+
+msgid "还能学到 {level} 级（{why}）"
+msgstr "レベル{level}まで学べる（{why}）"
+
+msgid "学不了：{why}"
+msgstr "学べない：{why}"
+
+msgid "{head}。"
+msgstr "{head}。"
+
+msgid "{head}；{problem}。"
+msgstr "{head}。{problem}。"
+
+msgid "{npc}自己是 {teacher} 级"
+msgstr "{npc}自身がレベル{teacher}"
+
+msgid "你已学到{npc}的 {teacher} 级"
+msgstr "{npc}のレベル{teacher}まで学びきった"
+
+msgid "背叛师门 {count} 次，{npc}只教到 {teacher} - 20×{count} = {cap} 级"
+msgstr "師門に背いた回数{count}回、{npc}が教えるのはレベル{teacher} - 20×{count} = {cap}まで"
+
+msgid "不是{npc}的嫡传弟子，只学得到{npc}等级（{teacher}）的三分之一左右"
+msgstr "{npc}の直弟子ではないので、{npc}のレベル（{teacher}）の三分の一ほどまでしか学べない"
+
+msgid "背叛师门 {count} 次，{npc}能教你的都教了"
+msgstr "師門に背いた回数{count}回、{npc}が教えてくれることはもうない"
+
+msgid "{level} 级要再学，须实战经验 ≥ {required}"
+msgstr "レベル{level}から先へ学ぶには実戦経験 ≥ {required}が必要"
+
+msgid "经验不足，要再学须实战经验 ≥ {required}（你 {have}）"
+msgstr "経験不足：先へ学ぶには実戦経験 ≥ {required}が必要（現在 {have}）"
+
+msgid "学不了：{npc}不肯指点你。"
+msgstr "学べない：{npc}が教えてくれない。"
+
+msgid "潜能已经用完"
+msgstr "潜在力を使い果たした"
+
+msgid "{npc}太累了"
+msgstr "{npc}が疲れきっている"
+
+msgid "{npc}现在不答问题"
+msgstr "{npc}は今、問いに答えない"
+
+msgid "精不够：每次耗精 {cost}，精须多于此数"
+msgstr "精が足りない：一回ごとに精を{cost}使い、それより多く残っている必要がある"
+
+msgid "%s说道：您太客气了，这怎麽敢当？"
+msgstr "%s「そんな、とんでもない。恐れ多いことです」"
+
+msgid "%s像是受宠若惊一样，说道：请教？这怎麽敢当？"
+msgstr "%sは恐縮しきった様子で言った。「教えを請うだなんて、とんでもありません」"
+
+msgid "%s笑著说道：您见笑了，我这点雕虫小技怎够资格「指点」您什麽？"
+msgstr "%sは笑って言った。「お戯れを。私のつまらない小技で、何を『指南』できましょう？」"
+
+msgid "「{nickname}」{name}"
+msgstr "「{nickname}」{name}"
+
+msgid "{title}{name}"
+msgstr "{title}{name}"
+
+msgid "{title} {name}"
+msgstr "{title} {name}"
+
+msgid "跪下受戒"
+msgstr "跪いて受戒"
+
+msgid "北"
+msgstr "北"
+
+msgid "南"
+msgstr "南"
+
+msgid "东"
+msgstr "東"
+
+msgid "西"
+msgstr "西"
+
+msgid "北边"
+msgstr "北の方"
+
+msgid "南边"
+msgstr "南の方"
+
+msgid "东边"
+msgstr "東の方"
+
+msgid "西边"
+msgstr "西の方"
+
+msgid "东北"
+msgstr "北東"
+
+msgid "西北"
+msgstr "北西"
+
+msgid "东南"
+msgstr "南東"
+
+msgid "西南"
+msgstr "南西"
+
+msgid "上"
+msgstr "上"
+
+msgid "下"
+msgstr "下"
+
+msgid "外"
+msgstr "外"
+
+msgid "里"
+msgstr "奥"
+
+msgid "{npc}往{direction}离开。"
+msgstr "{npc}は{direction}へ去っていった。"
+
+msgid "{npc}往{direction}落荒而逃了。"
+msgstr "{npc}は{direction}へほうほうの体で逃げていった。"
+
+msgid "想倚多为胜，这不是欺人太甚吗！"
+msgstr "数を頼みに勝とうとは、あまりにひどいではないか！"
+
+msgid "哼！出招吧！"
+msgstr "ふん！ かかってこい！"
+
+msgid "$SELF怎麽可能是$RESPECT的对手？"
+msgstr "$SELFが$RESPECTのお相手になど、なれるはずがありません。"
+
+msgid "既然$RESPECT赐教，$SELF只好奉陪。"
+msgstr "$RESPECTがご指南くださるのなら、$SELFもお相手いたしましょう。"
+
+msgid "not a task 朱鸿雪 gives, or all default"
+msgstr "朱鴻雪の出す任務ではないか、すべて既定値です"
+
+msgid "你第一次在切磋中胜过了{name}"
+msgstr "初めて手合わせで{name}に勝った"
+
+msgid "你第一次击败了{name}"
+msgstr "初めて{name}を倒した"
+
+msgid "你了结了「{name}」这段经历"
+msgstr "「{name}」の一件に決着をつけた"
+
+msgid "你读通了{name}"
+msgstr "{name}を読み終えた"
+
+msgid "你完成了官府悬赏「{name}」"
+msgstr "官府の懸賞「{name}」を果たした"
+
+msgid "你的内力练到了 {name}"
+msgstr "内力が{name}に達した"
+
+msgid "你办成了「{name}」"
+msgstr "「{name}」をやり遂げた"
+
+msgid "你第一次来到{name}"
+msgstr "初めて{name}を訪れた"
+
+msgid "【历练】{done}：实战经验 +{exp}，潜能 +{pot}。"
+msgstr "【歴練】{done}：実戦経験 +{exp}、潜在力 +{pot}。"
+
+msgid "【历练】{done}：实战经验 +{exp}。"
+msgstr "【歴練】{done}：実戦経験 +{exp}。"
+
+msgid "（落后补偿 +{percent}%）"
+msgstr "（遅れ取り戻し +{percent}%）"
+
+msgid "潜能已满（最多 {cap} 点未用），多出的 {cut} 点没有记下。先去请教师父或自学，用掉一些潜能吧。"
+msgstr "潜在力がいっぱいです（未使用は最大{cap}点）。あふれた{cut}点は記録されませんでした。師父に教えを請うか独学をして、潜在力を使いましょう。"
+
+msgid "【事迹】{did}"
+msgstr "【事績】{did}"
+
+msgid "（在{place}，无人看见）"
+msgstr "（{place}にて、誰にも見られず）"
+
+msgid "（在{place}，{who}看见了）"
+msgstr "（{place}にて、{who}が見ていた）"
+
+msgid "门派"
+msgstr "門派"
+
+msgid "交情"
+msgstr "交情"
+
+msgid "秘密"
+msgstr "秘密"
+
+msgid "杀"
+msgstr "討伐"
+
+msgid "寻"
+msgstr "捜索"
+
+msgid "a quest needs a target, type 杀 or 寻, time above 0 and bonuses not below 0"
+msgstr "任務には対象、種類（討伐か捜索）、0より大きい時間、0以上の報酬が必要です"
+
+msgid "朱鸿雪奇怪的眼神盯着你,说:\n就凭你这种小角色也想? 还不快滚!"
+msgstr "朱鴻雪が妙な目つきでこちらをにらみつけて言った。\n「お前みたいな小物が？ さっさと消えな！」"
+
+msgid "朱鸿雪摆了摆手，说道：\n『{target}』那件事不必办了。"
+msgstr "朱鴻雪は手を振って言った。\n「『{target}』の件は、もういいよ」"
+
+msgid "朱鸿雪向你一甩袍袖，说道：\n真没用！不过看在你还回来见我的份上，就在给你一次机会．"
+msgstr "朱鴻雪はこちらに袖をひと振りして言った。\n「役立たずだね！ でも、こうして戻ってきたんだから、もう一度だけ機会をあげるよ」"
+
+msgid "朱鸿雪沉思了一会儿，说道：\n请在{time}内找回『{target}』给我。"
+msgstr "朱鴻雪はしばし考えてから言った。\n「{time}以内に『{target}』を見つけて、私のところへ持ってきて」"
+
+msgid "朱鸿雪沉思了一会儿，说道：\n请在{time}内替我杀了『{target}』。"
+msgstr "朱鴻雪はしばし考えてから言った。\n「{time}以内に、私の代わりに『{target}』を殺して」"
+
+msgid "你现在没有任何任务！"
+msgstr "今は任務を何も受けていない！"
+
+msgid "你现在的任务是{type}『{target}』。"
+msgstr "今の任務は{type}：『{target}』。"
+
+msgid "你还有{time}去完成它。"
+msgstr "まだ{time}残っている。"
+
+msgid "但是你已经没有足够的时间来完成它了。"
+msgstr "だが、もう果たすだけの時間は残っていない。"
+
+msgid "{n}天"
+msgstr "{n}日"
+
+msgid "{n}小时"
+msgstr "{n}時間"
+
+msgid "{n}分"
+msgstr "{n}分"
+
+msgid "{n}秒"
+msgstr "{n}秒"
+
+msgid "主线"
+msgstr "本編"
+
+msgid "势力"
+msgstr "勢力"
+
+msgid "地区"
+msgstr "地域"
+
+msgid "差事"
+msgstr "頼み事"
+
+msgid "the 历练 is the quest's"
+msgstr "その歴練は任務のものです"
+
+msgid "{what} ≥ {required}（你 {have}）"
+msgstr "{what} ≥ {required}（現在 {have}）"
+
+msgid "只收男弟子"
+msgstr "男の弟子しか取らない"
+
+msgid "只收女弟子"
+msgstr "女の弟子しか取らない"
+
+msgid "须先剃度出家"
+msgstr "まず剃髪して出家する必要がある"
+
+msgid "身份须合师门的规矩"
+msgstr "身分が師門の掟に合っている必要がある"
+
+msgid "另有条件"
+msgstr "ほかにも条件がある"
+
+msgid "另有条件（拜师时便知）"
+msgstr "ほかにも条件がある（弟子入りのときにわかる）"
+
+msgid "{npc}说过：{line}"
+msgstr "{npc}が言っていた。「{line}」"
+
+msgid "身上的钱不到 {money}"
+msgstr "所持金が{money}に足りない"
+
+msgid "只收没有门派的人"
+msgstr "門派に属していない者しか取らない"
+
+msgid "须通过考验"
+msgstr "試練に合格する必要がある"
+
+msgid "拜师时另有要求"
+msgstr "弟子入りのときに別の求めがある"
+
+msgid "须另有机缘"
+msgstr "しかるべき機縁が必要"
+
+msgid "不收徒"
+msgstr "弟子を取らない"
+
+msgid "{npc}已经愿意收你"
+msgstr "{npc}はもう弟子にしてくれる気でいる"
+
+msgid "{n} 两黄金"
+msgstr "金{n}両"
+
+msgid "{n} 两银子"
+msgstr "銀{n}両"
+
+msgid "{n} 文钱"
+msgstr "{n}文"
+
+msgid "打法"
+msgstr "戦い方"
+
+msgid "师兄"
+msgstr "師兄"
+
+msgid "师弟"
+msgstr "師弟"
+
+msgid "同门师兄"
+msgstr "同門の師兄"
+
+msgid "同门师弟"
+msgstr "同門の師弟"
+
+msgid "师姐"
+msgstr "師姐"
+
+msgid "师妹"
+msgstr "師妹"
+
+msgid "同门师姐"
+msgstr "同門の師姐"
+
+msgid "同门师妹"
+msgstr "同門の師妹"
+
+msgid "师父"
+msgstr "師父"
+
+msgid "同门长辈"
+msgstr "同門の目上"
+
+msgid "师伯"
+msgstr "師伯"
+
+msgid "师叔"
+msgstr "師叔"
+
+msgid "同门晚辈"
+msgstr "同門の目下"
+
+msgid "师侄"
+msgstr "師姪"
+
+msgid "{family}开山祖师"
+msgstr "{family}の開祖"
+
+msgid "{family}第{generation}代{title}"
+msgstr "{family}第{generation}代の{title}"
+
+msgid "你现在并没有拜任何人为师的意思。"
+msgstr "今は誰かに弟子入りするつもりはない。"
+
+msgid "你改变主意不想拜%s为师了。"
+msgstr "気が変わって、%sに弟子入りするのをやめた。"
+
+msgid "你恭恭敬敬地向%s磕头请安，叫道：「师父！」"
+msgstr "%sにうやうやしく叩頭して挨拶し、「師父！」と呼んだ。"
+
+msgid "你想拜%s为师，但是对方还没有答应。"
+msgstr "%sに弟子入りしたいが、まだ承知してもらえていない。"
+
+msgid "你想要拜%s为师。"
+msgstr "%sに弟子入りしたいと願い出た。"
+
+msgid "{npc}正盯著你看，不知道打些什麽主意。"
+msgstr "{npc}がじっとこちらを見ている。何をたくらんでいるのやら。"
+
+msgid "{who}大声喝道：{line}"
+msgstr "{who}が大声で一喝した。「{line}」"
+
+msgid "你发誓恪守门规。"
+msgstr "門規を固く守ると誓った。"
+
+msgid "%s拍拍你的头，说道：「好徒儿！」"
+msgstr "%sは頭をなでてくれた。「よい弟子だ！」"
+
+msgid "%s想要收你为弟子。"
+msgstr "%sが弟子に取りたいと言っている。"
+
+msgid "如果你愿意拜%s为师父，就向她拜师。"
+msgstr "%sを師父と仰ぐつもりなら、彼女に弟子入りしよう。"
+
+msgid "如果你愿意拜%s为师父，就向他拜师。"
+msgstr "%sを師父と仰ぐつもりなら、彼に弟子入りしよう。"
+
+msgid "你决定背叛师门，改投入%s门下！！"
+msgstr "師門に背き、%sの門下に鞍替えすることにした！！"
+
+msgid "你跪了下来向%s恭恭敬敬地磕了四个响头，叫道：「师父！」"
+msgstr "跪いて%sにうやうやしく四度、音高く叩頭し、「師父！」と呼んだ。"
+
+msgid "你决定拜%s为师。"
+msgstr "%sに弟子入りすることにした。"
+
+msgid "%s决定收你为弟子。"
+msgstr "%sは弟子に取ってくれることになった。"
+
+msgid "弟子"
+msgstr "弟子"
+
+msgid "恭喜您成为{family}的第{generation}代弟子。"
+msgstr "おめでとうございます。{family}第{generation}代の弟子となりました。"
+
+msgid "拳脚"
+msgstr "拳脚"
+
+msgid "剑法"
+msgstr "剣法"
+
+msgid "刀法"
+msgstr "刀法"
+
+msgid "棍法"
+msgstr "棍法"
+
+msgid "杖法"
+msgstr "杖法"
+
+msgid "暗器"
+msgstr "暗器"
+
+msgid "内功"
+msgstr "内功"
+
+msgid "招架"
+msgstr "招架"
+
+msgid "轻功"
+msgstr "軽功"
+
+msgid "法术"
+msgstr "法術"
+
+msgid "咒文"
+msgstr "呪文"
+
+msgid "行动"
+msgstr "移動"
+
+msgid "阵法"
+msgstr "陣法"
+
+msgid "鞭法"
+msgstr "鞭法"
+
+msgid "驱尸"
+msgstr "屍を操る"
+
+msgid "你正在战斗中！"
+msgstr "戦闘中だ！"
+
+msgid "你要驱动哪一具尸体？"
+msgstr "どの屍を動かす？"
+
+msgid "你的法力不够了！"
+msgstr "法力が足りなくなった！"
+
+msgid "$N对著地上的$n喃喃地念了几句咒语，$n抽搐了几下竟站了起来！"
+msgstr "$Nは地面の$nに向かって呪文をぶつぶつと唱えた。$nは何度かひきつったかと思うと、なんと立ち上がった！"
+
+msgid "阴阳眼"
+msgstr "陰陽眼"
+
+msgid "你已经施展过阴阳眼的法术了。"
+msgstr "陰陽眼の法術はもうかけてある。"
+
+msgid "你的法力不够。"
+msgstr "法力が足りない。"
+
+msgid "$N微一凝神，闭著眼睛念了几句咒语，施展「阴阳眼」法术。"
+msgstr "$Nはわずかに心を凝らし、目を閉じて呪文を唱え、『陰陽眼』の法術を施した。"
+
+msgid "你的阴阳眼法术失效了。"
+msgstr "陰陽眼の法術が切れた。"
+
+msgid "你失败了。"
+msgstr "失敗した。"
+
+msgid "你要对谁施展这个法术？"
+msgstr "誰にこの法術をかける？"
+
+msgid "你的法力不够！"
+msgstr "法力が足りない！"
+
+msgid "你的精神没有办法有效集中！"
+msgstr "精神をうまく集中できない！"
+
+msgid "但是被$n躲开了。"
+msgstr "だが$nにかわされた。"
+
+msgid "( 你上一个动作还没有完成，不能念咒文。)"
+msgstr "（まだ前の動作が終わっていないので、呪文は唱えられない。）"
+
+msgid "这里不准念咒文。"
+msgstr "ここでは呪文を唱えてはならない。"
+
+msgid "你请先用 enable 指令选择你要使用的咒文系。"
+msgstr "まず使う呪文の系統を選ばなければならない。"
+
+msgid "你所选用的咒文系中没有这种咒文。"
+msgstr "選んだ呪文の系統に、そのような呪文はない。"
+
+msgid "( 你上一个动作还没有完成，不能施展神通。)"
+msgstr "（まだ前の動作が終わっていないので、神通は使えない。）"
+
+msgid "这里无法使用神通。"
+msgstr "ここでは神通を使えない。"
+
+msgid "你请先用 enable 指令选择你要使用的神通系。"
+msgstr "まず使う神通の系統を選ばなければならない。"
+
+msgid "你所选用的法术系中没有这种法术。"
+msgstr "選んだ法術の系統に、そのような法術はない。"
+
+msgid "「封」字诀"
+msgstr "『封』の字訣"
+
+msgid "牵制攻击只能对战斗中的对手使用。"
+msgstr "牽制の攻撃は、戦っている相手にしか使えない。"
+
+msgid "$n目前正自顾不暇，放胆攻击吧！"
+msgstr "$nは今、自分の身を守るので手一杯だ。思いきり攻めかかれ！"
+
+msgid "$N使出封山剑法「封」字诀，连递数个虚招企图扰乱$n的攻势，结果$p被$P攻了个措手不及！"
+msgstr "$Nは封山剣法『封』の字訣を繰り出し、立て続けに虚招を放って$nの攻勢を乱そうとする。$pは$Pの攻めに不意を突かれた！"
+
+msgid "$N使出封山剑法「封」字诀，连递数个虚招企图扰乱$n的攻势，可是$p看破了$P的企图，并没有上当。"
+msgstr "$Nは封山剣法『封』の字訣を繰り出し、立て続けに虚招を放って$nの攻勢を乱そうとする。だが$pは$Pのねらいを見抜き、その手には乗らなかった。"
+
+msgid "游识神通"
+msgstr "遊識神通"
+
+msgid "你要移动到哪一个人身边？"
+msgstr "誰のそばへ移る？"
+
+msgid "你无法感受到这个人的灵力 ...."
+msgstr "この人の霊力を感じ取れない……"
+
+msgid "中止施法。"
+msgstr "術を中断した。"
+
+msgid "$N低头闭目，开始施展游识神通 ...."
+msgstr "$Nはうつむいて目を閉じ、遊識神通を施しはじめた……"
+
+msgid "战斗中无法使用游识神通！"
+msgstr "戦闘中は遊識神通を使えない！"
+
+msgid "你的灵力不够！"
+msgstr "霊力が足りない！"
+
+msgid "游识神通只能对自己使用！"
+msgstr "遊識神通は自分にしか使えない！"
+
+msgid "你感受到对方的灵力，但是不够强烈。"
+msgstr "相手の霊力を感じ取ったが、まだ弱すぎる。"
+
+msgid "你因为不够熟练而失败了。"
+msgstr "熟練が足りず、失敗した。"
+
+msgid "$N口中喃喃地念著咒文，忽然大喝一声“疾！”"
+msgstr "$Nは口の中で呪文を唱え、不意に「疾！」と一喝した！"
+
+msgid "只见一道黑气罩在$n身上！"
+msgstr "一筋の黒い気が$nを包み込んだ！"
+
+msgid "只见一道金光罩在$n身上！"
+msgstr "一筋の金色の光が$nを包み込んだ！"
+
+msgid "只见一团火焰罩在$n身上！"
+msgstr "ひと塊の炎が$nを包み込んだ！"
+
+msgid "只听在一声海啸，海水将$n团团围住！"
+msgstr "津波のような轟音とともに、海水が$nをぐるりと取り囲んだ！"
+
+msgid "只见空中落下无数大木，正把$n困在中央！"
+msgstr "空から無数の大木が降り注ぎ、$nをその真ん中に閉じ込めた！"
+
+msgid "只见$N化作一道黑气，然后消失得无影无踪！"
+msgstr "$Nは一筋の黒い気と化し、跡形もなく消え失せた！"
+
+msgid "只见$N化作一道金光，然后消失得无影无踪！"
+msgstr "$Nは一筋の金色の光と化し、跡形もなく消え失せた！"
+
+msgid "只见$N化作一团火焰，然后消失得无影无踪！"
+msgstr "$Nはひと塊の炎と化し、跡形もなく消え失せた！"
+
+msgid "只见$N化作一道长虹，然后消失得无影无踪！"
+msgstr "$Nは長い虹と化し、跡形もなく消え失せた！"
+
+msgid "只见$N化作一团大雾，然后消失得无影无踪！"
+msgstr "$Nは濃い霧と化し、跡形もなく消え失せた！"
+
+msgid "但是$n纵身一跃，脱离了围困。"
+msgstr "だが$nはひらりと跳び上がり、囲みを抜け出した。"
+
+msgid "困"
+msgstr "囲"
+
+msgid "遁"
+msgstr "遁"
+
+msgid "这个法术只能在战斗中使用！"
+msgstr "この法術は戦闘中にしか使えない！"
+
+msgid "$n正自顾不暇，放胆进攻吧。"
+msgstr "$nは今、自分の身を守るので手一杯だ。思いきり攻めかかれ。"
+
+msgid "「缺」字诀"
+msgstr "『欠』の字訣"
+
+msgid "'缺'字诀只能在战斗中使用。"
+msgstr "『欠』の字訣は戦闘中にしか使えない。"
+
+msgid "你要对谁使用'缺'字诀？"
+msgstr "誰に『欠』の字訣を使う？"
+
+msgid "你已经在运用中了。"
+msgstr "もう使っている。"
+
+msgid "$N剑招陡变，空门大开，诱使$n进招，"
+msgstr "$Nの剣筋が一変し、わざと大きく隙を見せて$nを誘い込む。"
+
+msgid "可是$n看破了$N的企图，并没有上当。"
+msgstr "だが$nは$Nのねらいを見抜き、その手には乗らなかった。"
+
+msgid "$N突然对$n发出奋力一击！"
+msgstr "$Nは不意に$nへ渾身の一撃を放った！"
+
+msgid "「玄羽乱舞」"
+msgstr "『玄羽乱舞』"
+
+msgid "「玄羽乱舞」只能在战斗中使用。"
+msgstr "『玄羽乱舞』は戦闘中にしか使えない。"
+
+msgid "你的气不够！"
+msgstr "気が足りない！"
+
+msgid "你的真气不够！"
+msgstr "真気が足りない！"
+
+msgid "$N使出步玄七诀第一式「玄羽乱舞」，身法陡然加快！"
+msgstr "$Nは歩玄七訣の第一式『玄羽乱舞』を繰り出し、身のこなしが一気に速くなった！"
+
+msgid "$N的身形转了几转，倏地停住了脚步。"
+msgstr "$Nは身をいくたびか翻し、ぴたりと足を止めた。"
+
+msgid "$N迅捷无伦地在$n身旁绕了一圈 ..."
+msgstr "$Nは目にもとまらぬ速さで$nのまわりをひと巡りする……"
+
+msgid "但是$N找不到机会出手！"
+msgstr "だが$Nは仕掛ける隙を見つけられない！"
+
+msgid "$N眼睛忽然睁开，喃喃地说道：杀....死....$n...."
+msgstr "$Nの目がかっと見開かれ、ぶつぶつとつぶやいた。「殺……す……$n……」"
+
+msgid "你要在这张符上写谁的名字？"
+msgstr "この符に誰の名を書く？"
+
+msgid "心识神通"
+msgstr "心識神通"
+
+msgid "$N一手放在$n的天灵盖上，一手贴在$n的後心，闭上眼睛缓缓低吟 ..."
+msgstr "$Nは片手を$nの頭頂に、もう片手を$nの背に当て、目を閉じてゆっくりと低く唱えはじめた……"
+
+msgid "你要对谁使用心识神通？"
+msgstr "誰に心識神通を使う？"
+
+msgid "召护法"
+msgstr "護法を召す"
+
+msgid "只有战斗中才能召唤天将！"
+msgstr "天将を召喚できるのは戦闘中だけだ！"
+
+msgid "你的精神无法集中！"
+msgstr "精神を集中できない！"
+
+msgid "$N喃喃地念了几句咒语。"
+msgstr "$Nは呪文をぶつぶつと唱えた。"
+
+msgid "但是什麽也没有发生。"
+msgstr "だが、何も起こらなかった。"
+
+msgid "( 你上一个动作还没有完成，不能施用外功。)"
+msgstr "（まだ前の動作が終わっていないので、外功は使えない。）"
+
+msgid "你请先用 enable 指令选择你要使用的外功。"
+msgstr "まず使う外功を選ばなければならない。"
+
+msgid "你所使用的外功中没有这种功能。"
+msgstr "使っている外功には、そのような働きはない。"
+
+msgid "「点」字诀"
+msgstr "『点』の字訣"
+
+msgid "「点」字诀只能对战斗中的对手使用。"
+msgstr "『点』の字訣は、戦っている相手にしか使えない。"
+
+msgid "$N使出封山剑法「点」字诀，可是内力不继，剑尖一颤，手中的剑险些脱手飞出！"
+msgstr "$Nは封山剣法『点』の字訣を繰り出したが、内力が続かず、剣先が震えて手の剣がすっぽ抜けかけた！"
+
+msgid "$N使出封山剑法「点」字诀，劲力尽数聚在剑尖，一剑直刺$n！"
+msgstr "$Nは封山剣法『点』の字訣を繰り出し、勁力のすべてを剣先に集めて、$nへまっすぐ突きかかる！"
+
+msgid "用 {force} 点内力把劲力聚在剑尖，这一剑伤得更重；内力不够，剑会险些脱手，白白耽误几手"
+msgstr "内力を{force}使って勁力を剣先に集め、この一撃の威力を上げる。内力が足りないと剣が手から抜けかけ、何手かをむだにする"
+
+msgid "召天将"
+msgstr "天将を召す"
+
+msgid "战斗时不能画符！"
+msgstr "戦闘中は符を描けない！"
+
+msgid "你的精神太差了，无法画符。"
+msgstr "神が衰えすぎていて、符を描けない。"
+
+msgid "你所学的法术没有这种符。"
+msgstr "学んだ法術に、そのような符はない。"
+
+msgid "紫光"
+msgstr "紫光"
+
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团紫光射向$n！"
+msgstr "$Nは口の中で呪文を唱えながら左手をひと振りした。手の中に紫の光の塊が集まり、$nめがけて飛んでいく！"
+
+msgid "结果「嗤」地一声，紫光从$p身上透体而过，拖出一条长长的七彩光气，光气绕了回转过来又从$N顶门注入$P的体内！"
+msgstr "すると「しゅっ」という音とともに、紫の光が$pの体を突き抜けた。長い七色の光の尾が引かれ、それがくるりと戻ってきて、$Nの頭頂から体内へと流れ込んだ！"
+
+msgid "结果「嗤」地一声，紫光从$p身上透体而过，无声无息地钻入地下！"
+msgstr "すると「しゅっ」という音とともに、紫の光が$pの体を突き抜け、音もなく地中へ潜り込んだ！"
+
+msgid "白光"
+msgstr "白光"
+
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团白光射向$n！"
+msgstr "$Nは口の中で呪文を唱えながら左手をひと振りした。手の中に白い光の塊が集まり、$nめがけて飛んでいく！"
+
+msgid "结果「嗤」地一声，白光从$p身上透体而过，拖出一条长长的黑气直射到两三丈外的地下！"
+msgstr "すると「しゅっ」という音とともに、白い光が$pの体を突き抜け、長い黒い気の尾を引いて、二、三丈先の地面に突き刺さった！"
+
+msgid "结果「嗤」地一声，白光从$p身上透体而过，无声无息地钻入地下！"
+msgstr "すると「しゅっ」という音とともに、白い光が$pの体を突き抜け、音もなく地中へ潜り込んだ！"
+
+msgid "青光"
+msgstr "青光"
+
+msgid "你失败了！"
+msgstr "失敗した！"
+
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团青光射向$n！"
+msgstr "$Nは口の中で呪文を唱えながら左手をひと振りした。手の中に青い光の塊が集まり、$nめがけて飛んでいく！"
+
+msgid "结果「嗤」地一声，青光从$p身上透体而过，拖出一条长长的血箭直射到两三丈外的地下！"
+msgstr "すると「しゅっ」という音とともに、青い光が$pの体を突き抜け、長い血の矢を引いて、二、三丈先の地面に突き刺さった！"
+
+msgid "结果「嗤」地一声，青光从$p身上透体而过，无声无息地钻入地下！"
+msgstr "すると「しゅっ」という音とともに、青い光が$pの体を突き抜け、音もなく地中へ潜り込んだ！"
+
+msgid "投降？现在没有人在打你啊....？"
+msgstr "降参？ 今は誰とも戦っていないが……？"
+
+msgid "$n向$N求饶，但是$N大声说道：{rude}废话少说，纳命来！"
+msgstr "$nは$Nに命乞いをしたが、$Nは大声で言った。「{rude}め、つべこべ言わずに命をよこせ！」"
+
+msgid "$N说道：「不打了，不打了，我投降....。」"
+msgstr "$N「もうやめだ、やめだ。降参する……」"
+
+msgid "「逐」字诀"
+msgstr "『逐』の字訣"
+
+msgid "「逐」字诀只能对战斗中的对手使用。"
+msgstr "『逐』の字訣は、戦っている相手にしか使えない。"
+
+msgid "$N使出封山剑法「逐」字诀，剑法一紧，剑光罩向$n，$p已显吃力。"
+msgstr "$Nは封山剣法『逐』の字訣を繰り出した。剣が一段と鋭さを増して剣光が$nを覆い、$pはもう押されている。"
+
+msgid "$N使出封山剑法「逐」字诀，剑法一紧，剑光罩向$n，$p从容化解"
+msgstr "$Nは封山剣法『逐』の字訣を繰り出した。剣が一段と鋭さを増して剣光が$nを覆ったが、$pは落ち着いてこれをさばいた"
+
+msgid "空识神通"
+msgstr "空識神通"
+
+msgid "$N盘膝而座，开始运用空识神通静思入定 ..."
+msgstr "$Nは足を組んで座り、空識神通で静かに瞑想に入った……"
+
+msgid "空识神通只能对自己使用。"
+msgstr "空識神通は自分にしか使えない。"
+
+msgid "你觉得脑中一片混乱，你的潜能降低了！"
+msgstr "頭の中がかき乱され、潜在力が下がった！"
+
+msgid "你的潜能提高了！"
+msgstr "潜在力が上がった！"
+
+msgid "可是你只觉得一无所获。"
+msgstr "だが、何も得られなかった。"
+
+msgid "零"
+msgstr "0"
+
+msgid "十"
+msgstr "十"
+
+msgid "百"
+msgstr "百"
+
+msgid "千"
+msgstr "千"
+
+msgid "万"
+msgstr "万"
+
+msgid "亿"
+msgstr "億"
+
+msgid "兆"
+msgstr "兆"
+
+msgid "一"
+msgstr "1"
+
+msgid "二"
+msgstr "2"
+
+msgid "三"
+msgstr "3"
+
+msgid "四"
+msgstr "4"
+
+msgid "五"
+msgstr "5"
+
+msgid "六"
+msgstr "6"
+
+msgid "七"
+msgstr "7"
+
+msgid "八"
+msgstr "8"
+
+msgid "九"
+msgstr "9"
+
+msgid "负"
+msgstr "マイナス"
+
+msgid "你的「%s」进步了！"
+msgstr "『%s』が上達した！"
+
+msgid "没有这个技能种类，用 enable ? 可以查看有哪些种类。"
+msgstr "そのような技能の種類はない。enable ? で種類を確かめられる。"
+
+msgid "「{skill}」是所有{kind}的基础，不需要 enable。"
+msgstr "『{skill}』はあらゆる{kind}の基礎なので、使用を指定する必要はない。"
+
+msgid "你不会这种技能。"
+msgstr "その技能は身につけていない。"
+
+msgid "你连「{basic}」都没学会，更别提{skill}了。"
+msgstr "『{basic}』すら身につけていないのに、{skill}など論外だ。"
+
+msgid "这个技能不能当成这种用途。"
+msgstr "この技能はそういう使い方はできない。"
+
+msgid "你改用另一种法术系，灵力必须重新锻炼。"
+msgstr "別の法術の系統に替えたので、霊力は一から鍛え直さなければならない。"
+
+msgid "你改用另一种内功，内力必须重新锻炼。"
+msgstr "別の内功に替えたので、内力は一から鍛え直さなければならない。"
+
+msgid "你改用另一种咒文系，法力必须重新修炼。"
+msgstr "別の呪文の系統に替えたので、法力は一から修め直さなければならない。"
+
+msgid "你已经在战斗中了，学一点实战经验吧。"
+msgstr "もう戦いの最中だ。実戦経験でも積むといい。"
+
+msgid "你只能练习用 enable 指定的特殊技能。"
+msgstr "使用を指定した特殊技能しか練習できない。"
+
+msgid "你好像还没「学会」这项技能吧？最好先去请教别人。"
+msgstr "この技能はまだ「身につけて」いないのでは？ まず誰かに教えを請うといい。"
+
+msgid "你对这方面的技能还是一窍不通，最好从先从基本学起。"
+msgstr "この方面の技能にはまるで心得がない。まず基本から学ぶといい。"
+
+msgid "你现在不能练习这项技能。"
+msgstr "今はこの技能を練習できない。"
+
+msgid "你试著练习%s，但是并没有任何进步。"
+msgstr "%sを練習してみたが、少しも上達しなかった。"
+
+msgid "你的%s进步了！"
+msgstr "%sが上達した！"
+
+msgid "战斗中不能练内功，会走火入魔。"
+msgstr "戦闘中に内功を練れば、走火入魔してしまう。"
+
+msgid "你必须先用 enable 选择你要用的内功心法。"
+msgstr "まず使う内功心法を選ばなければならない。"
+
+msgid "你最少要花 10 点「气」才能练功。"
+msgstr "練功には少なくとも「気」を10使う必要がある。"
+
+msgid "你现在的气太少了，无法产生内息运行全身经脉。"
+msgstr "気が少なすぎて、内息を全身の経脈に巡らせられない。"
+
+msgid "你现在精神状况太差了，无法凝神专一！"
+msgstr "神が衰えすぎていて、心を一つに凝らせない！"
+
+msgid "你现在精力不够，无法控制内息的流动！"
+msgstr "精が足りず、内息の流れを制御できない！"
+
+msgid "你现在无法练功。"
+msgstr "今は練功できない。"
+
+msgid "你坐下来运气用功，一股内息开始在体内流动。"
+msgstr "腰を下ろして気を巡らせると、一筋の内息が体内を流れはじめた。"
+
+msgid "但是当你行功完毕，只觉得全身酸麻。"
+msgstr "だが行功を終えると、全身がだるくしびれるばかりだった。"
+
+msgid "当你的内息遍布全身经脉时却没有功力提升的迹象，似乎内力修为已经遇到了瓶颈。"
+msgstr "内息が全身の経脈に行きわたっても、功力が伸びる兆しはない。内力の修為は壁に突き当たったようだ。"
+
+msgid "你的内力增强了！"
+msgstr "内力が強まった！"
+
+msgid "战斗中冥思——找死吗？"
+msgstr "戦闘中に瞑想――死にたいのか？"
+
+msgid "你最少要花 10 点「神」才能冥思。"
+msgstr "瞑想には少なくとも「神」を10使う必要がある。"
+
+msgid "你现在精神太差了，进行冥思将会迷失，永远醒不过来！"
+msgstr "神が衰えすぎている。今瞑想すれば心が迷い、二度と目覚められなくなる！"
+
+msgid "你现在身体状况太差了，无法集中精神！"
+msgstr "体の調子が悪すぎて、精神を集中できない！"
+
+msgid "你现在身体状况太虚弱了，无法进入冥思的状态！"
+msgstr "体が弱りすぎていて、瞑想に入れない！"
+
+msgid "你现在无法冥思。"
+msgstr "今は瞑想できない。"
+
+msgid "你盘膝而坐，静坐冥思了一会儿。"
+msgstr "足を組んで座り、しばし静かに瞑想した。"
+
+msgid "但是当你睁开眼睛，只觉得脑中一片空白。"
+msgstr "だが目を開けると、頭の中は真っ白だった。"
+
+msgid "当你的法力增加的瞬间你忽然觉得脑中一片混乱，似乎魔力的提升已经到了瓶颈。"
+msgstr "法力が増した瞬間、不意に頭の中がかき乱された。魔力の高まりは壁に突き当たったようだ。"
+
+msgid "你的魔力提高了！"
+msgstr "魔力が高まった！"
+
+msgid "战斗也是一种修行，但不能和灵力的修行同时进行。"
+msgstr "戦いもまた修行の一つだが、霊力の修行と同時にはできない。"
+
+msgid "你最少要花 10 点精力才能进行修行。"
+msgstr "修行には少なくとも精を10使う必要がある。"
+
+msgid "你现在精力不足，无法修行灵力！"
+msgstr "精が足りず、霊力を修行できない！"
+
+msgid "你现在精神状况太差了，无法控制自己的心灵！"
+msgstr "神が衰えすぎていて、自分の心を制御できない！"
+
+msgid "你现在无法修行。"
+msgstr "今は修行できない。"
+
+msgid "你闭上眼睛开始打坐。"
+msgstr "目を閉じて打坐を始めた。"
+
+msgid "但是你一不小心却睡著了。"
+msgstr "だが、うっかり眠り込んでしまった。"
+
+msgid "你忽然觉得一阵天旋地转，头涨得像要裂开一样，似乎灵力的修行已经遇到了瓶颈。"
+msgstr "不意に天地がぐるぐると回り、頭が割れそうなほど張りつめた。霊力の修行は壁に突き当たったようだ。"
+
+msgid "你的道行提高了！"
+msgstr "道行が高まった！"
+
+msgid "这项技能不能通过自学取得进步！"
+msgstr "この技能は独学では上達しない！"
+
+msgid "你得有「%s」的入门知识才行。"
+msgstr "『%s』の初歩を心得ていなければならない。"
+
+msgid "你现在无法自学。"
+msgstr "今は独学できない。"
+
+msgid "你开始钻研有关「%s」的问题。"
+msgstr "『%s』についての問題を突き詰めはじめた。"
+
+msgid "也许是缺乏实战经验，结果是一无所获。"
+msgstr "実戦経験が足りないせいか、何も得られなかった。"
+
+msgid "你苦思冥想，似乎有些心得。"
+msgstr "考えに考え抜いて、何かつかめた気がする。"
+
+msgid "你无法在战斗中专心下来研读新知！"
+msgstr "戦闘中に落ち着いて新しい知識を学ぶことはできない！"
+
+msgid "你无法从这样东西学到任何东西。"
+msgstr "これからは何も学べない。"
+
+msgid "你是个文盲，先学学读书识字吧。"
+msgstr "字が読めない。まず読み書きを覚えよう。"
+
+msgid "你的实战经验不足，再怎麽读也没用。"
+msgstr "実戦経験が足りず、いくら読んでもむだだ。"
+
+msgid "以你目前的能力，还没有办法学这个技能。"
+msgstr "今の力では、まだこの技能を学べない。"
+
+msgid "你现在过於疲倦，无法专心下来研读新知。"
+msgstr "疲れすぎていて、落ち着いて学ぶことができない。"
+
+msgid "你研读了一会儿，但是发现上面所说的对你而言都太浅了，没有学到任何东西。"
+msgstr "しばらく読んでみたが、書かれていることはどれも浅すぎて、何も得られなかった。"
+
+msgid "你研读有关%s的技巧，似乎有点心得。"
+msgstr "%sの技について読み込み、少し心得がつかめた気がする。"
+
+msgid "你现在无法研读。"
+msgstr "今は読めない。"
+
+msgid "你向{npc}请教「{skill}」{count} 次"
+msgstr "{npc}に『{skill}』の教えを{count}回請うた"
+
+msgid "你练习{skill} {count} 次"
+msgstr "{skill}を{count}回練習した"
+
+msgid "你打坐 {count} 次"
+msgstr "{count}回打坐した"
+
+msgid "你冥思 {count} 次"
+msgstr "{count}回瞑想した"
+
+msgid "你修行 {count} 次"
+msgstr "{count}回修行した"
+
+msgid "（其间歇了 {rests} 回，共{time}）"
+msgstr "（途中で{rests}回休み、計{time}）"
+
+msgid "{head}：{changes}。"
+msgstr "{head}：{changes}。"
+
+msgid "，"
+msgstr "、"
+
+msgid "{skill} {from}→{to} 级"
+msgstr "{skill} レベル{from}→{to}"
+
+msgid "{skill}进度 {change}"
+msgstr "{skill}の進み具合 {change}"
+
+msgid "打坐"
+msgstr "打坐"
+
+msgid "冥思"
+msgstr "瞑想"
+
+msgid "修行"
+msgstr "修行"
+
+msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。精要时间才回得来，窗口开着时间不走：点「歇到回满」歇一会儿再来；学了内功的，也可以在武学页运功恢复精。"
+msgstr "中断：精が足りません。教えを一度請うごとに精を{cost}使い、それより多く残っている必要があります（残り{have}）。精は時間がたたないと戻らず、この画面を開いている間は時間が進みません。「全快まで休む」を押してひと休みしてから、また来てください。内功を学んでいれば、武学のページで運功して精を回復することもできます。"
+
+msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。"
+msgstr "中断：精が足りません。教えを一度請うごとに精を{cost}使い、それより多く残っている必要があります（残り{have}）。"
+
+msgid "身上有限时的差事，歇着时限照走，所以没有自己歇；要歇就点「歇到回满」。"
+msgstr "期限付きの頼み事を抱えていて、休んでいる間も期限は進むため、自動では休みませんでした。休むなら「全快まで休む」を押してください。"
+
+msgid "停下：实战经验不足。「{skill}」{level} 级要再学，须实战经验 ≥ {required}（你 {have}）。"
+msgstr "中断：実戦経験が足りません。『{skill}』をレベル{level}から先へ学ぶには、実戦経験 ≥ {required}が必要です（現在 {have}）。"
+
+msgid "停下：「{skill}」这一级的进度已经攒满。先把{basic}提高到 {level} 级，再练才有长进。"
+msgstr "中断：『{skill}』のこのレベルの進み具合はもう満杯です。先に{basic}をレベル{level}まで上げないと、練習しても伸びません。"
+
+msgid "停下：每次只花 {amount} 点{source}，{action}不会有任何长进；多花一些再试。"
+msgstr "中断：一回に{source}を{amount}しか使わないと、{action}しても少しも伸びません。もう少し多く使ってみてください。"
+
+msgid "停下：{resource}的修为已到瓶颈（上限 {maximum}），再{action}，{resource}只会回落到 {maximum}。先提高{basic}吧。"
+msgstr "中断：{resource}の修為が壁に突き当たりました（上限 {maximum}）。これ以上{action}しても、{resource}は{maximum}に戻るだけです。先に{basic}を上げましょう。"
+
+msgid "停下：你被打断了。"
+msgstr "中断：邪魔が入りました。"
+
+msgid "你停了下来。"
+msgstr "手を止めた。"
+
+msgid "停下：已经连续 {count} 次了，歇一歇吧。"
+msgstr "中断：もう{count}回続けています。ひと休みしましょう。"
+
+msgid "Ok."
+msgstr "設定しました。"
+
+msgid "一盏茶的工夫"
+msgstr "茶一杯ほどの間"
+
+msgid "半个时辰"
+msgstr "半時"
+
+msgid "两"
+msgstr "両"
+
+msgid "{count}个半时辰"
+msgstr "{count}時辰半"
+
+msgid "{count}个时辰"
+msgstr "{count}時辰"
+
+msgid "{coins}文"
+msgstr "{coins}文"
+
+msgid "{silver}两银子"
+msgstr "銀{silver}両"
+
+msgid "{silver}两银子{coins}文"
+msgstr "銀{silver}両{coins}文"
+
+msgid "过了经验门槛:"
+msgstr "経験の基準を超えた："
+
+msgid "运功"
+msgstr "運功"
+
+msgid "收势"
+msgstr "様子見"
+
+msgid "放弃这一回合剩下的手，让对手出招；赢来的手照样归你。"
+msgstr "このラウンドの残りの手を捨てて、相手に出させます。勝ち取った手はそのまま残ります。"
+
+msgid "取消已排定的操作"
+msgstr "予約した操作を取り消す"
+
+msgid "现在没有可用的操作。"
+msgstr "今は使える操作がありません。"
+
+msgid "出手后自己要忙 {busy} 手。"
+msgstr "出したあと、{busy}手のあいだ動けません。"
+
+msgid "运功：选一项内功的用法。"
+msgstr "運功：内功の使い方を一つ選びます。"
+
+msgid "{action} · 目标：{target}"
+msgstr "{action} · 目標：{target}"
+
+msgid "%d手"
+msgstr "%d手"
+
+msgid "{action} · {cost} 手"
+msgstr "{action} · {cost}手"
+
+msgid "等你出招"
+msgstr "指示待ち"
+
+msgid "排定：%s"
+msgstr "予約：%s"
+
+msgid "还剩 %d 手"
+msgstr "残り%d手"
+
+msgid "没手了"
+msgstr "手が尽きた"
+
+msgid "多一手（{word}）"
+msgstr "一手追加（{word}）"
+
+msgid "多一手"
+msgstr "一手追加"
+
+msgid "这一手你在忙"
+msgstr "この手は動けない"
+
+msgid "这一手你停了"
+msgstr "この手は見送った"
+
+msgid "你出了{action}"
+msgstr "{action}を出した"
+
+msgid "你出{mine}"
+msgstr "こちら：{mine}"
+
+msgid "克！"
+msgstr "制した！"
+
+msgid "被克"
+msgstr "制された"
+
+msgid "你出{mine} · {verdict}"
+msgstr "こちら：{mine} · {verdict}"
+
+msgid "你出{mine}，对上他的{theirs} · {verdict}"
+msgstr "こちら：{mine}、相手：{theirs} · {verdict}"
+
+msgid "？"
+msgstr "？"
+
+msgid "他没手了，你还有 {left} 手"
+msgstr "相手は手が尽きた。こちらは残り{left}手"
+
+msgid "他起手：%s"
+msgstr "相手の出方：%s"
+
+msgid "；出手后自己要忙 {busy} 手"
+msgstr "、出したあとは{busy}手のあいだ動けない"
+
+msgid "不够：{name}要 {cost} 手，你还剩 {left} 手"
+msgstr "足りない：{name}は{cost}手必要、残りは{left}手"
+
+msgid "{name}占 {cost} 手，出完还剩 {after} 手"
+msgstr "{name}は{cost}手使い、出したあと残り{after}手"
+
+msgid "{name}占 {cost} 手，出完你这回合没手了，他连出 {theirs} 手"
+msgstr "{name}は{cost}手使い、出せばこのラウンドの手は尽きる。相手は{theirs}手続けて出す"
+
+msgid "{name}占 {cost} 手，出完你这回合没手了"
+msgstr "{name}は{cost}手使い、出せばこのラウンドの手は尽きる"
+
+msgid "忙"
+msgstr "硬直"
+
+msgid "停"
+msgstr "止"
+
+msgid "绝招"
+msgstr "絶技"
+
+msgid "加力 +%d"
+msgstr "加力 +%d"
+
+msgid "改为自动"
+msgstr "自動にする"
+
+msgid "改为手动"
+msgstr "手動にする"
+
+msgid "现在：每一手等你出招；按下后战斗自己打，手自动补满、演出加快。"
+msgstr "現在：一手ごとに指示を待ちます。押すと戦闘が自動で進み、手は自動で補われ、演出も速くなります。"
+
+msgid "现在：战斗自己打；按下后每一手等你出招。"
+msgstr "現在：戦闘は自動で進みます。押すと一手ごとに指示を待ちます。"
+
+msgid "{tag} · {cost} 手"
+msgstr "{tag} · {cost}手"
+
+msgid "等你空下来"
+msgstr "手が空くまで待機"
+
+msgid "就绪"
+msgstr "準備完了"
+
+msgid "逃跑"
+msgstr "逃げる"
