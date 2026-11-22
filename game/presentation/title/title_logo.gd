@@ -156,10 +156,10 @@ func _process(_delta: float) -> void:
 	_ink.set_shader_parameter("glint", glint)
 	_ink.set_shader_parameter("charge", charge)
 	var leaving: float = clampf(burn, 0.0, 1.0)
-	# The ribbon drifts in, easing to rest; it leaves easing out.
+	# The ribbon drifts in, easing in and easing to rest; it leaves the same way.
 	var arrived: float = clampf((t - RIBBON_SECONDS.x) / (RIBBON_SECONDS.y - RIBBON_SECONDS.x), 0.0, 1.0)
 	var gone: float = clampf(leaving / RIBBON_LEAVING, 0.0, 1.0)
-	_ribbon.show_part(1.0 - pow(1.0 - arrived, 2.0), smoothstep(0.0, 1.0, gone))
+	_ribbon.show_part(0.5 - 0.5 * cos(PI * arrived), smoothstep(0.0, 1.0, gone))
 	var down: float = clampf((t - STAMP_FROM) / STAMP_SECONDS, 0.0, 1.0)
 	var settle: float = clampf((t - STAMP_FROM - STAMP_SECONDS) / SETTLE_SECONDS, 0.0, 1.0)
 	var scale_now: float = lerpf(1.6, 0.96, down * down) if down < 1.0 else lerpf(0.96, 1.0, smoothstep(0.0, 1.0, settle))

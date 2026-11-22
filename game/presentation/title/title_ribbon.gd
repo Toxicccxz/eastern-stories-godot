@@ -28,12 +28,14 @@ const NOTCH: float = 0.55
 ## loose ends wave more toward their tips (band widths; length in band widths) and slowly turn over
 ## showing their reverse (radians at the tips); arriving, it all moves a little more.
 const WIND: Dictionary[String, float] = {
-	"sway": 0.25, "sway_length": 0.9, "sway_speed": 0.9,
-	"breathe": 0.35, "breathe_speed": 0.7,
-	"tail_wave": 0.6, "wave_length": 9.0, "wave_speed": 1.6,
-	"turn_most": 2.0, "turn_length": 14.0, "turn_speed": 0.8,
-	"flight_wave": 0.3, "flight_turn": 0.35,
+	"sway": 0.35, "sway_length": 1.3, "sway_speed": 0.45,
+	"breathe": 0.3, "breathe_speed": 0.45,
+	"tail_wave": 0.7, "wave_length": 13.0, "wave_speed": 0.9,
+	"turn_most": 1.8, "turn_length": 18.0, "turn_speed": 0.45,
+	"flight_wave": 0.25, "flight_turn": 0.3,
 }
+## The loose ends narrow toward their tips, to this share of the band's width.
+const TAPER: float = 0.45
 ## Leaving, it drifts on along its way this much of its length while it fades (owner, 2026-11-22:
 ## drawn right out in the leaving's second it twitched).
 const LEAVE_DRIFT: float = 0.35
@@ -323,7 +325,8 @@ func _pose(s: float) -> Array:
 	var middle: Vector2 = (place[0] as Vector2) + across * band * (sway + tail)
 	var width: float = cos(turn)
 	var face: float = 1.0 if width >= 0.0 else 0.0
-	return [middle, place[1], across * (band / 2.0) * width, place[3], face, place[4]]
+	var narrowing: float = lerpf(1.0, TAPER, pow(loose, 1.3))
+	return [middle, place[1], across * (band / 2.0) * width * narrowing, place[3], face, place[4]]
 
 
 ## The mesh for now: the band's columns, those behind the lettering first, then the shadows of

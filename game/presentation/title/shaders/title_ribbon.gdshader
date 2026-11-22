@@ -49,10 +49,12 @@ void fragment() {
 			// The band's shadow: soft at its edges.
 			colour = vec4(0.03, 0.02, 0.02, 0.34 * smoothstep(0.0, 0.4, v) * smoothstep(1.0, 0.6, v));
 		} else if (part.r > 0.5) {
-			// Silk in three steps, lit from above, a thin sheen near the top, dark selvedges.
-			vec3 silk = v < 0.3 ? front_light : (v < 0.72 ? front : front_dark);
-			float sheen = 1.0 - smoothstep(0.0, 0.035, abs(v - 0.13));
-			silk = mix(silk, sheen_colour, sheen * 0.55);
+			// Silk shading softly from its lit upper edge to its lower, a soft sheen near the top,
+			// dark selvedges.
+			vec3 silk = mix(front_light, front, smoothstep(0.08, 0.5, v));
+			silk = mix(silk, front_dark, smoothstep(0.55, 1.0, v));
+			float sheen = 1.0 - smoothstep(0.0, 0.11, abs(v - 0.2));
+			silk = mix(silk, sheen_colour, sheen * 0.4);
 			colour = vec4(mix(silk, edge_colour, edge), 1.0);
 		} else {
 			// The reverse: pale where it turns over in the light, in shade where it runs behind.
