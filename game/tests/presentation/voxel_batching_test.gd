@@ -56,8 +56,9 @@ func _test_plain_occluders_prepared(tree: SceneTree) -> void:
 
 ## A phone's plain occluders (DECISIONS「手机画质」): only a surface someone may be behind wears the
 ## see-through — between the camera and a person, not behind them nor off to the side; a door's
-## leaf always does, every surface does while the camera turns or a show is held, and with the
-## switch off (the desktop) every one does as before.
+## leaf always does, every surface does while the camera turns, a held show (a fight's stage)
+## adds those in its space or before it, and with the switch off (the desktop) every one does as
+## before.
 func _test_plain_occluders(tree: SceneTree) -> void:
 	var camera := Camera3D.new()
 	tree.root.add_child(camera)
@@ -67,8 +68,9 @@ func _test_plain_occluders(tree: SceneTree) -> void:
 	var holder := Node3D.new()
 	tree.root.add_child(holder)
 	var walls: Array[MeshInstance3D] = []
-	# Between the eye and a person at the origin; behind them; well off to the side.
-	for at: Vector3 in [toward_eye * 4.0, -toward_eye * 4.0 + Vector3(0, 1, 0), Vector3(30, 1, -30)]:
+	# Between the eye and a person at the origin; behind them; well off to the side; far behind
+	# them (beyond a stage round them too).
+	for at: Vector3 in [toward_eye * 4.0, -toward_eye * 4.0 + Vector3(0, 1, 0), Vector3(30, 1, -30), -toward_eye * 12.0]:
 		var wall := MeshInstance3D.new()
 		var box := BoxMesh.new()
 		box.size = Vector3(2, 2, 2)
@@ -94,17 +96,24 @@ func _test_plain_occluders(tree: SceneTree) -> void:
 	var person := PackedVector4Array([Vector4(0, 1, 0, 1.75)])
 	occlusion.plain_when_clear = true
 	occlusion.update(camera, person)
-	_check(not _flat(occlusion, walls[0]) and not _flat(occlusion, walls[1]) and not _flat(occlusion, walls[2]), "the first frame at a new angle: every surface sees through")
+	_check(not _flat(occlusion, walls[0]) and not _flat(occlusion, walls[1]) and not _flat(occlusion, walls[2]) and not _flat(occlusion, walls[3]), "the first frame at a new angle: every surface sees through")
 	occlusion.update(camera, person)
-	_check(not _flat(occlusion, walls[0]) and _flat(occlusion, walls[1]) and _flat(occlusion, walls[2]), "the wall between the eye and the person sees through; the one behind them and the far one draw plain")
+	_check(not _flat(occlusion, walls[0]) and _flat(occlusion, walls[1]) and _flat(occlusion, walls[2]) and _flat(occlusion, walls[3]), "the wall between the eye and the person sees through; the ones behind them and the far one draw plain")
 	_check(not _flat(occlusion, leaf), "a door's leaf always sees through")
 	occlusion.update(camera, PackedVector4Array([Vector4(30, 1, -30, 1.75)]))
 	_check(_flat(occlusion, walls[0]), "the person gone from behind it: plain again")
+	# A stage round the person, nobody standing on it: what it clears (in it or before it) sees
+	# through; off to the side and far behind it stays plain through the fight.
 	occlusion.hold_show(Transform3D.IDENTITY, Rect2(-2, -2, 4, 4), 0.0, 3.0)
-	occlusion.update(camera, person)
-	_check(not _flat(occlusion, walls[0]) and not _flat(occlusion, walls[1]) and not _flat(occlusion, walls[2]), "a show held: every surface sees through")
+	occlusion.update(camera, PackedVector4Array())
+	_check(not _flat(occlusion, walls[0]) and not _flat(occlusion, walls[1]), "a show held: the walls before the stage and reaching into its space see through")
+	_check(_flat(occlusion, walls[2]) and _flat(occlusion, walls[3]), "and the far one and the one well behind the stage stay plain")
+	occlusion.hold_show(Transform3D(Basis.IDENTITY, Vector3(30, 0, -30)), Rect2(-2, -2, 4, 4), 0.0, 3.0)
+	occlusion.update(camera, PackedVector4Array())
+	_check(not _flat(occlusion, walls[2]) and _flat(occlusion, walls[0]), "the stage moved on (the show held again elsewhere): what it clears there sees through, the rest goes plain")
 	occlusion.clear_show()
 	occlusion.update(camera, person)
+	_check(_flat(occlusion, walls[2]) and not _flat(occlusion, walls[0]), "the show over: only the wall before the person sees through again")
 	occlusion.plain_when_clear = false
 	_check(not _flat(occlusion, walls[1]) and not _flat(occlusion, walls[2]) and occlusion.plain.is_empty(), "the switch off: every surface sees through, as on the desktop")
 	occlusion.set_night(1.0)

@@ -1099,6 +1099,9 @@ func special_gather(actor_id: StringName, seconds: float) -> void:
 ## A light of `colour` under `parent` at `at` for `seconds`, up and down again (`data`: its
 ## energy and range).
 func _light(light_name: String, parent: Node3D, at: Vector3, colour: Color, data: Dictionary, seconds: float) -> void:
+	# 手机稳 30 帧: not on a phone's 低 (GraphicsQuality.stage_lights); the charge still shows.
+	if not GraphicsQuality.stage_lights():
+		return
 	var light := OmniLight3D.new()
 	light.name = light_name
 	light.light_color = colour

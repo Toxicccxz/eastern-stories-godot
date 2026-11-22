@@ -103,6 +103,22 @@ static func plain_occluders(value: int = level) -> bool:
 	return bool(settings(value).get("plain_occluders", false))
 
 
+## The frame rate a phone's level holds to (Engine.max_fps; 0 none): 低 a steady 30, which also
+## keeps the phone cooler where a light place could run faster (手机稳 30 帧). Only a phone's
+## levels name one; the desktop's frame rate is never capped here.
+static func max_fps(value: int = level) -> int:
+	return maxi(0, int(settings(value).get("max_fps", 0)))
+
+
+## Whether a fight's stage brings lights of its own (the lamp over the base, a brazier's fire, a
+## special's flash: OmniLight3D). A phone's 低 goes without (手机稳 30 帧): on the 8T they cost
+## 4–9 ms a frame through a fight, and the first one a run shows makes every material in view
+## build a lit variant of itself on the spot (the 0.8 s stall as a fight opened); the glowing
+## bricks and flames still glow. True but where a phone's level says otherwise.
+static func stage_lights(value: int = level) -> bool:
+	return bool(settings(value).get("stage_lights", true))
+
+
 ## What the 3D viewport's MSAA is at this level.
 static func msaa(value: int = level) -> Viewport.MSAA:
 	return MSAA.get(int(settings(value).get("msaa", 4)), Viewport.MSAA_4X)
@@ -165,6 +181,9 @@ static func apply(value: int) -> void:
 		var tree: SceneTree = Engine.get_main_loop() as SceneTree
 		if tree != null and tree.root != null:
 			tree.root.scaling_3d_scale = scale_3d(value)
+	# And only a phone's levels hold the frame rate.
+	if values.has("max_fps"):
+		Engine.max_fps = max_fps(value)
 
 
 ## The slow-frame hint (data `slow_hint`): below_fps, seconds, settle_seconds.
