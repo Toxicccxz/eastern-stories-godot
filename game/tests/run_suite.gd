@@ -79,6 +79,9 @@ func _run() -> void:
 	BattlePace.manual_turns = false
 	# 战斗演出 B: the suites lay the stage at once (the opening has its own suite).
 	BattlePace.opening = BattlePace.Opening.OFF
+	# The card after a spar holds world time until it is closed: a suite's spar goes on without it
+	# (spar_summary_test turns it on).
+	SparSummaryPanel.shown_in_play = false
 	TestFeel.turn_off()
 	TestAway.turn_off()
 	TestAlert.turn_off()

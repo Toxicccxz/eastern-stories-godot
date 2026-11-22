@@ -264,9 +264,18 @@ func _test_page(tree: SceneTree, session: WorldSessionController) -> void:
 				reached[next] = true
 				frontier.append(next)
 	_check(reached.size() == page.cell_buttons.size(), "the pad reaches every place: %d of %d" % [reached.size(), page.cell_buttons.size()])
+	await _test_pad_steering(tree, page, here, state, session)
 	page.cell_buttons[here].pressed.emit()
 	await tree.process_frame
 	_check(tree.root.gui_get_focus_owner() == page.row_buttons[0], "confirm goes to the card")
+	var back := InputEventAction.new()
+	back.action = &"ui_cancel"
+	back.pressed = true
+	Input.parse_input_event(back)
+	await tree.process_frame
+	_check(tree.root.gui_get_focus_owner() == page.cell_buttons[here] and hud.menu.is_presented(), "B / Esc on the card goes back to its place, the menu stays")
+	page.cell_buttons[here].pressed.emit()
+	await tree.process_frame
 	var row: Button = page.row_buttons[0]
 	_check(row.get_node(row.focus_neighbor_left) == page.cell_buttons[here], "left comes back")
 	_check(row.get_node(row.focus_neighbor_top) == row, "up stays on the card")
@@ -305,6 +314,66 @@ func _test_page(tree: SceneTree, session: WorldSessionController) -> void:
 	state.visited_maps.erase("cloud.outdoor")
 	hud.menu.close()
 	await tree.process_frame
+
+
+## A pad (owner 2026-11-22): the left stick moves the view and the place nearest its middle takes
+## the focus, the triggers zoom, X comes back to where the player stands, Y is 全图 / 近看.
+func _test_pad_steering(tree: SceneTree, page: MapPage, here: StringName, state: CharacterState, session: WorldSessionController) -> void:
+	# The place nearest the player's, known for this test.
+	var start: Vector2 = page._middle(here)
+	var other: StringName = &""
+	for cell: AtlasCell in GameContent.catalog().atlas().cells():
+		if cell.map_id != here and (other.is_empty() or (page._middle(cell.map_id) - start).length() < (page._middle(other) - start).length()):
+			other = cell.map_id
+	_check(not other.is_empty(), "another place stands near")
+	var known_before: bool = state.visited_maps.has(String(other))
+	MapAtlas.note_visit(state, other)
+	page.fill(state, session.active_map_id(), &"")
+	page.cell_buttons[here].grab_focus()
+	await tree.process_frame
+	start = page._centre
+	var way: Vector2 = (page._middle(other) - start).normalized()
+	page.tilt_source = func() -> Vector2: return way
+	for step: int in 240:
+		page._process(1.0 / 60.0)
+		if tree.root.gui_get_focus_owner() == page.cell_buttons[other]:
+			break
+	page.tilt_source = func() -> Vector2: return Vector2.ZERO
+	_check(page._centre != start, "the stick moves the view")
+	_check(tree.root.gui_get_focus_owner() == page.cell_buttons[other] and page._selected == other, "the place the view comes to is chosen: %s" % page._selected)
+	var motion := InputEventJoypadMotion.new()
+	motion.axis = JOY_AXIS_LEFT_X
+	motion.axis_value = 1.0
+	page._cell_input(motion)
+	_check(page.get_viewport().is_input_handled(), "the stick's tilt does not step from place to place")
+	var zoom: float = page._zoom
+	Input.action_press(&"map_zoom_in")
+	page._process(0.3)
+	Input.action_release(&"map_zoom_in")
+	_check(page._zoom > zoom, "a trigger zooms in: %.2f → %.2f" % [zoom, page._zoom])
+	Input.action_press(&"map_zoom_out")
+	page._process(2.0)
+	Input.action_release(&"map_zoom_out")
+	_check(page._zoom < zoom, "the other zooms out: %.2f" % page._zoom)
+	var overview: float = page._zoom
+	page._unhandled_input(_pressed(&"map_overview"))
+	_check(page._zoom > overview, "Y: 近看 again: %.2f" % page._zoom)
+	page._unhandled_input(_pressed(&"map_here"))
+	await tree.process_frame
+	_check(tree.root.gui_get_focus_owner() == page.cell_buttons[here] and page._selected == here, "X: back where the player stands")
+	page.tilt_source = MapPage.stick
+	if not known_before:
+		state.visited_maps.erase(String(other))
+	page.fill(state, session.active_map_id(), &"")
+	page.cell_buttons[here].grab_focus()
+	await tree.process_frame
+
+
+static func _pressed(action: StringName) -> InputEventAction:
+	var event := InputEventAction.new()
+	event.action = action
+	event.pressed = true
+	return event
 
 
 func _test_waypoint_in_the_world(tree: SceneTree, session: WorldSessionController) -> void:

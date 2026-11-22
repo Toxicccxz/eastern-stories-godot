@@ -71,6 +71,17 @@ func _test_card_after_pause(tree: SceneTree, shell: ApplicationShellController) 
 	var session: WorldSessionController = shell.runtime_host().current_session()
 	var overlay: PlayerLifeOverlay = session.shared_ui().life_overlay
 	_check(overlay.card_shown(), "the opening card is up")
+	# A small screen (owner 2026-11-22: the card ran off a phone): the card narrows and its text
+	# scrolls, 继续 stays on the screen.
+	tree.root.content_scale_factor = 2.0
+	await _frames(tree, 3)
+	var screen := Rect2(Vector2.ZERO, tree.root.get_visible_rect().size)
+	var card: Rect2 = overlay._panel.get_global_rect()
+	_check(screen.encloses(card) and screen.encloses(overlay._continue.get_global_rect()), "on a small screen the card fits: %s in %s" % [card, screen])
+	_check(overlay._scroll.get_v_scroll_bar().max_value > overlay._scroll.get_v_scroll_bar().page, "its long text scrolls")
+	tree.root.content_scale_factor = 1.0
+	await _frames(tree, 3)
+	_check(Rect2(Vector2.ZERO, tree.root.get_visible_rect().size).encloses(overlay._panel.get_global_rect()), "and fits the full screen")
 	var cases: Array[Array] = [
 		["keys, the opening card", false, ""],
 		["pad, a card while playing", true, "柳淳风收下了你。\n\n你成了封山剑派第十四代弟子。"],
@@ -239,7 +250,7 @@ func _test_focus_pause_setting() -> void:
 
 ## The letter keys are bound by position; the glyph names the letter (here, QWERTY's).
 ## Every A to Z key event in the game's actions has no keycode and a physical one
-## (17 actions have one; a binding written by key would print and act wrong on AZERTY).
+## (20 actions have one; a binding written by key would print and act wrong on AZERTY).
 func _test_key_names() -> void:
 	var lettered: Array[StringName] = []
 	for action: StringName in InputMap.get_actions():
@@ -255,7 +266,7 @@ func _test_key_names() -> void:
 			if not lettered.has(action):
 				lettered.append(action)
 			_check(key.keycode == KEY_NONE and key.physical_keycode >= KEY_A and key.physical_keycode <= KEY_Z, "%s: a letter by position only (keycode %d, physical %d)" % [action, key.keycode, key.physical_keycode])
-	_check(lettered.size() == 17, "17 actions have a letter key: %s" % [lettered])
+	_check(lettered.size() == 20, "20 actions have a letter key: %s" % [lettered])
 	# A key cap prints what the key types: the punctuation an AZERTY layout has where QWERTY's
 	# letters are shows as itself, not by its English name.
 	var caps: Dictionary[Key, String] = {
@@ -336,7 +347,8 @@ func _test_key_page(tree: SceneTree, shell: ApplicationShellController) -> void:
 	_check(page.visible and tree.root.gui_get_focus_owner() == page.back_button, "A on 按键一览: the page, 返回 focused")
 	var walk: Array[String] = page.row_text("走路")
 	_check(walk.size() == 2 and walk[0] == "W / A / S / D / 方向键" and walk[1] == "LS / 十字键", "走路: keys and pad: %s" % [walk])
-	_check(page.row_text("暂停（系统）") == ["Esc", "Back"], "暂停: %s" % [page.row_text("暂停（系统）")])
+	_check(page.row_text("暂停（系统）") == ["Esc", "视图键"], "暂停: %s" % [page.row_text("暂停（系统）")])
+	_check(page.row_text("切换视角") == ["V", "RS"] and page.row_text("地图：缩放") == ["- / =", "LT / RT"] and page.row_text("地图：移动") == ["—", "LS"], "the view key and the map's: %s %s" % [page.row_text("切换视角"), page.row_text("地图：缩放")])
 	await _joy(tree, JOY_BUTTON_DPAD_UP)
 	_check(tree.root.gui_get_focus_owner() == page.back_button, "the focus stays on the page")
 	await _joy(tree, JOY_BUTTON_B)

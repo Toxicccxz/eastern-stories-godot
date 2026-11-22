@@ -1,79 +1,108 @@
 class_name InputGlyphs
 extends RefCounted
 ## The button an action is bound to on the input the player uses now, as a small drawn
-## glyph (owner, gamepad support): a pad's face buttons as coloured discs (Xbox letters,
-## PlayStation shapes, Nintendo letters by position), its other buttons as pills, keys as
-## keycaps. Touch shows none. Placeholder art drawn in code, like the maps' tiles.
+## glyph (owner, gamepad support): keys as the theme's bone key caps; a pad's buttons as little
+## pixel plates on the interface's own grid (GameTheme.GRID; owner 2026-11-22: the pale
+## rounded "Start" pills read as another game's): the face buttons as discs (Xbox letters on
+## their colours worn down to the palette, PlayStation's shapes, Nintendo letters by position),
+## Start and Back as their icons (☰, two squares), the D-pad as a cross with its arm lit, the
+## sticks as capped discs, the shoulders and triggers as iron plates with their short names.
+## Touch shows none. Drawn in code, like the maps' tiles.
 
-enum Shape { DISC, PILL, KEY, CROSS, RING, SQUARE, TRIANGLE }
+enum Shape { DISC, KEY, CROSS, RING, SQUARE, TRIANGLE, MENU, VIEW, HOME, DPAD, STICK, SHOULDER, TRIGGER }
 
-const HEIGHT: float = 22.0
+## A pad glyph is this many texels (GameTheme.GRID logical pixels) high.
+const TEXELS: int = 14
+const HEIGHT: float = TEXELS * GameTheme.GRID
 ## 像素界面: the pixel face at its one crisp size (GameTheme.BODY_SIZE).
 const FONT_SIZE: int = 18
 
+## The face buttons' colours, the palette's (worn, not toy-bright).
 const _XBOX_FACES: Dictionary[int, Array] = {
-	JOY_BUTTON_A: ["A", Color(0.36, 0.72, 0.28)],
-	JOY_BUTTON_B: ["B", Color(0.86, 0.27, 0.24)],
-	JOY_BUTTON_X: ["X", Color(0.22, 0.5, 0.92)],
-	JOY_BUTTON_Y: ["Y", Color(0.93, 0.74, 0.16)],
+	JOY_BUTTON_A: ["A", Color("4f8a45")],
+	JOY_BUTTON_B: ["B", Color("a3301f")],
+	JOY_BUTTON_X: ["X", Color("3a6390")],
+	JOY_BUTTON_Y: ["Y", Color("b8862e")],
 }
 const _PLAYSTATION_FACES: Dictionary[int, Array] = {
-	JOY_BUTTON_A: [Shape.CROSS, Color(0.5, 0.66, 1.0)],
-	JOY_BUTTON_B: [Shape.RING, Color(1.0, 0.42, 0.42)],
-	JOY_BUTTON_X: [Shape.SQUARE, Color(0.95, 0.55, 0.85)],
-	JOY_BUTTON_Y: [Shape.TRIANGLE, Color(0.35, 0.85, 0.7)],
+	JOY_BUTTON_A: [Shape.CROSS, Color("8fb0e8")],
+	JOY_BUTTON_B: [Shape.RING, Color("e8857a")],
+	JOY_BUTTON_X: [Shape.SQUARE, Color("dc9ccf")],
+	JOY_BUTTON_Y: [Shape.TRIANGLE, Color("7fcfb4")],
 }
 ## Nintendo pads name the buttons by the other diagonal: the bottom one is B.
 const _NINTENDO_FACES: Dictionary[int, String] = {
 	JOY_BUTTON_A: "B", JOY_BUTTON_B: "A", JOY_BUTTON_X: "Y", JOY_BUTTON_Y: "X",
 }
-## [Xbox, PlayStation, Nintendo] names of the other buttons.
+## The other buttons: [shape, [Xbox, PlayStation, Nintendo] text drawn on it, the same pads'
+## names written out (the key page)]. A D-pad arm's text is its index in _DPAD_ARMS.
 const _PAD_BUTTONS: Dictionary[int, Array] = {
-	JOY_BUTTON_BACK: ["Back", "Share", "-"],
-	JOY_BUTTON_GUIDE: ["Guide", "PS", "Home"],
-	JOY_BUTTON_START: ["Start", "Options", "+"],
-	JOY_BUTTON_LEFT_STICK: ["LS", "L3", "LS"],
-	JOY_BUTTON_RIGHT_STICK: ["RS", "R3", "RS"],
-	JOY_BUTTON_LEFT_SHOULDER: ["LB", "L1", "L"],
-	JOY_BUTTON_RIGHT_SHOULDER: ["RB", "R1", "R"],
-	JOY_BUTTON_DPAD_UP: ["D-Pad Up", "D-Pad Up", "D-Pad Up"],
-	JOY_BUTTON_DPAD_DOWN: ["D-Pad Down", "D-Pad Down", "D-Pad Down"],
-	JOY_BUTTON_DPAD_LEFT: ["D-Pad Left", "D-Pad Left", "D-Pad Left"],
-	JOY_BUTTON_DPAD_RIGHT: ["D-Pad Right", "D-Pad Right", "D-Pad Right"],
+	JOY_BUTTON_BACK: [Shape.VIEW, ["", "", ""], ["视图键", "SHARE", "-"]],
+	JOY_BUTTON_GUIDE: [Shape.HOME, ["", "", ""], ["导航键", "PS", "HOME"]],
+	JOY_BUTTON_START: [Shape.MENU, ["", "", ""], ["菜单键", "OPTIONS", "+"]],
+	JOY_BUTTON_LEFT_STICK: [Shape.STICK, ["L", "L", "L"], ["LS", "L3", "LS"]],
+	JOY_BUTTON_RIGHT_STICK: [Shape.STICK, ["R", "R", "R"], ["RS", "R3", "RS"]],
+	JOY_BUTTON_LEFT_SHOULDER: [Shape.SHOULDER, ["LB", "L1", "L"], ["LB", "L1", "L"]],
+	JOY_BUTTON_RIGHT_SHOULDER: [Shape.SHOULDER, ["RB", "R1", "R"], ["RB", "R1", "R"]],
+	JOY_BUTTON_DPAD_UP: [Shape.DPAD, ["0", "0", "0"], ["十字键上", "十字键上", "十字键上"]],
+	JOY_BUTTON_DPAD_DOWN: [Shape.DPAD, ["1", "1", "1"], ["十字键下", "十字键下", "十字键下"]],
+	JOY_BUTTON_DPAD_LEFT: [Shape.DPAD, ["2", "2", "2"], ["十字键左", "十字键左", "十字键左"]],
+	JOY_BUTTON_DPAD_RIGHT: [Shape.DPAD, ["3", "3", "3"], ["十字键右", "十字键右", "十字键右"]],
 }
-## [Xbox, PlayStation, Nintendo] names of the sticks and triggers.
+## The sticks and triggers, written the same way.
 const _PAD_AXES: Dictionary[int, Array] = {
-	JOY_AXIS_LEFT_X: ["LS", "L3", "LS"],
-	JOY_AXIS_LEFT_Y: ["LS", "L3", "LS"],
-	JOY_AXIS_RIGHT_X: ["RS", "R3", "RS"],
-	JOY_AXIS_RIGHT_Y: ["RS", "R3", "RS"],
-	JOY_AXIS_TRIGGER_LEFT: ["LT", "L2", "ZL"],
-	JOY_AXIS_TRIGGER_RIGHT: ["RT", "R2", "ZR"],
+	JOY_AXIS_LEFT_X: [Shape.STICK, ["L", "L", "L"], ["LS", "L3", "LS"]],
+	JOY_AXIS_LEFT_Y: [Shape.STICK, ["L", "L", "L"], ["LS", "L3", "LS"]],
+	JOY_AXIS_RIGHT_X: [Shape.STICK, ["R", "R", "R"], ["RS", "R3", "RS"]],
+	JOY_AXIS_RIGHT_Y: [Shape.STICK, ["R", "R", "R"], ["RS", "R3", "RS"]],
+	JOY_AXIS_TRIGGER_LEFT: [Shape.TRIGGER, ["LT", "L2", "ZL"], ["LT", "L2", "ZL"]],
+	JOY_AXIS_TRIGGER_RIGHT: [Shape.TRIGGER, ["RT", "R2", "ZR"], ["RT", "R2", "ZR"]],
 }
 ## PlayStation's face buttons, written out where a glyph has no text (the key page).
 const _SHAPE_SIGNS: Dictionary[int, String] = {Shape.CROSS: "叉", Shape.RING: "圈", Shape.SQUARE: "方", Shape.TRIANGLE: "三角"}
 const _KEY_NAMES: Dictionary[String, String] = {
 	"Escape": "Esc", "PageUp": "PgUp", "PageDown": "PgDn", "Backspace": "Backspace",
 }
+## The little pictures, one string a row ("#" lit): PlayStation's shapes, ☰, the View
+## button's two squares, the Guide's ring.
+const _PICTURES: Dictionary[int, Array] = {
+	Shape.CROSS: ["#.....#", ".#...#.", "..#.#..", "...#...", "..#.#..", ".#...#.", "#.....#"],
+	Shape.RING: ["..###..", ".#...#.", "#.....#", "#.....#", "#.....#", ".#...#.", "..###.."],
+	Shape.SQUARE: ["#######", "#.....#", "#.....#", "#.....#", "#.....#", "#.....#", "#######"],
+	Shape.TRIANGLE: ["...#...", "..#.#..", "..#.#..", ".#...#.", ".#...#.", "#.....#", "#######"],
+	Shape.MENU: ["#######", ".......", "#######", ".......", "#######"],
+	Shape.VIEW: ["####..", "#..#..", "#.####", "####.#", "..#..#", "..####"],
+	Shape.HOME: ["..###..", ".#...#.", "#..#..#", "#.###.#", "#..#..#", ".#...#.", "..###.."],
+}
+## The D-pad's arms, in the order their glyph text names them: up, down, left, right.
+const _DPAD_ARMS: Array[Vector2i] = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]
+## The pad plates' iron.
+const PLATE: Color = Color("4a4f4e")
 
 
-## One drawn glyph: its shape, the text on it and its colour.
+## One drawn glyph: its shape, the text on it, its colour and its name written out.
 class Glyph:
 	var shape: int
 	var text: String
 	var color: Color
+	## What the key page and the hints call it ("A", "菜单键", "十字键上"; "" for PlayStation's shapes).
+	var name: String
 
-	func _init(p_shape: int, p_text: String, p_color: Color = Color.WHITE) -> void:
+	func _init(p_shape: int, p_text: String, p_color: Color = Color.WHITE, p_name: String = "") -> void:
 		shape = p_shape
 		text = p_text
 		color = p_color
+		name = p_text if p_name.is_empty() and p_shape not in [Shape.DPAD] else p_name
 
 	func size() -> Vector2:
+		var grid: float = GameTheme.GRID
 		match shape:
-			Shape.PILL:
-				return Vector2(maxf(HEIGHT, InputGlyphs.text_width(text) + 14.0), HEIGHT)
 			Shape.KEY:
 				return Vector2(maxf(HEIGHT, InputGlyphs.text_width(text) + 12.0), HEIGHT)
+			Shape.SHOULDER, Shape.TRIGGER:
+				return Vector2(maxi(TEXELS + 4, ceili(InputGlyphs.text_width(text) / grid) + 8) * grid, HEIGHT)
+			Shape.MENU, Shape.VIEW:
+				return Vector2((TEXELS + 3) * grid, HEIGHT)
 		return Vector2(HEIGHT, HEIGHT)
 
 
@@ -88,7 +117,7 @@ static func glyph_for(action: StringName, devices: InputDevices = InputDevices.s
 				return pad_button_glyph(event.button_index, devices.pad_style)
 		for event: InputEvent in events:
 			if event is InputEventJoypadMotion and _PAD_AXES.has(event.axis):
-				return Glyph.new(Shape.PILL, _PAD_AXES[event.axis][devices.pad_style])
+				return pad_axis_glyph(event.axis, devices.pad_style)
 		return null
 	for event: InputEvent in events:
 		if event is InputEventKey:
@@ -110,18 +139,34 @@ static func key_names(action: StringName) -> PackedStringArray:
 ## page): the face buttons as the pad prints them (PlayStation's shapes as signs).
 static func pad_names(action: StringName, style: int) -> PackedStringArray:
 	var names := PackedStringArray()
-	if not InputMap.has_action(action):
-		return names
-	for event: InputEvent in InputMap.action_get_events(action):
-		var shown: String = ""
-		if event is InputEventJoypadButton:
-			var glyph: Glyph = pad_button_glyph(event.button_index, style)
-			shown = glyph.text if not glyph.text.is_empty() else _SHAPE_SIGNS.get(glyph.shape, "")
-		elif event is InputEventJoypadMotion and _PAD_AXES.has(event.axis):
-			shown = _PAD_AXES[event.axis][style]
+	for glyph: Glyph in pad_glyphs(action, style):
+		var shown: String = shown_name(glyph)
 		if not shown.is_empty() and not names.has(shown):
 			names.append(shown)
 	return names
+
+
+## A glyph's name written out: PlayStation's shapes as their signs.
+static func shown_name(glyph: Glyph) -> String:
+	return glyph.name if not glyph.name.is_empty() else _SHAPE_SIGNS.get(glyph.shape, "")
+
+
+## Every pad button and stick `action` is bound to on a pad of `style`, one glyph a name.
+static func pad_glyphs(action: StringName, style: int) -> Array[Glyph]:
+	var glyphs: Array[Glyph] = []
+	if not InputMap.has_action(action):
+		return glyphs
+	var seen := PackedStringArray()
+	for event: InputEvent in InputMap.action_get_events(action):
+		var glyph: Glyph = null
+		if event is InputEventJoypadButton:
+			glyph = pad_button_glyph(event.button_index, style)
+		elif event is InputEventJoypadMotion and _PAD_AXES.has(event.axis):
+			glyph = pad_axis_glyph(event.axis, style)
+		if glyph != null and not seen.has(shown_name(glyph)):
+			seen.append(shown_name(glyph))
+			glyphs.append(glyph)
+	return glyphs
 
 
 static func pad_button_glyph(button: int, style: int) -> Glyph:
@@ -130,11 +175,17 @@ static func pad_button_glyph(button: int, style: int) -> Glyph:
 			InputDevices.PadStyle.PLAYSTATION:
 				return Glyph.new(_PLAYSTATION_FACES[button][0], "", _PLAYSTATION_FACES[button][1])
 			InputDevices.PadStyle.NINTENDO:
-				return Glyph.new(Shape.DISC, _NINTENDO_FACES[button], Color(0.42, 0.44, 0.46))
+				return Glyph.new(Shape.DISC, _NINTENDO_FACES[button], PLATE)
 		return Glyph.new(Shape.DISC, _XBOX_FACES[button][0], _XBOX_FACES[button][1])
 	if _PAD_BUTTONS.has(button):
-		return Glyph.new(Shape.PILL, _PAD_BUTTONS[button][style])
-	return Glyph.new(Shape.PILL, str(button))
+		var made: Array = _PAD_BUTTONS[button]
+		return Glyph.new(made[0], made[1][style], PLATE, made[2][style])
+	return Glyph.new(Shape.SHOULDER, str(button), PLATE)
+
+
+static func pad_axis_glyph(axis: int, style: int) -> Glyph:
+	var made: Array = _PAD_AXES[axis]
+	return Glyph.new(made[0], made[1][style], PLATE, made[2][style])
 
 
 ## A key bound by position (the letter keys: DECISIONS「按键」) shows the letter the player's own
@@ -171,21 +222,153 @@ static func text_width(text: String) -> float:
 static func draw(item: RID, rect: Rect2, glyph: Glyph, modulate: Color) -> void:
 	if glyph == null:
 		return
-	var centre: Vector2 = rect.get_center()
-	var radius: float = minf(rect.size.x, rect.size.y) / 2.0
+	if glyph.shape == Shape.KEY:
+		_cap(modulate).draw(item, rect)
+		_text(item, rect.grow_side(SIDE_BOTTOM, -GameTheme.GRID * 2.0), glyph.text, UiPalette.INK * Color(1, 1, 1, modulate.a))
+		return
+	var pixels := Pixels.new(item, rect, modulate)
+	var light: Color = UiPalette.LIGHT_TEXT
 	match glyph.shape:
 		Shape.DISC:
-			RenderingServer.canvas_item_add_circle(item, centre, radius, glyph.color * modulate)
-			_text(item, rect, glyph.text, Color(1, 1, 1) * modulate)
-		Shape.PILL:
-			_box(item, rect, Color(0.86, 0.87, 0.84) * modulate, Color(0, 0, 0, 0), rect.size.y / 2.0)
-			_text(item, rect, glyph.text, Color(0.08, 0.09, 0.1) * modulate)
-		Shape.KEY:
-			_cap(modulate).draw(item, rect)
-			_text(item, rect.grow_side(SIDE_BOTTOM, -GameTheme.GRID * 2.0), glyph.text, UiPalette.INK * Color(1, 1, 1, modulate.a))
-		_:
-			RenderingServer.canvas_item_add_circle(item, centre, radius, Color(0.13, 0.14, 0.16) * modulate)
-			_symbol(item, centre, radius * 0.5, glyph.shape, glyph.color * modulate)
+			pixels.disc(glyph.color)
+			pixels.label(glyph.text, light)
+		Shape.CROSS, Shape.RING, Shape.SQUARE, Shape.TRIANGLE:
+			pixels.disc(PLATE)
+			pixels.picture(_PICTURES[glyph.shape], glyph.color)
+		Shape.HOME:
+			pixels.disc(PLATE)
+			pixels.picture(_PICTURES[glyph.shape], light)
+		Shape.STICK:
+			pixels.disc(PLATE)
+			pixels.ring(PLATE.darkened(0.4))
+			pixels.label(glyph.text, light)
+		Shape.MENU, Shape.VIEW:
+			pixels.plate(PLATE, 3)
+			pixels.picture(_PICTURES[glyph.shape], light)
+		Shape.SHOULDER:
+			pixels.plate(PLATE, 1, true)
+			pixels.label(glyph.text, light)
+		Shape.TRIGGER:
+			pixels.plate(PLATE, 4)
+			pixels.label(glyph.text, light)
+		Shape.DPAD:
+			pixels.dpad(int(glyph.text) if glyph.text.is_valid_int() else -1)
+
+
+## A pad glyph's pixels: a TEXELS-high grid laid over the glyph's rect, each cell a whole texel.
+## A plate is an outline, its face and, under the face, two rows of its darker side (the
+## interface's buttons stand the same way).
+class Pixels:
+	var item: RID
+	var origin: Vector2
+	var texel: float
+	var columns: int
+	var modulate: Color
+
+	func _init(p_item: RID, rect: Rect2, p_modulate: Color) -> void:
+		item = p_item
+		texel = maxf(1.0, rect.size.y / InputGlyphs.TEXELS)
+		columns = maxi(1, roundi(rect.size.x / texel))
+		origin = rect.position.round()
+		modulate = p_modulate
+
+	func cell(x: int, y: int, w: int, h: int, colour: Color) -> void:
+		if w > 0 and h > 0:
+			RenderingServer.canvas_item_add_rect(item, Rect2(origin + Vector2(x, y) * texel, Vector2(w, h) * texel), colour * modulate)
+
+	## The half-width of a disc `size` texels across on its row `y`.
+	static func half(size: int, y: int) -> int:
+		var r: float = size / 2.0
+		var dy: float = y + 0.5 - r
+		return clampi(roundi(sqrt(maxf(r * r - dy * dy, 0.0))), 0, size / 2)
+
+	func _disc_rows(size: int, at: Vector2i, rows: int, colour: Color) -> void:
+		for y: int in mini(rows, size):
+			var w: int = half(size, y)
+			cell(at.x + size / 2 - w, at.y + y, w * 2, 1, colour)
+
+	## A round button: outline, its side under it, its face, a worn highlight upper left.
+	func disc(face: Color) -> void:
+		var n: int = InputGlyphs.TEXELS
+		var left: int = (columns - n) / 2
+		_disc_rows(n, Vector2i(left, 0), n, UiPalette.OUTLINE)
+		_disc_rows(n - 2, Vector2i(left + 1, 1), n - 2, face.darkened(0.45))
+		_disc_rows(n - 2, Vector2i(left + 1, 1), n - 4, face)
+		cell(left + 4, 2, 2, 1, face.lightened(0.28))
+		cell(left + 3, 3, 1, 1, face.lightened(0.28))
+
+	## A ring inside the disc (a stick's cap).
+	func ring(colour: Color) -> void:
+		var n: int = InputGlyphs.TEXELS - 6
+		var left: int = (columns - n) / 2
+		for y: int in n:
+			var w: int = half(n, y)
+			if y == 0 or y == n - 1:
+				cell(left + n / 2 - w, 2 + y, w * 2, 1, colour)
+			else:
+				cell(left + n / 2 - w, 2 + y, 1, 1, colour)
+				cell(left + n / 2 + w - 1, 2 + y, 1, 1, colour)
+
+	## A plate the glyph's width, its corners cut `corner` texels; `bumper` cuts the top
+	## corners deeper (a shoulder button's slope).
+	func plate(face: Color, corner: int, bumper: bool = false) -> void:
+		var n: int = InputGlyphs.TEXELS
+		for y: int in n:
+			var cut: int = _cut(y, n, corner, bumper)
+			cell(cut, y, columns - cut * 2, 1, UiPalette.OUTLINE)
+		for y: int in range(1, n - 1):
+			var cut: int = _cut(y, n, corner, bumper) + 1
+			cell(cut, y, columns - cut * 2, 1, face if y < n - 3 else face.darkened(0.45))
+		cell(_cut(2, n, corner, bumper) + 2, 2, 3, 1, face.lightened(0.22))
+
+	static func _cut(y: int, n: int, corner: int, bumper: bool) -> int:
+		var top: int = corner + (2 if bumper else 0)
+		if y < top:
+			return top - y
+		if n - 1 - y < corner:
+			return corner - (n - 1 - y)
+		return 0
+
+	## `rows` ("#" lit) centred on the face (above its side rows).
+	func picture(rows: Array, colour: Color) -> void:
+		var h: int = rows.size()
+		var w: int = String(rows[0]).length()
+		var left: int = (columns - w) / 2
+		var top: int = (InputGlyphs.TEXELS - 2 - h) / 2
+		for y: int in h:
+			var row: String = rows[y]
+			for x: int in w:
+				if row[x] == "#":
+					cell(left + x, top + y, 1, 1, colour)
+
+	## The D-pad: a cross of iron, the arm pressed lit (-1: its middle, the whole pad).
+	func dpad(arm: int) -> void:
+		var n: int = InputGlyphs.TEXELS
+		var left: int = (columns - n) / 2
+		var arm_w: int = 4
+		var mid: int = (n - arm_w) / 2
+		cell(left + mid - 1, 0, arm_w + 2, n, UiPalette.OUTLINE)
+		cell(left, mid - 1, n, arm_w + 2, UiPalette.OUTLINE)
+		cell(left + mid, 1, arm_w, n - 2, InputGlyphs.PLATE)
+		cell(left + 1, mid, n - 2, arm_w, InputGlyphs.PLATE)
+		var lit: Color = UiPalette.LANTERN
+		if arm < 0 or arm >= InputGlyphs._DPAD_ARMS.size():
+			cell(left + mid, mid, arm_w, arm_w, lit)
+			return
+		var way: Vector2i = InputGlyphs._DPAD_ARMS[arm]
+		var length: int = mid - 1
+		if way.x == 0:
+			cell(left + mid, 1 if way.y < 0 else n - 1 - length, arm_w, length, lit)
+		else:
+			cell(left + 1 if way.x < 0 else left + n - 1 - length, mid, length, arm_w, lit)
+
+	## `text` on the face (above its side rows), with a texel of shadow under it.
+	func label(text: String, colour: Color) -> void:
+		if text.is_empty():
+			return
+		var face := Rect2(origin + Vector2(0, texel), Vector2(columns, InputGlyphs.TEXELS - 3) * texel)
+		InputGlyphs._text(item, face, text, Color(0, 0, 0, 0.5) * modulate, Vector2(0, texel))
+		InputGlyphs._text(item, face, text, colour * modulate)
 
 
 ## The theme's key tile, tinted by `modulate` (a disabled button's grey).
@@ -203,41 +386,13 @@ static func _cap(modulate: Color) -> StyleBox:
 	return _caps[key]
 
 
-static func _box(item: RID, rect: Rect2, fill: Color, border: Color, corner: float) -> void:
-	var style := StyleBoxFlat.new()
-	style.bg_color = fill
-	style.border_color = border
-	style.set_border_width_all(1 if border.a > 0.0 else 0)
-	style.set_corner_radius_all(int(corner))
-	style.anti_aliasing = true
-	style.draw(item, rect)
-
-
-static func _text(item: RID, rect: Rect2, text: String, color: Color) -> void:
+static func _text(item: RID, rect: Rect2, text: String, color: Color, offset: Vector2 = Vector2.ZERO) -> void:
 	var shown_font: Font = font()
 	var width: float = shown_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, FONT_SIZE).x
 	var ascent: float = shown_font.get_ascent(FONT_SIZE)
 	var descent: float = shown_font.get_descent(FONT_SIZE)
 	var baseline := Vector2(rect.get_center().x - width / 2.0, rect.position.y + (rect.size.y - ascent - descent) / 2.0 + ascent)
-	shown_font.draw_string(item, baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, FONT_SIZE, color)
-
-
-## PlayStation's ✕ ○ □ △, drawn as lines.
-static func _symbol(item: RID, centre: Vector2, half: float, shape: int, color: Color) -> void:
-	var points := PackedVector2Array()
-	match shape:
-		Shape.CROSS:
-			RenderingServer.canvas_item_add_line(item, centre + Vector2(-half, -half), centre + Vector2(half, half), color, 2.0, true)
-			RenderingServer.canvas_item_add_line(item, centre + Vector2(-half, half), centre + Vector2(half, -half), color, 2.0, true)
-			return
-		Shape.RING:
-			for step: int in 21:
-				points.append(centre + Vector2.from_angle(TAU * step / 20.0) * half)
-		Shape.SQUARE:
-			points = PackedVector2Array([centre + Vector2(-half, -half), centre + Vector2(half, -half), centre + Vector2(half, half), centre + Vector2(-half, half), centre + Vector2(-half, -half)])
-		Shape.TRIANGLE:
-			points = PackedVector2Array([centre + Vector2(0, -half), centre + Vector2(half, half * 0.8), centre + Vector2(-half, half * 0.8), centre + Vector2(0, -half)])
-	RenderingServer.canvas_item_add_polyline(item, points, PackedColorArray([color]), 2.0, true)
+	shown_font.draw_string(item, (baseline + offset).round(), text, HORIZONTAL_ALIGNMENT_LEFT, -1, FONT_SIZE, color)
 
 
 ## Shows `action`'s glyph on `button` (as its icon) while the player uses keys or a pad.
