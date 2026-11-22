@@ -25748,7 +25748,7 @@ msgid "兵部的人在关北拿人，拿的是王爷的子民。王爷不让动�
 msgstr "The Ministry's people seize people in Beyond the Pass, and they are the Prince's people. The Prince says no hands raised, so we watch. We've watched half a year."
 
 msgid "关北的马刀，马上使的。撩，不是砍。等这事了了，我给你一册刀谱（问我「刀谱」）。"
-msgstr "The Frontier saber, for use from horseback. Sweep, don't chop. When this business is done, I'll give you a saber manual (ask me about the \"Manual\")."
+msgstr "The Frontier saber, for use from horseback. Sweep, don't chop. When this business is done, I'll give you a saber manual (ask me about \"Manual\")."
 
 msgid "骁将"
 msgstr "Champion"
@@ -25835,7 +25835,7 @@ msgid "危水。二十年。"
 msgstr "Weishui. Twenty years."
 
 msgid "大哥。山洞里替我挡刀的那个人，我还没找到他家里人。"
-msgstr "Big brother. The man who took the blade for me in that cave, I still haven't found his family."
+msgstr "Big brother. The man who took the blade for me in that cave, I still have not found his family."
 
 msgid "找。关北帮你找。"
 msgstr "Then look. Beyond the Pass will help you look."
@@ -25895,7 +25895,7 @@ msgid "从名册上抬起头，看见你身后的人，手停了。"
 msgstr " looks up from the roll, sees who is behind you, and his hand stops."
 
 msgid "兵部的工地，闲人——"
-msgstr "A Ministry of War work site. No idlers--"
+msgstr "A Ministry of War work site. No idlers—"
 
 msgid "把刀抽出半截。"
 msgstr " draws his saber halfway."
@@ -26198,7 +26198,7 @@ msgid "让开。宫里的车。"
 msgstr "Make way. The Palace's cart."
 
 msgid "工地昨夜闹贼，两个挖不动的今天就接走，省得再丢。——走。"
-msgstr "Thieves at the work site last night. Two who can't dig go today, to save losing more. ... Move."
+msgstr "Thieves at the work site last night. Two who cannot dig go today, to save losing more. ... Move."
 
 msgid "骡车从你身边过去，往西、往南去了。油布底下的人没有再出声。\n"
 msgstr "The mule cart passes you, going west and then south. The person under the tarp makes no more sound.\n"
@@ -26240,7 +26240,7 @@ msgid "正厅东边的偏厅，王爷看文书的地方。一张书案，案上�
 msgstr "The side hall east of the main hall, where the Prince reads his papers. A writing desk, the papers on it stacked neatly; the top one is from the Ministry of War, an X scratched by a blade across its cover. A sheepskin map is nailed to the wall, a circle in cinnabar at the east end of the grassland. In one corner a brazier, the ashes in it still warm.\n"
 
 msgid "大街东边的一片空场，围着木栏的马栏占了一半，栏里十来匹关北矮脚马，栏外的木桩上拴着刚换了主的。靠南是驼栏，两峰骆驼卧着嚼草。马贩子的秤挂在木架上，地上是草料和马粪。北边一间土坯房子门口挑着一面酒旗，写着「酒」——塞外酒肆。马栏边坐着一个高鼻深目的异族人，面前铺一块布，布上放着一把短剑。东边土墙上开着一道门，门外是草地和毡帐的白顶。\n"
-msgstr "An open yard east of the main street, half of it taken up by a wooden-railed horse pen, a dozen or so short Frontier horses inside, and tied to posts outside the ones that have just changed hands. To the south is a camel pen, two camels lying chewing. The horse trader's scale hangs from a wooden frame, and the ground is covered in fodder and horse dung. To the north an adobe building has a wine banner hung at its door, the single character \"Wine\": the Frontier Tavern. By the horse pen sits a foreigner with a high-bridged nose and deep-set eyes, a cloth spread before him with a short sword on it. To the east a gate is cut in the earth wall, and beyond it lie grass and the white tops of felt tents.\n"
+msgstr "An open yard east of the main street, half of it taken up by a wooden-railed horse pen, a dozen or so short horses of Beyond the Pass inside, and tied to posts outside the ones that have just changed hands. To the south is a camel pen, two camels lying chewing. The horse trader's scale hangs from a wooden frame, and the ground is covered in fodder and horse dung. To the north an adobe building has a wine banner hung at its door, the single character \"Wine\": the Frontier Tavern. By the horse pen sits a foreigner with a high-bridged nose and deep-set eyes, a cloth spread before him with a short sword on it. To the east a gate is cut in the earth wall, and beyond it lie grass and the white tops of felt tents."
 
 msgid "一间土坯墙的酒肆，屋顶是椽子上铺的草泥，矮得伸手能摸到梁。屋子正中是一个火塘，吊着一口黑锅，羊肉的香味和羊粪火的烟味混在一起。几张矮桌，几条板凳，墙上挂着皮囊和马鞭。掌柜的是个女人，站在柜后剁肉。靠墙坐着几个等消息的人，不说话，一碗马奶酒喝半天。\n"
 msgstr "A tavern with adobe walls, the roof a mud-and-grass layer over rafters, so low you can touch the beams. In the middle of the room is a fire pit with a black pot hung over it, the smell of mutton mixed with the smoke of dung fire. A few low tables, a few benches, skins and horse whips hung on the walls. The keeper is a woman, standing behind the counter chopping meat. Along the wall sit several people waiting for news, not speaking, one bowl of kumis lasting hours.\n"
@@ -26294,7 +26294,7 @@ msgid "夯土的城墙，一层一层夯出来的横纹看得清清楚楚，墙�
 msgstr "A rammed-earth wall, the horizontal layers of the ramming plain to see, its foot worn white by wind and sand, withered yellow grass growing in clumps along the top. The gate tower is earth too, its timber beams' vermilion faded to brick red, blue-stone scrollwork painted on the beams. This is not a city of the Capital. It is a city beyond the frontier.\n"
 
 msgid "木栏围着的马栏，栏里十来匹马，枣红的、青的、黑的，都是关北的矮脚马，耐跑。栏外的木桩上拴着两匹，是刚换了主的。马粪和草料的味道混在一起，风一吹满街都是。\n"
-msgstr "A wooden-railed pen with a dozen or so horses in it, chestnut, blue-gray, black, all short Frontier horses that run far. Two are tied to posts outside, just changed hands. The smell of horse dung and fodder mixes together, and the wind carries it all down the street.\n"
+msgstr "A wooden-railed pen with a dozen or so horses in it, chestnut, blue-gray, black, all short horses of Beyond the Pass that run far. Two are tied to posts outside, just changed hands. The smell of horse dung and fodder mixes together, and the wind carries it all down the street."
 
 msgid "一对石鼓，鼓面让几十年的手摸得溜光，鼓身上刻的不是狮子，是两匹对着的马。鼓脚的石头裂了一道，用铁箍箍着。\n"
 msgstr "A pair of stone drums, their faces rubbed smooth by decades of hands, carved on their sides not with lions but with two horses facing each other. The stone at the foot of one drum has cracked and been bound with an iron hoop.\n"
@@ -26417,7 +26417,7 @@ msgid "你蹲到木桩前。枷锁的铁销锈死了，郭承用刀尖一点一�
 msgstr "You crouch before the stakes. The iron pins in the cangues are rusted solid, and Guo Cheng pries at them bit by bit with the point of his saber. The first one opens, Wang Shitou scrambles up, Guo Cheng points to the fence gate, and he runs off bent double.\n"
 
 msgid "第二副，刘拐子。第三副，巴图。第四副，胡阿大——铁销「咔」的一声响。\n"
-msgstr "The second, Liu Guaizi. The third, Batu. The fourth, Hu Ada--and the iron pin goes \"click.\"\n"
+msgstr "The second, Liu Guaizi. The third, Batu. The fourth, Hu Ada—and the iron pin goes \"click.\""
 
 msgid "火边一个守夜的武官抬起头：「谁？！」两个人抽剑扑了过来。\n"
 msgstr "An officer on watch by the fire raises his head: \"Who?!\" Two men draw swords and rush you.\n"
