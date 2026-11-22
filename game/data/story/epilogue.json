@@ -499,6 +499,46 @@
 					]
 				},
 				{
+					"id": "green",
+					"place": "green.village",
+					"title": "青石村",
+					"lines": [
+						{
+							"text": "青石村北边那个山洞，门上换了一条新铁链。阿牛背着小翠从门口走过，再也不往里钻了。",
+							"when": {
+								"all": [
+									{
+										"mark": "孩子回了家"
+									},
+									{
+										"not": {
+											"mark": "绝尘派守了阵"
+										}
+									}
+								]
+							}
+						},
+						{
+							"text": "村长还是常叹那一句「国之将亡」。只是现在，他会把后半句说完。",
+							"when": {
+								"mark": "村长说完了那句话"
+							}
+						},
+						{
+							"text": "洞口多了一圈不知谁摆的石头，阿牛钻进去转一圈，又从原路转出来；洞里那股寒气没了，村北的狗夜里也不叫了。后山的石室里，绝尘子还坐在佛像下，了尘守在他身后。",
+							"when": {
+								"mark": "绝尘派守了阵"
+							}
+						},
+						{
+							"text": "日照山的流云轩里多了一个拿金刚杖的和尚，抬上山的人，他扶着进门。青石村后山的石室里，只剩绝尘子一个人坐在佛像下。",
+							"when": {
+								"mark": "了尘下了山"
+							}
+						}
+					]
+				},
+				{
 					"id": "black_robe",
 					"place": "niling.gate",
 					"title": "黑衣人",
@@ -981,7 +1021,8 @@
 				"native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」) — the 天驼关 card (整肃 or 揭发) and the 乔阴县城 card's line for the case opened again.",
 				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」) — the 茅山 card (烧: the seventh 函 gone for good, the 花匠 back with 庾清尘; 留: the 花匠 upstairs teaching the 北麓's words, the children who came down)",
 				"native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」) — the 乔阴 card: the 曼雩台 with two (回家) or one (作证), the case reopened by 骆建章's 供状; the 京师 card: 作证 by 第九章's three ends (exiled; at the court that day; the 供状 in the 刑部 and 庾子建 still at the 兵部)",
-				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — the 日照山 card (after 茅山): 收经 or 守寺, and 老葛 by the small choice (头陀进了流云轩 / 守了寺规)"
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — the 日照山 card (after 茅山): 收经 or 守寺, and 老葛 by the small choice (头陀进了流云轩 / 守了寺规)",
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — the 青石村 card (after 日照山): the cave and 村长's saying (绝尘 A), 守阵 or 下山"
 			]
 		},
 		{

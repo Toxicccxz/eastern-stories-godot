@@ -553,10 +553,21 @@
 		{
 			"id": "assembly.juechen.stated",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over",
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — or the split in the 石室 (taken before one sat on the 虹台)"
 			],
 			"when": {
-				"mark": "绝尘表了态"
+				"any": [
+					{
+						"mark": "绝尘表了态"
+					},
+					{
+						"mark": "绝尘的票随了守阵"
+					},
+					{
+						"mark": "绝尘的票随了下山"
+					}
+				]
 			}
 		},
 		{
@@ -1100,12 +1111,65 @@
 			}
 		},
 		{
-			"id": "assembly.juechen.old",
+			"id": "assembly.juechen.self",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — one who walked 绝尘子's 八卦阵 asked him down"
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 绝尘派: the line walked to its split, the one in its seat asked for it (§12 Q7)"
 			],
 			"when": {
-				"mark": "绝尘派肯来"
+				"mark": "绝尘听你的"
+			}
+		},
+		{
+			"id": "assembly.juechen.yan",
+			"sources": [
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 下山 (了尘 sits for him: 鬼卒 to be cleared, 神教 driven out); not when 绝尘 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"not": {
+							"mark": "绝尘听你的"
+						}
+					},
+					{
+						"mark": "绝尘的票随了下山"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.juechen.old",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — one who walked 绝尘子's 八卦阵 asked him down",
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 守阵 (绝尘子 comes down once), or no split and asked down; not when 绝尘 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"not": {
+							"mark": "绝尘听你的"
+						}
+					},
+					{
+						"any": [
+							{
+								"mark": "绝尘的票随了守阵"
+							},
+							{
+								"all": [
+									{
+										"not": {
+											"mark": "绝尘的票随了下山"
+										}
+									},
+									{
+										"mark": "绝尘派肯来"
+									}
+								]
+							}
+						]
+					}
+				]
 			}
 		},
 		{
@@ -1164,7 +1228,8 @@
 			"sources": [
 				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 换盟主要过半 (§11 Q3): five of the nine for 颜违",
 				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too (§7: eight 派 may vote 颜违; §11 Q9: seven may 听你的)",
-				"修补 Z: the 任务 page's 投颜违 row reads it — the votes stated so far, five of them for 颜违 (DECISIONS「大会 A」)"
+				"修补 Z: the 任务 page's 投颜违 row reads it — the votes stated so far, five of them for 颜违 (DECISIONS「大会 A」)",
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 绝尘派 too (下山: 了尘 votes 颜违; nine 派 may vote 颜违)"
 			],
 			"when": {
 				"at_least": {
@@ -1249,6 +1314,16 @@
 									"cond": "assembly.buxuan.yan"
 								}
 							]
+						},
+						{
+							"all": [
+								{
+									"cond": "assembly.juechen.stated"
+								},
+								{
+									"cond": "assembly.juechen.yan"
+								}
+							]
 						}
 					]
 				}
@@ -1261,7 +1336,8 @@
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too (§11 Q9: seven 派 that may 听你的)",
 				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too (§7: eight 派 may vote 颜违; §11 Q9: seven may 听你的)",
 				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 too (§12 Q7: eight 派 may 听你的 so far)",
-				"修补 Z: the 任务 page's 听你的 row reads it — the votes stated so far, five of them 听你的 (DECISIONS「大会 A」)"
+				"修补 Z: the 任务 page's 听你的 row reads it — the votes stated so far, five of them 听你的 (DECISIONS「大会 A」)",
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 绝尘派 too (§12 Q7: nine 派 may 听你的)"
 			],
 			"when": {
 				"at_least": {
@@ -1344,6 +1420,16 @@
 								},
 								{
 									"cond": "assembly.buxuan.self"
+								}
+							]
+						},
+						{
+							"all": [
+								{
+									"cond": "assembly.juechen.stated"
+								},
+								{
+									"cond": "assembly.juechen.self"
 								}
 							]
 						}
@@ -2433,7 +2519,8 @@
 		{
 			"id": "assembly.day.juechen.here",
 			"sources": [
-				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 绝尘派 came up onto the 虹台 that day (an 派 that did not casts no vote)"
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 绝尘派 came up onto the 虹台 that day (an 派 that did not casts no vote)",
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 绝尘派肯来: asked down, or the split either way (守阵: 绝尘子; 下山: 了尘)"
 			],
 			"when": {
 				"all": [
@@ -2441,7 +2528,7 @@
 						"mark": "入了虹台的席"
 					},
 					{
-						"cond": "assembly.juechen.old"
+						"mark": "绝尘派肯来"
 					}
 				]
 			}
@@ -2468,9 +2555,9 @@
 			}
 		},
 		{
-			"id": "assembly.day.juechen.old",
+			"id": "assembly.day.juechen.yan",
 			"sources": [
-				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 绝尘派 votes the old 盟主 on the day"
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 绝尘派 votes 颜违 on the day: 下山 (了尘), or 听你的 and you sent it there"
 			],
 			"when": {
 				"all": [
@@ -2478,7 +2565,84 @@
 						"cond": "assembly.day.juechen.here"
 					},
 					{
-						"cond": "assembly.juechen.old"
+						"any": [
+							{
+								"cond": "assembly.juechen.yan"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.juechen.self"
+									},
+									{
+										"mark": "听你的投颜违"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.juechen.old",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 绝尘派 votes the old 盟主 on the day",
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — or 听你的 and you sent it there"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.juechen.here"
+					},
+					{
+						"any": [
+							{
+								"cond": "assembly.juechen.old"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.juechen.self"
+									},
+									{
+										"mark": "听你的投旧盟主"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.juechen.backs",
+			"sources": [
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 绝尘派 came and 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.juechen.here"
+					},
+					{
+						"cond": "assembly.juechen.self"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.juechen.self",
+			"sources": [
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 绝尘派 votes you: 听你的, and you stood"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.juechen.backs"
+					},
+					{
+						"mark": "站出来参选"
 					}
 				]
 			}
@@ -2489,7 +2653,8 @@
 				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 换盟主要过半 (§11 Q3): five of the nine that came for you",
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too",
 				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too",
-				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 too"
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 too",
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 绝尘派 too"
 			],
 			"when": {
 				"at_least": {
@@ -2518,6 +2683,9 @@
 						},
 						{
 							"cond": "assembly.day.buxuan.self"
+						},
+						{
+							"cond": "assembly.day.juechen.self"
 						}
 					]
 				}
@@ -2527,7 +2695,8 @@
 			"id": "assembly.day.yan_wins",
 			"sources": [
 				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — five of the nine that came for 颜违",
-				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too"
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too",
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 绝尘派 too"
 			],
 			"when": {
 				"at_least": {
@@ -2556,6 +2725,9 @@
 						},
 						{
 							"cond": "assembly.day.buxuan.yan"
+						},
+						{
+							"cond": "assembly.day.juechen.yan"
 						}
 					]
 				}
@@ -2567,7 +2739,8 @@
 				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 我也算一个: 侮天鬼灭了, and five 派 that came 听你的",
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too",
 				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too",
-				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 too"
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 too",
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 绝尘派 too"
 			],
 			"when": {
 				"all": [
@@ -2601,6 +2774,9 @@
 								},
 								{
 									"cond": "assembly.day.buxuan.backs"
+								},
+								{
+									"cond": "assembly.day.juechen.backs"
 								}
 							]
 						}

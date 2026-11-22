@@ -874,6 +874,9 @@
     "native.npc.green_cave_kid": {"note": "阿牛：青石村妇人家的男孩，八九岁，晒黑、瘦，短褂草鞋，背上背着妹妹小翠（势力线 绝尘 A）", "coat": "8a6a48", "pants": "5a4434", "skin": "e2a878", "hair": "241a16", "hair_style": "short", "headwear": "none", "beard": "none", "waist": "sash", "prop": "bundle_back", "bundle_color": "b06a6a", "accent": "6a4e3a", "height": "child", "build": "slim", "shoes": "straw"},
     "native.npc.green_mother": {"same_as": "green.npc.woman2"},
     "native.npc.juechen_liaochen": {"note": "了尘：绝尘子的大弟子，四十来岁，剃过又蓄起的短发挽小髻，洗白的浅灰道袍，腕上佛珠，手持金刚杖（势力线 绝尘 A；三十年前山烟寺的小沙弥）", "coat": "b4b8b0", "pants": "5e5a52", "skin": "e8b88a", "hair": "1e1c1a", "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash", "prop": "staff", "prop_color": "9f6297", "accent": "8a7a5a", "height": "standard", "build": "standard", "shoes": "dark"},
+    "native.npc.liaochen_kneel": {"same_as": "native.npc.juechen_liaochen"},
+    "native.npc.liaochen_sanyen": {"note": "了尘下山以后：头重新剃了，洗白的旧道袍外罩山烟寺的灰布僧衣，腕上佛珠，金刚杖（势力线 绝尘 B）", "coat": "8c8a82", "pants": "5e5a52", "skin": "e8b88a", "hair": "1e1c1a", "hair_style": "bald", "headwear": "none", "beard": "none", "waist": "sash", "prop": "staff", "prop_color": "9f6297", "accent": "8a7a5a", "height": "standard", "build": "standard", "shoes": "dark"},
+    "native.npc.assembly_liaochen": {"same_as": "native.npc.liaochen_sanyen"},
     "native.npc.road_robber": {"note": "劫道的汉子：敞着怀，腰扎草绳，刀出了鞘；花钱叫来的（势力线 振远 A）", "coat": "6a5a44", "pants": "3a3428", "skin": "c8946a", "hair": "1c1916", "hair_style": "topknot", "headwear": "none", "beard": "full", "waist": "sash", "prop": "blade_waist", "prop_color": "7a6a4a", "accent": "b8a682", "height": "standard", "build": "heavy", "shoes": "dark"}
   }
 }

@@ -1634,6 +1634,14 @@
           "green.cavehall.liaochen.1": [
             "green.cavehall",
             ["rel", 0.3, 0.62]
+          ],
+          "green.cavehall.liaochen_kneel.1": [
+            "green.cavehall",
+            ["rel", 0.5, 0.68]
+          ],
+          "green.cavehall.liaochen_stay.1": [
+            "green.cavehall",
+            ["rel", 0.4, 0.42]
           ]
         },
         "doors": {
