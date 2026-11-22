@@ -60,6 +60,12 @@ func _catalog() -> void:
 	check(LanguageResolver.resolve("en_US", catalog) == "zh_CN", "a language in preview is never given to a system on its own")
 	var both: LanguageCatalog = LanguageCatalog.source_only().with_language(_language("en", ""))
 	check(LanguageResolver.resolve("en_US", both) == "en", "once out of preview, an English system gets it")
+	var traditional: LanguageDefinition = catalog.find("zh_Hant")
+	check(traditional != null and traditional.preview and traditional.script_code == "Hant" and ResourceLoader.exists(traditional.translation_path), "繁體中文 is listed in preview, written in Hant, with its .po")
+	check(ResourceLoader.exists(traditional.face_path) and traditional.face_path != GameTheme.PIXEL_FONT_PATH, "and draws in a pixel face of its own (Taiwan's glyph forms)")
+	check(LanguageResolver.resolve("zh_TW", catalog) == "zh_CN" and LanguageResolver.resolve("zh_Hant_HK", catalog) == "zh_CN", "in preview, a Taiwan or Hong Kong system still reads Simplified")
+	var released: LanguageCatalog = LanguageCatalog.source_only().with_language(_language("zh_Hant", "Hant"))
+	check(LanguageResolver.resolve("zh_TW", released) == "zh_Hant" and LanguageResolver.resolve("zh_MO", released) == "zh_Hant", "once out of preview, Taiwan, Hong Kong and Macau get it")
 	var broken: LanguageCatalog = LanguageCatalog.load_from("res://locale/no_such_languages.json")
 	check(broken.languages().size() == 1 and broken.find("zh_CN") != null, "an unreadable list leaves the source language")
 
@@ -78,8 +84,15 @@ func _service() -> void:
 	var theme: Theme = ThemeDB.get_project_theme()
 	check(theme.default_font is FontFile and theme.default_font.resource_path == GameTheme.BODY_FONT_PATH and (theme.default_font as FontFile).allow_system_fallback, "the text face is the bundled pixel face (像素界面); the system fills in glyphs it lacks")
 	check(LocalizationService.language_font(theme) == null, "no system font chained under it to retarget (one that finds none of its names falls back to the theme's own font: a loop)")
+	var face: FontFile = LocalizationService.theme_face(theme)
+	var bundled: PackedByteArray = face.data
+	check(service.apply("zh_Hant") and TranslationServer.translate("新游戏") == "新遊戲" and TranslationServer.translate("返回主菜单") == "返回主選單", "繁體中文: its catalog is loaded, menu words included")
+	var taiwan: FontFile = load(service.catalog().find("zh_Hant").face_path)
+	check(face.data == taiwan.data and face.data != bundled and face.resource_path == GameTheme.PIXEL_FONT_PATH, "the theme's one pixel face now draws Taiwan's glyph forms")
+	check(service.apply("zh_CN") and face.data == bundled, "back to Simplified, the bundled glyphs return")
+	service.apply("zh_Hant")
 	service.release()
-	check(TranslationServer.get_locale() == before, "release puts the locale back")
+	check(TranslationServer.get_locale() == before and face.data == bundled, "release puts the locale and the face back")
 
 
 func _settings() -> void:
@@ -141,7 +154,7 @@ func _shell_screens(tree: SceneTree) -> void:
 	tree.root.add_child(shell)
 	await _frames(tree, 4)
 	# The title's line is the title in the other language, never translated (title_screen.json).
-	var allowed := PackedStringArray(["简体中文", "English (preview)", "伪语言", "东方故事"])
+	var allowed := PackedStringArray(["简体中文", "繁體中文（預覽）", "English (preview)", "伪语言", "东方故事"])
 	check(TranslationServer.get_locale() == PseudoLocale.CODE, "the shell starts in the kept language")
 	_scan(shell, allowed, "main menu")
 	check(shell.request_new_game_from_menu() and shell.result_overlay.visible, "New Game over a save asks first")
@@ -151,18 +164,18 @@ func _shell_screens(tree: SceneTree) -> void:
 	check(shell.request_settings_from_main_menu() and shell.language_row.visible, "Settings shows the language row")
 	_scan(shell, allowed, "Settings")
 	var option: OptionButton = shell.language_option
-	check(option.item_count == 4 and String(option.get_item_metadata(option.selected)) == PseudoLocale.CODE, "跟随系统 and the three languages, the kept one selected")
+	check(option.item_count == 5 and String(option.get_item_metadata(option.selected)) == PseudoLocale.CODE, "跟随系统 and the four languages, the kept one selected")
 	option.select(0)
 	check(shell.apply_settings() and TranslationServer.get_locale() == "zh_CN", "跟随系统 applies at once (an English or Chinese system reads Simplified)")
 	check(settings.files.has(ApplicationSettingsRepository.SETTINGS_PATH) and ApplicationSettingsRepository.new(settings).load().snapshot().language() == "", "and is kept")
 	shell.free()
 	await _frames(tree, 2)
-	# As shipped: Simplified Chinese and English in preview, listed in Settings.
+	# As shipped: Simplified Chinese, Traditional Chinese and English in preview, listed in Settings.
 	var shipped: ApplicationShellController = SHELL.instantiate()
 	shipped.configure_before_start(GameSaveStorageProfile.isolated_test("localization-shipped"), ShellTests.MemoryFiles.new(), null, ShellTests.MemoryFiles.new())
 	tree.root.add_child(shipped)
 	await _frames(tree, 4)
-	check(shipped.request_settings_from_main_menu() and shipped.language_row.visible and shipped.language_option.item_count == 3, "as shipped, Settings lists 跟随系统, 简体中文 and English (preview)")
+	check(shipped.request_settings_from_main_menu() and shipped.language_row.visible and shipped.language_option.item_count == 4, "as shipped, Settings lists 跟随系统, 简体中文, 繁體中文（預覽） and English (preview)")
 	check(String(shipped.language_option.get_item_metadata(shipped.language_option.selected)) == LocalizationService.FOLLOW_SYSTEM, "following the system by default")
 	shipped.free()
 	await _frames(tree, 2)

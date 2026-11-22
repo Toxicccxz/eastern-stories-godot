@@ -11,6 +11,10 @@ extends RefCounted
 ## The Settings preference that follows the system language.
 const FOLLOW_SYSTEM: String = ""
 
+## The theme face's own glyphs, kept the first time another language's face goes in.
+static var _bundled_face: PackedByteArray = PackedByteArray()
+static var _face_shown: String = ""
+
 var _catalog: LanguageCatalog
 var _system_locale: String
 var _active: LanguageDefinition
@@ -63,6 +67,7 @@ func apply(preference: String) -> bool:
 		TranslationServer.add_translation(_loaded)
 	TranslationServer.set_locale(language.code)
 	_apply_font(language.font_names)
+	_apply_face(language.face_path)
 	_active = language
 	return true
 
@@ -78,12 +83,49 @@ func release() -> void:
 	_active = null
 	TranslationServer.set_locale(_locale_before)
 	_apply_font(PackedStringArray())
+	_apply_face("")
 
 
 static func _apply_font(font_names: PackedStringArray) -> void:
 	var font: SystemFont = language_font(ThemeDB.get_project_theme())
 	if font != null and font.font_names != font_names:
 		font.font_names = font_names
+
+
+## Puts the face at `face_path` (empty: the bundled one) into the theme's face. The theme's
+## face is one FontFile shared by every text, the project theme's and GameTheme's alike, so
+## its glyphs change in place and nothing that holds it needs to know.
+static func _apply_face(face_path: String) -> void:
+	if face_path == _face_shown:
+		return
+	var face: FontFile = theme_face(ThemeDB.get_project_theme())
+	if face == null:
+		return
+	var glyphs: PackedByteArray = _bundled_face
+	if not face_path.is_empty():
+		var other: FontFile = load(face_path) as FontFile
+		if other == null or other.data.is_empty():
+			push_error("languages: cannot load the face %s" % face_path)
+			return
+		if _bundled_face.is_empty():
+			_bundled_face = face.data
+		glyphs = other.data
+	if glyphs.is_empty():
+		return
+	face.data = glyphs
+	_face_shown = face_path
+
+
+## The bundled pixel face the theme draws its text in: its default font, or the face under
+## it (GameTheme's text font is a FontVariation of it); null when it is neither.
+static func theme_face(theme: Theme) -> FontFile:
+	if theme == null or theme.default_font == null:
+		return null
+	if theme.default_font is FontFile:
+		return theme.default_font as FontFile
+	if theme.default_font is FontVariation and (theme.default_font as FontVariation).base_font is FontFile:
+		return (theme.default_font as FontVariation).base_font as FontFile
+	return null
 
 
 ## The system font the language's font list goes to: the theme's default font when it is one,

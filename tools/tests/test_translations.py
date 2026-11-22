@@ -13,11 +13,11 @@ sys.path.insert(0, str(REPOSITORY / "tools/l10n"))
 import check_po  # noqa: E402
 
 
-def _po(entries: list[tuple[str, str]]) -> Path:
-    lines = ['msgid ""', 'msgstr ""', '"Language: en\\n"', ""]
+def _po(entries: list[tuple[str, str]], code: str = "en") -> Path:
+    lines = ['msgid ""', 'msgstr ""', f'"Language: {code}\\n"', ""]
     for msgid, msgstr in entries:
         lines += [f'msgid "{msgid}"', f'msgstr "{msgstr}"', ""]
-    handle = tempfile.NamedTemporaryFile("w", suffix=".po", delete=False, encoding="utf-8")
+    handle = tempfile.NamedTemporaryFile("w", prefix=f"{code}_", suffix=".po", delete=False, encoding="utf-8")
     handle.write("\n".join(lines))
     handle.close()
     return Path(handle.name)
@@ -46,6 +46,18 @@ class TranslationsTest(unittest.TestCase):
             with self.subTest(label=label):
                 problems = check_po.problems_in(_po([entry]))
                 self.assertTrue(any(label in problem for problem in problems), problems)
+
+    def test_chinese_keeps_every_slot(self) -> None:
+        cases = {
+            "$p differs": ("结果只是轻轻地划破$p的皮肉。", "結果只是輕輕地劃破皮肉。"),
+            "{slots} differ": ("你向{npc}打听有关『{topic}』的消息。", "你向{npc}打聽消息。"),
+        }
+        for label, entry in cases.items():
+            with self.subTest(label=label):
+                problems = check_po.problems_in(_po([entry], "zh_Hant"))
+                self.assertTrue(any(label in problem for problem in problems), problems)
+        clean = [("结果只是轻轻地划破$p的皮肉。", "結果只是輕輕地劃破$p的皮肉。"), ("$RESPECT饶命！小的这就离开！", "$RESPECT饒命！小的這就離開！")]
+        self.assertEqual(check_po.problems_in(_po(clean, "zh_Hant")), [])
 
     def test_a_dropped_slot_is_allowed(self) -> None:
         self.assertEqual(check_po.problems_in(_po([("{npc}对你哈哈一笑：{npc}便是{self}！", "{npc} laughs. \"That'd be me!\"")])), [])

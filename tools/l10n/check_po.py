@@ -9,12 +9,14 @@ wrong. This catches them. Rules (docs/production/english_style.md):
 * the game's slots survive: %s and %d in the same number; $N $n $l $w $RESPECT $SELF when
   the source has them. A {name} slot may move or, where the language has no use for it,
   be left out (the template's header says so), but a translation may not invent one;
-* English grammar marks ({N:a|b}, {n:his} …, MessageGrammar) are well formed, and an ES2
-  pronoun token ($P, $p) is not used: English writes {N:his} / {n:him} instead;
-* no text starts a sentence with $RESPECT or {respect}: the forms of address are lower case;
-* no modern word from the style guide's Tone list (dude, okay, awesome, pal...);
-* a language not written in Chinese uses straight quotes and "...": the pixel font's curly
-  double quotes and ellipsis are full-width Chinese forms (a letter is half as wide).
+* in a language not written in Chinese: English grammar marks ({N:a|b}, {n:his} …,
+  MessageGrammar) are well formed, and an ES2 pronoun token ($P, $p) is not used: English
+  writes {N:his} / {n:him} instead; no text starts a sentence with $RESPECT or {respect}
+  (the forms of address are lower case); no modern word from the style guide's Tone list
+  (dude, okay, awesome, pal...); straight quotes and "...": the pixel font's curly double
+  quotes and ellipsis are full-width Chinese forms (a letter is half as wide);
+* in Chinese (zh_*.po): every slot and token stays, $P and $p included, as often as in the
+  source: the sentence is the same sentence in other characters.
 
 `python tools/l10n/check_po.py [game/locale/en.po ...]` prints the problems; exit 1 if any.
 """
@@ -87,8 +89,10 @@ def parse(path: Path) -> list[tuple[str, str, str]]:
 
 def _count(text: str, token: str) -> int:
     # $n must not count the n of $N's neighbours: tokens are case-sensitive substrings.
-    if token == "$n":
-        return len(re.findall(r"\$n(?![a-zA-Z])", text))
+    if token in ("$n", "$p"):
+        return len(re.findall(re.escape(token) + r"(?![a-zA-Z])", text))
+    if token == "$P":
+        return len(re.findall(r"\$P(?![a-zA-Z])", text))
     return text.count(token)
 
 
@@ -108,6 +112,13 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
         for token in TOKENS:
             if _count(msgid, token) and not _count(msgstr, token):
                 problems.append(f"{where}: lost {token}")
+        if not latin:
+            for token in TOKENS + ("$P", "$p"):
+                if _count(msgid, token) != _count(msgstr, token):
+                    problems.append(f"{where}: {token} differs")
+            if sorted(SLOT.findall(msgid)) != sorted(SLOT.findall(msgstr)):
+                problems.append(f"{where}: {{slots}} differ")
+            continue
         if "$P" in msgstr or re.search(r"\$p(?![a-zA-Z])", msgstr):
             problems.append(f"{where}: $P/$p in a translation: write {{N:his}} / {{n:him}}")
         source_slots = set(SLOT.findall(msgid))
@@ -124,9 +135,9 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
                 problems.append(f"{where}: {{n:…}} in a line with no $n (nor $p)")
         if re.search(r"(^|[.!?]\s+|[“\"]\s*)(\$RESPECT|\{respect\})", msgstr):
             problems.append(f"{where}: a sentence opens with a form of address (it is lower case)")
-        if latin and MODERN.search(msgstr) and not MODERN.search(msgid):
+        if MODERN.search(msgstr) and not MODERN.search(msgid):
             problems.append(f"{where}: a modern word ({MODERN.search(msgstr).group(0)}): english_style.md, Tone")
-        if latin and any(mark in msgstr for mark in FULL_WIDTH):
+        if any(mark in msgstr for mark in FULL_WIDTH):
             problems.append(f"{where}: a full-width “ ” or … (write \" and ...)")
     return problems
 

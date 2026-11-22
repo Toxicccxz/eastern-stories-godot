@@ -104,6 +104,11 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   release 2026.10.25, `fusion-pixel-font-12px-proportional-otf.woff2-v2026.10.25.zip` (font
   701,520 bytes, SHA-256 `b67eb7aa592622e5bc1152b800d32404bb887a1e3a2e669b0c2a873d388590d6`). SIL Open Font License 1.1,
   `game/assets/fonts/OFL-FusionPixel.txt`; used unmodified for the pixel interface's text.
+- `game/assets/fonts/fusion-pixel-12px-proportional-zh_tw.otf.woff2` — 缝合像素 12 px
+  proportional, Traditional Chinese in Taiwan's standard glyph forms, from the same release and
+  archive (font 707,536 bytes, SHA-256 `f533986a872978ebe94f7d6fbf8f2ddac0d300b8b726b7cec45458b0da343472`).
+  SIL Open Font License 1.1, the same `OFL-FusionPixel.txt` (the archive's OFL.txt is identical);
+  used unmodified for the interface's text in 繁體中文.
 - `game/assets/fonts/ZhiMangXing-Regular.ttf` — 志莽行书 (Zhi Mang Xing), from the
   [google/fonts](https://github.com/google/fonts/tree/main/ofl/zhimangxing) repository, `ofl/zhimangxing`
   (4,063,532 bytes, SHA-256 `644e0cae9b40f0b10ab729a01bd32032e3973bac22be3dccae01bf6ae7fde969`). SIL Open Font License 1.1,
