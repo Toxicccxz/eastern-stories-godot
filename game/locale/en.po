@@ -12770,13 +12770,13 @@ msgid "北 · 京师东街"
 msgstr "North · Capital East Street"
 
 msgid "南 · 尚书府"
-msgstr "South · Minister's House"
+msgstr "South · Minister's Mansion"
 
 msgid "京师东街 · 跳回去"
 msgstr "Capital East Street · Jump Back"
 
 msgid "尚书府 · 跳进去"
-msgstr "Minister's House · Jump In"
+msgstr "Minister's Mansion · Jump In"
 
 msgid "相国府前院"
 msgstr "Chancellor's Front Yard"
