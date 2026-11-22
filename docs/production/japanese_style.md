@@ -92,7 +92,10 @@ words by degree; no samurai words. Two Chinese words never become one Japanese w
 * Plain speech in a template is game style, the name and then the line: `{npc}「{line}」`.
 * An action with speech keeps the action: `{npc}が首を振った。「聞いたことがない」` (or
   `…首を振って言った。「…」` where the speaking matters).
-* An action line that follows an NPC's name opens with its particle. が for a first appearance, a new
+* Keigo follows 内と外: a waiter speaking to a guest about his own master humbles him
+  (番頭が申しますには), never raises him (おっしゃる is for the guest's side).
+* An action line that follows an NPC's name opens with its particle, with no comma after it
+  (`が入ってきたこちらを見るなり…`). が for a first appearance, a new
   subject or a new action; は for a subject already in play or a state. Three が in a row reads like a
   roll call: vary.
 
@@ -113,6 +116,11 @@ Proper names of shops, halls and temples keep their kanji: 飲風客桟, 水煙�
   般若心経, 閻魔大王, 玉皇大帝.
 * **Neither free nor literal:** keep each sentence's facts, order and mood; nothing added or
   dropped; the mood carried by a Japanese sentence, not word for word.
+* Words the glossary freezes for recurring roles: 掌柜 X店主 (楊店主), but 飲風客桟's 掌柜 is its
+  番頭 (the owner is the wandering immortal); 土匪 野盗 (山贼 山賊); 武士 衛士 (武士 is a samurai);
+  管家 家令; 管事 執事; 侍卫 侍衛; 保镖 用心棒; 衙役 捕吏; 狱卒 牢番; 僵尸 キョンシー; 阴间 冥界
+  (陰間 is Edo slang). Rooms: 厅 広間 (正厅 大広間, 偏厅 脇の間, 客厅 客間; never 庁, an office),
+  大门 正門, 后院 裏庭, 厢房 東棟／西棟, 密室 隠し部屋, 地牢 地下牢, 营帐 天幕, 渡口 渡し, 码头 波止場.
 * Every name is in the frozen glossary (`build/ja/kit/names.tsv` in the kit) before it is used.
 
 ### Same characters, different meaning (rewrite, never copy)
@@ -194,3 +202,6 @@ orientales*), or 東方故事 kept.
 6. 时辰: 子の刻 (recommended) / 時辰 with a codex note.
 7. The player in the fight log: あなた (now) / the player's own name (a code change at every place
    that fills 你; later, if wanted).
+8. 花紫会 (English: Beggars' Guild): the kanji kept as a proper name (now; its codex entry says who
+   they are) / a meaning like English (乞食の一党).
+9. 飲風客桟 and the other inns' and shops' names keep their kanji (now) / 飲風宿.
