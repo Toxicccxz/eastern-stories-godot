@@ -350,10 +350,10 @@ msgid "在广场上当面向大内的总教头问了寻剑的事"
 msgstr "Asked the Palace's chief instructor about the sword hunt, face to face in the square"
 
 msgid "围观的江湖客悄悄告诉你：官爷们要去西南二十四里的黄石隘口。"
-msgstr "A wanderer in the crowd tells you quietly: the officials are headed for Yellow Rock Pass, twenty-four li southwest."
+msgstr "A jianghu wanderer in the crowd tells you quietly: the officials are headed for Yellow Rock Pass, twenty-four li southwest."
 
 msgid "在广场上向围观的江湖人打听了官队的去处"
-msgstr "Asked the onlookers in the square where the officials were headed"
+msgstr "Asked the jianghu folk in the square where the officials were headed"
 
 msgid "去西南二十四里的黄石隘口，看他们找什么。"
 msgstr "Go to Yellow Rock Pass, twenty-four li southwest, and see what they're after."
@@ -14372,7 +14372,7 @@ msgid "安葬了瀑布山洞里的无名人"
 msgstr "Buried the nameless man in the waterfall cave"
 
 msgid "你拿走了骸骨身边的水烟阁腰牌：金乌徽，背面一个「岭」字。"
-msgstr "You take the Waterfog Pavilion waist token from beside the bones: a golden-crow badge, with the word \"Ling\" on the back."
+msgstr "You take the Waterfog Pavilion waist token from beside the bones: a golden-crow badge, with the character \"Ling\" on the back."
 
 msgid "拿走了瀑布山洞骸骨身边的腰牌"
 msgstr "Took the waist token from the bones in the waterfall cave"
@@ -14402,7 +14402,7 @@ msgid "上水烟阁的山，看葬剑亭里的碑。"
 msgstr "Climb Waterfog Pavilion's mountain and read the stone in the Sword Tomb Pavilion."
 
 msgid "葬剑亭碑：第四代七长老以奸计害人，被众武者合力击杀，甲辰年立亭为后人殷鉴。"
-msgstr "The stone of the Sword Tomb Pavilion: the Seventh Elder of the fourth generation did harm by treachery and was slain by the martial folk together; the pavilion was raised in a Jiachen year as a warning to those who come after."
+msgstr "The stone of the Sword Tomb Pavilion: the Seventh Elder of the fourth generation did harm by treachery and was slain by martial artists acting together; the pavilion was raised in a Jiachen year as a warning to those who come after."
 
 msgid "看虹谷石台的碑。"
 msgstr "Read the stone on the terrace in Rainbow Gorge."
@@ -14411,7 +14411,7 @@ msgid "虹谷石台碑：乙丑年，第六代阁主关雨楼立——正是失�
 msgstr "The stone on the terrace in Rainbow Gorge: raised by Guan Yulou, sixth Head of the Pavilion, in a Yichou year—the very year the escort was lost. The words were written into the rock with a finger, the same way as the words on the cave wall."
 
 msgid "上楼找五长老南危水，拿证据问他山洞里的骸骨。"
-msgstr "Go upstairs to the Fifth Elder, Nan Weishui, and put the skeleton in the cave to him with your proof."
+msgstr "Go upstairs to the Fifth Elder, Nan Weishui, and confront him with your proof about the skeleton in the cave."
 
 msgid "南危水承认了：山洞里死的是他的随从阿岭，伏击的是白衣武官，盟主卫沧澜被带走。他装死二十年，是怕哥哥槐阳王知道朝廷伏击了自己的弟弟会反。"
 msgstr "Nan Weishui admits it: the one who died in the cave was his attendant, A-Ling. The ambush was the Officer in White's, and the Alliance Leader, Wei Canglan, was taken away. He has played dead for twenty years for fear his brother, the Prince of Huaiyang, would rebel if he learned the court had ambushed his own brother."
@@ -14681,7 +14681,7 @@ msgid "槐阳王也收到过兵部「征三千民夫修官道寻剑」的令。�
 msgstr "The Prince of Huaiyang got the Ministry of War's order too: \"Raise three thousand laborers to build an official road and seek the sword.\" The old prince refused."
 
 msgid "护送陈显祖进衙门作证（问他「作证」），或放他带箱子走（「走吧」）。"
-msgstr "Escort Chen Xianzu into the yamen to testify (ask him to \"Testify\"), or let him go with his chest (\"Go\")."
+msgstr "Escort Chen Xianzu into the yamen to testify (ask him to \"Testify\"), or let him go with his chest (\"Off You Go\")."
 
 msgid "你把陈显祖护送进了乔阴县衙。福林大街上庾家的人动了手——他活着站上了公堂。"
 msgstr "You escort Chen Xianzu into Tallshade's yamen. The Yu family's men strike on Fulin Street—and he makes it to the court alive."
@@ -14957,7 +14957,7 @@ msgid "御书房：把先帝的原令和兵部的抄本放在一起。"
 msgstr "The Imperial Study: put the late Emperor's original decree beside the Ministry of War's copy."
 
 msgid "原令只一句：寻剑，不得扰民一户。抄本上多出来的三句，是拿着假印的人加的。皇帝给了你一页樵夫的旧记载：风停处即是城。"
-msgstr "The original has one line: Seek the sword, and trouble not one household. The three lines more on the copy were added by whoever had the false seal. The Emperor gives you a page of an old woodcutter's account: Where the wind stops, there is the city."
+msgstr "The original has one line: Seek the sword, and trouble not one household. The three extra lines on the copy were added by whoever had the false seal. The Emperor gives you a page of an old woodcutter's account: Where the wind stops, there is the city."
 
 msgid "怎么办：在养心殿朝上揭发（要原令加两样人证物证，关北踏平了工地的要三样）、去尚书府私了，或请皇上先解皇叔的通缉。"
 msgstr "What now: denounce it at court from the Hall of Mental Cultivation (it takes the original and two more witnesses or proofs; three if you flattened the work site Beyond the Pass), settle it privately at the Minister's Mansion, or ask His Majesty first to lift the warrant on the Imperial Uncle."
@@ -15014,7 +15014,7 @@ msgid "云台：谁拔旋芒——你自己（十铃里要响六口，先接岚�
 msgstr "The Cloud Terrace: who draws Whirling Edge—you yourself (six of the ten bells must ring, and first take the Wind Elder's three welcoming blades), the Imperial Uncle (he must already have gone back to court), or Xiao Bichen (he must have his wind chime with him)."
 
 msgid "风散了，剑落进你手里。岚翁说：十口铃里有人信你，剑就认你。"
-msgstr "The wind breaks up, and the sword drops into your hand. The Wind Elder says: if anyone among the ten bells trusts you, the sword will take you."
+msgstr "The wind breaks up, and the sword drops into your hand. The Wind Elder says: if anyone among the ten bells trusts you, the sword will accept you."
 
 msgid "在岚城的云台上拔了旋芒"
 msgstr "Drew Whirling Edge on the Wind City's Cloud Terrace"
@@ -15374,7 +15374,7 @@ msgid "乔阴县衙的公案上，又摊开了庾子建的卷宗：小屋那封�
 msgstr "Yu Zijian's case file lies open again on the bench of Tallshade's yamen: the letter from the little house, the ledger from Camelback Pass. The Capital has not replied, and Cheng Buping has not closed the file."
 
 msgid "乔阴县衙的卷宗里，压着骆建章的一张供状：兵部抄本上多出来的三句，是谁口述的。"
-msgstr "In the files of Tallshade's yamen lies a statement from Luo Jianzhang: who dictated the three lines more on the Ministry of War's copy."
+msgstr "In the files of Tallshade's yamen lies a statement from Luo Jianzhang: who dictated the three extra lines on the Ministry of War's copy."
 
 msgid "曼雩台上多了一张书案。骆建章给弟弟抄谱，骆云舟在台边练剑；兄弟俩还是不怎么说话。"
 msgstr "There's a writing desk on the Rain Dance Terrace now. Luo Jianzhang copies sword manuals for his brother while Luo Yunzhou practices at the terrace's edge; the brothers still don't talk much."
@@ -20471,7 +20471,7 @@ msgid "作什么证？在下只是个丢了箱子的过路人。"
 msgstr "Testify to what? I am only a passing traveler who lost a chest."
 
 msgid "走吧"
-msgstr "Let's Go"
+msgstr "Off You Go"
 
 msgid "放陈显祖带着箱子走：他交出抄本，一去不回——公堂上就没有人证了。\n确定吗？"
 msgstr "Let Chen Xianzu leave with the chest. He hands over the copy and is gone for good, and there will be no witness in court.\nAre you sure?"
@@ -35813,7 +35813,7 @@ msgid "碎石小路上有人劫镖。领头的蒙面后生倒在路边，刀扔�
 msgstr "Someone robs the shipment on Gravel Lane. The masked youth leading them lies by the roadside, his saber thrown aside."
 
 msgid "劫镖的后生坐在路边，不看你（问他「爹」）。交官府（「交官府」）：劫镖是大罪，过了铁索就是天驼关，守关的官兵押他去京师，官府的赏金振远转给你；放他走（「走吧」）：他留下他爹最后的一封家信，劫镖的人从此不见官。"
-msgstr "The youth who robbed the shipment sits by the road and won't look at you (ask him about \"Dad\"). Hand him over (\"Hand Over\"): robbing an escort is a grave crime, past the iron cables is Camelback Pass, the soldiers holding the pass take him to the Capital, and Far-Road passes the authorities' reward on to you; let him go (\"Let's Go\"): he leaves you his father's last letter home, and the one who robbed the shipment never faces the law."
+msgstr "The youth who robbed the shipment sits by the road and won't look at you (ask him about \"Dad\"). Hand him over (\"Hand Over\"): robbing an escort is a grave crime, past the iron cables is Camelback Pass, the soldiers holding the pass take him to the Capital, and Far-Road passes the authorities' reward on to you; let him go (\"Off You Go\"): he leaves you his father's last letter home, and the one who robbed the shipment never faces the law."
 
 msgid "你把劫镖的后生交给了天驼关的官兵。"
 msgstr "You handed the youth who robbed the shipment to the soldiers at Camelback Pass."
@@ -36660,3 +36660,6 @@ msgstr "The seventeenth of the first month, on the Rainbow Terrace: there is tro
 
 msgid "虹台上散了会。"
 msgstr "The assembly on the Rainbow Terrace is over."
+
+msgid "宝衣"
+msgstr "Hanyu's Robe"
