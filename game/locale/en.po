@@ -15901,8 +15901,8 @@ msgstr "The Mistress told you to look for it? The steps are embroidered on this 
 msgid "有凤来仪"
 msgstr "The Phoenix Comes to Court"
 
-msgid "嗯 ...为这舞曲名。(dancing yu-fong)很有名！ \n"
-msgstr "Hmm... that's the name of a dance. (dancing yu-fong) It's very famous! \n"
+msgid "嗯 ...为这舞曲名。很有名！ \n"
+msgstr "Hmm... that's the name of a dance. It's very famous! \n"
 
 msgid "「幻影式舞步」步法与地点都很重要。\n"
 msgstr "For the \"phantom-style steps,\" both the steps and the place matter.\n"
@@ -15925,8 +15925,8 @@ msgstr "Zhaoyi looks at you oddly and says, \"Hee! So you're interested in dance
 msgid "只见两眼溜来溜去，一种很神秘的表情，嘟著嘴。"
 msgstr "Her eyes dart this way and that, a very mysterious look on her face, and she pouts."
 
-msgid "过了一会说：好吧!偷偷跟你说，你可以查看墙上的图。(dragon-dance) "
-msgstr "After a while she says, \"Fine! I'll tell you a secret. You can look at the chart on the wall. (dragon-dance)\""
+msgid "过了一会说：好吧!偷偷跟你说，你可以查看墙上的图。 "
+msgstr "After a while she says, \"Fine! I'll tell you a secret. You can look at the chart on the wall.\""
 
 msgid "...."
 msgstr "..."
@@ -16640,13 +16640,13 @@ msgid "顽皮的采花少女向你扮个鬼脸。  *^G^* \n"
 msgstr "The naughty flower-picking girl pulls a face at you.  *^G^* \n"
 
 msgid "采花少女说道：华中理工大学的桂花树比晚月庄多多了，你知道吗？\n"
-msgstr "The flower-picking girl says, \"Huazhong University of Science and Technology has way more osmanthus trees than Latemoon Manor, you know?\"\n"
+msgstr "The flower-picking girl says, \"Harvard University has way more osmanthus trees than Latemoon Manor, you know?\"\n"
 
 msgid "采花少女望着天边的晚霞，双手托着香腮，说道：我好想去华工大摘桂花。\n"
-msgstr "The flower-picking girl gazes at the evening glow in the sky, chin in her hands, and says, \"I want to go pick osmanthus at Huazhong Tech so badly.\""
+msgstr "The flower-picking girl gazes at the evening glow in the sky, chin in her hands, and says, \"I want to go pick osmanthus at Harvard so badly.\"\n"
 
 msgid "采花少女嘀咕着：听说华工的桂花有好几种呢。\n"
-msgstr "The flower-picking girl mutters, \"I heard Huazhong Tech has several kinds of osmanthus.\""
+msgstr "The flower-picking girl mutters, \"I heard Harvard has several kinds of osmanthus.\"\n"
 
 msgid "采花少女秀眉微蹙，说道：你欺负我年纪小是吗？\n"
 msgstr "The flower-picking girl knits her pretty brows. \"You're picking on me because I'm young, aren't you?\"\n"
@@ -16661,7 +16661,7 @@ msgid "桂花"
 msgstr "Osmanthus"
 
 msgid "华中理工大学的桂花树比晚月庄多多了，你知道吗？"
-msgstr "Huazhong University of Science and Technology has way more osmanthus trees than Latemoon Manor, you know?"
+msgstr "Harvard University has way more osmanthus trees than Latemoon Manor, you know?"
 
 msgid "一只可爱的长尾巴的小金鼠。 \n"
 msgstr "A cute little golden mouse with a long tail. \n"
@@ -17044,8 +17044,8 @@ msgstr "It seems the clothes in the cabinet have all been taken."
 msgid "这是一个上等木材作成的小橱子，里面放了一些物品。\n你看到一件件的美丽衣饰，真想取出看看。\n"
 msgstr "This is a small cabinet made of fine wood, with some things inside.\nYou see one beautiful garment after another and would like to take a look.\n"
 
-msgid "这是一幅湘绣的彩图，上有几名貌美的女子，以不同的姿态\n舞著，其漫妙之处让你著迷。图旁另绣有一曲名『西出阳关』\n(dancing out)与『有凤来仪 』\n"
-msgstr "This is a colorful Xiang embroidery with several beautiful women on it, dancing in different poses, their grace and charm captivating you. Beside the picture are embroidered the names of the pieces 'Westward Out of Yangguan' (dancing out) and 'The Phoenix Comes to Court'.\n"
+msgid "这是一幅湘绣的彩图，上有几名貌美的女子，以不同的姿态\n舞著，其漫妙之处让你著迷。图旁另绣有一曲名『西出阳关』\n与『有凤来仪 』\n"
+msgstr "This is a colorful Xiang embroidery with several beautiful women on it, dancing in different poses, their grace and charm captivating you. Beside the picture are embroidered the names of the pieces 'Westward Out of Yangguan' and 'The Phoenix Comes to Court'.\n"
 
 msgid "摘花蕊"
 msgstr "Pick a flower heart"
@@ -22772,13 +22772,13 @@ msgid "这是什么东西啊！你想偷渡呀？"
 msgstr "What's this supposed to be? You trying to sneak out?"
 
 msgid "黑你没商量是个看起来相当精明的中年人，他的本名叫做“魏阮”。\n不知作了什么黑心的生意，一夜之间暴富起来，开了钱庄后，逐渐地\n把其它钱庄全挤倒闭了，京师的居民对他的很多做法都非常不满，于\n是有了这个绰号。大家都知道他小肚鸡肠，所以谁也不去惹他。\n"
-msgstr "The No-Haggle Fleecer is a sharp-looking middle-aged man whose real name is Wei Ruan.\nNo one knows what dirty business made him rich overnight. Once he opened his money shop, he squeezed every other one out of business, one by one. The people of the Capital are deeply unhappy with much of what he does, and so he got this nickname. Everyone knows he is petty and spiteful, so nobody crosses him.\n"
+msgstr "The No-Haggle Fleecer is a sharp-looking middle-aged man whose real name is Mike Rosoft.\nNo one knows what dirty business made him rich overnight. Once he opened his money shop, he squeezed every other one out of business, one by one. The people of the Capital are deeply unhappy with much of what he does, and so he got this nickname. Everyone knows he is petty and spiteful, so nobody crosses him."
 
 msgid "黑你没商量压低嗓音对你说道：“我在上面可有人，你知道我每年给上面多少金子吗？”\n"
 msgstr "The No-Haggle Fleecer lowers his voice and says to you, \"I have friends up above, you know. Do you know how much gold I send them every year?\"\n"
 
 msgid "黑你没商量恨恨地说：“哼，我要把NT也汉化，看你之星怎么办！”\n"
-msgstr "The No-Haggle Fleecer says bitterly, \"Hmph. I'll have NT translated into Chinese too, and then let's see what Your Star does!\"\n"
+msgstr "The No-Haggle Fleecer says bitterly, \"Hmph. I'll bundle a browser with Windows, and then let's see what Netscape does!\"\n"
 
 msgid "黑你没商量突然三角眼倒立，眉间闪过几道黑气。\n"
 msgstr "The No-Haggle Fleecer's triangular eyes suddenly slant upright, and a few streaks of black flash between his brows.\n"
@@ -23102,7 +23102,7 @@ msgid "老板娘道：这位$RESPECT，您需要什么？\n"
 msgstr "The proprietress says, \"What do you need, $RESPECT?\"\n"
 
 msgid "老板娘神秘地对你说：要南大食堂磁卡吗？\n"
-msgstr "The proprietress says to you mysteriously, \"Would you like a Nanjing University canteen card?\""
+msgstr "The proprietress says to you mysteriously, \"Would you like a Yale dining hall card?\"\n"
 
 msgid "老板娘悄声说道：奴家可是湖南人哦。\n"
 msgstr "The proprietress says softly, \"I'm from Hunan, you know.\"\n"
@@ -23171,7 +23171,7 @@ msgid "李掌柜白了你一眼，冷冷地说：你有美钞吗？\n"
 msgstr "Shopkeeper Li rolls her eyes at you and says coldly, \"Do you have US dollars?\"\n"
 
 msgid "李掌柜忽然间说道：好久没去华工了，不知朋友是否还好吗。\n"
-msgstr "Shopkeeper Li suddenly says, \"I haven't been to Huazhong Tech in a long time. I wonder if my friends are doing well.\""
+msgstr "Shopkeeper Li suddenly says, \"I haven't been to Harvard in a long time. I wonder if my friends are doing well.\"\n"
 
 msgid "一个满脸横肉的壮汉，口水四溅，正说着什么。\n"
 msgstr "A burly man with a fleshy, scowling face, spit flying as he talks.\n"
@@ -23183,7 +23183,7 @@ msgid "卖艺壮汉练了一套六阴剑，还象模象样。\n"
 msgstr "The street strongman performs a set of the Six-Chaos Sword, and it looks quite the part.\n"
 
 msgid "卖艺壮汉低声对你说道：在下刚路过八舍！\n"
-msgstr "The street strongman says to you in a low voice, \"I just passed Dormitory Eight!\"\n"
+msgstr "The street strongman says to you in a low voice, \"I just passed Harvard Yard!\"\n"
 
 msgid "尚书府的门房虽然没什么官衔，但所有想晋见\n尚书的白衣无不对他毕恭毕敬的\n"
 msgstr "The Minister's Mansion's gatekeeper holds no official rank, but every commoner who wants an audience with the Minister treats him with deep respect.\n"

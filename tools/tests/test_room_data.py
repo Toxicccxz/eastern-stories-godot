@@ -14,7 +14,7 @@ DATA = REPOSITORY / "game/data"
 MUDLIB = REPOSITORY / "reference/es2/mudlib"
 MIGRATION = REPOSITORY / "tools/migration"
 # The importer's rule for ES2's typed-command hints (招牌(sign)): they are not carried over.
-COMMAND_HINT = re.compile(r"(?:(?<=[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef!])|(?<=[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]\n))[ \u3000]?[\uff08(][a-z][a-z' ]*[)\uff09]")
+COMMAND_HINT = re.compile(r"(?:(?<=[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef!])|(?<=[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]\n))[ \u3000]?[\uff08(][a-z][a-z' -]*[)\uff09]")
 
 
 def _source(room_id: str) -> str:

@@ -69,6 +69,12 @@ Mountain Mist Temple · the Golden Crow Order (东方神教) · the Far-Road Esc
 the Beggars' Guild (花紫会). Spiritpiercer (穿灵) · Whirling Edge (旋芒) · Hanyu's Robe (寒於宝衣) ·
 the Heaven-Defier (侮天鬼).
 
+* **In-jokes are localized, not translated** (owner 2026-11-22, with Muse): a joke an English player
+  cannot read (a Chinese university, 1990s Chinese software, a dorm number) becomes one they can
+  (Harvard, Yale, Harvard Yard, Microsoft bundling a browser to kill Netscape; 魏阮 = 微软 becomes
+  Mike Rosoft). The joke keeps its job (an anachronism stays one, a boast a boast); items, flowers,
+  trigger phrases, buttons and any name the game checks stay as they are; real people's names stay.
+
 ## Terms
 
 精 Essence · 气 Qi · 神 Spirit · 内力 Inner Force (never qi) · 内功 neigong · 轻功 qinggong · 潜能 Potential · 加力 Extra Force ·

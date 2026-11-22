@@ -40972,7 +40972,7 @@ msgstr ""
 #. latemoon.npc.girl inquiry.有凤来仪
 #: data/latemoon/npcs.json
 msgid ""
-"嗯 ...为这舞曲名。(dancing yu-fong)很有名！ \n"
+"嗯 ...为这舞曲名。很有名！ \n"
 msgstr ""
 
 #. latemoon.npc.girl inquiry.西出阳关
@@ -41015,7 +41015,7 @@ msgstr ""
 
 #. latemoon.npc.girl inquiry.寒谷龙舞.rules.lines.line
 #: data/latemoon/npcs.json
-msgid "过了一会说：好吧!偷偷跟你说，你可以查看墙上的图。(dragon-dance) "
+msgid "过了一会说：好吧!偷偷跟你说，你可以查看墙上的图。 "
 msgstr ""
 
 #. latemoon.npc.girl inquiry.寒谷龙舞.rules.lines.say
@@ -43516,7 +43516,7 @@ msgstr ""
 msgid ""
 "这是一幅湘绣的彩图，上有几名貌美的女子，以不同的姿态\n"
 "舞著，其漫妙之处让你著迷。图旁另绣有一曲名『西出阳关』\n"
-"(dancing out)与『有凤来仪 』\n"
+"与『有凤来仪 』\n"
 msgstr ""
 
 #. latemoon.park.moonc.landmark.flower name

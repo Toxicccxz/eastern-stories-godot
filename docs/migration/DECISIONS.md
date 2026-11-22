@@ -351,6 +351,9 @@
   the Chinese before merging.
 - In English a number the Chinese writes in characters (十文, 第三代) is shown in digits
   (`ChineseNumber.of`); Chinese is unchanged.
+- ES2's in-jokes are localized in English only (owner 2026-11-22「换成老外能够理解的」): 华工 Harvard,
+  南大食堂磁卡 a Yale dining hall card, 八舍 Harvard Yard, NT/你之星 bundling a browser with Windows and
+  Netscape, 魏阮 (微软) Mike Rosoft; the joke's job, items and game-checked names stay. The Chinese is unchanged.
 - ES2 typos are read as meant in English only (乔阴 east gate written 北门 twice: "East Gate");
   the Chinese text stays as it is.
 - The title's other-language line is never translated (it is the title in the other language).
