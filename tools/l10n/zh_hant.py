@@ -45,6 +45,7 @@ class Rules:
     phrases: list[tuple[str, str]] = field(default_factory=list)
     chars: dict[str, str] = field(default_factory=dict)
     ui: list[tuple[str, str]] = field(default_factory=list)
+    messages: dict[str, str] = field(default_factory=dict)
 
 
 def load_rules(path: Path = RULES) -> Rules:
@@ -61,6 +62,8 @@ def load_rules(path: Path = RULES) -> Rules:
             rules.chars[source] = target
         elif kind == "ui":
             rules.ui.append((source, target))
+        elif kind == "message":
+            rules.messages[source] = target
         else:
             raise ValueError(f"{path.name}:{number}: unknown kind {kind!r}")
     rules.phrases.sort(key=lambda pair: len(pair[0]))
@@ -82,6 +85,8 @@ class Converter:
         self._tw2s = opencc.OpenCC("tw2s")
 
     def convert(self, source: str, interface: bool = False) -> str:
+        if source in self.rules.messages:
+            return self.rules.messages[source]
         chars = list(self._s2tw.convert(source))
         if len(chars) != len(source):
             raise ValueError(f"s2tw changed the length of {source!r}")
@@ -102,13 +107,18 @@ class Converter:
         return self._tw2s.convert(text)
 
 
-def draft(po: list[Block], template: list[Block], converter: Converter) -> list[str]:
-    done = {(b.ctx, b.msgid) for b in po if b.is_message and b.msgstr and not b.fuzzy}
-    return [
-        f"{key_of(entry.ctx, entry.msgid)}\t{_escape(converter.convert(entry.msgid, is_interface(entry)))}"
-        for entry in template
-        if (entry.ctx, entry.msgid) not in done
-    ]
+def draft(po: list[Block], template: list[Block], converter: Converter, changed: bool = False) -> list[str]:
+    """Untranslated messages, or (`changed`) translated ones the rules now write differently."""
+    done = {(b.ctx, b.msgid): b.msgstr for b in po if b.is_message and b.msgstr and not b.fuzzy}
+    lines = []
+    for entry in template:
+        have = done.get((entry.ctx, entry.msgid))
+        if changed != (have is not None):
+            continue
+        text = converter.convert(entry.msgid, is_interface(entry))
+        if text != have:
+            lines.append(f"{key_of(entry.ctx, entry.msgid)}\t{_escape(text)}")
+    return lines
 
 
 def check(po: list[Block], template: list[Block], converter: Converter) -> list[str]:
@@ -136,7 +146,7 @@ def main(argv: list[str]) -> int:
     po = parse(args.po.read_text(encoding="utf-8"))
     converter = Converter()
     if args.command == "draft":
-        print("\n".join(draft(po, _template(), converter)))
+        print("\n".join(draft(po, _template(), converter, args.changed)))
         return 0
     problems = check(po, _template(), converter)
     print("\n".join(problems) if problems else f"{args.po.name}: every message says what its source says")

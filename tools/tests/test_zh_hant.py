@@ -17,7 +17,7 @@ from po_batch import Block  # noqa: E402
 class RulesTest(unittest.TestCase):
     def test_the_rules_read(self) -> None:
         rules = zh_hant.load_rules()
-        self.assertTrue(rules.phrases and rules.chars and rules.ui)
+        self.assertTrue(rules.phrases and rules.chars and rules.ui and rules.messages)
         for source, target in rules.phrases:
             self.assertEqual(len(source), len(target), source)
         self.assertEqual(rules.phrases, sorted(rules.phrases, key=lambda pair: len(pair[0])), "longer phrases come last and win")
@@ -43,10 +43,17 @@ class ConvertTest(unittest.TestCase):
             "接过信，就着窗口看了很久。": "接過信，就著窗口看了很久。",
             "卫沧澜……二十年没有消息了。": "衛滄瀾……二十年沒有消息了。",
             "他说：“这口剑。”": "他說：「這口劍。」",
+            "风把萧辟尘送回了家。": "風把蕭辟塵送回了家。",
+            "丑阴鬼卒": "丑陰鬼卒",
+            "车上的箱子一只只吊进去": "車上的箱子一隻隻吊進去",
         }
         for source, expected in cases.items():
             with self.subTest(source=source):
                 self.assertEqual(self.converter.convert(source), expected)
+
+    def test_a_unit_word_alone(self) -> None:
+        self.assertEqual(self.converter.convert("只"), "隻")
+        self.assertEqual(self.converter.convert("坛"), "罈")
 
     def test_the_interface_speaks_taiwan(self) -> None:
         self.assertEqual(self.converter.convert("切出窗口时暂停", interface=True), "切出視窗時暫停")
