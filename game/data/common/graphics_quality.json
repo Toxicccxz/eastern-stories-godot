@@ -7,11 +7,11 @@
   "default": "high",
   "steam_deck": {"level": "low", "environment": "SteamDeck", "adapters": ["Custom GPU 0405", "Custom GPU 0932", "Van Gogh", "Sephiroth"]},
   "phone": {
-    "note": "DECISIONS「手机画质」: on Android / iOS each level takes these over the desktop's, and a first start takes `default`. scale_3d: the 3D picture's share of the screen's pixels (the interface stays sharp); lamp_lights: lit lamps out of doors, nearest first (-1 all; rooms keep every lamp); grass: the share of the meadow's tufts planted.",
+    "note": "DECISIONS「手机画质」: on Android / iOS each level takes these over the desktop's, and a first start takes `default`. scale_3d: the 3D picture's share of the screen's pixels (the interface stays sharp); lamp_lights: lit lamps out of doors, nearest first (-1 all; rooms keep every lamp); grass: the share of the meadow's tufts planted; max_fps: the frame rate the level holds to (0 none; 低 a steady 30 that also keeps the phone cooler, 高 no more than 60); stage_lights: whether a fight's stage brings its own lights (the base's lamp, the braziers, a special's flash).",
     "default": "low",
     "levels": {
-      "high": {"shadow_filter": "soft_very_low", "sun_shadow_size": 2048, "sun_splits": 2, "msaa": 0, "lamp_shadows": 1, "scale_3d": 0.75, "lamp_lights": 3, "grass": 0.5, "plain_occluders": true},
-      "low": {"shadow_filter": "hard", "sun_shadow_size": 2048, "sun_splits": 1, "sun_shadow_distance": 64, "msaa": 0, "lamp_shadows": 0, "scale_3d": 0.67, "lamp_lights": 2, "grass": 0.3, "plain_occluders": true}
+      "high": {"shadow_filter": "soft_very_low", "sun_shadow_size": 2048, "sun_splits": 2, "msaa": 0, "lamp_shadows": 1, "scale_3d": 0.75, "lamp_lights": 3, "grass": 0.5, "plain_occluders": true, "max_fps": 60, "stage_lights": true},
+      "low": {"shadow_filter": "hard", "sun_shadow_size": 2048, "sun_splits": 1, "sun_shadow_distance": 64, "msaa": 0, "lamp_shadows": 0, "scale_3d": 0.55, "lamp_lights": 2, "grass": 0.3, "plain_occluders": true, "max_fps": 30, "stage_lights": false}
     }
   },
   "slow_hint": {"below_fps": 30, "seconds": 5, "settle_seconds": 10}

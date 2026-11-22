@@ -531,6 +531,9 @@ func glow_strengths() -> Array[float]:
 ## The stage's own lamp over its middle (the look's `light`): the fighters read clear over the
 ## darkened map, a room's lamps or none.
 func _lamp() -> void:
+	# 手机稳 30 帧: a phone's 低 lights the base with its glowing bricks and flames alone.
+	if not GraphicsQuality.stage_lights():
+		return
 	if _light == null:
 		_light = OmniLight3D.new()
 		_light.name = "StageLight"
@@ -781,6 +784,8 @@ func _brazier(cell: Vector2i, look: Dictionary, height: float) -> void:
 	var flame: MeshInstance3D = _box(node, Vector3(0.22, 0.26, 0.22), Vector3(0, 0.52, 0), Color(String(look.get("flame", "ff8a2a"))), true)
 	_box(flame, Vector3(0.1, 0.16, 0.1), Vector3(0, 0.02, 0), Color(String(look.get("flame_core", "ffd27a"))), true)
 	_flames.append(flame)
+	if not GraphicsQuality.stage_lights():
+		return
 	var light := OmniLight3D.new()
 	light.light_color = Color(String(look.get("flame", "ff8a2a")))
 	light.omni_range = 2.6
