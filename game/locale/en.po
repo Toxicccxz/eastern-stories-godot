@@ -224,7 +224,7 @@ msgid "打架、办事得来；武功能练到多高看它。"
 msgstr "Earned from fights and errands. How far your martial arts can go depends on it."
 
 msgid "打架、办事得来，请教和自学要花它；没用掉的有上限。"
-msgstr "Earned from fights and errands, and spent when you learn from a shifu or study on your own. Unspent Potential has a cap."
+msgstr "Earned from fights and errands, and spent when you learn from a Shifu or study on your own. Unspent Potential has a cap."
 
 msgid "综合评价"
 msgstr "Standing"
@@ -257,7 +257,7 @@ msgid "力气：打得更重，背得更多，拿得动沉重的兵器。"
 msgstr "Muscle: you hit harder, carry more, and can wield heavy weapons."
 
 msgid "敢不敢抢攻：自动对打时，胆识高的人出手更勤；不少师父也看它。"
-msgstr "Whether you dare strike first: in a straight fight the bold attack more often. Plenty of shifu look at it, too."
+msgstr "Whether you dare strike first: in a straight fight the bold attack more often. Plenty of Shifu look at it, too."
 
 msgid "悟性"
 msgstr "Wits"
@@ -275,7 +275,7 @@ msgid "容貌"
 msgstr "Looks"
 
 msgid "长相：有人看脸说话，也有师父看长相收人；容貌高，杀气重的人也不易对你翻脸。"
-msgstr "Appearance: some folk judge by faces, and some shifu take students by looks. Good looks also make the bloodthirsty slower to turn on you."
+msgstr "Appearance: some folk judge by faces, and some Shifu take students by looks. Good looks also make the bloodthirsty slower to turn on you."
 
 msgid "根骨"
 msgstr "Constitution"
@@ -1796,7 +1796,7 @@ msgid "{npc}昏迷不醒，收不了东西。"
 msgstr "{npc} is unconscious and can't take anything."
 
 msgid "确定{action}吗？"
-msgstr "{action} — are you sure?"
+msgstr "{action}—are you sure?"
 
 msgid "确定要拜{npc}为师吗？"
 msgstr "Become {npc}'s disciple?"
@@ -2225,10 +2225,10 @@ msgid "{name}占 {cost} 手，出完还剩 {after} 手"
 msgstr "{name} takes {cost}, leaving {after}"
 
 msgid "{name}占 {cost} 手，出完你这回合没手了，他连出 {theirs} 手"
-msgstr "{name} takes {cost} — you're out after it, and they get {theirs} in a row"
+msgstr "{name} takes {cost}—you're out after it, and they get {theirs} in a row"
 
 msgid "{name}占 {cost} 手，出完你这回合没手了"
-msgstr "{name} takes {cost} — you're out after it"
+msgstr "{name} takes {cost}—you're out after it"
 
 msgid "忙"
 msgstr "Busy"
@@ -2270,10 +2270,10 @@ msgid "在战斗中运功压制杀气，可能当场昏倒：以你现在的定�
 msgstr "Suppressing your Bloodlust mid-fight may knock you out on the spot. With your Resolve and neigong as they are, {odds}. Once you're out, anyone trying to kill you won't stop.\nSuppress your Bloodlust?"
 
 msgid "召天将要耗 {mana} 点法力和 {sen} 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n确定要召唤天将吗？"
-msgstr "Summoning a heavenly general costs {mana} Arcane Power and {sen} Spirit. The general will try to kill your opponent the moment it arrives, and your opponent will fight back—a spar becomes a fight to the death, and your opponent may die. Every kill it makes counts as yours; if it kills your shifu, you've killed your own master.\nSummon a heavenly general?"
+msgstr "Summoning a heavenly general costs {mana} Arcane Power and {sen} Spirit. The general will try to kill your opponent the moment it arrives, and your opponent will fight back—a spar becomes a fight to the death, and your opponent may die. Every kill it makes counts as yours; if it kills your Shifu, you've killed your own master.\nSummon a heavenly general?"
 
 msgid "召护法要耗 {mana} 点法力和 {sen} 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n确定要召护法吗？"
-msgstr "Calling a guardian costs {mana} Arcane Power and {sen} Spirit. The heavenly general or ghost soldier that comes will try to kill your opponent, and your opponent will fight back—a spar becomes a fight to the death, and your opponent may die. Every kill it makes counts as yours; if it kills your shifu, you've killed your own master.\nCall a guardian?"
+msgstr "Calling a guardian costs {mana} Arcane Power and {sen} Spirit. The heavenly general or ghost soldier that comes will try to kill your opponent, and your opponent will fight back—a spar becomes a fight to the death, and your opponent may die. Every kill it makes counts as yours; if it kills your Shifu, you've killed your own master.\nCall a guardian?"
 
 msgid "来相助的护法会替你杀{npc}。{npc}不是你亲手杀的，你会昏倒，也悟不到咒术的道理。\n确定要召唤吗？"
 msgstr "The guardian that comes will kill {npc} for you. Since {npc} won't die by your own hand, you'll pass out, and you won't grasp the secret of the spell.\nSummon anyway?"
@@ -2465,7 +2465,7 @@ msgid "北宗"
 msgstr "North Branch"
 
 msgid "跟柳绘心立北宗：封山的剑往外传。\n你转入封山剑派北宗，和她同辈；她把自己悟出来的「点」字诀教给你。柳淳风不再教你武功，「掌门传人」的名分没有了。这不算叛师：评价不清零，也不记背叛。封山在虹台上的那一票，会被颜违拿「给北宗一个座」来换（已经入了虹台的席的，这一票不再跟着变）。\n这是封山这条线的大分裂，选了不能改。要跟她吗？"
-msgstr "Stand with Liu Huixin and found the North Branch: Empty Mountain's sword will be taught to outsiders.\nYou move to the Empty Mountain School's North Branch, as her equal, and she teaches you the \"Point\" technique she worked out herself. Liu Chunfeng will teach you no more, and the title of Master's heir is gone. This doesn't count as betraying your shifu: your Standing isn't wiped and no betrayal is recorded. Yan Wei will trade Empty Mountain's vote on the Rainbow Terrace for \"a seat for the North Branch\" (once seats are taken on the Rainbow Terrace, the vote no longer changes).\nThis is the great split in the Empty Mountain line, and it can't be undone. Go with her?"
+msgstr "Stand with Liu Huixin and found the North Branch: Empty Mountain's sword will be taught to outsiders.\nYou move to the Empty Mountain School's North Branch, as her equal, and she teaches you the \"Point\" technique she worked out herself. Liu Chunfeng will teach you no more, and the title of Master's heir is gone. This doesn't count as betraying your Shifu: your Standing isn't wiped and no betrayal is recorded. Yan Wei will trade Empty Mountain's vote on the Rainbow Terrace for \"a seat for the North Branch\" (once seats are taken on the Rainbow Terrace, the vote no longer changes).\nThis is the great split in the Empty Mountain line, and it can't be undone. Go with her?"
 
 msgid "点字诀"
 msgstr "The Point Technique"
@@ -2489,7 +2489,7 @@ msgid "本宗"
 msgstr "Our School"
 
 msgid "跟柳淳风守本宗：封山的剑不外传。\n他亲传你「点」字诀，你是掌门传人；柳绘心会离开武馆，带着「北宗」两个字去绮云镇。封山在虹台上的那一票跟着柳淳风——等盟主回来（已经入了虹台的席的，这一票不再跟着变）。\n这是封山这条线的大分裂，选了不能改。要跟师父吗？"
-msgstr "Keep faith with Liu Chunfeng and the school: Empty Mountain's sword is not taught to outsiders.\nHe personally teaches you the \"Point\" technique, and you become the Master's heir. Liu Huixin will leave the hall, taking the name \"North Branch\" with her to Cloudweave Town. Empty Mountain's vote on the Rainbow Terrace follows Liu Chunfeng—it waits for the Alliance Leader to return (once seats are taken on the Rainbow Terrace, the vote no longer changes).\nThis is the great split in the Empty Mountain line, and it can't be undone. Stand with your shifu?"
+msgstr "Keep faith with Liu Chunfeng and the school: Empty Mountain's sword is not taught to outsiders.\nHe personally teaches you the \"Point\" technique, and you become the Master's heir. Liu Huixin will leave the hall, taking the name \"North Branch\" with her to Cloudweave Town. Empty Mountain's vote on the Rainbow Terrace follows Liu Chunfeng—it waits for the Alliance Leader to return (once seats are taken on the Rainbow Terrace, the vote no longer changes).\nThis is the great split in the Empty Mountain line, and it can't be undone. Stand with your Shifu?"
 
 msgid "武馆的事"
 msgstr "The Hall's Business"
@@ -2585,7 +2585,7 @@ msgid "向李教头讨教一场，然后打坐到内力 50。"
 msgstr "Ask Instructor Li for a bout, then meditate until your Inner Force reaches 50."
 
 msgid "你的内力练到了 50，够学封山剑法了。"
-msgstr "Your Inner Force has reached 50 — enough to learn Empty Mountain Sword."
+msgstr "Your Inner Force has reached 50—enough to learn Empty Mountain Sword."
 
 msgid "向柳淳风请教封山剑法；教练场的木人也等着你。"
 msgstr "Ask Liu Chunfeng to teach you Empty Mountain Sword. The wooden dummies on the training ground are waiting for you too."
@@ -3020,7 +3020,7 @@ msgid "任务目标"
 msgstr "Quest target"
 
 msgid "弑师"
-msgstr "Kills your shifu"
+msgstr "Kills your Shifu"
 
 msgid "了结（{marks}）"
 msgstr "Finish ({marks})"
@@ -3164,7 +3164,7 @@ msgid "可用潜能 {unspent} / {cap}"
 msgstr "Potential to spend: {unspent} / {cap}"
 
 msgid "（已满，先去请教或自学）"
-msgstr "(full—go learn from a shifu or study on your own)"
+msgstr "(full—go learn from a Shifu or study on your own)"
 
 msgid "落后补偿：{region}推荐实战经验 {recommended}，你在这里所得的经验和潜能 +{percent}%，赶上后恢复。"
 msgstr "Catch-up bonus: {region} expects about {recommended} Combat Experience; you get +{percent}% experience and Potential here until you catch up."
@@ -3530,10 +3530,10 @@ msgid "震古铄今"
 msgstr "Legendary"
 
 msgid "施展「空识神通」：静思入定，有机会把灵力化为潜能（50 灵力、50 精）；也可能潜能降低，或一无所获。"
-msgstr "Use \"Empty Mind\": sink into stillness, with a chance to turn Mystic Power into Potential (50 Mystic Power, 50 Essence). Potential may also drop, or nothing may come of it."
+msgstr "Use \"Void Sense\": sink into stillness, with a chance to turn Mystic Power into Potential (50 Mystic Power, 50 Essence). Potential may also drop, or nothing may come of it."
 
 msgid "施展「游识神通」：去到一个你见过的人身边，可以跨地图（75 灵力、30 精）。对方的灵力越强，越难感应得到。"
-msgstr "Use \"Wandering Mind\": go to the side of someone you've met, even on another map (75 Mystic Power, 30 Essence). The stronger their Mystic Power, the harder they are to sense."
+msgstr "Use \"Drifting Sense\": go to the side of someone you've met, even on another map (75 Mystic Power, 30 Essence). The stronger their Mystic Power, the harder they are to sense."
 
 msgid "施展「阴阳眼」：看得见鬼魂，持续的秒数等于你的有效咒文等级（30 法力、5 神）。"
 msgstr "Use \"Ghost Sight\": see ghosts for as many seconds as your effective Incantation level (30 Arcane Power, 5 Spirit)."
@@ -3920,7 +3920,7 @@ msgid "  {row} ✓"
 msgstr "  {row} ✓"
 
 msgid "  {row} ✗——{missing}"
-msgstr "  {row} ✗ — {missing}"
+msgstr "  {row} ✗—{missing}"
 
 msgid "  {row} ✗"
 msgstr "  {row} ✗"
@@ -3929,7 +3929,7 @@ msgid "  · {row}"
 msgstr "  · {row}"
 
 msgid "{master}是你的师父。攻击就是生死相搏；若你亲手杀了{master}，便是弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要攻击吗？"
-msgstr "{master} is your shifu. Attacking means a fight to the death; if you kill {master} with your own hand, you've killed your own master, which counts as betraying your school:\n· You'll be cast out of {family}: no school, no shifu, no title.\n· Your Standing is wiped (it's {score} now).\n· Your count of betrayals becomes {next}.\nAttack anyway?"
+msgstr "{master} is your Shifu. Attacking means a fight to the death; if you kill {master} with your own hand, you've killed your own master, which counts as betraying your school:\n· You'll be cast out of {family}: no school, no Shifu, no title.\n· Your Standing is wiped (it's {score} now).\n· Your count of betrayals becomes {next}.\nAttack anyway?"
 
 msgid "消息记录"
 msgstr "Message Log"
@@ -3953,10 +3953,10 @@ msgid "运功「疗伤他人」：把真气输入对方体内，为他疗伤（�
 msgstr "Exert \"Heal Another\": pour your true qi into them to heal their wounds (costs 150 Inner Force, and your Inner Force must be at least 150 over its max; neither of you can be in a fight)."
 
 msgid "施展「心识神通」：救醒昏迷的人（50 灵力、30 神）。最大灵力不过 101 必定失败，失败时你自己会昏倒。"
-msgstr "Use \"Mind Sense\": revive someone who's unconscious (50 Mystic Power, 30 Spirit). With max Mystic Power of 101 or less it always fails, and when it fails you pass out yourself."
+msgstr "Use \"Heart Sense\": revive someone who's unconscious (50 Mystic Power, 30 Spirit). With max Mystic Power of 101 or less it always fails, and when it fails you pass out yourself."
 
 msgid "心识神通要耗去 {atman} 点灵力和 {sen} 点神。能否救醒{npc}，全看你的灵力修为（最大灵力 {max_atman}）：{odds}\n确定要施展吗？"
-msgstr "Mind Sense costs {atman} Mystic Power and {sen} Spirit. Whether you can revive {npc} depends entirely on your Mystic Power (max {max_atman}): {odds}\nUse it?"
+msgstr "Heart Sense costs {atman} Mystic Power and {sen} Spirit. Whether you can revive {npc} depends entirely on your Mystic Power (max {max_atman}): {odds}\nUse it?"
 
 msgid "最大灵力不过 101 必定失败，失败时你自己会当场昏过去。"
 msgstr "With max Mystic Power of 101 or less it always fails, and when it fails you pass out on the spot."
@@ -4031,7 +4031,7 @@ msgid "你伤得太重了：画符要咬破手指流血，这一点血就会要�
 msgstr "You're too badly hurt: drawing the charm means biting your finger to bleed, and that little blood will kill you.\nDraw it anyway?"
 
 msgid "{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要贴上这道符吗？"
-msgstr "{master} is your shifu. {zombie} will hunt {master} down, and if it succeeds, you've killed your own master, which counts as betraying your school:\n· You'll be cast out of {family}: no school, no shifu, no title.\n· Your Standing is wiped (it's {score} now).\n· Your count of betrayals becomes {next}.\nStick the charm on anyway?"
+msgstr "{master} is your Shifu. {zombie} will hunt {master} down, and if it succeeds, you've killed your own master, which counts as betraying your school:\n· You'll be cast out of {family}: no school, no Shifu, no title.\n· Your Standing is wiped (it's {score} now).\n· Your count of betrayals becomes {next}.\nStick the charm on anyway?"
 
 msgid "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
 msgstr "You're wearing {item}. Give it to {npc}? Things you give away usually don't come back."
@@ -4076,10 +4076,10 @@ msgid "{sky}。"
 msgstr " {sky}."
 
 msgid "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n确定要施展吗？"
-msgstr "Empty Mind costs {gin} Essence, more than you can take right now—you'll pass out on the spot.\nUse it anyway?"
+msgstr "Void Sense costs {gin} Essence, more than you can take right now—you'll pass out on the spot.\nUse it anyway?"
 
 msgid "游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n确定要施展吗？"
-msgstr "Wandering Mind costs {gin} Essence, more than you can take right now—you'll pass out once it's done.\nUse it anyway?"
+msgstr "Drifting Sense costs {gin} Essence, more than you can take right now—you'll pass out once it's done.\nUse it anyway?"
 
 msgid "施展{spell}要耗去 {sen} 点神，你现在撑不住，施展完就会昏过去。\n确定要施展吗？"
 msgstr "{spell} costs {sen} Spirit, more than you can take right now—you'll pass out once it's done.\nUse it anyway?"
@@ -4619,7 +4619,7 @@ msgid "请教"
 msgstr "Learn"
 
 msgid "{master}收下了你。\n\n你成了{family}第{generation}代弟子。往后向师父请教，就能学他会的武功；请教页写着每门能学到几级，武学页能打坐练内力。"
-msgstr "{master} takes you on.\n\nYou are now a {generation}th-generation disciple of {family}. From now on, ask your shifu to teach you and you can learn the arts he knows; the Learn page shows how far each can go, and on the Martial Arts page you can meditate to build Inner Force."
+msgstr "{master} takes you on.\n\nYou are now a {generation}th-generation disciple of {family}. From now on, ask your Shifu to teach you and you can learn the arts he knows; the Learn page shows how far each can go, and on the Martial Arts page you can meditate to build Inner Force."
 
 msgid "{liquid}{portions}份"
 msgstr "{portions} portions of {liquid}"
@@ -4679,7 +4679,7 @@ msgid "%s锁着。"
 msgstr "The %s is locked."
 
 msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或自学，用掉一些潜能吧。"
-msgstr "Potential is full (at most {cap} unspent); more fighting won't add any. Go learn from your shifu or study on your own to spend some."
+msgstr "Potential is full (at most {cap} unspent); more fighting won't add any. Go learn from your Shifu or study on your own to spend some."
 
 msgid "{name}找了过来，又跟在你身边。"
 msgstr "{name} catches up and falls in beside you again."
@@ -6437,13 +6437,13 @@ msgid "闪身避让的功夫，对方的招式能不能落在身上，多半看�
 msgstr "The art of slipping aside. Whether an opponent's moves land on you mostly comes down to this. Footwork such as the Seven-Star Chaos Steps, Pyrobat Steps and Stormdance are all applied on top of it."
 
 msgid "一切内功的根基。内力的上限看它，打坐积下的内力才有地方存，运功调息、回气提神也都靠它；封山派内功、天邪神功等各家心法都要激发在它上面。内功修炼有成，根骨也会随之改善。"
-msgstr "The root of every neigong. It sets your Inner Force cap, gives the force you build by meditating somewhere to go, and powers exerting, steadying your breath and restoring yourself. Every school's method—Empty Mountain Force, the Wayward Art and the rest—is applied on top of it. As your neigong matures, your Constitution improves with it."
+msgstr "The root of every neigong. It sets your Inner Force cap, holds the Inner Force you build by meditating, and powers exerting, steadying your breath and restoring yourself. Every school's method—Empty Mountain Force, the Wayward Art and the rest—is applied on top of it. As your neigong matures, your Constitution improves with it."
 
 msgid "由於你的内功修炼有成，你的体质改善了。"
 msgstr "Your neigong has matured, and your Constitution has improved."
 
 msgid "乔阴柳家的柳东芦于七十年前所创：他是封山剑派第十二代掌门，以剑术成名，却把家传拳法融进封山剑意，创出这套适合膂力不强之人习练的拳法，补上了封山剑派近战的短处，后来更凭它力压群雄，夺得第九代武林盟主之位。柳家拳分内八套、外八套，流传在外的多是外八套，不须内功根基，容易上手；内八套是柳家秘传，外形一样，内力窍门却全然不同。练时须空手。"
-msgstr "Created seventy years ago by Liu Donglu of the Liu family of Tallshade. Twelfth Master of the Empty Mountain School and famous for his swordsmanship, he worked his family's fist into the spirit of the Empty Mountain sword, making a fist style suited to people of no great strength. It covered the Empty Mountain School's weakness at close quarters, and later he used it to beat every rival and become the ninth Alliance Leader of the wulin. The Liu Family Fist has eight inner forms and eight outer; what's spread outside the family is mostly the outer eight, which need no inner-art grounding and are easy to pick up. The inner eight are the Liu family's secret—the same forms on the outside, but entirely different tricks of inner force. It must be practiced bare-handed."
+msgstr "Created seventy years ago by Liu Donglu of the Liu family of Tallshade. Twelfth Master of the Empty Mountain School and famous for his swordsmanship, he worked his family's fist into the spirit of the Empty Mountain sword, making a fist style suited to people of no great strength. It covered the Empty Mountain School's weakness at close quarters, and later he used it to beat every rival and become the ninth Alliance Leader of the wulin. The Liu Family Fist has eight inner forms and eight outer; what's spread outside the family is mostly the outer eight, which need no grounding in neigong and are easy to pick up. The inner eight are the Liu family's secret—the same forms on the outside, but entirely different tricks of Inner Force. It must be practiced bare-handed."
 
 msgid "你的体力不够了，休息一下再练吧。"
 msgstr "You're out of strength. Rest a while before you train again."
@@ -6473,7 +6473,7 @@ msgid "$N左手虚晃，右拳「孤崖听涛」往$n的$l击出"
 msgstr "$N {N:feint|feints} with the left and {N:strike|strikes} at $n's $l with the right—\"Surf Below a Lone Cliff\""
 
 msgid "$N步履一沉，左拳拉开，右拳使出「荒山虎吟」击向$n$l"
-msgstr "$N {N:sink|sinks} into {N:his} stance, draws back the left fist, and {N:drive|drives} the right at $n's $l—\"Tiger's Growl on a Barren Hill\""
+msgstr "$N {N:sink|sinks} into {N:his} stance, {N:draw|draws} back the left fist, and {N:drive|drives} the right at $n's $l—\"Tiger's Growl on a Barren Hill\""
 
 msgid "封山派内功"
 msgstr "Empty Mountain Force"
@@ -6485,7 +6485,7 @@ msgid "封山派内功只能用学的，或是从运用中增加熟练度。"
 msgstr "Empty Mountain Force can only be learned, or improved by using it."
 
 msgid "封山剑派是当今武林最大的一支剑派，这套剑法是当年创派的三位剑术名家在封山灵狐顶相互印证、合力创出的。招式并不难学，难在剑意：自「剑气」练起，次练「剑心」「剑芒」「剑神」，四者都练到登峰造极的人少之又少，所以同是封山剑法，造诣深浅不同的人使出来，威力差之千里。剑中有「封」「点」「逐」「缺」四字诀，须以封山派内功为根基。"
-msgstr "The Empty Mountain School is the largest sword school in the wulin today. This sword style was forged by its three founding swordmasters, testing their skills against each other on Spirit Fox Peak of the Sealed Mountain. The moves aren't hard to learn; the hard part is the spirit of the sword. One starts with \"Sword Qi,\" then \"Sword Heart,\" \"Sword Edge\" and \"Sword Spirit\"—and few ever master all four, so the same Empty Mountain Sword can differ a world apart depending on who wields it. The sword holds four secrets—Seal, Point, Chase and Gap—and it rests on Empty Mountain Force."
+msgstr "The Empty Mountain School is the largest sword school in the wulin today. This sword style was forged by its three founding swordmasters, testing their skills against each other on Spirit Fox Peak of the Sealed Mountain. The moves aren't hard to learn; the hard part is the spirit of the sword. One starts with \"Sword Qi,\" then \"Sword Heart,\" \"Sword Edge\" and \"Sword God\"—and few ever master all four, so the same Empty Mountain Sword can differ a world apart depending on who wields it. The sword holds four secrets—Seal, Point, Chase and Gap—and it rests on Empty Mountain Force."
 
 msgid "你按著所学练了一遍封山剑法。"
 msgstr "You run through Empty Mountain Sword as you were taught."
@@ -6575,7 +6575,7 @@ msgid "步玄七诀"
 msgstr "Mystic Step Seven Secrets"
 
 msgid "四百年前「秃笔狂生」骆步玄的成名武功。他原是一介书生，未曾拜师学艺，十九岁起赴京应试，屡试不中，某年考完步出试场，偶一抬头望见街边书肆的一幅对子，竟悟出一套神奇的武功，从此闯荡江湖未逢敌手，五十岁回京定居，创立了步玄派。步玄七诀号称天下轻功「轻捷第一」，姿态潇洒有如书法，第一式「玄羽乱舞」能在短时间里加快身法；须配合步玄心法，又以音律之学为根底。"
-msgstr "The art that made the name of Luo Buxuan, \"the Mad Scholar of the Bald Brush,\" four hundred years ago. He was a mere scholar who never studied under any master. From nineteen on he sat the capital examinations and failed every time; one year, walking out of the examination hall, he happened to glance up at a pair of scrolls in a bookshop by the street, and from them worked out a marvelous martial art. After that he roamed the jianghu and never met his match, and at fifty he settled in the capital and founded the Mystic Step School. The Seven Secrets are said to be the nimblest lightfoot under heaven, as graceful as calligraphy; the first form, \"Dark Feathers Dancing,\" quickens your movements for a short while. It must be used with the Mystic Step Heart Method, and rests on a grounding in music."
+msgstr "The art that made the name of Luo Buxuan, \"the Mad Scholar of the Bald Brush,\" four hundred years ago. He was a mere scholar who never studied under any master. From nineteen on he sat the capital examinations and failed every time; one year, walking out of the examination hall, he happened to glance up at a pair of scrolls in a bookshop by the street, and from them worked out a marvelous martial art. After that he roamed the jianghu and never met his match, and at fifty he settled in the capital and founded the Mystic Step School. The Seven Secrets are said to be the nimblest qinggong under heaven, as graceful as calligraphy; the first form, \"Dark Feathers Dancing,\" quickens your movements for a short while. It must be used with the Mystic Step Heart Method, and rests on a grounding in music."
 
 msgid "你的气或神不够，不能练步玄七诀。"
 msgstr "Your Qi or Spirit isn't enough to practice the Mystic Step Seven Secrets."
@@ -6590,7 +6590,7 @@ msgid "$n身影一转，轻易地避开了这一招。"
 msgstr "$n {n:turn|turns} aside and easily {n:avoid|avoids} the move."
 
 msgid "$n身法飘忽，左一点，右一顿，早已闪在一旁。"
-msgstr "$n {n:drift|drifts} — a touch left, a pause right—and {n:are|is} already off to the side."
+msgstr "$n {n:drift|drifts}—a touch left, a pause right—and {n:are|is} already off to the side."
 
 msgid "但是$n身影一侧，在间不容发之际从容地避开了这一招。"
 msgstr "But $n {n:lean|leans} aside and, with a hair's breadth to spare, calmly {n:avoid|avoids} the move."
@@ -7073,7 +7073,7 @@ msgid "，上限 {maximum} → {target}，还差 {left}"
 msgstr ", max {maximum} → {target}, {left} to go"
 
 msgid "你现在是{title}。改投{master}门下，就是背叛师门：\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n· 门派、师父和称号都换成{family}的；已经学会的武功保留。\n· 日后再改投别派，又算一次背叛。\n{lines}确定要改投吗？"
-msgstr "You are {title}. Switching to {master}'s school means betraying your own:\n· Your Standing is wiped (it's {score} now).\n· Your count of betrayals becomes {next}. From then on, a Shifu who takes students teaches you only up to their own level minus 20 × your betrayals.\n· Your school, shifu and title all become {family}'s; arts you've already learned stay.\n· Switching schools again later counts as another betrayal.\n{lines}Switch schools?"
+msgstr "You are {title}. Switching to {master}'s school means betraying your own:\n· Your Standing is wiped (it's {score} now).\n· Your count of betrayals becomes {next}. From then on, a Shifu who takes students teaches you only up to their own level minus 20 × your betrayals.\n· Your school, Shifu and title all become {family}'s; arts you've already learned stay.\n· Switching schools again later counts as another betrayal.\n{lines}Switch schools?"
 
 msgid "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n· 综合评价清零。\n· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n{lines}确定要拜师吗？"
 msgstr "Become {master}'s disciple and you join {family}. If you ever switch to another school later, that's betraying your school:\n· Your Standing is wiped.\n· Your count of betrayals goes up by one. From then on, a Shifu who takes students teaches you only up to their own level minus 20 × your betrayals.\n{lines}Become a disciple?"
@@ -7085,7 +7085,7 @@ msgid "· 「{title}」这条线从此不会再出现。\n"
 msgstr "· The \"{title}\" line will never come up again.\n"
 
 msgid "你现在是{current}的嫡传弟子。改拜{master}为师，{current}就不再是你的师父：\n· 门派不变，辈分随{master}。\n{teach}确定要改拜{master}为师吗？"
-msgstr "You are {current}'s direct disciple. Take {master} as your shifu instead, and {current} is no longer your shifu:\n· Your school stays the same; your generation follows {master}.\n{teach}Take {master} as your shifu?"
+msgstr "You are {current}'s direct disciple. Take {master} as your Shifu instead, and {current} is no longer your Shifu:\n· Your school stays the same; your generation follows {master}.\n{teach}Take {master} as your Shifu?"
 
 msgid "· 以后{current}只教你{pronoun}的等级超过你三倍的武功。\n"
 msgstr "· From then on, {current} only teaches you arts in which their level is more than three times yours.\n"
@@ -7094,7 +7094,7 @@ msgid "· {current}只教嫡传弟子，以后不再教你。\n"
 msgstr "· {current} only teaches direct disciples and will no longer teach you.\n"
 
 msgid "· 你现在是{current}的嫡传弟子；三招都接住，便改拜{master}为师，{current}就不再是你的师父。\n{teach}"
-msgstr "· You are {current}'s direct disciple; take all three moves and you'll take {master} as your shifu, and {current} will no longer be your shifu.\n{teach}"
+msgstr "· You are {current}'s direct disciple; take all three moves and you'll take {master} as your Shifu, and {current} will no longer be your Shifu.\n{teach}"
 
 msgid "{master}的三招是真打：\n· 每一招都实打实地落在你身上，挨中了会受伤。\n· 哪一招接不住，测试就算失败，你随后会昏倒。\n· 伤得太重会死。\n{after}\n确定接受测试吗？"
 msgstr "{master}'s three moves are for real:\n· Every move lands on you for real, and if it hits, you're hurt.\n· Fail to take any one of them and you fail the test—and then pass out.\n· Get hurt badly enough and you die.\n{after}\nTake the test?"
@@ -7103,10 +7103,10 @@ msgid "· 三招都接住，便拜入{master}门下，成为{family}的弟子。
 msgstr "· Take all three moves and you join {master}'s school as a disciple of {family}."
 
 msgid "· 这是你第一次拜师；日后再改投别派，就是背叛师门。"
-msgstr "· This is your first shifu; switching to another school later is betraying your school."
+msgstr "· This is your first Shifu; switching to another school later is betraying your school."
 
 msgid "· 你现在是{title}；三招都接住，就改投{master}门下，等于背叛师门：综合评价清零（现在是 {score}），背叛师门的次数变成 {next} 次；门派、师父和称号都换成{family}的，已经学会的武功保留。"
-msgstr "· You are {title}; take all three moves and you switch to {master}'s school, which is betraying your own: your Standing is wiped (it's {score} now), your count of betrayals becomes {next}, your school, shifu and title all become {family}'s, and the arts you've learned stay."
+msgstr "· You are {title}; take all three moves and you switch to {master}'s school, which is betraying your own: your Standing is wiped (it's {score} now), your count of betrayals becomes {next}, your school, Shifu and title all become {family}'s, and the arts you've learned stay."
 
 msgid "· 三招都接住，{master}便愿意收你为徒，再向{pronoun}拜师即可。"
 msgstr "· Take all three moves and {master} will be willing to take you on; then just ask to become a disciple."
@@ -7217,7 +7217,7 @@ msgid "你歇了{time}，站了起来。"
 msgstr "You rest for {time}, then stand up."
 
 msgid "你歇了{time}，忽然有人来袭，你一跃而起！"
-msgstr "You rest for {time} - then someone attacks, and you leap to your feet!"
+msgstr "You rest for {time}—then someone attacks, and you leap to your feet!"
 
 msgid "你歇了{time}，身上一阵难受，歇不下去了。"
 msgstr "You rest for {time}, but a wave of sickness runs through you and you can't rest on."
@@ -16385,7 +16385,7 @@ msgid "接她三鞭"
 msgstr "Take her three lashes"
 
 msgid "瑷伦的三鞭是真打：\n· 每一鞭都实打实地落在你身上。\n· 哪一鞭接不住，就算没接下：你会昏倒，但不伤性命、不留伤，歇一会儿就能再来。\n· 接不接得住看气长不长：气随内力上限涨，内力上限靠打坐——先向师父学一门内功、装上，再去打坐。\n确定接她三鞭吗？"
-msgstr "Ailun's three lashes are real:\n- Each lash lands on you in earnest.\n- A lash you cannot take counts as not taken: you will pass out, but you will not be killed or hurt, and can try again after a rest.\n- Whether you can take them depends on how long your Qi lasts. Qi rises with your Inner Force cap, and your Inner Force cap rises by meditation: first learn a neigong from a shifu, equip it, and then meditate.\nAre you sure you want to take her three lashes?"
+msgstr "Ailun's three lashes are real:\n- Each lash lands on you in earnest.\n- A lash you cannot take counts as not taken: you will pass out, but you will not be killed or hurt, and can try again after a rest.\n- Whether you can take them depends on how long your Qi lasts. Qi rises with your Inner Force cap, and your Inner Force cap rises by meditation: first learn a neigong from a Shifu, equip it, and then meditate.\nAre you sure you want to take her three lashes?"
 
 msgid "瑷伦看了你很久：倒了两回，还站到我面前来。这份硬气，我认——这三鞭，我不用内力。"
 msgstr "Ailun looks at you for a long time. \"You fell twice, and still you stand before me. I respect that kind of toughness. For these three lashes, I will not use Inner Force.\""
@@ -32477,7 +32477,7 @@ msgid "玄尘师叔？……方丈说，他等这一天，等了三十年。"
 msgstr "Uncle Xuanchen? ...The Abbot said he waited for this day for thirty years."
 
 msgid "三十年前跟我师父走的那个人。我没见过他。"
-msgstr "The man who left with my shifu thirty years ago. I never met him."
+msgstr "The man who left with my Shifu thirty years ago. I never met him."
 
 msgid "一封封好的书信，信封上写着：绮云镇 振远镖局 陈剑秋 亲启。\n"
 msgstr "A sealed letter, the cover reading: Cloudweave Town. Far-Road Escorts. Chen Jianqiu, to be opened by him in person.\n"
@@ -33809,7 +33809,7 @@ msgid "罗七把胸前的腰牌一亮，高声道：淳风武馆收徒！封山�
 msgstr "Luo Qi flashes the token at his chest and cries out, \"Pure Wind Hall takes disciples! Empty Mountain swordplay, fair dealing for old and young alike! Ten taels entrance fee up front!\"\n"
 
 msgid "罗七对过路的人道：这位小哥，想学剑么？柳馆主是我师父。\n"
-msgstr "Luo Qi says to a passerby, \"Young brother, want to learn the sword? Master Liu is my shifu.\"\n"
+msgstr "Luo Qi says to a passerby, \"Young brother, want to learn the sword? Master Liu is my Shifu.\"\n"
 
 msgid "罗七叫道：弟兄们并肩子上！\n"
 msgstr "Luo Qi yells, \"Brothers, all together!\"\n"
@@ -34808,7 +34808,7 @@ msgid "二十三个结，你数过了。乔阴那个替我管了二十年的花�
 msgstr "Twenty-three knots, you counted them. The man in Tallshade who has run the Beggars' Guild for me these twenty years has run it better than I did."
 
 msgid "你是封山剑派的弟子，师父是柳淳风。"
-msgstr "You are a disciple of the Empty Mountain School, and your shifu is Liu Chunfeng."
+msgstr "You are a disciple of the Empty Mountain School, and your Shifu is Liu Chunfeng."
 
 msgid "你是封山剑派北宗的人，和柳绘心同辈。"
 msgstr "You are of the Empty Mountain School's North Branch, of the same generation as Liu Huixin."
@@ -34946,7 +34946,7 @@ msgid "绝尘子知道洞里有东西。阵守得住石室，他就不管——�
 msgstr "Juechenzi knows there is something in the cave. As long as the formation holds the Stone Chamber, he leaves it be: the Dustless School stays out of the world's affairs."
 
 msgid "首徒了尘不这么想。他说话的时候，一直看着佛像下的师父。"
-msgstr "His First Disciple, Liaochen, thinks otherwise. All the while he spoke, he kept his eyes on his shifu beneath the Buddha statue."
+msgstr "His First Disciple, Liaochen, thinks otherwise. All the while he spoke, he kept his eyes on his Shifu beneath the Buddha statue."
 
 msgid "绝尘子答应了：正月十七下山走一趟。"
 msgstr "Juechenzi agreed: on the seventeenth of the first month he will come down the mountain."
@@ -35078,7 +35078,7 @@ msgid "你走出了桃林，骆云舟认你做桃林的客。"
 msgstr "You found your way out of the Peach Grove, and Luo Yunzhou counts you a guest of the grove."
 
 msgid "你在曼雩台上问过了剑：风泉剑灵在「剑神如意」之前收了剑。"
-msgstr "You tested the sword on the Rain Dance Terrace: the Soul of Windspring sheathed its blade before it reached \"Sword Spirit, at will\"."
+msgstr "You tested the sword on the Rain Dance Terrace: the Soul of Windspring sheathed its blade before it reached \"Sword God, as I will\"."
 
 msgid "骆云舟托你给他十年没说过话的大哥骆建章送一封家书。"
 msgstr "Luo Yunzhou asked you to carry a letter home to his elder brother, Luo Jianzhang, who has not spoken to him in ten years."
@@ -36263,10 +36263,10 @@ msgid "你离了步玄派。曼雩台上的事，到此为止。"
 msgstr "You have left the Mystic Step School. The business on the Rain Dance Terrace ends here."
 
 msgid "问乔阴曼雩台的骆云舟「风泉」，再问他「问剑」：他把风泉之剑插在台边的青石上。天黑以后（夜晚、午夜）剑灵站在石前——跟它切磋，在它念到第四句「剑神如意」之前打中它。"
-msgstr "Ask Luo Yunzhou on the Rain Dance Terrace in Tallshade about \"Windspring\", then about \"Sword Trial\": he plants the Windspring Sword in the bluestone at the terrace's edge. After dark (night, midnight) the sword spirit stands before the stone: spar with it, and hit it before it reaches the fourth line, \"Sword Spirit, at will\"."
+msgstr "Ask Luo Yunzhou on the Rain Dance Terrace in Tallshade about \"Windspring\", then about \"Sword Trial\": he plants the Windspring Sword in the bluestone at the terrace's edge. After dark (night, midnight) the sword spirit stands before the stone: spar with it, and hit it before it reaches the fourth line, \"Sword God, as I will\"."
 
 msgid "剑灵在「剑神如意」之前收了剑。骆云舟说：步玄认你。"
-msgstr "The sword spirit sheathed its blade before \"Sword Spirit, at will\". Luo Yunzhou says: Mystic Step accepts you."
+msgstr "The sword spirit sheathed its blade before \"Sword God, as I will\". Luo Yunzhou says: Mystic Step accepts you."
 
 msgid "在曼雩台上问过了剑，见过了风泉剑灵"
 msgstr "Tested the sword on the Rain Dance Terrace and met the Soul of Windspring"
@@ -36488,7 +36488,7 @@ msgid "了尘说：师父知道洞里有东西。阵守得住石室，他就不�
 msgstr "Liaochen says: Shifu knows there is something in the cave. As long as the formation holds the Stone Chamber, he leaves it be."
 
 msgid "了尘说起师父的时候，一直看着佛像下的绝尘子，话没有说完。问他「师父」。"
-msgstr "When Liaochen speaks of his shifu, he keeps looking at Juechenzi beneath the Buddha statue, and does not finish what he is saying. Ask him about \"Shifu\"."
+msgstr "When Liaochen speaks of his Shifu, he keeps looking at Juechenzi beneath the Buddha statue, and does not finish what he is saying. Ask him about \"Shifu\"."
 
 msgid "了尘说起了三十年前的事。"
 msgstr "Liaochen speaks of what happened thirty years ago."
@@ -37481,7 +37481,7 @@ msgid "独眼头陀在佛前跪了下来。玄智伸出手掌，在他头顶轻�
 msgstr "The One-Eyed Ascetic kneels before the Buddha. Xuanzhi reaches out and gently strokes the top of his head a few times.\n"
 
 msgid "你是头陀，发就留着。法名，你的师父给过了，老衲不改。从今天起，你是山烟寺的人。"
-msgstr "You are an ascetic; keep your hair. Your Dharma name, your shifu has already given you, and this old monk will not change it. From today, you are of Mountain Mist Temple."
+msgstr "You are an ascetic; keep your hair. Your Dharma name, your Shifu has already given you, and this old monk will not change it. From today, you are of Mountain Mist Temple."
 
 msgid "流云轩，你去。阴间的寒，往后山烟寺赶得出去了。"
 msgstr "Go to Drifting Cloud Lodge. From now on, Mountain Mist Temple can drive out the cold of the Underworld."
@@ -37505,7 +37505,7 @@ msgid "把香案上那片贝叶拾起来，双手递还给头陀。"
 msgstr " picks up the palm-leaf page from the incense table and hands it back to the ascetic with both hands."
 
 msgid "本寺一脉，三十年前不收，今天也不收。经，请带回给你的师父。替老衲谢他。"
-msgstr "This temple keeps to its own line. It did not accept it thirty years ago, and it does not accept it today. Please take the sutra back to your shifu, and thank him for this old monk."
+msgstr "This temple keeps to its own line. It did not accept it thirty years ago, and it does not accept it today. Please take the sutra back to your Shifu, and thank him for this old monk."
 
 msgid "独眼头陀接过贝叶，看了玄智很久，一句话也没说，转身出了大殿。金门外那块他站了十年的地方，空了。\n"
 msgstr "The One-Eyed Ascetic takes the palm-leaf page, looks at Xuanzhi for a long time, and leaves the hall without a word. Outside the Golden Gate, the spot where he stood for ten years is empty.\n"
@@ -38378,7 +38378,7 @@ msgid "武功分两层。基本拳脚、基本剑法、基本内功这些「基�
 msgstr "Martial arts come in two layers. Basic Fist, Basic Sword, Basic Neigong and the like are \"Basic Arts\", the foundation; the Liu Family Fist, Empty Mountain Sword and the like are special arts, which must be applied (\"Apply\") to the matching basic art on the Martial Arts page before you can use them. In a real fight, what counts is the two levels combined."
 
 msgid "向师父或肯教你的人请教，每次耗精和一点潜能，第一次学一门新功夫耗的精加倍。学到的不能超过教你的人，也受实战经验限制：等级越高，要的实战经验越多。请教页写着你能学到几级、卡在哪里。"
-msgstr "Learn from a shifu or anyone willing to teach you. Each lesson costs Essence and a little Potential, and the first lesson in a new art costs double the Essence. You can't learn beyond the one teaching you, and Combat Experience limits you too: the higher the level, the more Combat Experience it takes. The Learn page shows how far you can learn each art and what is holding you back."
+msgstr "Learn from a Shifu or anyone willing to teach you. Each lesson costs Essence and a little Potential, and the first lesson in a new art costs double the Essence. You can't learn beyond the one teaching you, and Combat Experience limits you too: the higher the level, the more Combat Experience it takes. The Learn page shows how far you can learn each art and what is holding you back."
 
 msgid "激发好的特殊武功可以在武学页练习，耗气。它最多练到和底下的基本功夫一样高，再往上，得先把基本功夫学上去。"
 msgstr "Special arts that are applied can be practiced on the Martial Arts page, at a cost of Qi. They can be practiced up to the level of the basic art beneath them; to go higher, you must first raise the basic art."
@@ -38408,10 +38408,10 @@ msgid "门派是学武的正路。拜师大致有三种：有的师父看你的�
 msgstr "Schools are the proper road to martial arts. Becoming a disciple works roughly three ways: some shifus check whether your gifts and skills are enough, some want you to swear an oath, and some want you to pass a test first. In the interaction window, \"Become a Disciple\" is grayed out while you don't yet qualify, and says what you still lack; the Become a Disciple page lists the requirements and your own numbers."
 
 msgid "一个人同时只能有一位师父。师父教本门功夫最用心；别的人肯教，多半要你先替他做点事，或者付些钱。"
-msgstr "You can have only one shifu at a time. A shifu teaches his own school's arts most devotedly; others willing to teach you usually want you to do something for them first, or pay something."
+msgstr "You can have only one Shifu at a time. A Shifu teaches his own school's arts most devotedly; others willing to teach you usually want you to do something for them first, or pay something."
 
 msgid "改投别派之前会先问你。背叛师门要扣综合评价，往后的师父也不那么信你，教到一定程度就不肯再教；杀了自己的师父，也算背叛。"
-msgstr "You're asked before you switch to another school. Betraying your school costs Standing, and later shifus trust you less, refusing to teach beyond a certain point; killing your own shifu also counts as betrayal."
+msgstr "You're asked before you switch to another school. Betraying your school costs Standing, and later shifus trust you less, refusing to teach beyond a certain point; killing your own Shifu also counts as betrayal."
 
 msgid "门派、帮会与山寨"
 msgstr "Schools, Guilds and Stockades"
@@ -38816,7 +38816,7 @@ msgid "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l"
 msgstr "$N {N:shift|shifts} {N:his} feet and {N:turn|turns} sideways, using \"Butterflies Singe Silk,\" blade light flashing as it slashes at $n's $l"
 
 msgid "封山派开山祖师锺虔在羿水之滨的石廊峡练武时，每到夜里便与出来吸血的血蛾扑击为戏，仰望北斗七星的方位变幻，发现血蛾无论如何进攻都脱不出七星的规律，苦思几日夜创成这套步法，第一次试招便杀了六只血蛾。它专门对付身法敏捷的敌人，以自然的规律料敌机先，对方一动，便已踏到正确的闪避方位。"
-msgstr "When Zhong Qian, founder of the Empty Mountain School, trained in Stone Corridor Gorge on the banks of the Yi River, he spent his nights sparring for sport with the blood moths that came out to drink blood. Watching the shifting positions of the Big Dipper, he found that however the moths attacked, they never broke from the pattern of the seven stars. After several days and nights of hard thought he created these steps, and the first time he tried them he killed six blood moths. They are made for nimble opponents: reading the enemy ahead of time by nature's own pattern, the moment the other side moves, you have already stepped to the right place to dodge."
+msgstr "When Zhong Qian, founder of the Empty Mountain School, trained in Stone Corridor Gorge on the banks of the Yi River, he spent his nights sparring for sport with the blood moths that came out to drink blood. Watching the shifting positions of the Big Dipper, he found that however the moths attacked, they never broke from the pattern of the seven stars. After several days and nights of hard thought he created these steps, and the first time he tried them he killed six blood moths. They are made for nimble opponents and read the enemy ahead of time by nature's own pattern: the moment the other side moves, you have already stepped to the right place to dodge."
 
 msgid "你的气或内力不够，不能练倒乱七星步法。"
 msgstr "Your Qi or Inner Force isn't enough to practice the Seven-Star Chaos Steps."
@@ -38828,7 +38828,7 @@ msgid "$n一招「天玑离枢」轻轻巧巧地避了开去。"
 msgstr "$n {n:use|uses} \"Pearl Star Departs\" and deftly {n:slip|slips} out of the way."
 
 msgid "只见$n身影一晃，一式「天璇乱步」早已避在七尺之外。"
-msgstr "$n {n:flicker|flickers} — \"Turning Star Stagger\"—and {n:are|is} already seven feet away."
+msgstr "$n {n:flicker|flickers}—\"Turning Star Stagger\"—and {n:are|is} already seven feet away."
 
 msgid "$n使出「倒转天权」，轻轻松松地闪过。"
 msgstr "$n {n:use|uses} \"Balance Star Turned\" and {n:dodge|dodges} with ease."
@@ -38978,7 +38978,7 @@ msgid "$N吐气扬声，一招「气撼九重天」双掌并力推出"
 msgstr "$N {N:breathe|breathes} out with a shout—\"Qi Shakes Nine Heavens\"—and {N:drive|drives} both palms forward together"
 
 msgid "本是道家魔道的武功。三百年前一位天邪派前辈在首穷山一处废墟中得到六阴剑谱，谱分天殇、追魂、绝识三部，他年轻时练武伤了经脉，只练成追魂一部，另外两部至今下落不明。天邪派所传的追魂剑经三百多年演变，戾气消去不少而劲道更增，虽已失传了不少阴毒招式，仍是武林中赫赫有名的剑法。"
-msgstr "Originally a martial art of the demonic Daoist path. Three hundred years ago an elder of the Wayward School found the Six-Chaos Sword manual in a ruin on Mount Shouqiong. The manual came in three parts, Tianshang, Soul-Chasing and Jueshi, but he had damaged his meridians training in his youth and mastered only the Soul-Chasing part; the other two are lost to this day. Over three hundred years the Soul-Chasing Sword handed down in the Wayward School has shed much of its venom and gained in force, and though many of its vicious moves are lost, it is still a famous sword style in the wulin."
+msgstr "Originally a martial art of the demonic Daoist path. Three hundred years ago an elder of the Wayward School found the Six-Chaos Sword manual in a ruin on Mount Shouqiong. The manual came in three parts, Heaven's Bane, Soul-Chasing and Mind-Severing, but he had damaged his meridians training in his youth and mastered only the Soul-Chasing part; the other two are lost to this day. Over three hundred years the Soul-Chasing Sword handed down in the Wayward School has shed much of its venom and gained in force, and though many of its vicious moves are lost, it is still a famous sword style in the wulin."
 
 msgid "你按著所学练了一遍六阴追魂剑法。"
 msgstr "You run through the Six-Chaos Sword as you were taught."
@@ -38996,7 +38996,7 @@ msgid "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连�
 msgstr "$N {N:use|uses} \"Demons Run Riot,\" {N:his} $w raining blow after blow at $n's $l like a storm"
 
 msgid "$N身形一转，一招「厉鬼缠身」$w斩向$n的$l"
-msgstr "$N {N:spin|spins} — \"A Ghost Clings Close\"—and {N:his} $w slashes at $n's $l"
+msgstr "$N {N:spin|spins}—\"A Ghost Clings Close\"—and {N:his} $w slashes at $n's $l"
 
 msgid "$N舞动$w，一招「百鬼夜行」挟著闪闪剑光刺向$n的$l"
 msgstr "$N {N:whirl|whirls} {N:his} $w—\"Night Parade of Ghosts\"—thrusting at $n's $l in a flash of sword light"
@@ -39065,10 +39065,10 @@ msgid "神通一类法门的根底：灵力的上限看它，施展神通要用�
 msgstr "The grounding of the mystic powers: your Mystic Power cap rests on it, and working a mystic power costs Mystic Power. Mountain Mist Temple's Eight Consciousnesses is applied on top of it."
 
 msgid "念咒施法的根底：法力的上限看它，冥思积下的法力才有地方存。茅山道术、奇门遁甲这些法术都激发在它上面。"
-msgstr "The grounding for casting spells: your Arcane Power cap rests on it, and it gives the Arcane Power you build by meditating somewhere to go. Spells such as Mount Mao Sorcery and Qimen Dunjia are applied on top of it."
+msgstr "The grounding for casting spells: your Arcane Power cap rests on it, and it holds the Arcane Power you build by meditating. Spells such as Mount Mao Sorcery and Qimen Dunjia are applied on top of it."
 
 msgid "道家旁门的一路学问，绝尘派的奇门遁甲以它为根基，小天魔道修为不够，便领悟不了更深的遁甲之术。它只能向师父学，或在实战中体会；每有长进，杀气也跟着重一分。"
-msgstr "A learning of the Daoist side paths. The Dustless School's Qimen Dunjia rests on it, and without enough Lesser Demon Lore you cannot grasp the deeper arts of Qimen Dunjia. It can only be learned from a shifu, or grasped in real combat, and every gain makes your Bloodlust a little heavier."
+msgstr "A learning of the Daoist side paths. The Dustless School's Qimen Dunjia rests on it, and without enough Lesser Demon Lore you cannot grasp the deeper arts of Qimen Dunjia. It can only be learned from a Shifu, or grasped in real combat, and every gain makes your Bloodlust a little heavier."
 
 msgid "绝尘派的法术。口中念咒，大喝一声「疾！」，或化作黑气、金光、火焰、长虹、大雾遁去无踪，或以黑气、金光、火焰、海水、大木把敌人困在当中；战到危急，还能召来天将相助。须以小天魔道为根基。"
 msgstr "The Dustless School's sorcery. Chant a spell and shout \"Swift!\" and you either vanish without a trace as black vapor, golden light, flame, a long rainbow or thick fog, or trap the enemy inside black vapor, golden light, flame, seawater or great timbers; when a fight turns desperate, it can even call down a heavenly general to help. It must rest on Lesser Demon Lore."
@@ -39077,7 +39077,7 @@ msgid "你的小天魔道修为不够，无法领悟更高深的奇门遁甲之�
 msgstr "Your Lesser Demon Lore isn't deep enough to grasp the higher arts of Qimen Dunjia."
 
 msgid "绝尘派的本门内功。绝尘子本是释家中人，后得奇人指点，悟得道家真谛，佛道双修，自号绝尘，创下此派；这门心法只能向师父学，或在运功中慢慢精熟。"
-msgstr "The Dustless School's own neigong. Juechenzi was once a Buddhist; later, guided by a remarkable teacher, he grasped the true meaning of the Dao, cultivated Buddhism and Daoism both, named himself Juechen and founded this school. The method can only be learned from a shifu, or slowly perfected by exerting it."
+msgstr "The Dustless School's own neigong. Juechenzi was once a Buddhist; later, guided by a remarkable teacher, he grasped the true meaning of the Dao, cultivated Buddhism and Daoism both, named himself Juechen and founded this school. The method can only be learned from a Shifu, or slowly perfected by exerting it."
 
 msgid "绝尘心法只能用学的或是从运用中增加熟练度。"
 msgstr "The Dustless Heart Method can only be learned, or improved by using it."
@@ -39203,7 +39203,7 @@ msgid "$N使一招「寒风起兮」，手中$w抖得笔直向$n的$l连刺数�
 msgstr "$N {N:use|uses} \"Cold Wind Rises,\" snapping {N:his} $w out straight and stabbing it at $n's $l again and again"
 
 msgid "$N身形一转，一招「漫天飞雪」$w幻出满天鞭影，虚虚实实地袭向$n的$l"
-msgstr "$N {N:spin|spins} — \"Snow Fills the Sky\"—and {N:his} $w fills the air with whip shadows, false and true, striking at $n's $l"
+msgstr "$N {N:spin|spins}—\"Snow Fills the Sky\"—and {N:his} $w fills the air with whip shadows, false and true, striking at $n's $l"
 
 msgid "$N力贯$w，一招「雪花翩翩」点点鞭影飘浮不定地点向$n的$l"
 msgstr "$N {N:drive|drives} force into {N:his} $w—\"Dancing Snowflakes\"—and flecks of whip shadow drift unpredictably down on $n's $l"
@@ -39218,7 +39218,7 @@ msgid "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身"
 msgstr "$N {N:use|uses} \"Blizzard,\" {N:his} $w whirling a sheet of whip shadows over $n from head to foot"
 
 msgid "三十年前以一柄拂尘横扫武林的前辈异人残心师太所创的内功心法，纯走阴柔之路，发出的内劲寒冷无比；传说她曾在沙牢山一掌冻住七只雪狼，堪称当今寒冰掌一路中最凌厉的奇功。交手时阴寒之气常叫对方打个寒噤，运起「意寒睨」，更能以冰冷如刀的眼神伤敌。"
-msgstr "A neigong created by Abbess Canxin, the remarkable elder who swept the wulin with a horsetail whisk thirty years ago. It follows the yin and the soft alone, and the inner force it sends out is bitterly cold; legend says she once froze seven snow wolves with a single palm on Mount Shalao, and it may be the deadliest of all the ice-palm arts today. In a fight its yin chill often sets an opponent shivering, and exerting \"Chill Gaze\" lets you wound an enemy with a look as cold as a blade."
+msgstr "A neigong created by Abbess Canxin, the remarkable elder who swept the wulin with a horsetail whisk thirty years ago. It follows the yin and the soft alone, and the force it sends out is bitterly cold; legend says she once froze seven snow wolves with a single palm on Mount Shalao, and it may be the deadliest of all the ice-palm arts today. In a fight its yin chill often sets an opponent shivering, and exerting \"Chill Gaze\" lets you wound an enemy with a look as cold as a blade."
 
 msgid "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。"
 msgstr "$N's move carries a gust so deathly cold that $n can't help but shiver."
@@ -39227,7 +39227,7 @@ msgid "意寒功只能用学的，或是从运用中增加熟练度。"
 msgstr "Cold Intent Force can only be learned, or improved by using it."
 
 msgid "天山一脉的独门内功，只能向师父学，或在运功中慢慢精熟；雪影剑法必须以它为根基。"
-msgstr "The Tianshan line's own neigong. It can only be learned from a shifu, or slowly perfected by exerting it; the Snowshade Sword must rest on it."
+msgstr "The Tianshan line's own neigong. It can only be learned from a Shifu, or slowly perfected by exerting it; the Snowshade Sword must rest on it."
 
 msgid "天山雪影心法只能用学的或是从运用中增加熟练度。"
 msgstr "The Tianshan Snowshade Heart Method can only be learned, or improved by using it."
@@ -39266,7 +39266,7 @@ msgid "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l"
 msgstr "$N's $w points out of nowhere—\"Broken Stone Beacon\"—thrusting at $n's $l"
 
 msgid "步玄派的本门内功，只能向师父学，或在运功中慢慢精熟；步玄七诀、小步玄剑都要以它为根基。"
-msgstr "The Mystic Step School's own neigong. It can only be learned from a shifu, or slowly perfected by exerting it; the Mystic Step Seven Secrets and the Lesser Mystic Step Sword both rest on it."
+msgstr "The Mystic Step School's own neigong. It can only be learned from a Shifu, or slowly perfected by exerting it; the Mystic Step Seven Secrets and the Lesser Mystic Step Sword both rest on it."
 
 msgid "步玄心法只能学，或是从运用中增加熟练度。"
 msgstr "The Mystic Step Heart Method can only be learned, or improved by using it."
@@ -39290,7 +39290,7 @@ msgid "$N使一招「暮雪三叹」，手中$w急如骤雨般地刺向$n$l"
 msgstr "$N {N:use|uses} \"Three Sighs at Dusk,\" {N:his} $w thrusting at $n's $l fast as a sudden storm"
 
 msgid "$N身形一晃，一招「处子弄笛」向$n$l刺出一剑"
-msgstr "$N {N:sway|sways} — \"A Maiden's Flute\"—and {N:thrust|thrusts} at $n's $l"
+msgstr "$N {N:sway|sways}—\"A Maiden's Flute\"—and {N:thrust|thrusts} at $n's $l"
 
 msgid "$N舞动$w，一招「阳谷白练」挟著闪闪剑光刺向$n的$l"
 msgstr "$N {N:whirl|whirls} {N:his} $w—\"Sunny Vale Silk\"—thrusting at $n's $l in a flash of sword light"
@@ -39347,7 +39347,7 @@ msgid "$N弯刀似月，$w随著一招「人生几何」由下而上撩往$n的$
 msgstr "$N's curved blade is like the moon, and with \"How Long Is a Life\" {N:his} $w sweeps up from below at $n's $l"
 
 msgid "$N身形一转，一招「譬如朝露」$w如朝露闪烁，斩向$n的$l"
-msgstr "$N {N:spin|spins} — \"Like Morning Dew\"—{N:his} $w glinting like dew as it slashes at $n's $l"
+msgstr "$N {N:spin|spins}—\"Like Morning Dew\"—{N:his} $w glinting like dew as it slashes at $n's $l"
 
 msgid "$N舞动$w，一招「去日苦多」往$n的$l斜斜砍出一刀"
 msgstr "$N {N:whirl|whirls} {N:his} $w—\"Gone Days Are Many\"—and {N:hack|hacks} slantwise at $n's $l"
@@ -39356,7 +39356,7 @@ msgid "$N手中$w一晃，一招「慨当以慷」迅捷无伦地劈向$n的$l"
 msgstr "$N {N:flick|flicks} {N:his} $w, and \"Stirred to the Heart\" cleaves at $n's $l with matchless speed"
 
 msgid "$N提气丹田，身型咋展，一招「忧思难忘」直劈$n$l"
-msgstr "$N {N:draw|draws} qi up from the dantian and suddenly {N:unfold|unfolds} — \"Sorrow Unforgotten\"—chopping straight at $n's $l"
+msgstr "$N {N:draw|draws} qi up from the dantian and suddenly {N:unfold|unfolds}—\"Sorrow Unforgotten\"—chopping straight at $n's $l"
 
 msgid "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l"
 msgstr "$N {N:shift|shifts} {N:his} feet and {N:turn|turns} sideways, using \"What Eases Sorrow,\" blade light flashing as it slashes at $n's $l"
@@ -39368,7 +39368,7 @@ msgid "$n一招「秋风起兮白云飞」轻轻巧巧地避了开去。"
 msgstr "$n {n:use|uses} \"White Clouds Fly\" and deftly {n:slip|slips} out of the way."
 
 msgid "只见$n身影一晃，一式「草木黄落兮雁南归」早已避在七尺之外。"
-msgstr "$n {n:flicker|flickers} — \"Geese Fly South\"—and {n:are|is} already seven feet away."
+msgstr "$n {n:flicker|flickers}—\"Geese Fly South\"—and {n:are|is} already seven feet away."
 
 msgid "$n使出「兰有秀兮菊有芳」，轻轻松松地闪过。"
 msgstr "$n {n:use|uses} \"Orchids in Bloom\" and {n:dodge|dodges} with ease."
@@ -39440,13 +39440,13 @@ msgid "$N刀尖一挑，一招「提灯」$w晃过$n眼前，刀锋却落向$n�
 msgstr "$N {N:flick|flicks} up the point—\"Lift the Lamp\"—{N:his} $w flashing past $n's eyes while the edge falls on $n's $l"
 
 msgid "$N沉肩坠肘，一招「锁宫」$w自上而下劈向$n的$l"
-msgstr "$N {N:sink|sinks} shoulders and elbows—\"Lock the Palace\"—and {N:his} $w chops down from above at $n's $l"
+msgstr "$N {N:sink|sinks} {N:his} shoulders and {N:drop|drops} {N:his} elbows—\"Lock the Palace\"—and {N:his} $w chops down from above at $n's $l"
 
 msgid "$N欺身而上，一招「拿下」$w刀柄撞向$n的$l，刀刃跟着就到"
 msgstr "$N {N:close|closes} in—\"Take Him\"—ramming the hilt of {N:his} $w into $n's $l, the edge right behind it"
 
 msgid "$N退半步护住身后，一招「护驾」$w画了个半圆，扫过$n的$l"
-msgstr "$N {N:step|steps} half a pace back to cover what is behind {N:him} — \"Guard the Throne\"—and {N:his} $w draws a half circle across $n's $l"
+msgstr "$N {N:step|steps} half a pace back to cover what is behind {N:him}—\"Guard the Throne\"—and {N:his} $w draws a half circle across $n's $l"
 
 msgid "$N大喝一声，一招「天明」$w自下而上斜劈，刀光照亮了$n的$l"
 msgstr "$N {N:give|gives} a great shout—\"Daybreak\"—and {N:his} $w cuts slanting up from below, its light shining on $n's $l"
@@ -39458,7 +39458,7 @@ msgid "$N手中$w一扬，一招「扬鞭」自下而上撩向$n的$l！"
 msgstr "$N {N:raise|raises} {N:his} $w—\"Raise the Whip\"—sweeping up from below at $n's $l!"
 
 msgid "$N身子一拧，一招「回马」$w反手撩出，刀光从$n的$l掠过"
-msgstr "$N {N:twist|twists} — \"Turn the Horse\"—and {N:his} $w sweeps out backhand, its light skimming past $n's $l"
+msgstr "$N {N:twist|twists}—\"Turn the Horse\"—and {N:his} $w sweeps out backhand, its light skimming past $n's $l"
 
 msgid "$N矮身一刀，一招「斩缰」$w贴地撩向$n的$l"
 msgstr "$N {N:drop|drops} low for a cut—\"Cut the Reins\"—and {N:his} $w sweeps up along the ground at $n's $l"
@@ -39476,7 +39476,7 @@ msgid "$N手腕一翻，一招「归鞘」$w收势时顺手一撩，刀背扫过
 msgstr "$N {N:turn|turns} {N:his} wrist—\"Sheathe\"—and as {N:his} $w comes back it flicks up once more, the back of the blade sweeping across $n's $l"
 
 msgid "番坊铁盾会的剑法，传自流落东方的大秦剑手：盾在前，剑在后，左臂圆盾挡住来招，右手短剑从盾下刺出，七式自「盾墙」至「盾下一剑」。臂上没有盾，铁盾会不教；入了鬼笠馆的人，铁盾会也不教。"
-msgstr "The sword style of the Iron Shield Guild in the Foreign Quarter, handed down from Daqin swordsmen who drifted east: shield in front, sword behind. The round shield on the left arm stops the attack, and the short sword in the right hand stabs out from under it, in seven forms from \"Shield Wall\" to \"Under the Shield.\" With no shield on your arm, the Iron Shield Guild will not teach you; and anyone who has joined Ghost Hat Hall, the Guild will not teach either."
+msgstr "The sword style of the Iron Shield Guild in the Foreign Quarter, handed down from Daqin swordsmen who drifted east: shield in front, sword behind. The round shield on the left arm stops the attack, and the short sword in the right hand stabs out from under it, in seven forms from \"Shield Wall\" to \"Under the Shield.\" With no shield on your arm, the Iron Shield Guild will not teach you; nor will it teach anyone who has joined Ghost Hat Hall."
 
 msgid "你举着盾，把铁盾剑法练了一遍：盾在前，剑在后。"
 msgstr "Shield raised, you run through the Iron Shield Sword: shield in front, sword behind."
@@ -39515,10 +39515,10 @@ msgid "$N矮身藏在盾后，一招「盾下一剑」$w从盾底下猛地刺向
 msgstr "$N {N:crouch|crouches} behind the shield—\"Under the Shield\"—and {N:his} $w stabs hard from beneath it at $n's $l"
 
 msgid "番坊倭人浪人武馆鬼笠馆的刀法，刀窄而弯，拔刀、横扫、下劈、纳刀、退步五式之外，另有一式「一刀」。门规与中原相反：一击之内定生死。铁盾会的弟子，鬼笠馆不教。"
-msgstr "The saber of Ghost Hat Hall, the school of the Japanese ronin in the Foreign Quarter. The blade is narrow and curved; besides five forms, Draw, Sweep, Downcut, Sheathing and Step Back, there is one more: \"One Stroke.\" Its rule is the opposite of the Central Plains': life or death within one stroke. Disciples of the Iron Shield Guild, Ghost Hat Hall will not teach."
+msgstr "The saber of Ghost Hat Hall, the school of the Japanese ronin in the Foreign Quarter. The blade is narrow and curved; besides five forms, Draw, Sweep, Downcut, Sheathing and Step Back, there is one more: \"One Stroke.\" Its rule is the opposite of the Central Plains': life or death within one stroke. Ghost Hat Hall does not teach disciples of the Iron Shield Guild."
 
 msgid "你出刀，收刀，把鬼笠刀法练了一遍——一刀，只出一次。"
-msgstr "You draw, you sheathe, and run once through the Ghost Hat Blade: one stroke, given only once."
+msgstr "You draw, you sheathe, you run once through the Ghost Hat Blade: one stroke, given only once."
 
 msgid "你的内力或气不够，没有办法练习鬼笠刀法。"
 msgstr "Your Inner Force or Qi isn't enough to practice the Ghost Hat Blade."
@@ -39581,7 +39581,7 @@ msgid "所以这拳是抢来的。对面守得稳，你就先用快的、虚的�
 msgstr "So this fist is something you take by force. If the other side guards well, touch them first with the quick ones, the feints, and once you connect, press in."
 
 msgid "想拜馆主为师？馆主只看{requires}，哪一样不到，他都会摇头。拳脚简单，一拳就是一拳，先跟我拆几招也好。"
-msgstr "Want the Master as your shifu? He only looks at {requires}, and if you fall short on any of it, he'll shake his head. Fists are simple, one punch is one punch. Why not drill a few moves with me first?"
+msgstr "Want the Master as your Shifu? He only looks at {requires}, and if you fall short on any of it, he'll shake his head. Fists are simple, one punch is one punch. Why not drill a few moves with me first?"
 
 msgid "好，拆三回合，点到为止。"
 msgstr "Good. Three rounds, and we stop short of harm."
@@ -39620,7 +39620,7 @@ msgid "可是贪不得。多出来的那一剑要是只顾着攻，对方的下�
 msgstr "But you can't be greedy. If you spend that extra thrust only on attacking, no one is guarding against their next beat. Father says the Empty Mountain sword is something you wait for."
 
 msgid "你若想拜爹爹为师，他只看{requires}——不到的，他会说学剑的人要胆大心细。"
-msgstr "If you want Father as your shifu, he only looks at {requires}. If you fall short, he'll say a swordsman must be both bold and careful."
+msgstr "If you want Father as your Shifu, he only looks at {requires}. If you fall short, he'll say a swordsman must be both bold and careful."
 
 msgid "那……只拆三回合，不伤人。"
 msgstr "Then... just three rounds, and no one gets hurt."
@@ -39653,7 +39653,7 @@ msgid "封山剑法？小的不懂剑，只听来往的武师说：柳馆主的�
 msgstr "Empty Mountain Sword? I don't know a thing about swords, but the fighters passing through say Master Liu's sword never strikes first. It waits for that one moment when the other man thrusts wide."
 
 msgid "馆主的剑我看了五年。来踢馆的，十个有九个是自己刺空了，才挨那一下的。想拜他为师？他只看{requires}。"
-msgstr "I've watched the Master's sword for five years. Of those who come to challenge the Hall, nine in ten thrust wide themselves before they take that hit. Want him as your shifu? He only looks at {requires}."
+msgstr "I've watched the Master's sword for five years. Of those who come to challenge the Hall, nine in ten thrust wide themselves before they take that hit. Want him as your Shifu? He only looks at {requires}."
 
 msgid "柳淳风是个读书人，剑法嘛……文绉绉的，依老夫看没什么杀气。"
 msgstr "Liu Chunfeng is a scholar. His swordplay... genteel. To this old man's eye, there is no killing in it."
@@ -39752,7 +39752,7 @@ msgid "水烟阁乃是历届武林盟主的行馆，你有什麽事要见武林�
 msgstr "Waterfog Pavilion is the residence of every Alliance Leader of the wulin. What business do you have with the Alliance Leader?\n"
 
 msgid "哦....老夫向来有个规矩，凡是想拜我为师的，得接我三招不死，你想试试？\n"
-msgstr "Oh... this old man has always had a rule: whoever wants me as a shifu must take three of my moves and live. Do you want to try?\n"
+msgstr "Oh... this old man has always had a rule: whoever wants me as a Shifu must take three of my moves and live. Do you want to try?\n"
 
 msgid "皇上"
 msgstr "His Majesty"
