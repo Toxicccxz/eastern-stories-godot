@@ -28313,7 +28313,7 @@ msgid "把铜牒念给她听"
 msgstr "Recite the copper tablet to her"
 
 msgid "我说过了。要再听，问我「封法」。"
-msgstr "I have said it already. If you want to hear it again, ask me about the \"Sealing Rite.\""
+msgstr "I have said it already. If you want to hear it again, ask me about \"Sealing Rite.\""
 
 msgid "念。"
 msgstr "Recite."
@@ -29035,8 +29035,8 @@ msgstr "If it's money, I'll keep it first."
 msgid "其他的东西我都不要，别再来烦我了。"
 msgstr "I don't want anything else. Stop bothering me."
 
-msgid "你正走在碎石小路上，荒凉的景色，不难想像，这里人烟稀少，很少\n人会走到这里来，在路尾是一半圆形的土堆，其下有一铁索，爬下铁索(\nchain)就可以通达黄石隘口，而东北方是衔接至雪亭镇的青石官道。\n"
-msgstr "You are walking a gravel path through a bleak landscape; it is easy to see that few people come here. At the end of the path is a half-round mound of earth, with an iron chain (chain) hanging below it. Climb down the chain and you can reach Yellow Rock Pass; to the northeast is the bluestone imperial road that joins Snow Pavilion.\n"
+msgid "你正走在碎石小路上，荒凉的景色，不难想像，这里人烟稀少，很少\n人会走到这里来，在路尾是一半圆形的土堆，其下有一铁索，爬下铁索就可以通达黄石隘口，而东北方是衔接至雪亭镇的青石官道。\n"
+msgstr "You are walking a gravel path through a bleak landscape; it is easy to see that few people come here. At the end of the path is a half-round mound of earth, with an iron chain hanging below it. Climb down the chain and you can reach Yellow Rock Pass; to the northeast is the bluestone imperial road that joins Snow Pavilion.\n"
 
 msgid "脚下为碎石黄土路，两侧是高耸入云的荒山，向上仰望乃似无边无际\n穹空，北缘为一山壁，壁上有一长达十七、八丈的铁索 ，上面大\n概就是人家所谓的「关外绿洲－雪亭镇」。\n"
 msgstr "Underfoot is a road of gravel and yellow earth, with bare mountains soaring into the clouds on both sides. Looking up, the sky seems to have no end. The north edge is a rock wall, and on it hangs an iron chain some hundred and seventy or eighty feet long; what lies above it is probably what people call \"the oasis outside the pass—Snow Pavilion.\"\n"

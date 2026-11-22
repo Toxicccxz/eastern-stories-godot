@@ -38,7 +38,7 @@ LOST = '\u25a1'  # □
 # ES2's typed-command hints after a word (招牌(sign), 爬(climb), 想喝它 (drink)): the game
 # has no typed commands, so they go from every imported string (owner 2026-11-22,
 # DECISIONS「去掉指令提示」).
-COMMAND_HINT = re.compile(r"(?:(?<=[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef!])|(?<=[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]\n))[ \u3000]?[\uff08(][a-z][a-z' -]*\n?[)\uff09]")
+COMMAND_HINT = re.compile(r"(?:(?<=[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef!])|(?<=[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]\n))[ \u3000]?[\uff08(]\n?[a-z][a-z' -]*\n?[)\uff09]")
 REPORT = REPOSITORY / 'build/import/review.md'
 # The sections an override file may hold (Importer reads exactly these; a misspelt one is refused).
 OVERRIDE_KEYS = frozenset({'source_fixes', 'vendors', 'items', 'npcs', 'spawn_skip', 'vendor_skip',
