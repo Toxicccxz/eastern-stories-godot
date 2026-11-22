@@ -44,7 +44,7 @@ HAN = re.compile(r"[㐀-䶿一-鿿豈-﫿]")
 # english_style.md, Tone: words that break the period in any line (a button's "OK" is the UI's own word).
 # japanese_style.md: kanji outside JIS X 0208 that Japanese writes and the ja pixel face draws
 # (a surname, a name's rare character). Add one only after checking both.
-JAPANESE_EXTRA_KANJI = "逄佾璦妮彤翎庾玦鏢酆雩榭邢羿鄔魈芷"
+JAPANESE_EXTRA_KANJI = "逄佾璦妮彤翎庾玦鏢酆雩榭邢羿鄔魈芷玫"
 NOT_JAPANESE_PUNCTUATION = ("，", "；", "“", "”", "‘", "’")
 MODERN = re.compile(r"\b(dude|bro|okay|awesome|my bad|no worries|freaking|totally|pal|mate)\b", re.IGNORECASE)
 
