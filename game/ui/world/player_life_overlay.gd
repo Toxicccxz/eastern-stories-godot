@@ -181,7 +181,7 @@ func _process(delta: float) -> void:
 
 ## A blocking screen dims the world and takes its clicks; the short notice
 ## after coming back does neither.
-func _show(value: String, can_continue: bool, blocking: bool) -> void:
+func _show(value: String, can_continue: bool, blocking: bool, width: float = DEATH_WIDTH) -> void:
 	visible = true
 	if _text.text != value:
 		_text.text = value
@@ -189,7 +189,7 @@ func _show(value: String, can_continue: bool, blocking: bool) -> void:
 	_continue.visible = can_continue
 	if not can_continue:
 		_to_autosave.visible = false
-	_fit(DEATH_WIDTH)
+	_fit(width)
 	# The shell's question over the card stands alone.
 	_panel.visible = _world_has_focus()
 	var reappeared: bool = _panel.visible and not _panel_was_shown
@@ -213,10 +213,9 @@ func _show_card(value: String) -> void:
 	_to_autosave.visible = false
 	# The focus goes to 继续 once, as the card comes up: the pause panel over it keeps its own.
 	var first: bool = not _card_held
-	_show(value, true, first)
+	_show(value, true, first, CARD_WIDTH)
 	_dim.color.a = 0.72
 	_dim.mouse_filter = Control.MOUSE_FILTER_STOP
-	_fit(CARD_WIDTH)
 	if first:
 		_card_held = true
 		_session.hold_world_time(CARD_HOLD)

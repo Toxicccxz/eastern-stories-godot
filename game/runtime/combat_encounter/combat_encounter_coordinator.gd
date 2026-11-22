@@ -1332,7 +1332,6 @@ func _return_world(result: CombatEncounterResult) -> CombatEncounterCompletionRe
 	return _last_completion
 
 
-## The player's unspent potential (A2: told once a fight fills it).
 ## The spar just ended, as the card after it shows it.
 func _summarise_spar(encounter_id: StringName) -> CombatSparSummary:
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
@@ -1348,6 +1347,7 @@ func _summarise_spar(encounter_id: StringName) -> CombatSparSummary:
 	return CombatSparSummary.build(encounter_id, player.character_id, winner, opponents, rounds, _player_at_start, player.state)
 
 
+## The player's unspent potential (A2: told once a fight fills it).
 func _player_unspent() -> int:
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
 	if player == null or player.state == null:

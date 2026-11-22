@@ -38,7 +38,7 @@ static func snapshot(state: CharacterState) -> Dictionary:
 	var levels: Dictionary[StringName, int] = {}
 	var progress: Dictionary[StringName, int] = {}
 	if state != null:
-		for skill_id: StringName in state.skills.raw_skill_ids():
+		for skill_id: StringName in _skill_ids(state):
 			levels[skill_id] = state.skills.raw_level(skill_id)
 			progress[skill_id] = state.skills.learned_progress(skill_id)
 	return {
@@ -68,17 +68,29 @@ static func build(p_encounter_id: StringName, player_id: StringName, winner_id: 
 	summary.potential_gained = maxi(state.progression.potential - int(before.get("potential", 0)), 0)
 	var levels: Dictionary = before.get("levels", {})
 	var progress: Dictionary = before.get("progress", {})
-	var ids: Array[StringName] = state.skills.raw_skill_ids()
+	var ids: Array[StringName] = _skill_ids(state)
 	ids.sort_custom(func(a: StringName, b: StringName) -> bool: return String(a) < String(b))
+	# The skills that rose first, then those that moved on, each by name.
+	var moved_on: Array[SkillGain] = []
 	for skill_id: StringName in ids:
 		var level: int = state.skills.raw_level(skill_id)
 		var was: int = int(levels.get(skill_id, 0))
 		var moved: bool = state.skills.learned_progress(skill_id) > int(progress.get(skill_id, 0))
-		if level > was or (level == was and moved):
+		if level > was:
 			summary.skills.append(SkillGain.new(skill_id, was, level))
-	# The skills that rose first.
-	summary.skills.sort_custom(func(a: SkillGain, b: SkillGain) -> bool: return a.levelled() and not b.levelled())
+		elif level == was and moved:
+			moved_on.append(SkillGain.new(skill_id, was, level))
+	summary.skills.append_array(moved_on)
 	return summary
+
+
+## Every skill with a level or progress (a skill still at level 0 may be moving on).
+static func _skill_ids(state: CharacterState) -> Array[StringName]:
+	var ids: Array[StringName] = state.skills.raw_skill_ids()
+	for skill_id: StringName in state.skills.learned_skill_ids():
+		if not ids.has(skill_id):
+			ids.append(skill_id)
+	return ids
 
 
 func gained_anything() -> bool:

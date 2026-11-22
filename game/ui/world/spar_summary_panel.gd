@@ -94,7 +94,9 @@ func _line(parent: Node, variation: StringName) -> Label:
 
 ## Puts `summary` up (the last spar's: one that comes while another shows takes its place).
 func present(summary: CombatSparSummary) -> void:
-	if summary == null or not shown_in_play or _session == null:
+	# A fight that began meanwhile has the screen: its card would sit over that fight's.
+	var coordinator: CombatEncounterCoordinator = null if _session == null else _session.combat_encounter_coordinator()
+	if summary == null or not shown_in_play or _session == null or (coordinator != null and coordinator.has_active_encounter()):
 		return
 	_summary = summary
 	title.text = title_text(summary.outcome)
@@ -140,13 +142,22 @@ func _exit_tree() -> void:
 		_session.release_world_time(HOLD)
 
 
-## E (the interact key) and B / Esc close it too; Enter / Space / A press 继续.
+## E (the interact key) and B / Esc close it too; Enter / Space / A press 继续. Not while the
+## menu or the shell (系统, a question) is over it: those keys are theirs.
 func _input(event: InputEvent) -> void:
-	if not visible or event.is_echo() or not event.is_pressed():
+	if not visible or event.is_echo() or not event.is_pressed() or _covered():
 		return
 	if event.is_action_pressed(&"ui_cancel") or (event is InputEventKey and event.is_action_pressed(&"interact") and not event.is_action_pressed(&"ui_accept")):
 		get_viewport().set_input_as_handled()
 		close()
+
+
+func _covered() -> bool:
+	var ui: SharedGameplayUI = null if _session == null else _session.shared_ui()
+	if ui != null and ui.menu != null and ui.menu.is_presented():
+		return true
+	var shell: Node = get_tree().get_first_node_in_group(GameMenu.HOST_GROUP) if is_inside_tree() else null
+	return shell != null and shell.has_method(&"world_has_focus") and not shell.world_has_focus()
 
 
 # TRANSLATORS: the card after a 切磋: its title when the player won / lost / nobody landed the blow.

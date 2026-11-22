@@ -146,9 +146,9 @@ static func pad_names(action: StringName, style: int) -> PackedStringArray:
 	return names
 
 
-## A glyph's name written out: PlayStation's shapes as their signs.
+## A glyph's name written out, in the shown language: PlayStation's shapes as their signs.
 static func shown_name(glyph: Glyph) -> String:
-	return glyph.name if not glyph.name.is_empty() else _SHAPE_SIGNS.get(glyph.shape, "")
+	return TranslationServer.translate(glyph.name if not glyph.name.is_empty() else _SHAPE_SIGNS.get(glyph.shape, ""))
 
 
 ## Every pad button and stick `action` is bound to on a pad of `style`, one glyph a name.

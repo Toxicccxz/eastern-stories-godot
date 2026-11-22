@@ -193,8 +193,7 @@ func _init() -> void:
 	hints = InputHintRow.new()
 	hints.name = "MapHints"
 	sand.add_child(hints)
-	# TRANSLATORS: the 地图 page's pad and key hints at the foot of the 沙盘.
-	hints.set_hints([[&"map_pan", tr("移动")], [[&"map_zoom_out", &"map_zoom_in"], tr("缩放")], [&"map_here", tr("回到所在")], [&"map_overview", tr("全图")], [&"ui_accept", tr("查看")]])
+	_show_hints()
 	_build_card()
 
 
@@ -233,7 +232,15 @@ func _haze(from_colour: Color, to_colour: Color, from: Vector2, to: Vector2, rad
 	return rect
 
 
+## The pad and key hints at the foot of the 沙盘, in the shown language.
+func _show_hints() -> void:
+	# TRANSLATORS: the 地图 page's pad and key hints at the foot of the 沙盘.
+	hints.set_hints([[&"map_pan", tr("移动")], [[&"map_zoom_out", &"map_zoom_in"], tr("缩放")], [&"map_here", tr("回到所在")], [&"map_overview", tr("全图")], [&"ui_accept", tr("查看")]])
+
+
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and hints != null:
+		_show_hints()
 	if what == NOTIFICATION_VISIBILITY_CHANGED:
 		set_process(is_visible_in_tree())
 		# Another tab, the pause: the cart on the road stops and the ride with it.
