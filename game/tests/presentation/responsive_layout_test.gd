@@ -53,6 +53,11 @@ func _test_metrics() -> void:
 	var at_150: Rect2 = Rect2(0, 0, 1280.0 / 1.5, 720.0 / 1.5)
 	_check(not SafeAreaMetrics.new(at_150, at_150, false, false, 1.5).is_compact(), "a UI scale alone makes no window compact")
 	_check(SafeAreaMetrics.new(at_150, at_150).is_compact(), "the same logical size unscaled is a small window")
+	# A phone (owner, 2026-11-21): touch-sized controls while it is played by touch, the desktop's
+	# with a gamepad connected (the dialogs, 设置 included, follow the same metric).
+	var phone := Rect2(0, 0, 1200, 540)
+	_check(SafeAreaMetrics.new(phone, phone, false, true, 4.0 / 3.0, true).touch_sized(), "a phone played by touch has touch-sized controls")
+	_check(not SafeAreaMetrics.new(phone, phone, false, true, 4.0 / 3.0, false).touch_sized(), "a phone with a gamepad keeps the desktop's slimmer ones")
 	_check(not SafeAreaMetrics.new(at_150, at_150, false, false, 1.5).equivalent(SafeAreaMetrics.new(at_150, at_150)), "a UI scale change invalidates")
 
 
