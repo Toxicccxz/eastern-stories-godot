@@ -1190,10 +1190,10 @@ msgid "$N哈哈大笑，说道：承让了！"
 msgstr "$N {N:laugh|laughs} out loud. \"Thanks for going easy on me!\""
 
 msgid "$N双手一拱，笑著说道：承让！"
-msgstr "$N {N:clasp|clasps} {N:his} hands with a grin. \"You went easy on me!\""
+msgstr "$N {N:clasp|clasps} {N:his} hands with a grin. \"Thanks for going easy on me!\""
 
 msgid "$N胜了这招，向後跃开三尺，笑道：承让！"
-msgstr "$N {N:take|takes} the exchange and {N:spring|springs} back three paces, laughing. \"Thanks for going easy on me!\""
+msgstr "$N {N:take|takes} the exchange and {N:spring|springs} back three feet, laughing. \"Thanks for going easy on me!\""
 
 msgid "$n脸色微变，说道：佩服，佩服！"
 msgstr "$n {n:pale|pales} a little. \"Impressive. Truly impressive!\""
@@ -1205,16 +1205,16 @@ msgid "$n向後一纵，躬身做揖说道：阁下武艺不凡，果然高明�
 msgstr "$n {n:spring|springs} back and {n:bow|bows}, fist in palm. \"Your skill is remarkable. Masterful indeed!\""
 
 msgid "$N受到$n的内力反震，闷哼一声。"
-msgstr "$N {N:are|is} jolted by $n's inner force and {N:grunt|grunts}."
+msgstr "$N {N:are|is} jolted by $n's Inner Force and {N:grunt|grunts}."
 
 msgid "$N被$n以内力反震，「嘿」地一声退了两步。"
-msgstr "$n's inner force throws $N back two steps. \"Hngh!\""
+msgstr "$n's Inner Force throws $N back two steps. \"Hngh!\""
 
 msgid "$N被$n以内力一震，胸口有如受到一记重击，连退了五六步！"
-msgstr "$n's inner force hits $N like a hammer to the chest—$N {N:stagger|staggers} back five or six steps!"
+msgstr "$n's Inner Force hits $N like a hammer to the chest—$N {N:stagger|staggers} back five or six steps!"
 
 msgid "$N被$n的内力一震，眼前一黑，身子向後飞出丈许！！"
-msgstr "$n's inner force slams into $N. Everything goes black, and $N {N:fly|flies} a good ten feet backward!!"
+msgstr "$n's Inner Force slams into $N. Everything goes black, and $N {N:fly|flies} a good ten feet backward!!"
 
 msgid "$N一击不中，露出了破绽！"
 msgstr "$N {N:miss|misses} and {N:leave|leaves} an opening!"
@@ -1694,7 +1694,7 @@ msgid "问"
 msgstr "Ask"
 
 msgid "确定受戒"
-msgstr "Take the Precepts"
+msgstr "Kneel"
 
 msgid "当前 {current} / 有效 {effective} / 最大 {maximum}"
 msgstr "Current {current} / Effective {effective} / Max {maximum}"
@@ -1733,7 +1733,7 @@ msgid "你必须先把%s弄醒。"
 msgstr "You'll have to wake %s up first."
 
 msgid "发誓恪守门规"
-msgstr "Swear to Keep the Rules"
+msgstr "Swear the Oath"
 
 msgid "接受测试"
 msgstr "Take the Test"
@@ -2312,7 +2312,7 @@ msgid "换目标：%s"
 msgstr "Switch target: %s"
 
 msgid "召唤天将"
-msgstr "Summon a Heavenly General"
+msgstr "Summon"
 
 msgid "确定施展"
 msgstr "Cast It"
@@ -3323,10 +3323,10 @@ msgid "卖断…"
 msgstr "Sell Outright..."
 
 msgid "确认卖断（不可撤销）"
-msgstr "Confirm Sale (can't be undone)"
+msgstr "Confirm Sale"
 
 msgid "价值{value}文 · 卖断可得{payout}文（以实际交付为准）。"
-msgstr "Worth {value} wen · selling outright gets you {payout} wen (as actually paid)."
+msgstr "Worth {value} wen · selling outright gets you {payout} wen (subject to what can actually be paid)."
 
 msgid "一文不值，不能卖断。"
 msgstr "Worthless—can't be sold."
@@ -3593,7 +3593,7 @@ msgid "灵力 {atman} / {max_atman}"
 msgstr "Mystic Power {atman} / {max_atman}"
 
 msgid "{mark}{skill} - {rank} {level}/{progress}"
-msgstr "{mark}{skill} - {rank} {level}/{progress}"
+msgstr "{mark}{skill}—{rank} {level}/{progress}"
 
 msgid "你目前并没有学会任何技能。"
 msgstr "You haven't learned any skills yet."
@@ -3833,7 +3833,7 @@ msgid "柳家拳"
 msgstr "Liu Family Fist"
 
 msgid "回到上次自动存档"
-msgstr "Back to the Last Autosave"
+msgstr "Load Autosave"
 
 msgid "慢慢地你终於又有了知觉...."
 msgstr "Slowly, you feel your senses coming back..."
@@ -3977,16 +3977,16 @@ msgid "{npc}看起来比你强得多：要是失手被发现，{npc}会和你拼
 msgstr "{npc} looks far stronger than you: get caught, and {npc} will fight you to the death.\nGo ahead?"
 
 msgid "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
-msgstr "Cast \"Raise Corpse\": make this body stand up and follow you (50 Arcane Power, 30 Spirit). The zombie lives on your Mystic Power; when that runs low, it falls and melts into blood."
+msgstr "Cast \"Raise the Dead\": make this body stand up and follow you (50 Arcane Power, 30 Spirit). The zombie lives on your Mystic Power; when that runs low, it falls and melts into blood."
 
 msgid "确定施法驱尸吗？"
-msgstr "Cast Raise Corpse?"
+msgstr "Cast Raise the Dead?"
 
 msgid "确定施法"
 msgstr "Cast It"
 
 msgid "确定为{npc}运功疗伤吗？"
-msgstr "Exert your inner force to heal {npc}?"
+msgstr "Exert your Inner Force to heal {npc}?"
 
 msgid "确定运功"
 msgstr "Exert"
@@ -4403,7 +4403,7 @@ msgid "{item}：{price}"
 msgstr "{item}: {price}"
 
 msgid "两{unit}{item}"
-msgstr "two {item}"
+msgstr "{item} ×2"
 
 msgid "你说道：%s"
 msgstr "You say, \"%s\""
@@ -4415,7 +4415,7 @@ msgid "打开%s"
 msgstr "Open the %s"
 
 msgid "你咬破手指，用鲜血在{paper}上画了一道僵尸追魂符，写上了{name}的名字。"
-msgstr "You bite your finger and, in blood, draw a zombie soul-chasing charm on the {paper}, writing {name}'s name on it."
+msgstr "You bite your finger and, in blood, draw a soul-chasing charm on the {paper}, writing {name}'s name on it."
 
 msgid "这里没有{name}。"
 msgstr "{name} isn't here."
@@ -4619,7 +4619,7 @@ msgid "请教"
 msgstr "Learn"
 
 msgid "{master}收下了你。\n\n你成了{family}第{generation}代弟子。往后向师父请教，就能学他会的武功；请教页写着每门能学到几级，武学页能打坐练内力。"
-msgstr "{master} takes you on.\n\nYou are now a {generation}th-generation disciple of {family}. From now on, ask your Shifu to teach you and you can learn the arts he knows; the Learn page shows how far each can go, and on the Martial Arts page you can meditate to build Inner Force."
+msgstr "{master} takes you on.\n\nYou are now a disciple of {family}, Generation {generation}. From now on, ask your Shifu to teach you and you can learn the arts he knows; the Learn page shows how far each can go, and on the Martial Arts page you can meditate to build Inner Force."
 
 msgid "{liquid}{portions}份"
 msgstr "{portions} portions of {liquid}"
@@ -4670,7 +4670,7 @@ msgid "{name}还在{place}等你。"
 msgstr "{name} is still waiting for you at {place}."
 
 msgid "你的实战经验还不够，过不去。"
-msgstr "You don't have the combat experience to get through."
+msgstr "You don't have the Combat Experience to get through."
 
 msgid "你来到%s。"
 msgstr "You arrive at %s."
@@ -4874,7 +4874,7 @@ msgid "你是个文盲，先学学读书识字吧。"
 msgstr "You can't read. Learn your letters first."
 
 msgid "你的实战经验不足，再怎麽读也没用。"
-msgstr "You don't have the combat experience—reading more won't help."
+msgstr "You don't have the Combat Experience—reading more won't help."
 
 msgid "以你目前的能力，还没有办法学这个技能。"
 msgstr "As you are now, you can't learn this skill yet."
@@ -4892,22 +4892,22 @@ msgid "你现在无法研读。"
 msgstr "You can't read right now."
 
 msgid "你向{npc}请教「{skill}」{count} 次"
-msgstr "You ask {npc} to teach you \"{skill}\" {count} times"
+msgstr "You ask {npc} to teach you \"{skill}\" (×{count})"
 
 msgid "你练习{skill} {count} 次"
-msgstr "You practice {skill} {count} times"
+msgstr "You practice {skill} (×{count})"
 
 msgid "你打坐 {count} 次"
-msgstr "You meditate {count} times"
+msgstr "You meditate (×{count})"
 
 msgid "你冥思 {count} 次"
-msgstr "You contemplate {count} times"
+msgstr "You contemplate (×{count})"
 
 msgid "你修行 {count} 次"
-msgstr "You cultivate {count} times"
+msgstr "You cultivate (×{count})"
 
 msgid "（其间歇了 {rests} 回，共{time}）"
-msgstr "(resting {rests} times along the way, {time} in all)"
+msgstr "(rests along the way: {rests}; {time} in all)"
 
 msgid "{head}：{changes}。"
 msgstr "{head}: {changes}."
@@ -4931,7 +4931,7 @@ msgid "身上有限时的差事，歇着时限照走，所以没有自己歇；�
 msgstr "You're on a timed errand, and the clock keeps running while you rest, so you didn't rest on your own. To rest, press \"Rest Until Full.\""
 
 msgid "停下：实战经验不足。「{skill}」{level} 级要再学，须实战经验 ≥ {required}（你 {have}）。"
-msgstr "Stopped: not enough combat experience. To learn more of \"{skill}\" past level {level} you need Combat Experience ≥ {required} (you have {have})."
+msgstr "Stopped: not enough Combat Experience. To learn more of \"{skill}\" past level {level} you need Combat Experience ≥ {required} (you have {have})."
 
 msgid "停下：「{skill}」这一级的进度已经攒满。先把{basic}提高到 {level} 级，再练才有长进。"
 msgstr "Stopped: this level of \"{skill}\" is fully built up. Raise {basic} to level {level} first, then practice to improve."
@@ -4952,7 +4952,7 @@ msgid "停下：已经连续 {count} 次了，歇一歇吧。"
 msgstr "Stopped: {count} times in a row—take a break."
 
 msgid "Ok."
-msgstr "Ok."
+msgstr "Done."
 
 msgid "赌"
 msgstr "Gamble"
@@ -6368,7 +6368,7 @@ msgid "朱鸿雪摆了摆手，说道：\n『{target}』那件事不必办了。
 msgstr "Zhu Hongxue waves a hand and says:\nThat business with \"{target}\"—forget it."
 
 msgid "朱鸿雪向你一甩袍袖，说道：\n真没用！不过看在你还回来见我的份上，就在给你一次机会．"
-msgstr "Zhu Hongxue flicks a sleeve at you and says:\nUseless! But since you had the nerve to come back to me, I'll give you one more chance."
+msgstr "Zhu Hongxue flicks a sleeve at you and says:\nUseless! But since you at least came back to see me, I'll give you one more chance."
 
 msgid "朱鸿雪沉思了一会儿，说道：\n请在{time}内找回『{target}』给我。"
 msgstr "Zhu Hongxue thinks for a moment and says:\nBring me back \"{target}\" within {time}."
@@ -6863,7 +6863,7 @@ msgid "破绽：{tag}"
 msgstr "Weak spot: {tag}"
 
 msgid "见过 {n} 次"
-msgstr "Seen {n} times"
+msgstr "Times seen: {n}"
 
 msgid "见识录 · {school}"
 msgstr "What You've Seen · {school}"
@@ -7064,10 +7064,10 @@ msgid "停止"
 msgstr "Stop"
 
 msgid "{what}：已做 {count} 次"
-msgstr "{what}: done {count} times"
+msgstr "{what} ×{count}"
 
 msgid "{what}：已做 {count} 次，{rest}"
-msgstr "{what}: done {count} times, {rest}"
+msgstr "{what} ×{count}, {rest}"
 
 msgid "，上限 {maximum} → {target}，还差 {left}"
 msgstr ", max {maximum} → {target}, {left} to go"
@@ -7289,7 +7289,7 @@ msgid "{name}({id})。\n"
 msgstr "{name} ({id}).\n"
 
 msgid "僵尸追魂符（{name}）"
-msgstr "Corpse-Chasing Charm ({name})"
+msgstr "soul-chasing charm ({name})"
 
 msgid "断掉的{weapon}"
 msgstr "broken {weapon}"
@@ -7484,7 +7484,7 @@ msgid "清水"
 msgstr "clear water"
 
 msgid "你向{npc}请教有关「{skill}」的疑问。"
-msgstr "You ask {npc} about \"{skill}\"."
+msgstr "You ask {npc} about \"{skill}.\""
 
 msgid "你要向谁求教？"
 msgstr "Learn from whom?"
@@ -7529,7 +7529,7 @@ msgid "你向%s请教，但这次请教无法进行。"
 msgstr "You ask %s, but the lesson can't go ahead this time."
 
 msgid "也许是缺乏实战经验，你对%s的回答总是无法领会。"
-msgstr "Maybe it's a lack of combat experience, but you can't make sense of %s's answers."
+msgstr "Maybe it's a lack of Combat Experience, but you can't make sense of %s's answers."
 
 msgid "你听了%s的指导，似乎有些心得。"
 msgstr "You listen to %s's guidance and seem to pick something up."
@@ -7550,13 +7550,13 @@ msgid "你已学到{npc}的 {teacher} 级"
 msgstr "You've reached {npc}'s level {teacher}"
 
 msgid "背叛师门 {count} 次，{npc}只教到 {teacher} - 20×{count} = {cap} 级"
-msgstr "Betrayed a school {count} times: {npc} teaches only to {teacher} - 20×{count} = {cap}"
+msgstr "Betrayals: {count}, so {npc} teaches only to {teacher} less 20×{count} = {cap}"
 
 msgid "不是{npc}的嫡传弟子，只学得到{npc}等级（{teacher}）的三分之一左右"
 msgstr "Not {npc}'s direct disciple: you can reach only about a third of {npc}'s level ({teacher})"
 
 msgid "背叛师门 {count} 次，{npc}能教你的都教了"
-msgstr "Betrayed a school {count} times: {npc} has taught you all {npc} will"
+msgstr "Betrayals: {count}, so {npc} has taught you all {npc} will"
 
 msgid "{level} 级要再学，须实战经验 ≥ {required}"
 msgstr "To go past level {level} you need Combat Experience ≥ {required}"
@@ -7598,7 +7598,7 @@ msgid "{title} {name}"
 msgstr "{title} {name}"
 
 msgid "跪下受戒"
-msgstr "Kneel for the Vows"
+msgstr "Receive Precepts"
 
 msgid "北边"
 msgstr "north"
@@ -8150,7 +8150,7 @@ msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团白光�
 msgstr "$N {N:mutter|mutters} an incantation and {N:sweep|sweeps} {N:his} left hand; a ball of white light gathers in it and shoots at $n!"
 
 msgid "结果「嗤」地一声，白光从$p身上透体而过，拖出一条长长的黑气直射到两三丈外的地下！"
-msgstr "With a hiss the white light passes clean through $n, dragging a long trail of black vapor that strikes the ground a few yards off!"
+msgstr "With a hiss the white light passes clean through $n, dragging a long trail of black vapor that strikes the ground twenty or thirty feet off!"
 
 msgid "结果「嗤」地一声，白光从$p身上透体而过，无声无息地钻入地下！"
 msgstr "With a hiss the white light passes clean through $n and sinks silently into the ground!"
@@ -8165,7 +8165,7 @@ msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团青光�
 msgstr "$N {N:mutter|mutters} an incantation and {N:sweep|sweeps} {N:his} left hand; a ball of blue light gathers in it and shoots at $n!"
 
 msgid "结果「嗤」地一声，青光从$p身上透体而过，拖出一条长长的血箭直射到两三丈外的地下！"
-msgstr "With a hiss the blue light passes clean through $n, dragging a long arrow of blood that strikes the ground a few yards off!"
+msgstr "With a hiss the blue light passes clean through $n, dragging a long arrow of blood that strikes the ground twenty or thirty feet off!"
 
 msgid "结果「嗤」地一声，青光从$p身上透体而过，无声无息地钻入地下！"
 msgstr "With a hiss the blue light passes clean through $n and sinks silently into the ground!"
@@ -8174,7 +8174,7 @@ msgid "投降？现在没有人在打你啊....？"
 msgstr "Surrender? Nobody's fighting you...?"
 
 msgid "$n向$N求饶，但是$N大声说道：{rude}废话少说，纳命来！"
-msgstr "$n {n:beg|begs} $N for mercy, but $N {N:roar|roars}, \"{rude}Enough talk—your life is mine!\""
+msgstr "$n {n:beg|begs} $N for mercy, but $N {N:roar|roars}, \"Enough talk, you {rude}—your life is mine!\""
 
 msgid "$N说道：「不打了，不打了，我投降....。」"
 msgstr "$N {N:say|says}, \"No more, no more—I give up...\""
@@ -8330,10 +8330,10 @@ msgid "已自动存档"
 msgstr "Autosaved"
 
 msgid "已存下「决战前」存档"
-msgstr "\"Before the Battle\" saved"
+msgstr "\"Before the Final Battle\" saved"
 
 msgid "「决战前」存档没能存下"
-msgstr "\"Before the Battle\" couldn't be saved"
+msgstr "\"Before the Final Battle\" couldn't be saved"
 
 msgid "「死前存档」没能存下"
 msgstr "\"Before Death\" couldn't be saved"
