@@ -32706,3 +32706,2103 @@ msgstr "In the main hall are only a few old chairs and an eight-immortals table,
 
 msgid "书房里到处是书：架子上、桌上、地上，一摞一摞，有的用绳子捆着，有的摊开着，上面压着砚台。窗下一张榻，榻上一床旧被子——这屋子的主人常常在这里过夜。桌上一盏油灯，灯芯剪得很短。\n"
 msgstr "Books everywhere in the study: on the shelves, on the desk, on the floor, stack after stack, some tied with string, some lying open with inkstones pressed on them. Beneath the window is a couch, and on it an old quilt—the master of this room often spends nights here. On the desk a single oil lamp, its wick trimmed very short.\n"
+
+msgid "这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前贴著一张褪色的红纸，写著「初阶」两个字，是武馆给初学的弟子拆招用的。\n"
+msgstr "This is a practice dummy carved from hardwood, its arms and waist fitted with springs and catches: touch it and it hits back. A faded red slip pasted on its chest reads \"Grade One\". The hall keeps it for beginning disciples to practice parrying on.\n"
+
+msgid "身上的机括「咔嗒」一响，摆好了架势。"
+msgstr "'s inner mechanism clicks, and it takes up its stance."
+
+msgid "这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前的红纸写著「二阶」，木头上满是拳脚留下的印子。\n"
+msgstr "This is a practice dummy carved from hardwood, its arms and waist fitted with springs and catches: touch it and it hits back. The red slip on its chest reads \"Grade Two\". The wood is covered in marks left by fists and feet.\n"
+
+msgid "这是一具铁木削成的练功木人，机括比旁边几具紧得多，还手又快又沉。胸前的红纸写著「三阶」。\n"
+msgstr "This is a practice dummy carved from ironwood. Its mechanism is wound far tighter than those beside it, and it hits back fast and heavy. The red slip on its chest reads \"Grade Three\".\n"
+
+msgid "这是一具铁木削成的练功木人，关节处包著铜皮，听说是柳馆主亲手调过机括的。胸前的红纸写著「四阶」。\n"
+msgstr "This is a practice dummy carved from ironwood, its joints wrapped in copper sheeting. They say Master Liu adjusted its mechanism himself. The red slip on its chest reads \"Grade Four\".\n"
+
+msgid "这具木人通体乌黑，是一整块铁木雕成的，机括藏在里头看不见。胸前的红纸写著「五阶」，武馆里能把它打得摇晃的人没有几个。\n"
+msgstr "This dummy is black from head to foot, carved from a single block of ironwood, its mechanism hidden where no one can see it. The red slip on its chest reads \"Grade Five\". Few in the hall can hit it hard enough to make it sway.\n"
+
+msgid "一个贼眉鼠眼的毛贼，衣衫上补丁叠著补丁，腰间却鼓鼓囊囊的，不知又从谁家摸来了什么。雪亭驿的告示上正画著他的像。\n"
+msgstr "A sneak-eyed petty thief in a coat patched upon patches, yet his waist bulges. Who knows whose house he has robbed this time? His likeness is on the notice at Snow Pavilion Post Station.\n"
+
+msgid "一个满脸横肉的汉子，专在山路上拦人剪径，不知劫过多少过往的客商。雪亭驿的告示上正画著他的像。\n"
+msgstr "A heavy-jowled brute who waylays travelers on the mountain roads. Who knows how many passing merchants he has robbed. His likeness is on the notice at Snow Pavilion Post Station.\n"
+
+msgid "一个油头粉面的年轻人，手里摇著一柄折扇，眼神却阴鸷得很。官府悬赏捉拿他已有好些日子了。\n"
+msgstr "A slick young man with oiled hair and a powdered face, fanning himself with a folding fan, his eyes cold and cruel. The authorities have had a bounty out on him for some time now.\n"
+
+msgid "一个虬髯大汉，身上带著好几处刀疤，据说在江北做过好几票大买卖，官府悬了重赏要他的人头。\n"
+msgstr "A big man with a wild curling beard and several saber scars. They say he has pulled off a good many big jobs north of the river. The authorities have posted a heavy reward for his head.\n"
+
+msgid "一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n"
+msgstr "A pale, blue-faced man in middle age; one sweep of his gaze sends a chill down your back. The notice says he butchered a whole household in the next county in a single night. The authorities have posted the highest reward.\n"
+
+msgid "玉螺湖那一夜烧了半个村子——是你拔的剑。……拔了就往前走，别回头。"
+msgstr "The night half of Jade Conch Village burned—you were the one who drew the sword.... Once drawn, walk on. Do not look back."
+
+msgid "你在湖底没动那把剑。老夫活了五十八年，见过的人十个有九个会动。"
+msgstr "You left that sword alone at the bottom of the lake. This old man has lived fifty-eight years, and of ten men I have met, nine would have touched it."
+
+msgid "一个鬓发斑白的老者，一身素白的武官袍服，腰背挺得笔直，坐在广场中间的木凳上不动如山。四面探头探脑的武林人没有一个敢靠得太近。\n"
+msgstr "A gray-templed old man in the plain white robe of a court officer, his back straight as a spear, seated on a wooden bench in the middle of the square, immovable as a mountain. None of the wulin folk peering in from all sides dares come near.\n"
+
+msgid "寻剑"
+msgstr "Seek the Sword"
+
+msgid "奉旨寻剑。先帝没寻到的那一把，皇上要寻到。"
+msgstr "By imperial decree we seek the sword. The one the late Emperor never found, His Majesty means to find."
+
+msgid "大声点，让众位兄弟都听见了。"
+msgstr "Louder. Let all the brothers hear it."
+
+msgid "信使一怔，随即大声说道：「方位是在西南二十四里，黄石隘口。」"
+msgstr "The messenger starts, then calls out, \"The bearing is southwest, twenty-four li—Yellow Rock Pass.\""
+
+msgid "那不是你该去的地方。"
+msgstr "That is no place for you."
+
+msgid "奉旨办差，闲人少问。"
+msgstr "On imperial business. Idlers should ask fewer questions."
+
+msgid "湖底的事，算老夫一个。大内侍卫营还有三十个能打的——你开口，他们跟老夫走。"
+msgstr "Count this old man in for what lies at the lake bottom. The Palace Guard Barracks has thirty more who can fight. Say the word, and they follow me."
+
+msgid "湖底？老夫守的是宫门，不是湖。"
+msgstr "The lake bottom? This old man guards the palace gate, not a lake."
+
+msgid "刀谱给过你了。练到四十，剩下的在刀上，不在谱上。"
+msgstr "You already have the manual. Train it to forty; what remains is in the blade, not in the manual."
+
+msgid "从值房的抽屉里摸出一册蓝布面的小本子。"
+msgstr " pulls a small, blue-clothbound booklet from a drawer in the duty room."
+
+msgid "侍卫营的刀，叫禁中刀。七招，招招在宫门里头——拿去。"
+msgstr "The Guard's blade is called the Palace Blade. Seven moves, every one of them inside the palace gates. Take it."
+
+msgid "下湖之前，你学两招侍卫营的刀。七招，招招在宫门里头——拿去。"
+msgstr "Before you go down to the lake, learn two moves of the Guard's blade. Seven moves, every one of them inside the palace gates. Take it."
+
+msgid "侍卫营的刀谱，不外传。"
+msgstr "The Guard's blade manual is not passed outside."
+
+msgid "一个瘦削的老者，白袍，坐在冯策身侧半步之后，眼睛半开半合，手里捏着一串核桃慢慢地转。\n"
+msgstr "A gaunt old man in a white robe, seated half a step behind Feng Ce, his eyes half closed, slowly turning a string of walnuts in his hand.\n"
+
+msgid "老夫只是陪冯总教头走一趟。寻剑的事，问他去。"
+msgstr "This old man only came along with Chief Instructor Feng. As for the sword hunt, ask him."
+
+msgid "方位信使已经报过了，还问老夫？"
+msgstr "The messenger has already reported the bearing. Why ask this old man?"
+
+msgid "一个身著白衣的朝廷武官，腰悬长剑，站得笔直，目不斜视。\n"
+msgstr "A court officer in white, a long sword at his waist, standing straight, eyes fixed ahead.\n"
+
+msgid "一个风尘满面的信使，白袍下摆沾著泥点，刚从马上跳下来，气还没喘匀。\n"
+msgstr "A dust-covered messenger, the hem of his white robe splashed with mud. He has just leapt from his horse and has not caught his breath.\n"
+
+msgid "下官只管传话。方位将军叫我当众报了，你也听见了。"
+msgstr "This subordinate only relays messages. The General had me report in public, and you heard it too."
+
+msgid "白道长命下官回禀，说时辰已到。道长自己在何处，下官不敢说。"
+msgstr "Daoist Bai ordered this subordinate to report that the hour has come. Where the Daoist himself is, this subordinate dares not say."
+
+msgid "一个风尘仆仆的江湖人，背著个长条布包，缩在广场边上探头探脑地往官队那边张望。\n"
+msgstr "A dust-worn wanderer of the jianghu with a long cloth bundle on his back, cowering at the edge of the square and craning his neck toward the officials' party.\n"
+
+msgid "小兄弟也听见了？西南二十四里，黄石隘口。大内的人要去那儿找一把剑，咱们这些人……也想去瞧瞧。"
+msgstr "You heard it too, little brother? Twenty-four li southwest, Yellow Rock Pass. The Palace folk are going there to find a sword, and some of us... wanna go take a look too."
+
+msgid "听说是奉了皇上的旨，去岚城找什麽旋芒宝剑。岚城？谁知道在哪儿。"
+msgstr "Heard they're acting on the Emperor's decree, off to the Wind City to find some Whirling Edge sword. The Wind City? Who knows where that is."
+
+msgid "太乙观观主"
+msgstr "Abbot of Taiyi Abbey"
+
+msgid "一个须眉皆白的老道士，道袍洗得发灰，一柄拂尘搭在臂弯上。他站在山壁下新挖开的土坑边，眼睛一直盯着坑里，官兵们挖一锹，他的眉头就皱一分。\n"
+msgstr "An old Daoist with beard and brows all white, his robe washed gray, a horsetail whisk resting in the crook of his arm. He stands beside the freshly dug pit at the foot of the cliff, his eyes fixed on the hole; with every spadeful the soldiers dig, his frown deepens.\n"
+
+msgid "白道长只是看了你一眼，拂尘一摆，你的手脚便不听使唤了。"
+msgstr "Daoist Bai merely glances at you and flicks his whisk, and your hands and feet will no longer obey you."
+
+msgid "那不是什么宝剑，是岚城的风铃。寻风的人才用得上，旁人开了，只会招祸。"
+msgstr "That is no sword. It is a wind bell of the Wind City. Only one who seeks the wind can use it; anyone else who opens it brings disaster on himself."
+
+msgid "二十年前一阵怪风过隘口，风停的地方落下这只铃。先帝寻岚城的人把它收了，拿来问老道；老道不敢留，也不敢让他们带进京——寻风的东西，就封进石匣，埋回风停的地方。"
+msgstr "Twenty years ago a strange wind crossed the pass, and where the wind stopped, this bell fell. The men the late Emperor sent to seek the Wind City took it and brought it to this old Daoist. I dared neither keep it nor let them carry it into the Capital. A thing for seeking the wind: seal it in a stone casket and bury it back where the wind stopped."
+
+msgid "黑冠黑衣，一身邪气，这一带没有这样的道观。他往老松岭去了——拾起他掉的那块布条看看。"
+msgstr "Black cap, black robe, an air of evil about him. There is no abbey like that in these parts. He went toward Old Pine Ridge. Pick up the strip of cloth he dropped and look at it."
+
+msgid "冯总教头奉旨寻的是旋芒宝剑。皇上要寻岚城，满朝只有老道知道岚城的东西埋在哪儿——老道不说，他们挖遍西南也要挖；说了，老道还能在旁边看着。"
+msgstr "What Chief Instructor Feng seeks by decree is Whirling Edge sword. What His Majesty wants is the Wind City, and in the whole court only this old Daoist knows where the Wind City's thing is buried. If I do not say, they will dig up the entire southwest. If I do, I can at least stand by and watch."
+
+msgid "老松岭上的匪寨。那道士慌忙间掉了块布条，上头刻的就是老松寨的记号。"
+msgstr "A bandit stockade on Old Pine Ridge. In his haste that Daoist dropped a strip of cloth, and the mark on it is Old Pine Stockade's."
+
+msgid "布条"
+msgstr "Cloth Strip"
+
+msgid "就是你手里那块。上头那个记号——一棵松、三道横——是老松寨的。"
+msgstr "The one in your hand. The mark on it, one pine and three bars, is Old Pine Stockade's."
+
+msgid "那道士掉的，就落在土坑边上。拾起来看看——上头是老松寨的记号。"
+msgstr "The Daoist dropped it, right at the edge of the pit. Pick it up and look. The mark on it is Old Pine Stockade's."
+
+msgid "给了你了。上头那个记号，是老松寨的。"
+msgstr "I gave it to you already. The mark on it is Old Pine Stockade's."
+
+msgid "从袖子里取出一块粗麻布条。"
+msgstr " draws a strip of coarse hemp cloth from a sleeve."
+
+msgid "方才一个黑衣黑冠的道士从崖上掠下来，抢了石匣就走，慌忙间掉了这个。老道替你拾起来了——上头刻的是老松寨的记号。"
+msgstr "Just now a Daoist in black robe and black cap swooped down from the cliff, snatched the casket and ran, and dropped this in his haste. This old Daoist picked it up for you. The mark on it is Old Pine Stockade's."
+
+msgid "什么布条？"
+msgstr "What cloth strip?"
+
+msgid "一名白衣武官从山壁下的土坑里捧出一只尺许长的石匣，匣面刻着一圈风纹。"
+msgstr "An officer in white lifts a stone casket about a foot long out of the pit at the foot of the cliff, a ring of wind patterns carved on its lid."
+
+msgid "总教头，挖出来了！"
+msgstr "Chief Instructor, we have dug it out!"
+
+msgid "打开。"
+msgstr "Open it."
+
+msgid "冯总教头，匣子开不得。这是岚城的风铃，寻风的人才用得上，旁人开了，只会招祸。"
+msgstr "Chief Instructor Feng, the casket must not be opened. This is a wind bell of the Wind City. Only one who seeks the wind can use it; for anyone else to open it brings only disaster."
+
+msgid "崖上忽然一道黑影掠下，一个黑衣黑冠的道士落在土坑边，一把抢过石匣，转身便往山壁上纵去！"
+msgstr "A black shadow suddenly swoops down from the cliff. A Daoist in black robe and black cap lands beside the pit, snatches the casket and, turning, leaps back up the cliff face!"
+
+msgid "多谢诸位代劳！"
+msgstr "My thanks to you all for doing the digging!"
+
+msgid "黑衣道士衣角一扯，一块布条飘落在地。他几个起落，已经翻上山壁，往北面的老松岭去了。"
+msgstr "A tug at the hem of the Daoist's robe, and a strip of cloth flutters to the ground. In a few leaps he has climbed the cliff and gone north toward Old Pine Ridge."
+
+msgid "追！"
+msgstr "After him!"
+
+msgid "回过头来，目光落在你身上。"
+msgstr " turns around, and the gaze falls on you."
+
+msgid "这不是你该来的地方。"
+msgstr "This is no place for you."
+
+msgid "小友，那道士往老松岭去了。官军追的是人——那种人翻山比猴子快，他们追不上。他慌忙间掉的那块布条倒会说话：你拾起来看看，那上头是老松寨的记号。"
+msgstr "Young friend, that Daoist has gone toward Old Pine Ridge. The troops chase the man, but a man like that crosses mountains faster than a monkey, and they will not catch him. The strip he dropped in his haste will speak for him, though. Pick it up and look. The mark on it is Old Pine Stockade's."
+
+msgid "一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他怀里紧紧抱着一只石匣。\n"
+msgstr "A Daoist in black robe and black cap, so thin his cheekbones jut out, with a furtive look. He clutches a stone casket tight against his chest.\n"
+
+msgid "黑衣道士身形一晃，已经离你远了。"
+msgstr "The Daoist in black sways, and he is already far from you."
+
+msgid "滚开！"
+msgstr "Out of my way!"
+
+msgid "一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他蹲在那具骸骨旁边，石匣摆在脚边，正掰下一根指骨往匣口的缝里捅，捅一下，骂一声。\n"
+msgstr "A Daoist in black robe and black cap, so thin his cheekbones jut out, with a furtive look. He is squatting beside the skeleton with the casket at his feet, snapping off a finger bone and jabbing it into the seam at the casket's mouth. One jab, one curse.\n"
+
+msgid "你也是来寻风铃的？晚了！这骨头开不了匣子，你的骨头说不定行。"
+msgstr "You are here for the wind bell too? Too late! These bones will not open the casket. Yours might."
+
+msgid "黑衣道士尖声道：宫里的人很快就到，你跑不了！\n"
+msgstr "The Daoist in black shrieks, \"The palace men will be here soon. You cannot escape!\"\n"
+
+msgid "黑衣道士一边招架一边往洞口瞟。\n"
+msgstr "The Daoist in black parries while darting glances at the cave mouth.\n"
+
+msgid "黑衣道士捂着伤口翻身爬起，连滚带爬地逃出了山洞，往北边去了。"
+msgstr "Clutching his wound, the Daoist in black rolls over and scrambles up, then stumbles and crawls out of the cave and away to the north."
+
+msgid "一个黑衣黑冠的道士，袖子挽到肘上，手里攥着一根粗麻绳，绳子的另一头没进北边山壁的裂口里。他盯着车上的箱子，不看你。\n"
+msgstr "A Daoist in black robe and black cap, sleeves rolled to the elbow, gripping a thick hemp rope whose other end vanishes into a crack in the north cliff. He stares at the crates on the cart, not at you.\n"
+
+msgid "此处无路，施主请回。"
+msgstr "There is no road here. Benefactor, please turn back."
+
+msgid "道士头也不抬：野羊寨的供，与你何干。"
+msgstr "Without raising his head, the Daoist says, \"Goathill Stockade's tribute. What business is it of yours?\""
+
+msgid "道士拉绳的手停了一停：施主听谁说的这个名字？……回去吧。"
+msgstr "The Daoist's rope-pulling hand halts for a moment. \"From whom did you hear that name, Benefactor?... Go back.\""
+
+msgid "道士冷冷道：上头没有路，有也不是给你走的。"
+msgstr "The Daoist says coldly, \"There is no road up there. If there were, it would not be for you.\""
+
+msgid "押车道士厉声道：野羊寨的供都敢劫，不要命了！\n"
+msgstr "The cart-guarding Daoist snaps, \"You dare rob Goathill Stockade's tribute? Do you want to die?\"\n"
+
+msgid "押车道士往裂口上头喊了一声，上面没有人应。\n"
+msgstr "The cart-guarding Daoist shouts up toward the top of the crack. Nobody above answers.\n"
+
+msgid "野羊山二寨主"
+msgstr "Second Chief of Goathill"
+
+msgid "刘安禄脱了门房的青布衫，换回了一身短打，单刀挂在腰上。他靠着土地庙的柱子，像是回到了自己的地方——只是看人的眼神还带着当门房时的那股子躲闪。\n"
+msgstr "Liu Anlu has shed the gatekeeper's blue cloth tunic for a plain short jacket and trousers, his single saber at his waist. He leans on a pillar of the Earth God Shrine as if he is back where he belongs, though his eyes still dodge, the way they did when he kept the gate.\n"
+
+msgid "刘安禄擦着单刀，没有抬头。\n"
+msgstr "Liu Anlu wipes his saber and does not look up.\n"
+
+msgid "刘安禄朝里屋喊了一声：大哥，酒来了！\n"
+msgstr "Liu Anlu calls toward the inner room, \"Big Brother, the wine's here!\"\n"
+
+msgid "回寨"
+msgstr "Back to the Stockade"
+
+msgid "刘安禄道：大哥回来了，老子还在雪亭镇看什么门。淳风武馆的门房，让他们另找人吧。"
+msgstr "Liu Anlu says, \"Big Brother's back. Why should I be mindin' a gate in Snow Pavilion? Pure Wind Hall can find itself another gatekeeper.\""
+
+msgid "刘安禄道：大哥在里屋。他说你横着走，那就横着走。"
+msgstr "Liu Anlu says, \"Big Brother's in the back room. He says you can strut around here however you like, so strut.\""
+
+msgid "刘安禄啐了一口：那群牛鼻子的账，野羊寨记着。等大哥养好了身子。"
+msgstr "Liu Anlu spits. \"Goathill Stockade remembers what those ox-noses owe. Just wait till Big Brother's body mends.\""
+
+msgid "血手"
+msgstr "Bloody Hand"
+
+msgid "刘安禄沉默了一会儿：血手刘三是老子。老子认。你放过我一回，野羊寨欠你两条命。"
+msgstr "After a silence Liu Anlu says, \"Bloody-Hand Liu is me, and I own it. You let me off once, and Goathill owes you two lives.\""
+
+msgid "刘安禄压低声音：老三纳供的事，大哥没追究。老子也不说。"
+msgstr "Liu Anlu lowers his voice. \"Big Brother let the matter of Third Brother's tribute lie. I ain't sayin' a word either.\""
+
+msgid "东方神教杀手"
+msgstr "Golden Crow Order Assassin"
+
+msgid "蒙着面，眉眼看起来有些面熟——书房里那个老妇人的眉眼。衣襟上有血，不是她的。她站在前厅正中，像在等人。\n"
+msgstr "Masked, and the eyes look somehow familiar: the eyes of the old woman in the study. There is blood on the front of the robe, and it is not hers. She stands in the middle of the front hall, as if waiting for someone.\n"
+
+msgid "蒙面杀手拔剑冷冷道：东方神教办事。衣走了，这庄子没人护着了——挡路的，一起倒下。"
+msgstr "The masked assassin draws a sword and says coldly, \"The Golden Crow Order is at work. The robe is gone, and nobody guards this manor now. Anyone in the way goes down with the rest.\""
+
+msgid "蒙面杀手说：衣不在了，这庄还守什么？\n"
+msgstr "The masked assassin says, \"The robe is gone. What is there left to guard in this manor?\"\n"
+
+msgid "蒙面杀手捂着伤口站起来，看了一眼内书房的方向，从窗口翻了出去。\n"
+msgstr "Clutching her wound, the masked assassin stands, glances toward the inner study, and climbs out through the window.\n"
+
+msgid "一个穿酱色便衣的中年人，腰里的刀用布裹着，手搭在上头。他不像是来喝酒的——眼睛在街上扫，扫到陈显祖就停了。\n"
+msgstr "A middle-aged man in plain soy-brown clothes, a cloth-wrapped saber at his waist and his hand resting on it. He does not look as if he came to drink. His eyes sweep the street and stop when they reach Chen Xianzu.\n"
+
+msgid "庾家管事的手在刀柄的布上摩挲了一下。\n"
+msgstr "The Yu Family Steward's hand rubs once across the cloth on his saber's hilt.\n"
+
+msgid "庾家管事喝道：拿下！人要活的！\n"
+msgstr "The Yu Family Steward barks, \"Seize him! I want him alive!\"\n"
+
+msgid "庾家管事说道：兵部有令，拦的人一并拿！\n"
+msgstr "The Yu Family Steward says, \"By order of the Ministry of War, anyone who gets in the way is taken too!\"\n"
+
+msgid "从酒楼对面的屋檐下走出来，拦在街心。身后三个便衣的汉子散开，手都按着刀柄。"
+msgstr " steps out from under the eaves opposite the tavern and blocks the middle of the street. Three men in plain clothes fan out behind, hands on their hilts."
+
+msgid "陈显祖，兵部有令拿你。箱子留下，人跟我们走。"
+msgstr "Chen Xianzu, the Ministry of War orders your arrest. Leave the chest. You come with us."
+
+msgid "站住了，手慢慢按到剑柄上。"
+msgstr " stops short and slowly lays a hand on the sword hilt."
+
+msgid "二十年了，还是找来了。"
+msgstr "Twenty years, and you found me anyway."
+
+msgid "动手。"
+msgstr "Move in."
+
+msgid "三个汉子抽刀围了上来——冲的是你。\n"
+msgstr "The three men draw their sabers and close in. It is you they are after.\n"
+
+msgid "庾家管事的刀出了布。\n"
+msgstr "The Yu Family Steward's saber slips out of its cloth.\n"
+
+msgid "一个身著白衣的朝廷武官，腰悬长剑。他把客栈的桌子一张张掀开，靴子踩在碎碗上，手里攥着一张海捕文书，上头画的人像你。\n"
+msgstr "A court officer in white, a long sword at his waist. He overturns the inn's tables one by one, his boots crunching on broken bowls, a wanted notice clutched in his hand. The face drawn on it looks like you.\n"
+
+msgid "就是你！海捕文书上画的人——逆灵宫的同党，拿下！"
+msgstr "That is you! The face on the wanted notice, a confederate of the Black Palace. Take this one in!"
+
+msgid "白衣武官喝道：兵部的文书在此，你还敢动手？\n"
+msgstr "The Officer in White shouts, \"Here is a Ministry of War writ, and you still dare to raise a hand?\"\n"
+
+msgid "白衣武官一脚踢翻了长凳。\n"
+msgstr "The Officer in White kicks over a bench.\n"
+
+msgid "一个便衣的壮汉，刀已经出了鞘。酱色的短衣，和管事一个颜色。\n"
+msgstr "A burly man in plain clothes, saber already drawn. His short jacket is soy-brown, the same color as the steward's.\n"
+
+msgid "庾家打手喝道：让开！我们拿的是逃兵，不是你！\n"
+msgstr "The Yu Family Thug shouts, \"Move! We're after a deserter, not you!\"\n"
+
+msgid "庾家打手的刀横着扫过来。\n"
+msgstr "The Yu Family Thug's saber sweeps across.\n"
+
+msgid "一位相貌威武的武官，坐在内厅的茶桌旁，鬓角白了。他不再发呆了——二十年压在身上的东西，在堂上说出来之后，人反倒直了。\n"
+msgstr "A martial-looking officer sits at the tea table in the inner hall, his temples gone white. He no longer sits staring blankly. The weight he carried for twenty years, once spoken aloud in court, has left him standing straighter.\n"
+
+msgid "陈显祖端起茶，手不抖了。\n"
+msgstr "Chen Xianzu lifts his tea, and his hand no longer shakes.\n"
+
+msgid "陈显祖说道：二十三个名字，我一个一个念过。\n"
+msgstr "Chen Xianzu says, \"Twenty-three names. I read each one aloud.\"\n"
+
+msgid "在下陈显祖。如今是乔阴县衙的人证——总算是个名目。"
+msgstr "I am Chen Xianzu. Now a witness for the Tallshade Yamen. At least it is a title of some kind."
+
+msgid "我说了：原令只一句，「寻剑，不得扰民一户」。征民夫、拿人的，不是先帝的令。程大人都录下了。"
+msgstr "I have said it: the original decree was one line, \"Seek the sword, and trouble not one household.\" Levying laborers and seizing people was not the late Emperor's order. Magistrate Cheng wrote it all down."
+
+msgid "二十年前念给全队听的那一卷，我抄了一份，藏到今天。该念给公堂听了。"
+msgstr "The scroll that was read to the whole company twenty years ago: I copied it and hid it until today. It is time it was read to the court."
+
+msgid "程大人的叔父。听说老王爷拒过兵部的令——有人肯拒，我这份供词就不算白说。"
+msgstr "Magistrate Cheng's uncle. I hear the old Prince refused an order of the Ministry of War. If someone is willing to refuse, my testimony was not spoken in vain."
+
+msgid "箱子还给我了，书也给了你。里头最要紧的东西，如今在程大人的卷宗里。"
+msgstr "The chest was returned to me, and the book is yours. The most important thing inside is in Magistrate Cheng's case file now."
+
+msgid "金乌"
+msgstr "The Golden Crow"
+
+msgid "冰柱里站着一个女人，看着二十来岁，眼睛是睁着的。她一身浅金的衣，衣角在冰里像还在飘。她身上发着白光，光照在冰上，冰就不化。她的嘴唇没有动，声音却从冰里传出来。\n"
+msgstr "A woman stands in the ice pillar, looking about twenty, her eyes open. She wears pale gold, and the hem of her robe seems still to drift inside the ice. White light shines from her, and where it falls on the ice, the ice does not melt. Her lips do not move, yet a voice comes through the ice.\n"
+
+msgid "你的手还没碰到冰柱，就冷得缩了回来。柱里的人连眼睛都没有眨。"
+msgstr "Your hand has not touched the pillar before the cold makes it jerk back. The figure inside does not even blink."
+
+msgid "封法"
+msgstr "Sealing Rite"
+
+msgid "钉拔，它成形，先回这附近的村子。要灭它，三器齐：穿灵、旋芒、宝衣。要再封，须有人留下。——铜上刻了三句，我补了三句，都是实话。"
+msgstr "Pull the nail, and it takes shape, and goes first to the village near here. To destroy it, bring the three together: Spiritpiercer, Whirling Edge, the robe. To seal it again, someone must stay behind. The copper carries three lines. I added three. All of it is true."
+
+msgid "先把铜上的话念给我听。"
+msgstr "First read me what the copper says."
+
+msgid "它在你手里了。三百年钉着一颗头，钉的是它的名，不是肉——到了灭它那一天，还得是它。"
+msgstr "It is in your hand. For three hundred years it pinned a head, and what it pinned was the name, not the flesh. On the day it is destroyed, it must still be this sword."
+
+msgid "寒於的剑。三百年前我哥哥借了它来钉这颗头——剑是皇叔的，皇叔是人，人活不过三百年，剑能。"
+msgstr "Hanyu's sword. Three hundred years ago my brother borrowed it to nail this head. The sword was the Imperial Uncle's. The Imperial Uncle was a man, and a man does not live three hundred years. A sword can."
+
+msgid "杞庸"
+msgstr "Qi Yong"
+
+msgid "我哥哥。金乌的长子。它捉了我，他追到这里，钉了它——然后他走了。金乌不能留在地上，留下来的只能是我。"
+msgstr "My brother. The Golden Crow's eldest son. It seized me, he chased it here and nailed it down, and then he left. The Golden Crow cannot stay on the earth. The one left behind could only be me."
+
+msgid "它没有头的时候，是一团焰。有了头，就有了名，有了名，就能把人当柴烧。这颗头在冰里睡了三百年，它在底下长了三百年。"
+msgstr "Without a head it was a lump of flame. With a head it has a name, and with a name it can burn people like kindling. This head slept in the ice for three hundred years, and below it, the ghost grew for three hundred years."
+
+msgid "他要的是鬼成形。成了形的鬼才找得到头，找到了头，他才能把它养成他的。他不骗你，他只是不说完。"
+msgstr "What he wants is for the ghost to take shape. Only a ghost that has taken shape can find its head, and once it has found its head, he can raise it into his own. He does not lie to you. He simply does not say all of it."
+
+msgid "逆灵宫的人。他来过，站在潭口上面，看了很久，没下来。"
+msgstr "A man of the Black Palace. He has been here. He stood above the mouth of the pool and looked for a long time. He did not come down."
+
+msgid "三百年"
+msgstr "Three Hundred Years"
+
+msgid "三百年。冰里不冷，也不饿，就是长。头在长，我在等。第一个带着铜来的，是你。"
+msgstr "Three hundred years. It is neither cold in the ice nor hungry. It just grows. The head grows, and I wait. You are the first to come carrying the copper."
+
+msgid "留下"
+msgstr "Stay"
+
+msgid "把我的羽还给我——光回来一点，够再守三百年。穿灵交给我，我钉回去。"
+msgstr "Give me back my feather. A little of the light returns, enough to keep watch three hundred years more. Give Spiritpiercer to me, and I will nail it back down."
+
+msgid "……或者是你。你也可以。"
+msgstr "...Or you. You could, too."
+
+msgid "我没有光了。没有那片羽，我留不住。"
+msgstr "I have no light left. Without that feather, I cannot stay."
+
+msgid "再封，须有人留下。留下的人，就是下一块冰。我的光不多了——那片羽在你手里，到时候还给我，我还能再守一回。"
+msgstr "To seal it again, someone must stay behind. The one who stays becomes the next ice. My light is nearly gone. The feather is in your hands. Give it back to me when the time comes, and I can keep watch once more."
+
+msgid "再封，须有人留下。留下的人，就是下一块冰。我哥哥没有留，我留了；这一回要是再封，不会是我——我已经没有光了。"
+msgstr "To seal it again, someone must stay behind. The one who stays becomes the next ice. My brother did not stay. I stayed. If it is sealed again this time, it will not be me. I have no light left."
+
+msgid "我留下"
+msgstr "I Will Stay"
+
+msgid "你留下？你会成为下一块冰。\n片尾以后回到主菜单；「决战前」存档还在。"
+msgstr "You stay? You will become the next ice.\nAfter the credits you return to the main menu; the \"Before the Final Battle\" save remains."
+
+msgid "三器齐了。灭了它。"
+msgstr "The three are together. Destroy it."
+
+msgid "你握着穿灵走上封坛，一剑钉进那颗头里。冰从坛心长起来，冷得不像冷，像很长很长的一觉。\n"
+msgstr "You climb the sealing altar with Spiritpiercer in your grip and drive it into that head with one stroke. Ice grows from the heart of the altar, and the cold does not feel like cold. It feels like a very, very long sleep.\n"
+
+msgid "……你在说什么。"
+msgstr "...What are you talking about."
+
+msgid "你已经留下了。"
+msgstr "You have already stayed."
+
+msgid "三器齐了。钉下去，用不着谁留下。"
+msgstr "The three are together. Drive it down. No one needs to stay."
+
+msgid "把穿灵和那片羽交给璃虹？\n她把剑钉回那颗头上，光回来，再守三百年——再封。"
+msgstr "Give Spiritpiercer and the feather to Lihong?\nShe nails the sword back into that head, the light returns, and she keeps watch another three hundred years: sealed again."
+
+msgid "那片羽在你怀里亮了一下，又暗了——光回到了冰柱里，一下子亮了起来。\n"
+msgstr "The feather in your coat flares once, then dims. The light has returned to the ice pillar, which blazes up all at once.\n"
+
+msgid "三百年。再三百年。去吧。"
+msgstr "Three hundred years. Three hundred more. Go."
+
+msgid "穿灵从你手里滑出去，钉回了那颗头里。冰从坛心长起来，合拢了。\n"
+msgstr "Spiritpiercer slips out of your hand and drives itself back into the head. Ice grows from the heart of the altar and closes over it.\n"
+
+msgid "先把它打倒。"
+msgstr "Beat it down first."
+
+msgid "冰柱里的光亮了一亮。\n"
+msgstr "The light in the ice pillar flares once.\n"
+
+msgid "你带着铜来的。三百年了，第一个带着铜来的人。"
+msgstr "You came with the copper. In three hundred years, the first to come with the copper."
+
+msgid "我是璃虹，杞庸的妹妹。它捉了我，我哥哥钉了它——我就留在这里，照着这块冰。"
+msgstr "I am Lihong, Qi Yong's sister. It seized me, and my brother nailed it down. I stayed here, to shine on this ice."
+
+msgid "你念过那片铜。念给我听。念对了，我再说下面的。"
+msgstr "You have read the copper. Read it to me. If you read it right, I will say the rest."
+
+msgid "璃虹靠着封坛坐在冰上，身上的光只剩一点，像快灭的灯。她的衣角湿了——三百年来第一次湿。她在喘。\n"
+msgstr "Lihong sits on the ice with her back against the sealing altar. Only a little of her light is left, like a lamp about to go out. The hem of her robe is wet, for the first time in three hundred years. She is panting.\n"
+
+msgid "她连抬手的力气都没有。你下不去手。"
+msgstr "She has not even the strength to raise a hand. You cannot bring yourself to strike."
+
+msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差旋芒和宝衣。"
+msgstr "The nail is gone, and it grows. To destroy it, the three together. Spiritpiercer is in your hand. Whirling Edge and the robe are still missing."
+
+msgid "上岸"
+msgstr "Go Ashore"
+
+msgid "带我上岸。我在冰里三百年，忘了岸上是什么样子。"
+msgstr "Take me ashore. I have been in the ice three hundred years. I have forgotten what the shore looks like."
+
+msgid "……别问。先上去。"
+msgstr "...Do not ask. Go up first."
+
+msgid "商玦站在封坛对面，黑衣湿透了贴在身上，水顺着袖口往下滴。他没有看你，看着冰里那颗头，像看一件等了很久的东西。\n"
+msgstr "Shang Jue stands across the sealing altar, his black robe soaked and clinging, water dripping from his sleeves. He does not look at you. He looks at the head in the ice, as at something long awaited.\n"
+
+msgid "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他只是笑了一笑。"
+msgstr "Your strike passes through Shang Jue's sleeve as through a wisp of smoke. He only smiles."
+
+msgid "拔"
+msgstr "Pull It"
+
+msgid "商玦看着冰里的头：拔了它。钉着，它是一颗头；拔了，它是一个东西——有形的东西才打得死。"
+msgstr "Shang Jue looks at the head in the ice. \"Pull it. Pinned, it is a head. Pulled, it is a thing, and only a thing with a form can be killed.\""
+
+msgid "抬起右手给你看：掌心一片焦黑，像握过烧红的铁。"
+msgstr " raises his right hand to show you: the palm is scorched black, as if it had gripped red-hot iron."
+
+msgid "我试过。寒於的剑认干净的手——修过逆灵天书的人碰它，就是这个样子。所以要你来。"
+msgstr "I tried. Hanyu's sword knows clean hands. When one who has studied the Black Scripture touches it, this is the result. That is why I need you."
+
+msgid "商玦的声音没有起伏：五千年的头。你以为它封着就是安稳？它在长。"
+msgstr "Shang Jue's voice does not rise or fall. \"A head five thousand years old. You think sealed means safe? It is growing.\""
+
+msgid "商玦没有回头：逆灵者，逆天地之灵而用之。你割了我的绳索，我下了崖，就到了这里——比你早一步。"
+msgstr "Shang Jue does not turn. \"Spirit-reversers reverse the spirit of heaven and earth and use it. You cut my rope, and I went down the cliff, and so I came here, one step ahead of you.\""
+
+msgid "潭口的水面上一响。商玦湿淋淋地站在封坛对面——不是来打的，手垂着。\n"
+msgstr "A splash on the water at the mouth of the pool. Shang Jue stands dripping across the sealing altar. He has not come to fight; his hands hang at his sides.\n"
+
+msgid "拔了它。"
+msgstr "Pull it."
+
+msgid "你拿着剑，鬼醒了才找得到头；找到了头，才灭得了它。你以为它封着就是安稳？它在长。三百年，长了三百年。"
+msgstr "You hold the sword. Only a woken ghost can find its head, and only once it has found its head can it be destroyed. You think sealed means safe? It is growing. Three hundred years, it has been growing."
+
+msgid "他要的是鬼成形。"
+msgstr "What he wants is for the ghost to take shape."
+
+msgid "璃虹躺在东房的榻上，盖着田老财家的一床旧被。她身上的光只剩一线，像灯芯上的最后一点火。她的眼睛是睁着的，看着房梁。\n"
+msgstr "Lihong lies on the couch in the east room under an old quilt from Landlord Tian's house. Only a thread of her light is left, like the last flame on a lamp wick. Her eyes are open, looking at the roof beam.\n"
+
+msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差旋芒和宝衣。旋芒在岚城，宝衣在晚月庄。岚城寻风而至——你们的先帝找了它一辈子，他的档案在皇城。"
+msgstr "The nail is gone, and it grows. To destroy it, the three together. Spiritpiercer is in your hand; Whirling Edge and the robe are still missing. Whirling Edge is in the Wind City, the robe at Latemoon Manor. The Wind City comes on the wind. Your late Emperor searched for it all his life, and his files are in the Palace City."
+
+msgid "它在长"
+msgstr "It Is Growing"
+
+msgid "每一夜。它回了村子，就不会再走远——它在等头。你走得越久，它长得越大。可你不走，三器也凑不齐。去吧。"
+msgstr "Every night. Now it has come back to the village, it will not go far again. It is waiting for its head. The longer you are gone, the bigger it grows. But if you do not go, the three will never be gathered. Go."
+
+msgid "它的卒子。湖里本来就有，封着的时候爬不上来。昨夜是第一夜，还会有第二夜。"
+msgstr "Its soldiers. They were always in the lake, and could not climb out while it was sealed. Last night was the first night. There will be a second."
+
+msgid "再封，须有人留下。我已经没有光了，这一回留下的不会是我。你到时候再想。"
+msgstr "To seal it again, someone must stay behind. I have no light left, and this time it will not be me who stays. Think on it when the time comes."
+
+msgid "……岸上的风是这样的。我忘了。"
+msgstr "...So this is what the wind on the shore is like. I had forgotten."
+
+msgid "听见脚步声，眼睛转过来看着你。"
+msgstr " hears footsteps, and the eyes turn to you."
+
+msgid "你来了。村子……我听见了。它回了家，先烧了一把。"
+msgstr "You came. The village... I heard it. It came home, and burned some first."
+
+msgid "钉没了。它每一夜都在长。去京师，去岚城，把三器凑齐——别回头看我。"
+msgstr "The nail is gone. It grows every night. Go to the Capital, go to the Wind City, gather the three. Do not look back at me."
+
+msgid "傅家坡的农妇，围裙没解，站在岸边的柳树底下，一手攥着衣角，眼睛一直盯着湖面。\n"
+msgstr "A farm woman from Fu Family Slope, apron still on, stands beneath the willow at the water's edge, one hand clutching the hem of her clothes, her eyes fixed on the lake.\n"
+
+msgid "她往后退了一步：你要打，去打湖里那个。"
+msgstr "She steps back. \"If you want to fight, go fight the one in the lake.\""
+
+msgid "湖底那盏灯，这几夜一夜比一夜暗。村里人说，灯一灭，水怪就上来。"
+msgstr "The lamp at the bottom of the lake has dimmed more each night these past nights. The village folk say that when the lamp goes out, the water monster comes up."
+
+msgid "湖里那东西，这几夜一夜比一夜近。冰底下有东西在敲。"
+msgstr "That thing in the lake has come closer each night these past nights. Something under the ice is knocking."
+
+msgid "在家里，门我闩上了。这一回我不让他出门。"
+msgstr "At home. I bolted the door. This time I am not letting him out."
+
+msgid "……别问了。"
+msgstr "...Stop asking."
+
+msgid "人"
+msgstr "People"
+
+msgid "都是来等你的。我不认得他们，他们认得你。"
+msgstr "They are all here waiting for you. I do not know them. They know you."
+
+msgid "你回来了。湖底那盏灯，这几夜一夜比一夜暗。"
+msgstr "You are back. The lamp at the bottom of the lake has grown dimmer every night."
+
+msgid "你回来了。湖里那东西，这几夜一夜比一夜近。"
+msgstr "You are back. The thing in the lake has come closer every night."
+
+msgid "湖面平得像一块铁，结着一层黑冰。冰底下有光，一下一下地暗下去。\n"
+msgstr "The lake is flat as a sheet of iron, skinned with black ice. Beneath the ice a light dims, a little at a time.\n"
+
+msgid "这几天岸上来了好些人。都说是来等你的。"
+msgstr "A good many people have come to the shore these past days. They all say they are here to wait for you."
+
+msgid "野羊寨的弟兄都来了。村口那条黄土道，交给我们。"
+msgstr "All the boys of Goathill Stockade are here. That dirt road at the village mouth: leave it to us."
+
+msgid "王爷说：关北的骑兵欠你一阵。马在岸上，湖畔这一段，我们守。"
+msgstr "The Prince says the cavalry of Beyond the Pass owes you a charge. The horses are on the shore. This stretch of the lakeside, we hold."
+
+msgid "会首让我们来。卢卡说你会来。稻田那边，盾顶着。"
+msgstr "The Guild Head sent us. Luca said you would come. By the rice paddies, our shields hold the line."
+
+msgid "大内侍卫营三十个人，老夫都带来了。湖底的事，算老夫一个。"
+msgstr "All thirty men of the Palace Guard Barracks, this old man has brought. For the business at the lake bottom, count me in."
+
+msgid "宝衣在我身上。东方神教守了三百年——三器齐了，我们就不必再守。"
+msgstr "The robe is on me. The Golden Crow Order has guarded it for three hundred years. Once the three are together, we need guard it no longer."
+
+msgid "宝衣在我身上。我不是替神教来的——衣守的是湖底，不是谁家的香火。"
+msgstr "The robe is on me. I did not come for the Order. The robe guards the lake bottom, not anyone's offerings."
+
+msgid "宝衣不在我身上。可神教的教主令在——湖底的事，神教守潭口。"
+msgstr "The robe is not on me. But the Order Leader's token is. As for the lake bottom, the Order holds the mouth of the pool."
+
+msgid "二十年前，老松岭有人替我挡了一刀。今天我来还。"
+msgstr "Twenty years ago on Old Pine Ridge, someone took a blade for me. Today I come to repay it."
+
+msgid "水烟阁来了。关了二十年的人，今天也出门了。"
+msgstr "Waterfog Pavilion has come. The man shut away for twenty years has gone out the door today as well."
+
+msgid "水烟阁来了。盟主不在，执法使替他来——这道潭口，红衣武士守。"
+msgstr "Waterfog Pavilion has come. The Alliance Leader is absent, so the Enforcer comes in his place. This pool mouth is held by the Red-Robed Guards."
+
+msgid "手里的旋芒转了一转，一道白光。"
+msgstr " twirls Whirling Edge once; a white light flashes."
+
+msgid "老夫说过会回来。剑在这儿。"
+msgstr "This old man said I would return. The sword is here."
+
+msgid "我拿旋芒来了。回不来，就回不来。"
+msgstr "I have brought Whirling Edge. If I do not come back, I do not come back."
+
+msgid "剑交给朝廷。你一个江湖人，拿着它像什么话。"
+msgstr "Give the sword to the court. It does not befit a man of the jianghu to carry it."
+
+msgid "宋朴说，剑在你身上。"
+msgstr "Song Pu says the sword is on you."
+
+msgid "宋朴说，剑在皇叔手里。皇叔，朝廷的剑，该回朝廷。"
+msgstr "Song Pu says the sword is in the Imperial Uncle's hands. Imperial Uncle, the court's sword should go back to the court."
+
+msgid "宋朴说，剑在一个江湖人手里。"
+msgstr "Song Pu says the sword is in the hands of a man of the jianghu."
+
+msgid "三器都在，来的人也够。今夜能灭它。\n"
+msgstr "The three are all here, and enough people have come. Tonight it can be destroyed.\n"
+
+msgid "三器不齐，或者守的人不够——这一回，只能再封。缺的是什么，任务页上记着。\n"
+msgstr "Either the three are not together, or too few have come to hold the line. This time it can only be sealed again. What is lacking is recorded on the quest page.\n"
+
+msgid "天一黑，它就上来。你什么时候下湖，我们就什么时候守。"
+msgstr "When night falls, it comes up. Whenever you go down into the lake, that is when we hold."
+
+msgid "霍铮扛着一把开山刀站在岸边，肉养回来了一些，手腕上的铁链印子还在。身后野羊寨的弟兄蹲了一排。\n"
+msgstr "Huo Zheng stands on the shore with a mountain-splitting saber on his shoulder, a little of his flesh come back, the marks of the iron chain still on his wrists. Behind him the Goathill Stockade brothers squat in a row.\n"
+
+msgid "霍铮咧嘴一笑：要打，等今夜过了。"
+msgstr "Huo Zheng grins. \"If you want a fight, wait till tonight is over.\""
+
+msgid "我在逆灵宫的地牢里见过那东西的影子。这一回，它别想上岸。"
+msgstr "I saw that thing's shadow in the Black Palace dungeon. This time it ain't gettin' ashore."
+
+msgid "郭承牵着马站在柳树边，皮甲上落了一层土。六骑在他身后一字排开，马不叫。\n"
+msgstr "Guo Cheng stands by the willow holding his horse, a layer of dust on his leather armor. Six riders line up behind him, and the horses do not neigh.\n"
+
+msgid "郭承按着刀：今夜的刀，留给湖里的。"
+msgstr "Guo Cheng keeps a hand on his saber. \"Tonight my saber is for what is in the lake.\""
+
+msgid "马不怕鬼。人怕。我们这几个，不怕。"
+msgstr "Horses do not fear ghosts. Men do. The few of us here do not."
+
+msgid "一个高鼻深目的异族汉子，左臂的圆盾擦得锃亮，短剑横在盾沿上。他看着湖，嘴里念着一句谁也听不懂的话。\n"
+msgstr "A foreigner with a high nose and deep-set eyes, the round shield on his left arm polished bright, a short sword laid across its rim. He watches the lake and murmurs a phrase nobody understands.\n"
+
+msgid "大秦剑手把盾一抬：不。今夜，那边。"
+msgstr "The Daqin Swordsman raises his shield. \"No. Tonight, over there.\""
+
+msgid "会首说，这是还人情。"
+msgstr "The Guild Head says this repays a favor."
+
+msgid "冯策一身素白的武官袍，刀在腰上，站得笔直。三十个大内侍卫散在岸上，没有一个说话。\n"
+msgstr "Feng Ce stands straight in a plain white officer's robe, saber at his waist. Thirty Imperial Guards are spread along the shore, and not one speaks.\n"
+
+msgid "冯策摇了摇头：留着力气，湖底用。"
+msgstr "Feng Ce shakes his head. \"Save your strength for the lake bottom.\""
+
+msgid "湖底的事，算老夫一个。"
+msgstr "Count this old man in for the lake bottom."
+
+msgid "安妮儿站在水边，衣角沾不上水。她看湖的样子，像看一个等了很久的人。\n"
+msgstr "Anni'er stands at the water's edge, the hem of her robe untouched by the water. She looks at the lake the way one looks at someone long awaited.\n"
+
+msgid "安妮儿没有动：我不是来跟你打的。"
+msgstr "Anni'er does not move. \"I did not come to fight you.\""
+
+msgid "金乌的人等了三百年，等一个配得上三器的人。"
+msgstr "The Golden Crow's people have waited three hundred years for one worthy of the three."
+
+msgid "南危水站在岸上，焦殇剑背在身后。他看着湖面，二十年前的事像是又回来了。\n"
+msgstr "Nan Weishui stands on the shore, Sorrowfire slung on his back. He watches the lake, and what happened twenty years ago seems to have come back.\n"
+
+msgid "南危水淡淡道：不是时候。"
+msgstr "Nan Weishui says flatly, \"Not the time.\""
+
+msgid "二十年。够了。"
+msgstr "Twenty years. Enough."
+
+msgid "茅山派第五代天师"
+msgstr "Fifth-Generation Celestial Master of the Mount Mao School"
+
+msgid "林忌站在湖岸的一块青石上，拂尘搭在臂弯里，一黑一金两只眼睛望着北边的山。他的弟子们在下湖的路上。\n"
+msgstr "Lin Ji stands on a bluestone slab on the lakeshore, his whisk in the crook of his arm, one black eye and one gold eye gazing at the mountains to the north. His disciples are on the road down to the lake.\n"
+
+msgid "林忌摇了摇头：今夜不是自家人比划的时候。"
+msgstr "Lin Ji shakes his head. \"Tonight is no time for us to spar among ourselves.\""
+
+msgid "林忌道：北麓下来的路，茅山的人守着。商玦身边，今夜只剩两个。\n"
+msgstr "Lin Ji says, \"The road down from the north foot, Mount Mao's people hold. Beside Shang Jue, only two remain tonight.\"\n"
+
+msgid "林忌道：时辰和路，是你交出来的。剩下的，看你在湖底了。\n"
+msgstr "Lin Ji says, \"The hour and the road, you handed them over. The rest depends on you at the lake bottom.\"\n"
+
+msgid "潘军禅站在潭口的石头上，袖子挽到了肘上，脸上难得没有笑。他身后，水烟阁的红衣武士沿着湖岸站成了一排。\n"
+msgstr "Pan Junchan stands on a rock at the mouth of the pool, sleeves rolled to his elbows, for once not smiling. Behind him the Red-Robed Guards of Waterfog Pavilion stand in a row along the lakeshore.\n"
+
+msgid "潘军禅笑了一下：今夜不同自己人比划。"
+msgstr "Pan Junchan smiles briefly. \"Tonight I do not spar with my own side.\""
+
+msgid "七长老没来。执法使的公事，是守住这道潭口。"
+msgstr "The Seventh Elder did not come. The Enforcer's duty is to hold this pool mouth."
+
+msgid "盟主不在，阁里总要有人来。水烟阁的红衣武士，今夜都在这里。"
+msgstr "The Alliance Leader is away, and somebody from the Pavilion had to come. Waterfog's Red-Robed Guards are all here tonight."
+
+msgid "卫沧澜拄着一根竹杖站在岸边，背比在尚书府的时候直了一些。水烟阁的弟子围在他身边。\n"
+msgstr "Wei Canglan leans on a bamboo staff at the shore, standing a little straighter than he did in the Minister's Mansion. Waterfog Pavilion's disciples gather around him.\n"
+
+msgid "卫沧澜摆了摆手：老夫这把骨头，留着下湖。"
+msgstr "Wei Canglan waves a hand. \"These old bones of mine are saved for the lake.\""
+
+msgid "老夫在客房里关了二十年，出来第一件事，是来看这个湖。"
+msgstr "This old man was shut in a guest room for twenty years, and the first thing I do on coming out is come to look at this lake."
+
+msgid "於兰天武一身朝服，手里握着旋芒。剑身一转，一道白光从湖面上掠过去。\n"
+msgstr "Yulan Tianwu, in full court dress, holds Whirling Edge. The blade turns, and a white light sweeps across the lake.\n"
+
+msgid "三百年前於兰家拔错了一把剑。这一回，老夫看着它落下去。"
+msgstr "Three hundred years ago the Yulan family drew the wrong sword. This time, this old man will watch it come down."
+
+msgid "萧辟尘背着旋芒站在岸边，风从湖上过来，他的衣角往城的方向飘。\n"
+msgstr "Xiao Bichen stands on the shore with Whirling Edge on his back. The wind comes over the lake, and the hem of his robe streams toward the city.\n"
+
+msgid "萧辟尘摇头：今夜不打你。"
+msgstr "Xiao Bichen shakes his head. \"I will not fight you tonight.\""
+
+msgid "城里的人说，风会送我回去。先过了今夜。"
+msgstr "The people in the city say the wind will carry me home. First, get through tonight."
+
+msgid "瑷伦披着寒於宝衣站在岸边，衣角压着湖风，一动不动。鞭子还在腰上。\n"
+msgstr "Ailun stands on the shore in Hanyu's Robe, its hem holding down the lake wind, not moving. Her whip is still at her waist.\n"
+
+msgid "瑷伦看了你一眼：留着力气。"
+msgstr "Ailun glances at you. \"Save your strength.\""
+
+msgid "我在这里。你下去的时候，我在你前头。"
+msgstr "I am here. When you go down, I will be ahead of you."
+
+msgid "看见你，点了点头。"
+msgstr " sees you and nods."
+
+msgid "你叫了，我就来了。宝衣在我身上。"
+msgstr "You called, so I came. The robe is on me."
+
+msgid "庾子建骑着马停在岸边的柳树下，一身便服，身后跟着几个兵部的白衣武官。他不看湖，只看你。\n"
+msgstr "Yu Zijian sits on his horse beneath the willow at the shore, in plain dress, a few officers in white from the Ministry of War behind him. He does not look at the lake. He looks only at you.\n"
+
+msgid "庾子建笑了笑：本官是来要剑的，不是来打架的。"
+msgstr "Yu Zijian smiles. \"This official came to claim a sword, not to brawl.\""
+
+msgid "剑在朝廷手里了。湖底的事，本官等着看。"
+msgstr "The sword is in the court's hands now. As for the lake bottom, this official will wait and watch."
+
+msgid "皇叔的剑……本官不好硬要。可湖底的事办砸了，朝上总得有人说话。"
+msgstr "The Imperial Uncle's sword... this official can hardly demand it by force. But if the business at the lake bottom is botched, someone at court will have to speak."
+
+msgid "一个江湖人拿着天下的剑。你们好自为之。"
+msgstr "A man of the jianghu holding the sword of the realm. Look to yourselves."
+
+msgid "剑交给朝廷。交给本官，天下就记得是朝廷带回了它。"
+msgstr "Give the sword to the court. Give it to this official, and the realm will remember that the court brought it back."
+
+msgid "不交"
+msgstr "Refuse"
+
+msgid "不把剑交给庾子建？他会带着他的人回京城去。"
+msgstr "Refuse to hand the sword to Yu Zijian? He will take his men back to the Capital."
+
+msgid "已经交了。"
+msgstr "Already handed over."
+
+msgid "好。湖底的事，本官等着看。"
+msgstr "Very well. This official will wait and see what happens at the lake bottom."
+
+msgid "翻身上马，带着他的人往京城去了。"
+msgstr " swings into the saddle and rides for the Capital with his men."
+
+msgid "把旋芒交给庾子建？\n交了，这一回三器不齐，只能再封；京城会记得是兵部尚书带回了剑。"
+msgstr "Hand Whirling Edge to Yu Zijian?\nIf you do, the three will not be together this time and it can only be sealed again. The Capital will remember that the Minister of War brought the sword back."
+
+msgid "接过剑，掂了掂，交给身后的武官。"
+msgstr " takes the sword, weighs it, and passes it to an officer behind."
+
+msgid "好。天下会记得是谁带回了它。"
+msgstr "Good. The realm will remember who brought it back."
+
+msgid "商玦站在冰龙厅的水潭边，黑衣上结了一层霜。他在等你。\n"
+msgstr "Shang Jue stands by the pool in the ice dragons' hall, a layer of frost on his black robe. He is waiting for you.\n"
+
+msgid "商玦摆了摆手：急什么。"
+msgstr "Shang Jue waves a hand. \"What is the hurry?\""
+
+msgid "站在水潭边，黑衣上结了一层霜。他看着你，像看一个来晚了的人。"
+msgstr " stands by the pool, frost on his black robe. He looks at you as at one who has come late."
+
+msgid "你戴着黑冠，跟在四个黑冠道士后头走进冰龙厅。商玦站在水潭边，背对着你们，黑衣上结了一层霜。\n"
+msgstr "Wearing the black cap, you follow four Black-Cap Daoists into the ice dragons' hall. Shang Jue stands by the pool with his back to you, frost on his black robe.\n"
+
+msgid "它找了五千年的头。你要在它找到的那一刻毁了它。"
+msgstr "It has been looking for its head for five thousand years. You are to destroy it the moment it finds it."
+
+msgid "他没有回头。他以为身后站着的，都是跟他下湖的人。\n"
+msgstr "He does not turn. He thinks everyone standing behind him is one of those who came down the lake with him.\n"
+
+msgid "你的剑先到了。一剑从背后透进他的黑衣，他晃了一晃，没有倒。\n"
+msgstr "Your sword arrives first. One thrust goes through his black robe from behind; he sways but does not fall.\n"
+
+msgid "……戴着我们的冠。我早该想到。"
+msgstr "...Wearing our cap. I should have known."
+
+msgid "六条白鳞冰龙同时抬起头。这一回它们没有盘回去——龙影扑下来，冰柱后面四个黑冠道士连黑烟都没来得及散，就被卷进了冰缝里。\n"
+msgstr "The six white-scaled ice dragons raise their heads together. This time they do not coil back. Their shadows pounce, and the four Black-Cap Daoists behind the ice pillar are swept into the cracks in the ice before their black smoke can even disperse.\n"
+
+msgid "六条白鳞冰龙同时抬起头。这一回它们没有盘回去——龙影扑下来，冰柱后面那两个黑冠道士连黑烟都没来得及散，就被卷进了冰缝里。另外两个，茅山的人在北麓截下了。\n"
+msgstr "The six white-scaled ice dragons raise their heads together. This time they do not coil back. Their shadows pounce, and the two Black-Cap Daoists behind the ice pillar are swept into the cracks in the ice before their black smoke can even disperse. The other two were intercepted by Mount Mao's people at the north foot.\n"
+
+msgid "六条白鳞冰龙抬起头，看了看那几顶黑冠，又盘了回去——你和他们站在一起。\n"
+msgstr "The six white-scaled ice dragons raise their heads, look over the black caps, and coil back down. You are standing with them.\n"
+
+msgid "四个黑冠道士从冰柱后面走出来，围住了你。\n"
+msgstr "Four Black-Cap Daoists step out from behind the ice pillar and surround you.\n"
+
+msgid "冰柱后面只走出来两个黑冠道士，围住了你。另外两个，茅山的人在北麓截下了。\n"
+msgstr "Only two Black-Cap Daoists step out from behind the ice pillar and surround you. The other two were intercepted by Mount Mao's people at the north foot.\n"
+
+msgid "你身边的四个黑冠道士一齐拔剑，先扑向了你。\n"
+msgstr "The four Black-Cap Daoists beside you draw their swords together and lunge at you first.\n"
+
+msgid "你们管这叫除魔。我管这叫还债。"
+msgstr "You call this exorcism. I call it paying a debt."
+
+msgid "商玦拔出了剑。剑身是黑的，没有一点光。\n"
+msgstr "Shang Jue draws his sword. The blade is black, without a glint of light.\n"
+
+msgid "商玦拔出了剑，一步一步走过来。"
+msgstr "Shang Jue draws his sword and walks toward you, step by step."
+
+msgid "商玦走进了水潭。"
+msgstr "Shang Jue walks into the pool."
+
+msgid "商玦撑着剑站起来，看了你一眼，一步一步走进了水潭：「我等下一个三百年。」"
+msgstr "Shang Jue pushes himself up on his sword, looks at you once, and walks step by step into the pool. \"I will wait for the next three hundred years.\""
+
+msgid "商玦散成一股黑烟，从水潭上散了出去。"
+msgstr "Shang Jue disperses into a stream of black smoke and drifts away over the pool."
+
+msgid "商玦说道：它不是妖魔。它是金乌欠下的债。\n"
+msgstr "Shang Jue says, \"It is no demon. It is a debt the Golden Crow owes.\"\n"
+
+msgid "商玦的剑不带风，像念经。\n"
+msgstr "Shang Jue's sword brings no wind. It is like chanting sutras.\n"
+
+msgid "一个黑衣黑冠的逆灵宫道士，脸冻得发青，手里的剑结了霜。\n"
+msgstr "A Black Palace Daoist in black robe and cap, his face frozen blue, frost on the sword in his hand.\n"
+
+msgid "一个黑冠道士从冰柱后面走了出来。"
+msgstr "A Black-Cap Daoist steps out from behind the ice pillar."
+
+msgid "黑冠道士退进了冰缝里。"
+msgstr "The Black-Cap Daoist retreats into a crack in the ice."
+
+msgid "黑冠道士一声不响地散成一股黑烟。"
+msgstr "The Black-Cap Daoist disperses into black smoke without a sound."
+
+msgid "冯策一身素白的武官袍，刀已经出了鞘，站在你身侧半步。\n"
+msgstr "Feng Ce, in a plain white officer's robe, saber drawn, stands half a step at your side.\n"
+
+msgid "冯策从冰洞里跟了下来，拔刀站到你身边：「老夫来。」"
+msgstr "Feng Ce follows you down from the ice cave, draws his saber and stands at your side. \"This old man will do it.\""
+
+msgid "冯策收了刀，守在了水潭边。"
+msgstr "Feng Ce sheathes his saber and keeps guard by the pool."
+
+msgid "冯策收了刀：「潭底下的事，老夫帮不上。老夫守着潭口。」"
+msgstr "Feng Ce sheathes his saber. \"What is below the pool, this old man cannot help with. I will hold the mouth of the pool.\""
+
+msgid "於兰天武站在你身边，旋芒横在身前，剑身上的风声压过了冰龙厅里的寒气。\n"
+msgstr "Yulan Tianwu stands at your side, Whirling Edge held across his body, the sound of wind on its blade pressing down the cold of the ice dragons' hall.\n"
+
+msgid "於兰天武从冰缝里走出来，旋芒在他手里一转：三百年前於兰家拔错了一把剑——这一回，老夫替你挡着。"
+msgstr "Yulan Tianwu steps out of a crack in the ice, Whirling Edge turning in his hand. \"Three hundred years ago the Yulan family drew the wrong sword. This time this old man will stand between you and it.\""
+
+msgid "於兰天武收了剑，退到水潭边。"
+msgstr "Yulan Tianwu sheathes his sword and withdraws to the pool's edge."
+
+msgid "於兰天武把旋芒插回鞘里：潭底下那一个，老夫跟你下去。"
+msgstr "Yulan Tianwu slides Whirling Edge back into its scabbard. \"The one at the bottom of the pool: this old man goes down with you.\""
+
+msgid "萧辟尘站在你身边，旋芒背在身后，两只手空着，掌心朝外。\n"
+msgstr "Xiao Bichen stands at your side, Whirling Edge on his back, both hands empty, palms turned outward.\n"
+
+msgid "萧辟尘背着旋芒从冰缝里走出来，站到你身边：风记得我。这一回，我先出手。"
+msgstr "Xiao Bichen walks out of a crack in the ice with Whirling Edge on his back and takes his place at your side. \"The wind remembers me. This time, I strike first.\""
+
+msgid "萧辟尘收了手，退到水潭边。"
+msgstr "Xiao Bichen lowers his hands and withdraws to the pool's edge."
+
+msgid "萧辟尘把旋芒背回身后：走，下面还有一个。"
+msgstr "Xiao Bichen shoulders Whirling Edge again. \"Let us go. There is another one below.\""
+
+msgid "一团人形的黑焰，没有头。那颗头悬在它肩膀上方，眼睛睁着，还没有长上去。它不出声——它没有嘴。\n"
+msgstr "A man-shaped mass of black flame, headless. The head hangs above its shoulders, eyes open, not yet grown on. It makes no sound. It has no mouth.\n"
+
+msgid "黑焰从坛下涌上来，一团没有头的人形站了起来。"
+msgstr "Black flame surges up from beneath the altar, and a headless human shape stands."
+
+msgid "黑焰退回了那颗头底下。"
+msgstr "The black flame withdraws beneath the head."
+
+msgid "侮天鬼散成一团黑焰，退回了那颗头底下。焰还在一下一下地跳。"
+msgstr "The Heaven-Defier breaks apart into a mass of black flame and withdraws beneath the head. The flame still leaps, pulse by pulse."
+
+msgid "黑焰卷过来，冰「嗤」地化了一片。\n"
+msgstr "The black flame rolls over, and the ice melts in a patch with a hiss.\n"
+
+msgid "那颗头在它肩上转过来，看着你。\n"
+msgstr "The head swivels on its shoulder and looks at you.\n"
+
+msgid "瑷伦披着寒於宝衣站在封坛边，衣角压着黑焰的风，一动不动。\n"
+msgstr "Ailun stands beside the sealing altar in Hanyu's Robe, its hem holding down the wind of the black flame, not moving.\n"
+
+msgid "我留下了。"
+msgstr "I have stayed."
+
+msgid "把穿灵给我。我把它钉回去，留在冰里——守衣守了几百年，换一样东西守。"
+msgstr "Give me Spiritpiercer. I will nail it back down and stay in the ice. I guarded the robe for hundreds of years. Let me guard something else."
+
+msgid "把穿灵交给瑷伦？\n她把剑钉回那颗头上，自己留在冰里——再封。她不会再回晚月庄。"
+msgstr "Give Spiritpiercer to Ailun?\nShe nails the sword back into that head and stays in the ice: sealed again. She will not return to Latemoon Manor."
+
+msgid "接过穿灵，走上封坛，一剑钉进那颗头里。"
+msgstr " takes Spiritpiercer, climbs the sealing altar and drives it into that head with one stroke."
+
+msgid "宝衣跟着我。下一个来的人，记得它在这里。"
+msgstr "The robe stays with me. Whoever comes next, remember it is here."
+
+msgid "冰从坛心长起来，没过她的脚、她的腰、她的肩。她没有回头。\n"
+msgstr "Ice grows from the heart of the altar, over her feet, her waist, her shoulders. She does not look back.\n"
+
+msgid "南危水站在封坛边，焦殇剑出了鞘。二十年前的事，他好像终于等到了。\n"
+msgstr "Nan Weishui stands beside the sealing altar, Sorrowfire drawn. What he waited twenty years for seems to have found him at last.\n"
+
+msgid "二十年前有人替我死了。这一回，我替他把账还上。把穿灵给我。"
+msgstr "Twenty years ago someone died in my place. This time I pay his debt for him. Give me Spiritpiercer."
+
+msgid "把穿灵交给南危水？\n他把剑钉回那颗头上，自己留在冰里——再封。水烟阁再也等不到他。"
+msgstr "Give Spiritpiercer to Nan Weishui?\nHe nails the sword back into that head and stays in the ice: sealed again. Waterfog Pavilion will wait for him in vain."
+
+msgid "接过穿灵，掂了掂，笑了一下。"
+msgstr " takes Spiritpiercer, weighs it, and smiles briefly."
+
+msgid "告诉颜违：五长老这回是真死了。"
+msgstr "Tell Yan Wei: this time the Fifth Elder is truly dead."
+
+msgid "他一剑钉进那颗头里。冰从坛心长起来，没过了他。\n"
+msgstr "He drives the sword into that head with one stroke. Ice grows from the heart of the altar and closes over him.\n"
+
+msgid "萧辟尘握着旋芒站在封坛边，风从潭口灌下来，他的衣角往城的方向飘。\n"
+msgstr "Xiao Bichen stands beside the sealing altar gripping Whirling Edge. Wind pours down from the mouth of the pool, and the hem of his robe streams toward the city.\n"
+
+msgid "我说过，回不来就回不来。把穿灵给我。"
+msgstr "I said it before: if I do not come back, I do not come back. Give me Spiritpiercer."
+
+msgid "把穿灵交给萧辟尘？\n他把剑钉回那颗头上，自己留在冰里——再封。旋芒跟着他。"
+msgstr "Give Spiritpiercer to Xiao Bichen?\nHe nails the sword back into that head and stays in the ice: sealed again. Whirling Edge goes with him."
+
+msgid "接过穿灵，回头看了一眼潭口。"
+msgstr " takes Spiritpiercer and looks back once at the mouth of the pool."
+
+msgid "城里的风要是问起我，就说我在这里。"
+msgstr "If the wind in the city asks after me, say I am here."
+
+msgid "他一剑钉进那颗头里。冰从坛心长起来，没过了他，旋芒还在他手里转。\n"
+msgstr "He drives the sword into that head. Ice grows from the heart of the altar and closes over him, with Whirling Edge still turning in his hand.\n"
+
+msgid "於兰天武握着旋芒站在封坛边，朝服下摆被黑焰燎焦了一角。\n"
+msgstr "Yulan Tianwu stands beside the sealing altar gripping Whirling Edge, a corner of his court robe's hem singed by black flame.\n"
+
+msgid "老夫的命是朝廷的。冰里，老夫留不得。"
+msgstr "This old man's life belongs to the court. I cannot stay in the ice."
+
+msgid "安妮儿披着寒於宝衣站在封坛边，黑焰卷到她跟前就散了。\n"
+msgstr "Anni'er stands beside the sealing altar in Hanyu's Robe, and the black flame disperses when it rolls up to her.\n"
+
+msgid "东方神教守的是封法，不是冰。留下的，得是跟它有账的人。"
+msgstr "The Golden Crow Order guards the sealing rite, not the ice. The one who stays must be someone with a debt to settle with it."
+
+msgid "璃虹扶着冰壁站在潭口边，身上的光只剩一点。她跟着你下来了。\n"
+msgstr "Lihong stands at the mouth of the pool, a hand on the ice wall, only a little of her light left. She followed you down.\n"
+
+msgid "我没有光了，留不住。"
+msgstr "I have no light left. I cannot stay."
+
+msgid "先下去。"
+msgstr "Go down first."
+
+msgid "守者"
+msgstr "Guardian"
+
+msgid "冰柱里站着瑷伦，披着寒於宝衣，眼睛睁着。冰里的光是暖的。\n"
+msgstr "Ailun stands in the ice pillar in Hanyu's Robe, her eyes open. The light in the ice is warm.\n"
+
+msgid "你的手还没碰到冰柱，就冷得缩了回来。"
+msgstr "Your hand has not touched the pillar before the cold makes it jerk back."
+
+msgid "冰柱里站着南危水，手按在剑柄上，像还在等什么人。\n"
+msgstr "Nan Weishui stands in the ice pillar, a hand on his sword hilt, as if still waiting for someone.\n"
+
+msgid "冰柱里站着萧辟尘，旋芒在他手里，冰里有一点风的影子。\n"
+msgstr "Xiao Bichen stands in the ice pillar, Whirling Edge in his hand, a faint shadow of wind in the ice.\n"
+
+msgid "冯策站在广场中间，素白的武官袍，手里一卷黄绫。\n"
+msgstr "Feng Ce stands in the middle of the square in a plain white officer's robe, a roll of yellow silk in his hand.\n"
+
+msgid "宣诏的人退了半步：诏书念完再说。"
+msgstr "The herald steps back half a pace. \"Wait until the decree has been read.\""
+
+msgid "广场上，那队白衣武官又站在了三年前那个地方。这一回，他们是来宣诏的。\n"
+msgstr "In the square, the company of officers in white stands again where it stood three years ago. This time, they have come to proclaim a decree.\n"
+
+msgid "奉旨。"
+msgstr "By imperial decree."
+
+msgid "「……玉螺湖妖氛已靖。寻剑令，到此为止。」\n"
+msgstr "\"...The baleful air over Jade Conch Lake has been quelled. The Sword Decree ends here.\"\n"
+
+msgid "「……玉螺湖患暂平。湖底守者，朝廷记其名。」\n"
+msgstr "\"...The trouble at Jade Conch Lake is quieted for now. The court records the names of those who guard the lake bottom.\"\n"
+
+msgid "念到「瑷伦」两个字，宣诏的人顿了一下。\n"
+msgstr "The herald pauses a moment at the name \"Ailun\".\n"
+
+msgid "念到「璃虹」两个字，宣诏的人顿了一下。\n"
+msgstr "The herald pauses a moment at the name \"Lihong\".\n"
+
+msgid "念到「南危水」三个字，宣诏的人顿了一下。\n"
+msgstr "The herald pauses a moment at the name \"Nan Weishui\".\n"
+
+msgid "念到「萧辟尘」三个字，宣诏的人顿了一下。\n"
+msgstr "The herald pauses a moment at the name \"Xiao Bichen\".\n"
+
+msgid "「……前兵部尚书庾子建，伪造诏令，扰民拿人，即日问罪。」\n"
+msgstr "\"...Yu Zijian, former Minister of War, forged decrees, harassed the people and seized them, and is to be tried this very day.\"\n"
+
+msgid "「……兵部尚书庾子建，寻回旋芒，功在社稷。」\n"
+msgstr "\"...Yu Zijian, Minister of War, recovered Whirling Edge, a great service to the realm.\"\n"
+
+msgid "「……皇叔於兰天武，复其爵位。」\n"
+msgstr "\"...The Imperial Uncle Yulan Tianwu is restored to his title.\"\n"
+
+msgid "江湖上的人，各回各家。"
+msgstr "People of the jianghu, go home, each to his own."
+
+msgid "於兰天武一身朝服站在广场中间，手里一卷黄绫。\n"
+msgstr "Yulan Tianwu stands in the middle of the square in court dress, a roll of yellow silk in his hand.\n"
+
+msgid "老夫替陛下念。"
+msgstr "This old man reads in His Majesty's stead."
+
+msgid "一个白衣武官站在广场中间，手里一卷黄绫，身后站着他的人。\n"
+msgstr "An officer in white stands in the middle of the square, a roll of yellow silk in his hand, his men behind him.\n"
+
+msgid "兵部奉旨，宣——"
+msgstr "The Ministry of War, by imperial decree, proclaims —"
+
+msgid "封山弟子"
+msgstr "Empty Mountain Disciple"
+
+msgid "一个三十上下的汉子，穿一件不合身的青布长衫，腰里别着一柄竹剑，胸前挂一块黄杨木腰牌，逢人便把牌子亮一亮。他身后的旗杆上挑着一面布旗：淳风武馆收徒。\n"
+msgstr "A man of about thirty in an ill-fitting blue cloth gown, a bamboo sword tucked in his belt, a boxwood waist token hanging at his chest, which he flashes at everyone he meets. On the flagpole behind him hangs a cloth banner: \"Pure Wind Hall Now Taking Disciples\".\n"
+
+msgid "罗七把胸前的腰牌一亮，高声道：淳风武馆收徒！封山剑法，童叟无欺！先交十两拜师钱！\n"
+msgstr "Luo Qi flashes the token at his chest and cries out, \"Pure Wind Hall takes disciples! Empty Mountain swordplay, fair dealing for old and young alike! Ten taels entrance fee up front!\"\n"
+
+msgid "罗七对过路的人道：这位小哥，想学剑么？柳馆主是我师父。\n"
+msgstr "Luo Qi says to a passerby, \"Young brother, want to learn the sword? Master Liu is my shifu.\"\n"
+
+msgid "罗七叫道：弟兄们并肩子上！\n"
+msgstr "Luo Qi yells, \"Brothers, all together!\"\n"
+
+msgid "罗七的竹剑乱挥一气，一招封山剑法也没有。\n"
+msgstr "Luo Qi's bamboo sword flails wildly, with not one move of Empty Mountain swordplay in it.\n"
+
+msgid "罗七喘着气嚷道：你们武馆自己门口就站着野羊山的血手刘三，倒有脸来管老子！\n"
+msgstr "Panting, Luo Qi shouts, \"Your own hall has Bloody-Hand Liu of Goathill standing at its very gate, and you've got the nerve to meddle with me!\"\n"
+
+msgid "拜师钱"
+msgstr "Entrance Fee"
+
+msgid "十两银子。交了钱，明日辰时到武馆点卯，柳馆主亲自教。"
+msgstr "Ten taels of silver. Pay up, then report to the hall at the hour of the Dragon tomorrow morning, and Master Liu teaches you himself."
+
+msgid "就在镇里，石狮子后头。不过馆主近来不见生人——拜师的事，都交给我们师兄弟几个办了。"
+msgstr "Right here in town, behind the stone lions. But the Master has not been seeing strangers lately. Taking in disciples is left to us senior and junior brothers."
+
+msgid "把胸前的木牌摘下来，在你眼前晃了晃。"
+msgstr " lifts the wooden token off the chest and waves it in front of your eyes."
+
+msgid "看清楚：正面一座山，背面是姓。封山弟子人手一块，假不了。"
+msgstr "Look closely: a mountain on the front, a surname on the back. Every Empty Mountain disciple has one. Can't be fake."
+
+msgid "封山剑法，讲究的是……是一个快字。别问那么多，交了钱自然教你。"
+msgstr "Empty Mountain swordplay is all about... about one word: speed. Don't ask so much. Pay up and we'll teach you in good time."
+
+msgid "冒牌"
+msgstr "Fakes"
+
+msgid "当面说破他们是冒牌的。三个人收了钱还没走，不会善罢甘休——他们会一起动手。\n要说破吗？"
+msgstr "Call them fakes to their faces. The three have taken the money and not yet left, and they will not let it go: they will all attack together.\nCall them out?"
+
+msgid "少废话！"
+msgstr "Cut the talk!"
+
+msgid "的脸色变了。"
+msgstr "'s face changes."
+
+msgid "……你是武馆的人？"
+msgstr "...You're with the hall?"
+
+msgid "弟兄们，这小子要砸咱们的饭碗！"
+msgstr "Brothers, this punk is out to smash our rice bowl!"
+
+msgid "罗七把腰牌扯下来扔在地上：拿去！牌是绮云镇赌场里一个姓逄的押给我的，不是偷的！……你们武馆的门房是野羊山的血手刘三，你们怎么不查他？\n罗七爬起来，头也不回地往西跑了。"
+msgstr "Luo Qi rips the token off and throws it on the ground. \"Take it! A fellow named Pang at the casino in Cloudweave Town pawned it to me. I didn't steal it!... Your hall's own gatekeeper is Bloody-Hand Liu of Goathill. Why don't you go after him?\"\nLuo Qi scrambles up and runs west without looking back."
+
+msgid "一个游手好闲的后生，学着武馆弟子的样子在腰里扎了一条麻布带子，手里攥着一把还没捂热的碎银。\n"
+msgstr "An idle young hanger-on, a hemp sash tied at his waist in imitation of the hall's disciples, clutching a handful of loose silver not yet warm in his hand.\n"
+
+msgid "帮闲扯着嗓子喊：拜师的这边交钱！\n"
+msgstr "The hanger-on bellows, \"Those joining, pay over here!\"\n"
+
+msgid "帮闲叫道：七哥，这小子手硬！\n"
+msgstr "The hanger-on yells, \"Brother Qi, this kid hits hard!\"\n"
+
+msgid "帮闲一边打一边往后缩。\n"
+msgstr "The hanger-on shrinks back as he fights.\n"
+
+msgid "十两，交给七哥。"
+msgstr "Ten taels, hand it to Brother Qi."
+
+msgid "我……我们都是武馆的弟子。问七哥去。"
+msgstr "We... we are all disciples of the hall. Go ask Brother Qi."
+
+msgid "一个十二三岁的男孩，裤脚短了一截，手里的竹剑是自己削的，握柄上缠着一圈麻绳。\n"
+msgstr "A boy of twelve or thirteen, trouser legs too short, a bamboo sword he whittled himself in his hand, a coil of hemp cord wound round the grip.\n"
+
+msgid "阿桂把竹剑藏到身后：绘心姐说，不许跟人动手。"
+msgstr "Agui hides his bamboo sword behind his back. \"Sister Huixin says I am not allowed to fight people.\""
+
+msgid "绘心姐说，剑尖别抬，等别人先刺空。我等了三天了，小满总也不刺。"
+msgstr "Sister Huixin says: keep the point down, wait for the other to thrust at nothing. I have waited three days, and Xiaoman never thrusts."
+
+msgid "十两。我娘说，够我们家吃一年的。"
+msgstr "Ten taels. My mother says that is enough for our family to eat for a year."
+
+msgid "绘心姐不收钱。她说爹爹不教的，她教。"
+msgstr "Sister Huixin takes no money. She says she teaches what her father will not."
+
+msgid "握着阿桂的手腕，把他手里的竹剑往下压了半寸。"
+msgstr " holds Agui's wrist and presses the bamboo sword in his hand down half an inch."
+
+msgid "剑尖别抬。等他刺空了，你这一剑才有地方去。"
+msgstr "Keep the point down. Wait until he thrusts at nothing, and then your sword has somewhere to go."
+
+msgid "绘心姐，我娘说武馆的拜师钱要十两……我们家一年也攒不下。"
+msgstr "Sister Huixin, my mother says the hall's entrance fee is ten taels... our family could not save that in a year."
+
+msgid "我不收钱。爹爹不教的，我教。"
+msgstr "I take no money. What Father does not teach, I teach."
+
+msgid "把圆盾靠在墙根，学着她的样子把竹剑平平递出去。"
+msgstr " leans the round shield against the foot of the wall and, copying her, holds the bamboo sword out level."
+
+msgid "会首说：我们的盾，换你们的剑。等别人先刺空——这个，大秦没有。"
+msgstr "The Guild Head says: our shields for your swords. Wait for the other to thrust at nothing. This, Daqin does not have."
+
+msgid "站在廊下，不知已经看了多久。"
+msgstr " stands under the eaves of the corridor, watching, and who knows for how long."
+
+msgid "绘心。"
+msgstr "Huixin."
+
+msgid "封山的剑不外传。雪亭这一支本来叫北宗；我接了掌门，才并回本宗，把这两个字去了——并回去的条件只有一条：剑不外传。"
+msgstr "Empty Mountain's sword is not passed to outsiders. The Snow Pavilion branch was once called the North Branch. When I took over as Master, I merged it back into the main line and dropped that name. The one condition of the merger: the sword is not taught outside."
+
+msgid "去了两个字，剑就不是封山的剑了么？阿桂他爹去年死在卧龙岗的强盗手里。他要是会一招「封」，死的就不是他。"
+msgstr "Does the sword stop being Empty Mountain's sword because a name was dropped? Agui's father died last year at the hands of bandits on Crouching Dragon Ridge. If he had known even one move of \"Seal\", it would not have been him who died."
+
+msgid "「起迄中空立，随风飘不定」——竹子弯了才不折。爹爹，这是你二十岁自己写的。"
+msgstr "\"From top to root it stands hollow, swaying with the wind, never still.\" Bamboo that bends does not break. Father, you wrote that yourself at twenty."
+
+msgid "我二十岁也这样想过，还写成了一卷书。后来才知道：随风飘的不是竹子，是没有根的东西。"
+msgstr "At twenty I thought so too, and wrote it into a book. Later I learned: what drifts with the wind is not bamboo. It is a thing with no roots."
+
+msgid "你是这一辈的大弟子。本宗的规矩，你守不守？"
+msgstr "You are the senior disciple of this generation. The rules of the main line: will you keep them?"
+
+msgid "你要是觉得我没有错，就留下来。北宗只有我一个人，我的剑也只学了个皮毛——可它是往外传的。"
+msgstr "If you think I am not wrong, stay. The North Branch has only me, and I have learned only the surface of the sword. But it is a sword that goes outward."
+
+msgid "一个扎着两条小辫的女孩，竹剑比她的胳膊还长，站桩站得一丝不苟。\n"
+msgstr "A girl in two small braids, her bamboo sword longer than her arm, holding her stance with painstaking care.\n"
+
+msgid "小满摇摇头，一步也不肯动：先刺的人吃亏。"
+msgstr "Xiaoman shakes her head and will not move a step. \"Whoever thrusts first loses out.\""
+
+msgid "我不刺。绘心姐说了，先刺的人吃亏。"
+msgstr "I won't thrust. Sister Huixin said whoever thrusts first loses out."
+
+msgid "绘心姐的剑上系着一条粉穗子。等我学会了「封」，她说也给我系一条。"
+msgstr "Sister Huixin's sword has a pink tassel tied to it. When I learn \"Seal\", she says she will tie one on mine too."
+
+msgid "一个十六七岁的异族少年，高鼻深目，头发卷得像羊毛。左臂上套着一面小圆盾，右手握着一柄竹剑——握法还是握短剑的握法。\n"
+msgstr "A foreign youth of sixteen or seventeen, high-nosed and deep-eyed, his hair curled like wool. A small round shield is strapped to his left arm, and in his right hand is a bamboo sword, still gripped the way a short sword is gripped.\n"
+
+msgid "少年把圆盾一抬，摇了摇头：不打。来学的。"
+msgstr "The youth raises his round shield and shakes his head. \"No fight. Come to learn.\""
+
+msgid "会首说，欠了人情要还，学了本事也要还。我们的盾，换你们的剑。"
+msgstr "The Guild Head says a favor owed must be repaid, and a skill learned must be repaid too. Our shields for your swords."
+
+msgid "我们的剑短，只往前。她的剑会等。"
+msgstr "Our swords are short. They go only forward. Her sword waits."
+
+msgid "柳绘心在镇口的公告旁支了一张小桌，身后立着一根新削的旗杆：「封山剑派北宗」。字是她自己写的。\n"
+msgstr "Liu Huixin has set up a small table by the notice board at the town entrance, a freshly shaved flagpole standing behind her: \"Empty Mountain School, North Branch\". The lettering is her own.\n"
+
+msgid "柳绘心摇了摇头：北宗的剑是教人的，不是拿来比的。"
+msgstr "Liu Huixin shakes her head. \"The North Branch's sword is for teaching, not for matching.\""
+
+msgid "镇口的公告上写着「封山剑派北宗所在的雪亭镇」。雪亭不要这两个字了，我就把它带到还写着它的地方来。"
+msgstr "The notice at the town entrance reads \"Snow Pavilion, home of the North Branch of the Empty Mountain School\". Snow Pavilion no longer wants the name, so I brought it to where it is still written."
+
+msgid "爹爹没有拦我。他站在武馆门里，一直看到我过了卧龙岗。"
+msgstr "Father did not stop me. He stood inside the hall's gate and watched until I had crossed Crouching Dragon Ridge."
+
+msgid "你那一诀是爹爹亲传的，比我自己悟的准。"
+msgstr "That technique of yours came from Father in person, and it is more exact than what I worked out myself."
+
+msgid "他们隔几天走卧龙岗过来。强盗现在不大敢拦了——他们手里有竹剑。"
+msgstr "They come over Crouching Dragon Ridge every few days. The bandits hardly dare stop them now. They have bamboo swords in their hands."
+
+msgid "……是你。"
+msgstr "...It is you."
+
+msgid "牌子是我自己写的。字不好，爹爹看见要笑的。"
+msgstr "I wrote the sign myself. The writing is poor. Father would laugh to see it."
+
+msgid "封山剑派掌门人"
+msgstr "Master of the Empty Mountain School"
+
+msgid "柳淳风站在渡口的船头，玄苏剑还在鞘里。他身后，淳风武馆的弟子在岸边站成了一排，没有一个人说话。\n"
+msgstr "Liu Chunfeng stands at the bow of a boat at the ferry landing, his sword still in its scabbard. Behind him, the disciples of Pure Wind Hall stand in a row along the bank, and not one speaks.\n"
+
+msgid "柳淳风摇了摇头：今夜的剑，留给湖里上来的东西。"
+msgstr "Liu Chunfeng shakes his head. \"Tonight my sword is for what comes up out of the lake.\""
+
+msgid "封山的剑不外传。可也没有哪一条规矩说，外面的事封山不管。"
+msgstr "Empty Mountain's sword is not passed to outsiders. But no rule says Empty Mountain leaves outside affairs alone."
+
+msgid "柳绘心站在渡口的船边，细剑横在臂弯里。阿桂他们没有来——她身后是几个镇上的后生，握的是竹剑，手都在抖，脚却没有动。\n"
+msgstr "Liu Huixin stands by the boat at the ferry landing, a slender sword across the crook of her arm. Agui and the children have not come. Behind her are a few young men from town, gripping bamboo swords, their hands shaking but their feet unmoving.\n"
+
+msgid "柳绘心：现在不行。等今夜过了，我陪你拆。"
+msgstr "Liu Huixin: \"Not now. After tonight, I will spar with you.\""
+
+msgid "爹爹说剑不外传。可是你看——传出去的剑，今夜站在这里。"
+msgstr "Father says the sword is not passed outside. But look: the sword that was passed out stands here tonight."
+
+msgid "一个四十上下的关北汉子，裹着一件半旧的羊皮袄，背上一卷毡子。他在阁前来回踱着，看人的时候先看人家腰里，笑起来眼睛不笑。\n"
+msgstr "A man of about forty from Beyond the Pass, wrapped in a half-worn sheepskin coat, a roll of felt on his back. He paces before the Pavilion, looks at a person's waist first, and his eyes do not smile when he smiles.\n"
+
+msgid "皮货商踮起脚往阁门里望了一眼，又若无其事地转开了。\n"
+msgstr "The fur trader rises on tiptoe to peer through the Pavilion's door, then turns away as though nothing happened.\n"
+
+msgid "皮货商搓着手道：好大的气派。正月十七，九派的人都要来吧？\n"
+msgstr "The fur trader rubs his hands. \"Such grandeur. On the seventeenth day of the first month, all nine schools will come, will they not?\"\n"
+
+msgid "皮货商咬牙道：水烟阁的待客之道！\n"
+msgstr "The fur trader grits his teeth. \"So this is how Waterfog Pavilion treats guests!\"\n"
+
+msgid "皮货商一边招架，一边拿眼角找下山的路。\n"
+msgstr "The fur trader parries while searching with the corner of his eye for the road down the mountain.\n"
+
+msgid "来意"
+msgstr "Errand"
+
+msgid "关北来的，贩些皮子。听说七长老要办正月十七的大会，想来见识见识水烟阁的正厅——这么大的场面，一辈子见一回。"
+msgstr "From Beyond the Pass, trading in a few hides. I heard the Seventh Elder is holding a great assembly on the seventeenth of the first month, and I wanted to see the main hall of Waterfog Pavilion. A grand occasion like that, once in a lifetime."
+
+msgid "盟主？您说的是哪一位？"
+msgstr "The Alliance Leader? Which one do you mean, sir?"
+
+msgid "……听说二十年前那位回来了？人在阁里？身子骨还坐得住那把椅子么？"
+msgstr "...I hear the one from twenty years ago has returned? He is in the Pavilion? Is his body still strong enough to hold that chair?"
+
+msgid "说完又笑了笑，像是随口一问。"
+msgstr " smiles again, as if it were an idle question."
+
+msgid "二十年前那位卫盟主——如今还在不在？在，又在哪儿？"
+msgstr "That Alliance Leader Wei from twenty years ago: is he still around? And if so, where?"
+
+msgid "把路引递了过来：关北槐阳县开的路引，盖着一方县印。"
+msgstr " hands over a travel pass issued by Huaiyang County in Beyond the Pass, stamped with a county seal."
+
+msgid "你凑近看了看那方县印：印色鲜亮，是水烟阁自己用的印泥——关北的县衙不用它。这张路引，是山上的人开的。"
+msgstr "You lean in to look at the county seal. The ink is bright, the paste Waterfog Pavilion itself uses. The county yamen of Beyond the Pass does not use it. This pass was issued by someone on the mountain."
+
+msgid "你凑近看了看那方县印：印色发乌——是兵部文书上那种印泥，不是关北县衙用的正红。"
+msgstr "You lean in to look at the county seal. The ink is dark: the paste used on Ministry of War documents, not the true red the county yamen of Beyond the Pass uses."
+
+msgid "路引上的字、印都齐全。你看不出什么不对。"
+msgstr "The writing and the seal on the pass are all in order. You see nothing wrong."
+
+msgid "拿下"
+msgstr "Seize"
+
+msgid "拿下这个人？\n拿对了，他会动手；拿错了，水烟阁要向人家赔不是，真的探子会趁乱走掉。\n要拿下吗？"
+msgstr "Seize this man?\nIf he is the right one, he will fight. If he is the wrong one, Waterfog Pavilion will have to apologize to him, and the real spy will slip away in the confusion.\nSeize him?"
+
+msgid "要拿，就来拿！"
+msgstr "If you want to take me, come and take me!"
+
+msgid "的笑僵在了脸上。"
+msgstr "'s smile freezes."
+
+msgid "……好眼力。"
+msgstr "...Sharp eyes."
+
+msgid "把背上的毡子往地上一扔，摆了个架势。"
+msgstr " throws the roll of felt off the back to the ground and takes a fighting stance."
+
+msgid "拿我？你是水烟阁的什么人？"
+msgstr "Take me? And who are you at Waterfog Pavilion?"
+
+msgid "水烟阁武士从门里出来，把皮货商反剪了双手，押进阁里去了。他怀里掉出一封折得很小的信。"
+msgstr "Warriors of Waterfog Pavilion come out of the gate, twist the fur trader's arms behind him and march him inside. A small, tightly folded letter falls from his coat."
+
+msgid "一个十五六岁的少年，草鞋上全是泥，背上斜插着一柄木刀，一双眼睛直往阁门里瞟。\n"
+msgstr "A boy of fifteen or sixteen, straw sandals caked in mud, a wooden saber slanting across his back, his eyes forever darting toward the Pavilion's door.\n"
+
+msgid "这是上山来的客人。在水烟阁门前动手，潘军禅那里交代不过去——要拿人，先问清楚（「拿下」）。"
+msgstr "This is a guest who has come up the mountain. If you fight at Waterfog Pavilion's gate, you will have no way to explain it to Pan Junchan. If you mean to seize someone, ask first (\"Seize\")."
+
+msgid "投师的少年攥着拳头，小声把一套拳路比划了一遍。\n"
+msgstr "The boy seeking a master clenches his fists and quietly goes through a set of boxing moves.\n"
+
+msgid "我来拜师！听说天邪派拜师要接三招……我练了一个冬天了。"
+msgstr "I've come to find a master! I heard the Wayward School makes you take three moves to be accepted... I practiced all winter."
+
+msgid "卫盟主！我爹说，那年正月十七，他一个人在虹台上打下了九派。……可我爹也说，他二十年没下过山了。"
+msgstr "Alliance Leader Wei! My father says that year, on the seventeenth of the first month, he beat all nine schools alone on the terrace.... But my father also says Alliance Leader Wei has not come down the mountain in twenty years."
+
+msgid "路引？我从雪亭镇一路走上来的，要什么路引。"
+msgstr "A travel pass? I walked all the way up from Snow Pavilion. What would I need a pass for?"
+
+msgid "我……我什么也没干。我就是来拜师的。"
+msgstr "I... I did nothing. I just came to find a master."
+
+msgid "那个卖皮子的……原来是他！"
+msgstr "That fur seller... so it was him!"
+
+msgid "被你一把扣住了手腕，吓得脸都白了。"
+msgstr " is caught by the wrist in your grip and goes white with fright."
+
+msgid "冤枉！我……我什么也没干！"
+msgstr "I have been wronged! I... I did nothing!"
+
+msgid "门里的水烟阁武士闻声出来，把他按在地上搜了一遍：除了随身的几样东西，什么也没有。"
+msgstr "Waterfog Pavilion warriors at the gate hear the noise and come out, pin him to the ground and search him. Nothing but a few ordinary belongings."
+
+msgid "潘军禅从阁里出来，向他拱手赔了礼。"
+msgstr "Pan Junchan comes out of the Pavilion and apologizes to him with a cupped-fist salute."
+
+msgid "你回过头去——那个关北来的皮货商，已经不见了。"
+msgstr "You turn around, and the fur trader from Beyond the Pass is gone."
+
+msgid "你、你要干什么？"
+msgstr "Y-you, what do you want?"
+
+msgid "一个精瘦的驿卒，背着一只油布包袱，腰里挂着雪亭驿的火印腰牌，额上一层汗。\n"
+msgstr "A wiry post-station runner with an oilcloth bundle on his back, a fire-branded waist token of Snow Pavilion Post Station at his belt, a film of sweat on his brow.\n"
+
+msgid "驿卒把油布包袱换了个肩，嘟囔着：一封信要送到山顶上，腿都跑细了。\n"
+msgstr "The runner shifts his oilcloth bundle to the other shoulder, grumbling, \"One letter to carry up the mountain, and my legs are worn thin.\"\n"
+
+msgid "雪亭驿的。正月的信函，一封封都要当面交到阁里。"
+msgstr "From Snow Pavilion Post Station. Every letter of the first month has to be handed over in person at the Pavilion."
+
+msgid "卫盟主嘛。信封上还写着「呈盟主座前」，二十年都这么写，也没人叫改。"
+msgstr "Alliance Leader Wei, of course. The envelope still says \"To be presented before the Alliance Leader's seat\". Twenty years it has been written that way, and nobody has said to change it."
+
+msgid "亮了亮腰牌。"
+msgstr " shows the waist token."
+
+msgid "雪亭驿的火印，印色是驿站用的朱砂。没什么不对。"
+msgstr "Snow Pavilion Post Station's fire brand, in the vermilion the post stations use. Nothing wrong with it."
+
+msgid "雪亭驿的火印，假不了。"
+msgstr "Snow Pavilion Post Station's brand. It cannot be fake."
+
+msgid "信函还没送到呢，平白挨了一顿……"
+msgstr "The letter has not even been delivered, and I get a beating for nothing..."
+
+msgid "被你一把扣住了手腕，包袱掉在了地上。"
+msgstr " is caught by the wrist in your grip, and the bundle falls to the ground."
+
+msgid "安妮儿站在八仙桌旁，没有坐。她还是西厢里那身素衣，门外吹进来的风，吹不动她的衣角。\n"
+msgstr "Anni'er stands beside the square table without sitting. She wears the same plain robe as in the west wing, and the wind blowing in from the door cannot stir its hem.\n"
+
+msgid "在这里给我？……也好，让她看着。"
+msgstr "Here, you give it to me? ...Fine. Let her watch."
+
+msgid "站安妮儿：一代教主收回教主令。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章还没打完的，她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局。\n这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？"
+msgstr "Side with Anni'er: the First Leader takes back the Order Leader's token.\nShe takes back your red copper token and gives you a gold token, and teaches you the Tianshan Snowshade Sword and the Snowshade Heart Method. Zhu Hongxue concedes and does not leave. From now on the Order will take only jobs against those who deserve to die. If the final chapter is not yet fought, she will come to hold the mouth of the pool at the lakeside (whether or not the robe is in her hands). On the seventeenth of the first month, the Order will not go and disrupt the Rainbow Terrace.\nThis is the great split in the Golden Crow Order's line. Once chosen, it cannot be changed. Side with Anni'er?"
+
+msgid "去西厢找我。天山的剑，在那里教。"
+msgstr "Find me in the west wing. The Tianshan sword is taught there."
+
+msgid "你选了。"
+msgstr "You have chosen."
+
+msgid "向朱鸿雪伸出手来。朱鸿雪看了她很久，从怀里摸出一块乌沉沉的令牌，放在她掌心——那是神教的教主令。"
+msgstr " holds out a hand to Zhu Hongxue. Zhu Hongxue looks at her for a long while, takes a dark, heavy token from inside her coat, and lays it in her palm: the Order Leader's token."
+
+msgid "神教不是一个人的。往后神教的差事，只派该死的人——鸿雪，你听见了。"
+msgstr "The Order does not belong to one person. From now on its jobs go only against those who deserve to die. Hongxue, you heard."
+
+msgid "收回你的赤铜令，换给你一块闪闪发亮的黄金令牌。"
+msgstr " takes back your red copper token and gives you a gleaming gold token in exchange."
+
+msgid "黄金令，神教见了，就是见了我。天山的剑，到西厢来学。"
+msgstr "The gold token: when the Order sees it, it sees me. Come to the west wing to learn the Tianshan sword."
+
+msgid "揣好教主令，出了场院。"
+msgstr " tucks the Order Leader's token away and leaves the courtyard."
+
+msgid "从袖子里抽出一张折好的纸，压在茶盏底下，抬眼看了看厅角。"
+msgstr " draws a folded sheet of paper from a sleeve, presses it under a teacup, and glances up at a corner of the hall."
+
+msgid "名单上最后一个名字，向来是我亲手写的。"
+msgstr "The last name on the list has always been written by my own hand."
+
+msgid "把那张纸翻过来，推到桌子另一头。"
+msgstr " turns the paper over and pushes it to the other end of the table."
+
+msgid "宝衣烧了，封物没了。封法就只剩在人的脑子里——这样的东西，只该活在一个人的脑子里。"
+msgstr "The robe is burned and the sealing objects are gone. All that remains of the rite is in a person's head. A thing like that should live in only one head."
+
+msgid "名单上最后一个名字：安妮儿。"
+msgstr "The last name on the list: Anni'er."
+
+msgid "一直站在八仙桌旁，这时才开口。"
+msgstr " has stood beside the square table all along and only now speaks."
+
+msgid "封法在我脑子里，是因为湖底那东西还没有死透。要我的命，自己来拿。"
+msgstr "The rite is in my head because the thing at the lake bottom has not yet died for good. If you want my life, come and take it yourself."
+
+msgid "宝衣在西厢。衣在谁手里，封法就在谁手里。"
+msgstr "The robe is in the west wing. Whoever holds the robe holds the rite."
+
+msgid "衣在我这里，是因为它该在这里。你要的不是封法，是神教的香火。"
+msgstr "The robe is here with me because it belongs here. What you want is not the rite. It is the Order's offerings."
+
+msgid "把那张纸翻过来，转过脸看着你。"
+msgstr " turns the paper over and turns to look at you."
+
+msgid "宝衣在你身上。封法跟着衣走——走到一个神教管不着的人手里。"
+msgstr "The robe is on you. The rite follows the robe, into the hands of someone the Order cannot control."
+
+msgid "交出来，或者你的名字也在上面。"
+msgstr "Hand it over, or your name goes on it too."
+
+msgid "名单上写过的名字，没有一个是该死的。这一个也不是。衣在谁身上，是衣自己选的。"
+msgstr "Not one name ever written on that list deserved to die. This one does not either. Whoever wears the robe, the robe chose."
+
+msgid "宝衣还在晚月庄，在守衣人身上。几百年了，那件衣从没出过那座庄子。"
+msgstr "The robe is still at Latemoon Manor, on the one who guards it. For hundreds of years it has never left that manor."
+
+msgid "名单上最后一个名字：瑷伦。"
+msgstr "The last name on the list: Ailun."
+
+msgid "瑷伦守了一辈子的衣，没碰过神教一根指头。"
+msgstr "Ailun guarded the robe all her life and never laid a finger on the Order."
+
+msgid "还有你。"
+msgstr "And you."
+
+msgid "西厢的话，你替她瞒过一回。湖边那个凿冰的老头，你也没动他——冰凿交到了我手里，人可没死。我的人在官道上看见过他。"
+msgstr "What was said in the west wing, you hid for her once. And that old man chipping ice at the lake, you did not touch him either. The ice chisel came into my hand, but the man did not die. My people saw him on the official road."
+
+msgid "我信过你一回。只信一回。"
+msgstr "I trusted you once. Only once."
+
+msgid "湖边凿冰的那个老人，是你动的手。他只是看见过冰下的光，讲给孩子们听。"
+msgstr "The old man who cut ice by the lake, you struck him down. All he did was see a light under the ice and tell the children."
+
+msgid "神教不能有两个教主。"
+msgstr "The Order cannot have two leaders."
+
+msgid "你站哪一边——问我，或者问她：「教主」。"
+msgstr "Which side are you on? Ask me, or ask her: \"Order Leader\"."
+
+msgid "一个戴黑冠的道士，道袍的下摆掖在腰里，赤脚站在湖岸的浅水中。他手里一根刻着细格的竹竿，插下去，拔出来，看一眼，在一块木板上划一道。\n"
+msgstr "A Daoist in a black cap, the hem of his robe tucked into his belt, standing barefoot in the shallows of the lakeshore. In his hand is a bamboo pole marked with fine gradations. He plunges it in, pulls it out, glances at it, and scratches a line on a board.\n"
+
+msgid "黑冠道士把竹竿插进湖里，拔出来看了看，在木板上又划了一道。\n"
+msgstr "The Black-Cap Daoist plunges the pole into the lake, pulls it out and looks at it, and scratches another line on the board.\n"
+
+msgid "黑冠道士望着湖心，嘴里念念有词，像在数什么。\n"
+msgstr "The Black-Cap Daoist gazes toward the middle of the lake, muttering, as if counting something.\n"
+
+msgid "黑冠道士冷笑道：神教的狗，鼻子倒灵！\n"
+msgstr "The Black-Cap Daoist sneers, \"Dogs of the Order, with sharp noses!\"\n"
+
+msgid "黑冠道士一边招架，一边往湖岸北边瞟。\n"
+msgstr "The Black-Cap Daoist parries while darting glances toward the north end of the lakeshore.\n"
+
+msgid "量水"
+msgstr "Measuring Water"
+
+msgid "量水？量的是湖底那东西离湖面还有多深。"
+msgstr "Measuring water? What I measure is how deep that thing at the lake bottom still lies below the surface."
+
+msgid "看见你腰间的令牌，脸色一沉，把竹竿往岸上一扔，拔出了剑。"
+msgstr " sees the token at your waist, scowls, throws the pole onto the shore and draws a sword."
+
+msgid "神教的人也来管宫里的事？"
+msgstr "The Order's people meddle in the palace's affairs too?"
+
+msgid "湖水一年比一年浅。宫里要一个数，贫道来量。"
+msgstr "The lake grows shallower every year. The palace wants a figure, so this poor Daoist comes to measure."
+
+msgid "黑冠道士捂着伤口爬起来，丢下竹竿和木板，顺着湖岸往北边跑了。"
+msgstr "Clutching his wound, the Black-Cap Daoist gets up, drops the pole and the board, and runs north along the lakeshore."
+
+msgid "一个穿青色公服的瘦长汉子，背着一只画筒，蹲在山壁下的土坑边，一手按着纸，一手拿炭条描坑沿的形状。腰里却挂着一口刀。\n"
+msgstr "A tall thin man in a blue official uniform, a drawing tube on his back, crouching by the pit at the foot of the cliff, one hand holding the paper down and the other tracing the pit's rim with a charcoal stick. Yet there is a saber at his waist.\n"
+
+msgid "兵部画吏拿炭条在纸上比了比，又趴下去量坑沿。\n"
+msgstr "The War Ministry Painter holds his charcoal against the paper, then lies down to measure the rim of the pit.\n"
+
+msgid "兵部画吏抬头看了看山壁，嘴里嘀咕：一丈二……一丈三。\n"
+msgstr "The War Ministry Painter looks up at the cliff, muttering, \"One zhang two... one zhang three.\"\n"
+
+msgid "兵部画吏喝道：打兵部的人，你担得起么！\n"
+msgstr "The War Ministry Painter shouts, \"Strike a man of the Ministry of War, and can you bear the consequences?\"\n"
+
+msgid "兵部画吏一边招架，一边护着背上的画筒。\n"
+msgstr "The War Ministry Painter parries while guarding the drawing tube on his back.\n"
+
+msgid "画图"
+msgstr "Sketching"
+
+msgid "部里的差事。石匣就是从这个坑里起出来的——兵部要一张图，看看这山底下还有没有第二只。"
+msgstr "Ministry business. The stone casket was taken out of this pit. The Ministry wants a map, to see whether there is a second one under this mountain."
+
+msgid "抬头打量了你一眼，手按上了刀柄。"
+msgstr " looks you up and down and lays a hand on the saber hilt."
+
+msgid "你不是隘口的兵。你是谁的人？"
+msgstr "You are not a soldier of the pass. Whose man are you?"
+
+msgid "部里的差事。闲人走开，别踩了坑沿。"
+msgstr "Ministry business. Idlers, move along, and do not trample the rim of the pit."
+
+msgid "兵部画吏连滚带爬地退开几步，画筒也不要了，一张图掉在土坑边。他攀着铁索爬上去，跑了。"
+msgstr "The War Ministry Painter stumbles and crawls back a few steps, abandoning even his drawing tube; one drawing is left lying by the pit. He climbs up the iron chain and flees."
+
+msgid "一个瘦小的老头，裹着一件油亮的老羊皮袄，拄着一把冰凿。眉毛上结着霜，看湖的时候眼睛眯成一条缝。\n"
+msgstr "A small, skinny old man in a greasy-shiny old sheepskin coat, leaning on an ice chisel. Frost clings to his eyebrows, and when he looks at the lake his eyes narrow to slits.\n"
+
+msgid "老冰匠拿冰凿敲了敲岸边的冰，侧着耳朵听。\n"
+msgstr "The Old Ice Cutter taps the shore ice with his chisel, head tilted to listen.\n"
+
+msgid "老冰匠对着湖面哈了一口白气：今年的冰，底下还亮。\n"
+msgstr "The Old Ice Cutter breathes a white puff toward the lake. \"This year's ice, there's still light beneath it.\"\n"
+
+msgid "凿冰"
+msgstr "Cutting Ice"
+
+msgid "腊月里凿，开春前收。四十年了，湖上哪一块冰厚、哪一块冰薄，我闭着眼都知道。"
+msgstr "We cut in the twelfth month and bring it in before spring. Forty years now. Which ice on this lake is thick and which is thin, I could tell with my eyes shut."
+
+msgid "光"
+msgstr "Light"
+
+msgid "冰底下有光。青白青白的，一闪一闪，像有人提着灯在底下走。我只讲给孩子们听——大人不信。"
+msgstr "There is a light under the ice. Pale blue-white, flickering, like someone walking down there with a lantern. I only tell it to the children. Grown-ups do not believe it."
+
+msgid "老冰匠只是个凿冰的老人，打不过你，也跑不动。\n这一下去，玉螺湖村就少一个人——朱鸿雪要的就是这个，她会升你赤铜令；安妮儿会知道。\n要动手吗？"
+msgstr "The Old Ice Cutter is only an old man who cuts ice. He cannot beat you, and he cannot run.\nIf you strike, Jade Conch Village loses one of its people. That is what Zhu Hongxue wants, and she will raise your red copper token in rank. Anni'er will find out.\nStrike?"
+
+msgid "老冰匠又弯下腰去，侧着耳朵听冰底下的声音，没有回头。"
+msgstr "The Old Ice Cutter bends down again, ear tilted to the sounds beneath the ice, and does not turn around."
+
+msgid "你出手很快。他没有出声，倒在冰窟窿边上，冰凿滑进了水里。"
+msgstr "You strike fast. He makes no sound and falls beside the hole in the ice, and his chisel slides into the water."
+
+msgid "柳树底下静了一会儿，远处有孩子在喊他。"
+msgstr "It is quiet for a while under the willow. Far off, a child is calling for him."
+
+msgid "动手？动什么手？"
+msgstr "Fight? What fight?"
+
+msgid "搬走"
+msgstr "Move Away"
+
+msgid "劝老冰匠离开玉螺湖，再也别回来；拿他的冰凿回去，向朱鸿雪交差。\n他活下来，可你是拿一把冰凿去骗朱鸿雪：她信不信，看你西厢那一桩有没有瞒过她——瞒过的，到了分裂那天，她会当面揭穿。\n要劝他走吗？"
+msgstr "Persuade the Old Ice Cutter to leave Jade Conch Lake and never return, then take his ice chisel back and report to Zhu Hongxue.\nHe lives, but you are using a chisel to deceive Zhu Hongxue. Whether she believes you depends on whether you hid the matter of the west wing from her. If you did, she will expose you to your face on the day of the split.\nPersuade him to go?"
+
+msgid "听你说完，半天没吭声。"
+msgstr " listens to you to the end and says nothing for a long while."
+
+msgid "有人要我的命？……我一个凿冰的。"
+msgstr "Someone wants my life? ...I am only an ice cutter."
+
+msgid "冰底下的光，我就不该讲。"
+msgstr "I should never have told about the light under the ice."
+
+msgid "把手里的冰凿递给你。"
+msgstr " holds the ice chisel out to you."
+
+msgid "拿去吧，往后用不着了。有人问，就说我掉进冰窟窿里了。"
+msgstr "Take it. I will not need it anymore. If anyone asks, say I fell into a hole in the ice."
+
+msgid "背起包袱，顺着青石小路往村口去了，一回也没有回头。"
+msgstr " shoulders a bundle and goes down the bluestone path toward the village entrance, never once looking back."
+
+msgid "搬走？我在这湖边住了一辈子。"
+msgstr "Move away? I have lived by this lake all my life."
+
+msgid "老冰匠连连摆手：我一个凿冰的老头子，哪里经得起你一下。"
+msgstr "The Old Ice Cutter waves both hands. \"I'm just an old ice cutter. How could I take a single blow from you?\""
+
+msgid "颜违站在石椅旁，衣襟理得一丝不乱，手里没拿兵刃。今日的事是他一手张罗的。\n"
+msgstr "Yan Wei stands beside the stone chair, his robe arranged without a crease, no weapon in his hand. Today's gathering is all his arrangement.\n"
+
+msgid "颜违摆了摆手：今天是推选的日子，不动手。"
+msgstr "Yan Wei waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "正月十七，九派都在这里。有话，台上说。"
+msgstr "The seventeenth of the first month, and all nine schools are here. Say what you have to say on the terrace."
+
+msgid "卫沧澜坐在石椅边的一块石头上，膝上搁着那本诗集。二十年没上过这座台了。\n"
+msgstr "Wei Canglan sits on a rock beside the stone chair, a book of poems on his knees. He has not set foot on this terrace in twenty years.\n"
+
+msgid "卫沧澜摆了摆手：今天是推选的日子，不动手。"
+msgstr "Wei Canglan waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "柳淳风抱着剑坐在封山的旗下，背挺得笔直。\n"
+msgstr "Liu Chunfeng sits beneath the Empty Mountain banner with his sword in his arms, back straight.\n"
+
+msgid "柳淳风摆了摆手：今天是推选的日子，不动手。"
+msgstr "Liu Chunfeng waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "柳绘心坐在封山的旗下。旗是新做的，上头那个「北」字是她自己添的。\n"
+msgstr "Liu Huixin sits beneath the Empty Mountain banner. The banner is new, and the character for \"North\" on it she added herself.\n"
+
+msgid "柳绘心摆了摆手：今天是推选的日子，不动手。"
+msgstr "Liu Huixin waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "潘军禅站在主位的旗下，手里拿着一张名单，脸上照旧带着笑。今日的票由他来唱。\n"
+msgstr "Pan Junchan stands beneath the banner at the seat of honor, a list in his hand, the same smile on his face. Today he calls out the votes.\n"
+
+msgid "潘军禅摆了摆手：今天是推选的日子，不动手。"
+msgstr "Pan Junchan waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "振远镖局镖头"
+msgstr "Escort Chief of the Far-Road Escorts"
+
+msgid "陈剑秋坐在振远的旗下，刀横在膝上。\n"
+msgstr "Chen Jianqiu sits beneath the Far-Road banner, his saber across his knees.\n"
+
+msgid "陈剑秋摆了摆手：今天是推选的日子，不动手。"
+msgstr "Chen Jianqiu waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "茅山派天师"
+msgstr "Celestial Master of the Mount Mao School"
+
+msgid "林忌坐在茅山的黄旗下，六根指头的那只手搭在剑柄上。\n"
+msgstr "Lin Ji sits beneath the yellow Mount Mao banner, his six-fingered hand resting on his sword hilt.\n"
+
+msgid "林忌摆了摆手：今天是推选的日子，不动手。"
+msgstr "Lin Ji waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "蓝止萍坐在晚月庄的旗下，裙角压得平平整整。\n"
+msgstr "Lan Zhiping sits beneath the Latemoon Manor banner, the hem of her skirt pressed flat and neat.\n"
+
+msgid "蓝止萍摆了摆手：今天是推选的日子，不动手。"
+msgstr "Lan Zhiping waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "山烟寺住持"
+msgstr "Abbot of Mountain Mist Temple"
+
+msgid "玄智和尚坐在山烟寺的旗下，手里捻着一串念珠。\n"
+msgstr "Monk Xuanzhi sits beneath the Mountain Mist Temple banner, rolling a string of prayer beads in his fingers.\n"
+
+msgid "玄智和尚摆了摆手：今天是推选的日子，不动手。"
+msgstr "Monk Xuanzhi waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "步玄派掌门人"
+msgstr "Master of the Mystic Step School"
+
+msgid "骆云舟坐在步玄派的旗下，一把折扇收在手里。\n"
+msgstr "Luo Yunzhou sits beneath the Mystic Step School banner, a folding fan closed in his hand.\n"
+
+msgid "骆云舟摆了摆手：今天是推选的日子，不动手。"
+msgstr "Luo Yunzhou waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "花紫会龙头"
+msgstr "Dragon Head of the Beggars' Guild"
+
+msgid "陆得财盘腿坐在花紫会的旗下，腰里的皮酒囊二十三个结。他一直看着台下官道那边。\n"
+msgstr "Lu Decai sits cross-legged beneath the Beggars' Guild banner, the leather wineskin at his waist bearing twenty-three knots. He keeps looking toward the official road below the terrace.\n"
+
+msgid "陆得财摆了摆手：今天是推选的日子，不动手。"
+msgstr "Lu Decai waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "陆得财盘腿坐在花紫会的旗下，正抠着脚。\n"
+msgstr "Lu Decai sits cross-legged beneath the Beggars' Guild banner, picking at his feet.\n"
+
+msgid "绝尘派祖师"
+msgstr "Founder of the Dustless School"
+
+msgid "绝尘子坐在绝尘派的旗下，眼睛半闭着。\n"
+msgstr "Juechenzi sits beneath the Dustless School banner, eyes half closed.\n"
+
+msgid "绝尘子摆了摆手：今天是推选的日子，不动手。"
+msgstr "Juechenzi waves a hand. \"Today is the day of the election. No fighting.\""
+
+msgid "颜违坐在正厅中央那张黝黑的太师椅上。椅子是他的了，他坐得很稳。\n"
+msgstr "Yan Wei sits in the dark grand chair in the middle of the main hall. The chair is his now, and he sits firmly.\n"
+
+msgid "颜违抬了抬眼：盟主不同人动手。"
+msgstr "Yan Wei raises his eyes. \"The Alliance Leader does not fight people.\""
+
+msgid "九派过半，本座坐这把椅子。二十年的旧案，到此为止。"
+msgstr "More than half the nine schools stand behind me, so I sit in this chair. The old case of twenty years ends here."
+
+msgid "正月十七的事，定了。"
+msgstr "The matter of the seventeenth of the first month is settled."
+
+msgid "振远趟子手"
+msgstr "Far-Road Escort Runner"
+
+msgid "一个黑红脸膛的趟子手，推着一辆独轮镖车。车上用麻绳捆着两只描金的红木箱，车头插一面三角小旗，红底黄边，绣一个「镖」字。他走一步，车轱辘吱呀一声。\n"
+msgstr "A runner with a dark red face, pushing a single-wheeled escort cart. Two gilt-trimmed red hardwood chests are lashed to it with hemp rope, and at the front stands a triangular pennant, red with a yellow border, embroidered with the character for \"Escort\". With each step he takes, the wheel creaks.\n"
+
+msgid "老周蹲在镖车边上，拿袖子擦箱子上的描金。\n"
+msgstr "Old Zhou crouches by the cart, wiping the gilt on a chest with his sleeve.\n"
+
+msgid "老周喊道：教你尝尝我的厉害！\n"
+msgstr "Old Zhou shouts, \"I'll show you what I can do!\"\n"
+
+msgid "老周叫道：我们镖局可不是好惹的！\n"
+msgstr "Old Zhou yells, \"Our escort agency is not to be trifled with!\"\n"
+
+msgid "车夫看了一眼{npc}推的镖车，直摆手：「振远的镖？小号的车拉不起，您另请高明。」"
+msgstr "The coachman glances at the escort cart {npc} is pushing and waves both hands. \"Far-Road cargo? Our little firm can't haul it. You'd best find someone more capable.\""
+
+msgid "老周推着镖车跟在你后头，车轱辘吱呀吱呀地响。\n"
+msgstr "Old Zhou pushes the cart along behind you, the wheel creaking away.\n"
+
+msgid "老周扯开嗓子喊道：振远镖局——盛名远扬——\n"
+msgstr "Old Zhou bellows, \"Far-Road Escorts—famed far and wide—\"\n"
+
+msgid "老周坐在车把上，一只手按着刀，眼睛盯着路。\n"
+msgstr "Old Zhou sits on the cart handles, one hand on his saber, his eyes on the road.\n"
+
+msgid "上路"
+msgstr "Set Out"
+
+msgid "镖局的事，不劳外人。"
+msgstr "Escort business. No need for outsiders."
+
+msgid "镖交了。"
+msgstr "The shipment is delivered."
+
+msgid "往手心里啐了一口，握住车把。"
+msgstr " spits into the palms and grips the cart handles."
+
+msgid "走！车马行不拉镖车，咱们一步一步走到京师。"
+msgstr "Let's go! The coach house won't haul an escort cart, so we walk to the Capital one step at a time."
+
+msgid "镖局的车，镖头不发话不动。"
+msgstr "An escort cart does not move until the chief says so."
+
+msgid "等着"
+msgstr "Wait"
+
+msgid "镖交了，还等什么？"
+msgstr "The shipment is delivered. What are we waiting for?"
+
+msgid "成，我在这儿看着车。办完了事回来，叫我一声「上路」。"
+msgstr "All right, I'll watch the cart here. When you are done, come back and say \"Set out\" to me."
+
+msgid "两箱红货，京师振远总局收。箱子里是什么，我们不问——走镖的规矩。"
+msgstr "Two chests of valuables, to be received at Far-Road's Head Office in the Capital. What is in the chests we do not ask. That is the rule of the escort trade."
+
+msgid "二十年前那一趟？那会儿我还没进镖局。听老人说，死了十一个，镖头、镖师、趟子手，一个都没回来。打那以后，振远的车不走老松岭。"
+msgstr "That run twenty years ago? I had not joined the agency yet. The old hands say eleven died, chief, escorts and runners, and not one came back. Since then, Far-Road carts do not travel Old Pine Ridge."
+
+msgid "劫镖"
+msgstr "Escort Robbery"
+
+msgid "交了官，天驼关的人押走了。……那后生使的是振远的刀，你看出来没有？"
+msgstr "You handed him to the law, and the men of Camelback Pass took him away.... That young fellow used Far-Road's saber. Did you notice?"
+
+msgid "放了？……也好。那后生使的是振远的刀，春风快意刀。谁教的，我不问。"
+msgstr "You let him go? ...Fine. That young fellow used Far-Road's saber, the Spring Blade. Who taught him, I will not ask."
+
+msgid "那后生怎么办，你给个话：交官府，还是放他走。没个了结，这镖进不了总局的门。"
+msgstr "What about that young fellow? Say the word: hand him to the law or let him go. Until it is settled, this shipment cannot go through the Head Office's door."
+
+msgid "碎石小路那一段荒，过了铁索才是天驼关的地界。要出事，就出在那一段。"
+msgstr "The Gravel Lane stretch is wild. Only past the iron cables is Camelback Pass's territory. If trouble comes, it will come on that stretch."
+
+msgid "劫镖的"
+msgstr "Escort Robber"
+
+msgid "一个二十出头的后生，半截黑布蒙着脸，露出来的一双眼睛熬得通红。手里一把旧腰刀，刀鞘上的漆掉了大半，护手上刻着一个「振」字。\n"
+msgstr "A young man in his early twenties, half his face hidden by a strip of black cloth, the eyes above it red from lack of sleep. In his hand is an old saber, most of the lacquer gone from its scabbard, the character \"Zhen\" carved on the guard.\n"
+
+msgid "蒙面后生咬着牙喝道：车留下！\n"
+msgstr "The masked young man grits his teeth. \"Leave the cart!\"\n"
+
+msgid "蒙面后生的刀一撩一抹——是振远的春风快意刀。\n"
+msgstr "The masked young man's saber flicks up and sweeps across: it is Far-Road's Spring Blade.\n"
+
+msgid "从路边的乱石后面站起来，半截黑布蒙着脸，横刀拦在路当中。"
+msgstr " rises from behind the tumbled rocks by the road, half his face in black cloth, and bars the road with his saber held crosswise."
+
+msgid "振远的镖？车留下，人走。"
+msgstr "Far-Road's cargo? The cart stays. You go."
+
+msgid "把镖车往路边一推，拔出了刀。"
+msgstr " shoves the escort cart to the roadside and draws a saber."
+
+msgid "哪条道上的朋友？振远的镖也敢劫？"
+msgstr "Which road are you from, friend? You dare rob Far-Road's cargo?"
+
+msgid "二十年前，振远的镖车停在老松岭底下，我爹没回来。今天我拿振远一车货，不算多。"
+msgstr "Twenty years ago Far-Road's cart stopped at the foot of Old Pine Ridge, and my father never came back. Taking one cartload from Far-Road today is not much."
+
+msgid "乱石后面又跳出两个汉子，抄着刀扑了上来——冲的是你。\n"
+msgstr "Two more men leap out from behind the rocks, sabers in hand, and rush at you. It is you they are after.\n"
+
+msgid "蒙面后生横刀挡在路当中，刀鞘上的漆掉了大半。\n"
+msgstr "The masked young man bars the road with his saber across his body, most of the lacquer gone from its scabbard.\n"
+
+msgid "蒙面后生坐在路边的石头上，捂着肩膀，不看你。\n"
+msgstr "The masked young man sits on a rock at the roadside, clutching his shoulder, not looking at you.\n"
+
+msgid "把脸上的黑布扯了下来。"
+msgstr " pulls the black cloth off."
+
+msgid "我叫贺平。我爹贺长庚，振远的趟子手。二十年前那趟镖走老松岭，他死在瀑布底下——振远说是劫匪干的。"
+msgstr "My name is He Ping. My father was He Changgeng, a runner for Far-Road. Twenty years ago on that run through Old Pine Ridge he died at the foot of the waterfall. Far-Road said bandits did it."
+
+msgid "他走之前托人捎回来一封信。信上写：兵部的人在岭上等着，镖头说照走。"
+msgstr "Before he set out, he had a letter sent back by someone. It said: the Ministry of War's men are waiting on the ridge, and the Chief says go ahead anyway."
+
+msgid "照走。振远拿我爹的命换了兵部的一句话。我拿振远一车货，不算多。"
+msgstr "Go ahead anyway. Far-Road traded my father's life for a word from the Ministry of War. Taking one cartload from Far-Road is not much."
+
+msgid "交官府"
+msgstr "Turn Him In"
+
+msgid "把劫镖的后生交给官府。\n过了铁索就是天驼关，守关的官兵会押他去京师——劫镖是大罪。官府的赏金，振远会转给你。\n他爹那封信，你就看不到了。\n要这么做吗？"
+msgstr "Hand the young robber over to the authorities.\nPast the iron cables is Camelback Pass, and the soldiers who hold it will send him to the Capital; robbing an escort is a grave crime. Far-Road will pass the authorities' reward on to you.\nYou will never see his father's letter.\nDo it?"
+
+msgid "没有挣。"
+msgstr " does not struggle."
+
+msgid "交吧。振远的人，官府的人，本来就是一伙的。"
+msgstr "Go on, hand me over. Far-Road's people and the authorities were always in it together."
+
+msgid "老周拿麻绳把他捆了，押着下了铁索。天驼关的官兵接了人，记下了振远的名字。\n"
+msgstr "Old Zhou ties him up with hemp rope and marches him down the iron cables. The soldiers of Camelback Pass take him and write down Far-Road's name.\n"
+
+msgid "放劫镖的后生走。\n他会留下他爹最后的一封家信——二十年前那趟镖，信里有一句话。\n劫镖的人从此不见官。要这么做吗？"
+msgstr "Let the young robber go.\nHe will leave you his father's last letter home: in it, a line about that run twenty years ago.\nThe robber will never face the law. Do it?"
+
+msgid "愣了半天，从怀里掏出一张折得发软的纸，塞到你手里。"
+msgstr " stares blankly for a long time, then pulls a paper folded soft from inside the coat and presses it into your hand."
+
+msgid "我爹的信。你替振远押镖——振远要是还有一个讲理的，拿给陈天星看。"
+msgstr "My father's letter. You are escorting for Far-Road. If anyone at Far-Road still listens to reason, show it to Chen Tianxing."
+
+msgid "捡起刀，头也不回地走了。"
+msgstr " picks up the saber and leaves without looking back."
+
+msgid "振远？京师第一大镖局。二十年前死了十一个人，没一个人去问为什么。"
+msgstr "Far-Road? The Capital's greatest escort agency. Eleven died twenty years ago, and not one person asked why."
+
+msgid "一个敞着怀的汉子，腰里扎着草绳，刀已经出了鞘。看样子不是吃这碗饭的，是被人花钱叫来的。\n"
+msgstr "A man with his coat hanging open, a straw rope tied at his waist, saber already drawn. He does not look like one who lives by this trade; someone paid him to come.\n"
+
+msgid "劫道的汉子喝道：贺兄弟，车我们推走！\n"
+msgstr "The highwayman shouts, \"Brother He, we'll take the cart!\"\n"
+
+msgid "劫道的汉子的刀横着扫过来。\n"
+msgstr "The highwayman's saber sweeps across.\n"
+
+msgid "蒙着面，坐在竹林里一块青石上，细剑横在膝上。面巾下的眉眼，是书房里那个老妇人的眉眼。她听见你的脚步，没有起身。\n"
+msgstr "Masked, she sits on a bluestone slab in the bamboo grove, a slender sword across her knees. The eyes above the veil are those of the old woman in the study. She hears your footsteps and does not rise.\n"
+
+msgid "竹林深处，有人压着声音在哭。\n"
+msgstr "Deep in the bamboo grove, someone is weeping, voice held down.\n"
+
+msgid "那一夜，前厅的两个丫头，内厅的昭蓉，是我杀的。宝衣出了庄门，朱鸿雪要的东西没了——神教我回不去，这里我也回不来。"
+msgstr "That night, the two maids in the front hall and Zhaorong in the inner hall: I killed them. The robe has left the manor gate, and what Zhu Hongxue wanted is gone. I cannot go back to the Order, and I cannot come back here either."
+
+msgid "拿去。给她，还是还给神教，你定。"
+msgstr "Take it. Give it to her or return it to the Order, as you decide."
+
+msgid "……我回内书房去。她要怎样，随她。"
+msgstr "...I will go back to the inner study. Whatever she wants, let her."
+
+msgid "无名老妇的女儿"
+msgstr "Nameless Old Woman's Daughter"
+
+msgid "二十来岁的女子，没有蒙面——眉眼和窗下那个老妇人一模一样。她坐在书架边，细剑横在膝上，一下一下地擦。\n"
+msgstr "A woman of about twenty, unmasked, her eyes exactly like those of the old woman under the window. She sits beside a bookshelf, a slender sword across her knees, wiping it again and again.\n"
+
+msgid "她摇了摇头：我答应过娘，这把剑往后只守这间书房。"
+msgstr "She shakes her head. \"I promised Mother this sword would guard only this study from now on.\""
+
+msgid "她在这里。我也在。"
+msgstr "She is here. So am I."
+
+msgid "剑我不扔。可往后，它只守这间书房。"
+msgstr "I will not throw the sword away. But from now on it guards only this study."
+
+msgid "神教"
+msgstr "The Order"
+
+msgid "朱鸿雪不会来要人。神教的令，只从上一个持令人手里接——我手里已经没有令了。"
+msgstr "Zhu Hongxue will not come demanding me. The Order's token passes only from the last holder's hand, and I hold no token now."
+
+msgid "蓝止萍站在湖岸的柳树下，晚月庄的弟子在她身后排开，手里的鞭子都垂着，没有一个人说话。\n"
+msgstr "Lan Zhiping stands beneath the willow on the lakeshore, Latemoon Manor's disciples ranged behind her, whips hanging from their hands, not one speaking.\n"
+
+msgid "蓝止萍摆了摆手：今夜的鞭子，留给湖里上来的东西。"
+msgstr "Lan Zhiping waves a hand. \"Tonight the whips are for what comes up out of the lake.\""
+
+msgid "庄规守得住庄门，守不住这片湖。今夜，晚月庄的人在岸上。"
+msgstr "The manor's rules can hold the manor's gate, but not this lake. Tonight Latemoon Manor's people are on the shore."
+
+msgid "无名老妇拄着那根鞭子站在湖岸上，没有看湖，看的是站在最前面的女儿。\n"
+msgstr "The Nameless Old Woman stands on the lakeshore leaning on that whip, not looking at the lake but at her daughter standing in front.\n"
+
+msgid "无名老妇摇了摇头：今夜不是跟你动手的时候。"
+msgstr "The Nameless Old Woman shakes her head. \"Tonight is not the time to fight you.\""
+
+msgid "她要来，我拦不住。这一回，我跟着她。"
+msgstr "She wanted to come, and I could not stop her. This time, I follow her."
+
+msgid "她站在最前面，没有蒙面，细剑出了鞘。六阴剑的寒气贴着湖面走——这一回，它守的是岸。\n"
+msgstr "She stands at the very front, unmasked, her slender sword drawn. The chill of the Six-Chaos Sword creeps along the surface of the lake. This time, what it guards is the shore.\n"
+
+msgid "她把剑尖垂了下去：今夜的剑，留给湖里上来的东西。"
+msgstr "She lowers the point of her sword. \"Tonight my sword is for what comes up out of the lake.\""
+
+msgid "冰下面那东西，宫里的人叫它侮天鬼。我在北麓的时候，听他们念过它的名字。"
+msgstr "The thing under the ice: the palace people call it the Heaven-Defier. When I was at the north foot, I heard them speak its name."
+
+msgid "无名老妇站在晚月庄的旗后面，一句话也没有说。\n"
+msgstr "The Nameless Old Woman stands behind the Latemoon Manor banner, and says not a word.\n"
+
+msgid "无名老妇摆了摆手：今天是推选的日子。"
+msgstr "The Nameless Old Woman waves a hand. \"Today is the day of the election.\""
+
+msgid "晚月庄的事，庄主说了算。我只是来看着她。"
+msgstr "Latemoon Manor's affairs are for the Mistress of the Manor to decide. I only came to watch over her."
+
+msgid "她站在她娘身边，没有蒙面。九派的人有几个认出了她手里那把细剑，又把目光移开了。\n"
+msgstr "She stands beside her mother, unmasked. A few of the nine schools' people recognize the slender sword in her hand, then look away.\n"
+
+msgid "她摇了摇头：今天是推选的日子。"
+msgstr "She shakes her head. \"Today is the day of the election.\""
+
+msgid "神教的人也在看这座台子。我站在这里，他们看得见。"
+msgstr "The Order's people are watching this terrace too. I stand here, where they can see me."
+
+msgid "兵部的管事"
+msgstr "Steward of the Ministry of War"
+
+msgid "一个穿青绸袍子的中年人，独占着靠窗的一张桌子，一壶酒已经见了底，眼神有点发直。袍子的前襟鼓鼓囊囊，揣着一叠纸，他的手隔一会儿就按一按胸口。\n"
+msgstr "A middle-aged man in a blue silk gown, taking a whole table by the window to himself, a pot of wine already drained, his eyes a little glazed. The front of his gown bulges with a stack of papers, and every so often his hand presses his chest.\n"
+
+msgid "胡管事从怀里掏出那叠纸往地上一扔，连滚带爬地下了楼：「有贼——有贼啊！」\n"
+msgstr "Steward Hu pulls the stack of papers from his coat, flings it to the floor and tumbles down the stairs. \"Thief! Thief!\"\n"
+
+msgid "胡管事摸了摸胸口，又灌了一口酒。\n"
+msgstr "Steward Hu touches his chest and gulps down more wine.\n"
+
+msgid "胡管事嘟囔道：八户……槐阳城外还差两户。\n"
+msgstr "Steward Hu mutters, \"Eight households... still two short outside Huaiyang city.\"\n"
+
+msgid "关北的河要人挖。兵部的令——你有意见，去兵部说。"
+msgstr "The rivers of Beyond the Pass need men to dig them. Ministry of War order. If you have objections, take them to the Ministry."
+
+msgid "什么契？没有的事。……你是哪家的？"
+msgstr "What deed? No such thing.... Who are you with?"
+
+msgid "一个满脸风霜的老乞丐，缩在广场边的墙根下晒太阳。他腰里挂着一只大皮酒囊，网绳上打着结——你数了数，二十个。\n"
+msgstr "A weather-beaten old beggar huddled at the foot of a wall at the edge of the square, sunning himself. A big leather wineskin hangs at his waist, knots tied in its net cord. You count them: twenty.\n"
+
+msgid "老乞丐往墙根里一缩：叫花子的命不值钱，也不卖。"
+msgstr "The old beggar shrinks back against the wall. \"A beggar's life is worth nothing, and it is not for sale either.\""
+
+msgid "下一个在绮云镇的渡口。叫花子只知道下一个。"
+msgstr "The next one is at the ferry landing in Cloudweave Town. A beggar knows only the next one."
+
+msgid "把皮酒囊往你面前一摊。"
+msgstr " spreads the leather wineskin out in front of you."
+
+msgid "数。"
+msgstr "Count."
+
+msgid "二十个。替身里我的结最少——乔阴那个叫你从我问起，是规矩：一个只认得下一个。"
+msgstr "Twenty. Of the stand-ins, mine has the fewest knots. The one in Tallshade told you to start with me. That is the rule: each knows only the next."
+
+msgid "下一个在绮云镇的渡口，天天坐在船帮上钓鱼。他比我多一个结。"
+msgstr "The next is at the ferry landing in Cloudweave Town, sitting on the gunwale fishing every day. He has one more knot than I do."
+
+msgid "龙头？叫花子哪来的龙头。……好心的大爷，赏几文钱吧。"
+msgstr "Dragon Head? Where would a beggar get a Dragon Head? ...Kind sir, spare a few wen."
+
+msgid "陆得财懒洋洋地打了个哈欠，把酒囊往怀里拢了拢。\n"
+msgstr "Lu Decai yawns lazily and tucks the wineskin closer into his coat.\n"
+
+msgid "一个老叫花子坐在渡口的船帮上钓鱼，钓竿是一根竹枝。他腰里挂着一只大皮酒囊，网绳上打着结——你数了数，二十一个。\n"
+msgstr "An old beggar sits on the gunwale at the ferry landing, fishing with a bamboo twig for a rod. A big leather wineskin hangs at his waist, knots tied in its net cord. You count them: twenty-one.\n"
+
+msgid "老叫花子头也不回：鱼要咬钩了，别闹。"
+msgstr "The old beggar does not turn his head. \"A fish is about to bite. Quiet.\""
+
+msgid "京师东街，尚书府的后墙根底下。"
+msgstr "Capital East Street, at the foot of the Minister's Mansion's back wall."
+
+msgid "把竹枝往船帮上一搁，解下皮酒囊。"
+msgstr " lays the bamboo twig on the gunwale and unties the leather wineskin."
+
+msgid "二十一个。"
+msgstr "Twenty-one."
+
+msgid "我也只知道下一个。下一个就是龙头：京师东街，尚书府的后墙根底下。"
+msgstr "I know only the next one too. The next one is the Dragon Head: Capital East Street, at the foot of the Minister's Mansion's back wall."
+
+msgid "他在那里坐了二十年。叫花子都知道，没几个见过。"
+msgstr "He has sat there twenty years. Every beggar knows it, and few have seen him."
+
+msgid "龙头？……鱼都让你吓跑了。"
+msgstr "Dragon Head? ...You have scared all the fish away."
+
+msgid "渡口的水拍着船帮，陆得财的钓竿一动不动。\n"
+msgstr "The water at the landing slaps the gunwale, and Lu Decai's fishing rod does not stir.\n"
+
+msgid "一个老叫花子背靠着尚书府的后墙坐着，眼睛半睁半闭，像是睡着了。他腰里挂着一只大皮酒囊，网绳上密密地打着结——你数了数，二十三个。\n"
+msgstr "An old beggar sits with his back against the Minister's Mansion's rear wall, eyes half open, half closed, as if asleep. A big leather wineskin hangs at his waist, densely knotted along its net cord. You count them: twenty-three.\n"
+
+msgid "老叫花子眼皮都没抬：二十年没跟人动过手，不差今天。"
+msgstr "The old beggar does not even lift an eyelid. \"Twenty years without raising a hand to anyone. I will not start today.\""
+
+msgid "酒囊系在得财腰上了。乔阴的花紫会是他的。我在这儿，接着看着庾家。"
+msgstr "The wineskin is tied at Decai's waist now. The Beggars' Guild of Tallshade is his. I stay here and keep watching the Yu family."
+
+msgid "二十三个结，你数过了。乔阴那个替我管了二十年的花紫会，管得比我好。"
+msgstr "Twenty-three knots, you counted them. The man in Tallshade who has run the Beggars' Guild for me these twenty years has run it better than I did."
