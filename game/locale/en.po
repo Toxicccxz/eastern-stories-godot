@@ -5015,7 +5015,7 @@ msgid "后脚"
 msgstr "hind paw"
 
 msgid "铁锤"
-msgstr "iron hammer"
+msgstr "Iron Hammer"
 
 msgid "这是一位来雪亭镇的外地旅客.\n"
 msgstr "A traveler from out of town, passing through Snow Pavilion."
@@ -29648,7 +29648,7 @@ msgid "野羊寨"
 msgstr "Goathill Stockade"
 
 msgid "霍铮道：寨子还在吗？黄霸还在土地庙？……他要是还在，告诉他，老子没死。"
-msgstr "Huo Zheng says, \"Is the stockade still there? Is Huang Ba still in the Earth God Temple? ...If he's still there, tell him I ain't dead.\""
+msgstr "Huo Zheng says, \"Is the stockade still there? Is Huang Ba still in the Earth God Shrine? ...If he's still there, tell him I ain't dead.\""
 
 msgid "霍铮一愣：老刘？老刘没进来？好，好。他在哪？……他若肯回来，寨子还有救。"
 msgstr "Huo Zheng is startled. \"Old Liu? Old Liu didn't come in? Good, good. Where is he? ...If he's willing to come back, the stockade can still be saved.\""
@@ -29753,7 +29753,7 @@ msgid "关北民夫低声道：……河挖不动了，人也挖不动了。\n"
 msgstr "The Frontier Laborer says quietly, \"...The river's too hard to dig, and we're too worn to dig it.\"\n"
 
 msgid "关北民夫道：俺们是关北挖河的。河工挖不动的，官府说送回家，车一拐就到了这里。"
-msgstr "The Frontier Laborer says, \"We're river diggers from Beyond the Pass. The ones who can't dig no more, the officials say they're sendin' them home, then the cart turns off and it's here.\""
+msgstr "The Frontier Laborer says, \"We're river diggers from Beyond the Pass. The ones who can't dig no more, the officials say they're sending them home, then the cart turns off and it's here.\""
 
 msgid "关北民夫道：这里的道士拿人当药材。俺亲眼看见的，不骗你。"
 msgstr "The Frontier Laborer says, \"The Daoists here treat people like medicine herbs. I saw it with my own eyes. I'm not lying to you.\""
@@ -29765,7 +29765,7 @@ msgid "关北民夫道：西边那位是条汉子。有他骂着，俺们还敢�
 msgstr "The Frontier Laborer says, \"The man on the west is a real man. With him cursing, we still dare to breathe.\""
 
 msgid "俺们回关北！多谢恩公！"
-msgstr "We're goin' back Beyond the Pass! Thank you, savior!"
+msgstr "We're going back Beyond the Pass! Thank you, savior!"
 
 msgid "逆灵宫宫主"
 msgstr "Black Palace Master"
@@ -29966,7 +29966,7 @@ msgid "天殇……我也没见过。"
 msgstr "Tianshang... I have never seen it either."
 
 msgid "师父以为宫里离不了他。唤首那一夜，宫里倾巢下湖，他走在最前头——他回头的时候，站在他身后的是我。过了那一夜，逆灵宫换主人。"
-msgstr "My master thought the Palace could not do without him. On the night of the Calling of the Head, the whole Palace went down to the lake, and he walked at the very front. When he looked back, the one standing behind him was me. After that night the Black Palace changed masters."
+msgstr "My Shifu thought the Palace could not do without him. On the night of the Calling of the Head, the whole Palace went down to the lake, and he walked at the very front. When he looked back, the one standing behind him was me. After that night the Black Palace changed masters."
 
 msgid "这东西你从哪里拿来的？……放回去，别让我看见。"
 msgstr "Where did you get this? ...Put it back. Do not let me see it."
@@ -30101,7 +30101,7 @@ msgid "四下看了看，一把接过去，仰脖就灌。"
 msgstr " looks around, snatches it, and tips back his head to gulp it down."
 
 msgid "好酒……比宫里的烈……"
-msgstr "Good wine... stronger'n the Palace's..."
+msgstr "Good wine... stronger than the Palace's..."
 
 msgid "灌到第三口，眼睛就直了，顺着铁栅门滑坐下去，打起了呼噜。"
 msgstr " is cross-eyed by the third gulp, slides down the iron grate to the ground and starts to snore."
@@ -30479,7 +30479,7 @@ msgid "一个嗓子沙哑：「宫主不在了。坛上的火，不能灭。」\
 msgstr "A hoarse voice: \"The Palace Master is gone. The fire on the altar must not go out.\"\n"
 
 msgid "另一个声音年轻些：「续灯要人。名单在账房，管事那里。三十六口，一口也不能少。」\n"
-msgstr "Another voice, younger: \"Feeding the lamp takes people. The list is in the Counting Room, with the steward. Thirty-six heads, not one short.\"\n"
+msgstr "Another voice, younger: \"The Feeding of the Lamp takes people. The list is in the Counting Room, with the steward. Thirty-six heads, not one short.\""
 
 msgid "门里的光灭了。你退开一步，心跳得厉害。\n"
 msgstr "The light behind the door goes out. You step back, your heart pounding.\n"
