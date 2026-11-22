@@ -21995,7 +21995,7 @@ msgid "看了一眼叶边那行字，没有接。"
 msgstr " looks at the line along the edge of the leaf and does not take it."
 
 msgid "师父的字……你拿着。问我「经」。"
-msgstr "My master's writing... Keep it. Ask me about \"Sutra.\""
+msgstr "My Shifu's writing... Keep it. Ask me about \"Sutra.\""
 
 msgid "病人"
 msgstr "Patient"
@@ -22025,7 +22025,7 @@ msgid "我能。"
 msgstr "I can."
 
 msgid "我的内功是火性的。可他们的寺规不许外人进流云轩——十年了，我连金门都没进过。"
-msgstr "My inner force is of fire. But their temple rules do not allow outsiders into Drifting Cloud Lodge. Ten years, and I have never got past the Golden Gate."
+msgstr "My neigong is of fire. But their temple rules do not allow outsiders into Drifting Cloud Lodge. Ten years, and I have never got past the Golden Gate."
 
 msgid "你领我进去（问我「领路」），或者照他们的寺规来。"
 msgstr "Either you lead me in (ask me about \"Lead the Way\"), or you go by their temple rules."
@@ -22286,7 +22286,7 @@ msgid "一间宽大的后殿, 正中有一尊药师如来的金身塑像。四�
 msgstr "A spacious rear hall, with a golden statue of the Medicine Buddha at the center. On the surrounding walls the Eighteen Arhats are painted lifelike, and beside each Arhat is written the story of how he attained enlightenment and ascended.\n"
 
 msgid "你正站在两座高塔前, 左边这一座名曰: 『明心塔』, 右方名叫\n『见性塔』。历来, 当山烟寺中的高僧涅盘后, 遗体火化后所得的舍\n利子就存放在这两座塔里。\n"
-msgstr "You stand before two tall pagodas. The one on the left is called \"Bright Heart Pagoda,\" the one on the right \"Seeing Nature Pagoda.\" Down the years, when a high monk of Mountain Mist Temple has entered nirvana, the relics gained from his cremated body have been kept in these two pagodas.\n"
+msgstr "You stand before two tall pagodas. The one on the left is called \"Clear Mind Pagoda,\" the one on the right \"True Nature Pagoda.\" Down the years, when a high monk of Mountain Mist Temple has entered nirvana, the relics gained from his cremated body have been kept in these two pagodas."
 
 msgid "┌————————┐ ┌————————┐ ┌————————┐\n│                │ │                │ │                │\n│ 妙  手  回  春 │ │ 华  陀  再  世 │ │ 扁  鹊  重  生 │\n│                │ │                │ │                │\n│    发呆部部长  │ │    打混部部长  │ │    摸鱼部部长  │\n│    兼奸商部部长│ │    兼强盗部部长│ │    兼奸商部次长│\n│         Elon 赠│ │     风火血舞 赠│ │       梦忆柔 赠│\n└————————┘ └————————┘ └————————┘\n┌————————┐ ┌————————┐ ┌————————┐\n│                │ │                │ │                │\n│ 药  到  病  除 │ │ 仁  心  德  术 │ │ 杏  坛  佳  话 │\n│                │ │                │ │                │\n│                │ │                │ │                │\n│    插花部部长  │ │    无言部部长  │ │    发呆部次长  │\n│     雷神之子 赠│ │     上官逸倩 赠│ │       克某某 赠│\n└————————┘ └————————┘ └————————┘\n┌————————┐ ┌————————┐ ┌————————┐\n│                │ │                │ │                │\n│ 悬  壶  济  世 │ │ 技  惊  关  羽 │ │ 医  界  圣  手 │\n│                │ │ 吓  死  曹  操 │ │                │\n│    打混部次长  │ │                │ │                │\n│    兼强盗部次长│ │    摸鱼部次长  │ │    发呆部食客  │\n│      托佛尼亚赠│ │         陈平 赠│ │         悟明 赠│\n└————————┘ └————————┘ └————————┘\n          ┌———————————————————┐ \n          │                                      │ \n          │      全      是      放      屁      │ \n          │                                      │ \n          │                                      │ \n          │                超  级  打  屁  大  神│ \n          │                  安 尼 席 洛 特 尔 赠│ \n          └———————————————————┘ \n"
 msgstr "Plaques hang on the walls, each with its donor's name:\n\"Hand That Brings Back Spring\"—Head of the Daydreaming Dept. and Head of the Profiteering Dept. Presented by Elon.\n\"Hua Tuo Reborn\"—Head of the Loafing Dept. and Head of the Banditry Dept. Presented by Fenghuo Xuewu.\n\"Bian Que Returns\"—Head of the Slacking Dept. and Deputy Head of the Profiteering Dept. Presented by Mengyi Rou.\n\"Medicine Comes, Illness Goes\"—Head of the Flower-Arranging Dept. Presented by Leishen Zhi Zi.\n\"Kind Heart, Virtuous Art\"—Head of the Silent Dept. Presented by Shangguan Yiqian.\n\"A Fine Tale of the Apricot Grove\"—Deputy Head of the Daydreaming Dept. Presented by Ke Moumou.\n\"Gourd Hung Out to Save the World\"—Deputy Head of the Loafing Dept. and Deputy Head of the Banditry Dept. Presented by Tuofoniya.\n\"Skill That Startles Guan Yu and Scares Cao Cao to Death\"—Deputy Head of the Slacking Dept. Presented by Chen Ping.\n\"Saint Hand of Medicine\"—Freeloader of the Daydreaming Dept. Presented by Wuming.\n\"It's All Hot Air\"—Super Hot-Air Divinity. Presented by Annixiluoteer.\n"
@@ -22532,7 +22532,7 @@ msgid "今年的车今天就上去了，这会儿该到了山路转角。你要�
 msgstr "This year's cart went up today. About now it should be at the bend in the mountain road. If ya go, don't say I told ya."
 
 msgid "寨里的事，外人少打听。"
-msgstr "Outsiders oughta ask less about the stockade's business."
+msgstr "Outsiders ought to ask less about the stockade's business."
 
 msgid "前些日子茅山灵心观来了个小道士，说是替他们的林忌真人打听北麓那座道观——问寨里有没有人进去过，还出得来。"
 msgstr "A few days back a little Daoist came from Clear Heart Abbey on Mount Mao, said he was askin' for Sage Lin Ji about that abbey at the north foot. Whether anyone in the stockade ever went in and still came out."
@@ -22553,7 +22553,7 @@ msgid "没了。野羊山现在姓黄。"
 msgstr "Gone. Goathill's named Huang now."
 
 msgid "霍铮？半年前让道观的人带走了。你问这个做什么。"
-msgstr "Huo Zheng? The abbey's people took him away half a year ago. What d'ya want to know for?"
+msgstr "Huo Zheng? The abbey's people took him away half a year ago. What do ya want to know for?"
 
 msgid "黑衣"
 msgstr "Black Robe"
