@@ -25,6 +25,8 @@ const TEXT_SIZE: int = 18
 # TRANSLATORS: how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
 const SPEECH_MARK: String = "道："
 const SPEECH_MARK_REACH: int = 10
+## An opening quote a translated SPEECH_MARK may end in, and the mark that closes it.
+const QUOTE_PAIRS: Dictionary[String, String] = {"「": "」", "『": "』", "“": "”", "‘": "’", "\"": "\""}  # NO_TRANSLATE
 
 var _ui: SharedGameplayUI
 ## character id -> [PanelContainer, seconds left]
@@ -97,13 +99,17 @@ static func is_speech(line: String) -> bool:
 	return mark >= 0 and mark <= SPEECH_MARK_REACH
 
 
-## What a bubble says for `line`: what is said, without who says it.
+## What a bubble says for `line`: what is said, without who says it. A language whose mark ends
+## in an opening quote (日本語「, 한국어 “) loses the closing one at the end too.
 static func bubble_text(line: String) -> String:
 	var text: String = line.strip_edges()
 	var said: String = TranslationServer.translate(SPEECH_MARK)
 	var mark: int = text.find(said)
 	if mark >= 0 and mark <= SPEECH_MARK_REACH:
 		text = text.substr(mark + said.length()).strip_edges()
+		var closing: String = QUOTE_PAIRS.get(said.right(1), "")
+		if not closing.is_empty() and text.ends_with(closing):
+			text = text.left(text.length() - closing.length()).strip_edges()
 	return text
 
 

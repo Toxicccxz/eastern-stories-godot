@@ -5489,7 +5489,7 @@ msgid "莲华心法"
 msgstr "蓮華心法"
 
 msgid "婆萝蜜多心经"
-msgstr "『般若心経』"
+msgstr "婆羅蜜多心経"
 
 msgid "大乘佛法"
 msgstr "大乗仏法"
@@ -8624,7 +8624,7 @@ msgid "日照山的流云轩里，多了一个独眼的头陀。被鬼卒抓伤�
 msgstr "日照山の流雲軒に、隻眼の頭陀が一人増えた。鬼卒に引っかかれた者が担ぎ込まれると、彼が掌を一つ押し当て、冷気が一筋の白い煙となって立ちのぼる。"
 
 msgid "头陀在流云轩教人婆萝蜜多心经。玄智说，西来的经和本寺的经放在一个经柜里，没有打架。"
-msgstr "頭陀は流雲軒で『般若心経』を教えている。西から来た経と寺の経を一つの経棚に並べても、喧嘩にはならなかった、と玄智は言う。"
+msgstr "頭陀は流雲軒で婆羅蜜多心経を教えている。西から来た経と寺の経を一つの経棚に並べても、喧嘩にはならなかった、と玄智は言う。"
 
 msgid "日照山金门外，那块地方空了。山烟寺还是三百年前的山烟寺：外人不进流云轩，外来的经，也不进。"
 msgstr "日照山の金門の外の、あの場所は空になった。山煙寺は三百年前と変わらぬ山煙寺だ。よそ者は流雲軒に入れず、よそから来た経も入れない。"
@@ -12248,7 +12248,7 @@ msgid "玄智和尚信了你的担保。正月十七，山烟寺那一票投旧�
 msgstr "玄智和尚はあなたの請け合いを信じた。正月十七日、山煙寺の一票は旧盟主に入る。"
 
 msgid "龙若法王说起了三十年前的事，给了你婆萝蜜多心经的一页贝叶：「收不收，是山烟寺的事。」"
-msgstr "龍若法王は三十年前のことを語り、『般若心経』の貝葉を一枚くれた。「受け入れるかどうかは、山煙寺の決めることだ」"
+msgstr "龍若法王は三十年前のことを語り、婆羅蜜多心経の貝葉を一枚くれた。「受け入れるかどうかは、山煙寺の決めることだ」"
 
 msgid "山烟寺收了西来的经：独眼头陀受戒入寺，流云轩从此治得了鬼卒的寒。"
 msgstr "山煙寺は西から来た経を受け入れた。隻眼の頭陀は戒を受けて寺に入り、流雲軒はそれ以来、鬼卒の寒気を治せるようになった。"
@@ -13607,13 +13607,13 @@ msgid "头陀把贝叶放在佛前，只问一句：收，还是不收。玄智�
 msgstr "頭陀は貝葉を仏前に置き、一言だけ問うた。受け入れるのか、受け入れないのか。玄智は三十年前に去った師弟・玄塵のことを語り、振り返ってあなたに尋ねた。"
 
 msgid "收经（问玄智「收经」）：头陀受戒入寺，流云轩从此治得了鬼卒的寒，头陀在流云轩教婆萝蜜多心经，谁都能学；容得下西来的经，也容得下别人，虹台上山烟寺投旧盟主。守寺（问玄智「守寺」）：本寺一脉，经交还龙若，头陀回番坊，金门外空了；玄智肯教外人莲华心法；虹台上山烟寺投颜违。两边山烟寺的弟子都晋首座。"
-msgstr "経を受け入れる（玄智に「経を受け入れる」を尋ねる）：頭陀は戒を受けて寺に入り、流雲軒はそれ以来鬼卒の寒気を治せるようになる。頭陀は流雲軒で『般若心経』を教え、誰でも学べる。西から来た経を容れられるなら、他者も容れられる――虹台で山煙寺は旧盟主に投じる。寺を守る（玄智に「寺を守る」を尋ねる）：本寺の一脈を守り、経は龍若に返され、頭陀は番坊へ戻り、金門の外は空になる。玄智は部外者に蓮華心法を教えてくれる。虹台で山煙寺は顔違に投じる。どちらでも、山煙寺の弟子は首座に上がる。"
+msgstr "経を受け入れる（玄智に「経を受け入れる」を尋ねる）：頭陀は戒を受けて寺に入り、流雲軒はそれ以来鬼卒の寒気を治せるようになる。頭陀は流雲軒で婆羅蜜多心経を教え、誰でも学べる。西から来た経を容れられるなら、他者も容れられる――虹台で山煙寺は旧盟主に投じる。寺を守る（玄智に「寺を守る」を尋ねる）：本寺の一脈を守り、経は龍若に返され、頭陀は番坊へ戻り、金門の外は空になる。玄智は部外者に蓮華心法を教えてくれる。虹台で山煙寺は顔違に投じる。どちらでも、山煙寺の弟子は首座に上がる。"
 
 msgid "山烟寺收了西来的经。独眼头陀在佛前受了戒，去了流云轩；鬼卒的寒，往后山烟寺赶得出去了。"
 msgstr "山煙寺は西から来た経を受け入れた。隻眼の頭陀は仏前で戒を受け、流雲軒へ向かった。鬼卒の寒気は、これからは山煙寺で追い出せる。"
 
 msgid "把番坊的婆萝蜜多心经带回日照山，山烟寺收了经"
-msgstr "番坊の『般若心経』を日照山へ持ち帰り、山煙寺に経を受け入れさせた"
+msgstr "番坊の婆羅蜜多心経を日照山へ持ち帰り、山煙寺に経を受け入れさせた"
 
 msgid "首座"
 msgstr "首座"
@@ -17640,3 +17640,4203 @@ msgstr "準備完了"
 
 msgid "逃跑"
 msgstr "逃げる"
+
+msgid "投降"
+msgstr "降参"
+
+msgid "运功{function}"
+msgstr "運功・{function}"
+
+msgid "使出{action}"
+msgstr "{action}を使う"
+
+msgid "施法「{spell}」"
+msgstr "「{spell}」を唱える"
+
+msgid "用 {force} 点内力恢复{track}"
+msgstr "内力を{force}使って{track}を回復する"
+
+msgid "用 {force} 点内力和 {sen} 点神恢复法力"
+msgstr "内力{force}と神{sen}を使って法力を回復する"
+
+msgid "用 {force} 点内力，一段时间内攻击和闪避提升，杀气也随之上升"
+msgstr "内力を{force}使い、しばらく攻撃と回避が上がる。殺気も上がる"
+
+msgid "用 {force} 点内力和 {sen} 点神压下杀气，战斗中可能昏倒"
+msgstr "内力{force}と神{sen}を使って殺気を抑える。戦闘中だと気を失うことがある"
+
+msgid "用 {force} 点内力和 {kee} 点气长啸，在场受不住的人都会受伤"
+msgstr "内力{force}と気{kee}を使って長く吼える。その場で耐えきれない者はみな傷を負う"
+
+msgid "用 {force} 点内力和 {sen} 点神以目光摄住对手，伤其精（对手可能避开）"
+msgstr "内力{force}と神{sen}を使い、目で相手を射すくめて精を傷つける（相手がかわすこともある）"
+
+msgid "脱离战斗，回到{region}{room}（{mana} 法力，可能失败）"
+msgstr "戦闘を離れ、{region}の{room}へ戻る（法力{mana}、失敗することがある）"
+
+msgid "困住对手，让对方一段时间无法出手（{mana} 法力，可能失败）"
+msgstr "相手を封じ、しばらく手を出せなくする（法力{mana}、失敗することがある）"
+
+msgid "召来一名天将相助（{mana} 法力，可能失败）"
+msgstr "天将を一人呼んで加勢させる（法力{mana}、失敗することがある）"
+
+msgid "召来一名天将或阴鬼卒相助（{mana} 法力、{sen} 神，可能失败）"
+msgstr "天将か陰鬼卒を呼んで加勢させる（法力{mana}・神{sen}、失敗することがある）"
+
+msgid "看得见鬼魂，持续的秒数等于你的有效咒文等级（{mana} 法力、{sen} 神）"
+msgstr "幽霊が見えるようになる。続く秒数は有効な基本呪文のレベルと同じ（法力{mana}・神{sen}）"
+
+msgid "吸取对方的精"
+msgstr "相手の精を吸い取る"
+
+msgid "伤对方的神"
+msgstr "相手の神を傷つける"
+
+msgid "伤对方的气"
+msgstr "相手の気を傷つける"
+
+msgid "{hurts}（{mana} 法力、{sen} 神，可能失败）"
+msgstr "{hurts}（法力{mana}・神{sen}、失敗することがある）"
+
+msgid "你也上去和对手性命相搏，对手会反过来对你下杀手"
+msgstr "自分も相手と命がけで渡り合う。相手もこちらを殺しにかかってくる"
+
+msgid "{action}：{what}"
+msgstr "{action}：{what}"
+
+msgid "势"
+msgstr "勢"
+
+msgid "功"
+msgstr "功"
+
+msgid "物"
+msgstr "物"
+
+msgid "逃"
+msgstr "逃"
+
+msgid "法"
+msgstr "法"
+
+msgid "得"
+msgstr "1手"
+
+msgid "绝"
+msgstr "絶"
+
+msgid "倒"
+msgstr "倒"
+
+msgid "亡"
+msgstr "死"
+
+msgid "闪"
+msgstr "回避"
+
+msgid "挡"
+msgstr "防御"
+
+msgid "无伤"
+msgstr "無傷"
+
+msgid "毒"
+msgstr "毒"
+
+msgid "醉"
+msgstr "酔い"
+
+msgid "迷药"
+msgstr "しびれ薬"
+
+msgid "冰"
+msgstr "凍結"
+
+msgid "包扎"
+msgstr "包帯"
+
+msgid "中毒：每次心跳掉气，一半成伤。"
+msgstr "中毒：心拍ごとに気が減り、その半分が傷になる。"
+
+msgid "蛇毒：每次心跳伤气 10、掉神 10。"
+msgstr "蛇毒：心拍ごとに気が10傷つき、神が10減る。"
+
+msgid "火玫瑰毒：每次心跳伤神 20、掉气 10。"
+msgstr "火薔薇の毒：心拍ごとに神が20傷つき、気が10減る。"
+
+msgid "醉了：越醉越站不稳，醉过头会昏倒。"
+msgstr "酔い：酔うほど足元がふらつき、酔いすぎると倒れる。"
+
+msgid "蒙汗药：药力发作，撑不住就会昏倒。"
+msgstr "しびれ薬：薬が回ってきている。持ちこたえられなければ気を失う。"
+
+msgid "意寒掌毒：每次心跳伤精、气、神各 25。"
+msgstr "意寒掌の毒：心拍ごとに精・気・神がそれぞれ25傷つく。"
+
+msgid "包扎着：每次心跳回气 3。"
+msgstr "包帯：心拍ごとに気が3回復する。"
+
+msgid "克制：快克重、重克守、守克虚、虚克快。箭头从克的一方指向被克的一方；想克他起手的那一类，就找指向它的那一印。"
+msgstr "相克：速は重に、重は守に、守は虚に、虚は速に勝ちます。矢印は勝つ側から負ける側を指します。相手の次の手の型に勝つには、その型を指している印を探してください。"
+
+msgid "克制"
+msgstr "相克"
+
+msgid "克"
+msgstr "勝"
+
+msgid "怕"
+msgstr "弱"
+
+msgid "已接受"
+msgstr "受け付けました"
+
+msgid "已取消"
+msgstr "取り消しました"
+
+msgid "请求无效"
+msgstr "無効な要求です"
+
+msgid "战斗已经结束"
+msgstr "戦闘はもう終わっています"
+
+msgid "游戏暂停中"
+msgstr "一時停止中です"
+
+msgid "世界状态不符"
+msgstr "ワールドの状態が一致しません"
+
+msgid "只能由你下令"
+msgstr "指示を出せるのはプレイヤーだけです"
+
+msgid "战斗状态无效"
+msgstr "戦闘の状態が無効です"
+
+msgid "你现在无法行动"
+msgstr "今は行動できません"
+
+msgid "没有这个操作"
+msgstr "その操作はありません"
+
+msgid "操作类型不符"
+msgstr "操作の種類が合いません"
+
+msgid "目标无效"
+msgstr "無効な目標です"
+
+msgid "条件不足"
+msgstr "条件を満たしていません"
+
+msgid "重复的请求"
+msgstr "重複した要求です"
+
+msgid "要取消的操作已经变了"
+msgstr "取り消す操作が変わっています"
+
+msgid "操作次数已用尽"
+msgstr "使用回数が残っていません"
+
+msgid "这个操作还不能用"
+msgstr "この操作はまだ使えません"
+
+msgid "没有进行中的战斗"
+msgstr "進行中の戦闘はありません"
+
+msgid "战斗已经变了"
+msgstr "戦闘の状況が変わりました"
+
+msgid "战斗状态不符"
+msgstr "戦闘の状態が一致しません"
+
+msgid "无法选为目标"
+msgstr "目標にできません"
+
+msgid "目标未变"
+msgstr "目標は変わっていません"
+
+msgid "已更换目标"
+msgstr "目標を変えました"
+
+msgid "你借遁术脱离了战斗。"
+msgstr "遁術で戦闘から抜け出した。"
+
+msgid "战斗结束。"
+msgstr "戦闘終了。"
+
+msgid "双方都停了手，战斗结束。"
+msgstr "双方が手を止め、戦闘は終わった。"
+
+msgid "你赢了这场战斗。"
+msgstr "この戦いに勝った。"
+
+msgid "你赢了这场战斗。选择倒下对手的尸体可以查看或搜刮。"
+msgstr "この戦いに勝った。倒れた相手の死体を選ぶと、調べたり持ち物をあさったりできます。"
+
+msgid "你输了这场战斗，你死了。"
+msgstr "この戦いに敗れ、命を落とした。"
+
+msgid "你输了这场战斗，昏了过去。"
+msgstr "この戦いに敗れ、気を失った。"
+
+msgid "切磋结束。"
+msgstr "手合わせ終了。"
+
+msgid "三回合拆完了。"
+msgstr "三合の稽古が終わった。"
+
+msgid "你逃离了战斗。走远一些才能摆脱危险。"
+msgstr "戦闘から逃げ出した。もう少し離れないと、危険からは逃れられません。"
+
+msgid "战斗出错，已中止。"
+msgstr "戦闘でエラーが起き、中断しました。"
+
+msgid "{name}脚下一个不稳，跌在地上一动也不动了。"
+msgstr "{name}は足をもつれさせて倒れ、そのまま動かなくなった。"
+
+msgid "{name}死了。"
+msgstr "{name}は死んだ。"
+
+msgid "{name}慢慢睁开眼睛，清醒了过来。"
+msgstr "{name}はゆっくりと目を開け、意識を取り戻した。"
+
+msgid "你住了手，放了{name}一条生路。"
+msgstr "手を止め、{name}を見逃してやった。"
+
+msgid "你住了手：{name}还有用，留{name}一条命。"
+msgstr "手を止めた。{name}にはまだ用がある。{name}の命は取らずにおく。"
+
+msgid "未知结果"
+msgstr "不明な結果"
+
+msgid "你把目标转向%s。"
+msgstr "目標を%sに変えた。"
+
+msgid "你准备%s。"
+msgstr "準備：%s。"
+
+msgid "你放弃了%s。"
+msgstr "取りやめ：%s。"
+
+msgid "你无法%s：%s。"
+msgstr "実行できない：%s（%s）。"
+
+msgid "你脱离了战斗。"
+msgstr "戦闘から離脱した。"
+
+msgid "%s生效了。"
+msgstr "%s：成功。"
+
+msgid "%s失败了。"
+msgstr "%s：失敗。"
+
+msgid "%s无法执行。"
+msgstr "%s：実行できない。"
+
+msgid "战斗记录"
+msgstr "戦闘ログ"
+
+msgid "死斗"
+msgstr "死闘"
+
+msgid "拆招"
+msgstr "稽古"
+
+msgid "交手"
+msgstr "勝負"
+
+msgid "点到为止"
+msgstr "寸止め"
+
+msgid "生死各安天命"
+msgstr "生死は天命に任せる"
+
+msgid "三合为限"
+msgstr "三合まで"
+
+msgid "{line} [color=#8b959e]（-{damage}）[/color]"
+msgstr "{line} [color=#8b959e]（-{damage}）[/color]"
+
+msgid "{line}（-{damage}）"
+msgstr "{line}（-{damage}）"
+
+msgid "你看不见对手，无从下手。"
+msgstr "相手の姿が見えず、手の出しようがない。"
+
+msgid "{who} · {move} → {whom} · 闪开了"
+msgstr "{who} · {move} → {whom} · かわした"
+
+msgid "{who} · {move} → {whom} · 挡开了"
+msgstr "{who} · {move} → {whom} · 防いだ"
+
+msgid "{who} · {move} → {whom} · 没伤到"
+msgstr "{who} · {move} → {whom} · 無傷"
+
+msgid "$N抢得一手"
+msgstr "$Nが一手を奪った"
+
+msgid "$N被震得失衡"
+msgstr "$Nは体勢を崩された"
+
+msgid "$N一招落空"
+msgstr "$Nの技は空を切った"
+
+msgid "了结"
+msgstr "とどめ"
+
+msgid "放过"
+msgstr "見逃す"
+
+msgid "深浅未明"
+msgstr "手の内不明"
+
+msgid "参战"
+msgstr "参戦"
+
+msgid "已排定目标"
+msgstr "目標を指定済み"
+
+msgid "忙 %d"
+msgstr "硬直 %d"
+
+msgid "死亡"
+msgstr "死亡"
+
+msgid "昏迷"
+msgstr "気絶"
+
+msgid "约 {n} 秒后醒来"
+msgstr "約{n}秒で目覚める"
+
+msgid "无法行动"
+msgstr "行動不能"
+
+msgid "剩 %d 手"
+msgstr "残り%d手"
+
+msgid "…+%d"
+msgstr "…+%d"
+
+msgid "还有：%s"
+msgstr "ほかに：%s"
+
+msgid "起手：守势"
+msgstr "次の手：守勢"
+
+msgid "守势：它在等你打空，打空了就反击。"
+msgstr "守勢：こちらの空振りを待っている。空振りすれば反撃してくる。"
+
+msgid "起手：？"
+msgstr "次の手：？"
+
+msgid "还没看熟这一招。"
+msgstr "この技はまだ見切れていない。"
+
+msgid "起手：%s"
+msgstr "次の手：%s"
+
+msgid "破绽：{tag}招可破。"
+msgstr "隙：{tag}の技で破れる。"
+
+msgid "要出 {move}"
+msgstr "{move}の気配"
+
+msgid "选为目标：%s"
+msgstr "目標に選ぶ：%s"
+
+msgid "内力 {force}/{max_force}"
+msgstr "内力 {force}/{max_force}"
+
+msgid "加力 {factor}"
+msgstr "加力 {factor}"
+
+msgid "法力 {mana}/{max_mana}"
+msgstr "法力 {mana}/{max_mana}"
+
+msgid "灵力 {atman}/{max_atman}"
+msgstr "霊力 {atman}/{max_atman}"
+
+msgid "{name}：{hint}"
+msgstr "{name}：{hint}"
+
+msgid "{name} {current} / 有效 {effective} / 最大 {maximum}：{hint}"
+msgstr "{name} {current} / 有効 {effective} / 最大 {maximum}：{hint}"
+
+msgid "任务目标"
+msgstr "任務の対象"
+
+msgid "弑师"
+msgstr "師殺し"
+
+msgid "了结（{marks}）"
+msgstr "とどめ（{marks}）"
+
+msgid "了结{name}：下一招就会要了{name}的命。"
+msgstr "{name}にとどめ：次の一撃で{name}の命を奪う。"
+
+msgid "放{name}一条生路：你这一方不再出手，{name}昏在原地，到时自己醒来。"
+msgstr "{name}を見逃す：こちらの側はもう手を出さない。{name}はその場で気を失ったまま、やがて自分で目を覚ます。"
+
+msgid "气 %s"
+msgstr "気 %s"
+
+msgid "精 %s · 神 %s"
+msgstr "精 %s · 神 %s"
+
+msgid "精 %d　神 %d"
+msgstr "精 %d　神 %d"
+
+msgid "天邪虎啸要耗 {force} 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n确定要发出虎啸吗？"
+msgstr "天邪虎嘯には内力を{force}使います。その声はここにいる全員の神を傷つけます。耐えきれなかった者は、誰であろうとこちらを殺しにかかり、手合わせも命がけの勝負に変わります。\n虎嘯を放ちますか？"
+
+msgid "在战斗中运功压制杀气，可能当场昏倒：以你现在的定力和内功，{odds}。昏倒以后，要杀你的人不会停手。\n确定要压制杀气吗？"
+msgstr "戦闘中に運功して殺気を抑えると、その場で気を失うことがあります。今の定力と内功では、{odds}。気を失えば、殺しにかかっている相手は手を止めません。\n殺気を抑えますか？"
+
+msgid "召天将要耗 {mana} 点法力和 {sen} 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n确定要召唤天将吗？"
+msgstr "天将を召すには法力{mana}と神{sen}を使います。天将は現れるなり相手を殺しにかかり、相手も天将を殺そうとします。手合わせは命がけの勝負に変わり、相手は死ぬかもしれません。天将が殺した者はすべてこちらが殺したことになり、師父を殺せば師殺しです。\n天将を召しますか？"
+
+msgid "召护法要耗 {mana} 点法力和 {sen} 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n确定要召护法吗？"
+msgstr "護法を召すには法力{mana}と神{sen}を使います。現れた天将か陰鬼卒は相手を殺しにかかり、相手もそれを殺そうとします。手合わせは命がけの勝負に変わり、相手は死ぬかもしれません。それが殺した者はすべてこちらが殺したことになり、師父を殺せば師殺しです。\n護法を召しますか？"
+
+msgid "来相助的护法会替你杀{npc}。{npc}不是你亲手杀的，你会昏倒，也悟不到咒术的道理。\n确定要召唤吗？"
+msgstr "加勢に来た護法が、代わりに{npc}を殺します。{npc}を自分の手で殺さなければ気を失い、呪術の理も悟れません。\n召しますか？"
+
+msgid "胜"
+msgstr "勝"
+
+msgid "败"
+msgstr "敗"
+
+msgid "失衡"
+msgstr "よろめき"
+
+msgid "露空"
+msgstr "がら空き"
+
+msgid "{name}又出{count}招 {results}"
+msgstr "{name}、さらに{count}手 {results}"
+
+msgid "战斗无法正常结束，不会自动重试。"
+msgstr "戦闘を正常に終えられませんでした。自動では再試行しません。"
+
+msgid "目标：%s"
+msgstr "目標：%s"
+
+msgid "战斗描写会显示在这里。"
+msgstr "戦闘の様子はここに表示されます。"
+
+msgid "换目标"
+msgstr "目標変更"
+
+msgid "（-%d）"
+msgstr "（-%d）"
+
+msgid "换目标：%s"
+msgstr "目標変更：%s"
+
+msgid "召唤天将"
+msgstr "天将を召す"
+
+msgid "确定施展"
+msgstr "使う"
+
+msgid "确定攻击"
+msgstr "攻撃する"
+
+msgid "发出虎啸"
+msgstr "虎嘯を放つ"
+
+msgid "一定会昏倒"
+msgstr "必ず気を失う"
+
+msgid "昏倒的可能很小"
+msgstr "気を失うおそれは小さい"
+
+msgid "约有 {tenths} 成会昏倒"
+msgstr "約{tenths}割の確率で気を失う"
+
+msgid "下令：%s"
+msgstr "指示：%s"
+
+msgid "对手倒下了，先在右边的旗上选「了结」或「放过」。"
+msgstr "相手が倒れました。先に右側の旗で「とどめ」か「見逃す」を選んでください。"
+
+msgid "取消：%s"
+msgstr "キャンセル：%s"
+
+msgid "无"
+msgstr "なし"
+
+msgid "无碍"
+msgstr "無事"
+
+msgid "受伤不轻"
+msgstr "手傷"
+
+msgid "伤势沉重"
+msgstr "重傷"
+
+msgid "濒死"
+msgstr "瀕死"
+
+msgid "结果这一下「砰」地一声打得$n连退了好几步，差一点摔倒！"
+msgstr "「ドン」という一撃に、$nは何歩も後ずさり、危うく倒れそうになった！"
+
+msgid "结果重重地击中，$n「哇」地一声吐出一口鲜血！"
+msgstr "重い一撃がまともに入り、$nは「ガハッ」と鮮血を吐いた！"
+
+msgid "结果只听见「砰」地一声巨响，$n像一捆稻草般飞了出去！！"
+msgstr "「ドーン」という轟音とともに、$nは藁束のように吹き飛んだ！！"
+
+msgid "结果只是勉强造成一处轻微{type}！"
+msgstr "かろうじて軽い{type}を負わせただけだった！"
+
+msgid "结果造成轻微的{type}！"
+msgstr "軽い{type}を負わせた！"
+
+msgid "结果造成一处{type}！"
+msgstr "{type}を負わせた！"
+
+msgid "结果造成一处严重{type}！"
+msgstr "重い{type}を負わせた！"
+
+msgid "结果造成颇为严重的{type}！"
+msgstr "かなり重い{type}を負わせた！"
+
+msgid "结果造成相当严重的{type}！"
+msgstr "相当に重い{type}を負わせた！"
+
+msgid "结果造成十分严重的{type}！"
+msgstr "きわめて重い{type}を負わせた！"
+
+msgid "结果造成极其严重的{type}！"
+msgstr "このうえなく重い{type}を負わせた！"
+
+msgid "结果造成非常可怕的严重{type}！"
+msgstr "恐ろしいほど重い{type}を負わせた！"
+
+msgid "伤害"
+msgstr "傷"
+
+msgid "看起来气血充盈，并没有受伤。"
+msgstr "気血は満ちていて、傷ひとつない。"
+
+msgid "似乎受了点轻伤，不过光从外表看不大出来。"
+msgstr "軽い傷を負ったようだが、見た目ではほとんどわからない。"
+
+msgid "看起来可能受了点轻伤。"
+msgstr "軽い傷を負ったかもしれない。"
+
+msgid "受了几处伤，不过似乎并不碍事。"
+msgstr "何か所か傷を負っているが、大したことはなさそうだ。"
+
+msgid "受伤不轻，看起来状况并不太好。"
+msgstr "かなりの傷を負い、具合はあまりよくなさそうだ。"
+
+msgid "气息粗重，动作开始散乱，看来所受的伤著实不轻。"
+msgstr "息が荒く、動きも乱れはじめた。受けた傷はかなり深いようだ。"
+
+msgid "已经伤痕累累，正在勉力支撑著不倒下去。"
+msgstr "すでに傷だらけで、倒れまいと必死にこらえている。"
+
+msgid "受了相当重的伤，只怕会有生命危险。"
+msgstr "相当の深手を負っている。命が危ういかもしれない。"
+
+msgid "伤重之下已经难以支撑，眼看就要倒在地上。"
+msgstr "深手に耐えきれず、今にも倒れそうだ。"
+
+msgid "受伤过重，已经奄奄一息，命在旦夕了。"
+msgstr "傷が重すぎて、もはや虫の息だ。命は旦夕に迫っている。"
+
+msgid "受伤过重，已经有如风中残烛，随时都可能断气。"
+msgstr "傷が重すぎて、風前の灯火のようだ。いつ息が絶えてもおかしくない。"
+
+msgid "看起来充满活力，一点也不累。"
+msgstr "気力に満ちあふれ、少しも疲れていない。"
+
+msgid "似乎有些疲惫，但是仍然十分有活力。"
+msgstr "少し疲れているようだが、まだ十分に元気だ。"
+
+msgid "看起来可能有些累了。"
+msgstr "少し疲れてきたかもしれない。"
+
+msgid "动作似乎开始有点不太灵光，但是仍然有条不紊。"
+msgstr "動きが少し鈍ってきたようだが、まだ乱れはない。"
+
+msgid "气喘嘘嘘，看起来状况并不太好。"
+msgstr "息を切らし、具合はあまりよくなさそうだ。"
+
+msgid "似乎十分疲惫，看来需要好好休息了。"
+msgstr "ひどく疲れているようだ。しっかり休む必要がありそうだ。"
+
+msgid "已经一副头重脚轻的模样，正在勉力支撑著不倒下去。"
+msgstr "頭はふらつき足はもつれ、倒れまいと必死にこらえている。"
+
+msgid "看起来已经力不从心了。"
+msgstr "もはや力が思うに任せないようだ。"
+
+msgid "摇头晃脑、歪歪斜斜地站都站不稳，眼看就要倒在地上。"
+msgstr "頭をぐらつかせ、ふらふらと立っているのもやっとで、今にも倒れそうだ。"
+
+msgid "已经陷入半昏迷状态，随时都可能摔倒晕去。"
+msgstr "意識がもうろうとしかけていて、いつ倒れて気を失ってもおかしくない。"
+
+msgid "中性神"
+msgstr "中性"
+
+msgid "他"
+msgstr "彼"
+
+msgid "她"
+msgstr "彼女"
+
+msgid "它"
+msgstr "それ"
+
+msgid "江湖常识"
+msgstr "江湖の常識"
+
+msgid "武学"
+msgstr "武学"
+
+msgid "物品"
+msgstr "品物"
+
+msgid "人物"
+msgstr "人物"
+
+msgid "基本功夫"
+msgstr "基本の武芸"
+
+msgid "特殊技能"
+msgstr "特殊技能"
+
+msgid "知识"
+msgstr "知識"
+
+msgid "武功"
+msgstr "武功"
+
+msgid "可以激发为：{uses}"
+msgstr "充てられる技能：{uses}"
+
+msgid "运功：{functions}"
+msgstr "運功：{functions}"
+
+msgid "你的等级：{level}"
+msgstr "現在のレベル：{level}"
+
+msgid "禽兽"
+msgstr "鳥獣"
+
+msgid "破绽：{tag}"
+msgstr "隙：{tag}"
+
+msgid "见过 {n} 次"
+msgstr "見た回数：{n}"
+
+msgid "见识录 · {school}"
+msgstr "見識録 · {school}"
+
+msgid "看熟一招（见过 {n} 次）就认得它的快、重、虚、守和破绽；自家门派的招一学就认得。"
+msgstr "一つの技を見慣れれば（{n}回見れば）、それが速・重・虚・守のどれか、そしてその隙がわかる。自分の門派の技は、習えばすぐにわかる。"
+
+msgid "这一路的招你都认得。"
+msgstr "この流派の技は、すべて見切っている。"
+
+msgid "打法 · {word}：{line}"
+msgstr "戦い方 · {word}：{line}"
+
+msgid "{npc}讲过：{line}"
+msgstr "{npc}の教え：{line}"
+
+msgid "{npc}拆过招，说：{line}"
+msgstr "{npc}との稽古のあとの言葉：{line}"
+
+msgid "{tag}招"
+msgstr "{tag}の技"
+
+msgid "{npc}的第 {beat} 手总是{tag}（看过 {n} 回）。"
+msgstr "{npc}の{beat}手目は、いつも{tag}だ（{n}回見た）。"
+
+msgid "{npc}的第 {beat} 手多半是{tag}（{m} 回里有 {n} 回）。"
+msgstr "{npc}の{beat}手目は、たいてい{tag}だ（{m}回中{n}回）。"
+
+msgid "没有什么特别之处。"
+msgstr "これといって変わったところはない。"
+
+msgid "为首的是{head}，在{seat}。"
+msgstr "率いるのは{head}で、{seat}にいる。"
+
+msgid "你是{family}的弟子。"
+msgstr "{family}の弟子だ。"
+
+msgid "你见过的门人：{names}"
+msgstr "会ったことのある門人：{names}"
+
+msgid "你没有特别留意过此人的模样。"
+msgstr "この人物の姿を、特に気にとめたことはない。"
+
+msgid "门派：{family}"
+msgstr "門派：{family}"
+
+msgid "{skill}　{level} 级"
+msgstr "{skill}　レベル{level}"
+
+msgid "习得　{skill}"
+msgstr "習得　{skill}"
+
+msgid "{power}上限　{value}"
+msgstr "{power}上限　{value}"
+
+msgid "拜入　{family}"
+msgstr "入門　{family}"
+
+msgid "拜师　{master}"
+msgstr "師事　{master}"
+
+msgid "任务完成　{title}"
+msgstr "任務達成　{title}"
+
+msgid "获得　{item}"
+msgstr "入手　{item}"
+
+msgid "视图键"
+msgstr "ビューボタン"
+
+msgid "导航键"
+msgstr "ガイドボタン"
+
+msgid "菜单键"
+msgstr "メニューボタン"
+
+msgid "十字键上"
+msgstr "十字キー上"
+
+msgid "十字键下"
+msgstr "十字キー下"
+
+msgid "十字键左"
+msgstr "十字キー左"
+
+msgid "十字键右"
+msgstr "十字キー右"
+
+msgid "叉"
+msgstr "バツ"
+
+msgid "圈"
+msgstr "マル"
+
+msgid "方"
+msgstr "シカク"
+
+msgid "三角"
+msgstr "サンカク"
+
+msgid "窗口模式由这个平台管理。"
+msgstr "ウィンドウモードはこのプラットフォームが管理しています。"
+
+msgid "大"
+msgstr "大"
+
+msgid "小"
+msgstr "小"
+
+msgid "画面卡顿时，可以在「设置」里把「画质」调低；全屏时调低「分辨率」也会更流畅"
+msgstr "画面がカクつくときは、「設定」で「画質」を下げてください。フルスクリーンでは「解像度」を下げてもなめらかになります"
+
+msgid "画面仍然卡顿时，可以在「设置」里调低「分辨率」：全屏时画面会更流畅"
+msgstr "それでも画面がカクつくときは、「設定」で「解像度」を下げてください。フルスクリーンでは画面がなめらかになります"
+
+msgid "画面卡顿时，可以在「设置」里把「画质」调低"
+msgstr "画面がカクつくときは、「設定」で「画質」を下げてください"
+
+msgid "指路"
+msgstr "道しるべ"
+
+msgid "语言已切换，但这项设置未能保存。"
+msgstr "言語を切り替えましたが、この設定を保存できませんでした。"
+
+msgid "无法切换到这种语言。"
+msgstr "この言語には切り替えられません。"
+
+msgid "界面缩放已生效，但未能保存。"
+msgstr "UIサイズを適用しましたが、保存できませんでした。"
+
+msgid "战斗设置已生效，但未能保存。"
+msgstr "戦闘の設定を適用しましたが、保存できませんでした。"
+
+msgid "目标提示已生效，但未能保存。"
+msgstr "目標の表示を適用しましたが、保存できませんでした。"
+
+msgid "切出窗口时暂停已生效，但未能保存。"
+msgstr "「ウィンドウ切替時に一時停止」を適用しましたが、保存できませんでした。"
+
+msgid "自动存档提示已生效，但未能保存。"
+msgstr "自動保存の通知を適用しましたが、保存できませんでした。"
+
+msgid "画质已生效，但未能保存。"
+msgstr "画質を適用しましたが、保存できませんでした。"
+
+msgid "昼夜设置已生效，但未能保存。"
+msgstr "昼夜の設定を適用しましたが、保存できませんでした。"
+
+msgid "战斗开场已生效，但未能保存。"
+msgstr "戦闘開始の演出を適用しましたが、保存できませんでした。"
+
+msgid "音量已生效，但未能保存。"
+msgstr "音量を適用しましたが、保存できませんでした。"
+
+msgid "窗口模式已在本次运行中生效，但这项设置未能保存。"
+msgstr "ウィンドウモードは今回の起動中だけ適用されました。この設定は保存できませんでした。"
+
+msgid "无法切换窗口模式。"
+msgstr "ウィンドウモードを切り替えられません。"
+
+msgid "上一份自动存档"
+msgstr "ひとつ前の自動保存"
+
+msgid "请输入名称（1–24个字符），并选择性别。"
+msgstr "名前（1〜24文字）を入力し、性別を選んでください。"
+
+msgid "名称限1–24个字符；支持各语言文字及附加符，可在文字间使用半角空格、-、'、’或·，分隔符不能连用；不支持数字、表情或其它符号。"
+msgstr "名前は1〜24文字です。どの言語の文字や結合記号も使えます。文字のあいだには半角スペース、ハイフン（-）、アポストロフィ（'）、中黒（·）のいずれかを入れられますが、続けて使うことはできません。数字、絵文字、その他の記号は使えません。"
+
+msgid "请选择性别。"
+msgstr "性別を選んでください。"
+
+msgid "正在存档……"
+msgstr "保存しています……"
+
+msgid "正在返回主菜单……"
+msgstr "タイトルに戻っています……"
+
+msgid "正在恢复存档……"
+msgstr "記録を復元しています……"
+
+msgid "正在读取存档……"
+msgstr "記録を読み込んでいます……"
+
+msgid "正在开始旅程……"
+msgstr "旅立ちの準備をしています……"
+
+msgid "覆盖"
+msgstr "上書き"
+
+msgid "读取"
+msgstr "読込"
+
+msgid "窗口"
+msgstr "ウィンドウ"
+
+msgid "无边框窗口"
+msgstr "ボーダーレス"
+
+msgid "全屏"
+msgstr "フルスクリーン"
+
+msgid "窗口下是窗口的大小；全屏和无边框窗口铺满显示器，这里定地图画得多清楚，界面不变。全屏时调低它，画面会更流畅"
+msgstr "ウィンドウでは、これがウィンドウの大きさになります。フルスクリーンとボーダーレスでは画面全体に広がり、ここで地図をどれだけ細かく描くかが決まります。UIの大きさは変わりません。フルスクリーンで下げると、画面がなめらかになります"
+
+msgid "自动"
+msgstr "自動"
+
+msgid "跟随系统"
+msgstr "システムに合わせる"
+
+msgid "慢"
+msgstr "遅い"
+
+msgid "标准"
+msgstr "標準"
+
+msgid "询问"
+msgstr "毎回確認"
+
+msgid "直接了结"
+msgstr "すぐとどめ"
+
+msgid "打倒你要杀的人时：先问你了结还是放过，或者直接下杀手"
+msgstr "殺すつもりの相手を倒したとき：とどめか見逃すかを毎回確認するか、そのままとどめを刺すか"
+
+msgid "全程"
+msgstr "フル"
+
+msgid "简短"
+msgstr "短縮"
+
+msgid "关"
+msgstr "オフ"
+
+msgid "进战斗时搭擂台、镜头拉近的那一段：全程（每次开游戏的头几场完整、之后简短）、一直简短，或者不放"
+msgstr "戦闘に入るとき、闘技場が組まれてカメラが寄る演出：フル（起動するたびに最初の数戦は完全版、そのあとは短縮）、常に短縮、またはなし"
+
+msgid "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
+msgstr "状態カードの「目標」の行と、見聞通知の「次」。オフにすると任務ページだけになります"
+
+msgid "切到别的窗口时游戏暂停，回来后按「继续」接着玩；关掉后照样走，但窗口在后台时手柄不起作用"
+msgstr "別のウィンドウに切り替えるとゲームを一時停止し、戻ったら「続ける」で再開します。オフにするとそのまま進みますが、ウィンドウが背面にあるあいだはゲームパッドが効きません"
+
+msgid "自动存档后左下角提示一行；关掉后照样自动存档，只是不提示"
+msgstr "自動保存のあと、左下に一行の通知を出します。オフにしても自動保存はされますが、通知は出ません"
+
+msgid "跟随游戏时间"
+msgstr "ゲーム内の時間に合わせる"
+
+msgid "一直白天"
+msgstr "常に昼"
+
+msgid "一直夜晚"
+msgstr "常に夜"
+
+msgid "地图的光照：跟着游戏里的一天走（黎明、白天、黄昏、夜、深夜），或者一直是白天、一直是夜晚"
+msgstr "地図の明るさ：ゲーム内の一日に合わせる（夜明け、昼、夕暮れ、夜、深夜）か、常に昼、または常に夜"
+
+msgid "高"
+msgstr "高"
+
+msgid "低"
+msgstr "低"
+
+msgid "高：影子边缘柔和、斜线平滑、近处的灯都投影；低：影子边缘硬、斜线有锯齿、只有最近的几盏灯投影，画面更流畅"
+msgstr "高：影の縁がやわらかく、斜めの線もなめらかで、近くの灯りはすべて影を落とします。低：影の縁がくっきりし、斜めの線にギザギザが出て、影を落とすのは最も近い数個の灯りだけですが、動きはなめらかになります"
+
+msgid "游戏里所有声音的音量；拉到 0 就没有声音"
+msgstr "ゲーム内のすべての音の音量です。0にすると音が出なくなります"
+
+msgid "%d%%"
+msgstr "%d%%"
+
+msgid "版本 %s"
+msgstr "バージョン %s"
+
+msgid "冷却中（还要 {rounds} 回合）"
+msgstr "再使用まで（あと{rounds}ラウンド）"
+
+msgid "这里不准战斗。"
+msgstr "ここでは戦闘できません。"
+
+msgid "你对著{npc}喝道：「{rude}！今日不是你死就是我活！」"
+msgstr "{npc}に向かって一喝した。「{rude}め！ 今日こそ、どちらかが死ぬまでだ！」"
+
+msgid "已收势"
+msgstr "様子見中"
+
+msgid "手不够"
+msgstr "手が足りない"
+
+msgid "$N临阵变招！"
+msgstr "$Nがとっさに技を変えた！"
+
+msgid "{npc}的{move}被打断了。"
+msgstr "{npc}の{move}は不発に終わった。"
+
+msgid "$N说道：{line}"
+msgstr "$N「{line}」"
+
+msgid "$N趁你收招，连出两手！"
+msgstr "技を引いた隙を突き、$Nが続けざまに二手打ち込んできた！"
+
+msgid "$N被震得失衡，丢了一手！"
+msgstr "$Nは体勢を崩され、一手を失った！"
+
+msgid "$N一招落空，露出了破绽！"
+msgstr "$Nの技は空を切り、隙が生じた！"
+
+msgid "$N抢得一手（{label}）！"
+msgstr "$Nが一手を奪った（{label}）！"
+
+msgid "看起来%s想杀死你！"
+msgstr "どうやら%sはこちらを殺す気だ！"
+
+msgid "看起来%s（×%d）想杀死你！"
+msgstr "どうやら%s（×%d）はこちらを殺す気だ！"
+
+msgid "{npc}蓄势待发，似乎要使出{move}！"
+msgstr "{npc}が力をためている。{move}を繰り出すつもりらしい！"
+
+msgid "头部"
+msgstr "頭"
+
+msgid "颈部"
+msgstr "首"
+
+msgid "胸口"
+msgstr "胸"
+
+msgid "後心"
+msgstr "背中"
+
+msgid "左肩"
+msgstr "左肩"
+
+msgid "右肩"
+msgstr "右肩"
+
+msgid "左臂"
+msgstr "左腕"
+
+msgid "右臂"
+msgstr "右腕"
+
+msgid "左手"
+msgstr "左手"
+
+msgid "右手"
+msgstr "右手"
+
+msgid "腰间"
+msgstr "腰"
+
+msgid "小腹"
+msgstr "下腹"
+
+msgid "左腿"
+msgstr "左脚"
+
+msgid "右腿"
+msgstr "右脚"
+
+msgid "左脚"
+msgstr "左足"
+
+msgid "右脚"
+msgstr "右足"
+
+msgid "一具枯乾的骸骨"
+msgstr "干からびた骸骨"
+
+msgid "腐烂的尸体"
+msgstr "腐乱した死体"
+
+msgid "%s的尸体"
+msgstr "%sの死体"
+
+msgid "自动存档失败"
+msgstr "自動保存に失敗しました"
+
+msgid "已自动存档"
+msgstr "自動保存しました"
+
+msgid "已存下「决战前」存档"
+msgstr "「決戦前」の記録を保存しました"
+
+msgid "「决战前」存档没能存下"
+msgstr "「決戦前」の記録を保存できませんでした"
+
+msgid "「死前存档」没能存下"
+msgstr "「死の直前」の記録を保存できませんでした"
+
+msgid "{action}：{landmark}"
+msgstr "{action}：{landmark}"
+
+msgid "你答道：{answer}"
+msgstr "答えた。「{answer}」"
+
+msgid "{option}（{why}）"
+msgstr "{option}（{why}）"
+
+msgid "你选了：{option}"
+msgstr "選んだ：{option}"
+
+msgid "{npc}将{door}关上。"
+msgstr "{npc}が{door}を閉めた。"
+
+msgid "你的%s用完了！"
+msgstr "%sを使い切った！"
+
+msgid "{who}只觉得手中{weapon}一震，险些脱手！"
+msgstr "{who}は手にした{weapon}に衝撃を感じ、危うく取り落としそうになった！"
+
+msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
+msgstr "{who}は{weapon}を握っていられず、手から弾き飛ばされた！"
+
+msgid "只听见「啪」地一声，{who}手中的{weapon}已经断为两截！"
+msgstr "「パキン」という音とともに、{who}の手の{weapon}が真っ二つに折れた！"
+
+msgid "{me}的{weapon}和{who}的{other}相击，冒出点点的火星。"
+msgstr "{me}の{weapon}と{who}の{other}がぶつかり合い、火花が散った。"
+
+msgid "%s脚下一个不稳，跌在地上一动也不动了。"
+msgstr "%sは足をもつれさせて倒れ、そのまま動かなくなった。"
+
+msgid "{who}用指甲挑了一点化尸粉在{corpse}上，只听见一阵「嗤嗤」声响带著一股可怕的恶臭，{corpse}只剩下一滩黄水。"
+msgstr "{who}は爪の先で化屍粉を少しすくい、{corpse}にかけた。「ジュウジュウ」という音とともにおぞましい悪臭が立ちこめ、{corpse}は黄色い水たまりになった。"
+
+msgid "这副骸骨已经躺在这里很久了。"
+msgstr "この骸骨は、ずいぶん長いあいだここに横たわっている。"
+
+msgid "这具尸体显然已经躺在这里有一段时间了，正散发著一股腐尸的味道。"
+msgstr "この死体はここに横たわってしばらく経つらしく、腐臭を放っている。"
+
+msgid "一阵风吹过，把{name}化成骨灰吹散了。"
+msgstr "風が吹き抜け、{name}は灰となって散った。"
+
+msgid "{name}开始腐烂了，发出一股难闻的恶臭。"
+msgstr "{name}が腐りはじめ、ひどい悪臭を放っている。"
+
+msgid "{name}被风吹乾了，变成一具骸骨。"
+msgstr "{name}は風に干からび、骸骨になった。"
+
+msgid "你没有足够的零钱，而对方也找不开...。"
+msgstr "小銭が足りないうえ、相手もお釣りを出せない……。"
+
+msgid "你的钱不够。"
+msgstr "お金が足りない。"
+
+msgid "这笔钱凑不整：对方找不开，你也没有合适的零钱。先去钱庄换些碎银或铜钱再来。"
+msgstr "この金額はちょうどには払えません。相手はお釣りが出せず、こちらにも合う小銭がありません。先に両替屋で細かい銀か銅銭に替えてきてください。"
+
+msgid "交易未完成，状态异常；已发生的扣款不会退回。"
+msgstr "取引が正しく完了せず、状態に異常があります。すでに支払った分は戻りません。"
+
+msgid "你拿起一根%s呜嘟嘟地吹了起来。"
+msgstr "%sを一本手に取り、プープーと吹き鳴らした。"
+
+msgid "你四处看看, 实在找不到地方挂绳子说..."
+msgstr "あたりを見回したが、縄をかける場所がどうにも見つからない……。"
+
+msgid "你把绳子一端挂好, 另一端往脖子上一套....."
+msgstr "縄の一方の端をかけ、もう一方の端を首にかけた……。"
+
+msgid "{npc}捡起{item}。"
+msgstr "{npc}が{item}を拾った。"
+
+msgid "你捡起%s。"
+msgstr "%sを拾った。"
+
+msgid "你附近没有这样东西。"
+msgstr "近くにそういう物はない。"
+
+msgid "{container}里什麽也没有，先装些水酒才能溶化药粉。"
+msgstr "{container}の中は空っぽだ。薬の粉を溶かすには、先に水か酒を入れなければならない。"
+
+msgid "你将一些{powder}倒进{container}，摇晃了几下。"
+msgstr "{powder}を少し{container}に入れ、何度か振った。"
+
+msgid "$N和$n仇人相见分外眼红，立刻打了起来！"
+msgstr "$Nと$nは仇同士、顔を合わせるなり目の色を変えて、たちまち戦いはじめた！"
+
+msgid "$N对著$n大喝：「可恶，又是你！」"
+msgstr "$Nが$nに怒鳴った。「くそっ、またお前か！」"
+
+msgid "$N和$n一碰面，二话不说就打了起来！"
+msgstr "$Nと$nは顔を合わせるなり、問答無用で戦いはじめた！"
+
+msgid "$N一眼瞥见$n，「哼」的一声冲了过来！"
+msgstr "$Nは$nを見るなり、「ふん」と鼻を鳴らして突っかかっていった！"
+
+msgid "$N一见到$n，愣了一愣，大叫：「我宰了你！」"
+msgstr "$Nは$nを見て一瞬ぎょっとし、叫んだ。「殺してやる！」"
+
+msgid "$N喝道：「$n，我们的帐还没算完，看招！」"
+msgstr "$Nが怒鳴った。「$n、まだ勘定は済んでいないぞ。覚悟！」"
+
+msgid "$N喝道：「$n，看招！」"
+msgstr "$Nが一喝した。「$n、覚悟！」"
+
+msgid "道："
+msgstr "「"
+
+msgid "{npc}发现了你！"
+msgstr "{npc}がこちらに気づいた！"
+
+msgid "{npc}发现了你，大喝一声！"
+msgstr "{npc}がこちらに気づき、大声で一喝した！"
+
+msgid "%s用一种异样的眼神扫视著在场的每一个人。"
+msgstr "%sは異様な目つきで、その場の一人ひとりを見回した。"
+
+msgid "{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。"
+msgstr "{npc}が怒鳴りつけてきた。「{self}はてめえがどうにも気に食わねえ。死にやがれ」"
+
+msgid "{npc}对著你喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
+msgstr "{npc}が怒鳴りつけてきた。「おい、{rude}！ {self}はちょうど暴れたかったところだ。ひと勝負付き合え！」"
+
+msgid "刀剑无眼，持兵刃比试可能真的受伤。"
+msgstr "刀剣に目はありません。武器を持っての手合わせでは、本当に傷を負うことがあります。"
+
+msgid "你用一种异样的眼神扫视著在场的每一个人。"
+msgstr "異様な目つきで、その場の一人ひとりを見回した。"
+
+msgid "你对著{npc}喝道：{self}看你实在很不顺眼，去死吧。"
+msgstr "{npc}に向かって怒鳴った。「{self}はどうにもお前が気に入らない。死んでもらう」"
+
+msgid "你对著{npc}喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
+msgstr "{npc}に向かって怒鳴った。「おい、{rude}！ {self}はちょうど誰かと一戦交えたかったところだ。少し付き合ってもらおう！」"
+
+msgid "%s突然转过头来瞪你一眼。"
+msgstr "%sが不意に振り向き、こちらをにらみつけた。"
+
+msgid "{npc}拔刀上前，和你并肩而立！"
+msgstr "{npc}が刀を抜いて進み出て、肩を並べた！"
+
+msgid "%s慢慢睁开眼睛，清醒了过来。"
+msgstr "%sはゆっくりと目を開け、意識を取り戻した。"
+
+msgid "{npc}的测试：第 {n} / {total} 招"
+msgstr "{npc}の試験：{n} / {total}手"
+
+msgid "{npc}：第 {n} / {total} 句"
+msgstr "{npc}：{n} / {total}"
+
+msgid "{name}走了过来。"
+msgstr "{name}がやって来た。"
+
+msgid "你忽然觉得身上一轻，{item}不见了！"
+msgstr "ふと体が軽くなった気がした。{item}がない！"
+
+msgid "你昏迷不醒的时候，身上的{item}被人拿走了！"
+msgstr "気を失っているあいだに、持っていた{item}を誰かに持ち去られた！"
+
+msgid "你一回头，正好发现{npc}的手正抓著你身上的{item}！"
+msgstr "振り向くと、ちょうど{npc}の手がこちらの{item}をつかんでいた！"
+
+msgid "你喝道：「干什麽！」"
+msgstr "怒鳴った。「何をする！」"
+
+msgid "{npc}穿上一{unit}{item}。"
+msgstr "{npc}は{item}を一{unit}身に着けた。"
+
+msgid "{npc}戴上一{unit}{item}。"
+msgstr "{npc}は{item}を一{unit}つけた。"
+
+msgid "{npc}将一{unit}绑在腰间。"
+msgstr "{npc}は何か一{unit}を腰に巻きつけた。"
+
+msgid "{npc}装备{item}。"
+msgstr "{npc}は{item}を装備した。"
+
+msgid "{npc}装备{item}作武器。"
+msgstr "{npc}は{item}を武器として構えた。"
+
+msgid "{npc}收了刀，走了。"
+msgstr "{npc}は刀を収めて去っていった。"
+
+msgid "%s急急忙忙地离开了。"
+msgstr "%sはあたふたと立ち去った。"
+
+msgid "（{npc}要把你押到县衙受审：被押着走不开；可以向他行贿，也可以拒捕跟他动手。）"
+msgstr "（{npc}に県衙へ引き立てられ、裁きにかけられようとしています。連行されているあいだは離れられません。{npc}に賄賂を贈ることも、捕縛に逆らって戦うこともできます。）"
+
+msgid "木人是武馆拆招用的，只能切磋，打坏了还得赔。"
+msgstr "木人は武館で稽古に使うものです。手合わせしかできず、壊せば弁償しなければなりません。"
+
+msgid "你身上带着伤，先养好了再来拆招。"
+msgstr "傷を負っているようです。まずは治してから稽古に来てください。"
+
+msgid "你是别派的弟子，我不便指点。"
+msgstr "他の門派の弟子に、稽古をつけるわけにはいきません。"
+
+msgid "来，拆三回合，点到为止。"
+msgstr "さあ、三合だけ稽古をしましょう。寸止めで。"
+
+msgid "{npc}已经倒了。{npc}还有用，留{npc}一条命。"
+msgstr "{npc}はもう倒れている。{npc}にはまだ用がある。{npc}の命は取らずにおく。"
+
+msgid "这里禁止战斗。"
+msgstr "ここでは戦闘は禁じられています。"
+
+msgid "你想攻击谁？"
+msgstr "誰を攻撃しますか？"
+
+msgid "加油！加油！加油！"
+msgstr "がんばれ！ がんばれ！ がんばれ！"
+
+msgid "%s已经无法战斗了。"
+msgstr "%sはもう戦えない。"
+
+msgid "你对著{npc}说道：{self}{name}，领教{respect}的高招！"
+msgstr "{npc}に言った。「{self}、{name}と申します。{respect}のお手並み、拝見いたします！」"
+
+msgid "看起来%s并不想跟你较量。"
+msgstr "どうやら%sは手合わせする気がないようだ。"
+
+msgid "你向{npc}讨教{skill}，请{npc}拆几招给你看。"
+msgstr "{npc}に{skill}の指南を頼み、何手か稽古をつけてもらうことにした。"
+
+msgid "{npc}给你{item}。"
+msgstr "{npc}が{item}をくれた。"
+
+msgid "你可以购买下列这些东西："
+msgstr "買えるもの："
+
+msgid "{item}：{price}"
+msgstr "{item}：{price}"
+
+msgid "两{unit}{item}"
+msgstr "{item}二{unit}"
+
+msgid "你说道：%s"
+msgstr "言った。「%s」"
+
+msgid "关闭%s"
+msgstr "%sを閉める"
+
+msgid "打开%s"
+msgstr "%sを開ける"
+
+msgid "你咬破手指，用鲜血在{paper}上画了一道僵尸追魂符，写上了{name}的名字。"
+msgstr "指を噛み切り、その血で{paper}にキョンシー追魂符を描いて、{name}の名を書き入れた。"
+
+msgid "这里没有{name}。"
+msgstr "ここに{name}はいない。"
+
+msgid "等待机会对{npc}下手"
+msgstr "{npc}に手を出す隙をうかがっている"
+
+msgid "这里禁止行窃。"
+msgstr "ここでは盗みは禁じられています。"
+
+msgid "你已经在找机会下手了！"
+msgstr "もう隙をうかがっているところだ！"
+
+msgid "你想行窃的对象不在这里。"
+msgstr "盗もうとした相手はここにいない。"
+
+msgid "{npc}身上看起来没有什麽值钱的东西好偷。"
+msgstr "{npc}は、盗むに値するような物は持っていないようだ。"
+
+msgid "你不动声色地慢慢靠近{npc}，等待机会下手 ..."
+msgstr "何食わぬ顔でそっと{npc}に近づき、手を出す隙をうかがう……"
+
+msgid "太可惜了，你下手的目标已经走了。"
+msgstr "残念、狙っていた相手は行ってしまった。"
+
+msgid "你摸到{item}，可是对你而言太重了，不得不放弃。"
+msgstr "{item}に手が届いたが、重すぎてどうにもならず、あきらめるしかなかった。"
+
+msgid "得手了！"
+msgstr "うまくいった！"
+
+msgid "你成功地偷到{item}！"
+msgstr "{item}をまんまと盗み取った！"
+
+msgid "{npc}不经意地一转头，你急忙将手缩了回去！"
+msgstr "{npc}がふと振り向いたので、あわてて手を引っこめた！"
+
+msgid "还好，没有被发现。"
+msgstr "やれやれ、気づかれなかった。"
+
+msgid "糟糕！你失手了！"
+msgstr "しまった！ しくじった！"
+
+msgid "{npc}一回头，正好发现你的手正抓著{pronoun}身上的{item}！"
+msgstr "{npc}が振り向くと、ちょうどこちらの手が{pronoun}の{item}をつかんでいるところだった！"
+
+msgid "{npc}喝道：「干什麽！」"
+msgstr "{npc}が怒鳴った。「何をする！」"
+
+msgid "！"
+msgstr "！"
+
+msgid "{name}喝道：{text}"
+msgstr "{name}が怒鳴った。「{text}」"
+
+msgid "风停了。草直直地立着，雾也不动了，四下里一点声音都没有。"
+msgstr "風がやんだ。草はまっすぐに立ち、霧も動かない。あたりには物音ひとつない。"
+
+msgid "一阵乱风打着旋卷过去，辨不出是从哪边来的。"
+msgstr "乱れた風が渦を巻いて吹き過ぎていった。どちらから吹いてきたのか見当もつかない。"
+
+msgid "风从{quarter}边吹过来，草都朝一边倒。"
+msgstr "風が{quarter}から吹いてきて、草がみな一方へなびいている。"
+
+msgid "怀里的风铃轻轻响了一声，清清楚楚。"
+msgstr "懐の風鈴が小さく一度、はっきりと鳴った。"
+
+msgid "怀里的风铃叮叮地响，声音清亮。"
+msgstr "懐の風鈴がちりんちりんと鳴った。澄んだ明るい音だ。"
+
+msgid "怀里的风铃闷闷地响了两下。"
+msgstr "懐の風鈴が、こもった音で二度鳴った。"
+
+msgid "风：停了"
+msgstr "風：凪"
+
+msgid "风：乱风"
+msgstr "風：乱れ風"
+
+msgid "风：{quarter}风 {arrow}"
+msgstr "風：{quarter}の風 {arrow}"
+
+msgid "主手"
+msgstr "利き手"
+
+msgid "副手"
+msgstr "添え手"
+
+msgid "已穿戴"
+msgstr "着用中"
+
+msgid "每次练习耗 {mana} 点法力、{sen} 点神。心神一乱会变出{npcs}，它会立刻攻击你，活着时不能再练。亲手杀了它，{skill}会有长进；被别人杀了，你会昏倒。"
+msgstr "練習のたびに法力{mana}と神{sen}を使う。心が乱れると{npcs}が現れ、すぐに襲いかかってくる。それが生きているあいだは練習できない。自分の手で倒せば{skill}が上達するが、ほかの者に倒されると気を失う。"
+
+msgid "或"
+msgstr "か"
+
+msgid "需要先学会基本咒文，法力才能增长。"
+msgstr "基本呪文を覚えないと、法力は伸びません。"
+
+msgid "需要先学会基本法术，灵力才能增长。"
+msgstr "基本法術を覚えないと、霊力は伸びません。"
+
+msgid "{verb}要耗去{cost}，你现在撑不住，会当场昏过去。\n确定要{verb}吗？"
+msgstr "「{verb}」には{cost}を使います。今の状態では耐えきれず、その場で気を失います。\nそれでも「{verb}」を行いますか？"
+
+msgid " {amount} 点{resource}"
+msgstr "{resource}{amount}"
+
+msgid "确定{verb}"
+msgstr "{verb}"
+
+msgid "和"
+msgstr "と"
+
+msgid "兑换"
+msgstr "両替"
+
+msgid "%s · 兑换（非存取款）"
+msgstr "%s · 両替（預け入れ・引き出しは不可）"
+
+msgid "直接携带（每种选定一堆）：\n铜钱 {coins} 文 / 银子 {silver} 两 / 黄金 {gold} 两"
+msgstr "手持ち（種類ごとに一山を選択）：\n銅銭{coins}文 / 銀{silver}両 / 黄金{gold}両"
+
+msgid "异常"
+msgstr "異常"
+
+msgid "现在无法在此兑换。"
+msgstr "今はここで両替できません。"
+
+msgid "请输入范围内的正整数，不支持小数或自动取整。"
+msgstr "範囲内の正の整数を入力してください。小数や自動の端数処理には対応していません。"
+
+msgid "看榜"
+msgstr "手配書を見る"
+
+msgid "坐车"
+msgstr "馬車に乗る"
+
+msgid "车夫摇摇头：「这会儿去不了。」"
+msgstr "御者は首を振った。「今はそっちへは行けないよ」"
+
+msgid "你的钱不够付车钱。"
+msgstr "運賃を払うお金が足りない。"
+
+msgid "坐车去{place}？车钱{fare}，路上约{time}。"
+msgstr "馬車で{place}へ行きますか？ 運賃は{fare}、道中およそ{time}です。"
+
+msgid "车夫摇摇头：「这会儿走不了。」"
+msgstr "御者は首を振った。「今は出られないよ」"
+
+msgid "你付了{fare}车钱。"
+msgstr "運賃{fare}を払った。"
+
+msgid "车马行的车走了{time}，把你送到了{place}。"
+msgstr "馬車屋の馬車は{time}走り、{place}で降ろしてくれた。"
+
+msgid "车马行的车把你送到了{place}。"
+msgstr "馬車屋の馬車が{place}まで送り届けてくれた。"
+
+msgid "这一曲要耗去 {sen} 点神，你现在撑不住，跳完就会昏过去。\n确定要跳吗？"
+msgstr "この曲を踊るには神を{sen}使います。今の状態では耐えきれず、踊り終えると気を失います。\n踊りますか？"
+
+msgid "跳舞"
+msgstr "踊る"
+
+msgid "确定起舞"
+msgstr "踊る"
+
+msgid "交易"
+msgstr "取引"
+
+msgid "%s · 估价 / 卖断"
+msgstr "%s · 査定 / 売り切り"
+
+msgid "已持用 · 主手"
+msgstr "使用中 · 利き手"
+
+msgid "已持用 · 副手"
+msgstr "使用中 · 添え手"
+
+msgid "未装备"
+msgstr "未装備"
+
+msgid "{money} ×{amount}{unit}"
+msgstr "{money} ×{amount}{unit}"
+
+msgid "直接携带的钱：%s"
+msgstr "手持ちのお金：%s"
+
+msgid "卖断 {item}\n报价{price}文。物品将永久移除。"
+msgstr "{item}を売り切る\n買い取り額は{price}文。品物は二度と戻りません。"
+
+msgid "位置或物品状态已变化，未执行卖断；请重新选择。"
+msgstr "位置か品物の状態が変わったため、売り切りは行われませんでした。もう一度選んでください。"
+
+msgid "任务"
+msgstr "任務"
+
+msgid "看货"
+msgstr "品物を見る"
+
+msgid "你看到:"
+msgstr "見えるもの："
+
+msgid "请教"
+msgstr "教えを請う"
+
+msgid "你必须先把%s弄醒。"
+msgstr "まず%sを起こさなければならない。"
+
+msgid "{master}收下了你。\n\n你成了{family}第{generation}代弟子。往后向师父请教，就能学他会的武功；请教页写着每门能学到几级，武学页能打坐练内力。"
+msgstr "{master}が弟子に迎えてくれた。\n\n{family}第{generation}代の弟子となった。これからは師父に教えを請えば、師父の会得している武功を学べます。「教えを請う」のページには各武功を何レベルまで学べるかが書かれ、「武学」のページでは打坐して内力を鍛えられます。"
+
+msgid "购买"
+msgstr "買う"
+
+msgid "{liquid}{portions}份"
+msgstr "{liquid}{portions}杯分"
+
+msgid "买一%s"
+msgstr "一%s買う"
+
+msgid "%d两黄金"
+msgstr "黄金%d両"
+
+msgid "%d两银子"
+msgstr "銀%d両"
+
+msgid "%d文钱"
+msgstr "%d文"
+
+msgid "工作"
+msgstr "働く"
+
+msgid "你揭下了雪亭驿的悬赏告示：{outlaw}，最近在{region}的{place}一带出没。"
+msgstr "雪亭の宿駅の懸賞の手配書をはがした。{outlaw}、最近{region}の{place}あたりに出没している。"
+
+msgid "你放弃了捉拿{outlaw}的悬赏。"
+msgstr "{outlaw}捕縛の懸賞をあきらめた。"
+
+msgid "路旁人影一晃，{outlaw}跳了出来！"
+msgstr "道ばたで人影が揺れ、{outlaw}が飛び出してきた！"
+
+msgid "你把{outlaw}捆了个结实，托路过的官差押往雪亭驿。"
+msgstr "{outlaw}をしっかりと縛り上げ、通りがかった役人に雪亭の宿駅まで引っ立ててもらった。"
+
+msgid "雪亭驿付给你{silver}两银子的赏银。"
+msgstr "雪亭の宿駅から、賞金として銀{silver}両が支払われた。"
+
+msgid "其中{silver}两你拿不动，掉在你的脚边。"
+msgstr "そのうち{silver}両は持ちきれず、足もとに落ちた。"
+
+msgid "你的尸体"
+msgstr "自分の亡骸"
+
+msgid "你的尸体和留在上面的东西还在：{place}"
+msgstr "自分の亡骸と、身につけていた物はまだそこにある：{place}"
+
+msgid "{name}倒在{place}，没能跟上你。"
+msgstr "{name}は{place}で倒れ、ついて来られなかった。"
+
+msgid "{name}还在{place}等你。"
+msgstr "{name}はまだ{place}で待っている。"
+
+msgid "你的实战经验还不够，过不去。"
+msgstr "実戦経験が足りず、先へ進めない。"
+
+msgid "你来到%s。"
+msgstr "%sに着いた。"
+
+msgid "%s锁着。"
+msgstr "%sには鍵がかかっている。"
+
+msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或自学，用掉一些潜能吧。"
+msgstr "潜在力がいっぱいです（未使用は最大{cap}まで）。これ以上戦っても潜在力は増えません。師父に教えを請うか独学して、潜在力を使ってください。"
+
+msgid "{name}找了过来，又跟在你身边。"
+msgstr "{name}が追いついてきて、また傍らについた。"
+
+msgid "{name}没有跟上来，还在{place}。"
+msgstr "{name}はついて来ず、まだ{place}にいる。"
+
+msgid "到了，指路收起。"
+msgstr "到着しました。道しるべを消します。"
+
+msgid "【晋阶】你现在是{title}。"
+msgstr "【昇格】{title}となった。"
+
+msgid "【分宗】你现在是{title}。"
+msgstr "【分宗】{title}となった。"
+
+msgid "支付货币"
+msgstr "支払う通貨"
+
+msgid "取得货币"
+msgstr "受け取る通貨"
+
+msgid "支付数量（正整数）"
+msgstr "支払う数量（正の整数）"
+
+msgid "请选择货币与数量。同币种亦可兑换。"
+msgstr "通貨と数量を選んでください。同じ通貨どうしでも両替できます。"
+
+msgid "铜钱 · 文"
+msgstr "銅銭 · 文"
+
+msgid "银子 · 两"
+msgstr "銀 · 両"
+
+msgid "黄金 · 两"
+msgstr "黄金 · 両"
+
+msgid "兑换成功：扣除 {paid}，取得 {received}。"
+msgstr "両替しました。{paid}を支払い、{received}を受け取りました。"
+
+msgid "换成这么多你拿不动：身上太重，这笔没有换。少换一些，或先放下些东西。"
+msgstr "そんなに替えると持ちきれません。荷物が重すぎるので、両替は行いませんでした。少なめに替えるか、先に何か手放してください。"
+
+msgid "你没有直接携带这种货币。"
+msgstr "その通貨は手持ちにありません。"
+
+msgid "所选货币数量不足。"
+msgstr "選んだ通貨の数量が足りません。"
+
+msgid "数量不足以兑换一单位目标货币。"
+msgstr "数量が少なく、受け取る通貨の1単位分にもなりません。"
+
+msgid "请输入有效的正整数。"
+msgstr "正しい正の整数を入力してください。"
+
+msgid "兑换状态异常，请停止操作。"
+msgstr "両替の状態に異常があります。操作を中止してください。"
+
+msgid "确定"
+msgstr "決定"
+
+msgid "切到别的窗口时，游戏暂停了。"
+msgstr "別のウィンドウに切り替えたため、ゲームを一時停止しました。"
+
+msgid "不想这样暂停，可以在「设置」里关掉「切出窗口时暂停」。"
+msgstr "このように一時停止したくない場合は、「設定」で「ウィンドウ切替時に一時停止」をオフにしてください。"
+
+msgid "走路"
+msgstr "歩く"
+
+msgid "交互 · 继续"
+msgstr "調べる · 続ける"
+
+msgid "确认"
+msgstr "決定"
+
+msgid "返回 · 取消"
+msgstr "戻る · キャンセル"
+
+msgid "观察"
+msgstr "見回す"
+
+msgid "切换视角"
+msgstr "視点切替"
+
+msgid "菜单翻页"
+msgstr "メニューのページ送り"
+
+msgid "角色"
+msgstr "人物"
+
+msgid "地图：移动"
+msgstr "地図：移動"
+
+msgid "地图：缩放"
+msgstr "地図：拡大・縮小"
+
+msgid "地图：回到所在"
+msgstr "地図：現在地に戻る"
+
+msgid "地图：全图 / 近看"
+msgstr "地図：全体 / 近く"
+
+msgid "暂停（系统）"
+msgstr "一時停止（システム）"
+
+msgid "滚动长文"
+msgstr "長い文のスクロール"
+
+msgid "战斗：换目标"
+msgstr "戦闘：目標変更"
+
+msgid "战斗：记录"
+msgstr "戦闘：ログ"
+
+msgid "战斗：收回指令"
+msgstr "戦闘：指示の取り消し"
+
+msgid "字母键按键盘上的位置算，这里写的是你的键盘在那个位置印的字。暂时不能改键；手柄可以在 Steam 的控制器设置里改。"
+msgstr "文字キーはキーボード上の位置で決まります。ここに書かれているのは、お使いのキーボードのその位置に刻まれている文字です。キー割り当ては今のところ変更できません。ゲームパッドはSteamのコントローラー設定で変更できます。"
+
+msgid "动作"
+msgstr "操作"
+
+msgid "键盘"
+msgstr "キーボード"
+
+msgid "手柄"
+msgstr "ゲームパッド"
+
+msgid "方向键"
+msgstr "方向キー"
+
+msgid "十字键"
+msgstr "十字キー"
+
+msgid "停止"
+msgstr "中止"
+
+msgid "{what}：已做 {count} 次"
+msgstr "{what}：{count}回"
+
+msgid "{what}：已做 {count} 次，{rest}"
+msgstr "{what}：{count}回、{rest}"
+
+msgid "，上限 {maximum} → {target}，还差 {left}"
+msgstr "、上限 {maximum} → {target}、あと{left}"
+
+msgid "你现在是{title}。改投{master}门下，就是背叛师门：\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n· 门派、师父和称号都换成{family}的；已经学会的武功保留。\n· 日后再改投别派，又算一次背叛。\n{lines}确定要改投吗？"
+msgstr "現在の身分は{title}です。{master}の門下に移れば、師門に背くことになります：\n· 総合評価が0になります（現在は{score}）。\n· 師門に背いた回数が{next}回になります。以後、弟子を取る師父から武功を教わるとき、教われるのは師父自身のレベルから20 × 背いた回数を引いたところまでです。\n· 門派、師父、称号はすべて{family}のものに変わります。学んだ武功はそのまま残ります。\n· のちにまた別の門派に移れば、それも背信として数えられます。\n{lines}門派を移りますか？"
+
+msgid "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n· 综合评价清零。\n· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n{lines}确定要拜师吗？"
+msgstr "{master}に師事すれば、{family}の弟子となります。のちに別の門派に移れば、師門に背くことになります：\n· 総合評価が0になります。\n· 師門に背いた回数が1増えます。以後、弟子を取る師父から武功を教わるとき、教われるのは師父自身のレベルから20 × 背いた回数を引いたところまでです。\n{lines}弟子入りしますか？"
+
+msgid "· 「{title}」这条线就此中止，以后再也接不上。\n"
+msgstr "· 「{title}」の話はここで途切れ、二度と続けられません。\n"
+
+msgid "· 「{title}」这条线从此不会再出现。\n"
+msgstr "· 「{title}」の話は、今後二度と始まりません。\n"
+
+msgid "你现在是{current}的嫡传弟子。改拜{master}为师，{current}就不再是你的师父：\n· 门派不变，辈分随{master}。\n{teach}确定要改拜{master}为师吗？"
+msgstr "現在は{current}の直弟子です。{master}に師事し直すと、{current}は師父ではなくなります：\n· 門派は変わらず、代は{master}に合わせて変わります。\n{teach}{master}に師事し直しますか？"
+
+msgid "· 以后{current}只教你{pronoun}的等级超过你三倍的武功。\n"
+msgstr "· 今後、{current}が教えてくれるのは、{pronoun}のレベルがこちらの三倍を超える武功だけになります。\n"
+
+msgid "· {current}只教嫡传弟子，以后不再教你。\n"
+msgstr "· {current}は直弟子にしか教えないので、今後は教えてもらえなくなります。\n"
+
+msgid "· 你现在是{current}的嫡传弟子；三招都接住，便改拜{master}为师，{current}就不再是你的师父。\n{teach}"
+msgstr "· 現在は{current}の直弟子です。三手をすべて受けきれば{master}に師事し直すことになり、{current}は師父ではなくなります。\n{teach}"
+
+msgid "{master}的三招是真打：\n· 每一招都实打实地落在你身上，挨中了会受伤。\n· 哪一招接不住，测试就算失败，你随后会昏倒。\n· 伤得太重会死。\n{after}\n确定接受测试吗？"
+msgstr "{master}の三手は本気の攻撃です：\n· どの一手も本当に打ち込まれ、当たれば傷を負います。\n· 一手でも受けきれなければ試験は失敗となり、そのあと気を失います。\n· 傷が重すぎれば命を落とします。\n{after}\n試験を受けますか？"
+
+msgid "· 三招都接住，便拜入{master}门下，成为{family}的弟子。"
+msgstr "· 三手をすべて受けきれば{master}の門下に入り、{family}の弟子となります。"
+
+msgid "· 这是你第一次拜师；日后再改投别派，就是背叛师门。"
+msgstr "· これが初めての師事です。のちに別の門派に移れば、師門に背くことになります。"
+
+msgid "· 你现在是{title}；三招都接住，就改投{master}门下，等于背叛师门：综合评价清零（现在是 {score}），背叛师门的次数变成 {next} 次；门派、师父和称号都换成{family}的，已经学会的武功保留。"
+msgstr "· 現在は{title}です。三手をすべて受けきれば{master}の門下に移ることになり、それは師門に背くのと同じです。総合評価は0になり（現在は{score}）、師門に背いた回数は{next}回になります。門派、師父、称号はすべて{family}のものに変わり、学んだ武功はそのまま残ります。"
+
+msgid "· 三招都接住，{master}便愿意收你为徒，再向{pronoun}拜师即可。"
+msgstr "· 三手をすべて受けきれば、{master}は弟子に取ってくれる気になります。あとは{pronoun}に弟子入りを願い出るだけです。"
+
+msgid "{master}只收没有门派的普通百姓为徒。你现在是{title}，向{pronoun}拜师：\n· {pronoun}会当你要背叛师门，当众大声喝破。\n· 然后当场出手要杀你，这是一场生死之战。\n确定要向{pronoun}拜师吗？"
+msgstr "{master}は門派に属さない普通の民しか弟子に取りません。現在は{title}です。{pronoun}に弟子入りを願い出ると：\n· {pronoun}は師門に背くつもりだと見なし、皆の前で大声でそれを暴きます。\n· そしてその場で殺しにかかってきます。命がけの戦いです。\n{pronoun}に弟子入りを願い出ますか？"
+
+msgid "拜师 / 向师父请安"
+msgstr "弟子入り / 師父にご挨拶"
+
+msgid "发誓恪守门规"
+msgstr "門規を守ると誓う"
+
+msgid "接受测试"
+msgstr "試験を受ける"
+
+msgid "取消拜师请求"
+msgstr "弟子入りを撤回"
+
+msgid "离开"
+msgstr "立ち去る"
+
+msgid "请教%s（一次）"
+msgstr "%sを教わる（一回）"
+
+msgid "连续请教"
+msgstr "続けて教わる"
+
+msgid "{skill} {level} · 学习进度 {progress} · 耗精 {cost}"
+msgstr "{skill} {level} · 習得度 {progress} · 精の消費 {cost}"
+
+msgid "有效{skill} {level}"
+msgstr "有効な{skill} {level}"
+
+msgid "精 {gin}（须大于消耗才可进步） · 可用潜能 {potential} · 实战经验 {exp}"
+msgstr "精 {gin}（消費より多くないと上達しない） · 使える潜在力 {potential} · 実戦経験 {exp}"
+
+msgid "确定拜师"
+msgstr "弟子入りする"
+
+msgid "不拜了"
+msgstr "やめておく"
+
+msgid "确定改投"
+msgstr "門派を移る"
+
+msgid "不改投了"
+msgstr "移らない"
+
+msgid "再想想"
+msgstr "考え直す"
+
+msgid "确定发誓"
+msgstr "誓う"
+
+msgid "不试了"
+msgstr "受けない"
+
+msgid "连续请教「%s」"
+msgstr "「%s」を続けて教わる"
+
+msgid "无法计算"
+msgstr "計算できない"
+
+msgid "官府悬赏：捉拿以下恶人者，赏银由雪亭驿代付。放过的恶人押送官府，一样领赏。"
+msgstr "官府の懸賞：以下の悪人を捕らえた者には、雪亭の宿駅が代わって賞金を支払う。見逃して官府へ引き渡した悪人も、同じく賞金を出す。"
+
+msgid "榜上暂时没有与阁下相称的悬赏，过些时候再来看看吧。"
+msgstr "今のところ、腕前にふさわしい懸賞は出ていません。しばらくしてから、また見に来てください。"
+
+msgid "{outlaw} · 出没于{region}{place}一带 · 赏银{silver}两"
+msgstr "{outlaw} · {region}の{place}あたりに出没 · 賞金 銀{silver}両"
+
+msgid "（已揭）"
+msgstr "（引き受け済み）"
+
+msgid "放弃"
+msgstr "あきらめる"
+
+msgid "揭榜"
+msgstr "引き受ける"
+
+msgid "一次只能揭一张榜。"
+msgstr "一度に引き受けられる懸賞は一つだけです。"
+
+msgid "你揭下了告示。"
+msgstr "手配書をはがした。"
+
+msgid "你放弃了这张悬赏。"
+msgstr "この懸賞をあきらめた。"
+
+msgid "你身上没有钱。"
+msgstr "お金を持っていない。"
+
+msgid "算了"
+msgstr "やめておく"
+
+msgid "拿多少钱塞给{npc}？"
+msgstr "{npc}にいくら握らせますか？"
+
+msgid "身份"
+msgstr "身分"
+
+msgid "历练"
+msgstr "歴練"
+
+msgid "精气神"
+msgstr "精・気・神"
+
+msgid "修为"
+msgstr "修練"
+
+msgid "天赋"
+msgstr "天賦"
+
+msgid "{name} · {gender} · {age}岁"
+msgstr "{name} · {gender} · {age}歳"
+
+msgid "(鬼气) "
+msgstr "（鬼気）"
+
+msgid "{potential}（已用 {spent}）"
+msgstr "{potential}（使用済み {spent}）"
+
+msgid "总共杀过 {kills} 个人。"
+msgstr "これまでに{kills}人を殺した。"
+
+msgid "可用潜能 {unspent} / {cap}"
+msgstr "使える潜在力 {unspent} / {cap}"
+
+msgid "（已满，先去请教或自学）"
+msgstr "（いっぱいです。先に教えを請うか独学してください）"
+
+msgid "落后补偿：{region}推荐实战经验 {recommended}，你在这里所得的经验和潜能 +{percent}%，赶上后恢复。"
+msgstr "遅れの補正：{region}の推奨実戦経験は{recommended}です。ここで得る経験と潜在力が+{percent}%され、追いつけば元に戻ります。"
+
+msgid "还没有历练。切磋取胜、了结一段经历、第一次到一个地方，都算。"
+msgstr "まだ歴練はありません。手合わせでの勝利、出来事の決着、初めての土地への到着が、どれも数えられます。"
+
+msgid "……还有 {count} 项"
+msgstr "……ほか{count}件"
+
+msgid "生在{name}"
+msgstr "{name}に生まれた"
+
+msgid "切磋胜过{name}"
+msgstr "手合わせで{name}に勝った"
+
+msgid "击败{name}"
+msgstr "{name}を倒した"
+
+msgid "了结「{name}」"
+msgstr "「{name}」に決着をつけた"
+
+msgid "读通{name}"
+msgstr "{name}を読み通した"
+
+msgid "到过{name}"
+msgstr "{name}を訪れた"
+
+msgid "内力练到 {name}"
+msgstr "内力が{name}に達した"
+
+msgid "办成「{name}」"
+msgstr "「{name}」を成し遂げた"
+
+msgid "你还没有学会任何武学。"
+msgstr "まだ武学を何も身につけていない。"
+
+msgid "你还没有拿过任何东西。"
+msgstr "まだ何も手にしたことがない。"
+
+msgid "你还没有遇见过任何门派的人。"
+msgstr "まだどの門派の者にも会ったことがない。"
+
+msgid "你还没有遇见过任何人。"
+msgstr "まだ誰にも会ったことがない。"
+
+msgid "你想跳哪一曲？"
+msgstr "どの曲を踊りますか？"
+
+msgid "跳「{name}」"
+msgstr "「{name}」を踊る"
+
+msgid "随意起舞"
+msgstr "気ままに踊る"
+
+msgid "你还没有见过什么人。"
+msgstr "まだ誰も見かけていない。"
+
+msgid "中止施法"
+msgstr "術を中止"
+
+msgid "声望"
+msgstr "名声"
+
+msgid "百科"
+msgstr "百科"
+
+msgid "系统"
+msgstr "システム"
+
+msgid "战斗中只能使用系统功能。"
+msgstr "戦闘中はシステムの機能しか使えません。"
+
+msgid "确认给予"
+msgstr "渡す"
+
+msgid "还剩 {portions} 份 · 价值 {value} 文"
+msgstr "残り{portions}回分 · 価値{value}文"
+
+msgid "里面是空的 · 最多装 {maximum} 份"
+msgstr "空 · 最大{maximum}杯分"
+
+msgid "装着{liquid} · {portions}/{maximum} 份"
+msgstr "{liquid}入り · {portions}/{maximum}杯分"
+
+msgid "喝一份{liquid}"
+msgstr "{liquid}を一杯飲む"
+
+msgid "你将剩下的%s吃得乾乾净净。"
+msgstr "残りの%sをきれいに平らげた。"
+
+msgid "你拿起%s咬了几口。"
+msgstr "%sを手に取り、何口かかじった。"
+
+msgid "你已经是鬼了，不能吃东西！"
+msgstr "もう幽霊なのだから、物は食べられない！"
+
+msgid "你已经吃太饱了，再也塞不下任何东西了。"
+msgstr "もう満腹で、これ以上何も入らない。"
+
+msgid "你肚子太涨了，再也撑不下任何东东了。!"
+msgstr "腹がぱんぱんで、もう何ひとつ入らない！"
+
+msgid "只能吃自己直接携带的食物。"
+msgstr "食べられるのは、自分で持っている食べ物だけです。"
+
+msgid "战斗中暂不能吃东西。"
+msgstr "戦闘中は食事できません。"
+
+msgid "你上一个动作还没有完成。"
+msgstr "前の動作がまだ終わっていません。"
+
+msgid "物品状态异常，请停止操作。"
+msgstr "品物の状態に異常があります。操作を中止してください。"
+
+msgid "现在不能吃这个物品。"
+msgstr "今はこれを食べられません。"
+
+msgid "你将%s装满清水。"
+msgstr "%sに清水を満たした。"
+
+msgid "你将{container}里剩下的{liquid}倒掉。"
+msgstr "{container}に残っていた{liquid}を捨てた。"
+
+msgid "你拿起{container}咕噜噜地喝了几口{liquid}。"
+msgstr "{container}を手に取り、{liquid}をごくごくと何口か飲んだ。"
+
+msgid "你已经将{container}里的{liquid}喝得一滴也不剩了。"
+msgstr "{container}の{liquid}を、一滴残らず飲み干してしまった。"
+
+msgid "你已经是鬼了，不能喝东西！"
+msgstr "もう幽霊なのだから、物は飲めない！"
+
+msgid "你已经喝太多了，再也灌不下一滴水了。"
+msgstr "もう飲みすぎて、水一滴も入らない。"
+
+msgid "%s已经被喝得一滴也不剩了"
+msgstr "%sはもう一滴も残っていない"
+
+msgid "这里没有地方可以装水。"
+msgstr "ここには水を汲める場所がない。"
+
+msgid "战斗中暂不能装水或饮用。"
+msgstr "戦闘中は水を汲むことも飲むこともできません。"
+
+msgid "现在不能使用这个酒袋。"
+msgstr "今はこの酒袋を使えません。"
+
+msgid "请选择随身物品。"
+msgstr "手持ちの品を選んでください。"
+
+msgid "估价"
+msgstr "査定"
+
+msgid "卖断…"
+msgstr "売り切る…"
+
+msgid "确认卖断（不可撤销）"
+msgstr "売り切る（取り消し不可）"
+
+msgid "价值{value}文 · 卖断可得{payout}文（以实际交付为准）。"
+msgstr "価値{value}文 · 売り切れば{payout}文（実際に受け取れる額による）。"
+
+msgid "一文不值，不能卖断。"
+msgstr "一文の値打ちもなく、売れない。"
+
+msgid "掌柜把它推了回来：这是要紧的东西，您还用得着，小号不收。"
+msgstr "店主は品を押し返した。「大事なお品で、まだお入り用でしょう。当店ではお引き取りできません」"
+
+msgid "物品已变化或现在不可交易，请重新选择。"
+msgstr "品物が変わったか、今は取引できません。もう一度選んでください。"
+
+msgid "天空中万里无云"
+msgstr "空には雲ひとつない"
+
+msgid "几朵淡淡的云彩妆点著清朗的天空"
+msgstr "晴れ渡った空に、淡い雲がいくつか浮かんでいる"
+
+msgid "白云在天空中飘来飘去"
+msgstr "白い雲が空を流れていく"
+
+msgid "厚厚的云层堆积在天边"
+msgstr "空の果てに厚い雲が幾重にも積もっている"
+
+msgid "天空中乌云密布"
+msgstr "空は黒雲に覆われている"
+
+msgid "微曦"
+msgstr "薄明"
+
+msgid "东方的天空中开始出现一丝微曦。"
+msgstr "東の空がかすかに白み始めた。"
+
+msgid "东方的天空已逐渐发白"
+msgstr "東の空がしだいに白んできている"
+
+msgid "日出"
+msgstr "日の出"
+
+msgid "太阳从东方的地平线升起了。"
+msgstr "太陽が東の地平線から昇った。"
+
+msgid "太阳刚从东方的地平线升起"
+msgstr "太陽が東の地平線から昇ったばかりだ"
+
+msgid "上午"
+msgstr "午前"
+
+msgid "太阳已经高高地挂在东方的天空中。"
+msgstr "太陽はもう東の空高くにかかっている。"
+
+msgid "太阳正高挂在东方的天空中"
+msgstr "太陽が東の空高くにかかっている"
+
+msgid "正午"
+msgstr "正午"
+
+msgid "已经是正午了，太阳从你正上方照耀著大地。"
+msgstr "もう正午だ。太陽が頭の真上から大地を照らしている。"
+
+msgid "现在是正午时分，太阳高挂在你的头顶正上方"
+msgstr "今は正午どき、太陽が頭の真上高くにかかっている"
+
+msgid "下午"
+msgstr "午後"
+
+msgid "太阳开始从西方的天空中慢慢西沉。"
+msgstr "太陽が西の空をゆっくりと傾き始めた。"
+
+msgid "太阳正高挂在西方的天空中"
+msgstr "太陽が西の空高くにかかっている"
+
+msgid "傍晚"
+msgstr "夕暮れ"
+
+msgid "傍晚了，太阳的馀晖将西方的天空映成一片火红。"
+msgstr "夕暮れだ。夕日の名残が西の空を真っ赤に染めている。"
+
+msgid "一轮火红的夕阳正徘徊在西方的地平线上"
+msgstr "真っ赤な夕日が西の地平線にたゆたっている"
+
+msgid "夜晚"
+msgstr "夜"
+
+msgid "夜晚降临了。"
+msgstr "夜が訪れた。"
+
+msgid "夜幕笼罩著大地"
+msgstr "夜の帳が大地を包んでいる"
+
+msgid "午夜"
+msgstr "真夜中"
+
+msgid "已经是午夜了。"
+msgstr "もう真夜中だ。"
+
+msgid "夜幕低垂，满天繁星"
+msgstr "夜は更け、空いっぱいに星がまたたいている"
+
+msgid "这是流通中单位最小的货币，约要一百文钱才值得一两银子。\n"
+msgstr "出回っている貨幣のうちで最も単位の小さいもので、百文ほどでようやく銀一両になる。\n"
+
+msgid "文"
+msgstr "文"
+
+msgid "白花花的银子，人见人爱的银子。\n"
+msgstr "白く光る銀。誰もが欲しがる銀。\n"
+
+msgid "黄澄澄的金子，人见人爱的金子，啊～～金子！\n"
+msgstr "黄金色に輝く金。誰もが欲しがる金。ああ～～金！\n"
+
+msgid "一件普通的粗布衣服，不值什么钱。\n"
+msgstr "ごく普通の粗布の着物で、たいした値打ちはない。\n"
+
+msgid "一个香喷喷、热腾腾的大包子。\n"
+msgstr "いい匂いのする、湯気の立つ大きな肉まん。\n"
+
+msgid "一枝烤得香喷喷鸡腿，你还犹豫什麽？准备胃液吧。\n"
+msgstr "こんがり香ばしく焼けた鶏もも。何をためらっている？ よだれの支度をしておけ。\n"
+
+msgid "啃得精光的鸡腿骨头"
+msgstr "しゃぶり尽くした鶏ももの骨"
+
+msgid "一根啃得精光的鸡腿骨头。\n"
+msgstr "きれいにしゃぶり尽くされた鶏ももの骨が一本。\n"
+
+msgid "一个牛皮缝的大酒袋，大概装得八、九升的酒。\n"
+msgstr "牛革を縫い合わせた大きな酒袋で、酒が八、九升は入りそうだ。\n"
+
+msgid "这本旧书的纸张都已经泛黄了，上面只有一些字迹模糊的字句，似乎\n提到一些呼吸方法什么的。\n"
+msgstr "この古い本の紙はすっかり黄ばんでいて、かすれた字がいくらか残っているだけだ。どうやら呼吸の仕方か何かについて書いてあるらしい。\n"
+
+msgid "一颗金疮药, 可以用来敷上治伤 。\n"
+msgstr "金創薬が一粒。傷に塗って手当てができる。\n"
+
+msgid "这是一把看起相当普通的长剑，份量大约有十来斤左右。\n"
+msgstr "ごく普通に見える長剣で、重さはおよそ十斤ほどだ。\n"
+
+msgid "这是一把通体黝黑的重剑，上面生满了尖锐的倒钩，乃是乔阴柳家\n历代相传的宝剑，据说这把剑杀人不沾血，永远保持杀气。\n"
+msgstr "全体が黒々とした重い剣で、鋭い逆鉤がびっしりと生えている。喬陰の柳家に代々伝わる宝剣で、人を斬っても血がつかず、いつまでも殺気を宿しているという。\n"
+
+msgid "这是一包用来毁尸灭迹的化尸粉，只要用一丁点就可以\n化去一具尸体！\n"
+msgstr "死体を始末して跡を消すための化屍粉の包みだ。ほんのひとつまみで、死体一つを溶かしてしまう！\n"
+
+msgid "这是一包用来解蛇毒的药\n可以用来解蛇毒!\n"
+msgstr "蛇の毒を消す薬の包みだ。蛇の毒を消すのに使える！\n"
+
+msgid "飞镖是一种十分常见的暗器。\n"
+msgstr "飛鏢はごくありふれた暗器だ。\n"
+
+msgid "枝"
+msgstr "本"
+
+msgid "这是一种毒性猛烈的春药，你可以把它倒在酒水之中使用。\n"
+msgstr "毒性の強い媚薬で、酒や水に混ぜて使う。\n"
+
+msgid "这是一把看起相当普通的匕首。\n"
+msgstr "ごく普通に見える匕首だ。\n"
+
+msgid "这是一寻常的单刀，份量大约六、七斤重。\n"
+msgstr "ありふれた単刀で、重さは六、七斤ほどだ。\n"
+
+msgid "这是一口寻常的布袋，可以用来装一些杂物。\n"
+msgstr "ありふれた布袋で、こまごました物を入れておける。\n"
+
+msgid "这是一把八角铜锤，沉甸甸的。\n"
+msgstr "八角の銅の錘で、ずしりと重い。\n"
+
+msgid "这是一把又细又长的剑，轻飘飘的像是女孩子家的玩意。\n"
+msgstr "細く長い剣で、ふわりと軽く、まるで娘の手遊びの品のようだ。\n"
+
+msgid "这是一把暗绿色的鬼头刀，拿在手中沈甸甸地。\n"
+msgstr "暗い緑色の鬼頭刀で、手に持つとずっしりと重い。\n"
+
+msgid "这是一把血红色的的长剑，份量大约有十来斤左右。\n"
+msgstr "血のように赤い長剣で、重さはおよそ十斤ほどだ。\n"
+
+msgid "这是寻常的绿林盗贼用来作案的蒙汗药，你可以把它倒在\n酒水之中使用。\n"
+msgstr "緑林の盗賊が悪事によく使うしびれ薬だ。酒や水に混ぜて使う。\n"
+
+msgid "这是一条紫铜杖，杖的两端似乎封这密文。\n"
+msgstr "紫銅の杖で、両端には密文が封じられているらしい。\n"
+
+msgid "一把闪闪发著金光的长剑。\n"
+msgstr "金色にきらめく長剣だ。\n"
+
+msgid "这是一把桃木雕成的古剑，闻起来有一股香味，剑身刻著许多你从未见过的咒\n文，只有剑柄部份有两个依稀可以辨认的篆字：「 王 禅 」\n"
+msgstr "桃の木を彫って作った古剣で、ほのかに良い香りがする。剣身には見たこともない呪文がいくつも刻まれ、柄の部分にかろうじて読み取れる篆字が二つあるだけだ。「王 禅」\n"
+
+msgid "王禅剑发出一股金色的罡气，流遍$N的全身。"
+msgstr "王禅剣から金色の剛気がほとばしり、$Nの全身を巡る。"
+
+msgid "这是道士们用来画符的符纸，具有封存法力的功用。\n"
+msgstr "道士が護符を描くのに使う符紙で、法力を封じ込める力がある。\n"
+
+msgid "一条又粗又长，非常沈重的黄铜禅杖，上面镶著六个铜环。\n"
+msgstr "太く長く、ひどく重い黄銅の禅杖で、銅の環が六つはめ込まれている。\n"
+
+msgid "这是步玄派历代相传的掌门信物，湛蓝色的剑身跟鹅黄色剑柄，使\n得风泉之剑成为具有「剑之王者」的美誉，除此之外，这把剑也是\n削铁如泥的利器。\n"
+msgstr "歩玄派に代々伝わる掌門の証だ。紺碧の剣身に浅黄色の柄、風泉の剣は「剣の王者」の誉れを得ている。そのうえ、鉄を泥のように断つ利剣でもある。\n"
+
+msgid "你看到风泉之剑掉落在地上 ..."
+msgstr "風泉の剣が地面に落ちるのが見えた……"
+
+msgid "不 ... 它飘了起来！一个人形忽然浮现，手中正握著风泉之剑！"
+msgstr "いや……剣がふわりと浮かび上がった！ 人の姿が不意に現れ、その手に風泉の剣を握っている！"
+
+msgid "拳脚功夫的根底，出拳踢腿、闪身贴近都从这里练起。柳家拳、天邪神掌这类拳掌指爪的专门功夫都要激发在它上面，根底越厚，激发出来越有分量。勤练拳脚，膂力也会慢慢长起来。"
+msgstr "拳脚の武芸の土台。拳を突き、脚を蹴り、身をかわして懐に入る――すべてここから鍛える。柳家拳や天邪神掌のような拳・掌・指・爪の専門の武芸は、みなこの上に載せて使う。土台が厚いほど、載せたときの重みが増す。拳脚を鍛えれば、膂力も少しずつついてくる。"
+
+msgid "由於你勤练武艺，你的膂力提高了。"
+msgstr "武芸に励んだおかげで、膂力が上がった。"
+
+msgid "使剑的根底：握剑、出剑、收剑的规矩都在这里。封山剑法、六阴追魂剑这些剑法都激发在它上面；没学过专门剑法的人，手里有剑也只能凭它出招。"
+msgstr "剣を使う土台。剣の握り方、抜き方、納め方の決まりはすべてここにある。封山剣法や六陰追魂剣法といった剣法はみなこの上に載せて使う。専門の剣法を学んでいない者は、剣を手にしてもこれだけで技を出すしかない。"
+
+msgid "使刀的根底：劈、砍、撩、斩的力道与分寸都从这里练起。春风快意刀、短歌刀法这些刀法都激发在它上面。"
+msgstr "刀を使う土台。打ち下ろし、叩き斬り、斬り上げ、断ち斬る力加減と間合いは、すべてここから鍛える。春風快意刀や短歌刀法といった刀法は、みなこの上に載せて使う。"
+
+msgid "用手中兵刃或一双肉掌格开来招的功夫。不少剑法、刀法、杖法也能激发为招架，用本门的招式化解对方的攻势。"
+msgstr "手にした武器か素手で、来る攻めを受け流す武芸。剣法、刀法、杖法の多くは受け流しにも載せられ、自派の技で相手の攻勢をさばける。"
+
+msgid "只听见「锵」一声，被$p格开了。"
+msgstr "「キン」と音がして、$pに受け流された。"
+
+msgid "结果「当」地一声被$p挡开了。"
+msgstr "「カン」と音を立てて、$pに受け止められた。"
+
+msgid "但是被$n用手中兵刃架开。"
+msgstr "だが、$nは手にした武器でそれを受け止めた。"
+
+msgid "但是$n身子一侧，用手中兵刃格开。"
+msgstr "だが、$nは身をひねり、手にした武器で払いのけた。"
+
+msgid "但是被$p格开了。"
+msgstr "だが、$pに払いのけられた。"
+
+msgid "结果被$p挡开了。"
+msgstr "だが、$pに防がれた。"
+
+msgid "闪身避让的功夫，对方的招式能不能落在身上，多半看它。倒乱七星步、火蝠身法、七宝天岚舞这类身法都激发在它上面。"
+msgstr "身をかわす武芸。相手の技が身に届くかどうかは、たいていこれ次第だ。倒乱七星歩法、火蝠身法、七宝天嵐舞といった身法は、みなこの上に載せて使う。"
+
+msgid "但是和$p$l偏了几寸。"
+msgstr "だが、$pの$lから数寸それた。"
+
+msgid "但是被$p机灵地躲开了。"
+msgstr "だが、$pに身軽にかわされた。"
+
+msgid "但是$n身子一侧，闪了开去。"
+msgstr "だが、$nは身をひねってかわした。"
+
+msgid "但是被$p及时避开。"
+msgstr "だが、$pにすんでのところでよけられた。"
+
+msgid "但是$n已有准备，不慌不忙的躲开。"
+msgstr "だが、$nは備えができていて、落ち着き払ってかわした。"
+
+msgid "一切内功的根基。内力的上限看它，打坐积下的内力才有地方存，运功调息、回气提神也都靠它；封山派内功、天邪神功等各家心法都要激发在它上面。内功修炼有成，根骨也会随之改善。"
+msgstr "あらゆる内功の根本。内力の上限はこれで決まり、打坐でためた内力もここに蓄えられる。運功で息を整えるのも、気を取り戻して精神を奮い立たせるのも、みなこれ頼みだ。封山派内功や天邪神功など各派の心法は、みなこの上に載せて使う。内功の修練が実を結べば、根骨もそれにつれて良くなる。"
+
+msgid "由於你的内功修炼有成，你的体质改善了。"
+msgstr "内功の修練が実を結び、体質が良くなった。"
+
+msgid "乔阴柳家的柳东芦于七十年前所创：他是封山剑派第十二代掌门，以剑术成名，却把家传拳法融进封山剑意，创出这套适合膂力不强之人习练的拳法，补上了封山剑派近战的短处，后来更凭它力压群雄，夺得第九代武林盟主之位。柳家拳分内八套、外八套，流传在外的多是外八套，不须内功根基，容易上手；内八套是柳家秘传，外形一样，内力窍门却全然不同。练时须空手。"
+msgstr "喬陰柳家の柳東芦が七十年前に編み出した拳法。封山剣派第十二代掌門だった彼は剣術で名を上げたが、家伝の拳法を封山の剣意に溶け込ませ、膂力に恵まれない者でも学べるこの拳法を作り上げた。これで封山剣派の接近戦の弱みが補われ、のちに彼はこの拳法で群雄を抑え、第九代武林盟主の座を勝ち取った。柳家拳には内八套と外八套があり、外に伝わっているのはたいてい外八套で、内功の素地がなくても取りつきやすい。内八套は柳家の秘伝で、形は同じでも内力の要訣がまるで違う。素手でなければ練習できない。"
+
+msgid "你的体力不够了，休息一下再练吧。"
+msgstr "体力が尽きた。ひと休みしてから練習しよう。"
+
+msgid "练柳家拳法必须空手。"
+msgstr "柳家拳法は素手でなければ練習できない。"
+
+msgid "逼"
+msgstr "迫"
+
+msgid "抢压"
+msgstr "詰め寄り"
+
+msgid "先打实一拳贴上去，贴着才打得出重拳，一拳比一拳沉；打空了就被拉开。"
+msgstr "まず一発を確かに当てて懐に入る。張りついてこそ重い拳が打て、一発ごとに重くなる。空振りすれば引き離される。"
+
+msgid "$N使一招「古松挂月」，对准$n的$l「呼」地一拳"
+msgstr "$Nは「古松掛月」を繰り出し、$nの$lめがけて「ブン」と拳を打ち込む"
+
+msgid "$N扬起拳头，一招「傲雪冬梅」便往$n的$l招呼过去"
+msgstr "$Nは拳を振り上げ、「傲雪冬梅」の一手で$nの$lに打ちかかる"
+
+msgid "$N左手虚晃，右拳「孤崖听涛」往$n的$l击出"
+msgstr "$Nは左手で虚を突き、右の拳で「孤崖聴涛」、$nの$lへ打ち出す"
+
+msgid "$N步履一沉，左拳拉开，右拳使出「荒山虎吟」击向$n$l"
+msgstr "$Nはぐっと腰を落とし、左の拳を引くと、右の拳で「荒山虎吟」を繰り出して$nの$lを打つ"
+
+msgid "封山剑派的本门内功，只能向师长学，或在运功中慢慢精熟。封山剑法必须配合它才能练；运起功来，还能为自己疗伤。"
+msgstr "封山剣派の本門の内功。師から学ぶか、運功するうちに少しずつ身につけるしかない。封山剣法はこれと組み合わせなければ練習できず、運功すれば自分の傷を癒やすこともできる。"
+
+msgid "封山派内功只能用学的，或是从运用中增加熟练度。"
+msgstr "封山派内功は学ぶか、使ううちに熟練を積むしかない。"
+
+msgid "花紫会一脉的内功，龙头陆得财身怀此功。练功须在有水的地方，既耗气也耗内力。"
+msgstr "花紫会の系統の内功で、龍頭の陸得財が身につけている。水のある場所でしか練習できず、気も内力も費やす。"
+
+msgid "伏蛟功只能在有水的地方练。"
+msgstr "伏蛟功は水のある場所でしか練習できない。"
+
+msgid "你的气不够。"
+msgstr "気が足りない。"
+
+msgid "你的内力不够"
+msgstr "内力が足りない"
+
+msgid "振远镖局的看家刀法，总镖头陈天星凭它和天邪神掌在江湖上博得「刀掌双绝」之名。招名如「春风拂人醉」「远山伴人痴」「柳叶随人笑」，刀势轻飘，撩斩之间不见锋芒。"
+msgstr "振遠鏢局の看板の刀法。総鏢頭の陳天星はこの刀法と天邪神掌で、江湖に「刀掌双絶」の名をとどろかせた。技の名は「春風払人酔」「遠山伴人痴」「柳葉随人笑」など。刀の勢いは軽やかで、斬り上げ、斬り下ろすあいだにも切っ先を見せない。"
+
+msgid "你必须先找一把刀，才能练刀法。"
+msgstr "刀法を練習するには、まず刀を一振り手に入れなければならない。"
+
+msgid "你的体力不够练这门刀法，还是先休息休息吧。"
+msgstr "この刀法を練習するには体力が足りない。まずはひと休みしよう。"
+
+msgid "$N使一招「春风拂人醉」，手中$w轻飘飘地向$n的$l斩去！"
+msgstr "$Nは「春風払人酔」を繰り出し、手にした$wでふわりと$nの$lへ斬りかかる！"
+
+msgid "$N金刃劈风，$w随著一招「远山伴人痴」由下而上撩往$n的$l"
+msgstr "$Nの刃が風を裂き、$wは「遠山伴人痴」の一手で下から$nの$lへ斬り上がる"
+
+msgid "$N身形一转，一招「飞花逐人香」$w刀光不定，斩向$n的$l"
+msgstr "$Nは身を翻し、「飛花逐人香」の一手、$wの刃の光を揺らめかせて$nの$lへ斬りつける"
+
+msgid "$N舞动$w，一招「柳叶随人笑」迅捷无伦地劈向$n的$l"
+msgstr "$Nは$wを舞わせ、「柳葉随人笑」の一手で目にもとまらぬ速さで$nの$lへ打ち下ろす"
+
+msgid "$N手中$w一晃，一招「倩影惹人怜」往$n的$l斜斜砍出一刀"
+msgstr "$Nは手にした$wをひらめかせ、「倩影惹人憐」の一手で$nの$lへ斜めに斬りつける"
+
+msgid "$N提刀过肩，蓄劲发力，一招「芦雪碎人影」直劈$n$l"
+msgstr "$Nは刀を肩の上に引き上げ、力をためて「芦雪砕人影」、$nの$lへまっすぐ打ち下ろす"
+
+msgid "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l"
+msgstr "$Nは足を運んで身を斜めにし、「彩蝶灼人衣」を繰り出す。刃の光がひらめき、$nの$lへ斬りつける"
+
+msgid "封山剑派是当今武林最大的一支剑派，这套剑法是当年创派的三位剑术名家在封山灵狐顶相互印证、合力创出的。招式并不难学，难在剑意：自「剑气」练起，次练「剑心」「剑芒」「剑神」，四者都练到登峰造极的人少之又少，所以同是封山剑法，造诣深浅不同的人使出来，威力差之千里。剑中有「封」「点」「逐」「缺」四字诀，须以封山派内功为根基。"
+msgstr "封山剣派は当代の武林で最大の剣派で、この剣法は、派を開いた三人の剣の名手が封山の霊狐頂で互いの腕を確かめ合い、力を合わせて編み出したものだ。技そのものは難しくないが、難しいのは剣意だ。「剣気」から始めて「剣心」「剣芒」「剣神」と進み、四つすべてを極めた者はごくわずかしかいない。だから同じ封山剣法でも、使う者の造詣の深さによって、その威力は天と地ほども違う。剣には「封」「点」「逐」「欠」の四字訣があり、封山派内功を根本としなければならない。"
+
+msgid "你按著所学练了一遍封山剑法。"
+msgstr "学んだとおりに、封山剣法をひととおり練習した。"
+
+msgid "你的内力或气不够，没有办法练习封山剑法。"
+msgstr "内力か気が足りず、封山剣法を練習できない。"
+
+msgid "你的内力不够，没有办法练封山剑法。"
+msgstr "内力が足りず、封山剣法を練習できない。"
+
+msgid "封山剑法必须配合封山派内功才能练。"
+msgstr "封山剣法は封山派内功と組み合わせなければ練習できない。"
+
+msgid "你必须先找一把剑才能练剑法。"
+msgstr "剣法を練習するには、まず剣を一振り手に入れなければならない。"
+
+msgid "引"
+msgstr "誘"
+
+msgid "逐"
+msgstr "逐"
+
+msgid "候隙"
+msgstr "隙待ち"
+
+msgid "不抢先：对方刺空或被架开，那一下就多出一剑，可以追，也可以封。"
+msgstr "先に仕掛けない。相手の突きが空を切るか受け流されたら、その一瞬に一太刀多く出せる。追ってもよし、封じてもよし。"
+
+msgid "$N使一招「峰回路转」，手中$w如一条银蛇般刺向$n的$l"
+msgstr "$Nは「峰回路転」を繰り出し、手にした$wが一匹の銀の蛇のように$nの$lへ突きかかる"
+
+msgid "$N使出封山剑法中的「空山鸟语」，剑光霍霍斩向$n的$l"
+msgstr "$Nは封山剣法の「空山鳥語」を繰り出し、剣の光をひらめかせて$nの$lへ斬りつける"
+
+msgid "$N一招「御风而行」，身形陡然滑出数尺，手中$w斩向$n的$l"
+msgstr "$Nは「御風而行」の一手、不意に身を数尺すべらせ、手にした$wで$nの$lへ斬りつける"
+
+msgid "$N手中$w中宫直进，一式「旭日东升」对准$n的$l刺出一剑"
+msgstr "$Nは手にした$wを正面からまっすぐ突き入れ、「旭日東昇」の一手で$nの$lめがけて一突きする"
+
+msgid "$N纵身一跃，手中$w一招「金光泻地」对准$n的$l斜斜刺出一剑"
+msgstr "$Nは身を躍らせて跳び上がり、手にした$wで「金光瀉地」、$nの$lめがけて斜めに一突きする"
+
+msgid "$N的$w凭空一指，一招「童子引路」刺向$n的$l"
+msgstr "$Nの$wが宙を指し示し、「童子引路」の一手で$nの$lへ突きかかる"
+
+msgid "$N手中$w向外一分，使一招「柳暗花明」反手对准$n$l一剑刺去"
+msgstr "$Nは手にした$wを外へ払い、「柳暗花明」を繰り出すと、返す手で$nの$lめがけて一突きする"
+
+msgid "$N横剑上前，身形一转手中$w使一招「空谷秋虹」画出一道光弧斩向$n的$l"
+msgstr "$Nは剣を横に構えて踏み込み、身を翻すと手にした$wで「空谷秋虹」を繰り出す。光の弧を描いて$nの$lへ斬りつける"
+
+msgid "封山派开山祖师锺虔在羿水之滨的石廊峡练武时，每到夜里便与出来吸血的血蛾扑击为戏，仰望北斗七星的方位变幻，发现血蛾无论如何进攻都脱不出七星的规律，苦思几日夜创成这套步法，第一次试招便杀了六只血蛾。它专门对付身法敏捷的敌人，以自然的规律料敌机先，对方一动，便已踏到正确的闪避方位。"
+msgstr "封山派の開祖・鍾虔が羿水のほとりの石廊峡で武芸を磨いていたころ、夜ごと血を吸いに現れる血蛾を相手に打ち合って遊んでいた。北斗七星の位置の移り変わりを仰ぎ見るうち、血蛾がどう攻めてきても七星の理から外れないことに気づき、幾日幾夜も考え抜いてこの歩法を作り上げた。初めて試したその日に、血蛾を六匹仕留めたという。身のこなしの素早い敵を相手にするための歩法で、自然の理によって敵の先を読む。相手が動いたときには、もう正しい回避の位置を踏んでいる。"
+
+msgid "你的气或内力不够，不能练倒乱七星步法。"
+msgstr "気か内力が足りず、倒乱七星歩法を練習できない。"
+
+msgid "你的内力不够，没有办法练倒乱七星步。"
+msgstr "内力が足りず、倒乱七星歩法を練習できない。"
+
+msgid "$n一招「天玑离枢」轻轻巧巧地避了开去。"
+msgstr "$nは「天機離枢」の一手で、軽やかに身をかわした。"
+
+msgid "只见$n身影一晃，一式「天璇乱步」早已避在七尺之外。"
+msgstr "$nの姿がゆらりと揺れたかと思うと、「天旋乱歩」で、とうに七尺の外へ逃れていた。"
+
+msgid "$n使出「倒转天权」，轻轻松松地闪过。"
+msgstr "$nは「倒転天権」を繰り出し、難なくかわした。"
+
+msgid "$n左足一点，一招「逐影天枢」腾空而起，避了开去。"
+msgstr "$nは左足でとんと地を蹴り、「逐影天枢」の一手で宙に舞い上がって、身をかわした。"
+
+msgid "可是$n使一招「风动玉衡」，身子轻轻飘了开去。"
+msgstr "だが$nは「風動玉衡」を繰り出し、ふわりと身を漂わせてよけた。"
+
+msgid "$n身影微动，已经藉一招「开阳薄雾」轻轻闪过。"
+msgstr "$nがわずかに身を動かしたかと思うと、「開陽薄霧」の一手で、もう軽やかにかわしていた。"
+
+msgid "但是$n一招「瑶光音迟」使出，早已绕到$N身後！"
+msgstr "だが$nが「瑤光音遅」を繰り出すと、とうに$Nの背後へ回り込んでいた！"
+
+msgid "相传是武术之神、太阳神君杞庸在西天大山中见到灵兽天邪虎后有所领悟而创的内功心法，与模拟天邪虎神态的天邪神掌相配。威力极强，消耗体力也极大：运起来能回气、提升战力、以内力强压杀气，最深的一手是「天邪虎啸」，一声长吼震伤身边所有的人。修习须有足够的杀气撑着，苦练下去，定力也会提高。"
+msgstr "武術の神、太陽神君・杞庸が西天の大山で霊獣天邪虎を見て悟るところがあり、編み出したと伝えられる内功心法。天邪虎の姿を写した天邪神掌と対をなす。威力は絶大だが、消耗も激しい。運功すれば気を取り戻し、戦う力を高め、内力で殺気を押さえ込める。最も奥深い一手は「天邪虎嘯」で、一声の長い咆哮で周りにいる者すべてを傷つける。修めるには十分な殺気が支えになければならず、苦練を重ねれば定力も高まる。"
+
+msgid "天邪神功只能用学的，或是从运用中增加熟练度。"
+msgstr "天邪神功は学ぶか、使ううちに熟練を積むしかない。"
+
+msgid "你的杀气不够，无法领悟更高深的天邪神功。"
+msgstr "殺気が足りず、より奥深い天邪神功を悟ることができない。"
+
+msgid "由於你苦练天邪神功，你的定力提高了"
+msgstr "天邪神功を苦練したおかげで、定力が上がった"
+
+msgid "茅山派的法术，以治鬼除魔为主，多是攻敌的法术，兼有符咒之法：紫幽、青冥、苍灵「幽冥三箭」各有所长，又能召唤金甲天兵下凡护法、开「阴阳眼」看见鬼魂，还能驱动尸体。须以天师正道为根基，修为不够便领悟不了更深的道术。"
+msgstr "茅山派の法術。鬼を治め魔を祓うことを主とし、多くは敵を攻める術で、符呪の法も兼ねる。紫幽・青冥・蒼霊の「幽冥三箭」はそれぞれに持ち味があり、ほかにも金甲の天兵を呼び下ろして護法させたり、「陰陽眼」を開いて鬼魂を見たり、死体を操ったりできる。天師正道を根本とし、修為が足りなければ、より奥深い道術は悟れない。"
+
+msgid "你的天师正道修为不够，无法领悟更高深的茅山道术。"
+msgstr "天師正道の修為が足りず、より奥深い茅山道術を悟ることができない。"
+
+msgid "你的精神无法集中。"
+msgstr "精神を集中できない。"
+
+msgid "你闭目凝神，神游物外，开始修习茅山道术中的法术...."
+msgstr "目を閉じて心を凝らし、意識を体の外へ遊ばせて、茅山道術の法術の修習を始めた……"
+
+msgid "可是你心思一乱，变出了一只面目狰狞的$N！"
+msgstr "ところが心が乱れ、凶悪な形相の$Nを呼び出してしまった！"
+
+msgid "你的魂魄正被$N缠住，快把它除掉吧！"
+msgstr "魂魄が$Nに絡め取られている。早く退治しよう！"
+
+msgid "你的魂魄还没有全部收回，赶快杀死你的$N吧！"
+msgstr "魂魄がまだすべて戻っていない。急いで$Nを倒そう！"
+
+msgid "道家的主要学问，茅山派大多数武功、法术都要以它为基础。天师正道修行不够就强练道家武功法术，很容易走火入魔、坠入魔道；杀气太重的人，也修不了它。"
+msgstr "道家の主な学問で、茅山派の武功や法術のほとんどはこれを土台とする。天師正道の修行が足りないまま道家の武功や法術を無理に練れば、たやすく走火入魔して魔道に落ちる。殺気が重すぎる者も、これを修めることはできない。"
+
+msgid "法术类技能必须用学的或是从实战中获取经验。"
+msgstr "法術の類は、学ぶか、実戦から経験を得るしかない。"
+
+msgid "你的杀气太重，无法修炼天师正道。"
+msgstr "殺気が重すぎて、天師正道を修めることができない。"
+
+msgid "道家的一门内功。人食五谷，肉身都带五谷秽气，谷衣心法把秽气排出体外，修成一层护体之气，叫作「谷衣」——神仙所修称「丹衣」，妖魔所修称「血衣」「土衣」。心法共分十层，练到第五层「小成」左眼珠变成金色，第十层「大成」两眼皆金；运起来能疗伤，也能以「灵神诀」把内力化为法力。"
+msgstr "道家の内功の一つ。人は五穀を食べるので、肉体には五穀の穢れた気が宿る。谷衣心法はその穢れた気を体の外へ出し、身を守る気の層を作り上げる。これを「谷衣」と呼ぶ――神仙が修めるものは「丹衣」、妖魔が修めるものは「血衣」「土衣」という。心法は全部で十層に分かれ、第五層の「小成」に至ると左目の瞳が金色に、第十層の「大成」では両目とも金色になる。運功すれば傷を癒やせ、「霊神訣」で内力を法力に変えることもできる。"
+
+msgid "谷衣心法只能用学的，或是从运用中增加熟练度。"
+msgstr "谷衣心法は学ぶか、使ううちに熟練を積むしかない。"
+
+msgid "你的魔力不够，无法提升谷衣心法的造诣。"
+msgstr "魔力が足りず、谷衣心法の造詣を高めることができない。"
+
+msgid "茅山派的剑法，招名「三清归真」「众士护佑」「群魔辟易」「西出紫关」，取道家护法驱魔之意。练这门剑须有相当的内力。"
+msgstr "茅山派の剣法。技の名は「三清帰真」「衆士護佑」「群魔辟易」「西出紫関」で、道家の護法と魔除けの意を込めている。この剣を練習するには、相当の内力がいる。"
+
+msgid "你按著所学练了一遍天师剑法。"
+msgstr "学んだとおりに、天師剣法をひととおり練習した。"
+
+msgid "你的内力或气不够，没有办法练习天师剑法。"
+msgstr "内力か気が足りず、天師剣法を練習できない。"
+
+msgid "你的内力不够，没有办法练天师剑法。"
+msgstr "内力が足りず、天師剣法を練習できない。"
+
+msgid "$N一招「三清归真」，手中$w挽起几个剑花，刺向$n的$l"
+msgstr "$Nは「三清帰真」の一手、手にした$wでいくつも剣花を描き、$nの$lへ突きかかる"
+
+msgid "$N身形一变，一招「众士护佑」，$w罩向$n的$l"
+msgstr "$Nは身構えを変え、「衆士護佑」の一手で、$wを$nの$lへかぶせるように繰り出す"
+
+msgid "$N挥动$w，一招「天人合一」挟著闪闪剑光袭向$n的$l"
+msgstr "$Nは$wを振るい、「天人合一」の一手で、きらめく剣光とともに$nの$lへ襲いかかる"
+
+msgid "$N手中$w一抡，使出「群魔辟易」往$n的$l恶狠狠的砍去"
+msgstr "$Nは手にした$wをぶんと振り回し、「群魔辟易」を繰り出して$nの$lへ荒々しく斬りかかる"
+
+msgid "$N一招「西出紫关」，$w一带，轻轻划向$n$l"
+msgstr "$Nは「西出紫関」の一手、$wをひと引きして、$nの$lをすっと薙ぐ"
+
+msgid "$N身剑合一，幻化成一道光华，一招「乾坤一掷」扑向$n"
+msgstr "$Nは身と剣をひとつにし、一筋の光と化して、「乾坤一擲」の一手で$nへ飛びかかる"
+
+msgid "认字读书的本事。不识字就读不了任何书谱；识字越深，研读书册时长进越快。勤学苦读，悟性也会慢慢提高，有些讲究文墨的心法也要它做底子。"
+msgstr "字を読み、書物を読む力。字が読めなければどんな書物も譜も読めず、深く読めるほど書物から早く学べる。勤勉に読み学べば悟性も少しずつ高まり、文墨を重んじる心法の中には、これを素地とするものもある。"
+
+msgid "由於你的勤学苦读，你的悟性提高了。"
+msgstr "勤勉に読み学んだおかげで、悟性が上がった。"
+
+msgid "宫商声律的学问。音律之学有成，灵性会随之提高；步玄派的步玄七诀以音律为根底，音律修为不够，便领悟不了更深的诀窍。"
+msgstr "宮商の声律の学問。音律の学が実を結べば、霊性もそれにつれて高まる。歩玄派の歩玄七訣は音律を根本とし、音律の修為が足りなければ、より奥深い訣は悟れない。"
+
+msgid "由於你学习音律之学有成，你的灵性提高了"
+msgstr "音律の学が実を結び、霊性が上がった"
+
+msgid "吹拉弹拨的技艺，与音律之学互为表里。步玄派掌门骆云舟也传这一门。"
+msgstr "吹き、引き、弾き、つま弾く技芸で、音律の学と表裏一体をなす。歩玄派の掌門・駱雲舟もこれを伝えている。"
+
+msgid "赶路奔走的根底。脚下快的人追得上人，也甩得开追兵；倒乱七星步、步玄七诀、火蝠身法这类身法，都能激发为行动。"
+msgstr "道を急ぎ駆け回る土台。足の速い者は人に追いつけ、追手も振り切れる。倒乱七星歩法、歩玄七訣、火蝠身法といった身法は、みな行動にも載せられる。"
+
+msgid "使杖、使棍的根底。山烟寺的流云杖法、绝尘派的金刚杖法都激发在它上面。"
+msgstr "杖や棍を使う土台。山煙寺の流雲杖法や、絶塵派の金剛杖法は、みなこの上に載せて使う。"
+
+msgid "暗器出手的功夫，准头与劲道都看它。晚月庄、花紫会的人多精于此道。"
+msgstr "暗器を放つ技。狙いの正確さも勢いも、これ次第だ。晩月荘や花紫会の者には、この道に長けた者が多い。"
+
+msgid "临敌时凭风声辨出兵刃来路的本事，专门用来对付看不见的敌人：鬼魂、隐形的妖物，或是在光线昏暗的地方交手。"
+msgstr "戦いのさなか、風を切る音で武器の来る筋を聞き分ける技。見えない敵を相手にするためのもので、鬼魂や姿を隠した妖物、あるいは薄暗い場所での戦いに用いる。"
+
+msgid "顺手牵羊的手上功夫，下手越熟越不易被人察觉，运气好坏也有几分关系。花紫会龙头陆得财懂这一手，街上的飞贼也靠它吃饭。"
+msgstr "すれ違いざまに物をかすめ取る手わざ。手慣れるほど人に気づかれにくく、運の良し悪しもいくらか関わる。花紫会の龍頭・陸得財はこの手を心得ていて、町の飛賊もこれで食いつないでいる。"
+
+msgid "模拟灵兽天邪虎神态的掌法，与天邪神功相配而成，招式有「大天罗式」「小天罗式」「雪阳三连月」「灵动五方鼓」「风雷七星断」。须空手练，天邪神功火候不足、内力太弱都练不成。"
+msgstr "霊獣天邪虎の姿を写した掌法で、天邪神功と対をなして成り立つ。技には「大天羅式」「小天羅式」「雪陽三連月」「霊動五方鼓」「風雷七星断」がある。素手で練習しなければならず、天邪神功の火加減が足りなかったり、内力が弱すぎたりすると身につかない。"
+
+msgid "你的内力不够了，休息一下再练吧。"
+msgstr "内力が尽きた。ひと休みしてから練習しよう。"
+
+msgid "练天邪神掌必须空手。"
+msgstr "天邪神掌は素手でなければ練習できない。"
+
+msgid "你的天邪神功火候不足，无法练天邪掌法。"
+msgstr "天邪神功の火加減が足りず、天邪掌法を練習できない。"
+
+msgid "你的内力太弱，无法练天邪掌法。"
+msgstr "内力が弱すぎて、天邪掌法を練習できない。"
+
+msgid "$N使出一招「大天罗式」，右掌穿出击向$n的$l"
+msgstr "$Nは「大天羅式」を繰り出し、右の掌を突き出して$nの$lを打つ"
+
+msgid "$N使出一招「大天罗式」，左掌化虚为实击向$n的$l"
+msgstr "$Nは「大天羅式」を繰り出し、左の掌を虚から実に転じて$nの$lを打つ"
+
+msgid "$N使出天邪掌法「小天罗式」，如鬼魅般欺至$n身前，一掌拍向$n的$l"
+msgstr "$Nは天邪掌法の「小天羅式」を繰り出し、亡霊のように$nの眼前へ迫ると、$nの$lへ掌を打ちつける"
+
+msgid "$N双掌一错，使出「雪阳三连月」，对准$n的$l连续拍出三掌"
+msgstr "$Nは両の掌を交差させて「雪陽三連月」を繰り出し、$nの$lめがけて立て続けに三掌を打ち込む"
+
+msgid "$N左掌画了个圈圈，右掌推出，一招「灵动五方鼓」击向$n$l"
+msgstr "$Nは左の掌でくるりと円を描き、右の掌を押し出して、「霊動五方鼓」の一手で$nの$lを打つ"
+
+msgid "$N使出「风雷七星断」，身形散作七处同时向$n的$l出掌攻击"
+msgstr "$Nは「風雷七星断」を繰り出し、身を七か所に散らして、同時に$nの$lへ掌を打ち込む"
+
+msgid "$N吐气扬声，一招「气撼九重天」双掌并力推出"
+msgstr "$Nは息を吐いて声を上げ、「気撼九重天」の一手で両の掌を合わせて押し出す"
+
+msgid "本是道家魔道的武功。三百年前一位天邪派前辈在首穷山一处废墟中得到六阴剑谱，谱分天殇、追魂、绝识三部，他年轻时练武伤了经脉，只练成追魂一部，另外两部至今下落不明。天邪派所传的追魂剑经三百多年演变，戾气消去不少而劲道更增，虽已失传了不少阴毒招式，仍是武林中赫赫有名的剑法。"
+msgstr "もとは道家の魔道の武功。三百年前、天邪派のある先達が首窮山の廃墟で『六陰剣譜』を手に入れた。譜は天殤・追魂・絶識の三部に分かれていたが、彼は若いころに武芸の修行で経脈を傷めていたため、追魂の一部しか修められず、残る二部は今も行方が知れない。天邪派に伝わる追魂剣経は三百年余りのあいだに移り変わり、凶気はだいぶ薄れて勢いはかえって増した。陰険な技の多くはすでに失われたが、今なお武林に名高い剣法だ。"
+
+msgid "你按著所学练了一遍六阴追魂剑法。"
+msgstr "学んだとおりに、六陰追魂剣法をひととおり練習した。"
+
+msgid "你的内力或气不够，没有办法练习六阴追魂剑。"
+msgstr "内力か気が足りず、六陰追魂剣を練習できない。"
+
+msgid "你的内力不够，没有办法练六阴追魂剑。"
+msgstr "内力が足りず、六陰追魂剣を練習できない。"
+
+msgid "你突然觉得一股恶气冲上心头，只觉得想杀人...."
+msgstr "不意に邪な気が胸に突き上げ、ただ人を殺したくなった……"
+
+msgid "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连攻数剑"
+msgstr "$Nは「群魔乱舞」を繰り出し、手にした$wで嵐のように$nの$lへ何度も斬りかかる"
+
+msgid "$N身形一转，一招「厉鬼缠身」$w斩向$n的$l"
+msgstr "$Nは身を翻し、「厲鬼纏身」の一手で$wを$nの$lへ斬りつける"
+
+msgid "$N舞动$w，一招「百鬼夜行」挟著闪闪剑光刺向$n的$l"
+msgstr "$Nは$wを舞わせ、「百鬼夜行」の一手で、きらめく剣光とともに$nの$lへ突きかかる"
+
+msgid "$N手中$w一抖，使出「饿鬼拦路」往$n的$l刺出一剑"
+msgstr "$Nは手にした$wをひと振るいし、「餓鬼遮路」を繰り出して$nの$lへ一突きする"
+
+msgid "$N手中$w剑光暴长，一招「鬼影幢幢」往$n$l刺去"
+msgstr "$Nの手にした$wの剣光がぐんと伸び、「鬼影幢幢」の一手で$nの$lへ突きかかる"
+
+msgid "$N手中$w直指$n$l，一招「秋坟鬼唱」发出逼人剑气刺去"
+msgstr "$Nは手にした$wで$nの$lをまっすぐ指し、「秋墳鬼唱」の一手、鋭い剣気を放って突きかかる"
+
+msgid "仿蝙蝠夜飞的身法，招名「寒蝠掠江」「轻蝠点梢」「夜蝠旋身」「火蝠曳空」，侧身一让，便叫来招扑了个空。天邪派与振远镖局都有高手使这门身法。"
+msgstr "夜を飛ぶ蝙蝠を写した身法。技の名は「寒蝠掠江」「軽蝠点梢」「夜蝠旋身」「火蝠曳空」。身を斜めにひと退けば、来る技は空を切る。天邪派にも振遠鏢局にも、この身法を使う達人がいる。"
+
+msgid "你的体力太差了，不能练火蝠身法。"
+msgstr "体力が乏しすぎて、火蝠身法を練習できない。"
+
+msgid "可是$p侧身一让，使出「寒蝠掠江」，$N这一招扑了个空。"
+msgstr "だが$pは身を斜めに退き、「寒蝠掠江」を繰り出した。$Nのこの一手は空を切った。"
+
+msgid "$p身形微晃，使出「灵蝠轻逝」，有惊无险地避开了$N这一招。"
+msgstr "$pはわずかに身を揺らし、「霊蝠軽逝」を繰り出して、ひやりとしながらも$Nのこの一手をかわした。"
+
+msgid "$p身随意转，一式「轻蝠点梢」，倏地往一旁挪开了三尺，避过了这一招。"
+msgstr "$pは心のままに身を転じ、「軽蝠点梢」の一手で、さっと三尺わきへ移り、この一手をかわした。"
+
+msgid "却见$p足不点地，一招「夜蝠旋身」，往旁窜开数尺，躲了开去。"
+msgstr "見れば$pは足を地につけぬまま、「夜蝠旋身」の一手でわきへ数尺跳びのき、身をかわした。"
+
+msgid "只见$p一招「火蝠曳空」，身形向上拔起数尺高，闪了过去。"
+msgstr "見れば$pは「火蝠曳空」の一手で身を数尺も上へ跳ね上げ、かわしていた。"
+
+msgid "晚月庄的舞步身法，招名「蕙芳下凡」「双成献舞」「织女于归」「天女散花」「嫦娥奔月」，翩然起舞之间，已飘出数尺之外。只有女子才能练，又看灵性；勤练舞技，容貌也会更添光彩。"
+msgstr "晩月荘の舞の歩法による身法。技の名は「蕙芳下凡」「双成献舞」「織女于帰」「天女散花」「嫦娥奔月」。ひらりと舞ううちに、もう数尺の外へ漂い出ている。女子しか練習できず、霊性も問われる。舞の技に励めば、容貌もいっそう輝く。"
+
+msgid "你的精神太差了，不能练七宝天岚舞。"
+msgstr "精神が乏しすぎて、七宝天嵐舞を練習できない。"
+
+msgid "七宝天岚舞只有女性才能练。"
+msgstr "七宝天嵐舞は女性しか練習できない。"
+
+msgid "你的灵性不够，没有办法练七宝天岚舞。"
+msgstr "霊性が足りず、七宝天嵐舞を練習できない。"
+
+msgid "由於你勤练舞技，你的容貌提高了"
+msgstr "舞の技に励んだおかげで、容貌が上がった"
+
+msgid "但$n一式「蕙芳下凡」随著轻轻一叹，顺著$N的招式飘出六尺之外！"
+msgstr "だが$nは「蕙芳下凡」の一手、かすかなため息とともに、$Nの技の流れに乗って六尺の外へ漂い出た！"
+
+msgid "$n双脚微动翩然起舞，一招「双成献舞」，堪堪闪过$N的这招！"
+msgstr "$nは足をわずかに動かしてひらりと舞い、「双成献舞」の一手で、$Nのこの一手をきわどくかわした！"
+
+msgid "$n使出「织女于归」，突然幻化成一双倩影，$N从其中一人透体而过！"
+msgstr "$nが「織女于帰」を繰り出すと、不意に二つの艶やかな影に分かれ、$Nはその一方を素通りした！"
+
+msgid "$n一式「天女散花」，自水袖中散出一片花雨，$N被花影迷蒙了双眼，与$n擦肩而过"
+msgstr "$nが「天女散花」の一手で水袖から花の雨を散らすと、$Nは花の影に目をくらまされ、$nとすれ違った"
+
+msgid "$n一招「嫦娥奔月」，轻轻一纵优雅的自$N头顶越过！"
+msgstr "$nは「嫦娥奔月」の一手で、ふわりと跳び上がり、優雅に$Nの頭上を越えた！"
+
+msgid "神通一类法门的根底：灵力的上限看它，施展神通要用灵力。山烟寺的八识神通便激发在它上面。"
+msgstr "神通の類の法門の土台。霊力の上限はこれで決まり、神通を使うには霊力がいる。山煙寺の八識神通は、この上に載せて使う。"
+
+msgid "念咒施法的根底：法力的上限看它，冥思积下的法力才有地方存。茅山道术、奇门遁甲这些法术都激发在它上面。"
+msgstr "呪文を唱えて術を施す土台。法力の上限はこれで決まり、瞑想でためた法力もここに蓄えられる。茅山道術や奇門遁甲といった法術は、みなこの上に載せて使う。"
+
+msgid "道家旁门的一路学问，绝尘派的奇门遁甲以它为根基，小天魔道修为不够，便领悟不了更深的遁甲之术。它只能向师父学，或在实战中体会；每有长进，杀气也跟着重一分。"
+msgstr "道家の傍流の学問の一つで、絶塵派の奇門遁甲はこれを根本とする。小天魔道の修為が足りなければ、より奥深い遁甲の術は悟れない。師父から学ぶか、実戦の中で会得するしかなく、上達するたびに殺気も一分ずつ重くなる。"
+
+msgid "绝尘派的法术。口中念咒，大喝一声「疾！」，或化作黑气、金光、火焰、长虹、大雾遁去无踪，或以黑气、金光、火焰、海水、大木把敌人困在当中；战到危急，还能召来天将相助。须以小天魔道为根基。"
+msgstr "絶塵派の法術。呪文を唱え、「疾！」と一喝すれば、黒い気、金の光、炎、長虹、濃霧と化して跡形もなく消え去る。あるいは黒い気、金の光、炎、海の水、大木で敵をその中に閉じ込める。戦いが危うくなれば、天将を呼んで助けを得ることもできる。小天魔道を根本とする。"
+
+msgid "你的小天魔道修为不够，无法领悟更高深的奇门遁甲之术。"
+msgstr "小天魔道の修為が足りず、より奥深い奇門遁甲の術を悟ることができない。"
+
+msgid "绝尘派的本门内功。绝尘子本是释家中人，后得奇人指点，悟得道家真谛，佛道双修，自号绝尘，创下此派；这门心法只能向师父学，或在运功中慢慢精熟。"
+msgstr "絶塵派の本門の内功。絶塵子はもと仏門の人だったが、のちに奇人の導きを得て道家の真髄を悟り、仏と道を兼ね修めて絶塵と号し、この派を開いた。この心法は師父から学ぶか、運功するうちに少しずつ身につけるしかない。"
+
+msgid "绝尘心法只能用学的或是从运用中增加熟练度。"
+msgstr "絶塵心法は学ぶか、使ううちに熟練を積むしかない。"
+
+msgid "绝尘派所传的杖法，招式与山烟寺的流云杖法相同，是「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」四式，起手一杖专扫下盘。练这门杖须有相当的膂力，膂力不足的人宜先把内力练足。"
+msgstr "絶塵派に伝わる杖法。技は山煙寺の流雲杖法と同じく、「天光乍現」「雨後初晴」「浮雲写意」「游龍穿雲」の四式で、初手の一杖はもっぱら足もとを払う。この杖を練習するには相当の膂力がいり、膂力の足りない者はまず内力を十分に鍛えるとよい。"
+
+msgid "你必须先找一根木杖或者是类似的武器，才能练杖法。"
+msgstr "杖法を練習するには、まず木の杖か、それに類する武器を一本手に入れなければならない。"
+
+msgid "你的体力不够练这门杖法，还是先休息休息吧。"
+msgstr "この杖法を練習するには体力が足りない。まずはひと休みしよう。"
+
+msgid "你的膂力还不够，也许该练一练内力来增强力量。"
+msgstr "膂力がまだ足りない。内力を鍛えて力をつけるべきかもしれない。"
+
+msgid "$N使一招「天光乍现」，手中$w扫向$n下盘！"
+msgstr "$Nは「天光乍現」を繰り出し、手にした$wで$nの足もとを払う！"
+
+msgid "挫伤"
+msgstr "挫傷"
+
+msgid "$N挥起$w，一招「雨後初晴」攻向$n$l！"
+msgstr "$Nは$wを振り上げ、「雨後初晴」の一手で$nの$lへ打ちかかる！"
+
+msgid "$N横过手中$w，使出「浮云写意」击向$n$l！"
+msgstr "$Nは手にした$wを横たえ、「浮雲写意」を繰り出して$nの$lを打つ！"
+
+msgid "$N使出一招「游龙穿云」，$w一挺撞向$n$l！"
+msgstr "$Nは「游龍穿雲」を繰り出し、$wをぐいと突き出して$nの$lへぶつける！"
+
+msgid "山烟寺的杖法，招名「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」，可攻可守。番坊日陀罗寺的龙若法王也传这门杖法。练这门杖须有相当的膂力。"
+msgstr "山煙寺の杖法。技の名は「天光乍現」「雨後初晴」「浮雲写意」「游龍穿雲」で、攻めにも守りにも使える。番坊の日陀羅寺の龍若法王もこの杖法を伝えている。この杖を練習するには相当の膂力がいる。"
+
+msgid "五百多年前北冥大泽的黑妖蛇族入侵，一群佛门高僧集思广益，悟出这套心法为百姓疗伤，主要用来迅速医治战斗中所受的皮肉创伤。运起功来既能医治自己，也能替别人疗伤；须以大乘佛法为根基，佛法修为跟不上，便领会不了更深的境界。"
+msgstr "五百年余り前、北冥の大沼の黒妖蛇族が攻め込んできたとき、仏門の高僧たちが知恵を寄せ合い、民の傷を癒やすために悟り出した心法。主に、戦いで受けた肉の傷をすばやく治すためのものだ。運功すれば自分を治せるだけでなく、他人の傷も癒やせる。大乗仏法を根本とし、仏法の修為が追いつかなければ、より深い境地は会得できない。"
+
+msgid "莲华心法只能用学的，或是从运用中增加熟练度。"
+msgstr "蓮華心法は学ぶか、使ううちに熟練を積むしかない。"
+
+msgid "你的大乘佛法修为不够，无法领会更高深的莲华心法。"
+msgstr "大乗仏法の修為が足りず、より奥深い蓮華心法を会得することができない。"
+
+msgid "从天竺传来的一部内功，性子是火性的：运起来浑身发热，专克阴寒。只能用学的，没有运功的法门；中原只有日陀罗寺的人会，独眼头陀那只眼就是练它练坏的。"
+msgstr "天竺から伝わった内功で、その性は火だ。運功すれば全身が熱くなり、陰寒の気をもっぱら打ち消す。学ぶしかなく、運功の法門はない。中原では日陀羅寺の者しか知らず、隻眼の頭陀のあの片目は、これを練習して潰したものだ。"
+
+msgid "婆萝蜜多心经只能用学的。"
+msgstr "婆羅蜜多心経は学ぶしかない。"
+
+msgid "佛门的根本学问，莲华心法、八识神通都以它为根基。杀气太重的人，修不了大乘佛法。"
+msgstr "仏門の根本の学問で、蓮華心法も八識神通もこれを根本とする。殺気が重すぎる者は、大乗仏法を修めることができない。"
+
+msgid "你的杀气太重，无法修炼大乘佛法。"
+msgstr "殺気が重すぎて、大乗仏法を修めることができない。"
+
+msgid "佛门弟子的日课，晨钟暮鼓之间念诵经文。山烟寺、日陀罗寺的僧人都会这一门。"
+msgstr "仏門の弟子の日課で、朝の鐘と夕べの太鼓のあいだに経文を唱える。山煙寺や日陀羅寺の僧はみなこれを心得ている。"
+
+msgid "佛家一门十分神奇的神通法术，由六百年前的高僧空正大师传下。神通分为八识，各以人的一种隐藏潜力为动力，如今传下来的有三识：心识救醒昏迷濒死之人，游识一念之间便到你见过的人身边，空识把灵力化为潜能。须与高深的佛法相辅，佛法修为不够便学不了。"
+msgstr "仏家のきわめて不思議な神通の法術で、六百年前の高僧・空正大師が伝えた。神通は八識に分かれ、それぞれが人の秘めた潜在力の一つを動力とする。今に伝わるのはそのうち三識で、心識は昏睡して死にかけた者を目覚めさせ、遊識は一念のうちに会ったことのある者のそばへ行き、空識は霊力を潜在力に変える。高深な仏法と支え合うもので、仏法の修為が足りなければ学べない。"
+
+msgid "你的佛法修为还不够高深，无法学习八识神通。"
+msgstr "仏法の修為がまだ足りず、八識神通を学ぶことができない。"
+
+msgid "使鞭的根底，软鞭出手要收得回来。晚月庄的寒雪鞭法激发在它上面。"
+msgstr "鞭を使う土台。しなる鞭は、放ったら引き戻せなければならない。晩月荘の寒雪鞭法は、この上に載せて使う。"
+
+msgid "使锤一类重兵器的根底，凭的是一身力气。"
+msgstr "錘のような重い武器を使う土台。頼みは腕力だ。"
+
+msgid "使斧的根底，大开大合，一斧下去要劈得开。"
+msgstr "斧を使う土台。大きく振りかぶり、一撃で叩き割らねばならない。"
+
+msgid "使匕首一类短刃的根底，贴身近打，出手要快。"
+msgstr "匕首のような短い刃を使う土台。間合いを詰めて戦い、手が速くなければならない。"
+
+msgid "使钢叉一类长兵的根底。阴间的鬼卒，手里多是钢叉。"
+msgstr "鋼の叉のような長柄の武器を使う土台。冥界の鬼卒は、たいてい鋼の叉を手にしている。"
+
+msgid "晚月庄的指法，只有女子才能练，须空手。招名「菊楼采月」「雪桥翦梅」「柳亭簪花」「桃坟扑蝶」，身影忽前忽后，一转身指尖已点到要害。"
+msgstr "晩月荘の指法で、女子しか練習できず、素手でなければならない。技の名は「菊楼採月」「雪橋翦梅」「柳亭簪花」「桃墳撲蝶」。影は前へ後ろへと揺れ、身を翻したときには指先がもう急所を突いている。"
+
+msgid "你的内力不够了。"
+msgstr "内力が尽きた。"
+
+msgid "你的精神无法集中了，休息一下再练吧。"
+msgstr "精神を集中できなくなった。ひと休みしてから練習しよう。"
+
+msgid "柔虹指是只有女子才能练的武功。"
+msgstr "柔虹指は女子しか練習できない武功だ。"
+
+msgid "练柔虹指必须空手。"
+msgstr "柔虹指は素手でなければ練習できない。"
+
+msgid "$N左手一挥，一招「菊楼采月」右手点向$n$l"
+msgstr "$Nは左手をひと振りし、「菊楼採月」の一手で右手で$nの$lを突く"
+
+msgid "右手食指"
+msgstr "右手の人差し指"
+
+msgid "$N使一招「雪桥翦梅」，身影忽前忽後，突然一转身左手往$n的$l点去"
+msgstr "$Nは「雪橋翦梅」を繰り出し、影を前へ後ろへと揺らすと、不意に身を翻して左手で$nの$lを突く"
+
+msgid "左手中指"
+msgstr "左手の中指"
+
+msgid "$N身法稍顿，左手一扬使出「柳亭簪花」往$n的$l点去"
+msgstr "$Nはわずかに身の動きを止め、左手を上げて「柳亭簪花」を繰り出し、$nの$lを突く"
+
+msgid "只见$N纤腰一摆，陡然滑出数尺，右手顺著来势一招「桃坟扑蝶」往$n的$l点去"
+msgstr "見れば$Nは細い腰をひとひねり、不意に数尺すべり出ると、来る勢いに乗って右手で「桃墳撲蝶」、$nの$lを突く"
+
+msgid "晚月庄的鞭法，从「寒风起兮」「漫天飞雪」到「狂风骤雪」「风雪交加」，鞭影如满天飞雪，虚虚实实地袭人。须有足够的内力才能练。"
+msgstr "晩月荘の鞭法。「寒風起兮」「漫天飛雪」から「狂風驟雪」「風雪交加」まで、鞭の影は空いっぱいに舞う雪のようで、虚実を織り交ぜて人を襲う。十分な内力がなければ練習できない。"
+
+msgid "你按著所学练了一遍寒雪鞭法。"
+msgstr "学んだとおりに、寒雪鞭法をひととおり練習した。"
+
+msgid "你的内力或气不够，没有办法练习寒雪鞭法。"
+msgstr "内力か気が足りず、寒雪鞭法を練習できない。"
+
+msgid "你的内力不够，没有办法练寒雪鞭法, 多练些内力再来吧。"
+msgstr "内力が足りず、寒雪鞭法を練習できない。もっと内力を鍛えてから来よう。"
+
+msgid "你必须先找一条鞭子才能练鞭法。"
+msgstr "鞭法を練習するには、まず鞭を一本手に入れなければならない。"
+
+msgid "$N使一招「寒风起兮」，手中$w抖得笔直向$n的$l连刺数鞭"
+msgstr "$Nは「寒風起兮」を繰り出し、手にした$wをぴんと伸ばして、$nの$lへ立て続けに鞭を突き込む"
+
+msgid "$N身形一转，一招「漫天飞雪」$w幻出满天鞭影，虚虚实实地袭向$n的$l"
+msgstr "$Nは身を翻し、「漫天飛雪」の一手、$wで空いっぱいに鞭の影を生み、虚実を織り交ぜて$nの$lへ襲いかかる"
+
+msgid "$N力贯$w，一招「雪花翩翩」点点鞭影飘浮不定地点向$n的$l"
+msgstr "$Nは$wに力を込め、「雪花翩翩」の一手、点々と漂う鞭の影が定まらぬまま$nの$lを打つ"
+
+msgid "$N手中$w一抖，一招「积雪三尺」以一个怪异的角度往$n下盘卷去"
+msgstr "$Nは手にした$wをひと振るいし、「積雪三尺」の一手で、奇妙な角度から$nの足もとへ巻きつける"
+
+msgid "$N手中一紧，使招「狂风骤雪」，手里$w一鞭接著一鞭不停地抽向$n的$l"
+msgstr "$Nは手をぐっと締め、「狂風驟雪」を繰り出す。手にした$wが一鞭また一鞭と、休みなく$nの$lを打ち据える"
+
+msgid "鞭伤"
+msgstr "鞭の傷"
+
+msgid "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身"
+msgstr "$Nは「風雪交加」の一手、手にした$wで一面に鞭の影を舞わせ、$nの全身を薙ぎ払う"
+
+msgid "三十年前以一柄拂尘横扫武林的前辈异人残心师太所创的内功心法，纯走阴柔之路，发出的内劲寒冷无比；传说她曾在沙牢山一掌冻住七只雪狼，堪称当今寒冰掌一路中最凌厉的奇功。交手时阴寒之气常叫对方打个寒噤，运起「意寒睨」，更能以冰冷如刀的眼神伤敌。"
+msgstr "三十年前、払子一本で武林を席巻した異能の先達・残心師太が編み出した内功心法。ひたすら陰柔の道を行き、放つ内勁はこの上なく冷たい。沙牢山で一掌のもとに雪狼七頭を凍らせたと伝えられ、当代の寒氷掌の系統でも最も鋭い奇功とされる。打ち合えば陰寒の気がしばしば相手を震え上がらせ、「意寒睨」を使えば、刃のように冷たいまなざしで敵を傷つけることもできる。"
+
+msgid "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。"
+msgstr "$Nの技はこの上なく陰寒な鋭い風をまとい、$nは思わず身震いした。"
+
+msgid "意寒功只能用学的，或是从运用中增加熟练度。"
+msgstr "意寒功は学ぶか、使ううちに熟練を積むしかない。"
+
+msgid "天山一脉的独门内功，只能向师父学，或在运功中慢慢精熟；雪影剑法必须以它为根基。"
+msgstr "天山の系統に伝わる独自の内功。師父から学ぶか、運功するうちに少しずつ身につけるしかない。雪影剣法はこれを根本としなければならない。"
+
+msgid "天山雪影心法只能用学的或是从运用中增加熟练度。"
+msgstr "天山雪影心法は学ぶか、使ううちに熟練を積むしかない。"
+
+msgid "天山雪影剑，招名「回光幻电」「风霜碎影」「残阳照雪」「冰谷初虹」「长空雷隐」「断石狼烟」，剑光疾如闪电，身形飘忽如雪影。必须配合天山魔教的独门雪影心法才能练，内力不足也练不成。"
+msgstr "天山雪影剣。技の名は「回光幻電」「風霜砕影」「残陽照雪」「氷谷初虹」「長空雷隠」「断石狼煙」。剣の光は稲妻のように速く、身のこなしは雪の影のようにとらえどころがない。天山魔教独自の雪影心法と組み合わせなければ練習できず、内力が足りなくても身につかない。"
+
+msgid "你按著所学练了一遍雪影剑法。"
+msgstr "学んだとおりに、雪影剣法をひととおり練習した。"
+
+msgid "你的内力或气不够，没有办法练习雪影剑法。"
+msgstr "内力か気が足りず、雪影剣法を練習できない。"
+
+msgid "你的内力不够，没有办法练雪影剑法。"
+msgstr "内力が足りず、雪影剣法を練習できない。"
+
+msgid "雪影剑法必须配合天山魔教的独门雪影心法才能练。"
+msgstr "雪影剣法は天山魔教独自の雪影心法と組み合わせなければ練習できない。"
+
+msgid "$N使一招「回光幻电」，手中$w幻一条疾光刺向$n的$l"
+msgstr "$Nは「回光幻電」を繰り出し、手にした$wを一筋の閃光に変えて$nの$lへ突きかかる"
+
+msgid "$N使出天山雪影剑中的「风霜碎影」，$w连挥剑光霍霍斩向$n的$l"
+msgstr "$Nは天山雪影剣の「風霜砕影」を繰り出し、$wを立て続けに振るって、剣の光をひらめかせて$nの$lへ斬りつける"
+
+msgid "$N一招「残阳照雪」，纵身飘开数尺，手中$w斩向$n的$l"
+msgstr "$Nは「残陽照雪」の一手、身を躍らせて数尺ふわりと退き、手にした$wで$nの$lへ斬りつける"
+
+msgid "$N手中$w中宫直进，一式「冰谷初虹」对准$n的$l刺出一剑"
+msgstr "$Nは手にした$wを正面からまっすぐ突き入れ、「氷谷初虹」の一手で$nの$lめがけて一突きする"
+
+msgid "$N纵身一跃，手中$w一招「长空雷隐」对准$n的$l斜斜刺出一剑"
+msgstr "$Nは身を躍らせて跳び上がり、手にした$wで「長空雷隠」、$nの$lめがけて斜めに一突きする"
+
+msgid "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l"
+msgstr "$Nの$wが宙を指し示し、「断石狼煙」の一手で$nの$lへ突きかかる"
+
+msgid "四百年前「秃笔狂生」骆步玄的成名武功。他原是一介书生，未曾拜师学艺，十九岁起赴京应试，屡试不中，某年考完步出试场，偶一抬头望见街边书肆的一幅对子，竟悟出一套神奇的武功，从此闯荡江湖未逢敌手，五十岁回京定居，创立了步玄派。步玄七诀号称天下轻功「轻捷第一」，姿态潇洒有如书法，第一式「玄羽乱舞」能在短时间里加快身法；须配合步玄心法，又以音律之学为根底。"
+msgstr "四百年前、「禿筆狂生」駱歩玄が名を上げた武功。もとは一介の書生で、師について武芸を学んだことはなかった。十九の年から都へ上って科挙を受けたが、何度受けても及第しなかった。ある年、試験を終えて試験場を出たとき、ふと見上げた通りの書肆に掛かる対聯を見て、なんと不思議な武功を一つ悟った。以来、江湖を渡り歩いて敵に出会わず、五十で都へ戻って居を定め、歩玄派を開いた。歩玄七訣は天下の軽功のうち「軽捷第一」と称され、その姿は書のように瀟洒だ。第一式「玄羽乱舞」は、短いあいだ身のこなしを速められる。歩玄心法と組み合わせ、さらに音律の学を根本としなければならない。"
+
+msgid "你的气或神不够，不能练步玄七诀。"
+msgstr "気か神が足りず、歩玄七訣を練習できない。"
+
+msgid "步玄七诀必须配合步玄心法使用。"
+msgstr "歩玄七訣は歩玄心法と組み合わせて使わなければならない。"
+
+msgid "你的音律之学修为不够，无法领悟更高深的步玄七诀。"
+msgstr "音律の学の修為が足りず、より奥深い歩玄七訣を悟ることができない。"
+
+msgid "$n身影一转，轻易地避开了这一招。"
+msgstr "$nはくるりと身を翻し、この一手をたやすくかわした。"
+
+msgid "$n身法飘忽，左一点，右一顿，早已闪在一旁。"
+msgstr "$nの身のこなしはとらえどころがなく、左へひと跳び、右へひと止まり、とうにわきへ逃れていた。"
+
+msgid "但是$n身影一侧，在间不容发之际从容地避开了这一招。"
+msgstr "だが$nはすっと身を傾け、間一髪のところで悠々とこの一手をかわした。"
+
+msgid "$n身形陡然拔高，使$N的攻势尽数落空。"
+msgstr "$nは不意に身を高く跳ね上げ、$Nの攻めはすべて空を切った。"
+
+msgid "$n右足一点，身影向左滑开数尺，避了开去。"
+msgstr "$nは右足でとんと地を蹴り、身を左へ数尺すべらせて、身をかわした。"
+
+msgid "步玄派的本门内功，只能向师父学，或在运功中慢慢精熟；步玄七诀、小步玄剑都要以它为根基。"
+msgstr "歩玄派の本門の内功。師父から学ぶか、運功するうちに少しずつ身につけるしかない。歩玄七訣も小歩玄剣も、これを根本としなければならない。"
+
+msgid "步玄心法只能学，或是从运用中增加熟练度。"
+msgstr "歩玄心法は学ぶか、使ううちに熟練を積むしかない。"
+
+msgid "步玄派的剑法，招名「暮雪三叹」「处子弄笛」「阳谷白练」，出剑急如骤雨。须先有相当火候的步玄心法，内力不足也练不成。"
+msgstr "歩玄派の剣法。技の名は「暮雪三嘆」「処子弄笛」「陽谷白練」で、剣は驟雨のように速い。まず相当の火加減の歩玄心法が必要で、内力が足りなくても身につかない。"
+
+msgid "你按著所学练了一遍小步玄剑。"
+msgstr "学んだとおりに、小歩玄剣をひととおり練習した。"
+
+msgid "你的内力或气不够，没有办法练习小步玄剑。"
+msgstr "内力か気が足りず、小歩玄剣を練習できない。"
+
+msgid "你的步玄心法火候还不够。"
+msgstr "歩玄心法の火加減がまだ足りない。"
+
+msgid "你的内力不够，没有办法练小步玄剑。"
+msgstr "内力が足りず、小歩玄剣を練習できない。"
+
+msgid "$N使一招「暮雪三叹」，手中$w急如骤雨般地刺向$n$l"
+msgstr "$Nは「暮雪三嘆」を繰り出し、手にした$wで驟雨のように$nの$lへ突きかかる"
+
+msgid "$N身形一晃，一招「处子弄笛」向$n$l刺出一剑"
+msgstr "$Nはゆらりと身を揺らし、「処子弄笛」の一手で$nの$lへ一突きする"
+
+msgid "$N舞动$w，一招「阳谷白练」挟著闪闪剑光刺向$n的$l"
+msgstr "$Nは$wを舞わせ、「陽谷白練」の一手で、きらめく剣光とともに$nの$lへ突きかかる"
+
+msgid "$N手中$w一个圈转，使出「薰容逐电」中锋直进刺向$n的$l"
+msgstr "$Nは手にした$wをくるりと回し、「薫容逐電」を繰り出して、切っ先をまっすぐ$nの$lへ突き入れる"
+
+msgid "花紫会的手上功夫，忽掌忽爪，招名多带市井气——「撺锅手」「撮灰手」「梁上君子」「随棍上身」，劲力一吐，能听见对方骨节作响。须空手练，内力太弱的人练不成。"
+msgstr "花紫会の手わざ。掌かと思えば爪、爪かと思えば掌で、技の名には下町の匂いがするものが多い――「竄鍋手」「撮灰手」「梁上君子」「随棍上身」。勁をひとたび吐けば、相手の骨の節が鳴るのが聞こえる。素手で練習しなければならず、内力が弱すぎる者には身につかない。"
+
+msgid "练油流麻香手必须空手。"
+msgstr "油流麻香手は素手でなければ練習できない。"
+
+msgid "你的内力太弱，无法练油流麻香手。"
+msgstr "内力が弱すぎて、油流麻香手を練習できない。"
+
+msgid "你听到「喀啦」一声轻响，竟似是骨碎的声音！"
+msgstr "「バキッ」と小さな音が聞こえた。まるで骨の砕ける音だ！"
+
+msgid "$N劲力一吐，$n的$l发出「喀」地一声爆响！"
+msgstr "$Nが勁を吐くと、$nの$lが「ゴキッ」と弾けるような音を立てた！"
+
+msgid "只听见$n的$l「喀」地一声 ..."
+msgstr "$nの$lから「ゴキッ」という音がした……"
+
+msgid "$N左掌微分，右手一长使出一招「毒龙扑舟」，抓向$n的$l"
+msgstr "$Nは左の掌をわずかに開き、右手をぐんと伸ばして「毒龍撲舟」を繰り出し、$nの$lをつかみにかかる"
+
+msgid "$N倏地一个转身，双手一翻「撺锅手」直掼$n$l"
+msgstr "$Nはさっと身を翻し、両手を返して「竄鍋手」、$nの$lへまっすぐ叩きつける"
+
+msgid "$N身子微斜，随即跨出一步，左手忽掌忽爪使出「撮灰手」，拍向$n的$l"
+msgstr "$Nはわずかに身を傾けると、すかさず一歩踏み出し、左手を掌とも爪ともつかぬ形にして「撮灰手」を繰り出し、$nの$lをはたく"
+
+msgid "$N使出「青蛇十段锦」，双手滑溜异常对准$n的$l抓去"
+msgstr "$Nは「青蛇十段錦」を繰り出し、異様にぬめるような両手で$nの$lをつかみにかかる"
+
+msgid "$N左手虚晃，右掌飘飘，一招「梁上君子」击向$n$l"
+msgstr "$Nは左手で虚を突き、右の掌をひらりと舞わせて、「梁上君子」の一手で$nの$lを打つ"
+
+msgid "$N使出「拨草寻履」，凌空跃起，冷不防在落地前对准$n$l踢出一脚"
+msgstr "$Nは「撥草尋履」を繰り出して宙に跳び上がり、着地の寸前、不意を突いて$nの$lへ蹴りを放つ"
+
+msgid "$N右手在$n$l划过，随後一招「随棍上身」左爪又向同一方位抓到"
+msgstr "$Nは右手で$nの$lをかすめると、続けて「随棍上身」の一手、左の爪がまた同じところへつかみかかる"
+
+msgid "招名全出自《短歌行》——「对酒当歌」「人生几何」「譬如朝露」「去日苦多」……弯刀似月，刀势常由下而上撩斩。官府的带刀侍卫、高门大户的护院多使这一路刀法。"
+msgstr "技の名はすべて『短歌行』から取られている――「対酒当歌」「人生幾何」「譬如朝露」「去日苦多」……反った刀は月のようで、刀の勢いはたいてい下から斬り上げる。官府の帯刀侍衛や名家の屋敷の護衛の多くが、この刀法を使う。"
+
+msgid "$N使一招「对酒当歌」，手中$w风似地向$n的$l斩去！"
+msgstr "$Nは「対酒当歌」を繰り出し、手にした$wで風のように$nの$lへ斬りかかる！"
+
+msgid "$N弯刀似月，$w随著一招「人生几何」由下而上撩往$n的$l"
+msgstr "$Nの反った刀は月のごとく、$wは「人生幾何」の一手で下から$nの$lへ斬り上がる"
+
+msgid "$N身形一转，一招「譬如朝露」$w如朝露闪烁，斩向$n的$l"
+msgstr "$Nは身を翻し、「譬如朝露」の一手、$wが朝露のようにきらめいて$nの$lへ斬りつける"
+
+msgid "$N舞动$w，一招「去日苦多」往$n的$l斜斜砍出一刀"
+msgstr "$Nは$wを舞わせ、「去日苦多」の一手で$nの$lへ斜めに斬りつける"
+
+msgid "$N手中$w一晃，一招「慨当以慷」迅捷无伦地劈向$n的$l"
+msgstr "$Nは手にした$wをひらめかせ、「慨当以慷」の一手で目にもとまらぬ速さで$nの$lへ打ち下ろす"
+
+msgid "$N提气丹田，身型咋展，一招「忧思难忘」直劈$n$l"
+msgstr "$Nは丹田に気を込め、不意に身を伸ばして、「憂思難忘」の一手で$nの$lへまっすぐ打ち下ろす"
+
+msgid "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l"
+msgstr "$Nは足を運んで身を斜めにし、「何以解憂」を繰り出す。刃の光がひらめき、$nの$lへ斬りつける"
+
+msgid "招名取自《秋风辞》，从「秋风起兮白云飞」到「箫鼓鸣兮发棹歌」，身影一晃，便已避在数尺之外。练这门步法须有相当的内力；官府的侍卫、衙役常与短歌刀法一同修习。"
+msgstr "技の名は『秋風辞』から取られ、「秋風起兮白雲飛」から「簫鼓鳴兮発棹歌」まで。身がゆらりと揺れたかと思うと、もう数尺の外へ逃れている。この歩法を練習するには相当の内力がいる。官府の侍衛や捕吏は、しばしば短歌刀法とあわせて修める。"
+
+msgid "$n一招「秋风起兮白云飞」轻轻巧巧地避了开去。"
+msgstr "$nは「秋風起兮白雲飛」の一手で、軽やかに身をかわした。"
+
+msgid "只见$n身影一晃，一式「草木黄落兮雁南归」早已避在七尺之外。"
+msgstr "$nの姿がゆらりと揺れたかと思うと、「草木黄落兮雁南帰」で、とうに七尺の外へ逃れていた。"
+
+msgid "$n使出「兰有秀兮菊有芳」，轻轻松松地闪过。"
+msgstr "$nは「蘭有秀兮菊有芳」を繰り出し、難なくかわした。"
+
+msgid "$n左足一点，一招「怀佳人兮不能忘」腾空而起，避了开去。"
+msgstr "$nは左足でとんと地を蹴り、「懐佳人兮不能忘」の一手で宙に舞い上がって、身をかわした。"
+
+msgid "可是$n使一招「泛楼船兮济汾河」，身子轻轻飘了开去。"
+msgstr "だが$nは「泛楼船兮済汾河」を繰り出し、ふわりと身を漂わせてよけた。"
+
+msgid "$n身影微动，已经藉一招「横中流兮扬素波」轻轻闪过。"
+msgstr "$nがわずかに身を動かしたかと思うと、「横中流兮揚素波」の一手で、もう軽やかにかわしていた。"
+
+msgid "但是$n一招「箫鼓鸣兮发棹歌」使出，早已绕到$N身後！"
+msgstr "だが$nが「簫鼓鳴兮発棹歌」を繰り出すと、とうに$Nの背後へ回り込んでいた！"
+
+msgid "但是$n身形飘忽，轻轻一纵，一招「欢乐极兮哀情多」，避开这一击。"
+msgstr "だが$nはとらえどころのない身のこなしで、ふわりと跳び、「歓楽極兮哀情多」の一手でこの一撃をかわした。"
+
+msgid "$n身形往上一拔，一招「少壮几时兮奈老何」，一个转折落在数尺之外。"
+msgstr "$nは身を上へ跳ね上げ、「少壮幾時兮奈老何」の一手、くるりと向きを変えて数尺先に降り立った。"
+
+msgid "密宗一路的掌法，招名「苦海端无涯」「地狱似有门」「天堂却无路」「万念皆是空」，虚实相生；招架时能以双掌夹住来刃，或以「粘」字诀引偏兵器。须空手练。"
+msgstr "密宗の系統の掌法。技の名は「苦海端無涯」「地獄似有門」「天堂却無路」「万念皆是空」で、虚と実が互いに生み合う。受けるときは両の掌で来る刃を挟み取り、あるいは「粘」の字訣で武器をそらすこともできる。素手で練習しなければならない。"
+
+msgid "练密宗大手印必须空手。"
+msgstr "密宗大手印は素手でなければ練習できない。"
+
+msgid "$N使出一招「苦海端无涯」，左掌虚幌，右掌穿出击向$n的$l"
+msgstr "$Nは「苦海端無涯」を繰り出し、左の掌で虚を突き、右の掌を突き出して$nの$lを打つ"
+
+msgid "$N使出一招「地狱似有门」，左掌化虚为实击向$n的$l"
+msgstr "$Nは「地獄似有門」を繰り出し、左の掌を虚から実に転じて$nの$lを打つ"
+
+msgid "$N使出密宗大手印中的「天堂却无路」，一掌拍向$n的$l"
+msgstr "$Nは密宗大手印の「天堂却無路」を繰り出し、$nの$lへ掌を打ちつける"
+
+msgid "$N双掌一错，使出「密宗为独尊」，对准$n的$l连续拍出"
+msgstr "$Nは両の掌を交差させて「密宗為独尊」を繰り出し、$nの$lめがけて立て続けに掌を打ち込む"
+
+msgid "$N左掌立于胸前，右掌推出，一招「万念皆是空」击向$n$l"
+msgstr "$Nは左の掌を胸の前に立て、右の掌を押し出して、「万念皆是空」の一手で$nの$lを打つ"
+
+msgid "$N使出「佛云以杀止杀」，身形凌空飞起，从空中当头向$n的$l出掌攻击"
+msgstr "$Nは「仏雲以殺止殺」を繰り出し、宙へ舞い上がると、空中から$nの$lめがけて真上から掌を打ち込む"
+
+msgid "外门护体硬功：闭目凝神，气走全身，不躲不闪也能硬受来招。"
+msgstr "外門の護体の硬功。目を閉じて心を凝らし、気を全身に巡らせれば、よけもかわしもせずに来る技を受けとめられる。"
+
+msgid "逍遥派一路的内功，讲究文墨修养：读书识字的造诣跟不上，小无相功便无法再进。只能向人学，或在运功中慢慢精熟。"
+msgstr "逍遥派の系統の内功で、文墨の素養を重んじる。読み書きの造詣が追いつかなければ、小無相功はそれ以上進まない。人から学ぶか、運功するうちに少しずつ身につけるしかない。"
+
+msgid "小无相功只能用学的或是从运用中增加熟练度。"
+msgstr "小無相功は学ぶか、使ううちに熟練を積むしかない。"
+
+msgid "你的文学素养不够无法提升小无相功的造诣。"
+msgstr "文の素養が足りず、小無相功の造詣を高めることができない。"
+
+msgid "大内侍卫营的刀法，七式「值门」「出巡」「提灯」「锁宫」「拿下」「护驾」「天明」，一招一式都在宫门、长街、殿上。侍卫营总教头冯策的刀谱末页写着一句：「刀在鞘里的时候最多。」"
+msgstr "大内侍衛の兵営の刀法。七式は「門番」「巡回」「提灯」「閉門」「召し捕り」「護駕」「天明」で、一招一式がすべて宮門、長い大通り、御殿の上にある。侍衛の兵営の総教頭・馮策の刀譜の最後の一枚には、こう一行書かれている。「刀は鞘の中にあるときがいちばん多い。」"
+
+msgid "$N横刀当胸，一招「值门」$w刀背一磕，顺势削向$n的$l"
+msgstr "$Nは刀を胸の前に横たえ、「門番」の一手、$wの峰で打ち払うと、その勢いのまま$nの$lへ斬りつける"
+
+msgid "$N脚下一错，一招「出巡」$w贴着身子递出，直取$n的$l！"
+msgstr "$Nは足をさっと踏み替え、「巡回」の一手で$wを体に沿わせて繰り出し、まっすぐ$nの$lを狙う！"
+
+msgid "$N刀尖一挑，一招「提灯」$w晃过$n眼前，刀锋却落向$n的$l"
+msgstr "$Nは切っ先をひょいと跳ね上げ、「提灯」の一手で$wを$nの目の前にかすめさせるが、刃は$nの$lへ落ちていく"
+
+msgid "$N沉肩坠肘，一招「锁宫」$w自上而下劈向$n的$l"
+msgstr "$Nは肩を沈め肘を落とし、「閉門」の一手で$wを上から$nの$lへ打ち下ろす"
+
+msgid "$N欺身而上，一招「拿下」$w刀柄撞向$n的$l，刀刃跟着就到"
+msgstr "$Nは間合いを詰め、「召し捕り」の一手で$wの柄を$nの$lへ打ちつける。刃がすぐあとに続く"
+
+msgid "$N退半步护住身后，一招「护驾」$w画了个半圆，扫过$n的$l"
+msgstr "$Nは半歩退いて背後をかばい、「護駕」の一手、$wで半円を描いて$nの$lを薙ぐ"
+
+msgid "$N大喝一声，一招「天明」$w自下而上斜劈，刀光照亮了$n的$l"
+msgstr "$Nは大喝一声、「天明」の一手で$wを下から斜めに斬り上げる。刃の光が$nの$lを照らし出す"
+
+msgid "关北槐阳王府骑兵的马上刀法，七式从「扬鞭」「回马」「斩缰」到「破阵」「归鞘」，刀自下而上撩出。刀谱每一页的边上都写着同一句话：「撩，不是砍。」"
+msgstr "関北の槐陽王府の騎兵が使う馬上の刀法。七式は「揚鞭」「回馬」「斬綱」から「破陣」「帰鞘」まで、刀は下から斬り上げる。刀譜のどの頁の余白にも、同じ一言が書かれている。「斬り上げよ、叩き斬るな。」"
+
+msgid "$N手中$w一扬，一招「扬鞭」自下而上撩向$n的$l！"
+msgstr "$Nは手にした$wを振り上げ、「揚鞭」の一手で下から$nの$lへ斬り上げる！"
+
+msgid "$N身子一拧，一招「回马」$w反手撩出，刀光从$n的$l掠过"
+msgstr "$Nはぐいと身をひねり、「回馬」の一手で$wを逆手に斬り上げる。刃の光が$nの$lをかすめる"
+
+msgid "$N矮身一刀，一招「斩缰」$w贴地撩向$n的$l"
+msgstr "$Nは身を沈めて一刀、「斬綱」の一手で$wを地面すれすれに$nの$lへ斬り上げる"
+
+msgid "$N$w一抖，一招「卷沙」刀风卷起地上的沙土，斜斜撩往$n的$l"
+msgstr "$Nは$wをひと振るいし、「巻沙」の一手、刀の風が地面の砂を巻き上げ、斜めに$nの$lへ斬り上がる"
+
+msgid "$N踏步欺进，一招「踏雪」$w由肩上撩落，直取$n的$l"
+msgstr "$Nは踏み込んで間合いを詰め、「踏雪」の一手で$wを肩の上から斬り下ろし、まっすぐ$nの$lを狙う"
+
+msgid "$N大喝一声，一招「破阵」$w连撩三刀，刀刀奔$n的$l"
+msgstr "$Nは大喝一声、「破陣」の一手で$wを立て続けに三度斬り上げる。どの太刀も$nの$lへ向かう"
+
+msgid "$N手腕一翻，一招「归鞘」$w收势时顺手一撩，刀背扫过$n的$l"
+msgstr "$Nは手首を返し、「帰鞘」の一手、$wを納める勢いのままついでに斬り上げ、刀の峰で$nの$lを払う"
+
+msgid "番坊铁盾会的剑法，传自流落东方的大秦剑手：盾在前，剑在后，左臂圆盾挡住来招，右手短剑从盾下刺出，七式自「盾墙」至「盾下一剑」。臂上没有盾，铁盾会不教；入了鬼笠馆的人，铁盾会也不教。"
+msgstr "番坊の鉄盾会の剣法で、東方へ流れてきた大秦の剣士から伝わった。盾は前、剣は後ろ。左腕の丸盾で来る技を防ぎ、右手の短剣を盾の下から突き出す。七式は「盾牆」から「盾下一剣」まで。腕に盾のない者に、鉄盾会は教えない。鬼笠館に入った者にも、鉄盾会は教えない。"
+
+msgid "你举着盾，把铁盾剑法练了一遍：盾在前，剑在后。"
+msgstr "盾を構えて、鉄盾剣法をひととおり練習した。盾は前、剣は後ろ。"
+
+msgid "你的内力或气不够，没有办法练习铁盾剑法。"
+msgstr "内力か気が足りず、鉄盾剣法を練習できない。"
+
+msgid "你得先拿一把剑——短剑最好。"
+msgstr "まず剣を一振り手にしよう――短剣がいちばんいい。"
+
+msgid "盾呢？没盾的剑法不是我们的剑法。"
+msgstr "盾は？ 盾のない剣法は、われわれの剣法ではない。"
+
+msgid "你是鬼笠馆的人。铁盾会的剑法，不教鬼笠馆。"
+msgstr "お前は鬼笠館の者だ。鉄盾会の剣法は、鬼笠館には教えない。"
+
+msgid "$N左臂一抬，一招「盾墙」盾面迎上$n的$l，$w从盾沿底下刺出"
+msgstr "$Nは左腕を上げ、「盾牆」の一手、盾の面で$nの$lを迎え、$wを盾の縁の下から突き出す"
+
+msgid "$N盾身一侧，一招「侧刺」$w贴着盾沿直刺$n的$l"
+msgstr "$Nは盾を斜めに構え、「側刺」の一手で$wを盾の縁に沿わせて$nの$lへまっすぐ突く"
+
+msgid "$N踏前一步，一招「盾撞」整面盾撞向$n的$l"
+msgstr "$Nは一歩踏み出し、「盾撞」の一手で盾ごと$nの$lへぶつかる"
+
+msgid "$N手腕一沉，一招「短锋」$w只探出半尺，点向$n的$l"
+msgstr "$Nは手首を沈め、「短鋒」の一手で$wをわずか半尺だけのぞかせ、$nの$lを突く"
+
+msgid "$N盾面一收，一招「回盾」盾沿磕开来势，$w顺势划向$n的$l"
+msgstr "$Nは盾をさっと引き、「回盾」の一手、盾の縁で来る勢いを弾くと、その勢いのまま$wで$nの$lを薙ぐ"
+
+msgid "$N盾后$w连刺三下，一招「连刺」剑剑奔$n的$l"
+msgstr "$Nは盾の陰から$wを三度続けて突き出す。「連刺」の一手、どの突きも$nの$lへ向かう"
+
+msgid "$N矮身藏在盾后，一招「盾下一剑」$w从盾底下猛地刺向$n的$l"
+msgstr "$Nは身を沈めて盾の陰に隠れ、「盾下一剣」の一手で$wを盾の下から$nの$lへ鋭く突き上げる"
+
+msgid "番坊倭人浪人武馆鬼笠馆的刀法，刀窄而弯，拔刀、横扫、下劈、纳刀、退步五式之外，另有一式「一刀」。门规与中原相反：一击之内定生死。铁盾会的弟子，鬼笠馆不教。"
+msgstr "番坊にある倭人の浪人の武館・鬼笠館の刀法。刀は細く反っている。抜刀、横払い、斬り下ろし、納刀、退き足の五式のほかに、「一刀」という一式がある。門規は中原とは逆で、一撃のうちに生死を決する。鉄盾会の弟子に、鬼笠館は教えない。"
+
+msgid "你出刀，收刀，把鬼笠刀法练了一遍——一刀，只出一次。"
+msgstr "刀を抜き、刀を納め、鬼笠刀法をひととおり練習した――一刀は、一度しか出さない。"
+
+msgid "你的内力或气不够，没有办法练习鬼笠刀法。"
+msgstr "内力か気が足りず、鬼笠刀法を練習できない。"
+
+msgid "刀呢？没刀的刀法不是刀法。"
+msgstr "刀は？ 刀のない刀法は刀法ではない。"
+
+msgid "你是铁盾会的人。盾在前的，用不着刀。"
+msgstr "お前は鉄盾会の者だ。盾を前に構える者に、刀は要らない。"
+
+msgid "$N手按刀柄，一招「拔刀」$w出鞘的一瞬斜斜划向$n的$l"
+msgstr "$Nは刀の柄に手をかけ、「抜刀」の一手、$wが鞘を離れたその一瞬に$nの$lを斜めに斬り裂く"
+
+msgid "$N$w平举，一招「横扫」刀光齐腰扫向$n的$l"
+msgstr "$Nは$wを水平に構え、「横払い」の一手で、刃の光が腰の高さで$nの$lを薙ぐ"
+
+msgid "$N双手握刀举过头顶，一招「下劈」$w直劈$n的$l"
+msgstr "$Nは両手で刀を握って頭上に振りかぶり、「斬り下ろし」の一手で$wを$nの$lへまっすぐ打ち下ろす"
+
+msgid "$N$w收势回鞘，一招「纳刀」刀背顺势磕向$n的$l"
+msgstr "$Nは$wを鞘へ納めながら、「納刀」の一手、その勢いのまま刀の峰で$nの$lを打つ"
+
+msgid "$N退了半步，一招「退步」$w在退势里反撩$n的$l"
+msgstr "$Nは半歩退き、「退き足」の一手、退く勢いの中で$wを返して$nの$lへ斬り上げる"
+
+msgid "$N双手握刀，一动不动，忽然一招「一刀」——$w从头顶直劈而下，一击之内定生死，直取$n的$l"
+msgstr "$Nは両手で刀を握り、ぴたりと動きを止める。不意に「一刀」――$wが頭上からまっすぐ振り下ろされる。一撃のうちに生死を決し、まっすぐ$nの$lを狙う"
+
+msgid "挥拳"
+msgstr "拳打ち"
+
+msgid "$N挥拳攻击$n的$l"
+msgstr "$Nは拳を振るって$nの$lを打つ"
+
+msgid "一抓"
+msgstr "つかみ"
+
+msgid "$N往$n的$l一抓"
+msgstr "$Nは$nの$lをつかみにかかる"
+
+msgid "踢腿"
+msgstr "蹴り上げ"
+
+msgid "$N往$n的$l狠狠地踢了一脚"
+msgstr "$Nは$nの$lを思いきり蹴りつける"
+
+msgid "捶击"
+msgstr "殴打"
+
+msgid "$N提起拳头往$n的$l捶去"
+msgstr "$Nは拳を振り上げて$nの$lを殴りつける"
+
+msgid "横拳"
+msgstr "横殴り"
+
+msgid "$N对准$n的$l用力挥出一拳"
+msgstr "$Nは$nの$lめがけて力いっぱい拳を振り抜く"
+
+msgid "斩"
+msgstr "斬撃"
+
+msgid "$N挥动$w，斩向$n的$l"
+msgstr "$Nは$wを振るい、$nの$lへ斬りかかる"
+
+msgid "砍"
+msgstr "斬りつけ"
+
+msgid "$N用$w往$n的$l砍去"
+msgstr "$Nは$wで$nの$lへ斬りつける"
+
+msgid "砍伤"
+msgstr "斬り傷"
+
+msgid "劈"
+msgstr "打ち下ろし"
+
+msgid "$N的$w朝著$n的$l劈将过去"
+msgstr "$Nの$wが$nの$lめがけて振り下ろされる"
+
+msgid "劈伤"
+msgstr "裂傷"
+
+msgid "乱砍"
+msgstr "めった斬り"
+
+msgid "$N挥舞$w，对准$n的$l一阵乱砍"
+msgstr "$Nは$wを振り回し、$nの$lめがけてめった斬りにする"
+
+msgid "刺"
+msgstr "突き"
+
+msgid "$N用$w往$n的$l刺去"
+msgstr "$Nは$wで$nの$lへ突きかかる"
+
+msgid "捅"
+msgstr "突き刺し"
+
+msgid "$N的$w往$n的$l狠狠地一捅"
+msgstr "$Nの$wが$nの$lへぐさりと突き込まれる"
+
+msgid "抽"
+msgstr "打ち据え"
+
+msgid "$N将$w一扬，往$n的$l抽去"
+msgstr "$Nは$wを振り上げ、$nの$lを打ち据える"
+
+msgid "戳"
+msgstr "突き込み"
+
+msgid "$N用$w往$n的$l直戳过去"
+msgstr "$Nは$wで$nの$lへまっすぐ突き込む"
+
+msgid "射"
+msgstr "射撃"
+
+msgid "$N将$w对准$n的$l射了过去"
+msgstr "$Nは$wを$nの$lへ狙い定めて放つ"
+
+msgid "砸"
+msgstr "叩きつけ"
+
+msgid "$N挥舞$w，往$n的$l用力一砸"
+msgstr "$Nは$wを振り回し、$nの$lへ力いっぱい叩きつける"
+
+msgid "当头砸"
+msgstr "脳天割り"
+
+msgid "$N高高举起$w，往$n的$l当头砸下"
+msgstr "$Nは$wを高々と振り上げ、$nの$lへ真上から叩きつける"
+
+msgid "猛挥"
+msgstr "大振り"
+
+msgid "$N手握$w，眼露凶光，猛地对准$n的$l挥了过去"
+msgstr "$Nは$wを握りしめ、目に凶暴な光を宿して、$nの$lめがけて猛然と振り抜く"
+
+msgid "当前是眼下的数；有效是受伤压低的上限，歇着会慢慢长回来，疗伤更快；最大是你的本钱。"
+msgstr "「現在」は今の値。「有効」は傷で下がった上限で、休めば少しずつ戻り、治療すればもっと早く戻ります。「最大」はあなたの元手です。"
+
+msgid "学武功、自学、修行都耗精，歇着慢慢回来；归零就昏倒。"
+msgstr "武功を学ぶ、独学する、修行すると精を消耗します。休めば少しずつ戻り、尽きると気を失います。"
+
+msgid "挨打、练功、打坐都耗气，歇着慢慢回来；归零就昏倒。"
+msgstr "打たれる、練習する、打坐すると気を消耗します。休めば少しずつ戻り、尽きると気を失います。"
+
+msgid "研读、冥思都耗神，歇着慢慢回来；归零就昏倒。"
+msgstr "書を読み込む、瞑想すると神を消耗します。休めば少しずつ戻り、尽きると気を失います。"
+
+msgid "打坐得来，运功和加力都要用它；上限看基本内功。"
+msgstr "打坐で得られ、運功にも加力にも使います。上限は基本内功で決まります。"
+
+msgid "每一击多灌进这么多内力，打得更重，内力也耗得更快。"
+msgstr "一撃ごとにこれだけの内力を余分に注ぎ込みます。打撃は重くなり、内力の減りも早くなります。"
+
+msgid "施法要用。冥思得来，上限看基本咒文。"
+msgstr "術を施すのに使います。瞑想で得られ、上限は基本呪文で決まります。"
+
+msgid "施展神通要用。修行得来，上限看基本法术。"
+msgstr "神通を使うのに使います。修行で得られ、上限は基本法術で決まります。"
+
+msgid "杀人会涨，胆气也跟着壮；太重学不了佛道心法，还可能失控伤人。运功或捐香火能压下去。"
+msgstr "人を殺すと増え、胆も据わります。重すぎると仏門・道門の心法が学べず、我を失って人を傷つけることもあります。運功するか、香火銭を寄進すれば抑えられます。"
+
+msgid "随时间消耗，吃东西补；见底后内力、法力、灵力不再恢复。"
+msgstr "時間とともに減り、食べれば補えます。尽きると内力・法力・霊力が回復しなくなります。"
+
+msgid "随时间消耗，喝东西补；见底后什么都不再恢复。"
+msgstr "時間とともに減り、飲めば補えます。尽きると何も回復しなくなります。"
+
+msgid "打架、办事得来；武功能练到多高看它。"
+msgstr "戦いや頼み事で得られます。武功をどこまで高められるかは、これで決まります。"
+
+msgid "打架、办事得来，请教和自学要花它；没用掉的有上限。"
+msgstr "戦いや頼み事で得られ、教えを請うときや独学に使います。使わずにためておける量には上限があります。"
+
+msgid "江湖上对你的总评：办成差事会涨，认输会掉。"
+msgstr "江湖でのあなたの総合評価です。頼み事をやり遂げると上がり、負けを認めると下がります。"
+
+msgid "你亲手杀过多少人。"
+msgstr "あなたが自分の手で殺した人の数です。"
+
+msgid "身上东西的总重和能背的上限，上限看膂力。"
+msgstr "身につけている物の総重量と、背負える上限です。上限は膂力で決まります。"
+
+msgid "你自己的分量，也决定肚子能装多少吃喝。"
+msgstr "あなた自身の重さです。どれだけ食べ、飲めるかも、これで決まります。"
+
+msgid "力气：打得更重，背得更多，拿得动沉重的兵器。"
+msgstr "力の強さ。打撃が重くなり、多くの物を背負え、重い武器も扱えます。"
+
+msgid "敢不敢抢攻：自动对打时，胆识高的人出手更勤；不少师父也看它。"
+msgstr "先に攻めかかる度胸。自動で打ち合うとき、胆力の高い者ほど手数が多くなります。これを見る師父も少なくありません。"
+
+msgid "天资：学武功更快，耗精更少，打架时也更容易长进。"
+msgstr "生まれ持った資質。武功を早く覚え、精の消耗も少なく、戦いの中でも上達しやすくなります。"
+
+msgid "精神方面的体质：冥思和修行涨得更快，不少法门也看它。"
+msgstr "精神面の素質。瞑想や修行の伸びが早く、これを見る法門も少なくありません。"
+
+msgid "临危不乱：对手抢攻前要过你这一关，定力越高他们越容易转为守势；打空时也不易露破绽，还压得住杀气。"
+msgstr "危機にも動じない心。相手が先に攻めかかるにはまずこれを越えねばならず、定力が高いほど相手は守りに回りやすくなります。空振りしても隙を見せにくく、殺気も抑えられます。"
+
+msgid "长相：有人看脸说话，也有师父看长相收人；容貌高，杀气重的人也不易对你翻脸。"
+msgstr "顔立ち。顔を見て口をきく者もいれば、顔立ちを見て弟子を取る師父もいます。容貌が高ければ、殺気の重い者もあなたに牙をむきにくくなります。"
+
+msgid "体质：精气神恢复得更快，打坐涨内力更快，昏倒后醒得更早，酒量也大。"
+msgstr "体の素質。精・気・神の回復が早く、打坐で内力が早く増え、気を失っても早く目覚め、酒にも強くなります。"
+
+msgid "运气：容易遇上一般人碰不到的机缘，好事坏事都有。"
+msgstr "運。ふつうの人が出会えない巡り合わせに出会いやすくなります。良いことも悪いことも。"
+
+msgid "青石山路"
+msgstr "青石の山道"
+
+msgid "铁链崖"
+msgstr "鉄鎖崖"
+
+msgid "晚月山路"
+msgstr "晩月の山道"
+
+msgid "槐阳城"
+msgstr "槐陽城"
+
+msgid "草原"
+msgstr "草原"
+
+msgid "工地"
+msgstr "工事場"
+
+msgid "古冢"
+msgstr "古塚"
+
+msgid "封山剑派是当今武林中最大的一支剑派。相传三位剑术名家在封山灵狐顶相互印证所学，创出封山剑法；招式不难学，难在剑意，讲究不抢先，等对手露出空子。七十年前一代掌门把乔阴柳家的家传拳法融进剑意，创出柳家拳，补上了剑派近身的短处。雪亭镇的淳风武馆是这一派的门户，镇上的后生多在那里学拳。"
+msgstr "封山剣派は当代の武林で最大の剣派だ。三人の剣の名手が封山の霊狐頂で互いの腕を確かめ合い、封山剣法を編み出したと伝えられる。技は難しくないが、難しいのは剣意で、先に仕掛けず、相手が隙を見せるのを待つことを重んじる。七十年前、時の掌門が喬陰柳家の家伝の拳法を剣意に溶け込ませて柳家拳を作り上げ、剣派の接近戦の弱みを補った。雪亭鎮の淳風武館がこの派の門戸で、鎮の若者の多くはそこで拳を学んでいる。"
+
+msgid "柳家拳没什么花样：先打实一拳，人就贴上去了；贴上去，重拳才够得着，一拳比一拳沉。"
+msgstr "柳家拳に小細工はない。まず一発を確かに当てれば、体は相手に張りつく。張りついてこそ重い拳が届き、一発ごとに重くなる。"
+
+msgid "最怕的是打空。一拳落了空，人就被拉开了，再重的拳头也只砸在风上——得重新打实一拳，才能再贴上去。"
+msgstr "一番まずいのは空振りだ。一発が空を切れば引き離され、どんなに重い拳も風を打つだけだ――もう一度確かに一発当てて、ようやくまた張りつける。"
+
+msgid "所以这拳是抢来的。对面守得稳，你就先用快的、虚的去碰，碰着了再压上去。"
+msgstr "だからこの拳は奪い取るものだ。相手の守りが堅ければ、まず速い拳、見せかけの拳で触れにいき、触れたら押し込む。"
+
+msgid "想拜馆主为师？馆主只看{requires}，哪一样不到，他都会摇头。拳脚简单，一拳就是一拳，先跟我拆几招也好。"
+msgstr "館主に弟子入りしたいのか？ 館主が見るのは{requires}だけだ。どれか一つでも足りなければ、首を横に振られる。拳脚は単純だ、一発は一発。まずは私と少し手合わせしてみるのもいい。"
+
+msgid "好，拆三回合，点到为止。"
+msgstr "よし、三合だけ手合わせしよう。寸止めだ。"
+
+msgid "看见没有？我一拳打实了就贴上来，接着那记重的才够得着你。柳家拳的拳，是这么抢来的。"
+msgstr "見たか？ 一発確かに当てたら張りついて、そのあとの重い一発がやっと君に届く。柳家拳の拳は、こうやって奪い取るんだ。"
+
+msgid "三回合我一拳都没打实，就一直够不着你——柳家拳最怕的就是这个。你要学，先学怎么把第一拳打实。"
+msgstr "三合のあいだ一発も確かに当てられず、ずっと君に届かなかった――柳家拳が一番恐れるのがこれだ。学ぶなら、まず最初の一発を確かに当てることから学びなさい。"
+
+msgid "你贴上来那一记，压得对，就是这个劲。"
+msgstr "君が張りついてきたあの一発、押し込み方が正しい。その力だ。"
+
+msgid "你身上带着伤，拆什么招？先去桑邻药铺把伤治好。"
+msgstr "傷を負っているのに、手合わせどころではない。まず桑隣薬舗へ行って傷を治してきなさい。"
+
+msgid "你是别派的弟子，馆主吩咐过，不许和外人过招。"
+msgstr "君は他派の弟子だ。館主から、外の者と手合わせしてはならないと言いつけられている。"
+
+msgid "记住：一回合不是一招，是几手的事。你出一手，我出一手；谁手上还有余力，谁就多出一手。"
+msgstr "覚えておきなさい。一合は一手ではなく、何手かのやりとりだ。君が一手出し、私が一手出す。手に余力が残っているほうが、もう一手多く出せる。"
+
+msgid "看我这一拳——打实了我就贴上来，紧跟着的那一记重的，你躲得开么？"
+msgstr "この一発を見ろ――確かに当たれば張りつく。すぐあとに続く重い一発、よけられるか？"
+
+msgid "最后一回合。你要是能让我一拳打空，我就得退开重来；你要是也打实了一拳，就试试压上来。"
+msgstr "最後の一合だ。私の一発を空振りさせられたら、私は下がってやり直すしかない。君も一発確かに当てたら、押し込んでみなさい。"
+
+msgid "爹爹的剑法，我只学了个皮毛。封山剑不抢先，先用引手逗对方出招——对方一剑刺空，或是被我架开，那一下就是空子，我这边就多出一剑来。"
+msgstr "父さまの剣法は、上っ面をかじっただけ。封山の剣は先に仕掛けないの。まず誘いの手で相手に技を出させる――相手の突きが空を切るか、私が受け流したら、その一瞬が隙。こっちに一太刀多く出せるの。"
+
+msgid "多出来的那一剑最要紧：可以追着刺，也可以用「封」字诀把他封住，一封住，他好几手都出不来。"
+msgstr "その一太刀が一番大事。追って突いてもいいし、『封』の字訣で封じてもいい。封じられたら、相手は何手も出せなくなる。"
+
+msgid "可是贪不得。多出来的那一剑要是只顾着攻，对方的下一手就没人守了。爹爹说，封山的剑是等出来的。"
+msgstr "でも欲張っちゃだめ。その一太刀で攻めることばかり考えたら、相手の次の一手を誰も守れない。父さまは言ってた。封山の剣は待って生まれるものだって。"
+
+msgid "你若想拜爹爹为师，他只看{requires}——不到的，他会说学剑的人要胆大心细。"
+msgstr "父さまに弟子入りしたいなら、見られるのは{requires}だけ――足りなければ、剣を学ぶ者は大胆で細心でなければ、って言われるよ。"
+
+msgid "那……只拆三回合，不伤人。"
+msgstr "じゃあ……三合だけ。怪我はさせない。"
+
+msgid "方才你那一下刺空了，我手里就多出一剑，那记「封」就是这么来的。封山的剑，是等人露空子。"
+msgstr "さっき突きが空を切ったでしょう。それで私に一太刀多く出せたの。あの『封』は、そうやって出たもの。封山の剣は、相手が隙を見せるのを待つの。"
+
+msgid "三回合你一招都没打空，我就一直没等到空子，只好跟你慢慢磨。封山的剑是等出来的，等不到，就只能这样。"
+msgstr "三合のあいだ一度も空振りしなかったから、隙がずっと来なくて、じりじり付き合うしかなかった。封山の剣は待って生まれるもの。待っても来なければ、こうなるしかないの。"
+
+msgid "你也等到了我的空子，多出来的那一剑用得对。"
+msgstr "そっちも私の隙を待てたね。あの一太刀の使い方、正しかった。"
+
+msgid "你带着伤呢，爹爹不许我跟伤者动手。"
+msgstr "怪我してるじゃない。怪我人と手合わせするのは、父さまに禁じられてるの。"
+
+msgid "你是别派的人，爹爹说过不能跟江湖人物比武过招。"
+msgstr "他派の人でしょう。江湖の人と手合わせしちゃいけないって、父さまに言われてるの。"
+
+msgid "一回合里你出几手，我也出几手——你出完了，我才接着出。不急。"
+msgstr "一合のうちに、そっちが何手か出したら、私も何手か出す――そっちが出し終えてから、私が続けて出すの。急がなくていい。"
+
+msgid "你尽管来刺。要是刺空了，我手上就多一剑；看清楚我是怎么追上来的。"
+msgstr "遠慮なく突いてきて。空を切ったら、私に一太刀増える。私がどう追いかけるか、よく見てて。"
+
+msgid "最后一回合。你也可以不急着出手，等我刺空了再说。"
+msgstr "最後の一合。そっちも急いで手を出さずに、私が空を切るのを待ってもいいよ。"
+
+msgid "封山剑法？小的不懂剑，只听来往的武师说：柳馆主的剑从不抢先，专等人家刺空了的那一下。"
+msgstr "封山剣法ですか？ 手前は剣のことはわかりませんが、行き来する武芸者の方々から聞いたところでは、柳館主の剣は決して先に仕掛けず、相手の突きが空を切ったその一瞬だけを待つんだそうで。"
+
+msgid "馆主的剑我看了五年。来踢馆的，十个有九个是自己刺空了，才挨那一下的。想拜他为师？他只看{requires}。"
+msgstr "館主の剣は五年見てきた。道場破りに来た奴は、十人いりゃ九人が自分から空振りして、それであの一撃を食らうんだ。弟子入りしたいのか？ 館主が見るのは{requires}だけだ。"
+
+msgid "柳淳风是个读书人，剑法嘛……文绉绉的，依老夫看没什么杀气。"
+msgstr "柳淳風は読書人でな、剣法も……文人くさくて、わしの見るところ殺気というものがない。"
+
+msgid "绘心师妹的剑最吓人的是那记「封」字诀，被封住了好几手都出不来。不过她说剑要等——等什么，我也说不上来。"
+msgstr "絵心師妹の剣で一番恐ろしいのは、あの『封』の字訣だ。封じられたら何手も出せない。ただ、剣は待つものだって彼女は言う――何を待つのか、俺にもうまく言えない。"
+
+msgid "伤口"
+msgstr "傷口"
+
+msgid "这是剑伤，口子又直又深——封山剑的路数，多半是这位$RESPECT自己先刺空了，人家才补的这一剑。"
+msgstr "これは剣の傷ですね。傷口がまっすぐで深い――封山の剣の筋です。おそらく$RESPECTご自身が先に突きを空振りなさって、相手にこの一太刀を返されたのでしょう。"
+
+msgid "柳家拳？镇上后生练的都是这个。我瞧他们打架，先是一拳碰着人了，立马就贴上去，一拳比一拳重。"
+msgstr "柳家拳か？ 鎮の若い衆が習ってるのはみんなそれだ。あいつらの喧嘩を見てると、まず一発当たったら、すぐさま張りついて、一発ごとに重くなっていく。"
+
+msgid "李教头那身板，一拳打实了接着就是一记重的，叫什么虎吟。想拜柳馆主的，先去武馆找李教头拆拆招，拳脚简单，一拳就是一拳。"
+msgstr "李教頭のあの体つきですからね、一発確かに当たったら、すぐ重いのが続くんで。なんとか虎吟とかいう技だそうです。柳館主に弟子入りしたい人は、まず武館で李教頭と手合わせしてみるといいですよ。拳脚は単純、一発は一発だそうで。"
+
+msgid "柳家拳好是好，就是练了脾气暴，李教头那些徒弟三天两头在街上跟人动手。"
+msgstr "柳家拳はいいもんだが、習うと気が荒くなる。李教頭の弟子どもは、三日にあげず通りで人とやり合ってるよ。"
+
+msgid "柳家拳最怕打空。一拳落了空，人就离远了，再重的拳也够不着——小的挨过，知道。"
+msgstr "柳家拳が一番嫌うのは空振りでして。一発外れりゃ間が開いて、どんなに重い拳も届かない――手前は食らったことがあるから、わかるんです。"
+
+msgid "这是拳伤，一片青紫，底下还压着一记重的——柳家拳的路数，人贴上来才打得出这么重。"
+msgstr "これは拳の傷ですね。一面青紫で、その下にもう一発重いのが入っている――柳家拳の筋です。張りつかれなければ、これほど重くは打てません。"
+
+msgid "这位$RESPECT身上没什么新伤，用不着看。"
+msgstr "$RESPECTのお体には新しい傷はありませんね。診るまでもありません。"
+
+msgid "封山剑派北宗是封山剑派里的一支，剑法、拳脚和内功都与本宗同出一源。绮云镇口的公告上，至今还写着「封山剑派北宗所在的雪亭镇」。"
+msgstr "封山剣派北宗は封山剣派の一派で、剣法も拳脚も内功も本宗と源を同じくする。綺雲鎮の入口の掲示には、今も「封山剣派北宗の在る雪亭鎮」と書かれている。"
+
+msgid "振远镖局是京师第一大镖局，在京城一带几乎无人不知其名，绮云镇上也有振远的镖局。镖局里的人走镖凭的是一手春风快意刀。走镖危险，镖局收人先看胆识。"
+msgstr "振遠鏢局は京師一の大鏢局で、都のあたりではその名を知らぬ者はまずいない。綺雲鎮にも振遠の鏢局がある。鏢局の者が鏢を運ぶのに頼みとするのは、春風快意刀の腕ひとつだ。荷の護送は危ういので、鏢局は人を取るとき、まず胆力を見る。"
+
+msgid "东方神教是一个行事隐秘的教门，不立山门，也不收寻常弟子。教中人散在各处，平日看不出身份，外人对它的宗旨所知甚少。只听说教中高手使一路雪影剑法，身法轻疾。"
+msgstr "東方神教は秘密裏に動く教団で、山門を構えず、ふつうの弟子も取らない。教徒は各地に散らばり、ふだんは素性がわからず、外の者はその教旨をほとんど知らない。ただ、教中の達人は雪影剣法を使い、身のこなしが軽く速いと聞く。"
+
+msgid "天邪派以水烟阁为大本营。水烟阁在雪亭镇西边青石官道尽头的山上，相传最早的主人是武术之神杞庸，后来成了历代武林盟主的行馆，每年正月十七在阁外虹台推选盟主。天邪神功与天邪神掌是这一派的根本，相传是杞庸见灵兽天邪虎而悟出；另有一路六阴追魂剑法，是三百年前一位前辈从废墟中得来的。门规甚严，拜师要么立誓恪守门规，要么接下三招。"
+msgstr "天邪派は水煙閣を本拠とする。水煙閣は雪亭鎮の西、青石の官道の果ての山の上にあり、最初の主は武術の神・杞庸だと伝えられ、のちに歴代武林盟主の行館となった。毎年正月十七日には、閣の外の虹台で盟主を推して選ぶ。天邪神功と天邪神掌がこの派の根本で、杞庸が霊獣天邪虎を見て悟り出したと伝えられる。ほかに六陰追魂剣法があり、三百年前にある先達が廃墟から手に入れたものだ。門規はきわめて厳しく、入門するには門規を固く守ると誓うか、三招を受けきるかしなければならない。"
+
+msgid "绝尘派是绝尘子一手所创的门派。绝尘子原是佛门中人，后得奇人指点，悟得道家真谛，佛道双修，访遍名山大川后自号绝尘。他的修行之所在青石村的石室里，门上写着「非我弟子，莫入此门」。入门看慧根，也要有相当的江湖历练。"
+msgstr "絶塵派は絶塵子がひとりで開いた門派だ。絶塵子はもと仏門の人で、のちに奇人の導きを得て道家の真髄を悟り、仏と道を兼ね修め、名山大川を巡り歩いたのちに絶塵と号した。修行の場は青石村の石室で、戸には「我が弟子に非ざる者、この門に入るべからず」と書かれている。入門には慧根が問われ、相当の江湖の経験もいる。"
+
+msgid "茅山派自张天师开山立派，世代以降妖伏魔为己任，门户在茅山上的灵心观。门下修谷衣心法，排去体内的五谷秽气，炼成护体之气；修到小成，左眼眼珠会变成金色。法术以治鬼除魔为主，根基是天师正道。灵心观是出家人的道观，只收男弟子。"
+msgstr "茅山派は張天師が山を開き派を立てて以来、代々妖を降し魔を伏すことを務めとしてきた。門戸は茅山の霊心観にある。門下は谷衣心法を修め、体内の五穀の穢れた気を出して、身を守る気を練り上げる。小成に至れば、左目の瞳が金色に変わる。法術は鬼を治め魔を祓うことを主とし、その根本は天師正道だ。霊心観は出家者の道観で、男の弟子しか取らない。"
+
+msgid "晚月庄是绮云镇以西林子深处的一座大宅院，朱漆大门，门口挂着灯笼，出现在乡野之间显得有些突兀。庄里多是女子，只收女弟子，庄主的琵琶闻名千里。武功以七宝天岚舞的身法、柔虹指和寒雪鞭法见长，内功意寒功纯走阴柔一路。"
+msgstr "晩月荘は綺雲鎮の西、林の奥深くにある大きな屋敷だ。朱塗りの門の前に提灯が掛かっていて、田舎のただなかではいささか場違いに見える。荘にいるのはほとんどが女子で、女の弟子しか取らず、荘主の琵琶は千里に名高い。武功は七宝天嵐舞の身法、柔虹指、寒雪鞭法を得意とし、内功の意寒功はひたすら陰柔の道を行く。"
+
+msgid "山烟寺在绮云镇南、泓水对岸的日照山上，整座寺由上好的桧木建成，金碧辉煌。寺中老方丈医术通神，受过恩惠的富豪出资修整，名气比京城的白象禅院还大。要入寺先得剃度出家，只收男子；武功以流云杖法和疗伤的莲华心法为主，佛法精深的还修八识神通。"
+msgstr "山煙寺は綺雲鎮の南、泓水の対岸の日照山にある。寺全体が上等の檜で建てられ、金色に照り輝いている。寺の老方丈は医術が神業で、恩を受けた富豪たちが金を出して寺を修繕したので、その名は都の白象禅院よりも高い。入寺するにはまず剃髪して出家しなければならず、男子しか取らない。武功は流雲杖法と傷を癒やす蓮華心法が主で、仏法に深く通じた者は八識神通も修める。"
+
+msgid "逍遥派的门户不在这一带，中原少见其门人。听说这一派收徒讲究人品文采，掌门是个风流倜傥的人物。"
+msgstr "逍遥派の門戸はこのあたりにはなく、中原でその門人を見かけることはまれだ。この派は弟子を取るのに人柄と文才を重んじ、掌門は風流で洒脱な人物だという。"
+
+msgid "天山派的门户远在天山，中原少见其门人。晚月庄后门外的小径，据说就是通往天山的路。"
+msgstr "天山派の門戸ははるか天山にあり、中原でその門人を見かけることはまれだ。晩月荘の裏門の外の小径が、天山へ通じる道だという。"
+
+msgid "步玄派是四百年前「秃笔狂生」骆步玄在京城创立的门派。骆步玄原是屡试不中的书生，一日在街边书肆望见一副对子，竟悟出一套武功，从此闯荡江湖。门下的步玄七诀号称天下轻功「轻捷第一」，使起来姿态有如书法；骆家至今是京城有名的武林世家。想入门的人，要先走一趟乔阴曼雩台东边的桃林。"
+msgstr "歩玄派は四百年前、「禿筆狂生」駱歩玄が都で開いた門派だ。駱歩玄はもと何度受けても科挙に及第しない書生だったが、ある日、通りの書肆に掛かる対聯を見て、なんと一つの武功を悟り、以来江湖を渡り歩いた。門下の歩玄七訣は天下の軽功のうち「軽捷第一」と称され、使えばその姿は書のようだ。駱家は今も都で名の知れた武林の名家だ。入門したい者は、まず喬陰の曼雩台の東にある桃林へ行かなければならない。"
+
+msgid "花紫会是乞丐们的帮会，只收身上没几个钱的化子。龙头的信物是一只打着二十三个结的皮酒囊；龙头行踪诡秘，据说各处总有七八个替身。会中的武功有油流麻香手和伏蛟功。"
+msgstr "花紫会は物乞いたちの組で、懐に金のない物乞いしか入れない。龍頭の証は、二十三の結び目のある革の酒袋だ。龍頭は行方が知れず、各地にいつも七、八人の身代わりがいるという。会の武功には油流麻香手と伏蛟功がある。"
+
+msgid "铁盾会是番坊里大秦人的剑会，门前立着两面比人还高的铁包边大盾，盾面上漆着展翅的鹰。大秦人的祖上从西边来，在这片海边落了脚。会里的剑手左手盾、右手短剑，两两对练；铁盾剑法盾在前、剑在后，没有盾的人不教。"
+msgstr "鉄盾会は番坊にある大秦人の剣の会だ。門前には人の背より高い鉄縁の大盾が二枚立ち、盾の面には翼を広げた鷲が漆で描かれている。大秦人の祖先は西から来て、この海辺に住みついた。会の剣士たちは左手に盾、右手に短剣を持ち、二人一組で稽古する。鉄盾剣法は盾が前、剣が後ろで、盾を持たない者には教えない。"
+
+msgid "鬼笠馆是番坊里倭人浪人开的武馆，门楣上挂着一顶破了边的斗笠，馆名就是这么来的。门规只有一句：「一击之内定生死」——刀出鞘，只出一次。鬼笠刀法的刀比中原的窄而弯，劈下去就收，不出第二刀。"
+msgstr "鬼笠館は番坊にある、倭人の浪人が開いた武館だ。門の上に縁の破れた笠が一つ掛かっていて、館の名はそこから来ている。門規はただ一言、「一撃のうちに生死を決す」――刀は鞘を出たら、一度しか出ない。鬼笠刀法の刀は中原のものより細く反っていて、斬り下ろしたらすぐ納め、二の太刀は出さない。"
+
+msgid "日陀罗寺是番坊里一座不大的寺院，由两位天竺僧人所建，赭红的墙头长着草。院中一棵大榕树，是第一代师父从天竺带来的枝条插活的。入寺要先剃度出家，只收男子，所传的是莲华心法、流云杖法这些佛门功夫。"
+msgstr "日陀羅寺は番坊にあるさほど大きくない寺院で、二人の天竺の僧が建てたものだ。赤茶色の塀の上には草が生えている。境内には大きな榕樹が一本あり、初代の師父が天竺から持ってきた枝を挿して根づかせたものだ。入寺するにはまず剃髪して出家しなければならず、男子しか取らない。伝えているのは蓮華心法、流雲杖法といった仏門の武芸だ。"
+
+msgid "柳淳风是个相当高大的中年儒生，若不是从他腰间挂著的「玄苏剑」你\n大概猜不到眼前这个温文儒雅的中年人竟是家大武馆的馆主。\n"
+msgstr "柳淳風はかなり大柄な中年の儒生だ。腰に下げた「玄蘇剣」がなければ、目の前の温厚で上品なこの中年の男が、大きな武館の館主だとはおそらく見当もつかないだろう。\n"
+
+msgid "竹书"
+msgstr "竹書"
+
+msgid "本宗"
+msgstr "本宗"
+
+msgid "跟柳淳风守本宗：封山的剑不外传。\n他亲传你「点」字诀，你是掌门传人；柳绘心会离开武馆，带着「北宗」两个字去绮云镇。封山在虹台上的那一票跟着柳淳风——等盟主回来（已经入了虹台的席的，这一票不再跟着变）。\n这是封山这条线的大分裂，选了不能改。要跟师父吗？"
+msgstr "柳淳風について本宗を守ります。封山の剣は門外に伝えない道です。\n彼は「点」の字訣をじきじきにあなたに授け、あなたは掌門の後継ぎになります。柳絵心は武館を去り、「北宗」の二文字を携えて綺雲鎮へ行きます。虹台での封山の一票は柳淳風に従います――盟主が戻るのを待ちます（すでに虹台の席に着いていれば、この一票はもう変わりません）。\nこれは封山の物語を二つに分ける大きな分かれ道で、選んだら変えられません。師父についていきますか？"
+
+msgid "虹台上的事还没完。等散了会再说。"
+msgstr "虹台のことはまだ終わっていない。会が散じてから話そう。"
+
+msgid "点字诀"
+msgstr "点の字訣"
+
+msgid "武馆的事"
+msgstr "武館のこと"
+
+msgid "腰牌"
+msgstr "腰牌"
+
+msgid "先人遗志"
+msgstr "先人の遺志"
+
+msgid "隘口"
+msgstr "峠"
+
+msgid "老松寨的常老大，人称泼风刀王，什么钱都收。要过他的寨门，带够银子；有本事的，就在寨门外叫阵——硬闯的人，没几个回来。"
+msgstr "老松寨の常頭領は、通り名を溌風刀王といって、どんな金でも受け取る。あの寨の門を通るなら、銀を十分に持っていくことだ。腕に覚えがあるなら、寨門の外で勝負を挑めばいい――力ずくで押し入った者は、ほとんど戻ってこない。"
+
+msgid "黑冠黑衣的道士？这一带没有道观。你若在老松岭遇上，小心些，那种人下手没有分寸。"
+msgstr "黒冠に黒衣の道士？ このあたりに道観はない。老松嶺で出くわしたら気をつけなさい。ああいう手合いは、手加減というものを知らない。"
+
+msgid "老岑的信，你留着。末一行我不认得——他说过他在山里见过一座城，我只当是饿昏了的话。"
+msgstr "老岑の手紙は、君が持っていなさい。最後の一行は私には読めない――彼は山の中で城を一つ見たと言っていたが、私は飢えてもうろうとしたうわ言だと思っていた。"
+
+msgid "接过信，看了很久，又折好还给你。"
+msgstr "は手紙を受け取ると、長いあいだ見つめていたが、やがて折りたたんでこちらに返した。"
+
+msgid "老岑……二十多年前我在山里迷了路，三天没吃东西，是个砍柴的老人领我下的山。他不识几个字——这封信，他写了多久啊。"
+msgstr "老岑……二十年余り前、私は山で道に迷い、三日も何も食べていなかった。山から連れ出してくれたのは、柴刈りの老人だった。字もろくに知らない人だった――この手紙を、どれほど時間をかけて書いたのだろう。"
+
+msgid "他托你来，武馆的门你随时进。拜不拜师，你自己定。"
+msgstr "彼が君を寄こしたのなら、武館の門はいつでもくぐってよい。弟子入りするかどうかは、君が決めなさい。"
+
+msgid "末一行我不认得。他说过他在山里见过一座城，铃声满耳……我只当是饿昏了的话。你收好。"
+msgstr "最後の一行は私には読めない。山の中で城を一つ見た、鈴の音が耳いっぱいに響いていた、と彼は言っていた……私は飢えてもうろうとしたうわ言だと思っていた。大切にしまっておきなさい。"
+
+msgid "什么信？"
+msgstr "何の手紙だ？"
+
+msgid "看了你一眼。"
+msgstr "がちらりとこちらを見た。"
+
+msgid "信没了？……罢了，我再写一封。"
+msgstr "手紙がなくなった？……仕方ない、もう一通書こう。"
+
+msgid "提笔又写了一封信，封好了交给你。"
+msgstr "は筆を取ってもう一通手紙を書き、封をして手渡してくれた。"
+
+msgid "这回收好。潘军禅认信不认人。"
+msgstr "今度はしっかりしまっておきなさい。潘軍禅は人ではなく、手紙を見る。"
+
+msgid "信已经给你了。去水烟阁找潘军禅，他是我的结拜义弟，见信如见我。"
+msgstr "手紙はもう渡した。水煙閣へ行って潘軍禅を訪ねなさい。私の義弟で、手紙を見れば私に会ったも同然と思ってくれる。"
+
+msgid "听你说完山洞里的事，沉默了半晌。"
+msgstr "は洞窟でのことを聞き終えると、しばらく黙り込んだ。"
+
+msgid "洞里那个道士，是你杀的？……头一回手上沾血，夜里睡得着就好。睡不着，来武馆找我，我陪你坐一坐。"
+msgstr "洞窟のあの道士は、君が殺したのか？……初めて手を血で汚したのなら、夜眠れればそれでいい。眠れなければ、武館へ私を訪ねてきなさい。一緒に座っていよう。"
+
+msgid "二十年前，振远镖局押一趟镖过老松岭，镖师随从一个都没回来。镖局丢了脸，陈剑秋到今天都不肯提。"
+msgstr "二十年前、振遠鏢局が荷を護送して老松嶺を越えたが、鏢師も供の者も一人として戻らなかった。鏢局は面目を失い、陳剣秋は今もそのことを口にしたがらない。"
+
+msgid "那具骸骨若真是水烟阁的人，这事就该问水烟阁。我写一封信，你拿去给执法使潘军禅，他是我的结拜义弟。"
+msgstr "あの骸骨が本当に水煙閣の者なら、このことは水煙閣に聞くべきだ。手紙を一通書くから、執法使の潘軍禅に持っていきなさい。私の義弟だ。"
+
+msgid "提笔写了一封信，封好了交给你。"
+msgstr "は筆を取って手紙を書き、封をして手渡してくれた。"
+
+msgid "先去绮云镇问问陈剑秋，把镖单要来。上了山，别带着兵刃进阁。"
+msgstr "まず綺雲鎮へ行って陳剣秋に話を聞き、護送状をもらってきなさい。山に上ったら、武器を持ったまま閣に入ってはいけない。"
+
+msgid "还有一件：前夜老松岭上起了火，山下都看得见——是老松寨。那道士的同伙回来了，挨个问寨里的人：匣子在谁手里。夜里睡觉，把门闩上。"
+msgstr "もう一つ。一昨日の夜、老松嶺で火の手が上がり、麓からも見えた――老松寨だ。あの道士の仲間が戻ってきて、寨の者を一人ずつ問いただしている。箱は誰の手にある、と。夜寝るときは、門に閂をかけておきなさい。"
+
+msgid "水烟阁在青石官道西头的山上，武者同盟的总坛。"
+msgstr "水煙閣は青石の官道の西の果ての山にある。武者同盟の総本山だ。"
+
+msgid "虹台上的事定了。封山守封山的规矩。"
+msgstr "虹台のことは決まった。封山は封山の掟を守る。"
+
+msgid "封山这一票，正月十七照你说的投。"
+msgstr "封山の一票は、正月十七日に君の言うとおりに投じる。"
+
+msgid "把手里的茶盏放下，半晌没有说话。"
+msgstr "は手にした茶碗を置き、しばらく何も言わなかった。"
+
+msgid "颜违许了北宗一个座。北宗的人上得了虹台，封山这一票，就跟着颜违走了。"
+msgstr "顔違が北宗に席を一つ約束した。北宗の者が虹台に上れるのなら、封山の一票は顔違に持っていかれた。"
+
+msgid "那一票不在我手里。你要说什么，去内院同绘心说。"
+msgstr "その一票は私の手にはない。言いたいことがあるなら、奥庭へ行って絵心に言いなさい。"
+
+msgid "等盟主回来。二十年了，虹台上那把石椅，封山不替任何人去坐。"
+msgstr "盟主が戻るのを待つ。二十年だ。虹台のあの石の椅子に、封山は誰の代わりにも座らない。"
+
+msgid "……你是掌门传人。你要这一票投你自己，你开口。"
+msgstr "……君は掌門の後継ぎだ。この一票を自分に投じてほしいなら、そう言いなさい。"
+
+msgid "封山这一票，等盟主回来。"
+msgstr "封山の一票は、盟主が戻るのを待つ。"
+
+msgid "颜违要把那个「代」字去掉——他去他的。封山的剑不外传，封山的票也不跟着人走。"
+msgstr "顔違は『代』の字を外したいらしい――好きにすればいい。封山の剣は門外に伝えず、封山の票も人について行きはしない。"
+
+msgid "正月十七的事？湖上的事还没了，说那个早了。"
+msgstr "正月十七日のこと？ 湖のことがまだ片づいていない。その話は早い。"
+
+msgid "这一票"
+msgstr "この一票"
+
+msgid "请柳淳风把封山这一票交给你：正月十七虹台上，封山听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "柳淳風に、封山の一票を任せてもらうよう頼みます。正月十七日の虹台で、封山はあなたの意向に従います――あなたが名乗り出れば、この一票はあなたのものです。名乗り出なければ、誰に投じるかはあなたが決めます。\nそう頼みますか？"
+
+msgid "虹台上已经入了席。票就是票了。"
+msgstr "虹台ではもう席に着いた。票は票だ。"
+
+msgid "那一票不在我手里。"
+msgstr "その一票は私の手にはない。"
+
+msgid "说过了。封山听你的。"
+msgstr "もう言った。封山は君の意向に従う。"
+
+msgid "看了你很久，点了点头。"
+msgstr "は長いあいだこちらを見つめ、やがて頷いた。"
+
+msgid "好。封山听你的。"
+msgstr "よし。封山は君の意向に従う。"
+
+msgid "……"
+msgstr "……"
+
+msgid "规矩是规矩。北宗的人，我不能再教了。"
+msgstr "掟は掟だ。北宗の者に、私はもう教えられない。"
+
+msgid "这卷书，你不是已经给了绘心么。……拿回去还她。"
+msgstr "この書は、もう絵心に渡したのではなかったか。……持って帰って、あの子に返しなさい。"
+
+msgid "把《悟疾风劲竹书》交给柳淳风。\n他会把它收进匣里，不再示人。书只有这一本，给出去就读不到了；柳绘心也读不到。\n要交给他吗？"
+msgstr "『悟疾風勁竹書』を柳淳風に渡します。\n彼はそれを箱にしまい、二度と人に見せません。書はこの一冊しかなく、渡せばもう読めません。柳絵心も読めなくなります。\n渡しますか？"
+
+msgid "接过书，没有翻开，用袖口把封皮上的灰擦了。"
+msgstr "は書を受け取ると、開かずに、袖口で表紙の埃を拭った。"
+
+msgid "直竹贵地生……二十岁写的。那时候以为自己什么都懂。"
+msgstr "直竹貴地生……二十歳のときに書いたものだ。あのころは、何でもわかっているつもりだった。"
+
+msgid "年轻时的糊涂话，收起来罢。"
+msgstr "若いころの愚かな言葉だ。しまっておこう。"
+
+msgid "把书收进了案头的匣里。"
+msgstr "は書を机の上の箱にしまった。"
+
+msgid "绘心这些日子常往内院去，一去就是半天。你改日替我看一眼。"
+msgstr "絵心はこのところ、よく奥庭へ行く。行けば半日は戻らない。日を改めて、私の代わりに様子を見てやってくれ。"
+
+msgid "这卷书……你从竹林里取出来的？先留着读。武馆的事办完了，再同我说。"
+msgstr "この書は……竹林から持ち出してきたのか？ まずは持っていて読みなさい。武館のことが片づいたら、また私に話してくれ。"
+
+msgid "把腰牌收进袖里。"
+msgstr "は腰牌を袖にしまった。"
+
+msgid "找回来了？我替他收着。"
+msgstr "取り戻してくれたのか？ 私が彼の代わりに預かっておこう。"
+
+msgid "牌我替他收着。他什么时候戒了赌，什么时候自己来取。"
+msgstr "牌は私が彼の代わりに預かっておく。博打をやめたら、そのとき自分で取りに来ればいい。"
+
+msgid "牌是逄师弟的。你先去绮云镇问他一句，牌是怎么到外人手里的。"
+msgstr "牌は逄師弟のものだ。まず綺雲鎮へ行って、牌がどうして他人の手に渡ったのか、彼に聞いてきなさい。"
+
+msgid "你跟了她。……也好。她一个人，我不放心。"
+msgstr "彼女についていったのか。……それもいい。あの子ひとりでは、私も心配だ。"
+
+msgid "武馆的门不拦你。剑，我不能再教了——规矩是规矩。"
+msgstr "武館の門は君を拒まない。だが剣は、もう教えられない――掟は掟だ。"
+
+msgid "刘兄弟的事，李教头回过我了。规矩是先父立的，我不能为他破。"
+msgstr "劉さんのことは、李教頭から聞いた。掟は亡き父が立てたものだ。彼のために破るわけにはいかない。"
+
+msgid "五年前我留他，是我的事；今天你说破，是你的事。都没有错。"
+msgstr "五年前に彼を置いたのは、私の判断だ。今日君がそれを暴いたのは、君の判断だ。どちらも間違ってはいない。"
+
+msgid "……说到规矩。我年轻时在天驼关的竹林里留过一卷书，写的也是这两个字。改日同你说。"
+msgstr "……掟といえば。若いころ、天駝関の竹林に一巻の書を残したことがある。書いたのも、この二文字のことだった。日を改めて話そう。"
+
+msgid "李教头说，那伙人认错了人。"
+msgstr "李教頭の話では、あの連中は人違いをしたそうだ。"
+
+msgid "看了你很久。"
+msgstr "は長いあいだこちらを見つめていた。"
+
+msgid "刘兄弟的来历，五年前我就知道。你替他担了这句话——往后，也替武馆担着。"
+msgstr "劉さんの素性は、五年前から知っていた。君はあの一言を彼のために引き受けた――これからは、武館のためにも引き受けてくれ。"
+
+msgid "你跟了绘心，就是北宗的人。本宗的门，我不能再为你开。"
+msgstr "絵心についたのなら、君は北宗の者だ。本宗の門を、もう君のために開くことはできない。"
+
+msgid "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？"
+msgstr "剣を学ぶ者は大胆にして細心でなければなりません。私の見たところ、$RESPECTの資質はどうも向いていないようですが？"
+
+msgid "很好，$RESPECT多加努力，他日必定有成。"
+msgstr "よろしい。$RESPECT、いっそう励まれれば、いずれ必ずものになりましょう。"
+
+msgid "这是个正在执行公务的县城官兵，虽然和许多武林人物比起来，官兵\n们的武功实在稀松平常，但是他们是有组织、有纪律的战士，谁也不\n轻易地招惹他们。\n"
+msgstr "公務中の県城の官兵だ。多くの武林の者に比べれば官兵の武芸はまったく大したことはないが、組織と規律を持った兵士なので、誰も軽々しく手を出したりはしない。\n"
+
+msgid "县城官兵喝道：还不快放下武器束手就缚？\n"
+msgstr "県城の官兵が怒鳴った。「さっさと武器を捨てて、おとなしく縛につけ！」\n"
+
+msgid "县城官兵喝道：大胆刁民竟敢拒捕？反了！反了！\n"
+msgstr "県城の官兵が怒鳴った。「不届きな奴め、捕り手に逆らうとは！ 謀反だ！ 謀反だ！」\n"
+
+msgid "水烟阁传功使"
+msgstr "水煙閣伝功使"
+
+msgid "於兰天武是当今皇上的叔父，但是他毕生浸淫武学，甘愿抛弃荣华富\n以换取水烟阁传功使一职，以便阅读水烟阁中所藏的武学典籍，无论\n你有什麽武学上的疑难，他都能为你解答。\n"
+msgstr "於蘭天武は当今の皇帝の叔父だが、生涯武学に没頭し、栄華と富貴を捨てて水煙閣の伝功使の職に就いた。閣に蔵された武学の典籍を読むためだ。武学のことでどんな疑問があっても、彼なら答えてくれる。\n"
+
+msgid "武学之道....嗯....只可意会，不可言喻。\n"
+msgstr "武学の道は……うむ……心で会得するもので、言葉では言い表せぬ。\n"
+
+msgid "水烟阁乃是历届武林盟主的行馆，你有什麽事要见武林盟主？\n"
+msgstr "水煙閣は歴代武林盟主の行館じゃ。武林盟主に何の用がある？\n"
+
+msgid "哦....老夫向来有个规矩，凡是想拜我为师的，得接我三招不死，你想试试？\n"
+msgstr "ほう……わしには昔からの決まりがあってな。弟子入りしたい者は、わしの三招を受けて死なずにおらねばならん。試してみるか？\n"
+
+msgid "皇上"
+msgstr "皇上"
+
+msgid "老夫在朝上一天，庾子建就不是一个人说了算。"
+msgstr "わしが朝廷にいるかぎり、庾子建ひとりの思いどおりにはさせん。"
+
+msgid "昭儿？……他还小。朝廷的事，老夫不问了。"
+msgstr "昭か？……あの子はまだ幼い。朝廷のことに、わしはもう口を出さん。"
+
+msgid "在老夫手里。三百年前於兰家拔错了一把——决战那日，你来叫我，看老夫这一回拔得对不对。"
+msgstr "わしの手にある。三百年前、於蘭家は抜く剣を誤った――決戦の日にはわしを呼べ。今度こそわしが正しく抜けるかどうか、見届けるがいい。"
+
+msgid "你拔的。好——於兰家这一回，不用再错一次。"
+msgstr "お前が抜いたのか。よし――於蘭家は今度ばかりは、二度と誤らずに済む。"
+
+msgid "萧家那孩子拿去了。他回了一趟岚城，比老夫配。"
+msgstr "蕭家のあの子が持っていった。あれは一度嵐城へ帰った。わしより、あれのほうがふさわしい。"
+
+msgid "寒於氏的剑。於兰家的血里有寒於氏的一份——君违嫁过来的那一份。三百年前，我家的人拔错了一把剑。"
+msgstr "寒於氏の剣じゃ。於蘭家の血には寒於氏の血も流れておる――君違が嫁いできたぶんだ。三百年前、わが家の者は抜く剣を誤った。"
+
+msgid "旋芒……先帝找了一辈子。老夫不找。"
+msgstr "旋芒か……先帝は一生かけて探しておられた。わしは探さん。"
+
+msgid "找到城，叫我。风会知道怎么找到於兰家的人。"
+msgstr "城が見つかったら、わしを呼べ。風は於蘭家の者を見つけるすべを知っておる。"
+
+msgid "樵夫撞进去过，先帝的人没有。老夫不信那些。"
+msgstr "木こりは迷い込んだことがあるが、先帝の手の者はたどり着けなんだ。わしはそういう話は信じん。"
+
+msgid "人送回水烟阁了。庾子建那道门，老夫往后还会去敲。"
+msgstr "あの男は水煙閣へ送り返した。庾子建のあの門は、これからもわしが叩きに行く。"
+
+msgid "卫沧澜出来了？好。……二十年，老夫在水烟阁等他回来，他就关在京城。"
+msgstr "衛滄瀾が出てきたか？ よし。……二十年、わしは水煙閣であの男の帰りを待っておったが、あの男は京師に閉じ込められておったのだ。"
+
+msgid "虹台那边已经开了席。等散了会，老夫再去庾子建那里要人——这时候把人领出来，倒像是去抢那把椅子。"
+msgstr "虹台ではもう会が始まっておる。会が散じたら、わしが庾子建のところへ人をもらい受けに行く――今あの男を連れ出せば、あの椅子を奪いに行くように見えるからな。"
+
+msgid "放下手里的茶盏，站了起来。"
+msgstr "は手にした茶碗を置き、立ち上がった。"
+
+msgid "卫沧澜？二十年前的武林盟主……庾子建府上那间客房，老夫知道。"
+msgstr "衛滄瀾？ 二十年前の武林盟主……庾子建の屋敷のあの客室なら、わしも知っておる。"
+
+msgid "昭儿的手诏召老夫回朝，也叫得开兵部尚书的门。你在这里等着。"
+msgstr "昭の手詔はわしを朝廷に呼び戻すものだが、兵部尚書の門も開かせられる。お前はここで待っておれ。"
+
+msgid "於兰天武大步出了养心殿，两个侍卫捧着黄绫跟在后头。\n"
+msgstr "於蘭天武は大股で養心殿を出ていった。二人の侍衛が黄色い綾絹を捧げ持って後に続く。\n"
+
+msgid "过了一个多时辰，殿外一阵脚步响。於兰天武回来了，身后跟着一个白发的老人，腋下夹着一本诗集。\n"
+msgstr "一時ほどたったころ、殿の外で足音が響いた。於蘭天武が戻ってきた。その後ろには白髪の老人が一人続き、脇に詩集を一冊挟んでいる。\n"
+
+msgid "庾子建亲自开的门，一句话也没说。……老夫进门的时候，他还躬着身。"
+msgstr "庾子建が自ら門を開けた。一言も口をきかなかった。……わしが門をくぐるとき、あの男はまだ身をかがめておった。"
+
+msgid "卫沧澜朝你点点头：「老夫先回水烟阁。这条命是皇叔从尚书府要回来的，欠朝廷一份。」\n"
+msgstr "衛滄瀾がこちらに頷いた。「わしは先に水煙閣へ戻る。この命は皇叔が尚書府からもらい受けてくれたものだ。朝廷に一つ借りができた」\n"
+
+msgid "卫沧澜……二十年没有消息了。"
+msgstr "衛滄瀾か……二十年、音沙汰がない。"
+
+msgid "$RESPECT若真的有心，不妨让我看看你的所学"
+msgstr "$RESPECT、本当にその気があるなら、学んだ技を見せてもらえませんか"
+
+msgid "如果想拜师的话，就请接受测试"
+msgstr "弟子入りを望むなら、試しを受けてください"
+
+msgid "於兰天武点了点头，说道：很好，这是第一招...."
+msgstr "於蘭天武は頷いて言った。「よろしい。これが第一招じゃ……」"
+
+msgid "於兰天武叹了口气，说道：连第一招都撑不过，真是自不量力...."
+msgstr "於蘭天武はため息をついて言った。「第一招すらしのげんとは、身のほど知らずよ……」"
+
+msgid "於兰天武说道：这是第二招...."
+msgstr "於蘭天武が言った。「これが第二招じゃ……」"
+
+msgid "於兰天武「哼」地一声，说道：便是有这许多不怕死的家伙...."
+msgstr "於蘭天武は「ふん」と鼻を鳴らして言った。「まったく、命知らずの輩はいくらでもおるものよ……」"
+
+msgid "於兰天武说道：第三招来了...."
+msgstr "於蘭天武が言った。「第三招、ゆくぞ……」"
+
+msgid "於兰天武叹道：可惜，难道老夫一身武功竟无传人...."
+msgstr "於蘭天武は嘆いた。「惜しいのう。まさかわしのこの一身の武功に、伝える者がおらんとは……」"
+
+msgid "於兰天武哈哈大笑，说道：今日老夫终於觅得一个可造之才！"
+msgstr "於蘭天武は呵々大笑して言った。「今日、わしはついに見込みのある者を見つけたぞ！」"
+
+msgid "接过黄笺，看了一遍，又看了一遍，半晌没有说话。"
+msgstr "は黄色い箋を受け取ると、一度読み、もう一度読み、しばらく何も言わなかった。"
+
+msgid "昭儿的字……还是这么慢。"
+msgstr "昭の字は……相変わらず遅いのう。"
+
+msgid "三百年了，於兰家的人又要去碰那东西。老夫不回去，这孩子一个人扛不住。"
+msgstr "三百年ぶりに、於蘭家の者がまたあれに触れようとしておる。わしが戻らねば、あの子ひとりでは背負いきれん。"
+
+msgid "把手诏折好，揣进怀里，站了起来。"
+msgstr "は手詔を折りたたんで懐にしまい、立ち上がった。"
+
+msgid "传功使的事，交给萧辟尘。——老夫回京。"
+msgstr "伝功使の務めは蕭辟塵に任せる。――わしは都へ戻る。"
+
+msgid "萧辟尘自幼生长於岚城之中，看起来仙风道骨，不食人间烟火。\n"
+msgstr "蕭辟塵は幼いころから嵐城で育った。仙人のような風格をたたえ、俗世の煙火とは無縁に見える。\n"
+
+msgid "{respect}既然使兵刃，在下空手接招未免不敬。"
+msgstr "{respect}が武器をお使いになるのに、在下が素手でお受けしては、かえって礼を失しましょう。"
+
+msgid "进招吧！"
+msgstr "どうぞ、打ってきてください！"
+
+msgid "既然{respect}不使兵刃，在下自然奉陪！"
+msgstr "{respect}が武器を使わぬのなら、在下も当然お相手いたしましょう！"
+
+msgid "嗯... 既然{count}位都是空手，在下理当奉陪！"
+msgstr "うむ……{count}人とも素手とあらば、在下もお相手いたすのが道理！"
+
+msgid "我天邪派门规甚严，$RESPECT如果真的有心，且发个誓来。"
+msgstr "我が天邪派の門規はきわめて厳しい。$RESPECT、本当にその気があるなら、まず誓いを立てていただこう。"
+
+msgid "多说无益，若不发誓恪守门规，便是跪著求我也没用。"
+msgstr "言葉はもう要らない。門規を固く守ると誓わないのなら、ひざまずいて頼まれても無駄だ。"
+
+msgid "守门规"
+msgstr "門規を守る"
+
+msgid "这就是了。"
+msgstr "それでいい。"
+
+msgid "我回去过一回了。城还是那个样子，铃挂在钩上。……风记得我。"
+msgstr "一度帰ってきた。城は昔のままで、鈴は鉤に掛かっていた。……風は私を覚えていた。"
+
+msgid "……这是我的铃。」他把铃接过去，翻来覆去看了很久，拇指在那个「尘」字上摸了一下，又还给你：「铃在，风认人。你带着它，比我带着它有用。"
+msgstr "……これは私の鈴だ」彼は鈴を受け取ると、何度もひっくり返して長いあいだ眺め、親指で「塵」の字をひと撫でしてから、こちらに返した。「鈴があれば、風は人を見分ける。私が持つより、君が持っているほうが役に立つ。"
+
+msgid "我四岁那年起了一场大风，醒来就在山外了，身边什么也没有。铃丢了，风就不认得我，我再也回不去。……风是从城里往外吹的。小时候我放风筝，线总是往外拽。"
+msgstr "四つのとき、大風が吹いた。目が覚めたら山の外にいて、そばには何もなかった。鈴をなくしたから、風は私がわからなくなり、私はもう帰れなくなった。……風は城の中から外へ吹いている。子どものころ凧を揚げると、糸はいつも外へ引かれた。"
+
+msgid "岚城……我是在那里长大的。别的，不说了。"
+msgstr "嵐城……私はそこで育った。ほかのことは、言わずにおく。"
+
+msgid "风铃"
+msgstr "風鈴"
+
+msgid "铃舌上那个字是铃匠刻的。岚城的孩子，人人一只。"
+msgstr "鈴の舌のあの字は、鈴職人が刻んだものだ。嵐城の子どもは、誰もが一つずつ持っている。"
+
+msgid "那只匣子……对着岚城的风才开。镜子里的上道，风从那头来。"
+msgstr "あの箱は……嵐城の風に向けたときだけ開く。鏡の中の上の道、風はその向こうから来る。"
+
+msgid "黄石隘口挖出来的那只石匣，后来在哪里？……先帝的人当年从山外收走过一只铃。我一直想，那是我的。"
+msgstr "黄石峠で掘り出されたあの石箱は、その後どこへ？……先帝の手の者が昔、山の外から鈴を一つ持ち去ったことがある。私はずっと、あれは自分のものだと思っていた。"
+
+msgid "风铃？水烟阁的檐下也挂着几只，风一大就响。"
+msgstr "風鈴？ 水煙閣の軒下にもいくつか掛かっている。風が強いと鳴る。"
+
+msgid "在我背上。决战那日，它跟我下湖。"
+msgstr "私の背にある。決戦の日、これは私とともに湖へ下りる。"
+
+msgid "是你。好。"
+msgstr "君か。よし。"
+
+msgid "皇叔拔的？……也好。於兰家欠这把剑一回。"
+msgstr "皇叔が抜いたのか？……それもいい。於蘭家はこの剣に一つ借りがある。"
+
+msgid "岚城有一把剑，叫旋芒。守剑的老人不卖，不赏，不问剑给谁做什么——只问谁拔。"
+msgstr "嵐城には旋芒という剣がある。剣を守る老人は売らず、褒美にもせず、剣を誰に渡して何をさせるかも問わない――問うのは、誰が抜くかだけだ。"
+
+msgid "旋芒？朝廷要找的那把剑。……小天邪不问这个。"
+msgstr "旋芒？ 朝廷が探している剣だ。……小天邪は、そういうことには関わらない。"
+
+msgid "湖底"
+msgstr "湖底"
+
+msgid "湖底那颗头，三百年前是穿灵钉住的。这一回，我拿旋芒去。回不来，就回不来。"
+msgstr "湖の底のあの頭は、三百年前、穿霊で釘付けにされた。今度は私が旋芒を持っていく。戻れなければ、それまでだ。"
+
+msgid "湖底？玉螺湖底下的事，小天邪不问。"
+msgstr "湖底？ 玉螺湖の底のことには、小天邪は関わらない。"
+
+msgid "水烟阁执法使"
+msgstr "水煙閣執法使"
+
+msgid "潘军禅是当今武林的一位传奇性人物，以他仅仅二十八岁的年龄竟能做到\n水烟阁执法使的职位，著实是一位不简单的人物。潘军禅是封山剑派掌门\n柳淳风的结拜义弟，但是他为人其实十分风趣，又好交朋友，丝毫不会摆\n出武林执法者的架子。\n"
+msgstr "潘軍禅は当代の武林の伝説的な人物の一人で、わずか二十八歳で水煙閣の執法使の職に就いた、まったくただ者ではない男だ。封山剣派の掌門・柳淳風の義弟でもあるが、人柄は実に洒脱で、友を作るのが好きで、武林の執法者らしく偉ぶるところは少しもない。\n"
+
+msgid "柳大哥？他是我的结拜义兄。你有他的信？拿来我看。"
+msgstr "柳の兄貴？ 俺の義兄だ。あの人の手紙を持ってるのか？ 見せてみろ。"
+
+msgid "阁里那把是假的，真剑不在这儿。要找去年那个道士，往野羊山北麓去。"
+msgstr "閣のあれは偽物だ。本物の剣はここにはない。去年のあの道士を探すなら、野羊山の北麓へ行け。"
+
+msgid "看了柳淳风的信，笑了。"
+msgstr "は柳淳風の手紙を読んで、笑った。"
+
+msgid "柳大哥的朋友就是我的朋友。邪剑穿灵？阁里挂着的那把，是仿的。"
+msgstr "柳の兄貴の友なら、俺の友だ。邪剣穿霊？ 閣に掛けてあるあれは、模造品さ。"
+
+msgid "真剑早就不在水烟阁了。挂一把假的，是鱼饵——钓那些冲着它来的人。"
+msgstr "本物の剣はとっくに水煙閣にはない。偽物を掛けておくのは餌だ――あれ目当てにやって来る連中を釣るためのな。"
+
+msgid "去年就钓上来一个：黑衣黑冠的道士，夜里来试剑，发觉是假的就走了。我的人跟到野羊山北麓，跟丢了。那边没有道观，只有一片黑砖。"
+msgstr "去年さっそく一人釣れた。黒衣に黒冠の道士で、夜中に剣を試しに来て、偽物と気づくと去っていった。俺の手の者が野羊山の北麓まで後をつけたが、見失った。あっちには道観なんてない。黒い煉瓦が一面にあるだけだ。"
+
+msgid "柳大哥让你来的？信呢？没有他的信，执法使的佩剑不是你问得的。信丢了，回武馆找他再写一封。"
+msgstr "柳の兄貴に言われて来たのか？ 手紙は？ あの人の手紙がなけりゃ、執法使の佩剣のことはお前が聞けることじゃない。手紙をなくしたなら、武館へ戻って書き直してもらえ。"
+
+msgid "执法使的佩剑，也是你问得的？"
+msgstr "執法使の佩剣のことを、お前ごときが聞けると思うのか？"
+
+msgid "宝衣"
+msgstr "宝衣"
+
+msgid "晚月庄。守它的人不白给——我说过了。"
+msgstr "晩月荘だ。守っている者はただでは渡さない――前にも言ったろう。"
+
+msgid "寒於宝衣？你倒问到点子上了。"
+msgstr "寒於の宝衣？ いいところを突いてくるな。"
+
+msgid "当年三件东西各归一处，宝衣归月神族保管。月神族早没了，只剩晚月庄那些女子——自称人灵区冥的后人，庄里供着她的神像，池边立着凤凰护庄。"
+msgstr "昔、三つの品はそれぞれ別の場所に納められ、宝衣は月神族が預かった。月神族はとうに絶えて、残っているのは晩月荘のあの女たちだけだ――人霊区冥の末裔を名乗り、荘には彼女の神像を祀り、池のほとりには鳳凰が立って荘を守っている。"
+
+msgid "衣在不在庄里，我不知道。守它的人不白给——你去了就明白。"
+msgstr "衣が荘にあるかどうかは、俺にもわからない。守っている者はただでは渡さない――行けばわかる。"
+
+msgid "还有——野羊山那边前夜出了事。一伙黑冠道士摸上山，抓走了寨里两个人，挨个问：那天闯道观的孩子是谁。他们在找你。"
+msgstr "それと――一昨日の夜、野羊山のほうで事が起きた。黒冠の道士の一団が山に忍び込み、寨の者を二人さらって、一人ずつ問いただした。あの日、道観に押し入った子どもは誰か、と。奴らはお前を探している。"
+
+msgid "执刑使管的是刀，不管衣裳。"
+msgstr "執刑使の管轄は刀で、衣装ではない。"
+
+msgid "山门"
+msgstr "山門"
+
+msgid "山门的事办完了。正月十七之前，上山的人还会多。"
+msgstr "山門のことは片がついた。正月十七日までは、山に上ってくる者がまだ増えるだろう。"
+
+msgid "人跑了。拿错的那一个，我赔过礼了。"
+msgstr "そいつは逃げた。捕まえ違えた一人には、俺が詫びを入れておいた。"
+
+msgid "水烟阁的门，一年到头有人来打听盟主。这一回跑掉的，下回还会来——下回你认得他。"
+msgstr "水煙閣の門には、一年じゅう盟主のことを探りに来る者がいる。今度逃げた奴も、また来るだろう――次は、お前がそいつの顔を知っている。"
+
+msgid "眼力差了一点，胆子不差。你守过一回山门了——从今日起，你是这一辈的大弟子。"
+msgstr "目はもうひとつだが、肝は据わっている。山門を一度守りきったんだ――今日から、お前がこの代の大弟子だ。"
+
+msgid "人拿下了？他身上掉出来的信，给我看看。"
+msgstr "捕らえたか？ そいつの懐から落ちた手紙を、見せてくれ。"
+
+msgid "人拿下了。身上的东西没捡着？……罢了，人押在刑堂里，我自己问。"
+msgstr "捕らえたか。懐の物は拾えなかった？……まあいい、そいつは刑堂に押し込めてある。俺が自分で問いただす。"
+
+msgid "你守过一回山门了——从今日起，你是这一辈的大弟子。"
+msgstr "山門を一度守りきったんだ――今日から、お前がこの代の大弟子だ。"
+
+msgid "人认出来了，还没拿下？去，别让他下了山。"
+msgstr "見抜いたのに、まだ捕らえてない？ 行け、山を下ろさせるな。"
+
+msgid "三个上山的人在阁前候着。问清来意，听他们怎么说盟主，看看路引——哪个不对，拿下。"
+msgstr "山に上ってきた三人が閣の前で待っている。用向きを確かめ、盟主のことをどう話すか聞き、通行証を見ろ――怪しい奴がいたら、捕らえろ。"
+
+msgid "把手里的卷宗一合，冲你招了招手。"
+msgstr "は手にした書類をぱたんと閉じ、こちらに手招きした。"
+
+msgid "你来得正好。正月十七快到了，这些日子上山的人多：拜师的、送信的、看热闹的。"
+msgstr "ちょうどいいところに来た。正月十七日が近いから、このところ山に上ってくる者が多い。入門志願、手紙の使い、物見高い連中。"
+
+msgid "可这一个月，阁里丢了两份名帖，山下的客栈里也有人在打听——盟主还活着没有。"
+msgstr "だがこの一月で、閣の名刺が二通なくなり、麓の宿屋でも探りを入れている者がいる――盟主はまだ生きているのか、とな。"
+
+msgid "我认得的人太多，往门口一站，探子就不开口了。你是新面孔。去山门值一班：上山的人问清来意，哪个不对，拿下。"
+msgstr "俺は顔が知れすぎていて、門口に立つと間者は口を開かない。お前は新顔だ。山門で一度見張りに立ってくれ。山に上ってくる者の用向きを確かめ、怪しい奴がいたら、捕らえろ。"
+
+msgid "拿错了人不要紧，我去赔礼。只是真的那个，就跑了。"
+msgstr "捕まえ違えても構わない、俺が詫びに行く。ただ、それだと本物は逃げちまう。"
+
+msgid "山门有武士守着。执法使的事，不劳外人。"
+msgstr "山門は衛士が守っている。執法使の仕事に、外の者の手は借りない。"
+
+msgid "镖单"
+msgstr "護送状"
+
+msgid "镖单在刑堂里锁着。振远的脸面，水烟阁替他们留着。"
+msgstr "護送状は刑堂にしまってある。振遠の面目は、水煙閣が守ってやる。"
+
+msgid "交给陈总镖头了？……也好。他要查，就让他查到底。"
+msgstr "陳総鏢頭に渡したのか？……それもいい。調べたいなら、とことん調べさせればいい。"
+
+msgid "手令丢了？我再写一张。"
+msgstr "命令書をなくした？ もう一枚書いてやる。"
+
+msgid "镖单在你手里。给我锁进刑堂，还是带去京师给陈天星——你定。"
+msgstr "護送状はお前の手にある。俺に渡して刑堂にしまうか、京師へ持っていって陳天星に渡すか――お前が決めろ。"
+
+msgid "拿着手令去绮云镇的振远镖局，找陈剑秋。"
+msgstr "命令書を持って綺雲鎮の振遠鏢局へ行き、陳剣秋を訪ねろ。"
+
+msgid "镖单不在你身上？去绮云镇问陈剑秋，振远的底账里还有存根。"
+msgstr "護送状を持っていない？ 綺雲鎮へ行って陳剣秋に聞け。振遠の元帳に控えが残っている。"
+
+msgid "还有一件旧事。二十年前振远镖局替水烟阁押过一趟镖：盟主印一方，密件一匣，在老松岭丢了，一个人也没回来。"
+msgstr "もう一つ、昔の話だ。二十年前、振遠鏢局は水煙閣のために一つ荷を護送した。盟主の印が一つ、密書が一箱。それが老松嶺で消え、一人も戻らなかった。"
+
+msgid "那张镖单还在振远手里。我写张手令，你去绮云镇找陈剑秋——他见了我的印，会拿出来。"
+msgstr "その護送状はまだ振遠にある。命令書を一枚書くから、綺雲鎮へ行って陳剣秋を訪ねろ――俺の印を見れば、出してくれる。"
+
+msgid "拿到了，镖单该放在哪儿，你再定。"
+msgstr "手に入れたら、護送状をどこに置くかはお前が決めろ。"
+
+msgid "还有一件旧事。二十年前振远镖局替水烟阁押过一趟镖：盟主印一方，密件一匣，在老松岭丢了。那张镖单，陈剑秋给过你。"
+msgstr "もう一つ、昔の話だ。二十年前、振遠鏢局は水煙閣のために一つ荷を護送した。盟主の印が一つ、密書が一箱。それが老松嶺で消えた。あの護送状は、陳剣秋がお前に渡したはずだ。"
+
+msgid "镖单给我，我锁进刑堂：振远的脸面，水烟阁替他们留着，这件事到此为止。"
+msgstr "護送状を俺に渡せば、刑堂にしまう。振遠の面目は水煙閣が守ってやり、この件はここで打ち切る。"
+
+msgid "陈天星不会这么想。京师的振远总局是他一手创的，他要知道当年那条路是谁点的。你把镖单带去给他，他会查到底——查出来的，未必只是振远的丑事。"
+msgstr "陳天星はそうは考えないだろう。京師の振遠総局はあの人が一から作ったものだ。あの日あの道を誰が指したのか、知りたがるはずだ。護送状を持っていけば、あの人はとことん調べる――出てくるのは、振遠の恥だけとは限らない。"
+
+msgid "镖单只有一张。你定。"
+msgstr "護送状は一枚きりだ。お前が決めろ。"
