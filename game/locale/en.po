@@ -6764,7 +6764,7 @@ msgid "醉了：越醉越站不稳，醉过头会昏倒。"
 msgstr "Drunk: the drunker, the less steady on your feet; drink too much and you pass out."
 
 msgid "蒙汗药：药力发作，撑不住就会昏倒。"
-msgstr "Knockout drops: the drug is taking hold; if you can't hold out, you pass out."
+msgstr "Knockout Powder: the drug is taking hold; if you can't hold out, you pass out."
 
 msgid "意寒掌毒：每次心跳伤精、气、神各 25。"
 msgstr "Chill Palm poison: every heartbeat, 25 each of Essence, Qi and Spirit wounded."
@@ -16643,10 +16643,10 @@ msgid "采花少女说道：华中理工大学的桂花树比晚月庄多多了�
 msgstr "The flower-picking girl says, \"Huazhong University of Science and Technology has way more osmanthus trees than Latemoon Manor, you know?\"\n"
 
 msgid "采花少女望着天边的晚霞，双手托着香腮，说道：我好想去华工大摘桂花。\n"
-msgstr "The flower-picking girl gazes at the evening glow in the sky, chin in her hands, and says, \"I want to go pick osmanthus at HUST so badly.\"\n"
+msgstr "The flower-picking girl gazes at the evening glow in the sky, chin in her hands, and says, \"I want to go pick osmanthus at Huazhong Tech so badly.\""
 
 msgid "采花少女嘀咕着：听说华工的桂花有好几种呢。\n"
-msgstr "The flower-picking girl mutters, \"I heard HUST has several kinds of osmanthus.\"\n"
+msgstr "The flower-picking girl mutters, \"I heard Huazhong Tech has several kinds of osmanthus.\""
 
 msgid "采花少女秀眉微蹙，说道：你欺负我年纪小是吗？\n"
 msgstr "The flower-picking girl knits her pretty brows. \"You're picking on me because I'm young, aren't you?\"\n"
@@ -17900,13 +17900,13 @@ msgid "镖交到了，叔父来信夸你。振远欠你一个人情。"
 msgstr "The shipment arrived, and my uncle wrote to praise you. Far-Road owes you a favor."
 
 msgid "镖交给叔父，京师东街北头的振远总局。老周推车——跟他说一声「上路」。"
-msgstr "Deliver the shipment to my uncle at the Far-Road Head Office at the north end of Capital East Street. Old Zhou pushes the cart. Tell him \"Set out.\""
+msgstr "Deliver the shipment to my uncle at the Far-Road Head Office at the north end of Capital East Street. Old Zhou pushes the cart. Tell him \"Set Out.\""
 
 msgid "本局的人，我就不多说了。镖交到叔父手里，回来你就是镖头。"
 msgstr "You're one of ours, so I won't say much. Put the shipment in my uncle's hands, and when you are back you will be an escort chief."
 
 msgid "老周推车，你跟着——跟他说一声「上路」。碎石小路那一段荒，当心。"
-msgstr "Old Zhou pushes the cart, and you follow. Tell him \"Set out.\" The stretch of Gravel Lane is lonely. Be careful."
+msgstr "Old Zhou pushes the cart, and you follow. Tell him \"Set Out.\" The stretch of Gravel Lane is lonely. Be careful."
 
 msgid "好。两箱红货，京师振远总局收，交给我叔父陈天星。"
 msgstr "Good. Two chests of valuables, to the Far-Road Head Office in the Capital, to be handed to my uncle, Chen Tianxing."
@@ -23102,7 +23102,7 @@ msgid "老板娘道：这位$RESPECT，您需要什么？\n"
 msgstr "The proprietress says, \"What do you need, $RESPECT?\"\n"
 
 msgid "老板娘神秘地对你说：要南大食堂磁卡吗？\n"
-msgstr "The proprietress says to you mysteriously, \"Would you like a South Canteen meal card?\"\n"
+msgstr "The proprietress says to you mysteriously, \"Would you like a Nanjing University canteen card?\""
 
 msgid "老板娘悄声说道：奴家可是湖南人哦。\n"
 msgstr "The proprietress says softly, \"I'm from Hunan, you know.\"\n"
@@ -23171,7 +23171,7 @@ msgid "李掌柜白了你一眼，冷冷地说：你有美钞吗？\n"
 msgstr "Shopkeeper Li rolls her eyes at you and says coldly, \"Do you have US dollars?\"\n"
 
 msgid "李掌柜忽然间说道：好久没去华工了，不知朋友是否还好吗。\n"
-msgstr "Shopkeeper Li suddenly says, \"I haven't been to South China Tech in a long time. I wonder if my friends are doing well.\"\n"
+msgstr "Shopkeeper Li suddenly says, \"I haven't been to Huazhong Tech in a long time. I wonder if my friends are doing well.\""
 
 msgid "一个满脸横肉的壮汉，口水四溅，正说着什么。\n"
 msgstr "A burly man with a fleshy, scowling face, spit flying as he talks.\n"
