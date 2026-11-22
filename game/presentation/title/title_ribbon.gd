@@ -18,6 +18,8 @@ extends Node2D
 const SHADER: Shader = preload("res://presentation/title/shaders/title_ribbon.gdshader")
 const ROMAN: FontFile = preload("res://assets/fonts/Cinzel-VariableFont_wght.ttf")
 const ROMAN_WEIGHT: int = 600
+## Words that are not in Latin letters (繁體 東方故事) are set in WenKai.
+const HAN: FontFile = preload("res://assets/fonts/LXGWWenKaiLite-Medium.ttf")
 ## The band's columns, apart (band widths).
 const COLUMN_STEP: float = 0.3
 ## Swallowtail tips: how deep the notch (band widths).
@@ -115,6 +117,7 @@ func _init() -> void:
 ## The words along the band: `words` set in Cinzel, or `mask` (red = ink) when there is one.
 func set_words(words: String, mask: Texture2D) -> void:
 	_words = words
+	_font.base_font = ROMAN if _latin(words) else HAN
 	_mask = mask
 	_text_mat.set_shader_parameter("mode", 2 if mask != null else 1)
 	_text.queue_redraw()
@@ -122,6 +125,13 @@ func set_words(words: String, mask: Texture2D) -> void:
 
 func words() -> String:
 	return _words
+
+
+static func _latin(text: String) -> bool:
+	for i: int in text.length():
+		if text.unicode_at(i) > 0x24F:
+			return false
+	return true
 
 
 ## Lays the band on the ink box `ink` (view pixels) of the lettering drawn from `letters_rect` with

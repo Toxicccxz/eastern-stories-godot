@@ -106,6 +106,7 @@ func _test_logo_blocks() -> void:
 	english.build(definition.logo_for("en"), definition.seal_for("en"), definition.line_for("en"), false, definition.ribbon_for("en"), definition.line_mask_for("en"))
 	var english_words: ShaderMaterial = english.ribbon().get_node("Line").material as ShaderMaterial
 	_check(english.ribbon().words() == "东方故事" and int(english_words.get_shader_parameter("mode")) == 2, "the English title's ribbon carries 东方故事 from its mask")
+	_check(definition.line_for("zh_Hant") == "東方故事" and TitleRibbon._latin("EASTERN STORIES") and not TitleRibbon._latin("東方故事"), "繁體 東方故事 on the ribbon, set in WenKai (Cinzel has no Han)")
 	var plain: ShaderMaterial = (english.get_node("LogoView/Letters") as TextureRect).material as ShaderMaterial
 	_check(not (english.get_node("LogoView/Seal") as TextureRect).visible and (english.get_node("LogoView/Letters") as TextureRect).texture != letters.texture and is_zero_approx(float(plain.get_shader_parameter("dry"))), "English is its own lettering: no Chinese seal, no brush streaks")
 	for node: TitleLogo in [logo, english]:
