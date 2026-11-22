@@ -14162,7 +14162,7 @@ msgid "阶梯 · 上楼"
 msgstr "Stairs · Up"
 
 msgid "虹台大会 · 入席"
-msgstr "Terrace Gathering · Take Your Seat"
+msgstr "Rainbow Terrace Assembly · Take Your Seat"
 
 msgid "虹谷断崖"
 msgstr "Rainbow Gorge Cliff"
@@ -19006,8 +19006,8 @@ msgstr "You are standing before a tall pavilion, Waterfog Pavilion. Its glazed t
 msgid "你现在正走在一条山坡上的小径，往南望去只见山下一条白色石阶\n蜿蜒上山，通往东边不远处的一个平台，平台的北边就是赫赫有名的武\n者圣地「水烟阁」，小径的北边整齐地种著一排枫树，往西上了山坡通\n往位于山巅的「虹台」。\n"
 msgstr "You are on a trail on the mountain slope. Looking south you see a white stone stairway winding up the mountain to a platform not far to the east. North of the platform is the renowned holy ground of fighters, Waterfog Pavilion. A row of maple trees is planted neatly on the north side of the trail. West, up the slope, is the Rainbow Terrace on the summit."
 
-msgid "你现在正走在一条山坡小径上，东边不远处可以望见水烟阁琉璃色\n的屋瓦，小径东北是一道白石阶梯通往山巅的虹台，往西则是「水烟十\n景」之中最有名的虹谷断崖，小径旁立著一个七、八尺高的石碑(stone\n)。\n"
-msgstr "You are on a trail on the mountain slope. Not far east you can see the glazed tiles of Waterfog Pavilion. Northeast of the trail, a white stone stairway climbs to the Rainbow Terrace on the summit. West is Rainbow Gorge Cliff, the most famous of the \"Ten Views of Waterfog\". By the trail stands a stone tablet seven or eight feet tall (stone)."
+msgid "你现在正走在一条山坡小径上，东边不远处可以望见水烟阁琉璃色\n的屋瓦，小径东北是一道白石阶梯通往山巅的虹台，往西则是「水烟十\n景」之中最有名的虹谷断崖，小径旁立著一个七、八尺高的石碑。\n"
+msgstr "You are on a trail on the mountain slope. Not far east you can see the glazed tiles of Waterfog Pavilion. Northeast of the trail, a white stone stairway climbs to the Rainbow Terrace on the summit. West is Rainbow Gorge Cliff, the most famous of the \"Ten Views of Waterfog\". By the trail stands a stone tablet seven or eight feet tall."
 
 msgid "你正走在一道白石阶梯上，这道阶梯依著山壁而建，东边隔著一个\n深不见底的山谷可以望见对面傲立在山巅之上的水烟阁，每当清晨山谷\n中的晨雾慢慢飘起，从这里可以看见水烟阁彷佛飘在云间，这就是水烟\n十景中的「飞天楼阁」，石阶沿著山壁从这里转往北方。\n"
 msgstr "You are on a white stone stairway built along the mountain wall. To the east, across a bottomless valley, you can see Waterfog Pavilion standing proudly on its summit. When the morning mist rises in the valley, the pavilion seems to float among the clouds from here. This is the \"Pavilion in the Sky\", one of the Ten Views of Waterfog. The stairs turn north along the wall."
@@ -19016,7 +19016,7 @@ msgid "你现在正走在一道依著山壁而建的白石阶梯上，随著阶�
 msgstr "You are on a white stone stairway built along the mountain wall. As you climb higher, you can already see, on the western summit, the \"sky pillar\" standing in the middle of the Rainbow Terrace. The stairs turn northwest onto a gentler stretch of the slope. To your east is a bottomless valley, and across it, not far away, Waterfog Pavilion."
 
 msgid "你现在走在一道依著山壁而建的白石阶梯上，通过西边不远处的葬\n剑亭，就是虹台的入口，东边和北边都是深不见底的深谷，隔著深谷，\n东北边的野羊山连著隐樵山、图云岭、破魔山、虎啸坡、沙牢山一直到\n大漠都是数百丈的高山，虹台地势虽不甚高，但是在三面深谷的环绕下\n，却自有一股群山朝拜的威严气象。\n"
-msgstr "You are on a white stone stairway built along the mountain wall. Past the Sword Tomb Pavilion a little way west is the entrance to the Rainbow Terrace. East and north are bottomless valleys. Across them, to the northeast, Goathill, Hidden Woodcutter Mountain, Cloud Painting Ridge, Demon-Breaker Mountain, Tiger Roar Slope and Sandcage Mountain run on to the great desert, all peaks a thousand feet and more high. The Rainbow Terrace is not so high, but ringed by valleys on three sides it has an air of mountains bowing to it."
+msgstr "You are on a white stone stairway built along the mountain wall. Past the Sword Tomb Pavilion a little way west is the entrance to the Rainbow Terrace. East and north are bottomless valleys. Across them, to the northeast, Goathill, Hidden Woodcutter Mountain, Cloud Painting Ridge, Demon-Breaker Mountain, Tiger Roar Slope and Sandcage Mountain run on to the great desert, all peaks thousands of feet high. The Rainbow Terrace is not so high, but ringed by valleys on three sides it has an air of mountains bowing to it."
 
 msgid "你现在来到一个山腰靠近山顶的亭子，亭子前立著一个两丈多高的\n石碑，从亭子里远眺北方连绵不尽的大山，使你不禁感到胸\n臆之间一股英雄情怀油然而生，葬剑亭据说每到夏日夜晚，野风吹过，\n会产生一阵阵呜呜的哭泣声，这也是水烟十景中的「孤亭剑泣」。出了\n亭子，往南便是直通虹台的石阶，一条黄土小路往西通往另一条下山的\n小路。\n"
 msgstr "You have come to a pavilion near the summit, with a stone tablet over twenty feet tall in front of it. Looking from the pavilion at the unbroken mountains to the north, you feel a heroic spirit rise in your chest. They say that on summer nights, when the wild wind blows, the Sword Tomb Pavilion makes sobbing sounds; this is the \"Weeping Swords of the Lone Pavilion\" among the Ten Views of Waterfog. Out of the pavilion, stairs lead south straight to the Rainbow Terrace, and a dirt path west joins another path down the mountain."
