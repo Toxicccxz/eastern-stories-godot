@@ -13022,10 +13022,10 @@ msgid "南 · 番坊码头"
 msgstr "South · Foreign Quarter Docks"
 
 msgid "市舶司公事房"
-msgstr "Customs Office"
+msgstr "Maritime Trade Office"
 
 msgid "市舶司后院"
-msgstr "Customs Back Yard"
+msgstr "Maritime Trade Office Back Yard"
 
 msgid "兵部文书 · 看"
 msgstr "War Ministry Papers · Read"
@@ -23603,7 +23603,7 @@ msgid "布告经风吹日晒，字迹已经不可分辨了。\n"
 msgstr "After wind and sun, the writing on the notice can no longer be made out.\n"
 
 msgid "布告上写著：辑拿要犯----於兰天武。\n"
-msgstr "The notice reads: Wanted, an important criminal... Yulan Tianwu.\n"
+msgstr "The notice reads: Wanted, an important criminal—Yulan Tianwu.\n"
 
 msgid "旧布告撕下来了，墙上新贴了一张黄纸，墨还没干：「前诏作废。」围着看的人比贴通缉那天还多。\n"
 msgstr "The old notice has been torn down, and a new sheet of yellow paper pasted on the wall, the ink not yet dry: \"The former edict is void.\" More people crowd round to read it than on the day the wanted notice went up.\n"
@@ -26534,7 +26534,7 @@ msgid "船"
 msgstr "Ships"
 
 msgid "不是我们的船。南边商人的，西边商人的。我们只管拴、只管卸，一天三十文。"
-msgstr "Not our ships. Southern merchants', western merchants'. We tie them up. We unload 'em. Thirty wen a day."
+msgstr "Not our ships. Southern merchants', western merchants'. We tie them up. We unload them. Thirty wen a day."
 
 msgid "海上没有路。有路，也是别人的。"
 msgstr "There's no road on the sea. If there is one, it's somebody else's."
@@ -26966,7 +26966,7 @@ msgid "坐。我的祖上见过它。三百年前，皇叔於兰淳焉打北方�
 msgstr "Sit. My forefathers saw it. Three hundred years ago, the Imperial Uncle Yulan Chunyan fought the northern barbarians, and hired us, one hundred twenty swordsmen."
 
 msgid "其中一个，看见那个鬼的头怎么封的。他死前，刻在一片铜上。十二代，传到我——问我「铜牒」。"
-msgstr "One of them saw how that ghost's head was sealed. Before he died, he carved it on a piece of copper. Twelve generations, down to me—ask me about the \"Copper Tablet.\""
+msgstr "One of them saw how that ghost's head was sealed. Before he died, he carved it on a piece of copper. Twelve generations, down to me—ask me about \"Copper Tablet.\""
 
 msgid "被两个差役押在船边，手上一副枷。他看见你，看了很久，没有说话。"
 msgstr " stands at the side of the boat between two runners, a cangue on his hands. He sees you and looks a long while without a word."
@@ -27119,7 +27119,7 @@ msgid "日陀罗寺。两个天竺僧人盖的，老衲是第二代。寺小，�
 msgstr "Ritola Temple. Built by two Indian monks, and this old monk is the second generation. The temple is small. The Buddha is not small."
 
 msgid "山烟寺的独眼头陀？他的内功和老衲的是一个根——都是从西边的西边来的。阿弥陀佛。"
-msgstr "The One-Eyed Ascetic of Mountain Mist Temple? His inner force and this old monk's have one root—both came from the west of the west. Amitabha."
+msgstr "The One-Eyed Ascetic of Mountain Mist Temple? His neigong and this old monk's have one root—both came from the west of the west. Amitabha."
 
 msgid "阿弥陀佛。他们拜的火，和老衲拜的佛，隔着一条街。火也好，佛也好，都不叫人撒谎。"
 msgstr "Amitabha. Their fire and this old monk's Buddha are a street apart. Fire or Buddha, neither lets a man lie."
@@ -27131,7 +27131,7 @@ msgid "大秦人存在火前的那片铜？老衲听说过。三百年前的事�
 msgstr "The piece of copper the Daqin people left before the fire? This old monk has heard of it. A matter of three hundred years ago, carved in copper. Copper does not grow old."
 
 msgid "第一代的师父从天竺带来一根枝条，插在这儿，活了。树活了七十年，老衲也活了七十年。"
-msgstr "My first-generation master brought a branch from India and planted it here, and it lived. The tree has lived seventy years, and this old monk has lived seventy years."
+msgstr "My first-generation Shifu brought a branch from India and planted it here, and it lived. The tree has lived seventy years, and this old monk has lived seventy years."
 
 msgid "阿弥陀佛。山烟寺的事，是山烟寺的事。"
 msgstr "Amitabha. Mountain Mist Temple's business is Mountain Mist Temple's business."
@@ -27167,7 +27167,7 @@ msgid "他开口了？……十年，他没跟人说过一句话。"
 msgstr "He spoke? ...Ten years, he has not said a word to anyone."
 
 msgid "三十年前，老衲四十一岁。师父从天竺背来两部经：一部是莲华心法的根，一部是婆萝蜜多心经。师父说，中原有一座山烟寺，医术通神，这两部经该放在那里。"
-msgstr "Thirty years ago, this old monk was forty-one. My master carried two sutras from India: one the root of the Lotus Heart Method, one the Heart Sutra. My master said there is a Mountain Mist Temple in the Central Plains, its healing arts divine, and these two sutras should rest there."
+msgstr "Thirty years ago, this old monk was forty-one. My Shifu carried two sutras from India: one the root of the Lotus Heart Method, one the Heart Sutra. My Shifu said there is a Mountain Mist Temple in the Central Plains, its healing arts divine, and these two sutras should rest there."
 
 msgid "老衲背着经走到日照山。当时的住持只认本寺一脉，经匣没有打开，就请老衲下了山。"
 msgstr "This old monk carried the sutras to Sunlit Mountain. The abbot of the time recognized only the temple's own line. The sutra case was not opened, and this old monk was asked to go down the mountain."
@@ -27242,10 +27242,10 @@ msgid "贝叶经。从天竺背来的，一片叶子一页。"
 msgstr "Palm-leaf sutras. Carried from India, one leaf a page."
 
 msgid "山烟寺？那边有一位独眼的头陀，他的内功和我们的是一个根。法王说的。"
-msgstr "Mountain Mist Temple? A one-eyed ascetic is there; his inner force and ours have one root. The Dharma King said so."
+msgstr "Mountain Mist Temple? A one-eyed ascetic is there; his neigong and ours have one root. The Dharma King said so."
 
 msgid "第一代师父带来的一根枝条。现在你看——一棵树像一片林子。"
-msgstr "A branch the first-generation master brought. Now look—one tree like a forest."
+msgstr "A branch the first-generation Shifu brought. Now look—one tree like a forest."
 
 msgid "他们的火在街那头。我们的佛在这头。中间是卖香料的。"
 msgstr "Their fire is at the end of the street. Our Buddha is at this end. Between us, the spice sellers."
@@ -27500,7 +27500,7 @@ msgid "两面大盾，比人还高一头，长方的，盾面弯成半个筒。�
 msgstr "Two great shields, a head taller than a man, rectangular, their faces curved into half a tube. A wooden core covered in ox hide, iron along the edges, rivets in rings. An eagle with spread wings is painted on each face, half the gold gone, showing the red beneath. The feet of the shields are driven into the earth, driven in deep, as if they had never been pulled out.\n"
 
 msgid "墙上贴着一张布告，纸是京师的纸，字是抄的：\n布告上写著：辑拿要犯----於兰天武。\n布告的一角盖着市舶司的小印，旁边一行小字：「京师东二门原告，番坊照抄」。\n"
-msgstr "A notice pasted on the wall, the paper from the Capital, the writing copied:\nThe notice reads: Wanted—the fugitive Yulan Tianwu.\nIn one corner of the notice is the Maritime Trade Office's small seal, and beside it a line of small writing: \"Original from the Second East Gate, Capital; copied as is in the Foreign Quarter.\"\n"
+msgstr "A notice pasted on the wall, the paper from the Capital, the writing copied:\nThe notice reads: Wanted, an important criminal—Yulan Tianwu.\nIn one corner of the notice is the Maritime Trade Office's small seal, and beside it a line of small writing: \"Original from the Second East Gate, Capital; copied as is in the Foreign Quarter.\""
 
 msgid "一座黑石砌的火坛，齐胸高，石头让三百年的烟熏得乌黑发亮。坛顶一团火，不高不低，不红不白，烧得很静，看不见柴，也看不见油。火前的石头上磨出一块白印子，是一代一代跪出来的。坛身上刻着一行弯弯曲曲的字，没有人认得；祭司说那是祠规——火前不说谎。\n"
 msgstr "A fire altar built of black stone, chest-high, the stone smoked black and shining by three hundred years of smoke. On top a fire, neither high nor low, neither red nor white, burning very still, no wood to be seen, no oil. The stone before the fire is worn with a white mark, knelt into it by generation after generation. Twisting writing is carved on the altar's side that nobody can read; the priest says it is the shrine rule—no lying before the fire.\n"
