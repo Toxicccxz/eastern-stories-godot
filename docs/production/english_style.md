@@ -40,8 +40,21 @@ name; pinyin is a person's name, or what a local calls a place in speech.
 
 * People: pinyin, surname first (Liu Chunfeng); an English epithet only where the game has one
   (Liu Chunfeng, the Wind-and-Rain Swordsman).
-* Places named for what you see are translated; administrative names stay pinyin; ES2's own English
-  coinages are kept (waterfog, latemoon, goathill, snowshade…), its romanisations are not (sanyen, fonxan).
+* Places: a real place keeps its pinyin (Yangzhou); a made-up place named for what you see is translated
+  (Tallshade, Cloudweave Town); ES2's own English coinages are kept (waterfog, latemoon, goathill,
+  snowshade…), its romanisations are not (sanyen, fonxan). 县 / 镇 / 府 follow what the place is in the game.
+* **An established English name comes first** (owner 2026-11-22, with Muse), in this order: official
+  (the Palace Museum, scholarship) > published literary translation (Jin Yong's, Wuxia Society) >
+  community usage (Wuxiaworld) > a name of our own. It must name the same thing: 紫禁城 is not the
+  Forbidden City here (our capital is made up), 观音 is Guanyin, not "the Goddess of Mercy". Halls
+  take "Hall of X" (养心殿 Hall of Mental Cultivation, 太和殿 Hall of Supreme Harmony); gods take
+  pinyin and their usual title (Zhenwu, King Yama, the Jade Emperor, Meng Po); 心经 the Heart Sutra;
+  天师道 the Way of the Celestial Masters; 武状元 Martial Champion; offices follow Hucker's *Dictionary
+  of Official Titles* (County Magistrate, Minister, Censor, Head Constable); 时辰 is a double-hour; 子时 is midnight; 两 of silver is the
+  established tael; other measures stay pinyin (jin, li, wen); 丈 is about ten feet; 正月十七 the seventeenth of the first month.
+* Neither free nor literal: keep each sentence's facts, order and mood; carry the mood in the English
+  sentence, not word for word ("老松寨是老子的寨子" Old Pine Stockade is mine). Form may change where the
+  form is the joke (a list stays a list); ES2's engine marks such as (sign) are not prose.
 * Schools: 派 that teaches arts = **School**; 教 with a doctrine = **Order**; 帮 / 会 = **Guild**.
   *Sect* and *Cult* only in the mouths of those who condemn them.
 * Moves are translated as images (饿鬼拦路 Hungry Ghost Blocks the Road).
@@ -56,14 +69,32 @@ Mountain Mist Temple · the Golden Crow Order (东方神教) · the Far-Road Esc
 the Beggars' Guild (花紫会). Spiritpiercer (穿灵) · Whirling Edge (旋芒) · Hanyu's Robe (寒於宝衣) ·
 the Heaven-Defier (侮天鬼).
 
+* **In-jokes are localized, not translated** (owner 2026-11-22, with Muse): a joke an English player
+  cannot read (a Chinese university, 1990s Chinese software, a dorm number) becomes one they can
+  (Harvard, Yale, Harvard Yard, Microsoft bundling a browser to kill Netscape; 魏阮 = 微软 becomes
+  Mike Rosoft). The joke keeps its job (an anachronism stays one, a boast a boast); items, flowers,
+  trigger phrases, buttons and any name the game checks stay as they are; real people's names stay.
+
 ## Terms
 
-精 Essence · 气 Qi · 神 Spirit · 内力 Inner Force (never qi) · 潜能 Potential · 加力 Extra Force ·
+精 Essence · 气 Qi · 神 Spirit · 内力 Inner Force (never qi) · 内功 neigong · 轻功 qinggong · 潜能 Potential · 加力 Extra Force ·
 杀气 Bloodlust · 法力 Arcane Power · 灵力 Mystic Power · 定力 Resolve · 实战经验 Combat Experience ·
 师父 Shifu · 掌门 Master (a title: Master Liu) · 师兄/师妹 Senior Brother / Junior Sister · 长老 Elder ·
+小哥 young sir · a monk is Master Xuanzhi to others, Shifu to his own disciples · 师姐 Big Sister from a child, Senior Sister otherwise ·
 江湖 jianghu · 武林 wulin · 手 (a fight's turn) beat · money wen · distance li.
 No HP or MP. The HUD may shorten to ESS / QI / SPI / POT / Lv.; every number's hover says the full word,
 and reward lines always write it out ("Potential +12").
+
+Neigong is the practice, Inner Force what it builds; keep the two apart. As a skill or category name
+they take a capital (Basic Neigong, Qinggong).
+
+## Checking a batch
+
+Before a batch goes into en.po: `check_po.py` (slots, marks, full-width punctuation, modern words);
+`build/l10n/term_check.py` in the worktree kit (a glossary name the translation does not use); and a
+read of at least ten lines against the Chinese, two each of names, fights, speech, descriptions and
+UI. Two problems or more in those ten: read thirty. A new region's first batch gets twice the read.
+Every new name goes into the glossary before merging, checked for a clash with another name.
 
 ## Grammar marks (ES2 templates)
 
@@ -85,9 +116,13 @@ Chinese has one form for 你 and a name; English does not. In a line with $N (th
 
 * Straight quotes `"` and `'`, and `...` for an ellipsis: the pixel font's curly quotes and … are
   full-width Chinese forms.
+* One dash: an em dash with no spaces (`word—word`), never ` - ` or ` — `. Ask topics are Title Case.
+* An ellipsis is three dots, whatever the Chinese has (…… or .....).
 * An NPC's action line follows its name directly (`{npc}{action}`): start it with a space
   (" sees you and sets down his broom.") or with "'s" ("'s eyes redden for a moment.").
 * Plurals: Chinese has none, so avoid "%d beats": write "Beats left: %d", "×%d", "Items inside: {count}."
+* Numbers the Chinese writes in characters (十文, 第三代) come out in digits in English (`ChineseNumber.of`):
+  write "{count} wen", "Generation {generation}", never a number word around the slot.
 * English runs about 1.6× wider than the Chinese in the same font: buttons ≤ 16 characters, tabs ≤ 12,
   move names ≤ 20, status words ≤ 10. Rewrite rather than abbreviate.
 * One source word can stand for two things (快 is battle speed *and* a move tag): find one English word

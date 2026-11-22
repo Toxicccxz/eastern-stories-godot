@@ -1303,7 +1303,7 @@
 		},
 		"d/choyin/lionroom.c": {
 			"function init": "smell grass: world.json services choyin.lionroom.smell (kind act, 闻忘忧草)",
-			"function do_smell": "the act: carrying the 忘忧草 (carries grass) the wind's line and the move to u/cloud/biaoju; else 你身上没有忘忧草啊。. The braces are missing (any first item in the inventory moved one, and the line only showed for the grass): an obvious slip fixed (DECISIONS 乔阴 B)"
+			"function do_smell": "the act: carrying the 忘忧草 the wind's line and the move to u/cloud/biaoju; else 你身上没有忘忧草啊。. The braces are missing (any first item in the inventory moved one, and the line only showed for the grass): an obvious slip fixed (DECISIONS 乔阴 B)"
 		},
 		"d/choyin/cloudpool.c": {
 			"set resource/water": "world.json services: choyin.cloudpool.water (kind water)"
@@ -1342,7 +1342,7 @@
 			"set item_desc": "landmarks choyin.guyehill.landmark.vine (policy vine, below 30) and .tree (policy portal)",
 			"function init": "climb tree, hold vine: the two landmarks' actions",
 			"function do_climb": "landmark tree: 爬树 up to the 树冠 (portal choyin.guyehill.climb); tell_room() to the 树冠 is for others",
-			"function do_hold": "landmark vine (VineLandmarkPolicy, below 30): random(dodge) < 30 falls into the 寒谷 (no harm), else up to the 山洞; not asked (默认)"
+			"function do_hold": "landmark vine (VineLandmarkPolicy, below 30): random(dodge) < 30 falls into the 寒谷, else up to the 山洞; not asked (默认)"
 		},
 		"d/choyin/npc/crane.c": {
 			"set unit": "an NPC's unit is not shown anywhere yet",

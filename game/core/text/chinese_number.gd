@@ -13,7 +13,11 @@ const NUMBERS: Array[String] = ["零", "一", "二", "三", "四", "五", "六",
 const MINUS: String = "负"
 
 
+## In a language not written in Han characters (MessageGrammar.shows_chinese()) the number is
+## written in digits: "10 × coin", "Generation 3".
 static func of(i: int) -> String:
+	if not MessageGrammar.shows_chinese():
+		return str(i)
 	var result: String = ""
 	for glyph: String in source_text(i):
 		result += TranslationServer.translate(glyph)

@@ -189,7 +189,7 @@ func _test_walk(tree: SceneTree, session: WorldSessionController) -> void:
 	var lama: NpcRuntimeState = MapPlaces.npc_at(session, &"fanfang.temple_yard.lama_master.1")
 	_check(lama != null and await MapPlaces.drive(tree, monastery, MapPlaces.spot(monastery, &"fanfang.temple_yard", monastery.runtime_body_for_character(lama.character_id).global_position + Vector2(-60, 0), 48.0)) and monastery.select_npc(lama.character_id), "beside 龙若法王")
 	var join: Array[String] = monastery.ask_selected("剃度")
-	_check((join.any(func(line: String) -> bool: return line.contains("请跪下(kneel)受戒")) and session.player_runtime().temp_marks.get("pending/join_bonze", 0) == 1) or join.any(func(line: String) -> bool: return line.contains("尼庵")), "master.c's ask_for_join: a man is told to kneel, a woman sent to the 尼庵: %s" % [join])
+	_check((join.any(func(line: String) -> bool: return line.contains("请跪下受戒")) and session.player_runtime().temp_marks.get("pending/join_bonze", 0) == 1) or join.any(func(line: String) -> bool: return line.contains("尼庵")), "master.c's ask_for_join: a man is told to kneel, a woman sent to the 尼庵: %s" % [join])
 	_check(monastery.ask_selected("山烟寺").any(func(line: String) -> bool: return line.contains("一个根")), "the 山烟寺 line: one root (剧情总纲 §4 第 7 条)")
 	_check(await MapPlaces.drive_through(tree, monastery, [&"fanfang.shrine"]), "into the shrine")
 	_check(monastery.select_landmark(&"fanfang.shrine.landmark.buddha") and monastery.inspect_selected() and ui.inspection_text.text.contains("天竺"), "the Buddha from 天竺")

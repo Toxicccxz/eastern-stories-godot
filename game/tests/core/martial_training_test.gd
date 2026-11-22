@@ -160,7 +160,7 @@ func _test_practice() -> void:
 	character.skills.map_skill(&"force", &"fonxanforce")
 	character.equipment.unwield(&"weapon:test_sword")
 	_check(_texts(_practice(character, &"sword")) == ["你必须先找一把剑才能练剑法。"], "valid_learn(): a sword in hand")
-	_check(_texts(_practice(character, &"force")) == ["封山派内功只能用学的，或是从运用(exert)中增加熟练度。"], "fonxanforce cannot be practised")
+	_check(_texts(_practice(character, &"force")) == ["封山派内功只能用学的，或是从运用中增加熟练度。"], "fonxanforce cannot be practised")
 	_check(_texts(_practice(character, &"parry")) == ["你只能练习用 enable 指定的特殊技能。"], "an unmapped use")
 	character.vitality.current = 100
 	character.skills.set_raw_level(&"dodge", 10)
@@ -239,7 +239,7 @@ func _test_study() -> void:
 	var book: StudyMaterial = GameContent.catalog().item(&"es2:obj/old_book").study
 	_check(book != null and book.skill_id == &"force" and book.max_skill == 10 and book.sen_cost == 30 and book.difficulty == 20, "obj/old_book.c teaches force to 10")
 	var character := _character()
-	_check(_texts(TrainingLines.study(_study(character, book), _skill(&"force"))) == ["你是个文盲，先学学读书识字(literate)吧。"], "study needs literate")
+	_check(_texts(TrainingLines.study(_study(character, book), _skill(&"force"))) == ["你是个文盲，先学学读书识字吧。"], "study needs literate")
 	character.skills.set_raw_level(&"literate", 5)
 	_check(_texts(TrainingLines.study(_study(character, book, true), _skill(&"force"))) == ["你无法在战斗中专心下来研读新知！"], "not in a fight")
 	var result := _study(character, book)

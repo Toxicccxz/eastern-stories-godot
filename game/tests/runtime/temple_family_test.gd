@@ -218,7 +218,7 @@ func _test_practice() -> void:
 	mind.skills.set_raw_level(&"gouyee", 2)
 	mind.skills.map_skill(&"force", &"gouyee")
 	mind.recovery.mana = CharacterInternalResourceState.new(0, 5)
-	_check(_practice(mind, &"force", registry) == ["谷衣心法只能用学的，或是从运用(exert)中增加熟练度。"], "谷衣心法 refuses practice")
+	_check(_practice(mind, &"force", registry) == ["谷衣心法只能用学的，或是从运用中增加熟练度。"], "谷衣心法 refuses practice")
 
 
 ## necromancy.c practice_skill() (茅山 C): the 观想虫 still standing refuses first, then
