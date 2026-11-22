@@ -2534,7 +2534,7 @@ msgid "你在饮风客栈醒来，店小二笑着招呼了你。"
 msgstr "You wake up in Drinkwind Inn, and the waiter greets you with a grin."
 
 msgid "跟店小二打听「楼上」。"
-msgstr "Ask the waiter about \"Upstairs.\""
+msgstr "Ask the waiter about \"Upstairs\"."
 
 msgid "店小二说楼上客房闹老鼠，请你上去收拾。"
 msgstr "The waiter says the guest rooms upstairs have rats, and asks you to go deal with them."
@@ -2594,7 +2594,7 @@ msgid "你学会了封山剑法。"
 msgstr "You learned Empty Mountain Sword."
 
 msgid "去雪亭驿找杜宽，问问「送信」；门外的悬赏榜也看一眼。"
-msgstr "Go to the Snow Pavilion Post Station, find Du Kuan and ask about \"Delivering Letters.\" Have a look at the bounty board outside the door, too."
+msgstr "Go to the Snow Pavilion Post Station, find Du Kuan and ask about \"Delivering Letters\". Have a look at the bounty board outside the door, too."
 
 msgid "你揭了雪亭驿门外的一张悬赏。"
 msgstr "You took a bounty off the board outside the Snow Pavilion Post Station."
@@ -6899,7 +6899,7 @@ msgid "为首的是{head}，在{seat}。"
 msgstr "Led by {head}, at {seat}."
 
 msgid "你是{family}的弟子。"
-msgstr "You're a disciple of {family}."
+msgstr "You're a disciple of the {family}."
 
 msgid "你见过的门人：{names}"
 msgstr "Members you've met: {names}"
@@ -33236,7 +33236,7 @@ msgid "璃虹躺在东房的榻上，盖着田老财家的一床旧被。她身�
 msgstr "Lihong lies on the couch in the east room under an old quilt from Landlord Tian's house. Only a thread of her light is left, like the last flame on a lamp wick. Her eyes are open, looking at the roof beam.\n"
 
 msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差旋芒和宝衣。旋芒在岚城，宝衣在晚月庄。岚城寻风而至——你们的先帝找了它一辈子，他的档案在皇城。"
-msgstr "The nail is gone, and it grows. To destroy it, the three together. Spiritpiercer is in your hand; Whirling Edge and the robe are still missing. Whirling Edge is in the Wind City, the robe at Latemoon Manor. The Wind City is reached by seeking the wind. Your late Emperor searched for it all his life, and his files are in the Palace City."
+msgstr "The nail is gone, and it grows. To destroy it, the three together. Spiritpiercer is in your hand; Whirling Edge and the robe are still missing. Whirling Edge is in the Wind City, the robe at Latemoon Manor. The Wind City comes on the wind. Your late Emperor searched for it all his life, and his files are in the Palace City."
 
 msgid "它在长"
 msgstr "It Is Growing"
@@ -37997,7 +37997,7 @@ msgid "山洞里的骸骨"
 msgstr "The Bones in the Cave"
 
 msgid "你在瀑布旁的山洞里埋好了那具骸骨，洞顶石壁「喀喇」一响，坠下一本过招要旨。"
-msgstr "You bury the skeleton in the cave beside the waterfall. The rock above gives a \"crack,\" and a sparring primer drops down."
+msgstr "You bury the skeleton in the cave beside the waterfall. With a crack from the rock overhead, a sparring primer drops down."
 
 msgid "树上的刀痕"
 msgstr "Blade Marks on the Trees"
@@ -38138,7 +38138,7 @@ msgid "你读着树上的字条找路，走出了曼雩台东边的桃林。"
 msgstr "Reading the notes on the trees to find your way, you walk out of the Peach Grove east of the Rain Dance Terrace."
 
 msgid "你在绝壁上的山洞里得到一条金丝编成、刻满咒文的缚仙绳。"
-msgstr "In a cave on the Sheer Cliff, you get an immortal-binding rope woven of gold thread and covered in carved spells."
+msgstr "In a cave on the Sheer Cliff, you get an immortal-binding rope woven of gold thread and carved all over with incantations."
 
 msgid "你在云台向紫衣童子问起仙人。"
 msgstr "On the Cloud Terrace, you ask the Boy in Purple about the immortal."
@@ -38237,7 +38237,7 @@ msgid "你在废园的草丛里找到一块遗失多年的出城令牌。"
 msgstr "In the tall grass of the Ruined Garden, you find a city exit pass lost for many years."
 
 msgid "你把令牌交给京师守城兵，他连忙说：原来是官府中人。"
-msgstr "You hand the pass to a Capital Guard, and he hurriedly says, \"Ah, so you're with the government.\""
+msgstr "You hand the pass to a Capital Guard, and he hurriedly says, \"Ah, so you're an official.\""
 
 msgid "你在雪亭驿门外揭下了一张官府悬赏告示，照告示上说的地方去找那个恶人。"
 msgstr "Outside the Snow Pavilion Post Station, you tear down a government bounty notice and go to find the villain where the notice says."
@@ -38252,10 +38252,10 @@ msgid "走近一个人、一件东西，脚下会出现「交互」和该按的�
 msgstr "When you come near a person or a thing, \"Interact\" and the key to press appear at your feet (the keyboard and the gamepad each show their own). Press that key or click it, and everything you can do is listed in the interaction window; if there is only one thing to do, it just happens."
 
 msgid "不知道往哪里去，就找人「打听」。镇上的人知道这里的事和附近的传闻，有些话题问出来就是一条路。你见过、听过的事都记在菜单的「任务」页，状态卡上的「目标」一行写着眼下最要紧的那件。"
-msgstr "If you don't know where to go, find someone and \"Ask\". Townsfolk know what goes on here and the rumors from nearby, and asking about some topics opens up a road. Everything you have seen and heard is kept on the menu's \"Quests\" page, and the \"Objective\" line on the status card shows the most pressing thing right now."
+msgstr "If you don't know where to go, find someone and \"Ask\". Townsfolk know what goes on here and the rumors from nearby, and some topics, once asked, give you a lead. Everything you have seen and heard is kept on the menu's \"Quests\" page, and the \"Objective\" line on the status card shows the most pressing thing right now."
 
 msgid "菜单有八页：角色、武学、背包、任务、地图、声望、百科、系统。地图页是一张沙盘，走过的地方都立着模型；说明卡上列着师父、商店、悬赏榜，点一行就给你指路。"
-msgstr "The menu has eight pages: Character, Martial Arts, Items, Quests, Map, Repute, Codex and System. The Map page is a sand table with a model standing on every place you have walked; its info card lists shifus, shops and bounty boards, and clicking a line points you the way."
+msgstr "The menu has eight pages: Character, Martial Arts, Items, Quests, Map, Repute, Codex and System. The Map page is a sand table with a model standing on every place you have walked; its info card lists Shifus, shops and bounty boards, and clicking a line shows you the way."
 
 msgid "系统页里有三个存档位。换地图、打完一仗也会自动存一份，死了可以回到那里。"
 msgstr "The System page has three save slots. The game also saves on its own when you change maps or finish a fight, and if you die you can go back to that point."
@@ -38285,13 +38285,13 @@ msgid "人身上最要紧的是「精」「气」「神」三样。"
 msgstr "The three things that matter most in a person are \"Essence\", \"Qi\" and \"Spirit\"."
 
 msgid "学东西的本钱。请教、自学、修行都耗精。"
-msgstr "Your capital for learning. Learning, self-study and cultivating all cost Essence."
+msgstr "Your capital for learning. Learn, Self-Study and Cultivate all cost Essence."
 
 msgid "身体的力气。挨打掉的是气，练功、打坐也耗气。"
-msgstr "The strength of your body. Getting hit costs Qi, and practicing and meditating cost Qi too."
+msgstr "The strength of your body. Getting hit costs Qi; Practice and Meditate cost Qi too."
 
 msgid "心神。研读、冥思都耗神，迷药和蒙汗药伤的也是神。"
-msgstr "The mind. Reading and contemplating cost Spirit, and drugs and knockout powder harm Spirit too."
+msgstr "The mind. Read and Contemplate cost Spirit, and stupefying drugs and knockout powder harm Spirit too."
 
 msgid "当前、有效、最大"
 msgstr "Current, Effective, Max"
@@ -38315,7 +38315,7 @@ msgid "不打架的时候，精气神会自己慢慢回来：先回当前，当�
 msgstr "When you're not fighting, Essence, Qi and Spirit slowly come back on their own: Current first, and once it's full, wounds slowly heal. Nothing recovers during a fight. Recovery takes time passing: while the menu or the interaction window is open, time stops and nothing recovers."
 
 msgid "想歇就歇：请教页和武学页上的「歇到回满」让你坐下来，时间照走（快得多），精气神回满就起身；连续修炼练到一半没了力气，也会自己这样歇一歇再接着练。世界不会等你：歇着时有人来找麻烦，你会被惊起，照常开打；口渴没水的时候歇着也回不来。"
-msgstr "Rest whenever you like: \"Rest Until Full\" on the Learn page and the Martial Arts page sits you down while time runs on (much faster), and you get up once Essence, Qi and Spirit are full; if you run out of strength halfway through continuous training, you also rest like this on your own before carrying on. The world doesn't wait for you: if someone comes looking for trouble while you rest, you're startled up and the fight goes on as usual; and when you're thirsty with no water, resting brings nothing back."
+msgstr "Rest whenever you like: \"Rest Until Full\" on the Learn page and the Martial Arts page sits you down while time runs on (much faster), and you get up once Essence, Qi and Spirit are full; if you run out of strength halfway through continuous training, you also rest like this on your own before carrying on. The world doesn't wait for you: if someone comes looking for trouble while you rest, you're startled up and the fight starts as usual; and when you're thirsty with no water, resting brings nothing back."
 
 msgid "想快一点：金疮药敷上能治伤；学了内功的人可以运功恢复精、气、神，有的内功还能运功疗伤，耗的都是内力。战斗中不能疗伤。"
 msgstr "To go faster: wound salve heals wounds when applied; those who have learned neigong can Exert to restore Essence, Qi and Spirit, and some neigong can also Exert to heal wounds, all at a cost in Inner Force. You can't heal wounds during a fight."
@@ -38348,7 +38348,7 @@ msgid "力气。打得更重，背得更多，拿得动沉重的兵器。"
 msgstr "Physical strength. You hit harder, carry more, and can wield heavy weapons."
 
 msgid "敢不敢抢攻。自动对打时，胆识高的人出手更勤；不少师父收徒也看它。"
-msgstr "Whether you dare to strike first. In auto combat, people with high Courage attack more often; many shifus also look at it when taking disciples."
+msgstr "Whether you dare to strike first. When a fight runs on Auto, people with high Courage attack more often; many Shifus also look at it when taking disciples."
 
 msgid "天资。学武功更快、耗精更少，打架时也更容易长进。"
 msgstr "Natural talent. You learn martial arts faster and use less Essence, and you improve more easily in fights."
@@ -38360,7 +38360,7 @@ msgid "临危不乱。对手想抢攻要先过你这一关；打空了也不容�
 msgstr "Calm in danger. An opponent who wants to strike first has to get past you; when you miss, you're less likely to leave an opening, and you can hold down Bloodlust."
 
 msgid "长相。有人看脸说话，也有师父看长相收人。"
-msgstr "Appearance. Some people judge by the face, and some shifus take disciples by looks."
+msgstr "Appearance. Some people judge by the face, and some Shifus take disciples by looks."
 
 msgid "体质。精气神恢复得快，打坐长内力快，昏倒后醒得早，酒量也大。"
 msgstr "Physique. Essence, Qi and Spirit recover faster, meditating builds Inner Force faster, you wake sooner after fainting, and you can hold more drink."
@@ -38399,19 +38399,19 @@ msgid "打中比自己强的对手时，偶尔也能长一点功夫。"
 msgstr "Landing a hit on an opponent stronger than you can now and then raise your skill a little."
 
 msgid "请教、练习、打坐、冥思、修行都能「连续」做下去：精、气、神不够了就自己歇一歇，回满了接着练，练到潜能用完、功夫长了一级或做不下去的一步才停，并告诉你为什么。"
-msgstr "Learning, practicing, meditating, contemplating and cultivating can all be kept going (\"Keep...\"): when Essence, Qi or Spirit runs short you rest on your own and carry on once full, and you stop only when Potential runs out, the art rises a level, or a step can't go on, and you're told why."
+msgstr "Learn, Practice, Meditate, Contemplate and Cultivate can all be kept going (\"Keep...\"): when Essence, Qi or Spirit runs short you rest on your own and carry on once full, and you stop only when Potential runs out, the art rises a level, or you reach a step you can't take, and you're told why."
 
 msgid "拜师与门派"
 msgstr "Shifus and Schools"
 
 msgid "门派是学武的正路。拜师大致有三种：有的师父看你的天赋和功夫够不够，有的要你立誓，有的要你先过一场考验。交互窗口里还够不上的「拜师」会灰掉，写着还差什么；拜师页列出条件和你自己的数。"
-msgstr "Schools are the proper road to martial arts. Becoming a disciple works roughly three ways: some shifus check whether your gifts and skills are enough, some want you to swear an oath, and some want you to pass a test first. In the interaction window, \"Become a Disciple\" is grayed out while you don't yet qualify, and says what you still lack; the Become a Disciple page lists the requirements and your own numbers."
+msgstr "Schools are the proper road to martial arts. Becoming a disciple works roughly three ways: some Shifus check whether your gifts and skills are enough, some want you to swear an oath, and some want you to pass a test first. In the interaction window, \"Become a Disciple\" is grayed out while you don't yet qualify, and says what you still lack; the Become a Disciple page lists the requirements and your own numbers."
 
 msgid "一个人同时只能有一位师父。师父教本门功夫最用心；别的人肯教，多半要你先替他做点事，或者付些钱。"
 msgstr "You can have only one Shifu at a time. A Shifu teaches his own school's arts most devotedly; others willing to teach you usually want you to do something for them first, or pay something."
 
 msgid "改投别派之前会先问你。背叛师门要扣综合评价，往后的师父也不那么信你，教到一定程度就不肯再教；杀了自己的师父，也算背叛。"
-msgstr "You're asked before you switch to another school. Betraying your school costs Standing, and later shifus trust you less, refusing to teach beyond a certain point; killing your own Shifu also counts as betrayal."
+msgstr "You're asked before you switch to another school. Betraying your school costs Standing, and later Shifus trust you less, refusing to teach beyond a certain point; killing your own Shifu also counts as betrayal."
 
 msgid "门派、帮会与山寨"
 msgstr "Schools, Guilds and Stockades"
@@ -38420,7 +38420,7 @@ msgid "门派重师门伦理和辈分，以入门先后排序，大多不许弟�
 msgstr "Schools value the bonds of master and disciple and of generation, ranked by who joined first, and most don't let their disciples join another house. Guilds and Orders aren't mainly about teaching martial arts; their rules lean toward giving you work, and they're easier to join and leave than schools. Stockades, escort agencies and manors are small and hard to get into, but once you're in, there's work to do and pay for it."
 
 msgid "角色页名字前方括号里写的是你的身份。一开始都是普通百姓；入了门派、出了家，身份会跟着变，往后的作为也会改它。"
-msgstr "The brackets before your name on the Character page show your identity. Everyone starts as a Commoner; joining a school or leaving the world changes it, and what you do later changes it too."
+msgstr "The brackets before your name on the Character page show your identity. Everyone starts as a Commoner; joining a school or becoming a monk or nun changes it, and what you do later changes it too."
 
 msgid "见过门人的门派收在百科「门派」里；各家怎么看你，写在声望页。"
 msgstr "Schools whose members you've met are collected under \"Schools\" in the Codex; how each house sees you is written on the Repute page."
@@ -38522,10 +38522,10 @@ msgid "护具有衣服、盔甲、帽子、项链、护腕、腰带、鞋、戒�
 msgstr "Protective gear covers clothes, armor, hats, necklaces, wrist guards, belts, shoes and rings, and shields too. A suit of clothes counts as one piece, trousers included. The better the protection, the heavier it is; heavy weapons and heavy armor both slow your qinggong, and the item's description says by how much."
 
 msgid "背包页选中一件，右边就是它的样子和说明。"
-msgstr "Select an item on the Inventory page, and its look and description appear on the right."
+msgstr "Select an item on the Items page, and its look and description appear on the right."
 
 msgid "杀气与名声"
-msgstr "Bloodlust and Name"
+msgstr "Bloodlust and Reputation"
 
 msgid "杀人会长杀气，胆气也跟着壮。杀气太重，学不了佛道两家的心法，还可能失手伤人。运功压制或到庙里捐香火，能把它压下去。"
 msgstr "Killing raises Bloodlust, and your nerve grows with it. Too much Bloodlust and you can't learn the heart methods of the Buddhists and the Daoists, and you may hurt people by accident. Exerting to suppress it, or donating incense money at a temple, brings it down."
@@ -38552,7 +38552,7 @@ msgid "城里的悬赏榜上贴着差事，办成了有赏，也算一段历练�
 msgstr "The bounty boards in town post jobs; finish one and there's a reward, and it counts as seasoning too."
 
 msgid "七座城镇和五个门派的山门都停着车。在车旁「坐车」，在沙盘上挑一站；只去你走到过、路也走通了的地方。车钱十几到五十几文，路上要花些时辰。"
-msgstr "Coaches wait at seven towns and at the gates of five schools. Next to a coach, \"Take a Coach\" and pick a stop on the sand table; you can only go where you've already been and where the road is open. Fares run from 10-odd to 50-odd wen, and the trip takes some hours."
+msgstr "Coaches wait at seven towns and at the gates of five schools. Next to a coach, choose \"Take a Coach\" and pick a stop on the sand table; you can only go where you've already been and where the road is open. Fares run from 10-odd to 50-odd wen, and the trip takes some hours."
 
 msgid "主题故事"
 msgstr "The Tale"
@@ -38582,7 +38582,7 @@ msgid "少年奇道：「岚城？那是什么地方？怎么我从小到大不�
 msgstr "The youth was puzzled. \"The Wind City? Where's that? I've never heard of it in my whole life.\""
 
 msgid "小二「嘿」的一声，说道：「说起岚城这地方，那你可问对人啦，咱这儿的说书先生可是我的哥儿们，那岚城说穿了只不过是古书上的一处地方，据说这城是仙人住着，一般的凡夫俗眼可瞧不见这座城，只不过古时候一个樵夫不小心撞了进去，这才留下了记载，不过后来好像除了这位砍柴的老兄进去过之外，再也没有人到过这岚城，我说小哥哪，要找这个岚城是他们朝廷大官跟江湖好汉的事儿，您还是来小店听听说书先生的书儿比较轻松。」"
-msgstr "The waiter gave a \"heh\" and said, \"the Wind City, now? You've asked the right man. The storyteller here's a good friend of mine. Truth is, the Wind City's just a place in old books. They say immortals live there, and ordinary mortal eyes can't see the city. Only, long ago, a woodcutter stumbled in by accident, and that's how it got written down. But after that, seems like nobody but that wood-chopping fellow ever got into the Wind City again. I tell you, young man, hunting for the Wind City is business for the court's great officials and the heroes of the jianghu. You'd do better to come to our little inn and hear the storyteller. Much easier.\""
+msgstr "The waiter gave a \"heh\" and said, \"The Wind City, now? You've asked the right man. The storyteller here's a good friend of mine. Truth is, the Wind City's just a place in old books. They say immortals live there, and ordinary mortal eyes can't see the city. Only, long ago, a woodcutter stumbled in by accident, and that's how it got written down. But after that, seems like nobody but that wood-chopping fellow ever got into the Wind City again. I tell you, young sir, hunting for the Wind City is business for the court's great officials and the heroes of the jianghu. You'd do better to come to our little inn and hear the storyteller. Much easier.\""
 
 msgid "少年听着出了神，怔怔地望着外面的天空，一朵朵的浮云飘来飘去，他的心思也不由自主地飞了起来。"
 msgstr "The youth listened, spellbound, gazing at the sky outside. Cloud after cloud drifted past, and the youth's thoughts drifted off with them."
@@ -38612,16 +38612,16 @@ msgid "但是就在距今约三百年前，发生了一件可怕的事，当时�
 msgstr "But about three hundred years ago, something terrible happened. In the imperial palace of the time, a band of warriors came upon a sheepskin by chance in a cellar. This sheepskin was the testament written by Shang Ju, the ruler who had led everyone across the great desert. It spoke not only of the Golden Crow but of many great events that came after; it was nothing less than a miraculous prophecy. The leader of the warriors who found the sheepskin happened to be the emperor's uncle, Yulan Chunyan. Yulan Chunyan was a great warrior who had several times defeated the northern barbarians trying to seize the sacred tree. He saw that the testament said that every seven hundred years after the Golden Crow appeared, a terrible demon would come forth and slaughter the people, to pay the debt owed for the Golden Crow's divine powers. Only the ancient sword \"Spiritpiercer\" could hold this demon down, and the sword was hidden in the very heart of the sacred tree."
 
 msgid "於兰淳焉和皇帝商量的结果，决定劈开圣木取出宝剑，以防备妖魔出现，那圣木足足有一百个人合抱那么粗，一大群士兵用斧头砍了足足三天才将圣木砍倒，一阵天摇地动之后，穿灵宝剑终于出现在树洞中央，可是当於兰淳焉将宝剑拔起之后，一条黑影迅速地从地面窜了出来，原本明亮的天空一下子变暗了，百姓们都惊慌失措，只听到天空中传来阵阵低沉的吼声，过了足足一个时辰才又恢复光明。"
-msgstr "Yulan Chunyan and the emperor talked it over and decided to split open the sacred tree and take out the sword, to guard against the demon's coming. The sacred tree was so thick it took a hundred people with arms linked to circle it; a great crowd of soldiers chopped at it with axes for three full days before it fell. After the heavens shook and the earth quaked, the sword Spiritpiercer at last appeared in the middle of the hollow. But when Yulan Chunyan pulled the sword out, a black shadow shot up out of the ground. The bright sky went dark at once, and the people panicked. Low roars rolled down from the sky, and only after a full two hours did the light return."
+msgstr "Yulan Chunyan and the emperor talked it over and decided to split open the sacred tree and take out the sword, to guard against the demon's coming. The sacred tree was so thick it took a hundred people with arms linked to circle it; a great crowd of soldiers chopped at it with axes for three full days before it fell. After the heavens shook and the earth quaked, the sword Spiritpiercer at last appeared in the middle of the hollow. But when Yulan Chunyan pulled the sword out, a black shadow shot up out of the ground. The bright sky went dark at once, and the people panicked. Low roars rolled down from the sky, and only after a full double-hour did the light return."
 
 msgid "当天晚上，一只金色乌鸦出现在皇宫之中，说道：「你们今天做了一件大大的错事，将勇士寒於用宝剑镇压了五千年的『侮天鬼』放了出来，我的妹妹『璃虹』正在天上巡行，已经被这侮天鬼捉去了，侮天鬼现在正在四处寻找他的头颅，一旦被他找到，即使是集我全部族人的力量也无法镇服他，现在唯一的办法是找到另一把宝剑『旋芒』以及『寒於宝衣』，唯有这三件神器才能制服得了侮天鬼，寒於宝衣现在归月神族保管，旋芒宝剑却下落不明，侮天鬼的头颅被我的族人用强力法术封住，谅那妖魔两三百年内找不到，但是日子一久只怕终究隐藏不住，因此若你们三百年之内不能出现一个勇士消灭这妖魔，就真的大祸临头了。」"
 msgstr "That night, a golden crow appeared in the palace and said, \"Today you have done a great, great wrong. You have set free the 'Heaven-Defier' that the warrior Hanyu held down with the sword for five thousand years. My younger sister 'Lihong' was making her rounds in the sky, and the Heaven-Defier has seized her. The Heaven-Defier is now searching everywhere for his head; once he finds it, even the strength of all my clan together could not subdue him. The only way now is to find the other sword, 'Whirling Edge,' and 'Hanyu's Robe.' Only these three divine artifacts can overcome the Heaven-Defier. Hanyu's Robe is now in the keeping of the Moon God clan, but the whereabouts of Whirling Edge are unknown. My clan has sealed the Heaven-Defier's head with powerful magic, and the demon will not find it for two or three hundred years. But as time goes on, it may not stay hidden in the end. So if within three hundred years no warrior appears to destroy this demon, a great disaster will truly be upon you.\""
 
 msgid "金色乌鸦的名字叫做「杞庸」，他化身成一个金袍少年住在皇宫中教武士们各种剑术武功三十年，渐渐地这些武术慢慢流传到了民间，更有许多聪明才智之士加以变化出许多不同的武术，而演变出各种不同的门派，转眼间已过了将近三百年，这期间虽然偶尔有些旱灾水灾，但仍算风调雨顺，想是那侮天鬼只急着找回头颅，却并不多事杀戮，但是人们却渐渐将这件事忘了，不少人还将之斥为无稽之谈，荒谬之说，直到先帝即位，事情才又有了变化。"
-msgstr "The golden crow's name was \"Qi Yong.\" He took the form of a young man in a golden robe and lived in the palace for thirty years, teaching the warriors all kinds of swordsmanship and martial arts. Little by little these arts spread among the common people, and many clever and talented people varied them into many different arts, which grew into all the different schools. In the blink of an eye nearly three hundred years went by. There were droughts and floods now and then, but on the whole the weather was kind; it seemed the Heaven-Defier only wanted to find his head again and went out of his way to kill no one. But people slowly forgot the matter, and many even dismissed it as baseless, absurd talk, until the late Emperor took the throne and things changed again."
+msgstr "The golden crow's name was \"Qi Yong.\" He took the form of a young man in a golden robe and lived in the palace for thirty years, teaching the warriors all kinds of swordsmanship and martial arts. Little by little these arts spread among the common people, and many clever and talented people varied them into many different arts, which grew into all the different schools. In the blink of an eye nearly three hundred years went by. There were droughts and floods now and then, but on the whole the weather was kind; it seemed the Heaven-Defier only wanted to find his head again and did not trouble himself with slaughter. But people slowly forgot the matter, and many even dismissed it as baseless, absurd talk, until the late Emperor took the throne and things changed again."
 
 msgid "先帝秉性聪慧，自幼即博览群书，尤其对先人留下的史籍更是详加考据，先帝曾仔细推敲商句遗书中最后两句话，推断那可能是指引旋芒宝剑所在的关键，虽然对祖先所留下来有关金色乌鸦的传说也是半信半疑，但是仍然陆续派出了许多武士探查，结果意外地发现了古书中「烟霞霓岚」四座仙城中的烟城，根据武士所带回来的消息，旋芒宝剑目前乃是属于岚城中一位仙人所有，只是这岚城「寻风而至，寻风而逝」，烟城百姓也是只闻其名，不知其所，先帝直到病危之中仍念念不忘寻找岚城之事。"
-msgstr "The late Emperor was bright by nature and read widely from childhood; he studied the histories left by the ancestors with special care. He pored over the last two lines of Shang Ju's testament and concluded that they might be the key to where Whirling Edge lay. Though he only half believed the ancestors' legends of the Golden Crow, he still sent out many warriors one after another to search. To everyone's surprise, they found the Mist City, one of the four immortal cities of the old books: Mist, Glow, Rainbow and Wind. According to the news the warriors brought back, Whirling Edge now belongs to an immortal of the Wind City. But the Wind City \"comes with the wind and goes with the wind,\" and even the people of the Mist City know only its name, not where it is. Even as he lay dying, the late Emperor could not stop thinking about the search for the Wind City."
+msgstr "The late Emperor was bright by nature and read widely from childhood; he studied the histories left by the ancestors with special care. He pored over the last two lines of Shang Ju's testament and concluded that they might be the key to where Whirling Edge lay. Though he only half believed the ancestors' legends of the Golden Crow, he still sent out many warriors one after another to search. To everyone's surprise, they found the Mist City, one of the four immortal cities of the old books: Mist, Glow, Rainbow and Wind. According to the news the warriors brought back, Whirling Edge now belongs to an immortal of the Wind City. But the Wind City \"comes on the wind and goes with the wind,\" and even the people of the Mist City know only its name, not where it is. Even as he lay dying, the late Emperor could not stop thinking about the search for the Wind City."
 
 msgid "神话"
 msgstr "Myth"
@@ -38657,7 +38657,7 @@ msgid "虽然有不少魔法到底是属于「法术」系或「咒文」系仍�
 msgstr "Though there is still debate over whether quite a few kinds of magic belong to \"Spells\" or \"Incantations,\" people have found a simple way to tell them apart: \"Spells\" consume \"Mystic Power,\" and \"Incantations\" consume \"Arcane Power.\" (Because incantations are much older than spells, the words \"magic\" and \"Arcane Power\" in common use back then all referred to incantation magic, and the usage has lasted to this day.)"
 
 msgid "「神通」，长期钻研佛法的高僧常常会因自己本身的修为，产生具有神奇力量的神通，如天眼通、大力神通等，愈是具有大智慧、大慈悲的高僧其神通愈强，这类的法术通常需要百分之百的精神集中，才能施展，但是所需耗费的灵力较少，而且大多是属于防御或辅助性质的功能。"
-msgstr "\"Mystic Powers\": eminent monks who study the Buddhadharma for a long time often develop, through their own cultivation, powers of miraculous force, such as the Divine Eye and Great Strength. The greater a monk's wisdom and compassion, the stronger his powers. This kind of magic usually needs 100 percent concentration to perform, but costs relatively little Mystic Power, and most of it is defensive or supporting in nature."
+msgstr "\"Mystic Powers\": eminent monks who study the Buddhadharma for a long time often develop, through their own cultivation, powers of miraculous force, such as the Divine Eye and Great Strength. The greater a monk's wisdom and compassion, the stronger his powers. This kind of magic usually needs complete concentration to perform, but costs relatively little Mystic Power, and most of it is defensive or supporting in nature."
 
 msgid "「道法」，道家讲究清静无为，法天自然，因此道法修行到了某一个程度，就能够利用天地阴阳生化的道理，吸取天地之精华纳为己用，道法所涵盖的范围极广，但是受到天时、地利、与施法者本身的状态影响很大，但是只要这几个条件能够配合，道法的威力是无可抵御的。"
 msgstr "\"Daoist Arts\": the Daoists value stillness and non-action and take nature as their model, so once Daoist arts are cultivated to a certain level, one can use the principles by which yin and yang give birth to and transform all things, drawing in the essence of heaven and earth for one's own use. Daoist arts cover a very wide range, and they are strongly affected by the time of heaven, the advantages of the ground and the state of the caster; but as long as these conditions come together, the might of Daoist arts cannot be withstood."
