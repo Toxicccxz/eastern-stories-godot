@@ -52,8 +52,13 @@ static func _language(entry: Variant, path: String, errors: Array[String]) -> La
 	if not translation_path.is_empty() and not ResourceLoader.exists(translation_path):
 		errors.append("%s: %s has no translation at %s" % [path, entry["code"], translation_path])
 		return null
+	var face_path: String = String(entry.get("face", ""))
+	if not face_path.is_empty() and not ResourceLoader.exists(face_path):
+		errors.append("%s: %s has no face at %s" % [path, entry["code"], face_path])
+		return null
 	var language := LanguageDefinition.new(entry["code"], entry["name"], String(entry.get("script", "")), translation_path, fonts)
 	language.preview = entry.get("preview", false) == true
+	language.face_path = face_path
 	return language
 
 

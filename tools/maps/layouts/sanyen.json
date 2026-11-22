@@ -974,7 +974,9 @@
         ],
         "placed": {
           "sanyen.heal_room.woodcutter.1": ["sanyen.heal_room", ["rel", 0.56, 0.66]],
-          "sanyen.heal_room.toutuo.1": ["sanyen.heal_room", ["rel", 0.66, 0.2]]
+          "sanyen.heal_room.toutuo.1": ["sanyen.heal_room", ["rel", 0.66, 0.2]],
+          "sanyen.heal_room.liaochen.1": ["sanyen.heal_room", ["rel", 0.3, 0.7]],
+          "sanyen.heal_room.liaochen_toutuo.1": ["sanyen.heal_room", ["rel", 0.52, 0.22]]
         },
         "doors": {
           "sanyen.heal_room.south": "south"

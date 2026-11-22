@@ -8,6 +8,15 @@
 			"fonts": ["Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei"]
 		},
 		{
+			"code": "zh_Hant",
+			"name": "繁體中文（預覽）",
+			"script": "Hant",
+			"translation": "res://locale/zh_Hant.po",
+			"face": "res://assets/fonts/fusion-pixel-12px-proportional-zh_tw.otf.woff2",
+			"preview": true,
+			"fonts": ["Microsoft JhengHei UI", "Microsoft JhengHei", "PingFang TC", "Noto Sans CJK TC", "Source Han Sans TC"]
+		},
+		{
 			"code": "en",
 			"name": "English (preview)",
 			"translation": "res://locale/en.po",
