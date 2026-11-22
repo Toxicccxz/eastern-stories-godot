@@ -3044,7 +3044,7 @@ msgid "空无一物"
 msgstr "Nothing at all"
 
 msgid "背包"
-msgstr "Inventory"
+msgstr "Items"
 
 msgid "当"
 msgstr "Pawn"
@@ -3227,7 +3227,7 @@ msgid "中止施法"
 msgstr "Stop Casting"
 
 msgid "声望"
-msgstr "Reputation"
+msgstr "Repute"
 
 msgid "百科"
 msgstr "Codex"
@@ -38255,7 +38255,7 @@ msgid "不知道往哪里去，就找人「打听」。镇上的人知道这里�
 msgstr "If you don't know where to go, find someone and \"Ask\". Townsfolk know what goes on here and the rumors from nearby, and asking about some topics opens up a road. Everything you have seen and heard is kept on the menu's \"Quests\" page, and the \"Objective\" line on the status card shows the most pressing thing right now."
 
 msgid "菜单有八页：角色、武学、背包、任务、地图、声望、百科、系统。地图页是一张沙盘，走过的地方都立着模型；说明卡上列着师父、商店、悬赏榜，点一行就给你指路。"
-msgstr "The menu has eight pages: Character, Martial Arts, Inventory, Quests, Map, Reputation, Codex and System. The Map page is a sand table with a model standing on every place you have walked; its info card lists shifus, shops and bounty boards, and clicking a line points you the way."
+msgstr "The menu has eight pages: Character, Martial Arts, Items, Quests, Map, Repute, Codex and System. The Map page is a sand table with a model standing on every place you have walked; its info card lists shifus, shops and bounty boards, and clicking a line points you the way."
 
 msgid "系统页里有三个存档位。换地图、打完一仗也会自动存一份，死了可以回到那里。"
 msgstr "The System page has three save slots. The game also saves on its own when you change maps or finish a fight, and if you die you can go back to that point."
@@ -38423,7 +38423,7 @@ msgid "角色页名字前方括号里写的是你的身份。一开始都是普�
 msgstr "The brackets before your name on the Character page show your identity. Everyone starts as a Commoner; joining a school or leaving the world changes it, and what you do later changes it too."
 
 msgid "见过门人的门派收在百科「门派」里；各家怎么看你，写在声望页。"
-msgstr "Schools whose members you've met are collected under \"Schools\" in the Codex; how each house sees you is written on the Reputation page."
+msgstr "Schools whose members you've met are collected under \"Schools\" in the Codex; how each house sees you is written on the Repute page."
 
 msgid "内力是武者的第二条命，打人和挨打都看它。"
 msgstr "Inner Force is a fighter's second life. Both hitting and being hit depend on it."
@@ -38534,7 +38534,7 @@ msgid "江湖上对你的总评。办成差事会涨，认输会掉，背叛师�
 msgstr "What the jianghu thinks of you, all told. Getting jobs done raises it, surrendering lowers it, and betraying your school costs the most."
 
 msgid "打过交道的势力，在声望页各有一张卡，写着那一家对你的看法；哪一家都还不认得你时，那里是空的。"
-msgstr "Each faction you've dealt with has a card on the Reputation page, saying what that house thinks of you; while none of them knows you yet, the page is empty."
+msgstr "Each faction you've dealt with has a card on the Repute page, saying what that house thinks of you; while none of them knows you yet, the page is empty."
 
 msgid "角色页还记着你亲手杀过多少人。"
 msgstr "The Character page also counts how many people you've killed with your own hands."

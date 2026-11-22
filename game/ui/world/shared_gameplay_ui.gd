@@ -352,6 +352,8 @@ func _notification(what: int) -> void:
 		# The card shows behind 系统 too, where the language is changed (设置): its lines now.
 		if _player != null:
 			card.refresh_exploration()
+		if menu != null:
+			menu.fit_tabs()
 		if menu != null and menu.is_presented():
 			menu_tab_shown(menu.current_tab())
 

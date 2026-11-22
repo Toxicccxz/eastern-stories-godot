@@ -72,7 +72,8 @@ func _prepare_controls(node: Node) -> void:
 			var font_key: StringName = &"normal_font_size" if control is RichTextLabel else &"font_size"
 			_font_sizes[control] = control.get_theme_font_size(font_key) if control.has_theme_font_size_override(font_key) else -1
 		var original: Vector2 = _minimums[control]
-		if control is FlowContainer:
+		# A flow that sets its own gaps (the game menu's tabs, per language) keeps them.
+		if control is FlowContainer and not control.has_meta(&"own_separation"):
 			control.add_theme_constant_override("h_separation", 8)
 			control.add_theme_constant_override("v_separation", 8)
 		# Godot renames sibling rows with duplicate names; identify their stable list parent.
