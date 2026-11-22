@@ -24134,7 +24134,7 @@ msgid "骆建章说道：……是我的字。那年我在兵部做抄手，原�
 msgstr "Luo Jianzhang says, \"... It is my handwriting. That year I was a copyist at the Ministry of War, and the archive base of the original decree was my copy too—one line. The three extra lines were dictated by the Minister and set down by my brush; I knew which three lines they were as I wrote them.\"\n"
 
 msgid "去问建章「抄本」。他认得自己的字。"
-msgstr "Go and ask Jianzhang about the \"copy.\" He knows his own handwriting."
+msgstr "Go and ask Jianzhang about \"Copy.\" He knows his own handwriting."
 
 msgid "抄本？拿来给老夫看。"
 msgstr "A copy? Bring it here and let this old man see."
@@ -24263,7 +24263,7 @@ msgid "一个上了年纪的太监，嗓子尖，站在龙椅下的台阶边上�
 msgstr "An elderly eunuch with a shrill voice, standing at the edge of the steps below the dragon throne with a horsetail whisk in his hand, calling out on the Emperor's behalf.\n"
 
 msgid "有本早奏，无本退朝——"
-msgstr "Those with a memorial, speak now. If none, court is dismissed -"
+msgstr "Those with a memorial, speak now. If none, court is dismissed—"
 
 msgid "臣韦执中有本。乔阴县令程不平录供，槐阳王拒令：兵部奉先帝寻剑之旨，征民夫、设关卡、拿人——先帝的旨意里没有这一句。"
 msgstr "Your servant Wei Zhizhong has a memorial. Cheng Buping, magistrate of Tallshade, took a deposition, and the Prince of Huaiyang refused the order. The Ministry of War, on the late Emperor's decree to seek the sword, levied laborers, set up checkpoints and seized people—the late Emperor's decree has no such line."
@@ -24611,13 +24611,13 @@ msgid "脸色变了，半晌没有出声。"
 msgstr " changes color, and for a long moment makes no sound."
 
 msgid "陛下年幼，被人蒙蔽——"
-msgstr "Your Majesty is young, and has been deceived -"
+msgstr "Your Majesty is young, and has been deceived—"
 
 msgid "站了起来。"
 msgstr " rises to his feet."
 
 msgid "大内侍卫营听令——"
-msgstr "Palace Guard Barracks, obey my command -"
+msgstr "Palace Guard Barracks, obey my command—"
 
 msgid "退后一步，刀已经出了鞘。"
 msgstr " takes a step back, blade already out of its sheath."
@@ -24845,7 +24845,7 @@ msgid "皇帝说道：……好。明天早上，朕当着他们说。冯总教�
 msgstr "The Emperor says, \"... Good. Tomorrow morning, We will speak before them. Chief Instructor Feng will be in the hall, and you stand below Us.\"\n"
 
 msgid "东方的天空中开始出现一丝微曦。太监在殿外喊：上朝——\n"
-msgstr "A thread of dawn begins to show in the eastern sky. A eunuch calls outside the hall: Court is in session - \n"
+msgstr "A thread of dawn begins to show in the eastern sky. A eunuch calls outside the hall: Court is in session—"
 
 msgid "皇帝说道：槐阳王的事，他一定先说。凭这些，压不住他。\n"
 msgstr "The Emperor says, \"The matter of the Prince of Huaiyang—he will surely speak of it first. With this alone, he cannot be pressed.\"\n"
