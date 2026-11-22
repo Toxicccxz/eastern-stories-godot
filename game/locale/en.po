@@ -4073,7 +4073,7 @@ msgid "【{title}】{description}"
 msgstr "[{title}] {description}"
 
 msgid "{sky}。"
-msgstr "{sky}."
+msgstr " {sky}."
 
 msgid "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n确定要施展吗？"
 msgstr "Empty Mind costs {gin} Essence, more than you can take right now—you'll pass out on the spot.\nUse it anyway?"
@@ -12974,7 +12974,7 @@ msgid "小店"
 msgstr "Little Shop"
 
 msgid "人影 · 打听「回家」"
-msgstr "Shadow · Ask About \"Home\""
+msgstr "Shadow · Ask About \"Go Home\""
 
 msgid "黑店"
 msgstr "Robbers' Inn"
@@ -15080,7 +15080,7 @@ msgid "宝衣在瑷伦身上"
 msgstr "Ailun is wearing the robe"
 
 msgid "她在晚月庄东厢等你去叫（问她「湖底」）"
-msgstr "She's waiting in the east wing of Latemoon Manor for you to call her (ask her about the \"Lake Bed\")"
+msgstr "She's waiting in the east wing of Latemoon Manor for you to call her (ask her about the \"The Lakebed\")"
 
 msgid "宝衣在安妮儿身上，她在岸边"
 msgstr "Anni'er is wearing the robe; she's on the shore"
@@ -16298,7 +16298,7 @@ msgid "还衣"
 msgstr "Return the robe"
 
 msgid "把寒於宝衣还给瑷伦：她又是守衣人，池边的凤凰回来；决战那日问她「湖底」，她穿着它跟你下湖。\n宝衣从此不在你身上，下湖时没有它挡寒气。\n要还吗？"
-msgstr "Return Hanyu's Robe to Ailun: she becomes the Robe-Keeper again, and the phoenix by the pool returns. On the day of the final battle, ask her about \"lakebed\" and she will wear it and go down the lake with you.\nThe robe will no longer be on you, and you'll have nothing to turn the cold aside when you go down.\nReturn it?"
+msgstr "Return Hanyu's Robe to Ailun: she becomes the Robe-Keeper again, and the phoenix by the pool returns. On the day of the final battle, ask her about \"The Lakebed\" and she will wear it and go down the lake with you.\nThe robe will no longer be on you, and you'll have nothing to turn the cold aside when you go down.\nReturn it?"
 
 msgid "衣在湖底烧了。它挡在了该挡的地方，不必再说还不还。"
 msgstr "The robe burned in the lakebed. It stood where it needed to stand. There's no more need to talk of returning it or not."
@@ -32093,7 +32093,7 @@ msgid "信是你送的，抄本也是你带来的。大哥上堂，还是跟我�
 msgstr "You brought the letter, and you brought the copy. Does Big Brother go to court, or go home with me? You say."
 
 msgid "（作证，问骆云舟「作证」；保住骆家，问骆建章「回家」。）\n"
-msgstr "(To testify, ask Luo Yunzhou about \"Testify.\" To keep the Luo family safe, ask Luo Jianzhang about \"Home.\")\n"
+msgstr "(To testify, ask Luo Yunzhou about \"Testify.\" To keep the Luo family safe, ask Luo Jianzhang about \"Go Home.\")\n"
 
 msgid "乔阴樵夫"
 msgstr "Tallshade woodcutter"
@@ -35411,7 +35411,7 @@ msgid "你已经不是天邪派的人了。水烟阁的事，到此为止。"
 msgstr "You are no longer of the Wayward School. Waterfog Pavilion's business ends here."
 
 msgid "去水烟阁正厅，问执法使潘军禅「山门」。"
-msgstr "Go to Waterfog Main Hall and ask the Enforcer, Pan Junchan, about \"The Gate\"."
+msgstr "Go to Waterfog Main Hall and ask the Enforcer, Pan Junchan, about \"Mountain Gate\"."
 
 msgid "潘军禅说，正月十七快到了，上山的人多；这一个月，有人在打听盟主的事。他要一个新面孔去山门值一班。"
 msgstr "Pan Junchan says the seventeenth of the first month is near, and many people are coming up the mountain; this month, someone has been asking about the Alliance Leader. He wants a new face to stand a watch at the gate."
@@ -35423,7 +35423,7 @@ msgid "山门的一班值完了。"
 msgstr "The watch at the gate is done."
 
 msgid "回正厅向潘军禅回话（问他「山门」；搜到了信，把信交给他）。"
-msgstr "Go back to the main hall and report to Pan Junchan (ask him about \"The Gate\"; if you found a letter, give it to him)."
+msgstr "Go back to the main hall and report to Pan Junchan (ask him about \"Mountain Gate\"; if you found a letter, give it to him)."
 
 msgid "潘军禅听完了山门的事。「水烟阁的门，你守过一回了。」"
 msgstr "Pan Junchan hears out the business at the gate. \"You have kept Waterfog Pavilion's gate once.\""
@@ -35432,7 +35432,7 @@ msgid "替水烟阁在山门值过一班"
 msgstr "Stood a watch at the gate for Waterfog Pavilion"
 
 msgid "问潘军禅「镖单」。二十年前那张镖单只有一张：交给潘军禅，锁进刑堂，振远的脸面水烟阁替他们留着，这件事到此为止；带去京师振远总局交给陈天星，他要查到底——查出来的，未必只是振远的丑事。镖单不在身上的，去绮云镇振远镖局问陈剑秋。"
-msgstr "Ask Pan Junchan about \"Shipment Ledger\". There is only one copy of the ledger from twenty years ago: give it to Pan Junchan, and it is locked in the punishment hall, Waterfog Pavilion keeps Far-Road's face for them, and the matter ends here; take it to Chen Tianxing at the Far-Road Head Office in the Capital, and he will trace it to the end, and what comes out may not be only Far-Road's shame. If you do not have the ledger, go to the Far-Road Escorts in Cloudweave Town and ask Chen Jianqiu."
+msgstr "Ask Pan Junchan about \"Waybill\". There is only one copy of the ledger from twenty years ago: give it to Pan Junchan, and it is locked in the punishment hall, Waterfog Pavilion keeps Far-Road's face for them, and the matter ends here; take it to Chen Tianxing at the Far-Road Head Office in the Capital, and he will trace it to the end, and what comes out may not be only Far-Road's shame. If you do not have the ledger, go to the Far-Road Escorts in Cloudweave Town and ask Chen Jianqiu."
 
 msgid "你把镖单交给了潘军禅。他锁进了刑堂：振远的脸面，水烟阁替他们留着。"
 msgstr "You gave the shipment ledger to Pan Junchan. He locked it in the punishment hall: Waterfog Pavilion keeps Far-Road's face for them."
@@ -38682,3 +38682,2100 @@ msgstr "Daoists are cultivators who seek to become immortals and reach the state
 
 msgid "道士的能力偏重于炼气，武术方面以内功、剑术见长，正统道家除炼气之外并不修习任何法术，但是许多道士往往会涉猎一些除妖降魔用的法术，以作为入山修炼时防身之用，有些支派的道士更发展成专研法术而舍弃修炼成仙的目的。"
 msgstr "Daoists' abilities lean toward refining qi; in martial arts they excel at neigong and swordsmanship. Orthodox Daoists practice no magic besides refining qi, but many Daoists dabble in some magic for exorcising demons, to protect themselves when they go into the mountains to cultivate. Some branches of Daoists even went on to study magic alone, giving up the aim of becoming immortals."
+
+msgid "天空中万里无云"
+msgstr "Not a cloud in the sky"
+
+msgid "几朵淡淡的云彩妆点著清朗的天空"
+msgstr "A few faint clouds dot the clear sky"
+
+msgid "白云在天空中飘来飘去"
+msgstr "White clouds drift across the sky"
+
+msgid "厚厚的云层堆积在天边"
+msgstr "Thick clouds pile up on the horizon"
+
+msgid "天空中乌云密布"
+msgstr "Dark clouds crowd the sky"
+
+msgid "微曦"
+msgstr "Dawn"
+
+msgid "东方的天空中开始出现一丝微曦。"
+msgstr "A first glimmer of light appears in the eastern sky."
+
+msgid "东方的天空已逐渐发白"
+msgstr "The eastern sky is slowly turning pale"
+
+msgid "日出"
+msgstr "Sunrise"
+
+msgid "太阳从东方的地平线升起了。"
+msgstr "The sun rises over the eastern horizon."
+
+msgid "太阳刚从东方的地平线升起"
+msgstr "The sun has just risen over the eastern horizon"
+
+msgid "上午"
+msgstr "Morning"
+
+msgid "太阳已经高高地挂在东方的天空中。"
+msgstr "The sun now hangs high in the eastern sky."
+
+msgid "太阳正高挂在东方的天空中"
+msgstr "The sun hangs high in the eastern sky"
+
+msgid "正午"
+msgstr "Noon"
+
+msgid "已经是正午了，太阳从你正上方照耀著大地。"
+msgstr "It is noon. The sun shines down on the land from directly overhead."
+
+msgid "现在是正午时分，太阳高挂在你的头顶正上方"
+msgstr "It is the noon hour, and the sun stands right over your head"
+
+msgid "下午"
+msgstr "Afternoon"
+
+msgid "太阳开始从西方的天空中慢慢西沉。"
+msgstr "The sun begins its slow descent in the western sky."
+
+msgid "太阳正高挂在西方的天空中"
+msgstr "The sun hangs high in the western sky"
+
+msgid "傍晚"
+msgstr "Dusk"
+
+msgid "傍晚了，太阳的馀晖将西方的天空映成一片火红。"
+msgstr "Evening falls, and the sun's last light paints the western sky fiery red."
+
+msgid "一轮火红的夕阳正徘徊在西方的地平线上"
+msgstr "A fiery red sun lingers on the western horizon"
+
+msgid "夜晚"
+msgstr "Night"
+
+msgid "夜晚降临了。"
+msgstr "Night has fallen."
+
+msgid "夜幕笼罩著大地"
+msgstr "Night's curtain covers the land"
+
+msgid "午夜"
+msgstr "Midnight"
+
+msgid "已经是午夜了。"
+msgstr "It is midnight."
+
+msgid "夜幕低垂，满天繁星"
+msgstr "Night hangs low, and the sky is full of stars"
+
+msgid "枝"
+msgstr "piece"
+
+msgid "花紫会一脉的内功，龙头陆得财身怀此功。练功须在有水的地方，既耗气也耗内力。"
+msgstr "A neigong of the Beggars' Guild line; Lu Decai, the Guild's Dragon Head, has it. It must be trained where there is water, and it costs both Qi and Inner Force."
+
+msgid "伏蛟功只能在有水的地方练。"
+msgstr "Serpent-Taming Force can only be practiced where there is water."
+
+msgid "你的气不够。"
+msgstr "You don't have enough Qi."
+
+msgid "你的内力不够"
+msgstr "You don't have enough Inner Force."
+
+msgid "振远镖局的看家刀法，总镖头陈天星凭它和天邪神掌在江湖上博得「刀掌双绝」之名。招名如「春风拂人醉」「远山伴人痴」「柳叶随人笑」，刀势轻飘，撩斩之间不见锋芒。"
+msgstr "The Far-Road Escorts' own house saber. With it and the Wayward Palm, Chief Escort Chen Tianxing won the name \"Double Master of Blade and Palm\" in the jianghu. Its moves have names like \"Drunk on the Breeze,\" \"Lost in Far Hills\" and \"Willow Leaves Laugh\"; the blade floats lightly, and its edge never shows between the upward sweeps and the slashes."
+
+msgid "你必须先找一把刀，才能练刀法。"
+msgstr "You need to find a saber before you can practice saber work."
+
+msgid "你的体力不够练这门刀法，还是先休息休息吧。"
+msgstr "You don't have the strength for this saber style. Better rest a while first."
+
+msgid "$N使一招「春风拂人醉」，手中$w轻飘飘地向$n的$l斩去！"
+msgstr "$N {N:use|uses} \"Drunk on the Breeze,\" {N:his} $w floating lightly down in a slash at $n's $l!"
+
+msgid "$N金刃劈风，$w随著一招「远山伴人痴」由下而上撩往$n的$l"
+msgstr "$N's golden edge splits the wind, and with \"Lost in Far Hills\" {N:his} $w sweeps up from below at $n's $l"
+
+msgid "$N身形一转，一招「飞花逐人香」$w刀光不定，斩向$n的$l"
+msgstr "$N {N:spin|spins} around—\"Petals Chase the Scent\"—{N:his} $w flickering this way and that as it slashes at $n's $l"
+
+msgid "$N舞动$w，一招「柳叶随人笑」迅捷无伦地劈向$n的$l"
+msgstr "$N {N:whirl|whirls} {N:his} $w, and \"Willow Leaves Laugh\" cleaves at $n's $l with matchless speed"
+
+msgid "$N手中$w一晃，一招「倩影惹人怜」往$n的$l斜斜砍出一刀"
+msgstr "$N {N:flick|flicks} {N:his} $w—\"A Shadow to Pity\"—and {N:hack|hacks} slantwise at $n's $l"
+
+msgid "$N提刀过肩，蓄劲发力，一招「芦雪碎人影」直劈$n$l"
+msgstr "$N {N:raise|raises} the blade over {N:his} shoulder, {N:gather|gathers} force, and with \"Reed Snow Breaks Shadows\" {N:chop|chops} straight down at $n's $l"
+
+msgid "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l"
+msgstr "$N {N:shift|shifts} {N:his} feet and {N:turn|turns} sideways, using \"Butterflies Singe Silk,\" blade light flashing as it slashes at $n's $l"
+
+msgid "封山派开山祖师锺虔在羿水之滨的石廊峡练武时，每到夜里便与出来吸血的血蛾扑击为戏，仰望北斗七星的方位变幻，发现血蛾无论如何进攻都脱不出七星的规律，苦思几日夜创成这套步法，第一次试招便杀了六只血蛾。它专门对付身法敏捷的敌人，以自然的规律料敌机先，对方一动，便已踏到正确的闪避方位。"
+msgstr "When Zhong Qian, founder of the Empty Mountain School, trained in Stone Corridor Gorge on the banks of the Yi River, he spent his nights sparring for sport with the blood moths that came out to drink blood. Watching the shifting positions of the Big Dipper, he found that however the moths attacked, they never broke from the pattern of the seven stars. After several days and nights of hard thought he created these steps, and the first time he tried them he killed six blood moths. They are made for nimble opponents: reading the enemy ahead of time by nature's own pattern, the moment the other side moves, you have already stepped to the right place to dodge."
+
+msgid "你的气或内力不够，不能练倒乱七星步法。"
+msgstr "Your Qi or Inner Force isn't enough to practice the Seven-Star Chaos Steps."
+
+msgid "你的内力不够，没有办法练倒乱七星步。"
+msgstr "Your Inner Force isn't enough to practice the Seven-Star Chaos Steps."
+
+msgid "$n一招「天玑离枢」轻轻巧巧地避了开去。"
+msgstr "$n {n:use|uses} \"Pearl Star Departs\" and deftly {n:slip|slips} out of the way."
+
+msgid "只见$n身影一晃，一式「天璇乱步」早已避在七尺之外。"
+msgstr "$n {n:flicker|flickers} — \"Turning Star Stagger\"—and {n:are|is} already seven feet away."
+
+msgid "$n使出「倒转天权」，轻轻松松地闪过。"
+msgstr "$n {n:use|uses} \"Balance Star Turned\" and {n:dodge|dodges} with ease."
+
+msgid "$n左足一点，一招「逐影天枢」腾空而起，避了开去。"
+msgstr "$n {n:tap|taps} off with the left foot and, with \"Shadow-Chasing Pivot,\" {n:soar|soars} into the air, out of the way."
+
+msgid "可是$n使一招「风动玉衡」，身子轻轻飘了开去。"
+msgstr "But $n {n:use|uses} \"Wind on Jade Balance\" and {n:drift|drifts} lightly away."
+
+msgid "$n身影微动，已经藉一招「开阳薄雾」轻轻闪过。"
+msgstr "$n barely {n:move|moves}, and with \"Yang Star in Mist\" {n:have|has} already slipped lightly past."
+
+msgid "但是$n一招「瑶光音迟」使出，早已绕到$N身後！"
+msgstr "But $n {n:use|uses} \"Starlight Lingers\" and {n:are|is} already behind $N!"
+
+msgid "相传是武术之神、太阳神君杞庸在西天大山中见到灵兽天邪虎后有所领悟而创的内功心法，与模拟天邪虎神态的天邪神掌相配。威力极强，消耗体力也极大：运起来能回气、提升战力、以内力强压杀气，最深的一手是「天邪虎啸」，一声长吼震伤身边所有的人。修习须有足够的杀气撑着，苦练下去，定力也会提高。"
+msgstr "A neigong method said to have been created by the god of martial arts, the Sun Lord Qi Yong, after he saw the spirit beast the Wayward Tiger in the great mountains of the far west; it pairs with the Wayward Palm, which mimics the tiger's bearing. It is immensely powerful and immensely draining: exerted, it restores Qi, raises your fighting strength and crushes Bloodlust under Inner Force, and its deepest move is the \"Wayward Tiger Roar,\" one long roar that wounds everyone around you. Training it takes enough Bloodlust to sustain it, and with hard practice your Resolve rises too."
+
+msgid "天邪神功只能用学的，或是从运用(exert)中增加熟练度。"
+msgstr "The Wayward Art can only be learned, or improved by using it (exert)."
+
+msgid "你的杀气不够，无法领悟更高深的天邪神功。"
+msgstr "Your Bloodlust isn't enough to grasp the higher Wayward Art."
+
+msgid "由於你苦练天邪神功，你的定力提高了"
+msgstr "Thanks to your hard training in the Wayward Art, your Resolve has improved."
+
+msgid "茅山派的法术，以治鬼除魔为主，多是攻敌的法术，兼有符咒之法：紫幽、青冥、苍灵「幽冥三箭」各有所长，又能召唤金甲天兵下凡护法、开「阴阳眼」看见鬼魂，还能驱动尸体。须以天师正道为根基，修为不够便领悟不了更深的道术。"
+msgstr "The Mount Mao School's sorcery, chiefly for subduing ghosts and driving out demons. Most of it is attack magic, with talismans and charms besides: the \"Three Netherworld Arrows,\" Purple Gloom, Azure Dark and Grey Spirit, each have their strengths; it can also call down gold-armored heavenly soldiers to stand guard, open \"Ghost Sight\" to see the dead, and drive corpses. It must rest on the Way of the Celestial Masters; without enough cultivation, the deeper arts cannot be grasped."
+
+msgid "你的天师正道修为不够，无法领悟更高深的茅山道术。"
+msgstr "Your cultivation in the Way of the Celestial Masters isn't deep enough to grasp the higher Mount Mao Sorcery."
+
+msgid "你的精神无法集中。"
+msgstr "You can't focus your mind."
+
+msgid "你闭目凝神，神游物外，开始修习茅山道术中的法术...."
+msgstr "You close your eyes and gather your mind, letting your spirit wander beyond the world, and begin practicing the spells of Mount Mao Sorcery..."
+
+msgid "可是你心思一乱，变出了一只面目狰狞的$N！"
+msgstr "But your thoughts slip, and you conjure up a hideous $N!"
+
+msgid "你的魂魄正被$N缠住，快把它除掉吧！"
+msgstr "Your soul is caught in the grip of the $N. Get rid of it, quick!"
+
+msgid "你的魂魄还没有全部收回，赶快杀死你的$N吧！"
+msgstr "Your soul isn't fully back yet. Kill your $N, quick!"
+
+msgid "道家的主要学问，茅山派大多数武功、法术都要以它为基础。天师正道修行不够就强练道家武功法术，很容易走火入魔、坠入魔道；杀气太重的人，也修不了它。"
+msgstr "The chief learning of the Daoists; most of the Mount Mao School's martial arts and spells rest on it. Force Daoist arts or spells without enough cultivation in the Way of the Celestial Masters and you can easily lose control of your qi and fall onto a demonic path; and someone with too much Bloodlust cannot cultivate it at all."
+
+msgid "法术类技能必须用学的或是从实战中获取经验。"
+msgstr "Spell skills must be learned, or gained through real combat experience."
+
+msgid "你的杀气太重，无法修炼天师正道。"
+msgstr "Your Bloodlust is too heavy to cultivate the Way of the Celestial Masters."
+
+msgid "道家的一门内功。人食五谷，肉身都带五谷秽气，谷衣心法把秽气排出体外，修成一层护体之气，叫作「谷衣」——神仙所修称「丹衣」，妖魔所修称「血衣」「土衣」。心法共分十层，练到第五层「小成」左眼珠变成金色，第十层「大成」两眼皆金；运起来能疗伤，也能以「灵神诀」把内力化为法力。"
+msgstr "A Daoist neigong. Everyone who eats grain carries its foulness in the flesh; the Grain Robe Heart Method drives that foulness out of the body and builds a layer of protective qi called the \"Grain Robe.\" What immortals cultivate is called the \"Elixir Robe,\" and what demons cultivate the \"Blood Robe\" or \"Earth Robe.\" The method has ten levels: at the fifth, \"Lesser Mastery,\" the left eye turns gold; at the tenth, \"Great Mastery,\" both eyes are gold. Exerted, it can heal wounds, and with the \"Spirit Formula\" it can turn Inner Force into Arcane Power."
+
+msgid "谷衣心法只能用学的，或是从运用(exert)中增加熟练度。"
+msgstr "The Grain Robe Heart Method can only be learned, or improved by using it (exert)."
+
+msgid "你的魔力不够，无法提升谷衣心法的造诣。"
+msgstr "Your Arcane Power isn't enough to advance the Grain Robe Heart Method."
+
+msgid "茅山派的剑法，招名「三清归真」「众士护佑」「群魔辟易」「西出紫关」，取道家护法驱魔之意。练这门剑须有相当的内力。"
+msgstr "The Mount Mao School's sword style. Its move names, \"The Three Pure Ones,\" \"Guarded by the Host,\" \"Demons Give Way\" and \"Out the Purple Pass,\" carry the Daoist sense of guarding the faith and driving out demons. Practicing this sword takes a good deal of Inner Force."
+
+msgid "你按著所学练了一遍天师剑法。"
+msgstr "You run through the Celestial Master Sword as you were taught."
+
+msgid "你的内力或气不够，没有办法练习天师剑法。"
+msgstr "Your Inner Force or Qi isn't enough to practice the Celestial Master Sword."
+
+msgid "你的内力不够，没有办法练天师剑法。"
+msgstr "Your Inner Force isn't enough to practice the Celestial Master Sword."
+
+msgid "$N一招「三清归真」，手中$w挽起几个剑花，刺向$n的$l"
+msgstr "$N {N:use|uses} \"The Three Pure Ones,\" {N:his} $w spinning a few sword flowers as it thrusts at $n's $l"
+
+msgid "$N身形一变，一招「众士护佑」，$w罩向$n的$l"
+msgstr "$N {N:shift|shifts} {N:his} stance—\"Guarded by the Host\"—and {N:his} $w closes over $n's $l"
+
+msgid "$N挥动$w，一招「天人合一」挟著闪闪剑光袭向$n的$l"
+msgstr "$N {N:swing|swings} {N:his} $w—\"Heaven and Man as One\"—striking at $n's $l in a flash of sword light"
+
+msgid "$N手中$w一抡，使出「群魔辟易」往$n的$l恶狠狠的砍去"
+msgstr "$N {N:whirl|whirls} {N:his} $w and, with \"Demons Give Way,\" {N:hack|hacks} savagely at $n's $l"
+
+msgid "$N一招「西出紫关」，$w一带，轻轻划向$n$l"
+msgstr "$N {N:use|uses} \"Out the Purple Pass,\" drawing {N:his} $w lightly across $n's $l"
+
+msgid "$N身剑合一，幻化成一道光华，一招「乾坤一掷」扑向$n"
+msgstr "$N and {N:his} sword become one, a single streak of light—\"All on One Throw\"—hurling at $n"
+
+msgid "宫商声律的学问。音律之学有成，灵性会随之提高；步玄派的步玄七诀以音律为根底，音律修为不够，便领悟不了更深的诀窍。"
+msgstr "The study of notes and tuning. As your study of music grows, your Spirituality rises with it; the Mystic Step School's Seven Secrets are grounded in music, and without enough of it you cannot grasp their deeper tricks."
+
+msgid "由於你学习音律之学有成，你的灵性提高了"
+msgstr "Your study of music has borne fruit, and your Spirituality has improved."
+
+msgid "吹拉弹拨的技艺，与音律之学互为表里。步玄派掌门骆云舟也传这一门。"
+msgstr "The craft of blowing, bowing, plucking and strumming, the other face of the study of music. Luo Yunzhou, Master of the Mystic Step School, teaches it too."
+
+msgid "临敌时凭风声辨出兵刃来路的本事，专门用来对付看不见的敌人：鬼魂、隐形的妖物，或是在光线昏暗的地方交手。"
+msgstr "The knack of telling where a weapon is coming from by the sound of the wind it makes, meant for enemies you cannot see: ghosts, invisible monsters, or a fight in poor light."
+
+msgid "顺手牵羊的手上功夫，下手越熟越不易被人察觉，运气好坏也有几分关系。花紫会龙头陆得财懂这一手，街上的飞贼也靠它吃饭。"
+msgstr "Light-fingered handwork: the more practiced your hand, the less likely you are to be noticed, and luck has something to do with it too. Lu Decai, the Beggars' Guild's Dragon Head, knows the trick, and the street thieves live by it."
+
+msgid "模拟灵兽天邪虎神态的掌法，与天邪神功相配而成，招式有「大天罗式」「小天罗式」「雪阳三连月」「灵动五方鼓」「风雷七星断」。须空手练，天邪神功火候不足、内力太弱都练不成。"
+msgstr "A palm style that mimics the bearing of the spirit beast the Wayward Tiger, made to pair with the Wayward Art. Its moves include \"Great Heaven's Net,\" \"Lesser Heaven's Net,\" \"Three Moons on Snow,\" \"Five-Quarter Drum\" and \"Seven-Star Thunder.\" It must be practiced bare-handed, and cannot be learned with too little Wayward Art or too weak an Inner Force."
+
+msgid "你的内力不够了，休息一下再练吧。"
+msgstr "You're out of Inner Force. Rest a while before you train again."
+
+msgid "练天邪神掌必须空手。"
+msgstr "The Wayward Palm must be practiced bare-handed."
+
+msgid "你的天邪神功火候不足，无法练天邪掌法。"
+msgstr "Your Wayward Art isn't mature enough to practice the Wayward Palm."
+
+msgid "你的内力太弱，无法练天邪掌法。"
+msgstr "Your Inner Force is too weak to practice the Wayward Palm."
+
+msgid "$N使出一招「大天罗式」，右掌穿出击向$n的$l"
+msgstr "$N {N:use|uses} \"Great Heaven's Net,\" {N:his} right palm darting out at $n's $l"
+
+msgid "$N使出一招「大天罗式」，左掌化虚为实击向$n的$l"
+msgstr "$N {N:use|uses} \"Great Heaven's Net,\" {N:his} left palm turning from feint to real as it strikes at $n's $l"
+
+msgid "$N使出天邪掌法「小天罗式」，如鬼魅般欺至$n身前，一掌拍向$n的$l"
+msgstr "$N {N:use|uses} the Wayward Palm's \"Lesser Heaven's Net,\" closing in on $n like a phantom and slapping a palm at $n's $l"
+
+msgid "$N双掌一错，使出「雪阳三连月」，对准$n的$l连续拍出三掌"
+msgstr "$N {N:cross|crosses} {N:his} palms and, with \"Three Moons on Snow,\" {N:strike|strikes} at $n's $l three times in a row"
+
+msgid "$N左掌画了个圈圈，右掌推出，一招「灵动五方鼓」击向$n$l"
+msgstr "$N {N:circle|circles} the left palm and {N:push|pushes} out the right—\"Five-Quarter Drum\"—striking at $n's $l"
+
+msgid "$N使出「风雷七星断」，身形散作七处同时向$n的$l出掌攻击"
+msgstr "$N {N:use|uses} \"Seven-Star Thunder,\" {N:his} body scattering into seven at once, every one of them striking at $n's $l"
+
+msgid "$N吐气扬声，一招「气撼九重天」双掌并力推出"
+msgstr "$N {N:breathe|breathes} out with a shout—\"Qi Shakes Nine Heavens\"—and {N:drive|drives} both palms forward together"
+
+msgid "本是道家魔道的武功。三百年前一位天邪派前辈在首穷山一处废墟中得到六阴剑谱，谱分天殇、追魂、绝识三部，他年轻时练武伤了经脉，只练成追魂一部，另外两部至今下落不明。天邪派所传的追魂剑经三百多年演变，戾气消去不少而劲道更增，虽已失传了不少阴毒招式，仍是武林中赫赫有名的剑法。"
+msgstr "Originally a martial art of the demonic Daoist path. Three hundred years ago an elder of the Wayward School found the Six-Chaos Sword manual in a ruin on Mount Shouqiong. The manual came in three parts, Tianshang, Soul-Chasing and Jueshi, but he had damaged his meridians training in his youth and mastered only the Soul-Chasing part; the other two are lost to this day. Over three hundred years the Soul-Chasing Sword handed down in the Wayward School has shed much of its venom and gained in force, and though many of its vicious moves are lost, it is still a famous sword style in the wulin."
+
+msgid "你按著所学练了一遍六阴追魂剑法。"
+msgstr "You run through the Six-Chaos Sword as you were taught."
+
+msgid "你的内力或气不够，没有办法练习六阴追魂剑。"
+msgstr "Your Inner Force or Qi isn't enough to practice the Six-Chaos Sword."
+
+msgid "你的内力不够，没有办法练六阴追魂剑。"
+msgstr "Your Inner Force isn't enough to practice the Six-Chaos Sword."
+
+msgid "你突然觉得一股恶气冲上心头，只觉得想杀人...."
+msgstr "Suddenly a foul rage surges into your heart, and all you want is to kill..."
+
+msgid "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连攻数剑"
+msgstr "$N {N:use|uses} \"Demons Run Riot,\" {N:his} $w raining blow after blow at $n's $l like a storm"
+
+msgid "$N身形一转，一招「厉鬼缠身」$w斩向$n的$l"
+msgstr "$N {N:spin|spins} — \"A Ghost Clings Close\"—and {N:his} $w slashes at $n's $l"
+
+msgid "$N舞动$w，一招「百鬼夜行」挟著闪闪剑光刺向$n的$l"
+msgstr "$N {N:whirl|whirls} {N:his} $w—\"Night Parade of Ghosts\"—thrusting at $n's $l in a flash of sword light"
+
+msgid "$N手中$w一抖，使出「饿鬼拦路」往$n的$l刺出一剑"
+msgstr "$N {N:flick|flicks} {N:his} $w and, with \"Hungry Ghost Blocks the Road,\" {N:thrust|thrusts} at $n's $l"
+
+msgid "$N手中$w剑光暴长，一招「鬼影幢幢」往$n$l刺去"
+msgstr "The light of $N's $w leaps out—\"Shadows of Ghosts\"—thrusting at $n's $l"
+
+msgid "$N手中$w直指$n$l，一招「秋坟鬼唱」发出逼人剑气刺去"
+msgstr "$N {N:point|points} {N:his} $w straight at $n's $l—\"Autumn Grave Song\"—thrusting with a piercing sword qi"
+
+msgid "仿蝙蝠夜飞的身法，招名「寒蝠掠江」「轻蝠点梢」「夜蝠旋身」「火蝠曳空」，侧身一让，便叫来招扑了个空。天邪派与振远镖局都有高手使这门身法。"
+msgstr "Footwork modeled on bats in night flight, with move names like \"Cold Bat Skims River,\" \"Light Bat on a Twig,\" \"Night Bat Wheels\" and \"Fire Bat in the Sky\": one sideways lean, and the attack lunges at empty air. Masters of both the Wayward School and the Far-Road Escorts use it."
+
+msgid "你的体力太差了，不能练火蝠身法。"
+msgstr "Your strength is too low to practice the Pyrobat Steps."
+
+msgid "可是$p侧身一让，使出「寒蝠掠江」，$N这一招扑了个空。"
+msgstr "But $n {n:lean|leans} aside with \"Cold Bat Skims River,\" and $N's move lunges at empty air."
+
+msgid "$p身形微晃，使出「灵蝠轻逝」，有惊无险地避开了$N这一招。"
+msgstr "$n {n:sway|sways} slightly with \"Spirit Bat Vanishes,\" narrowly escaping $N's move."
+
+msgid "$p身随意转，一式「轻蝠点梢」，倏地往一旁挪开了三尺，避过了这一招。"
+msgstr "$n {n:turn|turns} at will—\"Light Bat on a Twig\"—and in a flash {n:shift|shifts} three feet aside, clear of the move."
+
+msgid "却见$p足不点地，一招「夜蝠旋身」，往旁窜开数尺，躲了开去。"
+msgstr "But $n, feet barely touching the ground, {n:use|uses} \"Night Bat Wheels\" and {n:dart|darts} several feet aside, out of reach."
+
+msgid "只见$p一招「火蝠曳空」，身形向上拔起数尺高，闪了过去。"
+msgstr "$n {n:use|uses} \"Fire Bat in the Sky,\" shooting several feet straight up and out of the way."
+
+msgid "晚月庄的舞步身法，招名「蕙芳下凡」「双成献舞」「织女于归」「天女散花」「嫦娥奔月」，翩然起舞之间，已飘出数尺之外。只有女子才能练，又看灵性；勤练舞技，容貌也会更添光彩。"
+msgstr "Latemoon Manor's dance footwork, with move names like \"Orchid Fairy Descends,\" \"Shuangcheng Dances,\" \"The Weaver Girl Weds,\" \"Maiden Scatters Flowers\" and \"Chang'e to the Moon\": in the middle of a graceful dance, the dancer has already drifted several feet away. Only women can learn it, and it depends on Spirituality; practice the dance hard and your looks grow lovelier too."
+
+msgid "你的精神太差了，不能练七宝天岚舞。"
+msgstr "Your Spirit is too low to practice Stormdance."
+
+msgid "七宝天岚舞只有女性才能练。"
+msgstr "Only women can practice Stormdance."
+
+msgid "你的灵性不够，没有办法练七宝天岚舞。"
+msgstr "Your Spirituality isn't enough to practice Stormdance."
+
+msgid "由於你勤练舞技，你的容貌提高了"
+msgstr "Thanks to your hard practice of the dance, your Looks have improved."
+
+msgid "但$n一式「蕙芳下凡」随著轻轻一叹，顺著$N的招式飘出六尺之外！"
+msgstr "But $n, with a soft sigh, {n:use|uses} \"Orchid Fairy Descends\" and {n:drift|drifts} six feet away along the line of $N's move!"
+
+msgid "$n双脚微动翩然起舞，一招「双成献舞」，堪堪闪过$N的这招！"
+msgstr "$n {n:stir|stirs} {n:his} feet into a graceful dance—\"Shuangcheng Dances\"—and only just {n:slip|slips} past $N's move!"
+
+msgid "$n使出「织女于归」，突然幻化成一双倩影，$N从其中一人透体而过！"
+msgstr "$n {n:use|uses} \"The Weaver Girl Weds\" and suddenly {n:split|splits} into two lovely figures—$N {N:pass|passes} straight through one of them!"
+
+msgid "$n一式「天女散花」，自水袖中散出一片花雨，$N被花影迷蒙了双眼，与$n擦肩而过"
+msgstr "$n {n:use|uses} \"Maiden Scatters Flowers,\" scattering a rain of petals from {n:his} long sleeves; blinded by the flurry, $N {N:brush|brushes} right past $n"
+
+msgid "$n一招「嫦娥奔月」，轻轻一纵优雅的自$N头顶越过！"
+msgstr "$n {n:use|uses} \"Chang'e to the Moon,\" springing lightly and gracefully over $N's head!"
+
+msgid "神通一类法门的根底：灵力的上限看它，施展神通要用灵力。山烟寺的八识神通便激发在它上面。"
+msgstr "The grounding of the mystic powers: your Mystic Power cap rests on it, and working a mystic power costs Mystic Power. Mountain Mist Temple's Eight Consciousnesses is applied on top of it."
+
+msgid "念咒施法的根底：法力的上限看它，冥思积下的法力才有地方存。茅山道术、奇门遁甲这些法术都激发在它上面。"
+msgstr "The grounding for casting spells: your Arcane Power cap rests on it, and it gives the Arcane Power you build by meditating somewhere to go. Spells such as Mount Mao Sorcery and Qimen Dunjia are applied on top of it."
+
+msgid "道家旁门的一路学问，绝尘派的奇门遁甲以它为根基，小天魔道修为不够，便领悟不了更深的遁甲之术。它只能向师父学，或在实战中体会；每有长进，杀气也跟着重一分。"
+msgstr "A learning of the Daoist side paths. The Dustless School's Qimen Dunjia rests on it, and without enough Lesser Demon Lore you cannot grasp the deeper arts of Qimen Dunjia. It can only be learned from a shifu, or grasped in real combat, and every gain makes your Bloodlust a little heavier."
+
+msgid "绝尘派的法术。口中念咒，大喝一声「疾！」，或化作黑气、金光、火焰、长虹、大雾遁去无踪，或以黑气、金光、火焰、海水、大木把敌人困在当中；战到危急，还能召来天将相助。须以小天魔道为根基。"
+msgstr "The Dustless School's sorcery. Chant a spell and shout \"Swift!\" and you either vanish without a trace as black vapor, golden light, flame, a long rainbow or thick fog, or trap the enemy inside black vapor, golden light, flame, seawater or great timbers; when a fight turns desperate, it can even call down a heavenly general to help. It must rest on Lesser Demon Lore."
+
+msgid "你的小天魔道修为不够，无法领悟更高深的奇门遁甲之术。"
+msgstr "Your Lesser Demon Lore isn't deep enough to grasp the higher arts of Qimen Dunjia."
+
+msgid "绝尘派的本门内功。绝尘子本是释家中人，后得奇人指点，悟得道家真谛，佛道双修，自号绝尘，创下此派；这门心法只能向师父学，或在运功中慢慢精熟。"
+msgstr "The Dustless School's own neigong. Juechenzi was once a Buddhist; later, guided by a remarkable teacher, he grasped the true meaning of the Dao, cultivated Buddhism and Daoism both, named himself Juechen and founded this school. The method can only be learned from a shifu, or slowly perfected by exerting it."
+
+msgid "绝尘心法只能用学的或是从运用(exert)中增加熟练度。"
+msgstr "The Dustless Heart Method can only be learned, or improved by using it (exert)."
+
+msgid "绝尘派所传的杖法，招式与山烟寺的流云杖法相同，是「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」四式，起手一杖专扫下盘。练这门杖须有相当的膂力，膂力不足的人宜先把内力练足。"
+msgstr "The staff style handed down in the Dustless School. Its moves are the same as Mountain Mist Temple's Cloudflow Staff, the four forms \"First Light Breaks,\" \"Clear After Rain,\" \"Brushwork of Clouds\" and \"Dragon Through Cloud,\" and its opening stroke sweeps low. This staff takes considerable Strength; those short of it should build up their Inner Force first."
+
+msgid "你必须先找一根木杖或者是类似的武器，才能练杖法。"
+msgstr "You need to find a staff or something like it before you can practice staff work."
+
+msgid "你的体力不够练这门杖法，还是先休息休息吧。"
+msgstr "You don't have the strength for this staff style. Better rest a while first."
+
+msgid "你的膂力还不够，也许该练一练内力来增强力量。"
+msgstr "Your Strength isn't enough yet. Perhaps you should train your Inner Force to build it up."
+
+msgid "$N使一招「天光乍现」，手中$w扫向$n下盘！"
+msgstr "$N {N:use|uses} \"First Light Breaks,\" {N:his} $w sweeping low at $n's legs!"
+
+msgid "$N挥起$w，一招「雨後初晴」攻向$n$l！"
+msgstr "$N {N:swing|swings} up {N:his} $w—\"Clear After Rain\"—striking at $n's $l!"
+
+msgid "$N横过手中$w，使出「浮云写意」击向$n$l！"
+msgstr "$N {N:turn|turns} {N:his} $w crosswise and, with \"Brushwork of Clouds,\" {N:strike|strikes} at $n's $l!"
+
+msgid "$N使出一招「游龙穿云」，$w一挺撞向$n$l！"
+msgstr "$N {N:use|uses} \"Dragon Through Cloud,\" {N:his} $w jutting forward to ram $n's $l!"
+
+msgid "山烟寺的杖法，招名「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」，可攻可守。番坊日陀罗寺的龙若法王也传这门杖法。练这门杖须有相当的膂力。"
+msgstr "Mountain Mist Temple's staff style, with the moves \"First Light Breaks,\" \"Clear After Rain,\" \"Brushwork of Clouds\" and \"Dragon Through Cloud\"; it serves for attack and defense alike. Dharma King Longruo of the Ritola Temple in the Foreign Quarter teaches it too. This staff takes considerable Strength."
+
+msgid "五百多年前北冥大泽的黑妖蛇族入侵，一群佛门高僧集思广益，悟出这套心法为百姓疗伤，主要用来迅速医治战斗中所受的皮肉创伤。运起功来既能医治自己，也能替别人疗伤；须以大乘佛法为根基，佛法修为跟不上，便领会不了更深的境界。"
+msgstr "More than five hundred years ago, when the Black Demon Serpent clan of the Beiming Marsh invaded, a group of eminent Buddhist monks pooled their wisdom and arrived at this method to heal the common people. Its main use is to swiftly treat the flesh wounds of battle. Exerted, it can heal yourself or others; it must rest on the Mahayana Dharma, and if your Dharma falls behind, you cannot grasp its deeper levels."
+
+msgid "莲华心法只能用学的，或是从运用(exert)中增加熟练度。"
+msgstr "The Lotus Heart Method can only be learned, or improved by using it (exert)."
+
+msgid "你的大乘佛法修为不够，无法领会更高深的莲华心法。"
+msgstr "Your cultivation of the Mahayana Dharma isn't deep enough to grasp the higher Lotus Heart Method."
+
+msgid "从天竺传来的一部内功，性子是火性的：运起来浑身发热，专克阴寒。只能用学的，没有运功的法门；中原只有日陀罗寺的人会，独眼头陀那只眼就是练它练坏的。"
+msgstr "A neigong brought from India, fiery by nature: exerting it heats the whole body, and it is the bane of yin cold. It can only be learned, and has no method of exertion. In the Central Plains only the people of the Ritola Temple know it; training it is what ruined the One-Eyed Ascetic's eye."
+
+msgid "婆萝蜜多心经只能用学的。"
+msgstr "The Heart Sutra can only be learned."
+
+msgid "佛门的根本学问，莲华心法、八识神通都以它为根基。杀气太重的人，修不了大乘佛法。"
+msgstr "The root learning of Buddhism; the Lotus Heart Method and the Eight Consciousnesses both rest on it. Someone with too much Bloodlust cannot cultivate the Mahayana Dharma."
+
+msgid "你的杀气太重，无法修炼大乘佛法。"
+msgstr "Your Bloodlust is too heavy to cultivate the Mahayana Dharma."
+
+msgid "佛门弟子的日课，晨钟暮鼓之间念诵经文。山烟寺、日陀罗寺的僧人都会这一门。"
+msgstr "The daily devotion of Buddhist disciples: chanting the sutras between the morning bell and the evening drum. The monks of Mountain Mist Temple and the Ritola Temple all know it."
+
+msgid "佛家一门十分神奇的神通法术，由六百年前的高僧空正大师传下。神通分为八识，各以人的一种隐藏潜力为动力，如今传下来的有三识：心识救醒昏迷濒死之人，游识一念之间便到你见过的人身边，空识把灵力化为潜能。须与高深的佛法相辅，佛法修为不够便学不了。"
+msgstr "A most wondrous Buddhist mystic art, handed down six hundred years ago by the eminent monk Master Kongzheng. Its powers are divided into eight senses, each driven by one of a person's hidden potentials, and three survive today: the Heart Sense wakes those who lie unconscious and near death, the Drifting Sense takes you in a single thought to the side of anyone you have met, and the Void Sense turns Mystic Power into Potential. It must go hand in hand with deep Buddhist learning; without enough, it cannot be learned."
+
+msgid "你的佛法修为还不够高深，无法学习八识神通。"
+msgstr "Your Buddhist cultivation isn't deep enough yet to learn the Eight Consciousnesses."
+
+msgid "使锤一类重兵器的根底，凭的是一身力气。"
+msgstr "The grounding for hammers and other heavy weapons; it relies on sheer strength."
+
+msgid "使斧的根底，大开大合，一斧下去要劈得开。"
+msgstr "The grounding of the axe: big, open swings, and each one has to split what it hits."
+
+msgid "使匕首一类短刃的根底，贴身近打，出手要快。"
+msgstr "The grounding for daggers and other short blades: close-in fighting, and the hand has to be fast."
+
+msgid "使钢叉一类长兵的根底。阴间的鬼卒，手里多是钢叉。"
+msgstr "The grounding for tridents and other long weapons. The ghost soldiers of the Underworld mostly carry tridents."
+
+msgid "晚月庄的指法，只有女子才能练，须空手。招名「菊楼采月」「雪桥翦梅」「柳亭簪花」「桃坟扑蝶」，身影忽前忽后，一转身指尖已点到要害。"
+msgstr "Latemoon Manor's finger art. Only women can learn it, and it must be practiced bare-handed. Its moves are \"Chrysanthemum Moon,\" \"Snow Bridge Plum,\" \"Hairpin Blossom\" and \"Peach Grave Butterfly\": the figure darts forward and back, and with one turn a fingertip has already touched a vital point."
+
+msgid "你的内力不够了。"
+msgstr "You're out of Inner Force."
+
+msgid "你的精神无法集中了，休息一下再练吧。"
+msgstr "You can't keep your mind focused. Rest a while before you train again."
+
+msgid "柔虹指是只有女子才能练的武功。"
+msgstr "Only women can learn the Soft Rainbow Finger."
+
+msgid "练柔虹指必须空手。"
+msgstr "The Soft Rainbow Finger must be practiced bare-handed."
+
+msgid "$N左手一挥，一招「菊楼采月」右手点向$n$l"
+msgstr "$N {N:wave|waves} the left hand, and with \"Chrysanthemum Moon\" {N:jab|jabs} the right at $n's $l"
+
+msgid "右手食指"
+msgstr "right forefinger"
+
+msgid "$N使一招「雪桥翦梅」，身影忽前忽後，突然一转身左手往$n的$l点去"
+msgstr "$N {N:use|uses} \"Snow Bridge Plum,\" darting forward and back, then suddenly {N:turn|turns} and {N:jab|jabs} the left hand at $n's $l"
+
+msgid "左手中指"
+msgstr "left middle finger"
+
+msgid "$N身法稍顿，左手一扬使出「柳亭簪花」往$n的$l点去"
+msgstr "$N {N:pause|pauses} for a breath, then {N:raise|raises} the left hand in \"Hairpin Blossom,\" jabbing at $n's $l"
+
+msgid "只见$N纤腰一摆，陡然滑出数尺，右手顺著来势一招「桃坟扑蝶」往$n的$l点去"
+msgstr "$N {N:sway|sways} {N:his} slender waist and suddenly {N:glide|glides} several feet, the right hand riding the momentum in \"Peach Grave Butterfly,\" jabbing at $n's $l"
+
+msgid "晚月庄的鞭法，从「寒风起兮」「漫天飞雪」到「狂风骤雪」「风雪交加」，鞭影如满天飞雪，虚虚实实地袭人。须有足够的内力才能练。"
+msgstr "Latemoon Manor's whip style, from \"Cold Wind Rises\" and \"Snow Fills the Sky\" to \"Gale and Squall\" and \"Blizzard\": the whip's shadows fill the air like snow, striking now false, now true. It takes enough Inner Force to practice."
+
+msgid "你按著所学练了一遍寒雪鞭法。"
+msgstr "You run through the Cold Snow Whip as you were taught."
+
+msgid "你的内力或气不够，没有办法练习寒雪鞭法。"
+msgstr "Your Inner Force or Qi isn't enough to practice the Cold Snow Whip."
+
+msgid "你的内力不够，没有办法练寒雪鞭法, 多练些内力再来吧。"
+msgstr "Your Inner Force isn't enough to practice the Cold Snow Whip. Build up more Inner Force and come back."
+
+msgid "你必须先找一条鞭子才能练鞭法。"
+msgstr "You need to find a whip before you can practice whip work."
+
+msgid "$N使一招「寒风起兮」，手中$w抖得笔直向$n的$l连刺数鞭"
+msgstr "$N {N:use|uses} \"Cold Wind Rises,\" snapping {N:his} $w out straight and stabbing it at $n's $l again and again"
+
+msgid "$N身形一转，一招「漫天飞雪」$w幻出满天鞭影，虚虚实实地袭向$n的$l"
+msgstr "$N {N:spin|spins} — \"Snow Fills the Sky\"—and {N:his} $w fills the air with whip shadows, false and true, striking at $n's $l"
+
+msgid "$N力贯$w，一招「雪花翩翩」点点鞭影飘浮不定地点向$n的$l"
+msgstr "$N {N:drive|drives} force into {N:his} $w—\"Dancing Snowflakes\"—and flecks of whip shadow drift unpredictably down on $n's $l"
+
+msgid "$N手中$w一抖，一招「积雪三尺」以一个怪异的角度往$n下盘卷去"
+msgstr "$N {N:flick|flicks} {N:his} $w—\"Snow Three Feet Deep\"—and it coils at $n's legs from a strange angle"
+
+msgid "$N手中一紧，使招「狂风骤雪」，手里$w一鞭接著一鞭不停地抽向$n的$l"
+msgstr "$N {N:tighten|tightens} {N:his} grip and, with \"Gale and Squall,\" {N:lash|lashes} {N:his} $w at $n's $l, stroke after stroke without pause"
+
+msgid "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身"
+msgstr "$N {N:use|uses} \"Blizzard,\" {N:his} $w whirling a sheet of whip shadows over $n from head to foot"
+
+msgid "三十年前以一柄拂尘横扫武林的前辈异人残心师太所创的内功心法，纯走阴柔之路，发出的内劲寒冷无比；传说她曾在沙牢山一掌冻住七只雪狼，堪称当今寒冰掌一路中最凌厉的奇功。交手时阴寒之气常叫对方打个寒噤，运起「意寒睨」，更能以冰冷如刀的眼神伤敌。"
+msgstr "A neigong created by Abbess Canxin, the remarkable elder who swept the wulin with a horsetail whisk thirty years ago. It follows the yin and the soft alone, and the inner force it sends out is bitterly cold; legend says she once froze seven snow wolves with a single palm on Mount Shalao, and it may be the deadliest of all the ice-palm arts today. In a fight its yin chill often sets an opponent shivering, and exerting \"Chill Gaze\" lets you wound an enemy with a look as cold as a blade."
+
+msgid "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。"
+msgstr "$N's move carries a gust so deathly cold that $n can't help but shiver."
+
+msgid "意寒功只能用学的，或是从运用(exert)中增加熟练度。"
+msgstr "Cold Intent Force can only be learned, or improved by using it (exert)."
+
+msgid "天山一脉的独门内功，只能向师父学，或在运功中慢慢精熟；雪影剑法必须以它为根基。"
+msgstr "The Tianshan line's own neigong. It can only be learned from a shifu, or slowly perfected by exerting it; the Snowshade Sword must rest on it."
+
+msgid "天山雪影心法只能用学的或是从运用(exert)中增加熟练度。"
+msgstr "The Tianshan Snowshade Heart Method can only be learned, or improved by using it (exert)."
+
+msgid "天山雪影剑，招名「回光幻电」「风霜碎影」「残阳照雪」「冰谷初虹」「长空雷隐」「断石狼烟」，剑光疾如闪电，身形飘忽如雪影。必须配合天山魔教的独门雪影心法才能练，内力不足也练不成。"
+msgstr "The Tianshan Snowshade Sword, with moves named \"Phantom Lightning,\" \"Frost Breaks Shadows,\" \"Setting Sun on Snow,\" \"Ice Valley Rainbow,\" \"Thunder in Open Sky\" and \"Broken Stone Beacon\": the sword's light is quick as lightning, the body drifts like a shadow on snow. It can only be learned together with the Tianshan Demon Order's own Snowshade Heart Method, and not without enough Inner Force."
+
+msgid "你按著所学练了一遍雪影剑法。"
+msgstr "You run through the Snowshade Sword as you were taught."
+
+msgid "你的内力或气不够，没有办法练习雪影剑法。"
+msgstr "Your Inner Force or Qi isn't enough to practice the Snowshade Sword."
+
+msgid "你的内力不够，没有办法练雪影剑法。"
+msgstr "Your Inner Force isn't enough to practice the Snowshade Sword."
+
+msgid "雪影剑法必须配合天山魔教的独门雪影心法才能练。"
+msgstr "The Snowshade Sword can only be practiced together with the Tianshan Demon Order's own Snowshade Heart Method."
+
+msgid "$N使一招「回光幻电」，手中$w幻一条疾光刺向$n的$l"
+msgstr "$N {N:use|uses} \"Phantom Lightning,\" {N:his} $w becoming a streak of swift light that thrusts at $n's $l"
+
+msgid "$N使出天山雪影剑中的「风霜碎影」，$w连挥剑光霍霍斩向$n的$l"
+msgstr "$N {N:use|uses} the Tianshan Snowshade Sword's \"Frost Breaks Shadows,\" {N:his} $w flashing again and again as it slashes at $n's $l"
+
+msgid "$N一招「残阳照雪」，纵身飘开数尺，手中$w斩向$n的$l"
+msgstr "$N {N:use|uses} \"Setting Sun on Snow,\" floating several feet aside as {N:his} $w slashes at $n's $l"
+
+msgid "$N手中$w中宫直进，一式「冰谷初虹」对准$n的$l刺出一剑"
+msgstr "$N {N:drive|drives} {N:his} $w straight down the middle—\"Ice Valley Rainbow\"—thrusting at $n's $l"
+
+msgid "$N纵身一跃，手中$w一招「长空雷隐」对准$n的$l斜斜刺出一剑"
+msgstr "$N {N:leap|leaps}, and {N:his} $w comes slanting down at $n's $l—\"Thunder in Open Sky\""
+
+msgid "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l"
+msgstr "$N's $w points out of nowhere—\"Broken Stone Beacon\"—thrusting at $n's $l"
+
+msgid "步玄派的本门内功，只能向师父学，或在运功中慢慢精熟；步玄七诀、小步玄剑都要以它为根基。"
+msgstr "The Mystic Step School's own neigong. It can only be learned from a shifu, or slowly perfected by exerting it; the Mystic Step Seven Secrets and the Lesser Mystic Step Sword both rest on it."
+
+msgid "步玄心法只能学，或是从运用(exert)中增加熟练度。"
+msgstr "The Mystic Step Heart Method can only be learned, or improved by using it (exert)."
+
+msgid "步玄派的剑法，招名「暮雪三叹」「处子弄笛」「阳谷白练」，出剑急如骤雨。须先有相当火候的步玄心法，内力不足也练不成。"
+msgstr "The Mystic Step School's sword style, with moves named \"Three Sighs at Dusk,\" \"A Maiden's Flute\" and \"Sunny Vale Silk\"; the sword comes fast as a sudden storm. It needs a well-tempered Mystic Step Heart Method first, and cannot be learned without enough Inner Force."
+
+msgid "你按著所学练了一遍小步玄剑。"
+msgstr "You run through the Lesser Mystic Step Sword as you were taught."
+
+msgid "你的内力或气不够，没有办法练习小步玄剑。"
+msgstr "Your Inner Force or Qi isn't enough to practice the Lesser Mystic Step Sword."
+
+msgid "你的步玄心法火候还不够。"
+msgstr "Your Mystic Step Heart Method isn't mature enough yet."
+
+msgid "你的内力不够，没有办法练小步玄剑。"
+msgstr "Your Inner Force isn't enough to practice the Lesser Mystic Step Sword."
+
+msgid "$N使一招「暮雪三叹」，手中$w急如骤雨般地刺向$n$l"
+msgstr "$N {N:use|uses} \"Three Sighs at Dusk,\" {N:his} $w thrusting at $n's $l fast as a sudden storm"
+
+msgid "$N身形一晃，一招「处子弄笛」向$n$l刺出一剑"
+msgstr "$N {N:sway|sways} — \"A Maiden's Flute\"—and {N:thrust|thrusts} at $n's $l"
+
+msgid "$N舞动$w，一招「阳谷白练」挟著闪闪剑光刺向$n的$l"
+msgstr "$N {N:whirl|whirls} {N:his} $w—\"Sunny Vale Silk\"—thrusting at $n's $l in a flash of sword light"
+
+msgid "$N手中$w一个圈转，使出「薰容逐电」中锋直进刺向$n的$l"
+msgstr "$N {N:circle|circles} {N:his} $w once, then with \"Scented Lightning\" {N:drive|drives} the point straight in at $n's $l"
+
+msgid "花紫会的手上功夫，忽掌忽爪，招名多带市井气——「撺锅手」「撮灰手」「梁上君子」「随棍上身」，劲力一吐，能听见对方骨节作响。须空手练，内力太弱的人练不成。"
+msgstr "The Beggars' Guild's handwork, now palm, now claw, its move names full of the street: \"Wok-Tossing Hand,\" \"Ash-Pinch Hand,\" \"Gentleman on the Beam,\" \"Up the Stick.\" When its force lets go, you can hear the other side's joints crack. It must be practiced bare-handed, and those with too weak an Inner Force cannot learn it."
+
+msgid "练油流麻香手必须空手。"
+msgstr "The Greasy Pepper Hand must be practiced bare-handed."
+
+msgid "你的内力太弱，无法练油流麻香手。"
+msgstr "Your Inner Force is too weak to practice the Greasy Pepper Hand."
+
+msgid "你听到「喀啦」一声轻响，竟似是骨碎的声音！"
+msgstr "You hear a faint \"crack\"—it sounds like bone breaking!"
+
+msgid "$N劲力一吐，$n的$l发出「喀」地一声爆响！"
+msgstr "$N {N:let|lets} {N:his} force loose, and $n's $l gives a loud \"crack\"!"
+
+msgid "只听见$n的$l「喀」地一声 ..."
+msgstr "There is a \"crack\" from $n's $l..."
+
+msgid "$N左掌微分，右手一长使出一招「毒龙扑舟」，抓向$n的$l"
+msgstr "$N {N:part|parts} the left palm slightly and {N:shoot|shoots} out the right in \"Dragon on the Boat,\" clawing at $n's $l"
+
+msgid "$N倏地一个转身，双手一翻「撺锅手」直掼$n$l"
+msgstr "$N {N:whirl|whirls} around, both hands flipping over—\"Wok-Tossing Hand\"—slamming straight into $n's $l"
+
+msgid "$N身子微斜，随即跨出一步，左手忽掌忽爪使出「撮灰手」，拍向$n的$l"
+msgstr "$N {N:lean|leans} slightly, then {N:step|steps} in, the left hand now palm, now claw—\"Ash-Pinch Hand\"—slapping at $n's $l"
+
+msgid "$N使出「青蛇十段锦」，双手滑溜异常对准$n的$l抓去"
+msgstr "$N {N:use|uses} \"Green Snake Brocade,\" both hands uncannily slippery as they claw at $n's $l"
+
+msgid "$N左手虚晃，右掌飘飘，一招「梁上君子」击向$n$l"
+msgstr "$N {N:feint|feints} with the left, the right palm drifting—\"Gentleman on the Beam\"—striking at $n's $l"
+
+msgid "$N使出「拨草寻履」，凌空跃起，冷不防在落地前对准$n$l踢出一脚"
+msgstr "$N {N:use|uses} \"Shoe in the Grass,\" leaping into the air and, just before landing, kicking without warning at $n's $l"
+
+msgid "$N右手在$n$l划过，随後一招「随棍上身」左爪又向同一方位抓到"
+msgstr "$N's right hand rakes across $n's $l, and then, with \"Up the Stick,\" {N:his} left claw comes at the same spot"
+
+msgid "招名全出自《短歌行》——「对酒当歌」「人生几何」「譬如朝露」「去日苦多」……弯刀似月，刀势常由下而上撩斩。官府的带刀侍卫、高门大户的护院多使这一路刀法。"
+msgstr "Every move name comes from \"A Short Song\": \"Sing Over Wine,\" \"How Long Is a Life,\" \"Like Morning Dew,\" \"Gone Days Are Many\"... The curved saber is like the moon, and its strokes often sweep up from below. The yamen's Armed Guards and the Estate Guards of great houses mostly use this saber."
+
+msgid "$N使一招「对酒当歌」，手中$w风似地向$n的$l斩去！"
+msgstr "$N {N:use|uses} \"Sing Over Wine,\" {N:his} $w slashing at $n's $l like the wind!"
+
+msgid "$N弯刀似月，$w随著一招「人生几何」由下而上撩往$n的$l"
+msgstr "$N's curved blade is like the moon, and with \"How Long Is a Life\" {N:his} $w sweeps up from below at $n's $l"
+
+msgid "$N身形一转，一招「譬如朝露」$w如朝露闪烁，斩向$n的$l"
+msgstr "$N {N:spin|spins} — \"Like Morning Dew\"—{N:his} $w glinting like dew as it slashes at $n's $l"
+
+msgid "$N舞动$w，一招「去日苦多」往$n的$l斜斜砍出一刀"
+msgstr "$N {N:whirl|whirls} {N:his} $w—\"Gone Days Are Many\"—and {N:hack|hacks} slantwise at $n's $l"
+
+msgid "$N手中$w一晃，一招「慨当以慷」迅捷无伦地劈向$n的$l"
+msgstr "$N {N:flick|flicks} {N:his} $w, and \"Stirred to the Heart\" cleaves at $n's $l with matchless speed"
+
+msgid "$N提气丹田，身型咋展，一招「忧思难忘」直劈$n$l"
+msgstr "$N {N:draw|draws} qi up from the dantian and suddenly {N:unfold|unfolds} — \"Sorrow Unforgotten\"—chopping straight at $n's $l"
+
+msgid "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l"
+msgstr "$N {N:shift|shifts} {N:his} feet and {N:turn|turns} sideways, using \"What Eases Sorrow,\" blade light flashing as it slashes at $n's $l"
+
+msgid "招名取自《秋风辞》，从「秋风起兮白云飞」到「箫鼓鸣兮发棹歌」，身影一晃，便已避在数尺之外。练这门步法须有相当的内力；官府的侍卫、衙役常与短歌刀法一同修习。"
+msgstr "The move names come from \"The Autumn Wind,\" from \"White Clouds Fly\" to \"The Rowing Song\"; one sway, and you are already several feet away. This footwork takes considerable Inner Force; the yamen's guards and bailiffs often train it alongside the Shortsong Blade."
+
+msgid "$n一招「秋风起兮白云飞」轻轻巧巧地避了开去。"
+msgstr "$n {n:use|uses} \"White Clouds Fly\" and deftly {n:slip|slips} out of the way."
+
+msgid "只见$n身影一晃，一式「草木黄落兮雁南归」早已避在七尺之外。"
+msgstr "$n {n:flicker|flickers} — \"Geese Fly South\"—and {n:are|is} already seven feet away."
+
+msgid "$n使出「兰有秀兮菊有芳」，轻轻松松地闪过。"
+msgstr "$n {n:use|uses} \"Orchids in Bloom\" and {n:dodge|dodges} with ease."
+
+msgid "$n左足一点，一招「怀佳人兮不能忘」腾空而起，避了开去。"
+msgstr "$n {n:tap|taps} off with the left foot and, with \"Unforgotten Beauty,\" {n:soar|soars} into the air, out of the way."
+
+msgid "可是$n使一招「泛楼船兮济汾河」，身子轻轻飘了开去。"
+msgstr "But $n {n:use|uses} \"Ships on the Fen\" and {n:drift|drifts} lightly away."
+
+msgid "$n身影微动，已经藉一招「横中流兮扬素波」轻轻闪过。"
+msgstr "$n barely {n:move|moves}, and with \"Waves Midstream\" {n:have|has} already slipped lightly past."
+
+msgid "但是$n一招「箫鼓鸣兮发棹歌」使出，早已绕到$N身後！"
+msgstr "But $n {n:use|uses} \"The Rowing Song\" and {n:are|is} already behind $N!"
+
+msgid "但是$n身形飘忽，轻轻一纵，一招「欢乐极兮哀情多」，避开这一击。"
+msgstr "But $n {n:drift|drifts}, {n:spring|springs} lightly—\"Joy Turns to Sorrow\"—and {n:avoid|avoids} the blow."
+
+msgid "$n身形往上一拔，一招「少壮几时兮奈老何」，一个转折落在数尺之外。"
+msgstr "$n {n:shoot|shoots} upward—\"How Long Is Youth\"—and with a twist {n:land|lands} several feet away."
+
+msgid "密宗一路的掌法，招名「苦海端无涯」「地狱似有门」「天堂却无路」「万念皆是空」，虚实相生；招架时能以双掌夹住来刃，或以「粘」字诀引偏兵器。须空手练。"
+msgstr "A palm style of the Tantric line, with moves named \"A Shoreless Sea,\" \"Hell Has a Gate,\" \"No Road to Heaven\" and \"All Thought Is Void,\" feint and true giving rise to each other. When parrying it can clap an incoming blade between both palms, or lead a weapon aside with the \"Stick\" secret. It must be practiced bare-handed."
+
+msgid "练密宗大手印必须空手。"
+msgstr "The Tantric Mahamudra must be practiced bare-handed."
+
+msgid "$N使出一招「苦海端无涯」，左掌虚幌，右掌穿出击向$n的$l"
+msgstr "$N {N:use|uses} \"A Shoreless Sea,\" feinting with the left palm as the right darts out at $n's $l"
+
+msgid "$N使出一招「地狱似有门」，左掌化虚为实击向$n的$l"
+msgstr "$N {N:use|uses} \"Hell Has a Gate,\" {N:his} left palm turning from feint to real as it strikes at $n's $l"
+
+msgid "$N使出密宗大手印中的「天堂却无路」，一掌拍向$n的$l"
+msgstr "$N {N:use|uses} the Tantric Mahamudra's \"No Road to Heaven,\" slapping a palm at $n's $l"
+
+msgid "$N双掌一错，使出「密宗为独尊」，对准$n的$l连续拍出"
+msgstr "$N {N:cross|crosses} {N:his} palms and, with \"Tantra Above All,\" {N:strike|strikes} at $n's $l again and again"
+
+msgid "$N左掌立于胸前，右掌推出，一招「万念皆是空」击向$n$l"
+msgstr "$N {N:raise|raises} the left palm before {N:his} chest and {N:push|pushes} out the right—\"All Thought Is Void\"—striking at $n's $l"
+
+msgid "$N使出「佛云以杀止杀」，身形凌空飞起，从空中当头向$n的$l出掌攻击"
+msgstr "$N {N:use|uses} \"Kill to End Killing,\" flying up into the air and striking down at $n's $l from above"
+
+msgid "外门护体硬功：闭目凝神，气走全身，不躲不闪也能硬受来招。"
+msgstr "An external hardening art for the body: close your eyes, gather your mind, send qi through the whole body, and you can take a blow head-on without dodging or flinching."
+
+msgid "逍遥派一路的内功，讲究文墨修养：读书识字的造诣跟不上，小无相功便无法再进。只能向人学，或在运功中慢慢精熟。"
+msgstr "A neigong of the Carefree School line that values literary cultivation: if your reading and writing can't keep up, the Lesser Formless Force can advance no further. It can only be learned from someone, or slowly perfected by exerting it."
+
+msgid "小无相功只能用学的或是从运用(exert)中增加熟练度。"
+msgstr "The Lesser Formless Force can only be learned, or improved by using it (exert)."
+
+msgid "你的文学素养不够无法提升小无相功的造诣。"
+msgstr "Your literary learning isn't enough to advance the Lesser Formless Force."
+
+msgid "大内侍卫营的刀法，七式「值门」「出巡」「提灯」「锁宫」「拿下」「护驾」「天明」，一招一式都在宫门、长街、殿上。侍卫营总教头冯策的刀谱末页写着一句：「刀在鞘里的时候最多。」"
+msgstr "The saber of the Palace Guard Barracks, seven forms: \"Gate Watch,\" \"On Patrol,\" \"Lift the Lamp,\" \"Lock the Palace,\" \"Take Him,\" \"Guard the Throne,\" \"Daybreak,\" every one of them at a palace gate, on a long street, in a hall. On the last page of the saber manual of Feng Ce, the barracks' Chief Instructor, one line is written: \"A saber spends most of its time in the sheath.\""
+
+msgid "$N横刀当胸，一招「值门」$w刀背一磕，顺势削向$n的$l"
+msgstr "$N {N:hold|holds} the blade level across {N:his} chest—\"Gate Watch\"—knocking with the back of {N:his} $w, then shaving on at $n's $l"
+
+msgid "$N脚下一错，一招「出巡」$w贴着身子递出，直取$n的$l！"
+msgstr "$N {N:shift|shifts} {N:his} footing—\"On Patrol\"—and {N:his} $w slides out close along the body, straight for $n's $l!"
+
+msgid "$N刀尖一挑，一招「提灯」$w晃过$n眼前，刀锋却落向$n的$l"
+msgstr "$N {N:flick|flicks} up the point—\"Lift the Lamp\"—{N:his} $w flashing past $n's eyes while the edge falls on $n's $l"
+
+msgid "$N沉肩坠肘，一招「锁宫」$w自上而下劈向$n的$l"
+msgstr "$N {N:sink|sinks} shoulders and elbows—\"Lock the Palace\"—and {N:his} $w chops down from above at $n's $l"
+
+msgid "$N欺身而上，一招「拿下」$w刀柄撞向$n的$l，刀刃跟着就到"
+msgstr "$N {N:close|closes} in—\"Take Him\"—ramming the hilt of {N:his} $w into $n's $l, the edge right behind it"
+
+msgid "$N退半步护住身后，一招「护驾」$w画了个半圆，扫过$n的$l"
+msgstr "$N {N:step|steps} half a pace back to cover what is behind {N:him} — \"Guard the Throne\"—and {N:his} $w draws a half circle across $n's $l"
+
+msgid "$N大喝一声，一招「天明」$w自下而上斜劈，刀光照亮了$n的$l"
+msgstr "$N {N:give|gives} a great shout—\"Daybreak\"—and {N:his} $w cuts slanting up from below, its light shining on $n's $l"
+
+msgid "关北槐阳王府骑兵的马上刀法，七式从「扬鞭」「回马」「斩缰」到「破阵」「归鞘」，刀自下而上撩出。刀谱每一页的边上都写着同一句话：「撩，不是砍。」"
+msgstr "The mounted saber of the House of Huaiyang's riders Beyond the Pass. Seven forms, from \"Raise the Whip,\" \"Turn the Horse\" and \"Cut the Reins\" to \"Break the Line\" and \"Sheathe,\" the saber sweeping up from below. On the edge of every page of the manual the same line is written: \"Sweep, don't chop.\""
+
+msgid "$N手中$w一扬，一招「扬鞭」自下而上撩向$n的$l！"
+msgstr "$N {N:raise|raises} {N:his} $w—\"Raise the Whip\"—sweeping up from below at $n's $l!"
+
+msgid "$N身子一拧，一招「回马」$w反手撩出，刀光从$n的$l掠过"
+msgstr "$N {N:twist|twists} — \"Turn the Horse\"—and {N:his} $w sweeps out backhand, its light skimming past $n's $l"
+
+msgid "$N矮身一刀，一招「斩缰」$w贴地撩向$n的$l"
+msgstr "$N {N:drop|drops} low for a cut—\"Cut the Reins\"—and {N:his} $w sweeps up along the ground at $n's $l"
+
+msgid "$N$w一抖，一招「卷沙」刀风卷起地上的沙土，斜斜撩往$n的$l"
+msgstr "$N's $w quivers—\"Whirling Sand\"—its wind lifting the sand off the ground as it sweeps slantwise up at $n's $l"
+
+msgid "$N踏步欺进，一招「踏雪」$w由肩上撩落，直取$n的$l"
+msgstr "$N {N:step|steps} in close—\"Tread the Snow\"—and {N:his} $w sweeps down from the shoulder, straight for $n's $l"
+
+msgid "$N大喝一声，一招「破阵」$w连撩三刀，刀刀奔$n的$l"
+msgstr "$N {N:give|gives} a great shout—\"Break the Line\"—and {N:his} $w sweeps up three times in a row, every stroke at $n's $l"
+
+msgid "$N手腕一翻，一招「归鞘」$w收势时顺手一撩，刀背扫过$n的$l"
+msgstr "$N {N:turn|turns} {N:his} wrist—\"Sheathe\"—and as {N:his} $w comes back it flicks up once more, the back of the blade sweeping across $n's $l"
+
+msgid "番坊铁盾会的剑法，传自流落东方的大秦剑手：盾在前，剑在后，左臂圆盾挡住来招，右手短剑从盾下刺出，七式自「盾墙」至「盾下一剑」。臂上没有盾，铁盾会不教；入了鬼笠馆的人，铁盾会也不教。"
+msgstr "The sword style of the Iron Shield Guild in the Foreign Quarter, handed down from Daqin swordsmen who drifted east: shield in front, sword behind. The round shield on the left arm stops the attack, and the short sword in the right hand stabs out from under it, in seven forms from \"Shield Wall\" to \"Under the Shield.\" With no shield on your arm, the Iron Shield Guild will not teach you; and anyone who has joined Ghost Hat Hall, the Guild will not teach either."
+
+msgid "你举着盾，把铁盾剑法练了一遍：盾在前，剑在后。"
+msgstr "Shield raised, you run through the Iron Shield Sword: shield in front, sword behind."
+
+msgid "你的内力或气不够，没有办法练习铁盾剑法。"
+msgstr "Your Inner Force or Qi isn't enough to practice the Iron Shield Sword."
+
+msgid "你得先拿一把剑——短剑最好。"
+msgstr "You need a sword first. A short sword is best."
+
+msgid "盾呢？没盾的剑法不是我们的剑法。"
+msgstr "Your shield? A sword without a shield is not our sword."
+
+msgid "你是鬼笠馆的人。铁盾会的剑法，不教鬼笠馆。"
+msgstr "You are of Ghost Hat Hall. The Iron Shield Guild's sword is not taught to Ghost Hat Hall."
+
+msgid "$N左臂一抬，一招「盾墙」盾面迎上$n的$l，$w从盾沿底下刺出"
+msgstr "$N {N:raise|raises} {N:his} left arm—\"Shield Wall\"—the face of the shield meeting $n's $l as {N:his} $w stabs out from under its rim"
+
+msgid "$N盾身一侧，一招「侧刺」$w贴着盾沿直刺$n的$l"
+msgstr "$N {N:tilt|tilts} the shield—\"Side Thrust\"—and {N:his} $w runs along its rim straight at $n's $l"
+
+msgid "$N踏前一步，一招「盾撞」整面盾撞向$n的$l"
+msgstr "$N {N:step|steps} forward—\"Shield Bash\"—slamming the whole shield into $n's $l"
+
+msgid "$N手腕一沉，一招「短锋」$w只探出半尺，点向$n的$l"
+msgstr "$N {N:drop|drops} {N:his} wrist—\"Short Point\"—{N:his} $w reaching out barely half a foot to jab at $n's $l"
+
+msgid "$N盾面一收，一招「回盾」盾沿磕开来势，$w顺势划向$n的$l"
+msgstr "$N {N:draw|draws} the shield in—\"Shield Return\"—its rim knocking the attack aside as {N:his} $w follows through across $n's $l"
+
+msgid "$N盾后$w连刺三下，一招「连刺」剑剑奔$n的$l"
+msgstr "From behind the shield $N {N:stab|stabs} {N:his} $w three times—\"Triple Thrust\"—every one at $n's $l"
+
+msgid "$N矮身藏在盾后，一招「盾下一剑」$w从盾底下猛地刺向$n的$l"
+msgstr "$N {N:crouch|crouches} behind the shield—\"Under the Shield\"—and {N:his} $w stabs hard from beneath it at $n's $l"
+
+msgid "番坊倭人浪人武馆鬼笠馆的刀法，刀窄而弯，拔刀、横扫、下劈、纳刀、退步五式之外，另有一式「一刀」。门规与中原相反：一击之内定生死。铁盾会的弟子，鬼笠馆不教。"
+msgstr "The saber of Ghost Hat Hall, the school of the Japanese ronin in the Foreign Quarter. The blade is narrow and curved; besides five forms, Draw, Sweep, Downcut, Sheathing and Step Back, there is one more: \"One Stroke.\" Its rule is the opposite of the Central Plains': life or death within one stroke. Disciples of the Iron Shield Guild, Ghost Hat Hall will not teach."
+
+msgid "你出刀，收刀，把鬼笠刀法练了一遍——一刀，只出一次。"
+msgstr "You draw, you sheathe, and run once through the Ghost Hat Blade: one stroke, given only once."
+
+msgid "你的内力或气不够，没有办法练习鬼笠刀法。"
+msgstr "Your Inner Force or Qi isn't enough to practice the Ghost Hat Blade."
+
+msgid "刀呢？没刀的刀法不是刀法。"
+msgstr "Your blade? A blade art with no blade is no art."
+
+msgid "你是铁盾会的人。盾在前的，用不着刀。"
+msgstr "You are of the Iron Shield Guild. One who keeps the shield in front has no need of a blade."
+
+msgid "$N手按刀柄，一招「拔刀」$w出鞘的一瞬斜斜划向$n的$l"
+msgstr "$N {N:rest|rests} a hand on the hilt—\"Draw\"—and in the instant {N:his} $w leaves the sheath it slashes slantwise across $n's $l"
+
+msgid "$N$w平举，一招「横扫」刀光齐腰扫向$n的$l"
+msgstr "$N's $w comes up level—\"Sweep\"—its light sweeping waist-high at $n's $l"
+
+msgid "$N双手握刀举过头顶，一招「下劈」$w直劈$n的$l"
+msgstr "$N {N:raise|raises} the blade overhead in both hands—\"Downcut\"—and {N:his} $w chops straight down at $n's $l"
+
+msgid "$N$w收势回鞘，一招「纳刀」刀背顺势磕向$n的$l"
+msgstr "$N's $w turns back toward the sheath—\"Sheathing\"—and on the way the back of the blade knocks at $n's $l"
+
+msgid "$N退了半步，一招「退步」$w在退势里反撩$n的$l"
+msgstr "$N {N:step|steps} half a pace back—\"Step Back\"—and, still retreating, {N:his} $w sweeps back up at $n's $l"
+
+msgid "$N双手握刀，一动不动，忽然一招「一刀」——$w从头顶直劈而下，一击之内定生死，直取$n的$l"
+msgstr "$N {N:grip|grips} the blade in both hands and {N:stand|stands} utterly still, then suddenly, \"One Stroke\": {N:his} $w cleaves straight down from overhead, life or death within one stroke, straight for $n's $l"
+
+msgid "青石山路"
+msgstr "Bluestone Mountain Road"
+
+msgid "铁链崖"
+msgstr "Iron Chain Cliff"
+
+msgid "晚月山路"
+msgstr "Latemoon Mountain Road"
+
+msgid "槐阳城"
+msgstr "Huaiyang"
+
+msgid "草原"
+msgstr "Steppe"
+
+msgid "工地"
+msgstr "Worksite"
+
+msgid "古冢"
+msgstr "The Barrow"
+
+msgid "封山剑派是当今武林中最大的一支剑派。相传三位剑术名家在封山灵狐顶相互印证所学，创出封山剑法；招式不难学，难在剑意，讲究不抢先，等对手露出空子。七十年前一代掌门把乔阴柳家的家传拳法融进剑意，创出柳家拳，补上了剑派近身的短处。雪亭镇的淳风武馆是这一派的门户，镇上的后生多在那里学拳。"
+msgstr "The Empty Mountain School is the largest sword school in the wulin today. Legend says three famous swordmasters created the Empty Mountain Sword by testing their skills against one another on Spirit Fox Peak of the Sealed Mountain. Its moves are not hard to learn; the hard part is the spirit of the sword, which does not strike first but waits for the opponent to leave an opening. Seventy years ago one of its Masters worked the Liu family's fist of Tallshade into the spirit of the sword and created the Liu Family Fist, covering the school's weakness at close quarters. Pure Wind Hall in Snow Pavilion is the school's gateway, and most of the town's young men learn their fists there."
+
+msgid "柳家拳没什么花样：先打实一拳，人就贴上去了；贴上去，重拳才够得着，一拳比一拳沉。"
+msgstr "There's nothing fancy about the Liu Family Fist: land one real punch and you're in close; once you're in close, the heavy punches can reach, each one harder than the last."
+
+msgid "最怕的是打空。一拳落了空，人就被拉开了，再重的拳头也只砸在风上——得重新打实一拳，才能再贴上去。"
+msgstr "What it fears most is a miss. Miss one punch and you're pulled back out, and even the heaviest fist only hits wind. You have to land a real one again before you can get back in close."
+
+msgid "所以这拳是抢来的。对面守得稳，你就先用快的、虚的去碰，碰着了再压上去。"
+msgstr "So this fist is something you take by force. If the other side guards well, touch them first with the quick ones, the feints, and once you connect, press in."
+
+msgid "想拜馆主为师？馆主只看{requires}，哪一样不到，他都会摇头。拳脚简单，一拳就是一拳，先跟我拆几招也好。"
+msgstr "Want the Master as your shifu? He only looks at {requires}, and if you fall short on any of it, he'll shake his head. Fists are simple, one punch is one punch. Why not drill a few moves with me first?"
+
+msgid "好，拆三回合，点到为止。"
+msgstr "Good. Three rounds, and we stop short of harm."
+
+msgid "看见没有？我一拳打实了就贴上来，接着那记重的才够得着你。柳家拳的拳，是这么抢来的。"
+msgstr "See that? I landed a real punch and came in close, and then the heavy one could reach you. That's how the Liu Family Fist takes its punches."
+
+msgid "三回合我一拳都没打实，就一直够不着你——柳家拳最怕的就是这个。你要学，先学怎么把第一拳打实。"
+msgstr "Three rounds, and I never landed a real punch, so I never could reach you. That's exactly what the Liu Family Fist fears most. If you want to learn, first learn how to land that first punch."
+
+msgid "你贴上来那一记，压得对，就是这个劲。"
+msgstr "That one when you came in close, you pressed right. That's the force."
+
+msgid "你身上带着伤，拆什么招？先去桑邻药铺把伤治好。"
+msgstr "You're carrying wounds. What drill? Go to the Mulberry Herb Shop and get them treated first."
+
+msgid "你是别派的弟子，馆主吩咐过，不许和外人过招。"
+msgstr "You're a disciple of another school. The Master's orders: no sparring with outsiders."
+
+msgid "记住：一回合不是一招，是几手的事。你出一手，我出一手；谁手上还有余力，谁就多出一手。"
+msgstr "Remember: a round isn't one move, it's a matter of several beats. You take a beat, I take a beat; whoever still has something left takes one more."
+
+msgid "看我这一拳——打实了我就贴上来，紧跟着的那一记重的，你躲得开么？"
+msgstr "Watch this punch. If it lands, I come in close, and the heavy one right behind it, can you dodge that?"
+
+msgid "最后一回合。你要是能让我一拳打空，我就得退开重来；你要是也打实了一拳，就试试压上来。"
+msgstr "Last round. If you can make me miss a punch, I have to back off and start over; if you land a real one too, try pressing in."
+
+msgid "爹爹的剑法，我只学了个皮毛。封山剑不抢先，先用引手逗对方出招——对方一剑刺空，或是被我架开，那一下就是空子，我这边就多出一剑来。"
+msgstr "I've only learned the surface of Father's swordplay. The Empty Mountain sword doesn't strike first; it uses a lure to draw the other side out. When they thrust wide, or I parry them, that moment is the opening, and I get an extra thrust."
+
+msgid "多出来的那一剑最要紧：可以追着刺，也可以用「封」字诀把他封住，一封住，他好几手都出不来。"
+msgstr "That extra thrust matters most: you can chase with it, or use the \"Seal\" secret to seal them up, and once they're sealed, they can't get a move out for several beats."
+
+msgid "可是贪不得。多出来的那一剑要是只顾着攻，对方的下一手就没人守了。爹爹说，封山的剑是等出来的。"
+msgstr "But you can't be greedy. If you spend that extra thrust only on attacking, no one is guarding against their next beat. Father says the Empty Mountain sword is something you wait for."
+
+msgid "你若想拜爹爹为师，他只看{requires}——不到的，他会说学剑的人要胆大心细。"
+msgstr "If you want Father as your shifu, he only looks at {requires}. If you fall short, he'll say a swordsman must be both bold and careful."
+
+msgid "那……只拆三回合，不伤人。"
+msgstr "Then... just three rounds, and no one gets hurt."
+
+msgid "方才你那一下刺空了，我手里就多出一剑，那记「封」就是这么来的。封山的剑，是等人露空子。"
+msgstr "Just now you thrust wide, so I got an extra thrust, and that's where my \"Seal\" came from. The Empty Mountain sword waits for the other side to leave an opening."
+
+msgid "三回合你一招都没打空，我就一直没等到空子，只好跟你慢慢磨。封山的剑是等出来的，等不到，就只能这样。"
+msgstr "Three rounds, and you never missed once, so I never got my opening and could only grind on with you. The Empty Mountain sword is something you wait for; when the wait never pays off, this is all it can do."
+
+msgid "你也等到了我的空子，多出来的那一剑用得对。"
+msgstr "You waited for my opening too, and you used the extra thrust right."
+
+msgid "你带着伤呢，爹爹不许我跟伤者动手。"
+msgstr "You're hurt. Father won't let me fight the wounded."
+
+msgid "你是别派的人，爹爹说过不能跟江湖人物比武过招。"
+msgstr "You're from another school. Father said I mustn't spar with people of the jianghu."
+
+msgid "一回合里你出几手，我也出几手——你出完了，我才接着出。不急。"
+msgstr "In a round you take a few beats, and I take a few. When you've finished, then I go. No hurry."
+
+msgid "你尽管来刺。要是刺空了，我手上就多一剑；看清楚我是怎么追上来的。"
+msgstr "Go ahead and thrust. If you thrust wide, I get an extra thrust. Watch closely how I chase you."
+
+msgid "最后一回合。你也可以不急着出手，等我刺空了再说。"
+msgstr "Last round. You don't have to rush either. Wait until I thrust wide."
+
+msgid "封山剑法？小的不懂剑，只听来往的武师说：柳馆主的剑从不抢先，专等人家刺空了的那一下。"
+msgstr "Empty Mountain Sword? I don't know a thing about swords, but the fighters passing through say Master Liu's sword never strikes first. It waits for that one moment when the other man thrusts wide."
+
+msgid "馆主的剑我看了五年。来踢馆的，十个有九个是自己刺空了，才挨那一下的。想拜他为师？他只看{requires}。"
+msgstr "I've watched the Master's sword for five years. Of those who come to challenge the Hall, nine in ten thrust wide themselves before they take that hit. Want him as your shifu? He only looks at {requires}."
+
+msgid "柳淳风是个读书人，剑法嘛……文绉绉的，依老夫看没什么杀气。"
+msgstr "Liu Chunfeng is a scholar. His swordplay... genteel. To this old man's eye, there is no killing in it."
+
+msgid "绘心师妹的剑最吓人的是那记「封」字诀，被封住了好几手都出不来。不过她说剑要等——等什么，我也说不上来。"
+msgstr "The scariest thing about Junior Sister Huixin's sword is that \"Seal\" secret. Once you're sealed, you can't get a move out for several beats. But she says the sword has to wait. Wait for what, I couldn't tell you."
+
+msgid "伤口"
+msgstr "Wounds"
+
+msgid "这是剑伤，口子又直又深——封山剑的路数，多半是这位$RESPECT自己先刺空了，人家才补的这一剑。"
+msgstr "This is a sword wound, the cut straight and deep. Empty Mountain style: most likely you thrust wide first, $RESPECT, and the other one put this thrust in after."
+
+msgid "柳家拳？镇上后生练的都是这个。我瞧他们打架，先是一拳碰着人了，立马就贴上去，一拳比一拳重。"
+msgstr "The Liu Family Fist? That's what all the young fellows in town train. I watch them fight: first one punch touches the other man, then they're right up close, each punch heavier than the last."
+
+msgid "李教头那身板，一拳打实了接着就是一记重的，叫什么虎吟。想拜柳馆主的，先去武馆找李教头拆拆招，拳脚简单，一拳就是一拳。"
+msgstr "Instructor Li, built like he is: land one real punch and next comes a heavy one, something called Tiger's Growl. If you want to study under Master Liu, first go drill with Instructor Li at the Hall. Fists are simple, one punch is one punch."
+
+msgid "柳家拳好是好，就是练了脾气暴，李教头那些徒弟三天两头在街上跟人动手。"
+msgstr "The Liu Family Fist is good and all, but it makes you hot-tempered. Instructor Li's pupils are brawling in the street every other day."
+
+msgid "柳家拳最怕打空。一拳落了空，人就离远了，再重的拳也够不着——小的挨过，知道。"
+msgstr "The Liu Family Fist fears a miss most. Miss one punch and you're too far off, and the heaviest punch won't reach. I've taken that beating, I'd know."
+
+msgid "这是拳伤，一片青紫，底下还压着一记重的——柳家拳的路数，人贴上来才打得出这么重。"
+msgstr "This is a fist wound, all black and blue, with a heavy blow under it. Liu Family Fist style: you only hit this hard once you're in close."
+
+msgid "这位$RESPECT身上没什么新伤，用不着看。"
+msgstr "You have no fresh wounds, $RESPECT. Nothing to look at."
+
+msgid "封山剑派北宗是封山剑派里的一支，剑法、拳脚和内功都与本宗同出一源。绮云镇口的公告上，至今还写着「封山剑派北宗所在的雪亭镇」。"
+msgstr "The North Branch of the Empty Mountain School is one of its lines; its sword, fists and neigong all spring from the same source as the main school. The notice at the entrance of Cloudweave Town still reads \"Snow Pavilion, home of the Empty Mountain School's North Branch.\""
+
+msgid "振远镖局是京师第一大镖局，在京城一带几乎无人不知其名，绮云镇上也有振远的镖局。镖局里的人走镖凭的是一手春风快意刀。走镖危险，镖局收人先看胆识。"
+msgstr "The Far-Road Escorts are the Capital's greatest escort agency, known to nearly everyone around the Capital, and they have an agency in Cloudweave Town too. Its people run escorts on the strength of the Spring Blade. Escort work is dangerous, so the agency looks at courage first when it takes people on."
+
+msgid "东方神教是一个行事隐秘的教门，不立山门，也不收寻常弟子。教中人散在各处，平日看不出身份，外人对它的宗旨所知甚少。只听说教中高手使一路雪影剑法，身法轻疾。"
+msgstr "The Golden Crow Order is a secretive order. It keeps no mountain gate and takes no ordinary disciples. Its people are scattered everywhere, and in daily life you cannot tell who they are; outsiders know little of its creed. All anyone hears is that its masters use the Snowshade Sword and move light and fast."
+
+msgid "天邪派以水烟阁为大本营。水烟阁在雪亭镇西边青石官道尽头的山上，相传最早的主人是武术之神杞庸，后来成了历代武林盟主的行馆，每年正月十七在阁外虹台推选盟主。天邪神功与天邪神掌是这一派的根本，相传是杞庸见灵兽天邪虎而悟出；另有一路六阴追魂剑法，是三百年前一位前辈从废墟中得来的。门规甚严，拜师要么立誓恪守门规，要么接下三招。"
+msgstr "The Wayward School's headquarters is Waterfog Pavilion, on the mountain at the end of the Bluestone Road west of Snow Pavilion. Its first master is said to have been Qi Yong, the god of martial arts; later it became the residence of every Alliance Leader of the wulin, and on the seventeenth day of the first month each year the Leader is chosen on Rainbow Terrace outside the Pavilion. The Wayward Art and the Wayward Palm are the school's foundation, said to have come to Qi Yong when he saw the spirit beast the Wayward Tiger; there is also the Six-Chaos Sword, which an elder recovered from a ruin three hundred years ago. Its rules are strict: to become a disciple you either swear to keep them or withstand three moves."
+
+msgid "绝尘派是绝尘子一手所创的门派。绝尘子原是佛门中人，后得奇人指点，悟得道家真谛，佛道双修，访遍名山大川后自号绝尘。他的修行之所在青石村的石室里，门上写着「非我弟子，莫入此门」。入门看慧根，也要有相当的江湖历练。"
+msgstr "The Dustless School was founded single-handed by Juechenzi. He was once a Buddhist; later, guided by a remarkable teacher, he grasped the true meaning of the Dao and cultivated Buddhism and Daoism both, and after traveling to all the famous mountains and great rivers he named himself Juechen. He practices in the Stone Chamber in Bluestone Village, and on its door is written: \"Not my disciple? Do not enter this door.\" To join takes a gift for insight, and a good deal of experience in the jianghu."
+
+msgid "茅山派自张天师开山立派，世代以降妖伏魔为己任，门户在茅山上的灵心观。门下修谷衣心法，排去体内的五谷秽气，炼成护体之气；修到小成，左眼眼珠会变成金色。法术以治鬼除魔为主，根基是天师正道。灵心观是出家人的道观，只收男弟子。"
+msgstr "Since Celestial Master Zhang founded it, the Mount Mao School has made subduing demons its duty, generation after generation; its gateway is Clear Heart Abbey on Mount Mao. Its people cultivate the Grain Robe Heart Method, driving the foulness of grain out of the body and refining it into protective qi; at Lesser Mastery the left eye turns gold. Its sorcery is chiefly for subduing ghosts and driving out demons, and it is rooted in the Way of the Celestial Masters. Clear Heart Abbey is an abbey of those who have left the household, and takes only men."
+
+msgid "晚月庄是绮云镇以西林子深处的一座大宅院，朱漆大门，门口挂着灯笼，出现在乡野之间显得有些突兀。庄里多是女子，只收女弟子，庄主的琵琶闻名千里。武功以七宝天岚舞的身法、柔虹指和寒雪鞭法见长，内功意寒功纯走阴柔一路。"
+msgstr "Latemoon Manor is a great walled house deep in the woods west of Cloudweave Town, with vermilion gates and lanterns hung at the door; out in the countryside it looks a little out of place. Most of its people are women, and it takes only female disciples; the Mistress's pipa is famous for a thousand li. Its arts excel in the footwork of Stormdance, the Soft Rainbow Finger and the Cold Snow Whip, and its neigong, Cold Intent Force, follows the yin and the soft alone."
+
+msgid "山烟寺在绮云镇南、泓水对岸的日照山上，整座寺由上好的桧木建成，金碧辉煌。寺中老方丈医术通神，受过恩惠的富豪出资修整，名气比京城的白象禅院还大。要入寺先得剃度出家，只收男子；武功以流云杖法和疗伤的莲华心法为主，佛法精深的还修八识神通。"
+msgstr "Mountain Mist Temple stands on Sunlit Mountain south of Cloudweave Town, across the Deepwater. The whole temple is built of the finest cypress, resplendent in gold and green. Its old abbot heals with godlike skill, and the rich men he helped paid to restore it, so its name is greater even than the White Elephant Chan Monastery in the Capital. To enter you must first shave your head and leave the household, and it takes only men; its arts center on the Cloudflow Staff and the healing Lotus Heart Method, and those deep in the Dharma also cultivate the Eight Consciousnesses."
+
+msgid "逍遥派的门户不在这一带，中原少见其门人。听说这一派收徒讲究人品文采，掌门是个风流倜傥的人物。"
+msgstr "The Carefree School's gateway is not in these parts, and its people are seldom seen in the Central Plains. They say the school chooses its disciples for character and literary talent, and that its Master is a dashing, romantic figure."
+
+msgid "天山派的门户远在天山，中原少见其门人。晚月庄后门外的小径，据说就是通往天山的路。"
+msgstr "The Tianshan School's gateway lies far off in the Tianshan Mountains, and its people are seldom seen in the Central Plains. The footpath outside the Latemoon Back Gate is said to be the road to Tianshan."
+
+msgid "步玄派是四百年前「秃笔狂生」骆步玄在京城创立的门派。骆步玄原是屡试不中的书生，一日在街边书肆望见一副对子，竟悟出一套武功，从此闯荡江湖。门下的步玄七诀号称天下轻功「轻捷第一」，使起来姿态有如书法；骆家至今是京城有名的武林世家。想入门的人，要先走一趟乔阴曼雩台东边的桃林。"
+msgstr "The Mystic Step School was founded in the Capital four hundred years ago by Luo Buxuan, \"the Mad Scholar of the Bald Brush.\" Luo Buxuan was a scholar who failed the examinations again and again; one day, looking up at a pair of scrolls in a bookshop by the street, he worked out a martial art, and from then on he roamed the jianghu. The school's Mystic Step Seven Secrets are called the \"nimblest\" qinggong under heaven, and look like calligraphy in motion; the Luo family is still a famous wulin house in the Capital. Anyone who wants to join must first make a trip to the Peach Grove east of the Rain Dance Terrace in Tallshade."
+
+msgid "花紫会是乞丐们的帮会，只收身上没几个钱的化子。龙头的信物是一只打着二十三个结的皮酒囊；龙头行踪诡秘，据说各处总有七八个替身。会中的武功有油流麻香手和伏蛟功。"
+msgstr "The Beggars' Guild is the guild of beggars, and takes only those with hardly a coin on them. The Dragon Head's token is a leather wineskin tied in twenty-three knots; the Dragon Head comes and goes in secret, and is said to have seven or eight stand-ins in every place. The Guild's arts are the Greasy Pepper Hand and the Serpent-Taming Force."
+
+msgid "铁盾会是番坊里大秦人的剑会，门前立着两面比人还高的铁包边大盾，盾面上漆着展翅的鹰。大秦人的祖上从西边来，在这片海边落了脚。会里的剑手左手盾、右手短剑，两两对练；铁盾剑法盾在前、剑在后，没有盾的人不教。"
+msgstr "The Iron Shield Guild is the sword guild of the Daqin people in the Foreign Quarter. Before its door stand two iron-rimmed great shields taller than a man, each painted with an eagle with spread wings. The Daqin people's forebears came from the west and settled on this stretch of coast. The Guild's swordsmen carry a shield in the left hand and a short sword in the right and train in pairs; the Iron Shield Sword keeps the shield in front and the sword behind, and those with no shield are not taught."
+
+msgid "鬼笠馆是番坊里倭人浪人开的武馆，门楣上挂着一顶破了边的斗笠，馆名就是这么来的。门规只有一句：「一击之内定生死」——刀出鞘，只出一次。鬼笠刀法的刀比中原的窄而弯，劈下去就收，不出第二刀。"
+msgstr "Ghost Hat Hall is a martial school run by Japanese ronin in the Foreign Quarter. A straw hat with a torn brim hangs over its door, and that is where the name comes from. Its rule is a single line: \"Life or death within one stroke.\" The blade leaves the sheath once only. The Ghost Hat Blade is narrower and more curved than a Central Plains saber; it cuts down and is withdrawn, and never makes a second stroke."
+
+msgid "日陀罗寺是番坊里一座不大的寺院，由两位天竺僧人所建，赭红的墙头长着草。院中一棵大榕树，是第一代师父从天竺带来的枝条插活的。入寺要先剃度出家，只收男子，所传的是莲华心法、流云杖法这些佛门功夫。"
+msgstr "The Ritola Temple is a modest temple in the Foreign Quarter, built by two Indian monks, with grass growing on its ocher-red walls. In its courtyard stands a great banyan, grown from a cutting the first master brought from India. To enter you must first shave your head and leave the household, and it takes only men; it teaches Buddhist arts such as the Lotus Heart Method and the Cloudflow Staff."
+
+msgid "这是个正在执行公务的县城官兵，虽然和许多武林人物比起来，官兵\n们的武功实在稀松平常，但是他们是有组织、有纪律的战士，谁也不\n轻易地招惹他们。\n"
+msgstr "A county soldier on official duty. Next to many people of the wulin, soldiers' martial skills are truly nothing special, but they are organized, disciplined fighters, and nobody crosses them lightly.\n"
+
+msgid "县城官兵喝道：还不快放下武器束手就缚？\n"
+msgstr "The county soldier shouts: \"Drop your weapon and give yourself up, now!\"\n"
+
+msgid "县城官兵喝道：大胆刁民竟敢拒捕？反了！反了！\n"
+msgstr "The county soldier shouts: \"Insolent wretch, resisting arrest? Rebellion! This is rebellion!\"\n"
+
+msgid "水烟阁传功使"
+msgstr "Teaching Envoy of Waterfog Pavilion"
+
+msgid "於兰天武是当今皇上的叔父，但是他毕生浸淫武学，甘愿抛弃荣华富\n以换取水烟阁传功使一职，以便阅读水烟阁中所藏的武学典籍，无论\n你有什麽武学上的疑难，他都能为你解答。\n"
+msgstr "Yulan Tianwu is the uncle of the present Emperor, but he has steeped himself in the martial arts all his life, and gladly gave up wealth and rank for the post of Teaching Envoy of Waterfog Pavilion, so that he could read the martial classics kept in the Pavilion. Whatever difficulty you have in the martial arts, he can answer it for you.\n"
+
+msgid "武学之道....嗯....只可意会，不可言喻。\n"
+msgstr "The way of the martial arts... hmm... can be grasped, but not put into words.\n"
+
+msgid "水烟阁乃是历届武林盟主的行馆，你有什麽事要见武林盟主？\n"
+msgstr "Waterfog Pavilion is the residence of every Alliance Leader of the wulin. What business do you have with the Alliance Leader?\n"
+
+msgid "哦....老夫向来有个规矩，凡是想拜我为师的，得接我三招不死，你想试试？\n"
+msgstr "Oh... this old man has always had a rule: whoever wants me as a shifu must take three of my moves and live. Do you want to try?\n"
+
+msgid "皇上"
+msgstr "His Majesty"
+
+msgid "老夫在朝上一天，庾子建就不是一个人说了算。"
+msgstr "As long as this old man stands at court, Yu Zijian does not have the final word alone."
+
+msgid "昭儿？……他还小。朝廷的事，老夫不问了。"
+msgstr "Zhao'er? ...He is still young. This old man no longer asks about the court's affairs."
+
+msgid "在老夫手里。三百年前於兰家拔错了一把——决战那日，你来叫我，看老夫这一回拔得对不对。"
+msgstr "In this old man's hands. Three hundred years ago the Yulan family drew the wrong one. On the day of the final battle, come and call me, and see whether this old man draws right this time."
+
+msgid "你拔的。好——於兰家这一回，不用再错一次。"
+msgstr "You drew it. Good. This time the Yulan family need not be wrong again."
+
+msgid "萧家那孩子拿去了。他回了一趟岚城，比老夫配。"
+msgstr "The Xiao boy took it. He went back to the Wind City once; he is worthier of it than this old man."
+
+msgid "寒於氏的剑。於兰家的血里有寒於氏的一份——君违嫁过来的那一份。三百年前，我家的人拔错了一把剑。"
+msgstr "The Hanyu clan's sword. There is a share of the Hanyu clan in the Yulan family's blood, the share Jun Wei brought when she married in. Three hundred years ago, one of my family drew the wrong sword."
+
+msgid "旋芒……先帝找了一辈子。老夫不找。"
+msgstr "Whirling Edge... The late Emperor searched for it all his life. This old man does not search."
+
+msgid "找到城，叫我。风会知道怎么找到於兰家的人。"
+msgstr "When you find the city, call me. The wind will know how to find a Yulan."
+
+msgid "樵夫撞进去过，先帝的人没有。老夫不信那些。"
+msgstr "A woodcutter once stumbled in; the late Emperor's men never did. This old man does not believe such things."
+
+msgid "人送回水烟阁了。庾子建那道门，老夫往后还会去敲。"
+msgstr "He has been sent back to Waterfog Pavilion. Yu Zijian's door, this old man will knock on again."
+
+msgid "卫沧澜出来了？好。……二十年，老夫在水烟阁等他回来，他就关在京城。"
+msgstr "Wei Canglan is out? Good. ...Twenty years this old man waited at Waterfog Pavilion for him to come back, and all along he was locked up in the Capital."
+
+msgid "虹台那边已经开了席。等散了会，老夫再去庾子建那里要人——这时候把人领出来，倒像是去抢那把椅子。"
+msgstr "The seats are already set on Rainbow Terrace. When the Assembly breaks up, this old man will go to Yu Zijian and demand the man. To bring him out now would look like going to grab that chair."
+
+msgid "放下手里的茶盏，站了起来。"
+msgstr " sets down his teacup and stands up."
+
+msgid "卫沧澜？二十年前的武林盟主……庾子建府上那间客房，老夫知道。"
+msgstr "Wei Canglan? The Alliance Leader of twenty years ago... That guest room in Yu Zijian's mansion, this old man knows of it."
+
+msgid "昭儿的手诏召老夫回朝，也叫得开兵部尚书的门。你在这里等着。"
+msgstr "Zhao'er's edict calls this old man back to court, and it can open the Minister of War's door as well. Wait here."
+
+msgid "於兰天武大步出了养心殿，两个侍卫捧着黄绫跟在后头。\n"
+msgstr "Yulan Tianwu strides out of the Hall of Mental Cultivation, two guards following behind him with the yellow silk in their hands.\n"
+
+msgid "过了一个多时辰，殿外一阵脚步响。於兰天武回来了，身后跟着一个白发的老人，腋下夹着一本诗集。\n"
+msgstr "A good two hours later, footsteps sound outside the hall. Yulan Tianwu is back, and behind him walks a white-haired old man with a book of poems tucked under his arm.\n"
+
+msgid "庾子建亲自开的门，一句话也没说。……老夫进门的时候，他还躬着身。"
+msgstr "Yu Zijian opened the door himself and said not a word. ...When this old man went in, he was still bowing."
+
+msgid "卫沧澜朝你点点头：「老夫先回水烟阁。这条命是皇叔从尚书府要回来的，欠朝廷一份。」\n"
+msgstr "Wei Canglan nods to you: \"This old man will go back to Waterfog Pavilion first. This life the Imperial Uncle won back from the Minister's Mansion; I owe the court a share of it.\"\n"
+
+msgid "卫沧澜……二十年没有消息了。"
+msgstr "Wei Canglan... No word of him in twenty years."
+
+msgid "$RESPECT若真的有心，不妨让我看看你的所学"
+msgstr "If you are truly sincere, $RESPECT, why not let me see what you have learned?"
+
+msgid "如果想拜师的话，就请接受测试"
+msgstr "If you wish to become my disciple, please take the test."
+
+msgid "於兰天武点了点头，说道：很好，这是第一招...."
+msgstr "Yulan Tianwu nods and says: \"Very well. Here is the first move...\""
+
+msgid "於兰天武叹了口气，说道：连第一招都撑不过，真是自不量力...."
+msgstr "Yulan Tianwu sighs and says: \"Not even the first move... You overrate yourself...\""
+
+msgid "於兰天武说道：这是第二招...."
+msgstr "Yulan Tianwu says: \"Here is the second move...\""
+
+msgid "於兰天武「哼」地一声，说道：便是有这许多不怕死的家伙...."
+msgstr "Yulan Tianwu snorts and says: \"There are always so many fools who do not fear death...\""
+
+msgid "於兰天武说道：第三招来了...."
+msgstr "Yulan Tianwu says: \"Here comes the third move...\""
+
+msgid "於兰天武叹道：可惜，难道老夫一身武功竟无传人...."
+msgstr "Yulan Tianwu sighs: \"A pity. Is all this old man's skill to go without an heir...\""
+
+msgid "於兰天武哈哈大笑，说道：今日老夫终於觅得一个可造之才！"
+msgstr "Yulan Tianwu laughs aloud and says: \"Today this old man has at last found someone worth teaching!\""
+
+msgid "接过黄笺，看了一遍，又看了一遍，半晌没有说话。"
+msgstr " takes the yellow paper, reads it once, then again, and says nothing for a long while."
+
+msgid "昭儿的字……还是这么慢。"
+msgstr "Zhao'er's hand... still so slow."
+
+msgid "三百年了，於兰家的人又要去碰那东西。老夫不回去，这孩子一个人扛不住。"
+msgstr "Three hundred years, and a Yulan must go and touch that thing again. If this old man does not go back, the boy cannot bear it alone."
+
+msgid "把手诏折好，揣进怀里，站了起来。"
+msgstr " folds the edict, tucks it into his robe, and stands up."
+
+msgid "传功使的事，交给萧辟尘。——老夫回京。"
+msgstr "The Teaching Envoy's duties go to Xiao Bichen. This old man returns to the Capital."
+
+msgid "萧辟尘自幼生长於岚城之中，看起来仙风道骨，不食人间烟火。\n"
+msgstr "Xiao Bichen grew up in the Wind City. He has the air of an immortal, as if he lived on nothing of this mortal world.\n"
+
+msgid "{respect}既然使兵刃，在下空手接招未免不敬。"
+msgstr "Since you fight with a weapon, {respect}, it would be disrespectful of me to meet you empty-handed."
+
+msgid "进招吧！"
+msgstr "Come at me!"
+
+msgid "既然{respect}不使兵刃，在下自然奉陪！"
+msgstr "Since you use no weapon, {respect}, I will of course match you!"
+
+msgid "嗯... 既然{count}位都是空手，在下理当奉陪！"
+msgstr "Hmm... Since all {count} of you are empty-handed, it is only right that I match you!"
+
+msgid "我天邪派门规甚严，$RESPECT如果真的有心，且发个誓来。"
+msgstr "The rules of our Wayward School are strict. If you are truly sincere, $RESPECT, swear an oath."
+
+msgid "多说无益，若不发誓恪守门规，便是跪著求我也没用。"
+msgstr "Talk is no use. Unless you swear to keep the school's rules, begging on your knees will do you no good."
+
+msgid "守门规"
+msgstr "Keep the Rules"
+
+msgid "这就是了。"
+msgstr "That will do."
+
+msgid "我回去过一回了。城还是那个样子，铃挂在钩上。……风记得我。"
+msgstr "I went back once. The city is as it was, the bell hanging on its hook. ...The wind remembers me."
+
+msgid "……这是我的铃。」他把铃接过去，翻来覆去看了很久，拇指在那个「尘」字上摸了一下，又还给你：「铃在，风认人。你带着它，比我带着它有用。"
+msgstr "...This is my bell.\" He takes the bell and turns it over and over for a long time, his thumb rubbing once across the \"Chen\" carved on it, then hands it back to you: \"While the bell is here, the wind knows its own. It will do more good with you than with me."
+
+msgid "我四岁那年起了一场大风，醒来就在山外了，身边什么也没有。铃丢了，风就不认得我，我再也回不去。……风是从城里往外吹的。小时候我放风筝，线总是往外拽。"
+msgstr "The year I was four, a great wind rose, and when I woke I was outside the mountains with nothing beside me. The bell was lost, so the wind did not know me, and I could never go back. ...The wind blows outward from the city. When I flew kites as a boy, the string always pulled outward."
+
+msgid "岚城……我是在那里长大的。别的，不说了。"
+msgstr "The Wind City... I grew up there. Of the rest, I will not speak."
+
+msgid "风铃"
+msgstr "Wind Bell"
+
+msgid "铃舌上那个字是铃匠刻的。岚城的孩子，人人一只。"
+msgstr "The character on the clapper was carved by the bellsmith. Every child of the Wind City has one."
+
+msgid "那只匣子……对着岚城的风才开。镜子里的上道，风从那头来。"
+msgstr "That casket... opens only to the Wind City's wind. The upper road in the mirror: the wind comes from that end."
+
+msgid "黄石隘口挖出来的那只石匣，后来在哪里？……先帝的人当年从山外收走过一只铃。我一直想，那是我的。"
+msgstr "The stone casket dug up at Yellow Rock Pass, where did it end up? ...The late Emperor's men once took a bell from outside the mountains. I have always thought it was mine."
+
+msgid "风铃？水烟阁的檐下也挂着几只，风一大就响。"
+msgstr "Wind bells? A few hang under Waterfog Pavilion's eaves too. They ring when the wind is up."
+
+msgid "在我背上。决战那日，它跟我下湖。"
+msgstr "On my back. On the day of the final battle, it goes down into the lake with me."
+
+msgid "是你。好。"
+msgstr "It was you. Good."
+
+msgid "皇叔拔的？……也好。於兰家欠这把剑一回。"
+msgstr "The Imperial Uncle drew it? ...Just as well. The Yulan family owes this sword one."
+
+msgid "岚城有一把剑，叫旋芒。守剑的老人不卖，不赏，不问剑给谁做什么——只问谁拔。"
+msgstr "There is a sword in the Wind City called Whirling Edge. The old man who keeps it does not sell it, does not bestow it, does not ask who it is for or what for. He asks only who draws it."
+
+msgid "旋芒？朝廷要找的那把剑。……小天邪不问这个。"
+msgstr "Whirling Edge? The sword the court is looking for. ...Little Wayward does not ask about that."
+
+msgid "湖底"
+msgstr "The Lakebed"
+
+msgid "湖底那颗头，三百年前是穿灵钉住的。这一回，我拿旋芒去。回不来，就回不来。"
+msgstr "The head under the lake was pinned by Spiritpiercer three hundred years ago. This time, I take Whirling Edge. If I do not come back, I do not come back."
+
+msgid "湖底？玉螺湖底下的事，小天邪不问。"
+msgstr "The lakebed? What lies under Jade Conch Lake, Little Wayward does not ask."
+
+msgid "水烟阁执法使"
+msgstr "Enforcer of Waterfog Pavilion"
+
+msgid "潘军禅是当今武林的一位传奇性人物，以他仅仅二十八岁的年龄竟能做到\n水烟阁执法使的职位，著实是一位不简单的人物。潘军禅是封山剑派掌门\n柳淳风的结拜义弟，但是他为人其实十分风趣，又好交朋友，丝毫不会摆\n出武林执法者的架子。\n"
+msgstr "Pan Junchan is a legend in today's wulin: at only twenty-eight he holds the post of Enforcer of Waterfog Pavilion, which makes him no ordinary man. Pan Junchan is the sworn younger brother of Liu Chunfeng, Master of the Empty Mountain School, and in truth he is good-humored and fond of making friends, and never puts on the airs of a wulin enforcer.\n"
+
+msgid "柳大哥？他是我的结拜义兄。你有他的信？拿来我看。"
+msgstr "Brother Liu? He is my sworn elder brother. You have a letter from him? Let me see it."
+
+msgid "阁里那把是假的，真剑不在这儿。要找去年那个道士，往野羊山北麓去。"
+msgstr "The one in the Pavilion is a fake; the real sword is not here. If you want the Daoist from last year, go to the North Foot of Goathill."
+
+msgid "看了柳淳风的信，笑了。"
+msgstr " reads Liu Chunfeng's letter and smiles."
+
+msgid "柳大哥的朋友就是我的朋友。邪剑穿灵？阁里挂着的那把，是仿的。"
+msgstr "A friend of Brother Liu is a friend of mine. The evil sword Spiritpiercer? The one hanging in the Pavilion is a copy."
+
+msgid "真剑早就不在水烟阁了。挂一把假的，是鱼饵——钓那些冲着它来的人。"
+msgstr "The real sword left Waterfog Pavilion long ago. Hanging a fake is bait, to hook the people who come for it."
+
+msgid "去年就钓上来一个：黑衣黑冠的道士，夜里来试剑，发觉是假的就走了。我的人跟到野羊山北麓，跟丢了。那边没有道观，只有一片黑砖。"
+msgstr "Last year it hooked one: a Daoist in black robe and black cap who came at night to test the sword, found it was a fake, and left. My men followed him to the North Foot of Goathill and lost him. There is no abbey there, only a stretch of black brick."
+
+msgid "柳大哥让你来的？信呢？没有他的信，执法使的佩剑不是你问得的。信丢了，回武馆找他再写一封。"
+msgstr "Brother Liu sent you? Where is the letter? Without his letter, the Enforcer's sword is not yours to ask about. If you lost it, go back to the Hall and have him write another."
+
+msgid "执法使的佩剑，也是你问得的？"
+msgstr "The Enforcer's sword, and you think it is yours to ask about?"
+
+msgid "晚月庄。守它的人不白给——我说过了。"
+msgstr "Latemoon Manor. Those who guard it are no pushovers. I told you so."
+
+msgid "寒於宝衣？你倒问到点子上了。"
+msgstr "Hanyu's Robe? Now you have asked the right question."
+
+msgid "当年三件东西各归一处，宝衣归月神族保管。月神族早没了，只剩晚月庄那些女子——自称人灵区冥的后人，庄里供着她的神像，池边立着凤凰护庄。"
+msgstr "Back then the three things each went to a different place, and the robe went to the Moon God clan to keep. The Moon God clan is long gone; only the women of Latemoon Manor remain. They call themselves descendants of Ouming, the Human Soul; her statue stands in the manor, and a phoenix stands by the pool to guard the place."
+
+msgid "衣在不在庄里，我不知道。守它的人不白给——你去了就明白。"
+msgstr "Whether the robe is in the manor, I do not know. Those who guard it are no pushovers. Go, and you will see."
+
+msgid "还有——野羊山那边前夜出了事。一伙黑冠道士摸上山，抓走了寨里两个人，挨个问：那天闯道观的孩子是谁。他们在找你。"
+msgstr "One more thing: there was trouble at Goathill the night before last. A band of Black-Cap Daoists crept up the mountain, carried off two people from the stockade, and asked them one by one who the child was who broke into the abbey that day. They are looking for you."
+
+msgid "执刑使管的是刀，不管衣裳。"
+msgstr "The Enforcer deals in blades, not clothing."
+
+msgid "山门"
+msgstr "Mountain Gate"
+
+msgid "山门的事办完了。正月十七之前，上山的人还会多。"
+msgstr "The gate business is done. Before the seventeenth of the first month, still more people will be coming up the mountain."
+
+msgid "人跑了。拿错的那一个，我赔过礼了。"
+msgstr "The man got away. The one we seized by mistake, I have made my apologies to."
+
+msgid "水烟阁的门，一年到头有人来打听盟主。这一回跑掉的，下回还会来——下回你认得他。"
+msgstr "All year round, people come to Waterfog Pavilion's gate asking about the Alliance Leader. The one who got away this time will come again, and next time you will know him."
+
+msgid "眼力差了一点，胆子不差。你守过一回山门了——从今日起，你是这一辈的大弟子。"
+msgstr "Your eye was a little off; your nerve was not. You have kept the mountain gate once. From today, you are the senior disciple of your generation."
+
+msgid "人拿下了？他身上掉出来的信，给我看看。"
+msgstr "You took him? The letter that fell from him, let me see it."
+
+msgid "人拿下了。身上的东西没捡着？……罢了，人押在刑堂里，我自己问。"
+msgstr "You took him. You did not pick up what he dropped? ...Never mind. He is held in the punishment hall; I will question him myself."
+
+msgid "你守过一回山门了——从今日起，你是这一辈的大弟子。"
+msgstr "You have kept the mountain gate once. From today, you are the senior disciple of your generation."
+
+msgid "人认出来了，还没拿下？去，别让他下了山。"
+msgstr "You have spotted him and not taken him yet? Go. Do not let him get down the mountain."
+
+msgid "三个上山的人在阁前候着。问清来意，听他们怎么说盟主，看看路引——哪个不对，拿下。"
+msgstr "Three people who came up the mountain are waiting in front of the Pavilion. Find out why they came, listen to what they say of the Alliance Leader, look at their travel passes. Whichever one is wrong, take him."
+
+msgid "把手里的卷宗一合，冲你招了招手。"
+msgstr " shuts the file in his hands and beckons you over."
+
+msgid "你来得正好。正月十七快到了，这些日子上山的人多：拜师的、送信的、看热闹的。"
+msgstr "You have come at the right time. The seventeenth of the first month is near, and many people come up the mountain these days: to become disciples, to deliver letters, to watch the excitement."
+
+msgid "可这一个月，阁里丢了两份名帖，山下的客栈里也有人在打听——盟主还活着没有。"
+msgstr "But this month the Pavilion has lost two calling cards, and at the inn below the mountain someone has been asking whether the Alliance Leader is still alive."
+
+msgid "我认得的人太多，往门口一站，探子就不开口了。你是新面孔。去山门值一班：上山的人问清来意，哪个不对，拿下。"
+msgstr "Too many people know my face. If I stand at the gate, a spy will not open his mouth. You are a new face. Go and stand a watch at the mountain gate: find out why each one has come up, and whichever one is wrong, take him."
+
+msgid "拿错了人不要紧，我去赔礼。只是真的那个，就跑了。"
+msgstr "Taking the wrong man does not matter; I will go and apologize. Only, the real one will get away."
+
+msgid "山门有武士守着。执法使的事，不劳外人。"
+msgstr "The mountain gate has guards. The Enforcer's business needs no outsider."
+
+msgid "镖单"
+msgstr "Waybill"
+
+msgid "镖单在刑堂里锁着。振远的脸面，水烟阁替他们留着。"
+msgstr "The waybill is locked in the punishment hall. Waterfog Pavilion is keeping Far-Road's face for them."
+
+msgid "交给陈总镖头了？……也好。他要查，就让他查到底。"
+msgstr "You gave it to Chief Chen? ...Just as well. If he wants to dig, let him dig to the bottom."
+
+msgid "手令丢了？我再写一张。"
+msgstr "Lost the warrant? I will write another."
+
+msgid "镖单在你手里。给我锁进刑堂，还是带去京师给陈天星——你定。"
+msgstr "The waybill is in your hands. Give it to me to lock in the punishment hall, or take it to the Capital for Chen Tianxing. You decide."
+
+msgid "拿着手令去绮云镇的振远镖局，找陈剑秋。"
+msgstr "Take the warrant to the Far-Road Escorts in Cloudweave Town and find Chen Jianqiu."
+
+msgid "镖单不在你身上？去绮云镇问陈剑秋，振远的底账里还有存根。"
+msgstr "The waybill is not on you? Go to Cloudweave Town and ask Chen Jianqiu. There is still a stub in Far-Road's account books."
+
+msgid "还有一件旧事。二十年前振远镖局替水烟阁押过一趟镖：盟主印一方，密件一匣，在老松岭丢了，一个人也没回来。"
+msgstr "There is one more old matter. Twenty years ago the Far-Road Escorts ran a shipment for Waterfog Pavilion: one Alliance Leader's seal and one box of secret papers. It was lost on Old Pine Ridge, and not one man came back."
+
+msgid "那张镖单还在振远手里。我写张手令，你去绮云镇找陈剑秋——他见了我的印，会拿出来。"
+msgstr "Far-Road still has the waybill. I will write a warrant; go to Cloudweave Town and find Chen Jianqiu. When he sees my seal, he will bring it out."
+
+msgid "拿到了，镖单该放在哪儿，你再定。"
+msgstr "Once you have it, you can decide where the waybill should go."
+
+msgid "还有一件旧事。二十年前振远镖局替水烟阁押过一趟镖：盟主印一方，密件一匣，在老松岭丢了。那张镖单，陈剑秋给过你。"
+msgstr "There is one more old matter. Twenty years ago the Far-Road Escorts ran a shipment for Waterfog Pavilion: one Alliance Leader's seal and one box of secret papers, lost on Old Pine Ridge. Chen Jianqiu has already given you that waybill."
+
+msgid "镖单给我，我锁进刑堂：振远的脸面，水烟阁替他们留着，这件事到此为止。"
+msgstr "Give me the waybill and I will lock it in the punishment hall. Waterfog Pavilion keeps Far-Road's face for them, and the matter ends here."
+
+msgid "陈天星不会这么想。京师的振远总局是他一手创的，他要知道当年那条路是谁点的。你把镖单带去给他，他会查到底——查出来的，未必只是振远的丑事。"
+msgstr "Chen Tianxing will not see it that way. He built the Far-Road Head Office in the Capital with his own hands, and he will want to know who chose that road back then. Take him the waybill and he will dig to the bottom, and what he digs up may not be Far-Road's shame alone."
+
+msgid "镖单只有一张。你定。"
+msgstr "There is only one waybill. You decide."
+
+msgid "镖单？先把山门的事办了。"
+msgstr "The waybill? First take care of the mountain gate."
+
+msgid "什么镖单？"
+msgstr "What waybill?"
+
+msgid "盟主"
+msgstr "Alliance Leader"
+
+msgid "盟主的事，七长老做主了。执事有执事的公事。"
+msgstr "The Alliance Leader's affairs are the Seventh Elder's to decide now. A Deacon has a Deacon's duties."
+
+msgid "等。他回来，或者不回来，椅子都是他的。"
+msgstr "We wait. Whether he comes back or not, the chair is his."
+
+msgid "盟主在厅里坐着。是你带回来的。"
+msgstr "The Alliance Leader sits in the hall. You brought him back."
+
+msgid "京师的事了结了，盟主还是没有回来。七长老常下楼来看那把椅子——你出去走一走，他再下来的时候，你在厅里。"
+msgstr "The Capital business is settled, and the Alliance Leader still has not come back. The Seventh Elder often comes downstairs to look at that chair. Go out for a walk, and when he comes down again, be in the hall."
+
+msgid "二十年前带走盟主的是兵部的白衣武官。线索在京师尚书府——我出不了水烟阁，你替我记着。"
+msgstr "Twenty years ago, those who took the Alliance Leader were the Ministry of War's Officers in White. The trail leads to the Minister's Mansion in the Capital. I cannot leave Waterfog Pavilion; keep it in mind for me."
+
+msgid "看了一眼厅侧坐着的那个白发老人，压低了声音。"
+msgstr " glances at the white-haired old man sitting at the side of the hall and lowers his voice."
+
+msgid "盟主回来了——是你从尚书府带出来的。他说，领头的白衣武官是庾子建的亲兵。"
+msgstr "The Alliance Leader is back, and you are the one who brought him out of the Minister's Mansion. He says the Officer in White who led them was one of Yu Zijian's personal guards."
+
+msgid "陈天星查清了：那趟镖是兵部点名改走老松岭的。兵部知道盟主哪一天过岭。"
+msgstr "Chen Tianxing has got to the bottom of it: the Ministry of War named that shipment and changed its route to Old Pine Ridge. The Ministry knew which day the Alliance Leader would cross the ridge."
+
+msgid "人回来了，椅子还空着。七长老这几天常下楼来，站在那把椅子跟前。"
+msgstr "The man is back, and the chair is still empty. These days the Seventh Elder often comes downstairs and stands before that chair."
+
+msgid "你出去走一走；他再下来的时候，你在厅里。"
+msgstr "Go out for a walk. When he comes down again, be in the hall."
+
+msgid "那张镖单我锁起来了，可上面那条路我看过：本该走官道，却改走了老松岭——改路的人，知道盟主哪一天过岭。"
+msgstr "I locked that waybill away, but I have seen the road on it: it should have taken the official road, but was changed to Old Pine Ridge. Whoever changed the road knew which day the Alliance Leader would cross the ridge."
+
+msgid "合上卷宗，看了一眼大厅中央那张黝黑的太师椅。"
+msgstr " closes the file and glances at the dark armchair in the middle of the hall."
+
+msgid "山门和镖单的事你都办过了。盟主的事，也该同你说了。"
+msgstr "You have handled both the gate and the waybill. It is time I told you about the Alliance Leader."
+
+msgid "二十年前，先帝召盟主进京。盟主带着阁里藏的一份旧记载上路，五长老押着盟主印随行，振远的镖走在前头。过了老松岭，一个人也没回来。"
+msgstr "Twenty years ago, the late Emperor summoned the Alliance Leader to the Capital. The Leader set out carrying an old record kept in the Pavilion, the Fifth Elder rode along guarding the Alliance Leader's seal, and Far-Road's escort went ahead. After Old Pine Ridge, not one of them came back."
+
+msgid "老松岭下的樵夫说，那天岭上来过一队穿白衣的武官。白衣，腰里挂的是兵部的刀。"
+msgstr "A woodcutter below Old Pine Ridge says a troop of officers in white came onto the ridge that day. White clothes, and at their waists the Ministry of War's sabers."
+
+msgid "京师的事有了结果，庾子建那边也有了说法——可盟主没有回来。椅子还空着。"
+msgstr "The Capital business has come to an end, and Yu Zijian has given his account. But the Alliance Leader has not come back. The chair is still empty."
+
+msgid "七长老这几天常下楼来，站在那把椅子跟前。你出去走一走；他再下来的时候，你在厅里。"
+msgstr "These days the Seventh Elder often comes downstairs and stands before that chair. Go out for a walk. When he comes down again, be in the hall."
+
+msgid "二十年来，兵部尚书一直是庾子建。盟主要是还活着，线索在京师——尚书府。"
+msgstr "For twenty years the Minister of War has been Yu Zijian. If the Alliance Leader is still alive, the trail leads to the Capital: the Minister's Mansion."
+
+msgid "这件事我出不了水烟阁：执法使一动，七长老就要问为什么。你替我记着。"
+msgstr "On this I cannot leave Waterfog Pavilion: the moment the Enforcer moves, the Seventh Elder will ask why. Keep it in mind for me."
+
+msgid "盟主的事……等山门和镖单的事办完了，我再同你说。"
+msgstr "The Alliance Leader... When the gate and the waybill are done, I will tell you."
+
+msgid "盟主二十年没回来了。这件事，水烟阁不同外人说。"
+msgstr "The Alliance Leader has not come back in twenty years. Waterfog Pavilion does not discuss it with outsiders."
+
+msgid "椅子"
+msgstr "The Chair"
+
+msgid "站潘军禅：等盟主回来。\n正月十七，天邪派在虹台上的那一票投旧盟主——卫沧澜回来了是他本人，没回来就是那把空椅子（已经入了虹台的席的，这一票不再跟着变）。潘军禅以执法使的名义升你执事；颜违会记下你，正月十七那天，他的人会多出一件事来。\n这是天邪这条线的大分裂，选了不能改。要站潘军禅吗？"
+msgstr "Stand with Pan Junchan: wait for the Alliance Leader to return.\nOn the seventeenth of the first month, the Wayward School's vote on Rainbow Terrace goes to the old Alliance Leader: to Wei Canglan himself if he has come back, to the empty chair if he has not (once seats are taken on the Rainbow Terrace, the vote no longer changes). Pan Junchan promotes you to Deacon in the Enforcer's name; Yan Wei will remember you, and on the seventeenth his people will have one more thing to do.\nThis is the great split in the Wayward line, and it can't be undone. Stand with Pan Junchan?"
+
+msgid "椅子是盟主的。正月十七，天邪派那一票，你我一起投。"
+msgstr "The chair is the Alliance Leader's. On the seventeenth of the first month, you and I cast the Wayward School's vote together."
+
+msgid "你站到七长老那边去了。执事的公事，照办就是。"
+msgstr "You have gone over to the Seventh Elder's side. A Deacon's duties, then, are carried out as ordered."
+
+msgid "看了你很久，才笑了一下——这一回的笑，和平时不一样。"
+msgstr " looks at you for a long time before he smiles. This smile is not like his usual one."
+
+msgid "好。门规里没有哪一条，写着盟主没死、椅子能换人。"
+msgstr "Good. There is no school rule that says the chair can change hands while the Alliance Leader is not dead."
+
+msgid "从今日起，你是水烟阁的执事。正月十七，天邪派那一票，等盟主。"
+msgstr "From today you are a Deacon of Waterfog Pavilion. On the seventeenth of the first month, the Wayward School's vote waits for the Alliance Leader."
+
+msgid "七长老那里，往后说话小心些——他记性好。"
+msgstr "Around the Seventh Elder, watch your words from now on. He has a long memory."
+
+msgid "盟主的椅子，空了二十年了。"
+msgstr "The Alliance Leader's chair has stood empty for twenty years."
+
+msgid "票是我唱的。唱完了，就是定了。"
+msgstr "I called the votes. Once called, it is settled."
+
+msgid "天邪这一票，正月十七照你说的。"
+msgstr "The Wayward vote goes as you said on the seventeenth."
+
+msgid "脸上没有什么表情。"
+msgstr "'s face shows nothing."
+
+msgid "你站了颜长老。天邪这一票，长老们说投他，就投他。"
+msgstr "You stood with Elder Yan. The elders say the Wayward vote goes to him, so to him it goes."
+
+msgid "……执事要是想自己坐那把椅子，天邪这一票也是执事的。公事公办。"
+msgstr "...If the Deacon means to take that chair, the Wayward vote belongs to the Deacon as well. Duty is duty."
+
+msgid "等盟主回来。我说过的话不改。"
+msgstr "We wait for the Alliance Leader to return. I do not take back what I have said."
+
+msgid "你是执事。你要这一票，你开口。"
+msgstr "You are the Deacon. If you want this vote, say so."
+
+msgid "盟主回来了，就坐在厅里。天邪这一票，投他。"
+msgstr "The Alliance Leader is back, sitting in the hall. The Wayward vote goes to him."
+
+msgid "二十年没管过事又怎样？那把椅子是他的。"
+msgstr "So what if he has not run anything for twenty years? That chair is his."
+
+msgid "望了一眼正厅那把空着的太师椅。"
+msgstr " glances at the empty armchair in the main hall."
+
+msgid "盟主没有回来。厅里是颜长老在管事——长老们的意思，天邪这一票投他。"
+msgstr "The Alliance Leader has not come back. Elder Yan runs things in the hall, and the elders mean the Wayward vote to go to him."
+
+msgid "我一个执法使，拦不住。"
+msgstr "I am only an Enforcer. I cannot stop it."
+
+msgid "正月十七……盟主的事还没有着落，说虹台早了。"
+msgstr "The seventeenth of the first month... The Alliance Leader's affair is still unsettled. It is too early to talk of Rainbow Terrace."
+
+msgid "请潘军禅把天邪派这一票交给你：正月十七虹台上，天邪听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Ask Pan Junchan to hand the Wayward School's vote to you: on Rainbow Terrace on the seventeenth of the first month, the Wayward School follows you. If you stand forward, the vote is yours; if not, you say who it goes to.\nSay this?"
+
+msgid "说过了。天邪听你的。"
+msgstr "It is said. The Wayward School follows you."
+
+msgid "沉默了一会儿。"
+msgstr " is silent for a while."
+
+msgid "好。天邪这一票，执事说了算。"
+msgstr "Good. The Wayward vote is the Deacon's call."
+
+msgid "信我收下了。"
+msgstr "I will keep the letter."
+
+msgid "信我收下了。山门的事，不劳你了。"
+msgstr "I will keep the letter. The mountain gate needs no more of your trouble."
+
+msgid "展开信看了一遍，半晌没有说话。"
+msgstr " unfolds the letter, reads it through, and says nothing for a long while."
+
+msgid "字是七长老身边账房的笔迹。……颜长老在数人头：哪几派来，椅子空不空，阁里谁跟谁走得近——数到我头上来了。"
+msgstr "The hand is that of the Seventh Elder's own clerk. ...Elder Yan is counting heads: which schools will come, whether the chair is empty, who in the Pavilion is close to whom. He has counted his way to me."
+
+msgid "数人头不犯门规。可派人扮成外人上山，数到自己阁里来——这件事，我记下了。"
+msgstr "Counting heads breaks no school rule. But sending a man up the mountain dressed as an outsider, to count inside his own Pavilion... That, I will remember."
+
+msgid "展开信看了一遍，脸上的笑没了。"
+msgstr " unfolds the letter and reads it through, and the smile leaves his face."
+
+msgid "纸是兵部的公文纸，裁去了抬头。他们想知道两件事：椅子空着没有，卫盟主还在不在。"
+msgstr "The paper is the Ministry of War's official paper, with the letterhead cut off. They want to know two things: whether the chair is empty, and whether Leader Wei is still alive."
+
+msgid "兵部的人扮成皮货商上水烟阁打听盟主——二十年来，这是头一回。有人在京师，替盟主的生死记着账。"
+msgstr "A Ministry of War man dressed as a fur trader, coming up to Waterfog Pavilion to ask about the Alliance Leader: in twenty years, this is the first time. Someone in the Capital is keeping accounts on whether the Leader lives or dies."
+
+msgid "镖单你已经给了陈总镖头。这一张存根，你自己留着。"
+msgstr "You have already given the waybill to Chief Chen. Keep this stub yourself."
+
+msgid "刑堂里已经锁着一张了。"
+msgstr "There is already one locked in the punishment hall."
+
+msgid "把镖单交给潘军禅，锁进水烟阁的刑堂。\n振远的脸面保住了，这件事到此为止——陈天星不会再查。\n镖单只有一张。交给他吗？"
+msgstr "Give the waybill to Pan Junchan, to be locked in Waterfog Pavilion's punishment hall.\nFar-Road's face is saved and the matter ends here; Chen Tianxing will dig no further.\nThere is only one waybill. Give it to him?"
+
+msgid "接过镖单看了一遍，折好收进了袖里。"
+msgstr " takes the waybill, reads it through, folds it and tucks it into his sleeve."
+
+msgid "锁进刑堂。振远的脸面，水烟阁替他们留着。"
+msgstr "Into the punishment hall it goes. Waterfog Pavilion keeps Far-Road's face for them."
+
+msgid "陈剑秋那里，我派人去说一声。二十年了，他也该睡个好觉。"
+msgstr "I will send someone to tell Chen Jianqiu. Twenty years; he has earned a good night's sleep."
+
+msgid "振远的东西，你自己收好。"
+msgstr "It is Far-Road's. Keep it safe yourself."
+
+msgid "执法使"
+msgstr "Enforcer"
+
+msgid "於兰前辈入了朝，萧师兄……没有回来。水烟阁不能没有收徒的人，我以执法使的名义代收。天邪派门规甚严，$RESPECT如果真的有心，且发个誓来。"
+msgstr "Elder Yulan has gone to court, and Senior Brother Xiao... did not come back. Waterfog Pavilion cannot be without someone to take disciples, so I take them in the Enforcer's name. The rules of the Wayward School are strict. If you are truly sincere, $RESPECT, swear an oath."
+
+msgid "执法使代收，也是照门规收。不发誓，不收。"
+msgstr "When the Enforcer takes disciples in their stead, it is still by the school's rules. No oath, no disciple."
+
+msgid "好。师父不在，执法使替他们看着你。"
+msgstr "Good. Your shifus are not here, so the Enforcer will watch over you for them."
+
+msgid "冲你点了点头，没有笑。"
+msgstr " nods to you without a smile."
+
+msgid "从楼上下来，走到大厅中央那张黝黑的太师椅跟前，伸手在扶手上按了一按。"
+msgstr " comes down from upstairs, walks up to the dark armchair in the middle of the hall, and presses a hand on its armrest."
+
+msgid "这个「代」字，本座顶了这些日子，也该去掉了。正月十七九派上虹台，水烟阁要有一个真正坐这把椅子的人。"
+msgstr "This word 'Acting' I have carried all these days; it is time it came off. On the seventeenth of the first month the nine schools go up to Rainbow Terrace, and Waterfog Pavilion must have someone who truly sits in this chair."
+
+msgid "二十年了，这把椅子一直空着。正月十七九派上虹台，水烟阁总得拿出个说法——椅子空着，武林就没有一个能说话的人。"
+msgstr "Twenty years this chair has stood empty. On the seventeenth the nine schools go up to Rainbow Terrace, and Waterfog Pavilion must give them an answer. While the chair is empty, the wulin has no one who can speak for it."
+
+msgid "坐在厅侧的一张矮凳上，手里还拿着那本诗集，没有抬头。"
+msgstr " sits on a low stool at the side of the hall, the book of poems still in his hands, and does not look up."
+
+msgid "盟主回来了，本座比谁都高兴。可一个二十年没管过事的人，正月十七上了虹台，九派问他这二十年武林是什么样子——他答得上来么？"
+msgstr "The Alliance Leader is back, and no one is happier than I. But a man who has run nothing for twenty years goes up to Rainbow Terrace on the seventeenth, and the nine schools ask him what the wulin has been these twenty years. Can he answer?"
+
+msgid "椅子空着，是因为盟主还没回来。"
+msgstr "The chair is empty because the Alliance Leader has not come back yet."
+
+msgid "二十年了，执法使。人要是回得来，早就回来了。"
+msgstr "Twenty years, Enforcer. If he could come back, he would have long ago."
+
+msgid "九派里几派会来，阁里谁跟谁走得近——本座心里有数。山门上跑掉的那一个，没有白跑。"
+msgstr "How many of the nine schools will come, who in the Pavilion is close to whom: I know. The one who got away at the mountain gate did not run for nothing."
+
+msgid "上个月山门上那个探子，听说是从执法使眼皮底下走的？椅子空着，外人就敢上山来问盟主的死活。"
+msgstr "That spy at the mountain gate last month, I hear he walked off under the Enforcer's nose? While the chair is empty, outsiders dare come up the mountain to ask whether the Alliance Leader lives or dies."
+
+msgid "上个月扮成皮货商上山来数人头的，是七长老账房里的人。"
+msgstr "The one who came up the mountain last month dressed as a fur trader to count heads was a man from the Seventh Elder's counting room."
+
+msgid "数人头不犯门规。正月十七几派来、椅子空不空，总得有人去数。"
+msgstr "Counting heads breaks no school rule. How many schools come on the seventeenth, whether the chair is empty: someone has to count."
+
+msgid "上个月山门上拿下的那个，是兵部的人。京师有人替盟主的生死记着账。"
+msgstr "The one taken at the mountain gate last month was a Ministry of War man. Someone in the Capital is keeping accounts on whether the Alliance Leader lives or dies."
+
+msgid "所以更要早定。椅子空一天，朝廷就多一天的念想。"
+msgstr "All the more reason to settle it soon. Every day the chair stands empty, the court has one more day to hope."
+
+msgid "陈天星查清了：二十年前那趟镖，是兵部点名改走老松岭的。"
+msgstr "Chen Tianxing has got to the bottom of it: twenty years ago, the Ministry of War named that shipment and changed its route to Old Pine Ridge."
+
+msgid "查清了又如何？水烟阁不能为一趟镖跟朝廷耗二十年。正月十七之后，旧案到此为止。"
+msgstr "And so? Waterfog Pavilion cannot wear itself out against the court for twenty years over one shipment. After the seventeenth, the old case ends here."
+
+msgid "镖单锁进了刑堂——执法使自己也知道，有些旧案，到此为止最好。"
+msgstr "The waybill was locked in the punishment hall. The Enforcer knows himself that some old cases are best ended there."
+
+msgid "锁起来，是替振远留脸面，不是替谁结案。"
+msgstr "I locked it away to keep Far-Road's face, not to close anyone's case."
+
+msgid "盟主回来了。他坐不坐这把椅子，正月十七由他自己说，轮不到别人替他定。"
+msgstr "The Alliance Leader is back. Whether he sits in this chair, he will say himself on the seventeenth; it is not for anyone else to decide for him."
+
+msgid "盟主一天没有消息，这把椅子就一天是盟主的。等他回来。"
+msgstr "For as long as there is no word of the Alliance Leader, this chair is his. We wait for him to come back."
+
+msgid "转过身来，看着你。"
+msgstr " turns around and looks at you."
+
+msgid "你是天邪这一辈的大弟子。正月十七，天邪派那一票该投给谁，你说一句。跟着本座，水烟阁的执事有你一个。"
+msgstr "You are the senior disciple of the Wayward School's generation. On the seventeenth, say who the Wayward vote should go to. Follow me, and one of Waterfog Pavilion's Deacons will be you."
+
+msgid "七长老许得出口的，我许不出口。我只问你一句：门规里哪一条，写着盟主没死，椅子就能换人？"
+msgstr "What the Seventh Elder can promise, I cannot. I will ask you only this: which school rule says the chair can change hands while the Alliance Leader is not dead?"
+
+msgid "绝尘子本为释家人，后得奇人指点，得悟道家真谛，佛道双修，\n皆入化境。后访遍名山大川，自号绝尘，创此绝尘一派。\n"
+msgstr "Juechenzi was once a Buddhist; later, guided by a remarkable teacher, he grasped the true meaning of the Dao and cultivated Buddhism and Daoism both until he mastered them. Afterward he traveled to all the famous mountains and great rivers, named himself Juechen, and founded the Dustless School.\n"
+
+msgid "祖师"
+msgstr "Founder"
+
+msgid "绝尘子道：你为何无故滋事，误我清修！\n"
+msgstr "Juechenzi says: \"Why do you make trouble for no reason and disturb my quiet cultivation?\"\n"
+
+msgid "绝尘子道：贫道向以遁世为乐，你何苦如此相逼？\n"
+msgstr "Juechenzi says: \"This poor Daoist has always found his joy in withdrawing from the world. Why must you press me so?\"\n"
+
+msgid "绝尘派是我所创，你有何指教？"
+msgstr "I founded the Dustless School. What is it you wish of me?"
+
+msgid "入我派者，需有慧根。"
+msgstr "Whoever enters my school must have a gift for insight."
+
+msgid "我便是绝尘子。"
+msgstr "I am Juechenzi."
+
+msgid "绝尘派不问世事。"
+msgstr "The Dustless School does not concern itself with the affairs of the world."
+
+msgid "洞里的事，你都知道了。"
+msgstr "You know everything about the cave now."
+
+msgid "闭着眼睛听你说完，过了很久才睁开。"
+msgstr " hears you out with his eyes closed, and opens them only after a long time."
+
+msgid "洞里有东西，老道知道。"
+msgstr "There is something in the cave. This old Daoist knows."
+
+msgid "那道门拴着，阵守得住石室——老道就不管。"
+msgstr "As long as that door stays barred and the array holds the Stone Chamber, this old Daoist does not interfere."
+
+msgid "又闭上了眼睛。"
+msgstr " closes his eyes again."
+
+msgid "青石村？绝尘派不问世事。"
+msgstr "Bluestone Village? The Dustless School does not concern itself with the affairs of the world."
+
+msgid "绝尘派不问世事。村里人的事，你要管，自己去管。"
+msgstr "The Dustless School does not concern itself with the affairs of the world. The villagers' troubles: if you want to see to them, see to them yourself."
+
+msgid "睁开眼睛，打量了你一番。"
+msgstr " opens his eyes and looks you over."
+
+msgid "你走得出老道的阵。"
+msgstr "You can walk out of this old Daoist's array."
+
+msgid "……村里人的事，你要管，自己去管。"
+msgstr "...The villagers' troubles: if you want to see to them, see to them yourself."
+
+msgid "正月十七的事，过去了。"
+msgstr "The seventeenth of the first month is past."
+
+msgid "老道说话算话。正月十七，老道下山走一趟。"
+msgstr "This old Daoist keeps his word. On the seventeenth of the first month, this old Daoist will come down the mountain."
+
+msgid "虹台？绝尘派不问世事，向来不去。"
+msgstr "Rainbow Terrace? The Dustless School does not concern itself with the world, and has never gone."
+
+msgid "眯着眼睛打量了你一番。"
+msgstr " narrows his eyes and looks you over."
+
+msgid "……你走得过老道的八卦阵。好，你要老道下山，老道就下山——投旧盟主，椅子照旧。"
+msgstr "...You can get through this old Daoist's Eight Trigrams array. Very well. If you want this old Daoist to come down the mountain, down he comes: the vote is for the old Alliance Leader, and the chair stays as it is."
+
+msgid "虹台上那把椅子谁坐，跟老道没有关系。"
+msgstr "Who sits in that chair on Rainbow Terrace has nothing to do with this old Daoist."
+
+msgid "下山"
+msgstr "Come Down"
+
+msgid "请绝尘子下山：正月十七绝尘派来虹台，这一票投旧盟主。\n要这么说吗？"
+msgstr "Ask Juechenzi to come down the mountain: on the seventeenth of the first month the Dustless School comes to Rainbow Terrace, and its vote goes to the old Alliance Leader.\nSay this?"
+
+msgid "说过了。老道下山。"
+msgstr "It is said. This old Daoist comes down the mountain."
+
+msgid "拂了拂袖子。"
+msgstr " brushes off his sleeves."
+
+msgid "好。老道走一趟。"
+msgstr "Very well. This old Daoist will make the trip."
+
+msgid "{title}{nickname}{name}要叛师！！！"
+msgstr "{title} {name} would betray the school!!!"
+
+msgid "入我派者，需有慧根。$RESPECT的资质不宜！"
+msgstr "Whoever enters my school must have a gift for insight. Your gifts are not suited to it, $RESPECT!"
+
+msgid "$RESPECT似乎尚缺江湖历练，不宜投入绝尘门下。"
+msgstr "You still seem to lack experience in the jianghu, $RESPECT. It is not fitting for you to join the Dustless School."
+
+msgid "很好$RESPECT多加努力他日必定有成。"
+msgstr "Very good. Work hard, $RESPECT, and one day you will surely succeed."
+
+msgid "这是一位来自天界的守护神，专门担任护法之责。\n"
+msgstr "A guardian god from the heavens, whose charge is to stand guard.\n"
+
+msgid "一道金光由天而降，金光中走出一个身穿金色战袍的将官。"
+msgstr "A beam of golden light comes down from the sky, and out of it steps an officer in a golden war robe."
+
+msgid "$N说道：末将奉法主召唤，特来护法！"
+msgstr "$N {N:say|says}: \"Summoned by my master, this general comes to stand guard!\""
+
+msgid "$N说道：末将奉法主召唤，现在已经完成护法任务，就此告辞！"
+msgstr "$N {N:say|says}: \"Summoned by my master, this general has done his guard duty and now takes his leave!\""
+
+msgid "$N化成一道金光，冲上天际消失不见了。"
+msgstr "$N {N:turn|turns} into a beam of golden light, {N:shoot|shoots} up into the sky and {N:vanish|vanishes}."
+
+msgid "林忌是一位道行十分高深的修道者，你发现他的眼珠一个是黑色的，一\n个是金色的，这正是「谷衣心法」修炼到极高境界的徵兆。\n"
+msgstr "Lin Ji is a Daoist of very deep attainment. You notice that one of his eyes is black and the other gold: the sign of the Grain Robe Heart Method cultivated to a very high level.\n"
+
+msgid "天师"
+msgstr "Celestial Master"
+
+msgid "道童"
+msgstr "Acolytes"
+
+msgid "的眉头动了一下。"
+msgstr "'s brows twitch."
+
+msgid "北麓的道观收孩子，说是收道童。茅山查了二十年，查到的孩子都没有回来过。"
+msgstr "The abbey on the North Foot takes in children, calls them acolytes. Mount Mao has looked into it for twenty years, and not one of the children it traced has ever come back."
+
+msgid "晚月庄那个女人是逃出来的？……那她是第一个。六阴剑是逆灵宫的剑，教给孩子，是为了让他们替宫里杀人。"
+msgstr "That woman at Latemoon Manor escaped? ...Then she is the first. The Six-Chaos Sword is the Black Palace's sword; they teach it to children so the children will kill for the Palace."
+
+msgid "道童？"
+msgstr "Acolytes?"
+
+msgid "茅山的家事，不劳你了。"
+msgstr "Mount Mao's family affairs need no help from you."
+
+msgid "没有抬头。"
+msgstr " does not look up."
+
+msgid "书在藏经楼，他守着。他二十年不进这道门——进来一回，就不走了。"
+msgstr "The book is in the Scripture Library, and he keeps watch over it. For twenty years he would not come through this door; now that he has come through once, he will not leave."
+
+msgid "你们说留，就留吧。"
+msgstr "You say keep it, so it stays."
+
+msgid "书烧了。他回京城去了——那里还有他守着的人。"
+msgstr "The book is burned. He has gone back to the Capital; there is still someone there he watches over."
+
+msgid "书在这里，人也在这里。"
+msgstr "The book is here, and so is he."
+
+msgid "烧，问我「烧」；留，去问他「留」。你带它回来的——你说。"
+msgstr "To burn it, ask me \"Burn\"; to keep it, go and ask him \"Keep.\" You brought it back. You say."
+
+msgid "他会来的。书在我这里，他总要来看一眼。"
+msgstr "He will come. The book is with me; he will have to come and look at it."
+
+msgid "下回你进大殿，他就在门口了。"
+msgstr "Next time you enter the main hall, he will be at the door."
+
+msgid "他在京城兵部尚书府，二十年了。书在他手里。"
+msgstr "He is in the Capital, at the Minister's Mansion, and has been for twenty years. The book is in his hands."
+
+msgid "把拂尘搁在香案上，半晌没有说话。"
+msgstr " lays his horsetail whisk on the incense table and says nothing for a long while."
+
+msgid "少的那一函叫《上清符箓》，茅山的符都在里头。"
+msgstr "The missing case is the Highest Clarity talisman book. All of Mount Mao's talismans are in it."
+
+msgid "二十年前，京里兵部的庾大人夜夜见白衣人，派人上山，求茅山去镇宅。茅山不给官家看门——我不肯。"
+msgstr "Twenty years ago, Lord Yu of the Ministry of War in the Capital saw men in white night after night, and sent people up the mountain to beg Mount Mao to come and guard his house. Mount Mao does not keep the gate for officials. I refused."
+
+msgid "我那师弟说，镇宅也是救人。夜里揣着那函书下了山，再没回来。"
+msgstr "My junior brother said that guarding a house is saving people too. One night he went down the mountain with that case of books in his robe, and never came back."
+
+msgid "「我守人」……他守的是谁，我不知道。他在京城兵部尚书府，二十年了。你替我去看一眼。"
+msgstr "\"I guard someone\"... Who it is he guards, I do not know. He is in the Capital, at the Minister's Mansion, and has been for twenty years. Go and take a look for me."
+
+msgid "藏经楼二楼，红布桌上的镇教秘籍，你数过没有？"
+msgstr "On the second floor of the Scripture Library, the guardian scriptures on the red-clothed table: have you counted them?"
+
+msgid "上去看看。"
+msgstr "Go up and look."
+
+msgid "金色的那只眼睛动了一下。"
+msgstr "'s golden eye flickers."
+
+msgid "尚书府的花匠？……你见过他。他还叫我师兄。"
+msgstr "The gardener at the Minister's Mansion? ...You have seen him. He still calls me Senior Brother."
+
+msgid "茅山的家事，本不该同外人说。你见过他，就算茅山的朋友。"
+msgstr "Mount Mao's family affairs should not be told to outsiders. But you have seen him, so you count as a friend of Mount Mao."
+
+msgid "藏经楼你上去看看。二楼红布桌上的镇教秘籍，你数一数。"
+msgstr "Go up to the Scripture Library and look. Count the guardian scriptures on the red-clothed table on the second floor."
+
+msgid "你替茅山戴过那顶冠，算茅山的朋友。茅山的家事，不瞒你。"
+msgstr "You wore that cap for Mount Mao; you count as a friend of Mount Mao. Mount Mao's family affairs, I will not hide from you."
+
+msgid "我有个师弟，二十年前下了山。"
+msgstr "I have a junior brother who went down the mountain twenty years ago."
+
+msgid "茅山的家事。"
+msgstr "Mount Mao's family affairs."
+
+msgid "烧"
+msgstr "Burn"
+
+msgid "跟林忌：《上清符箓》投进殿前的香炉，镇教秘籍从此少一函——茅山宁可没有这本书。花匠下山回京城，守着庾清尘。\n林忌教你谷衣心法。正月十七虹台上，茅山这一票投颜违：主剿，北麓剿干净，不留根（已经入了虹台的席的，这一票不再跟着变）。\n终章之后北麓那座道观里的人还没有去处的，问林忌「剿」，官兵上山。\n要这么办吗？"
+msgstr "Side with Lin Ji: the Highest Clarity talisman book goes into the incense burner before the hall, and the guardian scriptures are one case short from now on; Mount Mao would rather not have this book. The gardener goes down the mountain and back to the Capital, to watch over Yu Qingchen.\nLin Ji teaches you the Grain Robe Heart Method. On Rainbow Terrace on the seventeenth of the first month, Mount Mao's vote goes to Yan Wei: for a purge, the North Foot wiped clean with no roots left (once seats are taken on the Rainbow Terrace, the vote no longer changes).\nAfter the final chapter, if anyone from that abbey on the North Foot still has nowhere to go, ask Lin Ji \"Purge\" and the soldiers go up the mountain.\nDo it this way?"
+
+msgid "书锁回去了。……师弟守着。"
+msgstr "The book is locked away again. ...My junior brother keeps watch."
+
+msgid "烧了。灰是青的。"
+msgstr "Burned. The ashes were blue."
+
+msgid "把《上清符箓》捧到殿前的香炉边，一页一页撕下来，投进去。"
+msgstr " carries the Highest Clarity talisman book to the incense burner before the hall, tears it out page by page, and throws the pages in."
+
+msgid "前半本的朱砂符烧起来是红的，后半本的黑字烧起来是青的。花匠站在殿门口，一直看到最后一页。\n"
+msgstr "The cinnabar talismans of the first half burn red; the black characters of the second half burn blue. The gardener stands in the hall doorway and watches to the very last page.\n"
+
+msgid "茅山宁可没有这本书。"
+msgstr "Mount Mao would rather not have this book."
+
+msgid "师弟，回京城去吧。那孩子还要人看着。"
+msgstr "Junior Brother, go back to the Capital. That child still needs someone to watch over him."
+
+msgid "花匠朝林忌拜了一拜，什么也没说，转身下山去了。\n"
+msgstr "The gardener bows to Lin Ji, says nothing, turns, and goes down the mountain.\n"
+
+msgid "烧什么？"
+msgstr "Burn what?"
+
+msgid "谷衣心法是我茅山派为对抗邪魔外道所创的内功心法。\n"
+msgstr "The Grain Robe Heart Method is a neigong our Mount Mao School created to stand against demons and heretics.\n"
+
+msgid "我茅山派自张天师开山立派至今，世世代代皆以降妖伏魔为己任。\n"
+msgstr "Since Celestial Master Zhang founded our Mount Mao School, generation after generation has made subduing demons its duty.\n"
+
+msgid "看了你很久，叹了一口气。"
+msgstr " looks at you for a long time and sighs."
+
+msgid "他们认出你了。冠摘了吧——戴着它，北麓上谁都认得你。"
+msgstr "They have recognized you. Take off the cap. Wearing it, anyone on the North Foot will know you."
+
+msgid "你递出来的东西，茅山都用上了。这就够了。"
+msgstr "Everything you passed out, Mount Mao has put to use. That is enough."
+
+msgid "你露的破绽太多了。宫里迟早认出你——别再回那座道观。"
+msgstr "You have shown too many cracks. Sooner or later the Palace will see through you. Do not go back to that abbey."
+
+msgid "时辰和路，茅山记下了。那一夜，北麓下湖的路上有茅山的人。"
+msgstr "The hour and the road, Mount Mao has noted. That night, Mount Mao's people will be on the road from the North Foot down to the lake."
+
+msgid "那就去吧。冠戴好——那一剑，只有你递得出去。"
+msgstr "Then go. Keep the cap on. That sword stroke, only you can deliver."
+
+msgid "官兵上了北麓。宫里剩下的人，这一回一个也走不了。"
+msgstr "The soldiers have gone up the North Foot. This time, not one of those left in the Palace will get away."
+
+msgid "宫里剩下的人下了山，茅山看着。坛上的火，灭了。"
+msgstr "Those left in the Palace have come down the mountain, and Mount Mao watches over them. The fire on the altar has gone out."
+
+msgid "回北麓去，同宫里当家的说「下山」。"
+msgstr "Go back to the North Foot and say \"Down the Mountain\" to whoever runs the Palace."
+
+msgid "宫里剩下的人，交官府去剿（问我「剿」），还是劝他们下山、交茅山看着（问我「招安」）——你定。正月十七之前，给我一个了断。"
+msgstr "Those left in the Palace: hand them to the authorities to purge (ask me \"Suppress\"), or persuade them to come down the mountain into Mount Mao's keeping (ask me \"Amnesty\"). You decide. Before the seventeenth of the first month, give me an end to it."
+
+msgid "唤首那一夜过去了。茅山没等到你的话。"
+msgstr "The night of the Calling of the Head has passed. Mount Mao never got word from you."
+
+msgid "倒戈，还是潜伏，你定。定了，来告诉我。"
+msgstr "Turn on them, or stay hidden among them: you decide. When you have decided, come and tell me."
+
+msgid "把拂尘搭在臂弯里，金色的那只眼睛望着北边。"
+msgstr " rests his horsetail whisk in the crook of his arm, his golden eye gazing north."
+
+msgid "湖底的事了了，商玦没有回来。可北麓那座道观里还有人——坛上的火没有灭，他们管这叫续灯。"
+msgstr "The business under the lake is over, and Shang Jue has not come back. But there are still people in that abbey on the North Foot. The fire on the altar has not gone out; they call it the Feeding of the Lamp."
+
+msgid "茅山要一个了断。交给官府去剿，还是劝他们下山，交茅山看着。"
+msgstr "Mount Mao wants an end to it. Hand them to the authorities to purge, or persuade them to come down the mountain into Mount Mao's keeping."
+
+msgid "交官府去剿，问我「剿」；劝他们下山、交茅山看着，问我「招安」。正月十七之前，给我一个了断。"
+msgstr "To hand them to the authorities to purge, ask me \"Suppress\"; to persuade them down the mountain into Mount Mao's keeping, ask me \"Amnesty.\" Before the seventeenth of the first month, give me an end to it."
+
+msgid "湖上的事要紧。先去湖上。"
+msgstr "The lake comes first. Go to the lake."
+
+msgid "放下手里的拂尘，金色的那只眼睛看着你。"
+msgstr " puts down his horsetail whisk, his golden eye on you."
+
+msgid "钉子拔了，头在冰下醒了。他们等的那一夜，就是唤首：宫里倾巢下湖，商玦走在最前头。"
+msgstr "The nail is pulled, and the head has woken under the ice. The night they have been waiting for is the Calling of the Head: the whole Palace goes down to the lake, with Shang Jue at the front."
+
+msgid "你告诉我哪一夜、走哪条路，茅山的人就截在北麓下湖的路上——到了冰龙厅，他身边剩不下几个人。可那顶冠，从此就没用了。"
+msgstr "Tell me which night and which road, and Mount Mao's people will cut them off on the road from the North Foot down to the lake. By the time he reaches the ice dragons' hall, he will have few left beside him. But after that, the cap will be of no more use."
+
+msgid "或者你什么都不说。戴着冠跟他们下湖，站在他身后——第一剑，只有你递得出去。宫里要是已经起了疑心，这条路就走不得。"
+msgstr "Or you say nothing. Wear the cap, go down to the lake with them, and stand behind him. The first stroke, only you can deliver. If the Palace already suspects you, this road is closed."
+
+msgid "倒戈，还是潜伏，你定。"
+msgstr "Turn on them, or stay hidden among them: you decide."
+
+msgid "宫里的事快到头了。他们在等一夜——钉子拔了，湖上的事近了，那一夜才会来。"
+msgstr "The Palace's business is nearly at its end. They are waiting for a night. When the nail is pulled and the lake's business draws near, that night will come."
+
+msgid "到时候我要知道：哪一夜，走哪条路。"
+msgstr "When it does, I need to know: which night, and which road."
+
+msgid "人放出去了。茅山的人在北麓底下接着，送他们各回各家。"
+msgstr "They have been let out. Mount Mao's people are waiting below the North Foot to see each of them home."
+
+msgid "宫里的事还没完——你戴着那顶冠，就还是他们的人。等我的话。"
+msgstr "The Palace's business is not over. As long as you wear that cap, you are still one of them. Wait for my word."
+
+msgid "地牢里那三个人。钥匙在狱卒腰上——那人好酒，子时就歪在长凳上睡。开了门，人自己会走。"
+msgstr "The three people in the dungeon. The key is on the jailer's belt. He likes his drink, and by midnight he is asleep, slumped on the bench. Open the door and they will walk out on their own."
+
+msgid "把名单折好，压在香炉底下。"
+msgstr " folds the list and tucks it under the incense burner."
+
+msgid "茅山截下了一车。可上一车已经上了山——地牢里新关了三个人。"
+msgstr "Mount Mao stopped one cart. But the cart before it had already gone up the mountain; there are three new prisoners in the dungeon."
+
+msgid "放他们出来。钥匙在狱卒腰上；那人好酒，子时就歪在石阶边的长凳上睡。开了门，人自己会走：货栈的侧门，夜里没人看。"
+msgstr "Let them out. The key is on the jailer's belt; he likes his drink, and by midnight he is asleep, slumped on the bench by the stone steps. Open the door and they will walk out on their own: the side door of the storehouse goes unwatched at night."
+
+msgid "还有一样。账房案角那只铁匣，锁和牢门是一套。里头是名册的原本——人是谁送上山的，押的谁的印，都在上面。"
+msgstr "One more thing. The iron box on the corner of the Counting Room desk has the same lock as the cell door. Inside is the original register: who sent each person up the mountain, whose seal is on it, it is all there."
+
+msgid "带不带出来，你定。带出来，是一样物证；宫里也就少了一样东西。"
+msgstr "Whether you bring it out is your decision. Brought out, it is evidence, and the Palace has one thing less."
+
+msgid "名单抄到了？给我。"
+msgstr "You copied the list? Give it to me."
+
+msgid "看了你一眼，没有说话。"
+msgstr " glances at you and says nothing."
+
+msgid "禁书回了宫里，是你送回去的。……也罢。他当你是自己人，门你进得去。"
+msgstr "The forbidden book went back to the Palace, and you are the one who took it. ...So be it. He thinks you are one of his own; you can get through the door."
+
+msgid "进去，干活，听。他们在等什么，要多少人，人从哪里来。"
+msgstr "Go in, work, listen. What they are waiting for, how many people they need, where the people come from."
+
+msgid "进去，先干活。管事派什么，你干什么；他们说什么，你听什么。"
+msgstr "Go in and work first. Do whatever the steward assigns; listen to whatever they say."
+
+msgid "野羊山北麓那座黑砖道观，茅山盯了它两年。我要一个进得去的人，戴着他们的冠替我看、替我听。"
+msgstr "Mount Mao has watched that black-brick abbey on the North Foot of Goathill for two years. I need someone who can get inside, wear their cap, and watch and listen for me."
+
+msgid "可你身上有东方神教的令。一个人只藏得住一重身份——这件事，我不能托你。"
+msgstr "But you carry a Golden Crow Order token. One person can hide only one identity. This, I cannot trust to you."
+
+msgid "野羊山北麓那座黑砖道观，茅山盯了它两年。他们拜的不是神，是劫；收的不是香火，是人。"
+msgstr "Mount Mao has watched that black-brick abbey on the North Foot of Goathill for two years. What they worship is not a god but a calamity; what they collect is not incense money but people."
+
+msgid "你进去过，还出来了。茅山的道士进不去——一身符水的味道，隔着三里地，他们就闻得出来。"
+msgstr "You went in, and came out again. Mount Mao's Daoists cannot get in: they reek of talisman water, and the Palace can smell it three li away."
+
+msgid "我要一个进得去的人：戴着他们的冠，替我看，替我听。他们在等什么，要多少人，人从哪里来。"
+msgstr "I need someone who can get inside: wear their cap, watch for me, listen for me. What they are waiting for, how many people they need, where the people come from."
+
+msgid "这件事做了，就脱不了身。想好了，再问我「眼线」。"
+msgstr "Once you take this on, you cannot get free of it. When you have thought it over, ask me \"Spy.\""
+
+msgid "北麓那座道观？与你无关。"
+msgstr "That abbey on the North Foot? It is none of your concern."
+
+msgid "眼线"
+msgstr "Spy"
+
+msgid "答应下来，戴着黑冠回逆灵宫，做茅山的眼线。\n一个人只藏得住一重身份：接了这件事，东方神教那边的门，从此不再为你开。\n答应吗？"
+msgstr "Agree, and go back to the Black Palace wearing the black cap as Mount Mao's spy.\nOne person can hide only one identity: take this on, and the Golden Crow Order's door will never open to you again.\nAgree?"
+
+msgid "你已经答应过了。冠戴好。"
+msgstr "You have already agreed. Keep the cap on."
+
+msgid "金色的那只眼睛看了你很久。"
+msgstr "'s golden eye studies you for a long time."
+
+msgid "你身上有东方神教的令。茅山不用替两家办事的眼线——不是信不过你，是信不过那块令。"
+msgstr "You carry a Golden Crow Order token. Mount Mao does not use a spy who works for two houses. It is not you I do not trust; it is that token."
+
+msgid "好。"
+msgstr "Good."
+
+msgid "那一夜地牢里的人是你放走的。宫里记得那一夜——他们不知道是你，只知道有人。"
+msgstr "You are the one who freed the people in the dungeon that night. The Palace remembers that night. They do not know it was you, only that it was someone."
+
+msgid "戴着冠回去，管事会派你活。冠丢了，问我「黑冠」。"
+msgstr "Go back wearing the cap, and the steward will give you work. If you lose the cap, ask me \"Black Cap.\""
+
+msgid "你身上那卷东西，是逆灵天书的残卷。拿着它的人死在后山了。它不能跟着你进去，也不能就这么留在外头。"
+msgstr "That scroll on you is a fragment of the Black Scripture. The man who carried it died on the back mountain. It cannot go in with you, and it cannot just be left outside either."
+
+msgid "交给我，我当面烧了它。宫里会少一卷书，迟早有人问起——这就是你要担的。"
+msgstr "Give it to me and I will burn it before your eyes. The Palace will be one scroll short, and sooner or later someone will ask. That is yours to bear."
+
+msgid "你身上那卷东西，是逆灵天书的残卷。它不能跟着你进去，也不能就这么留在外头。"
+msgstr "That scroll on you is a fragment of the Black Scripture. It cannot go in with you, and it cannot just be left outside either."
+
+msgid "交给我，我当面烧了它——可宫里会少一卷书，迟早有人问起。还给后山那个大弟子，他会当你是他的人——禁书也就回了宫里。"
+msgstr "Give it to me and I will burn it before your eyes, but the Palace will be one scroll short, and sooner or later someone will ask. Give it back to the senior disciple on the back mountain, and he will take you for one of his; and the forbidden book will be back in the Palace."
+
+msgid "你定。"
+msgstr "You decide."
+
+msgid "那卷残卷不在你身上？……那就当它没回宫。宫里少了一卷书，迟早有人问起。"
+msgstr "The fragment is not on you? ...Then count it as not returned to the Palace. The Palace is one scroll short, and sooner or later someone will ask."
+
+msgid "……先听我把话说完。"
+msgstr "...First hear me out."
+
+msgid "从香案底下取出一顶黑冠，递给你。"
+msgstr " takes a black cap from under the incense table and hands it to you."
+
+msgid "上个月茅山弟子在北麓截下来的。冠是真的，戴它的人回不来了。"
+msgstr "Mount Mao's disciples took it on the North Foot last month. The cap is real; the man who wore it is not coming back."
+
+msgid "冠在你身上。戴好，别摘——摘了，他们下一眼就认得你。"
+msgstr "You have the cap. Keep it on, do not take it off. Take it off and they will know you at the next glance."
