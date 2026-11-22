@@ -1,0 +1,159 @@
+# Traditional Chinese (zh_Hant.po): what OpenCC s2tw gets wrong in this game's text, and the
+# interface words Taiwan says differently. Read by tools/l10n/zh_hant.py; DECISIONS「繁體中文 (preview)」.
+#
+# phrase <TAB> Simplified <TAB> Traditional — the same number of characters: wherever the
+#   Simplified text holds it, the Traditional text gets exactly these characters there. Longer
+#   phrases win over shorter ones.
+# char <TAB> from <TAB> to — one Traditional form is folded into the Ministry of Education's
+#   standard one everywhere (s2tw mixes them).
+# ui <TAB> Traditional <TAB> Taiwan word — only in interface text (scripts, scenes, the 入门
+#   guide): the story and the people keep the shared written language.
+# Lines starting with # are notes.
+
+# 里: inside (裡) or a distance (里)
+phrase	回里有	回裡有
+phrase	栈里人	棧裡人
+phrase	眼神里	眼神裡
+phrase	谷里	谷裡
+phrase	道里面	道裡面
+phrase	炉里	爐裡
+phrase	灶里	灶裡
+phrase	夹道里	夾道裡
+phrase	甬道里	甬道裡
+phrase	关里	關裡
+phrase	海里	海裡
+phrase	道里一	道裡一
+phrase	里面人	裡面人
+phrase	几百里	幾百里
+phrase	几十里	幾十里
+# 只: only (只) or a measure word (隻)
+phrase	是只	是只
+phrase	单只有	單只有
+phrase	多只回	多只回
+phrase	几只画	幾隻畫
+phrase	那几只	那幾隻
+# 回 is never 迴 in a name or "go back to"
+phrase	回音仙子	回音仙子
+phrase	回雪亭	回雪亭
+phrase	回流云	回流雲
+phrase	回廊	迴廊
+phrase	盘回去	盤回去
+phrase	埋回风	埋回風
+phrase	递回给	遞回給
+# 干: dry (乾), do (幹), or 干 in names and 干犯/何干/若干
+phrase	没干：	沒乾：
+phrase	没干透	沒乾透
+phrase	是干了的	是乾了的
+phrase	汗干了	汗乾了
+phrase	汗还没干	汗還沒乾
+phrase	一行还没干	一行還沒乾
+phrase	已经干了	已經乾了
+phrase	唯一干净	唯一乾淨
+phrase	让干的	讓幹的
+phrase	桃干仙	桃幹仙
+phrase	图干山	圖干山
+# 准: allow (准) or accurate (準)
+phrase	不准	不准
+phrase	不准备	不準備
+phrase	准。赐	准。賜
+# 系: tie (繫)
+phrase	系在	繫在
+phrase	腰里系	腰裡繫
+phrase	给我系	給我繫
+# 托: entrust (託) or hold up (托)
+phrase	托你	託你
+phrase	托给	託給
+phrase	托路过	託路過
+# 喂: feed (餵) or a call (喂)
+phrase	喂下	餵下
+phrase	喂他	餵他
+phrase	喂（	餵（
+phrase	喂骡	餵騾
+phrase	喂老	餵老
+phrase	喂药	餵藥
+# 卷: a scroll (卷) or rolling (捲)
+phrase	那卷	那卷
+# 划: rowing (划) or cutting (劃)
+phrase	划向$	劃向$
+phrase	湖心划去	湖心划去
+# 征: conscript (徵) or conquer (征)
+phrase	征夫	徵夫
+phrase	征民夫	徵民夫
+phrase	征马	徵馬
+phrase	征人	徵人
+# 斗: a dipper, a star or a cape (斗), a fight (鬥)
+phrase	紫斗	紫斗
+phrase	斗蓬	斗蓬
+# the menu is the menu wherever it is named (an ending card names 主菜单 too)
+phrase	菜单	選單
+# one character at a time
+phrase	阳谷白	陽谷白
+phrase	青布道	青布道
+phrase	堂下摆	堂下擺
+phrase	直摆手	直擺手
+phrase	一声钟	一聲鐘
+phrase	一出	一出
+phrase	发茬	髮茬
+phrase	香烟	香煙
+phrase	烟灰	煙灰
+phrase	别着	別著
+phrase	周二牛	周二牛
+phrase	朱红	朱紅
+phrase	朱色	朱色
+phrase	彩衣	彩衣
+phrase	彩带	彩帶
+phrase	家具	家具
+phrase	家俱	家俱
+phrase	家私塾	家私塾
+phrase	查明了	查明了
+phrase	销毁	銷毀
+phrase	回复	回復
+phrase	秋千	鞦韆
+phrase	大面团	大麵團
+phrase	向往	嚮往
+phrase	烂席	爛蓆
+phrase	披于军	披於軍
+phrase	大川后	大川後
+phrase	半坛	半罈
+phrase	坛口拿	罈口拿
+phrase	石制	石製
+phrase	冰制	冰製
+phrase	丝绸制	絲綢製
+phrase	彷佛	彷彿
+phrase	游晋	游晉
+phrase	游公	游公
+phrase	姓游	姓游
+
+# the Ministry of Education's standard form, one form throughout
+char	伕	夫
+char	唸	念
+char	揹	背
+char	孃	娘
+char	巖	岩
+char	鬨	哄
+char	捱	挨
+char	柺	拐
+char	箇	個
+char	綵	彩
+char	齣	出
+char	菸	煙
+char	剋	克
+char	閤	合
+
+# interface words (Taiwan)
+ui	設置	設定
+ui	無邊框窗口	無邊框視窗
+ui	窗口	視窗
+ui	分辨率	解析度
+ui	界面	介面
+ui	全屏	全螢幕
+ui	顯示器	螢幕
+ui	保存	儲存
+ui	支持	支援
+ui	字符	字元
+ui	手柄	手把
+ui	交互	互動
+ui	消息記錄	訊息紀錄
+ui	兼容	相容
+ui	本次運行	本次執行
+ui	滾動	捲動

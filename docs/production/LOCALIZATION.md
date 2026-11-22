@@ -1,7 +1,8 @@
 # Localization
 
 Simplified Chinese (zh_CN) is the source language: every message's ID is its source text
-(gettext). English is in preview (`game/locale/en.po`); the decisions behind this setup are in
+(gettext). Traditional Chinese (`game/locale/zh_Hant.po`) and English (`game/locale/en.po`) are in
+preview; the decisions behind this setup are in
 [DECISIONS](../migration/DECISIONS.md#localization-the-source-text-is-the-key-2026-10-03).
 
 ## Writing player text
@@ -48,7 +49,9 @@ choice and the Settings language.
 1. Make `game/locale/<code>.po` from the template (Poedit: New from POT; Weblate or msginit
    work too) and translate. Untranslated messages show the Simplified source.
 2. Add the language to `game/locale/languages.json`: `code`, its own `name`, `script` (Hans or
-   Hant for Chinese), `translation` (`res://locale/<code>.po`) and the system `fonts` to try.
+   Hant for Chinese), `translation` (`res://locale/<code>.po`) and the system `fonts` to try; a
+   language with glyph forms of its own names its pixel face in `face` (繁體中文: 缝合像素 zh_tw),
+   which `LocalizationService` puts into the theme's face while the language shows.
    Settings lists it under 语言 (跟随系统 and each language by its own name). While it is still
    being translated add `"preview": true`: players can choose it, but a system in that language
    is not given it on its own.
@@ -76,6 +79,21 @@ Keep batches and scratch lists under `build/`, then run `check_po.py`.
 
 English: style, names, terms and the grammar marks ES2's templates need are in
 [english_style.md](english_style.md).
+
+Traditional Chinese is drafted, not translated by hand: one Taiwan-standard text, the story's words
+unchanged, Taiwan's words in the interface (DECISIONS「繁體中文 (preview)」). After the template
+changes, `python tools/l10n/po_batch.py sync game/locale/zh_Hant.po`, then
+
+    python tools/l10n/zh_hant.py draft game/locale/zh_Hant.po > build/l10n/zh_hant_batch.tsv
+    python tools/l10n/po_batch.py apply game/locale/zh_Hant.po build/l10n/zh_hant_batch.tsv
+    python tools/l10n/zh_hant.py check game/locale/zh_Hant.po
+
+`draft` converts what is not translated yet with OpenCC s2tw (`pip install opencc`, a development
+tool: the game reads the .po) and `tools/l10n/zh_hant_rules.tsv`: the phrases s2tw gets wrong
+here, one standard form for the variants it mixes, and the interface words. Read the new lines'
+one-to-many characters (干 乾 幹, 里 裡, 只 隻, 发 髮, 后 後, 台 臺 檯…) and add a phrase rule for
+any it gets wrong, so the next draft gets it right too. `check` converts every message back
+(tw2s) and fails on one that no longer says what its source says.
 
 A system's language is matched by `LanguageResolver`: Chinese by script (Hans for CN, SG, MY or
 no region; Hant for TW, HK, MO), others by language; anything not listed reads Simplified.
