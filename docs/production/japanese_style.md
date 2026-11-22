@@ -20,8 +20,14 @@ published Jin Yong (徳間書店, 岡崎由美 監修), not a whole set of 役�
 | — a blow's result (结果…), the opening, a memory, a finished quest's record | past | 傷口がぱっくりと開いた！ |
 | codex (百科) definitions | である | 内力とは……である。 |
 | tutorial, hints, system messages | です・ます | 保存しました。 |
-| buttons, menus, tabs | nouns (★ 保存／読込 or セーブ／ロード) | 設定、はじめから、つづきから |
+| buttons, menus, tabs | nouns or a plain verb (★ 保存／読込 or セーブ／ロード) | 設定、はじめから、続ける、キャンセル |
 | quest objectives | る形, never 体言止め | 店小二に話を聞く。 |
+
+Frozen pairs: 新游戏 はじめから; 继续 続ける (the same message is the pause's only button and the
+dialogue box's "next line", so not つづきから); 取消 キャンセル; 返回 戻る; 关闭 閉じる.
+
+Shared templates (an unnamed NPC answering a question, `%s摇摇头…`) end neutral: no 〜な, 〜ん,
+すまない, which give every speaker one man's voice; 〜ない, 〜です, すみません fit anyone.
 
 Don't write a whole narration in である (it reads as a textbook); である is for definitions.
 Chinese has no tense: decide it from what the line does, not from its category.
