@@ -63,7 +63,7 @@ func _test_logo_blocks() -> void:
 		blurred = blurred or (pixel.g > 0.05 and pixel.r < 0.01)
 	_check(image.get_width() >= 800 and greys.size() > 8, "a large mask that keeps its antialiased edge: %d wide, %d greys" % [image.get_width(), greys.size()])
 	_check(blurred, "with the ink blurred wide beside it, past the ink's own edge")
-	_check(definition.line_for("zh_CN") == "EASTERN STORIES" and definition.line_for("en") == "东方故事", "the other language spaced out under the title")
+	_check(definition.line_for("zh_CN") == "EASTERN STORIES" and definition.line_for("en") == "东方故事" and definition.line_for("ja") == "東方物語", "the other language spaced out under the title (日本語: 故事 is an anecdote there)")
 	var logo := TitleLogo.new()
 	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true)
 	var letters: TextureRect = logo.get_node("LogoView/Letters") as TextureRect

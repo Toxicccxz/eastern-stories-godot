@@ -109,6 +109,11 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   archive (font 707,536 bytes, SHA-256 `f533986a872978ebe94f7d6fbf8f2ddac0d300b8b726b7cec45458b0da343472`).
   SIL Open Font License 1.1, the same `OFL-FusionPixel.txt` (the archive's OFL.txt is identical);
   used unmodified for the interface's text in 繁體中文.
+- `game/assets/fonts/fusion-pixel-12px-proportional-ja.otf.woff2` — 缝合像素 12 px
+  proportional, Japanese glyph forms (all 6,355 kanji of JIS X 0208, kana, proportional curly
+  quotes), from the same release and archive (font 703,028 bytes, SHA-256
+  `089801509cc8eefeb811af9142de5a1aa3a9eab3768e319f1ef163fa8045110f`). SIL Open Font License 1.1,
+  the same `OFL-FusionPixel.txt`; used unmodified for the interface's text in 日本語.
 - `game/assets/fonts/ZhiMangXing-Regular.ttf` — 志莽行书 (Zhi Mang Xing), from the
   [google/fonts](https://github.com/google/fonts/tree/main/ofl/zhimangxing) repository, `ofl/zhimangxing`
   (4,063,532 bytes, SHA-256 `644e0cae9b40f0b10ab729a01bd32032e3973bac22be3dccae01bf6ae7fde969`). SIL Open Font License 1.1,
