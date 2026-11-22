@@ -5642,13 +5642,13 @@ msgid "地板忽然发出轧轧的声音，一块地面缓缓移动著，将向�
 msgstr "The floor suddenly grinds and creaks; a patch of floor slowly slides back over the passage down."
 
 msgid "车马行 · 靠近坐车"
-msgstr "Coach Station · come close to ride"
+msgstr "Coach Station · Come close to ride"
 
 msgid "楼梯 · 上楼"
-msgstr "Stairs · up"
+msgstr "Stairs · Up"
 
 msgid "楼梯 · 下楼"
-msgstr "Stairs · down"
+msgstr "Stairs · Down"
 
 msgid "小床"
 msgstr "little bed"
@@ -5663,13 +5663,13 @@ msgid "山水画"
 msgstr "landscape painting"
 
 msgid "柜台 · 靠近兑换"
-msgstr "Counter · come close to exchange"
+msgstr "Counter · Come close to exchange"
 
 msgid "药柜"
 msgstr "medicine cabinet"
 
 msgid "柜台 · 估价 / 卖断"
-msgstr "Counter · appraise / sell outright"
+msgstr "Counter · Appraise / sell outright"
 
 msgid "布帘"
 msgstr "cloth curtain"
@@ -5684,10 +5684,10 @@ msgid "柜台"
 msgstr "counter"
 
 msgid "饮风客栈 · 二楼"
-msgstr "Drinkwind Inn · upstairs"
+msgstr "Drinkwind Inn · Upstairs"
 
 msgid "官府悬赏 · 靠近看榜"
-msgstr "Wanted Notices · come close to read"
+msgstr "Wanted Notices · Come close to read"
 
 msgid "木架子"
 msgstr "wooden rack"
@@ -5750,7 +5750,7 @@ msgid "神桌"
 msgstr "altar"
 
 msgid "磨盘 · 靠近做工"
-msgstr "Millstone · come close to work"
+msgstr "Millstone · Come close to work"
 
 msgid "红酒"
 msgstr "red wine"
@@ -6575,13 +6575,13 @@ msgid "步玄七诀"
 msgstr "Mystic Step Seven Secrets"
 
 msgid "四百年前「秃笔狂生」骆步玄的成名武功。他原是一介书生，未曾拜师学艺，十九岁起赴京应试，屡试不中，某年考完步出试场，偶一抬头望见街边书肆的一幅对子，竟悟出一套神奇的武功，从此闯荡江湖未逢敌手，五十岁回京定居，创立了步玄派。步玄七诀号称天下轻功「轻捷第一」，姿态潇洒有如书法，第一式「玄羽乱舞」能在短时间里加快身法；须配合步玄心法，又以音律之学为根底。"
-msgstr "The art that made the name of Luo Buxuan, \"the Mad Scholar of the Bald Brush,\" four hundred years ago. He was a mere scholar who never studied under any master. From nineteen on he sat the capital examinations and failed every time; one year, walking out of the examination hall, he happened to glance up at a pair of scrolls in a bookshop by the street, and from them worked out a marvelous martial art. After that he roamed the jianghu and never met his match, and at fifty he settled in the capital and founded the Mystic Step School. The Seven Secrets are said to be the nimblest lightfoot under heaven, as graceful as calligraphy; the first form, \"Dark Feathers Dancing,\" quickens your movements for a short while. It must be used with the Mystic Step Method, and rests on a grounding in music."
+msgstr "The art that made the name of Luo Buxuan, \"the Mad Scholar of the Bald Brush,\" four hundred years ago. He was a mere scholar who never studied under any master. From nineteen on he sat the capital examinations and failed every time; one year, walking out of the examination hall, he happened to glance up at a pair of scrolls in a bookshop by the street, and from them worked out a marvelous martial art. After that he roamed the jianghu and never met his match, and at fifty he settled in the capital and founded the Mystic Step School. The Seven Secrets are said to be the nimblest lightfoot under heaven, as graceful as calligraphy; the first form, \"Dark Feathers Dancing,\" quickens your movements for a short while. It must be used with the Mystic Step Heart Method, and rests on a grounding in music."
 
 msgid "你的气或神不够，不能练步玄七诀。"
 msgstr "Your Qi or Spirit isn't enough to practice the Mystic Step Seven Secrets."
 
 msgid "步玄七诀必须配合步玄心法使用。"
-msgstr "The Mystic Step Seven Secrets must be used with the Mystic Step Method."
+msgstr "The Mystic Step Seven Secrets must be used with the Mystic Step Heart Method."
 
 msgid "你的音律之学修为不够，无法领悟更高深的步玄七诀。"
 msgstr "Your study of music isn't deep enough to grasp the higher Mystic Step Seven Secrets."
@@ -7158,3 +7158,7140 @@ msgstr "Can't calculate"
 
 msgid "画面卡顿时，可以在「设置」里把「画质」调低"
 msgstr "If the picture stutters, lower \"Graphics\" in Settings"
+
+msgid "你胸中杀气翻涌，渐渐压不住了：杀气这么重，走进有人的地方时，你可能会控制不住，向人出手。"
+msgstr "Bloodlust surges in your chest and it's getting hard to hold down. With this much in you, you may lose control and go for someone when you walk in among people."
+
+msgid "{pronoun}看起来远不如你。"
+msgstr "Looks far weaker than you."
+
+msgid "{pronoun}看起来不如你。"
+msgstr "Looks weaker than you."
+
+msgid "{pronoun}看起来和你不相上下。"
+msgstr "Looks about your match."
+
+msgid "{pronoun}看起来比你强。"
+msgstr "Looks stronger than you."
+
+msgid "{pronoun}看起来比你强得多。"
+msgstr "Looks far stronger than you."
+
+msgid "歇到回满"
+msgstr "Rest Until Full"
+
+msgid "找个地方坐下歇着，让时间走起来：精、气、神慢慢回满就起身。世界照常运转，有人来袭会把你惊起。"
+msgstr "Find a spot, sit down and let time pass: you get up once Essence, Qi and Spirit are full. The world goes on; anyone who attacks will startle you to your feet."
+
+msgid "你找个地方坐下，歇一歇。"
+msgstr "You find a spot and sit down for a rest."
+
+msgid "身上的限时差事照样计时：歇得越久，剩下的时辰越少。"
+msgstr "Timed errands keep counting: the longer you rest, the less time is left."
+
+msgid "歇息中……已歇{time}"
+msgstr "Resting... {time} so far"
+
+msgid "起身"
+msgstr "Get Up"
+
+msgid "正在打斗，歇不下来。"
+msgstr "You can't rest in the middle of a fight."
+
+msgid "你精神饱满，用不着歇。"
+msgstr "You're full of life. No need to rest."
+
+msgid "你口干舌燥，歇着也回不过精神来：先找水喝。"
+msgstr "Your mouth is parched. Rest won't bring you round: find some water first."
+
+msgid "现在歇不下来。"
+msgstr "You can't rest right now."
+
+msgid "你歇了{time}，精、气、神都回满了。"
+msgstr "You rest for {time}. Essence, Qi and Spirit are full again."
+
+msgid "你歇了{time}，起身活动活动。精、气、神还没全回满：伤要慢慢养，金疮药和运功疗伤快得多。"
+msgstr "You rest for {time} and get up to stretch. Essence, Qi and Spirit aren't all back: wounds heal slowly, and wound salve or healing with your inner art is much faster."
+
+msgid "你歇了{time}，站了起来。"
+msgstr "You rest for {time}, then stand up."
+
+msgid "你歇了{time}，忽然有人来袭，你一跃而起！"
+msgstr "You rest for {time} - then someone attacks, and you leap to your feet!"
+
+msgid "你歇了{time}，身上一阵难受，歇不下去了。"
+msgstr "You rest for {time}, but a wave of sickness runs through you and you can't rest on."
+
+msgid "你歇了{time}，口干舌燥，再歇也回不过来：先找水喝。"
+msgstr "You rest for {time}. Your mouth is parched and more rest won't help: find some water first."
+
+msgid "你歇了{time}，听见动静，站了起来。"
+msgstr "You rest for {time}, hear something and get up."
+
+msgid "你歇了{time}。"
+msgstr "You rest for {time}."
+
+msgid "连"
+msgstr "Chain"
+
+msgid "对方打空得 1 手"
+msgstr "+1 beat when they miss"
+
+msgid "近身打中得 1 手"
+msgstr "+1 beat on a close hit"
+
+msgid "换招连打得 1 手"
+msgstr "+1 beat for chaining moves"
+
+msgid "够不着"
+msgstr "Out of reach"
+
+msgid "{name}打了个隔，不过依然烂醉如泥。"
+msgstr "{name} hiccups, but is still dead drunk."
+
+msgid "你觉得脑中昏昏沉沉，身子轻飘飘地，大概是醉了。"
+msgstr "Your head's foggy and your body feels light. You're probably drunk."
+
+msgid "{name}摇头晃脑地站都站不稳，显然是喝醉了。"
+msgstr "{name} sways and can barely stand. Plainly drunk."
+
+msgid "你觉得一阵酒意上冲，眼皮有些沉重了。"
+msgstr "The wine goes to your head and your eyelids grow heavy."
+
+msgid "{name}脸上已经略显酒意了。"
+msgstr "{name} is already looking a little tipsy."
+
+msgid "你中的意寒掌毒发作了！"
+msgstr "The Chill Palm poison in you flares up!"
+
+msgid "意寒掌毒"
+msgstr "Chill Palm poison"
+
+msgid "你中的火玫瑰毒发作了！"
+msgstr "The Fire Rose poison in you flares up!"
+
+msgid "火玫瑰毒"
+msgstr "Fire Rose poison"
+
+msgid "你觉得脑中昏昏沉沉，心中空荡荡的，直想躺下来睡一觉。"
+msgstr "Your head's foggy and your heart feels hollow. All you want is to lie down and sleep."
+
+msgid "{name}摇头晃脑地站都站不稳，显然是蒙汗药的药力发作了。"
+msgstr "{name} sways and can barely stand: the knockout drug is taking hold."
+
+msgid "你中的蛇毒发作了！"
+msgstr "The snake venom in you flares up!"
+
+msgid "蛇毒"
+msgstr "snake venom"
+
+msgid "{name}({id})。\n"
+msgstr "{name} ({id}).\n"
+
+msgid "僵尸追魂符（{name}）"
+msgstr "Corpse-Chasing Charm ({name})"
+
+msgid "断掉的{weapon}"
+msgstr "broken {weapon}"
+
+msgid "歇到回满's pace and longest rest must not be negative"
+msgstr "歇到回满's pace and longest rest must not be negative"
+
+msgid "a run that rests by itself needs 歇到回满 (rest_world_scale)"
+msgstr "a run that rests by itself needs 歇到回满 (rest_world_scale)"
+
+msgid "恭喜你！你又完成了一项任务！"
+msgstr "Well done! Another task completed!"
+
+msgid "你被奖励了：\n{exp}点实战经验\n{pot}点潜能\n{score}点综合评价"
+msgstr "Your reward:\n{exp} Combat Experience\n{pot} Potential\n{score} Standing"
+
+msgid "你亲手杀了自己的师父，被逐出了{family}！"
+msgstr "You killed your own Shifu with your own hands and have been thrown out of {family}!"
+
+msgid "弑师等同背叛师门：综合评价清零，背叛师门的次数变成 {count} 次。"
+msgstr "Killing your Shifu counts as betraying your school: your Standing drops to zero, and your betrayals now number {count}."
+
+msgid "「意寒睨」之术只能在战斗中使用。"
+msgstr "Chill Gaze can only be used in a fight."
+
+msgid "你的内力不够。"
+msgstr "Your Inner Force isn't enough."
+
+msgid "你要对谁施展「意寒睨」之术？"
+msgstr "Use Chill Gaze on whom?"
+
+msgid "$N眼神忽然发出异光，双瞳犹如两把利刃般盯著$n！"
+msgstr "A strange light flares in $N's eyes, and {N:his} pupils fix on $n like two blades!"
+
+msgid "$N很快地转过头去，避开了$n的目光。"
+msgstr "$N quickly {N:turn|turns} away from $n's gaze."
+
+msgid "但是$N对$n的注视视若无睹....。"
+msgstr "But $N {N:shrug|shrugs} off $n's stare...."
+
+msgid "$N被$n的目光所摄，不自禁地打了个寒噤。"
+msgstr "$N {N:are|is} caught by $n's gaze and can't help shivering."
+
+msgid "$N闭目凝神，用谷衣心法的内力运转了一次「灵神诀」..."
+msgstr "$N {N:close|closes} {N:his} eyes and {N:run|runs} the Spirit Formula once through the Grain Robe Heart Method..."
+
+msgid "一股青气从$N身上散出，汇聚在$P的顶心，然後缓缓淡去。"
+msgstr "A greenish vapor rises off $N, gathers at the crown of {N:his} head, then slowly fades."
+
+msgid "你必须先 enable 一种内功。"
+msgstr "You must choose an inner art to use first."
+
+msgid "你只能用 none 表示不运内力，或数字表示每一击用几点内力。"
+msgstr "Write \"none\" for no Inner Force, or a number for how many points go into each blow."
+
+msgid "疗伤他人"
+msgstr "Heal Another"
+
+msgid "灵神诀"
+msgstr "Spirit Formula"
+
+msgid "恢复气"
+msgstr "Restore Qi"
+
+msgid "恢复神"
+msgstr "Restore Spirit"
+
+msgid "恢复精"
+msgstr "Restore Essence"
+
+msgid "提升战斗力"
+msgstr "Power Up"
+
+msgid "天邪虎啸"
+msgstr "Wayward Tiger Roar"
+
+msgid "意寒睨"
+msgstr "Chill Gaze"
+
+msgid "你的气已经恢复到上限了。"
+msgstr "Your Qi is already full."
+
+msgid "$N深深吸了几口气，脸色看起来好多了。"
+msgstr "$N {N:take|takes} a few deep breaths and {N:look|looks} much better."
+
+msgid "你的神已经恢复到上限了。"
+msgstr "Your Spirit is already full."
+
+msgid "$N微一凝神，缓缓地吸了口气，看起来有精神多了。"
+msgstr "$N {N:gather|gathers} {N:his} thoughts, {N:draw|draws} a slow breath, and {N:look|looks} far more alert."
+
+msgid "你的精力已经恢复到上限了。"
+msgstr "Your Essence is already full."
+
+msgid "$N深深地吸了口气，手脚活动了几下，看起来有活力多了。"
+msgstr "$N {N:take|takes} a deep breath, {N:stretch|stretches} {N:his} arms and legs, and {N:look|looks} full of life again."
+
+msgid "( 你上一个动作还没有完成，不能施用内功。)"
+msgstr "( You haven't finished what you were doing; you can't use your inner art yet. )"
+
+msgid "你请先用 enable 指令选择你要使用的内功。"
+msgstr "Choose the inner art you want to use first."
+
+msgid "你所学的内功中没有这种功能。"
+msgstr "None of the inner arts you know can do that."
+
+msgid "战斗中运功疗伤？找死吗？"
+msgstr "Heal yourself mid-fight? Got a death wish?"
+
+msgid "你的真气不够。"
+msgstr "Your true qi isn't enough."
+
+msgid "你已经受伤过重，只怕一运真气便有生命危险！"
+msgstr "Your wounds are too deep: stirring your true qi now could kill you!"
+
+msgid "你全身放松，坐下来开始运功疗伤。"
+msgstr "You relax your whole body, sit down and begin to heal yourself with your inner art."
+
+msgid "$N坐了下来运起内功，将手掌贴在$n背心，缓缓地将真气输入$n体内...."
+msgstr "$N {N:sit|sits} down, {N:summon|summons} {N:his} inner art, and {N:lay|lays} a palm on $n's back, easing true qi into $n's body...."
+
+msgid "过了不久，$N额头上冒出豆大的汗珠，$n吐出一口瘀血，脸色看起来红润多了。"
+msgstr "Before long, beads of sweat stand out on $N's brow; $n {n:cough|coughs} up a mouthful of bad blood and {n:look|looks} much healthier."
+
+msgid "你要用真气为谁疗伤？"
+msgstr "Heal whom with your true qi?"
+
+msgid "战斗中无法运功疗伤！"
+msgstr "You can't heal with your inner art in the middle of a fight!"
+
+msgid "{name}已经受伤过重，经受不起你的真气震荡！"
+msgstr "{name} is too badly hurt to stand the shock of your true qi!"
+
+msgid "你已经在运功中了。"
+msgstr "You're already exerting your inner art."
+
+msgid "你现在毫无杀气。"
+msgstr "You have no Bloodlust at all right now."
+
+msgid "$N微一凝神，运起天邪神功，放慢呼吸，开始收敛自己的杀气 ...."
+msgstr "$N {N:focus|focuses}, {N:summon|summons} the Wayward Art, slows {N:his} breathing and {N:begin|begins} to rein in {N:his} Bloodlust...."
+
+msgid "$N微一凝神，运起天邪神功，全身骨节发出一阵爆豆般的声响！"
+msgstr "$N {N:focus|focuses} and {N:summon|summons} the Wayward Art - every joint in {N:his} body cracks like popping beans!"
+
+msgid "天邪虎啸只能在战斗中使用。"
+msgstr "Wayward Tiger Roar can only be used in a fight."
+
+msgid "$N深深地吸一口气，开始发出有如猛虎般的啸声！"
+msgstr "$N {N:draw|draws} a deep breath and {N:let|lets} out a roar like a tiger's!"
+
+msgid "吃"
+msgstr "Eat"
+
+msgid "使用"
+msgstr "Use"
+
+msgid "你没有中蛇毒。"
+msgstr "You haven't been bitten by a snake."
+
+msgid "但是你中的蛇毒并没有完全清除。"
+msgstr "But the venom isn't all gone."
+
+msgid "你终于清除了体内所有的蛇毒！"
+msgstr "At last the snake venom is gone from your body!"
+
+msgid "你服下蛇药，顿时感觉好多了。{after}"
+msgstr "You take the snake antidote and feel much better at once.{after}"
+
+msgid "体内的蛇毒还剩 {left} 分：每服一剂解去一分，每次毒发也会消退一分。"
+msgstr "Venom left in you: {left}. Each dose clears one, and each flare-up burns one off too."
+
+msgid "战斗中不能用药治伤!"
+msgstr "You can't treat wounds with medicine mid-fight!"
+
+msgid "你没有受伤啊?"
+msgstr "You're not hurt, are you?"
+
+msgid "你敷上金疮药 ."
+msgstr "You spread on the wound salve."
+
+msgid "你拿出一朵小花蕊，一口给吞了下去。"
+msgstr "You take out a little flower heart and swallow it in one gulp."
+
+msgid "只见你脸上泛起一阵红晕，整个人看起来好多了!"
+msgstr "A flush spreads over your face, and you look much better!"
+
+msgid "你拿出一粒仙丹，纳入口中. 吃的太急, 鼻涕眼泪流了满脸.."
+msgstr "You take out an elixir and pop it in your mouth. You eat it too fast - snot and tears all over your face..."
+
+msgid "清水"
+msgstr "clear water"
+
+msgid "你向{npc}请教有关「{skill}」的疑问。"
+msgstr "You ask {npc} about \"{skill}\"."
+
+msgid "你要向谁求教？"
+msgstr "Learn from whom?"
+
+msgid "嗯....你得先把%s弄醒再说。"
+msgstr "Hmm.... you'd better wake %s up first."
+
+msgid "这项技能你恐怕必须找别人学了。"
+msgstr "You'll have to learn this skill from someone else."
+
+msgid "%s神色间似乎对你不是十分信任，也许是想起你从前背叛师门的事情 ...。"
+msgstr "%s doesn't seem to trust you much. Perhaps they remember how you once betrayed your school..."
+
+msgid "%s说道：嗯 .... 师父能教你的都教了，其他的你自己练吧。"
+msgstr "\"Hmm...,\" says %s. \"I've taught you all a Shifu can. The rest you'll have to practice yourself.\""
+
+msgid "%s说道：虽然你是我门下的弟子，可是并非我的嫡传弟子 ...."
+msgstr "\"You're a disciple of my school,\" says %s, \"but not my direct disciple....\""
+
+msgid "%s说道：我只能教你这些粗浅的本门功夫，其他的还是去找你师父学吧。"
+msgstr "\"I can only teach you these basic arts of our school,\" says %s. \"For the rest, go to your own Shifu.\""
+
+msgid "%s不愿意教你这项技能。"
+msgstr "%s won't teach you this skill."
+
+msgid "这项技能你的程度已经不输你师父了。"
+msgstr "You're already as good at this as your Shifu."
+
+msgid "依你目前的能力，没有办法学习这种技能。"
+msgstr "With what you can do now, there's no way to learn this skill."
+
+msgid "%s说道：%s"
+msgstr "%s says, \"%s\""
+
+msgid "但是%s现在并不准备回答你的问题。"
+msgstr "But %s isn't ready to answer your questions just now."
+
+msgid "但是%s显然太累了，没有办法教你什麽。"
+msgstr "But %s is plainly too tired to teach you anything."
+
+msgid "你向%s请教，但这次请教无法进行。"
+msgstr "You ask %s, but the lesson can't go ahead this time."
+
+msgid "也许是缺乏实战经验，你对%s的回答总是无法领会。"
+msgstr "Maybe it's a lack of combat experience, but you can't make sense of %s's answers."
+
+msgid "你听了%s的指导，似乎有些心得。"
+msgstr "You listen to %s's guidance and seem to pick something up."
+
+msgid "还能学到 {level} 级（{why}）"
+msgstr "Can learn up to level {level} ({why})"
+
+msgid "学不了：{why}"
+msgstr "Can't learn: {why}"
+
+msgid "{head}；{problem}。"
+msgstr "{head}; {problem}."
+
+msgid "{npc}自己是 {teacher} 级"
+msgstr "{npc} is level {teacher}"
+
+msgid "你已学到{npc}的 {teacher} 级"
+msgstr "You've reached {npc}'s level {teacher}"
+
+msgid "背叛师门 {count} 次，{npc}只教到 {teacher} - 20×{count} = {cap} 级"
+msgstr "Betrayed a school {count} times: {npc} teaches only to {teacher} - 20×{count} = {cap}"
+
+msgid "不是{npc}的嫡传弟子，只学得到{npc}等级（{teacher}）的三分之一左右"
+msgstr "Not {npc}'s direct disciple: you can reach only about a third of {npc}'s level ({teacher})"
+
+msgid "背叛师门 {count} 次，{npc}能教你的都教了"
+msgstr "Betrayed a school {count} times: {npc} has taught you all {npc} will"
+
+msgid "{level} 级要再学，须实战经验 ≥ {required}"
+msgstr "To go past level {level} you need Combat Experience ≥ {required}"
+
+msgid "经验不足，要再学须实战经验 ≥ {required}（你 {have}）"
+msgstr "Not enough experience: to learn more you need Combat Experience ≥ {required} (you have {have})"
+
+msgid "学不了：{npc}不肯指点你。"
+msgstr "Can't learn: {npc} won't guide you."
+
+msgid "潜能已经用完"
+msgstr "Potential is used up"
+
+msgid "{npc}太累了"
+msgstr "{npc} is too tired"
+
+msgid "{npc}现在不答问题"
+msgstr "{npc} isn't answering questions now"
+
+msgid "精不够：每次耗精 {cost}，精须多于此数"
+msgstr "Not enough Essence: each lesson costs {cost}, and you need more than that"
+
+msgid "%s说道：您太客气了，这怎麽敢当？"
+msgstr "\"You're too kind,\" says %s. \"I couldn't possibly.\""
+
+msgid "%s像是受宠若惊一样，说道：请教？这怎麽敢当？"
+msgstr "%s looks flattered beyond words. \"Learn from me? I couldn't possibly.\""
+
+msgid "%s笑著说道：您见笑了，我这点雕虫小技怎够资格「指点」您什麽？"
+msgstr "%s laughs. \"You flatter me. My little tricks are hardly fit to 'guide' someone like you.\""
+
+msgid "「{nickname}」{name}"
+msgstr "\"{nickname}\" {name}"
+
+msgid "{title}{name}"
+msgstr "{title} {name}"
+
+msgid "{title} {name}"
+msgstr "{title} {name}"
+
+msgid "跪下受戒"
+msgstr "Kneel for the Vows"
+
+msgid "北边"
+msgstr "north"
+
+msgid "南边"
+msgstr "south"
+
+msgid "东边"
+msgstr "east"
+
+msgid "西边"
+msgstr "west"
+
+msgid "外"
+msgstr "outside"
+
+msgid "里"
+msgstr "inside"
+
+msgid "{npc}往{direction}落荒而逃了。"
+msgstr "{npc} flees {direction} in a panic."
+
+msgid "想倚多为胜，这不是欺人太甚吗！"
+msgstr "Trying to win by numbers? That's going too far!"
+
+msgid "哼！出招吧！"
+msgstr "Hmph! Make your move!"
+
+msgid "$SELF怎麽可能是$RESPECT的对手？"
+msgstr "How could $SELF ever be a match for you, $RESPECT?"
+
+msgid "既然$RESPECT赐教，$SELF只好奉陪。"
+msgstr "Since you offer to teach me, $RESPECT, $SELF can only oblige."
+
+msgid "not a task 朱鸿雪 gives, or all default"
+msgstr "not a task 朱鸿雪 gives, or all default"
+
+msgid "你第一次在切磋中胜过了{name}"
+msgstr "You beat {name} in a spar for the first time"
+
+msgid "你第一次击败了{name}"
+msgstr "You defeated {name} for the first time"
+
+msgid "你了结了「{name}」这段经历"
+msgstr "You put \"{name}\" behind you"
+
+msgid "你读通了{name}"
+msgstr "You read {name} through"
+
+msgid "你完成了官府悬赏「{name}」"
+msgstr "You completed the bounty \"{name}\""
+
+msgid "你的内力练到了 {name}"
+msgstr "Your Inner Force reached {name}"
+
+msgid "你办成了「{name}」"
+msgstr "You got \"{name}\" done"
+
+msgid "你第一次来到{name}"
+msgstr "You reached {name} for the first time"
+
+msgid "【历练】{done}：实战经验 +{exp}，潜能 +{pot}。"
+msgstr "[Deeds] {done}: Combat Experience +{exp}, Potential +{pot}."
+
+msgid "【历练】{done}：实战经验 +{exp}。"
+msgstr "[Deeds] {done}: Combat Experience +{exp}."
+
+msgid "（落后补偿 +{percent}%）"
+msgstr "(catch-up bonus +{percent}%)"
+
+msgid "潜能已满（最多 {cap} 点未用），多出的 {cut} 点没有记下。先去请教师父或自学，用掉一些潜能吧。"
+msgstr "Potential is full (at most {cap} unspent); the extra {cut} wasn't counted. Go learn from your Shifu or study on your own to use some up."
+
+msgid "a quest needs a target, type 杀 or 寻, time above 0 and bonuses not below 0"
+msgstr "a quest needs a target, type 杀 or 寻, time above 0 and bonuses not below 0"
+
+msgid "the 历练 is the quest's"
+msgstr "the 历练 is the quest's"
+
+msgid "{what} ≥ {required}（你 {have}）"
+msgstr "{what} ≥ {required} (you have {have})"
+
+msgid "只收男弟子"
+msgstr "Takes only male disciples"
+
+msgid "只收女弟子"
+msgstr "Takes only female disciples"
+
+msgid "须先剃度出家"
+msgstr "You must first take the tonsure"
+
+msgid "身份须合师门的规矩"
+msgstr "Your standing must fit the school's rules"
+
+msgid "另有条件"
+msgstr "Other conditions"
+
+msgid "另有条件（拜师时便知）"
+msgstr "Other conditions (you'll learn them when you ask)"
+
+msgid "身上的钱不到 {money}"
+msgstr "You're carrying less than {money}"
+
+msgid "只收没有门派的人"
+msgstr "Takes only those with no school"
+
+msgid "须通过考验"
+msgstr "You must pass a test"
+
+msgid "拜师时另有要求"
+msgstr "More is asked when you become a disciple"
+
+msgid "须另有机缘"
+msgstr "Needs the right chance"
+
+msgid "不收徒"
+msgstr "Takes no disciples"
+
+msgid "{npc}已经愿意收你"
+msgstr "{npc} is already willing to take you"
+
+msgid "{n} 两黄金"
+msgstr "{n} taels of gold"
+
+msgid "{n} 两银子"
+msgstr "{n} taels of silver"
+
+msgid "{n} 文钱"
+msgstr "{n} wen"
+
+msgid "打法"
+msgstr "Fighting Style"
+
+msgid "师兄"
+msgstr "Senior Brother"
+
+msgid "师弟"
+msgstr "Junior Brother"
+
+msgid "同门师兄"
+msgstr "Senior Brother of the school"
+
+msgid "同门师弟"
+msgstr "Junior Brother of the school"
+
+msgid "师姐"
+msgstr "Senior Sister"
+
+msgid "师妹"
+msgstr "Junior Sister"
+
+msgid "同门师姐"
+msgstr "Senior Sister of the school"
+
+msgid "同门师妹"
+msgstr "Junior Sister of the school"
+
+msgid "师父"
+msgstr "Shifu"
+
+msgid "同门长辈"
+msgstr "Elder of the school"
+
+msgid "师伯"
+msgstr "Shibo"
+
+msgid "师叔"
+msgstr "Shishu"
+
+msgid "同门晚辈"
+msgstr "Junior of the school"
+
+msgid "师侄"
+msgstr "Nephew of the school"
+
+msgid "{family}开山祖师"
+msgstr "Founder of {family}"
+
+msgid "{family}第{generation}代{title}"
+msgstr "{title} of {family}, Generation {generation}"
+
+msgid "你现在并没有拜任何人为师的意思。"
+msgstr "You're not looking to take anyone as your Shifu right now."
+
+msgid "你改变主意不想拜%s为师了。"
+msgstr "You change your mind about becoming %s's disciple."
+
+msgid "你恭恭敬敬地向%s磕头请安，叫道：「师父！」"
+msgstr "You kowtow to %s with great respect and call out, \"Shifu!\""
+
+msgid "你想拜%s为师，但是对方还没有答应。"
+msgstr "You want to become %s's disciple, but they haven't said yes yet."
+
+msgid "你想要拜%s为师。"
+msgstr "You want to become %s's disciple."
+
+msgid "{npc}正盯著你看，不知道打些什麽主意。"
+msgstr "{npc} is staring at you. Who knows what's on their mind."
+
+msgid "{who}大声喝道：{line}"
+msgstr "{who} shouts, \"{line}\""
+
+msgid "你发誓恪守门规。"
+msgstr "You swear to keep the school's rules."
+
+msgid "%s拍拍你的头，说道：「好徒儿！」"
+msgstr "%s pats you on the head. \"Good disciple!\""
+
+msgid "%s想要收你为弟子。"
+msgstr "%s wants to take you as a disciple."
+
+msgid "如果你愿意拜%s为师父，就向她拜师。"
+msgstr "If you're willing to take %s as your Shifu, become her disciple."
+
+msgid "如果你愿意拜%s为师父，就向他拜师。"
+msgstr "If you're willing to take %s as your Shifu, become his disciple."
+
+msgid "你决定背叛师门，改投入%s门下！！"
+msgstr "You turn your back on your school and go over to %s!!"
+
+msgid "你跪了下来向%s恭恭敬敬地磕了四个响头，叫道：「师父！」"
+msgstr "You kneel and knock your head on the ground four times before %s, and call out, \"Shifu!\""
+
+msgid "你决定拜%s为师。"
+msgstr "You decide to take %s as your Shifu."
+
+msgid "%s决定收你为弟子。"
+msgstr "%s decides to take you as a disciple."
+
+msgid "恭喜您成为{family}的第{generation}代弟子。"
+msgstr "Congratulations! You are now a Generation {generation} disciple of {family}."
+
+msgid "剑法"
+msgstr "Sword"
+
+msgid "刀法"
+msgstr "Blade"
+
+msgid "棍法"
+msgstr "Cudgel"
+
+msgid "杖法"
+msgstr "Staff"
+
+msgid "内功"
+msgstr "Inner Art"
+
+msgid "招架"
+msgstr "Parry"
+
+msgid "轻功"
+msgstr "Lightfoot"
+
+msgid "咒文"
+msgstr "Incantations"
+
+msgid "行动"
+msgstr "Action"
+
+msgid "阵法"
+msgstr "Formations"
+
+msgid "鞭法"
+msgstr "Whip"
+
+msgid "驱尸"
+msgstr "Raise the Dead"
+
+msgid "你正在战斗中！"
+msgstr "You're in the middle of a fight!"
+
+msgid "你的法力不够了！"
+msgstr "You don't have enough Arcane Power left!"
+
+msgid "$N对著地上的$n喃喃地念了几句咒语，$n抽搐了几下竟站了起来！"
+msgstr "$N {N:mutter|mutters} a few words of a spell over $n on the ground. $n twitches a few times - and stands up!"
+
+msgid "阴阳眼"
+msgstr "Ghost Sight"
+
+msgid "你已经施展过阴阳眼的法术了。"
+msgstr "You've already cast Ghost Sight."
+
+msgid "你的法力不够。"
+msgstr "You don't have enough Arcane Power."
+
+msgid "$N微一凝神，闭著眼睛念了几句咒语，施展「阴阳眼」法术。"
+msgstr "$N {N:focus|focuses}, {N:close|closes} {N:his} eyes, {N:mutter|mutters} a few words and {N:cast|casts} Ghost Sight."
+
+msgid "你的阴阳眼法术失效了。"
+msgstr "Your Ghost Sight wears off."
+
+msgid "你失败了。"
+msgstr "You failed."
+
+msgid "你要对谁施展这个法术？"
+msgstr "Cast this spell on whom?"
+
+msgid "你的法力不够！"
+msgstr "You don't have enough Arcane Power!"
+
+msgid "你的精神没有办法有效集中！"
+msgstr "You can't focus your mind!"
+
+msgid "但是被$n躲开了。"
+msgstr "But $n {n:dodge|dodges} it."
+
+msgid "( 你上一个动作还没有完成，不能念咒文。)"
+msgstr "( You haven't finished what you were doing; you can't chant an incantation yet. )"
+
+msgid "这里不准念咒文。"
+msgstr "No incantations here."
+
+msgid "你请先用 enable 指令选择你要使用的咒文系。"
+msgstr "Choose the school of incantations you want to use first."
+
+msgid "你所选用的咒文系中没有这种咒文。"
+msgstr "The incantations you chose have no such spell."
+
+msgid "( 你上一个动作还没有完成，不能施展神通。)"
+msgstr "( You haven't finished what you were doing; you can't use a mystic power yet. )"
+
+msgid "这里无法使用神通。"
+msgstr "Mystic powers don't work here."
+
+msgid "你请先用 enable 指令选择你要使用的神通系。"
+msgstr "Choose the mystic powers you want to use first."
+
+msgid "你所选用的法术系中没有这种法术。"
+msgstr "The spells you chose have no such spell."
+
+msgid "「封」字诀"
+msgstr "\"Seal\" Secret"
+
+msgid "牵制攻击只能对战斗中的对手使用。"
+msgstr "A pinning attack only works on someone you're fighting."
+
+msgid "$n目前正自顾不暇，放胆攻击吧！"
+msgstr "$n {n:have|has} {n:his} hands full - attack boldly!"
+
+msgid "$N使出封山剑法「封」字诀，连递数个虚招企图扰乱$n的攻势，结果$p被$P攻了个措手不及！"
+msgstr "$N {N:use|uses} the \"Seal\" secret of Empty Mountain Sword, throwing out feint after feint to break up $n's attack - and $n {n:are|is} caught completely off guard!"
+
+msgid "$N使出封山剑法「封」字诀，连递数个虚招企图扰乱$n的攻势，可是$p看破了$P的企图，并没有上当。"
+msgstr "$N {N:use|uses} the \"Seal\" secret of Empty Mountain Sword, throwing out feint after feint to break up $n's attack, but $n {n:see|sees} through it and {n:don't|doesn't} take the bait."
+
+msgid "游识神通"
+msgstr "Drifting Sense"
+
+msgid "你要移动到哪一个人身边？"
+msgstr "Whose side do you want to move to?"
+
+msgid "你无法感受到这个人的灵力 ...."
+msgstr "You can't feel this person's Mystic Power...."
+
+msgid "中止施法。"
+msgstr "You stop casting."
+
+msgid "$N低头闭目，开始施展游识神通 ...."
+msgstr "$N {N:lower|lowers} {N:his} head, {N:close|closes} {N:his} eyes and {N:begin|begins} to work the Drifting Sense...."
+
+msgid "战斗中无法使用游识神通！"
+msgstr "You can't use the Drifting Sense in a fight!"
+
+msgid "你的灵力不够！"
+msgstr "You don't have enough Mystic Power!"
+
+msgid "游识神通只能对自己使用！"
+msgstr "The Drifting Sense can only be used on yourself!"
+
+msgid "你感受到对方的灵力，但是不够强烈。"
+msgstr "You feel their Mystic Power, but not strongly enough."
+
+msgid "你因为不够熟练而失败了。"
+msgstr "You aren't practiced enough, and fail."
+
+msgid "$N口中喃喃地念著咒文，忽然大喝一声“疾！”"
+msgstr "$N {N:mutter|mutters} an incantation, then suddenly {N:shout|shouts}, \"Swift!\""
+
+msgid "只见一道黑气罩在$n身上！"
+msgstr "A black vapor closes over $n!"
+
+msgid "只见一道金光罩在$n身上！"
+msgstr "A golden light closes over $n!"
+
+msgid "只见一团火焰罩在$n身上！"
+msgstr "A ball of flame closes over $n!"
+
+msgid "只听在一声海啸，海水将$n团团围住！"
+msgstr "With the roar of a tidal wave, the sea closes in all around $n!"
+
+msgid "只见空中落下无数大木，正把$n困在中央！"
+msgstr "Great logs fall out of the sky, pinning $n in the middle!"
+
+msgid "只见$N化作一道黑气，然后消失得无影无踪！"
+msgstr "$N {N:turn|turns} into a black vapor and {N:vanish|vanishes} without a trace!"
+
+msgid "只见$N化作一道金光，然后消失得无影无踪！"
+msgstr "$N {N:turn|turns} into a streak of golden light and {N:vanish|vanishes} without a trace!"
+
+msgid "只见$N化作一团火焰，然后消失得无影无踪！"
+msgstr "$N {N:turn|turns} into a ball of flame and {N:vanish|vanishes} without a trace!"
+
+msgid "只见$N化作一道长虹，然后消失得无影无踪！"
+msgstr "$N {N:turn|turns} into a long rainbow and {N:vanish|vanishes} without a trace!"
+
+msgid "只见$N化作一团大雾，然后消失得无影无踪！"
+msgstr "$N {N:turn|turns} into a great fog and {N:vanish|vanishes} without a trace!"
+
+msgid "但是$n纵身一跃，脱离了围困。"
+msgstr "But $n {n:leap|leaps} clear and {n:break|breaks} free."
+
+msgid "困"
+msgstr "Trap"
+
+msgid "遁"
+msgstr "Vanish"
+
+msgid "这个法术只能在战斗中使用！"
+msgstr "This spell can only be used in a fight!"
+
+msgid "$n正自顾不暇，放胆进攻吧。"
+msgstr "$n {n:have|has} {n:his} hands full - attack boldly."
+
+msgid "「缺」字诀"
+msgstr "\"Gap\" Secret"
+
+msgid "'缺'字诀只能在战斗中使用。"
+msgstr "The \"Gap\" secret can only be used in a fight."
+
+msgid "你要对谁使用'缺'字诀？"
+msgstr "Use the \"Gap\" secret on whom?"
+
+msgid "你已经在运用中了。"
+msgstr "You're already using it."
+
+msgid "$N剑招陡变，空门大开，诱使$n进招，"
+msgstr "$N's sword suddenly changes, leaving {N:himself} wide open to lure $n in,"
+
+msgid "可是$n看破了$N的企图，并没有上当。"
+msgstr "but $n {n:see|sees} through $N's plan and {n:don't|doesn't} take the bait."
+
+msgid "$N突然对$n发出奋力一击！"
+msgstr "$N suddenly {N:throw|throws} everything into one blow at $n!"
+
+msgid "「玄羽乱舞」"
+msgstr "\"Wild Dance of the Dark Feather\""
+
+msgid "「玄羽乱舞」只能在战斗中使用。"
+msgstr "\"Wild Dance of the Dark Feather\" can only be used in a fight."
+
+msgid "你的气不够！"
+msgstr "You don't have enough Qi!"
+
+msgid "你的真气不够！"
+msgstr "You don't have enough true qi!"
+
+msgid "$N使出步玄七诀第一式「玄羽乱舞」，身法陡然加快！"
+msgstr "$N {N:use|uses} \"Wild Dance of the Dark Feather\", the first of the Mystic Step Seven Secrets, and {N:speed|speeds} up all at once!"
+
+msgid "$N的身形转了几转，倏地停住了脚步。"
+msgstr "$N {N:spin|spins} a few times, then suddenly {N:stop|stops} dead."
+
+msgid "$N迅捷无伦地在$n身旁绕了一圈 ..."
+msgstr "$N {N:circle|circles} $n in a blur..."
+
+msgid "但是$N找不到机会出手！"
+msgstr "But $N can't find an opening!"
+
+msgid "$N眼睛忽然睁开，喃喃地说道：杀....死....$n...."
+msgstr "$N's eyes snap open, and {N:he} {N:mutter|mutters}, \"Kill.... kill.... $n....\""
+
+msgid "你要在这张符上写谁的名字？"
+msgstr "Whose name do you write on this charm?"
+
+msgid "心识神通"
+msgstr "Heart Sense"
+
+msgid "$N一手放在$n的天灵盖上，一手贴在$n的後心，闭上眼睛缓缓低吟 ..."
+msgstr "$N {N:put|puts} one hand on the crown of $n's head and the other on $n's back, {N:close|closes} {N:his} eyes and slowly {N:chant|chants}..."
+
+msgid "你要对谁使用心识神通？"
+msgstr "Use the Heart Sense on whom?"
+
+msgid "只有战斗中才能召唤天将！"
+msgstr "You can only summon a heavenly general in a fight!"
+
+msgid "你的精神无法集中！"
+msgstr "You can't focus your mind!"
+
+msgid "$N喃喃地念了几句咒语。"
+msgstr "$N {N:mutter|mutters} a few words of a spell."
+
+msgid "但是什麽也没有发生。"
+msgstr "But nothing happens."
+
+msgid "( 你上一个动作还没有完成，不能施用外功。)"
+msgstr "( You haven't finished what you were doing; you can't use an outer art yet. )"
+
+msgid "你请先用 enable 指令选择你要使用的外功。"
+msgstr "Choose the outer art you want to use first."
+
+msgid "你所使用的外功中没有这种功能。"
+msgstr "The outer art you're using can't do that."
+
+msgid "「点」字诀"
+msgstr "\"Point\" Secret"
+
+msgid "「点」字诀只能对战斗中的对手使用。"
+msgstr "The \"Point\" secret only works on someone you're fighting."
+
+msgid "$N使出封山剑法「点」字诀，可是内力不继，剑尖一颤，手中的剑险些脱手飞出！"
+msgstr "$N {N:use|uses} the \"Point\" secret of Empty Mountain Sword, but {N:his} Inner Force gives out - the sword tip shudders and the blade nearly flies from {N:his} hand!"
+
+msgid "$N使出封山剑法「点」字诀，劲力尽数聚在剑尖，一剑直刺$n！"
+msgstr "$N {N:use|uses} the \"Point\" secret of Empty Mountain Sword, gathering all {N:his} force into the sword tip, and {N:thrust|thrusts} straight at $n!"
+
+msgid "用 {force} 点内力把劲力聚在剑尖，这一剑伤得更重；内力不够，剑会险些脱手，白白耽误几手"
+msgstr "Puts {force} Inner Force into the sword tip for a harder hit. Without enough Inner Force the sword nearly slips from your hand and you lose a few beats"
+
+msgid "召天将"
+msgstr "Summon a Heavenly General"
+
+msgid "战斗时不能画符！"
+msgstr "You can't draw charms in a fight!"
+
+msgid "你的精神太差了，无法画符。"
+msgstr "Your Spirit is too low to draw a charm."
+
+msgid "你所学的法术没有这种符。"
+msgstr "The spells you've learned have no such charm."
+
+msgid "紫光"
+msgstr "Violet Light"
+
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团紫光射向$n！"
+msgstr "$N {N:mutter|mutters} an incantation and {N:sweep|sweeps} {N:his} left hand; a ball of violet light gathers in it and shoots at $n!"
+
+msgid "结果「嗤」地一声，紫光从$p身上透体而过，拖出一条长长的七彩光气，光气绕了回转过来又从$N顶门注入$P的体内！"
+msgstr "With a hiss the violet light passes clean through $n, trailing a long seven-colored glow that curls back and pours in through the crown of $N's head!"
+
+msgid "结果「嗤」地一声，紫光从$p身上透体而过，无声无息地钻入地下！"
+msgstr "With a hiss the violet light passes clean through $n and sinks silently into the ground!"
+
+msgid "白光"
+msgstr "White Light"
+
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团白光射向$n！"
+msgstr "$N {N:mutter|mutters} an incantation and {N:sweep|sweeps} {N:his} left hand; a ball of white light gathers in it and shoots at $n!"
+
+msgid "结果「嗤」地一声，白光从$p身上透体而过，拖出一条长长的黑气直射到两三丈外的地下！"
+msgstr "With a hiss the white light passes clean through $n, dragging a long trail of black vapor that strikes the ground a few yards off!"
+
+msgid "结果「嗤」地一声，白光从$p身上透体而过，无声无息地钻入地下！"
+msgstr "With a hiss the white light passes clean through $n and sinks silently into the ground!"
+
+msgid "青光"
+msgstr "Blue Light"
+
+msgid "你失败了！"
+msgstr "You failed!"
+
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团青光射向$n！"
+msgstr "$N {N:mutter|mutters} an incantation and {N:sweep|sweeps} {N:his} left hand; a ball of blue light gathers in it and shoots at $n!"
+
+msgid "结果「嗤」地一声，青光从$p身上透体而过，拖出一条长长的血箭直射到两三丈外的地下！"
+msgstr "With a hiss the blue light passes clean through $n, dragging a long arrow of blood that strikes the ground a few yards off!"
+
+msgid "结果「嗤」地一声，青光从$p身上透体而过，无声无息地钻入地下！"
+msgstr "With a hiss the blue light passes clean through $n and sinks silently into the ground!"
+
+msgid "投降？现在没有人在打你啊....？"
+msgstr "Surrender? Nobody's fighting you....?"
+
+msgid "$n向$N求饶，但是$N大声说道：{rude}废话少说，纳命来！"
+msgstr "$n {n:beg|begs} $N for mercy, but $N {N:roar|roars}, \"{rude}Enough talk - your life is mine!\""
+
+msgid "$N说道：「不打了，不打了，我投降....。」"
+msgstr "$N {N:say|says}, \"No more, no more - I give up....\""
+
+msgid "「逐」字诀"
+msgstr "\"Chase\" Secret"
+
+msgid "「逐」字诀只能对战斗中的对手使用。"
+msgstr "The \"Chase\" secret only works on someone you're fighting."
+
+msgid "$N使出封山剑法「逐」字诀，剑法一紧，剑光罩向$n，$p已显吃力。"
+msgstr "$N {N:use|uses} the \"Chase\" secret of Empty Mountain Sword; the sword closes in and its light falls over $n, already struggling."
+
+msgid "$N使出封山剑法「逐」字诀，剑法一紧，剑光罩向$n，$p从容化解"
+msgstr "$N {N:use|uses} the \"Chase\" secret of Empty Mountain Sword; the sword closes in and its light falls over $n, but $n calmly {n:turn|turns} it aside"
+
+msgid "空识神通"
+msgstr "Void Sense"
+
+msgid "$N盘膝而座，开始运用空识神通静思入定 ..."
+msgstr "$N {N:sit|sits} cross-legged and {N:begin|begins} to work the Void Sense, sinking into stillness..."
+
+msgid "空识神通只能对自己使用。"
+msgstr "The Void Sense can only be used on yourself."
+
+msgid "你觉得脑中一片混乱，你的潜能降低了！"
+msgstr "Your mind is thrown into confusion, and your Potential drops!"
+
+msgid "你的潜能提高了！"
+msgstr "Your Potential rises!"
+
+msgid "可是你只觉得一无所获。"
+msgstr "But you come away with nothing."
+
+msgid "零"
+msgstr "zero"
+
+msgid "十"
+msgstr "ten"
+
+msgid "百"
+msgstr "hundred"
+
+msgid "千"
+msgstr "thousand"
+
+msgid "万"
+msgstr "ten thousand"
+
+msgid "亿"
+msgstr "hundred million"
+
+msgid "兆"
+msgstr "trillion"
+
+msgid "一"
+msgstr "one"
+
+msgid "二"
+msgstr "two"
+
+msgid "六"
+msgstr "six"
+
+msgid "七"
+msgstr "seven"
+
+msgid "八"
+msgstr "eight"
+
+msgid "九"
+msgstr "nine"
+
+msgid "负"
+msgstr "minus"
+
+msgid "一盏茶的工夫"
+msgstr "the time it takes to drink a cup of tea"
+
+msgid "半个时辰"
+msgstr "half a double-hour"
+
+msgid "{count}个半时辰"
+msgstr "{count} and a half double-hours"
+
+msgid "{count}个时辰"
+msgstr "{count} double-hours"
+
+msgid "{coins}文"
+msgstr "{coins} wen"
+
+msgid "{silver}两银子"
+msgstr "{silver} taels of silver"
+
+msgid "{silver}两银子{coins}文"
+msgstr "{silver} taels of silver and {coins} wen"
+
+msgid "过了经验门槛:"
+msgstr "Past the experience threshold:"
+
+msgid "冷却中（还要 {rounds} 回合）"
+msgstr "Cooling down ({rounds} rounds left)"
+
+msgid "已收势"
+msgstr "Holding"
+
+msgid "手不够"
+msgstr "Out of beats"
+
+msgid "$N临阵变招！"
+msgstr "$N {N:switch|switches} moves mid-fight!"
+
+msgid "{npc}的{move}被打断了。"
+msgstr "{npc}'s {move} is broken off."
+
+msgid "$N说道：{line}"
+msgstr "$N {N:say|says}, \"{line}\""
+
+msgid "$N趁你收招，连出两手！"
+msgstr "$N {N:catch|catches} you pulling back and {N:strike|strikes} twice!"
+
+msgid "$N被震得失衡，丢了一手！"
+msgstr "$N {N:are|is} knocked off balance and {N:lose|loses} a beat!"
+
+msgid "$N一招落空，露出了破绽！"
+msgstr "$N's move misses and leaves an opening!"
+
+msgid "$N抢得一手（{label}）！"
+msgstr "$N {N:seize|seizes} a beat ({label})!"
+
+msgid "看起来%s想杀死你！"
+msgstr "Looks like %s wants to kill you!"
+
+msgid "看起来%s（×%d）想杀死你！"
+msgstr "Looks like %s (×%d) want to kill you!"
+
+msgid "{npc}蓄势待发，似乎要使出{move}！"
+msgstr "{npc} gathers strength - looks like {move} is coming!"
+
+msgid "一具枯乾的骸骨"
+msgstr "a dried-up skeleton"
+
+msgid "腐烂的尸体"
+msgstr "a rotting corpse"
+
+msgid "%s的尸体"
+msgstr "%s's corpse"
+
+msgid "自动存档失败"
+msgstr "Autosave failed"
+
+msgid "已自动存档"
+msgstr "Autosaved"
+
+msgid "已存下「决战前」存档"
+msgstr "\"Before the Battle\" saved"
+
+msgid "「决战前」存档没能存下"
+msgstr "\"Before the Battle\" couldn't be saved"
+
+msgid "「死前存档」没能存下"
+msgstr "\"Before Death\" couldn't be saved"
+
+msgid "$N用後腿往$n的$l用力一蹬"
+msgstr "$N {N:kick|kicks} hard at $n's $l with {N:his} hind legs"
+
+msgid "蹬"
+msgstr "Kick"
+
+msgid "咬伤"
+msgstr "bite wound"
+
+msgid "$N扑上来张嘴往$n的$l狠狠地一咬"
+msgstr "$N {N:lunge|lunges} and {N:sink|sinks} {N:his} teeth into $n's $l"
+
+msgid "咬"
+msgstr "Bite"
+
+msgid "$N用爪子往$n的$l一抓"
+msgstr "$N {N:claw|claws} at $n's $l"
+
+msgid "抓"
+msgstr "Claw"
+
+msgid "$N用嘴往$n的$l一啄"
+msgstr "$N {N:peck|pecks} at $n's $l"
+
+msgid "啄"
+msgstr "Peck"
+
+msgid "$N攻击$n的$l"
+msgstr "$N {N:attack|attacks} $n's $l"
+
+msgid "药铺"
+msgstr "Herbs"
+
+msgid "非请莫入"
+msgstr "Private"
+
+msgid "当铺"
+msgstr "Pawn"
+
+msgid "驿"
+msgstr "Post"
+
+msgid "打铁铺"
+msgstr "Smithy"
+
+msgid "米厂"
+msgstr "Rice Mill"
+
+msgid "雄性"
+msgstr "Male"
+
+msgid "雌性"
+msgstr "Female"
+
+msgid "於兰天武"
+msgstr "Yulan Tianwu"
+
+msgid "大天邪"
+msgstr "Great Wayward"
+
+msgid "旋芒"
+msgstr "Whirling Edge"
+
+msgid "卫沧澜"
+msgstr "Wei Canglan"
+
+msgid "萧辟尘"
+msgstr "Xiao Bichen"
+
+msgid "小天邪"
+msgstr "Little Wayward"
+
+msgid "潘军禅"
+msgstr "Pan Junchan"
+
+msgid "书 剑 侠"
+msgstr "Book and Sword"
+
+msgid "绝尘子"
+msgstr "Juechenzi"
+
+msgid "天甲神兵"
+msgstr "Divine Soldier Jia"
+
+msgid "天乙神兵"
+msgstr "Divine Soldier Yi"
+
+msgid "天丙神兵"
+msgstr "Divine Soldier Bing"
+
+msgid "天丁神兵"
+msgstr "Divine Soldier Ding"
+
+msgid "天戊神兵"
+msgstr "Divine Soldier Wu"
+
+msgid "天己神兵"
+msgstr "Divine Soldier Ji"
+
+msgid "天庚神兵"
+msgstr "Divine Soldier Geng"
+
+msgid "天辛神兵"
+msgstr "Divine Soldier Xin"
+
+msgid "天壬神兵"
+msgstr "Divine Soldier Ren"
+
+msgid "天癸神兵"
+msgstr "Divine Soldier Gui"
+
+msgid "林忌"
+msgstr "Lin Ji"
+
+msgid "六指真人"
+msgstr "Six-Fingered Sage"
+
+msgid "黑冠"
+msgstr "Black Cap"
+
+msgid "子阴鬼卒"
+msgstr "Ghost Soldier Zi"
+
+msgid "丑阴鬼卒"
+msgstr "Ghost Soldier Chou"
+
+msgid "寅阴鬼卒"
+msgstr "Ghost Soldier Yin"
+
+msgid "卯阴鬼卒"
+msgstr "Ghost Soldier Mao"
+
+msgid "辰阴鬼卒"
+msgstr "Ghost Soldier Chen"
+
+msgid "巳阴鬼卒"
+msgstr "Ghost Soldier Si"
+
+msgid "午阴鬼卒"
+msgstr "Ghost Soldier Wu"
+
+msgid "未阴鬼卒"
+msgstr "Ghost Soldier Wei"
+
+msgid "申阴鬼卒"
+msgstr "Ghost Soldier Shen"
+
+msgid "酉阴鬼卒"
+msgstr "Ghost Soldier You"
+
+msgid "戌阴鬼卒"
+msgstr "Ghost Soldier Xu"
+
+msgid "亥阴鬼卒"
+msgstr "Ghost Soldier Hai"
+
+msgid "观想虫"
+msgstr "Mind Bug"
+
+msgid "观想兽"
+msgstr "Mind Beast"
+
+msgid "僵尸"
+msgstr "Zombie"
+
+msgid "蓝止萍"
+msgstr "Lan Zhiping"
+
+msgid "回音仙子"
+msgstr "Echo Fairy"
+
+msgid "玄智和尚"
+msgstr "Monk Xuanzhi"
+
+msgid "陆得财"
+msgstr "Lu Decai"
+
+msgid "黑水伏蛟"
+msgstr "Blackwater Dragon"
+
+msgid "骆云舟"
+msgstr "Luo Yunzhou"
+
+msgid "风泉剑灵"
+msgstr "Soul of Windspring"
+
+msgid "桃干仙"
+msgstr "Peach Trunk Immortal"
+
+msgid "桃枝仙"
+msgstr "Peach Branch Immortal"
+
+msgid "桃谷仙"
+msgstr "Peach Valley Immortal"
+
+msgid "桃实仙"
+msgstr "Peach Fruit Immortal"
+
+msgid "桃花仙"
+msgstr "Peach Bloom Immortal"
+
+msgid "桃根仙"
+msgstr "Peach Root Immortal"
+
+msgid "桃萼仙"
+msgstr "Peach Calyx Immortal"
+
+msgid "土匪探哨"
+msgstr "Bandit Scout"
+
+msgid "土匪"
+msgstr "Bandit"
+
+msgid "黑冠巨蟒"
+msgstr "Black-Crest Python"
+
+msgid "土匪喽罗"
+msgstr "Bandit Lackey"
+
+msgid "泼风刀王"
+msgstr "Storm-Blade King"
+
+msgid "金银花蛇"
+msgstr "Honeysuckle Viper"
+
+msgid "黄霸"
+msgstr "Huang Ba"
+
+msgid "日月槌"
+msgstr "Sun-and-Moon Hammers"
+
+msgid "霍铮"
+msgstr "Huo Zheng"
+
+msgid "「嘉德文选」"
+msgstr "\"Selected Writings of Jiade\""
+
+msgid "「九韬」"
+msgstr "\"The Nine Strategies\""
+
+msgid "「太公辩」"
+msgstr "\"Disputations of the Grand Duke\""
+
+msgid "「梁父文集」"
+msgstr "\"Collected Works of Liangfu\""
+
+msgid "「说律」"
+msgstr "\"On the Laws\""
+
+msgid "「古文志」"
+msgstr "\"Records of Ancient Prose\""
+
+msgid "「乡书」"
+msgstr "\"Letters from Home\""
+
+msgid "「佾风斋诗集」"
+msgstr "\"Poems of Yifeng Studio\""
+
+msgid "「寒士列传」"
+msgstr "\"Lives of Poor Scholars\""
+
+msgid "「水龙图注」"
+msgstr "\"The Water Dragon Charts, Annotated\""
+
+msgid "「笑傲江湖」"
+msgstr "\"The Smiling, Proud Wanderer\""
+
+msgid "「天龙八部」"
+msgstr "\"Demi-Gods and Semi-Devils\""
+
+msgid "「七剑下天山」"
+msgstr "\"Seven Swords of Mount Tian\""
+
+msgid "「游侠郭解传」"
+msgstr "\"The Life of Guo Xie, Knight-Errant\""
+
+msgid "「七种武器」"
+msgstr "\"Seven Weapons\""
+
+msgid "「楚留香传奇之血海飘香」"
+msgstr "\"Chu Liuxiang: Fragrance on a Sea of Blood\""
+
+msgid "「四大名捕」"
+msgstr "\"The Four Constables\""
+
+msgid "「洪武剑侠图」"
+msgstr "\"Swordsmen of the Hongwu Reign\""
+
+msgid "「秘传八步赶蝉」"
+msgstr "\"Eight Steps After the Cicada\""
+
+msgid "「陆地飞行之法」"
+msgstr "\"The Art of Flying on Land\""
+
+msgid "「寒梅弄影之法」"
+msgstr "\"The Art of the Winter Plum's Shadow\""
+
+msgid "「穿花绕树要诀」"
+msgstr "\"Through Flowers, Round Trees\""
+
+msgid "「八卦步法」"
+msgstr "\"Eight Trigram Footwork\""
+
+msgid "苍蝇"
+msgstr "Fly"
+
+msgid "茶博士"
+msgstr "Tea Waiter"
+
+msgid "林三爷"
+msgstr "Third Master Lin"
+
+msgid "伙计"
+msgstr "Shop Hand"
+
+msgid "朱鸿雪"
+msgstr "Zhu Hongxue"
+
+msgid "媒婆"
+msgstr "Matchmaker"
+
+msgid "陈剑秋"
+msgstr "Chen Jianqiu"
+
+msgid "霹雳刀"
+msgstr "Thunderbolt Blade"
+
+msgid "陈天星"
+msgstr "Chen Tianxing"
+
+msgid "保镖"
+msgstr "Bodyguard"
+
+msgid "张百万"
+msgstr "Moneybags Zhang"
+
+msgid "水烟阁武士"
+msgstr "Waterfog Guard"
+
+msgid "水烟阁司事"
+msgstr "Waterfog Warden"
+
+msgid "天邪虎"
+msgstr "Wayward Tiger"
+
+msgid "仆役"
+msgstr "Manservant"
+
+msgid "水烟阁红衣武士"
+msgstr "Red-Robed Guard"
+
+msgid "南危水"
+msgstr "Nan Weishui"
+
+msgid "陈坚石"
+msgstr "Chen Jianshi"
+
+msgid "颜违"
+msgstr "Yan Wei"
+
+msgid "采石工"
+msgstr "Quarryman"
+
+msgid "沈万年"
+msgstr "Shen Wannian"
+
+msgid "妇人"
+msgstr "Woman"
+
+msgid "小孩"
+msgstr "Child"
+
+msgid "工匠"
+msgstr "Craftsman"
+
+msgid "老公公"
+msgstr "Grandpa"
+
+msgid "老婆婆"
+msgstr "Granny"
+
+msgid "村长"
+msgstr "Village Head"
+
+msgid "工匠的小孩"
+msgstr "Craftsman's Child"
+
+msgid "玄和"
+msgstr "Xuanhe"
+
+msgid "老道士"
+msgstr "Old Daoist"
+
+msgid "清灵"
+msgstr "Qingling"
+
+msgid "清平"
+msgstr "Qingping"
+
+msgid "清风"
+msgstr "Qingfeng"
+
+msgid "清音"
+msgstr "Qingyin"
+
+msgid "婢女"
+msgstr "Maidservant"
+
+msgid "昭蓉"
+msgstr "Zhaorong"
+
+msgid "曲馥琪"
+msgstr "Qu Fuqi"
+
+msgid "苗郁淑"
+msgstr "Miao Yushu"
+
+msgid "杀手"
+msgstr "Assassin"
+
+msgid "蒙面杀手"
+msgstr "Masked Assassin"
+
+msgid "瑷伦"
+msgstr "Ailun"
+
+msgid "安妮儿"
+msgstr "Anni'er"
+
+msgid "虞琼衣"
+msgstr "Yu Qiongyi"
+
+msgid "龙韶吟"
+msgstr "Long Shaoyin"
+
+msgid "阮欣郁"
+msgstr "Ruan Xinyu"
+
+msgid "凤凰"
+msgstr "Phoenix"
+
+msgid "金仪彤"
+msgstr "Jin Yitong"
+
+msgid "采花少女"
+msgstr "Flower-Picking Girl"
+
+msgid "上官钰翎"
+msgstr "Shangguan Yuling"
+
+msgid "玉涵湘"
+msgstr "Yu Hanxiang"
+
+msgid "小金鼠"
+msgstr "Golden Mouse"
+
+msgid "美珊"
+msgstr "Meishan"
+
+msgid "小白兔"
+msgstr "Little White Rabbit"
+
+msgid "人灵「区冥」"
+msgstr "Human Soul \"Ouming\""
+
+msgid "僧人"
+msgstr "Monk"
+
+msgid "烧饭僧"
+msgstr "Cook Monk"
+
+msgid "小沙弥"
+msgstr "Little Novice"
+
+msgid "汤掌柜"
+msgstr "Shopkeeper Tang"
+
+msgid "箱子"
+msgstr "Crates"
+
+msgid "陈显祖"
+msgstr "Chen Xianzu"
+
+msgid "衙役"
+msgstr "Bailiff"
+
+msgid "带刀侍卫"
+msgstr "Armed Guard"
+
+msgid "乾瘪老太婆"
+msgstr "Wizened Crone"
+
+msgid "游客"
+msgstr "Sightseer"
+
+msgid "书生"
+msgstr "Scholar"
+
+msgid "官家小姐"
+msgstr "Official's Daughter"
+
+msgid "丫鬟"
+msgstr "Maid"
+
+msgid "程不平"
+msgstr "Cheng Buping"
+
+msgid "路引"
+msgstr "Travel Passes"
+
+msgid "密信"
+msgstr "Secret Letter"
+
+msgid "兵部文书"
+msgstr "War Ministry Papers"
+
+msgid "酒楼守卫"
+msgstr "Tavern Guard"
+
+msgid "老者"
+msgstr "Old Man"
+
+msgid "黑无常"
+msgstr "Black Impermanence"
+
+msgid "仙鹤"
+msgstr "Immortal Crane"
+
+msgid "紫衣童子"
+msgstr "Boy in Purple"
+
+msgid "孤魂野鬼"
+msgstr "Wandering Ghost"
+
+msgid "朦胧鬼影"
+msgstr "Hazy Phantom"
+
+msgid "护草神兽"
+msgstr "Herb-Guarding Beast"
+
+msgid "慕容巡捕"
+msgstr "Constable Murong"
+
+msgid "西门巡捕"
+msgstr "Constable Ximen"
+
+msgid "公孙巡捕"
+msgstr "Constable Gongsun"
+
+msgid "上官巡捕"
+msgstr "Constable Shangguan"
+
+msgid "南宫巡捕"
+msgstr "Constable Nangong"
+
+msgid "欧阳巡捕"
+msgstr "Constable Ouyang"
+
+msgid "司徒巡捕"
+msgstr "Constable Situ"
+
+msgid "后备兵"
+msgstr "Reserve Soldier"
+
+msgid "镇国大将军"
+msgstr "Guardian General"
+
+msgid "商人"
+msgstr "Merchant"
+
+msgid "农妇"
+msgstr "Farm Woman"
+
+msgid "鬼卒"
+msgstr "Ghost Soldier"
+
+msgid "老冰匠"
+msgstr "Old Ice Cutter"
+
+msgid "采花妞"
+msgstr "Little Flower Girl"
+
+msgid "刘老农"
+msgstr "Old Farmer Liu"
+
+msgid "大老鼠"
+msgstr "Big Rat"
+
+msgid "瓜农"
+msgstr "Melon Farmer"
+
+msgid "渔夫"
+msgstr "Fisherman"
+
+msgid "白鳞冰龙"
+msgstr "White Ice Dragon"
+
+msgid "京师守城兵"
+msgstr "Capital Guard"
+
+msgid "黑你没商量"
+msgstr "No-Haggle Fleecer"
+
+msgid "万晓生"
+msgstr "Wan Xiaosheng"
+
+msgid "刀拳双绝"
+msgstr "Blade and Palm"
+
+msgid "老板娘"
+msgstr "Proprietress"
+
+msgid "钱掌柜"
+msgstr "Shopkeeper Qian"
+
+msgid "钱千万"
+msgstr "Ten Million"
+
+msgid "行人"
+msgstr "Passerby"
+
+msgid "李掌柜"
+msgstr "Shopkeeper Li"
+
+msgid "卖艺壮汉"
+msgstr "Street Strongman"
+
+msgid "庾子建"
+msgstr "Yu Zijian"
+
+msgid "赵顺"
+msgstr "Zhao Shun"
+
+msgid "赵昌"
+msgstr "Zhao Chang"
+
+msgid "赵振"
+msgstr "Zhao Zhen"
+
+msgid "赵发"
+msgstr "Zhao Fa"
+
+msgid "赵财"
+msgstr "Zhao Cai"
+
+msgid "赵俊"
+msgstr "Zhao Jun"
+
+msgid "赵彦"
+msgstr "Zhao Yan"
+
+msgid "赵良"
+msgstr "Zhao Liang"
+
+msgid "赵志"
+msgstr "Zhao Zhi"
+
+msgid "赵忠"
+msgstr "Zhao Zhong"
+
+msgid "赵孝"
+msgstr "Zhao Xiao"
+
+msgid "赵雄"
+msgstr "Zhao Xiong"
+
+msgid "赵益"
+msgstr "Zhao Yi"
+
+msgid "赵添"
+msgstr "Zhao Tian"
+
+msgid "赵金"
+msgstr "Zhao Jin"
+
+msgid "赵辉"
+msgstr "Zhao Hui"
+
+msgid "赵长"
+msgstr "Zhao Chang"
+
+msgid "赵盛"
+msgstr "Zhao Sheng"
+
+msgid "赵胜"
+msgstr "Zhao Sheng"
+
+msgid "赵进"
+msgstr "Zhao Jin"
+
+msgid "赵安"
+msgstr "Zhao An"
+
+msgid "赵福"
+msgstr "Zhao Fu"
+
+msgid "赵同"
+msgstr "Zhao Tong"
+
+msgid "赵满"
+msgstr "Zhao Man"
+
+msgid "赵富"
+msgstr "Zhao Fu"
+
+msgid "赵万"
+msgstr "Zhao Wan"
+
+msgid "赵龙"
+msgstr "Zhao Long"
+
+msgid "赵隆"
+msgstr "Zhao Long"
+
+msgid "赵祥"
+msgstr "Zhao Xiang"
+
+msgid "赵栋"
+msgstr "Zhao Dong"
+
+msgid "赵国"
+msgstr "Zhao Guo"
+
+msgid "赵亿"
+msgstr "Zhao Yi"
+
+msgid "赵寿"
+msgstr "Zhao Shou"
+
+msgid "钱顺"
+msgstr "Qian Shun"
+
+msgid "钱昌"
+msgstr "Qian Chang"
+
+msgid "钱振"
+msgstr "Qian Zhen"
+
+msgid "钱发"
+msgstr "Qian Fa"
+
+msgid "钱财"
+msgstr "Qian Cai"
+
+msgid "钱俊"
+msgstr "Qian Jun"
+
+msgid "钱彦"
+msgstr "Qian Yan"
+
+msgid "钱良"
+msgstr "Qian Liang"
+
+msgid "钱志"
+msgstr "Qian Zhi"
+
+msgid "钱忠"
+msgstr "Qian Zhong"
+
+msgid "钱孝"
+msgstr "Qian Xiao"
+
+msgid "钱雄"
+msgstr "Qian Xiong"
+
+msgid "钱益"
+msgstr "Qian Yi"
+
+msgid "钱添"
+msgstr "Qian Tian"
+
+msgid "钱金"
+msgstr "Qian Jin"
+
+msgid "钱辉"
+msgstr "Qian Hui"
+
+msgid "钱长"
+msgstr "Qian Chang"
+
+msgid "钱盛"
+msgstr "Qian Sheng"
+
+msgid "钱胜"
+msgstr "Qian Sheng"
+
+msgid "钱进"
+msgstr "Qian Jin"
+
+msgid "钱安"
+msgstr "Qian An"
+
+msgid "钱福"
+msgstr "Qian Fu"
+
+msgid "钱同"
+msgstr "Qian Tong"
+
+msgid "钱满"
+msgstr "Qian Man"
+
+msgid "钱富"
+msgstr "Qian Fu"
+
+msgid "钱万"
+msgstr "Qian Wan"
+
+msgid "钱龙"
+msgstr "Qian Long"
+
+msgid "钱隆"
+msgstr "Qian Long"
+
+msgid "钱祥"
+msgstr "Qian Xiang"
+
+msgid "钱栋"
+msgstr "Qian Dong"
+
+msgid "钱国"
+msgstr "Qian Guo"
+
+msgid "钱亿"
+msgstr "Qian Yi"
+
+msgid "钱寿"
+msgstr "Qian Shou"
+
+msgid "孙顺"
+msgstr "Sun Shun"
+
+msgid "孙昌"
+msgstr "Sun Chang"
+
+msgid "孙振"
+msgstr "Sun Zhen"
+
+msgid "孙发"
+msgstr "Sun Fa"
+
+msgid "孙财"
+msgstr "Sun Cai"
+
+msgid "孙俊"
+msgstr "Sun Jun"
+
+msgid "孙彦"
+msgstr "Sun Yan"
+
+msgid "孙良"
+msgstr "Sun Liang"
+
+msgid "孙志"
+msgstr "Sun Zhi"
+
+msgid "孙忠"
+msgstr "Sun Zhong"
+
+msgid "孙孝"
+msgstr "Sun Xiao"
+
+msgid "孙雄"
+msgstr "Sun Xiong"
+
+msgid "孙益"
+msgstr "Sun Yi"
+
+msgid "孙添"
+msgstr "Sun Tian"
+
+msgid "孙金"
+msgstr "Sun Jin"
+
+msgid "孙辉"
+msgstr "Sun Hui"
+
+msgid "孙长"
+msgstr "Sun Chang"
+
+msgid "孙盛"
+msgstr "Sun Sheng"
+
+msgid "孙胜"
+msgstr "Sun Sheng"
+
+msgid "孙进"
+msgstr "Sun Jin"
+
+msgid "孙安"
+msgstr "Sun An"
+
+msgid "孙福"
+msgstr "Sun Fu"
+
+msgid "孙同"
+msgstr "Sun Tong"
+
+msgid "孙满"
+msgstr "Sun Man"
+
+msgid "孙富"
+msgstr "Sun Fu"
+
+msgid "孙万"
+msgstr "Sun Wan"
+
+msgid "孙龙"
+msgstr "Sun Long"
+
+msgid "孙隆"
+msgstr "Sun Long"
+
+msgid "孙祥"
+msgstr "Sun Xiang"
+
+msgid "孙栋"
+msgstr "Sun Dong"
+
+msgid "孙国"
+msgstr "Sun Guo"
+
+msgid "孙亿"
+msgstr "Sun Yi"
+
+msgid "孙寿"
+msgstr "Sun Shou"
+
+msgid "李顺"
+msgstr "Li Shun"
+
+msgid "李昌"
+msgstr "Li Chang"
+
+msgid "李振"
+msgstr "Li Zhen"
+
+msgid "李发"
+msgstr "Li Fa"
+
+msgid "李财"
+msgstr "Li Cai"
+
+msgid "李俊"
+msgstr "Li Jun"
+
+msgid "李彦"
+msgstr "Li Yan"
+
+msgid "李良"
+msgstr "Li Liang"
+
+msgid "李志"
+msgstr "Li Zhi"
+
+msgid "李忠"
+msgstr "Li Zhong"
+
+msgid "李孝"
+msgstr "Li Xiao"
+
+msgid "李雄"
+msgstr "Li Xiong"
+
+msgid "李益"
+msgstr "Li Yi"
+
+msgid "李添"
+msgstr "Li Tian"
+
+msgid "李金"
+msgstr "Li Jin"
+
+msgid "李辉"
+msgstr "Li Hui"
+
+msgid "李长"
+msgstr "Li Chang"
+
+msgid "李盛"
+msgstr "Li Sheng"
+
+msgid "李胜"
+msgstr "Li Sheng"
+
+msgid "李进"
+msgstr "Li Jin"
+
+msgid "李安"
+msgstr "Li An"
+
+msgid "李福"
+msgstr "Li Fu"
+
+msgid "李同"
+msgstr "Li Tong"
+
+msgid "李满"
+msgstr "Li Man"
+
+msgid "李富"
+msgstr "Li Fu"
+
+msgid "李万"
+msgstr "Li Wan"
+
+msgid "李龙"
+msgstr "Li Long"
+
+msgid "李隆"
+msgstr "Li Long"
+
+msgid "李祥"
+msgstr "Li Xiang"
+
+msgid "李栋"
+msgstr "Li Dong"
+
+msgid "李国"
+msgstr "Li Guo"
+
+msgid "李亿"
+msgstr "Li Yi"
+
+msgid "李寿"
+msgstr "Li Shou"
+
+msgid "周顺"
+msgstr "Zhou Shun"
+
+msgid "周昌"
+msgstr "Zhou Chang"
+
+msgid "周振"
+msgstr "Zhou Zhen"
+
+msgid "周发"
+msgstr "Zhou Fa"
+
+msgid "周财"
+msgstr "Zhou Cai"
+
+msgid "周俊"
+msgstr "Zhou Jun"
+
+msgid "周彦"
+msgstr "Zhou Yan"
+
+msgid "周良"
+msgstr "Zhou Liang"
+
+msgid "周志"
+msgstr "Zhou Zhi"
+
+msgid "周忠"
+msgstr "Zhou Zhong"
+
+msgid "周孝"
+msgstr "Zhou Xiao"
+
+msgid "周雄"
+msgstr "Zhou Xiong"
+
+msgid "周益"
+msgstr "Zhou Yi"
+
+msgid "周添"
+msgstr "Zhou Tian"
+
+msgid "周金"
+msgstr "Zhou Jin"
+
+msgid "周辉"
+msgstr "Zhou Hui"
+
+msgid "周长"
+msgstr "Zhou Chang"
+
+msgid "周盛"
+msgstr "Zhou Sheng"
+
+msgid "周胜"
+msgstr "Zhou Sheng"
+
+msgid "周进"
+msgstr "Zhou Jin"
+
+msgid "周安"
+msgstr "Zhou An"
+
+msgid "周福"
+msgstr "Zhou Fu"
+
+msgid "周同"
+msgstr "Zhou Tong"
+
+msgid "周满"
+msgstr "Zhou Man"
+
+msgid "周富"
+msgstr "Zhou Fu"
+
+msgid "周万"
+msgstr "Zhou Wan"
+
+msgid "周龙"
+msgstr "Zhou Long"
+
+msgid "周隆"
+msgstr "Zhou Long"
+
+msgid "周祥"
+msgstr "Zhou Xiang"
+
+msgid "周栋"
+msgstr "Zhou Dong"
+
+msgid "周国"
+msgstr "Zhou Guo"
+
+msgid "周亿"
+msgstr "Zhou Yi"
+
+msgid "周寿"
+msgstr "Zhou Shou"
+
+msgid "吴顺"
+msgstr "Wu Shun"
+
+msgid "吴昌"
+msgstr "Wu Chang"
+
+msgid "吴振"
+msgstr "Wu Zhen"
+
+msgid "吴发"
+msgstr "Wu Fa"
+
+msgid "吴财"
+msgstr "Wu Cai"
+
+msgid "吴俊"
+msgstr "Wu Jun"
+
+msgid "吴彦"
+msgstr "Wu Yan"
+
+msgid "吴良"
+msgstr "Wu Liang"
+
+msgid "吴志"
+msgstr "Wu Zhi"
+
+msgid "吴忠"
+msgstr "Wu Zhong"
+
+msgid "吴孝"
+msgstr "Wu Xiao"
+
+msgid "吴雄"
+msgstr "Wu Xiong"
+
+msgid "吴益"
+msgstr "Wu Yi"
+
+msgid "吴添"
+msgstr "Wu Tian"
+
+msgid "吴金"
+msgstr "Wu Jin"
+
+msgid "吴辉"
+msgstr "Wu Hui"
+
+msgid "吴长"
+msgstr "Wu Chang"
+
+msgid "吴盛"
+msgstr "Wu Sheng"
+
+msgid "吴胜"
+msgstr "Wu Sheng"
+
+msgid "吴进"
+msgstr "Wu Jin"
+
+msgid "吴安"
+msgstr "Wu An"
+
+msgid "吴福"
+msgstr "Wu Fu"
+
+msgid "吴同"
+msgstr "Wu Tong"
+
+msgid "吴满"
+msgstr "Wu Man"
+
+msgid "吴富"
+msgstr "Wu Fu"
+
+msgid "吴万"
+msgstr "Wu Wan"
+
+msgid "吴龙"
+msgstr "Wu Long"
+
+msgid "吴隆"
+msgstr "Wu Long"
+
+msgid "吴祥"
+msgstr "Wu Xiang"
+
+msgid "吴栋"
+msgstr "Wu Dong"
+
+msgid "吴国"
+msgstr "Wu Guo"
+
+msgid "吴亿"
+msgstr "Wu Yi"
+
+msgid "吴寿"
+msgstr "Wu Shou"
+
+msgid "郑顺"
+msgstr "Zheng Shun"
+
+msgid "郑昌"
+msgstr "Zheng Chang"
+
+msgid "郑振"
+msgstr "Zheng Zhen"
+
+msgid "郑发"
+msgstr "Zheng Fa"
+
+msgid "郑财"
+msgstr "Zheng Cai"
+
+msgid "郑俊"
+msgstr "Zheng Jun"
+
+msgid "郑彦"
+msgstr "Zheng Yan"
+
+msgid "郑良"
+msgstr "Zheng Liang"
+
+msgid "郑志"
+msgstr "Zheng Zhi"
+
+msgid "郑忠"
+msgstr "Zheng Zhong"
+
+msgid "郑孝"
+msgstr "Zheng Xiao"
+
+msgid "郑雄"
+msgstr "Zheng Xiong"
+
+msgid "郑益"
+msgstr "Zheng Yi"
+
+msgid "郑添"
+msgstr "Zheng Tian"
+
+msgid "郑金"
+msgstr "Zheng Jin"
+
+msgid "郑辉"
+msgstr "Zheng Hui"
+
+msgid "郑长"
+msgstr "Zheng Chang"
+
+msgid "郑盛"
+msgstr "Zheng Sheng"
+
+msgid "郑胜"
+msgstr "Zheng Sheng"
+
+msgid "郑进"
+msgstr "Zheng Jin"
+
+msgid "郑安"
+msgstr "Zheng An"
+
+msgid "郑福"
+msgstr "Zheng Fu"
+
+msgid "郑同"
+msgstr "Zheng Tong"
+
+msgid "郑满"
+msgstr "Zheng Man"
+
+msgid "郑富"
+msgstr "Zheng Fu"
+
+msgid "郑万"
+msgstr "Zheng Wan"
+
+msgid "郑龙"
+msgstr "Zheng Long"
+
+msgid "郑隆"
+msgstr "Zheng Long"
+
+msgid "郑祥"
+msgstr "Zheng Xiang"
+
+msgid "郑栋"
+msgstr "Zheng Dong"
+
+msgid "郑国"
+msgstr "Zheng Guo"
+
+msgid "郑亿"
+msgstr "Zheng Yi"
+
+msgid "郑寿"
+msgstr "Zheng Shou"
+
+msgid "王顺"
+msgstr "Wang Shun"
+
+msgid "王昌"
+msgstr "Wang Chang"
+
+msgid "王振"
+msgstr "Wang Zhen"
+
+msgid "王发"
+msgstr "Wang Fa"
+
+msgid "王财"
+msgstr "Wang Cai"
+
+msgid "王俊"
+msgstr "Wang Jun"
+
+msgid "王彦"
+msgstr "Wang Yan"
+
+msgid "王良"
+msgstr "Wang Liang"
+
+msgid "王志"
+msgstr "Wang Zhi"
+
+msgid "王忠"
+msgstr "Wang Zhong"
+
+msgid "王孝"
+msgstr "Wang Xiao"
+
+msgid "王雄"
+msgstr "Wang Xiong"
+
+msgid "王益"
+msgstr "Wang Yi"
+
+msgid "王添"
+msgstr "Wang Tian"
+
+msgid "王金"
+msgstr "Wang Jin"
+
+msgid "王辉"
+msgstr "Wang Hui"
+
+msgid "王长"
+msgstr "Wang Chang"
+
+msgid "王盛"
+msgstr "Wang Sheng"
+
+msgid "王胜"
+msgstr "Wang Sheng"
+
+msgid "王进"
+msgstr "Wang Jin"
+
+msgid "王安"
+msgstr "Wang An"
+
+msgid "王福"
+msgstr "Wang Fu"
+
+msgid "王同"
+msgstr "Wang Tong"
+
+msgid "王满"
+msgstr "Wang Man"
+
+msgid "王富"
+msgstr "Wang Fu"
+
+msgid "王万"
+msgstr "Wang Wan"
+
+msgid "王龙"
+msgstr "Wang Long"
+
+msgid "王隆"
+msgstr "Wang Long"
+
+msgid "王祥"
+msgstr "Wang Xiang"
+
+msgid "王栋"
+msgstr "Wang Dong"
+
+msgid "王国"
+msgstr "Wang Guo"
+
+msgid "王亿"
+msgstr "Wang Yi"
+
+msgid "王寿"
+msgstr "Wang Shou"
+
+msgid "张顺"
+msgstr "Zhang Shun"
+
+msgid "张昌"
+msgstr "Zhang Chang"
+
+msgid "张振"
+msgstr "Zhang Zhen"
+
+msgid "张发"
+msgstr "Zhang Fa"
+
+msgid "张财"
+msgstr "Zhang Cai"
+
+msgid "张俊"
+msgstr "Zhang Jun"
+
+msgid "张彦"
+msgstr "Zhang Yan"
+
+msgid "张良"
+msgstr "Zhang Liang"
+
+msgid "张志"
+msgstr "Zhang Zhi"
+
+msgid "张忠"
+msgstr "Zhang Zhong"
+
+msgid "张孝"
+msgstr "Zhang Xiao"
+
+msgid "张雄"
+msgstr "Zhang Xiong"
+
+msgid "张益"
+msgstr "Zhang Yi"
+
+msgid "张添"
+msgstr "Zhang Tian"
+
+msgid "张金"
+msgstr "Zhang Jin"
+
+msgid "张辉"
+msgstr "Zhang Hui"
+
+msgid "张长"
+msgstr "Zhang Chang"
+
+msgid "张盛"
+msgstr "Zhang Sheng"
+
+msgid "张胜"
+msgstr "Zhang Sheng"
+
+msgid "张进"
+msgstr "Zhang Jin"
+
+msgid "张安"
+msgstr "Zhang An"
+
+msgid "张福"
+msgstr "Zhang Fu"
+
+msgid "张同"
+msgstr "Zhang Tong"
+
+msgid "张满"
+msgstr "Zhang Man"
+
+msgid "张富"
+msgstr "Zhang Fu"
+
+msgid "张万"
+msgstr "Zhang Wan"
+
+msgid "张龙"
+msgstr "Zhang Long"
+
+msgid "张隆"
+msgstr "Zhang Long"
+
+msgid "张祥"
+msgstr "Zhang Xiang"
+
+msgid "张栋"
+msgstr "Zhang Dong"
+
+msgid "张国"
+msgstr "Zhang Guo"
+
+msgid "张亿"
+msgstr "Zhang Yi"
+
+msgid "张寿"
+msgstr "Zhang Shou"
+
+msgid "陈顺"
+msgstr "Chen Shun"
+
+msgid "陈昌"
+msgstr "Chen Chang"
+
+msgid "陈振"
+msgstr "Chen Zhen"
+
+msgid "陈发"
+msgstr "Chen Fa"
+
+msgid "陈财"
+msgstr "Chen Cai"
+
+msgid "陈俊"
+msgstr "Chen Jun"
+
+msgid "陈彦"
+msgstr "Chen Yan"
+
+msgid "陈良"
+msgstr "Chen Liang"
+
+msgid "陈志"
+msgstr "Chen Zhi"
+
+msgid "陈忠"
+msgstr "Chen Zhong"
+
+msgid "陈孝"
+msgstr "Chen Xiao"
+
+msgid "陈雄"
+msgstr "Chen Xiong"
+
+msgid "陈益"
+msgstr "Chen Yi"
+
+msgid "陈添"
+msgstr "Chen Tian"
+
+msgid "陈金"
+msgstr "Chen Jin"
+
+msgid "陈辉"
+msgstr "Chen Hui"
+
+msgid "陈长"
+msgstr "Chen Chang"
+
+msgid "陈盛"
+msgstr "Chen Sheng"
+
+msgid "陈胜"
+msgstr "Chen Sheng"
+
+msgid "陈进"
+msgstr "Chen Jin"
+
+msgid "陈安"
+msgstr "Chen An"
+
+msgid "陈福"
+msgstr "Chen Fu"
+
+msgid "陈同"
+msgstr "Chen Tong"
+
+msgid "陈满"
+msgstr "Chen Man"
+
+msgid "陈富"
+msgstr "Chen Fu"
+
+msgid "陈万"
+msgstr "Chen Wan"
+
+msgid "陈龙"
+msgstr "Chen Long"
+
+msgid "陈隆"
+msgstr "Chen Long"
+
+msgid "陈祥"
+msgstr "Chen Xiang"
+
+msgid "陈栋"
+msgstr "Chen Dong"
+
+msgid "陈国"
+msgstr "Chen Guo"
+
+msgid "陈亿"
+msgstr "Chen Yi"
+
+msgid "陈寿"
+msgstr "Chen Shou"
+
+msgid "刘顺"
+msgstr "Liu Shun"
+
+msgid "刘昌"
+msgstr "Liu Chang"
+
+msgid "刘振"
+msgstr "Liu Zhen"
+
+msgid "刘发"
+msgstr "Liu Fa"
+
+msgid "刘财"
+msgstr "Liu Cai"
+
+msgid "刘俊"
+msgstr "Liu Jun"
+
+msgid "刘彦"
+msgstr "Liu Yan"
+
+msgid "刘良"
+msgstr "Liu Liang"
+
+msgid "刘志"
+msgstr "Liu Zhi"
+
+msgid "刘忠"
+msgstr "Liu Zhong"
+
+msgid "刘孝"
+msgstr "Liu Xiao"
+
+msgid "刘雄"
+msgstr "Liu Xiong"
+
+msgid "刘益"
+msgstr "Liu Yi"
+
+msgid "刘添"
+msgstr "Liu Tian"
+
+msgid "刘金"
+msgstr "Liu Jin"
+
+msgid "刘辉"
+msgstr "Liu Hui"
+
+msgid "刘长"
+msgstr "Liu Chang"
+
+msgid "刘盛"
+msgstr "Liu Sheng"
+
+msgid "刘胜"
+msgstr "Liu Sheng"
+
+msgid "刘进"
+msgstr "Liu Jin"
+
+msgid "刘安"
+msgstr "Liu An"
+
+msgid "刘福"
+msgstr "Liu Fu"
+
+msgid "刘同"
+msgstr "Liu Tong"
+
+msgid "刘满"
+msgstr "Liu Man"
+
+msgid "刘富"
+msgstr "Liu Fu"
+
+msgid "刘万"
+msgstr "Liu Wan"
+
+msgid "刘龙"
+msgstr "Liu Long"
+
+msgid "刘隆"
+msgstr "Liu Long"
+
+msgid "刘祥"
+msgstr "Liu Xiang"
+
+msgid "刘栋"
+msgstr "Liu Dong"
+
+msgid "刘国"
+msgstr "Liu Guo"
+
+msgid "刘亿"
+msgstr "Liu Yi"
+
+msgid "刘寿"
+msgstr "Liu Shou"
+
+msgid "林顺"
+msgstr "Lin Shun"
+
+msgid "林昌"
+msgstr "Lin Chang"
+
+msgid "林振"
+msgstr "Lin Zhen"
+
+msgid "林发"
+msgstr "Lin Fa"
+
+msgid "林财"
+msgstr "Lin Cai"
+
+msgid "林俊"
+msgstr "Lin Jun"
+
+msgid "林彦"
+msgstr "Lin Yan"
+
+msgid "林良"
+msgstr "Lin Liang"
+
+msgid "林志"
+msgstr "Lin Zhi"
+
+msgid "林忠"
+msgstr "Lin Zhong"
+
+msgid "林孝"
+msgstr "Lin Xiao"
+
+msgid "林雄"
+msgstr "Lin Xiong"
+
+msgid "林益"
+msgstr "Lin Yi"
+
+msgid "林添"
+msgstr "Lin Tian"
+
+msgid "林金"
+msgstr "Lin Jin"
+
+msgid "林辉"
+msgstr "Lin Hui"
+
+msgid "林长"
+msgstr "Lin Chang"
+
+msgid "林盛"
+msgstr "Lin Sheng"
+
+msgid "林胜"
+msgstr "Lin Sheng"
+
+msgid "林进"
+msgstr "Lin Jin"
+
+msgid "林安"
+msgstr "Lin An"
+
+msgid "林福"
+msgstr "Lin Fu"
+
+msgid "林同"
+msgstr "Lin Tong"
+
+msgid "林满"
+msgstr "Lin Man"
+
+msgid "林富"
+msgstr "Lin Fu"
+
+msgid "林万"
+msgstr "Lin Wan"
+
+msgid "林龙"
+msgstr "Lin Long"
+
+msgid "林隆"
+msgstr "Lin Long"
+
+msgid "林祥"
+msgstr "Lin Xiang"
+
+msgid "林栋"
+msgstr "Lin Dong"
+
+msgid "林国"
+msgstr "Lin Guo"
+
+msgid "林亿"
+msgstr "Lin Yi"
+
+msgid "林寿"
+msgstr "Lin Shou"
+
+msgid "花匠"
+msgstr "Gardener"
+
+msgid "骆建章"
+msgstr "Luo Jianzhang"
+
+msgid "庾清尘"
+msgstr "Yu Qingchen"
+
+msgid "卖花姑娘"
+msgstr "Flower Seller"
+
+msgid "紫衣家丁"
+msgstr "Servant in Purple"
+
+msgid "园工"
+msgstr "Groundskeeper"
+
+msgid "黑松一剪"
+msgstr "Black Pine Shears"
+
+msgid "蜜蜂"
+msgstr "Bee"
+
+msgid "小园工"
+msgstr "Young Groundskeeper"
+
+msgid "护院"
+msgstr "Estate Guard"
+
+msgid "女佣人"
+msgstr "Cleaning Maid"
+
+msgid "淳于怀太"
+msgstr "Chunyu Huaitai"
+
+msgid "巨型犬"
+msgstr "Wolfhound"
+
+msgid "信鸽"
+msgstr "Carrier Pigeon"
+
+msgid "厨子"
+msgstr "Cook"
+
+msgid "狱卒"
+msgstr "Jailer"
+
+msgid "子阴鬼牙将"
+msgstr "Ghost Captain Zi"
+
+msgid "丑阴鬼牙将"
+msgstr "Ghost Captain Chou"
+
+msgid "寅阴鬼牙将"
+msgstr "Ghost Captain Yin"
+
+msgid "卯阴鬼牙将"
+msgstr "Ghost Captain Mao"
+
+msgid "辰阴鬼牙将"
+msgstr "Ghost Captain Chen"
+
+msgid "巳阴鬼牙将"
+msgstr "Ghost Captain Si"
+
+msgid "午阴鬼牙将"
+msgstr "Ghost Captain Wu"
+
+msgid "未阴鬼牙将"
+msgstr "Ghost Captain Wei"
+
+msgid "申阴鬼牙将"
+msgstr "Ghost Captain Shen"
+
+msgid "酉阴鬼牙将"
+msgstr "Ghost Captain You"
+
+msgid "戌阴鬼牙将"
+msgstr "Ghost Captain Xu"
+
+msgid "亥阴鬼牙将"
+msgstr "Ghost Captain Hai"
+
+msgid "白无常"
+msgstr "White Impermanence"
+
+msgid "绞盘道士"
+msgstr "Winch Daoist"
+
+msgid "门房道士"
+msgstr "Porter Daoist"
+
+msgid "守门道士"
+msgstr "Gatekeeper Daoist"
+
+msgid "货栈道士"
+msgstr "Storehouse Daoist"
+
+msgid "诵经道士"
+msgstr "Chanting Daoist"
+
+msgid "领诵道士"
+msgstr "Lead Chanter"
+
+msgid "管事道士"
+msgstr "Steward Daoist"
+
+msgid "狱卒道士"
+msgstr "Jailer Daoist"
+
+msgid "民夫"
+msgstr "Laborer"
+
+msgid "石头"
+msgstr "Shitou"
+
+msgid "关北民夫"
+msgstr "Frontier Laborer"
+
+msgid "商玦"
+msgstr "Shang Jue"
+
+msgid "玄冥子"
+msgstr "Xuanmingzi"
+
+msgid "无头黑影"
+msgstr "Headless Shadow"
+
+msgid "巡殿道士"
+msgstr "Hall Patrol Daoist"
+
+msgid "货郎"
+msgstr "Peddler"
+
+msgid "采药人"
+msgstr "Herb Gatherer"
+
+msgid "追杀的道士"
+msgstr "Pursuing Daoist"
+
+msgid "关门兵"
+msgstr "Pass Guard"
+
+msgid "关门"
+msgstr "Pass Gate"
+
+msgid "城门兵"
+msgstr "City Gate Guard"
+
+msgid "驼夫"
+msgstr "Camel Driver"
+
+msgid "铁匠"
+msgstr "Smith"
+
+msgid "巴朗"
+msgstr "Balang"
+
+msgid "卢卡"
+msgstr "Luca"
+
+msgid "大秦剑手"
+msgstr "Daqin Swordsman"
+
+msgid "安敦"
+msgstr "Andun"
+
+msgid "牧民"
+msgstr "Herdsman"
+
+msgid "胡三娘"
+msgstr "Hu Sanniang"
+
+msgid "秦婆子"
+msgstr "Granny Qin"
+
+msgid "老秦"
+msgstr "Old Qin"
+
+msgid "秦小六"
+msgstr "Qin Xiaoliu"
+
+msgid "王府门军"
+msgstr "Prince's Gate Guard"
+
+msgid "程朔"
+msgstr "Cheng Shuo"
+
+msgid "郭承"
+msgstr "Guo Cheng"
+
+msgid "侍卫"
+msgstr "Guardsman"
+
+msgid "管家"
+msgstr "Steward"
+
+msgid "王府兵"
+msgstr "Prince's Soldier"
+
+msgid "吕隼"
+msgstr "Lu Sun"
+
+msgid "裴照"
+msgstr "Pei Zhao"
+
+msgid "白衣武官"
+msgstr "Officer in White"
+
+msgid "守夜武官"
+msgstr "Night-Watch Officer"
+
+msgid "挖不动的民夫"
+msgstr "Spent Laborer"
+
+msgid "押车道士"
+msgstr "Cart Escort Daoist"
+
+msgid "王府骑兵"
+msgstr "Prince's Rider"
+
+msgid "牧羊人"
+msgstr "Shepherd"
+
+msgid "民夫家属"
+msgstr "Laborer's Family"
+
+msgid "篝火"
+msgstr "Campfire"
+
+msgid "回来的民夫"
+msgstr "Returned Laborer"
+
+msgid "盐脚夫"
+msgstr "Salt Porter"
+
+msgid "海"
+msgstr "Sea"
+
+msgid "船工"
+msgstr "Boatman"
+
+msgid "卸货的胡商"
+msgstr "Cargo Merchant"
+
+msgid "税吏"
+msgstr "Tax Collector"
+
+msgid "冯禄"
+msgstr "Feng Lu"
+
+msgid "琉璃商"
+msgstr "Glass Merchant"
+
+msgid "毡毯商"
+msgstr "Carpet Merchant"
+
+msgid "香料商"
+msgstr "Spice Merchant"
+
+msgid "铜器商"
+msgstr "Copper Merchant"
+
+msgid "看摊的孩子"
+msgstr "Child at the Stall"
+
+msgid "说书的老胡人"
+msgstr "Foreign Storyteller"
+
+msgid "浪人"
+msgstr "Ronin"
+
+msgid "书办"
+msgstr "Clerk"
+
+msgid "差役"
+msgstr "Office Runner"
+
+msgid "穆护"
+msgstr "Magus"
+
+msgid "拜火的胡商"
+msgstr "Fire Worshipper"
+
+msgid "龙若法王"
+msgstr "Dharma King Longruo"
+
+msgid "榕树"
+msgstr "Banyan"
+
+msgid "天竺僧"
+msgstr "Indian Monk"
+
+msgid "早川直义"
+msgstr "Hayakawa Naoyoshi"
+
+msgid "黑影"
+msgstr "Shadow"
+
+msgid "葛升"
+msgstr "Ge Sheng"
+
+msgid "赵勇"
+msgstr "Zhao Yong"
+
+msgid "孙锐"
+msgstr "Sun Rui"
+
+msgid "邓骁"
+msgstr "Deng Xiao"
+
+msgid "守门禁军"
+msgstr "Gate Guard"
+
+msgid "皇城"
+msgstr "Palace City"
+
+msgid "韦执中"
+msgstr "Wei Zhizhong"
+
+msgid "老仆"
+msgstr "Old Servant"
+
+msgid "於兰昭"
+msgstr "Yulan Zhao"
+
+msgid "朝臣"
+msgstr "Courtier"
+
+msgid "福安"
+msgstr "Fu'an"
+
+msgid "司礼太监"
+msgstr "Eunuch of Rites"
+
+msgid "巡夜禁军"
+msgstr "Night Patrol Guard"
+
+msgid "小太监"
+msgstr "Young Eunuch"
+
+msgid "宫女"
+msgstr "Palace Maid"
+
+msgid "钟嬷嬷"
+msgstr "Nanny Zhong"
+
+msgid "大内侍卫"
+msgstr "Imperial Guard"
+
+msgid "逆灵宫信使"
+msgstr "Black Palace Courier"
+
+msgid "冯策"
+msgstr "Feng Ce"
+
+msgid "宋朴"
+msgstr "Song Pu"
+
+msgid "卜风道士"
+msgstr "Wind Diviner"
+
+msgid "岚翁"
+msgstr "Wind Elder"
+
+msgid "岚童"
+msgstr "Wind Child"
+
+msgid "老蔺"
+msgstr "Old Lin"
+
+msgid "扫云的老妪"
+msgstr "Old Cloud Sweeper"
+
+msgid "岚城人"
+msgstr "Wind City Native"
+
+msgid "木人（初阶）"
+msgstr "Wooden Dummy I"
+
+msgid "木人（二阶）"
+msgstr "Wooden Dummy II"
+
+msgid "木人（三阶）"
+msgstr "Wooden Dummy III"
+
+msgid "木人（四阶）"
+msgstr "Wooden Dummy IV"
+
+msgid "木人（五阶）"
+msgstr "Wooden Dummy V"
+
+msgid "流窜毛贼"
+msgstr "Petty Thief"
+
+msgid "剪径贼"
+msgstr "Highwayman"
+
+msgid "采花贼"
+msgstr "Lecher"
+
+msgid "江洋大盗"
+msgstr "Great Brigand"
+
+msgid "杀人魔头"
+msgstr "Murderous Fiend"
+
+msgid "信使"
+msgstr "Messenger"
+
+msgid "白道长"
+msgstr "Daoist Bai"
+
+msgid "江湖客"
+msgstr "Wanderer"
+
+msgid "庾家管事"
+msgstr "Yu Family Steward"
+
+msgid "庾家打手"
+msgstr "Yu Family Thug"
+
+msgid "璃虹"
+msgstr "Lihong"
+
+msgid "侮天鬼"
+msgstr "Heaven-Defier"
+
+msgid "黑冠道士"
+msgstr "Black-Cap Daoist"
+
+msgid "罗七"
+msgstr "Luo Qi"
+
+msgid "帮闲"
+msgstr "Hanger-On"
+
+msgid "阿桂"
+msgstr "Agui"
+
+msgid "小满"
+msgstr "Xiaoman"
+
+msgid "铁盾会少年"
+msgstr "Iron Shield Youth"
+
+msgid "皮货商"
+msgstr "Fur Trader"
+
+msgid "投师的少年"
+msgstr "Would-Be Disciple"
+
+msgid "驿卒"
+msgstr "Post Courier"
+
+msgid "兵部画吏"
+msgstr "War Ministry Painter"
+
+msgid "老周"
+msgstr "Old Zhou"
+
+msgid "蒙面后生"
+msgstr "Masked Youth"
+
+msgid "劫道的汉子"
+msgstr "Road Robber"
+
+msgid "无名女子"
+msgstr "Nameless Woman"
+
+msgid "胡管事"
+msgstr "Steward Hu"
+
+msgid "卖身契"
+msgstr "Indentures"
+
+msgid "钱贵"
+msgstr "Qian Gui"
+
+msgid "牛四"
+msgstr "Niu Si"
+
+msgid "老葛"
+msgstr "Old Ge"
+
+msgid "阿牛"
+msgstr "Aniu"
+
+msgid "了尘"
+msgstr "Liaochen"
+
+msgid "短剑"
+msgstr "short sword"
+
+msgid "皮衣"
+msgstr "leather jacket"
+
+msgid "太阴八卦袍"
+msgstr "greater-yin trigram robe"
+
+msgid "一具已经腐朽的骸骨"
+msgstr "long-decayed skeleton"
+
+msgid "鬼头刀"
+msgstr "ghost-head saber"
+
+msgid "狼皮披风"
+msgstr "wolfskin cloak"
+
+msgid "竹管"
+msgstr "bamboo pipe"
+
+msgid "过招要旨"
+msgstr "sparring primer"
+
+msgid "夜行衣"
+msgstr "night-prowler's suit"
+
+msgid "大金槌"
+msgstr "great gold sledge"
+
+msgid "熊皮短靴"
+msgstr "bearskin boots"
+
+msgid "钢刀"
+msgstr "steel saber"
+
+msgid "短斧"
+msgstr "hand axe"
+
+msgid "鹿皮小靴"
+msgstr "deerskin boots"
+
+msgid "紫玉宝剑"
+msgstr "purple jade sword"
+
+msgid "布裙"
+msgstr "cloth skirt"
+
+msgid "绿罗裙"
+msgstr "green gauze skirt"
+
+msgid "长鞭"
+msgstr "long whip"
+
+msgid "绵裙"
+msgstr "soft silk skirt"
+
+msgid "柳玉刀"
+msgstr "willow-jade saber"
+
+msgid "绣花鞋"
+msgstr "embroidered shoes"
+
+msgid "银翅金簪"
+msgstr "silver-winged gold hairpin"
+
+msgid "青绫绸裙"
+msgstr "blue damask skirt"
+
+msgid "玉竹剑"
+msgstr "jade-bamboo sword"
+
+msgid "杀手令牌"
+msgstr "assassin's token"
+
+msgid "宫保鸡丁"
+msgstr "kung pao chicken"
+
+msgid "水饺"
+msgstr "boiled dumpling"
+
+msgid "女儿红"
+msgstr "Daughter's Red"
+
+msgid "脆皮烤鸭"
+msgstr "crispy roast duck"
+
+msgid "火摺"
+msgstr "tinder tube"
+
+msgid "腰带"
+msgstr "belt"
+
+msgid "耳环"
+msgstr "jeweled earring"
+
+msgid "钻石胸针"
+msgstr "diamond brooch"
+
+msgid "宝蓝缎衫"
+msgstr "sapphire satin dress"
+
+msgid "碧玉红裎带"
+msgstr "jade-red silk sash"
+
+msgid "珍珠项链"
+msgstr "pearl necklace"
+
+msgid "丝罗巾"
+msgstr "silk gauze scarf"
+
+msgid "冰玉戒指"
+msgstr "ice-jade ring"
+
+msgid "青纱裙"
+msgstr "blue gauze skirt"
+
+msgid "护身符"
+msgstr "amulet"
+
+msgid "雪花糕"
+msgstr "snowflake cake"
+
+msgid "竹子"
+msgstr "bamboo stalk"
+
+msgid "绣花针"
+msgstr "embroidery needle"
+
+msgid "花针"
+msgstr "flower needle"
+
+msgid "红桂花"
+msgstr "red osmanthus"
+
+msgid "小花蕊"
+msgstr "golden stamen"
+
+msgid "玉瓷茶杯"
+msgstr "jade-porcelain teacup"
+
+msgid "竹蜻蜓"
+msgstr "bamboo dragonfly"
+
+msgid "玛瑙手镯"
+msgstr "agate bracelet"
+
+msgid "舞曲谱"
+msgstr "dance score"
+
+msgid "黄金令牌"
+msgstr "gold token"
+
+msgid "戒刀"
+msgstr "monk's saber"
+
+msgid "灰布僧衣"
+msgstr "gray monk's robe"
+
+msgid "黑眼罩"
+msgstr "black eye patch"
+
+msgid "僧鞋"
+msgstr "monk's shoes"
+
+msgid "青布僧衣"
+msgstr "blue monk's robe"
+
+msgid "菜刀"
+msgstr "kitchen cleaver"
+
+msgid "竹扫把"
+msgstr "bamboo broom"
+
+msgid "馒头"
+msgstr "plain bun"
+
+msgid "乌檀木刀"
+msgstr "ebony saber"
+
+msgid "轻罗绸衫"
+msgstr "light silk blouse"
+
+msgid "银簪"
+msgstr "silver hairpin"
+
+msgid "平安符"
+msgstr "peace charm"
+
+msgid "玉带冠"
+msgstr "jade-set cap"
+
+msgid "大饼"
+msgstr "flatbread"
+
+msgid "糖葫芦"
+msgstr "candied-haw stick"
+
+msgid "红龟"
+msgstr "red turtle cake"
+
+msgid "从寿衣撕下的布条"
+msgstr "strip torn from a shroud"
+
+msgid "仙丹"
+msgstr "elixir pill"
+
+msgid "缚仙绳"
+msgstr "immortal-binding rope"
+
+msgid "寒谷幽兰"
+msgstr "cold-valley orchid"
+
+msgid "「白杨经」"
+msgstr "\"White Poplar Classic\""
+
+msgid "紫罗鸳鸯荷包"
+msgstr "purple mandarin-duck purse"
+
+msgid "军刀"
+msgstr "army saber"
+
+msgid "青铜战盔"
+msgstr "bronze war helm"
+
+msgid "ψ破 残 奇 剑ψ"
+msgstr "ψChipped Wonder Swordψ"
+
+msgid "火 云 战 甲"
+msgstr "Fire Cloud Armor"
+
+msgid "铁扇剑"
+msgstr "iron fan sword"
+
+msgid "迷幻经纶"
+msgstr "mirage scholar's cap"
+
+msgid "古 剑"
+msgstr "Ancient Sword"
+
+msgid "书匣"
+msgstr "book box"
+
+msgid "悟疾风劲竹书"
+msgstr "Bamboo Against the Gale"
+
+msgid "紫花瓣儿"
+msgstr "purple petal"
+
+msgid "西瓜"
+msgstr "watermelon"
+
+msgid "銮鱼衡冰"
+msgstr "Icefish"
+
+msgid "多情刀"
+msgstr "Tenderheart"
+
+msgid "无情剑"
+msgstr "Heartless"
+
+msgid "西湖醋鱼"
+msgstr "West Lake vinegar fish"
+
+msgid "状元红"
+msgstr "Top Scholar's Red"
+
+msgid "象皮战靴"
+msgstr "elephant-hide war boots"
+
+msgid "淡青长袍"
+msgstr "pale blue long robe"
+
+msgid "艳红绸衫"
+msgstr "bright red silk blouse"
+
+msgid "紫铜战盔"
+msgstr "red copper war helm"
+
+msgid "烟雨鞭"
+msgstr "misty-rain whip"
+
+msgid "天魔杵"
+msgstr "demon pestle"
+
+msgid "月白色长裙"
+msgstr "moon-white long dress"
+
+msgid "八楞玄铁锤"
+msgstr "eight-ridged dark iron hammer"
+
+msgid "园工剪"
+msgstr "garden shears"
+
+msgid "鸡毛"
+msgstr "chicken feather"
+
+msgid "烤山猪肉"
+msgstr "roast boar"
+
+msgid "人皮酒袋"
+msgstr "human-skin wineskin"
+
+msgid "碧玉刀"
+msgstr "green jade saber"
+
+msgid "紫罗兰"
+msgstr "violet"
+
+msgid "红枚瑰"
+msgstr "red rose"
+
+msgid "黄玫瑰"
+msgstr "yellow rose"
+
+msgid "蓝天鹅"
+msgstr "blue swan flower"
+
+msgid "白茶花"
+msgstr "white camellia"
+
+msgid "黑牡丹"
+msgstr "black peony"
+
+msgid "蛇鳞皮鞭"
+msgstr "snakeskin whip"
+
+msgid "破烂的粉红布衫"
+msgstr "torn pink blouse"
+
+msgid "冥府战甲"
+msgstr "netherworld armor"
+
+msgid "七股钢叉"
+msgstr "seven-prong steel trident"
+
+msgid "解牛刀"
+msgstr "ox-carving knife"
+
+msgid "牛皮束带"
+msgstr "cowhide belt"
+
+msgid "量衣尺"
+msgstr "tailor's ruler"
+
+msgid "裁衣剪"
+msgstr "tailor's shears"
+
+msgid "青布袈裟"
+msgstr "blue monk's cassock"
+
+msgid "舞蝶彩衫"
+msgstr "butterfly blouse"
+
+msgid "霜月刀"
+msgstr "Frostmoon"
+
+msgid "茶叶"
+msgstr "tea leaf"
+
+msgid "棋子"
+msgstr "go stone"
+
+msgid "说文解字"
+msgstr "character primer"
+
+msgid "生牛肉"
+msgstr "raw beef"
+
+msgid "牛腿"
+msgstr "leg of beef"
+
+msgid "牛尾"
+msgstr "oxtail"
+
+msgid "熟杂碎"
+msgstr "cooked offal"
+
+msgid "狗肉"
+msgstr "dog meat"
+
+msgid "麻绳"
+msgstr "hemp rope"
+
+msgid "拂柳鞭"
+msgstr "willow-sweep whip"
+
+msgid "僧棍"
+msgstr "monk's staff"
+
+msgid "信件"
+msgstr "letter"
+
+msgid "水烟阁武士氅"
+msgstr "Waterfog warrior's cloak"
+
+msgid "牛皮靴"
+msgstr "cowhide boots"
+
+msgid "水烟阁司事褂"
+msgstr "Waterfog steward's jacket"
+
+msgid "水烟阁司事帽"
+msgstr "Waterfog steward's hat"
+
+msgid "鲜红锦衣"
+msgstr "scarlet brocade robe"
+
+msgid "鲜红金乌冠"
+msgstr "scarlet golden-crow cap"
+
+msgid "焦殇剑"
+msgstr "Sorrowfire"
+
+msgid "黑铁杖"
+msgstr "black iron staff"
+
+msgid "陶壶"
+msgstr "clay jug"
+
+msgid "追风剑"
+msgstr "Windchaser"
+
+msgid "绳子"
+msgstr "rope"
+
+msgid "青布道袍"
+msgstr "blue Daoist robe"
+
+msgid "黑布鞋"
+msgstr "black cloth shoes"
+
+msgid "魔法入门"
+msgstr "mysticism primer"
+
+msgid "符咒简介"
+msgstr "incantation primer"
+
+msgid "拂尘"
+msgstr "horsetail whisk"
+
+msgid "旧道袍"
+msgstr "old Daoist robe"
+
+msgid "青铜道冠"
+msgstr "bronze Daoist crown"
+
+msgid "八卦道袍"
+msgstr "trigram Daoist robe"
+
+msgid "碧玉冠"
+msgstr "green jade crown"
+
+msgid "账册"
+msgstr "ledger"
+
+msgid "地牢钥匙"
+msgstr "dungeon key"
+
+msgid "逆灵天书残卷"
+msgstr "Black Scripture fragment"
+
+msgid "霍铮的尸首"
+msgstr "Huo Zheng's body"
+
+msgid "石头的尸首"
+msgstr "Shitou's body"
+
+msgid "黑剑"
+msgstr "black sword"
+
+msgid "祭品名单"
+msgstr "sacrifice list"
+
+msgid "祭品名册"
+msgstr "sacrifice register"
+
+msgid "逆灵天书下半部"
+msgstr "Black Scripture, second half"
+
+msgid "六阴剑谱"
+msgstr "Six-Chaos Sword manual"
+
+msgid "印模"
+msgstr "seal mold"
+
+msgid "马刀"
+msgstr "cavalry saber"
+
+msgid "大秦短剑"
+msgstr "Daqin short sword"
+
+msgid "马奶酒"
+msgstr "mare's-milk wine"
+
+msgid "手抓羊肉"
+msgstr "hand-pulled mutton"
+
+msgid "马刀谱"
+msgstr "cavalry saber manual"
+
+msgid "琉璃珠"
+msgstr "string of glass beads"
+
+msgid "毡毯"
+msgstr "felt rug"
+
+msgid "胡椒"
+msgstr "bag of pepper"
+
+msgid "胡饼"
+msgstr "sesame flatbread"
+
+msgid "铜壶"
+msgstr "copper kettle"
+
+msgid "铜牒"
+msgstr "copper tablet"
+
+msgid "贝叶"
+msgstr "palm-leaf page"
+
+msgid "倭刀"
+msgstr "katana"
+
+msgid "大秦圆盾"
+msgstr "Daqin round shield"
+
+msgid "御前侍卫腰牌"
+msgstr "imperial guard's waist token"
+
+msgid "寻剑令原本"
+msgstr "original Sword Decree"
+
+msgid "兵部抄本"
+msgstr "Ministry of War copy"
+
+msgid "樵夫的旧记载"
+msgstr "woodcutter's old account"
+
+msgid "手诏"
+msgstr "handwritten edict"
+
+msgid "先帝的解读"
+msgstr "late emperor's notes"
+
+msgid "禁中刀谱"
+msgstr "Palace Blade manual"
+
+msgid "青铜风铃"
+msgstr "bronze wind bell"
+
+msgid "卜风签"
+msgstr "wind-divining slip"
+
+msgid "雪亭驿的书信"
+msgstr "Snow Pavilion Post Station letter"
+
+msgid "刻着记号的布条"
+msgstr "marked cloth strip"
+
+msgid "水烟阁武士腰牌"
+msgstr "Waterfog warrior's waist token"
+
+msgid "虹台请柬"
+msgstr "Rainbow Terrace invitation"
+
+msgid "二十年前的镖单"
+msgstr "twenty-year-old shipment ledger"
+
+msgid "刻着风纹的石匣"
+msgstr "wind-patterned stone casket"
+
+msgid "纳供车"
+msgstr "tribute cart"
+
+msgid "寒於宝衣"
+msgstr "Hanyu's Robe"
+
+msgid "婢女的尸首"
+msgstr "the maid's body"
+
+msgid "昭蓉的尸首"
+msgstr "Zhaorong's body"
+
+msgid "寻剑令抄本"
+msgstr "copy of the Sword Decree"
+
+msgid "程不平的信"
+msgstr "Cheng Buping's letter"
+
+msgid "璃虹的羽"
+msgstr "Lihong's feather"
+
+msgid "黑焰"
+msgstr "black flame"
+
+msgid "渔夫的尸首"
+msgstr "the fisherman's body"
+
+msgid "上清符箓"
+msgstr "Highest Clarity talisman book"
+
+msgid "骆家家书"
+msgstr "Luo family letter"
+
+msgid "附子"
+msgstr "aconite"
+
+msgid "麝香"
+msgstr "musk"
+
+msgid "鬼臼"
+msgstr "mayapple root"
+
+msgid "汤药"
+msgstr "herbal decoction"
+
+msgid "骆家名帖"
+msgstr "Luo family calling card"
+
+msgid "障眼符"
+msgstr "veiling charm"
+
+msgid "封山腰牌"
+msgstr "Empty Mountain waist token"
+
+msgid "无名信"
+msgstr "unsigned letter"
+
+msgid "执法使手令"
+msgstr "Enforcer's warrant"
+
+msgid "翻倒的纳供车"
+msgstr "overturned tribute cart"
+
+msgid "芦苇丛里的尸首"
+msgstr "body in the reeds"
+
+msgid "赤铜令"
+msgstr "red copper token"
+
+msgid "冰凿"
+msgstr "ice chisel"
+
+msgid "石匣出土图"
+msgstr "casket dig sketch"
+
+msgid "振远的名帖"
+msgstr "Far-Road Escorts calling card"
+
+msgid "贺长庚的家信"
+msgstr "He Changgeng's letter home"
+
+msgid "乔阴捕快腰牌"
+msgstr "Tallshade constable's badge"
+
+msgid "伏蛟功"
+msgstr "Serpent-Taming Force"
+
+msgid "春风快意刀"
+msgstr "Spring Blade"
+
+msgid "倒乱七星步法"
+msgstr "Seven-Star Chaos Steps"
+
+msgid "天邪神功"
+msgstr "Wayward Art"
+
+msgid "茅山道术"
+msgstr "Mount Mao Sorcery"
+
+msgid "天师正道"
+msgstr "Celestial Master's Way"
+
+msgid "谷衣心法"
+msgstr "Grain Robe Heart Method"
+
+msgid "天师剑法"
+msgstr "Celestial Master Sword"
+
+msgid "音律"
+msgstr "Music"
+
+msgid "乐器"
+msgstr "Instruments"
+
+msgid "听风辨器之术"
+msgstr "Hearing the Wind"
+
+msgid "天邪神掌"
+msgstr "Wayward Palm"
+
+msgid "六阴追魂剑法"
+msgstr "Six-Chaos Sword"
+
+msgid "火蝠身法"
+msgstr "Pyrobat Steps"
+
+msgid "七宝天岚舞"
+msgstr "Stormdance"
+
+msgid "基本法术"
+msgstr "Basic Mysticism"
+
+msgid "基本咒文"
+msgstr "Basic Incantation"
+
+msgid "小天魔道"
+msgstr "Lesser Demon Lore"
+
+msgid "奇门遁甲"
+msgstr "Hidden Gates"
+
+msgid "绝尘心法"
+msgstr "Dustless Heart Method"
+
+msgid "金刚杖法"
+msgstr "Vajra Staff"
+
+msgid "流云杖法"
+msgstr "Cloudflow Staff"
+
+msgid "莲华心法"
+msgstr "Lotus Heart Method"
+
+msgid "婆萝蜜多心经"
+msgstr "Paramita Heart Sutra"
+
+msgid "大乘佛法"
+msgstr "Mahayana Dharma"
+
+msgid "诵经"
+msgstr "Chanting"
+
+msgid "八识神通"
+msgstr "Eightfold Mind"
+
+msgid "基本锤法"
+msgstr "Basic Hammer"
+
+msgid "基本斧法"
+msgstr "Basic Axe"
+
+msgid "基本匕法"
+msgstr "Basic Dagger"
+
+msgid "基本叉法"
+msgstr "Basic Trident"
+
+msgid "柔虹指"
+msgstr "Soft Rainbow Finger"
+
+msgid "寒雪鞭法"
+msgstr "Cold Snow Whip"
+
+msgid "意寒功"
+msgstr "Cold Intent Force"
+
+msgid "雪影心法"
+msgstr "Snowshade Heart Method"
+
+msgid "雪影剑法"
+msgstr "Snowshade Sword"
+
+msgid "步玄心法"
+msgstr "Mystic Step Heart Method"
+
+msgid "小步玄剑"
+msgstr "Lesser Mystic Step Sword"
+
+msgid "油流麻香手"
+msgstr "Greasy Pepper Hand"
+
+msgid "短歌刀法"
+msgstr "Shortsong Blade"
+
+msgid "秋风步"
+msgstr "Autumn Wind Steps"
+
+msgid "密宗大手印"
+msgstr "Tantric Great Seal"
+
+msgid "铁布衫"
+msgstr "Iron Shirt"
+
+msgid "小无相功"
+msgstr "Lesser Formless Force"
+
+msgid "禁中刀"
+msgstr "Palace Blade"
+
+msgid "关北马刀"
+msgstr "Frontier Saber"
+
+msgid "铁盾剑法"
+msgstr "Iron Shield Sword"
+
+msgid "鬼笠刀法"
+msgstr "Ghost Hat Blade"
+
+msgid "振远镖局"
+msgstr "Far-Road Escorts"
+
+msgid "东方神教"
+msgstr "Golden Crow Order"
+
+msgid "天邪派"
+msgstr "Wayward School"
+
+msgid "绝尘派"
+msgstr "Dustless School"
+
+msgid "茅山派"
+msgstr "Mount Mao School"
+
+msgid "逍遥派"
+msgstr "Carefree School"
+
+msgid "天山派"
+msgstr "Tianshan School"
+
+msgid "步玄派"
+msgstr "Mystic Step School"
+
+msgid "花紫会"
+msgstr "Beggars' Guild"
+
+msgid "鬼笠馆浪人"
+msgstr "Ghost Hat Hall Ronin"
+
+msgid "大黄石"
+msgstr "big yellow boulder"
+
+msgid "铁索"
+msgstr "iron cables"
+
+msgid "光滑的山壁"
+msgstr "smooth cliff face"
+
+msgid "铁门"
+msgstr "iron door"
+
+msgid "书"
+msgstr "book"
+
+msgid "悬崖"
+msgstr "cliff"
+
+msgid "尚书府"
+msgstr "Minister's Mansion"
+
+msgid "告示"
+msgstr "notice"
+
+msgid "铁盾会"
+msgstr "Iron Shield Guild"
+
+msgid "佛像"
+msgstr "Buddha statue"
+
+msgid "石椅"
+msgstr "stone chair"
+
+msgid "背风的石坳"
+msgstr "sheltered rock hollow"
+
+msgid "大松树"
+msgstr "great pine"
+
+msgid "藤蔓"
+msgstr "vines"
+
+msgid "茅草"
+msgstr "thatch grass"
+
+msgid "小牌子"
+msgstr "little sign"
+
+msgid "潭口"
+msgstr "mouth of the pool"
+
+msgid "稳健"
+msgstr "Steady"
+
+msgid "爆发"
+msgstr "Burst"
+
+msgid "兽"
+msgstr "Beast"
+
+msgid "阴间"
+msgstr "the Underworld"
+
+msgid "玉佩"
+msgstr "jade pendant"
+
+msgid "忘忧草"
+msgstr "forget-worry grass"
+
+msgid "无名老妇"
+msgstr "Nameless Old Woman"
+
+msgid "密函"
+msgstr "secret letter"
+
+msgid "山药蛋"
+msgstr "yam"
+
+msgid "桃木箱"
+msgstr "peachwood chest"
+
+msgid "印鉴"
+msgstr "seal"
+
+msgid "小娟"
+msgstr "Xiaojuan"
+
+msgid "出城令牌"
+msgstr "city exit pass"
+
+msgid "黑衣人"
+msgstr "Man in Black"
+
+msgid "官府"
+msgstr "Officialdom"
+
+msgid "瀑布清水"
+msgstr "waterfall water"
+
+msgid "湖水"
+msgstr "lake water"
+
+msgid "泉水"
+msgstr "spring water"
+
+msgid "大门"
+msgstr "gate"
+
+msgid "灌木丛"
+msgstr "thicket"
+
+msgid "山涧石壁"
+msgstr "ravine wall"
+
+msgid "向下的山壁"
+msgstr "cliff face going down"
+
+msgid "向上的山壁"
+msgstr "cliff face going up"
+
+msgid "大青石"
+msgstr "big bluestone"
+
+msgid "石壁"
+msgstr "rock wall"
+
+msgid "路牌"
+msgstr "signpost"
+
+msgid "刀痕"
+msgstr "blade marks"
+
+msgid "脚印"
+msgstr "footprints"
+
+msgid "瀑布"
+msgstr "waterfall"
+
+msgid "山壁"
+msgstr "cliff face"
+
+msgid "帘幕"
+msgstr "silk curtain"
+
+msgid "裂口"
+msgstr "crack"
+
+msgid "油布"
+msgstr "tarp"
+
+msgid "绳索"
+msgstr "rope line"
+
+msgid "木门"
+msgstr "wooden door"
+
+msgid "虹台大会"
+msgstr "Rainbow Terrace Assembly"
+
+msgid "樟木匾"
+msgstr "camphorwood plaque"
+
+msgid "石碑"
+msgstr "stone tablet"
+
+msgid "擎天柱"
+msgstr "sky pillar"
+
+msgid "虹谷"
+msgstr "Rainbow Gorge"
+
+msgid "大石门"
+msgstr "great stone door"
+
+msgid "密门"
+msgstr "secret door"
+
+msgid "井"
+msgstr "well"
+
+msgid "图"
+msgstr "painting"
+
+msgid "大石"
+msgstr "big rock"
+
+msgid "水"
+msgstr "water"
+
+msgid "蜘蛛网"
+msgstr "cobweb"
+
+msgid "红漆木门"
+msgstr "red-lacquered wooden door"
+
+msgid "镇教秘籍"
+msgstr "guardian scriptures"
+
+msgid "拱门"
+msgstr "arched gate"
+
+msgid "铜门"
+msgstr "bronze door"
+
+msgid "后厅大门"
+msgstr "rear hall doors"
+
+msgid "雕饰厢门"
+msgstr "carved side door"
+
+msgid "垂花门"
+msgstr "hanging-flower gate"
+
+msgid "小帘门"
+msgstr "small curtained door"
+
+msgid "檀香木门"
+msgstr "sandalwood door"
+
+msgid "楼门"
+msgstr "tower door"
+
+msgid "茶壶"
+msgstr "teapot"
+
+msgid "八卦图"
+msgstr "trigram chart"
+
+msgid "神位前"
+msgstr "before the spirit tablet"
+
+msgid "碧纱橱"
+msgstr "gauze-screened cabinet"
+
+msgid "石床"
+msgstr "stone bed"
+
+msgid "冰匣"
+msgstr "ice chest"
+
+msgid "灯笼"
+msgstr "lantern"
+
+msgid "墙"
+msgstr "wall"
+
+msgid "湘绣舞曲图"
+msgstr "embroidered dance chart"
+
+msgid "西府海棠"
+msgstr "crabapple tree"
+
+msgid "石牌"
+msgstr "stone sign"
+
+msgid "金门"
+msgstr "Golden Gate"
+
+msgid "檀木扁额"
+msgstr "sandalwood plaque"
+
+msgid "大锅"
+msgstr "great pot"
+
+msgid "蒸笼"
+msgstr "steamer basket"
+
+msgid "衙门大门"
+msgstr "yamen gate"
+
+msgid "铜钉大门"
+msgstr "brass-studded gate"
+
+msgid "柴门"
+msgstr "brushwood gate"
+
+msgid "大洞"
+msgstr "big hole"
+
+msgid "小庙"
+msgstr "small shrine"
+
+msgid "竹篱"
+msgstr "bamboo fence"
+
+msgid "书卷"
+msgstr "scrolls"
+
+msgid "古树"
+msgstr "ancient tree"
+
+msgid "云幡"
+msgstr "cloud banner"
+
+msgid "空穴"
+msgstr "hollow niche"
+
+msgid "洞穴"
+msgstr "cave"
+
+msgid "字条"
+msgstr "note"
+
+msgid "大井"
+msgstr "big well"
+
+msgid "石缝"
+msgstr "rock crevice"
+
+msgid "大泽"
+msgstr "great marsh"
+
+msgid "大皮鼓"
+msgstr "big hide drum"
+
+msgid "机械装置"
+msgstr "mechanism"
+
+msgid "书柜"
+msgstr "book cabinet"
+
+msgid "水井"
+msgstr "well"
+
+msgid "隙缝"
+msgstr "gap"
+
+msgid "田老财家大门"
+msgstr "Landlord Tian's gate"
+
+msgid "木船"
+msgstr "wooden boat"
+
+msgid "玄冰"
+msgstr "black ice"
+
+msgid "冰壁刻字"
+msgstr "ice-wall carving"
+
+msgid "封坛"
+msgstr "sealing altar"
+
+msgid "冰壁"
+msgstr "ice wall"
+
+msgid "湖畔"
+msgstr "lakeshore"
+
+msgid "芦苇丛"
+msgstr "reeds"
+
+msgid "小船"
+msgstr "small boat"
+
+msgid "冰柱"
+msgstr "ice pillar"
+
+msgid "穿灵"
+msgstr "Spiritpiercer"
+
+msgid "坛心"
+msgstr "heart of the altar"
+
+msgid "那颗头"
+msgstr "the head"
+
+msgid "大铁门"
+msgstr "great iron gate"
+
+msgid "小木门"
+msgstr "small wooden door"
+
+msgid "帘子"
+msgstr "door curtain"
+
+msgid "布告"
+msgstr "proclamation"
+
+msgid "牌子"
+msgstr "sign"
+
+msgid "台子"
+msgstr "platform"
+
+msgid "凸起"
+msgstr "stone knob"
+
+msgid "天花板"
+msgstr "ceiling"
+
+msgid "床"
+msgstr "bed"
+
+msgid "城门"
+msgstr "city gate"
+
+msgid "草丛"
+msgstr "tall grass"
+
+msgid "柴草"
+msgstr "brushwood"
+
+msgid "玉帘门"
+msgstr "jade curtain door"
+
+msgid "城墙"
+msgstr "city wall"
+
+msgid "蔓藤"
+msgstr "creepers"
+
+msgid "青石板"
+msgstr "bluestone slab"
+
+msgid "巨石"
+msgstr "boulder"
+
+msgid "石墙"
+msgstr "stone wall"
+
+msgid "圆孔"
+msgstr "round hole"
+
+msgid "声音"
+msgstr "sound"
+
+msgid "铁链"
+msgstr "iron chain"
+
+msgid "石板"
+msgstr "flagstone"
+
+msgid "人影"
+msgstr "shadowy figures"
+
+msgid "殿门"
+msgstr "hall doors"
+
+msgid "西牢房的铁栅门"
+msgstr "west cell's iron grate"
+
+msgid "北牢房的铁栅门"
+msgstr "north cell's iron grate"
+
+msgid "东牢房的铁栅门"
+msgstr "east cell's iron grate"
+
+msgid "北门"
+msgstr "north gate"
+
+msgid "黑门"
+msgstr "black door"
+
+msgid "小门"
+msgstr "small door"
+
+msgid "炭筐"
+msgstr "charcoal basket"
+
+msgid "木鱼"
+msgstr "wooden fish"
+
+msgid "通铺"
+msgstr "communal bunk"
+
+msgid "大案"
+msgstr "long table"
+
+msgid "铁匣"
+msgstr "iron box"
+
+msgid "铁钉"
+msgstr "iron nail"
+
+msgid "酒坛"
+msgstr "wine jars"
+
+msgid "门缝"
+msgstr "crack in the door"
+
+msgid "书案"
+msgstr "writing desk"
+
+msgid "黑幡"
+msgstr "black banners"
+
+msgid "香炉"
+msgstr "incense burner"
+
+msgid "经书"
+msgstr "scriptures"
+
+msgid "药架"
+msgstr "medicine shelf"
+
+msgid "刻痕"
+msgstr "scratches"
+
+msgid "黑石坛"
+msgstr "black stone altar"
+
+msgid "黑匣"
+msgstr "black box"
+
+msgid "王府大门"
+msgstr "prince's palace gate"
+
+msgid "界碑"
+msgstr "boundary stone"
+
+msgid "马栏"
+msgstr "horse pen"
+
+msgid "石鼓"
+msgstr "stone drums"
+
+msgid "木人"
+msgstr "wooden dummies"
+
+msgid "交椅"
+msgstr "chieftain's chair"
+
+msgid "火塘"
+msgstr "fire pit"
+
+msgid "毡帐"
+msgstr "felt tents"
+
+msgid "烟尘"
+msgstr "dust cloud"
+
+msgid "工地名册"
+msgstr "work-site roll"
+
+msgid "辘轳"
+msgstr "windlass"
+
+msgid "枷锁"
+msgstr "shackles"
+
+msgid "海神龛"
+msgstr "sea god's shrine"
+
+msgid "平底船"
+msgstr "flatboats"
+
+msgid "大盾"
+msgstr "great shields"
+
+msgid "火坛"
+msgstr "fire altar"
+
+msgid "木牌"
+msgstr "wooden sign"
+
+msgid "门规木牌"
+msgstr "house-rules board"
+
+msgid "火前问话"
+msgstr "questions before the fire"
+
+msgid "冯禄的文书"
+msgstr "Feng Lu's papers"
+
+msgid "板地"
+msgstr "plank floor"
+
+msgid "铜狮"
+msgstr "bronze lions"
+
+msgid "日晷"
+msgstr "sundial"
+
+msgid "龙椅"
+msgstr "dragon throne"
+
+msgid "黑丝绦"
+msgstr "black silk cord"
+
+msgid "枯井"
+msgstr "dry well"
+
+msgid "养心门"
+msgstr "Heart-Nurturing Gate"
+
+msgid "舆图"
+msgstr "map of the realm"
+
+msgid "樟木匣"
+msgstr "camphorwood box"
+
+msgid "御案"
+msgstr "imperial desk"
+
+msgid "朝上揭发"
+msgstr "Denounce at Court"
+
+msgid "皇叔的通缉"
+msgstr "warrant for the Imperial Uncle"
+
+msgid "雾里的人影"
+msgstr "figure in the fog"
+
+msgid "冻僵的探子"
+msgstr "frozen scout"
+
+msgid "兵部旗"
+msgstr "Ministry of War banner"
+
+msgid "门楣上的铜钩"
+msgstr "bronze hook on the lintel"
+
+msgid "雪亭的铃"
+msgstr "bell of Snow Pavilion"
+
+msgid "老松岭的铃"
+msgstr "bell of Old Pine Ridge"
+
+msgid "水烟阁的铃"
+msgstr "bell of Waterfog Pavilion"
+
+msgid "野羊山的铃"
+msgstr "bell of Goathill"
+
+msgid "晚月庄的铃"
+msgstr "bell of Latemoon Manor"
+
+msgid "乔阴的铃"
+msgstr "bell of Tallshade"
+
+msgid "关北的铃"
+msgstr "bell of Beyond the Pass"
+
+msgid "番坊的铃"
+msgstr "bell of the Foreign Quarter"
+
+msgid "玉螺湖村的铃"
+msgstr "bell of Jade Conch Village"
+
+msgid "京师的铃"
+msgstr "bell of the Capital"
+
+msgid "旋风"
+msgstr "whirlwind"
+
+msgid "云海"
+msgstr "sea of clouds"
+
+msgid "面"
+msgstr "piece"
+
+msgid "些"
+msgstr "some"
+
+msgid "件"
+msgstr "piece"
+
+msgid "个"
+msgstr "one"
+
+msgid "根"
+msgstr "stick"
+
+msgid "本"
+msgstr "book"
+
+msgid "颗"
+msgstr "bead"
+
+msgid "把"
+msgstr "handle"
+
+msgid "包"
+msgstr "packet"
+
+msgid "份"
+msgstr "portion"
+
+msgid "柄"
+msgstr "hilt"
+
+msgid "口"
+msgstr "sack"
+
+msgid "条"
+msgstr "length"
+
+msgid "顶"
+msgstr "top"
+
+msgid "双"
+msgstr "pair"
+
+msgid "叠"
+msgstr "sheaf"
+
+msgid "张"
+msgstr "sheet"
+
+msgid "具"
+msgstr "body"
+
+msgid "支"
+msgstr "stem"
+
+msgid "封"
+msgstr "envelope"
+
+msgid "只"
+msgstr "one"
+
+msgid "坛"
+msgstr "jar"
+
+msgid "串"
+msgstr "string"
+
+msgid "卷"
+msgstr "scroll"
+
+msgid "块"
+msgstr "block"
+
+msgid "粒"
+msgstr "grain"
+
+msgid "朵"
+msgstr "bloom"
+
+msgid "株"
+msgstr "plant"
+
+msgid "杯"
+msgstr "cup"
+
+msgid "副"
+msgstr "set"
+
+msgid "棵"
+msgstr "tuft"
+
+msgid "片"
+msgstr "leaf"
+
+msgid "盘"
+msgstr "plate"
+
+msgid "斤"
+msgstr "pound"
+
+msgid "挂"
+msgstr "side"
+
+msgid "捆"
+msgstr "bundle"
+
+msgid "册"
+msgstr "volume"
+
+msgid "囊"
+msgstr "skin"
+
+msgid "袋"
+msgstr "bag"
+
+msgid "页"
+msgstr "page"
+
+msgid "辆"
+msgstr "cart"
+
+msgid "函"
+msgstr "folio"
+
+msgid "碗"
+msgstr "bowl"
+
+msgid "军营入口"
+msgstr "Camp Entrance"
+
+msgid "小兵营帐"
+msgstr "Soldiers' Tent"
+
+msgid "营火区"
+msgstr "Campfire Ground"
+
+msgid "小队长营帐"
+msgstr "Squad Leader's Tent"
+
+msgid "副将营帐"
+msgstr "Lieutenant's Tent"
+
+msgid "将军营帐"
+msgstr "General's Tent"
+
+msgid "水井 · 装水"
+msgstr "Well · Fill Water"
+
+msgid "兵器库"
+msgstr "Armory"
+
+msgid "武"
+msgstr "Arms"
+
+msgid "竹林道"
+msgstr "Bamboo Path"
+
+msgid "竹林道入口"
+msgstr "Bamboo Path Entrance"
+
+msgid "梦幻迷境通道"
+msgstr "Dream Maze Passage"
+
+msgid "镜子"
+msgstr "Mirror"
+
+msgid "上道"
+msgstr "Upper Way"
+
+msgid "碎石小路"
+msgstr "Gravel Lane"
+
+msgid "东北 · 雪亭镇"
+msgstr "Northeast · Snow Pavilion"
+
+msgid "铁索 · 爬下去"
+msgstr "Iron Chain · Climb Down"
+
+msgid "黄石隘口尾"
+msgstr "End of Yellow Rock Pass"
+
+msgid "隘口小路"
+msgstr "Pass Trail"
+
+msgid "隘口中道"
+msgstr "Mid-Pass Road"
+
+msgid "关外小路"
+msgstr "Outer Pass Path"
+
+msgid "天驼关谷地"
+msgstr "Camelback Valley"
+
+msgid "黄石穿林路路口"
+msgstr "Yellow Rock Trailhead"
+
+msgid "黄石穿林路"
+msgstr "Yellow Rock Trail"
+
+msgid "梦幻迷境入口"
+msgstr "Dream Maze Entrance"
+
+msgid "南 · 玉螺湖村"
+msgstr "South · Jade Conch Village"
+
+msgid "东 · 关门 · 关北"
+msgstr "East · Pass Gate · Beyond the Pass"
+
+msgid "铁索 · 爬上去"
+msgstr "Iron Chain · Climb Up"
+
+msgid "洞内石室"
+msgstr "Cave Chamber"
+
+msgid "书柜 · 翻找"
+msgstr "Bookcase · Search"
+
+msgid "火龙将军庙"
+msgstr "Fire Dragon Temple"
+
+msgid "阶梯 · 下楼"
+msgstr "Stairs · Down"
+
+msgid "山洞"
+msgstr "Cave"
+
+msgid "藤蔓 · 爬下去"
+msgstr "Vines · Climb Down"
+
+msgid "树冠"
+msgstr "Treetop"
+
+msgid "古树 · 爬下去"
+msgstr "Old Tree · Climb Down"
+
+msgid "云梦大泽"
+msgstr "Cloud Dream Marsh"
+
+msgid "荒野小径"
+msgstr "Wild Trail"
+
+msgid "土路"
+msgstr "Dirt Road"
+
+msgid "青石小路"
+msgstr "Bluestone Path"
+
+msgid "青石峪"
+msgstr "Bluestone Gully"
+
+msgid "竹林"
+msgstr "Bamboo Grove"
+
+msgid "桐柏山"
+msgstr "Mount Tongbai"
+
+msgid "西 · 乔阴县城"
+msgstr "West · Tallshade"
+
+msgid "丹炉"
+msgstr "Elixir Furnace"
+
+msgid "大泽 · 装水"
+msgstr "Marsh · Fill Water"
+
+msgid "砾石路"
+msgstr "Pebble Road"
+
+msgid "绝壁"
+msgstr "Sheer Cliff"
+
+msgid "北 · 乔阴县城"
+msgstr "North · Tallshade"
+
+msgid "姑射山"
+msgstr "Mount Guye"
+
+msgid "福林酒楼"
+msgstr "Fulin Tavern"
+
+msgid "方梯 · 下楼"
+msgstr "Square Stairs · Down"
+
+msgid "方梯 · 上楼"
+msgstr "Square Stairs · Up"
+
+msgid "神秘洞穴"
+msgstr "Mysterious Cave"
+
+msgid "洞穴 · 闻忘忧草"
+msgstr "Cave · Smell the Daylilies"
+
+msgid "云台"
+msgstr "Cloud Terrace"
+
+msgid "云"
+msgstr "Clouds"
+
+msgid "乔阴县城北门"
+msgstr "Tallshade North Gate"
+
+msgid "福林大街"
+msgstr "Fulin Street"
+
+msgid "石板空地"
+msgstr "Flagstone Square"
+
+msgid "西大街"
+msgstr "West Street"
+
+msgid "树王坟"
+msgstr "Tree King's Tomb"
+
+msgid "东大街"
+msgstr "East Street"
+
+msgid "东城门"
+msgstr "East Gate"
+
+msgid "南门广场"
+msgstr "South Gate Square"
+
+msgid "承安街"
+msgstr "Cheng'an Street"
+
+msgid "十字路口"
+msgstr "Crossroads"
+
+msgid "县府衙门"
+msgstr "Magistrate's Court"
+
+msgid "乔阴县城南门"
+msgstr "Tallshade South Gate"
+
+msgid "街道"
+msgstr "Street"
+
+msgid "曲桥"
+msgstr "Zigzag Bridge"
+
+msgid "曼雩台"
+msgstr "Rain Dance Terrace"
+
+msgid "桃林"
+msgstr "Peach Grove"
+
+msgid "阶梯 · 上高台"
+msgstr "Steps · Up to the Terrace"
+
+msgid "大皮鼓 · 击鼓"
+msgstr "Great Drum · Beat It"
+
+msgid "西 · 泓水南岸"
+msgstr "West · Deepwater South Bank"
+
+msgid "东 · 城外"
+msgstr "East · Outside the Walls"
+
+msgid "南 · 姑射山"
+msgstr "South · Mount Guye"
+
+msgid "翠柳湖"
+msgstr "Green Willow Lake"
+
+msgid "东 · 桃林"
+msgstr "East · Peach Grove"
+
+msgid "大井 · 装水"
+msgstr "Big Well · Fill Water"
+
+msgid "石缝 · 采"
+msgstr "Rock Crack · Gather"
+
+msgid "大井 · 喝水"
+msgstr "Big Well · Drink"
+
+msgid "杂货"
+msgstr "Goods"
+
+msgid "米"
+msgstr "Rice"
+
+msgid "福林楼"
+msgstr "Fulin"
+
+msgid "树王坟内部"
+msgstr "Inside Tree King's Tomb"
+
+msgid "洞壁 · 攀上去"
+msgstr "Cave Wall · Climb Up"
+
+msgid "寒谷"
+msgstr "Cold Valley"
+
+msgid "寒谷尽头"
+msgstr "Cold Valley's End"
+
+msgid "内厅"
+msgstr "Inner Hall"
+
+msgid "大堂"
+msgstr "Court Hall"
+
+msgid "县衙内院"
+msgstr "Court Inner Yard"
+
+msgid "南 · 衙门口"
+msgstr "South · Court Gate"
+
+msgid "草堂"
+msgstr "Thatched Hall"
+
+msgid "庭院"
+msgstr "Courtyard"
+
+msgid "书卷 · 拿书"
+msgstr "Scrolls · Take a Book"
+
+msgid "西花园"
+msgstr "West Garden"
+
+msgid "黑松阁西厅"
+msgstr "Black Pine West Hall"
+
+msgid "北花园"
+msgstr "North Garden"
+
+msgid "黑松阁正厅"
+msgstr "Black Pine Main Hall"
+
+msgid "黑松阁东厅"
+msgstr "Black Pine East Hall"
+
+msgid "东花园"
+msgstr "East Garden"
+
+msgid "南花园"
+msgstr "South Garden"
+
+msgid "城墙 · 爬上去"
+msgstr "Castle Wall · Climb Up"
+
+msgid "绳子 · 拉"
+msgstr "Rope · Pull"
+
+msgid "黄土大道"
+msgstr "Broad Yellow Road"
+
+msgid "路口"
+msgstr "Junction"
+
+msgid "山脚乡田"
+msgstr "Foothill Fields"
+
+msgid "黑松山脚"
+msgstr "Black Pine Foothills"
+
+msgid "黑松山腰"
+msgstr "Black Pine Hillside"
+
+msgid "花岗石街"
+msgstr "Granite Street"
+
+msgid "铁索桥"
+msgstr "Chain Bridge"
+
+msgid "黑松淳于"
+msgstr "Chunyu of Black Pine"
+
+msgid "黑松城堡的西侧"
+msgstr "Castle West Side"
+
+msgid "黑松城堡的东侧"
+msgstr "Castle East Side"
+
+msgid "夹道"
+msgstr "Walled Passage"
+
+msgid "东 · 玉螺湖村"
+msgstr "East · Jade Conch Village"
+
+msgid "茶馆"
+msgstr "Teahouse"
+
+msgid "万丈深渊"
+msgstr "Bottomless Abyss"
+
+msgid "黑松阁"
+msgstr "Black Pine Hall"
+
+msgid "铁链 · 顺着走下去"
+msgstr "Iron Chain · Climb Down"
+
+msgid "地牢"
+msgstr "Dungeon"
+
+msgid "刑房"
+msgstr "Torture Room"
+
+msgid "阳台"
+msgstr "Balcony"
+
+msgid "卧室"
+msgstr "Bedroom"
+
+msgid "膳房"
+msgstr "Dining Room"
+
+msgid "大床"
+msgstr "Big Bed"
+
+msgid "旺金钱庄"
+msgstr "Rising Gold Bank"
+
+msgid "钱庄 · 兑换"
+msgstr "Bank · Exchange"
+
+msgid "振远总局"
+msgstr "Far-Road Head Office"
+
+msgid "镖"
+msgstr "Escorts"
+
+msgid "李记鞋店"
+msgstr "Li's Shoe Shop"
+
+msgid "石板 · 下去"
+msgstr "Stone Slab · Down"
+
+msgid "柴草 · 拨开"
+msgstr "Brushwood · Push Aside"
+
+msgid "北驿道"
+msgstr "North Post Road"
+
+msgid "京师北门"
+msgstr "Capital North Gate"
+
+msgid "大栅栏"
+msgstr "The Great Fence"
+
+msgid "京师西一门"
+msgstr "First West Gate"
+
+msgid "京师街道"
+msgstr "Capital Street"
+
+msgid "京师东一门"
+msgstr "First East Gate"
+
+msgid "废园"
+msgstr "Ruined Garden"
+
+msgid "祭坛"
+msgstr "Altar"
+
+msgid "京师西街"
+msgstr "Capital West Street"
+
+msgid "神武门"
+msgstr "Gate of Divine Might"
+
+msgid "京师东街"
+msgstr "Capital East Street"
+
+msgid "相国府大门"
+msgstr "Chancellor's Gate"
+
+msgid "午门"
+msgstr "Meridian Gate"
+
+msgid "校武场"
+msgstr "Drill Ground"
+
+msgid "京师西二门"
+msgstr "Second West Gate"
+
+msgid "天桥"
+msgstr "Sky Bridge"
+
+msgid "京师东二门"
+msgstr "Second East Gate"
+
+msgid "京师南门"
+msgstr "Capital South Gate"
+
+msgid "尚书府大门"
+msgstr "Minister's Gate"
+
+msgid "北 · 玉螺湖村"
+msgstr "North · Jade Conch Village"
+
+msgid "连绵的群山"
+msgstr "Rolling Mountains"
+
+msgid "护国寺"
+msgstr "State Guardian Temple"
+
+msgid "紫禁城"
+msgstr "The Palace City"
+
+msgid "相国府"
+msgstr "Chancellor's House"
+
+msgid "监狱"
+msgstr "Prison"
+
+msgid "刑场"
+msgstr "Execution Ground"
+
+msgid "城门 · 出城"
+msgstr "City Gate · Leave Town"
+
+msgid "草丛 · 寻找"
+msgstr "Grass · Search"
+
+msgid "午门 · 候旨"
+msgstr "Meridian Gate · Await Summons"
+
+msgid "相国府大门 · 叩门"
+msgstr "Chancellor's Gate · Knock"
+
+msgid "药"
+msgstr "Herbs"
+
+msgid "饼"
+msgstr "Cakes"
+
+msgid "笔墨"
+msgstr "Ink"
+
+msgid "太白酒楼二楼"
+msgstr "Taibai Tavern, Upstairs"
+
+msgid "院墙"
+msgstr "Courtyard Wall"
+
+msgid "北 · 京师东街"
+msgstr "North · Capital East Street"
+
+msgid "南 · 尚书府"
+msgstr "South · Minister's House"
+
+msgid "京师东街 · 跳回去"
+msgstr "Capital East Street · Jump Back"
+
+msgid "尚书府 · 跳进去"
+msgstr "Minister's House · Jump In"
+
+msgid "相国府前院"
+msgstr "Chancellor's Front Yard"
+
+msgid "相国府正厅"
+msgstr "Chancellor's Main Hall"
+
+msgid "相国府书房"
+msgstr "Chancellor's Study"
+
+msgid "四喜绸缎庄"
+msgstr "Four Joys Silks"
+
+msgid "空房间"
+msgstr "Empty Room"
+
+msgid "太白酒楼"
+msgstr "Taibai Tavern"
+
+msgid "尚书府庭院"
+msgstr "Minister's Courtyard"
+
+msgid "尚书府客厅"
+msgstr "Minister's Parlor"
+
+msgid "花园小径"
+msgstr "Garden Path"
+
+msgid "小径"
+msgstr "Footpath"
+
+msgid "花园"
+msgstr "Garden"
+
+msgid "厨房"
+msgstr "Kitchen"
+
+msgid "内宅"
+msgstr "Inner Quarters"
+
+msgid "小路"
+msgstr "Path"
+
+msgid "小屋"
+msgstr "Small Room"
+
+msgid "废屋"
+msgstr "Ruined House"
+
+msgid "京师武器店"
+msgstr "Capital Weapon Shop"
+
+msgid "镖局"
+msgstr "Escort Agency"
+
+msgid "书局"
+msgstr "Bookshop"
+
+msgid "镇北肉铺"
+msgstr "North Town Butcher"
+
+msgid "赌场"
+msgstr "Gambling House"
+
+msgid "怡红院二楼"
+msgstr "Red Delight, Upstairs"
+
+msgid "黄土路"
+msgstr "Yellow Dirt Road"
+
+msgid "卧龙岗北坡"
+msgstr "Dragon Ridge North Slope"
+
+msgid "卧龙岗"
+msgstr "Crouching Dragon Ridge"
+
+msgid "卧龙岗南坡"
+msgstr "Dragon Ridge South Slope"
+
+msgid "绮云镇"
+msgstr "Cloudweave Town"
+
+msgid "北市场"
+msgstr "North Market"
+
+msgid "西市场"
+msgstr "West Market"
+
+msgid "中市场"
+msgstr "Central Market"
+
+msgid "东市场"
+msgstr "East Market"
+
+msgid "南市场"
+msgstr "South Market"
+
+msgid "绮云镇街道"
+msgstr "Cloudweave Street"
+
+msgid "茶场"
+msgstr "Tea Garden"
+
+msgid "江北渡口"
+msgstr "North Bank Ferry"
+
+msgid "张家花园"
+msgstr "Zhang Family Garden"
+
+msgid "西 · 晚月庄"
+msgstr "West · Latemoon Manor"
+
+msgid "南 · 泓水"
+msgstr "South · Deepwater River"
+
+msgid "北 · 雪亭镇"
+msgstr "North · Snow Pavilion"
+
+msgid "[启事] 由此入镇收取黄金一两"
+msgstr "[Notice] Entry to town: one tael of gold"
+
+msgid "布庄"
+msgstr "Cloth Shop"
+
+msgid "斋"
+msgstr "Meals"
+
+msgid "香茗坊二楼"
+msgstr "Sweetleaf, Upstairs"
+
+msgid "药店"
+msgstr "Herb Shop"
+
+msgid "怡红院"
+msgstr "Red Delight House"
+
+msgid "红娘庄"
+msgstr "Matchmaker's House"
+
+msgid "斋院"
+msgstr "Vegetarian House"
+
+msgid "张百万家"
+msgstr "Moneybags Zhang's House"
+
+msgid "福"
+msgstr "Fortune"
+
+msgid "香茗坊"
+msgstr "Sweetleaf Teahouse"
+
+msgid "香茗坊茶窖"
+msgstr "Sweetleaf Tea Cellar"
+
+msgid "兵器屋"
+msgstr "Weapon Shop"
+
+msgid "场院"
+msgstr "Pleasure Yard"
+
+msgid "棺材铺"
+msgstr "Coffin Shop"
+
+msgid "场院前厅"
+msgstr "Pleasure Yard Hall"
+
+msgid "杂货铺"
+msgstr "General Store"
+
+msgid "路的尽头"
+msgstr "End of the Road"
+
+msgid "鬼门大道"
+msgstr "Ghost Gate Road"
+
+msgid "酆都城门"
+msgstr "Fengdu Gate"
+
+msgid "鬼门关"
+msgstr "Ghost Gate"
+
+msgid "奈何桥"
+msgstr "Bridge of Helplessness"
+
+msgid "酆都城"
+msgstr "Fengdu"
+
+msgid "黑色城楼"
+msgstr "Black Gate Tower"
+
+msgid "大雾"
+msgstr "Thick Fog"
+
+msgid "小店"
+msgstr "Little Shop"
+
+msgid "人影 · 打听「回家」"
+msgstr "Shadow · Ask About \"Home\""
+
+msgid "黑店"
+msgstr "Robbers' Inn"
+
+msgid "市集西头"
+msgstr "Bazaar, West End"
+
+msgid "市集东头"
+msgstr "Bazaar, East End"
+
+msgid "铁盾会门前"
+msgstr "Iron Shield Gate"
+
+msgid "寺前坡道"
+msgstr "Temple Slope"
+
+msgid "西 · 码头"
+msgstr "West · Docks"
+
+msgid "拜火祠"
+msgstr "Fire Shrine"
+
+msgid "南 · 日陀罗寺"
+msgstr "South · Ritola Temple"
+
+msgid "市舶司"
+msgstr "Customs House"
+
+msgid "客栈"
+msgstr "Inn"
+
+msgid "海崖口"
+msgstr "Sea Cliff Top"
+
+msgid "海崖道"
+msgstr "Sea Cliff Road"
+
+msgid "崖脚"
+msgstr "Cliff Foot"
+
+msgid "北 · 忘情谷外 · 玉螺湖村"
+msgstr "North · Forgetting Valley · Jade Conch Village"
+
+msgid "南 · 番坊码头"
+msgstr "South · Foreign Quarter Docks"
+
+msgid "市舶司公事房"
+msgstr "Customs Office"
+
+msgid "市舶司后院"
+msgstr "Customs Back Yard"
+
+msgid "兵部文书 · 看"
+msgstr "War Ministry Papers · Read"
+
+msgid "祭司的净室"
+msgstr "Priest's Chamber"
+
+msgid "火前 · 问话"
+msgstr "Before the Fire · Question"
+
+msgid "日陀罗寺"
+msgstr "Ritola Temple"
+
+msgid "日陀罗寺佛殿"
+msgstr "Ritola Buddha Hall"
+
+msgid "船工棚"
+msgstr "Boatmen's Shed"
+
+msgid "番坊码头"
+msgstr "Foreign Quarter Docks"
+
+msgid "北 · 崖脚 · 海崖道"
+msgstr "North · Cliff Foot · Sea Cliff Road"
+
+msgid "东 · 市集"
+msgstr "East · Bazaar"
+
+msgid "鬼笠馆门庭"
+msgstr "Ghost Hat Gate Yard"
+
+msgid "鬼笠馆板地"
+msgstr "Ghost Hat Dojo"
+
+msgid "板地 · 歇"
+msgstr "Floorboards · Rest"
+
+msgid "铁盾会院子"
+msgstr "Iron Shield Yard"
+
+msgid "会首的屋"
+msgstr "Guild Head's Room"
+
+msgid "冯禄的文书 · 对质"
+msgstr "Feng Lu's Papers · Confront"
+
+msgid "岩洞"
+msgstr "Cavern"
+
+msgid "岩穴"
+msgstr "Grotto"
+
+msgid "西 · 峡谷"
+msgstr "West · Gorge"
+
+msgid "山路转角"
+msgstr "Mountain Road Bend"
+
+msgid "岩石坡"
+msgstr "Rocky Slope"
+
+msgid "峡谷"
+msgstr "Gorge"
+
+msgid "南 · 雪亭镇"
+msgstr "South · Snow Pavilion"
+
+msgid "油布 · 钻进车里"
+msgstr "Tarp · Hide in the Cart"
+
+msgid "绳索 · 攀绳上去"
+msgstr "Rope · Climb Up"
+
+msgid "小土地庙"
+msgstr "Small Earth God Shrine"
+
+msgid "黑暗山洞"
+msgstr "Dark Cave"
+
+msgid "迷阵"
+msgstr "Trigram Maze"
+
+msgid "绝地"
+msgstr "Dead End"
+
+msgid "坤——"
+msgstr "Earth ——"
+
+msgid "艮——"
+msgstr "Mountain ——"
+
+msgid "坎——"
+msgstr "Water ——"
+
+msgid "巽——"
+msgstr "Wind ——"
+
+msgid "震——"
+msgstr "Thunder ——"
+
+msgid "离——"
+msgstr "Fire ——"
+
+msgid "兑——"
+msgstr "Lake ——"
+
+msgid "乾——"
+msgstr "Heaven ——"
+
+msgid "洞口"
+msgstr "Cave Mouth"
+
+msgid "山路尽头"
+msgstr "Road's End"
+
+msgid "溪水边"
+msgstr "Streamside"
+
+msgid "南 · 青石村"
+msgstr "South · Bluestone Village"
+
+msgid "石洞"
+msgstr "Stone Cave"
+
+msgid "小路的尽头"
+msgstr "End of the Path"
+
+msgid "三叉路口"
+msgstr "Fork in the Road"
+
+msgid "石板路"
+msgstr "Flagstone Road"
+
+msgid "小巷子"
+msgstr "Alley"
+
+msgid "小广场"
+msgstr "Little Square"
+
+msgid "采石场的空地"
+msgstr "Quarry Clearing"
+
+msgid "工作站"
+msgstr "Quarry Yard"
+
+msgid "西 · 雪亭镇"
+msgstr "West · Snow Pavilion"
+
+msgid "北 · 山洞"
+msgstr "North · Cave"
+
+msgid "采石场"
+msgstr "Quarry"
+
+msgid "大榕树"
+msgstr "Great Banyan"
+
+msgid "马房"
+msgstr "Stable"
+
+msgid "木屋"
+msgstr "Log Cabin"
+
+msgid "井 · 装水"
+msgstr "Well · Fill Water"
+
+msgid "民宅"
+msgstr "House"
+
+msgid "工匠的家"
+msgstr "Craftsman's House"
+
+msgid "村长的家"
+msgstr "Village Head's House"
+
+msgid "沈记商行"
+msgstr "Shen's Store"
+
+msgid "破木牌"
+msgstr "Broken Signboard"
+
+msgid "石室"
+msgstr "Stone Chamber"
+
+msgid "石室大厅"
+msgstr "Stone Chamber Hall"
+
+msgid "木剑"
+msgstr "Wooden Sword"
+
+msgid "蒲团"
+msgstr "Prayer Cushion"
+
+msgid "土地庙"
+msgstr "Earth God Shrine"
+
+msgid "古冢口"
+msgstr "Barrow Mouth"
+
+msgid "石门"
+msgstr "Stone Door"
+
+msgid "车"
+msgstr "Cart"
+
+msgid "西 · 土方 · 工地"
+msgstr "West · Diggings · Worksite"
+
+msgid "帐篷营地"
+msgstr "Tent Camp"
+
+msgid "营地东口"
+msgstr "Camp East End"
+
+msgid "西 · 东门 · 马市"
+msgstr "West · East Gate · Horse Market"
+
+msgid "东 · 草原"
+msgstr "East · Steppe"
+
+msgid "篝火 · 等到天黑"
+msgstr "Campfire · Wait for Dark"
+
+msgid "关外山道"
+msgstr "Outer Pass Road"
+
+msgid "风沙道"
+msgstr "Wind-and-Sand Road"
+
+msgid "关北界碑"
+msgstr "Border Stele"
+
+msgid "北 · 槐阳城门"
+msgstr "North · Huaiyang Gate"
+
+msgid "南 · 关门 · 天驼关谷地"
+msgstr "South · Pass Gate · Camelback Valley"
+
+msgid "关北封国界"
+msgstr "Fief Boundary"
+
+msgid "塞外酒肆"
+msgstr "Frontier Tavern"
+
+msgid "酒肆后屋"
+msgstr "Tavern Back Room"
+
+msgid "马市"
+msgstr "Horse Market"
+
+msgid "西 · 王府大街"
+msgstr "West · Prince's Street"
+
+msgid "东门 · 帐篷营地"
+msgstr "East Gate · Tent Camp"
+
+msgid "王府正厅"
+msgstr "Prince's Main Hall"
+
+msgid "王府偏厅"
+msgstr "Prince's Side Hall"
+
+msgid "王府前院"
+msgstr "Prince's Front Court"
+
+msgid "王府校场"
+msgstr "Prince's Drill Ground"
+
+msgid "草原路"
+msgstr "Steppe Road"
+
+msgid "敖包"
+msgstr "Cairn"
+
+msgid "坡"
+msgstr "Rise"
+
+msgid "西 · 帐篷营地"
+msgstr "West · Tent Camp"
+
+msgid "东 · 工地"
+msgstr "East · Worksite"
+
+msgid "槐阳城门"
+msgstr "Huaiyang Gate"
+
+msgid "王府大街"
+msgstr "Prince's Street"
+
+msgid "王府门前"
+msgstr "Prince's Gate"
+
+msgid "南 · 关外山道 · 天驼关"
+msgstr "South · Outer Pass Road · Camelback Pass"
+
+msgid "东 · 马市"
+msgstr "East · Horse Market"
+
+msgid "槐阳王府"
+msgstr "House of Huaiyang"
+
+msgid "告示 · 看"
+msgstr "Notice · Read"
+
+msgid "王府大门 · 叩门"
+msgstr "Prince's Gate · Knock"
+
+msgid "本府不奉"
+msgstr "This House Refuses"
+
+msgid "工地栅栏门"
+msgstr "Worksite Fence Gate"
+
+msgid "工地营帐"
+msgstr "Worksite Tents"
+
+msgid "民夫棚"
+msgstr "Laborers' Sheds"
+
+msgid "土方"
+msgstr "Diggings"
+
+msgid "西 · 草原"
+msgstr "West · Steppe"
+
+msgid "东 · 古冢口"
+msgstr "East · Barrow Mouth"
+
+msgid "枷锁 · 打开枷锁"
+msgstr "Shackles · Unlock"
+
+msgid "冷宫"
+msgstr "Cold Palace"
+
+msgid "冷宫偏屋"
+msgstr "Cold Palace Side Room"
+
+msgid "枯井 · 下去"
+msgstr "Dry Well · Down"
+
+msgid "御花园"
+msgstr "Imperial Garden"
+
+msgid "御花园西北角"
+msgstr "Northwest Garden Corner"
+
+msgid "大内侍卫营"
+msgstr "Palace Guard Barracks"
+
+msgid "侍卫营值房"
+msgstr "Guard Duty Room"
+
+msgid "西长街"
+msgstr "West Long Street"
+
+msgid "西长街北段"
+msgstr "West Long Street, North"
+
+msgid "养心门外"
+msgstr "Nurtured Heart Gate"
+
+msgid "午门内"
+msgstr "Inside Meridian Gate"
+
+msgid "金水桥"
+msgstr "Golden Water Bridges"
+
+msgid "太和门"
+msgstr "Gate of Supreme Harmony"
+
+msgid "太和殿广场"
+msgstr "Supreme Harmony Square"
+
+msgid "太和殿"
+msgstr "Hall of Supreme Harmony"
+
+msgid "井底"
+msgstr "Bottom of the Well"
+
+msgid "密道"
+msgstr "Secret Tunnel"
+
+msgid "密道北头"
+msgstr "Tunnel's North End"
+
+msgid "铁蹬 · 上去"
+msgstr "Iron Rungs · Up"
+
+msgid "石阶 · 上去"
+msgstr "Stone Steps · Up"
+
+msgid "养心殿前院"
+msgstr "Nurtured Heart Court"
+
+msgid "养心殿"
+msgstr "Nurtured Heart Hall"
+
+msgid "西暖阁"
+msgstr "West Warm Chamber"
+
+msgid "御书房"
+msgstr "Imperial Study"
+
+msgid "樟木匣 · 翻看"
+msgstr "Camphor Box · Look Through"
+
+msgid "御案 · 比对"
+msgstr "Imperial Desk · Compare"
+
+msgid "朝上揭发 · 揭发"
+msgstr "Denounce at Court · Denounce"
+
+msgid "皇叔的通缉 · 先解"
+msgstr "The Uncle's Warrant · Lift It First"
+
+msgid "风铃阁"
+msgstr "Wind Chime Pavilion"
+
+msgid "静室"
+msgstr "Quiet Room"
+
+msgid "白石门"
+msgstr "White Stone Gate"
+
+msgid "白石街"
+msgstr "White Stone Street"
+
+msgid "铃匠铺"
+msgstr "Bellsmith's Shop"
+
+msgid "萧家旧院"
+msgstr "Old Xiao House"
+
+msgid "街尾"
+msgstr "Street's End"
+
+msgid "北 · 风铃阁"
+msgstr "North · Wind Chime Pavilion"
+
+msgid "白石门 · 出城"
+msgstr "White Stone Gate · Leave"
+
+msgid "台心"
+msgstr "Heart of the Terrace"
+
+msgid "云边"
+msgstr "Cloud's Edge"
+
+msgid "下 · 风铃阁"
+msgstr "Down · Wind Chime Pavilion"
+
+msgid "旋芒 · 自己拔"
+msgstr "Whirling Edge · Draw It Yourself"
+
+msgid "旋芒 · 请皇叔"
+msgstr "Whirling Edge · Ask the Uncle"
+
+msgid "旋芒 · 让萧辟尘拔"
+msgstr "Whirling Edge · Let Xiao Bichen Draw"
+
+msgid "云边 · 乘风"
+msgstr "Cloud's Edge · Ride the Wind"
+
+msgid "幻影道"
+msgstr "Phantom Way"
+
+msgid "风口"
+msgstr "Wind Gate"
+
+msgid "石林雾野"
+msgstr "Misty Stone Forest"
+
+msgid "卜风坛"
+msgstr "Wind Diviners' Altar"
+
+msgid "兵部旧营"
+msgstr "Old War Ministry Camp"
+
+msgid "西边的石坳"
+msgstr "West Stone Hollow"
+
+msgid "北边的石坳"
+msgstr "North Stone Hollow"
+
+msgid "东边的石坳"
+msgstr "East Stone Hollow"
+
+msgid "下 · 镜子"
+msgstr "Down · Mirror"
+
+msgid "前院"
+msgstr "Front Yard"
+
+msgid "月洞门"
+msgstr "Moon Gate"
+
+msgid "湘园小径"
+msgstr "Xiang Garden Path"
+
+msgid "翠嶂"
+msgstr "Jade Screen Rocks"
+
+msgid "长廊曲洞"
+msgstr "Winding Gallery"
+
+msgid "桂花园"
+msgstr "Osmanthus Garden"
+
+msgid "沁芳桥"
+msgstr "Fragrance Bridge"
+
+msgid "朱栏板桥"
+msgstr "Red-Rail Bridge"
+
+msgid "紫翎小轩"
+msgstr "Purple Plume Lodge"
+
+msgid "甬路"
+msgstr "Paved Walk"
+
+msgid "沁芳亭"
+msgstr "Fragrance Pavilion"
+
+msgid "暖香榭"
+msgstr "Warm Scent Bower"
+
+msgid "稻香榭"
+msgstr "Rice Scent Bower"
+
+msgid "翠嫣桥"
+msgstr "Green Grace Bridge"
+
+msgid "晚月庄后门"
+msgstr "Latemoon Back Gate"
+
+msgid "北 · 前庭"
+msgstr "North · Front Court"
+
+msgid "南 · 山路"
+msgstr "South · Mountain Road"
+
+msgid "蜿蜒小径"
+msgstr "Winding Path"
+
+msgid "北 · 晚月庄后门"
+msgstr "North · Latemoon Back Gate"
+
+msgid "东 · 山烟寺"
+msgstr "East · Mountain Mist Temple"
+
+msgid "禁闭房"
+msgstr "Confinement Room"
+
+msgid "后院走道"
+msgstr "Back Yard Walk"
+
+msgid "傍厅"
+msgstr "Side Hall"
+
+msgid "后院书房"
+msgstr "Back Yard Study"
+
+msgid "大厅后院"
+msgstr "Behind the Great Hall"
+
+msgid "晚月庄大厅"
+msgstr "Latemoon Great Hall"
+
+msgid "晚月庄前庭"
+msgstr "Latemoon Front Court"
+
+msgid "晚月庄大门"
+msgstr "Latemoon Gate"
+
+msgid "碎石小径"
+msgstr "Gravel Path"
+
+msgid "密室"
+msgstr "Secret Room"
+
+msgid "内厅穿堂"
+msgstr "Inner Hall Passage"
+
+msgid "仪门"
+msgstr "Ceremonial Gate"
+
+msgid "大饭厅"
+msgstr "Great Dining Hall"
+
+msgid "上等厢房"
+msgstr "Best Guest Room"
+
+msgid "后厅"
+msgstr "Back Hall"
+
+msgid "后厅走道"
+msgstr "Back Hall Walk"
+
+msgid "内书房"
+msgstr "Inner Study"
+
+msgid "西厢房走道"
+msgstr "West Wing Walk"
+
+msgid "东厢房走道"
+msgstr "East Wing Walk"
+
+msgid "西厢房"
+msgstr "West Wing"
+
+msgid "东厢房"
+msgstr "East Wing"
+
+msgid "沐浴更衣室"
+msgstr "Bath and Dressing Room"
+
+msgid "小花池"
+msgstr "Petal Pool"
+
+msgid "东 · 绮云镇"
+msgstr "East · Cloudweave Town"
+
+msgid "南 · 湘园"
+msgstr "South · Xiang Garden"
+
+msgid "茶壶 · 装水"
+msgstr "Teapot · Fill Water"
+
+msgid "小花池 · 装水"
+msgstr "Petal Pool · Fill Water"
+
+msgid "小花池 · 沐浴"
+msgstr "Petal Pool · Bathe"
+
+msgid "八卦图 · 跳舞"
+msgstr "Trigram Chart · Dance"
+
+msgid "石床 · 翻找"
+msgstr "Stone Bed · Search"
+
+msgid "碧纱橱 · 翻找"
+msgstr "Gauze Screen · Search"
+
+msgid "八卦图 · 请人替跳"
+msgstr "Trigram Chart · Have Someone Dance"
+
+msgid "翠湘阁"
+msgstr "Green Xiang Chamber"
+
+msgid "二楼走廊"
+msgstr "Upstairs Corridor"
+
+msgid "佛堂"
+msgstr "Shrine Room"
+
+msgid "佛堂门前"
+msgstr "Before the Shrine Room"
+
+msgid "前堂楼"
+msgstr "Front Hall Upstairs"
+
+msgid "观景台"
+msgstr "Lookout Terrace"
+
+msgid "缀芳阁"
+msgstr "Blossom Chamber"
+
+msgid "神位前 · 跳舞"
+msgstr "Before the Shrine · Dance"
+
+msgid "神位前 · 请人替跳"
+msgstr "Before the Shrine · Have Someone Dance"
+
+msgid "缀芳阁 · 静修"
+msgstr "Blossom Chamber · Meditate"
+
+msgid "后山崖径"
+msgstr "Back Cliff Path"
+
+msgid "断崖"
+msgstr "Cliff Edge"
+
+msgid "南 · 宫主居所的小门"
+msgstr "South · Master's Side Door"
+
+msgid "地牢甬道"
+msgstr "Dungeon Passage"
+
+msgid "西牢房"
+msgstr "West Cell"
+
+msgid "北牢房"
+msgstr "North Cell"
+
+msgid "东牢房"
+msgstr "East Cell"
+
+msgid "铁钉 · 摘钥匙"
+msgstr "Iron Nail · Take the Key"
+
+msgid "酒坛 · 下药"
+msgstr "Wine Jar · Drug It"
+
+msgid "石阶 · 上丹房"
+msgstr "Stone Steps · Up to Elixir Room"
+
+msgid "黑砖山门"
+msgstr "Black Brick Gate"
+
+msgid "货栈"
+msgstr "Storehouse"
+
+msgid "箱子 · 点箱"
+msgstr "Crates · Count Them"
+
+msgid "通铺 · 睡到子时"
+msgstr "Bunks · Sleep Till Midnight"
+
+msgid "前殿"
+msgstr "Front Hall"
+
+msgid "丹房"
+msgstr "Elixir Room"
+
+msgid "账房"
+msgstr "Counting Room"
+
+msgid "北门 · 听"
+msgstr "North Door · Listen"
+
+msgid "木鱼 · 跟诵"
+msgstr "Wooden Fish · Chant Along"
+
+msgid "炭筐 · 添炭"
+msgstr "Charcoal Basket · Add Charcoal"
+
+msgid "大案 · 抄名单"
+msgstr "Big Desk · Copy the List"
+
+msgid "铁匣 · 开匣"
+msgstr "Iron Box · Open It"
+
+msgid "门缝 · 拨闩"
+msgstr "Door Crack · Lift the Bar"
+
+msgid "石阶 · 下地牢"
+msgstr "Stone Steps · Down to Dungeon"
+
+msgid "宫主居所"
+msgstr "Master's Quarters"
+
+msgid "小门 · 追出去"
+msgstr "Side Door · Give Chase"
+
+msgid "书案 · 开暗格"
+msgstr "Desk · Open the Hidden Drawer"
+
+msgid "后殿"
+msgstr "Rear Hall"
+
+msgid "裂口顶"
+msgstr "Top of the Rift"
+
+msgid "北麓货道"
+msgstr "Freight Trail"
+
+msgid "货栈侧门"
+msgstr "Storehouse Side Door"
+
+msgid "北 · 逆灵宫山门"
+msgstr "North · Black Palace Gate"
+
+msgid "南 · 裂口 · 野羊山山路"
+msgstr "South · Rift · Goathill Road"
+
+msgid "绳索 · 下到山路"
+msgstr "Rope · Down to the Road"
+
+msgid "秘密通道入口"
+msgstr "Secret Passage Mouth"
+
+msgid "秘密通道"
+msgstr "Secret Passage"
+
+msgid "南 · 瀑布前"
+msgstr "South · Below the Falls"
+
+msgid "东下 · 瀑布前"
+msgstr "East, Down · Below the Falls"
+
+msgid "山壁上的窄穴"
+msgstr "Narrow Crevice"
+
+msgid "瀑布前"
+msgstr "Below the Falls"
+
+msgid "山涧之中"
+msgstr "In the Mountain Stream"
+
+msgid "水潭"
+msgstr "Pool"
+
+msgid "瀑布清水 · 靠近装水"
+msgstr "Falls · Come Close to Fill"
+
+msgid "岸边取水"
+msgstr "Draw Water"
+
+msgid "涧中取水"
+msgstr "Draw Water"
+
+msgid "林间小路"
+msgstr "Forest Path"
+
+msgid "林间空地"
+msgstr "Forest Clearing"
+
+msgid "小石桥"
+msgstr "Little Stone Bridge"
+
+msgid "林间....不....悬崖边"
+msgstr "Woods... No... Cliffside"
+
+msgid "栈道顶"
+msgstr "Top of the Plank Road"
+
+msgid "松树林"
+msgstr "Pine Wood"
+
+msgid "老松寨秘密入口"
+msgstr "Stockade Secret Way"
+
+msgid "栈道"
+msgstr "Plank Road"
+
+msgid "官府告示：此处常有歹人出没。"
+msgstr "Official notice: bandits often lurk here."
+
+msgid "西·雪亭镇  东·小石桥  南·下坡道"
+msgstr "West·Snow Pavilion  East·Little Stone Bridge  South·Downhill Path"
+
+msgid "大青石上"
+msgstr "On the Bluestone"
+
+msgid "大松树上"
+msgstr "Up the Great Pine"
+
+msgid "大雄宝殿"
+msgstr "Hall of the Great Hero"
+
+msgid "流云轩"
+msgstr "Drifting Cloud Lodge"
+
+msgid "香积厨"
+msgstr "Temple Kitchen"
+
+msgid "蒸笼 · 打开"
+msgstr "Steamer · Open"
+
+msgid "药圃 · 采"
+msgstr "Herb Garden · Pick"
+
+msgid "塔林"
+msgstr "Pagoda Forest"
+
+msgid "走廊"
+msgstr "Corridor"
+
+msgid "庭园"
+msgstr "Inner Garden"
+
+msgid "药圃"
+msgstr "Herb Garden"
+
+msgid "石板大道"
+msgstr "Broad Flagstone Road"
+
+msgid "石板小径"
+msgstr "Flagstone Path"
+
+msgid "山烟寺寺门"
+msgstr "Temple Gate"
+
+msgid "山烟寺前广场"
+msgstr "Temple Square"
+
+msgid "南 · 山门"
+msgstr "South · Mountain Mist Gate"
+
+msgid "明心塔"
+msgstr "Clear Mind Pagoda"
+
+msgid "见性塔"
+msgstr "True Nature Pagoda"
+
+msgid "泓水北侧"
+msgstr "Deepwater North Bank"
+
+msgid "江心"
+msgstr "Midstream"
+
+msgid "泓水南侧"
+msgstr "Deepwater South Bank"
+
+msgid "江南渡口"
+msgstr "South Bank Ferry"
+
+msgid "山脚小路"
+msgstr "Foothill Path"
+
+msgid "盘山小径"
+msgstr "Winding Mountain Path"
+
+msgid "山烟寺山门"
+msgstr "Mountain Mist Gate"
+
+msgid "北 · 江北渡口"
+msgstr "North · North Bank Ferry"
+
+msgid "东 · 乔阴县城"
+msgstr "East · Tallshade"
+
+msgid "隧道"
+msgstr "Tunnel"
+
+msgid "隧道口"
+msgstr "Tunnel Mouth"
+
+msgid "经楼"
+msgstr "Scripture Tower"
+
+msgid "木梯 · 上楼"
+msgstr "Wooden Stairs · Up"
+
+msgid "厢房"
+msgstr "Wing Room"
+
+msgid "灵心观大殿"
+msgstr "Clear Heart Main Hall"
+
+msgid "青石小径"
+msgstr "Bluestone Trail"
+
+msgid "回廊"
+msgstr "Cloister"
+
+msgid "灵心观广场"
+msgstr "Clear Heart Square"
+
+msgid "藏经楼"
+msgstr "Scripture Library"
+
+msgid "木梯 · 下楼"
+msgstr "Wooden Stairs · Down"
+
+msgid "石英岩石阶"
+msgstr "Quartzite Steps"
+
+msgid "灵心观前"
+msgstr "Clear Heart Forecourt"
+
+msgid "灵心观"
+msgstr "Clear Heart Abbey"
+
+msgid "练功房"
+msgstr "Training Room"
+
+msgid "农舍"
+msgstr "Farmhouse"
+
+msgid "农舍后院"
+msgstr "Farmhouse Back Yard"
+
+msgid "刘家小房"
+msgstr "Liu Family Cottage"
+
+msgid "财主家前院"
+msgstr "Landlord's Front Yard"
+
+msgid "财主家南房"
+msgstr "Landlord's South Room"
+
+msgid "财主家东房"
+msgstr "Landlord's East Room"
+
+msgid "瓜棚"
+msgstr "Melon Hut"
+
+msgid "水下岩洞"
+msgstr "Underwater Cave"
+
+msgid "冰阶"
+msgstr "Ice Steps"
+
+msgid "水潭 · 潜下去"
+msgstr "Pool · Dive"
+
+msgid "玉螺湖畔"
+msgstr "Jade Conch Lakeshore"
+
+msgid "稻田"
+msgstr "Rice Paddies"
+
+msgid "瓜地"
+msgstr "Melon Patch"
+
+msgid "忘情谷外"
+msgstr "Outside Forgetting Valley"
+
+msgid "北 · 天驼关"
+msgstr "North · Camelback Pass"
+
+msgid "西 · 黑松山"
+msgstr "West · Black Pine Mountain"
+
+msgid "南 · 京师"
+msgstr "South · the Capital"
+
+msgid "南 · 海崖道 · 番坊"
+msgstr "South · Sea Cliff Road · the Foreign Quarter"
+
+msgid "玉螺湖"
+msgstr "Jade Conch Lake"
+
+msgid "大沟"
+msgstr "Great Ditch"
+
+msgid "木船 · 划向湖心"
+msgstr "Boat · Row to Mid-Lake"
+
+msgid "湖畔 · 等到天黑"
+msgstr "Lakeshore · Wait for Dark"
+
+msgid "芦苇丛 · 拨开芦苇"
+msgstr "Reeds · Part the Reeds"
+
+msgid "瓜地 · 摘西瓜"
+msgstr "Melon Patch · Pick a Melon"
+
+msgid "傅家坡"
+msgstr "Fu Family Slope"
+
+msgid "东 · 玉螺湖畔"
+msgstr "East · Jade Conch Lakeshore"
+
+msgid "小船 · 划回岸边"
+msgstr "Boat · Row Back to Shore"
+
+msgid "湖水 · 潜入湖中"
+msgstr "Lake · Dive In"
+
+msgid "冰下封坛"
+msgstr "Seal Altar Under Ice"
+
+msgid "潭口 · 游上去"
+msgstr "Pool Mouth · Swim Up"
+
+msgid "冰柱 · 把铜牒念给她听"
+msgstr "Ice Pillar · Read Her the Tablet"
+
+msgid "穿灵 · 拔出来"
+msgstr "Spiritpiercer · Pull It Out"
+
+msgid "封坛 · 看清了"
+msgstr "Seal Altar · Look It All Over"
+
+msgid "坛心 · 迎上去"
+msgstr "Altar Heart · Step Up to It"
+
+msgid "那颗头 · 钉下去"
+msgstr "The Head · Nail It Down"
+
+msgid "告示 · 看告示"
+msgstr "Notice · Read"
+
+msgid "葬剑亭"
+msgstr "Sword Tomb Pavilion"
+
+msgid "白石阶梯"
+msgstr "White Stone Stairs"
+
+msgid "山坡小径"
+msgstr "Hillside Path"
+
+msgid "水烟阁前"
+msgstr "Waterfog Forecourt"
+
+msgid "水烟阁半山亭"
+msgstr "Halfway Pavilion"
+
+msgid "东 · 雪亭镇"
+msgstr "East · Snow Pavilion"
+
+msgid "深谷"
+msgstr "Deep Valley"
+
+msgid "南 · 虹台"
+msgstr "South · Rainbow Terrace"
+
+msgid "太师椅 · 坐一坐"
+msgstr "Armchair · Sit a While"
+
+msgid "柴房"
+msgstr "Woodshed"
+
+msgid "仆役卧室"
+msgstr "Servants' Quarters"
+
+msgid "西侧厅"
+msgstr "West Side Hall"
+
+msgid "水烟阁正厅"
+msgstr "Waterfog Main Hall"
+
+msgid "东侧厅"
+msgstr "East Side Hall"
+
+msgid "水烟阁西侧花厅"
+msgstr "Waterfog West Parlor"
+
+msgid "水烟阁正门"
+msgstr "Waterfog Front Gate"
+
+msgid "水烟阁东侧花厅"
+msgstr "Waterfog East Parlor"
+
+msgid "南 · 水烟阁前"
+msgstr "South · Waterfog Forecourt"
+
+msgid "白石梯 · 上楼"
+msgstr "White Stone Stairs · Up"
+
+msgid "阶梯 · 上楼"
+msgstr "Stairs · Up"
+
+msgid "虹台大会 · 入席"
+msgstr "Terrace Gathering · Take Your Seat"
+
+msgid "虹谷断崖"
+msgstr "Rainbow Gorge Cliff"
+
+msgid "北 · 葬剑亭"
+msgstr "North · Sword Tomb Pavilion"
+
+msgid "振远"
+msgstr "Far-Road"
+
+msgid "步玄"
+msgstr "Mystic Step"
+
+msgid "晚月"
+msgstr "Latemoon"
+
+msgid "山烟"
+msgstr "Mountain Mist"
+
+msgid "天邪"
+msgstr "Wayward"
+
+msgid "封山"
+msgstr "Empty Mountain"
+
+msgid "茅山"
+msgstr "Mount Mao"
+
+msgid "绝尘"
+msgstr "Dustless"
+
+msgid "花紫"
+msgstr "Beggars' Guild"
+
+msgid "聆啸厅"
+msgstr "Long Whistle Hall"
+
+msgid "野羊山"
+msgstr "Goathill"
+
+msgid "青石村"
+msgstr "Bluestone Village"
+
+msgid "老松岭"
+msgstr "Old Pine Ridge"
+
+msgid "晚月庄"
+msgstr "Latemoon Manor"
+
+msgid "日照山"
+msgstr "Sunlit Mountain"
+
+msgid "乔阴县城"
+msgstr "Tallshade"
+
+msgid "乔阴东郊"
+msgstr "East of Tallshade"
+
+msgid "天驼关"
+msgstr "Camelback Pass"
+
+msgid "岚城"
+msgstr "The Wind City"
+
+msgid "玉螺湖村"
+msgstr "Jade Conch Village"
+
+msgid "京师"
+msgstr "The Capital"
+
+msgid "黑松山"
+msgstr "Black Pine Mountain"
+
+msgid "番坊"
+msgstr "The Foreign Quarter"
+
+msgid "雪亭镇的淳风武馆"
+msgstr "Pure Wind Hall in Snow Pavilion"
+
+msgid "京师的振远总局"
+msgstr "the Far-Road Head Office in the Capital"
+
+msgid "青石村的石室"
+msgstr "the Stone Chamber in Bluestone Village"
+
+msgid "茅山的灵心观"
+msgstr "Clear Heart Abbey on Mount Mao"
+
+msgid "日照山的山烟寺"
+msgstr "Mountain Mist Temple on Sunlit Mountain"
+
+msgid "乔阴县城的曼雩台"
+msgstr "the Rain Dance Terrace in Tallshade"
+
+msgid "乔阴县城的福林大街"
+msgstr "Fulin Street in Tallshade"
+
+msgid "番坊的铁盾会"
+msgstr "the Iron Shield Guild in the Foreign Quarter"
+
+msgid "番坊的鬼笠馆"
+msgstr "the Ghost Hat Hall in the Foreign Quarter"
+
+msgid "番坊的日陀罗寺"
+msgstr "Ritola Temple in the Foreign Quarter"
+
+msgid "逆灵宫"
+msgstr "The Black Palace"
+
+msgid "入门"
+msgstr "Basics"
+
+msgid "传说"
+msgstr "Legends"
+
+msgid "关北"
+msgstr "Beyond the Pass"
+
+msgid "野羊山北麓"
+msgstr "North Foot of Goathill"
+
+msgid "乔阴 · 天驼关 · 京师"
+msgstr "Tallshade · Camelback Pass · the Capital"
+
+msgid "乔阴"
+msgstr "Tallshade"
+
+msgid "下坡道"
+msgstr "Downhill Path"
+
+msgid "大松树顶"
+msgstr "Great Pine Top"

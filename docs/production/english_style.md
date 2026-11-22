@@ -88,6 +88,8 @@ Chinese has one form for 你 and a name; English does not. In a line with $N (th
 * An NPC's action line follows its name directly (`{npc}{action}`): start it with a space
   (" sees you and sets down his broom.") or with "'s" ("'s eyes redden for a moment.").
 * Plurals: Chinese has none, so avoid "%d beats": write "Beats left: %d", "×%d", "Items inside: {count}."
+* Numbers the Chinese writes in characters (十文, 第三代) come out in digits in English (`ChineseNumber.of`):
+  write "{count} wen", "Generation {generation}", never a number word around the slot.
 * English runs about 1.6× wider than the Chinese in the same font: buttons ≤ 16 characters, tabs ≤ 12,
   move names ≤ 20, status words ≤ 10. Rewrite rather than abbreviate.
 * One source word can stand for two things (快 is battle speed *and* a move tag): find one English word
