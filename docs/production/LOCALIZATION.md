@@ -1,7 +1,7 @@
 # Localization
 
 Simplified Chinese (zh_CN) is the source language: every message's ID is its source text
-(gettext). No translations ship yet; the decisions behind this setup are in
+(gettext). English is in preview (`game/locale/en.po`); the decisions behind this setup are in
 [DECISIONS](../migration/DECISIONS.md#localization-the-source-text-is-the-key-2026-10-03).
 
 ## Writing player text
@@ -55,7 +55,24 @@ choice and the Settings language.
 3. When the source text changes later, regenerate the template and update each `.po` from it
    (Poedit: Update from POT; `msgmerge`); changed messages come back fuzzy.
 4. `python tools/l10n/check_po.py` checks every `.po` against the template (slots kept, no stale
-   messages, grammar marks well formed); `tools/tests/test_translations.py` runs it in the gate.
+   messages, grammar marks well formed, no full-width “ ” … in a Latin language);
+   `tools/tests/test_translations.py` runs it in the gate.
+
+## Working on a translation
+
+The `.po` is the one home of a language's text: nothing regenerates it, so an edit in Poedit or
+by hand stays. Batches go in with `tools/l10n/po_batch.py`, which changes only the entries it is
+given and keeps every other line as it was:
+
+* `po_batch.py todo game/locale/en.po --from data/oldpine` lists what is not translated yet
+  (missing, empty or fuzzy) where it is used, one line each: key, source, where, notes;
+* `po_batch.py apply game/locale/en.po batch.tsv` writes a batch of `key<TAB>translation` lines
+  (`=source<TAB>translation` also works; `\n` is a line break): changed in place, new ones at
+  the end, a fuzzy flag cleared;
+* `po_batch.py sync game/locale/en.po` turns what the template dropped into obsolete entries,
+  after which `todo` lists the changed line again.
+
+Keep batches and scratch lists under `build/`, then run `check_po.py`.
 
 English: style, names, terms and the grammar marks ES2's templates need are in
 [english_style.md](english_style.md).

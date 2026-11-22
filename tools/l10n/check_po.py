@@ -11,7 +11,9 @@ wrong. This catches them. Rules (docs/production/english_style.md):
   be left out (the template's header says so), but a translation may not invent one;
 * English grammar marks ({N:a|b}, {n:his} …, MessageGrammar) are well formed, and an ES2
   pronoun token ($P, $p) is not used: English writes {N:his} / {n:him} instead;
-* no text starts a sentence with $RESPECT or {respect}: the forms of address are lower case.
+* no text starts a sentence with $RESPECT or {respect}: the forms of address are lower case;
+* a language not written in Chinese uses straight quotes and "...": the pixel font's curly
+  double quotes and ellipsis are full-width Chinese forms (a letter is half as wide).
 
 `python tools/l10n/check_po.py [game/locale/en.po ...]` prints the problems; exit 1 if any.
 """
@@ -29,6 +31,7 @@ TOKENS = ("$RESPECT", "$SELF", "$N", "$n", "$l", "$w")
 SLOT = re.compile(r"\{([a-z_]+)\}")
 GRAMMAR = re.compile(r"\{([Nn]):([^{}]*)\}")
 PRONOUNS = {"he", "him", "his", "himself"}
+FULL_WIDTH = ("“", "”", "…")
 
 
 def _unquote(chunks: list[str]) -> str:
@@ -89,6 +92,7 @@ def _count(text: str, token: str) -> int:
 def problems_in(po: Path, pot: Path = POT) -> list[str]:
     known = {(ctx, msgid) for ctx, msgid, _ in parse(pot)}
     problems = []
+    latin = not po.stem.startswith("zh")
     for ctx, msgid, msgstr in parse(po):
         where = f"{po.name}: {msgid[:40]!r}"
         if (ctx, msgid) not in known:
@@ -117,6 +121,8 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
                 problems.append(f"{where}: {{n:…}} in a line with no $n (nor $p)")
         if re.search(r"(^|[.!?]\s+|[“\"]\s*)(\$RESPECT|\{respect\})", msgstr):
             problems.append(f"{where}: a sentence opens with a form of address (it is lower case)")
+        if latin and any(mark in msgstr for mark in FULL_WIDTH):
+            problems.append(f"{where}: a full-width “ ” or … (write \" and ...)")
     return problems
 
 

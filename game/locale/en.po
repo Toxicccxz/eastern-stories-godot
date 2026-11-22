@@ -7155,3 +7155,6 @@ msgstr "Keep Learning \"%s\""
 
 msgid "无法计算"
 msgstr "Can't calculate"
+
+msgid "画面卡顿时，可以在「设置」里把「画质」调低"
+msgstr "If the picture stutters, lower \"Graphics\" in Settings"

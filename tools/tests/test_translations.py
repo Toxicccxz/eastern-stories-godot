@@ -38,6 +38,7 @@ class TranslationsTest(unittest.TestCase):
             "unknown pronoun": ("$N挥拳攻击$n的$l", "$N {N:hers} punches $n's $l"),
             "invents the slot": ("{npc}{action}", "{npc} {action} {mood}"),
             "slots differ": ("%s摇摇头，说道：没听说过。", "“Never heard of it.”"),
+            "full-width": ("新游戏", "“New…”"),
             "opens with a form of address": ("这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖子里开封的哟。", "$RESPECT, come in."),
         }
         for label, entry in cases.items():
@@ -46,7 +47,7 @@ class TranslationsTest(unittest.TestCase):
                 self.assertTrue(any(label in problem for problem in problems), problems)
 
     def test_a_dropped_slot_is_allowed(self) -> None:
-        self.assertEqual(check_po.problems_in(_po([("{npc}对你哈哈一笑：{npc}便是{self}！", "{npc} laughs. “That'd be me!”")])), [])
+        self.assertEqual(check_po.problems_in(_po([("{npc}对你哈哈一笑：{npc}便是{self}！", "{npc} laughs. \"That'd be me!\"")])), [])
 
 
 if __name__ == "__main__":

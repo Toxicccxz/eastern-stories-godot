@@ -2,7 +2,7 @@
 
 The English translation is `game/locale/en.po` (Settings → Language → English (preview)). Owner decisions
 2026-11-20/21, worked out with Muse; DECISIONS「English (preview)」. Check a translation with
-`python tools/l10n/check_po.py game/locale/en.po` (the gate runs it too).
+`python tools/l10n/check_po.py game/locale/en.po` (the gate runs it too); new batches go in with `tools/l10n/po_batch.py` ([LOCALIZATION](LOCALIZATION.md#working-on-a-translation)), never by writing the file again.
 
 ## Tone
 
