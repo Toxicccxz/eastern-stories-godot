@@ -314,10 +314,10 @@ msgid "广场西边一家小客栈里，一个年约十四岁的少年问店里�
 msgstr "In a small inn on the west side of the square, a youth of about fourteen asked the waiter, \"These folks are awful mysterious. What game are they playing?\""
 
 msgid "小二抄起脖子上的毛巾，抹了抹脸，说道：「小哥您有所不知，这些个爷儿们可是大内来的高手，这次是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的，那骑马的官爷所称的白道长，便是咱们这附近有名的太乙观观主....」"
-msgstr "The waiter pulled the towel off his neck and mopped his face. \"You wouldn't know, friend — these fine gentlemen are masters from the Palace itself. His Majesty sent them to Lancheng, the Wind City, to find some sword they call the Whirling Edge. And the Daoist Bai that rider mentioned, he's the abbot of Taiyi Abbey, famous round these parts....\""
+msgstr "The waiter pulled the towel off his neck and mopped his face. \"You wouldn't know, friend — these fine gentlemen are masters from the Palace itself. His Majesty sent them to the Wind City, the Wind City, to find some sword they call Whirling Edge. And the Daoist Bai that rider mentioned, he's the abbot of Taiyi Abbey, famous round these parts....\""
 
 msgid "少年奇道：「岚城？那是什麽地方？怎麽我从小到大不曾听过有这个地方？」"
-msgstr "The youth was puzzled. \"Lancheng? Where's that? I've never heard of it in my whole life.\""
+msgstr "The youth was puzzled. \"The Wind City? Where's that? I've never heard of it in my whole life.\""
 
 msgid "少年听著出了神，怔怔地望著外面的天空，一朵朵的浮云飘来飘去，他的心思也不由自主地飞了起来。"
 msgstr "The youth listened, spellbound, gazing at the sky outside. Cloud after cloud drifted past, and the youth's thoughts drifted off with them."
@@ -365,7 +365,7 @@ msgid "看官队在山壁下挖什么。"
 msgstr "See what the officials are digging for under the cliff."
 
 msgid "官队挖出一只刻着风纹的石匣；一个黑衣黑冠的道士从崖上掠下，抢了匣子就逃，掉下一块布条。白道长说匣里是岚城的风铃。"
-msgstr "The officials unearth a stone casket carved with wind patterns. A Daoist in a black robe and black cap swoops down from the cliff, grabs the casket and runs, dropping a strip of cloth. Daoist Bai says the casket held Lancheng's wind bells."
+msgstr "The officials unearth a stone casket carved with wind patterns. A Daoist in a black robe and black cap swoops down from the cliff, grabs the casket and runs, dropping a strip of cloth. Daoist Bai says the casket held the Wind City's wind bells."
 
 msgid "拾起黑衣道士掉下的布条。"
 msgstr "Pick up the strip of cloth the Daoist in black dropped."
@@ -671,7 +671,7 @@ msgid "外头广场上来了官爷，一队白衣的武官，还有两位老者�
 msgstr "There's officials out in the square — a troop of officers in white, and two old gents sitting with them. Masters from the Palace, they say. If you've got the time, $RESPECT, go have a look. Quite the show."
 
 msgid "小哥您有所不知，这些个爷儿们是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的。他们等的白道长，便是咱们这附近有名的太乙观观主。"
-msgstr "You wouldn't know, friend — these fine gentlemen are on His Majesty's own orders, off to Lancheng to find some sword they call the Whirling Edge. The Daoist Bai they're waiting on, he's the abbot of Taiyi Abbey, famous round these parts."
+msgstr "You wouldn't know, friend — these fine gentlemen are on His Majesty's own orders, off to the Wind City to find some sword they call Whirling Edge. The Daoist Bai they're waiting on, he's the abbot of Taiyi Abbey, famous round these parts."
 
 msgid "$RESPECT，您来的那天傍晚说是来投淳风武馆的，饭没吃完就困得睁不开眼，是小的扶您上的楼。这封信落在桌上了，小的一直替您收着呢。"
 msgstr "The evening you got here, $RESPECT, you said you'd come to join Pure Wind Hall — then you could hardly keep your eyes open before you'd finished supper, and I helped you up the stairs. You left this letter on the table. I've been keeping it for you."
@@ -683,7 +683,7 @@ msgid "对了，外头广场上来了官爷，一队白衣的武官，还有两�
 msgstr "Oh, and — there's officials out in the square. A troop of officers in white, and two old gents sitting with them. Masters from the Palace, they say. If you've got the time, $RESPECT, go have a look."
 
 msgid "这些个爷儿们是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的。他们等的白道长，便是咱们这附近有名的太乙观观主。"
-msgstr "These fine gentlemen are on His Majesty's own orders, off to Lancheng to find some sword they call the Whirling Edge. The Daoist Bai they're waiting on, he's the abbot of Taiyi Abbey, famous round these parts."
+msgstr "These fine gentlemen are on His Majesty's own orders, off to the Wind City to find some sword they call Whirling Edge. The Daoist Bai they're waiting on, he's the abbot of Taiyi Abbey, famous round these parts."
 
 msgid "请柬早给您了。正月十七，水烟阁外头的虹台——您可别忘了。"
 msgstr "I gave you the invitation already. Seventeenth of the first month, the Rainbow Terrace outside Waterfog Pavilion — don't you forget."
@@ -19724,34 +19724,34 @@ msgid "交给水烟阁，供在葬剑亭"
 msgstr "Give it to Waterfog Pavilion, to be enshrined at the Sword Tomb Pavilion"
 
 msgid "把旋芒交给水烟阁，供在葬剑亭，让九派都看得见：它就不在你手里了。\n要交吗？"
-msgstr "Give the Whirling Edge to Waterfog Pavilion, to be enshrined at the Sword Tomb Pavilion where all nine schools can see it: it will no longer be in your hands.\nHand it over?"
+msgstr "Give Whirling Edge to Waterfog Pavilion, to be enshrined at the Sword Tomb Pavilion where all nine schools can see it: it will no longer be in your hands.\nHand it over?"
 
 msgid "供在葬剑亭"
 msgstr "Enshrine it at the pavilion"
 
 msgid "你把旋芒交了出去。潘军禅双手接过，用一块黄绫裹了。\n"
-msgstr "You hand over the Whirling Edge. Pan Junchan takes it in both hands and wraps it in a piece of yellow silk."
+msgstr "You hand over Whirling Edge. Pan Junchan takes it in both hands and wraps it in a piece of yellow silk."
 
 msgid "还给岚城"
 msgstr "Return it to the Wind City"
 
 msgid "把旋芒还给岚城：举起剑，让风把它带回去，岚城云台的旋风里会再转着它。它就不在你手里了。\n要还吗？"
-msgstr "Return the Whirling Edge to the Wind City: hold the sword up and let the wind carry it back, and it will turn again in the whirlwind on the Cloud Terrace of the Wind City. It will no longer be in your hands.\nReturn it?"
+msgstr "Return Whirling Edge to the Wind City: hold the sword up and let the wind carry it back, and it will turn again in the whirlwind on the Cloud Terrace of the Wind City. It will no longer be in your hands.\nReturn it?"
 
 msgid "你把旋芒举过头顶。山风从虹谷里卷上来，剑在你手里一轻，转着往西去了。\n"
-msgstr "You raise the Whirling Edge over your head. Mountain wind rolls up out of the Rainbow Gorge, the sword grows light in your hand and, turning, drifts off to the west."
+msgstr "You raise Whirling Edge over your head. Mountain wind rolls up out of the Rainbow Gorge, the sword grows light in your hand and, turning, drifts off to the west."
 
 msgid "我留着"
 msgstr "I keep it"
 
 msgid "旋芒留在你身上：它斩过湖底那颗头，往后还跟着你走。\n九派不再问它的去处。要留着吗？"
-msgstr "Keep the Whirling Edge: it cut down the head at the bottom of the lake, and it will still go with you.\nThe nine schools will not ask where it goes again. Keep it?"
+msgstr "Keep Whirling Edge: it cut down the head at the bottom of the lake, and it will still go with you.\nThe nine schools will not ask where it goes again. Keep it?"
 
 msgid "留着"
 msgstr "Keep it"
 
 msgid "你把旋芒收回鞘里。潘军禅看了你一眼，没有再问。\n"
-msgstr "You sheathe the Whirling Edge. Pan Junchan looks at you and does not ask again."
+msgstr "You sheathe Whirling Edge. Pan Junchan looks at you and does not ask again."
 
 msgid "散会。"
 msgstr "The meeting is adjourned."
@@ -23225,7 +23225,7 @@ msgid "先帝推敲遗书最后两句，推敲了二十年。他推出来的东�
 msgstr "The late Emperor pondered the last two lines of his testament for twenty years. What he worked out is in this old man's hands. Give me that original decree, and it is yours."
 
 msgid "岚城？说书人的话。"
-msgstr "Lancheng? A storyteller's tale."
+msgstr "The Wind City? A storyteller's tale."
 
 msgid "原令交给庾子建，当面就没有了。他会留在朝上，终章还会来要那把剑。你换来的是先帝推敲遗书的手稿——寻风的法子。交吗？"
 msgstr "Once the original decree is handed to Yu Zijian, it is gone from your hands. He will remain at court, and in the final chapter he will come for that sword. What you get in exchange is the late Emperor's manuscript on his testament, the method of finding the wind. Hand it over?"
@@ -23246,7 +23246,7 @@ msgid "从袖子里抽出一卷纸，递给你。"
 msgstr "Pulls a scroll of paper from his sleeve and hands it to you."
 
 msgid "寻风的法子。你要找岚城，拿去。原令的事，到此为止。"
-msgstr "The method of finding the wind. You want to find Lancheng, take it. As for the original decree, that is the end of it."
+msgstr "The method of finding the wind. You want to find the Wind City, take it. As for the original decree, that is the end of it."
 
 msgid "先帝的东西，你自己留着吧。"
 msgstr "The late Emperor's things, keep them yourself."
@@ -29187,3 +29187,2214 @@ msgstr "You find a book box in the bookcase.\n"
 
 msgid "严"
 msgstr "Yan"
+
+msgid "一顶黑绢裹的道冠，冠前镶一枚乌黑的铁片，铁片上錾着一个看不懂的字。逆灵宫的道士人人戴它——戴上它，他们也把你当自己人。\n"
+msgstr "A Daoist cap wrapped in black silk. On the front is set a plate of jet-black iron, and on the plate is chiseled a character you cannot read. Every Daoist of the Black Palace wears one. Put it on, and they take you for one of their own.\n"
+
+msgid "一本黑皮的账册，封皮上没有字。翻开是一笔笔纳供的账：金帛、腌肉、麻绳……每一页的末尾另起一行，记的不是东西。\n"
+msgstr "A ledger in black leather, with no writing on the cover. Inside are entries of tribute received: gold and silk, cured meat, hemp rope... At the foot of every page a new line is begun, and what it records is not goods.\n"
+
+msgid "这本账册不能随便丢。"
+msgstr "This ledger must not be thrown away."
+
+msgid "你翻到最后几页。每一页末尾另起的那一行，记的是人：\n"
+msgstr "You turn to the last few pages. The line begun at the foot of each page records people:\n"
+
+msgid "「野羊寨，三名，丁未年秋，入丹房。」\n「关北民夫，七名，戊申年冬，三名入丹房，四名留用。」\n「傅家坡，孩童一名，七岁，戊申年腊月，留用，待子时。」\n"
+msgstr "\"Goathill Stockade, three, autumn of the Dingwei year, to the Elixir Room.\"\n\"Laborers from Beyond the Pass, seven, winter of the Wushen year; three to the Elixir Room, four kept for use.\"\n\"Fu Family Slope, one child, seven years old, twelfth month of the Wushen year, kept for use, awaiting the hour of Zi.\"\n"
+
+msgid "纳供的不只是金帛。你把账册合上，手心全是汗。\n"
+msgstr "The tribute is not only gold and silk. You close the ledger. Your palms are soaked with sweat.\n"
+
+msgid "一叠公文纸，每张末尾盖着一方朱红的大印，印文是「兵部之印」。纸是新的，印泥还没干透。\n"
+msgstr "A stack of official paper. At the foot of every sheet is stamped a big vermilion seal that reads \"Seal of the Ministry of War\". The paper is new and the ink paste has not quite dried.\n"
+
+msgid "这叠文书不能随便丢。"
+msgstr "This stack of documents must not be thrown away."
+
+msgid "文书的格式一板一眼，字是衙门里的楷书：\n"
+msgstr "The documents are laid out stiffly, line by line, in the regular script of a yamen clerk:\n"
+
+msgid "「着逆灵宫代为收管关北河工逃役若干名，解送之日另行知照。」\n「着逆灵宫代为收管野羊山匪徒若干名，毋庸解京。」\n"
+msgstr "\"The Black Palace is hereby ordered to take into custody a number of corvee deserters from the river works Beyond the Pass; notice will be given separately on the day of delivery.\"\n\"The Black Palace is hereby ordered to take into custody a number of bandits from Goathill; there is no need to send them to the Capital.\"\n"
+
+msgid "每一张的印都盖得端端正正。兵部的印，怎么会盖在一座黑道观的账上？\n"
+msgstr "Every seal is stamped squarely and straight. The seal of the Ministry of War. How did it come to be stamped on the books of a black abbey?\n"
+
+msgid "一把乌黑的铁钥匙，齿很深，柄上系着一截黑布。地牢三扇铁栅门用的都是它。\n"
+msgstr "A jet-black iron key with deep teeth and a strip of black cloth tied to the handle. All three iron-grated doors of the dungeon take it.\n"
+
+msgid "这把钥匙还用得着，不能随便丢。"
+msgstr "This key is still needed. It must not be thrown away."
+
+msgid "半卷黑皮的经书，封皮上「逆灵天书」四个字只剩下三个。里面的字横着竖着走，看一眼就头晕。这是玄冥子的——他说过，要练六阴剑，拿着它来后山找他。\n"
+msgstr "Half a scroll of scripture in black leather. Of the four characters of \"Black Scripture\" on the cover only three are left. The writing inside runs sideways and straight down and makes you dizzy to look at. It belongs to Xuanmingzi, who said that if you want to learn the Six-Chaos Sword, you should bring it to him on the back mountain.\n"
+
+msgid "这卷残卷不能随便丢。"
+msgstr "This scroll fragment must not be thrown away."
+
+msgid "霍铮的尸首。铁链还在手腕上，拳头攥着，指缝里有血——不是他的。他到最后也没求饶。\n"
+msgstr "Huo Zheng's body. The iron chain is still on his wrist and his fist is clenched, with blood between the fingers, and it is not his own. He never begged, not at the end.\n"
+
+msgid "一个小孩子的尸首，头上两个小抓揪。他蜷在墙角，手里还攥着一颗小石子。\n"
+msgstr "The body of a small child, hair in two little tufts. He lies curled in the corner of the wall, a small pebble still clutched in his hand.\n"
+
+msgid "一把通体乌黑的长剑，剑身上没有一点光，像是把照上去的光都吃了进去。握在手里冰凉，剑脊上刻着一行细字，看不懂。\n"
+msgstr "A long sword, black from end to end. There is no gleam on the blade; it looks as if it has swallowed every bit of light that fell on it. It is ice cold in the hand, and a line of fine writing is carved along the spine, which you cannot read.\n"
+
+msgid "你从逆灵宫账房的大案上抄下来的一张名单，一行一口人。字是你的，墨还没干透。\n"
+msgstr "A list you copied from the big desk in the Black Palace's Counting Room, one line a head. The hand is yours, and the ink has not quite dried.\n"
+
+msgid "这张名单要递出去，不能随便丢。"
+msgstr "This list is to be handed over. It must not be thrown away."
+
+msgid "一张黄纸，字比账册上的小，一行一口人，末尾压着一方黑印：\n"
+msgstr "A sheet of yellow paper, its writing smaller than the ledger's, one line a head, a black stamp pressed at the end:\n"
+
+msgid "「关北民夫八名，工地出事，人走散了。按册补其家口：槐阳城外八户，待取。」\n"
+msgstr "\"Laborers from Beyond the Pass, eight. Trouble at the work site; the men have scattered. Make up their households by the register: eight households outside Huaiyang, to be taken.\"\n"
+
+msgid "「关北民夫四名，夜里走脱：王石头、刘拐子、巴图、胡阿大。按册补其家口：王石头之母、刘拐子之妻、巴图之子、胡阿大之女，四口，待取。」\n"
+msgstr "\"Laborers from Beyond the Pass, four, fled in the night: Wang Shitou, Liu the Lame, Batu, Hu Ada. Make up their households by the register: Wang Shitou's mother, Liu the Lame's wife, Batu's son, Hu Ada's daughter, four heads, to be taken.\"\n"
+
+msgid "「关北河工逃役若干名，兵部解送，下月到。」\n"
+msgstr "\"A number of river-works deserters from Beyond the Pass, to be delivered by the Ministry of War, arriving next month.\"\n"
+
+msgid "「傅家坡，孩童一名，七岁。」——这一行被一笔划掉了，旁边批了一个小字：「补」。\n"
+msgstr "\"Fu Family Slope, one child, seven years old.\" This line has been struck out with a single stroke, and beside it someone has written one small word: \"Fill\".\n"
+
+msgid "「傅家坡，孩童一名，七岁，已用。」\n"
+msgstr "\"Fu Family Slope, one child, seven years old, used.\"\n"
+
+msgid "「玉螺湖，渔户一名，行三。」——旁边批着：「湖里的东西先下了手。另补。」\n"
+msgstr "\"Jade Conch Lake, one fisher household, third in line.\" Beside it is written: \"The thing in the lake got there first. Fill another.\"\n"
+
+msgid "「玉螺湖，渔户一名，行三，已取。」——渔夫家的老三。船漂回来了，人没回来。\n"
+msgstr "\"Jade Conch Lake, one fisher household, third in line, taken.\" The fisherman's third son. The boat drifted back. He did not.\n"
+
+msgid "「玉螺湖，渔户一名，行三，待取。」\n"
+msgstr "\"Jade Conch Lake, one fisher household, third in line, to be taken.\"\n"
+
+msgid "最末一行：「以上凡三十六口，唤首之夜，一并上坛。」\n"
+msgstr "The last line: \"The above, thirty-six heads in all, to go up on the altar together on the night of the Calling of the Head.\"\n"
+
+msgid "最末一行：「以上凡三十六口，续灯之夜，一并上坛。」\n"
+msgstr "The last line: \"The above, thirty-six heads in all, to go up on the altar together on the night of the Feeding of the Lamp.\"\n"
+
+msgid "一本黑皮的册子，比账房的账册薄，线装，封皮上没有字。里面一页一口人，每个名字底下压着一方押印——人是谁送上山来的，就押谁的印。\n"
+msgstr "A black-leather booklet, thinner than the Counting Room's ledger, thread-bound, with no writing on the cover. Inside, one page to a head, and under every name a stamp is pressed: whoever sent that person up the mountain has stamped his own seal.\n"
+
+msgid "这本名册不能随便丢。"
+msgstr "This register must not be thrown away."
+
+msgid "黑皮的册子，一页一口人。每个名字底下压着一方押印。\n"
+msgstr "A black-leather booklet, one page to a head. Under every name is pressed a stamp.\n"
+
+msgid "大半页压的是「槐阳河工所」的长戳，戳底下垫着半方朱印——「兵部之印」的「部」字。关北的河工，是兵部送上山的。\n"
+msgstr "Most of the pages are pressed with the long stamp of the \"Huaiyang River Works Office\", and under the stamp lies half a vermilion seal: the \"Ministry\" of \"Seal of the Ministry of War\". The laborers from Beyond the Pass were sent up the mountain by the Ministry of War.\n"
+
+msgid "几页压着一个烙出来似的「羊」字：野羊寨纳的，不只是金帛。\n"
+msgstr "A few pages are pressed with a \"Goat\" character that looks branded in: what Goathill Stockade paid in was not only gold and silk.\n"
+
+msgid "末尾十几页的押印是空的，名字底下只写着一个「待」字。\n"
+msgstr "The stamps on the last dozen or so pages are blank. Under each name is written one word: \"Pending\".\n"
+
+msgid "这本册子在谁手里，谁就知道这些年是谁把人送上了北麓。\n"
+msgstr "Whoever holds this book knows who has been sending people up to the North Foot all these years.\n"
+
+msgid "一卷黑皮的经书，比残卷厚得多。封皮上「逆灵天书」四个字一个不少，底下一个小字：「下」。里面的字是暗红的，横着走竖着走——前殿的长案上白天摊着的就是它。\n"
+msgstr "A scroll of scripture in black leather, much thicker than the fragment. The four characters \"Black Scripture\" on the cover are all there, with one small character beneath: \"Lower\". The writing inside is dark red and runs sideways and straight down. This is what lies open on the long table in the Front Hall by day.\n"
+
+msgid "这卷天书不能随便丢。"
+msgstr "This scripture must not be thrown away."
+
+msgid "一册黑布面的手抄本，封面上写着「六阴 · 追魂」。里面是玄冥子的字，六页图，每一页都是一个人影朝另一个人影刺出一剑，剑尖上画着一缕烟。最后一页的边上批着一行小字：「天殇不传。」\n"
+msgstr "A hand-copied booklet with a black cloth cover, the title written on it: \"Six-Chaos · Soul-Chasing\". Inside is Xuanmingzi's handwriting, six pages of drawings; on each page one figure thrusts a sword at another, and a wisp of smoke is drawn on the sword tip. On the margin of the last page a small line is written: \"Tianshang is not taught.\"\n"
+
+msgid "一个黑衣黑冠的道士，两手把着绞盘的摇柄，肩膀一耸一耸。他看了你一眼，又低头去摇，像是什么也没看见——能上到这里来的，在他眼里都是宫里放上来的人。\n"
+msgstr "A Daoist in a black robe and black cap, both hands on the winch crank, shoulders heaving. He glances at you, then bends to the crank again as if he has seen nothing. To him, anyone who can get up here has been sent up from the Palace.\n"
+
+msgid "绞盘道士咬着牙摇了一圈绞盘，绳子吱吱地响。\n"
+msgstr "The Winch Daoist grits his teeth and turns the winch another round. The rope creaks.\n"
+
+msgid "绞盘道士嘟囔道：今年的供比去年沉……\n"
+msgstr "The Winch Daoist mutters, \"This year's tribute is heavier than last year's...\"\n"
+
+msgid "绞盘道士朝裂口里喊了一声：下面的，拴好了没有！\n"
+msgstr "The Winch Daoist shouts into the crack, \"Down there! Is it tied on yet?\"\n"
+
+msgid "绞盘道士头也不抬：供在那边堆着，管事叫你搬就搬。"
+msgstr "The Winch Daoist says without lifting his head, \"The tribute is piled over there. When the steward tells you to carry it, carry it.\""
+
+msgid "绞盘道士道：宫里的事，问管事去，别问我。"
+msgstr "The Winch Daoist says, \"Palace business, ask the steward. Do not ask me.\""
+
+msgid "绞盘道士摇绳的手顿了一顿：不认识。……你问这个做什么。"
+msgstr "The Winch Daoist's hand on the crank falters. \"Never heard of him... Why do you ask?\""
+
+msgid "绞盘道士道：底下是野羊山的山路。宫里的人不走山路，只走这根绳。"
+msgstr "The Winch Daoist says, \"Below is the Goathill road. The people of the Palace do not take the road. They take this rope.\""
+
+msgid "绞盘道士松了绞盘，尖声道：来人哪！有生人上来了！\n"
+msgstr "The Winch Daoist lets go of the winch and cries shrilly, \"Help! A stranger has come up!\"\n"
+
+msgid "一个黑衣黑冠的道士，坐在门房的桌后，面前摊着一本簿子，手里的笔却半天不动。他的眼睛不看簿子，看门洞——谁进来，他先看冠，再看脸。\n"
+msgstr "A Daoist in a black robe and black cap sits behind the table in the gatehouse with a book open before him, but his brush has not moved for a long while. His eyes are not on the book but on the gate passage: whoever comes in, he looks at the cap first, then the face.\n"
+
+msgid "抬眼看了看你头上的黑冠，又低下头去。"
+msgstr " glances at the black cap on your head, then lowers his eyes again."
+
+msgid "新来的？进去别乱走。后殿不许去，地牢不许去，管事叫你干什么就干什么。"
+msgstr "New, are you? Do not wander once you are inside. The Rear Hall is forbidden, the dungeon is forbidden, and you do whatever the steward tells you."
+
+msgid "门房道士道：这里就是。进了这道门，就别再问这个名字。"
+msgstr "The Porter Daoist says, \"This is it. Once you are through this gate, do not ask that name again.\""
+
+msgid "门房道士道：野羊寨的供今天到。东边货栈，搬完了再说话。"
+msgstr "The Porter Daoist says, \"The tribute from Goathill Stockade arrives today. The storehouse on the east side. Carry it all in, then we will talk.\""
+
+msgid "门房道士的笔停了一下：没这个人。……谁让你问的？"
+msgstr "The Porter Daoist's brush stops. \"There is no such man... Who told you to ask?\""
+
+msgid "门房道士道：后殿是宫主行法的地方。没有大弟子的话，谁都不许进。"
+msgstr "The Porter Daoist says, \"The Rear Hall is where the Palace Master performs his rites. Without the senior disciple's word, no one is to go in.\""
+
+msgid "门房道士厉声道：哪里来的野人，敢闯逆灵宫！\n"
+msgstr "The Porter Daoist cries sternly, \"What wild man dares storm the Black Palace!\"\n"
+
+msgid "门房道士朝院里喊：有生人！拦住他！\n"
+msgstr "The Porter Daoist shouts toward the courtyard, \"A stranger! Stop him!\"\n"
+
+msgid "一个黑衣黑冠的道士，背着手站在院子里，腰上一柄短剑。他站得笔直，眼睛半闭着，像在听什么——听见生人的脚步，眼睛就睁开了。\n"
+msgstr "A Daoist in a black robe and black cap stands in the courtyard with his hands behind his back, a short sword at his waist. He stands ramrod straight, eyes half closed as if listening to something; at the sound of a stranger's steps his eyes open.\n"
+
+msgid "守门道士把腰上的短剑往上提了提。\n"
+msgstr "The Gatekeeper Daoist hitches the short sword at his waist up higher.\n"
+
+msgid "守门道士低声念了一句什么，声音像蚊子哼。\n"
+msgstr "The Gatekeeper Daoist murmurs something, in a voice like a mosquito's whine.\n"
+
+msgid "守门道士道：少说话，多干活。"
+msgstr "The Gatekeeper Daoist says, \"Talk less, work more.\""
+
+msgid "守门道士朝东边一偏头：货栈。"
+msgstr "The Gatekeeper Daoist jerks his head toward the east. \"The storehouse.\""
+
+msgid "守门道士喝道：生人闯宫，留下！\n"
+msgstr "The Gatekeeper Daoist shouts, \"A stranger storms the Palace! Hold him here!\"\n"
+
+msgid "守门道士一剑劈空，剑风带起一股苦味。\n"
+msgstr "The Gatekeeper Daoist's sword cuts empty air, and the wind of it stirs up a bitter smell.\n"
+
+msgid "一个黑衣黑冠的道士，袖子挽着，正把一只箱子里的绸缎一匹匹抖开来数。他数得很慢，数到一半停下来，往那几只画着符的箱子那边瞟一眼，再从头数。\n"
+msgstr "A Daoist in a black robe and black cap, sleeves rolled up, is shaking out a crate of silk and counting it bolt by bolt. He counts very slowly. Halfway through he stops, glances over at the crates with talismans drawn on them, then starts again from the beginning.\n"
+
+msgid "货栈道士数着绸缎：……十一、十二……\n"
+msgstr "The Storehouse Daoist counts the silk: \"...eleven, twelve...\"\n"
+
+msgid "货栈道士踢了踢一只画着符的箱子，箱子里没有动静，他松了口气。\n"
+msgstr "The Storehouse Daoist kicks one of the crates with a talisman on it. Nothing stirs inside, and he lets out a breath.\n"
+
+msgid "货栈道士道：都是野羊寨的供。你是哪一房的？管事让你来搬？搬那边的，画着符的别碰。"
+msgstr "The Storehouse Daoist says, \"All tribute from Goathill Stockade. Which wing are you from? The steward sent you to carry? Carry that pile there. Do not touch the ones with talismans drawn on them.\""
+
+msgid "货栈道士压低声音：画符的那几只，是「祭」。等子时，大弟子来取。你没见过，我也没说过。"
+msgstr "The Storehouse Daoist lowers his voice. \"The ones with talismans are 'offerings'. The senior disciple comes for them at the hour of Zi. You never saw them, and I never said so.\""
+
+msgid "货栈道士道：干活。"
+msgstr "The Storehouse Daoist says, \"Work.\""
+
+msgid "货栈道士道：野羊寨的大寨主？半年前就进了地牢，还问。"
+msgstr "The Storehouse Daoist says, \"The great chief of Goathill Stockade? In the dungeon since half a year ago. And you still ask.\""
+
+msgid "货栈道士叫道：有贼！有贼偷供！\n"
+msgstr "The Storehouse Daoist cries, \"Thief! A thief is stealing the tribute!\"\n"
+
+msgid "货栈道士一边招架一边往门口退。\n"
+msgstr "The Storehouse Daoist parries as he backs toward the door.\n"
+
+msgid "一个黑衣黑冠的道士，跪在蒲团上，两手按着膝盖，嘴唇一开一合。他诵经的声音又低又快，像是怕慢一个字就要挨罚。他的眼睛是闭着的。\n"
+msgstr "A Daoist in a black robe and black cap kneels on a rush cushion, hands on his knees, lips opening and closing. His chanting is low and fast, as though he fears to be punished for being a word too slow. His eyes are shut.\n"
+
+msgid "诵经道士低声念道：……灵不灵，逆之则生……\n"
+msgstr "The Chanting Daoist murmurs, \"...Spirit or no spirit, defy it and live...\"\n"
+
+msgid "诵经道士的声音忽然高了一下，又压了下去。\n"
+msgstr "The Chanting Daoist's voice suddenly rises, then is pressed down again.\n"
+
+msgid "诵经道士跪得久了，膝盖动了动，领诵的木鱼声一停，他立刻又跪直了。\n"
+msgstr "The Chanting Daoist has knelt a long time and his knee shifts, but the moment the lead chanter's wooden fish falls silent he straightens at once.\n"
+
+msgid "诵经道士低声念：……逆灵者，逆天地之灵而用之……\n"
+msgstr "The Chanting Daoist murmurs, \"...Those who defy the spirit defy the spirit of heaven and earth and put it to use...\"\n"
+
+msgid "诵经道士低声念：……以身为供，以劫为师……\n"
+msgstr "The Chanting Daoist murmurs, \"...Make the body the offering, make the calamity the teacher...\"\n"
+
+msgid "诵经道士低声念：……劫无首，以我为首……\n"
+msgstr "The Chanting Daoist murmurs, \"...The calamity has no head; let me be its head...\"\n"
+
+msgid "诵经道士闭着眼睛：诵经的时候不说话。"
+msgstr "The Chanting Daoist says with eyes closed, \"No talking while we chant.\""
+
+msgid "诵经道士压低声音：逆灵天书。你连这个都不知道？……不要问我，问领诵。"
+msgstr "The Chanting Daoist lowers his voice. \"The Black Scripture. You do not even know that? ...Do not ask me. Ask the lead chanter.\""
+
+msgid "诵经道士的嘴唇停了一下，又接着念，像没听见。"
+msgstr "The Chanting Daoist's lips pause for a moment, then go on chanting as if he did not hear."
+
+msgid "诵经道士道：宫主在后殿行法。子时开坛，没你的事。"
+msgstr "The Chanting Daoist says, \"The Palace Master performs his rites in the Rear Hall. The altar opens at the hour of Zi. It is no business of yours.\""
+
+msgid "诵经道士尖叫道：生人！前殿有生人！\n"
+msgstr "The Chanting Daoist screams, \"A stranger! There is a stranger in the Front Hall!\"\n"
+
+msgid "诵经道士一边念经一边拔剑，念的和砍的一样快。\n"
+msgstr "The Chanting Daoist draws his sword while still chanting, the chanting and the cutting just as fast.\n"
+
+msgid "一个黑衣黑冠的老道士，跪在最前头的蒲团上，面前一只乌黑的木鱼。他一下一下敲着，节拍一丝不乱，诵的字句比别人多一倍。进来什么人、出去什么人，他一次头也没抬过。\n"
+msgstr "An old Daoist in a black robe and black cap kneels on the front-most cushion, a jet-black wooden fish before him. He strikes it one beat at a time, never off the count, and chants twice as many lines as the others. Whoever comes in, whoever goes out, he has never once raised his head.\n"
+
+msgid "领诵道士的木鱼声一下紧似一下。\n"
+msgstr "The Lead Chanter's wooden fish comes faster and faster.\n"
+
+msgid "领诵道士念道：……以身为供，以劫为师……\n"
+msgstr "The Lead Chanter chants, \"...Make the body the offering, make the calamity the teacher...\"\n"
+
+msgid "领诵道士的木鱼没停：逆灵者，逆天地之灵而用之。这是第一句。你连第一句都要人教？"
+msgstr "The Lead Chanter's wooden fish does not stop. \"Those who defy the spirit defy the spirit of heaven and earth and put it to use. That is the first line. You need someone to teach you even the first line?\""
+
+msgid "领诵道士道：逆灵天书，宫主亲授。前殿只诵前三卷，后面的，没到你的分。"
+msgstr "The Lead Chanter says, \"The Black Scripture, taught by the Palace Master himself. The Front Hall chants only the first three volumes. The rest has not come to your share.\""
+
+msgid "领诵道士的木鱼慢了一拍：野羊寨那个？在底下。子时便用他开坛。——你是哪一房的，问这个？"
+msgstr "The Lead Chanter's wooden fish slows by a beat. \"The one from Goathill Stockade? He is below. At the hour of Zi he will be used to open the altar. Which wing are you from, that you ask?\""
+
+msgid "领诵道士道：后殿是宫主的。大弟子不带，谁也不许过那道门。"
+msgstr "The Lead Chanter says, \"The Rear Hall is the Palace Master's. Without the senior disciple, no one passes that door.\""
+
+msgid "宫主"
+msgstr "Palace Master"
+
+msgid "领诵道士道：宫主姓商。别的，不是你该问的。"
+msgstr "The Lead Chanter says, \"The Palace Master's name is Shang. The rest is not for you to ask.\""
+
+msgid "跟诵"
+msgstr "Chant Along"
+
+msgid "领诵道士的木鱼没停：前三卷的头三句，他们一天念几百遍。我念上句，你接下句——接不上，回蒲团上听熟了再来。"
+msgstr "The Lead Chanter's wooden fish does not stop. \"The first three lines of the first three volumes, they say a few hundred times a day. I give the first half, and you give the second. If you cannot, go back to your cushion and listen until you know it, then come again.\""
+
+msgid "劝宫里剩下的人下山，交茅山看管。说了这一句，他就知道你戴着冠，却不是他们的人。\n就这么说吗？"
+msgstr "Urge the rest of the Palace to come down the mountain and be held by Mount Mao. Say that, and he will know you wear the cap but are not one of them.\nSay it this way?"
+
+msgid "人都下山了。……这木鱼，我还留着。"
+msgstr "Everyone has gone down the mountain... I still keep this wooden fish."
+
+msgid "官兵已经在山下了。……你要我们下山，下去送死么？"
+msgstr "The soldiers are already at the foot of the mountain... You want us to go down there and die?"
+
+msgid "宫里的事，玄冥子说了算。他在后山的崖径上。"
+msgstr "Palace business is for Xuanmingzi to decide. He is on the cliff path on the back mountain."
+
+msgid "手里的木鱼槌停住了。"
+msgstr "The mallet in his hand stops."
+
+msgid "……宫主没回来。唤首那一夜下湖的人，一个也没回来。"
+msgstr "...The Palace Master did not come back. Of the ones who went down to the lake on the night of the Calling of the Head, not one came back."
+
+msgid "下山就下山吧。这些孩子，本来也是山下来的。"
+msgstr "Down the mountain, then. These children came up from below in the first place."
+
+msgid "下山？"
+msgstr "Down the mountain?"
+
+msgid "领诵道士霍地站起，木鱼槌一指：拿下！\n"
+msgstr "The Lead Chanter leaps to his feet and points his mallet. \"Seize him!\"\n"
+
+msgid "领诵道士喝道：殿前动手，坛上加供！\n"
+msgstr "The Lead Chanter cries, \"Fighting before the Hall! Add to the tribute on the altar!\"\n"
+
+msgid "一个黑衣黑冠的道士，坐在账房的大案后面，手里一支笔，面前一本账。他的手指上全是墨，指甲缝里是黑的。他抬头看了你一眼，眼睛先落在你的冠上。\n"
+msgstr "A Daoist in a black robe and black cap sits behind the big desk in the Counting Room, a brush in his hand and a ledger before him. His fingers are all ink, and the nails are black underneath. He looks up at you, and his eyes fall first on your cap.\n"
+
+msgid "管事道士拨了两下算盘，皱起眉头，又拨回去。\n"
+msgstr "The Steward Daoist clicks the abacus twice, frowns, and clicks it back.\n"
+
+msgid "管事道士对着账册自言自语：七个……还差三个。\n"
+msgstr "The Steward Daoist mutters at the ledger, \"Seven... three short.\"\n"
+
+msgid "管事道士道：野羊寨的供今年足数。关北的车下月到。你是来领活的？货栈搬箱子去。"
+msgstr "The Steward Daoist says, \"Goathill Stockade's tribute is full this year. The carts from Beyond the Pass arrive next month. Have you come for work? Go carry crates in the storehouse.\""
+
+msgid "管事道士把手按在账册上：账是宫主要看的，不是给你看的。"
+msgstr "The Steward Daoist lays his hand on the ledger. \"The Palace Master is to read the books. They are not for you.\""
+
+msgid "文书"
+msgstr "Documents"
+
+msgid "管事道士道：兵部的公文，你认得字？……认得也当不认得。"
+msgstr "The Steward Daoist says, \"Ministry of War papers. You can read? ...Even if you can, you cannot.\""
+
+msgid "管事道士道：野羊寨的大寨主，账上第三笔。子时开坛。你问这个做什么？"
+msgstr "The Steward Daoist says, \"The great chief of Goathill Stockade is the third entry in the books. The altar opens at the hour of Zi. Why do you ask?\""
+
+msgid "钥匙"
+msgstr "Key"
+
+msgid "管事道士道：地牢的钥匙在大弟子腰上。我这里只有账，没有钥匙。"
+msgstr "The Steward Daoist says, \"The dungeon keys are on the senior disciple's belt. I have only books here, no keys.\""
+
+msgid "管事道士道：少废话。干活。"
+msgstr "The Steward Daoist says, \"Stop talking. Work.\""
+
+msgid "干活"
+msgstr "Work"
+
+msgid "活干完了就歇着。通铺在货栈里头。夜里别乱走——子时前殿有人巡，后殿不许近。"
+msgstr "When the work is done, rest. The bunks are in the storehouse. Do not wander at night: at the hour of Zi there is a patrol in the Front Hall, and the Rear Hall is not to be approached."
+
+msgid "把账册翻过一页，在上头添了一笔。"
+msgstr "turns the ledger over to the next page and adds an entry."
+
+msgid "手脚还算干净。"
+msgstr "Clean hands, at least."
+
+msgid "今晚起，你在货栈的通铺上睡。夜里别乱走——子时前殿有人巡，后殿不许近。"
+msgstr "From tonight you sleep on the bunks in the storehouse. Do not wander at night: at the hour of Zi there is a patrol in the Front Hall, and the Rear Hall is not to be approached."
+
+msgid "炭、箱子、经。三样干完了再来。"
+msgstr "Charcoal, crates, scripture. Finish all three, then come back."
+
+msgid "抬眼看了看你的冠，又看了看你的脸。"
+msgstr "glances at your cap, then at your face."
+
+msgid "大弟子打过招呼，说你是他的人。……宫里不养闲人，他的人也一样。"
+msgstr "The senior disciple has said a word for you: you are his man. ...The Palace keeps no idlers, and his man is no different."
+
+msgid "三样活：丹房的炉子添炭，货栈的箱子点数，前殿跟着领诵念经。干完了再来找我。"
+msgstr "Three jobs: add charcoal to the furnace in the Elixir Room, count the crates in the storehouse, and chant with the lead chanter in the Front Hall. Finish and come back to me."
+
+msgid "新来的？那一夜宫里丢了一卷书，后山的路上都找遍了。……你没见过吧。"
+msgstr "New, are you? On that night the Palace lost a scroll, and they searched the whole back-mountain road. ...You have not seen it, have you."
+
+msgid "新来的？那一夜地牢里少了人，宫里正缺人手。"
+msgstr "New, are you? On that night the dungeon lost people, and the Palace is short of hands."
+
+msgid "干活？货栈搬箱子去。"
+msgstr "Work? Go carry crates in the storehouse."
+
+msgid "管事道士把账册往怀里一塞，叫道：有贼！护账！\n"
+msgstr "The Steward Daoist shoves the ledger into his robe and cries, \"Thief! Guard the books!\"\n"
+
+msgid "一个黑衣黑冠的道士，靠着甬道的石壁站着，腰上没有钥匙，只有一柄短剑和一根鞭子。他听见脚步声就直起身来，先看冠，再看脸。\n"
+msgstr "A Daoist in a black robe and black cap leans against the stone wall of the passage. There are no keys at his waist, only a short sword and a whip. At the sound of footsteps he straightens and looks at the cap first, then the face.\n"
+
+msgid "狱卒道士用鞭柄敲了敲铁栅：安静！\n"
+msgstr "The Jailer Daoist raps the iron grate with his whip handle. \"Quiet!\"\n"
+
+msgid "狱卒道士打了个哈欠，往西边那间牢房瞟了一眼。\n"
+msgstr "The Jailer Daoist yawns and glances toward the cell on the west side.\n"
+
+msgid "狱卒道士道：钥匙？在大弟子玄冥子腰上。开坛的时候他才下来开门。我们只看人，不开门。"
+msgstr "The Jailer Daoist says, \"The key? On Xuanmingzi's belt, the senior disciple. He only comes down to open the doors when the altar's opened. We just watch 'em. We don't open the doors.\""
+
+msgid "狱卒道士朝西边一偏头：西边那间。骂了半年了，嗓子还没哑。"
+msgstr "The Jailer Daoist jerks his head toward the west. \"The one on the west. Cursin' six months now, and his throat ain't gone hoarse yet.\""
+
+msgid "孩子"
+msgstr "Child"
+
+msgid "狱卒道士道：北边那间的小的？傅家坡抓来的。宫主说小孩子的供最干净。"
+msgstr "The Jailer Daoist says, \"The little one in the north cell? Taken from Fu Family Slope. The Palace Master says a child's tribute is the cleanest.\""
+
+msgid "狱卒道士道：东边两个，关北挖河的。挖不动了，就送到这里来。"
+msgstr "The Jailer Daoist says, \"The two in the east are from Beyond the Pass, river diggers. When they can't dig no more, they get sent down here.\""
+
+msgid "狱卒道士道：底下不许多话。"
+msgstr "The Jailer Daoist says, \"No talkin' down here.\""
+
+msgid "狱卒道士抽出鞭子，吼道：地牢有生人！\n"
+msgstr "The Jailer Daoist draws his whip and roars, \"A stranger in the dungeon!\"\n"
+
+msgid "野羊山大寨主"
+msgstr "Great Chief of Goathill"
+
+msgid "一个高大的汉子，瘦得脱了形，颧骨突出来，手腕上两道铁链磨出来的血痕。头发胡子乱成一团，眼睛却亮得吓人。他被锁在牢房里，看见你，先骂了一句，再看清你的脸，骂声停了。\n"
+msgstr "A tall man, wasted out of shape, cheekbones jutting, two bloody weals on his wrists where the iron chains have worn them. His hair and beard are a tangle, but his eyes are frighteningly bright. He is chained in his cell, and when he sees you he curses first, then makes out your face, and the cursing stops.\n"
+
+msgid "霍铮朝铁栅外啐了一口：臭道士！有种把老子放出去打！\n"
+msgstr "Huo Zheng spits out through the iron bars. \"Stinking Daoists! If ya got the guts, let me out and fight!\"\n"
+
+msgid "霍铮用铁链在墙上狠狠砸了一下。\n"
+msgstr "Huo Zheng smashes his chain against the wall as hard as he can.\n"
+
+msgid "霍铮喃喃道：黄霸……黄霸这个王八蛋……\n"
+msgstr "Huo Zheng mutters, \"Huang Ba... that bastard Huang Ba...\"\n"
+
+msgid "霍铮咬着牙道：两年前他们上山，寨子折了一半弟兄。老子带人来烧他们的观，中了埋伏——跟老子上山的弟兄，一个也没回去。"
+msgstr "Huo Zheng grits his teeth. \"Two years ago they came up the mountain, and the stockade lost half its brothers. I led men to burn their abbey and walked into an ambush. Not one of the brothers who came up with me ever went home.\""
+
+msgid "霍铮朝北边一偏头：北边那间的娃娃，傅家坡抓来的，才七岁。半年了，哭都哭不出声了。你要是能开门，先开他的。"
+msgstr "Huo Zheng jerks his head to the north. \"The kid in the north cell, taken from Fu Family Slope. Only seven. Half a year in here, and he cannot even cry out loud anymore. If ya can open a door, open his first.\""
+
+msgid "霍铮的眼睛红了：老三。老子前脚进来，他后脚纳供。纳的什么供？纳的是老子的弟兄！"
+msgstr "Huo Zheng's eyes go red. \"Third Brother. I go in the front door and he pays tribute out the back. Tribute of what? Of my brothers!\""
+
+msgid "霍铮道：钥匙在那个姓玄的腰上——他们叫他大弟子。他每天子时下来一趟，挑人。"
+msgstr "Huo Zheng says, \"The key's on that fellow named Xuan's belt. They call him the senior disciple. He comes down every night at the hour of Zi, and picks someone.\""
+
+msgid "野羊寨"
+msgstr "Goathill Stockade"
+
+msgid "霍铮道：寨子还在吗？黄霸还在土地庙？……他要是还在，告诉他，老子没死。"
+msgstr "Huo Zheng says, \"Is the stockade still there? Is Huang Ba still in the Earth God Temple? ...If he's still there, tell him I ain't dead.\""
+
+msgid "霍铮一愣：老刘？老刘没进来？好，好。他在哪？……他若肯回来，寨子还有救。"
+msgstr "Huo Zheng is startled. \"Old Liu? Old Liu didn't come in? Good, good. Where is he? ...If he's willing to come back, the stockade can still be saved.\""
+
+msgid "二寨主"
+msgstr "Second Chief"
+
+msgid "霍铮低声道：老二就是老刘。那天他不肯跟来，骂老子是去送死。……他骂得对。"
+msgstr "Huo Zheng says quietly, \"The Second Chief is Old Liu. That day he wouldn't come along, and cursed me for walking to my death. ...He was right.\""
+
+msgid "前些日子茅山灵心观来了个小道士，替他们的林忌真人带话：北麓那座道观还在，地牢里还在进人。"
+msgstr "A few days ago a young Daoist came from Clear Heart Abbey on Mount Mao, carrying word for their True Man Lin Ji: the abbey on the North Foot is still standing, and people are still going into its dungeon."
+
+msgid "林真人要一个进得去的人。……可你身上有东方神教的令，这件事老子不能托你。"
+msgstr "True Man Lin wants someone who can get in. ...But you carry the Golden Crow Order's token, and I can't trust this to you."
+
+msgid "林真人要一个进得去的人。老子进不去——那张脸，他们都认得。"
+msgstr "True Man Lin wants someone who can get in. I can't get in. They all know that face."
+
+msgid "你要是肯，跟老子说一声「眼线」；或者自己去灵心观见他。"
+msgstr "If you're willing, say the word \"Spy\" to me; or go see him yourself at Clear Heart Abbey."
+
+msgid "茅山？牛鼻子道士，跟野羊寨没来往。"
+msgstr "Mount Mao? Those long-nosed Daoists have no dealings with Goathill Stockade."
+
+msgid "名单老子送到灵心观了。下一车纳供，野羊寨的弟兄在转角等着。"
+msgstr "I sent the list to Clear Heart Abbey. At the next tribute cart, the brothers of Goathill Stockade will be waiting at the bend."
+
+msgid "你接了东方神教的令？"
+msgstr "You took the Golden Crow Order's token?"
+
+msgid "那这件事老子不能托你。林真人说了，进那座道观的人，身上只能有一家的东西。"
+msgstr "Then I can't trust this to you. True Man Lin said it: whoever goes into that abbey may carry the things of one house only."
+
+msgid "你答应过了。名单抄出来，交给老子也行，交给林真人也行。"
+msgstr "You gave your word. Copy out the list, and give it to me, or give it to True Man Lin, either way."
+
+msgid "好兄弟。"
+msgstr "Good brother."
+
+msgid "那一夜地牢空了，他们记着呢——不知道是你，只知道有人。你进去，脸上别带出来。"
+msgstr "They remember the night the dungeon emptied, and they don't know it was you, only that someone did it. When you go in, don't let it show on your face."
+
+msgid "冠要是丢了，去灵心观问林真人要。"
+msgstr "If you lose the cap, go to True Man Lin at Clear Heart Abbey for another."
+
+msgid "霍铮吼道：来！老子手上有链子也打得死你！\n"
+msgstr "Huo Zheng roars, \"Come on! Even with chains on my hands I can beat ya to death!\"\n"
+
+msgid "挣了挣手上的铁链——链子早让他磨断了一半，一扯就开。"
+msgstr " tugs at the chains on his wrists. He has worn them half through, and one pull frees him."
+
+msgid "好兄弟。老子跟你走。北边那间还有个娃娃，一起带上。"
+msgstr "Good brother. I'm goin' with ya. There's still a kid in the north cell. Take him along."
+
+msgid "接过名单，看到「傅家坡」那一行，手抖了一下。"
+msgstr " takes the list, and when he comes to the line \"Fu Family Slope\", his hand shakes."
+
+msgid "补……他们还要补一个。"
+msgstr "Fill... They still mean to fill one more."
+
+msgid "老子派人给林真人送去。下一车纳供，野羊寨的弟兄在转角等着。你回去，别让他们看出来。"
+msgstr "I'll send someone to True Man Lin with it. At the next tribute cart, the brothers of Goathill Stockade will be waitin' at the bend. Go on back, and don't let 'em see it on ya."
+
+msgid "一个七岁的小孩子，头上梳着两个小抓揪，脸脏得看不出模样，衣服还是傅家坡的粗布。他缩在牢房的角落里，看见你，往墙上又缩了缩，没有哭。\n"
+msgstr "A seven-year-old child, his hair in two little tufts, his face too dirty to make out. His clothes are still the coarse cloth of Fu Family Slope. He is huddled in the corner of the cell, and when he sees you he shrinks farther against the wall. He does not cry.\n"
+
+msgid "石头把墙角的几颗小石子摆了又摆。\n"
+msgstr "Shitou arranges the few small pebbles in the corner of the wall, then arranges them again.\n"
+
+msgid "石头小声说：娘……\n"
+msgstr "Shitou whispers, \"Mama...\"\n"
+
+msgid "石头抬起头：娘在傅家坡。娘说别跟人走。……我没跟人走，是他们把我装进箱子里的。"
+msgstr "Shitou lifts his head. \"Mama's in Fu Family Slope. Mama said don't go with anybody. ...I didn't go with anybody. They put me in a box.\""
+
+msgid "石头道：我家在湖边，门口有瓜地。娘每天到村口等我。"
+msgstr "Shitou says, \"My house is by the lake, and there's a melon patch at the door. Mama waits for me at the mouth of the village every day.\""
+
+msgid "石头摇头：不是黑松山。是黑衣服的道士，他们说是黑松山的。"
+msgstr "Shitou shakes his head. \"It wasn't Black Pine Mountain. It was Daoists in black clothes. They said they were from Black Pine Mountain.\""
+
+msgid "石头小声道：他们晚上来挑人。挑走的就不回来了。那个大胡子叔叔说，轮到我他就把门撞开。"
+msgstr "Shitou says softly, \"They come at night to pick people. The ones they pick don't come back. The bearded uncle says when it's my turn, he's gonna bust the door down.\""
+
+msgid "石头道：西边的大胡子叔叔。他骂人的时候我就不怕了。"
+msgstr "Shitou says, \"The bearded uncle on the west. When he's cursing, I'm not scared.\""
+
+msgid "愣了一下，爬起来抓住你的衣角。"
+msgstr " is startled, scrambles up and grabs the hem of your clothes."
+
+msgid "……带我回家。"
+msgstr "...Take me home."
+
+msgid "一个黑瘦的汉子，手掌全是老茧，肩膀上一道挑担磨出来的硬皮。他穿的是河工的短褂，上头印着一个「役」字。他靠着墙坐着，眼睛半闭，像是把力气都省着。\n"
+msgstr "A dark, lean man with calluses all over his palms and a hard patch on his shoulder worn by the carrying pole. He wears the short jacket of a river laborer, stamped with the character \"Labor\". He sits against the wall with his eyes half closed, as if saving all his strength.\n"
+
+msgid "关北民夫揉着肩膀，叹了口气。\n"
+msgstr "The Frontier Laborer rubs his shoulder and sighs.\n"
+
+msgid "关北民夫低声道：……河挖不动了，人也挖不动了。\n"
+msgstr "The Frontier Laborer says quietly, \"...The river's too hard to dig, and we're too worn to dig it.\"\n"
+
+msgid "关北民夫道：俺们是关北挖河的。河工挖不动的，官府说送回家，车一拐就到了这里。"
+msgstr "The Frontier Laborer says, \"We're river diggers from Beyond the Pass. The ones who can't dig no more, the officials say they're sendin' them home, then the cart turns off and it's here.\""
+
+msgid "关北民夫道：这里的道士拿人当药材。俺亲眼看见的，不骗你。"
+msgstr "The Frontier Laborer says, \"The Daoists here treat people like medicine herbs. I saw it with my own eyes. I'm not lying to you.\""
+
+msgid "关北民夫道：押车的说俺们是兵部批的。兵部？俺们挖河，关兵部什么事？"
+msgstr "The Frontier Laborer says, \"The men on the cart said we were approved by the Ministry of War. The Ministry? We dig rivers. What's that to the Ministry of War?\""
+
+msgid "关北民夫道：西边那位是条汉子。有他骂着，俺们还敢喘气。"
+msgstr "The Frontier Laborer says, \"The man on the west is a real man. With him cursing, we still dare to breathe.\""
+
+msgid "俺们回关北！多谢恩公！"
+msgstr "We're goin' back Beyond the Pass! Thank you, savior!"
+
+msgid "逆灵宫宫主"
+msgstr "Black Palace Master"
+
+msgid "一个黑衣黑冠的道人，背对着你站在黑石坛前，双手拢在袖里。他的衣冠和别的道士一样，只是黑得更深，像是吸光的。他念经的声音不高，一句接一句没有停顿，像水从石缝里渗出来。\n"
+msgstr "A Daoist in a black robe and black cap stands with his back to you before the black stone altar, hands tucked in his sleeves. His robe and cap are like the other Daoists', only blacker, as if they drink the light. He chants in a low voice, one line after another without a pause, like water seeping out of a crack in stone.\n"
+
+msgid "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他连头都没有回。"
+msgstr "Your strike passes through Shang Jue's sleeve as through a wisp of smoke. He does not even turn his head."
+
+msgid "商玦没有回头：逆灵者，逆天地之灵而用之。你既走上坛来，便是明白人。"
+msgstr "Shang Jue does not turn. \"Those who defy the spirit defy the spirit of heaven and earth and put it to use. Since you have walked up to the altar, you are one who understands.\""
+
+msgid "商玦的声音没有起伏：供品。子时。"
+msgstr "Shang Jue's voice does not rise or fall. \"Offerings. The hour of Zi.\""
+
+msgid "后殿里没有神像。一座黑石坛立在正中，坛上一团黑焰无声地烧着，照不亮什么。商玦背对着你，念经的声音没有停。"
+msgstr "There is no idol in the Rear Hall. A black stone altar stands in the center, and on it a black flame burns without a sound, lighting nothing. Shang Jue has his back to you, and his chanting does not stop."
+
+msgid "……以身为供，以劫为师。灵不灵，逆之则生。"
+msgstr "...Make the body the offering, make the calamity the teacher. Spirit or no spirit, defy it and live."
+
+msgid "转过身来，目光在你的脸上停了一停。"
+msgstr " turns around, and his eyes rest on your face for a moment."
+
+msgid "宫主，有生人。"
+msgstr "Palace Master, a stranger."
+
+msgid "祭品自己走上坛来，是劫的意思。"
+msgstr "An offering that walks up to the altar of its own accord: that is the calamity's will."
+
+msgid "黑焰忽然向上一窜，焰心里现出一个人形——没有头。它站在坛上，两只手朝前摸索着，像在找什么。"
+msgstr "The black flame suddenly leaps up, and in its heart a human shape appears, with no head. It stands on the altar, both hands groping ahead of it as if looking for something."
+
+msgid "的手摸到了坛沿，停住了。整座后殿冷得像井底。"
+msgstr "'s hand touches the lip of the altar and stops. The whole Rear Hall goes cold as the bottom of a well."
+
+msgid "它在找头。找了五千年。子时开坛，带祭品上来，它便安静一夜。"
+msgstr "It is looking for its head. It has looked for five thousand years. At the hour of Zi, bring the offerings up to the altar, and it is quiet for a night."
+
+msgid "解下腰间一把乌黑的钥匙，看也不看，往后一抛。玄冥子接住了。"
+msgstr " unties a jet-black key from his waist and tosses it backward without looking. Xuanmingzi catches it."
+
+msgid "去，告诉底下的人：子时。"
+msgstr "Go. Tell the ones below: the hour of Zi."
+
+msgid "黑焰里的人形散成一股黑烟，坛上又只剩一团焰。"
+msgstr "The human shape in the black flame scatters into a coil of black smoke, and only the flame is left on the altar again."
+
+msgid "你戴着我们的冠，却不是我们的人。等子时。"
+msgstr "You wear our cap, but you are not one of us. Wait for the hour of Zi."
+
+msgid "转身走向坛后的黑门。门开了，门里比殿里更黑。"
+msgstr " turns and walks toward the black door behind the altar. The door opens, and beyond it is darker than the hall."
+
+msgid "子时见。"
+msgstr "See you at the hour of Zi."
+
+msgid "坛底的石缝里有什么东西在爬。两个鬼卒从坛底爬了出来——灰绿的皮，手里一柄钢叉，面目狰狞。"
+msgstr "Something is crawling in the stone cracks at the foot of the altar. Two ghost soldiers crawl out from under it, grey-green of skin, a steel fork in each hand, their faces fierce."
+
+msgid "逆灵宫大弟子"
+msgstr "Senior Disciple of the Black Palace"
+
+msgid "一个黑衣黑冠的道士，比别的道士高出半个头，站在坛边，腰上挂着一柄长剑和一串钥匙。他的脸上没有表情，眼睛却一直在动——看坛、看门、看你。\n"
+msgstr "A Daoist in a black robe and black cap, half a head taller than the others, standing by the altar with a long sword and a ring of keys at his waist. His face shows nothing, but his eyes never stop moving: the altar, the door, you.\n"
+
+msgid "玄冥子看也不看你，袖子一拂，你这一下便歪到了一边。"
+msgstr "Xuanmingzi does not even look at you. A flick of his sleeve, and your blow veers aside."
+
+msgid "玄冥子按住腰上的钥匙串：子时。"
+msgstr "Xuanmingzi lays a hand on the ring of keys at his waist. \"The hour of Zi.\""
+
+msgid "玄冥子站在崖径当中，长剑已经出鞘。崖边的绳索断了，商玦不在。他挡在你和断崖之间，没有让的意思。\n"
+msgstr "Xuanmingzi stands in the middle of the cliff path, his long sword already drawn. The rope at the cliff edge is cut, and Shang Jue is gone. He stands between you and the sheer drop, and he has no intention of giving way.\n"
+
+msgid "玄冥子冷冷道：宫主先走。你，留下。\n"
+msgstr "Xuanmingzi says coldly, \"The Palace Master goes first. You stay.\"\n"
+
+msgid "玄冥子的剑上带着一股阴风，剑过处连雾都裂开了。\n"
+msgstr "A chill wind rides on Xuanmingzi's sword, and where it passes even the mist splits.\n"
+
+msgid "看着断崖，过了很久才开口。"
+msgstr " gazes at the cliff, and speaks only after a long while."
+
+msgid "晚月庄那个女道童？我记得她。追魂那一部，她三个月就学会了。"
+msgstr "The girl attendant from Latemoon Manor? I remember her. The Soul-Chasing part, she learned in three months."
+
+msgid "宫里的孩子，学得快的都活不长——她逃得出去，算她命大。"
+msgstr "Of the children in the Palace, the quick learners do not live long. That she got out, call it her luck."
+
+msgid "道童？宫里的道童多了。"
+msgstr "Attendant girls? The Palace has plenty."
+
+msgid "宫主下了崖。他不要我了，我也不要他了。"
+msgstr "The Palace Master went down the cliff. He does not want me, and I do not want him."
+
+msgid "玄冥子冷冷道：宫主已经走了。你追不上。"
+msgstr "Xuanmingzi says coldly, \"The Palace Master is already gone. You cannot catch him.\""
+
+msgid "六阴剑"
+msgstr "Six-Chaos Sword"
+
+msgid "剑谱给了你。读到哪里是哪里——追魂一部，够你用了。"
+msgstr "The manual is yours. You will get as far as you get. The Soul-Chasing part is enough for you."
+
+msgid "剑的事以后再说。先替我看着宫里——你是我的人，管事不会多问。"
+msgstr "The sword can wait. For now, watch the Palace for me. You are my man, and the steward will not ask much."
+
+msgid "残卷带来了？给我。"
+msgstr "You brought the fragment? Give it here."
+
+msgid "要练六阴剑，带着残卷来后山找我——不是现在。宫里的事还没完。你记住这条路。"
+msgstr "To learn the Six-Chaos Sword, bring the fragment and find me on the back mountain, but not now. The Palace's business is not finished. Remember this road."
+
+msgid "残卷不在你身上，谈什么六阴剑。"
+msgstr "The fragment is not on you. What is there to say about the Six-Chaos Sword?"
+
+msgid "玄冥子冷笑：你也配问？"
+msgstr "Xuanmingzi sneers, \"You dare ask?\""
+
+msgid "天书"
+msgstr "Scripture"
+
+msgid "宫主不在了。坛上的火要有人添——续灯那一夜，站在坛前的是我。你记着。"
+msgstr "The Palace Master is gone. Someone must feed the fire on the altar. On the night of the Feeding of the Lamp, the one who stood before the altar was me. Remember that."
+
+msgid "唤首那一夜，他走在最前头，站在他身后的是我。你记着这个时辰。"
+msgstr "On the night of the Calling of the Head, he walked at the very front, and the one who stood behind him was me. Remember that hour."
+
+msgid "子时，北门的闩：门缝里一挑就落。师父屋里，书案底下的暗格。巡殿的看前不看后。"
+msgstr "The hour of Zi, the bar on the north door: one lift in the crack and it falls. In my master's room, the hidden compartment under the desk. The patrol looks forward, not back."
+
+msgid "看了看你头上的冠，又看了看断崖。"
+msgstr " looks at the cap on your head, then at the cliff."
+
+msgid "宫里的事，我自己来——可那扇门，我是进不去了。宫里的人认得我的脸：师父不要我，他们也就不要我。"
+msgstr "I will see to the Palace's business myself, but that door I cannot go through. The people in the Palace know my face: my master does not want me, so they do not want me either."
+
+msgid "师父下崖时带走了天书的上半部。下半部留在宫里：白天摊在前殿的长案上，五个人对着它诵；子时，领诵把它锁回师父屋里，书案底下的暗格。"
+msgstr "When my master went down the cliff, he took the upper half of the scripture with him. The lower half stayed in the Palace. By day it lies open on the long table in the Front Hall, and five men chant before it. At the hour of Zi, the lead chanter locks it back in my master's room, in the hidden compartment under the desk."
+
+msgid "替我做一件事，我教你一样东西。子时去，把下半部拿来。"
+msgstr "Do one thing for me, and I will teach you one thing. At the hour of Zi, go and bring me the lower half."
+
+msgid "子时北门从里面闩着。门缝里插一根薄刃往上一挑，闩就落了——那扇门我守了十年。巡殿的看前不看后。"
+msgstr "At the hour of Zi the north door is barred from inside. Slip a thin blade into the crack and lift, and the bar falls. I guarded that door for ten years. The patrol looks forward, not back."
+
+msgid "天书？你问得太早了。"
+msgstr "The scripture? You ask too early."
+
+msgid "关北的车不来了。宫主要的那扇门还在土里——你以为踏平一个工地，就断得了他的念头？"
+msgstr "The carts from Beyond the Pass are not coming any more. The door the Palace Master wants is still in the ground. You think flattening one work site cuts off his purpose?"
+
+msgid "关北的车还在走。你救了几个？四个？车上这个月少了两个人，宫主连眉毛都没动一下。"
+msgstr "The carts from Beyond the Pass are still running. How many did you save? Four? This month the cart carries two fewer, and the Palace Master did not so much as raise an eyebrow."
+
+msgid "关北？挖不动的人从那儿来。你问这个做什么。"
+msgstr "Beyond the Pass? That is where the ones too worn to dig come from. Why do you ask?"
+
+msgid "人都在山下了。茅山的人看着，不打，也不骂。"
+msgstr "Everyone is at the foot of the mountain. The men of Mount Mao watch them. They do not beat them, and they do not curse them."
+
+msgid "看了你很久，忽然笑了一声。"
+msgstr " looks at you for a long time, then suddenly laughs once."
+
+msgid "你戴着我们的冠，却不是我们的人。我早该想到。"
+msgstr "You wear our cap, but you are not one of us. I should have thought of it."
+
+msgid "把手里的剑丢在崖径上。"
+msgstr " throws the sword in his hand down on the cliff path."
+
+msgid "商玦没回来，坛上的灯也没人添了。……好，下山。茅山要关就关吧。"
+msgstr "Shang Jue has not come back, and no one feeds the lamp on the altar any more. ...Very well, down the mountain. If Mount Mao wants to shut the place, let it."
+
+msgid "下山？我在这里等的东西还没来。"
+msgstr "Down the mountain? What I am waiting for here has not come."
+
+msgid "玄冥子靠着后墙坐着，看着断崖，没有说话。\n"
+msgstr "Xuanmingzi sits against the back wall, looking at the cliff and saying nothing.\n"
+
+msgid "接过天书，翻开第一页，看了很久。"
+msgstr " takes the scripture, opens the first page, and looks at it for a long time."
+
+msgid "……是它。"
+msgstr "...It is this."
+
+msgid "宫主不在了，宫里那几个还在等他回来。坛上的火要有人添——续灯那一夜，站在坛前的是我。"
+msgstr "The Palace Master is gone, and the ones in the Palace are still waiting for him to come back. Someone must feed the fire on the altar. On the night of the Feeding of the Lamp, the one who stood before the altar was me."
+
+msgid "从怀里摸出一册黑布面的手抄本，递给你。"
+msgstr " takes a hand-copied booklet with a black cloth cover from inside his robe and hands it to you."
+
+msgid "我抄的追魂剑谱。宫里的六阴剑，都从这一部学起——晚月庄那个蒙着面的女杀手，使的也是它。是这里教的。"
+msgstr "The Soul-Chasing sword manual, which I copied. The Palace's Six-Chaos Sword is learned starting from this part. The masked woman assassin at Latemoon Manor uses it too. It was taught here."
+
+msgid "天殇……我也没见过。"
+msgstr "Tianshang... I have never seen it either."
+
+msgid "师父以为宫里离不了他。唤首那一夜，宫里倾巢下湖，他走在最前头——他回头的时候，站在他身后的是我。过了那一夜，逆灵宫换主人。"
+msgstr "My master thought the Palace could not do without him. On the night of the Calling of the Head, the whole Palace went down to the lake, and he walked at the very front. When he looked back, the one standing behind him was me. After that night the Black Palace changed masters."
+
+msgid "这东西你从哪里拿来的？……放回去，别让我看见。"
+msgstr "Where did you get this? ...Put it back. Do not let me see it."
+
+msgid "晚了。宫里已经当它丢了——你拿回来，倒要有人问它这些日子在谁手里。"
+msgstr "Too late. The Palace already counts it lost. If you bring it back, people will ask whose hands it was in all this time."
+
+msgid "把逆灵天书的残卷还给玄冥子。\n他会当你是他的人，宫里没人会问起那一夜——可禁书就回了逆灵宫，林忌不会高兴。\n还给他吗？"
+msgstr "Return the fragment of the Black Scripture to Xuanmingzi.\nHe will take you for his man, and no one in the Palace will ask about that night. But the forbidden book goes back to the Black Palace, and Lin Ji will not be pleased.\nReturn it to him?"
+
+msgid "接过残卷，在手里掂了掂，收进怀里。"
+msgstr " takes the fragment, weighs it in his hand, and tucks it into his robe."
+
+msgid "……你送回来了。"
+msgstr "...You brought it back."
+
+msgid "宫主不要我了，我也不要他了。宫里的事，我自己来。"
+msgstr "The Palace Master does not want me, and I do not want him. The Palace's business I will handle myself."
+
+msgid "戴好冠，从正门进去。管事那里我打过招呼：你是我的人。没人会问起那一夜。"
+msgstr "Put your cap on and go in by the main gate. I have had a word with the steward: you are my man. No one will ask about that night."
+
+msgid "带着它来后山找我——不是现在。"
+msgstr "Bring it to me on the back mountain, but not now."
+
+msgid "一个人形的黑影，没有头。它的脖颈处是一片比夜更黑的空，两只手朝前伸着，一下一下地摸索。它不出声——它没有嘴。\n"
+msgstr "A human shape of black shadow, with no head. Where its neck should be is a blackness darker than night, and its two hands reach forward, groping, again and again. It makes no sound. It has no mouth.\n"
+
+msgid "你这一下从黑影里穿了过去，什么也没碰到。"
+msgstr "Your blow passes through the black shadow and touches nothing."
+
+msgid "一个灰绿皮肤、面目狰狞的鬼卒，手里一柄钢叉。它的眼眶里没有眼珠，只有两点青火。\n"
+msgstr "A Ghost Soldier of grey-green skin and fierce face, a steel fork in its hand. There are no eyeballs in its sockets, only two points of blue flame.\n"
+
+msgid "鬼卒喝道：孽障！随我赴阴司受审吧。\n"
+msgstr "The Ghost Soldier shouts, \"Wretch! Come with me to the underworld court for judgment.\"\n"
+
+msgid "鬼卒的钢叉带起一股腥风。\n"
+msgstr "The Ghost Soldier's steel fork brings a rank wind.\n"
+
+msgid "鬼卒一声不响地散成一股黑烟，钢叉当啷掉在地上。"
+msgstr "The Ghost Soldier scatters into a puff of black smoke without a sound, and the steel fork clatters to the ground."
+
+msgid "一个黑衣黑冠的道士，靠着甬道的石壁站着，腰上多了一把乌黑的钥匙，一只手一直按在上面。他听见脚步声就直起身来，先看冠，再看脸。\n"
+msgstr "A Daoist in a black robe and black cap, leaning against the stone wall of the passage, a jet-black key at his waist that he keeps one hand on. At the sound of footsteps he straightens and looks at the cap first, then the face.\n"
+
+msgid "狱卒道士摸了摸腰上的钥匙，往西边那间牢房瞟了一眼。\n"
+msgstr "The Jailer Daoist touches the key at his waist and glances toward the cell on the west side.\n"
+
+msgid "狱卒道士低声道：子时……还有两个时辰。\n"
+msgstr "The Jailer Daoist says quietly, \"The hour of Zi... two hours to go.\"\n"
+
+msgid "狱卒道士按住腰上的钥匙：大弟子刚丢下来的。子时开坛，你等着。"
+msgstr "The Jailer Daoist keeps a hand on the key at his waist. \"The senior disciple just tossed it down. The altar opens at the hour of Zi. You wait.\""
+
+msgid "狱卒道士朝西边一偏头：西边那间。子时第一个就是他。"
+msgstr "The Jailer Daoist jerks his head toward the west. \"The one on the west. First one up at the hour of Zi.\""
+
+msgid "一个黑衣黑冠的道士，提着一盏罩着黑纱的灯，在前殿里一步一步地走。走到北门前，他总要停一停，侧耳听一会儿门里的动静，再转身往回走。\n"
+msgstr "A Daoist in a black robe and black cap, carrying a lamp hooded in black gauze, walks step by step through the Front Hall. Each time he reaches the north door he stops, listens a while to what goes on behind it, then turns and walks back.\n"
+
+msgid "子时了，谁在这里！"
+msgstr "It is the hour of Zi! Who is there!"
+
+msgid "巡殿道士举灯照了照你的脸，一把扭住你的胳膊，把你推出了殿门。"
+msgstr "The Hall Patrol Daoist raises the lamp to your face, twists your arm, and shoves you out of the hall door."
+
+msgid "你在前院的香炉边站到了天亮。管事道士出来看了你一眼，什么也没说，在簿子上记了一笔。"
+msgstr "You stand by the censer in the front courtyard until dawn. The Steward Daoist comes out, looks at you, says nothing, and makes a mark in the book."
+
+msgid "巡殿道士举灯照了照你的脸：「又是你。」"
+msgstr "The Hall Patrol Daoist raises the lamp to your face: \"You again.\""
+
+msgid "你又在前院的香炉边站到了天亮。管事道士这回没看你，只在簿子上又记了一笔。"
+msgstr "You stand by the censer in the front courtyard until dawn again. This time the Steward Daoist does not look at you, and only makes another mark in the book."
+
+msgid "巡殿道士的灯在北门前停了一停。\n"
+msgstr "The Hall Patrol Daoist's lamp stops before the north door for a moment.\n"
+
+msgid "巡殿道士的脚步声在殿里一下一下地响。\n"
+msgstr "The Hall Patrol Daoist's footsteps ring in the hall, one step at a time.\n"
+
+msgid "巡殿道士道：子时，谁也不许近北门。回你的铺上去。"
+msgstr "The Hall Patrol Daoist says, \"At the hour of Zi no one comes near the north door. Back to your bunk.\""
+
+msgid "巡殿道士道：回你的铺上去。"
+msgstr "The Hall Patrol Daoist says, \"Back to your bunk.\""
+
+msgid "巡殿道士厉声道：后殿重地，拿下！\n"
+msgstr "The Hall Patrol Daoist cries sternly, \"The Rear Hall is a forbidden place. Seize him!\"\n"
+
+msgid "一个黑衣黑冠的道士，比别的狱卒老些，脸上一层酒色，腰上挂着一把乌黑的钥匙。他背靠着铁栅门站着，眼睛一直往石阶边那两只酒坛上瞟。\n"
+msgstr "A Daoist in a black robe and black cap, older than the other jailers, his face flushed with drink, a jet-black key at his waist. He stands with his back against the iron grate, his eyes always sliding to the two wine jars by the stone steps.\n"
+
+msgid "狱卒道士咂了咂嘴，又往酒坛那边瞟了一眼。\n"
+msgstr "The Jailer Daoist smacks his lips and glances at the wine jars again.\n"
+
+msgid "狱卒道士用钥匙敲了敲铁栅门：老实点。\n"
+msgstr "The Jailer Daoist raps the iron grate with his key. \"Behave.\"\n"
+
+msgid "狱卒道士按住腰上的钥匙：新关的三个，管事吩咐过，谁也不许近。"
+msgstr "The Jailer Daoist keeps a hand on the key at his waist. \"The three just locked in, the steward said nobody's to go near.\""
+
+msgid "酒"
+msgstr "Wine"
+
+msgid "狱卒道士瞪了你一眼，又咽了口唾沫：当值不许喝。……坛子里就剩小半坛了，宫里的酒淡得像水。"
+msgstr "The Jailer Daoist glares at you and swallows. \"No drinkin' on duty. ...There's barely half a jar left, and the Palace's wine is thin as water.\""
+
+msgid "牢里"
+msgstr "The Cells"
+
+msgid "狱卒道士朝铁栅门里一偏头：前些天一车上来的。子时之前，管事不许人近。"
+msgstr "The Jailer Daoist jerks his head at the iron grate. \"Came up on one cart a few days back. Till the hour of Zi, the steward lets nobody near.\""
+
+msgid "醉倒在地"
+msgstr "Dead Drunk on the Floor"
+
+msgid "狱卒道士靠着铁栅门打着呼噜，嘴角挂着酒涎。\n"
+msgstr "The Jailer Daoist snores against the iron grate, wine drool at the corner of his mouth.\n"
+
+msgid "狱卒道士含含糊糊地嘟囔了一句什么，翻了个身。\n"
+msgstr "The Jailer Daoist mumbles something unclear and rolls over.\n"
+
+msgid "打了个酒嗝，手一推，什么也没接住。"
+msgstr " belches, shoves out a hand, and catches nothing."
+
+msgid "空的？拿老子寻开心。"
+msgstr "Empty? Ya makin' a fool of me."
+
+msgid "四下看了看，一把接过去，仰脖就灌。"
+msgstr " looks around, snatches it, and tips back his head to gulp it down."
+
+msgid "好酒……比宫里的烈……"
+msgstr "Good wine... stronger'n the Palace's..."
+
+msgid "灌到第三口，眼睛就直了，顺着铁栅门滑坐下去，打起了呼噜。"
+msgstr " is cross-eyed by the third gulp, slides down the iron grate to the ground and starts to snore."
+
+msgid "你从他腰上解下了那把乌黑的钥匙。他咂了咂嘴，没醒。\n"
+msgstr "You unhook the jet-black key from his belt. He smacks his lips and does not wake.\n"
+
+msgid "当值不喝。"
+msgstr "No drinkin' on duty."
+
+msgid "狱卒道士拔出短剑，吼道：地牢有生人！\n"
+msgstr "The Jailer Daoist draws his short sword and roars, \"A stranger in the dungeon!\"\n"
+
+msgid "一个黑衣黑冠的道士，歪在石阶边的长凳上打盹，脑袋一点一点的。腰上空着——钥匙挂在他头顶石壁上的一枚铁钉上。\n"
+msgstr "A Daoist in a black robe and black cap, slumped on the bench by the stone steps, dozing, his head nodding. His belt is bare: the key hangs on an iron nail in the wall above his head.\n"
+
+msgid "狱卒道士的头一点，又一点，鼾声在甬道里来回地撞。\n"
+msgstr "The Jailer Daoist's head nods, and nods again, and his snores knock back and forth along the passage.\n"
+
+msgid "一个四十来岁的妇人，粗布的褂子扯破了一只袖子，头巾不知丢在了哪里。她坐在草席上，两只手攥着膝头的布，攥得指节发白。听口音是槐阳那边的人。\n"
+msgstr "A woman of about forty, the sleeve of her coarse jacket torn, her headscarf lost somewhere. She sits on the straw mat with both hands clutching the cloth over her knee until the knuckles are white. By her accent she is from the Huaiyang side.\n"
+
+msgid "妇人低声念叨着一个名字，念一遍，停一停。\n"
+msgstr "The woman murmurs a name, says it once, and stops.\n"
+
+msgid "妇人道：我男人在关北挖河……他们拿着册子挨家来抓，说他欠了役，拿我来抵。"
+msgstr "The woman says quietly, \"My man is digging the river Beyond the Pass... They came with the register door to door, said he owed his labor, and took me in his place.\""
+
+msgid "妇人摇摇头，说不出话来。"
+msgstr "The woman shakes her head and cannot speak."
+
+msgid "看见铁栅门开着，愣了一下，一把抓住你的袖子。"
+msgstr " sees the iron door standing open, stares, and clutches your sleeve."
+
+msgid "我家石头……王石头，在关北挖河。他们说他夜里跑了，拿着册子来，拿我抵他。……他跑出来了？"
+msgstr "My Shitou... Wang Shitou, he's digging the river Beyond the Pass. They said he ran off in the night, came with the register, and took me in his place. ...Did he get out?"
+
+msgid "工地出了事，人都散了。他们拿着册子挨家来抓，城外八户——我是头一户。"
+msgstr "There was trouble at the work site and everyone scattered. They came door to door with the register: eight households outside the city, and I was the first."
+
+msgid "我男人在关北挖河。他们说他欠了役，拿着册子来，拿我抵。"
+msgstr "My man is digging the river Beyond the Pass. They said he owed his labor, came with the register, and took me in his place."
+
+msgid "我走。货栈那边有个侧门，门槛低，他们夜里不看。"
+msgstr "I'm going. There's a side door by the storehouse with a low sill, and they don't watch it at night."
+
+msgid "一个精瘦的货郎，鞋跑丢了一只，额角一块青紫。他的货担不见了，只剩腰上一只拨浪鼓，他一直用手捂着，不让它出声。\n"
+msgstr "A wiry peddler, one shoe lost, a bruise purple on his forehead. His pack is gone, and only a rattle-drum is left at his waist, which he keeps covering with his hand so it will not make a sound.\n"
+
+msgid "货郎捂着腰上的拨浪鼓，竖着耳朵听甬道里的动静。\n"
+msgstr "The peddler covers the rattle-drum at his waist and cocks his ear to the sounds in the passage.\n"
+
+msgid "货郎道：我挑着担子过野羊山，转角那儿碰上一辆纳供车。车上的道士问我一个人走？我说一个人。……就到这儿了。"
+msgstr "The peddler says, \"I was carrying my pack over Goathill, and at the bend I ran into a tribute cart. The Daoist on the cart asked, 'Walking alone?' I said, 'Alone.' ...And here I am.\""
+
+msgid "货郎道：他们问我几岁，属什么，问完了在册子上写。写什么，我不认得字。"
+msgstr "The peddler says, \"They asked how old I was and what year I was born under, and wrote it down in the book when they were done. What they wrote, I can't read.\""
+
+msgid "从草席上跳起来，又赶紧压低了身子。"
+msgstr " jumps up from the straw mat, then quickly ducks low again."
+
+msgid "门……是你开的？你放我？"
+msgstr "The door... you opened it? You're letting me go?"
+
+msgid "我不问。我从货栈的侧门走，再也不过野羊山了。"
+msgstr "I won't ask. I'm going out by the storehouse side door, and I'm never crossing Goathill again."
+
+msgid "一个上了年纪的采药人，背上的竹篓被收走了，腰里还别着一把小药锄的空套子。他的手上全是草汁染的绿，指甲缝里塞着泥。\n"
+msgstr "An elderly herb gatherer, his bamboo basket taken away, only the empty sheath of a small herb hoe still tucked at his waist. His hands are green all over from plant juice, and mud is packed under his nails.\n"
+
+msgid "采药人数着墙上的刻痕，嘴里念念有词。\n"
+msgstr "The herb gatherer counts the scratches on the wall, muttering under his breath.\n"
+
+msgid "北麓"
+msgstr "North Foot"
+
+msgid "采药人道：北麓背阴，有一种黑根的草，雪亭的药铺收得贵。我往上多走了半里，看见崖顶上一个绞盘，在往上吊箱子。……我不该看的。"
+msgstr "The herb gatherer says, \"The north foot is in shade, and there is a black-rooted herb the Snow Pavilion apothecary pays dear for. I climbed half a li farther than I should and saw a winch on the cliff top hauling crates up. ...I should not have looked.\""
+
+msgid "采药人道：丹房里那炉子，烧的不是药。我闻得出来。"
+msgstr "The herb gatherer says, \"That furnace in the Elixir Room does not burn medicine. I can tell by the smell.\""
+
+msgid "扶着石壁站起来，腿一软，又撑住了。"
+msgstr " grips the stone wall and stands, his legs give, and he steadies himself."
+
+msgid "老汉在山里走了四十年，没想到栽在一座道观里。"
+msgstr "Forty years in the mountains, and the old man never thought he would come to grief in an abbey."
+
+msgid "货栈那边的侧门我来时看见了。你别送，送了你也走不脱。"
+msgstr "I saw the side door by the storehouse when I came in. Do not walk me there. You would never get away either."
+
+msgid "玄冥子站在前院当中的铁香炉边，长剑已经出鞘。他像是等了很久。\n"
+msgstr "Xuanmingzi stands by the iron censer in the middle of the front courtyard, his long sword already drawn. He looks as if he has waited a long time.\n"
+
+msgid "看着你从门口走进来，没有动。"
+msgstr " watches you come in at the gate, and does not move."
+
+msgid "你戴着我们的冠，却不是我们的人。"
+msgstr "You wear our cap, but you are not one of us."
+
+msgid "第一眼我就说过。我留着你，是想看你替谁做事。"
+msgstr "I said so at first sight. I kept you because I wanted to see whom you work for."
+
+msgid "那卷残卷没有回宫。宫里等了它很久。"
+msgstr "The fragment never came back to the Palace. The Palace waited for it a long time."
+
+msgid "那一夜地牢空了。闯进来的人，就是你。"
+msgstr "That night the dungeon was emptied. The one who broke in was you."
+
+msgid "子时贴在北门外听的，也是你。"
+msgstr "The one who pressed against the north door at the hour of Zi, listening, was also you."
+
+msgid "铁匣里那本名册，是你拿走的。"
+msgstr "The register in the iron box, you are the one who took it."
+
+msgid "拿下。"
+msgstr "Seize the intruder."
+
+msgid "前院里的道士都转过身来。你头上那顶冠，不灵了。\n"
+msgstr "The Daoists in the front courtyard all turn around. The cap on your head no longer works.\n"
+
+msgid "他的剑还垂着，没有动。这一仗你打不过——趁他还没出手，走：出了前院的门，下山去。逃得出去，就算过了这一关。\n"
+msgstr "His sword still hangs and he has not moved. You cannot win this fight. Before he strikes, go: out of the courtyard gate and down the mountain. If you get away, you have passed this trial.\n"
+
+msgid "玄冥子撑着剑退进了前殿：「北麓的路，你走不远。」"
+msgstr "Xuanmingzi props himself on his sword and retreats into the Front Hall: \"The road from the North Foot, you will not get far on it.\""
+
+msgid "玄冥子冷冷道：茅山派你来的？\n"
+msgstr "Xuanmingzi says coldly, \"Mount Mao sent you?\"\n"
+
+msgid "玄冥子的剑上带着一股阴风，香炉里的灰都飞了起来。\n"
+msgstr "A chill wind rides on Xuanmingzi's sword, and the ashes in the censer fly up.\n"
+
+msgid "领诵道士站在前院当中的铁香炉边，手里没有木鱼，换了一柄剑。他抬着头——你头一回看见他的脸。\n"
+msgstr "The Lead Chanter stands by the iron censer in the middle of the front courtyard, a sword in his hand instead of the wooden fish. His head is raised: it is the first time you have seen his face.\n"
+
+msgid "抬起头来看你。这是他头一回抬头。"
+msgstr " lifts his head and looks at you. It is the first time he has looked up."
+
+msgid "大弟子那一夜在后殿就说过。我一直记着。"
+msgstr "The senior disciple said it that night in the Rear Hall. I have remembered it ever since."
+
+msgid "他的剑还垂着，没有动。宫里的人都在这儿，这一仗不必打——趁他还没出手，走：出了前院的门，下山去。逃得出去，就算过了这一关。\n"
+msgstr "His sword still hangs and he has not moved. All the Palace's people are here, and this fight need not be fought. Before he strikes, go: out of the courtyard gate and down the mountain. If you get away, you have passed this trial.\n"
+
+msgid "一个黑衣黑冠的道士，剑提在手里，站在山路转角的风口上，眼睛盯着上山下山的每一个人。\n"
+msgstr "A Daoist in a black robe and black cap stands in the windy corner of the mountain road, a sword in his hand, his eyes on everyone who goes up or down.\n"
+
+msgid "追杀的道士喝道：戴着宫里的冠替茅山做事，你当北麓没有人了？\n"
+msgstr "The Pursuing Daoist shouts, \"Wearing the Palace's cap and working for Mount Mao! You think the North Foot has no one left?\"\n"
+
+msgid "追杀的道士朝山上喊了一声，风把声音吹散了。\n"
+msgstr "The Pursuing Daoist shouts up the mountain, and the wind scatters his voice.\n"
+
+msgid "野羊山北麓的崖顶。脚下就是那道裂口，一根粗麻绳从绞盘上绕下去，没进黑黝黝的口子里——山路转角的纳供就是从这里吊上来的。\n吊上来的箱子在平台上堆了一人高，箱板上烙着「羊」字。北边一条货道沿着山脊往北麓去，尽头隐约是一片黑砖的屋脊。\n"
+msgstr "The cliff top at the North Foot of Goathill. Right below your feet is that crack; a thick hemp rope winds off the winch and down into the dark mouth of it. The tribute from the bend in the mountain road is hauled up from here.\nThe crates hauled up are piled man-high on the platform, the boards branded with the character \"Goat\". A freight path runs north along the ridge toward the North Foot, and at its end, faintly, is a stretch of black-brick roof ridges.\n"
+
+msgid "一条被车轮和脚印压实的货道，顺着北麓的山脊往北去。两旁是枯黄的长草和风化的黑灰色岩石，没有一棵像样的树。\n路北头立着一座全用黑砖砌成的大道观，山门敞着，门里黑幡垂地；靠东有一条岔路绕向道观的东墙根。\n"
+msgstr "A freight path packed hard by wheels and footprints runs north along the ridge of the North Foot. On both sides are yellowed long grass and weathered black-gray rock, and not a tree worth the name.\nAt the north end of the path stands a great Daoist abbey built entirely of black brick, its gate open and black banners hanging to the ground inside; toward the east a side path winds round to the foot of the abbey's east wall.\n"
+
+msgid "道观东墙根下的一块空地，车辙到这里为止。黑砖墙上开着一扇矮门，门楣上没有字，门槛磨得发白——供品是从这里进去的。\n"
+msgstr "A patch of bare ground under the abbey's east wall, where the wheel ruts end. A low door is set in the black-brick wall; there is no writing over the lintel, and the threshold is worn white. This is where the tribute goes in.\n"
+
+msgid "逆灵宫的山门。黑砖砌的门楼有两丈高，门扇敞着，门洞里凉得像井底。两侧各挑着一盏暗红的灯笼，白天也点着。\n门房的桌上摊着一本簿子，桌后坐着一个黑衣黑冠的道士。\n"
+msgstr "The gate of the Black Palace. The gate tower of black brick is twenty feet high, its doors standing open, and the passage through is as cold as the bottom of a well. On either side hangs a dim red lantern, lit even by day.\nOn the gatehouse table lies an open book, and behind the table sits a Daoist in a black robe and black cap.\n"
+
+msgid "黑砖铺地的大院子，踩上去没有一点声响。院当中一只黑铁香炉，烧的不是香，是一股子苦味。四面黑幡垂地，风过时幡上的字一闪一闪，看不清写的什么。\n北边是前殿，殿门关着，推一推就开；东侧一排矮房是货栈。\n"
+msgstr "A big courtyard paved in black brick, and no sound when you step on it. In the middle stands a black iron censer, and what burns in it is not incense but a bitter smell. Black banners hang to the ground on all four sides, and when the wind passes, the writing on them flickers, too faint to read.\nTo the north is the Front Hall, its door shut, though a push opens it; a row of low rooms on the east side is the storehouse.\n"
+
+msgid "一间堆满箱笼的矮房，箱子上都烙着「羊」字，有的开着，露出金帛、腌肉和成捆的麻绳。角落里几只箱子钉得死紧，箱盖上用朱砂画着符。\n南墙的矮门通向墙外，西边的门进前院。\n"
+msgstr "A low room packed with crates and chests, all branded \"Goat\"; some stand open, showing gold and silk, cured meat, and bundles of hemp rope. In a corner a few crates are nailed down tight, with talismans drawn on the lids in cinnabar.\nThe low door in the south wall leads outside the wall; the door on the west goes to the front courtyard.\n"
+
+msgid "逆灵宫的前殿。殿里没有神像，正中一张乌黑的长案，案上供的是一卷摊开的黑皮经书。五个黑衣黑冠的道士面壁跪在蒲团上诵经，领诵的敲着木鱼，一下一下，谁进来都不抬头。诵的字句一个也听不懂，只觉得殿里比外头冷。\n西边一道门通丹房；北边的门紧闭着，门后隐约也有诵经声。\n"
+msgstr "The Front Hall of the Black Palace. There is no idol in the hall. In the center is a long jet-black table, and on it, offered up, a black-leather scripture lies open. Five Daoists in black robes and black caps kneel on rush cushions facing the wall, chanting, while the lead chanter strikes a wooden fish, one beat at a time; no one raises his head for whoever comes in. Not a word of the chant can be understood, only that the hall is colder than outside.\nA door to the west leads to the Elixir Room; the door to the north is shut, and behind it there is faint chanting too.\n"
+
+msgid "一间烟气熏黑的屋子。正中一座三足的铜丹炉，炉火没有熄，炉口里的火苗是青的，不是红的。四壁的药架上摆满了罐子，罐子上贴的签子写的不是药名，是地名和日子。\n东门回前殿，北门进账房；西南角上一道石阶往下，黑得看不见底。\n"
+msgstr "A room blackened with smoke. In the center, a three-legged bronze elixir furnace, its fire not out, the flame in its mouth blue, not red. The medicine shelves on all four walls are packed with jars, and the labels pasted on them are not drug names but place names and dates.\nThe east door goes back to the Front Hall, the north door into the Counting Room; in the southwest corner a flight of stone steps goes down, too black to see the bottom.\n"
+
+msgid "逆灵宫的账房，比丹房还小。一张乌木大案占了半间屋，案上摊着一本账册，旁边一叠盖了朱印的文书，压着一方乌黑的镇纸。墙上挂着算盘，算珠磨得发亮。\n门在南边，通丹房。\n"
+msgstr "The Black Palace's Counting Room, smaller even than the Elixir Room. A big ebony desk takes up half of it, a ledger lying open on the desk, beside it a stack of documents with vermilion seals, held down by a jet-black paperweight. An abacus hangs on the wall, its beads rubbed shiny.\nThe door is on the south side, and leads to the Elixir Room.\n"
+
+msgid "丹房石阶底下的甬道，低得要弯腰。墙上一盏松油灯忽明忽暗，照着三扇铁栅门：西、北、东各一扇，锁都是新的。地上一层潮气，墙根有抓挠过的痕迹。\n石阶在南边，上去是丹房。\n"
+msgstr "The passage at the bottom of the Elixir Room's stone steps, so low you must stoop. A pine-oil lamp on the wall flickers, lighting three iron-grated doors, one each to the west, north and east, all with new locks. The floor is damp, and there are claw marks at the foot of the wall.\nThe steps are to the south; up them is the Elixir Room.\n"
+
+msgid "一间石头凿出来的牢房，只有一张草席、一只破碗。墙上用指甲刻了一排又一排的道道，数到一半刻不动了。\n"
+msgstr "A cell cut out of stone, with only a straw mat and a broken bowl. On the wall, row after row of scratches made with fingernails, which stop partway through a count, the hand too weak to carve more.\n"
+
+msgid "一间石头凿出来的牢房，比西边那间还小。草席上放着半块干饼，墙角摆着几颗排成一排的小石子，像是谁在玩。\n"
+msgstr "A cell cut out of stone, smaller than the one to the west. On the straw mat lies half a dry cake, and in the corner a few pebbles are set out in a row, as if someone were playing.\n"
+
+msgid "一间石头凿出来的牢房，两张草席并排铺着。墙上用炭画了一条河，河边画着一排小人在挖土。\n"
+msgstr "A cell cut out of stone, two straw mats laid side by side. On the wall someone has drawn a river in charcoal, and along the river a row of little figures digging earth.\n"
+
+msgid "逆灵宫的后殿。殿里没有神像，正中一座黑石砌的坛，坛上一团黑焰无声地烧着，照不亮什么，只把坛边的影子拉得老长。四壁的黑幡比前殿的更高，幡上的字是暗红的，像血写的。\n南门回前殿。坛后有一道黑门，门上一个字也没有。\n"
+msgstr "The Rear Hall of the Black Palace. There is no idol in the hall. In the center stands an altar built of black stone, and on it a black flame burns without a sound, lighting nothing, only stretching the shadows at the altar's edge long. The black banners on the four walls hang higher than the Front Hall's, the writing on them dark red, as if written in blood.\nThe south door goes back to the Front Hall. Behind the altar is a black door with not a single character on it.\n"
+
+msgid "商玦的居所，比后殿暖，暖得不自然。一张乌木书案，案上笔墨整齐；靠墙一座书架，空了——架上的灰尘留着一排书脊的印子。案角一只黑匣，开着，里面什么也没有。\n南边的黑门回后殿；北墙一扇小门，门外是风声。\n"
+msgstr "Shang Jue's quarters, warmer than the Rear Hall, warm in a way that is not natural. An ebony desk, brushes and ink set in order on it; against the wall a bookshelf, empty, the dust on it keeping the marks of a row of spines. On the corner of the desk sits a black box, open, with nothing inside.\nThe black door to the south goes back to the Rear Hall; in the north wall is a small door, and outside it, the sound of wind.\n"
+
+msgid "逆灵宫后山的崖径，窄得只容一人，一边是黑砖的后墙，一边是深不见底的崖。风从崖底上来，带着雾。崖径往北走到头是断崖。\n南边的小门回宫主的居所。\n"
+msgstr "The cliff path behind the Black Palace, so narrow only one can pass, the black-brick back wall on one side and a bottomless drop on the other. Wind rises from the foot of the cliff, bringing mist. Going north, the path ends at a sheer cliff.\nThe small door to the south goes back to the Palace Master's quarters.\n"
+
+msgid "崖径的尽头。一根绳索拴在崖边的铁桩上，另一头垂进雾里——绳子在三尺外被割断了，断口新得发白。再往前一步就是空的。\n"
+msgstr "The end of the cliff path. A rope is tied to an iron stake at the cliff's edge, and its other end hangs down into the mist; three feet out, the rope has been cut, the cut end new and white. One step farther and there is nothing.\n"
+
+msgid "铁栅门锁着，锁是新的，摇一摇纹丝不动。钥匙不在这里。"
+msgstr "The iron grate is locked, the lock new, and it does not budge when you shake it. The key is not here."
+
+msgid "铁栅门锁着。栅栏里有人往后缩了缩。"
+msgstr "The iron grate is locked. Inside, someone shrinks back a little."
+
+msgid "铁栅门锁着。里面的人抬起头看了看你，又低下去。"
+msgstr "The iron grate is locked. The people inside lift their heads to look at you, then lower them again."
+
+msgid "下到山路"
+msgstr "Climb Down to the Road"
+
+msgid "你抓住麻绳，顺着裂口里的岩壁一点点溜下去。绳子磨得手心发烫，脚下终于踩到了山路的石头。\n"
+msgstr "You grip the hemp rope and slide down along the rock wall inside the crack, bit by bit. The rope burns your palms, and at last your feet touch the stones of the road.\n"
+
+msgid "追出去"
+msgstr "Go After Him"
+
+msgid "你推开小门，风裹着雾扑进来。崖径上空无一人。\n"
+msgstr "You push open the small door, and the wind rushes in with the mist. The cliff path is empty.\n"
+
+msgid "你推开小门，风裹着雾扑进来。\n"
+msgstr "You push open the small door, and the wind rushes in with the mist.\n"
+
+msgid "后门外是后山的崖径，商玦刚从这里出去，玄冥子跟在后头替他断后。追出去，要和玄冥子打一场，也赶不回地牢了——救人和追宫主，只来得及一件。"
+msgstr "Outside the back door is the cliff path behind the mountain; Shang Jue has just gone out this way, and Xuanmingzi follows after to cover his retreat. If you go after him, you will have to fight Xuanmingzi, and you will not get back to the dungeon either: saving the prisoners or chasing the Palace Master, there is time for only one."
+
+msgid "你推开小门，风裹着雾扑进来。崖径上有脚步声，往北去了。\n"
+msgstr "You push open the small door, and the wind rushes in with the mist. There are footsteps on the cliff path, going north.\n"
+
+msgid "添炭"
+msgstr "Add Charcoal"
+
+msgid "炉膛里的炭够烧到明天了。\n"
+msgstr "There is charcoal enough in the furnace to burn till tomorrow.\n"
+
+msgid "你从墙角的炭筐里铲了三铲黑炭，添进丹炉。青火舔上来，炭不红，一块一块地白下去，变成了灰。炉身还是冰凉的。\n"
+msgstr "You shovel three scoops of black charcoal from the basket in the corner into the furnace. The blue flame licks up, and the charcoal does not glow red but goes white lump by lump and turns to ash. The body of the furnace is still ice cold.\n"
+
+msgid "炉边托盘里的丹丸少了几颗。你没问。\n"
+msgstr "A few of the pills on the tray by the furnace are missing. You do not ask.\n"
+
+msgid "墙角一筐黑炭。没人让你碰那团青火。\n"
+msgstr "A basket of black charcoal in the corner. No one told you to touch that blue flame.\n"
+
+msgid "点箱"
+msgstr "Count Crates"
+
+msgid "箱子点过了：野羊寨的二十三只，关北的九只，画符的四只。\n"
+msgstr "Crates counted: twenty-three from Goathill Stockade, nine from Beyond the Pass, four with talismans drawn on them.\n"
+
+msgid "你一只一只点过去。烙着「羊」字的二十三只，是野羊寨的供：绸缎、腌肉、麻绳。\n"
+msgstr "You count them one by one. The twenty-three branded \"Goat\" are Goathill Stockade's tribute: silk, cured meat, hemp rope.\n"
+
+msgid "关北来的九只，封条上盖着「槐阳河工所」的戳，戳底下压着半方朱印——是「兵部之印」的「部」字。\n"
+msgstr "The nine from Beyond the Pass have seals stamped on the seam strips: the \"Huaiyang River Works Office\", and under the stamp half a vermilion seal, the \"Ministry\" of \"Seal of the Ministry of War\".\n"
+
+msgid "还有四只画着符，封条是黑的，没有字。货栈道士瞪了你一眼：「那是祭，不许碰。」\n"
+msgstr "Four more have talismans drawn on them, with black seal strips and no writing. The Storehouse Daoist glares at you: \"Those are offerings. Do not touch.\"\n"
+
+msgid "货栈里的箱子堆了半屋。货栈道士在数，没你的事。\n"
+msgstr "The crates in the storehouse are piled half the room. The Storehouse Daoist is counting; it is none of your business.\n"
+
+msgid "你已经会了。回蒲团上去。"
+msgstr "You already know it. Back to your cushion."
+
+msgid "管事送来的？我念上句，你接下句。"
+msgstr "Sent by the steward? I give the first half, and you give the second."
+
+msgid "领诵道士敲了一下木鱼：「逆灵者——」"
+msgstr "The Lead Chanter strikes the wooden fish once: \"Those who defy the spirit—\""
+
+msgid "顺天地之灵而养之。"
+msgstr "Follow the spirit of heaven and earth and nourish it."
+
+msgid "逆天地之灵而用之。"
+msgstr "Defy the spirit of heaven and earth and put it to use."
+
+msgid "借天地之灵而还之。"
+msgstr "Borrow the spirit of heaven and earth and give it back."
+
+msgid "又一下：「以身为供——」"
+msgstr "Another beat: \"Make the body the offering—\""
+
+msgid "以德为师。"
+msgstr "Make virtue the teacher."
+
+msgid "以心为灯。"
+msgstr "Make the heart the lamp."
+
+msgid "以劫为师。"
+msgstr "Make the calamity the teacher."
+
+msgid "再一下：「劫无首——」"
+msgstr "One more beat: \"The calamity has no head—\""
+
+msgid "以我为首。"
+msgstr "Let me be its head."
+
+msgid "天自收之。"
+msgstr "Heaven will gather it in."
+
+msgid "人自避之。"
+msgstr "Men will shun it."
+
+msgid "……一字不差。"
+msgstr "...Not a word wrong."
+
+msgid "领诵道士的木鱼又敲了起来，比刚才快了一些。\n"
+msgstr "The Lead Chanter's wooden fish starts again, a little faster than before.\n"
+
+msgid "错了。回蒲团上去，听他们诵熟了再来。"
+msgstr "Wrong. Back to your cushion, and listen until they have it by heart, then come again."
+
+msgid "的木鱼一下也没停。"
+msgstr "'s wooden fish does not stop for a single beat."
+
+msgid "前殿的蒲团空着，木鱼搁在案角。\n"
+msgstr "The cushions in the Front Hall are empty, and the wooden fish lies on the corner of the table.\n"
+
+msgid "睡到子时"
+msgstr "Sleep Till Zi"
+
+msgid "已经是子时了。货栈里鼾声一片。\n"
+msgstr "It is already the hour of Zi. The storehouse is full of snoring.\n"
+
+msgid "在货栈的通铺上睡到子时？\n（世界的时间会过去，别的地方照旧过它们的日子。）"
+msgstr "Sleep on the storehouse bunks until the hour of Zi?\n(World time will pass, and other places go on with their own days.)"
+
+msgid "你在通铺最靠门的一头躺下，黑冠压在枕边。\n"
+msgstr "You lie down at the end of the bunk nearest the door, the black cap pressed under your pillow.\n"
+
+msgid "你醒的时候，货栈里只有鼾声。前殿那边，有一盏灯在一步一步地走。\n"
+msgstr "When you wake, the storehouse holds only snoring. Over in the Front Hall, a lamp is walking, step by step.\n"
+
+msgid "通铺上睡着几个道士，没有你的铺位。\n"
+msgstr "A few Daoists are asleep on the bunks, and there is no place for you.\n"
+
+msgid "听"
+msgstr "Listen"
+
+msgid "门里没有声音了。\n"
+msgstr "No sound comes from behind the door now.\n"
+
+msgid "你贴着北门，屏住气。门缝里漏出一线青光，有两个人在说话。\n"
+msgstr "You press against the north door and hold your breath. A thread of blue light leaks through the crack, and two people are talking.\n"
+
+msgid "一个嗓子沙哑：「……湖底的钉子，还没有人动。」\n"
+msgstr "A hoarse voice: \"...No one has touched the nail at the bottom of the lake yet.\"\n"
+
+msgid "另一个声音不高，一字一顿，像在念经：「会有人去拔的。钉子一拔，就是唤首的时辰。」\n"
+msgstr "Another voice, not loud, one word at a time, as if chanting: \"Someone will go to pull it. When the nail is pulled, it is the hour of the Calling of the Head.\"\n"
+
+msgid "一个嗓子沙哑：「看过钉子的那个人走了。钉子还在。」\n"
+msgstr "A hoarse voice: \"The one who looked at the nail has left. The nail is still there.\"\n"
+
+msgid "另一个声音不高，一字一顿，像在念经：「他会回来拔的。他拔的那一夜，就是唤首的时辰。」\n"
+msgstr "Another voice, not loud, one word at a time, as if chanting: \"He will come back to pull it. The night he pulls it is the hour of the Calling of the Head.\"\n"
+
+msgid "一个嗓子沙哑：「钉子拔了。湖边的村子烧了一半。」\n"
+msgstr "A hoarse voice: \"The nail is pulled. Half the village by the lake has burned.\"\n"
+
+msgid "另一个声音不高，一字一顿，像在念经：「头在冰下醒了。等它自己找回来——那一夜，就是唤首。」\n"
+msgstr "Another voice, not loud, one word at a time, as if chanting: \"The head has woken under the ice. Let it find its own way back. That night is the Calling of the Head.\"\n"
+
+msgid "沙哑的那个：「人呢？」那声音道：「名单在账房，管事那里。三十六口，一口也不能少。」\n"
+msgstr "The hoarse one: \"And the people?\" The voice says, \"The list is in the Counting Room, with the steward. Thirty-six heads, not one short.\"\n"
+
+msgid "一个嗓子沙哑：「宫主不在了。坛上的火，不能灭。」\n"
+msgstr "A hoarse voice: \"The Palace Master is gone. The fire on the altar must not go out.\"\n"
+
+msgid "另一个声音年轻些：「续灯要人。名单在账房，管事那里。三十六口，一口也不能少。」\n"
+msgstr "Another voice, younger: \"Feeding the lamp takes people. The list is in the Counting Room, with the steward. Thirty-six heads, not one short.\"\n"
+
+msgid "门里的光灭了。你退开一步，心跳得厉害。\n"
+msgstr "The light behind the door goes out. You step back, your heart pounding.\n"
+
+msgid "北门从里面闩着。门缝里有光。\n"
+msgstr "The north door is barred from inside. There is light in the crack.\n"
+
+msgid "北门关着。这个时辰，门里静悄悄的。\n"
+msgstr "The north door is shut. At this hour it is quiet behind it.\n"
+
+msgid "抄名单"
+msgstr "Copy the List"
+
+msgid "名单你已经抄过了。\n"
+msgstr "You have already copied the list.\n"
+
+msgid "管事道士伏在案头睡着了，一只手还压着账册。你屏住气，从账册的夹页里抽出一张黄纸，借着残灯一笔一笔抄了下来。\n"
+msgstr "The Steward Daoist has fallen asleep over the desk, one hand still pressed on the ledger. You hold your breath, draw a sheet of yellow paper from between the ledger's pages, and copy it out stroke by stroke by the last of the lamp.\n"
+
+msgid "你把黄纸照原样夹回去。管事翻了个身，没有醒。\n"
+msgstr "You slip the yellow paper back as it was. The steward turns over and does not wake.\n"
+
+msgid "把手按在账册上，抬眼看你。"
+msgstr " lays a hand on the ledger and looks up at you."
+
+msgid "账是宫主要看的，不是给你看的。"
+msgstr "The books are for the Palace Master to read. They are not for you."
+
+msgid "账房里没有人。你从账册的夹页里抽出一张黄纸，借着残灯一笔一笔抄了下来。\n"
+msgstr "There is no one in the Counting Room. You draw a sheet of yellow paper from between the ledger's pages, and copy it out stroke by stroke by the last of the lamp.\n"
+
+msgid "案上摊着账册和文书。没人让你动它们。\n"
+msgstr "The ledger and documents lie open on the desk. No one told you to touch them.\n"
+
+msgid "开匣"
+msgstr "Open the Box"
+
+msgid "铁匣空着。\n"
+msgstr "The iron box is empty.\n"
+
+msgid "名册还在匣里。你对林忌说过，不动它。\n"
+msgstr "The register is still in the box. You told Lin Ji you would not touch it.\n"
+
+msgid "带走祭品名册的原本？\n它是物证：朝上揭发兵部时算一样；京师的事已经定了的，乔阴的程不平对得出上面的押印。\n可宫里会少一本名册，管事迟早会发现——那是一条疑点。\n带走吗？"
+msgstr "Take away the original of the sacrifice register?\nIt is evidence: it counts for one when you denounce the Ministry of War to higher authority; and if the Capital business is already settled, Cheng Buping of Tallshade can match the stamps on it.\nBut the Palace will be one register short, and the steward will find out sooner or later. That is one suspicion.\nTake it?"
+
+msgid "带走名册"
+msgstr "Take the Register"
+
+msgid "你把名册揣进怀里，合上铁匣，铜锁照原样挂好。\n"
+msgstr "You tuck the register into your robe, shut the iron box, and hang the copper lock back as it was.\n"
+
+msgid "你用地牢的钥匙试了试铁匣上的铜锁——咔的一声，开了。\n"
+msgstr "You try the dungeon key on the copper lock of the iron box. It clicks, and the lock opens.\n"
+
+msgid "匣里是一本黑皮的册子：祭品名册的原本。一页一口人，每个名字底下压着一方押印。\n"
+msgstr "Inside is a booklet in black leather: the original of the sacrifice register. One page to a head, and under every name a stamp is pressed.\n"
+
+msgid "大半页压的是「槐阳河工所」的长戳，戳底下垫着半方朱印——「兵部之印」的「部」字。几页压着野羊寨的「羊」字。末尾十几页的押印是空的，只写着一个「待」字。\n"
+msgstr "Most of the pages are pressed with the long stamp of the \"Huaiyang River Works Office\", and under the stamp lies half a vermilion seal: the \"Ministry\" of \"Seal of the Ministry of War\". A few pages are pressed with the \"Goat\" of Goathill Stockade. The stamps on the last dozen or so pages are blank, with only one word written: \"Pending\".\n"
+
+msgid "带走它，是一样物证；可宫里少了一本名册，管事迟早会发现。不带，就当没打开过——回去告诉林忌一声。\n"
+msgstr "Take it, and it is a piece of evidence; but the Palace will be one register short, and the steward will find out sooner or later. Leave it, and it is as if it was never opened. Go back and tell Lin Ji.\n"
+
+msgid "把手按在铁匣上，抬眼看你。"
+msgstr " lays a hand on the iron box and looks up at you."
+
+msgid "这是宫主的东西。"
+msgstr "This belongs to the Palace Master."
+
+msgid "案角一只铁匣，挂着一把铜锁。锁眼的样式，和地牢的铁栅门是一样的。\n"
+msgstr "An iron box sits on the corner of the desk with a copper lock. The keyhole is the same pattern as the dungeon's iron grates.\n"
+
+msgid "案角一只铁匣，上着锁。\n"
+msgstr "An iron box sits on the corner of the desk, locked.\n"
+
+msgid "摘钥匙"
+msgstr "Take the Key"
+
+msgid "钥匙已经在你身上了。\n"
+msgstr "The key is already on you.\n"
+
+msgid "狱卒道士歪在长凳上睡得正沉，钥匙就挂在他头顶的铁钉上。\n"
+msgstr "The Jailer Daoist is sound asleep on the bench, and the key hangs on the iron nail above his head.\n"
+
+msgid "你踮起脚，两根手指捏住钥匙，一点一点从钉子上褪下来。钥匙碰了一下石壁——他咂了咂嘴，没醒。\n"
+msgstr "You rise on tiptoe, pinch the key between two fingers, and slip it off the nail bit by bit. The key touches the stone wall: he smacks his lips and does not wake.\n"
+
+msgid "长凳上头的铁钉上挂着钥匙。你踮起脚把它摘了下来。\n"
+msgstr "A key hangs on the iron nail above the bench. You rise on tiptoe and take it down.\n"
+
+msgid "拍了拍腰上的钥匙。"
+msgstr " pats the key at his waist."
+
+msgid "钥匙在我这儿。你管好你自己。"
+msgstr "The key's with me. You look after yourself."
+
+msgid "长凳上头的石壁里钉着一枚铁钉，空着。\n"
+msgstr "An iron nail is driven into the stone wall above the bench, empty.\n"
+
+msgid "下药"
+msgstr "Drug the Wine"
+
+msgid "坛子里剩的酒，够他睡到明天的。\n"
+msgstr "The wine left in the jar is enough to keep him asleep till tomorrow.\n"
+
+msgid "你背过身去，把一包蒙汗药抖进那只还剩小半坛的酒坛里，晃了晃，塞好布塞。\n"
+msgstr "You turn your back, shake a packet of knockout powder into the jar with half its wine left, swirl it, and stop it again with the cloth plug.\n"
+
+msgid "瞟了酒坛好几眼，到底没忍住，抱起来灌了一大口。"
+msgstr " glances at the wine jar several times, cannot hold out in the end, picks it up and gulps down a big mouthful."
+
+msgid "……今天这酒，倒有点劲。"
+msgstr "...This wine's got some kick today."
+
+msgid "又灌了两口，眼睛就直了，顺着铁栅门滑坐下去，打起了呼噜。"
+msgstr " gulps down two more, his eyes glaze, and he slides down the iron grate and starts to snore."
+
+msgid "你从他腰上解下了那把乌黑的钥匙。\n"
+msgstr "You unhook the jet-black key from his belt.\n"
+
+msgid "伸手按住酒坛：「那是老子的。」"
+msgstr " puts a hand on the wine jar: \"That one's mine.\""
+
+msgid "两只酒坛，一只倒在地上空了，一只还剩小半坛，坛口拿布塞着。\n"
+msgstr "Two wine jars: one lies empty on the ground, one has barely half left, its mouth stopped with a cloth.\n"
+
+msgid "拨闩"
+msgstr "Lift the Bar"
+
+msgid "闩已经拨开了，推门就进得去。\n"
+msgstr "The bar is already lifted: push the door and you can go in.\n"
+
+msgid "你把薄刃从门缝里插进去，贴着门板往上一挑。门后的闩轻轻一响，落了下去。\n"
+msgstr "You slip the thin blade into the crack of the door and lift against the door panel. Behind the door the bar gives a soft click and falls.\n"
+
+msgid "门缝里漏出一线青光。门后落着一道闩。\n"
+msgstr "A thread of blue light leaks through the door crack. Behind the door, a bar has fallen into place.\n"
+
+msgid "北门关着。这个时辰，门后没有闩。\n"
+msgstr "The north door is shut. At this hour there is no bar behind it.\n"
+
+msgid "开暗格"
+msgstr "Open the Compartment"
+
+msgid "暗格空着。\n"
+msgstr "The compartment is empty.\n"
+
+msgid "天书在你身上。\n"
+msgstr "The scripture is on you.\n"
+
+msgid "书案底下有一道细缝。你摸到一个铜扣，一按，暗格弹了出来。\n"
+msgstr "There is a thin crack under the desk. You feel a copper stud, press it, and the compartment springs out.\n"
+
+msgid "里面一卷黑皮的经书，封皮上「逆灵天书」四个字一个不少，底下一个小字：「下」。\n"
+msgstr "Inside is a scroll of scripture in black leather, the four characters \"Black Scripture\" on the cover all there, with one small character beneath: \"Lower\".\n"
+
+msgid "你把它揣进怀里，把暗格推了回去。\n"
+msgstr "You tuck it into your robe and push the compartment shut.\n"
+
+msgid "暗格空着。白天下半部摊在前殿的长案上——玄冥子说过，子时它才回到这里。\n"
+msgstr "The compartment is empty. By day the lower half lies on the long table in the Front Hall; Xuanmingzi said it returns here only at the hour of Zi.\n"
+
+msgid "乌木书案，笔墨整齐。案下有一道细缝，像是个暗格。\n"
+msgstr "An ebony desk, brushes and ink set in order. There is a thin crack under the desk, like a hidden compartment.\n"
+
+msgid "吊上来的箱子堆了一人高，每只箱板上都烙着一个「羊」字——野羊寨的记号。箱缝里露出绸缎的一角，另一只箱子底下渗出暗红的水渍，闻着是腌肉的咸味，也许不是。\n"
+msgstr "The crates hauled up are piled man-high, each board branded with a \"Goat\" character, Goathill Stockade's mark. A corner of silk shows through a seam, and under another crate seeps a dark red stain that smells of the salt of cured meat, or perhaps not.\n"
+
+msgid "黑布的幡从一丈多高的杆子上垂到地，布面上用暗红的颜色写满了字，笔画横着走、竖着走，像是经文又像是符咒。风一过，字就一闪一闪地动，盯久了眼睛发酸。\n"
+msgstr "Black cloth banners hang to the ground from poles more than ten feet high, the cloth covered in dark red writing whose strokes run sideways and straight down, like scripture or like charms. When the wind passes, the writing seems to move, and looking at it for long makes the eyes ache.\n"
+
+msgid "一只齐腰高的黑铁香炉，炉口里烧着的不是香，是一把把黑色的碎末，冒着极淡的青烟，味道苦得呛人。炉身上铸着一圈无头的人形，手拉着手。\n"
+msgstr "A waist-high black iron censer. What burns in its mouth is not incense but handfuls of black powder, giving off a very faint blue smoke with a bitter smell that catches in the throat. Around the body of the censer is cast a ring of headless human figures, hand in hand.\n"
+
+msgid "乌黑的长案上摊着一卷黑皮的经书，字是暗红的，横着走竖着走，和黑幡上的一样。你盯着看了一会儿，字像是在动，赶紧移开了眼。案角摆着一只木鱼，鱼身上的漆被敲掉了一块。\n"
+msgstr "On the jet-black long table lies a scroll of black-leather scripture, its writing dark red and running sideways and straight down, like the banners'. You stare at it a while, the writing seems to move, and you hurriedly look away. On the corner of the table sits a wooden fish, a patch of lacquer knocked off its body.\n"
+
+msgid "一座三足铜丹炉，炉身熏得乌黑。炉口的火苗是青色的，没有一点热气。炉边的托盘上摆着几颗乌黑的丹丸，闻着是一股说不出的腥甜。你不想知道它们是什么炼的。\n"
+msgstr "A three-legged bronze elixir furnace, its body smoked black. The flame in its mouth is blue and gives no warmth at all. On the tray beside it sit a few jet-black pills, smelling of an indescribable sweet rankness. You do not want to know what they are made from.\n"
+
+msgid "药架上的罐子一只只封着口，签子上写的不是药名：「野羊 · 丁未秋」「关北 · 戊申冬」……有一只罐子的签子上写着「傅家坡 · 待」，罐子是空的。\n"
+msgstr "The jars on the medicine shelves are each sealed shut, and the labels are not drug names: \"Goathill · autumn of Dingwei\", \"Beyond the Pass · winter of Wushen\"... On one jar the label reads \"Fu Family Slope · Pending\", and the jar is empty.\n"
+
+msgid "西边那扇铁栅门里的墙根上，一排排指甲刻出来的道道，五个一组，刻了一百多组。最后一组只有三道。\n"
+msgstr "In the wall at the foot of the west iron-grated door, rows of marks scratched with fingernails, in groups of five, more than a hundred groups. The last group has only three.\n"
+
+msgid "黑石砌成的坛，齐胸高，坛面磨得发亮。坛上烧着一团黑焰，没有温度，没有声音，凑近了看，焰心里像有东西在动。坛脚的石缝里塞着碎骨。\n"
+msgstr "An altar of black stone, chest high, its top worn smooth and shiny. A black flame burns on it, with no warmth and no sound; looking closer, something in the heart of the flame seems to move. Bone chips are stuffed in the cracks at the altar's foot.\n"
+
+msgid "空书架。灰尘上留着一排书脊的印子，最宽的那一道在正中。架子最底下掉着一页烧了一半的纸，只剩「逆灵」两个字。\n"
+msgstr "An empty bookshelf. The dust keeps the marks of a row of spines, the widest in the middle. At the very bottom of the shelf lies a half-burned page, with only two characters left: \"Defy Spirit\".\n"
+
+msgid "一只黑漆木匣，开着。匣里垫着黑绒，绒上压出一个长条形的印子，像是放过一卷书——或者一把剑。\n"
+msgstr "A black-lacquer wooden box, open. It is lined with black velvet, and on the velvet is pressed a long narrow mark, as if a scroll had lain there, or a sword.\n"
+
+msgid "绳索被割断了，一头垂在雾里。断口整齐，是一剑。商玦就是从这里下去的，你没法跟。\n"
+msgstr "The rope has been cut, one end hanging in the mist. The cut is clean: one sword stroke. Shang Jue went down from here, and you cannot follow.\n"
+
+msgid "门后还落着一道门闩，从里面闩上了。门缝里漏出一线青光，有人在说话。"
+msgstr "The bar still lies across behind the door, fastened from inside. A thread of blue light leaks through the crack, and someone is talking."
+
+msgid "狱卒道士一步跨过来，拦在铁栅门前：「新关的，管事吩咐过，谁也不许近。」"
+msgstr "The Jailer Daoist strides over and blocks the iron grate: \"The newly locked in. The steward said nobody's to go near.\""
+
+msgid "一只青铜小铃，比拇指大不了多少，铃身长满了绿锈，只有铃舌是亮的。铃舌上刻着一个小小的「尘」字。挂绳是一截褪成粉橘色的红绳，打着一个孩子才打得出的死结。\n在寻风地带里，它会跟着风响。\n"
+msgstr "A small bronze bell, hardly bigger than a thumb, its body grown over with verdigris; only the clapper is bright. A small character is carved on the clapper: \"Chen\". The cord is a length of red string faded to pink-orange, tied in a hard knot only a child would tie.\nIn the Windseeking Wilds, it rings with the wind.\n"
+
+msgid "这只风铃不能随便丢。"
+msgstr "You cannot just throw this wind bell away."
+
+msgid "一支黑竹签，上面用朱砂密密地写着小字，是卜风的记录：\n「顺风而行，一日，见坛。」\n「顺风而行，二日，又见坛。」\n「顺风而行，三日，又见此坛。」\n最后一行字歪了：「风欺人。」\n"
+msgstr "A black bamboo slip, covered in small cinnabar writing: a record of wind-divining.\n\"Went with the wind. One day. Saw an altar.\"\n\"Went with the wind. Two days. Saw an altar again.\"\n\"Went with the wind. Three days. Saw this altar again.\"\nThe last line is crooked: \"The wind lies.\"\n"
+
+msgid "一把三尺长的剑，剑身是白的，白得发亮，转一转，就有一道光从剑身上绕下来，像风打着旋。剑柄上缠着褪成粉橘色的红绳。剑脊上刻着两个字：寒於。\n"
+msgstr "A sword three chi long, its blade white, so white it shines; turn it and a ribbon of light winds down off the blade like wind spinning. A red cord faded to pink-orange is wound round the hilt. Two characters are carved on the spine: Hanyu.\n"
+
+msgid "旋芒不能丢。它在风里转了三百年。"
+msgstr "Whirling Edge cannot be dropped. It has turned in the wind for three hundred years."
+
+msgid "你把剑举到光里。剑脊上两个字：寒於。字下面一行小字，刻得很浅：「风止之处，城见；剑止之处，人见。」\n"
+msgstr "You hold the sword up into the light. On the spine, two characters: Hanyu. Beneath them is a line of small writing, cut very shallow: \"Where the wind stops, the city appears; where the sword stops, the man appears.\"\n"
+
+msgid "一个黑衣黑冠的道士，蹲在黑石坛边烧符，符烧完了就看灰往哪边飞，然后在一支竹签上写一笔。他的嘴唇冻得发紫，眼睛红着，像是很多天没睡。\n"
+msgstr "A Daoist in a black robe and black cap squats beside the black stone altar, burning talismans. When one has burned out he watches which way the ash flies, then writes a stroke on a bamboo slip. His lips are blue with cold and his eyes are red, as if he has not slept in many days.\n"
+
+msgid "卜风道士一声不响地散成一股黑烟，被风卷着往西去了。"
+msgstr "The Wind Diviner breaks up without a sound into a wisp of black smoke, and the wind rolls it away to the west."
+
+msgid "卜风道士冷笑：宫主算过，剑就在风那头。跟着风走就是了。"
+msgstr "The Wind Diviner sneers, \"The Palace Master has reckoned it: the sword is at the far end of the wind. Just follow the wind.\""
+
+msgid "风"
+msgstr "Wind"
+
+msgid "卜风道士道：风往哪边吹，剑就在哪边。……三天了。三天了。"
+msgstr "The Wind Diviner says, \"Whichever way the wind blows, the sword is that way.... Three days. Three days.\""
+
+msgid "卜风道士尖声道：剑是宫主的！\n"
+msgstr "The Wind Diviner shrieks, \"The sword is the Palace Master's!\"\n"
+
+msgid "卜风道士朝坛上喊：有人来抢剑了！\n"
+msgstr "The Wind Diviner shouts toward the altar, \"Someone has come to steal the sword!\"\n"
+
+msgid "一个瘦高的黑衣道士，黑冠上缀着一圈铜钱，坐在坛顶，手里攥着一支写满了字的竹签，一动不动地盯着坛上的灰。\n"
+msgstr "A tall, thin Daoist in black, a ring of copper coins sewn to his black cap, sits on top of the altar, gripping a bamboo slip covered in writing and staring without moving at the ash on the altar.\n"
+
+msgid "卜风道士散成一股黑烟，那支竹签落在坛脚的符灰里。"
+msgstr "The Wind Diviner breaks up into black smoke, and the bamboo slip falls into the talisman ash at the foot of the altar."
+
+msgid "卜风道士头也不抬：顺风走。宫主说顺风走。"
+msgstr "The Wind Diviner says without looking up, \"Follow the wind. The Palace Master says follow the wind.\""
+
+msgid "卜风道士攥紧了竹签：风欺人。"
+msgstr "The Wind Diviner tightens his grip on the slip. \"The wind lies.\""
+
+msgid "卜风道士冷冷地道：又一个寻剑的。\n"
+msgstr "The Wind Diviner says coldly, \"Another sword-seeker.\"\n"
+
+msgid "一个白发白须的老人，坐在十铃架下的蒲团上，衣裳是白的，袖口被门口的风吹得一直在动，他的人却一动不动。看不出他有多大年纪——脸上没有几道皱纹，眼睛却老得很。\n"
+msgstr "A white-haired, white-bearded old man sits on a rush cushion beneath the ten-bell rack. His robe is white, and its cuffs keep moving in the wind from the door, but he himself does not move. You cannot tell his age: his face has few wrinkles, but his eyes are very old.\n"
+
+msgid "你的手还没抬起来，一阵风已经把它按了回去。岚翁连眼睛都没睁。"
+msgstr "Your hand has not yet risen when a gust presses it back down. The Wind Elder has not even opened his eyes."
+
+msgid "你一进门，十铃架上的大铃有几口自己响了起来，一声接一声，不是风吹的。\n"
+msgstr "As you step in, several of the great bells on the ten-bell rack begin to ring by themselves, one after another, and not from the wind.\n"
+
+msgid "睁开眼睛，看了看铃，又看了看你。"
+msgstr " opens his eyes, looks at the bells, then at you."
+
+msgid "响的那几口，是有人信你的地方。暗的那几口，你自己知道为什么。"
+msgstr "The ones that ring are the places where someone trusts you. The dark ones, you know yourself why."
+
+msgid "你是来要剑的。剑在云台。我不卖，也不赏，也不问你拿去做什么。"
+msgstr "You have come for the sword. The sword is on the Cloud Terrace. I do not sell it, I do not give it, and I do not ask what you will do with it."
+
+msgid "旋芒是寒於氏的剑。寒於氏斩了那东西的头，死前把两把剑分开放——一把钉头，一把寄在风里。三百年前你们拔了钉头的那一把。这一把，在我这里，等人来拔。"
+msgstr "Whirling Edge is the sword of the Hanyu clan. The Hanyu clan cut off that thing's head, and before dying they set the two swords apart: one nailed the head, one was lodged in the wind. Three hundred years ago your people pulled the one that nailed the head. This one is with me, waiting for someone to draw it."
+
+msgid "寒於"
+msgstr "Hanyu"
+
+msgid "寒於氏是太阳神族的祖。他的血，一份在金乌那里，一份在於兰家——君违嫁过去的那一份。"
+msgstr "The Hanyu clan is the forefather of the Sun God's people. His blood went to two places: one share to the Golden Crow, one to the Yulan family, the share that Jun Wei married into."
+
+msgid "烟城"
+msgstr "Smoke City"
+
+msgid "烟城的人二十年前来过，你们先帝派的。他们站在门口问剑，问完就走了，走的时候风还没停——他们没伏下。"
+msgstr "The people of Smoke City came twenty years ago, sent by your late Emperor. They stood at the gate and asked about the sword, and when they had asked they left. The wind had not yet stopped when they left. They did not lie down."
+
+msgid "让我看看。……「寻剑，不得扰民一户。」你们先帝要的剑，是不扰民的剑。他要对了。"
+msgstr "Let me see.... \"Seek the sword, and trouble not one household.\" The sword your late Emperor wanted is a sword that troubles no one. He asked rightly."
+
+msgid "你们的先帝找了一辈子。他的人到过烟城，没到过这里。"
+msgstr "Your late Emperor searched all his life. His men reached Smoke City. They did not reach here."
+
+msgid "铃"
+msgstr "Bells"
+
+msgid "十口铃，十个地方。哪里有人信你，哪里的铃就响。响的是信，不是功劳——你救过的人、你守过的话、你没拿的东西。走近了看，铃身上刻着地名。"
+msgstr "Ten bells, ten places. Where someone trusts you, that bell rings. What rings is trust, not merit: someone you saved, a word you kept, a thing you did not take. Look closely and you will see place-names carved on the bells."
+
+msgid "谁拔"
+msgstr "Who Draws It"
+
+msgid "你拔的。十口铃里有人信你——到了湖底，别让它们暗下去。"
+msgstr "You draw it. Among the ten bells there are those who trust you. When you reach the lake bottom, do not let them go dark."
+
+msgid "於兰家的人拔的。三百年前他们拔错了一把，这一回，看他拔得对不对。"
+msgstr "The Yulan man draws it. Three hundred years ago they drew the wrong sword. This time, we shall see whether he draws the right one."
+
+msgid "萧家的孩子拔的。他回来了一回，又走了。风记得他。"
+msgstr "The Xiao child draws it. He came back once, and left again. The wind remembers him."
+
+msgid "剑在云台，自己转着。谁能拔，不是我说了算。响够六口铃，你自己可以试；不够，就请一个信得过的人来——风会替你去叫。西墙那道梯子上去，就是云台。"
+msgstr "The sword is on the Cloud Terrace, turning by itself. Who can draw it is not for me to say. If six bells ring, you may try it yourself; if fewer, ask someone you can trust, and the wind will go and call him. Go up the ladder at the west wall and you are on the Cloud Terrace."
+
+msgid "岚城不在哪里。风在哪里停，它就在哪里。你们叫它寻风而至，寻风而逝——说得不错。"
+msgstr "The Wind City is not anywhere. It is wherever the wind stops. You call it the city that comes on the wind and goes with the wind. That is not wrong."
+
+msgid "风停处，替我再看一眼。——他让你看的，你看过了。"
+msgstr "\"Where the wind stops, look once more for me.\" What he asked you to look at, you have seen."
+
+msgid "接过信，只看了末一行，嘴角动了一下。"
+msgstr " takes the letter, reads only the last line, and his mouth moves a little."
+
+msgid "这是风纹，岚城的字。写的是：「风停处，替我再看一眼。」"
+msgstr "This is wind script, the writing of the Wind City. It says: \"Where the wind stops, look once more for me.\""
+
+msgid "那个砍柴的。他在城里住了三天，走的时候问我要了这几个字，说出去以后怕忘了。——他没忘。"
+msgstr "That woodcutter. He stayed in the city three days, and when he left he asked me for these few words, for fear he would forget them once outside. He did not forget."
+
+msgid "把信还给你。"
+msgstr " hands the letter back to you."
+
+msgid "萧家的孩子。那年风大，把他卷出城去了。铃在你手里——那他就还回得来。"
+msgstr "The Xiao child. That year the wind was strong and carried him out of the city. The bell is in your hand, so he can still come back."
+
+msgid "萧家的孩子，二十年前被风卷走了。铃丢了，风就找不到他。"
+msgstr "The Xiao child was carried off by the wind twenty years ago. The bell was lost, and without it the wind cannot find him."
+
+msgid "那个砍柴的？他伏在石头上睡着了，醒来就看见城。他在城里住了三天，吃不惯——我们这里没有饭。"
+msgstr "That woodcutter? He fell asleep lying on a rock, and woke to see the city. He lived here three days and could not get used to it. We have no food here."
+
+msgid "一个八九岁的小姑娘，白衣裳，头发被风吹得乱蓬蓬的，脖子上挂着一只小铜铃。她蹲在门洞边上，看你看得很认真。\n"
+msgstr "A little girl of eight or nine in white, her hair tousled by the wind, a small bronze bell hanging at her neck. She squats by the archway, watching you very seriously.\n"
+
+msgid "小姑娘咯咯一笑，往门洞里一闪，不见了，过一会儿又从另一边探出头来。"
+msgstr "The little girl giggles, ducks into the archway and vanishes, and a moment later peeks out from the other side."
+
+msgid "你是谁的铃带来的？"
+msgstr "Whose bell brought you here?"
+
+msgid "给我看看！……是尘哥哥的！铃舌上那个字，铃匠爷爷刻的，我认得！尘哥哥回来了吗？"
+msgstr "Lemme see!... It's Brother Chen's! The word on the clapper, Grandpa Bellsmith carved it, I know it! Is Brother Chen back?"
+
+msgid "城里人人一只铃。铃丢了，风就不认得你了。"
+msgstr "Everybody in the city has a bell. If you lose your bell, the wind won't know you."
+
+msgid "城"
+msgstr "City"
+
+msgid "城今天在山上头。昨天在湖上头。明天不知道。"
+msgstr "Today the city is up over the mountain. Yesterday it was over the lake. Tomorrow, who knows."
+
+msgid "风是从城里出去的呀。你们外头的人老往风里走，走着走着就到了。"
+msgstr "The wind comes out of the city, you know. You outside people keep walking into the wind, and if you keep walking, you get here."
+
+msgid "尘哥哥"
+msgstr "Brother Chen"
+
+msgid "尘哥哥是萧家的。他放风筝，风大，连人带风筝一起飞走了。我没见过他——我是听铃匠爷爷说的。"
+msgstr "Brother Chen is a Xiao. He was flying a kite, the wind was strong, and it carried him and the kite away together. I never saw him. Grandpa Bellsmith told me."
+
+msgid "铃匠"
+msgstr "Bellsmith"
+
+msgid "一个瘦小的老人，系着一条皮围裙，手指上全是铜绿，正拿一把细锉一点一点修一只铃的口。他修一下，敲一下，侧着耳朵听一听。\n"
+msgstr "A small, thin old man in a leather apron, his fingers green with verdigris, filing at the mouth of a bell with a fine file, bit by bit. He files once, strikes once, and tilts his ear to listen.\n"
+
+msgid "老蔺头也不抬：「我这里只有铃。打铃不响，打人更不响。」"
+msgstr "Old Lin does not look up. \"I have only bells here. Strike a bell and it will not ring. Strike a man and it rings even less.\""
+
+msgid "放下锉，接过你那只铃，凑到眼前看了半天，手有点抖。"
+msgstr " puts down the file, takes your bell and holds it close to his eyes for a long while. His hand shakes a little."
+
+msgid "是我打的。「尘」字是我刻的，那孩子非要刻在铃舌上，说这样风一吹，就是在叫他的名字。"
+msgstr "I made it. I carved the \"Chen\" myself. The boy insisted on having it on the clapper, said that way every time the wind blew, it would be calling his name."
+
+msgid "拿衣角把铃擦了擦，又还给你。"
+msgstr " wipes the bell on a corner of his clothes and gives it back to you."
+
+msgid "带着吧。它认得路。"
+msgstr "Keep it with you. It knows the way."
+
+msgid "城里的铃都是我打的。一个孩子一只，打好了挂在门楣的钩上，孩子长到能自己拿了，就拿下来随身带着。"
+msgstr "I made all the bells in the city. One for each child. When it is done it hangs on the hook over the door, and when the child is old enough to take it down himself, he carries it with him."
+
+msgid "萧家"
+msgstr "Xiao Family"
+
+msgid "萧家就在街那头，第二道弯。那孩子四岁那年，风大，他在院子里放风筝，连人带风筝都卷走了，铃也跟着走了。他娘天天擦那只空钩，擦了二十年，前年也走了。钩子还是亮的——现在是我去擦。"
+msgstr "The Xiao house is at the end of the street, past the second bend. The year that boy was four, the wind was strong, he was flying a kite in the yard, and the wind carried off boy and kite together, and the bell went with him. His mother wiped that empty hook every day. Twenty years she wiped it, and the year before last she went too. The hook is still bright. Now I am the one who wipes it."
+
+msgid "岚翁守着的。不是我们的东西，是寒於氏寄在这里的。我们只是住在它旁边。"
+msgstr "The Wind Elder keeps it. It is not ours. The Hanyu clan lodged it here. We only live beside it."
+
+msgid "我们不吃饭，不生火，不种地。风来了就听，风走了就睡。你们外头的人觉得这样过日子没意思——我们觉得你们太吵。"
+msgstr "We do not eat, light fires or plant fields. When the wind comes, we listen; when it goes, we sleep. You outside people think this is no way to live. We think you are too noisy."
+
+msgid "一个白发的老婆婆，拿着一把竹扫帚，在街边扫——扫的不是落叶，是飘上来的雾，她一扫，雾就退下去一点。\n"
+msgstr "An old woman with white hair and a bamboo broom, sweeping at the roadside. It is not fallen leaves she sweeps but mist that has drifted up, and at each sweep the mist drops back a little.\n"
+
+msgid "老婆婆的扫帚一挥，一团雾扑在你脸上，等你揉开眼睛，她还在原处扫。"
+msgstr "The old woman swings her broom and a puff of mist hits your face. By the time you have rubbed your eyes clear, she is still there, sweeping."
+
+msgid "今天城停在西边，底下是天驼关的石头，黄的。"
+msgstr "Today the city has stopped in the west, above the stones of Camelback Pass, yellow ones."
+
+msgid "今天城停在北边，底下是一片湖，绿的，湖上有船。"
+msgstr "Today the city has stopped in the north, above a lake, a green one, with boats on it."
+
+msgid "今天城停在东边，底下是雪，白茫茫的。"
+msgstr "Today the city has stopped in the east, above snow, a white expanse of it."
+
+msgid "城今天停在哪儿？你自己往门外看。"
+msgstr "Where has the city stopped today? Look out of the gate yourself."
+
+msgid "雾"
+msgstr "Mist"
+
+msgid "雾往上爬，爬到街上就不好走了。我扫一扫，它就回去。扫了七十年了。"
+msgstr "The mist climbs up, and once it reaches the street the going is hard. I sweep, and it goes back. I have been sweeping seventy years."
+
+msgid "烟城？那是我们的亲戚。烟霞霓岚，四座城，各住各的。烟城的人爱说话，我们不爱。"
+msgstr "Smoke City? They are our relatives. Smoke, Glow, Rainbow and Wind: four cities, each living on its own. The people of Smoke City like to talk. We do not."
+
+msgid "一个穿白衣的人，在街上慢慢地走，走几步停一下，侧着头听风铃。他看见你，点一点头，没有说话。\n"
+msgstr "A man in white walks slowly along the street, stopping every few steps to tilt his head and listen to the wind chimes. He sees you, nods once, and says nothing.\n"
+
+msgid "那人往后退了一步，衣袖一飘，你的手就落了空。他看着你，像看一阵不懂事的风。"
+msgstr "The man steps back, his sleeve drifts, and your hand falls on nothing. He looks at you as one looks at a wind that does not know better."
+
+msgid "……这里就是。"
+msgstr "... This is it."
+
+msgid "听。"
+msgstr "Listen."
+
+msgid "去问岚翁。"
+msgstr "Ask the Wind Elder."
+
+msgid "吃饭"
+msgstr "Eating"
+
+msgid "吃饭？……我们不吃。"
+msgstr "Eat?... We do not."
+
+msgid "白发白须的老人站在台心旁边，袖子被旋风扯得笔直，人却一动不动，像是长在白石上的。\n"
+msgstr "The white-haired, white-bearded old man stands beside the heart of the terrace, his sleeves pulled straight by the whirlwind, yet he himself does not move, as if he had grown out of the white stone.\n"
+
+msgid "它在你腰间。寒於氏的剑，不扰民——你拿着它，就照它的脾气走。"
+msgstr "It is at your waist. The sword of the Hanyu clan troubles no household. You carry it, so you walk by its temper."
+
+msgid "跟於兰家的人走了。"
+msgstr "It went with the Yulan man."
+
+msgid "跟萧家的孩子走了。"
+msgstr "It went with the Xiao child."
+
+msgid "就在风里。谁拔，你来定。你自己，於兰家的人，萧家的孩子——三个都行，风不挑，铃挑。"
+msgstr "It is in the wind. Who draws it, you decide. Yourself, the Yulan man, the Xiao child: any of the three. The wind does not choose. The bells choose."
+
+msgid "风认你了。剑在台心，去拿吧。"
+msgstr "The wind knows you. The sword is at the heart of the terrace. Go and take it."
+
+msgid "你。那就先接三刃。"
+msgstr "You. Then first meet the three blades."
+
+msgid "你自己拔，要十口铃里六口有人信你。请於兰家的人，要他在朝上，风才找得到他。让萧家的孩子来，要他的铃——铃在，风认人。"
+msgstr "To draw it yourself, ten bells must have six where someone trusts you. To ask the Yulan man, he must be at court, or the wind cannot find him. To let the Xiao child come, you need his bell. Where the bell is, the wind knows the man."
+
+msgid "楼下十口铃，响一口，是一处有人信你。"
+msgstr "Of the ten bells below, each one that rings is a place where someone trusts you."
+
+msgid "接风三刃"
+msgstr "Three Blades"
+
+msgid "风里拔剑，先要风认你。我替风出三刃，你站得住，剑就落得下来。"
+msgstr "To draw a sword in the wind, the wind must first know you. I will throw three blades for the wind. If you can stand them, the sword will fall."
+
+msgid "岚翁替风出三刃，是真打：\n· 每一刃都实打实地削在你身上，挨中了会受伤。\n· 哪一刃接不住，就算没接下，你随后会昏倒；风只认人，不要人的命。\n倒了可以歇好再来。\n确定接风三刃吗？"
+msgstr "The Wind Elder throws three blades for the wind, and they are real:\n· Every blade cuts into you in earnest. If it hits, you are hurt.\n· If you cannot meet a blade, it counts as not met, and you will faint afterward. The wind knows only men; it does not want their lives.\nIf you fall, you may rest and come again.\nMeet the Three Blades of Wind?"
+
+msgid "岚翁袖子一拂：第一刃，是从城外来的风。"
+msgstr "The Wind Elder flicks his sleeve. \"The first blade is the wind from outside the city.\""
+
+msgid "岚翁点点头：第二刃，是从城里出去的风。"
+msgstr "The Wind Elder nods. \"The second blade is the wind that goes out of the city.\""
+
+msgid "岚翁叹了口气：风还不认得你。"
+msgstr "The Wind Elder sighs. \"The wind does not know you yet.\""
+
+msgid "岚翁的袖子停了：第三刃，是不动的风。"
+msgstr "The Wind Elder's sleeve stops. \"The third blade is the wind that does not move.\""
+
+msgid "岚翁摇摇头：差一点。歇好了再来。"
+msgstr "The Wind Elder shakes his head. \"Close. Rest, then come again.\""
+
+msgid "风停了一停。岚翁说道：站得住。风认你了——剑在台心，去拿吧。"
+msgstr "The wind pauses. The Wind Elder says, \"You stood. The wind knows you. The sword is at the heart of the terrace. Go and take it.\""
+
+msgid "在岚城的云台上接下了岚翁的接风三刃"
+msgstr "Met the Wind Elder's Three Blades of Wind on the Cloud Terrace in the Wind City"
+
+msgid "一个须发灰白的老人，一身朝服被风吹得猎猎地响，腰间那把暗绿色的鬼头刀还在。他看着台心的风，像在看一件很久以前的事。\n"
+msgstr "A gray-haired, gray-bearded old man in court dress that whips and snaps in the wind, the dark green ghost-head saber still at his waist. He gazes at the wind at the heart of the terrace as at something that happened long ago.\n"
+
+msgid "於兰天武看了你一眼：老夫不是来跟你打的。"
+msgstr "Yulan Tianwu glances at you. \"This old man did not come to fight you.\""
+
+msgid "一阵大风落在台上，於兰天武站在风里。"
+msgstr "A great wind sets down on the terrace, and Yulan Tianwu stands in it."
+
+msgid "一阵风卷过来，於兰天武不见了。"
+msgstr "A gust rolls in, and Yulan Tianwu is gone."
+
+msgid "一个白衣的年轻人，长发和巾带被风吹得乱飞，站在台上四下看，看得很慢，像在一样一样认东西。\n"
+msgstr "A young man in white, his long hair and headband whipped about by the wind, stands on the terrace looking all around, slowly, as if learning things one at a time.\n"
+
+msgid "萧辟尘没有看你：这里不打架。"
+msgstr "Xiao Bichen does not look at you. \"No fighting here.\""
+
+msgid "风把萧辟尘送到了台上。"
+msgstr "The wind has carried Xiao Bichen onto the terrace."
+
+msgid "一阵风卷过来，萧辟尘不见了。"
+msgstr "A gust rolls in, and Xiao Bichen is gone."
+
+msgid "一条往上斜的窄道，两壁是磨得发亮的黄石，亮得像镜子，人走过去，石头里也走过去一个人。道里一股迷香，甜得发腻，白雾贴着地面流，一直流到脚背上。\n往下是镜子里那间三条道的屋子；往上，雾的那头透过来一点风。\n"
+msgstr "A narrow way slanting upward. Both walls are yellow stone worn to a shine, bright as mirrors; as you pass, another figure walks past inside the stone. A heady incense hangs in the way, sweet to sickness, and white mist flows along the ground, right up over your insteps.\nDown is the room of three roads inside the mirror; up, through the mist, a little wind comes from the far side.\n"
+
+msgid "出了窄道，眼前一下子宽了：一片高处的野地，天很近，云很低。风从前头一阵一阵地扑过来，草齐腰，被风按得倒成一片，一起来，又倒下去。\n往北是一片石林，一根一根灰白的石柱立在雾里，像许多人站着。\n"
+msgstr "Out of the narrow way, the view opens all at once: high open ground, the sky near, the clouds low. Wind comes from ahead in gusts, and the waist-high grass lies flat under it, all together, then rises, then goes down again.\nTo the north is a stone forest, gray-white stone pillars standing in the mist like many people standing.\n"
+
+msgid "石柱一根挨一根，高的有三四丈，都被风磨圆了，迎风的一面刻满一道一道的槽，背风的一面长着青苔。雾是一条一条的，跟着风在石柱之间流。\n几条踩出来的小路在石林里分开，往北、西北、东北各有一处背风的石坳；西边下风头隐约有烟，东边有几顶破帐篷。\n"
+msgstr "The pillars stand one against the next, three or four zhang tall, all worn round by the wind. The windward side is cut with grooves, the lee side grows green moss. The mist comes in strands, flowing between the pillars with the wind.\nSeveral trodden paths part in the stone forest, each running to a sheltered hollow in the rock, north, northwest and northeast. To the west, downwind, there is faintly smoke, and in the east a few ragged tents.\n"
+
+msgid "石林西边的下风头，一座黑石垒的小坛，坛上插着几面黑幡，烧剩的符纸一层一层压在坛脚，风一吹就飞起来几张，又落回去。地上画着一圈一圈的符，圈套着圈，都是往西开口的。\n"
+msgstr "Downwind at the west edge of the stone forest stands a small altar of black stone, black banners stuck in it. Burnt talisman paper lies layer on layer at its foot; at each gust a few sheets fly up, then settle back. Talismans are drawn on the ground in circles, ring within ring, all open to the west.\n"
+
+msgid "三顶帐篷，两顶塌了，一顶的帆布被风撕成一条一条的，还在拍。一面兵部的旗倒在草里，旗杆断了。营里的锅是冷的，锅底结着一层黑；帐篷边上一堆石头垒的灶，灶里没有灰——这里很久没人生火了。\n"
+msgstr "Three tents, two of them fallen, the canvas of the third torn by the wind into strips that still flap. A Ministry of War banner lies in the grass, its pole broken. The pots in the camp are cold, with a layer of black burnt on the bottom. Beside the tents is a stove of piled stones with no ash in it. No one has lit a fire here for a long time.\n"
+
+msgid "西北一处背风的石坳，三面是石壁，口朝着石林。坳里的草比外头矮，一丛一丛的，石壁脚下堆着被风吹进来的枯叶。\n"
+msgstr "A sheltered hollow in the stone to the northwest, walled on three sides, its mouth facing the stone forest. The grass inside is shorter than outside, in tufts, and at the foot of the walls lies a heap of dead leaves the wind has blown in.\n"
+
+msgid "正北一处深些的石坳，两道石壁夹着，像一只半合的手掌。坳底一块平石，石面上有几道浅浅的印子，像是有人在这里伏过很久。\n"
+msgstr "A deeper hollow due north, between two walls of rock like a half-closed hand. On the flat stone at its bottom are a few shallow marks, as if someone had lain here a very long time.\n"
+
+msgid "东北一处背风的石坳，口子窄，里面宽。石壁上垂着几根干枯的藤，藤上不知谁系了一根褪了色的红绳。\n"
+msgstr "A sheltered hollow in the stone to the northeast, its mouth narrow, its inside wide. A few dried vines hang down the rock wall, and someone has tied a faded red cord to one of them.\n"
+
+msgid "一道白石的门，门洞是圆的，被风磨得没有一个棱角。门外是雾，雾底下很远的地方，隐约是山——城就浮在那上头。\n门里是一块小小的石坪，坪上的石板一块挨一块，中间被人走出一道浅浅的凹。往北，一条白石长街往上绕。\n"
+msgstr "A gate of white stone, its opening round, worn by the wind until it has no edge left. Outside is mist, and far below the mist, faintly, mountains. The city floats above them.\nInside is a small stone yard, its flagstones laid close, a shallow dip walked into the middle of it. To the north a long white stone street winds upward.\n"
+
+msgid "白石铺的长街往上绕了两折。两边的屋子都是白石砌的，墙角磨圆了，背风的一面爬着青苔；家家的檐下都挂着风铃，铜的、竹的、贝壳的，风一过，一街都响。\n屋子里静悄悄的，没有烟。没有一家的屋顶上有烟囱。\n西边第一道弯下去是一个敞着的院子，叮叮当当的；东边第二道弯过去，一个小院子的门开着，里头没有声音。\n"
+msgstr "The long street of white stone winds up through two turns. The houses on both sides are built of white stone, their corners worn round, moss growing on the lee side. Under every eave hang wind chimes, of bronze, bamboo and shell, and when wind passes the whole street rings.\nThe houses are quiet, with no smoke. Not one roof has a chimney.\nDown the first bend to the west is an open courtyard, clinking and clanging. Past the second bend to the east, the door of a small yard stands open, with no sound inside.\n"
+
+msgid "一个敞着的院子，后头一间棚屋，棚檐下挂满了还没上绳的铃。院子当中一块铁砧，旁边一口铸了一半的铃立在木架上，铃身还是青的。墙边一排木架，架上是泥的铃模、钳子、细锉，一样一样摆得整齐。\n地上一层铜屑，被风扫到墙角，堆成一道细细的绿线。\n"
+msgstr "An open yard, with a shed behind it, and under the shed's eaves hang bells with no cords yet. In the middle of the yard is an iron anvil, and beside it a half-cast bell stands on a wooden frame, its body still blue. Along the wall is a row of wooden racks holding clay bell molds, tongs and fine files, each laid in its place.\nA layer of copper filings lies on the ground, swept by the wind into the corner in a thin green line.\n"
+
+msgid "一个小院子，院里一口枯井，井沿上落着叶子。屋门关着，门楣上一只铜钩，钩上什么也没挂，钩子倒擦得很亮——像是一直有人在擦。\n门框上有一道一道刻的印子，从下往上，最高的一道齐你的腰，旁边刻着一个小小的「尘」字。\n"
+msgstr "A small yard with a dry well, leaves on its rim. The door is shut. Over the lintel is a bronze hook with nothing hanging on it, yet the hook is bright, as if someone has always been wiping it.\nOn the doorframe are notches cut one above another from the bottom up; the highest is level with your waist, and beside it is a small character, \"Chen\".\n"
+
+msgid "长街到这里是一块平台，平台尽头一座三层的木阁，檐角一层一层翘上去，每一层的檐下都挂满了铃，风不大，铃也一直在响，一声叠一声，像在说话。\n阁门开着。门楣上一块旧匾：风铃阁。\n"
+msgstr "The street ends in a platform, and at its far end stands a three-storied wooden pavilion, its eaves curving up tier on tier, with bells hung under every tier. The wind is not strong, yet the bells never stop, one sound laid on another, as if talking.\nThe pavilion door is open. Over the lintel hangs an old plaque: Wind Chime Pavilion.\n"
+
+msgid "阁里很高，梁上垂下来千百只小铃，长长短短，一直垂到人头顶上。风从门口进来，它们就从门口那一头响起，一层一层响到里头去。\n北墙下一排木架，架上并排挂着十口大铃，每一口的铃身上刻着一个地名。有的铃亮，有的铃是暗的。\n东边一道小门，门帘半卷着。西墙边一道窄梯，一直通到阁顶，梯口有风灌下来。\n"
+msgstr "Inside the pavilion it is very high; from the beams hang a thousand small bells, long and short, down to head height. When wind enters at the door they begin to ring from the door end, layer by layer toward the back.\nUnder the north wall, on a row of wooden racks, hang ten great bells side by side, each with a place-name carved on its body. Some bells are bright; some are dark.\nIn the east is a small door, its curtain half rolled up. By the west wall a narrow ladder goes all the way up to the top of the pavilion, wind pouring down at the foot of it.\n"
+
+msgid "一间小屋，四壁是木板，一张矮几，一个蒲团。墙边一架旧书，书页被风吹得发脆，有几本摊着，压着一块白石。\n墙上一只铜钩，钩上空着。\n"
+msgstr "A small room with plank walls, a low table and a rush cushion. By one wall stands a shelf of old books, the pages brittle from the wind, a few lying open, held down by a white stone.\nOn the wall is a bronze hook, empty.\n"
+
+msgid "风铃阁顶上出去，是一片悬在云上的白石台。台子没有栏杆，四边就是云，云下面很远的地方，有山的影子在慢慢往后退——城在走。\n白石被风磨得发亮，石缝里长着一点青苔。北边是台心，白石上一圈一圈的印子。\n"
+msgstr "Out from the top of the Wind Chime Pavilion is a platform of white stone hanging on the clouds. It has no railing; its four sides are cloud, and far below, the shadows of mountains slowly slide backward. The city is moving.\nThe white stone is worn bright by the wind, with a little moss in the cracks. To the north is the heart of the terrace, rings upon rings marked in the white stone.\n"
+
+msgid "台子的北边，白石面上被风磨出一圈浅浅的印子，一圈套一圈，像水里的波纹。岚城的人说，这是风在这里转了三百年转出来的。\n"
+msgstr "On the north of the terrace, the white stone is worn by the wind into shallow rings, one inside another like ripples on water. The people of the Wind City say the wind made them, turning here for three hundred years.\n"
+
+msgid "台子的东边，白石到这里就断了，往外一步就是云。云在脚下翻，风从下面往上托，托得人站不稳。\n岚城的人说，剑有了主，风就会送人回去。\n"
+msgstr "On the east of the terrace the white stone ends; one step out is cloud. The cloud rolls below your feet, and the wind pushes up from beneath, so that you cannot stand steady.\nThe people of the Wind City say that once the sword has a master, the wind will send a person back.\n"
+
+msgid "上头一股迷香，甜得发腻，雾浓得伸手不见五指。你走了两步，脚下一空似的，又转回了原处。"
+msgstr "Heady incense, cloyingly sweet, and mist so thick you cannot see your own hand. You take two steps, your feet seem to drop away, and you are back where you started."
+
+msgid "雾里站着一个人影。走近了，只是磨亮的黄石上映出来的你自己，跟着你停，跟着你走。\n"
+msgstr "A figure stands in the mist. Come closer, and it is only yourself, reflected in the polished yellow stone, stopping when you stop, walking when you walk.\n"
+
+msgid "雾里站着一个人影，背上一把剑，身形很瘦，穿的是二十年前水烟阁随从的衣裳——你埋过他的骨头。他朝你点了一下头，雾一卷，就没有了。\n"
+msgstr "A figure stands in the mist with a sword on his back, very thin, in the clothes of a Waterfog Pavilion retainer of twenty years ago. You buried his bones. He nods to you, the mist rolls, and he is gone.\n"
+
+msgid "又一个人影，背对着你，看不清是谁。你一伸手，雾就从指缝里流过去了。\n"
+msgstr "Another figure, its back to you; you cannot tell whose. You reach out, and the mist flows between your fingers.\n"
+
+msgid "霍铮蹲在雾里，嘴里叼着一根草：「寨子里都好。石头那小子回家了。」他吐掉草，站起来，散了。\n"
+msgstr "Huo Zheng squats in the mist with a blade of grass in his mouth. \"Everyone at the stockade is fine. Shitou went home.\" He spits out the grass, stands up, and scatters.\n"
+
+msgid "黄霸坐在雾里一块石头上，腆着肚子：「三寨主？如今是寨主了。」他咧嘴一笑，连人带石头一起散了。\n"
+msgstr "Huang Ba sits on a rock in the mist, belly out. \"Third Chief? These days it's Chief.\" He grins, and he and his rock scatter together.\n"
+
+msgid "雾里一个女人的影子，长发，看不清脸，一晃就不见了。\n"
+msgstr "A woman's shadow in the mist, long hair, her face unclear. A flicker and it is gone.\n"
+
+msgid "安妮儿站在雾里，怀里抱着一件发着寒气的衣裳：「它在我这里。等你用得着的时候。」\n"
+msgstr "Anni'er stands in the mist, in her arms a coat giving off cold. \"It is with me. For when you have need of it.\"\n"
+
+msgid "瑷伦站在雾里，手里握着鞭子，三十七岁的脸，几百年的眼睛：「我还守着。去吧。」\n"
+msgstr "Ailun stands in the mist with a whip in her hand, a face of thirty-seven and the eyes of several hundred years. \"I am still keeping watch. Go.\"\n"
+
+msgid "瑷伦站在雾里，手里握着鞭子，身上是那件月白的衣：「它回来了。我还守着。去吧。」\n"
+msgstr "Ailun stands in the mist with a whip in her hand, in that moon-white robe. \"It has come back. I am still keeping watch. Go.\"\n"
+
+msgid "雾里是瑷伦的背影。她没有回头。\n"
+msgstr "In the mist is Ailun's back. She does not turn.\n"
+
+msgid "最后一个人影离出口最近，风吹过来，它就淡一分。\n"
+msgstr "The last figure is nearest the exit; each time the wind blows toward it, it fades a shade.\n"
+
+msgid "冯策披着衣服站在雾里，跟那夜在侍卫营一样：「湖底的事，算老夫一个。先把剑找来。」\n"
+msgstr "Feng Ce stands in the mist with his coat draped over his shoulders, as he was that night in the guards' barracks. \"What happens at the lake bottom, count this old man in. First find the sword.\"\n"
+
+msgid "於兰天武穿着朝服站在雾里，朝服不合身：「找到城，叫我。」\n"
+msgstr "Yulan Tianwu stands in the mist in court dress, which does not fit him. \"When you find the city, call me.\"\n"
+
+msgid "庾子建站在雾里，身边一只火盆，盆里一撮纸灰：「先帝推了二十年。你要是找到了，记得告诉我。」\n"
+msgstr "Yu Zijian stands in the mist with a brazier beside him and a pinch of paper ash in it. \"The late Emperor put it off for twenty years. If you find it, remember to tell me.\"\n"
+
+msgid "一个穿兵部号衣的人蜷在塌了的帐篷边，早就冻僵了，脸朝着北边的石坳。他怀里揣着半张纸，字被露水泡开了，还认得出几行：\n「第三次。逆风行至石坳，风止。四顾无城。复行。」\n「风又起。」\n纸的背面是兵部的印，印色暗红发黑。\n"
+msgstr "A man in a Ministry of War tabard lies curled beside a fallen tent, long frozen, his face turned toward the northern hollow. Half a sheet of paper is tucked in his coat, the writing blurred by dew, but a few lines can still be made out:\n\"Third time. Went upwind to the hollow; wind stopped. Looked all round; no city. Went on.\"\n\"Wind rose again.\"\nOn the back of the paper is the Ministry of War seal, its ink gone dark red, almost black.\n"
+
+msgid "一面兵部的旗倒在草里，旗杆从中间断了，断口是新的白茬——是风折的，不是人砍的。旗面上的「兵」字被风扯得只剩半边。\n"
+msgstr "A Ministry of War banner lies in the grass, its pole broken in the middle, the break a fresh white splinter: broken by the wind, not cut by men. The word \"Bing\" on the cloth is torn by the wind to half a character.\n"
+
+msgid "黑石垒的坛，一人多高，坛顶压着一块铜盘，盘里的灰被风吹得只剩一层。坛脚的地上画着一圈套一圈的符，每一圈都朝西开口——画符的人一直是顺着风画的。\n"
+msgstr "An altar of black stone, taller than a man, a copper dish pressed on its top, the ash in the dish blown down to a thin layer. On the ground at its foot are talismans drawn ring within ring, each ring open to the west. Whoever drew them always drew them with the wind.\n"
+
+msgid "门洞是一整块白石凿出来的，圆的，里外都被风磨亮了。往外看是雾，雾底下很远的地方有山。门洞的顶上刻着两个字，被风磨得快平了，摸得出来：寻风。\n"
+msgstr "The gate is cut from one whole block of white stone, round, worn bright inside and out by the wind. Looking out there is mist, and far below the mist, mountains. Over the gate two words are carved, worn almost flat, so that you can make them out only by touch: Seek Wind.\n"
+
+msgid "一只铜钩，钩尖朝上，擦得很亮。岚城家家门口都有一只，挂的是孩子的铃；这一只空了二十年。\n"
+msgstr "A bronze hook, tip upward, rubbed bright. Every door in the Wind City has one, and on it hangs a child's bell. This one has been empty for twenty years.\n"
+
+msgid "一只铜钩，钩尖朝上，擦得很亮。钩上挂着一只青铜小铃，绳结是孩子打的死结，风一过就响。萧家的铃回来了。\n"
+msgstr "A bronze hook, tip upward, rubbed bright. On it hangs a small bronze bell, its cord tied in a child's hard knot, ringing whenever wind passes. The Xiao family's bell is back.\n"
+
+msgid "一只铜钩，钩尖朝上，擦得很亮。你怀里那只铃的绳结，和钩子上磨出来的那道印子，一样宽。\n"
+msgstr "A bronze hook, tip upward, rubbed bright. The knot of the bell you carry and the groove worn into the hook are the same width.\n"
+
+msgid "雪亭的铃。铃身发暗，刻着「雪亭」两个字，一声不响。\n"
+msgstr "The bell of Snow Pavilion. Its body is dark, with the words \"Snow Pavilion\" carved on it, and it is silent.\n"
+
+msgid "雪亭的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：雪亭。\n岚城的铃认人：雪亭有人信你。\n"
+msgstr "The bell of Snow Pavilion. It is ringing, and not from the wind: it rings though the wind has died. The words on its body are bright: Snow Pavilion.\nThe bells of the Wind City know people: in Snow Pavilion, someone trusts you.\n"
+
+msgid "老松岭的铃。铃身发暗，刻着「老松岭」两个字，一声不响。\n"
+msgstr "The bell of Old Pine Ridge. Its body is dark, with the words \"Old Pine Ridge\" carved on it, and it is silent.\n"
+
+msgid "老松岭的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：老松岭。\n岚城的铃认人：老松岭有人信你。\n"
+msgstr "The bell of Old Pine Ridge. It is ringing, and not from the wind: it rings though the wind has died. The words on its body are bright: Old Pine Ridge.\nThe bells of the Wind City know people: in Old Pine Ridge, someone trusts you.\n"
+
+msgid "水烟阁的铃。铃身发暗，刻着「水烟阁」两个字，一声不响。\n"
+msgstr "The bell of Waterfog Pavilion. Its body is dark, with the words \"Waterfog Pavilion\" carved on it, and it is silent.\n"
+
+msgid "水烟阁的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：水烟阁。\n岚城的铃认人：水烟阁有人信你。\n"
+msgstr "The bell of Waterfog Pavilion. It is ringing, and not from the wind: it rings though the wind has died. The words on its body are bright: Waterfog Pavilion.\nThe bells of the Wind City know people: in Waterfog Pavilion, someone trusts you.\n"
+
+msgid "野羊山的铃。铃身发暗，刻着「野羊山」两个字，一声不响。\n"
+msgstr "The bell of Goathill. Its body is dark, with the words \"Goathill\" carved on it, and it is silent.\n"
+
+msgid "野羊山的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：野羊山。\n岚城的铃认人：野羊山有人信你。\n"
+msgstr "The bell of Goathill. It is ringing, and not from the wind: it rings though the wind has died. The words on its body are bright: Goathill.\nThe bells of the Wind City know people: in Goathill, someone trusts you.\n"
+
+msgid "晚月庄的铃。铃身发暗，刻着「晚月庄」两个字，一声不响。\n"
+msgstr "The bell of Latemoon Manor. Its body is dark, with the words \"Latemoon Manor\" carved on it, and it is silent.\n"
+
+msgid "晚月庄的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：晚月庄。\n岚城的铃认人：晚月庄有人信你。\n"
+msgstr "The bell of Latemoon Manor. It is ringing, and not from the wind: it rings though the wind has died. The words on its body are bright: Latemoon Manor.\nThe bells of the Wind City know people: in Latemoon Manor, someone trusts you.\n"
+
+msgid "乔阴的铃。铃身发暗，刻着「乔阴」两个字，一声不响。\n"
+msgstr "The bell of Tallshade. Its body is dark, with the words \"Tallshade\" carved on it, and it is silent.\n"
+
+msgid "乔阴的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：乔阴。\n岚城的铃认人：乔阴有人信你。\n"
+msgstr "The bell of Tallshade. It is ringing, and not from the wind: it rings though the wind has died. The words on its body are bright: Tallshade.\nThe bells of the Wind City know people: in Tallshade, someone trusts you.\n"
+
+msgid "关北的铃。铃身发暗，刻着「关北」两个字，一声不响。\n"
+msgstr "The bell of Beyond the Pass. Its body is dark, with the words \"Beyond the Pass\" carved on it, and it is silent.\n"
+
+msgid "关北的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：关北。\n岚城的铃认人：关北有人信你。\n"
+msgstr "The bell of Beyond the Pass. It is ringing, and not from the wind: it rings though the wind has died. The words on its body are bright: Beyond the Pass.\nThe bells of the Wind City know people: in Beyond the Pass, someone trusts you.\n"
+
+msgid "番坊的铃。铃身发暗，刻着「番坊」两个字，一声不响。\n"
+msgstr "The bell of the Foreign Quarter. Its body is dark, with the words \"Foreign Quarter\" carved on it, and it is silent.\n"
+
+msgid "番坊的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：番坊。\n岚城的铃认人：番坊有人信你。\n"
+msgstr "The bell of the Foreign Quarter. It is ringing, and not from the wind: it rings though the wind has died. The words on its body are bright: Foreign Quarter.\nThe bells of the Wind City know people: in the Foreign Quarter, someone trusts you.\n"
+
+msgid "玉螺湖村的铃。铃身发暗，刻着「玉螺湖村」两个字，一声不响。\n"
+msgstr "The bell of Jade Conch Village. Its body is dark, with the words \"Jade Conch Village\" carved on it, and it is silent.\n"
+
+msgid "玉螺湖村的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：玉螺湖村。\n岚城的铃认人：玉螺湖村有人信你。\n"
+msgstr "The bell of Jade Conch Village. It is ringing, and not from the wind: it rings though the wind has died. The words on its body are bright: Jade Conch Village.\nThe bells of the Wind City know people: in Jade Conch Village, someone trusts you.\n"
+
+msgid "京师的铃。铃身发暗，刻着「京师」两个字，一声不响。\n"
+msgstr "The bell of the Capital. Its body is dark, with the words \"Capital\" carved on it, and it is silent.\n"
+
+msgid "京师的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：京师。\n岚城的铃认人：京师有人信你。\n"
+msgstr "The bell of the Capital. It is ringing, and not from the wind: it rings though the wind has died. The words on its body are bright: Capital.\nThe bells of the Wind City know people: in the Capital, someone trusts you.\n"
+
+msgid "一股旋风，从台心的白石上直卷上去。风里一把剑，剑尖朝下，一圈一圈地转：剑身是白的，转起来像一圈光。\n剑柄上缠着褪了色的红绳，绳头在风里乱飞。\n"
+msgstr "A whirlwind rises straight up from the white stone at the heart of the terrace. In the wind is a sword, point down, turning round and round: its blade is white, and spinning it looks like a ring of light.\nOn the hilt is a faded red cord, its end flying wild in the wind.\n"
+
+msgid "台心的风停了。白石上一圈浅浅的印子，是风转了三百年磨出来的。\n剑在你腰间。\n"
+msgstr "The wind at the heart of the terrace has stopped. On the white stone are shallow rings, worn by the wind turning for three hundred years.\nThe sword is at your waist.\n"
+
+msgid "台心的风停了。白石上一圈浅浅的印子，是风转了三百年磨出来的。\n剑跟着於兰天武回了京城。\n"
+msgstr "The wind at the heart of the terrace has stopped. On the white stone are shallow rings, worn by the wind turning for three hundred years.\nThe sword went back to the Capital with Yulan Tianwu.\n"
+
+msgid "台心的风停了。白石上一圈浅浅的印子，是风转了三百年磨出来的。\n剑跟着萧辟尘回了水烟阁。\n"
+msgstr "The wind at the heart of the terrace has stopped. On the white stone are shallow rings, worn by the wind turning for three hundred years.\nThe sword went back to Waterfog Pavilion with Xiao Bichen.\n"
+
+msgid "云在脚下翻。云缝里偶尔露出一点地面——山、河、一片黄的石头——一眨眼又合上了。看得久了，会觉得是自己在往前走。\n"
+msgstr "Clouds roll beneath your feet. In the gaps now and then a bit of ground shows, mountains, a river, a stretch of yellow stone, and in a blink it closes again. Look long enough and it seems you are the one moving forward.\n"
+
+msgid "伏地"
+msgstr "Lie Flat"
+
+msgid "伏下身子，等风过去？"
+msgstr "Lie down and wait for the wind to pass?"
+
+msgid "你伏在背风的石头上。风从头顶上过去，一阵，又一阵，越过越远。\n"
+msgstr "You lie in the lee of a stone. The wind goes over your head, one gust, then another, each farther than the last.\n"
+
+msgid "四下里静下来。然后是铃声——不是一只，是许许多多只，满耳都是，近得像就挂在你头顶上。\n"
+msgstr "All around grows still. Then bells, not one but many, filling both ears, so near it seems they hang over your head.\n"
+
+msgid "你抬起头。雾散了。一座白石的城浮在石坳外头的半空里，城门开着，城墙上挂满了风铃，一条白石长街从城门里往上绕，绕进云里。\n"
+msgstr "You raise your head. The mist has cleared. A city of white stone floats in the air beyond the hollow, its gate open, wind chimes hung all along its walls, and a long white street winding up from the gate into the clouds.\n"
+
+msgid "你站起来往前走了一步。脚下没有空——是一级白石的台阶，台阶上去，就是城门。\n"
+msgstr "You stand and take a step forward. There is no drop under your foot: it is a step of white stone, and up the steps is the city gate.\n"
+
+msgid "你伏在地上等了好一会儿。风还在吹，草还在倒——这里不是风停的地方。\n"
+msgstr "You lie on the ground a good while, waiting. The wind still blows, the grass still bends. This is not where the wind stops.\n"
+
+msgid "出白石门？城会随风走，下回再来，得重新寻风。"
+msgstr "Go out through the White Stone Gate? The city goes with the wind. Coming again, you must seek the wind anew."
+
+msgid "你穿过白石门。脚下一空，又不空——风托着你，雾从两边合拢过来。\n"
+msgstr "You pass through the White Stone Gate. The ground drops away, and does not; the wind holds you up, and the mist closes in from both sides.\n"
+
+msgid "等你站稳，人已经在背风的石坳里了。回头看，只有雾。\n"
+msgstr "By the time you steady yourself, you are in a sheltered hollow in the stone. Looking back, there is only mist.\n"
+
+msgid "你穿过白石门。风托着你，雾合拢了。等你站稳，人在风口。\n"
+msgstr "You pass through the White Stone Gate. The wind holds you up, and the mist closes in. By the time you steady yourself, you are at the Wind Gate.\n"
+
+msgid "自己拔"
+msgstr "Draw It Yourself"
+
+msgid "旋风里又转着旋芒。它回了家，风不再让人走近。\n"
+msgstr "Whirling Edge turns in the whirlwind again. It is home, and the wind no longer lets anyone near.\n"
+
+msgid "剑已经有人了。台心的风停着。\n"
+msgstr "The sword already has an owner. The wind at the heart of the terrace is still.\n"
+
+msgid "风太大，你走不近。守剑的人在楼下风铃阁里。\n"
+msgstr "The wind is too strong; you cannot get near. The keeper of the sword is downstairs in the Wind Chime Pavilion.\n"
+
+msgid "你走进旋风。风刃从四面八方削过来，削到身上，却不再伤人——它认得你了。\n"
+msgstr "You walk into the whirlwind. Wind blades cut at you from every side, but they no longer wound. It knows you now.\n"
+
+msgid "你伸手。剑柄落进掌心，凉的，又是暖的。风一下子散了。\n"
+msgstr "You reach out. The hilt falls into your palm, cold and warm at once. The wind scatters all at once.\n"
+
+msgid "看着台心的风散尽，点了点头。"
+msgstr " watches the wind at the heart of the terrace scatter, and nods."
+
+msgid "十口铃里有人信你，剑就认你。拿去吧——不扰民的剑，你们先帝要对了。"
+msgstr "Among the ten bells there are those who trust you, and so the sword knows you. Take it. Your late Emperor was right to ask for a sword that troubles no one."
+
+msgid "云边有风，会送你回去。"
+msgstr "At the edge of the cloud there is wind that will send you back."
+
+msgid "岚翁说道：先接三刃。风认了你，剑才落得下来。\n"
+msgstr "The Wind Elder says, \"First meet the three blades. Once the wind has known you, the sword can fall.\"\n"
+
+msgid "自己拔旋芒？十铃架上信你的铃够了。\n拔了，终章是你持剑；不拔，旋芒归皇叔或萧辟尘，湖畔和冰龙厅那两仗他会跟你并肩打。先要接岚翁的「接风三刃」——三下风刃是真的，接不住会受伤、会昏倒，歇好了可以再来。"
+msgstr "Draw Whirling Edge yourself? Enough bells on the ten-bell rack trust you.\nIf you draw it, you carry the sword in the final chapter. If you do not, Whirling Edge goes to the Imperial Uncle or to Xiao Bichen, and in the two fights at the lakeshore and the ice dragons' hall he will fight at your side. First you must meet the Wind Elder's \"Three Blades of Wind\". The three wind blades are real: if you cannot take them you will be hurt and faint, and once rested you may try again."
+
+msgid "好。剑在风里，风先要认你。我替风出三刃。"
+msgstr "Good. The sword is in the wind, and the wind must first know you. I will throw three blades for the wind."
+
+msgid "你走近旋风，风把你推了回来。\n"
+msgstr "You approach the whirlwind, and the wind pushes you back.\n"
+
+msgid "（十铃架上响了五口铃，还差一口：自己拔，要六处以上有人信你。）\n"
+msgstr "(Five of the ten bells are ringing, one short: to draw it yourself, you need someone to trust you in six or more places.)\n"
+
+msgid "（十铃架上响了四口铃，还差两口：自己拔，要六处以上有人信你。）\n"
+msgstr "(Four of the ten bells are ringing, two short: to draw it yourself, you need someone to trust you in six or more places.)\n"
+
+msgid "（十铃架上响了三口铃，还差三口：自己拔，要六处以上有人信你。）\n"
+msgstr "(Three of the ten bells are ringing, three short: to draw it yourself, you need someone to trust you in six or more places.)\n"
+
+msgid "（十铃架上响了两口铃，还差四口：自己拔，要六处以上有人信你。）\n"
+msgstr "(Two of the ten bells are ringing, four short: to draw it yourself, you need someone to trust you in six or more places.)\n"
+
+msgid "（十铃架上响了一口铃，还差五口：自己拔，要六处以上有人信你。）\n"
+msgstr "(One of the ten bells is ringing, five short: to draw it yourself, you need someone to trust you in six or more places.)\n"
+
+msgid "（十铃架上一口铃也没响：自己拔，要六处以上有人信你。）\n"
+msgstr "(Not one of the ten bells is ringing: to draw it yourself, you need someone to trust you in six or more places.)\n"
+
+msgid "请皇叔"
+msgstr "Ask the Uncle"
+
+msgid "请皇叔来拔？\n京师那口铃一响，风就去京城把於兰天武找来。剑跟他走，终章他持剑，你在旁边。"
+msgstr "Ask the Imperial Uncle to draw it?\nWhen the bell of the Capital rings, the wind will go to the Capital and fetch Yulan Tianwu. The sword goes with him, he carries it in the final chapter, and you stand beside him."
+
+msgid "岚翁伸手往楼下一指。底下风铃阁里，京师那口大铃自己响了一声，又一声。\n"
+msgstr "The Wind Elder points a hand downstairs. Below, in the Wind Chime Pavilion, the great bell of the Capital rings by itself once, then again.\n"
+
+msgid "一阵大风从云里落下来，落在台上，风里站着一个人，朝服被吹得猎猎地响。\n"
+msgstr "A great wind drops out of the clouds onto the terrace, and a man stands in it, his court robe whipping and snapping.\n"
+
+msgid "四下看了一眼，目光落在台心的风上，看了很久。"
+msgstr " looks around, his gaze coming to rest on the wind at the heart of the terrace. He looks for a long time."
+
+msgid "三百年前，於兰家拔错了一把剑。这一把，我来。"
+msgstr "Three hundred years ago the Yulan family drew the wrong sword. This one, I will draw."
+
+msgid "於兰天武走进旋风。风刃削过他的朝服，他一步也没停。他伸手，剑落进他手里，风散了。\n"
+msgstr "Yulan Tianwu walks into the whirlwind. The wind blades slice past his court robe and he does not stop a step. He reaches out, the sword falls into his hand, and the wind scatters.\n"
+
+msgid "昭儿还在殿上等我。剑我带回去——决战那日，你来叫我。"
+msgstr "Zhao'er is still waiting for me at court. I will take the sword back. On the day of the final battle, come and call me."
+
+msgid "又一阵风卷过来，於兰天武不见了。\n"
+msgstr "Another gust rolls in, and Yulan Tianwu is gone.\n"
+
+msgid "岚翁说道：京师那口铃还没响到他身上。手诏送到了，他回了朝，风才找得到他。\n"
+msgstr "The Wind Elder says, \"The bell of the Capital has not yet rung upon him. Once the edict is delivered and he has returned to court, the wind will be able to find him.\"\n"
+
+msgid "岚翁说道：於兰家的人？他还在通缉里，躲在水烟阁，朝廷的事他不碰。风找不到不肯来的人。\n"
+msgstr "The Wind Elder says, \"The Yulan man? He is still under warrant, hiding in Waterfog Pavilion, and will not touch court affairs. The wind cannot find a man who will not come.\"\n"
+
+msgid "（请皇叔拔：只有第九章请皇上先撤了他的通缉、把手诏送到他手里的那一边，他才在朝上。）\n"
+msgstr "(Asking the Uncle to draw it: only on the side of Chapter 9 where you asked the Emperor to lift his warrant first and delivered the edict into his hands will he be at court.)\n"
+
+msgid "让萧辟尘拔"
+msgstr "Let Xiao Bichen Draw"
+
+msgid "让萧辟尘来拔？\n岚翁会把他的风铃挂回萧家的钩上，风认得铃上的名字，会把他送回来。剑跟他走：他会拿着它去决战，那一战，他可能回不来。铃也就还给他了。"
+msgstr "Let Xiao Bichen draw it?\nThe Wind Elder will hang his wind bell back on the Xiao family's hook; the wind knows the name on the bell and will bring him back. The sword goes with him: he will take it to the final battle, and in that battle he may not come back. The bell is then returned to him as well."
+
+msgid "岚翁接过风铃，拇指在铃舌的「尘」字上摸了一下，朝着白石街的方向摇了摇。\n"
+msgstr "The Wind Elder takes the wind bell, rubs the \"Chen\" on the clapper once with his thumb, and shakes the bell toward White Stone Street.\n"
+
+msgid "底下长街上，萧家门楣那只空钩叮的一声。风从街上一路卷上来，卷到台上，风里站着一个人，白衣，长发，被风吹得乱飞。\n"
+msgstr "Down on the long street, the empty hook over the Xiao door rings once. A wind rolls all the way up the street to the terrace, and in it stands a man in white, his long hair whipping wild.\n"
+
+msgid "四下看，看了很久。"
+msgstr " looks around, and keeps looking for a long time."
+
+msgid "……城还是这个样子。"
+msgstr "... The city is just the same."
+
+msgid "铃在，风认人。你替我把铃带回来了。"
+msgstr "Where the bell is, the wind knows the man. You brought my bell back for me."
+
+msgid "萧辟尘走进旋风。风绕着他转，转得慢了，像是认得他。剑落进他手里，风散了。\n"
+msgstr "Xiao Bichen walks into the whirlwind. The wind circles him, turning slower and slower, as though it knows him. The sword falls into his hand, and the wind scatters.\n"
+
+msgid "我回水烟阁。决战那日，剑跟我下湖。"
+msgstr "I am going back to Waterfog Pavilion. On the day of the final battle, the sword goes down into the lake with me."
+
+msgid "又一阵风卷过来，萧辟尘不见了。\n"
+msgstr "Another gust rolls in, and Xiao Bichen is gone.\n"
+
+msgid "岚翁说道：风认铃，不认人。萧家孩子的铃不在你身上，风就找不到他。\n"
+msgstr "The Wind Elder says, \"The wind knows bells, not people. The Xiao child's bell is not on you, so the wind cannot find him.\"\n"
+
+msgid "（让萧辟尘拔：要带着他的青铜风铃——在老松岭石洞的石匣里，对着寻风地带的风才开。）\n"
+msgstr "(To let Xiao Bichen draw it, you must bring his bronze wind bell. It is in the stone casket in the cave at Old Pine Ridge, which opens only when faced with the wind of the Windseeking Wilds.)\n"
+
+msgid "乘风"
+msgstr "Ride the Wind"
+
+msgid "你往云边走了一步，风把你托了回来。剑还没有主，风不送人。\n"
+msgstr "You step toward the edge of the cloud, and the wind lifts you back. The sword has no master yet, and the wind does not send anyone away.\n"
+
+msgid "乘风回去？风会把你放在天驼关石林那面镜子前。岚城随风走，下回再来，得重新寻风。"
+msgstr "Ride the wind back? The wind will set you down before that mirror in the stone forest at Camelback Pass. The city goes with the wind. Coming again, you must seek the wind anew."
+
+msgid "你往云里迈了一步。风从底下托住你，像一只手。\n"
+msgstr "You step into the cloud. The wind takes you from beneath, like a hand.\n"
+
+msgid "云从身边飞快地往上退，铃声越来越远。等你站稳，眼前是石林，那面镜子里映着你自己。\n"
+msgstr "The cloud races up past you, and the bells grow ever farther away. By the time you steady yourself, you are before the stone forest, and in that mirror is yourself.\n"
+
+msgid "一阵狂风迎面压过来，压得你喘不过气。你运起内力顶住了。\n"
+msgstr "A violent gust bears down on you, pressing the breath out of your chest. You gather your Inner Force and hold against it."
+
+msgid "狂风刮得你站不住脚，一跤摔在草里！风大不能行。\n"
+msgstr "The gale tears at you until you cannot keep your footing, and you fall flat in the grass! The wind is too strong to walk."
