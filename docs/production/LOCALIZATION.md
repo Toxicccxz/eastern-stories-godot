@@ -1,8 +1,8 @@
 # Localization
 
 Simplified Chinese (zh_CN) is the source language: every message's ID is its source text
-(gettext). Traditional Chinese (`game/locale/zh_Hant.po`) and English (`game/locale/en.po`) are in
-preview; the decisions behind this setup are in
+(gettext). Traditional Chinese (`game/locale/zh_Hant.po`), English (`game/locale/en.po`) and Korean
+(`game/locale/ko.po`) are in preview; the decisions behind this setup are in
 [DECISIONS](../migration/DECISIONS.md#localization-the-source-text-is-the-key-2026-10-03).
 
 ## Writing player text
@@ -58,7 +58,8 @@ choice and the Settings language.
 3. When the source text changes later, regenerate the template and update each `.po` from it
    (Poedit: Update from POT; `msgmerge`); changed messages come back fuzzy.
 4. `python tools/l10n/check_po.py` checks every `.po` against the template (slots kept, no stale
-   messages, grammar marks well formed, no full-width “ ” … in a Latin language);
+   messages, grammar marks well formed, no full-width “ ” … in a Latin language; in Korean a
+   particle pair only after a slot, no Han character, no Chinese punctuation);
    `tools/tests/test_translations.py` runs it in the gate.
 
 ## Working on a translation
@@ -79,6 +80,12 @@ Keep batches and scratch lists under `build/`, then run `check_po.py`.
 
 English: style, names, terms and the grammar marks ES2's templates need are in
 [english_style.md](english_style.md).
+
+Korean: style, registers, names, the particle pairs after a slot (`을(를)`, resolved by
+`KoreanParticles` once a line is filled) and word-whole wrapping (`KoreanText`) are in
+[korean_style.md](korean_style.md). A place that shows filled text without the control
+translating it calls `KoreanText.shown()`; `korean_lines_test` fills every template and fails on
+a pair left over.
 
 Traditional Chinese is drafted, not translated by hand: one Taiwan-standard text, the story's words
 unchanged, Taiwan's words in the interface (DECISIONS「繁體中文 (preview)」). After the template

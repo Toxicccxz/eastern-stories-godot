@@ -66,7 +66,7 @@ schools, arts, moves, titles. Never pinyin, never ES2's English ids (waterfog, l
 천타관 天驼关 · 일조산 日照山 · 흑송산 黑松山 · 번방 番坊 · 관북 关北 · 역령궁 逆灵宫 ·
 황석고개 黄石隘口 (a natural pass: 고개) · 음풍객잔 饮风客栈 · 채홍대 虹台 (홍대 is a Seoul district) · 수연각 水烟阁 ·
 봉산검파 封山剑派 · 순풍무관 淳风武馆 · 천악파 天邪派 (천사 is "angel") · 동방신교 东方神教 ·
-진원표국 振远镖局 · 만월장 晚月庄 · 화자회 花紫会 · 모천귀 侮天鬼 · 유순풍 柳淳风 (淳 순) ·
+진원표국 振远镖局 · 만월장 晚月庄 · 화자회 花紫会 · 모천귀 侮天鬼 · 유순풍 柳淳风 (淳 순) · 원본 原令 (원령 is a vengeful ghost) ·
 유회심 柳绘心 · 선망보검 旋芒宝剑.
 
 * Check a new name against everyday Korean: a reading that is a common word (천사 angel, 남성
@@ -100,7 +100,7 @@ names stay. Each one is listed for Muse in its batch. Settled with Muse: 华中�
 
 江湖 강호 · 武林 무림 · 内功 내공 (what is trained) · 内力 내력 (what is spent) · 轻功 경공 ·
 精/气/神 정·기·신 · 潜能 잠재력 · 实战经验 실전 경험 · 杀气 살기 · 法力 법력 · 灵力 영력 ·
-定力 (ask Muse: not 정력, which reads as stamina) · 师父 사부(님) · 掌门 장문인 · 师兄/师弟/师姐/师妹 사형/사제/사저/사매 · 长老 장로 ·
+定力 평정심 (not 정력, which reads as stamina) · 师父 사부(님) · 掌门 장문인 · 师兄/师弟/师姐/师妹 사형/사제/사저/사매 · 长老 장로 ·
 客官 손님 · 施主 시주 · 贫道 빈도 · 老衲 노납 · 贫僧 빈승 · 在下 재하 · 大侠 대협 · 少侠 소협 ·
 店小二 점소이 · 掌柜 장궤 · 大内 대내 · 镖局 표국 · 腰牌 요패 · 盟主 맹주.
 承让: 양보해 주셔서 감사합니다 (합쇼체), 봐주셔서 고맙소 (하오체). No HP or MP.
