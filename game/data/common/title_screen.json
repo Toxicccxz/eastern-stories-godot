@@ -12,6 +12,13 @@
 			"zh_CN": "EASTERN STORIES",
 			"default": "东方故事"
 		},
+		"line_masks": {
+			"default": "res://assets/textures/title/line_en.png"
+		},
+		"ribbons": {
+			"zh_CN": {"y": 98, "from": -3, "fold": 96, "band": 19, "under": [0, 26, 45, 72]},
+			"default": {"y": 110, "from": -2, "fold": 97, "band": 22, "under": []}
+		},
 		"seals": {
 			"zh_CN": "res://assets/textures/title/seal_zh_CN.png"
 		},

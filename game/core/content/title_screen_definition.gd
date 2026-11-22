@@ -16,6 +16,18 @@ class Choice:
 	var zoom_percent: int = 66
 
 
+## The silk ribbon through the foot of the lettering (TitleRibbon), in percent of the lettering's
+## ink box: the height its middle runs at (0 the top, 100 the foot), where it starts and where it
+## folds (0 the left, 100 the right), how wide it is against the ink's height, and the spans of
+## the ink's width where the lettering lies over it, as pairs (the band lies over the rest).
+class Ribbon:
+	var y: int = 98
+	var from: int = -3
+	var fold: int = 96
+	var band: int = 19
+	var under: Array[int] = []
+
+
 ## By the menu button's name (NewGameButton, ContinueButton, …).
 var choices: Dictionary[StringName, Choice] = {}
 ## Lettering masks (white = ink) by language code; "default" for any other language.
@@ -24,6 +36,11 @@ var seals: Dictionary[String, String] = {}
 ## The line spaced out under the title by language code ("default" for any other): the title
 ## in the other language.
 var lines: Dictionary[String, String] = {}
+## The line as a lettering mask (red = ink) where it is not set in a shipped font, by the same
+## language codes as `lines`.
+var line_masks: Dictionary[String, String] = {}
+## The ribbon by language code ("default" for any other).
+var ribbons: Dictionary[String, Ribbon] = {}
 ## Where the sun stands and where the logo's middle stands, in percent of the screen.
 var sun_percent: Array[int] = [28, 20]
 var logo_percent: Array[int] = [28, 21]
@@ -50,6 +67,15 @@ func line_for(language: String) -> String:
 	return lines.get(language, lines.get("default", ""))
 
 
+## The line's mask goes with the line: a language with a line of its own takes only its own mask.
+func line_mask_for(language: String) -> String:
+	return line_masks.get(language if lines.has(language) else "default", "")
+
+
+func ribbon_for(language: String) -> Ribbon:
+	return ribbons.get(language, ribbons.get("default", Ribbon.new()))
+
+
 static func from_record(reader: ContentRecordReader) -> TitleScreenDefinition:
 	var definition := TitleScreenDefinition.new()
 	for key: String in ["sun_percent", "logo_percent"]:
@@ -64,6 +90,27 @@ static func from_record(reader: ContentRecordReader) -> TitleScreenDefinition:
 	definition.logos = reader.text_map("logos")
 	definition.seals = reader.text_map("seals")
 	definition.lines = reader.text_map("lines")
+	definition.line_masks = reader.text_map("line_masks")
+	var ribbons: ContentRecordReader = reader.child("ribbons")
+	if ribbons != null:
+		for language: String in ribbons.keys():
+			var entry: ContentRecordReader = ribbons.child(language)
+			var ribbon := Ribbon.new()
+			ribbon.y = entry.integer("y", ribbon.y)
+			ribbon.from = entry.integer("from", ribbon.from)
+			ribbon.fold = entry.integer("fold", ribbon.fold)
+			ribbon.band = entry.integer("band", ribbon.band)
+			if entry.has("under"):
+				ribbon.under = entry.integer_list("under")
+			if ribbon.under.size() % 2 != 0 or ribbon.under.size() > 4:
+				entry.fail("under", "expected up to two [from, to] pairs")
+			if ribbon.band < 5 or ribbon.band > 60:
+				entry.fail("band", "expected 5..60")
+			if ribbon.fold <= ribbon.from:
+				entry.fail("fold", "expected right of from")
+			entry.finish()
+			definition.ribbons[language] = ribbon
+		ribbons.finish()
 	var choices: ContentRecordReader = reader.child("choices")
 	if choices != null:
 		for name: String in choices.keys():
