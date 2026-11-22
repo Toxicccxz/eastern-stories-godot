@@ -97,6 +97,8 @@ var _still_left: float = -1.0
 ## (the session takes it on its next frame; the capture's own long frame then ends the hold).
 const STILL_TAIL_SECONDS: float = 0.05
 var _held_result: String = ""
+## The finished spar's summary, shown with the result (SparSummaryPanel).
+var _held_spar: CombatSparSummary
 var _hold_shield: Control
 ## The cards take the finished fight's last 气 once its last lines are told.
 var _final_cards: bool = false
@@ -259,8 +261,12 @@ func _end_hold() -> void:
 		hide()
 		_restore_world_hud()
 	var hud: SharedGameplayUI = null if _session == null else _session.shared_ui()
+	var spar: CombatSparSummary = _held_spar
+	_held_spar = null
 	if hud != null:
 		hud.show_combat_result(text)
+		if spar != null:
+			hud.show_spar_summary(spar)
 
 
 ## The next waiting line joins the recent strip: battle_line_ms apart, closer when more wait
@@ -829,9 +835,13 @@ func _present_completed_result() -> void:
 	if _holding():
 		# Another fight ended before the last one's result was out: that one first.
 		_end_hold()
+	var spar: CombatSparSummary = coordinator.spar_summary(receipt.encounter_id)
 	if hold <= 0.0 or not visible:
 		hud.show_combat_result(text)
+		if spar != null:
+			hud.show_spar_summary(spar)
 		return
+	_held_spar = spar
 	# The panel stays on the fight's last lines, the world held, then the result (the hold
 	# is set before the lines: the cards settle and the stamp shows under it). An opening still
 	# waiting to begin never will: the panel shows as it is.

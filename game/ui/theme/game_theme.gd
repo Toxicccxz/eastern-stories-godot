@@ -250,7 +250,8 @@ func _rows() -> void:
 
 
 ## The game menu (DECISIONS「界面样式」): its window a panel with room inside, its tabs flat
-## until hovered (a dark board) or shown (a plank, ink letters), a thin rule.
+## until hovered (a dark board) or shown (a lacquer plate, warm light letters: owner
+## 2026-11-22, ink letters on a pale plank read poorly), a thin rule.
 func _menu() -> void:
 	_variation(&"MenuWindow", &"PanelContainer")
 	set_stylebox("panel", &"MenuWindow", _window(13, Vector4(18, 14, 18, 22)))
@@ -264,15 +265,16 @@ func _menu() -> void:
 	set_stylebox("normal", &"TabButton", flat)
 	set_stylebox("disabled", &"TabButton", flat)
 	set_stylebox("hover", &"TabButton", _mat(KIND.WOOD, UiPalette.EBONY.lightened(0.12), UiPalette.EBONY_SIDE, 32, 20, 5, 2, 83, tab_pad))
-	var shown: PixelBox = _mat(KIND.WOOD, UiPalette.PLANK, UiPalette.WOOD_SIDE, 32, 20, 5, 2, 83, tab_pad)
+	var shown: PixelBox = _mat(KIND.LACQUER, UiPalette.LACQUER, UiPalette.LACQUER_SIDE, 32, 20, 5, 2, 83, tab_pad)
 	for state: String in ["pressed", "hover_pressed"]:
 		set_stylebox(state, &"TabButton", shown)
 	set_stylebox("focus", &"TabButton", UiBlocks.rim())
 	set_color("font_color", &"TabButton", UiPalette.MUTED)
 	set_color("font_hover_color", &"TabButton", UiPalette.BONE)
 	set_color("font_focus_color", &"TabButton", UiPalette.BONE)
-	set_color("font_pressed_color", &"TabButton", UiPalette.INK)
-	set_color("font_hover_pressed_color", &"TabButton", UiPalette.INK)
+	set_color("font_pressed_color", &"TabButton", UiPalette.LIGHT_TEXT)
+	set_color("font_hover_pressed_color", &"TabButton", UiPalette.LIGHT_TEXT)
+	set_color("font_shadow_color", &"TabButton", Color(0, 0, 0, 0.45))
 	set_color("font_disabled_color", &"TabButton", UiPalette.DIM)
 	set_font_size("font_size", &"TabButton", BODY_SIZE)
 

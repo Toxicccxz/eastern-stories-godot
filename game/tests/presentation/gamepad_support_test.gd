@@ -60,7 +60,7 @@ func _test_glyphs() -> void:
 	var devices := InputDevices.new()
 	devices.set_kind(InputDevices.Kind.GAMEPAD, InputDevices.PadStyle.XBOX)
 	_check(_text(&"ui_accept", devices) == "A" and _text(&"ui_cancel", devices) == "B" and _text(&"nearby_focus", devices) == "Y" and _text(&"look_around", devices) == "X" and _text(&"interact", devices) == "A", "Xbox: A B Y X, interact A")
-	_check(_text(&"menu_open", devices) == "Start" and _text(&"pause_game", devices) == "Back" and _text(&"menu_tab_previous", devices) == "LB" and _text(&"menu_tab_next", devices) == "RB", "Start, Back, LB, RB")
+	_check(_text(&"menu_open", devices) == "菜单键" and _text(&"pause_game", devices) == "视图键" and _text(&"menu_tab_previous", devices) == "LB" and _text(&"menu_tab_next", devices) == "RB", "菜单键 (Start), 视图键 (Back), LB, RB")
 	_check(_text(&"scroll_down", devices) == "RS", "the right stick scrolls")
 	_check(InputGlyphs.glyph_for(&"menu_character", devices) == null, "no pad glyph for a key-only action")
 	devices.set_kind(InputDevices.Kind.GAMEPAD, InputDevices.PadStyle.PLAYSTATION)
@@ -506,7 +506,7 @@ func _card_button(ui: SharedGameplayUI, label: String) -> Button:
 
 func _text(action: StringName, devices: InputDevices) -> String:
 	var glyph: InputGlyphs.Glyph = InputGlyphs.glyph_for(action, devices)
-	return "" if glyph == null else glyph.text
+	return "" if glyph == null else InputGlyphs.shown_name(glyph)
 
 
 func _joy_button(button: JoyButton, pressed: bool) -> InputEventJoypadButton:

@@ -20,11 +20,19 @@ const CARD_HOLD: StringName = &"card"
 ## A card's text is wider than the death card's lines.
 const CARD_WIDTH: float = 700.0
 const DEATH_WIDTH: float = 300.0
+## Room the card leaves round it on the screen (owner 2026-11-22: the opening card ran off a
+## phone's screen): it narrows to the screen, and a text taller than what is left scrolls.
+const SCREEN_MARGIN: float = 24.0
 
 var _session: WorldSessionController
 var _dim: ColorRect
 var _panel: PanelContainer
 var _text: Label
+## The text's scroll: as tall as the text, or as the screen allows (the right stick, PgUp /
+## PgDn and the wheel scroll it).
+var _scroll: ScrollContainer
+## What the scroll was last fitted to (_fit runs every frame; the text is measured on change).
+var _fitted: Array = []
 var _continue: Button
 var _to_autosave: Button
 var _last_phase: PlayerLifeFlow.Phase = PlayerLifeFlow.Phase.NONE
@@ -71,11 +79,17 @@ func _ready() -> void:
 	var rows: VBoxContainer = VBoxContainer.new()
 	rows.add_theme_constant_override("separation", 12)
 	_panel.add_child(rows)
+	_scroll = ScrollContainer.new()
+	_scroll.name = "TextScroll"
+	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_scroll.add_to_group(PadSupport.SCROLL_GROUP)
+	rows.add_child(_scroll)
 	_text = Label.new()
 	_text.name = "LifeText"
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_text.custom_minimum_size = Vector2(DEATH_WIDTH, 0)
-	rows.add_child(_text)
+	_scroll.add_child(_text)
 	_continue = Button.new()
 	_continue.name = "Continue"
 	_continue.text = "继续"
@@ -167,14 +181,15 @@ func _process(delta: float) -> void:
 
 ## A blocking screen dims the world and takes its clicks; the short notice
 ## after coming back does neither.
-func _show(value: String, can_continue: bool, blocking: bool) -> void:
+func _show(value: String, can_continue: bool, blocking: bool, width: float = DEATH_WIDTH) -> void:
 	visible = true
-	_text.text = value
-	_text.custom_minimum_size.x = DEATH_WIDTH
-	_panel.custom_minimum_size.x = DEATH_WIDTH + 20.0
+	if _text.text != value:
+		_text.text = value
+		_scroll.scroll_vertical = 0
 	_continue.visible = can_continue
 	if not can_continue:
 		_to_autosave.visible = false
+	_fit(width)
 	# The shell's question over the card stands alone.
 	_panel.visible = _world_has_focus()
 	var reappeared: bool = _panel.visible and not _panel_was_shown
@@ -198,14 +213,46 @@ func _show_card(value: String) -> void:
 	_to_autosave.visible = false
 	# The focus goes to 继续 once, as the card comes up: the pause panel over it keeps its own.
 	var first: bool = not _card_held
-	_show(value, true, first)
+	_show(value, true, first, CARD_WIDTH)
 	_dim.color.a = 0.72
 	_dim.mouse_filter = Control.MOUSE_FILTER_STOP
-	_text.custom_minimum_size.x = CARD_WIDTH
-	_panel.custom_minimum_size.x = CARD_WIDTH + 20.0
 	if first:
 		_card_held = true
 		_session.hold_world_time(CARD_HOLD)
+
+
+## The text `width` wide, or narrower to leave SCREEN_MARGIN on each side; its scroll as tall
+## as the text, or as the screen leaves above the buttons.
+func _fit(width: float) -> void:
+	var screen: Vector2 = get_viewport().get_visible_rect().size if is_inside_tree() else Vector2(1280, 720)
+	var key: Array = [_text.text, width, screen, _continue.visible, _to_autosave.visible]
+	if key == _fitted:
+		return
+	_fitted = key
+	var frame: StyleBox = _panel.get_theme_stylebox(&"panel")
+	var sides: Vector2 = Vector2(frame.get_margin(SIDE_LEFT) + frame.get_margin(SIDE_RIGHT), frame.get_margin(SIDE_TOP) + frame.get_margin(SIDE_BOTTOM))
+	var shown: float = floorf(clampf(screen.x - SCREEN_MARGIN * 2.0 - sides.x, 160.0, width))
+	_text.custom_minimum_size.x = shown
+	_panel.custom_minimum_size.x = 0.0
+	var below: float = 0.0
+	for button: Button in [_continue, _to_autosave]:
+		if button.visible:
+			below += button.get_combined_minimum_size().y + 12.0
+	var room: float = maxf(screen.y - SCREEN_MARGIN * 2.0 - sides.y - below, 80.0)
+	_scroll.custom_minimum_size = Vector2(shown, minf(_text_height(shown), room))
+
+
+## How tall `_text` is wrapped `width` wide.
+func _text_height(width: float) -> float:
+	var font: Font = _text.get_theme_font(&"font")
+	var size: int = _text.get_theme_font_size(&"font_size")
+	var flags: int = TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE
+	var paragraph := TextParagraph.new()
+	paragraph.break_flags = flags
+	paragraph.width = width
+	paragraph.add_string(_text.text, font, size)
+	var lines: int = paragraph.get_line_count()
+	return ceilf(paragraph.get_size().y + maxi(lines - 1, 0) * _text.get_theme_constant(&"line_spacing")) + 2.0
 
 
 func _release_card() -> void:

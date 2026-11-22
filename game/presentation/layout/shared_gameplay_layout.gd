@@ -10,6 +10,8 @@ var bar: PanelContainer
 ## the conditions and the waits. What is near shows on the map (the prompt over the
 ## target, the interaction popup); the room's name and text at the top on coming in.
 var menu_button: Button
+## 切至左侧 / 右侧: the voxel view's side (V, the right stick pressed).
+var view_side_button: VoxelViewSideButton
 ## The selected thing's commands (SharedGameplayUI's inspect_button … bribe_button) and the
 ## nearest door or service's context_button, kept off the card.
 var contexts: HFlowContainer
@@ -111,6 +113,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	view_side.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	view_side.theme_type_variation = &"HudChipButton"
 	header.add_child(view_side)
+	view_side_button = view_side
+	InputGlyphs.decorate(view_side, &"view_side")
 	menu_button = _button(header, "Menu", "菜单", ui.open_menu)
 	menu_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	menu_button.theme_type_variation = &"HudChipButton"

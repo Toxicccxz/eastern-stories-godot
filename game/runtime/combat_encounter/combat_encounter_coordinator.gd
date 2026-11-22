@@ -11,6 +11,10 @@ var _tactical_registry := CombatTacticalActionRegistry.new()
 var _resolution: CombatEncounterResolution
 var _last_completion: CombatEncounterCompletionResult
 var _unspent_at_start: int = 0
+## The player's numbers as the active fight began (CombatSparSummary.snapshot), and the last
+## spar's summary once it ended (the card after it).
+var _player_at_start: Dictionary = {}
+var _spar_summary: CombatSparSummary
 var _completed_feedback: CombatCompletedFeedback
 var _entry_sequence: int = 0
 var _last_abort_detail: String = ""
@@ -48,6 +52,11 @@ func resolution() -> CombatEncounterResolution:
 
 func last_completion() -> CombatEncounterCompletionResult:
 	return _last_completion
+
+
+## What the finished spar `encounter_id` came to (null: it was no spar, or another fight came since).
+func spar_summary(encounter_id: StringName) -> CombatSparSummary:
+	return _spar_summary if _spar_summary != null and _spar_summary.encounter_id == encounter_id else null
 
 func completed_feedback() -> CombatCompletedFeedback:
 	return _completed_feedback
@@ -1115,6 +1124,9 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	_last_completion = null
 	_open_with_stance(encounter)
 	_unspent_at_start = _player_unspent()
+	var player_now: WorldPlayerRuntimeState = _session.player_runtime()
+	_player_at_start = CombatSparSummary.snapshot(null if player_now == null else player_now.state) if encounter.mode == CombatEncounterMode.Value.SPAR else {}
+	_spar_summary = null
 	_session.progression_rewards().fight_began()
 	_completed_feedback = null
 	_resolution = null if encounter.mode == CombatEncounterMode.Value.SCRIPTED else CombatEncounterResolution.new(_session, encounter)
@@ -1292,6 +1304,8 @@ func _return_world(result: CombatEncounterResult) -> CombatEncounterCompletionRe
 		result,
 	)
 	_completed_feedback = CombatCompletedFeedback.new(encounter_id, _active_scheduler)
+	if result.kind == CombatEncounterResultKind.Value.SPAR_CONCLUDED:
+		_spar_summary = _summarise_spar(encounter_id)
 	# 战斗拍数 D: the guide's verdict, with the scheduler's counts still at hand.
 	if result.kind == CombatEncounterResultKind.Value.LESSON_CONCLUDED:
 		_conclude_lesson()
@@ -1316,6 +1330,21 @@ func _return_world(result: CombatEncounterResult) -> CombatEncounterCompletionRe
 	_active_encounter = null
 	_session.progression_rewards().fight_ended(_unspent_at_start)
 	return _last_completion
+
+
+## The spar just ended, as the card after it shows it.
+func _summarise_spar(encounter_id: StringName) -> CombatSparSummary:
+	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	if player == null or _active_encounter == null:
+		return null
+	var mine: CombatParticipant = _active_encounter.participant_for(player.character_id)
+	var opponents: Array[StringName] = []
+	for participant: CombatParticipant in _active_encounter.participants():
+		if mine != null and participant.side_id != mine.side_id:
+			opponents.append(participant.participant_id)
+	var winner: StringName = &"" if _resolution == null else _resolution.spar_winner()
+	var rounds: int = 0 if _active_scheduler == null else _active_scheduler.rounds_completed()
+	return CombatSparSummary.build(encounter_id, player.character_id, winner, opponents, rounds, _player_at_start, player.state)
 
 
 ## The player's unspent potential (A2: told once a fight fills it).

@@ -67,6 +67,10 @@ func walked_out() -> Dictionary[StringName, StringName]:
 func ended_by_walking() -> bool:
 	return _ended_by_walking
 
+## A spar's winner: who landed the blow that ended it, or whose chant won it (empty: nobody).
+func spar_winner() -> StringName:
+	return _spar_winner
+
 func lifecycles() -> Array[CombatSliceLifecycleResult]:
 	return _lifecycles.duplicate()
 

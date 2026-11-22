@@ -1619,7 +1619,7 @@ msgid "」"
 msgstr "\""
 
 msgid "、"
-msgstr ","
+msgstr ", "
 
 msgid "【见闻】{text}"
 msgstr "[Journal] {text}"
@@ -40779,3 +40779,87 @@ msgstr "Mount Mao's disciples took it on the North Foot last month. The cap is r
 
 msgid "冠在你身上。戴好，别摘——摘了，他们下一眼就认得你。"
 msgstr "You have the cap. Keep it on, do not take it off. Take it off and they will know you at the next glance."
+
+msgid "视图键"
+msgstr "View button"
+
+msgid "导航键"
+msgstr "Guide button"
+
+msgid "菜单键"
+msgstr "Menu button"
+
+msgid "十字键上"
+msgstr "D-pad Up"
+
+msgid "十字键下"
+msgstr "D-pad Down"
+
+msgid "十字键左"
+msgstr "D-pad Left"
+
+msgid "十字键右"
+msgstr "D-pad Right"
+
+msgid "切换视角"
+msgstr "Switch View"
+
+msgid "地图：移动"
+msgstr "Map: Move"
+
+msgid "地图：缩放"
+msgstr "Map: Zoom"
+
+msgid "地图：回到所在"
+msgstr "Map: Back to You"
+
+msgid "地图：全图 / 近看"
+msgstr "Map: Whole / Close"
+
+msgid "移动"
+msgstr "Move"
+
+msgid "缩放"
+msgstr "Zoom"
+
+msgid "回到所在"
+msgstr "Back to You"
+
+msgid "切磋 · 胜"
+msgstr "Spar · Won"
+
+msgid "切磋 · 负"
+msgstr "Spar · Lost"
+
+msgid "切磋 · 平手"
+msgstr "Spar · Draw"
+
+msgid "对手：{who}　共 {rounds} 回合"
+msgstr "Opponent: {who} · Rounds: {rounds}"
+
+msgid "共 {rounds} 回合"
+msgstr "Rounds: {rounds}"
+
+msgid "你先打中了对方，这一场是你赢了。"
+msgstr "You landed the first blow. This bout is yours."
+
+msgid "对方先打中了你。切磋点到为止，随时可以再来。"
+msgstr "They landed the first blow. A spar stops at a touch; you can go again any time."
+
+msgid "谁也没打中谁，双方停了手。"
+msgstr "Neither landed a blow, and both stepped back."
+
+msgid "实战经验 +{n}"
+msgstr "Combat Experience +{n}"
+
+msgid "潜能 +{n}"
+msgstr "Potential +{n}"
+
+msgid "{skill} {before} → {after} 级"
+msgstr "{skill} level {before} → {after}"
+
+msgid "{skill} 有所长进"
+msgstr "{skill} improved"
+
+msgid "这一场没有长进。"
+msgstr "Nothing gained this bout."

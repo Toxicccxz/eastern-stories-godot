@@ -19,7 +19,7 @@ msgstr ""
 #. the focus pause's only button.
 #. native (终章 C): under a card of the ending told over the 沙盘: go on.
 #. at the foot of the dialogue box: goes to the next line.
-#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/common/focus_pause_layer.gd ui/world/epilogue_overlay.gd ui/world/player_life_overlay.gd ui/world/world_dialogue_box.gd
+#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/common/focus_pause_layer.gd ui/world/epilogue_overlay.gd ui/world/player_life_overlay.gd ui/world/spar_summary_panel.gd ui/world/world_dialogue_box.gd
 msgid "继续"
 msgstr ""
 
@@ -5205,7 +5205,7 @@ msgstr ""
 #. the 背包's purse line: {coins} the coins carried (三两黄金、二十文钱), or 空 when none.
 #. joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
 #. between two conditions on the HUD (蛇毒).
-#: core/combat/decision/combat_insights.gd core/quests/deed_log.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd ui/world/player_inventory_panel.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd
+#: core/combat/decision/combat_insights.gd core/quests/deed_log.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd ui/world/player_inventory_panel.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd ui/world/spar_summary_panel.gd
 msgid "、"
 msgstr ""
 
@@ -9314,6 +9314,34 @@ msgid "获得　{item}"
 msgstr ""
 
 #: presentation/input/input_glyphs.gd
+msgid "视图键"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "导航键"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "菜单键"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "十字键上"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "十字键下"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "十字键左"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "十字键右"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
 msgid "叉"
 msgstr ""
 
@@ -9351,7 +9379,8 @@ msgstr ""
 msgid "交互"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_gameplay_ui.gd ui/world/shared_ui_nearby.gd
+#. the 地图 page's pad and key hints at the foot of the 沙盘.
+#: presentation/layout/shared_gameplay_layout.gd ui/world/map_page.gd ui/world/shared_gameplay_ui.gd ui/world/shared_ui_nearby.gd
 msgid "查看"
 msgstr ""
 
@@ -10758,6 +10787,10 @@ msgid "观察"
 msgstr ""
 
 #: ui/common/key_bindings_page.gd
+msgid "切换视角"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
 msgid "菜单翻页"
 msgstr ""
 
@@ -10768,6 +10801,22 @@ msgstr ""
 #. guanbei.side_hall.landmark.map name
 #: ui/common/key_bindings_page.gd ui/world/game_menu.gd data/guanbei/world.json
 msgid "地图"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "地图：移动"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "地图：缩放"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "地图：回到所在"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "地图：全图 / 近看"
 msgstr ""
 
 #: ui/common/key_bindings_page.gd
@@ -11452,6 +11501,27 @@ msgstr ""
 msgid "{title} · {region}"
 msgstr ""
 
+#. the 地图 page's pad and key hints at the foot of the 沙盘.
+#: ui/world/map_page.gd
+msgid "移动"
+msgstr ""
+
+#. the 地图 page's pad and key hints at the foot of the 沙盘.
+#: ui/world/map_page.gd
+msgid "缩放"
+msgstr ""
+
+#. the 地图 page's pad and key hints at the foot of the 沙盘.
+#: ui/world/map_page.gd
+msgid "回到所在"
+msgstr ""
+
+#. the 地图 page's pad and key hints at the foot of the 沙盘.
+#. the 地图 page's button: the whole 沙盘, or back close to the chosen place.
+#: ui/world/map_page.gd
+msgid "全图"
+msgstr ""
+
 #. the 地图 page while the 车马行's cart is on the road.
 #: ui/world/map_page.gd
 msgid "车马行的车上路了……"
@@ -11577,11 +11647,6 @@ msgstr ""
 #. the 地图 page's button: the whole 沙盘, or back close to the chosen place.
 #: ui/world/map_page.gd
 msgid "近看"
-msgstr ""
-
-#. the 地图 page's button: the whole 沙盘, or back close to the chosen place.
-#: ui/world/map_page.gd
-msgid "全图"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
@@ -12818,6 +12883,66 @@ msgstr ""
 #. the HUD while 朱鸿雪's task runs: {time} the time left as time_period() writes it (五分零秒).
 #: ui/world/shared_ui_waits.gd
 msgid "朱鸿雪的任务：还有{time}"
+msgstr ""
+
+#: ui/world/spar_summary_panel.gd
+msgid "切磋 · 胜"
+msgstr ""
+
+#: ui/world/spar_summary_panel.gd
+msgid "切磋 · 负"
+msgstr ""
+
+#: ui/world/spar_summary_panel.gd
+msgid "切磋 · 平手"
+msgstr ""
+
+#. the card after a 切磋: {who} the opponent(s), joined by 、; {rounds} how many rounds it ran.
+#: ui/world/spar_summary_panel.gd
+msgid "对手：{who}　共 {rounds} 回合"
+msgstr ""
+
+#. the card after a 切磋: {who} the opponent(s), joined by 、; {rounds} how many rounds it ran.
+#: ui/world/spar_summary_panel.gd
+msgid "共 {rounds} 回合"
+msgstr ""
+
+#. the card after a 切磋 the player won (it ends on the first blow that lands).
+#: ui/world/spar_summary_panel.gd
+msgid "你先打中了对方，这一场是你赢了。"
+msgstr ""
+
+#. the card after a 切磋 the player lost: a spar costs nothing but the bout; it can be tried again.
+#: ui/world/spar_summary_panel.gd
+msgid "对方先打中了你。切磋点到为止，随时可以再来。"
+msgstr ""
+
+#. the card after a 切磋 that ended before either landed a blow.
+#: ui/world/spar_summary_panel.gd
+msgid "谁也没打中谁，双方停了手。"
+msgstr ""
+
+#: ui/world/spar_summary_panel.gd
+msgid "实战经验 +{n}"
+msgstr ""
+
+#: ui/world/spar_summary_panel.gd
+msgid "潜能 +{n}"
+msgstr ""
+
+#. the card after a 切磋: a skill rose {before} → {after} levels.
+#: ui/world/spar_summary_panel.gd
+msgid "{skill} {before} → {after} 级"
+msgstr ""
+
+#. the card after a 切磋: a skill moved on without a level.
+#: ui/world/spar_summary_panel.gd
+msgid "{skill} 有所长进"
+msgstr ""
+
+#. the card after a 切磋 that gave nothing.
+#: ui/world/spar_summary_panel.gd
+msgid "这一场没有长进。"
 msgstr ""
 
 #. the 声望 page while no house has anything to say of the player.
