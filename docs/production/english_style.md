@@ -50,8 +50,8 @@ name; pinyin is a person's name, or what a local calls a place in speech.
   take "Hall of X" (养心殿 Hall of Mental Cultivation, 太和殿 Hall of Supreme Harmony); gods take
   pinyin and their usual title (Zhenwu, King Yama, the Jade Emperor, Meng Po); 心经 the Heart Sutra;
   天师道 the Way of the Celestial Masters; 武状元 Martial Champion; offices follow Hucker's *Dictionary
-  of Official Titles* (County Magistrate, Minister, Censor, Head Constable); measures stay pinyin
-  (jin, liang, li, wen); 正月十七 the seventeenth day of the first month.
+  of Official Titles* (County Magistrate, Minister, Censor, Head Constable); 两 of silver is the
+  established tael; other measures stay pinyin (jin, li, wen); 丈 is about ten feet; 正月十七 the seventeenth day of the first month.
 * Neither free nor literal: keep each sentence's facts, order and mood; carry the mood in the English
   sentence, not word for word ("老松寨是老子的寨子" Old Pine Stockade is mine). Form may change where the
   form is the joke (a list stays a list); ES2's engine marks such as (sign) are not prose.
@@ -109,6 +109,7 @@ Chinese has one form for 你 and a name; English does not. In a line with $N (th
 
 * Straight quotes `"` and `'`, and `...` for an ellipsis: the pixel font's curly quotes and … are
   full-width Chinese forms.
+* One dash: an em dash with no spaces (`word—word`), never ` - ` or ` — `. Ask topics are Title Case.
 * An NPC's action line follows its name directly (`{npc}{action}`): start it with a space
   (" sees you and sets down his broom.") or with "'s" ("'s eyes redden for a moment.").
 * Plurals: Chinese has none, so avoid "%d beats": write "Beats left: %d", "×%d", "Items inside: {count}."
