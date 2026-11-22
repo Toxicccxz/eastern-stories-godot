@@ -19064,6 +19064,11 @@ msgstr ""
 msgid "了尘替老道去。虹台的事，问他。"
 msgstr ""
 
+#. common.npc.juechen.master inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "说过了。阵是你陪着推出去的，这一票，你要，就是你的。"
+msgstr ""
+
 #. common.npc.juechen.master inquiry.虹台.rules.lines.say
 #: data/common/npcs.json
 msgid "阵推到了洞口，老道答应过的，下山走一趟。投旧盟主，椅子照旧。"
@@ -19242,7 +19247,7 @@ msgstr ""
 msgid ""
 "守阵：了尘留在石室。绝尘子把八卦阵往外推到青石村北边的洞口，那里从此不进鬼卒。\n"
 "绝尘子肯把奇门遁甲（连同它的根基小天魔道）教给不是绝尘派的人（只这两门）。\n"
-"绝尘子下山一回：正月十七虹台上，绝尘派来，这一票投旧盟主。\n"
+"绝尘子下山一回：正月十七虹台上，绝尘派来，这一票投旧盟主（已经入了虹台的席的，这一票不再跟着变）。\n"
 "下山那条路就没了。要这么说吗？"
 msgstr ""
 
@@ -19280,6 +19285,11 @@ msgstr ""
 #. common.npc.juechen.master inquiry.守阵.rules.lines.say
 #: data/common/npcs.json
 msgid "绝尘派不问世事——这一回，老道问一回。正月十七，老道下山走一趟。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.守阵.rules.lines.say
+#: data/common/npcs.json
+msgid "绝尘派不问世事——这一回，老道问一回。"
 msgstr ""
 
 #. common.npc.juechen.master inquiry.守阵.rules.say
@@ -26493,7 +26503,7 @@ msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
-msgid "洞口多了一圈不知谁摆的石头，洞里那股寒气没了，村北的狗夜里也不叫了。后山的石室里，绝尘子还坐在佛像下，了尘守在他身后。"
+msgid "洞口多了一圈不知谁摆的石头，阿牛钻进去转一圈，又从原路转出来；洞里那股寒气没了，村北的狗夜里也不叫了。后山的石室里，绝尘子还坐在佛像下，了尘守在他身后。"
 msgstr ""
 
 #. ending cards.lines.text
@@ -30186,7 +30196,7 @@ msgstr ""
 
 #. faction.assembly/canvass objective
 #: data/story/faction_assembly.json
-msgid "上虹台之前，九派可以各走一趟：问各派掌门「虹台」，听他们这一票投谁、为什么；话里留了余地的，还可以请他改一改（先确认）。封山剑派——雪亭镇淳风武馆的柳淳风（跟了北宗的，问内院的柳绘心）；天邪派——水烟阁正厅的潘军禅；振远镖局——绮云镇的陈剑秋；茅山派——灵心观的林忌；晚月庄——庄主蓝止萍；山烟寺——住持玄智和尚；步玄派——乔阴县城的骆云舟；花紫会——乔阴的陆得财；绝尘派——青石村的绝尘子。虹台在水烟阁葬剑亭往南的石阶上；人到了，在擎天柱前「入席」（先确认：入了席就不能再游说、改票）。"
+msgid "上虹台之前，九派可以各走一趟：问各派掌门「虹台」，听他们这一票投谁、为什么；话里留了余地的，还可以请他改一改（先确认）。封山剑派——雪亭镇淳风武馆的柳淳风（跟了北宗的，问内院的柳绘心）；天邪派——水烟阁正厅的潘军禅；振远镖局——绮云镇的陈剑秋；茅山派——灵心观的林忌；晚月庄——庄主蓝止萍；山烟寺——住持玄智和尚；步玄派——乔阴县城的骆云舟；花紫会——乔阴的陆得财；绝尘派——青石村的绝尘子（了尘下了山的，问日照山流云轩的了尘）。虹台在水烟阁葬剑亭往南的石阶上；人到了，在擎天柱前「入席」（先确认：入了席就不能再游说、改票）。"
 msgstr ""
 
 #. faction.assembly/canvass text
@@ -74462,7 +74472,7 @@ msgstr ""
 
 #. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
 #: data/native/npcs.json
-msgid "三十年前，我九岁，是日照山山烟寺的小沙弥，在流云轩给方丈烧药炉。"
+msgid "三十年前，我十二岁，是日照山山烟寺的小沙弥，在流云轩给方丈烧药炉。"
 msgstr ""
 
 #. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
@@ -74705,7 +74715,7 @@ msgstr ""
 msgid ""
 "下山：了尘回日照山山烟寺，到流云轩救人（收了经的，他跟独眼头陀在一起；守了寺的，他在流云轩做药僧）。\n"
 "了尘肯把金刚杖法教给不是绝尘派的人（只这一门）。\n"
-"绝尘子不下山：正月十七虹台上，了尘替绝尘派上台——鬼卒要剿，神教要逐，这一票投颜违。\n"
+"绝尘子不下山：正月十七虹台上，了尘替绝尘派上台——鬼卒要剿，神教要逐，这一票投颜违（已经入了虹台的席的，这一票不再跟着变）。\n"
 "守阵那条路就没了。要这么说吗？"
 msgstr ""
 
@@ -74846,7 +74856,7 @@ msgid ""
 "了尘扶着病人坐起来，一勺一勺地喂药。\n"
 msgstr ""
 
-#. native.npc.liaochen_sanyen inquiry.师父.rules.say
+#. native.npc.liaochen_sanyen inquiry.师父
 #: data/native/npcs.json
 msgid "师父说，出了阵，就是世事。……他还坐在那尊佛像下吧。"
 msgstr ""
@@ -74904,6 +74914,11 @@ msgstr ""
 #. native.npc.liaochen_sanyen inquiry.虹台.rules.say
 #: data/native/npcs.json
 msgid "绝尘派这一票，在施主手里。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.虹台.rules.say
+#: data/native/npcs.json
+msgid "说过了。这条路是施主陪着走出来的，这一票，施主要，就是施主的。"
 msgstr ""
 
 #. native.npc.liaochen_sanyen inquiry.虹台.rules.lines.say

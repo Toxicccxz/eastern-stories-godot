@@ -1641,7 +1641,7 @@
           ],
           "green.cavehall.liaochen_stay.1": [
             "green.cavehall",
-            ["rel", 0.3, 0.62]
+            ["rel", 0.4, 0.42]
           ]
         },
         "doors": {

@@ -30,7 +30,7 @@ const TEMPLE_POINT: StringName = &"sanyen.temple.road1_entry"
 ## 绝尘 A walked to its end (the marks its steps write).
 const A_MARKS: Array[String] = ["宝衣一章", "村长说了山洞", "洞口的鬼卒倒了", "洞底的鬼卒倒了", "阿牛跟着你", "孩子回了家", "村长说完了那句话", "绝尘子听了山洞", "了尘说了洞里的事"]
 ## 山烟寺 A and B walked by the 头陀's way, the sutra taken (and 龙若's 玄尘 heard).
-const SANYEN_TAKE: Array[String] = ["喂了樵夫药", "头陀进了流云轩", "龙若说了三十年前", "龙若说了玄尘", "头陀上了大殿", "山烟寺收了经"]
+const SANYEN_TAKE: Array[String] = ["喂了樵夫药", "头陀进了流云轩", "龙若说了三十年前", "龙若说了玄尘", "龙若说了没点化玄尘", "头陀上了大殿", "山烟寺收了经"]
 ## 山烟寺 A by the rule, B kept to its own.
 const SANYEN_KEEP: Array[String] = ["喂了樵夫药", "守了寺规", "龙若说了三十年前", "头陀上了大殿", "山烟寺守了寺"]
 
@@ -97,6 +97,7 @@ func _test_votes() -> void:
 	_check(_staged(state, &"native.terrace.juechenzi") and not _staged(state, &"native.terrace.liaochen"), "守阵: 绝尘子 in the seat")
 	state = _fresh(["终章", "绝尘派肯来", "绝尘的票随了守阵"])
 	_check(_heard(state, MASTER, "虹台", "是你陪着推出去的") and state.marks.has("绝尘肯听你的"), "守阵: 绝尘子 would hand the vote over (the split's rules before 请下山's)")
+	_check(_heard(state, MASTER, "虹台", "说过了"), "虹台 asked again: short")
 	_check(_heard(state, MASTER, "这一票", "你拿去") and _holds(state, "assembly.juechen.self") and not _holds(state, "assembly.juechen.old"), "绝尘听你的")
 	_check(not _heard(state, MASTER, "下山", "好。老道走一趟") and not GameContent.catalog().npc(MASTER).talk().confirm_applies("下山", state.marks), "下山 after the split: nothing to ask")
 	state = _fresh(["终章", "绝尘派肯来", "绝尘的票随了下山"])
@@ -109,6 +110,11 @@ func _test_votes() -> void:
 	_check(_heard(state, MASTER, "守阵", "起来") and state.marks.has("绝尘派守了阵") and not state.marks.has("绝尘的票随了守阵") and not state.marks.has("绝尘派肯来") and _holds(state, "assembly.juechen.absent"), "守阵 after 入席: 绝尘派 still does not come")
 	state = _fresh(["了尘跪在了佛前", "绝尘子肯下山", "绝尘派肯来", "入了虹台的席"])
 	_check(_heard(state, KNEEL, "下山", "出了阵") and state.marks.has("了尘下了山") and not state.marks.has("绝尘的票随了下山") and _holds(state, "assembly.day.juechen.old"), "下山 after 入席: the vote stays 旧盟主, 绝尘子 in the seat")
+	var talk: NpcTalk = GameContent.catalog().npc(KNEEL).talk()
+	var seated: NpcInquiryRule = NpcInquiryRule.decide(talk.inquiry_rules("下山"), {"了尘跪在了佛前": 1, "入了虹台的席": 1})
+	_check(seated != null and not seated.lines.any(func(line: NpcLine) -> bool: return line.text.contains("正月十七")), "and he says nothing of going up on the seventeenth")
+	seated = NpcInquiryRule.decide(GameContent.catalog().npc(MASTER).talk().inquiry_rules("守阵"), {"了尘跪在了佛前": 1, "入了虹台的席": 1})
+	_check(seated != null and not seated.lines.any(func(line: NpcLine) -> bool: return line.text.contains("正月十七")), "nor 绝尘子 of coming down")
 	# 听你的: nine 派 now
 	state = _fresh(["终章", "封山表了态", "天邪表了态", "茅山表了态", "晚月庄表了态", "绝尘派肯来", "绝尘的票随了下山"])
 	for mark: String in ["封山听你的", "天邪听你的", "茅山听你的", "晚月庄听你的"]:
@@ -190,6 +196,8 @@ func _test_leave(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(said, "樵夫") and _said(said, "方丈守了三天三夜") and not _said(said, "独眼的头陀"), "师父: the 樵夫 and the 方丈 (%s)" % [said.slice(-4)])
 	said = _ask(hall, _first(session, HALL, MASTER), "玄尘")
 	_check(_said(said, "三十年没人叫了") and _said(said, "守着本寺一脉") and not _said(said, "他向来这么说"), "玄尘: a word for 守寺, none for 龙若 (%s)" % [said.slice(-5)])
+	var lama: NpcInquiryRule = NpcInquiryRule.decide(GameContent.catalog().npc(&"fanfang.npc.lama_master").talk().inquiry_rules("玄尘"), {"龙若说了三十年前": 1, "了尘说了玄尘": 1})
+	_check(lama != null and lama.mark_asker == "龙若说了没点化玄尘" and lama.lines.any(func(line: NpcLine) -> bool: return line.text.contains("没有点化")), "龙若's denial is what 绝尘子 answers to")
 	await _settle(tree)
 	var lines: Array[String] = await _scene(tree, session, hall)
 	_check(_said(lines, "不算外人") and not _said(lines, "只有一个头陀"), "the scene, with a word for 守寺")
