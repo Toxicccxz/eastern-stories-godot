@@ -1,8 +1,8 @@
 # 日本語: style, names and terms
 
 The Japanese translation is `game/locale/ja.po` (Settings → 语言 → 日本語（プレビュー）). Decisions
-2026-11-22, worked out with Muse in two rounds; DECISIONS「日本語 (preview)」. Items marked ★ wait for
-the owner. Check a translation with `python tools/l10n/check_po.py game/locale/ja.po` (the gate runs
+2026-11-22, worked out with Muse in two rounds; the owner took every recommendation the same day
+(「都按推荐来」, the list at the end); DECISIONS「日本語 (preview)」. Check a translation with `python tools/l10n/check_po.py game/locale/ja.po` (the gate runs
 it too); batches go in with `tools/l10n/po_batch.py`
 ([LOCALIZATION](LOCALIZATION.md#working-on-a-translation)).
 
@@ -20,7 +20,7 @@ published Jin Yong (徳間書店, 岡崎由美 監修), not a whole set of 役�
 | — a blow's result (结果…), the opening, a memory, a finished quest's record | past | 傷口がぱっくりと開いた！ |
 | codex (百科) definitions | である | 内力とは……である。 |
 | tutorial, hints, system messages | です・ます | 保存しました。 |
-| buttons, menus, tabs | nouns or a plain verb (★ 保存／読込 or セーブ／ロード) | 設定、はじめから、続ける、キャンセル |
+| buttons, menus, tabs | nouns or a plain verb (保存, 読込; save data 記録) | 設定、はじめから、続ける、キャンセル |
 | quest objectives | る形, never 体言止め | 店小二に話を聞く。 |
 
 Frozen pairs: 新游戏 はじめから; 继续 続ける (the same message is the pause's only button and the
@@ -55,15 +55,15 @@ whole dialect. One person keeps one voice; it changes only with the relation.
 | emperor | 朕 | | 文語 only in edicts | |
 | high monks | 拙僧 | | 文語 (〜なり、〜べし) only in sutras, edicts, steles — one element a sentence | |
 
-**Banned everywhere:** ござる (★ unless the owner keeps it for one comic character), 〜アルヨ
+**Banned everywhere:** ござる (no exception), 〜アルヨ
 (a stereotype of Chinese speakers), the whole べらんめえ set, modern slang (やばい、マジ、ウケる)
 except inside an in-joke.
 
 **The player.** ES2 fills `$N`/`$n` and `你` with **あなた**. Japanese drops the subject wherever
 it can: 「你到了黄石隘口」 黄石峠に着いた。 No one in dialogue says あなた. The fight log's shared
 templates cannot drop it (the same line serves an NPC), so あなたは山賊の動きを注視する stands there:
-a compromise of the template, kept to the log (★ the player's own name instead needs a code change
-at every place that fills 你). The player's own words use `{self}` (filled by rank, below); a line the
+a compromise of the template, kept to the log (the player's own name instead would need a code
+change at every place that fills 你). The player's own words use `{self}` (filled by rank, below); a line the
 player speaks without it leaves the subject out, or uses 私.
 
 ### Self and address (`{self}`, `{respect}`, `$RESPECT`)
@@ -153,8 +153,7 @@ codex, never as a form of address.
   丹薬一粒, 書一冊, 酒一杯. `{count}{unit}{item}` becomes `{item}{count}{unit}`.
 * Units stay: 里 丈 尺 寸 斤 両. The codex says once that a 里 here is the Chinese li of about 500 m
   (a Japanese 里 is 3.9 km); the others differ too little to matter.
-* ★ 时辰: 子の刻 (the glossary says the hours of the day are double hours), or 時辰 kept with a
-  note. Never 刻 for 时辰 alone: a Chinese 刻 is a quarter hour.
+* 时辰: 子の刻, 午の刻 (the codex says once that the hours of the day here are double hours). Never 刻 for 时辰 alone: a Chinese 刻 is a quarter hour.
 
 ## Typography
 
@@ -172,7 +171,7 @@ codex, never as a form of address.
 
 ES2's in-jokes are **localized, not translated** (owner 2026-11-22, as in English and Korean): a joke
 about 1990s Chinese campuses and software becomes one a Japanese player can read; the joke keeps its
-job; items, trigger phrases and any name the game checks stay. Muse's proposals, ★ for the owner:
+job; items, trigger phrases and any name the game checks stay. Decided:
 华工 東大 (東工大 for a science school) · 八舍 東大の第8寮 · 南大食堂磁卡 東大の学食カード ·
 「把 NT 也汉化，看你之星怎么办」 Windowsも日本語化してやる、一太郎はどうする？ (or a literal
 ネットスケープ) · 魏阮 (微软) マイク・ロソフト · 黑你没商量 値切るな、言い値だ.
@@ -186,22 +185,12 @@ Story and region batches also go to Muse.
 ## The title
 
 「故事」 in Japanese is the story behind a saying (故事成語): 東方故事 reads as "Eastern anecdotes".
-The title screen's line under the logo is ★ **東方物語** (Muse; the plain RPG word, as Eastern Stories
+The title screen's line under the logo is **東方物語** (Muse; the plain RPG word, as Eastern Stories
 and 동방이야기), or 東方奇譚 (narrower, and close to the Japanese title of Yourcenar's *Nouvelles
 orientales*), or 東方故事 kept.
 
-## ★ For the owner
+## Decided by the owner (2026-11-22, 「都按推荐来」)
 
-1. Title line: 東方物語 (recommended) / 東方奇譚 / 東方故事.
-2. Save and load buttons: 保存・読込 (recommended by Muse: kanji words match the wuxia feel) /
-   セーブ・ロード (what a Japanese player looks for first).
-3. Readings in the codex: 音読み in hiragana (recommended) / katakana pinyin.
-4. In-jokes: the 東大 set, 一太郎, マイク・ロソフト, 値切るな、言い値だ (recommended) / literal
-   (Harvard, Netscape, 微軟).
-5. ござる: banned everywhere (recommended) / kept for one comic character.
-6. 时辰: 子の刻 (recommended) / 時辰 with a codex note.
-7. The player in the fight log: あなた (now) / the player's own name (a code change at every place
-   that fills 你; later, if wanted).
-8. 花紫会 (English: Beggars' Guild): the kanji kept as a proper name (now; its codex entry says who
-   they are) / a meaning like English (乞食の一党).
-9. 飲風客桟 and the other inns' and shops' names keep their kanji (now) / 飲風宿.
+1. Title line 東方物語. 2. 保存・読込. 3. Codex readings in hiragana 音読み. 4. In-jokes localized
+(東大, 一太郎, マイク・ロソフト, 言い値屋). 5. No ござる. 6. 子の刻. 7. あなた in the fight log.
+8. 花紫会 kept as kanji. 9. Shop and inn names keep their kanji (飲風客桟).
