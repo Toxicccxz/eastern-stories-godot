@@ -20714,7 +20714,7 @@ msgid "路引上是天驼关的印。印在严将军手里——带着路引去�
 msgstr "The pass bears the seal of Camelback Pass. The seal is in General Yan's hands. Take the pass to Camelback Pass and ask him."
 
 msgid "两个都拿下了？路引带来本县看——问「路引」。"
-msgstr "Both taken? Bring the passes here for this county to see. Ask about the \"Travel Passes\"."
+msgstr "Both taken? Bring the passes here for this county to see. Ask about \"Travel Passes\"."
 
 msgid "雪亭镇西边青石官道的路口、绮云镇口，两个挂着官府告示收过路费的。乔阴县衙没贴过那样的告示——拿下，搜身。"
 msgstr "At the junction of the bluestone official road west of Snow Pavilion, and at the entrance to Cloudweave Town, two men are collecting tolls under government notices. Tallshade yamen never posted any such notice. Take them down and search them."
@@ -20936,7 +20936,7 @@ msgid "退堂。"
 msgstr "Court is adjourned."
 
 msgid "你上过水烟阁？那里有位南五长老——我们程家的人，家里当他死了二十年。……见没见过他，本县不问。"
-msgstr "You have been to Waterfog Pavilion? There is an Elder there, Nan Wu, a man of our Cheng family. At home we have treated him as dead for twenty years. ...Whether you have met him, this county does not ask."
+msgstr "You have been to Waterfog Pavilion? There is a Fifth Elder there, Nan, a man of our Cheng family. At home we have treated him as dead for twenty years. ...Whether you have met him, this county does not ask."
 
 msgid "说吧，你今天来，为的什么事。"
 msgstr "Speak. What brings you here today?"
