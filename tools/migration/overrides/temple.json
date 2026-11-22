@@ -822,7 +822,7 @@
 			"set item_desc": "a look-only landmark (石碑) in world.json",
 			"reset": "the guards on duty: world.json spawns with `draw` (one of guard_taoist1-3 and one of taoist_guard1-3 a reset; DECISIONS 茅山 A)",
 			"function reset": "the guards on duty: world.json spawns with `draw` (DECISIONS 茅山 A)",
-			"function valid_leave": "world.json exit_rules temple.road2.wall: enter only for 茅山派 (the invisible wall), pass_lines for one who may; the tell_room() goes to others only"
+			"function valid_leave": "world.json exit_rules temple.road2.wall: enter only for 茅山派, pass_lines for one who may; the tell_room() goes to others only"
 		},
 		"d/temple/book_room1.c": {
 			"function valid_leave": "world.json exit_rules temple.book_room1.out: its pass_lines (the tell_room() goes to others only)"

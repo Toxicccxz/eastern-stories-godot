@@ -22,7 +22,7 @@ const BROOM: StringName = &"es2:d/sanyen/obj/broom"
 const SERVICE: StringName = &"sanyen.hall_house.temple.master"
 const TEMP: String = "pending/join_bonze"
 const PREFIXES: String = "空明圆净虚悟方渡慧法"
-const KNEEL_SAY: String = "玄智和尚说道：阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。"
+const KNEEL_SAY: String = "玄智和尚说道：阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下受戒。"
 const MONK_SAY: String = "玄智和尚说道：阿弥陀佛！你我同是出家人，何故跟老衲开这等玩笑？"
 const WOMAN_SAY: String = "玄智和尚说道：阿弥陀佛！女施主，这里是寺庙，请你到尼庵去剃度吧。"
 const ASKED: String = "你想要拜玄智和尚为师。"
@@ -210,7 +210,7 @@ func _test_practice() -> void:
 	lotus.skills.set_raw_level(&"buddhism", 10)
 	lotus.skills.set_raw_level(&"lotusforce", 2)
 	lotus.skills.map_skill(&"force", &"lotusforce")
-	_check(_practice(lotus, &"force", registry) == ["莲华心法只能用学的，或是从运用(exert)中增加熟练度。"], "莲华心法 refuses practice")
+	_check(_practice(lotus, &"force", registry) == ["莲华心法只能用学的，或是从运用中增加熟练度。"], "莲华心法 refuses practice")
 	var sense: CharacterState = _member()
 	sense.skills.set_raw_level(&"magic", 10)
 	sense.skills.set_raw_level(&"buddhism", 20)
@@ -316,7 +316,7 @@ func _test_kneel(tree: SceneTree, session: WorldSessionController) -> void:
 	hud.open_ask()
 	_check(hud.ask_topics_shown().has("剃度") and hud.ask_topics_shown().has("出家") and hud.ask_verbs_shown().is_empty(), "剃度 and 出家 to ask; nothing to kneel for yet")
 	_press_topic(hud, "剃度")
-	_check(hud.ask_answer_text().ends_with(KNEEL_SAY) and player.temp_marks.get(TEMP, 0) == 1, "跪下(kneel)受戒: the temp is set")
+	_check(hud.ask_answer_text().ends_with(KNEEL_SAY) and player.temp_marks.get(TEMP, 0) == 1, "跪下受戒: the temp is set")
 	_check(hud.ask_verbs_shown() == ["跪下受戒"], "the panel offers 跪下受戒: %s" % [hud.ask_verbs_shown()])
 	master.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
 	_check(map.ordination_selected() == null and map.kneel_selected().is_empty() and player.facts.display_name == "雪工", "玄智 lying unconscious: no kneeling (默认)")

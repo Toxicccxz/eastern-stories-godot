@@ -483,7 +483,7 @@
 		"d/city/npc/guard.c": {
 			"set_temp apply/move": "move (轻功 travel) is not modelled (as 县城官兵's)",
 			"function init": "out: the act services city.<gate>.out (城门 · 出城) of the five shut gates; kill: accept_kill in set",
-			"function do_out": "act services city.eastdoor1/eastdoor2/westdoor1/westdoor2/southdoor.out: with a 守城兵 standing there and no marks/令牌, its say and write() (the stray space before 。 goes: the room's own line has none); otherwise go.c's 这个方向没有出路。 (there is no out exit)",
+			"function do_out": "act services city.eastdoor1/eastdoor2/westdoor1/westdoor2/southdoor.out: with a 守城兵 standing there and no marks/令牌, its say and write() (the stray space before 。 goes: the room's own line has none); otherwise go.c's 这个方向没有出路。",
 			"function do_kill": "accept_kill in set: every guard in the room has the action, and each returns 0 (notify_fail), so all of them kill_ob() the attacker before kill.c runs: fellows join the fight; their notify_fail() line 守城兵大叫：反了！反了！ is shown once as its author meant (kill.c went on and ES2 never printed it, 默认)",
 			"function accept_object": "accept_object in set: the token (query(\"id\") == \"token\": item_alias, so 晚月庄's 杀手令牌 does too, as ES2) is taken and destructed (destroys) with 原来是官府中人，您请出城 and marks/令牌; anything else is refused with its say (return 0)"
 		},
@@ -674,7 +674,7 @@
 		},
 		"d/city/wall.c": {
 			"function init": "jump: the act services city.wall.jump_in (尚书府 · 跳进去) and city.wall.jump_out (京师东街 · 跳回去)",
-			"function do_jump": "jump in moves the player to 尚书府's 废屋, jump out back to the 东街 (act services with a move); no 轻功 is asked (as ES2)"
+			"function do_jump": "jump in moves the player to 尚书府's 废屋, jump out back to the 东街; no 轻功 is asked (as ES2)"
 		}
 	}
 }

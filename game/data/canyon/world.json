@@ -53,8 +53,8 @@
 		{ "id": "canyon.canyon7.east_gate", "room": "es2:d/canyon/canyon7", "from_zone": "canyon.canyon7", "to_zone": "guanbei.gate_road", "when": "no_mark", "mark": "过了关门", "lines": ["关门兵横过长枪，拦住你：出关的，留下过路钱——五两。有凭据的拿凭据来。"], "legacy_source": "native: 关北 A (d/canyon/README: 收取过路费; the four ways past the gate — 程不平's letter, the 大队长's roll, five taels or a fight — all write 过了关门; DECISIONS「关北 A」)" }
 	],
 	"landmarks": [
-		{ "id": "canyon.road.landmark.chain", "zone": "canyon.road", "name": "铁索", "policy": "look", "long": "    一长条铁索缘山壁而下，或许你可以试著攀爬(climb)。\n", "legacy_source": "d/canyon/road.c" },
-		{ "id": "canyon.canyon1.landmark.chain", "zone": "canyon.canyon1", "name": "铁索", "policy": "look", "long": "    一长条铁索缘山壁而上，若无绝佳的体力就好不要轻意攀爬(climb)。\n", "legacy_source": "d/canyon/canyon1.c" },
+		{ "id": "canyon.road.landmark.chain", "zone": "canyon.road", "name": "铁索", "policy": "look", "long": "    一长条铁索缘山壁而下，或许你可以试著攀爬。\n", "legacy_source": "d/canyon/road.c" },
+		{ "id": "canyon.canyon1.landmark.chain", "zone": "canyon.canyon1", "name": "铁索", "policy": "look", "long": "    一长条铁索缘山壁而上，若无绝佳的体力就好不要轻意攀爬。\n", "legacy_source": "d/canyon/canyon1.c" },
 		{ "id": "canyon.canyon5.landmark.door", "zone": "canyon.canyon5", "name": "铁门", "policy": "look", "long": "这巨大的铁门锈迹斑斑，它是上下开合的，现在已经高高的抬起，\n若它失控砸下，可能什么东西都会被砸扁。\n", "legacy_source": "d/canyon/canyon5.c" },
 		{ "id": "canyon.canyon6.landmark.machine", "zone": "canyon.canyon6", "name": "机械装置", "policy": "look", "long": "这是个很大的绞盘，可能是开关铁门用的。\n", "legacy_source": "d/canyon/canyon6.c" },
 		{ "id": "canyon.train.landmark.bookcase", "zone": "canyon.train", "name": "书柜", "policy": "look", "long": "看起来是个普普通通的柜子，或许你可以search看看。\n", "legacy_source": "d/canyon/bamboo/train.c" }

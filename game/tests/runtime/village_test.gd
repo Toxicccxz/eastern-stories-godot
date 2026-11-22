@@ -237,7 +237,7 @@ func _test_lake(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(player.world_location().zone_id == &"village.lakeside" and hud.log_lines().has("这么大的一片湖，你想走过去吗？"), "这么大的一片湖，你想走过去吗？")
 	_check(map.select_landmark(&"village.lakeside.landmark.boat"), "the boats")
 	map.inspect_selected()
-	_check(hud.inspection_text.text.contains("你可以划着(paddle)它到湖中心"), "关内能经常见到的渔船")
+	_check(hud.inspection_text.text.contains("你可以划着它到湖中心"), "关内能经常见到的渔船")
 	hud.dismiss_current_panel()
 	await tree.physics_frame
 	await tree.physics_frame

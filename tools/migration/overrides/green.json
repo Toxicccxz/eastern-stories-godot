@@ -199,7 +199,7 @@
 			"function buy_item": "shop_front.buy (shake prints nothing)",
 			"function give_jade": "the 玉佩 inquiry rules",
 			"function sell_drug": "the 蒙汗药 inquiry rule",
-			"function accept_object": "accept_object rules in set: 10 taels buy a 蒙汗药 (gives); 想骗我啊? deletes give_alcohol and know_drug and hands the gift back (owner: deviation, DECISIONS 青石村 B); money from a stranger is kept"
+			"function accept_object": "accept_object rules in set: 10 taels buy a 蒙汗药; 想骗我啊? deletes give_alcohol and know_drug and hands the gift back (owner: deviation, DECISIONS 青石村 B); money from a stranger is kept"
 		},
 		"d/green/npc/woman1.c": {
 			"set_temp apply/dodge": "apply.dodge rule in set",
@@ -277,7 +277,7 @@
 		"d/green/water.c": {
 			"create_door": "world.json doors: green.stoneroom.door (密门)",
 			"function init": "search water: the search landmark green.water.landmark.water",
-			"function do_search": "the search landmark: with the mark 八卦阵 random(2) finds a 追风剑 (the mark stays), else the mark goes"
+			"function do_search": "the search landmark: with the mark 八卦阵 random(2) finds a 追风剑, else the mark goes"
 		},
 		"d/green/eight0.c": { "set item_desc": "a look-only landmark (路牌) in world.json" },
 		"d/green/eight1.c": { "set item_desc": "a look-only landmark (路牌) in world.json" },

@@ -64,9 +64,12 @@ func _test_capitalize() -> void:
 		"You hit the bandit.", "fill() puts it together")
 	_same(MessageGrammar.fill("$N {N:hit|hits} $n.", MessageGrammar.other(), "the bandit", MessageGrammar.you(), "you"),
 		"The bandit hits you.", "and the other way round")
+	_same(ChineseNumber.of(105), "105", "a number in digits when the language is not written in Han")
 	TranslationServer.remove_translation(english)
+	_same(ChineseNumber.of(105), "一百零五", "no translation loaded: the source glyphs")
 	TranslationServer.set_locale("zh_CN")
 	_same(MessageGrammar.capitalize("you leap. a b"), "you leap. a b", "Chinese locale: no capitals")
+	_same(ChineseNumber.of(105), "一百零五", "Chinese locale: Han glyphs")
 	TranslationServer.set_locale(before)
 
 

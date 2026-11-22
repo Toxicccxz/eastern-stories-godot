@@ -99,7 +99,7 @@ func _test_data() -> void:
 		notes[each.text] = String(each.way)
 	_check(notes == NOTES, "the eleven notes and their ways, as taolin.c's Note_Msg: %s" % [notes])
 	_check(note.policy == &"note_maze" and note.zone_id == TAOLIN and note.enter_portal_id == &"choyin.entrance.east" and note.counter == STEPS and note.mark == "桃林" and note.setting("steps") == 3 and note.portal_id == &"choyin.taolin.out", "the 字条: the way in sets taolin_steps 3, the way out marks 桃林")
-	_check(note.description == "这是一张指示路径的字条.似乎可以读(read)它.\n" and note.action_label == "读" and note.message("read") == "你看见:{note}" and note.message("out") == OUT, "its look and its lines verbatim")
+	_check(note.description == "这是一张指示路径的字条.似乎可以读它.\n" and note.action_label == "读" and note.message("read") == "你看见:{note}" and note.message("out") == OUT, "its look and its lines verbatim")
 	var ways: Array[String] = []
 	for portal: PortalDefinition in _catalog.portals_for_map(&"choyin.town"):
 		if portal.source_zone_id == TAOLIN and portal.destination_zone_id == TAOLIN:
@@ -225,7 +225,7 @@ func _test_practice() -> void:
 	force.skills.set_raw_level(&"force", 10)
 	force.skills.set_raw_level(&"mystforce", 5)
 	force.skills.map_skill(&"force", &"mystforce")
-	_check(_practice(force, &"force", registry) == ["步玄心法只能学，或是从运用(exert)中增加熟练度。"], "步玄心法 refuses practice")
+	_check(_practice(force, &"force", registry) == ["步玄心法只能学，或是从运用中增加熟练度。"], "步玄心法 refuses practice")
 	_check(ExertService.offered(force, _catalog).has(&"recover"), "步玄心法 enabled: the basic force's 恢复气 (its own exert files are commented out)")
 
 

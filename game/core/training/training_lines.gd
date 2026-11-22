@@ -230,7 +230,7 @@ static func study(result: StudyResult, skill: SkillDefinition) -> Array[ColoredL
 		StudyResult.Outcome.NOTHING_TO_LEARN:
 			return _plain(["你无法从这样东西学到任何东西。"])
 		StudyResult.Outcome.ILLITERATE:
-			return _plain(["你是个文盲，先学学读书识字(literate)吧。"])
+			return _plain(["你是个文盲，先学学读书识字吧。"])
 		StudyResult.Outcome.COMBAT_EXPERIENCE_TOO_LOW:
 			return _plain(["你的实战经验不足，再怎麽读也没用。"])
 		StudyResult.Outcome.VALID_LEARN_REJECTED:

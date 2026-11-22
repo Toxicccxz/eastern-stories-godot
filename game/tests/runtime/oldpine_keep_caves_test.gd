@@ -83,7 +83,7 @@ func _test_data() -> void:
 		if catalog.room(StringName("es2:d/oldpine/" + room)) == null:
 			missing.append(room)
 	_check(missing.is_empty(), "the ten remaining Old Pine rooms are there: missing " + str(missing))
-	_check(catalog.room(&"es2:d/oldpine/keep1").short == "老松寨秘密入口" and catalog.room(&"es2:d/oldpine/cave5").long.contains("石壁(wall)"), "room text verbatim")
+	_check(catalog.room(&"es2:d/oldpine/keep1").short == "老松寨秘密入口" and catalog.room(&"es2:d/oldpine/cave5").long.contains("石壁"), "room text verbatim")
 	_check(catalog.zones_adjacent(&"oldpine.outdoor.pine_entrance", &"oldpine.outdoor.keep_gate") and catalog.zones_adjacent(&"oldpine.outdoor.keep_gate", YARD) and catalog.zones_adjacent(YARD, HALL), "pine2 east → keep1 → keep2 → keep3")
 	var into: PortalDefinition = catalog.portal(INTO_HALL)
 	var out: PortalDefinition = catalog.portal(OUT_OF_HALL)

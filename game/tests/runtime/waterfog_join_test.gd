@@ -203,7 +203,7 @@ func _test_practice() -> void:
 	force.skills.map_skill(&"force", &"celestial")
 	_check(_practice(force, &"force", registry) == ["你的杀气不够，无法领悟更高深的天邪神功。"], "天邪神功: valid_learn()'s 杀气 first")
 	force.attributes.bellicosity = 50
-	_check(_practice(force, &"force", registry) == ["天邪神功只能用学的，或是从运用(exert)中增加熟练度。"], "then it refuses practice")
+	_check(_practice(force, &"force", registry) == ["天邪神功只能用学的，或是从运用中增加熟练度。"], "then it refuses practice")
 	var blade: CharacterState = _member(CharacterState.GENDER_MALE)
 	blade.skills.set_raw_level(&"sword", 30)
 	blade.skills.set_raw_level(&"six-chaos-sword", 1)

@@ -268,7 +268,7 @@ func _test_practice() -> void:
 	still.skills.set_raw_level(&"force", 20)
 	still.skills.set_raw_level(&"iceforce", 10)
 	still.skills.map_skill(&"force", &"iceforce")
-	_check(_practice(still, &"force", registry) == ["意寒功只能用学的，或是从运用(exert)中增加熟练度。"], "意寒功 refuses practice")
+	_check(_practice(still, &"force", registry) == ["意寒功只能用学的，或是从运用中增加熟练度。"], "意寒功 refuses practice")
 
 
 ## chillgaze.c as the player reads it: their target named; looked away from, or shivering.

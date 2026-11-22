@@ -54,7 +54,7 @@
 			"legacy_sources": ["d/green/obj/rope.c"],
 			"name": "绳子",
 			"aliases": ["rope"],
-			"long": "这是一捆粗麻绳. 你可以用它来上吊(hang).\n\n",
+			"long": "这是一捆粗麻绳. 你可以用它来上吊.\n\n",
 			"unit": "捆",
 			"material": "linen",
 			"weight": 3000,

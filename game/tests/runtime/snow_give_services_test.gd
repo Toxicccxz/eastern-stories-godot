@@ -154,7 +154,7 @@ func _test_give(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(short.outcome == ItemHandlingResult.Outcome.REFUSED and short.lines == ["魏无极说道：你的诚意不够，这钱还是拿回去吧。", "魏无极没有收下。"], "four taels refused: " + str(short.lines))
 	_check(Finance.amount(money, CurrencyDenomination.Value.SILVER) == 12, "nothing lost on a refusal")
 	var tuition: ItemHandlingResult = map.give_to_selected(&"test.silver", 5)
-	_check(tuition.done() and tuition.lines == ["魏无极点了点头，说道：很好，从今天起你随时可以来问我有关读书识字(literate)的任何问题。", "你拿出五两银子给魏无极。"] and player.state.marks == {"魏无极": 1}, "five taels: marks/魏无极: " + str(tuition.lines))
+	_check(tuition.done() and tuition.lines == ["魏无极点了点头，说道：很好，从今天起你随时可以来问我有关读书识字的任何问题。", "你拿出五两银子给魏无极。"] and player.state.marks == {"魏无极": 1}, "five taels: marks/魏无极: " + str(tuition.lines))
 	_check(Finance.amount(money, CurrencyDenomination.Value.SILVER) == 7, "the tuition is paid")
 	await tree.process_frame
 

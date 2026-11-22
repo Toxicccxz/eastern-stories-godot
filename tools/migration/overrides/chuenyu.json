@@ -118,7 +118,7 @@
 			"function accept_fight": "accept_fight in set: 小女子哪里是您的对手？ and no spar",
 			"function init": "calls in set: messageing after 3 and followhim after 20, started anew by each arrival of the player (remove_call_out); only the player (owner F4: ES2 any living thing that came in); marks/老刘本人 (刘老农): his thanks' leave step takes her (F1)",
 			"function messageing": "calls[0]: in the 刑房 (npc_in), say and emote",
-			"function followhim": "calls[1]: in the 刑房 with the player still there, set_leader (npc_flag follows_player; follows_every_way: owner F2) and marks/老刘 (mark)",
+			"function followhim": "calls[1]: in the 刑房 with the player still there, set_leader (npc_flag follows_player; follows_every_way: owner F2) and marks/老刘",
 			"function goaway": "the thanks' leave step (she leaves with 刘老农, for good: owner Q2 (a)); ES2's five seconds after meeting him go",
 			"function die": "die_marks_killer in set: marks/murder on the player who struck last; the spawn is once (owner Q2 (a)): she is not made anew"
 		},
@@ -160,7 +160,7 @@
 		},
 		"d/chuenyu/rope_bridge.c": {
 			"function init": "climb chain: the act service chuenyu.rope_bridge.climb (铁链 · 顺着走下去)",
-			"function do_climb": "service chuenyu.rope_bridge.climb: its message_vision() line, then move() to base_b_m; the chain's look is the refusal line 这里只有一条铁链（chain）。 (landmark chuenyu.rope_bridge.landmark.chain); the comment's dodge check was never written"
+			"function do_climb": "service chuenyu.rope_bridge.climb: its message_vision() line, then move() to base_b_m; the chain's look is the refusal line 这里只有一条铁链。 (landmark chuenyu.rope_bridge.landmark.chain); the comment's dodge check was never written"
 		},
 		"d/chuenyu/gate_castle.c": {
 			"create_door": "world.json doors: chuenyu.gate_castle.door (城门, shut)",

@@ -199,7 +199,7 @@
 			"legacy_sources": ["d/choyin/obj/goldenrope.c"],
 			"name": "缚仙绳",
 			"aliases": ["golden rope", "rope"],
-			"long": "这是一条由上等金丝编成的绳索, 可缚(tie)禽兽鬼怪。上刻有无数咒文，发出耀目金光.\n",
+			"long": "这是一条由上等金丝编成的绳索, 可缚禽兽鬼怪。上刻有无数咒文，发出耀目金光.\n",
 			"unit": "条",
 			"no_drop": true,
 			"weight": 600,
