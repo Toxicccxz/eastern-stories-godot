@@ -157,7 +157,9 @@ codex, never as a form of address.
 
 ## Typography
 
-* 「」 for speech, 『』 inside quotes and for titles of books and arts (《》 becomes 『』).
+* 「」 for speech, 『』 inside quotes and for titles of books and arts (《》 becomes 『』). Every art,
+  skill and dance named in running text (a line, a quest, a description, the log) is in 『』:
+  『封山剣法』, 『滄海龍吟』, 『点』の字訣; the skill list and buttons show the bare name.
 * Buttons aim at 6 full-width characters (8 at most; shorten the word, never the font size), tabs at
   4 (5 at most), kanji compounds before long katakana. A shortening is frozen once chosen:
   背包 持ち物, 声望 名声, 任务 任務.
