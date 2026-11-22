@@ -23315,7 +23315,7 @@ msgid "府里还有一个不姓庾的，客厅里写字的那位。他的字比�
 msgstr "There is one more person in this house who is not named Yu, the one who writes in the parlor. His writing is more beautiful than my talismans."
 
 msgid "书该还给师兄了。你问我「符箓」。"
-msgstr "The book should go back to Senior Brother. You asked me about \"talismans.\""
+msgstr "The book should go back to Senior Brother. You asked me about \"Talismans.\""
 
 msgid "符箓"
 msgstr "Talismans"
@@ -23465,7 +23465,7 @@ msgid "你现在正走在京师的街道上。往东走便是紫禁城的后门-
 msgstr "You are walking on a street in the Capital. To the east is the Gate of Divine Might, the back gate of the Palace City. To the south there seems to be a tavern, and waves of the smell of wine and meat drift over. To the north is an abandoned garden, said to be often haunted, so no one dares go there.\n"
 
 msgid "你来到紫禁城的北门--神武门。南向的大门通向紫禁城，但这门\n很少开。门上缠着大铁链，还有士兵把守。往北走是皇家祭坛，不是\n一年一度祭天时那总很冷清。东西向的道路分别通向京师东，西路。\n"
-msgstr "You have come to the north gate of the Palace City, the Gate of Divine Might. The gate to the south leads into the Palace City, but it is rarely opened. Thick iron chains are wound over it, and soldiers stand guard. To the north is the Imperial Altar, which is never so desolate as on the one day each year when they sacrifice to Heaven. The roads running east and west lead to the Capital's east and west roads.\n"
+msgstr "You have come to the north gate of the Palace City, the Gate of Divine Might. The gate to the south leads into the Palace City, but it is rarely opened. Thick iron chains are wound over it, and soldiers stand guard. To the north is the Imperial Altar, which is always desolate except on the one day each year when they sacrifice to Heaven. The roads running east and west lead to the Capital's east and west roads."
 
 msgid "这里是京师东街的北段。往北走有一个大院子，院里立着根老高\n老高的旗杆，上书一个斗大的「镖」字，隔很远就可以看见。镖局的\n生意似乎很好，人络绎不绝。西向是庄严的神武门。向南则去向尚书\n府和午门。\n"
 msgstr "This is the northern stretch of the Capital's East Street. To the north is a big courtyard in which stands a very tall flagpole, with a character \"Escort\" as big as a peck measure written on it, visible from far away. The escort agency seems to do good business, with a steady stream of people. To the west is the solemn Gate of Divine Might. To the south are the Minister's Mansion and the Meridian Gate.\n"
@@ -23609,7 +23609,7 @@ msgid "旧布告撕下来了，墙上新贴了一张黄纸，墨还没干：「�
 msgstr "The old notice has been torn down, and a new sheet of yellow paper pasted on the wall, the ink not yet dry: \"The former edict is void.\" More people crowd round to read it than on the day the wanted notice went up.\n"
 
 msgid "布告撕了一半，剩下半张在风里拍着墙：「辑拿要犯——」，后头的名字没了。守城的兵说，是兵部尚书下狱那天撕的。\n"
-msgstr "The notice is torn in half, and the remaining half flaps against the wall in the wind: \"Wanted, an important criminal --\", and the name after it is gone. The city guards say it was torn down the day the Minister of War went to prison.\n"
+msgstr "The notice is torn in half, and the remaining half flaps against the wall in the wind: \"Wanted, an important criminal—\", and the name after it is gone. The city guards say it was torn down the day the Minister of War went to prison."
 
 msgid "布告上写著：近来有土匪出没，望行人小心。\n"
 msgstr "The notice reads: Bandits have been seen lately. Travelers, take care.\n"
@@ -23735,7 +23735,7 @@ msgid "东方的天空中开始出现一丝微曦。午门外渐渐有了人：�
 msgstr "A trace of light begins to show in the eastern sky. People gather outside the Meridian Gate: officials in sedans, on horseback, on foot, each lining up outside the iron gate in order.\n"
 
 msgid "铁门「轧轧」地开了。一个太监站在门里尖着嗓子喊：「宣——武状元觐见！」\n"
-msgstr "The iron gate grinds open. A eunuch stands inside and calls in a shrill voice, \"Summoned -- the Martial Champion to an audience!\"\n"
+msgstr "The iron gate grinds open. A eunuch stands inside and calls in a shrill voice, \"Summoned—the Martial Champion to an audience!\""
 
 msgid "在午门外候到天亮，随相国上早朝。等的工夫里，世上的事照样走：别处的人该走的走、该好的好。"
 msgstr "Wait outside the Meridian Gate until dawn, and go to the morning court with the Chancellor. While you wait, the world goes on as it will: those who are to leave elsewhere leave, those who are to recover recover."
