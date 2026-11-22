@@ -40,8 +40,21 @@ name; pinyin is a person's name, or what a local calls a place in speech.
 
 * People: pinyin, surname first (Liu Chunfeng); an English epithet only where the game has one
   (Liu Chunfeng, the Wind-and-Rain Swordsman).
-* Places named for what you see are translated; administrative names stay pinyin; ES2's own English
-  coinages are kept (waterfog, latemoon, goathill, snowshade…), its romanisations are not (sanyen, fonxan).
+* Places: a real place keeps its pinyin (Yangzhou); a made-up place named for what you see is translated
+  (Tallshade, Cloudweave Town); ES2's own English coinages are kept (waterfog, latemoon, goathill,
+  snowshade…), its romanisations are not (sanyen, fonxan). 县 / 镇 / 府 follow what the place is in the game.
+* **An established English name comes first** (owner 2026-11-22, with Muse), in this order: official
+  (the Palace Museum, scholarship) > published literary translation (Jin Yong's, Wuxia Society) >
+  community usage (Wuxiaworld) > a name of our own. It must name the same thing: 紫禁城 is not the
+  Forbidden City here (our capital is made up), 观音 is Guanyin, not "the Goddess of Mercy". Halls
+  take "Hall of X" (养心殿 Hall of Mental Cultivation, 太和殿 Hall of Supreme Harmony); gods take
+  pinyin and their usual title (Zhenwu, King Yama, the Jade Emperor, Meng Po); 心经 the Heart Sutra;
+  天师道 the Way of the Celestial Masters; 武状元 Martial Champion; offices follow Hucker's *Dictionary
+  of Official Titles* (County Magistrate, Minister, Censor, Head Constable); measures stay pinyin
+  (jin, liang, li, wen); 正月十七 the seventeenth day of the first month.
+* Neither free nor literal: keep each sentence's facts, order and mood; carry the mood in the English
+  sentence, not word for word ("老松寨是老子的寨子" Old Pine Stockade is mine). Form may change where the
+  form is the joke (a list stays a list); ES2's engine marks such as (sign) are not prose.
 * Schools: 派 that teaches arts = **School**; 教 with a doctrine = **Order**; 帮 / 会 = **Guild**.
   *Sect* and *Cult* only in the mouths of those who condemn them.
 * Moves are translated as images (饿鬼拦路 Hungry Ghost Blocks the Road).
@@ -58,12 +71,23 @@ the Heaven-Defier (侮天鬼).
 
 ## Terms
 
-精 Essence · 气 Qi · 神 Spirit · 内力 Inner Force (never qi) · 潜能 Potential · 加力 Extra Force ·
+精 Essence · 气 Qi · 神 Spirit · 内力 Inner Force (never qi) · 内功 neigong · 轻功 qinggong · 潜能 Potential · 加力 Extra Force ·
 杀气 Bloodlust · 法力 Arcane Power · 灵力 Mystic Power · 定力 Resolve · 实战经验 Combat Experience ·
 师父 Shifu · 掌门 Master (a title: Master Liu) · 师兄/师妹 Senior Brother / Junior Sister · 长老 Elder ·
 江湖 jianghu · 武林 wulin · 手 (a fight's turn) beat · money wen · distance li.
 No HP or MP. The HUD may shorten to ESS / QI / SPI / POT / Lv.; every number's hover says the full word,
 and reward lines always write it out ("Potential +12").
+
+Neigong is the practice, Inner Force what it builds; keep the two apart. As a skill or category name
+they take a capital (Basic Neigong, Qinggong).
+
+## Checking a batch
+
+Before a batch goes into en.po: `check_po.py` (slots, marks, full-width punctuation, modern words);
+`build/l10n/term_check.py` in the worktree kit (a glossary name the translation does not use); and a
+read of at least ten lines against the Chinese, two each of names, fights, speech, descriptions and
+UI. Two problems or more in those ten: read thirty. A new region's first batch gets twice the read.
+Every new name goes into the glossary before merging, checked for a clash with another name.
 
 ## Grammar marks (ES2 templates)
 

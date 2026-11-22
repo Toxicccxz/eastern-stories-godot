@@ -39,6 +39,7 @@ class TranslationsTest(unittest.TestCase):
             "invents the slot": ("{npc}{action}", "{npc} {action} {mood}"),
             "slots differ": ("%s摇摇头，说道：没听说过。", "“Never heard of it.”"),
             "full-width": ("新游戏", "“New…”"),
+            "a modern word": ("新游戏", "New game, okay?"),
             "opens with a form of address": ("这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖子里开封的哟。", "$RESPECT, come in."),
         }
         for label, entry in cases.items():

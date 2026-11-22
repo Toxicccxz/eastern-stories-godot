@@ -12,6 +12,7 @@ wrong. This catches them. Rules (docs/production/english_style.md):
 * English grammar marks ({N:a|b}, {n:his} …, MessageGrammar) are well formed, and an ES2
   pronoun token ($P, $p) is not used: English writes {N:his} / {n:him} instead;
 * no text starts a sentence with $RESPECT or {respect}: the forms of address are lower case;
+* no modern word from the style guide's Tone list (dude, okay, awesome, pal...);
 * a language not written in Chinese uses straight quotes and "...": the pixel font's curly
   double quotes and ellipsis are full-width Chinese forms (a letter is half as wide).
 
@@ -32,6 +33,8 @@ SLOT = re.compile(r"\{([a-z_]+)\}")
 GRAMMAR = re.compile(r"\{([Nn]):([^{}]*)\}")
 PRONOUNS = {"he", "him", "his", "himself"}
 FULL_WIDTH = ("“", "”", "…")
+# english_style.md, Tone: words that break the period in any line (a button's "OK" is the UI's own word).
+MODERN = re.compile(r"\b(dude|bro|okay|awesome|my bad|no worries|freaking|totally|pal|mate)\b", re.IGNORECASE)
 
 
 def _unquote(chunks: list[str]) -> str:
@@ -121,6 +124,8 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
                 problems.append(f"{where}: {{n:…}} in a line with no $n (nor $p)")
         if re.search(r"(^|[.!?]\s+|[“\"]\s*)(\$RESPECT|\{respect\})", msgstr):
             problems.append(f"{where}: a sentence opens with a form of address (it is lower case)")
+        if latin and MODERN.search(msgstr) and not MODERN.search(msgid):
+            problems.append(f"{where}: a modern word ({MODERN.search(msgstr).group(0)}): english_style.md, Tone")
         if latin and any(mark in msgstr for mark in FULL_WIDTH):
             problems.append(f"{where}: a full-width “ ” or … (write \" and ...)")
     return problems
