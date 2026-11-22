@@ -4,33 +4,36 @@ extends Control
 ## The title's logo (DECISIONS「标题画面」): the title lettered in ink — 东方故事 brushed, every
 ## character its own size (or EASTERN STORIES in capitals; one language leads at a time) — flat,
 ## no relief: black ink written on the clouds, turned paper white by a band of light as the
-## clouds part; a silk ribbon woven through its foot with the title in the other language on it
-## (TitleRibbon), its vermilion seal (侠) stamped on the ribbon's twist; and a dusk down the left
+## clouds part; a silk ribbon threaded through it with the title in the other language on it
+## (TitleRibbon), its vermilion seal (侠) stamped on the ribbon; and a dusk down the left
 ## of the screen behind it and the menu.
 ## It is drawn into a see-through view of its own, whose picture TitleSky reads to cut the sun's
 ## shafts between the strokes. TitleScreen tweens:
-##   write  0 → 1   the ink soaking in, left to right (INK_SECONDS), the ribbon drawn out from
-##                  behind the last character leftward (RIBBON_SECONDS), then the seal stamped
-##                  down on its twist with a small rebound (ARRIVAL_SECONDS for 0 → 1)
+##   write  0 → 1   the ink soaking in, left to right (INK_SECONDS), the ribbon flying in and
+##                  threading itself through the lettering (RIBBON_SECONDS), then the seal stamped
+##                  down on it with a small rebound (ARRIVAL_SECONDS for 0 → 1)
 ##   lit    0 → 1   the light crossing: black ink to white, the dusk coming in behind
 ##   glint          a band of gold passing over the lettering (glint_at: 0 its left, 1 its right)
 ##   charge         the lettering brightening before it goes
-##   burn  -0.2 → 1.15  the ink lifting off as smoke (LEAVING_SECONDS for 0 → 1)
+##   burn  -0.2 → 1.15  the ribbon drifting on and fading, the ink lifting off as smoke
+##                  (LEAVING_SECONDS for 0 → 1)
 
 const INK: Shader = preload("res://presentation/title/shaders/title_logo.gdshader")
 const SEAL: Shader = preload("res://presentation/title/shaders/title_seal.gdshader")
 const DIM: Shader = preload("res://presentation/title/shaders/title_dim.gdshader")
-## The arrival's beats, in seconds: the writing, the ribbon drawn out, the seal's stamp (down from
+## The arrival's beats, in seconds: the writing, the ribbon threading in, the seal's stamp (down from
 ## 1.6 times its size to 0.96, then settling to 1).
 const INK_SECONDS: float = 1.3
-const RIBBON_SECONDS: Vector2 = Vector2(0.95, 1.4)
-const STAMP_FROM: float = 1.4
+const RIBBON_SECONDS: Vector2 = Vector2(0.3, 2.3)
+const STAMP_FROM: float = 2.3
 const STAMP_SECONDS: float = 0.18
 const SETTLE_SECONDS: float = 0.08
-const ARRIVAL_SECONDS: float = 1.7
+const ARRIVAL_SECONDS: float = 2.6
+## How much of the leaving the ribbon takes to drift on and fade.
+const RIBBON_LEAVING: float = 0.9
 const LEAVING_SECONDS: float = 1.0
-## The seal against the ribbon's width, and its turn (degrees): stamped across the ribbon's twist
-## like a seal on a letter's fold.
+## The seal against the ribbon's width, and its turn (degrees): stamped on the band where it
+## leaves the lettering, like a seal on a letter's fold.
 const SEAL_SHARE: float = 0.82
 const SEAL_TURN: float = 2.5
 ## The seal's mask is padded; its square fills this much of it (title_seal.gdshader's inset).
@@ -153,14 +156,15 @@ func _process(_delta: float) -> void:
 	_ink.set_shader_parameter("glint", glint)
 	_ink.set_shader_parameter("charge", charge)
 	var leaving: float = clampf(burn, 0.0, 1.0)
-	# The ribbon drawn out from the fold, eased; gone a little ahead of the ink.
-	var drawn: float = clampf((t - RIBBON_SECONDS.x) / (RIBBON_SECONDS.y - RIBBON_SECONDS.x), 0.0, 1.0)
-	_ribbon.show_part(1.0 - pow(1.0 - drawn, 3.0), 1.0 - smoothstep(0.0, 0.5, leaving))
+	# The ribbon drifts in, easing to rest; it leaves easing out.
+	var arrived: float = clampf((t - RIBBON_SECONDS.x) / (RIBBON_SECONDS.y - RIBBON_SECONDS.x), 0.0, 1.0)
+	var gone: float = clampf(leaving / RIBBON_LEAVING, 0.0, 1.0)
+	_ribbon.show_part(1.0 - pow(1.0 - arrived, 2.0), smoothstep(0.0, 1.0, gone))
 	var down: float = clampf((t - STAMP_FROM) / STAMP_SECONDS, 0.0, 1.0)
 	var settle: float = clampf((t - STAMP_FROM - STAMP_SECONDS) / SETTLE_SECONDS, 0.0, 1.0)
 	var scale_now: float = lerpf(1.6, 0.96, down * down) if down < 1.0 else lerpf(0.96, 1.0, smoothstep(0.0, 1.0, settle))
 	_seal.scale = Vector2.ONE * scale_now
-	_seal_mat.set_shader_parameter("fade", smoothstep(0.0, 0.35, down) * (1.0 - smoothstep(0.2, 0.7, leaving)))
+	_seal_mat.set_shader_parameter("fade", smoothstep(0.0, 0.35, down) * (1.0 - smoothstep(0.0, 0.15, leaving)))
 	# The dusk comes with the light and stays until the smoke has gone.
 	_dim_mat.set_shader_parameter("strength", smoothstep(0.0, 1.0, lit) * (1.0 - smoothstep(0.85, 1.15, burn)))
 	var going: bool = burn > 0.0 and burn < 1.0
@@ -205,8 +209,8 @@ func place_for(screen: Vector2) -> void:
 	var side: float = _ribbon.band * SEAL_SHARE / SEAL_FILL
 	_seal.size = Vector2(side, side)
 	_seal.pivot_offset = _seal.size / 2.0
-	# On the tail's root, just past the twist, so the band's pale back shows beside it.
-	_seal.position = _ribbon.twist_out + _ribbon.fold_direction * _ribbon.band * 0.32 - _seal.size / 2.0
+	# On the band where it leaves the lettering.
+	_seal.position = _ribbon.seal_at - _seal.size / 2.0
 	_smoke.position = middle
 	_smoke.emission_rect_extents = Vector2(ink_wide, ink_tall) * 0.5
 	_smoke.scale_amount_min = 10.0 * unit / 32.0

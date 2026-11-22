@@ -66,7 +66,10 @@ func _test_logo_blocks() -> void:
 	_check(definition.line_for("zh_CN") == "EASTERN STORIES" and definition.line_for("en") == "东方故事", "the other language on the ribbon")
 	_check(definition.line_mask_for("zh_CN") == "" and ResourceLoader.exists(definition.line_mask_for("en")), "EASTERN STORIES set in Cinzel, 东方故事 from a brush mask (its font is not shipped)")
 	var woven: TitleScreenDefinition.Ribbon = definition.ribbon_for("zh_CN")
-	_check(woven.under.size() == 4 and woven.fold > woven.from, "the Chinese title's ribbon passes under two characters and over the others")
+	var sides: Dictionary = {}
+	for point: int in range(woven.held[0], woven.held[1] + 1):
+		sides[woven.path[point * 3 + 2]] = true
+	_check(sides.size() == 2 and woven.text.size() == 2, "the Chinese title's ribbon runs in front of some characters and behind others, a word of EASTERN STORIES on each stretch in front")
 	var logo := TitleLogo.new()
 	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true, woven, definition.line_mask_for("zh_CN"))
 	var letters: TextureRect = logo.get_node("LogoView/Letters") as TextureRect
@@ -79,14 +82,18 @@ func _test_logo_blocks() -> void:
 		_check(is_equal_approx(float(ink.get_shader_parameter("dry")), TitleLogo.DRY), "brush lettering shows its dry streaks")
 		_check(seal.visible and ribbon.words() == "EASTERN STORIES", "侠 on the Chinese title, EASTERN STORIES on its ribbon")
 		var band: ShaderMaterial = ribbon.material as ShaderMaterial
+		var seal_mat: ShaderMaterial = seal.material as ShaderMaterial
+		logo.write = 0.05
+		logo._process(0.0)
+		_check(not ribbon.showing() and float(seal_mat.get_shader_parameter("fade")) < 0.01, "just begun: neither the ribbon nor the seal yet")
 		logo.write = 0.5
 		logo._process(0.0)
-		var seal_mat: ShaderMaterial = seal.material as ShaderMaterial
-		_check(float(seal_mat.get_shader_parameter("fade")) < 0.01 and float(band.get_shader_parameter("reveal")) < 0.01, "half written: neither the ribbon nor the seal yet")
+		_check(ribbon.showing() and float(seal_mat.get_shader_parameter("fade")) < 0.01, "half written: the ribbon on its way in, no seal yet")
 		logo.write = 1.0
 		logo._process(0.0)
-		_check(float(seal_mat.get_shader_parameter("fade")) > 0.99 and float(band.get_shader_parameter("reveal")) > 0.99 and seal.scale.is_equal_approx(Vector2.ONE), "written: the ribbon drawn out and the seal stamped")
-		_check(seal.get_rect().get_center().x > ribbon.fold.x and seal.get_rect().get_center().y > ribbon.fold.y - ribbon.band, "the seal on the ribbon's twist, past the last character")
+		_check(float(seal_mat.get_shader_parameter("fade")) > 0.99 and float(band.get_shader_parameter("fade")) > 0.99 and seal.scale.is_equal_approx(Vector2.ONE), "written: the ribbon at rest and the seal stamped")
+		var lettering: Rect2 = letters.get_rect()
+		_check(seal.get_rect().get_center().distance_to(ribbon.seal_at) < ribbon.band * 0.2 and ribbon.seal_at.x > lettering.position.x + lettering.size.x * 0.85, "the seal on the ribbon where it leaves the last character")
 		var dim: ShaderMaterial = (logo.get_node("Dim") as ColorRect).material as ShaderMaterial
 		_check(float(dim.get_shader_parameter("strength")) < 0.01, "black ink on the clouds, no dusk yet")
 		logo.lit = 1.0

@@ -16,16 +16,24 @@ class Choice:
 	var zoom_percent: int = 66
 
 
-## The silk ribbon through the foot of the lettering (TitleRibbon), in percent of the lettering's
-## ink box: the height its middle runs at (0 the top, 100 the foot), where it starts and where it
-## folds (0 the left, 100 the right), how wide it is against the ink's height, and the spans of
-## the ink's width where the lettering lies over it, as pairs (the band lies over the rest).
+## The silk ribbon through the lettering (TitleRibbon), in percent of the lettering's ink box (x
+## parts of its width, y parts of its height): the points its middle runs through, three numbers
+## each — x, y, and 1 in front of the lettering or 0 behind it (the band changes sides halfway
+## between two points that differ); which two points it is held between (before and after them its
+## loose ends stream in the wind); its width (parts of the ink's height); the points the words sit
+## on (one, or one a word); the point its seal is stamped on; where it flies in from and drifts off
+## toward.
 class Ribbon:
-	var y: int = 98
-	var from: int = -3
-	var fold: int = 96
-	var band: int = 19
-	var under: Array[int] = []
+	var path: Array[int] = [-14, 92, 1, -3, 74, 1, 11, 62, 1, 33, 70, 0, 56, 62, 1, 82, 56, 0, 104, 66, 1, 118, 86, 1, 136, 94, 1]
+	var held: Array[int] = [1, 6]
+	var band: int = 16
+	var text: Array[int] = [2, 4]
+	var seal: int = 6
+	var from: Array[int] = [-60, 160]
+	var to: Array[int] = [240, -70]
+
+	func points() -> int:
+		return path.size() / 3
 
 
 ## By the menu button's name (NewGameButton, ContinueButton, …).
@@ -96,18 +104,24 @@ static func from_record(reader: ContentRecordReader) -> TitleScreenDefinition:
 		for language: String in ribbons.keys():
 			var entry: ContentRecordReader = ribbons.child(language)
 			var ribbon := Ribbon.new()
-			ribbon.y = entry.integer("y", ribbon.y)
-			ribbon.from = entry.integer("from", ribbon.from)
-			ribbon.fold = entry.integer("fold", ribbon.fold)
+			for key: String in ["path", "held", "text", "from", "to"]:
+				if entry.has(key):
+					ribbon.set(key, entry.integer_list(key))
 			ribbon.band = entry.integer("band", ribbon.band)
-			if entry.has("under"):
-				ribbon.under = entry.integer_list("under")
-			if ribbon.under.size() % 2 != 0 or ribbon.under.size() > 4:
-				entry.fail("under", "expected up to two [from, to] pairs")
+			ribbon.seal = entry.integer("seal", ribbon.seal)
+			var count: int = ribbon.points()
+			if ribbon.path.size() % 3 != 0 or count < 4:
+				entry.fail("path", "expected at least four [x, y, in front] points")
+			if ribbon.held.size() != 2 or ribbon.held[0] < 1 or ribbon.held[1] > count - 2 or ribbon.held[0] >= ribbon.held[1]:
+				entry.fail("held", "expected two points with a loose end beyond each")
+			for point: int in ribbon.text + [ribbon.seal]:
+				if point < 0 or point >= count:
+					entry.fail("text", "expected points of the path")
+			for key: String in ["from", "to"]:
+				if (ribbon.get(key) as Array).size() != 2:
+					entry.fail(key, "expected [x, y]")
 			if ribbon.band < 5 or ribbon.band > 60:
 				entry.fail("band", "expected 5..60")
-			if ribbon.fold <= ribbon.from:
-				entry.fail("fold", "expected right of from")
 			entry.finish()
 			definition.ribbons[language] = ribbon
 		ribbons.finish()
