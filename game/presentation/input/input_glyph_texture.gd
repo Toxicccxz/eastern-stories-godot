@@ -4,6 +4,8 @@ extends Texture2D
 ## follows the input in use (InputDevices) and is empty (0×0) when nothing is shown.
 
 var action: StringName
+## A glyph shown whatever the input (the key page's pad column); null: the action's.
+var fixed: InputGlyphs.Glyph
 var _glyph: InputGlyphs.Glyph
 ## The kind and pad style the glyph was made for; another one remakes it.
 var _made_for: Vector2i = Vector2i(-1, -1)
@@ -18,7 +20,16 @@ func has_glyph() -> bool:
 	return glyph() != null
 
 
+## A texture always showing `glyph`.
+static func of(glyph: InputGlyphs.Glyph) -> InputGlyphTexture:
+	var texture := InputGlyphTexture.new()
+	texture.fixed = glyph
+	return texture
+
+
 func glyph() -> InputGlyphs.Glyph:
+	if fixed != null:
+		return fixed
 	var devices: InputDevices = InputDevices.shared()
 	var now := Vector2i(devices.kind, devices.pad_style)
 	if now != _made_for:

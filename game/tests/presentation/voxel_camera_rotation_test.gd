@@ -64,6 +64,15 @@ func run_all(tree: SceneTree) -> Dictionary:
 	await _frames(tree,4)
 	view = map.get_node("MapView") as WorldVoxelView
 	_check(absf(_yaw(view)-PI/4.0)<0.001,"returning to a cached map cannot resume an old partial turn")
+	# V / the right stick pressed turns it too (owner 2026-11-22: the button had no key).
+	var side_key := InputEventAction.new()
+	side_key.action = &"view_side"
+	side_key.pressed = true
+	var was_left: bool = button.left_view
+	Input.parse_input_event(side_key)
+	await _frames(tree,2)
+	_check(button.left_view != was_left and view.left_view == button.left_view,"the view key turns the view to the other side")
+	_check(InputGlyphs.key_names(&"view_side") == PackedStringArray(["V"]) and InputGlyphs.pad_names(&"view_side",InputDevices.PadStyle.XBOX) == PackedStringArray(["RS"]),"the view key is V and the right stick pressed")
 	session.free()
 	await _frames(tree,2)
 	return {"assertions":assertions,"failures":failures}

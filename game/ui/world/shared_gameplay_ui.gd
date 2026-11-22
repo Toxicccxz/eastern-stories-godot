@@ -105,6 +105,8 @@ var rest_overlay: RestOverlay
 var view_overlay: WorldViewOverlay
 ## 成长时刻 (DECISIONS「练功演出」): a gain of the player's marked for a moment, over every window.
 var growth_moments: GrowthMoments
+## The card after a 切磋 (SparSummaryPanel).
+var spar_summary: SparSummaryPanel
 ## The ring and prompt on what E / A goes to (DECISIONS「手感」,「说话和交互」).
 var focus_marker: WorldFocusMarker
 ## The interaction popup (DECISIONS「说话和交互」): what the target is and offers.
@@ -257,6 +259,10 @@ func _ready() -> void:
 		growth_moments.name = "GrowthMoments"
 		growth_moments.configure(_session)
 		_session.add_child.call_deferred(growth_moments)
+		spar_summary = SparSummaryPanel.new()
+		spar_summary.name = "SparSummaryPanel"
+		spar_summary.configure(_session)
+		_session.add_child.call_deferred(spar_summary)
 
 
 ## `speaker` says `lines` (DECISIONS「说话和交互」): into 消息, and over their head as
@@ -342,6 +348,8 @@ func _notification(what: int) -> void:
 			rest_overlay.free()
 		if is_instance_valid(growth_moments) and growth_moments.get_parent() == null:
 			growth_moments.free()
+		if is_instance_valid(spar_summary) and spar_summary.get_parent() == null:
+			spar_summary.free()
 	elif what == NOTIFICATION_TRANSLATION_CHANGED and _presentation_layout != null and is_inside_tree():
 		# The selection's name and an open panel were put together in the old language;
 		# the heading and the status line follow on the next refresh, the log keeps its lines.
@@ -370,8 +378,9 @@ func configure(player: WorldPlayerRuntimeType) -> bool:
 ## thing with several options opens the interaction popup), or 继续 when someone is telling
 ## the player something and only people stand by; nearby_focus (Tab, Y), Q / LB and RB
 ## step the target through what is in reach; a menu key (C, K, I, J) opens that tab,
-## menu_open (M, Start) the menu on its last tab, look_around (L, X) is 观察. The open menu
-## and the popup take their own keys.
+## menu_open (M, Start) the menu on its last tab, look_around (L, X) is 观察, view_side (V, the
+## right stick pressed) turns the voxel view to its other side. The open menu and the popup
+## take their own keys.
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible or menu.is_presented() or event.is_echo():
 		return
@@ -434,6 +443,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed(&"look_around"):
 		get_viewport().set_input_as_handled()
 		open_look()
+	elif event.is_action_pressed(&"view_side"):
+		var side: VoxelViewSideButton = _presentation_layout.view_side_button
+		if side != null and side.is_visible_in_tree():
+			get_viewport().set_input_as_handled()
+			side.toggle()
 
 
 func _dialogue_key(event: InputEvent) -> void:
@@ -939,6 +953,12 @@ func _records_shown() -> int:
 
 func show_combat_result(text: String) -> void:
 	message_log.show_combat_result(text)
+
+
+## The card after a 切磋 (SparSummaryPanel), once the fight's screen is gone.
+func show_spar_summary(summary: CombatSparSummary) -> void:
+	if is_instance_valid(spar_summary) and spar_summary.is_inside_tree():
+		spar_summary.present(summary)
 
 
 func append_after_fight(lines: Array[ColoredLine]) -> void:
