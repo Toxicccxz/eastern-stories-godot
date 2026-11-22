@@ -237,7 +237,7 @@ func answer_as_written(lines: Array[String]) -> void:
 
 
 func _write_answer(lines: Array[String]) -> void:
-	_text.text = "\n".join(lines)
+	_text.text = KoreanText.shown("\n".join(lines))
 	_text.add_theme_color_override("font_color", TEXT_COLOR)
 	_start_typing()
 	_text.visible = not lines.is_empty()
@@ -374,7 +374,9 @@ func _process(delta: float) -> void:
 		return
 	if _typing():
 		_typed += delta / maxf(GameContent.catalog().pacing().feel.dialogue_char_seconds(), 0.001)
-		_text.visible_characters = -1 if int(_typed) >= _text.text.length() else int(_typed)
+		# A Korean line's word joiners take no time (KoreanText).
+		var typed: int = KoreanText.index_after(_text.text, int(_typed))
+		_text.visible_characters = -1 if typed >= _text.text.length() else typed
 
 
 func _release_hosted() -> void:

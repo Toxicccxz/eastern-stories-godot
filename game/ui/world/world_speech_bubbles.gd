@@ -104,7 +104,7 @@ static func bubble_text(line: String) -> String:
 	var mark: int = text.find(said)
 	if mark >= 0 and mark <= SPEECH_MARK_REACH:
 		text = text.substr(mark + said.length()).strip_edges()
-	return text
+	return KoreanText.shown(text)
 
 
 func _process(delta: float) -> void:

@@ -97,7 +97,7 @@ func _switch_language(tree: SceneTree) -> bool:
 		return false
 	await _frames(tree, 2)
 	var option: OptionButton = _shell.language_option
-	if not check(_shell.language_row.visible and option.item_count == 5, "the language row lists 跟随系统, 简体中文, 繁體中文（預覽）, English (preview) and the test language"):
+	if not check(_shell.language_row.visible and option.item_count == 6, "the language row lists 跟随系统, 简体中文, 繁體中文（預覽）, English (preview), 한국어 (미리 보기) and the test language"):
 		return false
 	for index: int in option.item_count:
 		if String(option.get_item_metadata(index)) == PseudoLocale.CODE:
