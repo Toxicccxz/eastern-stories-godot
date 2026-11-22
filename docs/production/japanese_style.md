@@ -119,7 +119,7 @@ Proper names of shops, halls and temples keep their kanji: 飲風客桟, 水煙�
 * Words the glossary freezes for recurring roles: 掌柜 X店主 (楊店主), but 飲風客桟's 掌柜 is its
   番頭 (the owner is the wandering immortal); 土匪 野盗 (山贼 山賊); 武士 衛士 (武士 is a samurai);
   管家 家令; 管事 執事; 侍卫 侍衛; 保镖 用心棒; 衙役 捕吏; 狱卒 牢番; 僵尸 キョンシー; 阴间 冥界
-  (陰間 is Edo slang). Rooms: 厅 広間 (正厅 大広間, 偏厅 脇の間, 客厅 客間; never 庁, an office),
+  (陰間 is Edo slang). Rooms: 厅 広間 (正厅 大広間, 偏厅 脇の間, 客厅 客間; never 庁, an office, except the established 聚義庁 of 水滸伝),
   大门 正門, 后院 裏庭, 厢房 東棟／西棟, 密室 隠し部屋, 地牢 地下牢, 营帐 天幕, 渡口 渡し, 码头 波止場.
 * Every name is in the frozen glossary (`build/ja/kit/names.tsv` in the kit) before it is used.
 
