@@ -7675,7 +7675,7 @@ msgstr ""
 msgid "半个时辰"
 msgstr ""
 
-#. the number two before a measure word (两个时辰), not counted as 二. Only Chinese
+#. the number two before a measure word (两个时辰), not counted as 二.
 #. the count of moves in a folded battle line: 两 / 三 / 四 / 五, digits beyond.
 #. es2:obj/money/silver money.base_unit
 #. es2:obj/money/gold money.base_unit
