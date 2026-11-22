@@ -111,7 +111,7 @@ func _test_chain(tree: SceneTree, session: WorldSessionController) -> void:
 	_resources(player, 100, 100, 100)
 	_check(top.select_landmark(&"canyon.road.landmark.chain"), "the chain")
 	top.inspect_selected()
-	_check(hud.inspection_text.text.contains("或许你可以试著攀爬(climb)"), "一长条铁索缘山壁而下: %s" % hud.inspection_text.text.left(30))
+	_check(hud.inspection_text.text.contains("或许你可以试著攀爬"), "一长条铁索缘山壁而下: %s" % hud.inspection_text.text.left(30))
 	hud.dismiss_current_panel()
 	await tree.physics_frame
 	await tree.physics_frame

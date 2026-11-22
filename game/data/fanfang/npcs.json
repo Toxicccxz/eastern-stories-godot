@@ -667,14 +667,14 @@
 					"rules": [
 						{ "asker_class": "bonze", "say": "阿弥陀佛！你我同是出家人，何故跟老衲开这等玩笑？" },
 						{ "asker_gender": "女性", "say": "阿弥陀佛！女施主，这里是寺庙，请到尼庵去剃度吧。" },
-						{ "temp_asker": "pending/join_bonze", "say": "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。" }
+						{ "temp_asker": "pending/join_bonze", "say": "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下受戒。" }
 					]
 				},
 				"出家": {
 					"rules": [
 						{ "asker_class": "bonze", "say": "阿弥陀佛！你我同是出家人，何故跟老衲开这等玩笑？" },
 						{ "asker_gender": "女性", "say": "阿弥陀佛！女施主，这里是寺庙，请到尼庵去剃度吧。" },
-						{ "temp_asker": "pending/join_bonze", "say": "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。" }
+						{ "temp_asker": "pending/join_bonze", "say": "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下受戒。" }
 					]
 				},
 				"寺": ["日陀罗寺。两个天竺僧人盖的，老衲是第二代。寺小，佛不小。"],

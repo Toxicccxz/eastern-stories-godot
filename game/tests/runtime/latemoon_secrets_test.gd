@@ -199,7 +199,7 @@ func _test_bracelet(tree: SceneTree, session: WorldSessionController) -> void:
 	map.npc_life._advance_ambience(1.0)
 	_check(map.select_npc(funlin.character_id), "芳绫 selected")
 	var traded: ItemHandlingResult = map.give_to_selected(_carried(session, DRAGONFLY))
-	_check(traded.done() and traded.lines == ["芳绫很开心的拿起竹蜻蜓把玩!", "满怀感激的谢谢你! 她小声的在你耳边说：", "『 庄内前厅某处藏有一宝物手镯哦!』", "你可以找找看! (search bracelet)", "你给芳绫一个竹蜻蜓。"], "her four lines: %s" % [traded.lines])
+	_check(traded.done() and traded.lines == ["芳绫很开心的拿起竹蜻蜓把玩!", "满怀感激的谢谢你! 她小声的在你耳边说：", "『 庄内前厅某处藏有一宝物手镯哦!』", "你可以找找看!", "你给芳绫一个竹蜻蜓。"], "her four lines: %s" % [traded.lines])
 	_check(player.temp_marks.get("moon/问题二", 0) == 1 and player.temp_marks.get("moon/竹蜻蜓", 0) == 1, "moon/问题二 and moon/竹蜻蜓")
 	var again: ItemHandlingResult = map.give_to_selected(_new_item(session, DRAGONFLY))
 	_check(again.done() and again.lines == ["芳绫说道：谢谢!我已经告诉你秘密了呀!去找呀!", "你给芳绫一个竹蜻蜓。"], "a second one: she says so and keeps it: %s" % [again.lines])

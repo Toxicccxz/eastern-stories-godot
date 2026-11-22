@@ -1,4 +1,5 @@
-"""game/data/*/rooms.json must carry the ES2 room text verbatim."""
+"""game/data/*/rooms.json must carry the ES2 room text verbatim (less the typed-command hints,
+DECISIONS「去掉指令提示」)."""
 
 from __future__ import annotations
 
@@ -12,6 +13,8 @@ REPOSITORY = Path(__file__).resolve().parents[2]
 DATA = REPOSITORY / "game/data"
 MUDLIB = REPOSITORY / "reference/es2/mudlib"
 MIGRATION = REPOSITORY / "tools/migration"
+# The importer's rule for ES2's typed-command hints (招牌(sign)): they are not carried over.
+COMMAND_HINT = re.compile(r"(?<=[一-鿿　-〿＀-￯!])[ 　]?[（(][a-z][a-z' ]*[)）]")
 
 
 def _source(room_id: str) -> str:
@@ -72,7 +75,7 @@ class RoomDataTest(unittest.TestCase):
                 # may follow the opening delimiter: d/canyon/canyon2.c).
                 block = re.search(r"@(\w+)[ \t]*\n(.*?)\n\1\b", source, re.DOTALL)
                 self.assertIsNotNone(block, "no @LONG block")
-                self.assertEqual(room["long"], block.group(2) + "\n")
+                self.assertEqual(room["long"], COMMAND_HINT.sub("", block.group(2)) + "\n")
                 for direction, target in room.get("exits", {}).items():
                     name = target.removeprefix("es2:").rsplit("/", 1)[-1]
                     self.assertRegex(source, rf'"{direction}"\s*:\s*(__DIR__\s*)?"[^"]*{name}"')

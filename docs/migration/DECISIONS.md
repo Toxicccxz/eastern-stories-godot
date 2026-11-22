@@ -324,6 +324,12 @@
 - 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
 - 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
 
+## 去掉指令提示 (owner 2026-11-22「Strip from both」，全项目审查「文本七项」②)
+
+- **ES2：** 房间、物件、物品、NPC 的说明里在词后括着打字指令，如 招牌(sign)、试着爬(climb)、想喝它 (drink)、跪下(kneel)受戒，叫玩家打 `look sign`、`climb`。
+- **我们：** 游戏不认打字指令（点人、点物、按钮），这些括号读起来像乱码，中英文一起去掉（约 220 处）：导入器对每条导入的字串去掉紧跟在中文后的「(小写英文)」（`content_importer.py` COMMAND_HINT），手写的数据（world.json 的物件、skills.json、覆盖文件）照同一规则改；体素配置和来源注释里的引文不动（玩家看不到）。`test_room_data` 按同一规则比对 LPC 原文。en.po 的条目跟着换成新原文，英文里的同一个括号一并去掉。
+- **为什么：** owner 2026-11-22 定；「文本七项」其余六项仍待定。
+
 ## English (preview) (owner 2026-11-20「开始翻译游戏文本，先搞英文」, 2026-11-21 译名定稿)
 
 - The tone, voice levels, names and terms were settled with Muse and the owner (english_style.md): plain,

@@ -2344,8 +2344,8 @@ msgstr "Cancel: %s"
 msgid "饮风客栈"
 msgstr "Drinkwind Inn"
 
-msgid "你现在正站在雪亭镇南边的一家小客栈里，这家客栈虽小，却是方圆\n五百里内最负盛名的一家，客栈的主人据说是一位云游四海的仙人，如果\n你的福缘深厚的话，也许可以在这里遇到他。除此之外，来自各地的旅人\n都喜欢聚集在这里交换旅途上的见闻，你也可以在这里打听到许多有趣的\n消息。靠近门口的地方有一块乌木雕成的招牌(sign)。\n西北边有一个红木门(door)，门上泛著一层白色的光晕，一种令人感觉\n很有力量，又很柔和的光芒。\n"
-msgstr "You are standing in a small inn on the south side of Snow Pavilion. Small as it is, it's the best-known inn for five hundred li around. Its owner, they say, is an immortal who wanders the four seas—if your Fortune runs deep, you might meet him here. Travelers from all over gather here to swap news of the road, so you can pick up plenty of interesting gossip too. Near the door hangs a signboard carved from ebony (sign). To the northwest is a redwood door (door), glowing with a faint white halo—a light that feels both powerful and gentle."
+msgid "你现在正站在雪亭镇南边的一家小客栈里，这家客栈虽小，却是方圆\n五百里内最负盛名的一家，客栈的主人据说是一位云游四海的仙人，如果\n你的福缘深厚的话，也许可以在这里遇到他。除此之外，来自各地的旅人\n都喜欢聚集在这里交换旅途上的见闻，你也可以在这里打听到许多有趣的\n消息。靠近门口的地方有一块乌木雕成的招牌。\n西北边有一个红木门，门上泛著一层白色的光晕，一种令人感觉\n很有力量，又很柔和的光芒。\n"
+msgstr "You are standing in a small inn on the south side of Snow Pavilion. Small as it is, it's the best-known inn for five hundred li around. Its owner, they say, is an immortal who wanders the four seas—if your Fortune runs deep, you might meet him here. Travelers from all over gather here to swap news of the road, so you can pick up plenty of interesting gossip too. Near the door hangs a signboard carved from ebony. To the northwest is a redwood door, glowing with a faint white halo—a light that feels both powerful and gentle."
 
 msgid "广场"
 msgstr "Town Square"
@@ -2362,8 +2362,8 @@ msgstr "You are walking along a street in Snow Pavilion. Not far to the east is 
 msgid "淳风武馆大门"
 msgstr "Pure Wind Hall Gate"
 
-msgid "你现在正站在一间大宅院的入口，两只巨大的石狮镇守在大门的两\n侧，一阵阵吆喝与刀剑碰撞的声音从院子中传来。通过红漆大门(door)\n往东可以望见许多身穿灰衣的汉子正在操练。\n"
-msgstr "You stand at the entrance of a great compound. Two huge stone lions guard either side of the gate, and shouts and the clash of blades drift out from the yard. Through the red-lacquered door (door) to the east, you can see a crowd of men in grey at their drills."
+msgid "你现在正站在一间大宅院的入口，两只巨大的石狮镇守在大门的两\n侧，一阵阵吆喝与刀剑碰撞的声音从院子中传来。通过红漆大门\n往东可以望见许多身穿灰衣的汉子正在操练。\n"
+msgstr "You stand at the entrance of a great compound. Two huge stone lions guard either side of the gate, and shouts and the clash of blades drift out from the yard. Through the red-lacquered door to the east, you can see a crowd of men in grey at their drills."
 
 msgid "淳风武馆教练场"
 msgstr "Pure Wind Hall Training Ground"
@@ -2392,8 +2392,8 @@ msgstr "A guest room swept quite clean. The furniture is plain—nothing to matc
 msgid "天井"
 msgstr "Courtyard"
 
-msgid "这里是淳风武馆中的天井，往西走可以回到正厅，往北边是书房，\n南边是招待客人的厢房，往东一条长廊通往武馆内院，天井中种满了许\n多奇花异草，中央立著一根石柱(pillar)，上面似乎刻著字。\n"
-msgstr "This is the courtyard of Pure Wind Hall. West leads back to the main hall; north is the study; south, the guest wing. To the east a long gallery runs to the hall's inner court. The courtyard is full of rare flowers and plants, and in the middle stands a stone pillar (pillar) that seems to have words carved on it."
+msgid "这里是淳风武馆中的天井，往西走可以回到正厅，往北边是书房，\n南边是招待客人的厢房，往东一条长廊通往武馆内院，天井中种满了许\n多奇花异草，中央立著一根石柱，上面似乎刻著字。\n"
+msgstr "This is the courtyard of Pure Wind Hall. West leads back to the main hall; north is the study; south, the guest wing. To the east a long gallery runs to the hall's inner court. The courtyard is full of rare flowers and plants, and in the middle stands a stone pillar that seems to have words carved on it."
 
 msgid "武馆内院"
 msgstr "Inner Court"
@@ -4870,8 +4870,8 @@ msgstr "You can't settle down to study in the middle of a fight!"
 msgid "你无法从这样东西学到任何东西。"
 msgstr "There's nothing you can learn from this."
 
-msgid "你是个文盲，先学学读书识字(literate)吧。"
-msgstr "You can't read. Learn your letters (literate) first."
+msgid "你是个文盲，先学学读书识字吧。"
+msgstr "You can't read. Learn your letters first."
 
 msgid "你的实战经验不足，再怎麽读也没用。"
 msgstr "You don't have the combat experience—reading more won't help."
@@ -5269,8 +5269,8 @@ msgstr "Take me to him. Let me have a few words with him."
 msgid "点了点头，说道：哦，向你这么有心的学生还真是不多见，好好努力将来必定前途无量，谢了。"
 msgstr " nods. \"Oh, a student as eager as you is rare indeed. Work hard and your future is boundless. Thank you.\""
 
-msgid "点了点头，说道：很好，从今天起你随时可以来问我有关读书识字(literate)的任何问题。"
-msgstr " nods. \"Very good. From today you may come and ask me anything about reading and writing (literate).\""
+msgid "点了点头，说道：很好，从今天起你随时可以来问我有关读书识字的任何问题。"
+msgstr " nods. \"Very good. From today you may come and ask me anything about reading and writing.\""
 
 msgid "你的诚意不够，这钱还是拿回去吧。"
 msgstr "You're not sincere enough. Take your money back."
@@ -5443,8 +5443,8 @@ msgstr "Really? Where's there money to be made?"
 msgid "发财"
 msgstr "Getting Rich"
 
-msgid "发财我倒不敢想，只要有人肯雇用(employment)我，手边有几百两银子就好了。"
-msgstr "Getting rich I wouldn't dare dream of. If someone would just hire me (employment), a few hundred taels in hand would do."
+msgid "发财我倒不敢想，只要有人肯雇用我，手边有几百两银子就好了。"
+msgstr "Getting rich I wouldn't dare dream of. If someone would just hire me, a few hundred taels in hand would do."
 
 msgid "是的，一天一百两银子，只要不违背侠义道，我可以做任何事。"
 msgstr "That's right—a hundred taels a day, and so long as it doesn't go against the code of chivalry, I'll do anything."
@@ -5554,8 +5554,8 @@ msgstr "A very old Town God temple. On the altar before you sits a red-faced Tow
 msgid "你现在正走在雪亭镇的大街，往南直走不远处是镇上的广场，在你\n的东边是一间大宅院，不过正门不在这个方向，往西是一家打铁铺子，\n叮叮当当的声音大老远可以听得到，街道往北边一直通往镇外。\n"
 msgstr "You are walking along Snow Pavilion's main street. Not far south is the town square. To your east is a big compound, though its front gate isn't on this side; to the west is a smithy, and you can hear its clanging from a long way off. The street runs north out of town."
 
-msgid "这里是雪亭镇的大街，东边有一栋陈旧的建筑，看起来像是什么店\n铺，但是并没有任何招牌，只有一扇门(door)上面写著一个大大的「当\n」字，往西是一间药铺，大街往南北两个方向延伸。\n"
-msgstr "This is Snow Pavilion's main street. To the east is a run-down building that looks like some kind of shop, though it has no signboard—only a door (door) with a big \"Pawn\" written on it. To the west is a herb shop. The street runs north and south."
+msgid "这里是雪亭镇的大街，东边有一栋陈旧的建筑，看起来像是什么店\n铺，但是并没有任何招牌，只有一扇门上面写著一个大大的「当\n」字，往西是一间药铺，大街往南北两个方向延伸。\n"
+msgstr "This is Snow Pavilion's main street. To the east is a run-down building that looks like some kind of shop, though it has no signboard—only a door with a big \"Pawn\" written on it. To the west is a herb shop. The street runs north and south."
 
 msgid "这里是雪亭镇的大街，一条小巷子通往东边，西边则是一间驿站，\n由于雪亭镇来往的商旅、官员并不很多，因此虽然是官府的驿站，也接\n受百姓的信件，大街往北是一处山坳，从这里远远地可以望见北方的野\n羊山，出了山坳就是一条碎石路通往山上。\n"
 msgstr "This is Snow Pavilion's main street. A lane leads east, and to the west is a post station; since few merchants or officials pass through Snow Pavilion, the official post takes ordinary folks' letters too. North of the street is a mountain hollow, and from here you can see Goathill far to the north; past the hollow a gravel road leads up the mountain."
@@ -5563,14 +5563,14 @@ msgstr "This is Snow Pavilion's main street. A lane leads east, and to the west 
 msgid "这里是一处山坳，往南就是雪亭镇，一条蜿蜒的小径往东通往另一\n个邻近的小山村，一块官府立的告示牌立在路旁，上面写著有关野羊山\n土匪出没的警告标志。\n"
 msgstr "This is a mountain hollow. South is Snow Pavilion, and a winding path leads east to another little mountain village nearby. By the road stands a notice put up by the magistrate, warning of bandits on Goathill."
 
-msgid "这是一间谷物加工厂，这里是谷子脱壳成米的地方。米厂老板是一个一\n看就知道是十分精明的干瘦的中年人，老是带着一脸奸笑。你可以看到\n许多人正在忙忙碌碌的工作着，门口挂著一块牌子(sign)，往西是通往\n雪亭镇大街的大门。\n"
-msgstr "This is a grain mill, where grain is husked into rice. The mill's owner is a scrawny, middle-aged man you can tell at a glance is sharp as a tack, always wearing a sly grin. You can see lots of people busily at work. A sign (sign) hangs at the door; to the west is the gate out to Snow Pavilion's main street."
+msgid "这是一间谷物加工厂，这里是谷子脱壳成米的地方。米厂老板是一个一\n看就知道是十分精明的干瘦的中年人，老是带着一脸奸笑。你可以看到\n许多人正在忙忙碌碌的工作着，门口挂著一块牌子，往西是通往\n雪亭镇大街的大门。\n"
+msgstr "This is a grain mill, where grain is husked into rice. The mill's owner is a scrawny, middle-aged man you can tell at a glance is sharp as a tack, always wearing a sly grin. You can see lots of people busily at work. A sign hangs at the door; to the west is the gate out to Snow Pavilion's main street."
 
-msgid "这是一间素来以公平信用著称的钱庄，钱庄的老板还是个曾经中过\n举人的读书人，你可以看到钱庄里里外外都打扫得乾乾净净，一个胖胖\n的中年人坐在柜台后面，柜台上放著一块牌子(sign)，往东是通往雪亭\n镇大街的大门。\n"
-msgstr "This bank has always been known for fair and honest dealing, and its owner is a scholar who once passed the provincial exams. The place is swept clean inside and out. A plump, middle-aged man sits behind the counter, and on the counter sits a sign (sign). To the east is the door out to Snow Pavilion's main street."
+msgid "这是一间素来以公平信用著称的钱庄，钱庄的老板还是个曾经中过\n举人的读书人，你可以看到钱庄里里外外都打扫得乾乾净净，一个胖胖\n的中年人坐在柜台后面，柜台上放著一块牌子，往东是通往雪亭\n镇大街的大门。\n"
+msgstr "This bank has always been known for fair and honest dealing, and its owner is a scholar who once passed the provincial exams. The place is swept clean inside and out. A plump, middle-aged man sits behind the counter, and on the counter sits a sign. To the east is the door out to Snow Pavilion's main street."
 
-msgid "这是一家中等规模的当铺，老旧的柜台上放著一张木牌(sign)，屋\n里的光线不是很亮，往东的出口被一块蓝色布帘遮著，上面有「非请莫\n入」的字样，西边有一扇木雕门(door)通往大街。\n"
-msgstr "A pawnshop of middling size. On the old counter sits a wooden sign (sign). The room isn't very bright. The exit to the east is hung with a blue cloth curtain that reads \"No Entry Without Leave\"; to the west a carved wooden door (door) leads to the main street."
+msgid "这是一家中等规模的当铺，老旧的柜台上放著一张木牌，屋\n里的光线不是很亮，往东的出口被一块蓝色布帘遮著，上面有「非请莫\n入」的字样，西边有一扇木雕门通往大街。\n"
+msgstr "A pawnshop of middling size. On the old counter sits a wooden sign. The room isn't very bright. The exit to the east is hung with a blue cloth curtain that reads \"No Entry Without Leave\"; to the west a carved wooden door leads to the main street."
 
 msgid "这里是雪亭镇的街道，你的北边有一家客栈，从这里就可以听到客\n栈里人们饮酒谈笑的声音，街道往东不远处有个转角往北，如果你往东\n直走就是上山的小径了，往西则可以走到车马来往络绎不绝的官道。\n"
 msgstr "This is a street in Snow Pavilion. To your north is an inn—from here you can hear people inside drinking and laughing. Not far east the street turns north at a corner; keep going east and you'll reach the trail up the mountain; to the west is the highway, busy with carts and horses coming and going."
@@ -5590,26 +5590,26 @@ msgstr "This is a roomy schoolhouse. The building looks old, but it's kept neat 
 msgid "这里是一间打铁铺子，从火炉中冒出的火光将墙壁映得通红，屋子\n的角落里堆满了各式铁器的完成品或未完成品，像是锄头、铁锤、铲子\n等，叮叮当当的声音敲得满屋子响。\n"
 msgstr "This is a smithy. Firelight from the forge turns the walls red, and the corners are heaped with all kinds of ironware, finished and unfinished—hoes, hammers, shovels and the like. The clanging fills the whole room."
 
-msgid "这里是一间规模不小的药铺，奇怪的是，在这里你闻不到一丝药铺\n应有的药味，有的只是一股淡淡的檀香，令人觉得心旷神怡，药铺的柜\n台就在店铺靠北的一面，柜台后是一个巨大的药柜(cabinet)， 上面的\n小抽屉只怕有七、八百个之多，但是全部没有贴标签，药铺的出口在东\n边，柜台上贴著一张发黄的纸片(sign)。\n"
-msgstr "This is a sizable herb shop. Oddly, you can't smell a trace of the medicine an herb shop ought to smell of—only a faint, pleasant whiff of sandalwood. The counter is along the north side of the shop, and behind it is a huge medicine cabinet (cabinet) with what must be seven or eight hundred little drawers, none of them labeled. The exit is to the east, and a yellowed scrap of paper (sign) is stuck on the counter."
+msgid "这里是一间规模不小的药铺，奇怪的是，在这里你闻不到一丝药铺\n应有的药味，有的只是一股淡淡的檀香，令人觉得心旷神怡，药铺的柜\n台就在店铺靠北的一面，柜台后是一个巨大的药柜， 上面的\n小抽屉只怕有七、八百个之多，但是全部没有贴标签，药铺的出口在东\n边，柜台上贴著一张发黄的纸片。\n"
+msgstr "This is a sizable herb shop. Oddly, you can't smell a trace of the medicine an herb shop ought to smell of—only a faint, pleasant whiff of sandalwood. The counter is along the north side of the shop, and behind it is a huge medicine cabinet with what must be seven or eight hundred little drawers, none of them labeled. The exit is to the east, and a yellowed scrap of paper is stuck on the counter."
 
-msgid "这里是负责雪亭镇官府文书跟军令往来的雪亭驿，但是因为出了雪\n亭镇往北的野羊山近年来有盗匪盘据，官府的信差最近都改走东边的飞\n鸢栈道，所以雪亭驿来往的人就少了，驿站的官员索性就开始接一些百\n姓的信件，一方面打发时间，一方面也有点事做以免被上级裁撤。驿站\n大门口上悬著一块木牌(sign)，上面写了些字。\n"
-msgstr "This is the Snow Pavilion Post Station, which handles the town's official papers and military orders. But since bandits took over Goathill, north of town, the official couriers have all gone by the Flying Kite Plank Road to the east instead, and hardly anyone comes through here. So the station's officials have taken to carrying ordinary folks' letters—partly to pass the time, partly to have something to do so their superiors don't shut them down. A wooden sign (sign) with some writing on it hangs over the gate."
+msgid "这里是负责雪亭镇官府文书跟军令往来的雪亭驿，但是因为出了雪\n亭镇往北的野羊山近年来有盗匪盘据，官府的信差最近都改走东边的飞\n鸢栈道，所以雪亭驿来往的人就少了，驿站的官员索性就开始接一些百\n姓的信件，一方面打发时间，一方面也有点事做以免被上级裁撤。驿站\n大门口上悬著一块木牌，上面写了些字。\n"
+msgstr "This is the Snow Pavilion Post Station, which handles the town's official papers and military orders. But since bandits took over Goathill, north of town, the official couriers have all gone by the Flying Kite Plank Road to the east instead, and hardly anyone comes through here. So the station's officials have taken to carrying ordinary folks' letters—partly to pass the time, partly to have something to do so their superiors don't shut them down. A wooden sign with some writing on it hangs over the gate."
 
 msgid "这里是丰登当铺的储藏室，有时候当铺里的大朝奉会把铺里存不下\n的死当货物拿出来拍卖，不过你现在只能看见一个个锁著的箱子。往西\n边穿过一道布帘可以回到当铺店面。\n"
 msgstr "This is the Harvest Pawnshop's storeroom. Now and then the head clerk auctions off unredeemed goods the shop has no room for, but right now all you can see are locked chests. To the west, through a cloth curtain, is the shop front."
 
-msgid "这里是一间布置得相当雅致的厢房，从窗子可以看到北边的天井跟\n南边的庭园中各式各样的奇花异草，以及他们所带来的淡淡香气，厢房\n的东面墙上还挂著一幅仕女图(painting)，画中是一位宫装美妇，往西\n是通往天井的出口。\n"
-msgstr "This is a tastefully furnished side room. Through the window you can see all kinds of rare flowers in the courtyard to the north and the garden to the south, and smell their faint fragrance. On the east wall hangs a painting of a lady (painting), a beauty in court dress. The way out to the courtyard is to the west."
+msgid "这里是一间布置得相当雅致的厢房，从窗子可以看到北边的天井跟\n南边的庭园中各式各样的奇花异草，以及他们所带来的淡淡香气，厢房\n的东面墙上还挂著一幅仕女图，画中是一位宫装美妇，往西\n是通往天井的出口。\n"
+msgstr "This is a tastefully furnished side room. Through the window you can see all kinds of rare flowers in the courtyard to the north and the garden to the south, and smell their faint fragrance. On the east wall hangs a painting of a lady, a beauty in court dress. The way out to the courtyard is to the west."
 
 msgid "这里是一间整理得相当乾净的书房，红木桌椅上铺著蓝绸巾，显得\n十分考究，西面的立著一个书架，上面放著一排排的古书，往南走出房\n门可以看到天井。\n"
 msgstr "This is a study, kept very clean. A blue silk cloth is spread over the redwood desk and chairs—quite refined. Against the west wall stands a bookcase holding row upon row of old books. South, out the door, you can see the courtyard."
 
-msgid "这是一间堆满各式兵器、刀械的储藏室，各式武器都依照种类、长\n短、依次放在一起，并且擦拭得一尘不染，储藏室的出口在你的南边，\n面对出口的左手边有一个架子(shelf)。\n"
-msgstr "A storeroom piled with all sorts of weapons and blades, every one sorted by kind and length and wiped spotless. The exit is to your south, and to the left as you face it is a rack (shelf)."
+msgid "这是一间堆满各式兵器、刀械的储藏室，各式武器都依照种类、长\n短、依次放在一起，并且擦拭得一尘不染，储藏室的出口在你的南边，\n面对出口的左手边有一个架子。\n"
+msgstr "A storeroom piled with all sorts of weapons and blades, every one sorted by kind and length and wiped spotless. The exit is to your south, and to the left as you face it is a rack."
 
-msgid "这里是一间窄小的密室，你的面前只有一个破旧的小床(bed)跟一\n些乾草。\n"
-msgstr "A cramped little secret room. All that's in front of you is a shabby little bed (bed) and some straw."
+msgid "这里是一间窄小的密室，你的面前只有一个破旧的小床跟一\n些乾草。\n"
+msgstr "A cramped little secret room. All that's in front of you is a shabby little bed and some straw."
 
 msgid "短工"
 msgstr "Day Laborer"
@@ -5812,8 +5812,8 @@ msgstr "The pages of this old book have long gone yellow. There are only a few b
 msgid "金疮药"
 msgstr "Wound Salve"
 
-msgid "一颗金疮药, 可以用来敷上(apply)治伤 。\n"
-msgstr "A pill of wound salve. You can put it on (apply) to treat wounds."
+msgid "一颗金疮药, 可以用来敷上治伤 。\n"
+msgstr "A pill of wound salve. You can put it on to treat wounds."
 
 msgid "长剑"
 msgstr "long sword"
@@ -5833,14 +5833,14 @@ msgstr "silk riding jacket"
 msgid "化尸粉"
 msgstr "corpse powder"
 
-msgid "这是一包用来毁尸灭迹的化尸粉，只要用一丁点就可以\n化去(dissolve)一具尸体！\n"
-msgstr "A packet of corpse powder for getting rid of bodies. Just a pinch will dissolve (dissolve) a whole corpse!"
+msgid "这是一包用来毁尸灭迹的化尸粉，只要用一丁点就可以\n化去一具尸体！\n"
+msgstr "A packet of corpse powder for getting rid of bodies. Just a pinch will dissolve a whole corpse!"
 
 msgid "蛇药"
 msgstr "snake antidote"
 
-msgid "这是一包用来解蛇毒的药\n可以用(apply)来解蛇毒!\n"
-msgstr "A packet of medicine for snake venom. You can use it (apply) to cure snakebite!"
+msgid "这是一包用来解蛇毒的药\n可以用来解蛇毒!\n"
+msgstr "A packet of medicine for snake venom. You can use it to cure snakebite!"
 
 msgid "飞镖"
 msgstr "dart"
@@ -5851,8 +5851,8 @@ msgstr "A dart—a very common hidden weapon."
 msgid "极乐逍遥散"
 msgstr "Bliss Powder"
 
-msgid "这是一种毒性猛烈的春药，你可以把它倒(pour)在酒水之中使用。\n"
-msgstr "A potent and poisonous aphrodisiac. You use it by pouring (pour) it into wine or water."
+msgid "这是一种毒性猛烈的春药，你可以把它倒在酒水之中使用。\n"
+msgstr "A potent and poisonous aphrodisiac. You use it by pouring it into wine or water."
 
 msgid "这是一把看起相当普通的匕首。\n"
 msgstr "A fairly ordinary-looking dagger."
@@ -5914,8 +5914,8 @@ msgstr "A blood-red long sword, about ten jin in weight."
 msgid "蒙汗药"
 msgstr "Knockout Drops"
 
-msgid "这是寻常的绿林盗贼用来作案的蒙汗药，你可以把它倒(pour)在\n酒水之中使用。\n"
-msgstr "The knockout drops common bandits use on the job. You use them by pouring (pour) them into wine or water."
+msgid "这是寻常的绿林盗贼用来作案的蒙汗药，你可以把它倒在\n酒水之中使用。\n"
+msgstr "The knockout drops common bandits use on the job. You use them by pouring them into wine or water."
 
 msgid "金刚杖"
 msgstr "vajra staff"
@@ -6481,8 +6481,8 @@ msgstr "Empty Mountain Force"
 msgid "封山剑派的本门内功，只能向师长学，或在运功中慢慢精熟。封山剑法必须配合它才能练；运起功来，还能为自己疗伤。"
 msgstr "The Empty Mountain School's own neigong. It can only be learned from one's elders, or slowly perfected by exerting it. Empty Mountain Sword can only be practiced with it, and when exerted it can heal your own wounds."
 
-msgid "封山派内功只能用学的，或是从运用(exert)中增加熟练度。"
-msgstr "Empty Mountain Force can only be learned, or improved by using it (exert)."
+msgid "封山派内功只能用学的，或是从运用中增加熟练度。"
+msgstr "Empty Mountain Force can only be learned, or improved by using it."
 
 msgid "封山剑派是当今武林最大的一支剑派，这套剑法是当年创派的三位剑术名家在封山灵狐顶相互印证、合力创出的。招式并不难学，难在剑意：自「剑气」练起，次练「剑心」「剑芒」「剑神」，四者都练到登峰造极的人少之又少，所以同是封山剑法，造诣深浅不同的人使出来，威力差之千里。剑中有「封」「点」「逐」「缺」四字诀，须以封山派内功为根基。"
 msgstr "The Empty Mountain School is the largest sword school in the wulin today. This sword style was forged by its three founding swordmasters, testing their skills against each other on Spirit Fox Peak of the Sealed Mountain. The moves aren't hard to learn; the hard part is the spirit of the sword. One starts with \"Sword Qi,\" then \"Sword Heart,\" \"Sword Edge\" and \"Sword Spirit\"—and few ever master all four, so the same Empty Mountain Sword can differ a world apart depending on who wields it. The sword holds four secrets—Seal, Point, Chase and Gap—and it rests on Empty Mountain Force."
@@ -15673,8 +15673,8 @@ msgstr "This is a spicy, mouth-watering dish.\n"
 msgid "这是一个手工细腻的水饺，看起来很好吃。\n"
 msgstr "This is a finely made dumpling, and it looks delicious.\n"
 
-msgid "这是一坛香味浓郁的陈年老酒，是存给待嫁女儿喝的酒。\n你闻了闻，好香好香哦!你有点想喝它 (drink)\n"
-msgstr "This is a jar of rich, aged wine, put away for a daughter to drink when she marries.\nYou sniff it. So fragrant, so fragrant! You feel a bit like drinking it (drink)\n"
+msgid "这是一坛香味浓郁的陈年老酒，是存给待嫁女儿喝的酒。\n你闻了闻，好香好香哦!你有点想喝它\n"
+msgstr "This is a jar of rich, aged wine, put away for a daughter to drink when she marries.\nYou sniff it. So fragrant, so fragrant! You feel a bit like drinking it\n"
 
 msgid "这是一只看了都会流口水的、香喷喷的烤鸭。\n"
 msgstr "This is a fragrant roast duck that would make anyone drool.\n"
@@ -15721,8 +15721,8 @@ msgstr "Golden Pavilion tea"
 msgid "这是一个竹蜻蜓，手工相当细腻。\n"
 msgstr "This is a bamboo dragonfly, quite finely made.\n"
 
-msgid "一个由玛瑙作成的美丽手镯。\n再仔细玩看，似乎有其它作用 (info bracelet)。\n"
-msgstr "A lovely bracelet made of agate.\nLook it over more carefully, and it seems to have some other use (info bracelet).\n"
+msgid "一个由玛瑙作成的美丽手镯。\n再仔细玩看，似乎有其它作用。\n"
+msgstr "A lovely bracelet made of agate.\nLook it over more carefully, and it seems to have some other use.\n"
 
 msgid "祈祷"
 msgstr "Pray"
@@ -15769,8 +15769,8 @@ msgstr "'Westward Out of Yangguan' is a phantom-style dance. It lets you shift y
 msgid "学舞"
 msgstr "Learn to dance"
 
-msgid "来!我教你...『西出阳关』(dancing out)是 ..... \n经过雨梅指导后你渐渐懂了! \n"
-msgstr "Come! I'll teach you... 'Westward Out of Yangguan' (dancing out) is ..... \nWith Yumei's guidance, you gradually understand! \n"
+msgid "来!我教你...『西出阳关』是 ..... \n经过雨梅指导后你渐渐懂了! \n"
+msgstr "Come! I'll teach you... 'Westward Out of Yangguan' is ..... \nWith Yumei's guidance, you gradually understand! \n"
 
 msgid "舞"
 msgstr "Dance"
@@ -15838,8 +15838,8 @@ msgstr "Full of gratitude, she thanks you! She whispers in your ear:\n"
 msgid "『 庄内前厅某处藏有一宝物手镯哦!』\n"
 msgstr "\"A treasure, a bracelet, is hidden somewhere in the front hall of the manor!\"\n"
 
-msgid "你可以找找看! (search bracelet) \n"
-msgstr "You can try to find it! (search bracelet) \n"
+msgid "你可以找找看! \n"
+msgstr "You can try to find it! \n"
 
 msgid "这要送给我啊?! 怎么好意思!谢谢你。"
 msgstr "This is for me?! I'm so embarrassed! Thank you."
@@ -16720,11 +16720,11 @@ msgstr "The statue's gaze falls on you, soft as a late moon.\n"
 msgid "你有一种奇特的感觉，彷佛有人在盯著你看。\n"
 msgstr "You have a strange feeling, as if someone is staring at you.\n"
 
-msgid "这是条用鹅卵石铺成的小路，往西可以看到一座用淡青色围墙围住\n的庭院，有两个身着彩衣的女子笑盈盈的站在那里说笑着，她们身后的\n一扇拱门(door)，檐顶下面写着「晚月庄」。院墙那边飘出的阵阵曲声勾\n人魂魄，隐约还可闻到一股香气。\n"
-msgstr "This is a path paved with river pebbles. To the west you can see a courtyard enclosed by a pale blue wall, where two women in bright clothes stand laughing and chatting. Behind them is an arched gate (door), and under its eaves are written the words \"Latemoon Manor\". Strains of music drift over the wall, enough to steal a soul, and you catch a faint scent of incense.\n"
+msgid "这是条用鹅卵石铺成的小路，往西可以看到一座用淡青色围墙围住\n的庭院，有两个身着彩衣的女子笑盈盈的站在那里说笑着，她们身后的\n一扇拱门，檐顶下面写着「晚月庄」。院墙那边飘出的阵阵曲声勾\n人魂魄，隐约还可闻到一股香气。\n"
+msgstr "This is a path paved with river pebbles. To the west you can see a courtyard enclosed by a pale blue wall, where two women in bright clothes stand laughing and chatting. Behind them is an arched gate, and under its eaves are written the words \"Latemoon Manor\". Strains of music drift over the wall, enough to steal a soul, and you catch a faint scent of incense.\n"
 
-msgid "你来到了这个小径的尽头，一个有著朱红漆大门大宅\n院矗立在你的面前，门口挂著两串灯笼(lantern),上面写\n得有字，像这样一间豪华的大宅院出现在这样的乡间野外\n，使你觉得有些突兀，大宅的南边、东边都是茂密的林子\n，看来也没有其他的路。\n"
-msgstr "You reach the end of the path, and a great house with a vermilion-lacquered gate rises before you. Two strings of lanterns (lantern) hang at the door, with writing on them. Such a grand house, standing in open country like this, strikes you as a little out of place. The woods to the south and east of the house are thick, and there seems to be no other way on.\n"
+msgid "你来到了这个小径的尽头，一个有著朱红漆大门大宅\n院矗立在你的面前，门口挂著两串灯笼,上面写\n得有字，像这样一间豪华的大宅院出现在这样的乡间野外\n，使你觉得有些突兀，大宅的南边、东边都是茂密的林子\n，看来也没有其他的路。\n"
+msgstr "You reach the end of the path, and a great house with a vermilion-lacquered gate rises before you. Two strings of lanterns hang at the door, with writing on them. Such a grand house, standing in open country like this, strikes you as a little out of place. The woods to the south and east of the house are thick, and there seems to be no other way on.\n"
 
 msgid "一走入这个庭园，扑鼻而来的便是一股若有似无，但是又沁人心\n脾的花香，庭园甚是宽敞，许多奇花异石错落其间，显是经过高手匠\n人的精心布置，西边花丛间可看到主屋的屋角，一条石板小径沿著假\n山通往主屋。\n"
 msgstr "As soon as you step into this courtyard garden, a faint, fleeting fragrance of flowers floods your nose and soaks into the heart. The garden is spacious, with many rare flowers and strange rocks scattered through it, clearly laid out with great care by master craftsmen. To the west, among the flower beds, you can see a corner of the main house, and a flagstone path winds along the rockery toward it.\n"
@@ -16738,11 +16738,11 @@ msgstr "This is the side hall where Latemoon Manor receives guests. A table stan
 msgid "这是晚月庄后的小小庭院，面积似乎不大，但花木扶疏，举目四望，\n竟种满了无数梅花，婉约娟秀，别有一番滋味。清风徐来，梅花特有的\n清香弥漫在风中.....\n"
 msgstr "This is a small courtyard at the back of the manor. It doesn't look large, but the flowers and trees are lush and spread out, and wherever you look it is planted with countless plum blossoms, graceful and delicate, with a charm all its own. When a breeze comes, the special fragrance of plum blossoms drifts through the wind.....\n"
 
-msgid "你走在一条长廊上，两旁都是庭台堂庑，廊上弥漫著一股\n香郁的气息，廊下是由青石砖铺成，一边接后厅内院，一边的\n尽头则是一幅大石壁画，西侧似有一铜门(door)。\n有一间书房。\n"
-msgstr "You are walking along a long corridor, with halls and rooms on both sides. A rich fragrance fills the corridor, and the floor below is paved with bluestone bricks. One end joins the inner court of the back hall, and the other ends at a great stone wall painting. On the west side there seems to be a bronze door (door).\nThere is a study.\n"
+msgid "你走在一条长廊上，两旁都是庭台堂庑，廊上弥漫著一股\n香郁的气息，廊下是由青石砖铺成，一边接后厅内院，一边的\n尽头则是一幅大石壁画，西侧似有一铜门。\n有一间书房。\n"
+msgstr "You are walking along a long corridor, with halls and rooms on both sides. A rich fragrance fills the corridor, and the floor below is paved with bluestone bricks. One end joins the inner court of the back hall, and the other ends at a great stone wall painting. On the west side there seems to be a bronze door.\nThere is a study.\n"
 
-msgid "这里四面都是单调的墙壁(wall)。通常庄内弟子犯错就是\n关在这儿！反省思过。\n"
-msgstr "All four sides here are plain walls (wall). This is usually where disciples of the manor are shut up when they've done wrong! To reflect on their faults.\n"
+msgid "这里四面都是单调的墙壁。通常庄内弟子犯错就是\n关在这儿！反省思过。\n"
+msgstr "All four sides here are plain walls. This is usually where disciples of the manor are shut up when they've done wrong! To reflect on their faults.\n"
 
 msgid "你走在一条长廊上，两旁都是庭台堂庑，廊上弥漫著一股\n香郁的气息，长廊向东西方延伸而去。东边是后厅院子，西边\n有一间书房。\n"
 msgstr "You are walking along a long corridor, with halls and rooms on both sides. A rich fragrance fills the corridor. The corridor runs east and west. To the east is the back hall's courtyard, and to the west is a study.\n"
@@ -16756,8 +16756,8 @@ msgstr "This is a secret room. The floor is laid with marble beds on which one c
 msgid "你从后廊往西出了内厅进入穿堂。往北是内院，一条宽过道，西  \n面立著一个粉油大影壁，后有一大半门，小小的一所庭宇。\n"
 msgstr "You leave the inner hall westward along the rear corridor and enter a passage hall. To the north is the inner court, a wide passage. To the west stands a large pink-painted screen wall, and behind it a big half-door leads to a small, secluded courtyard.\n"
 
-msgid "走入内厅，你看到袭地铺满红毯。四面相对十二张雕漆椅上，都\n是一色灰鼠椅搭小褥，厅中摆了小屏风，四周挂满山水墨画。一个木\n隔架，旁边还有一碧纱橱(closet)。\n"
-msgstr "You enter the inner hall and see a red carpet covering the floor. Twelve carved lacquer chairs face one another on all four sides, each with a gray squirrel-fur cushion on it, and a small screen stands in the middle of the hall, with ink landscapes hung all around. There is a wooden shelf, and next to it a green gauze cabinet (closet).\n"
+msgid "走入内厅，你看到袭地铺满红毯。四面相对十二张雕漆椅上，都\n是一色灰鼠椅搭小褥，厅中摆了小屏风，四周挂满山水墨画。一个木\n隔架，旁边还有一碧纱橱。\n"
+msgstr "You enter the inner hall and see a red carpet covering the floor. Twelve carved lacquer chairs face one another on all four sides, each with a gray squirrel-fur cushion on it, and a small screen stands in the middle of the hall, with ink landscapes hung all around. There is a wooden shelf, and next to it a green gauze cabinet.\n"
 
 msgid "你走在后厅内院的仪门，是晚月庄后厅内院长廊走道的相接路\n口。东北方是往膳房的夹道，西面是长廊夹道，南面是到后厅，往北\n则可走出大门前往前院。\n"
 msgstr "You are at the ceremonial gate of the back hall's inner court, where the long corridors of the court meet. To the northeast is a narrow lane leading to the dining hall, to the west is a corridor lane, to the south is the back hall, and to the north you can leave by the main gate toward the front court.\n"
@@ -16816,8 +16816,8 @@ msgstr "Beyond the Hanging-Flower Gate lies the rear court. The Hanging-Flower G
 msgid "这是一间更衣室，你看到许多柜子，衣架上挂了许多的衣服饰\n品。墙上的架上挂了一些丝巾，你可以闻到淡淡的香气围绕四周。\n东侧一蓝青洒花软帘，隔帘望去，隐约可看到小花池，一团的雾气\n你有点想去冲凉沐浴，让精神好些。当然此处是禁止男性进入!\n"
 msgstr "This is a changing room. You see many cabinets, and many clothes and ornaments hang on the racks. Some silk scarves hang on the shelves on the wall, and you can smell a faint fragrance all around. To the east a soft blue curtain sprinkled with flowers hangs, and through it you can dimly see the small flower pool, with a cloud of mist. You feel a bit like going for a wash and a bath to refresh your spirit. Of course, men are forbidden here!\n"
 
-msgid "这是一个小花池，清澈的池水含著淡淡的幽香。池周围有许多奇花    \n异草，时如至芝兰之室，清香袭脑，温馨荡魄。缤纷的花瓣飘在池上，\n云幢羽葆中，簇拥著许多师姐妹，有的嘻戏玩耍，有的翩然起舞。你也\n想到小花池中沐浴休憩(take bath)。\n"
-msgstr "This is a small flower pool. The clear water carries a faint, hidden fragrance. Many rare flowers and strange plants surround the pool, as if you had entered a room of orchids, the scent rising to your head and warming the soul. Colorful petals drift on the water, and amid the banners and plumes, many Senior and Junior Sisters crowd around, some playing and laughing, some dancing gracefully. You'd like to bathe and rest in the pool too (take bath).\n"
+msgid "这是一个小花池，清澈的池水含著淡淡的幽香。池周围有许多奇花    \n异草，时如至芝兰之室，清香袭脑，温馨荡魄。缤纷的花瓣飘在池上，\n云幢羽葆中，簇拥著许多师姐妹，有的嘻戏玩耍，有的翩然起舞。你也\n想到小花池中沐浴休憩。\n"
+msgstr "This is a small flower pool. The clear water carries a faint, hidden fragrance. Many rare flowers and strange plants surround the pool, as if you had entered a room of orchids, the scent rising to your head and warming the soul. Colorful petals drift on the water, and amid the banners and plumes, many Senior and Junior Sisters crowd around, some playing and laughing, some dancing gracefully. You'd like to bathe and rest in the pool too.\n"
 
 msgid "你走到前院，你看到几块山石，东面一处假山小池。其上植有藤  \n萝、青芷，异草芬芳荔薛。池中几尾小鱼自在的游来游去。假山外隔\n著围篱，有一种山怀中的小花园的感觉。.\n"
 msgstr "You come to the front yard and see a few rocks, and to the east a small pool by a rockery. Vines and angelica grow on it, with strange grasses giving off fragrance. A few small fish swim in the pool at ease. Beyond the rockery is a fence, which gives the feeling of a little garden in the arms of the mountain.\n"
@@ -16825,8 +16825,8 @@ msgstr "You come to the front yard and see a few rocks, and to the east a small 
 msgid "走进月洞门，只见迎面一带翠嶂，挡在南面。只见白石崚嶒，  \n或如鬼怪，或如猛兽，纵横拱立，上边苔藓成斑，藤萝掩映，其\n中微露羊肠小径。往南进入翠嶂，往北是小花厅。\n"
 msgstr "Passing through the moon gate, you see a green screen of rock blocking the way to the south. White stones jut sharp, some like ghosts, some like fierce beasts, standing crosswise and in rows, spotted with moss and hung with creepers, with a narrow winding path faintly showing through. To the south you enter the green screen, and to the north is the small flower hall.\n"
 
-msgid "穿过一层竹篱、花嶂编的月洞门，在你眼前出现的是那由粉墙环\n护，绿柳周垂的翠嶂。两边分别是游廊相接通往桃花林与长廊曲洞。\n在这儿一棵西府海棠(flower)吸引你的注意，只见其势若伞，丝垂翠\n缕，葩吐丹砂，十分漂亮。\n"
-msgstr "Passing through a moon gate woven of bamboo fence and flower screens, what appears before you is a green screen ringed by pink walls and surrounded by green willows. On either side, covered corridors lead to the peach grove and to the long corridor tunnel. Here a Xifu crabapple tree (flower) draws your attention, its shape like an umbrella, its branches hanging in green threads, its blossoms red as cinnabar, very beautiful.\n"
+msgid "穿过一层竹篱、花嶂编的月洞门，在你眼前出现的是那由粉墙环\n护，绿柳周垂的翠嶂。两边分别是游廊相接通往桃花林与长廊曲洞。\n在这儿一棵西府海棠吸引你的注意，只见其势若伞，丝垂翠\n缕，葩吐丹砂，十分漂亮。\n"
+msgstr "Passing through a moon gate woven of bamboo fence and flower screens, what appears before you is a green screen ringed by pink walls and surrounded by green willows. On either side, covered corridors lead to the peach grove and to the long corridor tunnel. Here a Xifu crabapple tree draws your attention, its shape like an umbrella, its branches hanging in green threads, its blossoms red as cinnabar, very beautiful.\n"
 
 msgid "湘园的桂花小径是以不同颜色的细石砌成各种图案。路面的\n图案组成，全员是一个整体。但每幅图案又有独立的内容，总计\n花石子路上约有二百幅。沿路观赏，美不胜收。\n"
 msgstr "The osmanthus path of Xiang Garden is laid with fine stones of different colors in all sorts of patterns. The patterns on the road form one whole, but each picture has its own content, about two hundred of them in all along the flower-stone path. Walking along and admiring them, you find them beyond beautiful.\n"
@@ -16855,8 +16855,8 @@ msgstr "The pavilion stands over a small pond in the garden. Around its pillars 
 msgid "暖香榭位于水池东岸，秋水山房之西，依岩为屋，结构曲折，\n极幽致，室小而精，尚朴去华，渊然静修，古香袭人。走进这里\n你有一种心源湛澈，天地虚灵，彷佛置身于仙境的感觉。往西面\n望去，水底亭台，历历可鉴。\n"
 msgstr "Warm Scent Bower stands on the east bank of the pond, west of Autumn Water Mountain House. It is built against the rock, winding and twisting, deeply secluded, small but fine, plain and free of show, a place of deep and quiet cultivation, with an air of antiquity. Entering, you feel your mind clear and still, as if heaven and earth had gone hollow and spirit-bright, as if you stood in fairyland. Looking west, you can see terraces and pavilions beneath the water, clearly mirrored.\n"
 
-msgid "转过翠嫣桥，隐隐露出一带黄泥筑就矮墙，墙头用稻茎掩护，\n有几百株杏花，如喷火蒸霞一般，里面数楹茅屋，外面却是桑、\n榆、槿、杉各色树木新条，随其曲折编就两溜青篱，篱外有一土  \n井，旁有一石牌(sign)。旁边有一些佳蔬菜花。\n"
-msgstr "Past the Green Grace Bridge, a low wall of yellow mud comes faintly into view, its top shielded with rice straw. Several hundred apricot trees stand like roaring fire and steaming clouds, and inside are a few thatched rooms. Outside grow mulberry, elm, hibiscus and fir, each with new shoots, woven along the bend into two rows of green fence. Beyond the fence is an earthen well, with a stone marker (sign) beside it. Nearby are some fine vegetables and flowers.\n"
+msgid "转过翠嫣桥，隐隐露出一带黄泥筑就矮墙，墙头用稻茎掩护，\n有几百株杏花，如喷火蒸霞一般，里面数楹茅屋，外面却是桑、\n榆、槿、杉各色树木新条，随其曲折编就两溜青篱，篱外有一土  \n井，旁有一石牌。旁边有一些佳蔬菜花。\n"
+msgstr "Past the Green Grace Bridge, a low wall of yellow mud comes faintly into view, its top shielded with rice straw. Several hundred apricot trees stand like roaring fire and steaming clouds, and inside are a few thatched rooms. Outside grow mulberry, elm, hibiscus and fir, each with new shoots, woven along the bend into two rows of green fence. Beyond the fence is an earthen well, with a stone marker beside it. Nearby are some fine vegetables and flowers.\n"
 
 msgid "这是一座最精美的桥，全长十二米，宽度恰可走两人。石拱\n是单孔结构，青石桥面，汉白玉雕石栏杆，栏板上刻有精致美丽\n的花纹。二十个望柱头上各有一小孔雀，情态各异，饶有趣味。\n"
 msgstr "This is the most exquisite bridge, twelve meters long and just wide enough for two people. The stone arch is a single span, the deck is bluestone, and the railings are carved of Han white jade, with fine and beautiful patterns on the panels. On each of the twenty posts sits a little peacock, each in a different mood, full of charm.\n"
@@ -16885,8 +16885,8 @@ msgstr "This is the front tower hall on the manor's second floor, in the traditi
 msgid "这是晚月庄的前堂楼观景台，站在台前你可以看到整个庄院的  \n布局，瀚烟山美丽景色尽收眼里。微微的山风轻拂你的脸庞，有种\n说不出的轻爽。远处山寺的钟声，飞鸟的鸣啼，与眼前的景色构成\n一幅山林风光的风景画。正下方是前院。\n"
 msgstr "This is Latemoon Manor's front-tower viewing deck. Standing before it you can see the layout of the whole manor, and the beautiful scenery of Hanyan Mountain lies spread before your eyes. A soft mountain wind brushes your face, with a lightness you can't describe. The bell of a mountain temple far off, the cry of birds in flight, and the view before you make a picture of mountain and forest. Directly below is the front yard.\n"
 
-msgid "这是晚月庄让弟子们静修的地方, 名曰「缀芳」。简单的布置加上\n一座檀香炉, 你觉得这绝对是一个静修(ponder)的好场所。空气中弥漫\n著一股肃穆的气息, 使人很容易进入忘我的境界。\n"
-msgstr "This is where Latemoon Manor lets its disciples practice quiet cultivation, called \"Blossom\". With simple furnishings and a sandalwood censer, you feel this is certainly a fine place for quiet meditation (ponder). A solemn air fills the room, making it easy to enter a state of selflessness.\n"
+msgid "这是晚月庄让弟子们静修的地方, 名曰「缀芳」。简单的布置加上\n一座檀香炉, 你觉得这绝对是一个静修的好场所。空气中弥漫\n著一股肃穆的气息, 使人很容易进入忘我的境界。\n"
+msgstr "This is where Latemoon Manor lets its disciples practice quiet cultivation, called \"Blossom\". With simple furnishings and a sandalwood censer, you feel this is certainly a fine place for quiet meditation. A solemn air fills the room, making it easy to enter a state of selflessness.\n"
 
 msgid "你走在一条蜿蜒的小径, 小径的两旁是半个人高的杂草, 你可以感受\n到清凉的微风从两侧吹来。\n"
 msgstr "You walk on a winding trail, with weeds half a person high on either side, and you can feel a cool breeze coming from both sides.\n"
@@ -17041,8 +17041,8 @@ msgstr "You take a cloth skirt from the cabinet."
 msgid "橱子内的衣服好像被拿光了。"
 msgstr "It seems the clothes in the cabinet have all been taken."
 
-msgid "这是一个上等木材作成的小橱子，里面放了一些物品。\n你看到一件件的美丽衣饰，真想取出(take cloth)看看。\n"
-msgstr "This is a small cabinet made of fine wood, with some things inside.\nYou see one beautiful garment after another and would like to take (take cloth) a look.\n"
+msgid "这是一个上等木材作成的小橱子，里面放了一些物品。\n你看到一件件的美丽衣饰，真想取出看看。\n"
+msgstr "This is a small cabinet made of fine wood, with some things inside.\nYou see one beautiful garment after another and would like to take a look.\n"
 
 msgid "这是一幅湘绣的彩图，上有几名貌美的女子，以不同的姿态\n舞著，其漫妙之处让你著迷。图旁另绣有一曲名『西出阳关』\n(dancing out)与『有凤来仪 』\n"
 msgstr "This is a colorful Xiang embroidery with several beautiful women on it, dancing in different poses, their grace and charm captivating you. Beside the picture are embroidered the names of the pieces 'Westward Out of Yangguan' (dancing out) and 'The Phoenix Comes to Court'.\n"
@@ -17056,8 +17056,8 @@ msgstr "You pick a small flower heart from the Xifu crabapple."
 msgid "西府海棠上的小花蕊已经被摘光了。"
 msgstr "The small flower heart on the Xifu crabapple has all been picked."
 
-msgid "    你仔细看这是一棵形状有些奇特的西府海棠，有一淡淡\n的奇异香气。原来在旁边还有一朵不太起眼，但是略成金黄\n色的小花蕊，你的直觉告诉你它似乎是一种珍贵药材。你想\n把它摘下(pick)。\n"
-msgstr "    You look closely: this is a somewhat oddly shaped Xifu crabapple tree, with a faint, strange fragrance. Beside it is also a small flower heart, not very noticeable, a little golden in color, and your instinct tells you it is some kind of precious medicinal herb. You'd like to pick it (pick).\n"
+msgid "    你仔细看这是一棵形状有些奇特的西府海棠，有一淡淡\n的奇异香气。原来在旁边还有一朵不太起眼，但是略成金黄\n色的小花蕊，你的直觉告诉你它似乎是一种珍贵药材。你想\n把它摘下。\n"
+msgstr "    You look closely: this is a somewhat oddly shaped Xifu crabapple tree, with a faint, strange fragrance. Beside it is also a small flower heart, not very noticeable, a little golden in color, and your instinct tells you it is some kind of precious medicinal herb. You'd like to pick it.\n"
 
 msgid "\n 「六神」、「四鬼」、「三灵」 \n\n         旋芒震日月\n         宝剑护河山\n\n"
 msgstr "\n \"Six Gods\", \"Four Fiends\", \"Three Spirits\" \n\n         Whirling Edge shakes sun and moon\n         Treasure sword guards the rivers and hills\n\n"
@@ -18253,17 +18253,17 @@ msgstr "The southeast slope of Crouching Dragon Ridge. The road to the southeast
 msgid "这里是雪亭镇通往绮云镇的必经之路。南面就是绮云镇，北面通往\n卧龙岗。早先官府想在此修条大路连接两镇，无奈地势所限，加上卧龙\n岗上常有强人出没，只得做罢。虽说是土路，可过往的人很多，路面已\n被踩得很平了。\n"
 msgstr "This is the road you must take from Snow Pavilion to Cloudweave Town. To the south is Cloudweave Town; to the north it leads to Crouching Dragon Ridge. Long ago the authorities wanted to build a big road here to join the two towns, but the lay of the land stood in the way, and robbers are often about on the ridge, so they gave it up. It is only a dirt road, but so many people pass that the surface has been trodden quite flat."
 
-msgid "这里是绮云镇的入口。绮云镇是坐落在泓水北岸的一个大镇, 以其商业\n发达和盛产茶叶而为来往客商们所青睐。北边过了卧龙岗就是著名的\n封山剑派北宗所在的雪亭镇; 镇南有个渡口, 过了江就是少林的支脉 \n-- 山烟寺。镇上很是热闹, 在这里就能听到南边集市上传来的叫卖声。\n入口处有个官府的公告(sign), 不知是写了些什么。 \n"
-msgstr "The entrance to Cloudweave Town. Cloudweave sits on the north bank of the Deepwater, a big town favored by travelers for its flourishing trade and its tea. To the north, over Crouching Dragon Ridge, is Snow Pavilion, home of the famous North Branch of Empty Mountain School; south of town is a ferry, and across the river is Mountain Mist Temple, a branch of Shaolin. The town is lively, and from here you can hear the hawking from the market to the south. At the entrance is an official notice (sign), though who knows what it says."
+msgid "这里是绮云镇的入口。绮云镇是坐落在泓水北岸的一个大镇, 以其商业\n发达和盛产茶叶而为来往客商们所青睐。北边过了卧龙岗就是著名的\n封山剑派北宗所在的雪亭镇; 镇南有个渡口, 过了江就是少林的支脉 \n-- 山烟寺。镇上很是热闹, 在这里就能听到南边集市上传来的叫卖声。\n入口处有个官府的公告, 不知是写了些什么。 \n"
+msgstr "The entrance to Cloudweave Town. Cloudweave sits on the north bank of the Deepwater, a big town favored by travelers for its flourishing trade and its tea. To the north, over Crouching Dragon Ridge, is Snow Pavilion, home of the famous North Branch of Empty Mountain School; south of town is a ferry, and across the river is Mountain Mist Temple, a branch of Shaolin. The town is lively, and from here you can hear the hawking from the market to the south. At the entrance is an official notice, though who knows what it says."
 
 msgid "这里是绮云镇的北市场，再向北就是镇口了。\n    一股茶香与腥膻相混合的气味扑鼻而来，西首铺子外挂着个牛头;\n东面是家二层的茶楼，金字招牌十分晃眼。\n"
 msgstr "This is Cloudweave Town's North Market, and past it to the north is the town gate.\nA smell of tea fragrance mixed with the rank smell of meat hits your nose. An ox head hangs outside the shop on the west side; to the east is a two-story teahouse, its gold-lettered signboard dazzling."
 
-msgid "你现在正站在镇北肉铺里，肉架上挂满了血淋淋的生肉，一股腥\n气扑面而来，不时有几只苍蝇在屋里飞来飞去。\n    靠近门口的地方有一块牛骨雕成的招牌(sign)，上面写着些\n什么。\n"
-msgstr "You are standing in the butcher's shop at the north end of town. The racks are hung full of bloody raw meat, a rank smell hits you in the face, and now and then a few flies buzz about the room.\nNear the door is a signboard carved from ox bone (sign), with something written on it."
+msgid "你现在正站在镇北肉铺里，肉架上挂满了血淋淋的生肉，一股腥\n气扑面而来，不时有几只苍蝇在屋里飞来飞去。\n    靠近门口的地方有一块牛骨雕成的招牌，上面写着些\n什么。\n"
+msgstr "You are standing in the butcher's shop at the north end of town. The racks are hung full of bloody raw meat, a rank smell hits you in the face, and now and then a few flies buzz about the room.\nNear the door is a signboard carved from ox bone, with something written on it."
 
-msgid "你来到绮云镇西边的一家茶坊里, 它的历史已不下百年, 绮云镇本 \n就是以盛产茶叶而闻名于世, 因此茶楼的生意出奇的好。\n    高高悬起的金匾(sign)让你的有一种眩晕的感觉, 幸好阵阵茶香使\n你清醒了许多。\n    站在门口, 你可以看到北首有一扇不太起眼的木雕门(door)。\n    东侧的楼梯通往楼上的雅座, 不时能听到上面传来丝竹之声和阵阵\n笑声... \n"
-msgstr "You come to a teahouse on the west side of Cloudweave Town. Its history goes back over a hundred years, and since Cloudweave is famous the world over for its tea, the teahouse does remarkable business.\nThe high-hung golden plaque (sign) makes you a little dizzy, but fortunately waves of tea fragrance clear your head.\nStanding at the door, you can see an unobtrusive carved wooden door (door) to the north.\nThe stairs to the east lead up to the private seats upstairs, and from time to time you hear strings and flutes from above, and bursts of laughter..."
+msgid "你来到绮云镇西边的一家茶坊里, 它的历史已不下百年, 绮云镇本 \n就是以盛产茶叶而闻名于世, 因此茶楼的生意出奇的好。\n    高高悬起的金匾让你的有一种眩晕的感觉, 幸好阵阵茶香使\n你清醒了许多。\n    站在门口, 你可以看到北首有一扇不太起眼的木雕门。\n    东侧的楼梯通往楼上的雅座, 不时能听到上面传来丝竹之声和阵阵\n笑声... \n"
+msgstr "You come to a teahouse on the west side of Cloudweave Town. Its history goes back over a hundred years, and since Cloudweave is famous the world over for its tea, the teahouse does remarkable business.\nThe high-hung golden plaque makes you a little dizzy, but fortunately waves of tea fragrance clear your head.\nStanding at the door, you can see an unobtrusive carved wooden door to the north.\nThe stairs to the east lead up to the private seats upstairs, and from time to time you hear strings and flutes from above, and bursts of laughter..."
 
 msgid "茶窖里有几个大竹箩，里面装满了茶叶。 \n"
 msgstr "The tea cellar holds several big bamboo baskets full of tea leaves."
@@ -18271,8 +18271,8 @@ msgstr "The tea cellar holds several big bamboo baskets full of tea leaves."
 msgid "这里是绮云镇的西市场，西边是家棺材铺，南面是家布庄。\n"
 msgstr "This is Cloudweave Town's West Market. To the west is a coffin shop; to the south, a cloth shop."
 
-msgid "你现在正站在棺材铺里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "You are standing in the coffin shop.\nNear the door hangs a signboard carved from ebony (sign)."
+msgid "你现在正站在棺材铺里\n    靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "You are standing in the coffin shop.\nNear the door hangs a signboard carved from ebony."
 
 msgid "    这里好象是大户人家子弟玩乐的场院, 原来建有秋千架的草地，\n已经成了荆棘丛生的荒草场了。再往西是一座凉亭，亭子似乎也快要倒塌了...\n"
 msgstr "This seems to be a playground for the sons of great families. The grass where a swing frame once stood has become a wasteland overgrown with brambles. Farther west stands a pavilion, which looks about to collapse too..."
@@ -18280,23 +18280,23 @@ msgstr "This seems to be a playground for the sons of great families. The grass 
 msgid "    这里是这座场院的前厅，简单的陈设中透出一股尊贵不凡的气派。\n一张黑漆镶金的八仙桌摆放在大厅中央，两只黝黑的太师椅座在这张桌\n子的两旁。\n"
 msgstr "This is the front hall of the courtyard, its plain furnishings hinting at a bearing of dignified rank. A black-lacquered, gold-inlaid eight-immortals table stands in the middle of the hall, with a dark armchair on either side of it."
 
-msgid "你现在正站在布庄里。靠近门口的墙壁上挂着招牌(sign)。\n"
-msgstr "You are standing in the cloth shop. A signboard (sign) hangs on the wall near the door."
+msgid "你现在正站在布庄里。靠近门口的墙壁上挂着招牌。\n"
+msgstr "You are standing in the cloth shop. A signboard hangs on the wall near the door."
 
 msgid "这里是绮云镇的中市场，北面是茶楼，南面是杂货铺。\n"
 msgstr "This is Cloudweave Town's Central Market. To the north is the teahouse; to the south, the general store."
 
-msgid "你现在正站在杂货铺里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "You are standing in the general store.\nNear the door hangs a signboard carved from ebony (sign)."
+msgid "你现在正站在杂货铺里\n    靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "You are standing in the general store.\nNear the door hangs a signboard carved from ebony."
 
 msgid "这里是绮云镇的东市场，北面是药店，东面是兵器店。\n"
 msgstr "This is Cloudweave Town's East Market. To the north is the herb shop; to the east, the weapon shop."
 
-msgid "你现在正站在药店里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "You are standing in the herb shop.\nNear the door hangs a signboard carved from ebony (sign)."
+msgid "你现在正站在药店里\n    靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "You are standing in the herb shop.\nNear the door hangs a signboard carved from ebony."
 
-msgid "你现在正站在兵器屋里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "You are standing in the weapon shop.\nNear the door hangs a signboard carved from ebony (sign)."
+msgid "你现在正站在兵器屋里\n    靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "You are standing in the weapon shop.\nNear the door hangs a signboard carved from ebony."
 
 msgid "这里是绮云镇的南市场，西面是杂货铺，向东可看到 怡红院 的二楼。\n"
 msgstr "This is Cloudweave Town's South Market. To the west is the general store; to the east you can see the upper floor of Red Delight House."
@@ -18307,20 +18307,20 @@ msgstr "Cloudweave's two bluestone roads cross here. An old locust tree stands b
 msgid "这里是绮云镇西，东边就是十字路口。南面的院子里甚是喧闹，象\n是有很多人的样子。北面是杂货铺，不过门不朝这个方向开。\n"
 msgstr "This is the west side of Cloudweave Town, with the crossroads just east. The courtyard to the south is very noisy, as if many people were in it. To the north is the general store, though its door does not face this way."
 
-msgid "你现在正站在斋院里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "You are standing in the vegetarian hall.\nNear the door hangs a signboard carved from ebony (sign)."
+msgid "你现在正站在斋院里\n    靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "You are standing in the vegetarian hall.\nNear the door hangs a signboard carved from ebony."
 
 msgid "东边青板石铺的路与向西的碎石小径在这里汇合。西面仿佛是座庄\n院，似可听到曲乐声，却又分辨不清; 南面是家私塾。 \n"
 msgstr "Here the road paved with bluestone slabs from the east meets the gravel path leading west. To the west seems to be a manor; you think you hear music, but cannot make it out. To the south is a private school."
 
-msgid "你现在正站在书局里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "You are standing in the bookshop.\nNear the door hangs a signboard carved from ebony (sign)."
+msgid "你现在正站在书局里\n    靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "You are standing in the bookshop.\nNear the door hangs a signboard carved from ebony."
 
 msgid "东边青板石铺的路与向西的碎石小径在这里汇合。西面仿佛是座庄\n院，似可听到曲乐声，却又分辨不清; 北面是红娘庄，常常有一对对\n男女来往。 \n"
 msgstr "Here the road paved with bluestone slabs from the east meets the gravel path leading west. To the west seems to be a manor; you think you hear music, but cannot make it out. To the north is the Matchmaker's House, where couple after couple come and go."
 
-msgid "你现在正站在红娘庄里，这里是专门替人缔结婚约和解除婚约的地方，\n镇里所有的夫妇都是在这里喜结良缘的，就连附近镇子也有许多慕名\n而来的。靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "You are standing in the Matchmaker's House, a place for making and dissolving marriage contracts. All the married couples in town were joined here, and many come from nearby towns because they have heard of it. Near the door hangs a signboard carved from ebony (sign)."
+msgid "你现在正站在红娘庄里，这里是专门替人缔结婚约和解除婚约的地方，\n镇里所有的夫妇都是在这里喜结良缘的，就连附近镇子也有许多慕名\n而来的。靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "You are standing in the Matchmaker's House, a place for making and dissolving marriage contracts. All the married couples in town were joined here, and many come from nearby towns because they have heard of it. Near the door hangs a signboard carved from ebony."
 
 msgid "这里是绮云镇南，通往过江的渡口。\n"
 msgstr "This is the south of Cloudweave Town, leading to the ferry across the river."
@@ -18331,11 +18331,11 @@ msgstr "A ferry landing that is not big but has many travelers. To the north, th
 msgid "这里是十字路口的东侧，两边房子里都颇为吵闹。北面似乎是家春\n楼，不时可听到风尘女子的卖笑声。南面却是些三教九流的人物在吆三\n喝五，象是家赌场。\n"
 msgstr "This is the east side of the crossroads, and both houses are quite noisy. To the north seems to be a brothel, and from time to time you hear the laughter of the women of the pleasure trade. To the south, people of all trades are bawling and shouting, as if in a gambling den."
 
-msgid "你现在正站在怡红院里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "You are standing in Red Delight House.\nNear the door hangs a signboard carved from ebony (sign)."
+msgid "你现在正站在怡红院里\n    靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "You are standing in Red Delight House.\nNear the door hangs a signboard carved from ebony."
 
-msgid "你现在正站在赌场里。靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "You are standing in the gambling house. Near the door hangs a signboard carved from ebony (sign)."
+msgid "你现在正站在赌场里。靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "You are standing in the gambling house. Near the door hangs a signboard carved from ebony."
 
 msgid "这里是绮云镇东，通往茶场的路。南边是一家有名的大镖局 -- 振\n远镖局。北面是绮云张家的宅院。\n\n"
 msgstr "This is the east side of Cloudweave Town, the road to the tea garden. To the south is a well-known big escort agency, Far-Road Escorts. To the north is the Zhang family's compound."
@@ -18343,14 +18343,14 @@ msgstr "This is the east side of Cloudweave Town, the road to the tea garden. To
 msgid "你现在正站在张家花园里\n"
 msgstr "You are standing in the Zhang family garden."
 
-msgid "你现在正站在镖局里。靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "You are standing in the escort agency. Near the door hangs a signboard carved from ebony (sign)."
+msgid "你现在正站在镖局里。靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "You are standing in the escort agency. Near the door hangs a signboard carved from ebony."
 
 msgid "这里是绮云镇东头，北面是张家，东南方就是茶场。\n"
 msgstr "This is the east end of Cloudweave Town. To the north is the Zhang family's; to the southeast is the tea garden."
 
-msgid "你现在正站在张百万家里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "You are standing in Moneybags Zhang's house.\nNear the door hangs a signboard carved from ebony (sign)."
+msgid "你现在正站在张百万家里\n    靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "You are standing in Moneybags Zhang's house.\nNear the door hangs a signboard carved from ebony."
 
 msgid "这里是张百万的府宅，常人可进不来\n"
 msgstr "This is Moneybags Zhang's mansion. Ordinary people cannot come in."
@@ -18364,8 +18364,8 @@ msgstr "This is the second floor of the teahouse, where scholars and men of lett
 msgid "这是怡红院的姑娘们陪客人们饮酒品茗，吟诗作赋的地方，甚是幽\n雅。\n"
 msgstr "This is where the girls of Red Delight House keep guests company over wine and tea and compose verse, a very elegant place."
 
-msgid "这里是赌场的二楼，很多人在围着几张桌子高声叫嚷，煞是热闹。\n靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
-msgstr "This is the upper floor of the gambling house. Many people crowd around a few tables, shouting loudly, quite a lively sight.\nNear the door hangs a signboard carved from ebony (sign)."
+msgid "这里是赌场的二楼，很多人在围着几张桌子高声叫嚷，煞是热闹。\n靠近门口的地方有一块乌木雕成的招牌。\n"
+msgstr "This is the upper floor of the gambling house. Many people crowd around a few tables, shouting loudly, quite a lively sight.\nNear the door hangs a signboard carved from ebony."
 
 msgid "本店即将收购死狗"
 msgstr "Dead dogs bought here soon"
@@ -18412,8 +18412,8 @@ msgstr "rice wine"
 msgid "这是一把淡青色的的长剑，看上去锋利异常。\n"
 msgstr "A longsword of pale blue-green, and strikingly sharp to look at."
 
-msgid "这是一捆粗麻绳. 你可以用它来上吊(hang).\n\n"
-msgstr "A coil of coarse hemp rope. You could use it to hang yourself (hang)."
+msgid "这是一捆粗麻绳. 你可以用它来上吊.\n\n"
+msgstr "A coil of coarse hemp rope. You could use it to hang yourself."
 
 msgid "上面刻著一些字:\n行气, 深则蓄, 蓄则伸, 伸则下, 下则定, 定则固, 固则萌, 萌则长, 长则退,\n退则天. 天几舂在上, 地几舂在下, 顺则生, 逆则死.\n"
 msgstr "Some words are carved on it:\nMove the qi: deep, then it gathers; gathered, then it spreads; spread, then it sinks; sunk, then it settles; settled, then it hardens; hardened, then it sprouts; sprouted, then it grows; grown, then it withdraws;\nwithdrawn, then it reaches Heaven. Heaven's spring is above, Earth's spring below. Follow it and live; go against it and die."
@@ -18610,8 +18610,8 @@ msgstr "A house that looks a little different. In the middle of the room is a st
 msgid "这是一片黄土空地，四周堆著一些切割整齐的大石块和碎石。往东看\n去就是采石场，高耸的石璧经过多年的采挖已经看不出原来的模样了。往\n南看去是一些矮小的房舍和储存工具的地方，往西是村内的广场，往北靠\n近广场的地方有一栋简陋的民宅。\n"
 msgstr "An open stretch of yellow earth, with neatly cut big stones and gravel piled around it. To the east is the quarry, whose towering rock walls, dug at for years, no longer look as they once did. To the south you see some low houses and a place for storing tools; to the west is the village square; to the north, near the square, stands a shabby house."
 
-msgid "这是一间民宅, 屋内除了一张石床外其他一无所有. 昏暗的屋\n内看来死气沉沉的, 似乎这屋子的主人很久没回来了. 屋角有一个\n形状很奇怪的蜘蛛网(web).\n"
-msgstr "A house with nothing in it but a stone bed. The dim room looks lifeless, as if its owner has not been back for a long time. In the corner hangs a strangely shaped cobweb (web)."
+msgid "这是一间民宅, 屋内除了一张石床外其他一无所有. 昏暗的屋\n内看来死气沉沉的, 似乎这屋子的主人很久没回来了. 屋角有一个\n形状很奇怪的蜘蛛网.\n"
+msgstr "A house with nothing in it but a stone bed. The dim room looks lifeless, as if its owner has not been back for a long time. In the corner hangs a strangely shaped cobweb."
 
 msgid "这里是采石场的工作站，几间矮小的房舍延著山壁建造。靠南的山边\n有一间马房，旁边还堆著山一般的乾草饲料，几辆运输用的车子停在旁边\n。往北看去是采石场的空地往南是一条由石板铺成的小斜坡，通往村前的\n工作站。西边不远处有一栋看来相当特别的房舍。\n"
 msgstr "This is the quarry's work station, where a few low houses are built along the mountain wall. By the mountain to the south is a stable, with hay piled like a hill beside it and a few transport carts parked next to it. To the north you see the open ground of the quarry; to the south a small slope paved with stone slabs leads to the work station at the front of the village. A rather special-looking house stands not far to the west."
@@ -18646,8 +18646,8 @@ msgstr "A desolate mountain road, plainly seldom walked. To the east is a steep 
 msgid "这是一段荒芜的山路，显然很少有人走过，东面是陡峭的\n山壁，山壁上零星的长着几棵小树，西面是深不见底的悬崖，\n仔细一听，仿佛下面有潺潺的流水声。山路的北边似乎到了\n尽头。\n"
 msgstr "A desolate mountain road, plainly seldom walked. To the east is a steep rock wall with a few small trees scattered on it; to the west is a bottomless cliff, and if you listen closely, you seem to hear running water far below. The road to the north seems to end."
 
-msgid "你走到了山路的尽头，发现三面都是石壁，东面石壁上有一个洞口，洞内隐隐\n发出风雷之声，洞口上方似乎刻着一副图(painting)，北面是一扇大石门，\n门上苔迹斑斑，显然已经很久没人打开过了。\n"
-msgstr "You have reached the end of the mountain road and find stone walls on three sides. In the east wall is a cave mouth, from which comes a faint sound of wind and thunder; above the opening seems to be a carved picture (painting). To the north is a great stone door, mossy and mottled, plainly not opened for a very long time."
+msgid "你走到了山路的尽头，发现三面都是石壁，东面石壁上有一个洞口，洞内隐隐\n发出风雷之声，洞口上方似乎刻着一副图，北面是一扇大石门，\n门上苔迹斑斑，显然已经很久没人打开过了。\n"
+msgstr "You have reached the end of the mountain road and find stone walls on three sides. In the east wall is a cave mouth, from which comes a faint sound of wind and thunder; above the opening seems to be a carved picture. To the north is a great stone door, mossy and mottled, plainly not opened for a very long time."
 
 msgid "这是一间石室，室内透着一种说不清的神秘力量，西边有两张石椅\n东首墙上挂这一把木剑。北边通往大厅，但墙上写了两行字，走近仔细\n辨认，是：非我弟子，莫入此门。\n"
 msgstr "A stone chamber with a mysterious power in it that cannot be put into words. Two stone chairs stand on the west side, and a wooden sword hangs on the east wall. The way north leads to the great hall, but two lines are written on the wall; go close and look carefully, and they read: Not my disciple, do not enter this door."
@@ -18658,35 +18658,35 @@ msgstr "This is the legendary retreat of Juechenzi. To the north is a Buddha sta
 msgid "这是一间石室，西边有一个大厅，大厅中有光线透出来，因此可以看清\n石室中的东西，南边有两个蒲团，似是用来打坐的，此外别无他物。\n"
 msgstr "A stone chamber. To the west is a great hall, and light from it shows what is in the chamber. To the south are two meditation cushions, which seem to be for sitting in meditation. There is nothing else."
 
-msgid "你来到了一条小溪的旁边，溪水很清澈，缓缓地向南流去，西面\n灌木丛中隐隐的有条小路。\n忽然水(water)中有一道亮光闪过，不过看不清是什么，你是否要下去\n找一找(search)?\n"
-msgstr "You come to the side of a little stream. The water is clear and flows slowly south, and a faint path runs through the brush to the west.\nSuddenly a flash of light goes by in the water (water), but you cannot see what it was. Will you go down and look for it (search)?"
+msgid "你来到了一条小溪的旁边，溪水很清澈，缓缓地向南流去，西面\n灌木丛中隐隐的有条小路。\n忽然水中有一道亮光闪过，不过看不清是什么，你是否要下去\n找一找?\n"
+msgstr "You come to the side of a little stream. The water is clear and flows slowly south, and a faint path runs through the brush to the west.\nSuddenly a flash of light goes by in the water, but you cannot see what it was. Will you go down and look for it?"
 
-msgid "从这里向四周望去，只见一片无垠的绿野，然而地面上似乎\n罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n自己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)\n树在那里。\n"
-msgstr "Looking around, you see only an endless green wilderness, yet the ground seems covered by a mysterious thin mist, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost (sign) standing there."
+msgid "从这里向四周望去，只见一片无垠的绿野，然而地面上似乎\n罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n自己正深处一个飘忽的所在。你一回身，看见有一个路牌\n树在那里。\n"
+msgstr "Looking around, you see only an endless green wilderness, yet the ground seems covered by a mysterious thin mist, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost standing there."
 
-msgid "从这里向四周望去，只见群山环绕，不知所处，地面上似乎\n罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n自己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)树\n在那里。\n"
-msgstr "Looking around, you see only mountains ringing you, and you cannot tell where you are. The ground seems covered by a mysterious thin mist, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost (sign) standing there."
+msgid "从这里向四周望去，只见群山环绕，不知所处，地面上似乎\n罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n自己正深处一个飘忽的所在。你一回身，看见有一个路牌树\n在那里。\n"
+msgstr "Looking around, you see only mountains ringing you, and you cannot tell where you are. The ground seems covered by a mysterious thin mist, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost standing there."
 
-msgid "从这里向四周望去，只见四面环水，只有脚下一点陆地，水面上\n似乎罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n自己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)树\n在那里。\n"
-msgstr "Looking around, you see water on every side and only a patch of land underfoot. The water seems covered by a mysterious thin mist, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost (sign) standing there."
+msgid "从这里向四周望去，只见四面环水，只有脚下一点陆地，水面上\n似乎罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n自己正深处一个飘忽的所在。你一回身，看见有一个路牌树\n在那里。\n"
+msgstr "Looking around, you see water on every side and only a patch of land underfoot. The water seems covered by a mysterious thin mist, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost standing there."
 
-msgid "从这里向四周望去，只见寒风阵阵，奇寒澈骨，如入北极风洞，四周\n似乎罩着一层神密的薄雾，风吹不散，渐渐地远处的景色模糊起来，你\n觉得自己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)树\n在那里。\n"
-msgstr "Looking around, you feel gusts of cold wind and a chill that bites to the bone, as if you had entered the Arctic wind cave. A mysterious thin mist seems to cover everything, and the wind cannot blow it away. The distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost (sign) standing there."
+msgid "从这里向四周望去，只见寒风阵阵，奇寒澈骨，如入北极风洞，四周\n似乎罩着一层神密的薄雾，风吹不散，渐渐地远处的景色模糊起来，你\n觉得自己正深处一个飘忽的所在。你一回身，看见有一个路牌树\n在那里。\n"
+msgstr "Looking around, you feel gusts of cold wind and a chill that bites to the bone, as if you had entered the Arctic wind cave. A mysterious thin mist seems to cover everything, and the wind cannot blow it away. The distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost standing there."
 
-msgid "从这里向四周望去，只见铅云低沉，忽然一道闪电，跟着一阵巨雷，\n远山为之回响，身旁似乎罩着一层神密的薄雾，渐渐地远处的景色\n模糊起来，你觉得自己正深处一个飘忽的所在。你一回身，看见有\n一个路牌(sign)树在那里。\n"
-msgstr "Looking around, you see heavy lead-grey clouds. Suddenly lightning flashes, followed by a crash of thunder that echoes off the far mountains. A mysterious thin mist seems to cover the air about you, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost (sign) standing there."
+msgid "从这里向四周望去，只见铅云低沉，忽然一道闪电，跟着一阵巨雷，\n远山为之回响，身旁似乎罩着一层神密的薄雾，渐渐地远处的景色\n模糊起来，你觉得自己正深处一个飘忽的所在。你一回身，看见有\n一个路牌树在那里。\n"
+msgstr "Looking around, you see heavy lead-grey clouds. Suddenly lightning flashes, followed by a crash of thunder that echoes off the far mountains. A mysterious thin mist seems to cover the air about you, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost standing there."
 
-msgid "从这里向四周望去，只见火光冲天，炽热难当，身旁似乎罩着一层\n神密的薄雾，渐渐地远处的景色模糊起来，你觉得自己正深处一个\n飘忽的所在。你一回身，看见有一个路牌(sign)树在那里。\n"
-msgstr "Looking around, you see flames rising to the sky and unbearable heat. A mysterious thin mist seems to cover the air about you, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost (sign) standing there."
+msgid "从这里向四周望去，只见火光冲天，炽热难当，身旁似乎罩着一层\n神密的薄雾，渐渐地远处的景色模糊起来，你觉得自己正深处一个\n飘忽的所在。你一回身，看见有一个路牌树在那里。\n"
+msgstr "Looking around, you see flames rising to the sky and unbearable heat. A mysterious thin mist seems to cover the air about you, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost standing there."
 
-msgid "从这里向四周望去，只见身处一个大湖泊之中，脚下只有四尺见方的\n一块陆地，湖上似乎罩着一层神密的薄雾，渐渐地远处的景色模糊起来，\n你觉得自己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)\n树在那里。\n"
-msgstr "Looking around, you find yourself in the middle of a great lake, with only a patch of land four feet square underfoot. A mysterious thin mist seems to cover the lake, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost (sign) standing there."
+msgid "从这里向四周望去，只见身处一个大湖泊之中，脚下只有四尺见方的\n一块陆地，湖上似乎罩着一层神密的薄雾，渐渐地远处的景色模糊起来，\n你觉得自己正深处一个飘忽的所在。你一回身，看见有一个路牌\n树在那里。\n"
+msgstr "Looking around, you find yourself in the middle of a great lake, with only a patch of land four feet square underfoot. A mysterious thin mist seems to cover the lake, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost standing there."
 
-msgid "从这里向四周望去，只见长天一碧，沃野千里，正自心旷神怡，\n那层神密的薄雾又起，渐渐地远处的景色模糊起来，你觉得自\n己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)\n树在那里。\n"
-msgstr "Looking around, you see a clear sky and a thousand li of rich fields, and your heart is light and glad. But then the mysterious thin mist rises again, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost (sign) standing there."
+msgid "从这里向四周望去，只见长天一碧，沃野千里，正自心旷神怡，\n那层神密的薄雾又起，渐渐地远处的景色模糊起来，你觉得自\n己正深处一个飘忽的所在。你一回身，看见有一个路牌\n树在那里。\n"
+msgstr "Looking around, you see a clear sky and a thousand li of rich fields, and your heart is light and glad. But then the mysterious thin mist rises again, and the distant scenery gradually blurs. You feel you are deep in a drifting, unreal place. You turn around and see a signpost standing there."
 
-msgid "这是一块绝地,四周没有任何出口,你不禁急得要哭了出来,忽然,你发现\n远方有一块大石(stone)动了一下,走近一看,似乎可以推(push)一下。\n"
-msgstr "A dead end with no exit on any side. You are so desperate you almost cry. Suddenly you notice that a big rock (stone) in the distance has moved. Go closer and it seems you can push it (push)."
+msgid "这是一块绝地,四周没有任何出口,你不禁急得要哭了出来,忽然,你发现\n远方有一块大石动了一下,走近一看,似乎可以推一下。\n"
+msgstr "A dead end with no exit on any side. You are so desperate you almost cry. Suddenly you notice that a big rock in the distance has moved. Go closer and it seems you can push it."
 
 msgid "这是一副八卦阵图,图下面有一行模糊的小字：八卦古阵\n"
 msgstr "This is a trigram formation chart. Below the picture is a line of small, blurred writing: The Ancient Eight-Trigram Formation."
@@ -19018,14 +19018,14 @@ msgstr "You are on a white stone stairway built along the mountain wall. As you 
 msgid "你现在走在一道依著山壁而建的白石阶梯上，通过西边不远处的葬\n剑亭，就是虹台的入口，东边和北边都是深不见底的深谷，隔著深谷，\n东北边的野羊山连著隐樵山、图云岭、破魔山、虎啸坡、沙牢山一直到\n大漠都是数百丈的高山，虹台地势虽不甚高，但是在三面深谷的环绕下\n，却自有一股群山朝拜的威严气象。\n"
 msgstr "You are on a white stone stairway built along the mountain wall. Past the Sword Tomb Pavilion a little way west is the entrance to the Rainbow Terrace. East and north are bottomless valleys. Across them, to the northeast, Goathill, Hidden Woodcutter Mountain, Cloud Painting Ridge, Demon-Breaker Mountain, Tiger Roar Slope and Sandcage Mountain run on to the great desert, all peaks a thousand feet and more high. The Rainbow Terrace is not so high, but ringed by valleys on three sides it has an air of mountains bowing to it."
 
-msgid "你现在来到一个山腰靠近山顶的亭子，亭子前立著一个两丈多高的\n石碑(monolith)，从亭子里远眺北方连绵不尽的大山，使你不禁感到胸\n臆之间一股英雄情怀油然而生，葬剑亭据说每到夏日夜晚，野风吹过，\n会产生一阵阵呜呜的哭泣声，这也是水烟十景中的「孤亭剑泣」。出了\n亭子，往南便是直通虹台的石阶，一条黄土小路往西通往另一条下山的\n小路。\n"
-msgstr "You have come to a pavilion near the summit, with a stone tablet over twenty feet tall in front of it (monolith). Looking from the pavilion at the unbroken mountains to the north, you feel a heroic spirit rise in your chest. They say that on summer nights, when the wild wind blows, the Sword Tomb Pavilion makes sobbing sounds; this is the \"Weeping Swords of the Lone Pavilion\" among the Ten Views of Waterfog. Out of the pavilion, stairs lead south straight to the Rainbow Terrace, and a dirt path west joins another path down the mountain."
+msgid "你现在来到一个山腰靠近山顶的亭子，亭子前立著一个两丈多高的\n石碑，从亭子里远眺北方连绵不尽的大山，使你不禁感到胸\n臆之间一股英雄情怀油然而生，葬剑亭据说每到夏日夜晚，野风吹过，\n会产生一阵阵呜呜的哭泣声，这也是水烟十景中的「孤亭剑泣」。出了\n亭子，往南便是直通虹台的石阶，一条黄土小路往西通往另一条下山的\n小路。\n"
+msgstr "You have come to a pavilion near the summit, with a stone tablet over twenty feet tall in front of it. Looking from the pavilion at the unbroken mountains to the north, you feel a heroic spirit rise in your chest. They say that on summer nights, when the wild wind blows, the Sword Tomb Pavilion makes sobbing sounds; this is the \"Weeping Swords of the Lone Pavilion\" among the Ten Views of Waterfog. Out of the pavilion, stairs lead south straight to the Rainbow Terrace, and a dirt path west joins another path down the mountain."
 
 msgid "这里是水烟阁的正门，一股沁人心脾的檀香使你精神为之一振，正\n门共分三进，全部都是上等的檀木雕成，最里的门上悬著一块匾额，上\n面龙飞凤舞地写著几个大字，可是你全然看不出到底是什么字。\n"
 msgstr "This is the front gate of Waterfog Pavilion. A fragrance of sandalwood refreshes your spirit. The gate has three layers, all carved from the finest sandalwood. On the innermost hangs a plaque with a few big characters in flying script, but you cannot make out what they say."
 
-msgid "这里是水烟阁的正厅，简单的陈设中透出一股尊贵不凡的气派，一\n张黝黑的太师椅端坐在大厅中央，这里同时也是「武者」们议事的所在\n，每年的正月十七都要在水烟阁外的「虹台」推选武林盟主，然後在这\n里举行登位大典。你可以看到北边的墙上挂著一樟木匾(sign)，似乎写\n著一些有关成为一名武者的事项。\n"
-msgstr "This is the main hall of Waterfog Pavilion. The plain furnishings carry a dignity beyond the ordinary. A dark, polished master's chair sits in the middle of the hall. This is also where the \"fighters\" hold council; every year on the seventeenth of the first month the Alliance Leader is chosen at the Rainbow Terrace outside the Pavilion, and the enthronement is held here. On the north wall hangs a camphor-wood plaque (sign) that seems to say something about becoming a fighter."
+msgid "这里是水烟阁的正厅，简单的陈设中透出一股尊贵不凡的气派，一\n张黝黑的太师椅端坐在大厅中央，这里同时也是「武者」们议事的所在\n，每年的正月十七都要在水烟阁外的「虹台」推选武林盟主，然後在这\n里举行登位大典。你可以看到北边的墙上挂著一樟木匾，似乎写\n著一些有关成为一名武者的事项。\n"
+msgstr "This is the main hall of Waterfog Pavilion. The plain furnishings carry a dignity beyond the ordinary. A dark, polished master's chair sits in the middle of the hall. This is also where the \"fighters\" hold council; every year on the seventeenth of the first month the Alliance Leader is chosen at the Rainbow Terrace outside the Pavilion, and the enthronement is held here. On the north wall hangs a camphor-wood plaque that seems to say something about becoming a fighter."
 
 msgid "这里是水烟阁入口西侧的花厅，东边是水烟阁的正门，南边和西边\n围著一圈白玉栏杆，栏杆外种著许多茶花，往北是水烟阁的侧门，从这\n里可以看到通往水烟阁二楼的阶梯。\n"
 msgstr "This is the west parlor off the entrance of Waterfog Pavilion. The front gate is to the east. To the south and west a white jade railing runs round, and many camellias grow outside it. To the north is the side gate of Waterfog Pavilion, and from here you can see the stairs up to the second floor."
@@ -19042,8 +19042,8 @@ msgstr "This is the east side hall of Waterfog Pavilion. To the east, beyond the
 msgid "这里是一间柴房，一捆一捆劈好的柴薪都整齐地堆放在柴房北侧，\n留下一条通道通往东边仆役的卧室。往南可以回到水烟阁的西侧厅。\n"
 msgstr "This is a woodshed. Bundle after bundle of split firewood is stacked neatly along the north side, leaving a passage east to the servants' bedroom. South you can go back to the west hall of Waterfog Pavilion."
 
-msgid "这里是在水烟阁从事杂役的仆佣所住的卧室，房间相当宽敞，东西\n向一张大通铺最少可以睡二、三十人，东首一张大炕(bed)是冬天才用\n的，因为有不少仆役回家过冬，所以比床铺稍小，北边开了几扇窗子，\n南边则是摆放仆役私物的橱柜。\n"
-msgstr "This is the bedroom of the servants who do the odd jobs of Waterfog Pavilion. The room is quite spacious: a big shared sleeping platform running east to west could sleep twenty or thirty at the least. At the east end is a large heated brick bed (bed) used only in winter; it is a little smaller than the other beds, because many servants go home for the winter. Several windows open in the north wall, and to the south are cupboards where the servants keep their own things."
+msgid "这里是在水烟阁从事杂役的仆佣所住的卧室，房间相当宽敞，东西\n向一张大通铺最少可以睡二、三十人，东首一张大炕是冬天才用\n的，因为有不少仆役回家过冬，所以比床铺稍小，北边开了几扇窗子，\n南边则是摆放仆役私物的橱柜。\n"
+msgstr "This is the bedroom of the servants who do the odd jobs of Waterfog Pavilion. The room is quite spacious: a big shared sleeping platform running east to west could sleep twenty or thirty at the least. At the east end is a large heated brick bed used only in winter; it is a little smaller than the other beds, because many servants go home for the winter. Several windows open in the north wall, and to the south are cupboards where the servants keep their own things."
 
 msgid "这里是水烟阁的厨房，东首一座大灶，灶边堆著许多瓦瓮，北边是\n一张方桌，桌上锅碗瓢盆一应俱全，西边则是一个橱柜，往南可以回到\n厅中。\n"
 msgstr "This is the kitchen of Waterfog Pavilion. At the east end stands a big stove, with many earthenware jars piled beside it. To the north is a square table, and on it pots, bowls and ladles of every kind. To the west is a cupboard. South you can go back into the hall."
@@ -19051,8 +19051,8 @@ msgstr "This is the kitchen of Waterfog Pavilion. At the east end stands a big s
 msgid "这里是水烟阁西侧厅的二楼，由于侧厅是挑高建筑，因此这里只有\n一条约七、八尺宽的走道连接楼梯与往东的门。\n"
 msgstr "This is the second floor of the west side hall of Waterfog Pavilion. As the side hall is open to the roof, there is only a walkway seven or eight feet wide joining the stairs to the door to the east."
 
-msgid "这里是水烟阁二楼的聆啸厅，南面是一个大露台，按著西、西南、\n南、东南、东等方向立著五块灰绿色的怪石(stone)，东西各有一个出\n口通往侧厅，往北则是水烟阁主所居的春秋水色斋。\n"
-msgstr "This is Long Whistle Hall on the second floor of Waterfog Pavilion. To the south is a large terrace, with five strange gray-green stones (stone) standing in the directions west, southwest, south, southeast and east. East and west there is an exit to each side hall, and to the north is the Spring-Autumn Water Studio, where the master of Waterfog Pavilion lives."
+msgid "这里是水烟阁二楼的聆啸厅，南面是一个大露台，按著西、西南、\n南、东南、东等方向立著五块灰绿色的怪石，东西各有一个出\n口通往侧厅，往北则是水烟阁主所居的春秋水色斋。\n"
+msgstr "This is Long Whistle Hall on the second floor of Waterfog Pavilion. To the south is a large terrace, with five strange gray-green stones standing in the directions west, southwest, south, southeast and east. East and west there is an exit to each side hall, and to the north is the Spring-Autumn Water Studio, where the master of Waterfog Pavilion lives."
 
 msgid "这里是水烟阁东侧厅的二楼，由于侧厅是挑高建筑，因此这里只有\n一条约七、八尺宽的走道连接楼梯与往西的门。\n"
 msgstr "This is the second floor of the east side hall of Waterfog Pavilion. As the side hall is open to the roof, there is only a walkway seven or eight feet wide joining the stairs to the door to the west."
@@ -20008,8 +20008,8 @@ msgstr "This is the stone street leading to the castle, paved entirely with huge
 msgid "山顶强劲的风吹得铁索桥左右晃动，脚下的万丈深渊使你头晕目旋。\n你竭尽全力的维持身体平衡。\n"
 msgstr "The strong wind on the summit sets the chain bridge swaying from side to side. The bottomless gorge beneath your feet makes your head spin. You use all your strength to keep your balance."
 
-msgid "你站立在一座宏伟的城堡之前，城门(door)之上挂着一块金匾。金匾上\n龙飞凤舞的写着四个大字“黑松淳于”，金匾左下角刚劲草书落款：\n“淳于怀太”，“壬子年一月十八日”。\n"
-msgstr "You stand before a magnificent castle. Above the gate (door) hangs a golden plaque. On it four big characters are written in flowing, flying brush: \"Chunyu of Black Pine\". At the lower left of the plaque is a bold cursive signature: \"Chunyu Huaitai\", and the date, \"the eighteenth day of the first month, year Renzi\"."
+msgid "你站立在一座宏伟的城堡之前，城门之上挂着一块金匾。金匾上\n龙飞凤舞的写着四个大字“黑松淳于”，金匾左下角刚劲草书落款：\n“淳于怀太”，“壬子年一月十八日”。\n"
+msgstr "You stand before a magnificent castle. Above the gate hangs a golden plaque. On it four big characters are written in flowing, flying brush: \"Chunyu of Black Pine\". At the lower left of the plaque is a bold cursive signature: \"Chunyu Huaitai\", and the date, \"the eighteenth day of the first month, year Renzi\"."
 
 msgid "你站在黑松山顶，黑松城堡的东侧。高耸的城墙上长满了青色的\n蔓藤。蔓藤从墙顶一直垂到你的脚下。再往东是刀削般的万丈悬崖。\n往西则是城堡的正门。你脚下是一块青石板。\n"
 msgstr "You are on the summit of Black Pine Mountain, on the east side of the castle. Green vines cover the towering walls and hang from the top down to your feet. Beyond to the east is a cliff, sheer as if sliced with a knife, with a bottomless drop. To the west is the castle's main gate. You are standing on a slab of blue-gray stone."
@@ -20017,14 +20017,14 @@ msgstr "You are on the summit of Black Pine Mountain, on the east side of the ca
 msgid "你站在黑松山顶，黑松城堡的西侧。高耸的城墙上长满了青色的\n蔓藤。蔓藤从墙顶一直垂到你的脚下。再往西是刀削般的万丈悬崖。\n往东则是城堡的正门。\n"
 msgstr "You are on the summit of Black Pine Mountain, on the west side of the castle. Green vines cover the towering walls and hang from the top down to your feet. Beyond to the west is a cliff, sheer as if sliced with a knife, with a bottomless drop. To the east is the castle's main gate."
 
-msgid "你现在处于一个窄窄的夹道里，通向北面的路被一块巨石(rock)堵死。\n夹道的两侧是三丈高的石墙(wall)。出乎你的意料，石墙上布满了\n碗大的圆孔(hole)。石墙的后面传出“吱吱嘎嘎”的声音(noise)。\n"
-msgstr "You are in a narrow passage. The way north is blocked by a huge rock (rock). On both sides stand stone walls thirty feet high (wall). Surprisingly, the walls are riddled with round holes as big as bowls (hole). From behind the walls come creaking, grating sounds (noise)."
+msgid "你现在处于一个窄窄的夹道里，通向北面的路被一块巨石堵死。\n夹道的两侧是三丈高的石墙。出乎你的意料，石墙上布满了\n碗大的圆孔。石墙的后面传出“吱吱嘎嘎”的声音。\n"
+msgstr "You are in a narrow passage. The way north is blocked by a huge rock. On both sides stand stone walls thirty feet high. Surprisingly, the walls are riddled with round holes as big as bowls. From behind the walls come creaking, grating sounds."
 
 msgid "你站在黑松城堡的西花园里。花园里长满了各式各样奇花异草。\n西侧高耸的城墙上长满了青色的蔓藤。蔓藤从墙顶一直垂到你的脚下。\n再往东则是雄伟的黑松阁。\n"
 msgstr "You are in the west garden of Black Pine Castle. It is overgrown with all kinds of rare flowers and strange plants. On the west, green vines cover the towering wall and hang from the top down to your feet. To the east stands the imposing Black Pine Hall."
 
-msgid "你站在黑松城堡的北花园里。花园里长满了各式各样奇花异草。\n再通向北面的路被一块巨石(rock)堵死。再往南则是雄伟的黑松阁。\n"
-msgstr "You are in the north garden of Black Pine Castle. It is overgrown with all kinds of rare flowers and strange plants. The way further north is blocked by a huge rock (rock). To the south stands the imposing Black Pine Hall."
+msgid "你站在黑松城堡的北花园里。花园里长满了各式各样奇花异草。\n再通向北面的路被一块巨石堵死。再往南则是雄伟的黑松阁。\n"
+msgstr "You are in the north garden of Black Pine Castle. It is overgrown with all kinds of rare flowers and strange plants. The way further north is blocked by a huge rock. To the south stands the imposing Black Pine Hall."
 
 msgid "这是黑松堡主淳于怀太迎宾的西厅。整个大厅布置的雍荣典雅。\n向东是黑松阁的正厅，向西和向北都是精心修剪过的花园。楼上则是\n淳于巨大的睡房。南面是一个小小的储藏室。\n"
 msgstr "This is the west hall where Chunyu Huaitai, Lord of Black Pine Castle, receives his guests. The whole hall is arranged with rich and elegant taste. East is the main hall of Black Pine Hall; west and north are carefully trimmed gardens. Upstairs is Chunyu's huge bedchamber. To the south is a small storeroom."
@@ -20074,14 +20074,14 @@ msgstr "All at once there is a rattling from behind the walls, and countless arr
 msgid "你被乱箭射得头破血流，遍体鳞伤！\n"
 msgstr "You are shot full of arrows, your head bloody and your whole body wounded!"
 
-msgid "这根绳子顺着墙垂下来，你似乎可以拉(pull)它，但是你有一种不祥的感觉。\n"
-msgstr "The rope hangs down along the wall. You seem to be able to pull it (pull), but you have an ominous feeling about it."
+msgid "这根绳子顺着墙垂下来，你似乎可以拉它，但是你有一种不祥的感觉。\n"
+msgstr "The rope hangs down along the wall. You seem to be able to pull it, but you have an ominous feeling about it."
 
-msgid "城墙虽陡，但长满了蔓藤。你似乎可以试着爬(climb)上去。\n"
-msgstr "The wall is steep, but it is covered with vines. You seem to be able to try climbing up (climb)."
+msgid "城墙虽陡，但长满了蔓藤。你似乎可以试着爬上去。\n"
+msgstr "The wall is steep, but it is covered with vines. You seem to be able to try climbing up."
 
-msgid "蔓藤长满了城墙，你似乎可以试着爬(climb)上去。\n"
-msgstr "Vines cover the wall. You seem to be able to try climbing up (climb)."
+msgid "蔓藤长满了城墙，你似乎可以试着爬上去。\n"
+msgstr "Vines cover the wall. You seem to be able to try climbing up."
 
 msgid "青石板劳牢的镶在地下，但它下面似乎是空的。\n"
 msgstr "The slab of blue-gray stone is set firmly into the ground, but it seems to be hollow underneath."
@@ -20098,8 +20098,8 @@ msgstr "You try looking into a hole, but it is too dark inside to see anything."
 msgid "这显然是拉开强弩的声音。\n"
 msgstr "That is plainly the sound of a heavy crossbow being drawn."
 
-msgid "这里只有一条铁链（chain）。\n"
-msgstr "There is only an iron chain here (chain)."
+msgid "这里只有一条铁链。\n"
+msgstr "There is only an iron chain here."
 
 msgid "很沉重的石板，但你似乎可以推动它。\n"
 msgstr "A very heavy stone slab, but it seems you could push it."
@@ -20212,11 +20212,11 @@ msgstr "You have come before a black gate tower. Three big characters are carved
 msgid "你走在一条阴森森的路上, 浓浓的雾环绕在你的四周, 好像永\n远都不会散去似的. 往南看去你勉强可以分辨出一个城楼的模样,\n往北隐约可以看到几盏灯笼, 在浓雾中显得格外的诡异. 路的两旁\n各有一栋木造的建筑, 门都是半开的, 但你看不清楚里面有什么.\n\n"
 msgstr "You are walking on a gloomy road. Thick fog wraps around you, as if it will never lift. Looking south you can just make out the outline of a gate tower; to the north you can faintly see a few lanterns, eerie in the thick fog. On either side of the road stands a wooden building, its door half open, but you cannot see what is inside."
 
-msgid "你一进来就发现屋里异常的温暖, 墙角壁炉里微弱的火光将你\n的影子投射在对面的墙上. 几个人影(shadows)围在炉旁不知在讨\n论些什么. 屋内有几张木桌, 椅, 墙上挂了几幅字画, 一切看来非\n常的详和宁静, 你几乎忘了自己身在何处.\n \n"
-msgstr "The moment you come in you notice how strangely warm the room is. The faint firelight from the hearth in the corner throws your shadow on the opposite wall. A few shadowy figures (shadows) are gathered round the hearth, talking of something. There are several wooden tables and chairs, and a few paintings and scrolls hang on the walls. Everything looks so peaceful and calm that you almost forget where you are."
+msgid "你一进来就发现屋里异常的温暖, 墙角壁炉里微弱的火光将你\n的影子投射在对面的墙上. 几个人影围在炉旁不知在讨\n论些什么. 屋内有几张木桌, 椅, 墙上挂了几幅字画, 一切看来非\n常的详和宁静, 你几乎忘了自己身在何处.\n \n"
+msgstr "The moment you come in you notice how strangely warm the room is. The faint firelight from the hearth in the corner throws your shadow on the opposite wall. A few shadowy figures are gathered round the hearth, talking of something. There are several wooden tables and chairs, and a few paintings and scrolls hang on the walls. Everything looks so peaceful and calm that you almost forget where you are."
 
-msgid "屋里相当冷清, 外面的浓雾还不时地从半开著的门缝飘进来,\n地面上散著一些破旧的物品, 不过光从外表已经无法分辨出那是些\n什么东西了. 墙上(wall)刻著一些潦草的字体, 墙角的一盏灯笼挣\n扎似地发出一阵阵微弱的光芒, 也始得那些字看来格外的诡异.\n\n"
-msgstr "The room is rather bleak. Thick fog from outside drifts in now and then through the half-open door. Worn, broken things are scattered on the floor, but they are so decayed you can no longer tell what they were. Scrawled writing is carved on the wall (wall). A lantern in the corner struggles to give off a faint glow, which makes the words look all the stranger."
+msgid "屋里相当冷清, 外面的浓雾还不时地从半开著的门缝飘进来,\n地面上散著一些破旧的物品, 不过光从外表已经无法分辨出那是些\n什么东西了. 墙上刻著一些潦草的字体, 墙角的一盏灯笼挣\n扎似地发出一阵阵微弱的光芒, 也始得那些字看来格外的诡异.\n\n"
+msgstr "The room is rather bleak. Thick fog from outside drifts in now and then through the half-open door. Worn, broken things are scattered on the floor, but they are so decayed you can no longer tell what they were. Scrawled writing is carved on the wall. A lantern in the corner struggles to give off a faint glow, which makes the words look all the stranger."
 
 msgid "你走在一条阴森森的路上, 浓浓的雾环绕在你的四周, 好像永\n远都不会散去似的. 整条路前后只看到零星的几盏灯笼........\n \n"
 msgstr "You are walking on a gloomy road. Thick fog wraps around you, as if it will never lift. Along the whole road you can see only a few scattered lanterns........"
@@ -20296,8 +20296,8 @@ msgstr "You go through the peachwood chest. The jewelry is long gone, but the bo
 msgid "这是一粒仙丹，服食可位列仙班。\n"
 msgstr "An immortal's pill. Swallow it and you take a seat among the immortals.\n"
 
-msgid "这是一条由上等金丝编成的绳索, 可缚(tie)禽兽鬼怪。上刻有无数咒文，发出耀目金光.\n"
-msgstr "A rope braided from the finest gold thread. It can bind (tie) beasts, ghosts and monsters. Countless spells are carved into it, and it gives off a dazzling golden light.\n"
+msgid "这是一条由上等金丝编成的绳索, 可缚禽兽鬼怪。上刻有无数咒文，发出耀目金光.\n"
+msgstr "A rope braided from the finest gold thread. It can bind beasts, ghosts and monsters. Countless spells are carved into it, and it gives off a dazzling golden light.\n"
 
 msgid "缚"
 msgstr "Bind"
@@ -21181,11 +21181,11 @@ msgstr "This is West Street in Tallshade. A short way east, the stone platform i
 msgid "这里是乔阴县城的西大街，西门就在你的西边几十丈外，望东则是\n通往乔阴县的著名地标「树王坟」，街上有许多商店，北边是一家大酒\n楼，南边则有一间染坊。\n"
 msgstr "This is West Street in Tallshade. The west gate lies a few hundred feet west of you, and looking east you can see the famous landmark of Tallshade, the Tree King's Tomb. There are many shops in the street, a large tavern to the north and a dye works to the south."
 
-msgid "这里是乔阴县城的西大街，西边就是县城的西门，一座巨大的牌楼\n上刻著「西门」二字，往北有一条小巷，南边则是一间书肆，街道中央\n立著一尊石狮(statue)，而且是站著的，将来往行人分为左右两道。\n"
-msgstr "This is West Street in Tallshade. To the west is the town's west gate, a huge archway carved with the two characters for \"West Gate\". A lane leads north, and to the south is a bookshop. In the middle of the street stands a stone lion (statue), and it is standing upright, splitting the traffic into a left lane and a right lane."
+msgid "这里是乔阴县城的西大街，西边就是县城的西门，一座巨大的牌楼\n上刻著「西门」二字，往北有一条小巷，南边则是一间书肆，街道中央\n立著一尊石狮，而且是站著的，将来往行人分为左右两道。\n"
+msgstr "This is West Street in Tallshade. To the west is the town's west gate, a huge archway carved with the two characters for \"West Gate\". A lane leads north, and to the south is a bookshop. In the middle of the street stands a stone lion, and it is standing upright, splitting the traffic into a left lane and a right lane."
 
-msgid "你现在来到了著名的「树王坟」前，这里是个高台，中央约两丈见方\n的地上有一截巨大的树桩，少说有三、四十人合抱那么粗，树桩中间有一\n个大洞(hole)，望下去黑漆漆地，石台靠南的地方还有一间小庙(shrine)\n，东西南北四个方向都有阶梯通往四面的街道。\n"
-msgstr "You have arrived before the famous Tree King's Tomb. It is a high platform, and in the middle, on a patch of ground about twenty feet square, sits the huge stump of a tree, easily thirty or forty people's embrace around. In the middle of the stump is a great hole (hole), pitch black when you look down. Toward the south end of the platform stands a small shrine (shrine). Steps lead down from all four sides, north, south, east and west, to the streets."
+msgid "你现在来到了著名的「树王坟」前，这里是个高台，中央约两丈见方\n的地上有一截巨大的树桩，少说有三、四十人合抱那么粗，树桩中间有一\n个大洞，望下去黑漆漆地，石台靠南的地方还有一间小庙\n，东西南北四个方向都有阶梯通往四面的街道。\n"
+msgstr "You have arrived before the famous Tree King's Tomb. It is a high platform, and in the middle, on a patch of ground about twenty feet square, sits the huge stump of a tree, easily thirty or forty people's embrace around. In the middle of the stump is a great hole, pitch black when you look down. Toward the south end of the platform stands a small shrine. Steps lead down from all four sides, north, south, east and west, to the streets."
 
 msgid "    这里是乔阴县城的东大街，西边不远处的石台便是远近驰名的「树\n王坟」，东大街往东一直通往东城门，街道两边有许多的民宅，街上行\n人渐稀。\n"
 msgstr "This is East Street in Tallshade. A short way west, the stone platform is the far-famed Tree King's Tomb. East Street runs east all the way to the east gate. There are many dwellings along both sides, and fewer and fewer people are about."
@@ -21202,8 +21202,8 @@ msgstr "This is Fulin Street in Tallshade. To the east stands a magnificent buil
 msgid "这里便是乔阴县驰名远近的福林酒楼，连乔阴县最热闹的一条大街\n都以此命名，福林酒楼是一家近百年老店，传到现在的这位掌柜已经是\n第三代，如果你是初到此地的外地人，不妨和他攀攀交情，酒楼一楼多\n半是县城里熟客人，东北边有一道方梯通往楼上雅座，往西则可以出大\n街。\n"
 msgstr "This is the far-famed Fulin Tavern of Tallshade, after which even the busiest street in the county is named. It is a century-old establishment, and the present shopkeeper is the third generation. If you are a stranger new to these parts, you might try making friends with him. The first floor is mostly local regulars. To the northeast a square staircase leads up to the private rooms on the second floor, and to the west you can go out to the street."
 
-msgid "这里便是乔阴县城最大的一处广场，往北是贯通县城南北门的福林\n大道，往东则是一个绿柳环绕的湖泊「翠柳湖」，广场上只见卖艺的，\n卖糖葫芦的，捏面人的，各色小贩穿梭来去，广场中央有一口大井，井\n旁用绳索绑著几只杯子供人取水喝(drink)，南门的牌楼因为几年前改建\n翠柳湖的曲桥，因此移到西边的县府衙门所在的昌平街，现在广场的南\n面就是一座曲桥通往湖东岸的雨桥庄，西南边一条宽敞的街道沿著湖岸\n通往城外，广场的西边则一直延伸到昌平街。\n"
-msgstr "This is the largest square in Tallshade. To the north, Fulin Street runs through the town between the north and south gates, and to the east is a lake ringed by green willows, Green Willow Lake. In the square you see street performers, candied-haw sellers, dough-figure makers, all kinds of peddlers weaving back and forth. In the middle of the square is a large well, with several cups tied to it by ropes for people to take a drink (drink). A few years ago, when the zigzag bridge over Green Willow Lake was rebuilt, the south gate archway was moved west to Changping Street, where the county yamen is. Now to the south of the square a zigzag bridge leads across to Rain Bridge Manor on the east shore of the lake, a wide street to the southwest runs along the lakeshore out of town, and to the west the square extends all the way to Changping Street."
+msgid "这里便是乔阴县城最大的一处广场，往北是贯通县城南北门的福林\n大道，往东则是一个绿柳环绕的湖泊「翠柳湖」，广场上只见卖艺的，\n卖糖葫芦的，捏面人的，各色小贩穿梭来去，广场中央有一口大井，井\n旁用绳索绑著几只杯子供人取水喝，南门的牌楼因为几年前改建\n翠柳湖的曲桥，因此移到西边的县府衙门所在的昌平街，现在广场的南\n面就是一座曲桥通往湖东岸的雨桥庄，西南边一条宽敞的街道沿著湖岸\n通往城外，广场的西边则一直延伸到昌平街。\n"
+msgstr "This is the largest square in Tallshade. To the north, Fulin Street runs through the town between the north and south gates, and to the east is a lake ringed by green willows, Green Willow Lake. In the square you see street performers, candied-haw sellers, dough-figure makers, all kinds of peddlers weaving back and forth. In the middle of the square is a large well, with several cups tied to it by ropes for people to take a drink. A few years ago, when the zigzag bridge over Green Willow Lake was rebuilt, the south gate archway was moved west to Changping Street, where the county yamen is. Now to the south of the square a zigzag bridge leads across to Rain Bridge Manor on the east shore of the lake, a wide street to the southwest runs along the lakeshore out of town, and to the west the square extends all the way to Changping Street."
 
 msgid "这里是乔阴县城城南的承安街，街道十分宽敞，南北两边都是一些\n贩卖南北货、日用品的商店，这里虽然正当乔阴县人车来往最频繁的要\n冲，可是却没有福林大街热闹，往东走便是南门广场，往西则是和昌平\n街的交叉路口。\n"
 msgstr "This is Cheng'an Street, in the south of Tallshade. The street is very wide, with shops selling goods from north and south and daily necessities on both its north and south sides. Though this is the thoroughfare where people and carts come and go most in Tallshade, it is not as busy as Fulin Street. East leads to South Gate Square, and west to the crossroads with Changping Street."
@@ -21214,8 +21214,8 @@ msgstr "This is Cheng'an Street, in the south of Tallshade. East leads to the bu
 msgid "这里是昌平街跟承安街的交叉路口，往南就是乔阴县城的南门，往\n北不远处则是衙门的所在地，乔阴县到了这里显得格外安静，路人大多\n沈默地走著，不敢大声喧哗，和城东的花花世界相比，这里显得宁静许\n多。\n"
 msgstr "This is the crossroads of Changping Street and Cheng'an Street. South leads to the south gate of Tallshade, and a little way north is the yamen. Here the town grows especially quiet. Passers-by mostly walk in silence, not daring to speak loudly, and compared with the bustle of the east of town, the place is far more peaceful."
 
-msgid "这里是乔阴县府衙门的大门，就像你印象中的衙门一般，高大的大\n门、两只巨大的石狮、以及一种令人为之肃然的气氛。门口有一面大皮\n鼓(drum)，不用说，这当然是让百姓击鼓申冤用的，乔阴县的知县据说\n是槐阳王的侄子，虽然算不上是包青天，不过倒也没有听说过有什么贪\n赃枉法的劣迹。\n"
-msgstr "This is the gate of the county yamen of Tallshade, just like the yamen you picture: a tall gate, two huge stone lions, and an air that commands respect. By the gate hangs a big leather drum (drum), which of course is for common people to beat when they have a grievance. The magistrate of Tallshade is said to be the nephew of the Prince of Huaiyang. He is no Justice Bao, but you have never heard of any corruption or abuse of the law either."
+msgid "这里是乔阴县府衙门的大门，就像你印象中的衙门一般，高大的大\n门、两只巨大的石狮、以及一种令人为之肃然的气氛。门口有一面大皮\n鼓，不用说，这当然是让百姓击鼓申冤用的，乔阴县的知县据说\n是槐阳王的侄子，虽然算不上是包青天，不过倒也没有听说过有什么贪\n赃枉法的劣迹。\n"
+msgstr "This is the gate of the county yamen of Tallshade, just like the yamen you picture: a tall gate, two huge stone lions, and an air that commands respect. By the gate hangs a big leather drum, which of course is for common people to beat when they have a grievance. The magistrate of Tallshade is said to be the nephew of the Prince of Huaiyang. He is no Justice Bao, but you have never heard of any corruption or abuse of the law either."
 
 msgid "这里是乔阴县城的南门，由于这个南门是十多年前重建的，因此和\n古老斑驳的东、西、北门相比，南门显得漂亮许多，而且南门正对著县\n府衙门，平日的修缮当然也勤快些。乔阴县城南门外住著许多上次羿水\n河鲁公堤溃决之后迁来的农民，因此虽然出了城门，街道依然人来人往\n，往东是一条沿著城墙的街道，可以经过火龙将军庙入城，西边的街道\n沿著城墙通往新建的驿站，往南则是许多房舍与农田。\n"
 msgstr "This is the south gate of Tallshade. The south gate was rebuilt a dozen or so years ago, so it looks much nicer than the old, weathered east, west and north gates, and since it faces the county yamen, it is naturally kept up more diligently. Outside the south gate live many farmers who moved here after the Lu Gong Dike on the Yi River broke last time, so even outside the gate the street is still full of people coming and going. East, a street runs along the city wall and enters the town by way of the Fire Dragon Temple. West, a street runs along the wall to the newly built post station. South are many houses and fields."
@@ -21232,20 +21232,20 @@ msgstr "This is a zigzag bridge winding across Green Willow Lake, joining Rain B
 msgid "这里是雨桥庄西边的曼雩台，也是乔阴县城的文人墨客时常聚集谈\n论诗文的地方，台宽约十丈，西边是连接乔阴县城的翠柳曲桥，从翠柳\n湖中的片片睡莲中弯弯曲曲地通往西边的广场，北边和南边各有数十根\n梁柱，常有许多落拓的士人将他们的作品贴在这里希望得到贵人赏识，\n往东是一片桃树林，春天时和翠柳湖畔的柳树相辉映，蔚为乔阴县的第\n一盛景。\n"
 msgstr "This is the Rain Dance Terrace at the west of Rain Bridge Manor, where the scholars and literati of Tallshade often gather to talk poetry and prose. The terrace is about a hundred feet wide. To the west is the Green Willow zigzag bridge, winding through the water lilies of Green Willow Lake to the square in the west. North and south stand dozens of beams and pillars, where many down-at-heel scholars post their works in hope of a patron's notice. To the east is a peach grove, which in spring sets off the willows along Green Willow Lake and makes the finest sight in Tallshade."
 
-msgid "这是很大的一片桃林。每年花开的季节，这里一片桃花灿烂，总引得\n邻近的镇集的游客来观看，甚至京城的游客也不乏其人。桃林中阡陌纵横\n，不熟悉此地的游客经常迷路。当然啦，一些先行者在桃树枝上挂了些字\n条以指示道路。看。。字条（note）在那儿。。\n"
-msgstr "This is a very large peach grove. Every year when the blossoms open, the grove is ablaze with peach flowers and draws visitors from neighboring towns, even from the Capital. Paths crisscross through the grove, and visitors who do not know the place often get lost. Of course, some who went before have hung slips of paper in the peach branches to point the way. Look... there is a slip of paper (note)."
+msgid "这是很大的一片桃林。每年花开的季节，这里一片桃花灿烂，总引得\n邻近的镇集的游客来观看，甚至京城的游客也不乏其人。桃林中阡陌纵横\n，不熟悉此地的游客经常迷路。当然啦，一些先行者在桃树枝上挂了些字\n条以指示道路。看。。字条在那儿。。\n"
+msgstr "This is a very large peach grove. Every year when the blossoms open, the grove is ablaze with peach flowers and draws visitors from neighboring towns, even from the Capital. Paths crisscross through the grove, and visitors who do not know the place often get lost. Of course, some who went before have hung slips of paper in the peach branches to point the way. Look... there is a slip of paper."
 
 msgid "院内草木繁茂,亭榭错落有致,可见这位县太爷也是位雅人.\n"
 msgstr "Within the yard, plants and trees grow thick, and pavilions and kiosks are spaced just so. The magistrate is evidently a man of refinement."
 
-msgid "正中高悬一匾(borad),匾下的书案上放着笔,墨,纸,砚,惊堂木等物.两旁各置屏风.堂下摆着各式刑具,你从未见过.\n"
+msgid "正中高悬一匾,匾下的书案上放着笔,墨,纸,砚,惊堂木等物.两旁各置屏风.堂下摆着各式刑具,你从未见过.\n"
 msgstr "High up in the center hangs a plaque (board), and on the desk beneath it lie brush, ink, paper, inkstone, a gavel and other things. Screens stand on both sides. Instruments of punishment of every kind are laid out below the hall, such as you have never seen."
 
 msgid "内厅是老爷与好友叙话, 品茶, 吟诗, 作画之所; 格外幽静......\n"
 msgstr "The inner hall is where His Honor chats with friends, sips tea, composes poems and paints. It is especially quiet..."
 
-msgid "这里就是奉祀火龙将军的大殿，火龙将军高大威武的神像(statue)\n就立在你的面前，旁边还有火龙将军的部属虎豹熊鹰四位将军，你现在\n所站的地方是横过街道而建的一个高台，隔著栏杆可以看见下面的街道\n川流不息的人群，南北各有一道阶梯往下回到街道。\n"
-msgstr "This is the great hall that honors the Fire Dragon General. The tall, majestic statue (statue) of the Fire Dragon General stands right before you, and beside it are four of his lieutenants, the Tiger, Leopard, Bear and Eagle generals. You are standing on a raised platform built across the street. Through the railing you can see the crowds streaming along the street below, and steps at the south and north lead down to the street."
+msgid "这里就是奉祀火龙将军的大殿，火龙将军高大威武的神像\n就立在你的面前，旁边还有火龙将军的部属虎豹熊鹰四位将军，你现在\n所站的地方是横过街道而建的一个高台，隔著栏杆可以看见下面的街道\n川流不息的人群，南北各有一道阶梯往下回到街道。\n"
+msgstr "This is the great hall that honors the Fire Dragon General. The tall, majestic statue of the Fire Dragon General stands right before you, and beside it are four of his lieutenants, the Tiger, Leopard, Bear and Eagle generals. You are standing on a raised platform built across the street. Through the railing you can see the crowds streaming along the street below, and steps at the south and north lead down to the street."
 
 msgid "这里是福林酒楼的二楼雅座，这里的客人大多衣冠鲜明，若不是富\n豪巨绅，便是秀才举人，使你不知不觉跟著斯文起来，从这里可以眺望\n乔阴县城的市景，东边不远处隔著几栋建筑便是县府衙门，南边是碧波\n荡漾的翠柳湖，湖对岸的雨桥庄在柳树间若隐若现，东边许多民房，再\n过去便是一方方的稻田，北边可望见树王坟的石台，以及乔阴县城北的\n建筑。你可以沿角落的方梯回到一楼，或者到三楼的客房。\n"
 msgstr "These are the second-floor private rooms of Fulin Tavern. The guests here are mostly smartly dressed: if not rich gentry, then licentiates and provincial graduates, and you find yourself growing refined without noticing. From here you can look out over the town. A few buildings away to the east is the county yamen, to the south is the sparkling Green Willow Lake with Rain Bridge Manor half hidden among the willows on the far shore, to the east are many dwellings and beyond them checkered rice paddies, and to the north you can see the platform of the Tree King's Tomb and the buildings in the north of town. You can go back down to the first floor by the square stairs in the corner, or up to the guest rooms on the third floor."
@@ -21283,17 +21283,17 @@ msgstr "The bluestone paving this road was quarried from Mount Tongbai. Few peop
 msgid "此地山势平缓,山坡尽是湘妃竹.南面就是桐柏山了,西面即为隐士结庐修身之所\n.往北可见下山的青石小径.\n"
 msgstr "Here the mountains are gentle, and the slopes are covered with mottled bamboo. To the south is Mount Tongbai, and to the west is where a hermit built his hut to cultivate himself. To the north you can see a bluestone path leading down the mountain."
 
-msgid "诺大的一片竹林，密密匝匝，望不道尽头。游目四顾，没有路了。\n微风乍起，竹林深处现出一角竹篱(fence)。\n"
-msgstr "A vast bamboo grove, dense and thick, with no end in sight. You look all around, and there is no path. A breeze stirs, and deep in the bamboo a corner of a bamboo fence (fence) shows."
+msgid "诺大的一片竹林，密密匝匝，望不道尽头。游目四顾，没有路了。\n微风乍起，竹林深处现出一角竹篱。\n"
+msgstr "A vast bamboo grove, dense and thick, with no end in sight. You look all around, and there is no path. A breeze stirs, and deep in the bamboo a corner of a bamboo fence shows."
 
-msgid "一间由白茅草搭成的草堂，室内仅有一竹榻，一矮几，四把竹椅．堂前一幅拓片装裱精\n致，上书:\n      书有未曾经我读\n      事无不可对人言\n矮几上摊有书卷(books)放着一支朱砂笔，一房歙砚竟题有岳武穆藏，另几张上好生宣． \n"
-msgstr "A hall built of white thatch grass. Inside are only a bamboo couch, a low table and four bamboo chairs. In front of the hall hangs a finely mounted rubbing, inscribed:\n      No book there is that I have not read\n      No deed there is that I could not tell\nOn the low table lie open scrolls (books) and a vermilion brush, and an inkstone from Shezhou even bears the inscription \"Yue Wumu's collection\", beside several sheets of fine raw rice paper."
+msgid "一间由白茅草搭成的草堂，室内仅有一竹榻，一矮几，四把竹椅．堂前一幅拓片装裱精\n致，上书:\n      书有未曾经我读\n      事无不可对人言\n矮几上摊有书卷放着一支朱砂笔，一房歙砚竟题有岳武穆藏，另几张上好生宣． \n"
+msgstr "A hall built of white thatch grass. Inside are only a bamboo couch, a low table and four bamboo chairs. In front of the hall hangs a finely mounted rubbing, inscribed:\n      No book there is that I have not read\n      No deed there is that I could not tell\nOn the low table lie open scrolls and a vermilion brush, and an inkstone from Shezhou even bears the inscription \"Yue Wumu's collection\", beside several sheets of fine raw rice paper."
 
 msgid "这是一间什麽也没有的空房间。\n"
 msgstr "An empty room with nothing at all in it."
 
-msgid "鬼神皆修于桐柏,故而此地人烟稀少,仅山下青石峪的那位隐士结庐在此.东边山\n壁天成一洞,据传是姑射山的仙人炼丹之所,终日烈焰雄雄,烤得此地寸草不生.\n然而,一株老松仍枝繁叶茂,立于巨石(stone)之上.\n"
-msgstr "Spirits and gods all cultivate on Mount Tongbai, so few people live here, only the hermit from Bluestone Gorge at the foot of the mountain, who built his hut here. In the cliff to the east is a natural cave, said to be where the immortals of Mount Guye refine their elixirs, the flames raging all day and scorching the land so nothing grows. Yet an old pine still thrives, standing atop a huge rock (stone)."
+msgid "鬼神皆修于桐柏,故而此地人烟稀少,仅山下青石峪的那位隐士结庐在此.东边山\n壁天成一洞,据传是姑射山的仙人炼丹之所,终日烈焰雄雄,烤得此地寸草不生.\n然而,一株老松仍枝繁叶茂,立于巨石之上.\n"
+msgstr "Spirits and gods all cultivate on Mount Tongbai, so few people live here, only the hermit from Bluestone Gorge at the foot of the mountain, who built his hut here. In the cliff to the east is a natural cave, said to be where the immortals of Mount Guye refine their elixirs, the flames raging all day and scorching the land so nothing grows. Yet an old pine still thrives, standing atop a huge rock."
 
 msgid "雷霆不断击向一粒粒仙丹,仙丹慢慢由黑转为红色.你注意到炉门好象开着.\n"
 msgstr "Thunder keeps striking at the pills one by one, and slowly the pills turn from black to red. You notice that the furnace door seems to be open."
@@ -21304,8 +21304,8 @@ msgstr "A dirt road, with houses dimly visible along it, all fallen into ruin. T
 msgid "    这是一条铺著砾石的上路，险峻难行。南面一座高山，云雾\n缭绕险峻异常。山前断碑字迹依稀可辨--「姑射山』。传说中有\n位仙人曾居于此地，不知如今还在不在......\n"
 msgstr "A gravel-paved road leading up, steep and hard going. To the south is a tall mountain, wreathed in clouds and mist, extremely perilous. On a broken stele in front of the mountain the characters are faintly legible: \"Mount Guye\". Legend says an immortal once lived here, and it is unknown whether he is still there..."
 
-msgid "    采药人言曰：有仙人乘鹤飞升，径入此山，不知所终.....\n此地林木(tree)繁茂，藤蔓(vine)错杂。南耸绝壁，下临深谷.\n半山腰处，隐隐可见一洞，流云出岫。\n"
-msgstr "A herb gatherer once said: an immortal rode a crane up to heaven and went straight into this mountain, and where he ended up no one knows..... Here the trees (tree) are lush and the vines (vine) tangled. To the south a sheer cliff looms over a deep valley. Halfway up the mountain a cave can faintly be seen, with clouds drifting from its mouth."
+msgid "    采药人言曰：有仙人乘鹤飞升，径入此山，不知所终.....\n此地林木繁茂，藤蔓错杂。南耸绝壁，下临深谷.\n半山腰处，隐隐可见一洞，流云出岫。\n"
+msgstr "A herb gatherer once said: an immortal rode a crane up to heaven and went straight into this mountain, and where he ended up no one knows..... Here the trees are lush and the vines tangled. To the south a sheer cliff looms over a deep valley. Halfway up the mountain a cave can faintly be seen, with clouds drifting from its mouth."
 
 msgid "古树果非寻常之物，树冠白雾升腾，上接霄汉，如仙境一般，让人流连忘返...\n"
 msgstr "The old tree is surely no ordinary thing. White mist rises from its crown, reaching up to the heavens like a land of immortals, so lovely that you linger and forget to leave..."
@@ -21313,8 +21313,8 @@ msgstr "The old tree is surely no ordinary thing. White mist rises from its crow
 msgid "这里就是半山腰处的山洞。四壁空无一物，极为荒凉......\n"
 msgstr "This is the cave halfway up the mountain. The four walls are bare, and it is very desolate......"
 
-msgid "姑射之巅，祥云朵朵，瑞彩千条。藐姑射之山，有神人居焉，肌肤若冰雪，绰约如处子..\n仙踪难觅，只觉风声飒然，云开之出，凸现一座云台(platform)\n"
-msgstr "On the summit of Mount Guye, auspicious clouds float in drifts, and a thousand colors gleam. On the far mountain of Guye lives a divine person, with skin like ice and snow and a gentle grace like a maiden... The immortal's trail is hard to find, and you feel only the sough of the wind. Where the clouds part, a Cloud Terrace (platform) stands revealed."
+msgid "姑射之巅，祥云朵朵，瑞彩千条。藐姑射之山，有神人居焉，肌肤若冰雪，绰约如处子..\n仙踪难觅，只觉风声飒然，云开之出，凸现一座云台\n"
+msgstr "On the summit of Mount Guye, auspicious clouds float in drifts, and a thousand colors gleam. On the far mountain of Guye lives a divine person, with skin like ice and snow and a gentle grace like a maiden... The immortal's trail is hard to find, and you feel only the sough of the wind. Where the clouds part, a Cloud Terrace stands revealed."
 
 msgid "两面皆为峭壁，光滑无物。一阵寒谷幽香，沁人心脾，却不知来自何方。。。\n"
 msgstr "Both sides are sheer cliffs, smooth and bare. A fragrance of the cold valley drifts in, refreshing heart and lungs, yet you cannot tell where it comes from..."
@@ -21322,8 +21322,8 @@ msgstr "Both sides are sheer cliffs, smooth and bare. A fragrance of the cold va
 msgid "    两面皆为峭壁，光滑无物。一阵寒谷幽香，沁人心脾，却不知来自何方。。。\n"
 msgstr "Both sides are sheer cliffs, smooth and bare. A fragrance of the cold valley drifts in, refreshing heart and lungs, yet you cannot tell where it comes from..."
 
-msgid "两面皆为峭壁，光滑无物。一株寒谷幽兰,暗香浮动，沁人心脾。山壁天然行成\n一空穴(vase),积满寒露.\n"
-msgstr "Both sides are sheer cliffs, smooth and bare. A cold-valley orchid gives off a hidden fragrance that drifts about, refreshing heart and lungs. In the mountain wall is a natural hollow (vase), full of cold dew."
+msgid "两面皆为峭壁，光滑无物。一株寒谷幽兰,暗香浮动，沁人心脾。山壁天然行成\n一空穴,积满寒露.\n"
+msgstr "Both sides are sheer cliffs, smooth and bare. A cold-valley orchid gives off a hidden fragrance that drifts about, refreshing heart and lungs. In the mountain wall is a natural hollow, full of cold dew."
 
 msgid "也不知道隐士怎么弄的，你的玛瑙手镯不灵验了。"
 msgstr "Who knows what the hermit did, but your agate bracelet no longer works."
@@ -21370,8 +21370,8 @@ msgstr "A small brick shrine. What it houses is, of course, the Lord Tree King. 
 msgid "篱笆依地势而曲折延伸，你注意到柴门里面有一间草堂。\n"
 msgstr "The fence winds along the lay of the land, and you notice a thatched hall inside the brushwood gate."
 
-msgid "几上的书信手而放，装帧古朴，竟是宋版书，还有几卷汉碑原拓。你按捺不住好奇心想拿\n起来(scratch)仔细研究一番。\n"
-msgstr "The books on the table lie where a hand left them, plainly bound. They are actually Song editions, and there are several rolls of original Han stele rubbings too. You cannot hold back your curiosity and want to pick one up (scratch) and study it closely."
+msgid "几上的书信手而放，装帧古朴，竟是宋版书，还有几卷汉碑原拓。你按捺不住好奇心想拿\n起来仔细研究一番。\n"
+msgstr "The books on the table lie where a hand left them, plainly bound. They are actually Song editions, and there are several rolls of original Han stele rubbings too. You cannot hold back your curiosity and want to pick one up and study it closely."
 
 msgid "你伸手往不远处的一根藤蔓抓去...."
 msgstr "You reach for a vine not far away...."
@@ -21382,8 +21382,8 @@ msgstr "You let out a scream like a pig being slaughtered and plunge into the de
 msgid "你手脚俐落地攀附著藤蔓，慢慢地爬近山洞。"
 msgstr "Nimbly you cling to the vine and slowly make your way toward the cave."
 
-msgid "其中有一根藤蔓距离你比较近，你可以试著抓住(hold)藤蔓\n"
-msgstr "One of the vines is closer to you. You could try to grab hold (hold) of it."
+msgid "其中有一根藤蔓距离你比较近，你可以试著抓住藤蔓\n"
+msgstr "One of the vines is closer to you. You could try to grab hold of it."
 
 msgid "你七手八脚地爬上了古树。"
 msgstr "You scramble up the old tree, hands and feet flailing."
@@ -21391,8 +21391,8 @@ msgstr "You scramble up the old tree, hands and feet flailing."
 msgid "这是一株万年古树，寻常人等休想爬得上去.\n"
 msgstr "A ten-thousand-year-old tree. Ordinary people can forget about climbing it."
 
-msgid "一座精雕细琢的玉台,放有一矮几;几上立有玉瓶,几株寒谷幽兰\n绽放其中.台旁置一云幡(flag),可是仙家宝物.\n"
-msgstr "A finely carved jade terrace with a low table. On the table stands a jade vase with a few cold-valley orchids in bloom. Beside the terrace stands a cloud banner (flag), surely a treasure of the immortals."
+msgid "一座精雕细琢的玉台,放有一矮几;几上立有玉瓶,几株寒谷幽兰\n绽放其中.台旁置一云幡,可是仙家宝物.\n"
+msgstr "A finely carved jade terrace with a low table. On the table stands a jade vase with a few cold-valley orchids in bloom. Beside the terrace stands a cloud banner, surely a treasure of the immortals."
 
 msgid "碰云幡"
 msgstr "Touch the cloud banner"
@@ -21400,8 +21400,8 @@ msgstr "Touch the cloud banner"
 msgid "你碰了云幡,云幡动了一下.....\n白光一闪,云台忽地裂开"
 msgstr "You touch the cloud banner, and it stirs a little...\nA flash of white light, and the Cloud Terrace suddenly splits open"
 
-msgid "此幡可翻云覆雨,最好不要碰(touch)它.\n"
-msgstr "This banner can turn clouds and bring rain. Best not to touch (touch) it."
+msgid "此幡可翻云覆雨,最好不要碰它.\n"
+msgstr "This banner can turn clouds and bring rain. Best not to touch it."
 
 msgid "插幽兰"
 msgstr "Place the orchid"
@@ -21409,8 +21409,8 @@ msgstr "Place the orchid"
 msgid "寒谷幽兰忽地绽放,幻出七色光华.你轻轻地飘起..."
 msgstr "The cold-valley orchid suddenly blooms, conjuring seven-colored light. You float gently upward..."
 
-msgid "石穴呈瓶状,想是用来插(interject)什么东东的.\n"
-msgstr "The hollow in the rock is shaped like a bottle, evidently for sticking (interject) something into."
+msgid "石穴呈瓶状,想是用来插什么东东的.\n"
+msgstr "The hollow in the rock is shaped like a bottle, evidently for sticking something into."
 
 msgid "你在洞里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"
 msgstr "You wait a long time in the cave and finally drift into a dazed sleep... When you wake, you are lying in Drinkwind Inn in Snow Pavilion."
@@ -21460,8 +21460,8 @@ msgstr "You see: {note}"
 msgid "你走出了桃林"
 msgstr "You step out of the peach grove."
 
-msgid "这是一张指示路径的字条.似乎可以读(read)它.\n"
-msgstr "A slip of paper that points the way. It seems you can read (read) it."
+msgid "这是一张指示路径的字条.似乎可以读它.\n"
+msgstr "A slip of paper that points the way. It seems you can read it."
 
 msgid "你在桃林里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"
 msgstr "You wait a long time in the peach grove and finally drift into a dazed sleep... When you wake, you are lying in Drinkwind Inn in Snow Pavilion."
@@ -21751,8 +21751,8 @@ msgstr "You are walking along a path through the woods, tall pines crowding both
 msgid "你现在正走在一条林间的小路上，小路往东似乎通往一处空地，林\n子到了这里变得静悄悄的，小路两旁的松树也比西边的矮小，看起来有\n点营养不良的样子。\n"
 msgstr "You are walking along a path through the woods. To the east the path seems to lead to a clearing. The wood has gone quiet here, and the pines beside the path are shorter than those to the west and look a little underfed.\n"
 
-msgid "这是一块林间空地，四周的树木花草像是被人修剪过一般，环绕著\n空地围成一个整齐的圆形，空地中央一株巨大的松树(pine)像平地上撑\n起一把大伞，树上针叶茂密得遮去了大半的阳光，空地四周有三条小路\n分别通往东、西、南三个方向，往南的小路旁竖著一个牌子(sign)。\n"
-msgstr "This is a clearing in the woods. The trees and flowers around it look as if someone has pruned them, forming a neat circle around the open ground. In the middle a huge pine (pine) spreads like a great umbrella set on flat ground, its needles so thick they shut out most of the sun. Three paths leave the clearing, east, west and south, and beside the south path stands a sign (sign).\n"
+msgid "这是一块林间空地，四周的树木花草像是被人修剪过一般，环绕著\n空地围成一个整齐的圆形，空地中央一株巨大的松树像平地上撑\n起一把大伞，树上针叶茂密得遮去了大半的阳光，空地四周有三条小路\n分别通往东、西、南三个方向，往南的小路旁竖著一个牌子。\n"
+msgstr "This is a clearing in the woods. The trees and flowers around it look as if someone has pruned them, forming a neat circle around the open ground. In the middle a huge pine spreads like a great umbrella set on flat ground, its needles so thick they shut out most of the sun. Three paths leave the clearing, east, west and south, and beside the south path stands a sign.\n"
 
 msgid "你现在正走在一片松树林中的小路上，小路往北通往一处空地，一\n株巨大无朋的松树矗立在空地中央，小路往南是一条长长的下坡道，这\n条路上足迹很多，显然常有人经过。\n"
 msgstr "You are walking along a path through a pine wood. To the north it leads to a clearing, where one enormous pine rises in the middle. To the south the path is a long downhill slope. Many footprints mark this path; people clearly pass this way often.\n"
@@ -21763,29 +21763,29 @@ msgstr "This is a straight slope, high in the north and low in the south, with p
 msgid "你现在正走在一条松树林中的小路，这里的松树树干上都有著一些\n奇怪的记号，像是被人用刀子划过，小路的西边是一块空地，往东不远\n可以看到一条山涧，上面横跨著一座小石桥。\n"
 msgstr "You are walking along a path through a pine wood. The pines here have strange marks on their trunks, as if cut with a knife. West of the path is a clearing; not far to the east you can see a mountain stream with a small stone bridge across it.\n"
 
-msgid "你现在正站在一座长满青苔的古桥上，桥下是一条山涧，几股清泉\n在乱石之中向山下奔流，桥北边不远处有一个瀑布(waterfall) ，从山\n壁上犹如一条白练般垂了下来，瀑布两旁的石壁十分陡峭，高度和山涧\n旁的松林相差了近三、四十丈。\n"
-msgstr "You are standing on an old bridge thick with moss. Below it runs a mountain stream, several threads of clear spring water rushing down the mountain over a tumble of rocks. Not far north of the bridge, a waterfall (waterfall) hangs from the cliff like a white silk ribbon. The rock walls on both sides of the falls are very steep, and the pines beside the stream stand some three or four hundred feet below the top.\n"
+msgid "你现在正站在一座长满青苔的古桥上，桥下是一条山涧，几股清泉\n在乱石之中向山下奔流，桥北边不远处有一个瀑布 ，从山\n壁上犹如一条白练般垂了下来，瀑布两旁的石壁十分陡峭，高度和山涧\n旁的松林相差了近三、四十丈。\n"
+msgstr "You are standing on an old bridge thick with moss. Below it runs a mountain stream, several threads of clear spring water rushing down the mountain over a tumble of rocks. Not far north of the bridge, a waterfall hangs from the cliff like a white silk ribbon. The rock walls on both sides of the falls are very steep, and the pines beside the stream stand some three or four hundred feet below the top.\n"
 
-msgid "你现在正走在一条松树林间的小路，西边有一座小石桥横跨在一条\n山涧上，往东不远处似乎是林子的出口，一条破旧的栈道沿著山壁通往\n山上，你发现地上有一些湿漉漉的脚印(footprints)，但是因为脚印太\n多，分不出是往哪里去。\n"
-msgstr "You are walking along a path through a pine wood. To the west a small stone bridge spans a mountain stream; not far to the east the wood seems to end, and a dilapidated plank road runs along the cliff up the mountain. You notice wet footprints (footprints) on the ground, but there are so many that you cannot tell which way they lead.\n"
+msgid "你现在正走在一条松树林间的小路，西边有一座小石桥横跨在一条\n山涧上，往东不远处似乎是林子的出口，一条破旧的栈道沿著山壁通往\n山上，你发现地上有一些湿漉漉的脚印，但是因为脚印太\n多，分不出是往哪里去。\n"
+msgstr "You are walking along a path through a pine wood. To the west a small stone bridge spans a mountain stream; not far to the east the wood seems to end, and a dilapidated plank road runs along the cliff up the mountain. You notice wet footprints on the ground, but there are so many that you cannot tell which way they lead.\n"
 
-msgid "你现在正站在瀑布前的一个小水潭里，水潭大约深可及胸，淹不死\n人，一条白练般的瀑布(waterfall)从数百丈高的悬崖上冲激而下，溅\n得你全身湿透，水潭三面都被高耸的山壁(cliff)所包围，只有南面沿\n著一条山涧可以出去。\n"
-msgstr "You are standing in a small pool before the waterfall. The water is about chest deep, not enough to drown you. A white ribbon of water (waterfall) crashes down from a cliff hundreds of feet high and soaks you through. The pool is walled in on three sides by towering rock (cliff); the only way out is south, along the stream.\n"
+msgid "你现在正站在瀑布前的一个小水潭里，水潭大约深可及胸，淹不死\n人，一条白练般的瀑布从数百丈高的悬崖上冲激而下，溅\n得你全身湿透，水潭三面都被高耸的山壁所包围，只有南面沿\n著一条山涧可以出去。\n"
+msgstr "You are standing in a small pool before the waterfall. The water is about chest deep, not enough to drown you. A white ribbon of water crashes down from a cliff hundreds of feet high and soaks you through. The pool is walled in on three sides by towering rock; the only way out is south, along the stream.\n"
 
 msgid "你现在正站在一个深不见底的水潭边上，从潭底不时有气泡冒上来\n，散发著一股诡异的香味，水潭边长满了黄色叶子的怪草，四周陡峭的\n山壁近乎直立，抬头只见一个半圆形的天空，唯一的出路大概只有往北\n山泉流入水潭的缺口。\n"
 msgstr "You are standing at the edge of a bottomless pool. Bubbles rise from its depths now and then, giving off an uncanny fragrance, and weeds with yellow leaves grow thick along the water. The cliffs around you are nearly sheer; looking up you see only a half-round of sky. The only way out seems to be north, through the gap where the spring water flows into the pool.\n"
 
-msgid "你现在正站在一条山涧中的岩石上，几股泉水正从你脚边流过，水\n花溅得四处飞散，南边是一个深不见底的水潭(lake)，两边的山壁看起\n来又高又陡，看来要爬上岸边实在很不容易，你的北方有一座小石桥高\n高地跨过两边的山壁，可是桥的高度太高，即使是轻功绝顶的高手也跃\n不上去。\n"
-msgstr "You are standing on a rock in a mountain stream. Several threads of spring water run past your feet, the spray flying everywhere. To the south is a bottomless pool (lake). The cliffs on both sides look high and steep; climbing up to the bank would be no easy matter. To your north a small stone bridge arches high across the cliffs, but it is too high to reach, even for a lightfoot master.\n"
+msgid "你现在正站在一条山涧中的岩石上，几股泉水正从你脚边流过，水\n花溅得四处飞散，南边是一个深不见底的水潭，两边的山壁看起\n来又高又陡，看来要爬上岸边实在很不容易，你的北方有一座小石桥高\n高地跨过两边的山壁，可是桥的高度太高，即使是轻功绝顶的高手也跃\n不上去。\n"
+msgstr "You are standing on a rock in a mountain stream. Several threads of spring water run past your feet, the spray flying everywhere. To the south is a bottomless pool. The cliffs on both sides look high and steep; climbing up to the bank would be no easy matter. To your north a small stone bridge arches high across the cliffs, but it is too high to reach, even for a lightfoot master.\n"
 
-msgid "你现在正站在一条山涧中的岩石上，一座小石桥正高高地从你的头\n顶横跨过山涧两边的石壁(cliff)，一个瀑布就在你的北方不远处，从一\n处更高的悬崖上垂了下来。\n"
-msgstr "You are standing on a rock in a mountain stream. A small stone bridge arches high over your head, spanning the rock walls (cliff) on both sides, and not far to your north a waterfall drops from a still higher cliff.\n"
+msgid "你现在正站在一条山涧中的岩石上，一座小石桥正高高地从你的头\n顶横跨过山涧两边的石壁，一个瀑布就在你的北方不远处，从一\n处更高的悬崖上垂了下来。\n"
+msgstr "You are standing on a rock in a mountain stream. A small stone bridge arches high over your head, spanning the rock walls on both sides, and not far to your north a waterfall drops from a still higher cliff.\n"
 
 msgid "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n"
 msgstr "You are standing in a pine wood. Hmm... a pine wood... that is all you know. The dense pines shut out the whole sky and you cannot even tell which way is which. You had better find a way out before dark.\n"
 
-msgid "你现在正站在一个松树林间的小空地上，你的北边、东边、南边都\n是茂密的松树，唯独西边是个悬崖(cliff)，当你探头一看，立刻不由\n自主地倒抽一口凉气，在这里可得千万小心，一不小心跌了下去肯定是\n粉身碎骨。\n"
-msgstr "You are standing in a small clearing among the pines. Dense pines lie to your north, east and south; only the west is a cliff (cliff). When you lean out for a look, you can't help drawing a cold breath. Be very careful here: one slip and you would surely be smashed to pieces.\n"
+msgid "你现在正站在一个松树林间的小空地上，你的北边、东边、南边都\n是茂密的松树，唯独西边是个悬崖，当你探头一看，立刻不由\n自主地倒抽一口凉气，在这里可得千万小心，一不小心跌了下去肯定是\n粉身碎骨。\n"
+msgstr "You are standing in a small clearing among the pines. Dense pines lie to your north, east and south; only the west is a cliff. When you lean out for a look, you can't help drawing a cold breath. Be very careful here: one slip and you would surely be smashed to pieces.\n"
 
 msgid "你现在正栖身在一个山壁上勉强足以容纳一个人休息的岩穴中，从\n这里无论是要往上爬或往下爬都有一段不算短的距离，最好先歇一歇，\n喘口气再走。\n"
 msgstr "You are perched in a rock hollow in the cliff, just big enough for one person to rest. From here it is a fair distance whether you climb up or down. You had better rest a while and catch your breath before moving on.\n"
@@ -21802,8 +21802,8 @@ msgstr "Wow... you have finally climbed to the top of the pine! Cool breezes blo
 msgid "你现在正站在一个岩石的通道之中，在你南边有一片亮晶晶的帘幕\n(curtain)，从帘幕后面传来阵阵轰隆隆的水声，通道两边的石壁上安置\n著许多铜铸的烛台，照亮了这个岩穴，往北似乎有亮光。\n"
 msgstr "You are standing in a rock passage. To your south hangs a glittering curtain (curtain), and behind it comes the roar of water. On both walls of the passage are set many bronze candlesticks that light the grotto. To the north there seems to be light.\n"
 
-msgid "    你现在正站在一个阴森森的山洞之中, 一条昂首吐信的金银花蛇,\n爬伏在一块突出的大青石(stone)上, 令人望而生畏, 也许你该回头逃跑了。\n"
-msgstr "    You are standing in a gloomy cave. A gold-and-silver snake, head raised and tongue flicking, lies coiled on a jutting slab of bluestone (stone), a fearsome sight. Perhaps you should turn back and run.\n"
+msgid "    你现在正站在一个阴森森的山洞之中, 一条昂首吐信的金银花蛇,\n爬伏在一块突出的大青石上, 令人望而生畏, 也许你该回头逃跑了。\n"
+msgstr "    You are standing in a gloomy cave. A gold-and-silver snake, head raised and tongue flicking, lies coiled on a jutting slab of bluestone, a fearsome sight. Perhaps you should turn back and run.\n"
 
 msgid "你现在正站在一块突出的大青石上, 虽然有点滑, 你还是能站稳,\n往四周看, 除了长满了青苔的石壁, 好象无路可走了。\n"
 msgstr "You are standing on a jutting slab of bluestone. It is a little slippery, but you can keep your footing. Looking around, you see nothing but moss-covered rock walls; there seems to be no way on.\n"
@@ -21814,8 +21814,8 @@ msgstr "You are standing in a rock passage. From the south comes the faint sound
 msgid "你现在已经到达山洞的深处了, 四面八方都是些黑漆漆的小石洞,\n简直不知道该往那里走, 要不是北面还有一点光线, 你都要彻底绝望了。\n"
 msgstr "You have reached the depths of the cave. All around are black little stone holes, and you have no idea which way to go. Were it not for a bit of light to the north, you would give up all hope.\n"
 
-msgid "你现在已经到达山洞的深处了, 耶...东面就是洞口了, 还可以听\n见外面瀑布的水声, 仔细的观察石壁(wall), 可以发现上面有一些用利\n剑雕刻的字....\n"
-msgstr "You have reached the depths of the cave. Ah... the cave mouth is to the east, and you can hear the waterfall outside. Look closely at the wall (wall) and you will find words carved into it with a sharp sword....\n"
+msgid "你现在已经到达山洞的深处了, 耶...东面就是洞口了, 还可以听\n见外面瀑布的水声, 仔细的观察石壁, 可以发现上面有一些用利\n剑雕刻的字....\n"
+msgstr "You have reached the depths of the cave. Ah... the cave mouth is to the east, and you can hear the waterfall outside. Look closely at the wall and you will find words carved into it with a sharp sword....\n"
 
 msgid "这里只见一个木头搭成的大门，门框上挂著四、五的不知道是什么\n动物的头骨跟一些铁链，外面再铺上一层乾枯的松枝，在这样一个森林\n里还真不容易发觉。\n"
 msgstr "Here stands a big gate built of logs. On the door frame hang four or five skulls of some animals, and iron chains, all covered with a layer of dried pine twigs. In a forest like this it is hard to spot.\n"
@@ -21823,8 +21823,8 @@ msgstr "Here stands a big gate built of logs. On the door frame hang four or fiv
 msgid "这里应该是老松寨了，虽然围绕著你的墙都是木头搭成的，但是仔\n细一看，在许多险要的位置都放了不少沙包石堆，后面显然是埋伏人手\n的好地方，如果有人贸然从大门口攻进来，肯定会吃大亏的，大寨的门\n在你的西边，东边越过一排木桩之后就是大厅。\n"
 msgstr "This must be Old Pine Stockade. The walls around you are all of wood, but look closely and at many strategic points there are piles of sandbags and stones, clearly good places to hide men; anyone who storms in through the main gate would pay dearly. The gate of the great stockade is to your west; to the east, past a row of wooden stakes, is the great hall.\n"
 
-msgid "这里就是老松寨的大厅了，靠北边的地面上铺了一张巨大的熊皮，\n上面摆了三张椅子，大厅四周散落著几个取暖用的火盆，几个上了锁的\n木箱子，比较奇特的是中央掘了一个大坑(pool)，坑里是许多头骨浸在\n一种发著恶臭的黄水之中。\n"
-msgstr "This is the great hall of Old Pine Stockade. Against the north wall a huge bearskin lies on the floor, with three chairs set on it. Around the hall are scattered several braziers for warmth and a few locked wooden chests. Oddest of all, a big pit has been dug in the middle, and in it many skulls soak in a foul-smelling yellow liquid (pool).\n"
+msgid "这里就是老松寨的大厅了，靠北边的地面上铺了一张巨大的熊皮，\n上面摆了三张椅子，大厅四周散落著几个取暖用的火盆，几个上了锁的\n木箱子，比较奇特的是中央掘了一个大坑，坑里是许多头骨浸在\n一种发著恶臭的黄水之中。\n"
+msgstr "This is the great hall of Old Pine Stockade. Against the north wall a huge bearskin lies on the floor, with three chairs set on it. Around the hall are scattered several braziers for warmth and a few locked wooden chests. Oddest of all, a big pit has been dug in the middle, and in it many skulls soak in a foul-smelling yellow liquid.\n"
 
 msgid "你听到你身后有几个声音大叫：把门关上！把门关上！一个也不许让他们溜走！"
 msgstr "You hear several voices behind you shouting, \"Shut the gate! Shut the gate! Don't let a single one get away!\""
@@ -21853,8 +21853,8 @@ msgstr "You slowly climb down along the thick trunk."
 msgid "抓住藤蔓"
 msgstr "Grab a vine"
 
-msgid "其中有一根藤蔓距离你比较近，你可以试著抓住(hold)藤蔓，看看\n能不能像泰山一样荡过去，看看瀑布后面有什么？\n对了，提醒你一点，这座石桥下面是高约百丈的山涧深谷....。\n"
-msgstr "One of the vines hangs fairly close to you. You can try to hold (hold) it, swing across like Tarzan and see what is behind the waterfall.\nBy the way, a reminder: below this stone bridge is a gorge about a thousand feet deep....\n"
+msgid "其中有一根藤蔓距离你比较近，你可以试著抓住藤蔓，看看\n能不能像泰山一样荡过去，看看瀑布后面有什么？\n对了，提醒你一点，这座石桥下面是高约百丈的山涧深谷....。\n"
+msgstr "One of the vines hangs fairly close to you. You can try to hold it, swing across like Tarzan and see what is behind the waterfall.\nBy the way, a reminder: below this stone bridge is a gorge about a thousand feet deep....\n"
 
 msgid "你爬上石桥的护栏，伸手往不远处的一根藤蔓抓去...."
 msgstr "You climb onto the bridge railing and reach for a vine not far off...."
@@ -21895,8 +21895,8 @@ msgstr "From this barely-big-enough hollow, it is still a fair distance up.\n"
 msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往上攀爬。"
 msgstr "You test whether the rock at your feet is firm, then carefully start climbing up."
 
-msgid "一块比人还高的钟乳石, 虽然长满了青苔, 但爬(climb)上去\n应该不会太困难。\n"
-msgstr "A pillar of dripstone taller than a man. Though covered in moss, it should not be hard to climb (climb).\n"
+msgid "一块比人还高的钟乳石, 虽然长满了青苔, 但爬上去\n应该不会太困难。\n"
+msgstr "A pillar of dripstone taller than a man. Though covered in moss, it should not be hard to climb.\n"
 
 msgid "你慢慢地攀上大青石。"
 msgstr "You slowly climb up onto the big bluestone."
@@ -21907,8 +21907,8 @@ msgstr "You quickly climb down off the big bluestone."
 msgid "埋葬骸骨"
 msgstr "Bury the bones"
 
-msgid "老夫南危水, 乃是昔年水烟阁五长老中第一高手,\n一生醉心武学, 集天邪、封山两派之所长, 为营救盟主遭小人暗算,\n埋骨于此。男子汉大丈夫死不足惜, 只可恨一身武学尚无传人!\n葬(bury)我遗骨者老夫将赠以过招要旨, 唉......\n"
-msgstr "I, Nan Weishui, was once the foremost fighter among the five elders of Waterfog Pavilion.\nAll my life I was devoted to martial arts, combining the best of the Wayward and Empty Mountain schools.\nTo rescue the Alliance Leader I was struck down by a villain's trick, and my bones lie buried here.\nA man need not fear death, but I hate that my arts have no heir!\nWhoever buries (bury) my remains, I will reward with the essentials of parrying. Alas......\n"
+msgid "老夫南危水, 乃是昔年水烟阁五长老中第一高手,\n一生醉心武学, 集天邪、封山两派之所长, 为营救盟主遭小人暗算,\n埋骨于此。男子汉大丈夫死不足惜, 只可恨一身武学尚无传人!\n葬我遗骨者老夫将赠以过招要旨, 唉......\n"
+msgstr "I, Nan Weishui, was once the foremost fighter among the five elders of Waterfog Pavilion.\nAll my life I was devoted to martial arts, combining the best of the Wayward and Empty Mountain schools.\nTo rescue the Alliance Leader I was struck down by a villain's trick, and my bones lie buried here.\nA man need not fear death, but I hate that my arts have no heir!\nWhoever buries my remains, I will reward with the essentials of parrying. Alas......\n"
 
 msgid "你小心翼翼地埋好了那具骸骨。"
 msgstr "You carefully bury the skeleton."
@@ -21949,8 +21949,8 @@ msgstr "The knife marks point to the trail behind the bushes."
 msgid "一些杂乱的脚印，不但有人的脚印，看起来还有不少马蹄印。\n"
 msgstr "A jumble of footprints—not only men's, but, it seems, plenty of hoofprints too.\n"
 
-msgid "这个瀑布从数百丈高的山壁上冲激而下，流入一个山涧底的小水潭\n，水潭两边的石壁垂下许多的藤蔓(vine)，你注意到瀑布后面似乎\n有什么东西在发著光。\n"
-msgstr "This waterfall crashes down a cliff hundreds of feet high into a small pool at the bottom of the gorge. Many vines hang down the rock walls on both sides of the pool (vine). You notice something behind the falls seems to be glowing.\n"
+msgid "这个瀑布从数百丈高的山壁上冲激而下，流入一个山涧底的小水潭\n，水潭两边的石壁垂下许多的藤蔓，你注意到瀑布后面似乎\n有什么东西在发著光。\n"
+msgstr "This waterfall crashes down a cliff hundreds of feet high into a small pool at the bottom of the gorge. Many vines hang down the rock walls on both sides of the pool. You notice something behind the falls seems to be glowing.\n"
 
 msgid "这个瀑布水势并不是很大，但是高度却极高，水珠溅在你的脸上\n打得隐隐生疼。你注意到瀑布后面似乎有什么东西在发著光。\n"
 msgstr "This waterfall is not very strong, but it is very high; the spray stings your face. You notice something behind the falls seems to be glowing.\n"
@@ -22270,8 +22270,8 @@ msgstr "A dazzling golden light strikes you. Steadying yourself, you see a golde
 msgid "你正站在山烟寺的庭园里, 这庭园里不但花草茂盛, 而且小桥流\n水, 假山凉亭, 应有尽有, 气派非凡。北边有间雅房, 东边穿过拱门\n则是大殿。\n"
 msgstr "You are standing in the garden of Mountain Mist Temple. Not only are flowers and plants lush here, there are small bridges and running water, rockeries and pavilions, everything, with an air of grandeur. To the north is an elegant room; through the arch to the east is the great hall.\n"
 
-msgid "你走进这里, 一阵刺鼻药味向你扑了过来。这是一间相当宽敞的\n的大房间, 是玄智方丈为人看病的地方, 也是存放药草的地方。与屋\n顶齐高的木柜, 画分成许多抽屉, 里面分别摆放著药材。两侧的墙璧\n上挂了许许多多的檀木扁额(plaque)。\n"
-msgstr "As you walk in, a sharp smell of medicine rushes at you. This is a fairly spacious room, the place where Abbot Xuanzhi treats the sick and also where the herbs are stored. Wooden cabinets as tall as the roof are divided into many drawers, each holding herbs. On the walls to both sides hang many sandalwood plaques (plaque).\n"
+msgid "你走进这里, 一阵刺鼻药味向你扑了过来。这是一间相当宽敞的\n的大房间, 是玄智方丈为人看病的地方, 也是存放药草的地方。与屋\n顶齐高的木柜, 画分成许多抽屉, 里面分别摆放著药材。两侧的墙璧\n上挂了许许多多的檀木扁额。\n"
+msgstr "As you walk in, a sharp smell of medicine rushes at you. This is a fairly spacious room, the place where Abbot Xuanzhi treats the sick and also where the herbs are stored. Wooden cabinets as tall as the roof are divided into many drawers, each holding herbs. On the walls to both sides hang many sandalwood plaques.\n"
 
 msgid "你正走在一条长廊上, 两旁种植著一排月桂树。南边的布幔后是\n大殿, 北方则是后殿。东边是个不小的广场, 广场上正晒著一些不知\n名的药草。\n"
 msgstr "You are walking along a long corridor with bay laurel trees planted in rows on both sides. South, beyond the cloth curtain, is the great hall; north is the rear hall. To the east is a fair-sized square where some unidentified herbs are drying in the sun.\n"
@@ -22279,8 +22279,8 @@ msgstr "You are walking along a long corridor with bay laurel trees planted in r
 msgid "你正走在一条长廊上, 两旁分别是流云轩及后殿的外墙, 墙上画\n著大慈大悲观世音菩萨救苦救难的事迹。长廊往东西两边延伸, 西边\n的尽是一间相当大的房屋。\n"
 msgstr "You are walking along a long corridor. On either side are the outer walls of Drifting Cloud Lodge and of the rear hall, painted with scenes of the Great Compassionate Guanyin Bodhisattva rescuing the suffering. The corridor stretches east and west, and at the west end is a fairly large house.\n"
 
-msgid "一间整理相乾净的厨房, 西北边的角落里砌了两个大灶, 灶里正\n燃著熊熊大火, 灶上分别放著一个大锅(pot) 及一个蒸笼(steampot)\n。锅子及蒸笼正冒著阵阵的热气以及香气, 你忍不住想打开来看看。\n"
-msgstr "A tidy, clean kitchen. In the northwest corner are built two big stoves with roaring fires, and on them sit a large pot (pot) and a steamer (steampot), both giving off steam and fragrance. You can hardly resist lifting the lid to look.\n"
+msgid "一间整理相乾净的厨房, 西北边的角落里砌了两个大灶, 灶里正\n燃著熊熊大火, 灶上分别放著一个大锅 及一个蒸笼\n。锅子及蒸笼正冒著阵阵的热气以及香气, 你忍不住想打开来看看。\n"
+msgstr "A tidy, clean kitchen. In the northwest corner are built two big stoves with roaring fires, and on them sit a large pot and a steamer, both giving off steam and fragrance. You can hardly resist lifting the lid to look.\n"
 
 msgid "一间宽大的后殿, 正中有一尊药师如来的金身塑像。四周的墙上\n唯妙唯肖地彩绘著十八罗汉, 每个罗汉的旁边并写著他得道升天的过\n程。\n"
 msgstr "A spacious rear hall, with a golden statue of the Medicine Buddha at the center. On the surrounding walls the Eighteen Arhats are painted lifelike, and beside each Arhat is written the story of how he attained enlightenment and ascended.\n"
@@ -22306,8 +22306,8 @@ msgstr "Suddenly a voice that sounds like Mengyi Rou's comes from somewhere in t
 msgid "烧饭僧说:阿弥陀佛 !! 施主偷东西是不好的行为哦!!!"
 msgstr "The Cook Monk says, \"Amitabha!! Benefactor, stealing is bad conduct!!!\""
 
-msgid "一个竹藤编成的蒸笼, 阵阵的香味使你想打开(open)来瞧一瞧。\n"
-msgstr "A steamer woven of bamboo and rattan. The fragrance makes you want to open (open) it and look.\n"
+msgid "一个竹藤编成的蒸笼, 阵阵的香味使你想打开来瞧一瞧。\n"
+msgstr "A steamer woven of bamboo and rattan. The fragrance makes you want to open it and look.\n"
 
 msgid "采"
 msgstr "Gather"
@@ -22324,8 +22324,8 @@ msgstr "The herb garden is laid out plot by plot, angelica here, wolfberry there
 msgid "烧饭僧说:阿弥陀佛 !! 施主请勿动手动脚, 妨碍贫僧煮饭。\n"
 msgstr "The Cook Monk says, \"Amitabha!! Benefactor, please do not fiddle about and get in the way of this poor monk's cooking.\"\n"
 
-msgid "你打开蒸笼的盖子, 一股热气冒向你的脸上。\n你仔细一看, 只见蒸笼里排著一粒粒又白又Ｑ的大馒头(maintal)。\n"
-msgstr "You lift the lid of the steamer and a blast of hot steam hits your face.\nLooking closely, you see rows of big, white, springy buns (maintal) in the steamer.\n"
+msgid "你打开蒸笼的盖子, 一股热气冒向你的脸上。\n你仔细一看, 只见蒸笼里排著一粒粒又白又Ｑ的大馒头。\n"
+msgstr "You lift the lid of the steamer and a blast of hot steam hits your face.\nLooking closely, you see rows of big, white, springy buns in the steamer.\n"
 
 msgid "药师殿"
 msgstr "Medicine Buddha Hall"
@@ -22468,8 +22468,8 @@ msgstr "You are standing in a spacious big room where the disciples of Mount Mao
 msgid "一条铺著青石板的小径, 两侧高大的松树, 偶有松针缓缓飘落。\n树干上布满了青苔, 甚至还有些蔓延到石板上。南边通往回廊, 西侧\n则是后殿。\n"
 msgstr "A path paved with bluestone slabs, tall pines on both sides, pine needles drifting down now and then. The trunks are covered in moss, some of it even creeping onto the slabs. To the south the path leads to the corridor; to the west is the rear hall.\n"
 
-msgid "绕过了后殿, 出现在眼前的是一栋木造两层高的屋子。屋子四周\n的门窗都紧紧的关著, 门口上方挂著一方蓝色琉璃匾额, 上书『藏经\n楼』三个金字。门旁立著一个石碑(slab)。\n"
-msgstr "Having gone around the rear hall, you see before you a two-story wooden building. Its doors and windows are all shut tight, and above the door hangs a blue glazed plaque with three golden characters: \"Scripture Library.\" Beside the door stands a stone stele (slab).\n"
+msgid "绕过了后殿, 出现在眼前的是一栋木造两层高的屋子。屋子四周\n的门窗都紧紧的关著, 门口上方挂著一方蓝色琉璃匾额, 上书『藏经\n楼』三个金字。门旁立著一个石碑。\n"
+msgstr "Having gone around the rear hall, you see before you a two-story wooden building. Its doors and windows are all shut tight, and above the door hangs a blue glazed plaque with three golden characters: \"Scripture Library.\" Beside the door stands a stone stele.\n"
 
 msgid "这里是灵心观中收藏书籍的地方, 四周的书架上堆了满满的书。\n有些书已经旧的纸张都泛黄了, 摸一摸可能就会散掉甚至变成飞灰。\n你再仔细的看了看, 发现这里都只是些寻常的修道的书籍, 似乎没有\n什么特别的。角落里有一座小小的木梯通往二楼。\n"
 msgstr "This is where Clear Heart Abbey keeps its books. The shelves all around are piled full. Some of the books are so old their pages have yellowed, and a touch might make them crumble or even turn to dust. You look more closely and find only ordinary Daoist cultivation books, nothing special. In a corner, a small wooden ladder leads up to the second floor.\n"
@@ -22654,8 +22654,8 @@ msgstr "You are walking along a rugged mountain road. To the east, in a crack in
 msgid "你现在正站在一间小土地庙中，这座庙的南北两面都是利用了山壁\n而建的，只有东面一面土墙，墙上嵌著一个小小的神龛，里面供著一尊\n残破不堪的土地爷爷，庙门在你的西边。\n"
 msgstr "You are standing in a small Earth God shrine. The north and south sides of the shrine make use of the mountain wall; only the east side is a mud wall, with a small niche set in it, holding a ruined statue of Grandpa Earth God. The shrine door is to your west.\n"
 
-msgid "你现在正走在一条崎岖山路的转角处，山路望东通往野羊山上，从\n这里可以望见东边不远处有一个石屋立在岩壁边上，看起来像是冈哨或\n什么的，北边的山壁有一个裂口(crack)，不过离地约有三到四丈， 往\n南的山路是段陡峭的下坡，如果你要下山，大概就是这条路了。\n"
-msgstr "You are walking at a bend in a rugged mountain road. The road leads east up Goathill, and not far east you can see a stone house standing by the rock face, looking like a sentry post or some such. In the north wall is a crack (crack), but it is thirty or forty feet off the ground. The road south is a steep descent; if you want to go down the mountain, this is probably the way.\n"
+msgid "你现在正走在一条崎岖山路的转角处，山路望东通往野羊山上，从\n这里可以望见东边不远处有一个石屋立在岩壁边上，看起来像是冈哨或\n什么的，北边的山壁有一个裂口，不过离地约有三到四丈， 往\n南的山路是段陡峭的下坡，如果你要下山，大概就是这条路了。\n"
+msgstr "You are walking at a bend in a rugged mountain road. The road leads east up Goathill, and not far east you can see a stone house standing by the rock face, looking like a sentry post or some such. In the north wall is a crack, but it is thirty or forty feet off the ground. The road south is a steep descent; if you want to go down the mountain, this is probably the way.\n"
 
 msgid "这里是一段狭窄的山路，往东不远处的岩壁边上有一座石屋，路旁\n生满了及腰的长草，山风吹过一起一伏的有如波浪一般，南北两边有许\n多大石，看起来倒是个埋伏的好地点，往西是一个山路的转角。\n"
 msgstr "This is a narrow stretch of mountain road. Not far to the east, beside the rock face, stands a stone house. Waist-high grass grows along the road, and as the mountain wind passes it rises and falls like waves. Many big rocks lie to the north and south, which look like a fine place for an ambush. To the west is a bend in the road.\n"
@@ -23416,20 +23416,20 @@ msgstr "This is a great post road paved with bluestone, in the north suburb of t
 msgid "你正走在一条青石铺地的大驿道上，四周人来人往。挑担子的\n苦力，赶着大车的马夫，赴京传书的军人，熙熙攘攘，非常热闹。\n不时还有两三骑快马从身边飞驰而过，引起一阵骚动。道路两旁各\n有一片小树林，南边就是京师。\n"
 msgstr "You are walking on a great post road paved with bluestone, with people coming and going on every side. Porters carrying loads, carters driving big wagons, soldiers hurrying to the Capital with dispatches, it is crowded and lively. Every now and then two or three fast riders gallop past you, and a stir runs through the crowd. A small grove stands on either side of the road. To the south is the Capital.\n"
 
-msgid "这是京师的北门，若干年前曾经遭到异族的攻打，因而显得有\n些陈旧。城门正上方清析可见当朝名家书写的“京师北门”几个金\n字，城墙上贴着几张告示(sign)。这里是罪犯逃往北方的必经之地，\n官兵们戒备森严，动不动就截住行人盘问。一条笔直的青石板大道\n向南北两边延伸。北边是郊外，骑马的、座轿的、走路的，行人匆\n匆涌入京师。南边是城里，隐约传来阵阵的喧闹声。\n"
-msgstr "This is the north gate of the Capital. Some years ago it was attacked by foreigners, so it looks a little worn. Above the gate you can clearly see four golden characters, \"Capital North Gate,\" written by a famous master of the day, and several notices (sign) are posted on the wall. This is the road criminals must take to flee north, so the soldiers keep a tight guard and often stop travelers to question them. A straight bluestone road runs north and south. To the north is the countryside, where riders, sedan-borne travelers and walkers hurry into the Capital. To the south is the city, from which comes the faint sound of bustle.\n"
+msgid "这是京师的北门，若干年前曾经遭到异族的攻打，因而显得有\n些陈旧。城门正上方清析可见当朝名家书写的“京师北门”几个金\n字，城墙上贴着几张告示。这里是罪犯逃往北方的必经之地，\n官兵们戒备森严，动不动就截住行人盘问。一条笔直的青石板大道\n向南北两边延伸。北边是郊外，骑马的、座轿的、走路的，行人匆\n匆涌入京师。南边是城里，隐约传来阵阵的喧闹声。\n"
+msgstr "This is the north gate of the Capital. Some years ago it was attacked by foreigners, so it looks a little worn. Above the gate you can clearly see four golden characters, \"Capital North Gate,\" written by a famous master of the day, and several notices are posted on the wall. This is the road criminals must take to flee north, so the soldiers keep a tight guard and often stop travelers to question them. A straight bluestone road runs north and south. To the north is the countryside, where riders, sedan-borne travelers and walkers hurry into the Capital. To the south is the city, from which comes the faint sound of bustle.\n"
 
 msgid "从这里再往北走就出了京师的北城门，在与异族交战的时期，为\n方便盘查行人，官兵在这儿放了一道很大的栅栏。后来尽管战争结束\n了，栅栏拿走了，但老人们还是习惯地把这叫做“大栅栏”，用京音\n读起来就变成了“大世烂儿”。西面是护国寺的侧门。\n"
 msgstr "From here, going further north brings you out of the Capital's north gate. In the days of war with the foreigners, soldiers set up a huge fence here to check travelers. The war ended and the fence was taken away, but the old folk still call this place the \"Great Fence,\" which in the Capital accent comes out as \"Dashilar.\" To the west is the side gate of Huguo Temple.\n"
 
-msgid "这是一间素来不讲信用的钱庄，钱庄的老板倒是读过几年书，脑筋\n很活络，你可以看到钱庄里里外外都打扫得乾乾净净，一个精瘦精瘦的\n中年人坐在柜台后面，柜台上放著一块牌子(sign)，往南是通往京城街\n道的大门。\n"
-msgstr "This is a money shop with a long record of not keeping its word. Its owner has at least read a few years of books and has a quick head, and you can see the shop swept spotlessly clean inside and out. A thin, wiry middle-aged man sits behind the counter, on which stands a placard (sign). To the south is the door out to the Capital's streets.\n"
+msgid "这是一间素来不讲信用的钱庄，钱庄的老板倒是读过几年书，脑筋\n很活络，你可以看到钱庄里里外外都打扫得乾乾净净，一个精瘦精瘦的\n中年人坐在柜台后面，柜台上放著一块牌子，往南是通往京城街\n道的大门。\n"
+msgstr "This is a money shop with a long record of not keeping its word. Its owner has at least read a few years of books and has a quick head, and you can see the shop swept spotlessly clean inside and out. A thin, wiry middle-aged man sits behind the counter, on which stands a placard. To the south is the door out to the Capital's streets.\n"
 
-msgid "这里是江湖中人人所向往的京师武器店。店铺宽敞，红砖铺地。\n四周的墙壁上挂满了各式的刀剑。东边的武器架上的枪戟的反光令\n你睁不开眼。靠北墙的大柜台一尘不染，几个伙计正在忙碌。\n    靠近店门的地方有一块金字招牌(sign)。\n"
-msgstr "This is the Capital Weapon Shop, the dream of everyone in the jianghu. The shop is spacious, with a red brick floor. Blades and swords of every kind hang on the walls all around. The glint of spears and halberds on the rack to the east dazzles your eyes. The big counter against the north wall is spotless, and several clerks are busy at work.\n    Near the shop door hangs a gold-lettered signboard (sign).\n"
+msgid "这里是江湖中人人所向往的京师武器店。店铺宽敞，红砖铺地。\n四周的墙壁上挂满了各式的刀剑。东边的武器架上的枪戟的反光令\n你睁不开眼。靠北墙的大柜台一尘不染，几个伙计正在忙碌。\n    靠近店门的地方有一块金字招牌。\n"
+msgstr "This is the Capital Weapon Shop, the dream of everyone in the jianghu. The shop is spacious, with a red brick floor. Blades and swords of every kind hang on the walls all around. The glint of spears and halberds on the rack to the east dazzles your eyes. The big counter against the north wall is spotless, and several clerks are busy at work.\n    Near the shop door hangs a gold-lettered signboard.\n"
 
-msgid "你来到京师的西一门。城墙上贴着几张官家布告(notice)。东\n北方是大相国寺，不时传来几声钟声。西边是城外，抬头可见远处\n连绵的群山。东边就是京师的街道了。\n"
-msgstr "You have come to the First West Gate of the Capital. Several official notices (notice) are posted on the wall. To the northeast is Great Chancellor Temple, from which the sound of a bell comes now and then. To the west is outside the city, and looking up you can see far mountains rolling one after another. To the east are the Capital's streets.\n"
+msgid "你来到京师的西一门。城墙上贴着几张官家布告。东\n北方是大相国寺，不时传来几声钟声。西边是城外，抬头可见远处\n连绵的群山。东边就是京师的街道了。\n"
+msgstr "You have come to the First West Gate of the Capital. Several official notices are posted on the wall. To the northeast is Great Chancellor Temple, from which the sound of a bell comes now and then. To the west is outside the city, and looking up you can see far mountains rolling one after another. To the east are the Capital's streets.\n"
 
 msgid "这里是京师的大街上。西边是京师的西一门，护国寺的僧人西\n去取经必经此地。福缘好的话还可以看到几个有道高僧路过。\n"
 msgstr "This is a street in the Capital. To the west is the First West Gate of the Capital, the way monks of Huguo Temple must pass going west for scriptures. With good fortune, you may even see a few eminent monks passing by.\n"
@@ -23446,20 +23446,20 @@ msgstr "You are walking on a street of the Capital. To the east, you can faintly
 msgid "你现在正走在京师的大街上。东边就是京师的东一门了，隐约\n传来官兵搜查行人的吆喝声。在你的北边是京城的武器店，据说江\n湖上半数以上的武器精品出于此店。从店中走出的人都是一副心满\n意足的模样。\n"
 msgstr "You are walking on a street of the Capital. To the east is the First East Gate, from which the shouts of soldiers searching travelers come faintly. To your north is the Capital's weapon shop, said to produce more than half of the best weapons in the jianghu. Everyone who comes out of the shop looks fully satisfied.\n"
 
-msgid "你来到京师的东一门。城门口十来个手持刀枪的士兵正在检查\n过往的行人。经常有一些富丽堂皇的大车缓缓驶入城来，那是京师\n的官宦人家出游归来。城墙上有一张陈旧的布告(notice)。东边是\n城外，风景如画。西边是京师的街道。\n"
-msgstr "You have come to the First East Gate of the Capital. A dozen or so soldiers with blades and spears are checking the travelers passing through. Now and then splendid carriages roll slowly into the city, officials' families returning from an outing. On the wall is an old notice (notice). To the east is outside the city, a picture of scenery. To the west are the Capital's streets.\n"
+msgid "你来到京师的东一门。城门口十来个手持刀枪的士兵正在检查\n过往的行人。经常有一些富丽堂皇的大车缓缓驶入城来，那是京师\n的官宦人家出游归来。城墙上有一张陈旧的布告。东边是\n城外，风景如画。西边是京师的街道。\n"
+msgstr "You have come to the First East Gate of the Capital. A dozen or so soldiers with blades and spears are checking the travelers passing through. Now and then splendid carriages roll slowly into the city, officials' families returning from an outing. On the wall is an old notice. To the east is outside the city, a picture of scenery. To the west are the Capital's streets.\n"
 
 msgid "你来到一所废园里。据说废园的主人原也是位极人臣的，后来却\n以「莫须有」的罪名被皇上斩了全族，其他的官员怕晦气，都不敢来\n此住，遂形成废园。废园里荒草丛生，往日的辉煌已不再现，仅留下\n几个残垣供人凭吊。\n"
 msgstr "You have come to an abandoned garden. They say the garden's owner was once a minister of the highest rank, but was charged with \"something that may have happened\" and the Emperor put his whole clan to the sword. Other officials, afraid of ill luck, would not live here, and so it became an abandoned garden. The garden is overgrown with weeds, its old glory gone, and only a few broken walls remain for visitors to mourn over.\n"
 
-msgid "这是一片宽阔的小广场，广场的中间是皇家的祭坛(altar)，每年\n朝廷庆祝丰收或祈祷的重大典礼都在这里举行，皇上、皇后和文武百\n官能上祭坛，其他人只能从旁边绕过去。除了禁卫军的官兵和宫里的\n杂役偶尔出入外，很少有人来往。往南是紫禁城的神武门，北面是一\n个非常热闹的十字路口。\n"
-msgstr "This is a wide little square, and in the middle of it is the Imperial Altar (altar). Every year the court holds its great ceremonies here, for the harvest and for prayer; only the Emperor, the Empress and the civil and military officials may climb the altar, and everyone else must go around it. Apart from the Imperial Guard soldiers and the palace servants who come and go now and then, few people pass here. To the south is the Gate of Divine Might of the Palace City, and to the north is a very busy crossroads.\n"
+msgid "这是一片宽阔的小广场，广场的中间是皇家的祭坛，每年\n朝廷庆祝丰收或祈祷的重大典礼都在这里举行，皇上、皇后和文武百\n官能上祭坛，其他人只能从旁边绕过去。除了禁卫军的官兵和宫里的\n杂役偶尔出入外，很少有人来往。往南是紫禁城的神武门，北面是一\n个非常热闹的十字路口。\n"
+msgstr "This is a wide little square, and in the middle of it is the Imperial Altar. Every year the court holds its great ceremonies here, for the harvest and for prayer; only the Emperor, the Empress and the civil and military officials may climb the altar, and everyone else must go around it. Apart from the Imperial Guard soldiers and the palace servants who come and go now and then, few people pass here. To the south is the Gate of Divine Might of the Palace City, and to the north is a very busy crossroads.\n"
 
 msgid "你来到了振远总局里。镖局虽然不大，但在京师这块土地上，已无人\n不知其名。尤其是其总镖头，俨然是以京城武林领袖自居。\n"
 msgstr "You have arrived inside the Far-Road Head Office. The agency is not large, but on this ground of the Capital there is no one who does not know its name. Its head in particular carries himself as the leader of the Capital's wulin.\n"
 
-msgid "四喜绸缎庄是京师中的一家刚刚开业的专营衣帽的商店。店内\n顾客稀少，显得店铺空荡荡的。柜台上凌乱地摊着几匹绸缎。绸缎\n庄的老板出去进货了，只有老板娘空守店铺。据说这家店铺很有来\n历。一般的地痞也很少到店中闹事。\n    店堂上挂有一块崭新的招牌(sign)。\n"
-msgstr "Four Joys Silk Shop is a newly opened shop in the Capital that deals only in clothes and hats. There are few customers, and the shop looks empty. A few bolts of silk lie in a mess on the counter. The owner has gone out to buy stock, and only the proprietress minds the shop. They say this shop has a background, and the usual ruffians seldom come here to make trouble.\n    A brand-new signboard (sign) hangs in the shop hall.\n"
+msgid "四喜绸缎庄是京师中的一家刚刚开业的专营衣帽的商店。店内\n顾客稀少，显得店铺空荡荡的。柜台上凌乱地摊着几匹绸缎。绸缎\n庄的老板出去进货了，只有老板娘空守店铺。据说这家店铺很有来\n历。一般的地痞也很少到店中闹事。\n    店堂上挂有一块崭新的招牌。\n"
+msgstr "Four Joys Silk Shop is a newly opened shop in the Capital that deals only in clothes and hats. There are few customers, and the shop looks empty. A few bolts of silk lie in a mess on the counter. The owner has gone out to buy stock, and only the proprietress minds the shop. They say this shop has a background, and the usual ruffians seldom come here to make trouble.\n    A brand-new signboard hangs in the shop hall.\n"
 
 msgid "你现在正走在京师的街道上。往东走便是紫禁城的后门--神武门\n，南面似乎有一家酒楼，酒肉的香味一阵阵飘来。北边是一个废园，\n据说里面经常闹鬼，所以没人敢去。\n"
 msgstr "You are walking on a street in the Capital. To the east is the Gate of Divine Might, the back gate of the Palace City. To the south there seems to be a tavern, and waves of the smell of wine and meat drift over. To the north is an abandoned garden, said to be often haunted, so no one dares go there.\n"
@@ -23473,8 +23473,8 @@ msgstr "This is the northern stretch of the Capital's East Street. To the north 
 msgid "你走到了一家大酒楼里。四周的装饰金壁辉煌，令人眼花缭乱，连餐\n具的做工也极讲究，不愧是京城的第一大酒楼。酒楼的菜肴是远近闻名的\n，在这经常可以看到一些达官贵族，据连当今皇上也曾微服来此以一饱口\n福。\n"
 msgstr "You have walked into a great tavern. The decor all around is gold and splendid, dazzling to the eye, and even the tableware is finely made, worthy of the Capital's greatest tavern. The dishes here are famous far and near, and you often see high officials and nobles. It is said even the present Emperor once came in disguise to eat his fill.\n"
 
-msgid "你现在正走在京师的街道上，西边是京师最有名的“太白酒楼”，\n酒楼里三教九流的人物都有，嘈杂声不绝于耳。东边紧邻着紫禁城的\n城墙(wall)。街道向南北方向延伸着。\n"
-msgstr "You are walking on a street in the Capital. To the west is the Capital's most famous Taibai Tavern, where people of every kind gather and noise never stops. To the east, right beside you, is the wall of the Palace City (wall). The street runs north and south.\n"
+msgid "你现在正走在京师的街道上，西边是京师最有名的“太白酒楼”，\n酒楼里三教九流的人物都有，嘈杂声不绝于耳。东边紧邻着紫禁城的\n城墙。街道向南北方向延伸着。\n"
+msgstr "You are walking on a street in the Capital. To the west is the Capital's most famous Taibai Tavern, where people of every kind gather and noise never stops. To the east, right beside you, is the wall of the Palace City. The street runs north and south.\n"
 
 msgid "你走在京师东街的中段。这里夹在紫禁城城墙与尚书府院墙之间\n，南向的道路通向午门和尚书府的大门，而北方不远处振远总局的旗\n杆依稀可见，令人隐隐约约地感到一种杀气。\n"
 msgstr "You are walking in the middle stretch of the Capital's East Street. Here you are wedged between the wall of the Palace City and the compound wall of the Minister's Mansion. The road to the south leads to the Meridian Gate and the gate of the Minister's Mansion, and not far to the north you can faintly see the flagpole of the Far-Road Head Office, which gives you a faint feeling of murder in the air.\n"
@@ -23485,20 +23485,20 @@ msgstr "You have come to the gate of the Chancellor's House. Although the Chance
 msgid "你现在正走在京师的街道上。东边是进出紫禁城的午门，西边则\n是当朝地位显赫的相国的府宅，而北边不远处“太白酒楼”的喧哗声\n依稀可闻。\n"
 msgstr "You are walking on a street in the Capital. To the east is the Meridian Gate, the way in and out of the Palace City, and to the west is the residence of the Chancellor, a man of high standing at court. Not far to the north you can faintly hear the din of Taibai Tavern.\n"
 
-msgid "这里是京师的午门。午门进出紫禁城的要道，北面那庄严的大门\n(gate)后面便是神秘的紫禁城。大门的两侧放着一对石狮(statue)，\n虎视眈眈地盯着来往的人群。南面是历年选武状元的校武场，也不知\n现在有没有人。东西向的街道围绕着紫禁城。\n"
-msgstr "This is the Meridian Gate of the Capital. This is the main way in and out of the Palace City, and behind the solemn great gate to the north (gate) lies the mysterious Palace City. A pair of stone lions (statue) stand on either side of the gate, glaring at the people who come and go. To the south is the Drill Ground, where the Martial Champions were chosen in past years, and who knows whether anyone is there now. The streets east and west run around the Palace City.\n"
+msgid "这里是京师的午门。午门进出紫禁城的要道，北面那庄严的大门\n(gate)后面便是神秘的紫禁城。大门的两侧放着一对石狮，\n虎视眈眈地盯着来往的人群。南面是历年选武状元的校武场，也不知\n现在有没有人。东西向的街道围绕着紫禁城。\n"
+msgstr "This is the Meridian Gate of the Capital. This is the main way in and out of the Palace City, and behind the solemn great gate to the north (gate) lies the mysterious Palace City. A pair of stone lions stand on either side of the gate, glaring at the people who come and go. To the south is the Drill Ground, where the Martial Champions were chosen in past years, and who knows whether anyone is there now. The streets east and west run around the Palace City.\n"
 
-msgid "这是京师东街的南段。整个东街都被掌管天下兵马印的尚书府占\n据了，东边便是尚书府的大门，南边则是尚书府高耸的围墙(wall)，\n北去的道路一直通向振远总局。\n"
-msgstr "This is the southern stretch of the Capital's East Street. The whole of East Street is taken up by the Minister's Mansion, which holds the seal of the empire's armies. To the east is the mansion's gate, and to the south is the mansion's towering wall (wall). The road to the north runs straight to the Far-Road Head Office.\n"
+msgid "这是京师东街的南段。整个东街都被掌管天下兵马印的尚书府占\n据了，东边便是尚书府的大门，南边则是尚书府高耸的围墙，\n北去的道路一直通向振远总局。\n"
+msgstr "This is the southern stretch of the Capital's East Street. The whole of East Street is taken up by the Minister's Mansion, which holds the seal of the empire's armies. To the east is the mansion's gate, and to the south is the mansion's towering wall. The road to the north runs straight to the Far-Road Head Office.\n"
 
 msgid "这里是京师的校武场。一些御林军正在这里日夜操练，喊杀声\n此起彼伏。几个骑着高头大马的将领，在场上来回地巡视。每年武\n考也是在此举行的，当年淤兰天武、萧避尘、蓝芷萍就是在此出尽\n了风头，一时间声名传遍长城内外、大江南北。\n    北边是午门，南边是热闹的天桥了。\n"
 msgstr "This is the Capital's Drill Ground. Imperial Forest troops drill here day and night, and shouts of killing rise one after another. A few generals on tall horses ride back and forth across the field. The martial examination is also held here every year, and it was here that Yulan Tianwu, Xiao Bichen and Lan Zhiping outshone everyone, and their names spread within and beyond the Great Wall, north and south of the Yangtze.\n    To the north is the Meridian Gate, and to the south is the lively Tianqiao.\n"
 
-msgid "这里是京师中最大的一家鞋店。店主姓李，历经几代，已是百\n年老店。店铺挺大，弥漫着一种特殊皮革的气味。大柜台后面的架\n子上放满了各式的皮靴。店中几个伙计正在忙碌。\n    店门口有一块金字招牌(sign)。\n"
-msgstr "This is the biggest shoe shop in the Capital. The owner's family name is Li, and through several generations it has become a century-old shop. The shop is large, and the air smells of a peculiar kind of leather. On the shelves behind the big counter stand boots of every kind. Several clerks are busy in the shop.\n    A gold-lettered signboard (sign) hangs at the shop door.\n"
+msgid "这里是京师中最大的一家鞋店。店主姓李，历经几代，已是百\n年老店。店铺挺大，弥漫着一种特殊皮革的气味。大柜台后面的架\n子上放满了各式的皮靴。店中几个伙计正在忙碌。\n    店门口有一块金字招牌。\n"
+msgstr "This is the biggest shoe shop in the Capital. The owner's family name is Li, and through several generations it has become a century-old shop. The shop is large, and the air smells of a peculiar kind of leather. On the shelves behind the big counter stand boots of every kind. Several clerks are busy in the shop.\n    A gold-lettered signboard hangs at the shop door.\n"
 
-msgid "你来到京师的西二门，西二门虽不如京师的其他几个城门高大。\n但高高的城墙也非一般人所能攀越，城墙上贴着几张布告(notice)。\n西边是城外，据说一直往西就可到达一个仙境。东边就是京师的街\n道了。\n"
-msgstr "You have come to the Second West Gate of the Capital. The Second West Gate is not as tall as the Capital's other gates, but the high city wall is still more than an ordinary person can climb, and several notices (notice) are posted on it. To the west is outside the city, and they say that going west you will reach a fairyland. To the east are the Capital's streets.\n"
+msgid "你来到京师的西二门，西二门虽不如京师的其他几个城门高大。\n但高高的城墙也非一般人所能攀越，城墙上贴着几张布告。\n西边是城外，据说一直往西就可到达一个仙境。东边就是京师的街\n道了。\n"
+msgstr "You have come to the Second West Gate of the Capital. The Second West Gate is not as tall as the Capital's other gates, but the high city wall is still more than an ordinary person can climb, and several notices are posted on it. To the west is outside the city, and they say that going west you will reach a fairyland. To the east are the Capital's streets.\n"
 
 msgid "你来到京师的大街上。西边是京师的西二门，西去的人不时经\n过这里。南边是京师的监狱，关押着一些重要的犯人。站在这里可\n以清楚地听到狱卒拷打犯人的皮鞭声和犯人的惨叫声。\n"
 msgstr "You have come to a street in the Capital. To the west is the Second West Gate of the Capital. To the south is the Capital's prison, where some important prisoners are kept. Standing here you can clearly hear the jailers' whips and the prisoners' screams.\n"
@@ -23506,8 +23506,8 @@ msgstr "You have come to a street in the Capital. To the west is the Second West
 msgid "这里是京师的大街，青石铺道，街面很干净。东边是京师的热\n闹场所天桥，来到京师可不能不去哦。南边是京师的刑场，逢上处\n决一些重要的犯人的时候，那里肯定是人山人海，不过平时人就少\n得多了。\n"
 msgstr "This is a street in the Capital, paved with bluestone and quite clean. To the east is the Tianqiao, the Capital's lively gathering place, which you cannot come to the Capital without visiting. To the south is the Capital's execution ground; when some important prisoner is executed it is sure to be packed with people, but at other times there are far fewer.\n"
 
-msgid "你来到京师的天桥。这里热闹非凡，人声鼎沸。杂耍的、卖艺\n的、做小买卖的应有尽有。若是仔细寻找，说不定可以买到什么奇\n珍异宝呢。柱子和墙壁上贴满着花花绿绿的广告（post）。\n    北边是校武场。再往北就到京师中心……紫禁城了。\n"
-msgstr "You have come to the Tianqiao of the Capital. The place is wildly lively and loud with voices. Jugglers, street performers and petty peddlers are all here. If you look carefully, you may even buy some rare treasure. The pillars and walls are plastered with gaudy advertisements (post).\n    To the north is the Drill Ground. Further north is the center of the Capital... the Palace City.\n"
+msgid "你来到京师的天桥。这里热闹非凡，人声鼎沸。杂耍的、卖艺\n的、做小买卖的应有尽有。若是仔细寻找，说不定可以买到什么奇\n珍异宝呢。柱子和墙壁上贴满着花花绿绿的广告。\n    北边是校武场。再往北就到京师中心……紫禁城了。\n"
+msgstr "You have come to the Tianqiao of the Capital. The place is wildly lively and loud with voices. Jugglers, street performers and petty peddlers are all here. If you look carefully, you may even buy some rare treasure. The pillars and walls are plastered with gaudy advertisements.\n    To the north is the Drill Ground. Further north is the center of the Capital... the Palace City.\n"
 
 msgid "这里是京师的大街。西边是京师的热闹场所天桥，一些行人匆\n匆往西走去。据说天桥的夜市也不差哦。南边是一片民宅，炊烟缭\n绕。\n"
 msgstr "This is a street of the Capital. To the west is the Tianqiao, the Capital's lively gathering place, and some passersby hurry west. They say the Tianqiao night market is not bad either. To the south is a stretch of houses, with cooking smoke curling up.\n"
@@ -23515,14 +23515,14 @@ msgstr "This is a street of the Capital. To the west is the Tianqiao, the Capita
 msgid "这里是京师的大街。东边是京师的东二门，一些刚进城的行人\n坐在路边休息，不时发出一阵哄笑声。往西就可以到京师中心了。\n"
 msgstr "This is a street of the Capital. To the east is the Capital's Second East Gate, and some travelers who have just come into the city sit by the roadside resting, now and then bursting into laughter. Going west brings you to the center of the Capital.\n"
 
-msgid "这里是京师的东二门。城门上插着几面旗帜，标志了本门的守\n城将领。城楼里坐着几个将军打扮的人，城墙上有一张刚刚粘贴上\n去的布告(notice)，一群人正围着观看。东边是城外，西边是京师\n的街道。\n"
-msgstr "This is the Second East Gate of the Capital. Several banners are planted on the gate, marking the general who commands this gate. In the gate tower sit a few men dressed as generals, and on the wall is a newly pasted notice (notice), with a crowd gathered round to read it. To the east is outside the city, and to the west are the Capital's streets.\n"
+msgid "这里是京师的东二门。城门上插着几面旗帜，标志了本门的守\n城将领。城楼里坐着几个将军打扮的人，城墙上有一张刚刚粘贴上\n去的布告，一群人正围着观看。东边是城外，西边是京师\n的街道。\n"
+msgstr "This is the Second East Gate of the Capital. Several banners are planted on the gate, marking the general who commands this gate. In the gate tower sit a few men dressed as generals, and on the wall is a newly pasted notice, with a crowd gathered round to read it. To the east is outside the city, and to the west are the Capital's streets.\n"
 
 msgid "你来到京师的大街上。南边是京师的南门，出了南门就可去南\n方重镇……南海镇。北边是天桥，人声鼎沸。西边是刑场，一个一\n般人极少去的地方。\n"
 msgstr "You have come to a street in the Capital. To the south is the Capital's South Gate, and out of the South Gate you can go to a major town of the south... Nanhai Town. To the north is the Tianqiao, loud with voices. To the west is the execution ground, a place few ordinary people ever go.\n"
 
-msgid "这是京师的南门。高大的城门正上“京师南门”几个大字格外\n显眼。城墙上贴着几张官家布告(notice)。西北方是京师的监狱，\n关押着一些要犯，因此这里的官兵们也戒备森严。南边是城外，不\n时走来几个赴京赶考的举子。北边就是京师，一个灯红酒绿的地方。\n"
-msgstr "This is the Capital's South Gate. The big characters \"Capital South Gate\" above the high gate stand out. Several official notices (notice) are posted on the wall. To the northwest is the Capital's prison, where some important criminals are held, so the soldiers here are also on strict guard. To the south is outside the city, and now and then a few candidates come on their way to the Capital for the exams. To the north is the Capital, a place of lanterns and wine.\n"
+msgid "这是京师的南门。高大的城门正上“京师南门”几个大字格外\n显眼。城墙上贴着几张官家布告。西北方是京师的监狱，\n关押着一些要犯，因此这里的官兵们也戒备森严。南边是城外，不\n时走来几个赴京赶考的举子。北边就是京师，一个灯红酒绿的地方。\n"
+msgstr "This is the Capital's South Gate. The big characters \"Capital South Gate\" above the high gate stand out. Several official notices are posted on the wall. To the northwest is the Capital's prison, where some important criminals are held, so the soldiers here are also on strict guard. To the south is outside the city, and now and then a few candidates come on their way to the Capital for the exams. To the north is the Capital, a place of lanterns and wine.\n"
 
 msgid "你走上了太白酒楼的二楼，酒楼的雅座便设于此。大凡有来头\n的客人都到此饮酒作乐。在此经常可以遇上一些达官贵族，一些为\n做官的富家子弟就来此打进阶的消息。墙边有一道楼梯通往一楼的\n茶座。\n"
 msgstr "You have gone up to the second floor of Taibai Tavern, where the private rooms are. Nearly every guest with a name drinks and makes merry up here. You often meet high officials and nobles, and sons of rich families who want an official post come to pick up news of promotions. A staircase by the wall leads down to the tea tables on the first floor.\n"
@@ -23542,8 +23542,8 @@ msgstr "This is a path in the Minister's Mansion. The path runs on north, and th
 msgid "尚书府的小径走到这似乎到了尽头。小径的东边是一间小屋，平\n时房门总是关的，每天按时由一名又聋又哑的仆役送饭进去，其他人\n一概不让入内。南边不远处就是尚书府庭院了。\n"
 msgstr "The path of the Minister's Mansion seems to end here. To the east of the path is a little house whose door is always shut. At fixed times each day a deaf and mute servant takes food in, and no one else is let in at all. Not far to the south is the Minister's Mansion's courtyard.\n"
 
-msgid "你走进了尚书府的客房。客房不大，但布置得比较整洁。靠窗的\n小桌上摞放着几本书(book)，另一侧的墙上则挂了把宝剑，似乎告诉\n来人此地主人竞是文武双全。\n"
-msgstr "You walk into the guest room of the Minister's Mansion. It is not large, but it is arranged fairly neatly. On the little table by the window a few books (book) lie stacked, and on the opposite wall hangs a fine sword, as if telling the visitor that the master here is skilled in both letters and arms.\n"
+msgid "你走进了尚书府的客房。客房不大，但布置得比较整洁。靠窗的\n小桌上摞放着几本书，另一侧的墙上则挂了把宝剑，似乎告诉\n来人此地主人竞是文武双全。\n"
+msgstr "You walk into the guest room of the Minister's Mansion. It is not large, but it is arranged fairly neatly. On the little table by the window a few books lie stacked, and on the opposite wall hangs a fine sword, as if telling the visitor that the master here is skilled in both letters and arms.\n"
 
 msgid "你步入尚书府内的一间小屋。小屋内很黑，什么也看不见，但莫\n名地感到一股杀气，让人有转身就跑的念头。\n"
 msgstr "You step into a little house inside the Minister's Mansion. It is very dark inside and you can see nothing, but you feel a murderous aura from somewhere, enough to make you want to turn and run.\n"
@@ -23566,8 +23566,8 @@ msgstr "You are on a quiet little path in the Minister's Mansion. This path join
 msgid "这是一间已被废弃的小屋。小屋很阴暗，也很潮湿。就着微弱的光线\n，隐约看见小屋里胡乱地堆放着一些杂物。小屋里到处挂着蜘蛛网，显然\n很久没有人来过了。\n"
 msgstr "This is an abandoned little shed. It is dark and damp. By the faint light you can just make out a clutter of odds and ends heaped carelessly inside. Cobwebs hang everywhere, plainly no one has been here for a long time.\n"
 
-msgid "你爬上了尚书府的院墙，墙里面人来人往的，很是\n热闹。你是跳进去(jump in)，还是回去(jump out)呢？\n"
-msgstr "You have climbed onto the courtyard wall of the Minister's Mansion. Inside the wall, people come and go, quite lively. Do you jump in (jump in), or go back (jump out)?\n"
+msgid "你爬上了尚书府的院墙，墙里面人来人往的，很是\n热闹。你是跳进去，还是回去呢？\n"
+msgstr "You have climbed onto the courtyard wall of the Minister's Mansion. Inside the wall, people come and go, quite lively. Do you jump in, or go back?\n"
 
 msgid "店小二对你一白眼:你是谁呀，闯什么闯！"
 msgstr "The waiter gives you a cold stare. \"Who are you? What are you barging in for!\""
@@ -23635,14 +23635,14 @@ msgstr "Three big characters on the board: \"Make a Name Hall\"\n"
 msgid "招牌写著：京师武器店专营各式武器。\n"
 msgstr "The signboard reads: Capital Weapon Shop, dealing in weapons of every kind.\n"
 
-msgid "一段高高的院墙，但对轻功好的人爬上(climb)似非难事。\n"
-msgstr "A stretch of high courtyard wall, but for someone good at qinggong it looks no great trouble to climb (climb).\n"
+msgid "一段高高的院墙，但对轻功好的人爬上似非难事。\n"
+msgstr "A stretch of high courtyard wall, but for someone good at qinggong it looks no great trouble to climb.\n"
 
-msgid "园祭坛的栏杆是用汉白玉作成的，坛面由精细磨过的花岗岩铺成，中\n间有个台子(platform)。\n"
-msgstr "The railings of the Imperial Altar are made of white jade, and the altar floor is laid with finely polished granite. In the middle stands a platform (platform).\n"
+msgid "园祭坛的栏杆是用汉白玉作成的，坛面由精细磨过的花岗岩铺成，中\n间有个台子。\n"
+msgstr "The railings of the Imperial Altar are made of white jade, and the altar floor is laid with finely polished granite. In the middle stands a platform.\n"
 
-msgid "只有皇帝能站在这个汉白玉台子上面，隐约地你好象看到台子的下面\n有个凸起(sth)。\n"
-msgstr "Only the Emperor may stand on this white jade platform. You seem to see a raised bump (sth) on its underside.\n"
+msgid "只有皇帝能站在这个汉白玉台子上面，隐约地你好象看到台子的下面\n有个凸起。\n"
+msgstr "Only the Emperor may stand on this white jade platform. You seem to see a raised bump on its underside.\n"
 
 msgid "按下"
 msgstr "Press down"
@@ -23659,8 +23659,8 @@ msgstr "Turn counterclockwise"
 msgid "你将按钮沿逆时针转了一圈，什么事情也没发生。\n你忽然打了个冷颤，可能是心里害怕了。"
 msgstr "You turn the button once counterclockwise. Nothing happens.\nYou suddenly shiver, perhaps from fear."
 
-msgid "这很象一个按钮(button)，上面长着细细的青苔，你突然一阵莫名其\n妙的紧张，好奇心却驱使你摸摸这个按钮，你发现它可以按(press)，\n也可以旋转(turn)。\n"
-msgstr "This looks very much like a button (button), with fine moss growing on it. You suddenly feel a strange tension, but curiosity drives you to touch the button. You find it can be pressed (press) and also turned (turn).\n"
+msgid "这很象一个按钮，上面长着细细的青苔，你突然一阵莫名其\n妙的紧张，好奇心却驱使你摸摸这个按钮，你发现它可以按，\n也可以旋转。\n"
+msgstr "This looks very much like a button, with fine moss growing on it. You suddenly feel a strange tension, but curiosity drives you to touch the button. You find it can be pressed and also turned.\n"
 
 msgid "天花板忽然发出轧轧的声音，露出一个向上的阶梯。"
 msgstr "The ceiling suddenly grinds, and a flight of steps leading up appears."
@@ -27109,8 +27109,8 @@ msgstr "Amitabha! We are both of the cloth. Why make such a joke with this old m
 msgid "阿弥陀佛！女施主，这里是寺庙，请到尼庵去剃度吧。"
 msgstr "Amitabha! Lady Benefactor, this is a temple. Please go to a nunnery to be tonsured."
 
-msgid "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。"
-msgstr "Amitabha! Good, good! If the Benefactor truly takes refuge in the Buddha, please kneel (kneel) and receive the precepts."
+msgid "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下受戒。"
+msgstr "Amitabha! Good, good! If the Benefactor truly takes refuge in the Buddha, please kneel and receive the precepts."
 
 msgid "寺"
 msgstr "Temple"
@@ -27946,8 +27946,8 @@ msgstr "This broad yellow-earth road is wide enough for eight carriages abreast.
 msgid "这里已经离天驼关很远了，顺着黄土大道向南走，绿色渐渐多了起\n来，树木透着喜人的绿，放眼望去青山绿水，好一派关内景色，你能看\n到散落的房屋，农田和水塘。来往的旅客、商人、农民也多了。黄土大\n道向东南方向延伸，西面是进入一个村庄的小路。\n"
 msgstr "You are far from Camelback Pass now. Following the yellow-earth road south, you see more and more green. The trees are a delight to the eye, and green hills and clear water stretch away—a fine view of the lands inside the pass. You can see scattered houses, fields and ponds, and more travelers, merchants and farmers on the road. The yellow-earth road runs southeast; to the west a small path leads into a village.\n"
 
-msgid "这是一条通向一个村庄的青石小路。路口立着一个小牌子(tablet)，\n牌子看起来经过长时间的日晒雨淋，已破烂不堪。东南向望去好像是片\n瓜地，绿油油的西瓜让你感觉更渴了。从这里往西就进了村子，向东到\n三叉路口。\n"
-msgstr "This is a bluestone path leading to a village. At the head of the path stands a small sign (tablet), battered and ruined by long sun and rain. To the southeast you seem to see a melon field, and the lush green watermelons make you feel even thirstier. West from here you enter the village; east leads to the three-way crossing.\n"
+msgid "这是一条通向一个村庄的青石小路。路口立着一个小牌子，\n牌子看起来经过长时间的日晒雨淋，已破烂不堪。东南向望去好像是片\n瓜地，绿油油的西瓜让你感觉更渴了。从这里往西就进了村子，向东到\n三叉路口。\n"
+msgstr "This is a bluestone path leading to a village. At the head of the path stands a small sign, battered and ruined by long sun and rain. To the southeast you seem to see a melon field, and the lush green watermelons make you feel even thirstier. West from here you enter the village; east leads to the three-way crossing.\n"
 
 msgid "青石小路两旁没有树木，几根杂草随风摇摆，路上的石头被行人踩磨得\n很光亮，但奇怪的是平时这里的行人却非常稀少！小路向西延伸开去，南面\n是一片大大的瓜地，北面是一家农舍。\n"
 msgstr "There are no trees along either side of the bluestone path, only a few weeds swaying in the wind. The stones are worn bright by passing feet, yet strangely, few people walk here. The path runs west; to the south is a big melon field, and to the north is a farmhouse.\n"
@@ -27955,8 +27955,8 @@ msgstr "There are no trees along either side of the bluestone path, only a few w
 msgid "青石小路在这里分成两条，一条继续向西延伸，另一条伸向南面，北\n面是一个鲜花盛开的小花园，闻到阵阵花香，你不仅心旷神怡。西面遥远\n处是连绵的群山，东南是一片面积不小的湖泊。\n"
 msgstr "The bluestone path splits in two here: one branch keeps going west, the other turns south. To the north is a little flower garden in full bloom, and the scent of blossoms fills you with a lightness of heart. Far to the west rise ranges of mountains; to the southeast lies a sizable lake.\n"
 
-msgid "青石小路在这里到了尽头，被茂密的茅草(grass)挡住了去路。一阵\n东风吹过，飘来阵阵花香，南面是面积很大的湖泊，湖上的水汽映的西边\n的群山更加影影绰绰。\n"
-msgstr "The bluestone path ends here, blocked by thick thatch grass (grass). An east wind blows past, bringing waves of flower scent. To the south lies a vast lake, and the mist rising off it makes the mountains to the west even hazier.\n"
+msgid "青石小路在这里到了尽头，被茂密的茅草挡住了去路。一阵\n东风吹过，飘来阵阵花香，南面是面积很大的湖泊，湖上的水汽映的西边\n的群山更加影影绰绰。\n"
+msgstr "The bluestone path ends here, blocked by thick thatch grass. An east wind blows past, bringing waves of flower scent. To the south lies a vast lake, and the mist rising off it makes the mountains to the west even hazier.\n"
 
 msgid "小路的两边种了一排垂柳，西边玉螺湖上的阵阵雾气透过柳枝飘散过\n来。你的东边是一大片绿油油的瓜地，一条大沟横在小路和瓜地之间，你\n可以走到东南向的瓜棚。\n"
 msgstr "A row of weeping willows lines both sides of the path, and the mist from Jade Conch Lake to the west drifts over through the branches. East of you is a great stretch of green melon field, with a big ditch between the path and the field. You can walk southeast to the melon shed.\n"
@@ -27982,8 +27982,8 @@ msgstr "This is a very run-down wooden house. Whenever the mountain wind blows, 
 msgid "这是一个简陋的小厨房。四壁已被油烟薰的分不出原来的颜色。\n墙上挂满了风干了的卤肉，可是上面显然有着被老鼠咬过的痕迹。\n"
 msgstr "This is a shabby little kitchen. Its four walls are so smoked with grease and soot that their original color is lost. Dried, cured meat hangs all over the wall, though it clearly bears the marks of rats' teeth.\n"
 
-msgid "这是一片很大的西瓜地，沙质的土壤，种出来的瓜肯定是又甜又砂瓤，\n熟透了的西瓜(melon)已与瓜蒂脱开，就等人们去摘(pick)呢。不过看瓜农\n的篷子就在瓜地的南面，他的警惕性可是很高呀。北面是村里的小路。\n"
-msgstr "This is a large watermelon field with sandy soil, and the melons grown here must surely be sweet and gritty-fleshed. The ripe watermelons (melon) have already come loose from their stems and are only waiting for someone to pick (pick) them. But the melon farmer's shed is just south of the field, and he is very watchful. To the north is the village path.\n"
+msgid "这是一片很大的西瓜地，沙质的土壤，种出来的瓜肯定是又甜又砂瓤，\n熟透了的西瓜已与瓜蒂脱开，就等人们去摘呢。不过看瓜农\n的篷子就在瓜地的南面，他的警惕性可是很高呀。北面是村里的小路。\n"
+msgstr "This is a large watermelon field with sandy soil, and the melons grown here must surely be sweet and gritty-fleshed. The ripe watermelons have already come loose from their stems and are only waiting for someone to pick them. But the melon farmer's shed is just south of the field, and he is very watchful. To the north is the village path.\n"
 
 msgid "这是一间茅草铺顶，竹竿作架的棚子，平时瓜农就在这里看着瓜地，\n他们的警惕性都很高，稍有风吹草动都会警觉起来。瓜地在瓜棚的北面，\n往西北走就上了村里的小路，往南能看到地主田老财的宅院。\n"
 msgstr "This is a shed with a thatched roof on a frame of bamboo poles. The melon farmer usually watches the field from here, and they are all very watchful—at the slightest rustle in the wind they are alert. The melon field is north of the shed; northwest takes you up onto the village path, and to the south you can see Landlord Tian's house.\n"
@@ -27994,14 +27994,14 @@ msgstr "This is a green rice paddy, and the rice is growing wonderfully well. Si
 msgid "地主田老财的家似乎并不与老财的名字相适应，灰色的低矮院墙围着\n三间屋子。田老财家的前院，中间有一棵大槐树，伸开的枝叶遮出一大片\n阴凉，这里连接东房和南房。前院的西面是一扇漆黑的大门。\n"
 msgstr "The landlord Tian's home doesn't seem to match the name \"Tian the Miser\" at all: a low gray wall encloses three rooms. In his front yard, a big locust tree spreads its branches and casts a wide patch of shade, and the yard connects the east room and the south room. West of the front yard is a gate of pitch-black wood.\n"
 
-msgid "东房内的北面摆放着很大的八仙桌，桌子的后面是供奉关公的神龛，\n神龛上三根拇指粗细的香慢慢燃着，关公的手似乎指向前面的墙壁(wall)，\n你还是第一次见到如此奇特姿势的关公像。在墙角处放着一根铁棍(stick)，\n顺着东侧打开的窗子望出去，可以看到远远的官道上来来往往的人群和遥\n远处阴森的黑松山。\n"
-msgstr "In the north of the east room stands a very large eight-immortals table, and behind it is a shrine to Guan Gong, where three incense sticks as thick as a thumb burn slowly. Guan Gong's hand seems to point at the wall in front of him (wall)—it's the first time you've seen a Guan Gong statue in such an odd pose. In the corner stands an iron staff (stick). Through the open window on the east side you can see the people coming and going on the distant imperial road, and far off the gloomy Black Pine Mountain.\n"
+msgid "东房内的北面摆放着很大的八仙桌，桌子的后面是供奉关公的神龛，\n神龛上三根拇指粗细的香慢慢燃着，关公的手似乎指向前面的墙壁，\n你还是第一次见到如此奇特姿势的关公像。在墙角处放着一根铁棍，\n顺着东侧打开的窗子望出去，可以看到远远的官道上来来往往的人群和遥\n远处阴森的黑松山。\n"
+msgstr "In the north of the east room stands a very large eight-immortals table, and behind it is a shrine to Guan Gong, where three incense sticks as thick as a thumb burn slowly. Guan Gong's hand seems to point at the wall in front of him—it's the first time you've seen a Guan Gong statue in such an odd pose. In the corner stands an iron staff. Through the open window on the east side you can see the people coming and going on the distant imperial road, and far off the gloomy Black Pine Mountain.\n"
 
-msgid "南房布置得象个书房，在屋子的中间有一张大书桌，靠西侧的墙上立\n着一个书架(shield)，上面很摆了几本书。向南和向西开了两面大窗户，\n向南望去，能模模糊糊地望见京城林立的楼阁；向西可以看到在田间忙碌\n的田农。\n"
-msgstr "The south room is arranged like a study, with a big desk in the middle and, against the west wall, a bookshelf (shield) with several books set out on it. Two big windows open to the south and west. Looking south, you can dimly make out the towers and pavilions of the Capital; looking west, you can see farmers busy in the fields.\n"
+msgid "南房布置得象个书房，在屋子的中间有一张大书桌，靠西侧的墙上立\n着一个书架，上面很摆了几本书。向南和向西开了两面大窗户，\n向南望去，能模模糊糊地望见京城林立的楼阁；向西可以看到在田间忙碌\n的田农。\n"
+msgstr "The south room is arranged like a study, with a big desk in the middle and, against the west wall, a bookshelf with several books set out on it. Two big windows open to the south and west. Looking south, you can dimly make out the towers and pavilions of the Capital; looking west, you can see farmers busy in the fields.\n"
 
-msgid "玉螺湖以产的螺蛳洁白如玉而得名，并且湖中盛产味道鲜美的鲈鱼。\n有很多渔夫泛舟湖上，以网鱼捕螺为生。但现在他们都站在岸边，面带愁\n容，不清楚有什么变故发生。岸边还散落了几艘木船(boat)。\n"
-msgstr "Jade Conch Lake is named for its conch snails, which are white as jade, and it also teems with delicious perch. Many fishermen row out on the lake and make their living with nets and by catching snails. But now they are all standing on the shore with worried faces, and it's unclear what has happened. A few wooden boats (boat) are scattered along the bank.\n"
+msgid "玉螺湖以产的螺蛳洁白如玉而得名，并且湖中盛产味道鲜美的鲈鱼。\n有很多渔夫泛舟湖上，以网鱼捕螺为生。但现在他们都站在岸边，面带愁\n容，不清楚有什么变故发生。岸边还散落了几艘木船。\n"
+msgstr "Jade Conch Lake is named for its conch snails, which are white as jade, and it also teems with delicious perch. Many fishermen row out on the lake and make their living with nets and by catching snails. But now they are all standing on the shore with worried faces, and it's unclear what has happened. A few wooden boats are scattered along the bank.\n"
 
 msgid "这里是忘情谷外的一条小路，向着南和北延伸。山岭上树木繁茂，绿\n草茵茵，东面是有名的玉螺湖，湖上水汽蒸腾，但这边岸上没有船，不能\n由此到湖上。隐隐约约地看的见错落有致的村庄农舍。\n"
 msgstr "This is a path outside Forgetting Valley, running south and north. The hills are thick with trees and lush grass. To the east is the famous Jade Conch Lake, with mist steaming off it, but there are no boats on this bank, so you can't get out onto the lake from here. Faintly you can make out village houses scattered here and there.\n"
@@ -28009,8 +28009,8 @@ msgstr "This is a path outside Forgetting Valley, running south and north. The h
 msgid "这里是忘情谷外的一条小路，往东就进了名叫傅家坡的小村庄。从村\n庄往外的这段小路人烟稀少，但能经常见到有大鸟飞过忘情谷的山岭。\n"
 msgstr "This is a path outside Forgetting Valley; going east leads into a small village called Fu Family Slope. This stretch of path leading away from the village sees few people, but you often see big birds flying over the hills of Forgetting Valley.\n"
 
-msgid "这里是玉螺湖的湖心，湖面上丝丝雾气蒸起，周围静得出奇，心跳声\n都听的见。你仔细地向湖底看去，忽的见白光一闪，如果想看个究竟，可\n以潜入湖中(dive)，但理智告诉你一定要安全第一！西面远处是朦胧的群\n山，东边岸上的渔夫似乎冲着你比比划划。\n"
-msgstr "This is the middle of Jade Conch Lake. Wisps of mist rise off the water, and it is eerily quiet—you can hear your own heartbeat. You look carefully down into the lake, and suddenly a white light flashes. If you want to see what it is, you can dive into the lake (dive), but your reason tells you that safety comes first! Far to the west are hazy mountains, and the fisherman on the eastern shore seems to be gesturing at you.\n"
+msgid "这里是玉螺湖的湖心，湖面上丝丝雾气蒸起，周围静得出奇，心跳声\n都听的见。你仔细地向湖底看去，忽的见白光一闪，如果想看个究竟，可\n以潜入湖中，但理智告诉你一定要安全第一！西面远处是朦胧的群\n山，东边岸上的渔夫似乎冲着你比比划划。\n"
+msgstr "This is the middle of Jade Conch Lake. Wisps of mist rise off the water, and it is eerily quiet—you can hear your own heartbeat. You look carefully down into the lake, and suddenly a white light flashes. If you want to see what it is, you can dive into the lake, but your reason tells you that safety comes first! Far to the west are hazy mountains, and the fisherman on the eastern shore seems to be gesturing at you.\n"
 
 msgid "这个岩洞中全都是冰，冰的色泽纯正洁白，很象是北极的玄冰，却不\n知怎么会在这里出现。四周气温极低，阵阵寒冷袭来，常人难以站立片刻。\n在玄冰上面长着发光的藻类植物，所以从入口看去非常明亮。刚才进入岩\n洞的入口处又迅速地结了一层薄冰，奇怪的是水压并没有把它压破。\n"
 msgstr "This cave is all ice, a pure, clean white, much like the deep ice of the far north, and no one knows how it came to be here. The air is bitterly cold, wave after wave of chill rolls over you, and an ordinary person could hardly stand here for a moment. Glowing algae grows on the black ice, so it looks very bright from the entrance. The entrance you just came in by has quickly frozen over with a thin sheet of ice—strangely, the pressure of the water hasn't broken it.\n"
@@ -28030,14 +28030,14 @@ msgstr "The melon farmer blocks your way."
 msgid "你勉强分辨出那上面模糊的字迹：傅家坡\n"
 msgstr "You can just make out the blurred writing on it: Fu Family Slope\n"
 
-msgid "关内能经常见到的渔船，你可以划着(paddle)它到湖中心。\n"
-msgstr "A fishing boat of the kind common inside the pass. You can paddle (paddle) it out to the middle of the lake.\n"
+msgid "关内能经常见到的渔船，你可以划着它到湖中心。\n"
+msgstr "A fishing boat of the kind common inside the pass. You can paddle it out to the middle of the lake.\n"
 
 msgid "拨开"
 msgstr "Push aside"
 
-msgid "高高的茅草，可以拨开(pushaside)。\n"
-msgstr "Tall thatch grass, which can be pushed aside (pushaside).\n"
+msgid "高高的茅草，可以拨开。\n"
+msgstr "Tall thatch grass, which can be pushed aside.\n"
 
 msgid "你拨开茅草，发现了一条向西的路。"
 msgstr "You push the thatch aside and find a path leading west."
@@ -29038,8 +29038,8 @@ msgstr "I don't want anything else. Stop bothering me."
 msgid "你正走在碎石小路上，荒凉的景色，不难想像，这里人烟稀少，很少\n人会走到这里来，在路尾是一半圆形的土堆，其下有一铁索，爬下铁索(\nchain)就可以通达黄石隘口，而东北方是衔接至雪亭镇的青石官道。\n"
 msgstr "You are walking a gravel path through a bleak landscape; it is easy to see that few people come here. At the end of the path is a half-round mound of earth, with an iron chain (chain) hanging below it. Climb down the chain and you can reach Yellow Rock Pass; to the northeast is the bluestone imperial road that joins Snow Pavilion.\n"
 
-msgid "脚下为碎石黄土路，两侧是高耸入云的荒山，向上仰望乃似无边无际\n穹空，北缘为一山壁，壁上有一长达十七、八丈的铁索(chain) ，上面大\n概就是人家所谓的「关外绿洲－雪亭镇」。\n"
-msgstr "Underfoot is a road of gravel and yellow earth, with bare mountains soaring into the clouds on both sides. Looking up, the sky seems to have no end. The north edge is a rock wall, and on it hangs an iron chain (chain) some hundred and seventy or eighty feet long; what lies above it is probably what people call \"the oasis outside the pass—Snow Pavilion.\"\n"
+msgid "脚下为碎石黄土路，两侧是高耸入云的荒山，向上仰望乃似无边无际\n穹空，北缘为一山壁，壁上有一长达十七、八丈的铁索 ，上面大\n概就是人家所谓的「关外绿洲－雪亭镇」。\n"
+msgstr "Underfoot is a road of gravel and yellow earth, with bare mountains soaring into the clouds on both sides. Looking up, the sky seems to have no end. The north edge is a rock wall, and on it hangs an iron chain some hundred and seventy or eighty feet long; what lies above it is probably what people call \"the oasis outside the pass—Snow Pavilion.\"\n"
 
 msgid "来到这里，脚下的黄土仍是厚厚的一层，可见得来往这条道路的人必\n不多，向北即是隘口尾，往南一直通达天驼关口，两侧依旧是荒冷的山壁\n，但似乎更为严峻。\n"
 msgstr "Here the yellow earth underfoot is still thick, a sign that few travel this road. North is the end of the pass; south the road runs straight on to the mouth of Camelback Pass. The mountain walls on both sides are still barren and cold, but seem harsher.\n"
@@ -29050,11 +29050,11 @@ msgstr "Yellow earth and yellow stone are still spread across the path, but the 
 msgid "来到这里，风势比其他地方大了许多，或许是因为东边为军营入口通\n风较为良好的原因，南方一十里路的地方就是京城关口－天驼关的入口，\n在西边的山壁似乎过于平滑，不太自然，或许这里有什么秘密也说不定。\n"
 msgstr "The wind here is far stronger than anywhere else, perhaps because the camp entrance to the east lets the air through. Ten li to the south is the entrance of Camelback Pass, the pass gate of the Capital. The rock wall to the west is oddly smooth, unnaturally so—perhaps there is some secret here.\n"
 
-msgid "南边即为天驼关的关口，两片诺大的铁门(door)，若非由关内打开恐\n怕难以进入，往东侧看去，铁栅的映满你整双眼眸，转向西侧，看到的还\n是一片光秃秃的山壁，不由得使你想早点离开这个地方。\n"
-msgstr "To the south is the mouth of Camelback Pass, two huge iron doors (door) that would be hard to enter unless opened from inside the pass. Looking east, the iron fencing fills your eyes; turning west, you see only the same bare rock wall, and you long to leave this place soon.\n"
+msgid "南边即为天驼关的关口，两片诺大的铁门，若非由关内打开恐\n怕难以进入，往东侧看去，铁栅的映满你整双眼眸，转向西侧，看到的还\n是一片光秃秃的山壁，不由得使你想早点离开这个地方。\n"
+msgstr "To the south is the mouth of Camelback Pass, two huge iron doors that would be hard to enter unless opened from inside the pass. Looking east, the iron fencing fills your eyes; turning west, you see only the same bare rock wall, and you long to leave this place soon.\n"
 
-msgid "高耸的悬崖立在天驼关两侧，中间是并不开阔的谷地，真是易守难\n攻的好地方，这么多年来与异族的关系一直非常缓和，因此大门又重新\n打开。铁门的后面有个很大的机械装置(machine)，向南是通往京城的\n路，往北就出了天驼关。\n"
-msgstr "Towering cliffs stand on both sides of Camelback Pass with a not-very-wide valley between them—a place easy to defend and hard to attack. For many years relations with the outland tribes have been very calm, so the great gate has been opened again. Behind the iron doors is a huge mechanism (machine). South is the road to the Capital; north, you leave Camelback Pass.\n"
+msgid "高耸的悬崖立在天驼关两侧，中间是并不开阔的谷地，真是易守难\n攻的好地方，这么多年来与异族的关系一直非常缓和，因此大门又重新\n打开。铁门的后面有个很大的机械装置，向南是通往京城的\n路，往北就出了天驼关。\n"
+msgstr "Towering cliffs stand on both sides of Camelback Pass with a not-very-wide valley between them—a place easy to defend and hard to attack. For many years relations with the outland tribes have been very calm, so the great gate has been opened again. Behind the iron doors is a huge mechanism. South is the road to the Capital; north, you leave Camelback Pass.\n"
 
 msgid "天驼关两边是悬崖，中间是谷地，形状很象骆驼的双峰，由此得名。\n这里地势险峻，南下通往京师，北上除了“关外绿洲”雪亭镇外就是异族\n的领地了，历来是兵家必争之地。\n"
 msgstr "Camelback Pass has cliffs on both sides and a valley between them, shaped much like a camel's two humps, hence the name. The terrain is steep and dangerous. South leads down to the Capital; north, beyond \"the oasis outside the pass,\" Snow Pavilion, lies the territory of the outland tribes. It has always been a place armies fight over.\n"
@@ -29107,8 +29107,8 @@ msgstr "The bamboo here is taller and straighter than at the entrance, and small
 msgid "北方有一个大黄石堵住去路，洋洋洒洒的蓝光从大黄石的四周漫\n漫而出，竹林参天，在此成一半凹型，团团围住了北方的去路，若想\n一窥究竟，看来非得推开这巨大的黄石才行，风势愈来愈强，四周的\n竹子发出了嗡嗡的鸣声，彷佛叫人不要靠近，此地之主人看似不欢迎\n别人来参观。\n"
 msgstr "To the north a big yellow boulder blocks the way, and blue light streams out all around it. Towering bamboo forms a half-hollow around the north, hemming in the way. If you want to see what is there, you will have to push this huge boulder aside. The wind grows stronger and stronger, and the bamboo all around hums, as if telling you not to come near; the master of this place does not seem to welcome visitors.\n"
 
-msgid "飕飕的风不停地向你身上袭卷而来，石室的四周竟有四个大洞各\n分布东南西北四方，向洞外望去亦是一遍遍的竹林，和之前的竹林只\n差在于风势的大小，强风无情的猛击挺立的竹子，竹子左右摇晃的抵\n抗著，正是一幅柔以破刚之图，壁上有一石制书柜(bookcase)，正散\n出阵阵的蓝光，和之前所遇之正气一脉相连，匣中似有一物，看来才\n是正气的来源。\n"
-msgstr "A whistling wind keeps sweeping against you. The stone chamber has four big openings, one facing each direction, and looking out you see only more bamboo, differing from the bamboo before only in the strength of the wind. The strong wind batters the standing bamboo without mercy, and the bamboo sways from side to side in resistance—the picture of the soft breaking the hard. On the wall is a stone bookcase (bookcase), giving off waves of blue light, of one piece with the righteous energy you met before. There seems to be something in the case, and it must be the source of that energy.\n"
+msgid "飕飕的风不停地向你身上袭卷而来，石室的四周竟有四个大洞各\n分布东南西北四方，向洞外望去亦是一遍遍的竹林，和之前的竹林只\n差在于风势的大小，强风无情的猛击挺立的竹子，竹子左右摇晃的抵\n抗著，正是一幅柔以破刚之图，壁上有一石制书柜，正散\n出阵阵的蓝光，和之前所遇之正气一脉相连，匣中似有一物，看来才\n是正气的来源。\n"
+msgstr "A whistling wind keeps sweeping against you. The stone chamber has four big openings, one facing each direction, and looking out you see only more bamboo, differing from the bamboo before only in the strength of the wind. The strong wind batters the standing bamboo without mercy, and the bamboo sways from side to side in resistance—the picture of the soft breaking the hard. On the wall is a stone bookcase, giving off waves of blue light, of one piece with the righteous energy you met before. There seems to be something in the case, and it must be the source of that energy.\n"
 
 msgid "你还没被允许进入喔。"
 msgstr "You have not been permitted to enter yet."
@@ -29116,11 +29116,11 @@ msgstr "You have not been permitted to enter yet."
 msgid "关门兵横过长枪，拦住你：出关的，留下过路钱——五两。有凭据的拿凭据来。"
 msgstr "The gate guard lowers his spear across your path. \"Leaving the pass? Leave the toll: five taels. If you have a pass, show your pass.\""
 
-msgid "    一长条铁索缘山壁而下，或许你可以试著攀爬(climb)。\n"
-msgstr "    A long iron chain runs down along the rock wall; perhaps you can try climbing (climb) it.\n"
+msgid "    一长条铁索缘山壁而下，或许你可以试著攀爬。\n"
+msgstr "    A long iron chain runs down along the rock wall; perhaps you can try climbing it.\n"
 
-msgid "    一长条铁索缘山壁而上，若无绝佳的体力就好不要轻意攀爬(climb)。\n"
-msgstr "    A long iron chain runs up along the rock wall; unless you are in superb shape, you had better not climb (climb) it lightly.\n"
+msgid "    一长条铁索缘山壁而上，若无绝佳的体力就好不要轻意攀爬。\n"
+msgstr "    A long iron chain runs up along the rock wall; unless you are in superb shape, you had better not climb it lightly.\n"
 
 msgid "这巨大的铁门锈迹斑斑，它是上下开合的，现在已经高高的抬起，\n若它失控砸下，可能什么东西都会被砸扁。\n"
 msgstr "This huge iron door is spotted with rust. It opens and closes up and down, and is now raised high. If it ever fell out of control, it could crush anything flat.\n"
@@ -37255,8 +37255,8 @@ msgstr "Amitabha! We are both of the cloth. Why make such a joke with this old m
 msgid "阿弥陀佛！女施主，这里是寺庙，请你到尼庵去剃度吧。\n"
 msgstr "Amitabha! Lady Benefactor, this is a monastery. Please go to a nunnery to be tonsured.\n"
 
-msgid "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。\n"
-msgstr "Amitabha! Excellent! Excellent! Benefactor, if you truly wish to take refuge in the Buddha, please kneel (kneel) and receive the precepts.\n"
+msgid "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下受戒。\n"
+msgstr "Amitabha! Excellent! Excellent! Benefactor, if you truly wish to take refuge in the Buddha, please kneel and receive the precepts.\n"
 
 msgid "出家"
 msgstr "Become a Monk"
@@ -38848,8 +38848,8 @@ msgstr "But $n {n:use|uses} \"Starlight Lingers\" and {n:are|is} already behind 
 msgid "相传是武术之神、太阳神君杞庸在西天大山中见到灵兽天邪虎后有所领悟而创的内功心法，与模拟天邪虎神态的天邪神掌相配。威力极强，消耗体力也极大：运起来能回气、提升战力、以内力强压杀气，最深的一手是「天邪虎啸」，一声长吼震伤身边所有的人。修习须有足够的杀气撑着，苦练下去，定力也会提高。"
 msgstr "A neigong method said to have been created by the god of martial arts, the Sun Lord Qi Yong, after he saw the spirit beast the Wayward Tiger in the great mountains of the far west; it pairs with the Wayward Palm, which mimics the tiger's bearing. It is immensely powerful and immensely draining: exerted, it restores Qi, raises your fighting strength and crushes Bloodlust under Inner Force, and its deepest move is the \"Wayward Tiger Roar,\" one long roar that wounds everyone around you. Training it takes enough Bloodlust to sustain it, and with hard practice your Resolve rises too."
 
-msgid "天邪神功只能用学的，或是从运用(exert)中增加熟练度。"
-msgstr "The Wayward Art can only be learned, or improved by using it (exert)."
+msgid "天邪神功只能用学的，或是从运用中增加熟练度。"
+msgstr "The Wayward Art can only be learned, or improved by using it."
 
 msgid "你的杀气不够，无法领悟更高深的天邪神功。"
 msgstr "Your Bloodlust isn't enough to grasp the higher Wayward Art."
@@ -38890,8 +38890,8 @@ msgstr "Your Bloodlust is too heavy to cultivate the Way of the Celestial Master
 msgid "道家的一门内功。人食五谷，肉身都带五谷秽气，谷衣心法把秽气排出体外，修成一层护体之气，叫作「谷衣」——神仙所修称「丹衣」，妖魔所修称「血衣」「土衣」。心法共分十层，练到第五层「小成」左眼珠变成金色，第十层「大成」两眼皆金；运起来能疗伤，也能以「灵神诀」把内力化为法力。"
 msgstr "A Daoist neigong. Everyone who eats grain carries its foulness in the flesh; the Grain Robe Heart Method drives that foulness out of the body and builds a layer of protective qi called the \"Grain Robe.\" What immortals cultivate is called the \"Elixir Robe,\" and what demons cultivate the \"Blood Robe\" or \"Earth Robe.\" The method has ten levels: at the fifth, \"Lesser Mastery,\" the left eye turns gold; at the tenth, \"Great Mastery,\" both eyes are gold. Exerted, it can heal wounds, and with the \"Spirit Formula\" it can turn Inner Force into Arcane Power."
 
-msgid "谷衣心法只能用学的，或是从运用(exert)中增加熟练度。"
-msgstr "The Grain Robe Heart Method can only be learned, or improved by using it (exert)."
+msgid "谷衣心法只能用学的，或是从运用中增加熟练度。"
+msgstr "The Grain Robe Heart Method can only be learned, or improved by using it."
 
 msgid "你的魔力不够，无法提升谷衣心法的造诣。"
 msgstr "Your Arcane Power isn't enough to advance the Grain Robe Heart Method."
@@ -39079,8 +39079,8 @@ msgstr "Your Lesser Demon Lore isn't deep enough to grasp the higher arts of Qim
 msgid "绝尘派的本门内功。绝尘子本是释家中人，后得奇人指点，悟得道家真谛，佛道双修，自号绝尘，创下此派；这门心法只能向师父学，或在运功中慢慢精熟。"
 msgstr "The Dustless School's own neigong. Juechenzi was once a Buddhist; later, guided by a remarkable teacher, he grasped the true meaning of the Dao, cultivated Buddhism and Daoism both, named himself Juechen and founded this school. The method can only be learned from a shifu, or slowly perfected by exerting it."
 
-msgid "绝尘心法只能用学的或是从运用(exert)中增加熟练度。"
-msgstr "The Dustless Heart Method can only be learned, or improved by using it (exert)."
+msgid "绝尘心法只能用学的或是从运用中增加熟练度。"
+msgstr "The Dustless Heart Method can only be learned, or improved by using it."
 
 msgid "绝尘派所传的杖法，招式与山烟寺的流云杖法相同，是「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」四式，起手一杖专扫下盘。练这门杖须有相当的膂力，膂力不足的人宜先把内力练足。"
 msgstr "The staff style handed down in the Dustless School. Its moves are the same as Mountain Mist Temple's Cloudflow Staff, the four forms \"First Light Breaks,\" \"Clear After Rain,\" \"Brushwork of Clouds\" and \"Dragon Through Cloud,\" and its opening stroke sweeps low. This staff takes considerable Strength; those short of it should build up their Inner Force first."
@@ -39112,8 +39112,8 @@ msgstr "Mountain Mist Temple's staff style, with the moves \"First Light Breaks,
 msgid "五百多年前北冥大泽的黑妖蛇族入侵，一群佛门高僧集思广益，悟出这套心法为百姓疗伤，主要用来迅速医治战斗中所受的皮肉创伤。运起功来既能医治自己，也能替别人疗伤；须以大乘佛法为根基，佛法修为跟不上，便领会不了更深的境界。"
 msgstr "More than five hundred years ago, when the Black Demon Serpent clan of the Beiming Marsh invaded, a group of eminent Buddhist monks pooled their wisdom and arrived at this method to heal the common people. Its main use is to swiftly treat the flesh wounds of battle. Exerted, it can heal yourself or others; it must rest on the Mahayana Dharma, and if your Dharma falls behind, you cannot grasp its deeper levels."
 
-msgid "莲华心法只能用学的，或是从运用(exert)中增加熟练度。"
-msgstr "The Lotus Heart Method can only be learned, or improved by using it (exert)."
+msgid "莲华心法只能用学的，或是从运用中增加熟练度。"
+msgstr "The Lotus Heart Method can only be learned, or improved by using it."
 
 msgid "你的大乘佛法修为不够，无法领会更高深的莲华心法。"
 msgstr "Your cultivation of the Mahayana Dharma isn't deep enough to grasp the higher Lotus Heart Method."
@@ -39223,14 +39223,14 @@ msgstr "A neigong created by Abbess Canxin, the remarkable elder who swept the w
 msgid "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。"
 msgstr "$N's move carries a gust so deathly cold that $n can't help but shiver."
 
-msgid "意寒功只能用学的，或是从运用(exert)中增加熟练度。"
-msgstr "Cold Intent Force can only be learned, or improved by using it (exert)."
+msgid "意寒功只能用学的，或是从运用中增加熟练度。"
+msgstr "Cold Intent Force can only be learned, or improved by using it."
 
 msgid "天山一脉的独门内功，只能向师父学，或在运功中慢慢精熟；雪影剑法必须以它为根基。"
 msgstr "The Tianshan line's own neigong. It can only be learned from a shifu, or slowly perfected by exerting it; the Snowshade Sword must rest on it."
 
-msgid "天山雪影心法只能用学的或是从运用(exert)中增加熟练度。"
-msgstr "The Tianshan Snowshade Heart Method can only be learned, or improved by using it (exert)."
+msgid "天山雪影心法只能用学的或是从运用中增加熟练度。"
+msgstr "The Tianshan Snowshade Heart Method can only be learned, or improved by using it."
 
 msgid "天山雪影剑，招名「回光幻电」「风霜碎影」「残阳照雪」「冰谷初虹」「长空雷隐」「断石狼烟」，剑光疾如闪电，身形飘忽如雪影。必须配合天山魔教的独门雪影心法才能练，内力不足也练不成。"
 msgstr "The Tianshan Snowshade Sword, with moves named \"Phantom Lightning,\" \"Frost Breaks Shadows,\" \"Setting Sun on Snow,\" \"Ice Valley Rainbow,\" \"Thunder in Open Sky\" and \"Broken Stone Beacon\": the sword's light is quick as lightning, the body drifts like a shadow on snow. It can only be learned together with the Tianshan Demon Order's own Snowshade Heart Method, and not without enough Inner Force."
@@ -39268,8 +39268,8 @@ msgstr "$N's $w points out of nowhere—\"Broken Stone Beacon\"—thrusting at $
 msgid "步玄派的本门内功，只能向师父学，或在运功中慢慢精熟；步玄七诀、小步玄剑都要以它为根基。"
 msgstr "The Mystic Step School's own neigong. It can only be learned from a shifu, or slowly perfected by exerting it; the Mystic Step Seven Secrets and the Lesser Mystic Step Sword both rest on it."
 
-msgid "步玄心法只能学，或是从运用(exert)中增加熟练度。"
-msgstr "The Mystic Step Heart Method can only be learned, or improved by using it (exert)."
+msgid "步玄心法只能学，或是从运用中增加熟练度。"
+msgstr "The Mystic Step Heart Method can only be learned, or improved by using it."
 
 msgid "步玄派的剑法，招名「暮雪三叹」「处子弄笛」「阳谷白练」，出剑急如骤雨。须先有相当火候的步玄心法，内力不足也练不成。"
 msgstr "The Mystic Step School's sword style, with moves named \"Three Sighs at Dusk,\" \"A Maiden's Flute\" and \"Sunny Vale Silk\"; the sword comes fast as a sudden storm. It needs a well-tempered Mystic Step Heart Method first, and cannot be learned without enough Inner Force."
@@ -39421,8 +39421,8 @@ msgstr "An external hardening art for the body: close your eyes, gather your min
 msgid "逍遥派一路的内功，讲究文墨修养：读书识字的造诣跟不上，小无相功便无法再进。只能向人学，或在运功中慢慢精熟。"
 msgstr "A neigong of the Carefree School line that values literary cultivation: if your reading and writing can't keep up, the Lesser Formless Force can advance no further. It can only be learned from someone, or slowly perfected by exerting it."
 
-msgid "小无相功只能用学的或是从运用(exert)中增加熟练度。"
-msgstr "The Lesser Formless Force can only be learned, or improved by using it (exert)."
+msgid "小无相功只能用学的或是从运用中增加熟练度。"
+msgstr "The Lesser Formless Force can only be learned, or improved by using it."
 
 msgid "你的文学素养不够无法提升小无相功的造诣。"
 msgstr "Your literary learning isn't enough to advance the Lesser Formless Force."

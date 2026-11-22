@@ -484,10 +484,10 @@
 			"function do_dive": "service village.lake.dive, asked first (owner, plan Q1: the only way out is past the 白鳞冰龙): its message_vision(), the write() as one line (the LPC string breaks mid-sentence: an obvious slip) and the move to lakebottom1.c (village.icecave), whose 玄冰 offers 放弃 (wake in the Inn, as 绝地)"
 		},
 		"d/village/lordhouse3.c": {
-			"set item_desc": "默认 (plan): not looked at: look_shield() returns the placeholder \"are this true?\" (the commented-out text names take and putback, neither of which exists)",
-			"function init": "默认 (plan): not ported: take_out's do_takeout() is unfinished (a stray } ended it, so ES2 never loaded the room; it compares strings, so books 2–9 hear 有多少本书; its case 6 is commented out) and push names a function that does not exist",
-			"function do_takeout": "默认 (plan): not ported (an unfinished mechanism with no outcome: the commented-out case 6 looks for lordhouse2.c, whose 关公 points at the wall)",
-			"function look_shield": "默认 (plan): not ported (\"are this true?\")"
+			"set item_desc": "默认: not looked at: look_shield() returns the placeholder \"are this true?\" (the commented-out text names take and putback, neither of which exists)",
+			"function init": "默认: not ported: take_out's do_takeout() is unfinished (a stray } ended it, so ES2 never loaded the room; it compares strings, so books 2–9 hear 有多少本书; its case 6 is commented out) and push names a function that does not exist",
+			"function do_takeout": "默认: not ported (an unfinished mechanism with no outcome: the commented-out case 6 looks for lordhouse2.c, whose 关公 points at the wall)",
+			"function look_shield": "默认: not ported (\"are this true?\")"
 		},
 		"d/village/melonfarm.c": {
 			"function init": "pick melon: the act service village.melonfarm.pick (瓜地 · 摘西瓜)",

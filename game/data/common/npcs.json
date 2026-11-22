@@ -1302,14 +1302,14 @@
 					"rules": [
 						{ "asker_class": "bonze", "say": "阿弥陀佛！你我同是出家人，何故跟老衲开这等玩笑？\n" },
 						{ "asker_gender": "女性", "say": "阿弥陀佛！女施主，这里是寺庙，请你到尼庵去剃度吧。\n" },
-						{ "temp_asker": "pending/join_bonze", "say": "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。\n" }
+						{ "temp_asker": "pending/join_bonze", "say": "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下受戒。\n" }
 					]
 				},
 				"出家": {
 					"rules": [
 						{ "asker_class": "bonze", "say": "阿弥陀佛！你我同是出家人，何故跟老衲开这等玩笑？\n" },
 						{ "asker_gender": "女性", "say": "阿弥陀佛！女施主，这里是寺庙，请你到尼庵去剃度吧。\n" },
-						{ "temp_asker": "pending/join_bonze", "say": "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。\n" }
+						{ "temp_asker": "pending/join_bonze", "say": "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下受戒。\n" }
 					]
 				},
 				"流云轩": {

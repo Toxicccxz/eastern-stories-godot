@@ -3,7 +3,7 @@
 	"npcs": ["d/snow/npc/mercenary.c"],
 	"vendor_goods": { "d/snow/npc/smith.c": { "铁锤": { "item": "d/snow/npc/obj/hammer.c", "price": 300 } } },
 	"set": {
-		"snow.npc.mercenary": {"gender": "男性", "attributes": {"str": 24, "cor": 18, "int": 22, "spi": 18, "cps": 20, "per": 20, "con": 24, "kar": 12}, "skill_map": {"sword": "fonxansword", "unarmed": "liuh-ken", "force": "fonxanforce"}, "inquiry": {"赚钱": ["真的？哪里有钱赚？"], "发财": ["发财我倒不敢想，只要有人肯雇用(employment)我，手边有几百两银子就好了。"], "employment": ["是的，一天一百两银子，只要不违背侠义道，我可以做任何事。"], "柳淳风": ["柳淳风是在下同门师兄。"], "赌": ["阁下如果也爱好此道，不如改天兄弟陪阁下玩几手？"], "腰牌": {"rules": [{"asker_marks": ["逄义认了腰牌"], "say": "牌你带回去交给师兄。我没脸拿。"}, {"asker_marks": ["冒牌头目倒了"], "mark_asker": "逄义认了腰牌", "lines": [{"emote": "手里的骰子掉在了桌上。"}, {"say": "……是我的牌。"}, {"say": "上个月手气背，欠了场子里一个姓罗的十二两。他不要银子，只要这块牌，说是拿去「挂两天」。我当他要个彩头。"}, {"say": "他拿去雪亭收拜师钱？打的是师兄的旗号？"}, {"emote": "半天没说话，把面前剩的几个筹码推开了。"}, {"say": "门规我没犯过——不偷不抢，不打家劫舍。可牌是我押出去的，这一条赖不掉。你带回去交给师兄，就说逄义认了。"}]}, {"lines": [{"say": "什么腰牌？在下的腰牌好好地……"}, {"emote": "摸了摸腰间，没有说下去。"}]}]}}},
+		"snow.npc.mercenary": {"gender": "男性", "attributes": {"str": 24, "cor": 18, "int": 22, "spi": 18, "cps": 20, "per": 20, "con": 24, "kar": 12}, "skill_map": {"sword": "fonxansword", "unarmed": "liuh-ken", "force": "fonxanforce"}, "inquiry": {"赚钱": ["真的？哪里有钱赚？"], "发财": ["发财我倒不敢想，只要有人肯雇用我，手边有几百两银子就好了。"], "employment": ["是的，一天一百两银子，只要不违背侠义道，我可以做任何事。"], "柳淳风": ["柳淳风是在下同门师兄。"], "赌": ["阁下如果也爱好此道，不如改天兄弟陪阁下玩几手？"], "腰牌": {"rules": [{"asker_marks": ["逄义认了腰牌"], "say": "牌你带回去交给师兄。我没脸拿。"}, {"asker_marks": ["冒牌头目倒了"], "mark_asker": "逄义认了腰牌", "lines": [{"emote": "手里的骰子掉在了桌上。"}, {"say": "……是我的牌。"}, {"say": "上个月手气背，欠了场子里一个姓罗的十二两。他不要银子，只要这块牌，说是拿去「挂两天」。我当他要个彩头。"}, {"say": "他拿去雪亭收拜师钱？打的是师兄的旗号？"}, {"emote": "半天没说话，把面前剩的几个筹码推开了。"}, {"say": "门规我没犯过——不偷不抢，不打家劫舍。可牌是我押出去的，这一条赖不掉。你带回去交给师兄，就说逄义认了。"}]}, {"lines": [{"say": "什么腰牌？在下的腰牌好好地……"}, {"emote": "摸了摸腰间，没有说下去。"}]}]}}},
 		"snow.npc.rat": {
 			"skills": { "dodge": 15 },
 			"resources": { "kee": 15, "max_kee": 15 },
@@ -82,7 +82,7 @@
 			"beats": 2,
 			"accept_object": [
 				{ "giver_mark": "魏无极", "emote": "点了点头，说道：哦，向你这么有心的学生还真是不多见，好好努力将来必定前途无量，谢了。", "accept": true },
-				{ "value_at_least": 500, "mark_giver": "魏无极", "emote": "点了点头，说道：很好，从今天起你随时可以来问我有关读书识字(literate)的任何问题。", "accept": true },
+				{ "value_at_least": 500, "mark_giver": "魏无极", "emote": "点了点头，说道：很好，从今天起你随时可以来问我有关读书识字的任何问题。", "accept": true },
 				{ "say": "你的诚意不够，这钱还是拿回去吧。", "accept": false }
 			],
 			"recognize_apprentice": [

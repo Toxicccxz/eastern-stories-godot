@@ -35,6 +35,10 @@ OVERRIDES = Path(__file__).resolve().parent / 'overrides'
 # Characters lost in the Big5 conversion, decided by hand (owner, modern fixes II).
 REPLACEMENTS = Path(__file__).resolve().parent / 'text_replacements.json'
 LOST = '\u25a1'  # □
+# ES2's typed-command hints after a word (招牌(sign), 爬(climb), 想喝它 (drink)): the game
+# has no typed commands, so they go from every imported string (owner 2026-11-22,
+# DECISIONS「去掉指令提示」).
+COMMAND_HINT = re.compile(r"(?<=[一-鿿　-〿＀-￯!])[ 　]?[（(][a-z][a-z' ]*[)）]")
 REPORT = REPOSITORY / 'build/import/review.md'
 # The sections an override file may hold (Importer reads exactly these; a misspelt one is refused).
 OVERRIDE_KEYS = frozenset({'source_fixes', 'vendors', 'items', 'npcs', 'spawn_skip', 'vendor_skip',
@@ -589,6 +593,7 @@ class Importer:
             if isinstance(value, str):
                 for rule in self.replacements:
                     value = value.replace(rule['find'], rule['replace'])
+                value = COMMAND_HINT.sub('', value)
                 if LOST in value:
                     at = value.index(LOST)
                     snippet = value[max(0, at - 8):at + 9]

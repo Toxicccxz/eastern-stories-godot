@@ -1343,7 +1343,7 @@
 			],
 			"inquiry": {
 				"西出阳关": ["『西出阳关』是一种幻影式舞步。可以移形换影。\n"],
-				"学舞": ["来!我教你...『西出阳关』(dancing out)是 ..... \n经过雨梅指导后你渐渐懂了! \n", { "mark_asker": "dance_out" }],
+				"学舞": ["来!我教你...『西出阳关』是 ..... \n经过雨梅指导后你渐渐懂了! \n", { "mark_asker": "dance_out" }],
 				"舞": ["我会的舞是属于「幻影式舞步」。\n"],
 				"芳绫": ["她是个可爱的女孩。不过有点任性，听说她贪玩被关在 \n禁闭室。听说她爱玩竹蜻蜓哦。\n"],
 				"竹蜻蜓": ["庄内有人会用竹子作成不同物品。\n"],
@@ -1439,7 +1439,7 @@
 							"line": "『 庄内前厅某处藏有一宝物手镯哦!』\n"
 						},
 						{
-							"line": "你可以找找看! (search bracelet) \n"
+							"line": "你可以找找看! \n"
 						}
 					]
 				},
@@ -2402,7 +2402,7 @@
 			"function do_dance": "the act: the line (HIM 『 春宫怨 』 plain), 50 sen (asked first when it would knock the player out), then the hall (latemoon1); any other dance did nothing; tell_room() lines are for others"
 		},
 		"d/latemoon/room/npc/elon.c": {
-			"function init": "accept test: the panel's 接受测试 (the trial in set)",
+			"function init": "accept test: the panel's 接受测试",
 			"function do_accept": "apprentice rule in set (kind trial): offered to those its checks pass (a man heard 老身不收男徒!, one short of 100000 combat_exp nothing), asked first; the first lash's sigh and shake print nothing; set(\"title\") is the rule's title, given when she takes the player (DECISIONS 晚月庄 D)",
 			"function attempt_apprentice": "apprentice rule in set: 100000 combat_exp, then women, each with its say; then commoners only (要叛师！！！ shouted in the room, angry prints nothing, kill_ob(); asked first)"
 		},
