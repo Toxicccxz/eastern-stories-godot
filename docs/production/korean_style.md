@@ -90,7 +90,11 @@ Korean player cannot read (a Chinese university, 1990s Chinese software, a dorm 
 one they can — a Korean university, a dorm, the Microsoft–한글과컴퓨터 story of 1998, 魏阮 (微软)
 as 마이크 로소프트. The joke keeps its job (an anachronism stays one, a boast a boast); items,
 flowers, trigger phrases, buttons and any name the game checks stay as they are; real people's
-names stay. Each one is listed for Muse in its batch.
+names stay. Each one is listed for Muse in its batch. Settled with Muse: 华中理工大学 / 华工 카이스트 ·
+八舍 카이스트 기숙사 8동 (the number stays: it is how the lines recognise each other) · 南大食堂磁卡
+서울대 학식 카드 · 「把 NT 也汉化，看你之星怎么办」 the 1998 attempt to end 아래아한글 with money
+(MS가 돈으로 아래아한글을 없애려던 그때처럼 — the line says what happened; MS did not buy 한컴) ·
+魏阮 (微软) 마이크 로소프트 · 黑你没商量 묻지 마 바가지.
 
 ## Terms
 

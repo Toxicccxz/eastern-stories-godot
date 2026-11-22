@@ -894,3 +894,6699 @@ msgstr "정통으로 맞아, $n이(가) 끙 하고 신음했다. 적잖이 당�
 
 msgid "结果「砰」地一声，$n退了两步！"
 msgstr "“퍽!” 하는 소리와 함께 $n이(가) 두 걸음 물러났다!"
+
+msgid "雄性"
+msgstr "수컷"
+
+msgid "雌性"
+msgstr "암컷"
+
+msgid "逄义"
+msgstr "방의"
+
+msgid "刘安禄"
+msgstr "유안록"
+
+msgid "黑衣道士"
+msgstr "검은 옷의 도사"
+
+msgid "荐信"
+msgstr "추천서"
+
+msgid "县城官兵"
+msgstr "현성 관병"
+
+msgid "於兰天武"
+msgstr "어란천무"
+
+msgid "大天邪"
+msgstr "대천악"
+
+msgid "旋芒"
+msgstr "선망"
+
+msgid "卫沧澜"
+msgstr "위창란"
+
+msgid "萧辟尘"
+msgstr "소벽진"
+
+msgid "小天邪"
+msgstr "소천악"
+
+msgid "潘军禅"
+msgstr "반군선"
+
+msgid "书 剑 侠"
+msgstr "서 검 협"
+
+msgid "绝尘子"
+msgstr "절진자"
+
+msgid "了尘"
+msgstr "요진"
+
+msgid "天甲神兵"
+msgstr "천갑신병"
+
+msgid "天乙神兵"
+msgstr "천을신병"
+
+msgid "天丙神兵"
+msgstr "천병신병"
+
+msgid "天丁神兵"
+msgstr "천정신병"
+
+msgid "天戊神兵"
+msgstr "천무신병"
+
+msgid "天己神兵"
+msgstr "천기신병"
+
+msgid "天庚神兵"
+msgstr "천경신병"
+
+msgid "天辛神兵"
+msgstr "천신신병"
+
+msgid "天壬神兵"
+msgstr "천임신병"
+
+msgid "天癸神兵"
+msgstr "천계신병"
+
+msgid "林忌"
+msgstr "임기"
+
+msgid "六指真人"
+msgstr "육지진인"
+
+msgid "黑冠"
+msgstr "흑관"
+
+msgid "子阴鬼卒"
+msgstr "자음귀졸"
+
+msgid "丑阴鬼卒"
+msgstr "축음귀졸"
+
+msgid "寅阴鬼卒"
+msgstr "인음귀졸"
+
+msgid "卯阴鬼卒"
+msgstr "묘음귀졸"
+
+msgid "辰阴鬼卒"
+msgstr "진음귀졸"
+
+msgid "巳阴鬼卒"
+msgstr "사음귀졸"
+
+msgid "午阴鬼卒"
+msgstr "오음귀졸"
+
+msgid "未阴鬼卒"
+msgstr "미음귀졸"
+
+msgid "申阴鬼卒"
+msgstr "신음귀졸"
+
+msgid "酉阴鬼卒"
+msgstr "유음귀졸"
+
+msgid "戌阴鬼卒"
+msgstr "술음귀졸"
+
+msgid "亥阴鬼卒"
+msgstr "해음귀졸"
+
+msgid "观想虫"
+msgstr "관상충"
+
+msgid "观想兽"
+msgstr "관상수"
+
+msgid "僵尸"
+msgstr "강시"
+
+msgid "蓝止萍"
+msgstr "남지평"
+
+msgid "回音仙子"
+msgstr "회음선자"
+
+msgid "玄智和尚"
+msgstr "현지 화상"
+
+msgid "陆得财"
+msgstr "육득재"
+
+msgid "黑水伏蛟"
+msgstr "흑수복교"
+
+msgid "骆云舟"
+msgstr "낙운주"
+
+msgid "风泉剑灵"
+msgstr "풍천검령"
+
+msgid "桃干仙"
+msgstr "도간선"
+
+msgid "桃枝仙"
+msgstr "도지선"
+
+msgid "桃谷仙"
+msgstr "도곡선"
+
+msgid "桃实仙"
+msgstr "도실선"
+
+msgid "桃花仙"
+msgstr "도화선"
+
+msgid "桃根仙"
+msgstr "도근선"
+
+msgid "桃萼仙"
+msgstr "도악선"
+
+msgid "僵尸侍者"
+msgstr "강시 시자"
+
+msgid "土匪探哨"
+msgstr "도적 척후"
+
+msgid "土匪"
+msgstr "도적"
+
+msgid "黑冠巨蟒"
+msgstr "검은 볏 구렁이"
+
+msgid "土匪喽罗"
+msgstr "도적 졸개"
+
+msgid "泼风刀王"
+msgstr "발풍도왕"
+
+msgid "金银花蛇"
+msgstr "금은화 뱀"
+
+msgid "庙祝"
+msgstr "사당지기"
+
+msgid "醉汉"
+msgstr "주정뱅이"
+
+msgid "门房"
+msgstr "문지기"
+
+msgid "老鼠"
+msgstr "쥐"
+
+msgid "杨掌柜"
+msgstr "양 장궤"
+
+msgid "黄霸"
+msgstr "황패"
+
+msgid "日月槌"
+msgstr "일월추"
+
+msgid "霍铮"
+msgstr "곽쟁"
+
+msgid "「嘉德文选」"
+msgstr "《가덕문선》"
+
+msgid "「九韬」"
+msgstr "《구도》"
+
+msgid "「太公辩」"
+msgstr "《태공변》"
+
+msgid "「梁父文集」"
+msgstr "《양보문집》"
+
+msgid "「说律」"
+msgstr "《설률》"
+
+msgid "「古文志」"
+msgstr "《고문지》"
+
+msgid "「乡书」"
+msgstr "《향서》"
+
+msgid "「佾风斋诗集」"
+msgstr "《일풍재시집》"
+
+msgid "「寒士列传」"
+msgstr "《한사열전》"
+
+msgid "「水龙图注」"
+msgstr "《수룡도주》"
+
+msgid "「笑傲江湖」"
+msgstr "《소오강호》"
+
+msgid "「天龙八部」"
+msgstr "《천룡팔부》"
+
+msgid "「七剑下天山」"
+msgstr "《칠검하천산》"
+
+msgid "「游侠郭解传」"
+msgstr "《유협곽해전》"
+
+msgid "「七种武器」"
+msgstr "《칠종무기》"
+
+msgid "「楚留香传奇之血海飘香」"
+msgstr "《초류향전기: 혈해표향》"
+
+msgid "「四大名捕」"
+msgstr "《사대명포》"
+
+msgid "「洪武剑侠图」"
+msgstr "《홍무검협도》"
+
+msgid "「秘传八步赶蝉」"
+msgstr "《비전 팔보간선》"
+
+msgid "「陆地飞行之法」"
+msgstr "《육지비행지법》"
+
+msgid "「寒梅弄影之法」"
+msgstr "《한매농영지법》"
+
+msgid "「穿花绕树要诀」"
+msgstr "《천화요수요결》"
+
+msgid "「八卦步法」"
+msgstr "《팔괘보법》"
+
+msgid "苍蝇"
+msgstr "파리"
+
+msgid "茶博士"
+msgstr "찻집 일꾼"
+
+msgid "林三爷"
+msgstr "임 삼야"
+
+msgid "伙计"
+msgstr "점원"
+
+msgid "朱鸿雪"
+msgstr "주홍설"
+
+msgid "媒婆"
+msgstr "매파"
+
+msgid "陈剑秋"
+msgstr "진검추"
+
+msgid "霹雳刀"
+msgstr "벽력도"
+
+msgid "陈天星"
+msgstr "진천성"
+
+msgid "保镖"
+msgstr "호위무사"
+
+msgid "张百万"
+msgstr "장백만"
+
+msgid "水烟阁武士"
+msgstr "수연각 무사"
+
+msgid "水烟阁司事"
+msgstr "수연각 관리인"
+
+msgid "天邪虎"
+msgstr "천악호"
+
+msgid "仆役"
+msgstr "하인"
+
+msgid "水烟阁红衣武士"
+msgstr "수연각 붉은 옷의 무사"
+
+msgid "南危水"
+msgstr "남위수"
+
+msgid "陈坚石"
+msgstr "진견석"
+
+msgid "颜违"
+msgstr "안위"
+
+msgid "采石工"
+msgstr "채석꾼"
+
+msgid "沈万年"
+msgstr "심만년"
+
+msgid "妇人"
+msgstr "아낙"
+
+msgid "小孩"
+msgstr "아이"
+
+msgid "工匠"
+msgstr "장인"
+
+msgid "老公公"
+msgstr "할아버지"
+
+msgid "老婆婆"
+msgstr "할머니"
+
+msgid "村长"
+msgstr "촌장"
+
+msgid "工匠的小孩"
+msgstr "장인의 아이"
+
+msgid "玄和"
+msgstr "현화"
+
+msgid "老道士"
+msgstr "늙은 도사"
+
+msgid "清灵"
+msgstr "청령"
+
+msgid "清平"
+msgstr "청평"
+
+msgid "清风"
+msgstr "청풍"
+
+msgid "清音"
+msgstr "청음"
+
+msgid "婢女"
+msgstr "시녀"
+
+msgid "昭蓉"
+msgstr "소용"
+
+msgid "曲馥琪"
+msgstr "곡복기"
+
+msgid "苗郁淑"
+msgstr "묘욱숙"
+
+msgid "杀手"
+msgstr "살수"
+
+msgid "蒙面杀手"
+msgstr "복면 살수"
+
+msgid "瑷伦"
+msgstr "애륜"
+
+msgid "安妮儿"
+msgstr "안니아"
+
+msgid "虞琼衣"
+msgstr "우경의"
+
+msgid "龙韶吟"
+msgstr "용소음"
+
+msgid "阮欣郁"
+msgstr "완흔욱"
+
+msgid "凤凰"
+msgstr "봉황"
+
+msgid "金仪彤"
+msgstr "김의동"
+
+msgid "采花少女"
+msgstr "꽃 따는 소녀"
+
+msgid "上官钰翎"
+msgstr "상관옥령"
+
+msgid "玉涵湘"
+msgstr "옥함상"
+
+msgid "小金鼠"
+msgstr "금빛 생쥐"
+
+msgid "美珊"
+msgstr "미산"
+
+msgid "小白兔"
+msgstr "작은 흰 토끼"
+
+msgid "人灵「区冥」"
+msgstr "인령 “구명”"
+
+msgid "僧人"
+msgstr "승려"
+
+msgid "烧饭僧"
+msgstr "밥 짓는 승려"
+
+msgid "小沙弥"
+msgstr "어린 사미"
+
+msgid "汤掌柜"
+msgstr "탕 장궤"
+
+msgid "箱子"
+msgstr "상자"
+
+msgid "陈显祖"
+msgstr "진현조"
+
+msgid "衙役"
+msgstr "포졸"
+
+msgid "带刀侍卫"
+msgstr "칼 찬 호위"
+
+msgid "乾瘪老太婆"
+msgstr "쪼그라든 노파"
+
+msgid "游客"
+msgstr "유람객"
+
+msgid "书生"
+msgstr "서생"
+
+msgid "官家小姐"
+msgstr "관가 아씨"
+
+msgid "丫鬟"
+msgstr "몸종"
+
+msgid "程不平"
+msgstr "정불평"
+
+msgid "路引"
+msgstr "통행증"
+
+msgid "密信"
+msgstr "밀서"
+
+msgid "兵部文书"
+msgstr "병부 문서"
+
+msgid "酒楼守卫"
+msgstr "주루 경비"
+
+msgid "老者"
+msgstr "노인"
+
+msgid "黑无常"
+msgstr "흑무상"
+
+msgid "仙鹤"
+msgstr "선학"
+
+msgid "紫衣童子"
+msgstr "보랏빛 옷의 동자"
+
+msgid "孤魂野鬼"
+msgstr "떠도는 귀신"
+
+msgid "朦胧鬼影"
+msgstr "흐릿한 귀신 그림자"
+
+msgid "护草神兽"
+msgstr "약초를 지키는 신수"
+
+msgid "慕容巡捕"
+msgstr "모용 순포"
+
+msgid "西门巡捕"
+msgstr "서문 순포"
+
+msgid "公孙巡捕"
+msgstr "공손 순포"
+
+msgid "上官巡捕"
+msgstr "상관 순포"
+
+msgid "南宫巡捕"
+msgstr "남궁 순포"
+
+msgid "欧阳巡捕"
+msgstr "구양 순포"
+
+msgid "司徒巡捕"
+msgstr "사도 순포"
+
+msgid "后备兵"
+msgstr "예비병"
+
+msgid "镇国大将军"
+msgstr "진국대장군"
+
+msgid "商人"
+msgstr "상인"
+
+msgid "农妇"
+msgstr "농가 아낙"
+
+msgid "鬼卒"
+msgstr "귀졸"
+
+msgid "老冰匠"
+msgstr "늙은 얼음장이"
+
+msgid "采花妞"
+msgstr "꽃 따는 계집아이"
+
+msgid "刘老农"
+msgstr "유 영감"
+
+msgid "大老鼠"
+msgstr "큰 쥐"
+
+msgid "瓜农"
+msgstr "수박 농사꾼"
+
+msgid "渔夫"
+msgstr "어부"
+
+msgid "白鳞冰龙"
+msgstr "백린빙룡"
+
+msgid "京师守城兵"
+msgstr "경사 수성병"
+
+msgid "黑你没商量"
+msgstr "묻지 마 바가지"
+
+msgid "万晓生"
+msgstr "만효생"
+
+msgid "刀拳双绝"
+msgstr "도권쌍절"
+
+msgid "老板娘"
+msgstr "여주인"
+
+msgid "钱掌柜"
+msgstr "전 장궤"
+
+msgid "钱千万"
+msgstr "전천만"
+
+msgid "行人"
+msgstr "행인"
+
+msgid "李掌柜"
+msgstr "이 장궤"
+
+msgid "卖艺壮汉"
+msgstr "떠돌이 차력사"
+
+msgid "庾子建"
+msgstr "유자건"
+
+msgid "赵顺"
+msgstr "조순"
+
+msgid "赵昌"
+msgstr "조창"
+
+msgid "赵振"
+msgstr "조진"
+
+msgid "赵发"
+msgstr "조발"
+
+msgid "赵财"
+msgstr "조재"
+
+msgid "赵俊"
+msgstr "조준"
+
+msgid "赵彦"
+msgstr "조언"
+
+msgid "赵良"
+msgstr "조량"
+
+msgid "赵志"
+msgstr "조지"
+
+msgid "赵忠"
+msgstr "조충"
+
+msgid "赵孝"
+msgstr "조효"
+
+msgid "赵雄"
+msgstr "조웅"
+
+msgid "赵益"
+msgstr "조익"
+
+msgid "赵添"
+msgstr "조첨"
+
+msgid "赵金"
+msgstr "조금"
+
+msgid "赵辉"
+msgstr "조휘"
+
+msgid "赵长"
+msgstr "조장"
+
+msgid "赵盛"
+msgstr "조성"
+
+msgid "赵胜"
+msgstr "조승"
+
+msgid "赵进"
+msgstr "조진"
+
+msgid "赵安"
+msgstr "조안"
+
+msgid "赵福"
+msgstr "조복"
+
+msgid "赵同"
+msgstr "조동"
+
+msgid "赵满"
+msgstr "조만"
+
+msgid "赵富"
+msgstr "조부"
+
+msgid "赵万"
+msgstr "조만"
+
+msgid "赵龙"
+msgstr "조룡"
+
+msgid "赵隆"
+msgstr "조륭"
+
+msgid "赵祥"
+msgstr "조상"
+
+msgid "赵栋"
+msgstr "조동"
+
+msgid "赵国"
+msgstr "조국"
+
+msgid "赵亿"
+msgstr "조억"
+
+msgid "赵寿"
+msgstr "조수"
+
+msgid "钱顺"
+msgstr "전순"
+
+msgid "钱昌"
+msgstr "전창"
+
+msgid "钱振"
+msgstr "전진"
+
+msgid "钱发"
+msgstr "전발"
+
+msgid "钱财"
+msgstr "전재"
+
+msgid "钱俊"
+msgstr "전준"
+
+msgid "钱彦"
+msgstr "전언"
+
+msgid "钱良"
+msgstr "전량"
+
+msgid "钱志"
+msgstr "전지"
+
+msgid "钱忠"
+msgstr "전충"
+
+msgid "钱孝"
+msgstr "전효"
+
+msgid "钱雄"
+msgstr "전웅"
+
+msgid "钱益"
+msgstr "전익"
+
+msgid "钱添"
+msgstr "전첨"
+
+msgid "钱金"
+msgstr "전금"
+
+msgid "钱辉"
+msgstr "전휘"
+
+msgid "钱长"
+msgstr "전장"
+
+msgid "钱盛"
+msgstr "전성"
+
+msgid "钱胜"
+msgstr "전승"
+
+msgid "钱进"
+msgstr "전진"
+
+msgid "钱安"
+msgstr "전안"
+
+msgid "钱福"
+msgstr "전복"
+
+msgid "钱同"
+msgstr "전동"
+
+msgid "钱满"
+msgstr "전만"
+
+msgid "钱富"
+msgstr "전부"
+
+msgid "钱万"
+msgstr "전만"
+
+msgid "钱龙"
+msgstr "전룡"
+
+msgid "钱隆"
+msgstr "전륭"
+
+msgid "钱祥"
+msgstr "전상"
+
+msgid "钱栋"
+msgstr "전동"
+
+msgid "钱国"
+msgstr "전국"
+
+msgid "钱亿"
+msgstr "전억"
+
+msgid "钱寿"
+msgstr "전수"
+
+msgid "孙顺"
+msgstr "손순"
+
+msgid "孙昌"
+msgstr "손창"
+
+msgid "孙振"
+msgstr "손진"
+
+msgid "孙发"
+msgstr "손발"
+
+msgid "孙财"
+msgstr "손재"
+
+msgid "孙俊"
+msgstr "손준"
+
+msgid "孙彦"
+msgstr "손언"
+
+msgid "孙良"
+msgstr "손량"
+
+msgid "孙志"
+msgstr "손지"
+
+msgid "孙忠"
+msgstr "손충"
+
+msgid "孙孝"
+msgstr "손효"
+
+msgid "孙雄"
+msgstr "손웅"
+
+msgid "孙益"
+msgstr "손익"
+
+msgid "孙添"
+msgstr "손첨"
+
+msgid "孙金"
+msgstr "손금"
+
+msgid "孙辉"
+msgstr "손휘"
+
+msgid "孙长"
+msgstr "손장"
+
+msgid "孙盛"
+msgstr "손성"
+
+msgid "孙胜"
+msgstr "손승"
+
+msgid "孙进"
+msgstr "손진"
+
+msgid "孙安"
+msgstr "손안"
+
+msgid "孙福"
+msgstr "손복"
+
+msgid "孙同"
+msgstr "손동"
+
+msgid "孙满"
+msgstr "손만"
+
+msgid "孙富"
+msgstr "손부"
+
+msgid "孙万"
+msgstr "손만"
+
+msgid "孙龙"
+msgstr "손룡"
+
+msgid "孙隆"
+msgstr "손륭"
+
+msgid "孙祥"
+msgstr "손상"
+
+msgid "孙栋"
+msgstr "손동"
+
+msgid "孙国"
+msgstr "손국"
+
+msgid "孙亿"
+msgstr "손억"
+
+msgid "孙寿"
+msgstr "손수"
+
+msgid "李顺"
+msgstr "이순"
+
+msgid "李昌"
+msgstr "이창"
+
+msgid "李振"
+msgstr "이진"
+
+msgid "李发"
+msgstr "이발"
+
+msgid "李财"
+msgstr "이재"
+
+msgid "李俊"
+msgstr "이준"
+
+msgid "李彦"
+msgstr "이언"
+
+msgid "李良"
+msgstr "이량"
+
+msgid "李志"
+msgstr "이지"
+
+msgid "李忠"
+msgstr "이충"
+
+msgid "李孝"
+msgstr "이효"
+
+msgid "李雄"
+msgstr "이웅"
+
+msgid "李益"
+msgstr "이익"
+
+msgid "李添"
+msgstr "이첨"
+
+msgid "李金"
+msgstr "이금"
+
+msgid "李辉"
+msgstr "이휘"
+
+msgid "李长"
+msgstr "이장"
+
+msgid "李盛"
+msgstr "이성"
+
+msgid "李胜"
+msgstr "이승"
+
+msgid "李进"
+msgstr "이진"
+
+msgid "李安"
+msgstr "이안"
+
+msgid "李福"
+msgstr "이복"
+
+msgid "李同"
+msgstr "이동"
+
+msgid "李满"
+msgstr "이만"
+
+msgid "李富"
+msgstr "이부"
+
+msgid "李万"
+msgstr "이만"
+
+msgid "李龙"
+msgstr "이룡"
+
+msgid "李隆"
+msgstr "이륭"
+
+msgid "李祥"
+msgstr "이상"
+
+msgid "李栋"
+msgstr "이동"
+
+msgid "李国"
+msgstr "이국"
+
+msgid "李亿"
+msgstr "이억"
+
+msgid "李寿"
+msgstr "이수"
+
+msgid "周顺"
+msgstr "주순"
+
+msgid "周昌"
+msgstr "주창"
+
+msgid "周振"
+msgstr "주진"
+
+msgid "周发"
+msgstr "주발"
+
+msgid "周财"
+msgstr "주재"
+
+msgid "周俊"
+msgstr "주준"
+
+msgid "周彦"
+msgstr "주언"
+
+msgid "周良"
+msgstr "주량"
+
+msgid "周志"
+msgstr "주지"
+
+msgid "周忠"
+msgstr "주충"
+
+msgid "周孝"
+msgstr "주효"
+
+msgid "周雄"
+msgstr "주웅"
+
+msgid "周益"
+msgstr "주익"
+
+msgid "周添"
+msgstr "주첨"
+
+msgid "周金"
+msgstr "주금"
+
+msgid "周辉"
+msgstr "주휘"
+
+msgid "周长"
+msgstr "주장"
+
+msgid "周盛"
+msgstr "주성"
+
+msgid "周胜"
+msgstr "주승"
+
+msgid "周进"
+msgstr "주진"
+
+msgid "周安"
+msgstr "주안"
+
+msgid "周福"
+msgstr "주복"
+
+msgid "周同"
+msgstr "주동"
+
+msgid "周满"
+msgstr "주만"
+
+msgid "周富"
+msgstr "주부"
+
+msgid "周万"
+msgstr "주만"
+
+msgid "周龙"
+msgstr "주룡"
+
+msgid "周隆"
+msgstr "주륭"
+
+msgid "周祥"
+msgstr "주상"
+
+msgid "周栋"
+msgstr "주동"
+
+msgid "周国"
+msgstr "주국"
+
+msgid "周亿"
+msgstr "주억"
+
+msgid "周寿"
+msgstr "주수"
+
+msgid "吴顺"
+msgstr "오순"
+
+msgid "吴昌"
+msgstr "오창"
+
+msgid "吴振"
+msgstr "오진"
+
+msgid "吴发"
+msgstr "오발"
+
+msgid "吴财"
+msgstr "오재"
+
+msgid "吴俊"
+msgstr "오준"
+
+msgid "吴彦"
+msgstr "오언"
+
+msgid "吴良"
+msgstr "오량"
+
+msgid "吴志"
+msgstr "오지"
+
+msgid "吴忠"
+msgstr "오충"
+
+msgid "吴孝"
+msgstr "오효"
+
+msgid "吴雄"
+msgstr "오웅"
+
+msgid "吴益"
+msgstr "오익"
+
+msgid "吴添"
+msgstr "오첨"
+
+msgid "吴金"
+msgstr "오금"
+
+msgid "吴辉"
+msgstr "오휘"
+
+msgid "吴长"
+msgstr "오장"
+
+msgid "吴盛"
+msgstr "오성"
+
+msgid "吴胜"
+msgstr "오승"
+
+msgid "吴进"
+msgstr "오진"
+
+msgid "吴安"
+msgstr "오안"
+
+msgid "吴福"
+msgstr "오복"
+
+msgid "吴同"
+msgstr "오동"
+
+msgid "吴满"
+msgstr "오만"
+
+msgid "吴富"
+msgstr "오부"
+
+msgid "吴万"
+msgstr "오만"
+
+msgid "吴龙"
+msgstr "오룡"
+
+msgid "吴隆"
+msgstr "오륭"
+
+msgid "吴祥"
+msgstr "오상"
+
+msgid "吴栋"
+msgstr "오동"
+
+msgid "吴国"
+msgstr "오국"
+
+msgid "吴亿"
+msgstr "오억"
+
+msgid "吴寿"
+msgstr "오수"
+
+msgid "郑顺"
+msgstr "정순"
+
+msgid "郑昌"
+msgstr "정창"
+
+msgid "郑振"
+msgstr "정진"
+
+msgid "郑发"
+msgstr "정발"
+
+msgid "郑财"
+msgstr "정재"
+
+msgid "郑俊"
+msgstr "정준"
+
+msgid "郑彦"
+msgstr "정언"
+
+msgid "郑良"
+msgstr "정량"
+
+msgid "郑志"
+msgstr "정지"
+
+msgid "郑忠"
+msgstr "정충"
+
+msgid "郑孝"
+msgstr "정효"
+
+msgid "郑雄"
+msgstr "정웅"
+
+msgid "郑益"
+msgstr "정익"
+
+msgid "郑添"
+msgstr "정첨"
+
+msgid "郑金"
+msgstr "정금"
+
+msgid "郑辉"
+msgstr "정휘"
+
+msgid "郑长"
+msgstr "정장"
+
+msgid "郑盛"
+msgstr "정성"
+
+msgid "郑胜"
+msgstr "정승"
+
+msgid "郑进"
+msgstr "정진"
+
+msgid "郑安"
+msgstr "정안"
+
+msgid "郑福"
+msgstr "정복"
+
+msgid "郑同"
+msgstr "정동"
+
+msgid "郑满"
+msgstr "정만"
+
+msgid "郑富"
+msgstr "정부"
+
+msgid "郑万"
+msgstr "정만"
+
+msgid "郑龙"
+msgstr "정룡"
+
+msgid "郑隆"
+msgstr "정륭"
+
+msgid "郑祥"
+msgstr "정상"
+
+msgid "郑栋"
+msgstr "정동"
+
+msgid "郑国"
+msgstr "정국"
+
+msgid "郑亿"
+msgstr "정억"
+
+msgid "郑寿"
+msgstr "정수"
+
+msgid "王顺"
+msgstr "왕순"
+
+msgid "王昌"
+msgstr "왕창"
+
+msgid "王振"
+msgstr "왕진"
+
+msgid "王发"
+msgstr "왕발"
+
+msgid "王财"
+msgstr "왕재"
+
+msgid "王俊"
+msgstr "왕준"
+
+msgid "王彦"
+msgstr "왕언"
+
+msgid "王良"
+msgstr "왕량"
+
+msgid "王志"
+msgstr "왕지"
+
+msgid "王忠"
+msgstr "왕충"
+
+msgid "王孝"
+msgstr "왕효"
+
+msgid "王雄"
+msgstr "왕웅"
+
+msgid "王益"
+msgstr "왕익"
+
+msgid "王添"
+msgstr "왕첨"
+
+msgid "王金"
+msgstr "왕금"
+
+msgid "王辉"
+msgstr "왕휘"
+
+msgid "王长"
+msgstr "왕장"
+
+msgid "王盛"
+msgstr "왕성"
+
+msgid "王胜"
+msgstr "왕승"
+
+msgid "王进"
+msgstr "왕진"
+
+msgid "王安"
+msgstr "왕안"
+
+msgid "王福"
+msgstr "왕복"
+
+msgid "王同"
+msgstr "왕동"
+
+msgid "王满"
+msgstr "왕만"
+
+msgid "王富"
+msgstr "왕부"
+
+msgid "王万"
+msgstr "왕만"
+
+msgid "王龙"
+msgstr "왕룡"
+
+msgid "王隆"
+msgstr "왕륭"
+
+msgid "王祥"
+msgstr "왕상"
+
+msgid "王栋"
+msgstr "왕동"
+
+msgid "王国"
+msgstr "왕국"
+
+msgid "王亿"
+msgstr "왕억"
+
+msgid "王寿"
+msgstr "왕수"
+
+msgid "张顺"
+msgstr "장순"
+
+msgid "张昌"
+msgstr "장창"
+
+msgid "张振"
+msgstr "장진"
+
+msgid "张发"
+msgstr "장발"
+
+msgid "张财"
+msgstr "장재"
+
+msgid "张俊"
+msgstr "장준"
+
+msgid "张彦"
+msgstr "장언"
+
+msgid "张良"
+msgstr "장량"
+
+msgid "张志"
+msgstr "장지"
+
+msgid "张忠"
+msgstr "장충"
+
+msgid "张孝"
+msgstr "장효"
+
+msgid "张雄"
+msgstr "장웅"
+
+msgid "张益"
+msgstr "장익"
+
+msgid "张添"
+msgstr "장첨"
+
+msgid "张金"
+msgstr "장금"
+
+msgid "张辉"
+msgstr "장휘"
+
+msgid "张长"
+msgstr "장장"
+
+msgid "张盛"
+msgstr "장성"
+
+msgid "张胜"
+msgstr "장승"
+
+msgid "张进"
+msgstr "장진"
+
+msgid "张安"
+msgstr "장안"
+
+msgid "张福"
+msgstr "장복"
+
+msgid "张同"
+msgstr "장동"
+
+msgid "张满"
+msgstr "장만"
+
+msgid "张富"
+msgstr "장부"
+
+msgid "张万"
+msgstr "장만"
+
+msgid "张龙"
+msgstr "장룡"
+
+msgid "张隆"
+msgstr "장륭"
+
+msgid "张祥"
+msgstr "장상"
+
+msgid "张栋"
+msgstr "장동"
+
+msgid "张国"
+msgstr "장국"
+
+msgid "张亿"
+msgstr "장억"
+
+msgid "张寿"
+msgstr "장수"
+
+msgid "陈顺"
+msgstr "진순"
+
+msgid "陈昌"
+msgstr "진창"
+
+msgid "陈振"
+msgstr "진진"
+
+msgid "陈发"
+msgstr "진발"
+
+msgid "陈财"
+msgstr "진재"
+
+msgid "陈俊"
+msgstr "진준"
+
+msgid "陈彦"
+msgstr "진언"
+
+msgid "陈良"
+msgstr "진량"
+
+msgid "陈志"
+msgstr "진지"
+
+msgid "陈忠"
+msgstr "진충"
+
+msgid "陈孝"
+msgstr "진효"
+
+msgid "陈雄"
+msgstr "진웅"
+
+msgid "陈益"
+msgstr "진익"
+
+msgid "陈添"
+msgstr "진첨"
+
+msgid "陈金"
+msgstr "진금"
+
+msgid "陈辉"
+msgstr "진휘"
+
+msgid "陈长"
+msgstr "진장"
+
+msgid "陈盛"
+msgstr "진성"
+
+msgid "陈胜"
+msgstr "진승"
+
+msgid "陈进"
+msgstr "진진"
+
+msgid "陈安"
+msgstr "진안"
+
+msgid "陈福"
+msgstr "진복"
+
+msgid "陈同"
+msgstr "진동"
+
+msgid "陈满"
+msgstr "진만"
+
+msgid "陈富"
+msgstr "진부"
+
+msgid "陈万"
+msgstr "진만"
+
+msgid "陈龙"
+msgstr "진룡"
+
+msgid "陈隆"
+msgstr "진륭"
+
+msgid "陈祥"
+msgstr "진상"
+
+msgid "陈栋"
+msgstr "진동"
+
+msgid "陈国"
+msgstr "진국"
+
+msgid "陈亿"
+msgstr "진억"
+
+msgid "陈寿"
+msgstr "진수"
+
+msgid "刘顺"
+msgstr "유순"
+
+msgid "刘昌"
+msgstr "유창"
+
+msgid "刘振"
+msgstr "유진"
+
+msgid "刘发"
+msgstr "유발"
+
+msgid "刘财"
+msgstr "유재"
+
+msgid "刘俊"
+msgstr "유준"
+
+msgid "刘彦"
+msgstr "유언"
+
+msgid "刘良"
+msgstr "유량"
+
+msgid "刘志"
+msgstr "유지"
+
+msgid "刘忠"
+msgstr "유충"
+
+msgid "刘孝"
+msgstr "유효"
+
+msgid "刘雄"
+msgstr "유웅"
+
+msgid "刘益"
+msgstr "유익"
+
+msgid "刘添"
+msgstr "유첨"
+
+msgid "刘金"
+msgstr "유금"
+
+msgid "刘辉"
+msgstr "유휘"
+
+msgid "刘长"
+msgstr "유장"
+
+msgid "刘盛"
+msgstr "유성"
+
+msgid "刘胜"
+msgstr "유승"
+
+msgid "刘进"
+msgstr "유진"
+
+msgid "刘安"
+msgstr "유안"
+
+msgid "刘福"
+msgstr "유복"
+
+msgid "刘同"
+msgstr "유동"
+
+msgid "刘满"
+msgstr "유만"
+
+msgid "刘富"
+msgstr "유부"
+
+msgid "刘万"
+msgstr "유만"
+
+msgid "刘龙"
+msgstr "유룡"
+
+msgid "刘隆"
+msgstr "유륭"
+
+msgid "刘祥"
+msgstr "유상"
+
+msgid "刘栋"
+msgstr "유동"
+
+msgid "刘国"
+msgstr "유국"
+
+msgid "刘亿"
+msgstr "유억"
+
+msgid "刘寿"
+msgstr "유수"
+
+msgid "林顺"
+msgstr "임순"
+
+msgid "林昌"
+msgstr "임창"
+
+msgid "林振"
+msgstr "임진"
+
+msgid "林发"
+msgstr "임발"
+
+msgid "林财"
+msgstr "임재"
+
+msgid "林俊"
+msgstr "임준"
+
+msgid "林彦"
+msgstr "임언"
+
+msgid "林良"
+msgstr "임량"
+
+msgid "林志"
+msgstr "임지"
+
+msgid "林忠"
+msgstr "임충"
+
+msgid "林孝"
+msgstr "임효"
+
+msgid "林雄"
+msgstr "임웅"
+
+msgid "林益"
+msgstr "임익"
+
+msgid "林添"
+msgstr "임첨"
+
+msgid "林金"
+msgstr "임금"
+
+msgid "林辉"
+msgstr "임휘"
+
+msgid "林长"
+msgstr "임장"
+
+msgid "林盛"
+msgstr "임성"
+
+msgid "林胜"
+msgstr "임승"
+
+msgid "林进"
+msgstr "임진"
+
+msgid "林安"
+msgstr "임안"
+
+msgid "林福"
+msgstr "임복"
+
+msgid "林同"
+msgstr "임동"
+
+msgid "林满"
+msgstr "임만"
+
+msgid "林富"
+msgstr "임부"
+
+msgid "林万"
+msgstr "임만"
+
+msgid "林龙"
+msgstr "임룡"
+
+msgid "林隆"
+msgstr "임륭"
+
+msgid "林祥"
+msgstr "임상"
+
+msgid "林栋"
+msgstr "임동"
+
+msgid "林国"
+msgstr "임국"
+
+msgid "林亿"
+msgstr "임억"
+
+msgid "林寿"
+msgstr "임수"
+
+msgid "花匠"
+msgstr "정원사"
+
+msgid "骆建章"
+msgstr "낙건장"
+
+msgid "庾清尘"
+msgstr "유청진"
+
+msgid "卖花姑娘"
+msgstr "꽃 파는 처녀"
+
+msgid "紫衣家丁"
+msgstr "보랏빛 옷의 하인"
+
+msgid "园工"
+msgstr "정원 일꾼"
+
+msgid "黑松一剪"
+msgstr "흑송일전"
+
+msgid "蜜蜂"
+msgstr "꿀벌"
+
+msgid "小园工"
+msgstr "어린 정원 일꾼"
+
+msgid "护院"
+msgstr "호원무사"
+
+msgid "女佣人"
+msgstr "하녀"
+
+msgid "淳于怀太"
+msgstr "순우회태"
+
+msgid "巨型犬"
+msgstr "커다란 개"
+
+msgid "信鸽"
+msgstr "전서구"
+
+msgid "厨子"
+msgstr "요리사"
+
+msgid "狱卒"
+msgstr "옥졸"
+
+msgid "子阴鬼牙将"
+msgstr "자음귀아장"
+
+msgid "丑阴鬼牙将"
+msgstr "축음귀아장"
+
+msgid "寅阴鬼牙将"
+msgstr "인음귀아장"
+
+msgid "卯阴鬼牙将"
+msgstr "묘음귀아장"
+
+msgid "辰阴鬼牙将"
+msgstr "진음귀아장"
+
+msgid "巳阴鬼牙将"
+msgstr "사음귀아장"
+
+msgid "午阴鬼牙将"
+msgstr "오음귀아장"
+
+msgid "未阴鬼牙将"
+msgstr "미음귀아장"
+
+msgid "申阴鬼牙将"
+msgstr "신음귀아장"
+
+msgid "酉阴鬼牙将"
+msgstr "유음귀아장"
+
+msgid "戌阴鬼牙将"
+msgstr "술음귀아장"
+
+msgid "亥阴鬼牙将"
+msgstr "해음귀아장"
+
+msgid "白无常"
+msgstr "백무상"
+
+msgid "绞盘道士"
+msgstr "도르래 도사"
+
+msgid "门房道士"
+msgstr "문지기 도사"
+
+msgid "守门道士"
+msgstr "문 지키는 도사"
+
+msgid "货栈道士"
+msgstr "창고 도사"
+
+msgid "诵经道士"
+msgstr "독경 도사"
+
+msgid "领诵道士"
+msgstr "선창 도사"
+
+msgid "管事道士"
+msgstr "집사 도사"
+
+msgid "狱卒道士"
+msgstr "옥졸 도사"
+
+msgid "民夫"
+msgstr "인부"
+
+msgid "石头"
+msgstr "석두"
+
+msgid "关北民夫"
+msgstr "관북 인부"
+
+msgid "商玦"
+msgstr "상결"
+
+msgid "玄冥子"
+msgstr "현명자"
+
+msgid "无头黑影"
+msgstr "머리 없는 검은 그림자"
+
+msgid "巡殿道士"
+msgstr "전각 순찰 도사"
+
+msgid "货郎"
+msgstr "방물장수"
+
+msgid "采药人"
+msgstr "약초꾼"
+
+msgid "追杀的道士"
+msgstr "뒤쫓는 도사"
+
+msgid "关门兵"
+msgstr "관문병"
+
+msgid "关门"
+msgstr "관문"
+
+msgid "城门兵"
+msgstr "성문병"
+
+msgid "驼夫"
+msgstr "낙타몰이꾼"
+
+msgid "铁匠"
+msgstr "대장장이"
+
+msgid "巴朗"
+msgstr "파랑"
+
+msgid "卢卡"
+msgstr "노카"
+
+msgid "大秦剑手"
+msgstr "대진 검수"
+
+msgid "安敦"
+msgstr "안돈"
+
+msgid "牧民"
+msgstr "유목민"
+
+msgid "胡三娘"
+msgstr "호삼랑"
+
+msgid "秦婆子"
+msgstr "진 할멈"
+
+msgid "老秦"
+msgstr "진 영감"
+
+msgid "秦小六"
+msgstr "진소륙"
+
+msgid "王府门军"
+msgstr "왕부 수문군"
+
+msgid "程朔"
+msgstr "정삭"
+
+msgid "郭承"
+msgstr "곽승"
+
+msgid "侍卫"
+msgstr "호위"
+
+msgid "管家"
+msgstr "집사"
+
+msgid "王府兵"
+msgstr "왕부 병사"
+
+msgid "吕隼"
+msgstr "여준"
+
+msgid "裴照"
+msgstr "배조"
+
+msgid "白衣武官"
+msgstr "흰 옷의 무관"
+
+msgid "守夜武官"
+msgstr "야경 무관"
+
+msgid "挖不动的民夫"
+msgstr "지쳐 버린 인부"
+
+msgid "押车道士"
+msgstr "수레 호송 도사"
+
+msgid "王府骑兵"
+msgstr "왕부 기병"
+
+msgid "牧羊人"
+msgstr "양치기"
+
+msgid "民夫家属"
+msgstr "인부의 가족"
+
+msgid "篝火"
+msgstr "모닥불"
+
+msgid "回来的民夫"
+msgstr "돌아온 인부"
+
+msgid "盐脚夫"
+msgstr "소금 짐꾼"
+
+msgid "海"
+msgstr "바다"
+
+msgid "船工"
+msgstr "뱃사공"
+
+msgid "卸货的胡商"
+msgstr "짐 부리는 서역 상인"
+
+msgid "税吏"
+msgstr "세리"
+
+msgid "冯禄"
+msgstr "풍록"
+
+msgid "琉璃商"
+msgstr "유리 상인"
+
+msgid "毡毯商"
+msgstr "양탄자 상인"
+
+msgid "香料商"
+msgstr "향료 상인"
+
+msgid "铜器商"
+msgstr "구리 그릇 상인"
+
+msgid "看摊的孩子"
+msgstr "노점 지키는 아이"
+
+msgid "说书的老胡人"
+msgstr "이야기꾼 서역 노인"
+
+msgid "浪人"
+msgstr "낭인"
+
+msgid "书办"
+msgstr "서리"
+
+msgid "差役"
+msgstr "차사"
+
+msgid "穆护"
+msgstr "목호"
+
+msgid "拜火的胡商"
+msgstr "불을 섬기는 서역 상인"
+
+msgid "龙若法王"
+msgstr "용약 법왕"
+
+msgid "榕树"
+msgstr "반얀나무"
+
+msgid "天竺僧"
+msgstr "천축승"
+
+msgid "早川直义"
+msgstr "하야카와 나오요시"
+
+msgid "黑影"
+msgstr "검은 그림자"
+
+msgid "葛升"
+msgstr "갈승"
+
+msgid "赵勇"
+msgstr "조용"
+
+msgid "孙锐"
+msgstr "손예"
+
+msgid "邓骁"
+msgstr "등효"
+
+msgid "守门禁军"
+msgstr "수문 금군"
+
+msgid "皇城"
+msgstr "황성"
+
+msgid "韦执中"
+msgstr "위집중"
+
+msgid "老仆"
+msgstr "늙은 하인"
+
+msgid "於兰昭"
+msgstr "어란소"
+
+msgid "朝臣"
+msgstr "조신"
+
+msgid "福安"
+msgstr "복안"
+
+msgid "司礼太监"
+msgstr "사례태감"
+
+msgid "巡夜禁军"
+msgstr "야간 순찰 금군"
+
+msgid "小太监"
+msgstr "어린 태감"
+
+msgid "宫女"
+msgstr "궁녀"
+
+msgid "钟嬷嬷"
+msgstr "종 상궁"
+
+msgid "大内侍卫"
+msgstr "대내 시위"
+
+msgid "逆灵宫信使"
+msgstr "역령궁 전령"
+
+msgid "冯策"
+msgstr "풍책"
+
+msgid "宋朴"
+msgstr "송박"
+
+msgid "卜风道士"
+msgstr "바람 점치는 도사"
+
+msgid "岚翁"
+msgstr "람옹"
+
+msgid "岚童"
+msgstr "람동"
+
+msgid "老蔺"
+msgstr "인 영감"
+
+msgid "扫云的老妪"
+msgstr "구름 쓰는 노파"
+
+msgid "岚城人"
+msgstr "람성 사람"
+
+msgid "木人（初阶）"
+msgstr "목인 (1단계)"
+
+msgid "木人（二阶）"
+msgstr "목인 (2단계)"
+
+msgid "木人（三阶）"
+msgstr "목인 (3단계)"
+
+msgid "木人（四阶）"
+msgstr "목인 (4단계)"
+
+msgid "木人（五阶）"
+msgstr "목인 (5단계)"
+
+msgid "流窜毛贼"
+msgstr "떠돌이 좀도둑"
+
+msgid "剪径贼"
+msgstr "노상강도"
+
+msgid "采花贼"
+msgstr "채화적"
+
+msgid "江洋大盗"
+msgstr "강양대도"
+
+msgid "杀人魔头"
+msgstr "살인마"
+
+msgid "信使"
+msgstr "전령"
+
+msgid "白道长"
+msgstr "백 도장"
+
+msgid "江湖客"
+msgstr "강호인"
+
+msgid "庾家管事"
+msgstr "유씨 집안 집사"
+
+msgid "庾家打手"
+msgstr "유씨 집안 왈패"
+
+msgid "璃虹"
+msgstr "이홍"
+
+msgid "侮天鬼"
+msgstr "모천귀"
+
+msgid "黑冠道士"
+msgstr "흑관 도사"
+
+msgid "罗七"
+msgstr "나칠"
+
+msgid "帮闲"
+msgstr "건달"
+
+msgid "阿桂"
+msgstr "아계"
+
+msgid "小满"
+msgstr "소만"
+
+msgid "铁盾会少年"
+msgstr "철순회 소년"
+
+msgid "皮货商"
+msgstr "모피 상인"
+
+msgid "投师的少年"
+msgstr "입문하려는 소년"
+
+msgid "驿卒"
+msgstr "역졸"
+
+msgid "兵部画吏"
+msgstr "병부 화원"
+
+msgid "老周"
+msgstr "주 영감"
+
+msgid "蒙面后生"
+msgstr "복면 청년"
+
+msgid "劫道的汉子"
+msgstr "길을 막는 사내"
+
+msgid "无名女子"
+msgstr "이름 없는 여인"
+
+msgid "胡管事"
+msgstr "호 집사"
+
+msgid "卖身契"
+msgstr "노비 문서"
+
+msgid "钱贵"
+msgstr "전귀"
+
+msgid "牛四"
+msgstr "우사"
+
+msgid "老葛"
+msgstr "갈 영감"
+
+msgid "阿牛"
+msgstr "아우"
+
+msgid "军营入口"
+msgstr "군영 입구"
+
+msgid "小兵营帐"
+msgstr "병졸 막사"
+
+msgid "营火区"
+msgstr "모닥불 터"
+
+msgid "小队长营帐"
+msgstr "소대장 막사"
+
+msgid "副将营帐"
+msgstr "부장 막사"
+
+msgid "将军营帐"
+msgstr "장군 막사"
+
+msgid "水井 · 装水"
+msgstr "우물 · 물 담기"
+
+msgid "兵器库"
+msgstr "병기고"
+
+msgid "武"
+msgstr "무기"
+
+msgid "竹林道"
+msgstr "죽림도"
+
+msgid "竹林道入口"
+msgstr "죽림도 입구"
+
+msgid "梦幻迷境通道"
+msgstr "몽환미경 통로"
+
+msgid "镜子"
+msgstr "거울"
+
+msgid "上道"
+msgstr "윗길"
+
+msgid "碎石小路"
+msgstr "자갈길"
+
+msgid "东北 · 雪亭镇"
+msgstr "동북 · 설정진"
+
+msgid "铁索 · 爬下去"
+msgstr "쇠사슬 · 타고 내려가기"
+
+msgid "黄石隘口尾"
+msgstr "황석고개 끝자락"
+
+msgid "隘口小路"
+msgstr "고개 소로"
+
+msgid "隘口中道"
+msgstr "고개 가운뎃길"
+
+msgid "关外小路"
+msgstr "관외 소로"
+
+msgid "天驼关谷地"
+msgstr "천타관 골짜기"
+
+msgid "黄石穿林路路口"
+msgstr "황석천림로 어귀"
+
+msgid "黄石穿林路"
+msgstr "황석천림로"
+
+msgid "梦幻迷境入口"
+msgstr "몽환미경 입구"
+
+msgid "南 · 玉螺湖村"
+msgstr "남 · 옥라호촌"
+
+msgid "东 · 关门 · 关北"
+msgstr "동 · 관문 · 관북"
+
+msgid "铁索 · 爬上去"
+msgstr "쇠사슬 · 타고 올라가기"
+
+msgid "洞内石室"
+msgstr "동굴 안 석실"
+
+msgid "书柜 · 翻找"
+msgstr "책장 · 뒤지기"
+
+msgid "火龙将军庙"
+msgstr "화룡장군묘"
+
+msgid "阶梯 · 下楼"
+msgstr "계단 · 내려가기"
+
+msgid "山洞"
+msgstr "동굴"
+
+msgid "藤蔓 · 爬下去"
+msgstr "덩굴 · 타고 내려가기"
+
+msgid "树冠"
+msgstr "나무 꼭대기"
+
+msgid "古树 · 爬下去"
+msgstr "고목 · 타고 내려가기"
+
+msgid "云梦大泽"
+msgstr "운몽대택"
+
+msgid "荒野小径"
+msgstr "황야의 오솔길"
+
+msgid "土路"
+msgstr "흙길"
+
+msgid "青石小路"
+msgstr "청석 소로"
+
+msgid "青石峪"
+msgstr "청석 골짜기"
+
+msgid "竹林"
+msgstr "대숲"
+
+msgid "桐柏山"
+msgstr "동백산"
+
+msgid "西 · 乔阴县城"
+msgstr "서 · 교음현성"
+
+msgid "丹炉"
+msgstr "단로"
+
+msgid "大泽 · 装水"
+msgstr "대택 · 물 담기"
+
+msgid "砾石路"
+msgstr "조약돌길"
+
+msgid "绝壁"
+msgstr "절벽"
+
+msgid "北 · 乔阴县城"
+msgstr "북 · 교음현성"
+
+msgid "姑射山"
+msgstr "고야산"
+
+msgid "福林酒楼"
+msgstr "복림주루"
+
+msgid "方梯 · 下楼"
+msgstr "네모 계단 · 내려가기"
+
+msgid "方梯 · 上楼"
+msgstr "네모 계단 · 올라가기"
+
+msgid "神秘洞穴"
+msgstr "신비한 동굴"
+
+msgid "洞穴 · 闻忘忧草"
+msgstr "동굴 · 망우초 향 맡기"
+
+msgid "云台"
+msgstr "운대"
+
+msgid "云"
+msgstr "구름"
+
+msgid "车马行 · 靠近坐车"
+msgstr "거마행 · 가까이 가서 타기"
+
+msgid "乔阴县城北门"
+msgstr "교음현성 북문"
+
+msgid "福林大街"
+msgstr "복림대로"
+
+msgid "石板空地"
+msgstr "판석 공터"
+
+msgid "西大街"
+msgstr "서대로"
+
+msgid "树王坟"
+msgstr "수왕분"
+
+msgid "东大街"
+msgstr "동대로"
+
+msgid "东城门"
+msgstr "동성문"
+
+msgid "南门广场"
+msgstr "남문 광장"
+
+msgid "承安街"
+msgstr "승안가"
+
+msgid "十字路口"
+msgstr "네거리"
+
+msgid "县府衙门"
+msgstr "현 관아"
+
+msgid "乔阴县城南门"
+msgstr "교음현성 남문"
+
+msgid "街道"
+msgstr "거리"
+
+msgid "曲桥"
+msgstr "굽은 다리"
+
+msgid "曼雩台"
+msgstr "만우대"
+
+msgid "桃林"
+msgstr "복숭아 숲"
+
+msgid "阶梯 · 上高台"
+msgstr "계단 · 높은 대로 오르기"
+
+msgid "大皮鼓 · 击鼓"
+msgstr "큰 가죽북 · 북 치기"
+
+msgid "西 · 泓水南岸"
+msgstr "서 · 홍수 남쪽 기슭"
+
+msgid "东 · 城外"
+msgstr "동 · 성 밖"
+
+msgid "南 · 姑射山"
+msgstr "남 · 고야산"
+
+msgid "翠柳湖"
+msgstr "취류호"
+
+msgid "东 · 桃林"
+msgstr "동 · 복숭아 숲"
+
+msgid "大井 · 装水"
+msgstr "큰 우물 · 물 담기"
+
+msgid "石缝 · 采"
+msgstr "바위틈 · 캐기"
+
+msgid "大井 · 喝水"
+msgstr "큰 우물 · 물 마시기"
+
+msgid "杂货"
+msgstr "잡화"
+
+msgid "米"
+msgstr "쌀"
+
+msgid "福林楼"
+msgstr "복림루"
+
+msgid "树王坟内部"
+msgstr "수왕분 내부"
+
+msgid "洞壁 · 攀上去"
+msgstr "동굴 벽 · 기어오르기"
+
+msgid "寒谷"
+msgstr "한곡"
+
+msgid "寒谷尽头"
+msgstr "한곡 끝"
+
+msgid "内厅"
+msgstr "내청"
+
+msgid "大堂"
+msgstr "관아 대청"
+
+msgid "县衙内院"
+msgstr "관아 내원"
+
+msgid "南 · 衙门口"
+msgstr "남 · 관아 문 앞"
+
+msgid "草堂"
+msgstr "초당"
+
+msgid "庭院"
+msgstr "뜰"
+
+msgid "书卷 · 拿书"
+msgstr "서책 · 책 꺼내기"
+
+msgid "西花园"
+msgstr "서쪽 화원"
+
+msgid "黑松阁西厅"
+msgstr "흑송각 서청"
+
+msgid "北花园"
+msgstr "북쪽 화원"
+
+msgid "储藏室"
+msgstr "창고"
+
+msgid "黑松阁正厅"
+msgstr "흑송각 정청"
+
+msgid "黑松阁东厅"
+msgstr "흑송각 동청"
+
+msgid "东花园"
+msgstr "동쪽 화원"
+
+msgid "南花园"
+msgstr "남쪽 화원"
+
+msgid "城墙 · 爬上去"
+msgstr "성벽 · 기어오르기"
+
+msgid "绳子 · 拉"
+msgstr "밧줄 · 당기기"
+
+msgid "楼梯 · 上楼"
+msgstr "계단 · 올라가기"
+
+msgid "黄土大道"
+msgstr "황토 대로"
+
+msgid "路口"
+msgstr "길목"
+
+msgid "山脚乡田"
+msgstr "산기슭 논밭"
+
+msgid "黑松山脚"
+msgstr "흑송산 기슭"
+
+msgid "黑松山腰"
+msgstr "흑송산 중턱"
+
+msgid "花岗石街"
+msgstr "화강석 거리"
+
+msgid "铁索桥"
+msgstr "쇠사슬 다리"
+
+msgid "黑松淳于"
+msgstr "흑송순우"
+
+msgid "黑松城堡的西侧"
+msgstr "흑송 성채 서쪽"
+
+msgid "黑松城堡的东侧"
+msgstr "흑송 성채 동쪽"
+
+msgid "夹道"
+msgstr "담 사잇길"
+
+msgid "东 · 玉螺湖村"
+msgstr "동 · 옥라호촌"
+
+msgid "茶馆"
+msgstr "찻집"
+
+msgid "万丈深渊"
+msgstr "만 길 낭떠러지"
+
+msgid "黑松阁"
+msgstr "흑송각"
+
+msgid "铁链 · 顺着走下去"
+msgstr "쇠사슬 · 타고 내려가기"
+
+msgid "地牢"
+msgstr "지하 감옥"
+
+msgid "刑房"
+msgstr "고문실"
+
+msgid "阳台"
+msgstr "노대"
+
+msgid "卧室"
+msgstr "침실"
+
+msgid "膳房"
+msgstr "식당"
+
+msgid "楼梯 · 下楼"
+msgstr "계단 · 내려가기"
+
+msgid "大床"
+msgstr "큰 침상"
+
+msgid "旺金钱庄"
+msgstr "왕금전장"
+
+msgid "钱庄 · 兑换"
+msgstr "전장 · 환전"
+
+msgid "振远总局"
+msgstr "진원 총국"
+
+msgid "镖"
+msgstr "표행"
+
+msgid "李记鞋店"
+msgstr "이가 신발 가게"
+
+msgid "地下密室"
+msgstr "지하 밀실"
+
+msgid "小床"
+msgstr "작은 침상"
+
+msgid "向上的阶梯"
+msgstr "위로 가는 계단"
+
+msgid "石板 · 下去"
+msgstr "돌판 · 내려가기"
+
+msgid "柴草 · 拨开"
+msgstr "땔감 더미 · 헤치기"
+
+msgid "北驿道"
+msgstr "북역로"
+
+msgid "京师北门"
+msgstr "경사 북문"
+
+msgid "大栅栏"
+msgstr "대책란"
+
+msgid "京师西一门"
+msgstr "경사 서일문"
+
+msgid "京师街道"
+msgstr "경사 거리"
+
+msgid "京师东一门"
+msgstr "경사 동일문"
+
+msgid "废园"
+msgstr "폐원"
+
+msgid "祭坛"
+msgstr "제단"
+
+msgid "京师西街"
+msgstr "경사 서쪽 거리"
+
+msgid "神武门"
+msgstr "신무문"
+
+msgid "京师东街"
+msgstr "경사 동쪽 거리"
+
+msgid "相国府大门"
+msgstr "상국부 정문"
+
+msgid "午门"
+msgstr "오문"
+
+msgid "校武场"
+msgstr "교무장"
+
+msgid "京师西二门"
+msgstr "경사 서이문"
+
+msgid "天桥"
+msgstr "천교"
+
+msgid "京师东二门"
+msgstr "경사 동이문"
+
+msgid "京师南门"
+msgstr "경사 남문"
+
+msgid "尚书府大门"
+msgstr "상서부 정문"
+
+msgid "向下的阶梯"
+msgstr "아래로 가는 계단"
+
+msgid "北 · 玉螺湖村"
+msgstr "북 · 옥라호촌"
+
+msgid "连绵的群山"
+msgstr "끝없이 이어진 산들"
+
+msgid "护国寺"
+msgstr "호국사"
+
+msgid "紫禁城"
+msgstr "자금성"
+
+msgid "相国府"
+msgstr "상국부"
+
+msgid "监狱"
+msgstr "감옥"
+
+msgid "刑场"
+msgstr "형장"
+
+msgid "城门 · 出城"
+msgstr "성문 · 성 밖으로"
+
+msgid "草丛 · 寻找"
+msgstr "풀숲 · 찾기"
+
+msgid "午门 · 候旨"
+msgstr "오문 · 어명 기다리기"
+
+msgid "相国府大门 · 叩门"
+msgstr "상국부 정문 · 문 두드리기"
+
+msgid "药"
+msgstr "약"
+
+msgid "饼"
+msgstr "떡"
+
+msgid "笔墨"
+msgstr "필묵"
+
+msgid "太白酒楼二楼"
+msgstr "태백주루 이층"
+
+msgid "院墙"
+msgstr "담장"
+
+msgid "北 · 京师东街"
+msgstr "북 · 경사 동쪽 거리"
+
+msgid "南 · 尚书府"
+msgstr "남 · 상서부"
+
+msgid "京师东街 · 跳回去"
+msgstr "경사 동쪽 거리 · 뛰어 돌아가기"
+
+msgid "尚书府 · 跳进去"
+msgstr "상서부 · 뛰어들기"
+
+msgid "相国府前院"
+msgstr "상국부 앞뜰"
+
+msgid "相国府正厅"
+msgstr "상국부 정청"
+
+msgid "相国府书房"
+msgstr "상국부 서재"
+
+msgid "四喜绸缎庄"
+msgstr "사희 주단장"
+
+msgid "空房间"
+msgstr "빈방"
+
+msgid "太白酒楼"
+msgstr "태백주루"
+
+msgid "尚书府庭院"
+msgstr "상서부 뜰"
+
+msgid "尚书府客厅"
+msgstr "상서부 객청"
+
+msgid "花园小径"
+msgstr "화원 오솔길"
+
+msgid "小径"
+msgstr "오솔길"
+
+msgid "花园"
+msgstr "화원"
+
+msgid "厨房"
+msgstr "부엌"
+
+msgid "内宅"
+msgstr "안채"
+
+msgid "小路"
+msgstr "소로"
+
+msgid "小屋"
+msgstr "오두막"
+
+msgid "废屋"
+msgstr "폐가"
+
+msgid "京师武器店"
+msgstr "경사 무기점"
+
+msgid "镖局"
+msgstr "표국"
+
+msgid "书局"
+msgstr "책방"
+
+msgid "镇北肉铺"
+msgstr "진북 푸줏간"
+
+msgid "赌场"
+msgstr "도박장"
+
+msgid "怡红院二楼"
+msgstr "이홍원 이층"
+
+msgid "黄土路"
+msgstr "황톳길"
+
+msgid "卧龙岗北坡"
+msgstr "와룡강 북쪽 비탈"
+
+msgid "卧龙岗"
+msgstr "와룡강"
+
+msgid "卧龙岗南坡"
+msgstr "와룡강 남쪽 비탈"
+
+msgid "绮云镇"
+msgstr "기운진"
+
+msgid "北市场"
+msgstr "북시장"
+
+msgid "西市场"
+msgstr "서시장"
+
+msgid "中市场"
+msgstr "중시장"
+
+msgid "东市场"
+msgstr "동시장"
+
+msgid "南市场"
+msgstr "남시장"
+
+msgid "绮云镇街道"
+msgstr "기운진 거리"
+
+msgid "茶场"
+msgstr "차밭"
+
+msgid "江北渡口"
+msgstr "강북 나루"
+
+msgid "张家花园"
+msgstr "장가 화원"
+
+msgid "西 · 晚月庄"
+msgstr "서 · 만월장"
+
+msgid "南 · 泓水"
+msgstr "남 · 홍수"
+
+msgid "北 · 雪亭镇"
+msgstr "북 · 설정진"
+
+msgid "[启事] 由此入镇收取黄金一两"
+msgstr "[알림] 마을에 들어오려면 황금 한 냥"
+
+msgid "布庄"
+msgstr "포목점"
+
+msgid "斋"
+msgstr "채식"
+
+msgid "赌"
+msgstr "도박"
+
+msgid "香茗坊二楼"
+msgstr "향명방 이층"
+
+msgid "药店"
+msgstr "약방"
+
+msgid "怡红院"
+msgstr "이홍원"
+
+msgid "红娘庄"
+msgstr "홍랑장"
+
+msgid "斋院"
+msgstr "채식원"
+
+msgid "张百万家"
+msgstr "장백만네 집"
+
+msgid "福"
+msgstr "복"
+
+msgid "香茗坊"
+msgstr "향명방"
+
+msgid "香茗坊茶窖"
+msgstr "향명방 차 저장고"
+
+msgid "兵器屋"
+msgstr "병기점"
+
+msgid "场院"
+msgstr "놀이 마당"
+
+msgid "棺材铺"
+msgstr "관 가게"
+
+msgid "场院前厅"
+msgstr "놀이 마당 앞 대청"
+
+msgid "杂货铺"
+msgstr "잡화점"
+
+msgid "路的尽头"
+msgstr "길의 끝"
+
+msgid "鬼门大道"
+msgstr "귀문 대로"
+
+msgid "酆都城门"
+msgstr "풍도성 문"
+
+msgid "鬼门关"
+msgstr "귀문관"
+
+msgid "奈何桥"
+msgstr "내하교"
+
+msgid "酆都城"
+msgstr "풍도성"
+
+msgid "黑色城楼"
+msgstr "검은 성루"
+
+msgid "大雾"
+msgstr "짙은 안개"
+
+msgid "小店"
+msgstr "작은 가게"
+
+msgid "人影 · 打听「回家」"
+msgstr "사람 그림자 · ‘집에 가는 길’ 묻기"
+
+msgid "黑店"
+msgstr "흑점"
+
+msgid "市集西头"
+msgstr "장터 서쪽 끝"
+
+msgid "市集东头"
+msgstr "장터 동쪽 끝"
+
+msgid "铁盾会门前"
+msgstr "철순회 문 앞"
+
+msgid "寺前坡道"
+msgstr "절 앞 비탈길"
+
+msgid "西 · 码头"
+msgstr "서 · 부두"
+
+msgid "拜火祠"
+msgstr "배화사"
+
+msgid "南 · 日陀罗寺"
+msgstr "남 · 일타라사"
+
+msgid "市舶司"
+msgstr "시박사"
+
+msgid "客栈"
+msgstr "객잔"
+
+msgid "海崖口"
+msgstr "해애구"
+
+msgid "海崖道"
+msgstr "해애도"
+
+msgid "崖脚"
+msgstr "벼랑 아래"
+
+msgid "北 · 忘情谷外 · 玉螺湖村"
+msgstr "북 · 망정곡 밖 · 옥라호촌"
+
+msgid "南 · 番坊码头"
+msgstr "남 · 번방 부두"
+
+msgid "市舶司公事房"
+msgstr "시박사 집무실"
+
+msgid "市舶司后院"
+msgstr "시박사 뒤뜰"
+
+msgid "兵部文书 · 看"
+msgstr "병부 문서 · 읽기"
+
+msgid "祭司的净室"
+msgstr "제사장의 정결실"
+
+msgid "火前 · 问话"
+msgstr "불 앞 · 캐묻기"
+
+msgid "日陀罗寺"
+msgstr "일타라사"
+
+msgid "日陀罗寺佛殿"
+msgstr "일타라사 불전"
+
+msgid "船工棚"
+msgstr "뱃사공 움막"
+
+msgid "番坊码头"
+msgstr "번방 부두"
+
+msgid "北 · 崖脚 · 海崖道"
+msgstr "북 · 벼랑 아래 · 해애도"
+
+msgid "东 · 市集"
+msgstr "동 · 장터"
+
+msgid "鬼笠馆门庭"
+msgstr "귀립관 문간 뜰"
+
+msgid "鬼笠馆板地"
+msgstr "귀립관 도장"
+
+msgid "板地 · 歇"
+msgstr "마루 · 쉬기"
+
+msgid "铁盾会院子"
+msgstr "철순회 마당"
+
+msgid "会首的屋"
+msgstr "회수의 방"
+
+msgid "冯禄的文书 · 对质"
+msgstr "풍록의 문서 · 대질하기"
+
+msgid "岩洞"
+msgstr "암굴"
+
+msgid "岩穴"
+msgstr "바위굴"
+
+msgid "西 · 峡谷"
+msgstr "서 · 협곡"
+
+msgid "山路"
+msgstr "산길"
+
+msgid "山路转角"
+msgstr "산길 모퉁이"
+
+msgid "岩石坡"
+msgstr "바위 비탈"
+
+msgid "峡谷"
+msgstr "협곡"
+
+msgid "南 · 雪亭镇"
+msgstr "남 · 설정진"
+
+msgid "油布 · 钻进车里"
+msgstr "기름천 · 수레 속에 숨기"
+
+msgid "绳索 · 攀绳上去"
+msgstr "밧줄 · 타고 오르기"
+
+msgid "小土地庙"
+msgstr "작은 토지묘"
+
+msgid "黑暗山洞"
+msgstr "어두운 동굴"
+
+msgid "迷阵"
+msgstr "미진"
+
+msgid "绝地"
+msgstr "막다른 곳"
+
+msgid "坤——"
+msgstr "곤—"
+
+msgid "艮——"
+msgstr "간—"
+
+msgid "坎——"
+msgstr "감—"
+
+msgid "巽——"
+msgstr "손—"
+
+msgid "震——"
+msgstr "진—"
+
+msgid "离——"
+msgstr "이—"
+
+msgid "兑——"
+msgstr "태—"
+
+msgid "乾——"
+msgstr "건—"
+
+msgid "洞口"
+msgstr "동굴 입구"
+
+msgid "山路尽头"
+msgstr "산길 끝"
+
+msgid "溪水边"
+msgstr "시냇가"
+
+msgid "南 · 青石村"
+msgstr "남 · 청석촌"
+
+msgid "石洞"
+msgstr "석굴"
+
+msgid "小路的尽头"
+msgstr "소로 끝"
+
+msgid "三叉路口"
+msgstr "세 갈래 길"
+
+msgid "石板路"
+msgstr "돌판길"
+
+msgid "小巷子"
+msgstr "골목"
+
+msgid "小广场"
+msgstr "작은 광장"
+
+msgid "采石场的空地"
+msgstr "채석장 공터"
+
+msgid "工作站"
+msgstr "작업장"
+
+msgid "西 · 雪亭镇"
+msgstr "서 · 설정진"
+
+msgid "北 · 山洞"
+msgstr "북 · 동굴"
+
+msgid "采石场"
+msgstr "채석장"
+
+msgid "大榕树"
+msgstr "큰 용수나무"
+
+msgid "马房"
+msgstr "마구간"
+
+msgid "木屋"
+msgstr "통나무집"
+
+msgid "井 · 装水"
+msgstr "우물 · 물 담기"
+
+msgid "民宅"
+msgstr "민가"
+
+msgid "工匠的家"
+msgstr "장인의 집"
+
+msgid "村长的家"
+msgstr "촌장의 집"
+
+msgid "沈记商行"
+msgstr "심가 상회"
+
+msgid "破木牌"
+msgstr "낡은 나무패"
+
+msgid "石室"
+msgstr "석실"
+
+msgid "石室大厅"
+msgstr "석실 대청"
+
+msgid "木剑"
+msgstr "목검"
+
+msgid "蒲团"
+msgstr "방석"
+
+msgid "土地庙"
+msgstr "토지묘"
+
+msgid "古冢口"
+msgstr "고총 입구"
+
+msgid "石门"
+msgstr "석문"
+
+msgid "车"
+msgstr "수레"
+
+msgid "西 · 土方 · 工地"
+msgstr "서 · 파낸 터 · 공사장"
+
+msgid "帐篷营地"
+msgstr "천막 야영지"
+
+msgid "营地东口"
+msgstr "야영지 동쪽 어귀"
+
+msgid "西 · 东门 · 马市"
+msgstr "서 · 동문 · 말 시장"
+
+msgid "东 · 草原"
+msgstr "동 · 초원"
+
+msgid "篝火 · 等到天黑"
+msgstr "모닥불 · 밤까지 기다리기"
+
+msgid "关外山道"
+msgstr "관외 산길"
+
+msgid "风沙道"
+msgstr "모래바람 길"
+
+msgid "关北界碑"
+msgstr "관북 경계비"
+
+msgid "北 · 槐阳城门"
+msgstr "북 · 괴양 성문"
+
+msgid "南 · 关门 · 天驼关谷地"
+msgstr "남 · 관문 · 천타관 골짜기"
+
+msgid "关北封国界"
+msgstr "관북 봉국 경계"
+
+msgid "塞外酒肆"
+msgstr "새외 주막"
+
+msgid "酒肆后屋"
+msgstr "주막 뒷방"
+
+msgid "马市"
+msgstr "말 시장"
+
+msgid "西 · 王府大街"
+msgstr "서 · 왕부 대로"
+
+msgid "东门 · 帐篷营地"
+msgstr "동문 · 천막 야영지"
+
+msgid "王府正厅"
+msgstr "왕부 정청"
+
+msgid "王府偏厅"
+msgstr "왕부 편청"
+
+msgid "王府前院"
+msgstr "왕부 앞뜰"
+
+msgid "王府校场"
+msgstr "왕부 연병장"
+
+msgid "草原路"
+msgstr "초원 길"
+
+msgid "敖包"
+msgstr "오보"
+
+msgid "坡"
+msgstr "언덕"
+
+msgid "西 · 帐篷营地"
+msgstr "서 · 천막 야영지"
+
+msgid "东 · 工地"
+msgstr "동 · 공사장"
+
+msgid "槐阳城门"
+msgstr "괴양 성문"
+
+msgid "王府大街"
+msgstr "왕부 대로"
+
+msgid "王府门前"
+msgstr "왕부 문 앞"
+
+msgid "南 · 关外山道 · 天驼关"
+msgstr "남 · 관외 산길 · 천타관"
+
+msgid "东 · 马市"
+msgstr "동 · 말 시장"
+
+msgid "槐阳王府"
+msgstr "괴양 왕부"
+
+msgid "告示 · 看"
+msgstr "방문 · 읽기"
+
+msgid "王府大门 · 叩门"
+msgstr "왕부 정문 · 문 두드리기"
+
+msgid "本府不奉"
+msgstr "본부는 받들지 않는다"
+
+msgid "工地栅栏门"
+msgstr "공사장 목책 문"
+
+msgid "工地营帐"
+msgstr "공사장 막사"
+
+msgid "民夫棚"
+msgstr "인부 움막"
+
+msgid "土方"
+msgstr "파낸 터"
+
+msgid "西 · 草原"
+msgstr "서 · 초원"
+
+msgid "东 · 古冢口"
+msgstr "동 · 고총 입구"
+
+msgid "枷锁 · 打开枷锁"
+msgstr "형틀 · 풀어 주기"
+
+msgid "冷宫"
+msgstr "냉궁"
+
+msgid "冷宫偏屋"
+msgstr "냉궁 곁방"
+
+msgid "枯井 · 下去"
+msgstr "마른 우물 · 내려가기"
+
+msgid "御花园"
+msgstr "어화원"
+
+msgid "御花园西北角"
+msgstr "어화원 서북쪽 모퉁이"
+
+msgid "大内侍卫营"
+msgstr "대내 시위영"
+
+msgid "侍卫营值房"
+msgstr "시위영 당직실"
+
+msgid "西长街"
+msgstr "서장가"
+
+msgid "西长街北段"
+msgstr "서장가 북쪽"
+
+msgid "养心门外"
+msgstr "양심문 밖"
+
+msgid "午门内"
+msgstr "오문 안"
+
+msgid "金水桥"
+msgstr "금수교"
+
+msgid "太和门"
+msgstr "태화문"
+
+msgid "太和殿广场"
+msgstr "태화전 광장"
+
+msgid "太和殿"
+msgstr "태화전"
+
+msgid "井底"
+msgstr "우물 바닥"
+
+msgid "密道"
+msgstr "밀도"
+
+msgid "密道北头"
+msgstr "밀도 북쪽 끝"
+
+msgid "铁蹬 · 上去"
+msgstr "쇠 발판 · 올라가기"
+
+msgid "石阶 · 上去"
+msgstr "돌계단 · 올라가기"
+
+msgid "养心殿前院"
+msgstr "양심전 앞뜰"
+
+msgid "养心殿"
+msgstr "양심전"
+
+msgid "西暖阁"
+msgstr "서난각"
+
+msgid "御书房"
+msgstr "어서방"
+
+msgid "樟木匣 · 翻看"
+msgstr "녹나무 함 · 뒤져 보기"
+
+msgid "御案 · 比对"
+msgstr "어안 · 대조하기"
+
+msgid "朝上揭发 · 揭发"
+msgstr "조정에서 고발 · 고발하기"
+
+msgid "皇叔的通缉 · 先解"
+msgstr "황숙의 수배 · 먼저 풀기"
+
+msgid "风铃阁"
+msgstr "풍령각"
+
+msgid "静室"
+msgstr "조용한 방"
+
+msgid "白石门"
+msgstr "백석문"
+
+msgid "白石街"
+msgstr "백석가"
+
+msgid "铃匠铺"
+msgstr "방울 공방"
+
+msgid "萧家旧院"
+msgstr "소가 옛집"
+
+msgid "街尾"
+msgstr "거리 끝"
+
+msgid "北 · 风铃阁"
+msgstr "북 · 풍령각"
+
+msgid "白石门 · 出城"
+msgstr "백석문 · 성 밖으로"
+
+msgid "台心"
+msgstr "대 한복판"
+
+msgid "云边"
+msgstr "구름 끝자락"
+
+msgid "下 · 风铃阁"
+msgstr "아래 · 풍령각"
+
+msgid "旋芒 · 自己拔"
+msgstr "선망 · 직접 뽑기"
+
+msgid "旋芒 · 请皇叔"
+msgstr "선망 · 황숙께 청하기"
+
+msgid "旋芒 · 让萧辟尘拔"
+msgstr "선망 · 소벽진에게 뽑게 하기"
+
+msgid "云边 · 乘风"
+msgstr "구름 끝자락 · 바람 타기"
+
+msgid "幻影道"
+msgstr "환영도"
+
+msgid "风口"
+msgstr "바람목"
+
+msgid "石林雾野"
+msgstr "석림 안개 들판"
+
+msgid "卜风坛"
+msgstr "복풍단"
+
+msgid "兵部旧营"
+msgstr "병부 옛 군영"
+
+msgid "西边的石坳"
+msgstr "서쪽 바위 우묵지"
+
+msgid "北边的石坳"
+msgstr "북쪽 바위 우묵지"
+
+msgid "东边的石坳"
+msgstr "동쪽 바위 우묵지"
+
+msgid "下 · 镜子"
+msgstr "아래 · 거울"
+
+msgid "前院"
+msgstr "앞뜰"
+
+msgid "月洞门"
+msgstr "월동문"
+
+msgid "湘园小径"
+msgstr "상원 오솔길"
+
+msgid "翠嶂"
+msgstr "취장"
+
+msgid "长廊曲洞"
+msgstr "구불구불한 회랑"
+
+msgid "桂花园"
+msgstr "계화원"
+
+msgid "沁芳桥"
+msgstr "심방교"
+
+msgid "朱栏板桥"
+msgstr "주란판교"
+
+msgid "紫翎小轩"
+msgstr "자령소헌"
+
+msgid "甬路"
+msgstr "벽돌길"
+
+msgid "沁芳亭"
+msgstr "심방정"
+
+msgid "暖香榭"
+msgstr "난향사"
+
+msgid "稻香榭"
+msgstr "도향사"
+
+msgid "翠嫣桥"
+msgstr "취언교"
+
+msgid "晚月庄后门"
+msgstr "만월장 뒷문"
+
+msgid "北 · 前庭"
+msgstr "북 · 앞마당"
+
+msgid "南 · 山路"
+msgstr "남 · 산길"
+
+msgid "蜿蜒小径"
+msgstr "구불구불한 오솔길"
+
+msgid "北 · 晚月庄后门"
+msgstr "북 · 만월장 뒷문"
+
+msgid "东 · 山烟寺"
+msgstr "동 · 산연사"
+
+msgid "禁闭房"
+msgstr "감금실"
+
+msgid "后院走道"
+msgstr "뒤뜰 복도"
+
+msgid "傍厅"
+msgstr "곁채"
+
+msgid "后院书房"
+msgstr "뒤뜰 서재"
+
+msgid "大厅后院"
+msgstr "대청 뒤뜰"
+
+msgid "晚月庄大厅"
+msgstr "만월장 대청"
+
+msgid "晚月庄前庭"
+msgstr "만월장 앞마당"
+
+msgid "晚月庄大门"
+msgstr "만월장 정문"
+
+msgid "碎石小径"
+msgstr "자갈 오솔길"
+
+msgid "密室"
+msgstr "밀실"
+
+msgid "内厅穿堂"
+msgstr "내청 통로"
+
+msgid "仪门"
+msgstr "중문"
+
+msgid "大饭厅"
+msgstr "큰 식당"
+
+msgid "上等厢房"
+msgstr "상등 객방"
+
+msgid "后厅"
+msgstr "후청"
+
+msgid "后厅走道"
+msgstr "후청 복도"
+
+msgid "内书房"
+msgstr "안 서재"
+
+msgid "西厢房走道"
+msgstr "서쪽 별채 복도"
+
+msgid "东厢房走道"
+msgstr "동쪽 별채 복도"
+
+msgid "西厢房"
+msgstr "서쪽 별채"
+
+msgid "东厢房"
+msgstr "동쪽 별채"
+
+msgid "沐浴更衣室"
+msgstr "목욕간"
+
+msgid "小花池"
+msgstr "꽃 연못"
+
+msgid "东 · 绮云镇"
+msgstr "동 · 기운진"
+
+msgid "南 · 湘园"
+msgstr "남 · 상원"
+
+msgid "茶壶 · 装水"
+msgstr "찻주전자 · 물 담기"
+
+msgid "小花池 · 装水"
+msgstr "꽃 연못 · 물 담기"
+
+msgid "小花池 · 沐浴"
+msgstr "꽃 연못 · 목욕하기"
+
+msgid "八卦图 · 跳舞"
+msgstr "팔괘도 · 춤추기"
+
+msgid "石床 · 翻找"
+msgstr "돌 침상 · 뒤지기"
+
+msgid "碧纱橱 · 翻找"
+msgstr "푸른 비단 칸막이 · 뒤지기"
+
+msgid "八卦图 · 请人替跳"
+msgstr "팔괘도 · 대신 춤춰 달라 청하기"
+
+msgid "翠湘阁"
+msgstr "취상각"
+
+msgid "二楼走廊"
+msgstr "이층 복도"
+
+msgid "佛堂"
+msgstr "불당"
+
+msgid "佛堂门前"
+msgstr "불당 앞"
+
+msgid "前堂楼"
+msgstr "앞채 이층"
+
+msgid "观景台"
+msgstr "전망대"
+
+msgid "缀芳阁"
+msgstr "철방각"
+
+msgid "神位前 · 跳舞"
+msgstr "신위 앞 · 춤추기"
+
+msgid "神位前 · 请人替跳"
+msgstr "신위 앞 · 대신 춤춰 달라 청하기"
+
+msgid "缀芳阁 · 静修"
+msgstr "철방각 · 조용히 수련하기"
+
+msgid "后山崖径"
+msgstr "뒷산 벼랑길"
+
+msgid "断崖"
+msgstr "단애"
+
+msgid "南 · 宫主居所的小门"
+msgstr "남 · 궁주 처소 쪽문"
+
+msgid "地牢甬道"
+msgstr "지하 감옥 통로"
+
+msgid "西牢房"
+msgstr "서쪽 감방"
+
+msgid "北牢房"
+msgstr "북쪽 감방"
+
+msgid "东牢房"
+msgstr "동쪽 감방"
+
+msgid "铁钉 · 摘钥匙"
+msgstr "쇠못 · 열쇠 떼기"
+
+msgid "酒坛 · 下药"
+msgstr "술독 · 약 타기"
+
+msgid "石阶 · 上丹房"
+msgstr "돌계단 · 단방으로 오르기"
+
+msgid "黑砖山门"
+msgstr "검은 벽돌 산문"
+
+msgid "货栈"
+msgstr "화물 창고"
+
+msgid "箱子 · 点箱"
+msgstr "상자 · 세어 보기"
+
+msgid "通铺 · 睡到子时"
+msgstr "공동 침상 · 자시까지 자기"
+
+msgid "前殿"
+msgstr "앞 전각"
+
+msgid "丹房"
+msgstr "단방"
+
+msgid "账房"
+msgstr "장부방"
+
+msgid "北门 · 听"
+msgstr "북문 · 엿듣기"
+
+msgid "木鱼 · 跟诵"
+msgstr "목탁 · 따라 외기"
+
+msgid "炭筐 · 添炭"
+msgstr "숯 바구니 · 숯 더 넣기"
+
+msgid "大案 · 抄名单"
+msgstr "큰 탁자 · 명단 베끼기"
+
+msgid "铁匣 · 开匣"
+msgstr "쇠 함 · 열기"
+
+msgid "门缝 · 拨闩"
+msgstr "문틈 · 빗장 벗기기"
+
+msgid "石阶 · 下地牢"
+msgstr "돌계단 · 지하 감옥으로 내려가기"
+
+msgid "宫主居所"
+msgstr "궁주 처소"
+
+msgid "小门 · 追出去"
+msgstr "쪽문 · 쫓아 나가기"
+
+msgid "书案 · 开暗格"
+msgstr "서안 · 숨은 칸 열기"
+
+msgid "后殿"
+msgstr "뒤 전각"
+
+msgid "裂口顶"
+msgstr "협곡 틈 꼭대기"
+
+msgid "北麓货道"
+msgstr "북록 화물길"
+
+msgid "货栈侧门"
+msgstr "화물 창고 옆문"
+
+msgid "北 · 逆灵宫山门"
+msgstr "북 · 역령궁 산문"
+
+msgid "南 · 裂口 · 野羊山山路"
+msgstr "남 · 협곡 틈 · 야양산 산길"
+
+msgid "绳索 · 下到山路"
+msgstr "밧줄 · 산길로 내려가기"
+
+msgid "老松寨"
+msgstr "노송채"
+
+msgid "秘密通道入口"
+msgstr "비밀 통로 입구"
+
+msgid "秘密通道"
+msgstr "비밀 통로"
+
+msgid "南 · 瀑布前"
+msgstr "남 · 폭포 앞"
+
+msgid "东下 · 瀑布前"
+msgstr "동쪽 아래 · 폭포 앞"
+
+msgid "山壁上的窄穴"
+msgstr "산벽의 좁은 구멍"
+
+msgid "瀑布前"
+msgstr "폭포 앞"
+
+msgid "山涧之中"
+msgstr "산골 개울 속"
+
+msgid "水潭"
+msgstr "연못"
+
+msgid "瀑布清水 · 靠近装水"
+msgstr "폭포수 · 가까이 가서 물 담기"
+
+msgid "岸边取水"
+msgstr "물가에서 물 긷기"
+
+msgid "涧中取水"
+msgstr "개울에서 물 긷기"
+
+msgid "林间小路"
+msgstr "숲속 소로"
+
+msgid "林间空地"
+msgstr "숲속 공터"
+
+msgid "小石桥"
+msgstr "작은 돌다리"
+
+msgid "林间....不....悬崖边"
+msgstr "숲속… 아니… 벼랑 끝"
+
+msgid "栈道顶"
+msgstr "잔도 꼭대기"
+
+msgid "松树林"
+msgstr "소나무 숲"
+
+msgid "老松寨秘密入口"
+msgstr "노송채 비밀 입구"
+
+msgid "栈道"
+msgstr "잔도"
+
+msgid "官府告示：此处常有歹人出没。"
+msgstr "관아 고시: 이곳에 악당이 자주 출몰한다."
+
+msgid "西·雪亭镇  东·小石桥  南·下坡道"
+msgstr "서·설정진  동·작은 돌다리  남·내리막길"
+
+msgid "大青石上"
+msgstr "큰 청석 위"
+
+msgid "大松树上"
+msgstr "큰 소나무 위"
+
+msgid "大雄宝殿"
+msgstr "대웅보전"
+
+msgid "流云轩"
+msgstr "유운헌"
+
+msgid "香积厨"
+msgstr "공양간"
+
+msgid "蒸笼 · 打开"
+msgstr "찜통 · 열기"
+
+msgid "药圃 · 采"
+msgstr "약초밭 · 캐기"
+
+msgid "塔林"
+msgstr "탑림"
+
+msgid "走廊"
+msgstr "복도"
+
+msgid "庭园"
+msgstr "정원"
+
+msgid "药圃"
+msgstr "약초밭"
+
+msgid "石板大道"
+msgstr "돌판 대로"
+
+msgid "石板小径"
+msgstr "돌판 오솔길"
+
+msgid "山烟寺寺门"
+msgstr "산연사 절문"
+
+msgid "山烟寺前广场"
+msgstr "산연사 앞 광장"
+
+msgid "南 · 山门"
+msgstr "남 · 산문"
+
+msgid "明心塔"
+msgstr "명심탑"
+
+msgid "见性塔"
+msgstr "견성탑"
+
+msgid "泓水北侧"
+msgstr "홍수 북쪽 기슭"
+
+msgid "江心"
+msgstr "강 한가운데"
+
+msgid "泓水南侧"
+msgstr "홍수 남쪽 기슭"
+
+msgid "江南渡口"
+msgstr "강남 나루"
+
+msgid "山脚小路"
+msgstr "산기슭 소로"
+
+msgid "盘山小径"
+msgstr "산허리 굽잇길"
+
+msgid "山烟寺山门"
+msgstr "산연사 산문"
+
+msgid "北 · 江北渡口"
+msgstr "북 · 강북 나루"
+
+msgid "东 · 乔阴县城"
+msgstr "동 · 교음현성"
+
+msgid "山烟寺"
+msgstr "산연사"
+
+msgid "隧道"
+msgstr "땅굴"
+
+msgid "隧道口"
+msgstr "땅굴 입구"
+
+msgid "书院"
+msgstr "서원"
+
+msgid "山水画"
+msgstr "산수화"
+
+msgid "安记钱庄"
+msgstr "안가 전장"
+
+msgid "柜台 · 靠近兑换"
+msgstr "계산대 · 가까이 가서 환전"
+
+msgid "桑邻药铺"
+msgstr "상린 약방"
+
+msgid "药柜"
+msgstr "약장"
+
+msgid "丰登当铺"
+msgstr "풍등 전당포"
+
+msgid "柜台 · 估价 / 卖断"
+msgstr "계산대 · 감정 / 아주 팔기"
+
+msgid "布帘"
+msgstr "천 휘장"
+
+msgid "红木门"
+msgstr "홍목 문"
+
+msgid "柜台"
+msgstr "계산대"
+
+msgid "饮风客栈 · 二楼"
+msgstr "음풍객잔 · 이층"
+
+msgid "山坳"
+msgstr "산골짝"
+
+msgid "青石官道"
+msgstr "청석 관도"
+
+msgid "黄土小径"
+msgstr "황토 오솔길"
+
+msgid "打铁铺子"
+msgstr "대장간"
+
+msgid "雪亭驿"
+msgstr "설정역"
+
+msgid "官府悬赏 · 靠近看榜"
+msgstr "관아 현상 방 · 가까이 가서 보기"
+
+msgid "谷物加工厂"
+msgstr "방앗간"
+
+msgid "当"
+msgstr "전당"
+
+msgid "淳风武馆"
+msgstr "순풍무관"
+
+msgid "城隍庙"
+msgstr "성황묘"
+
+msgid "木架子"
+msgstr "나무 시렁"
+
+msgid "牌坊"
+msgstr "패방"
+
+msgid "告示牌"
+msgstr "고시판"
+
+msgid "旗杆"
+msgstr "깃대"
+
+msgid "北 · 野羊山"
+msgstr "북 · 야양산"
+
+msgid "东 · 青石村"
+msgstr "동 · 청석촌"
+
+msgid "南 · 卧龙岗"
+msgstr "남 · 와룡강"
+
+msgid "南 · 老松岭"
+msgstr "남 · 노송령"
+
+msgid "石阶 · 茅山"
+msgstr "돌계단 · 모산"
+
+msgid "西 · 水烟阁"
+msgstr "서 · 수연각"
+
+msgid "西南 · 黄石隘口"
+msgstr "서남 · 황석고개"
+
+msgid "淳风武馆收徒"
+msgstr "순풍무관 제자 모집"
+
+msgid "[启事] 由此过路收取黄金一两"
+msgstr "[알림] 이 길을 지나려면 황금 한 냥"
+
+msgid "兵器储藏室"
+msgstr "병기 창고"
+
+msgid "书房"
+msgstr "서재"
+
+msgid "石柱"
+msgstr "돌기둥"
+
+msgid "仕女图"
+msgstr "미인도"
+
+msgid "火炉"
+msgstr "화로"
+
+msgid "神桌"
+msgstr "제상"
+
+msgid "磨盘 · 靠近做工"
+msgstr "맷돌 · 가까이 가서 일하기"
+
+msgid "经楼"
+msgstr "경루"
+
+msgid "木梯 · 上楼"
+msgstr "나무 사다리 · 올라가기"
+
+msgid "厢房"
+msgstr "별채"
+
+msgid "灵心观大殿"
+msgstr "영심관 대전"
+
+msgid "青石小径"
+msgstr "청석 오솔길"
+
+msgid "回廊"
+msgstr "회랑"
+
+msgid "灵心观广场"
+msgstr "영심관 광장"
+
+msgid "藏经楼"
+msgstr "장경루"
+
+msgid "木梯 · 下楼"
+msgstr "나무 사다리 · 내려가기"
+
+msgid "石英岩石阶"
+msgstr "석영암 돌계단"
+
+msgid "灵心观前"
+msgstr "영심관 앞"
+
+msgid "灵心观"
+msgstr "영심관"
+
+msgid "练功房"
+msgstr "연공실"
+
+msgid "农舍"
+msgstr "농가"
+
+msgid "农舍后院"
+msgstr "농가 뒤뜰"
+
+msgid "刘家小房"
+msgstr "유가네 작은 집"
+
+msgid "财主家前院"
+msgstr "부잣집 앞뜰"
+
+msgid "财主家南房"
+msgstr "부잣집 남쪽 방"
+
+msgid "财主家东房"
+msgstr "부잣집 동쪽 방"
+
+msgid "瓜棚"
+msgstr "원두막"
+
+msgid "水下岩洞"
+msgstr "물속 암굴"
+
+msgid "冰阶"
+msgstr "얼음 계단"
+
+msgid "水潭 · 潜下去"
+msgstr "연못 · 잠수하기"
+
+msgid "玉螺湖畔"
+msgstr "옥라호 호숫가"
+
+msgid "稻田"
+msgstr "논"
+
+msgid "瓜地"
+msgstr "수박밭"
+
+msgid "忘情谷外"
+msgstr "망정곡 밖"
+
+msgid "北 · 天驼关"
+msgstr "북 · 천타관"
+
+msgid "西 · 黑松山"
+msgstr "서 · 흑송산"
+
+msgid "南 · 京师"
+msgstr "남 · 경사"
+
+msgid "南 · 海崖道 · 番坊"
+msgstr "남 · 해애도 · 번방"
+
+msgid "玉螺湖"
+msgstr "옥라호"
+
+msgid "大沟"
+msgstr "큰 도랑"
+
+msgid "木船 · 划向湖心"
+msgstr "나룻배 · 호수 한가운데로 젓기"
+
+msgid "湖畔 · 等到天黑"
+msgstr "호숫가 · 밤까지 기다리기"
+
+msgid "芦苇丛 · 拨开芦苇"
+msgstr "갈대숲 · 갈대 헤치기"
+
+msgid "瓜地 · 摘西瓜"
+msgstr "수박밭 · 수박 따기"
+
+msgid "傅家坡"
+msgstr "부가파"
+
+msgid "东 · 玉螺湖畔"
+msgstr "동 · 옥라호 호숫가"
+
+msgid "小船 · 划回岸边"
+msgstr "작은 배 · 물가로 저어 가기"
+
+msgid "湖水 · 潜入湖中"
+msgstr "호수 · 물속으로 잠수하기"
+
+msgid "冰下封坛"
+msgstr "얼음 밑 봉단"
+
+msgid "潭口 · 游上去"
+msgstr "못 어귀 · 헤엄쳐 오르기"
+
+msgid "冰柱 · 把铜牒念给她听"
+msgstr "얼음 기둥 · 동첩을 읽어 주기"
+
+msgid "穿灵 · 拔出来"
+msgstr "천령 · 뽑아내기"
+
+msgid "封坛 · 看清了"
+msgstr "봉단 · 똑똑히 보기"
+
+msgid "坛心 · 迎上去"
+msgstr "단 한가운데 · 맞서 나아가기"
+
+msgid "那颗头 · 钉下去"
+msgstr "그 머리 · 못 박기"
+
+msgid "告示 · 看告示"
+msgstr "방문 · 읽기"
+
+msgid "葬剑亭"
+msgstr "장검정"
+
+msgid "白石阶梯"
+msgstr "백석 계단"
+
+msgid "山坡小径"
+msgstr "산비탈 오솔길"
+
+msgid "水烟阁前"
+msgstr "수연각 앞"
+
+msgid "水烟阁半山亭"
+msgstr "수연각 반산정"
+
+msgid "东 · 雪亭镇"
+msgstr "동 · 설정진"
+
+msgid "水烟阁"
+msgstr "수연각"
+
+msgid "深谷"
+msgstr "깊은 골짜기"
+
+msgid "南 · 虹台"
+msgstr "남 · 채홍대"
+
+msgid "太师椅 · 坐一坐"
+msgstr "태사의 · 앉아 보기"
+
+msgid "柴房"
+msgstr "나뭇간"
+
+msgid "仆役卧室"
+msgstr "하인 침실"
+
+msgid "西侧厅"
+msgstr "서쪽 측청"
+
+msgid "水烟阁正厅"
+msgstr "수연각 정청"
+
+msgid "东侧厅"
+msgstr "동쪽 측청"
+
+msgid "水烟阁西侧花厅"
+msgstr "수연각 서쪽 화청"
+
+msgid "水烟阁正门"
+msgstr "수연각 정문"
+
+msgid "水烟阁东侧花厅"
+msgstr "수연각 동쪽 화청"
+
+msgid "南 · 水烟阁前"
+msgstr "남 · 수연각 앞"
+
+msgid "白石梯 · 上楼"
+msgstr "백석 계단 · 올라가기"
+
+msgid "阶梯 · 上楼"
+msgstr "계단 · 올라가기"
+
+msgid "虹台大会 · 入席"
+msgstr "채홍대 대회 · 자리에 앉기"
+
+msgid "虹台"
+msgstr "채홍대"
+
+msgid "虹谷断崖"
+msgstr "홍곡 단애"
+
+msgid "北 · 葬剑亭"
+msgstr "북 · 장검정"
+
+msgid "振远"
+msgstr "진원"
+
+msgid "步玄"
+msgstr "보현"
+
+msgid "晚月"
+msgstr "만월"
+
+msgid "山烟"
+msgstr "산연"
+
+msgid "天邪"
+msgstr "천악"
+
+msgid "封山"
+msgstr "봉산"
+
+msgid "茅山"
+msgstr "모산"
+
+msgid "绝尘"
+msgstr "절진"
+
+msgid "花紫"
+msgstr "화자"
+
+msgid "聆啸厅"
+msgstr "영소청"
+
+msgid "野羊山"
+msgstr "야양산"
+
+msgid "青石村"
+msgstr "청석촌"
+
+msgid "老松岭"
+msgstr "노송령"
+
+msgid "晚月庄"
+msgstr "만월장"
+
+msgid "日照山"
+msgstr "일조산"
+
+msgid "乔阴县城"
+msgstr "교음현성"
+
+msgid "乔阴东郊"
+msgstr "교음현 동교"
+
+msgid "天驼关"
+msgstr "천타관"
+
+msgid "岚城"
+msgstr "람성"
+
+msgid "玉螺湖村"
+msgstr "옥라호촌"
+
+msgid "京师"
+msgstr "경사"
+
+msgid "黑松山"
+msgstr "흑송산"
+
+msgid "番坊"
+msgstr "번방"
+
+msgid "雪亭镇的淳风武馆"
+msgstr "설정진의 순풍무관"
+
+msgid "京师的振远总局"
+msgstr "경사의 진원 총국"
+
+msgid "青石村的石室"
+msgstr "청석촌의 석실"
+
+msgid "茅山的灵心观"
+msgstr "모산의 영심관"
+
+msgid "日照山的山烟寺"
+msgstr "일조산의 산연사"
+
+msgid "乔阴县城的曼雩台"
+msgstr "교음현성의 만우대"
+
+msgid "乔阴县城的福林大街"
+msgstr "교음현성의 복림대로"
+
+msgid "番坊的铁盾会"
+msgstr "번방의 철순회"
+
+msgid "番坊的鬼笠馆"
+msgstr "번방의 귀립관"
+
+msgid "番坊的日陀罗寺"
+msgstr "번방의 일타라사"
+
+msgid "逆灵宫"
+msgstr "역령궁"
+
+msgid "入门"
+msgstr "입문"
+
+msgid "传说"
+msgstr "전설"
+
+msgid "关北"
+msgstr "관북"
+
+msgid "野羊山北麓"
+msgstr "야양산 북쪽 기슭"
+
+msgid "乔阴 · 天驼关 · 京师"
+msgstr "교음현 · 천타관 · 경사"
+
+msgid "乔阴"
+msgstr "교음현"
+
+msgid "下坡道"
+msgstr "내리막길"
+
+msgid "大松树顶"
+msgstr "큰 소나무 꼭대기"
+
+msgid "基本刀法"
+msgstr "기본 도법"
+
+msgid "封山派内功"
+msgstr "봉산파 내공"
+
+msgid "伏蛟功"
+msgstr "복교공"
+
+msgid "春风快意刀"
+msgstr "춘풍쾌의도"
+
+msgid "封山剑法"
+msgstr "봉산검법"
+
+msgid "倒乱七星步法"
+msgstr "도란칠성보법"
+
+msgid "天邪神功"
+msgstr "천악신공"
+
+msgid "茅山道术"
+msgstr "모산도술"
+
+msgid "天师正道"
+msgstr "천사정도"
+
+msgid "谷衣心法"
+msgstr "곡의심법"
+
+msgid "天师剑法"
+msgstr "천사검법"
+
+msgid "读书识字"
+msgstr "글공부"
+
+msgid "音律"
+msgstr "음률"
+
+msgid "乐器"
+msgstr "악기"
+
+msgid "基本行动"
+msgstr "기본 신법"
+
+msgid "基本杖法"
+msgstr "기본 장법"
+
+msgid "基本暗器"
+msgstr "기본 암기"
+
+msgid "听风辨器之术"
+msgstr "청풍변기술"
+
+msgid "天邪神掌"
+msgstr "천악신장"
+
+msgid "六阴追魂剑法"
+msgstr "육음추혼검법"
+
+msgid "火蝠身法"
+msgstr "화복신법"
+
+msgid "七宝天岚舞"
+msgstr "칠보천람무"
+
+msgid "基本法术"
+msgstr "기본 법술"
+
+msgid "基本咒文"
+msgstr "기본 주문"
+
+msgid "小天魔道"
+msgstr "소천마도"
+
+msgid "奇门遁甲"
+msgstr "기문둔갑"
+
+msgid "绝尘心法"
+msgstr "절진심법"
+
+msgid "金刚杖法"
+msgstr "금강장법"
+
+msgid "流云杖法"
+msgstr "유운장법"
+
+msgid "莲华心法"
+msgstr "연화심법"
+
+msgid "婆萝蜜多心经"
+msgstr "바라밀다심경"
+
+msgid "大乘佛法"
+msgstr "대승불법"
+
+msgid "诵经"
+msgstr "송경"
+
+msgid "八识神通"
+msgstr "팔식신통"
+
+msgid "基本鞭法"
+msgstr "기본 편법"
+
+msgid "基本锤法"
+msgstr "기본 추법"
+
+msgid "基本斧法"
+msgstr "기본 부법"
+
+msgid "基本匕法"
+msgstr "기본 비수법"
+
+msgid "基本叉法"
+msgstr "기본 차법"
+
+msgid "柔虹指"
+msgstr "유홍지"
+
+msgid "寒雪鞭法"
+msgstr "한설편법"
+
+msgid "意寒功"
+msgstr "의한공"
+
+msgid "雪影心法"
+msgstr "설영심법"
+
+msgid "雪影剑法"
+msgstr "설영검법"
+
+msgid "步玄七诀"
+msgstr "보현칠결"
+
+msgid "步玄心法"
+msgstr "보현심법"
+
+msgid "小步玄剑"
+msgstr "소보현검"
+
+msgid "油流麻香手"
+msgstr "유류마향수"
+
+msgid "短歌刀法"
+msgstr "단가도법"
+
+msgid "秋风步"
+msgstr "추풍보"
+
+msgid "密宗大手印"
+msgstr "밀종대수인"
+
+msgid "铁布衫"
+msgstr "철포삼"
+
+msgid "小无相功"
+msgstr "소무상공"
+
+msgid "禁中刀"
+msgstr "금중도"
+
+msgid "关北马刀"
+msgstr "관북마도"
+
+msgid "铁盾剑法"
+msgstr "철순검법"
+
+msgid "鬼笠刀法"
+msgstr "귀립도법"
+
+msgid "振远镖局"
+msgstr "진원표국"
+
+msgid "东方神教"
+msgstr "동방신교"
+
+msgid "天邪派"
+msgstr "천악파"
+
+msgid "绝尘派"
+msgstr "절진파"
+
+msgid "茅山派"
+msgstr "모산파"
+
+msgid "逍遥派"
+msgstr "소요파"
+
+msgid "天山派"
+msgstr "천산파"
+
+msgid "步玄派"
+msgstr "보현파"
+
+msgid "花紫会"
+msgstr "화자회"
+
+msgid "鬼笠馆浪人"
+msgstr "귀립관 낭인"
+
+msgid "面"
+msgstr "개"
+
+msgid "些"
+msgstr "개"
+
+msgid "件"
+msgstr "벌"
+
+msgid "个"
+msgstr "개"
+
+msgid "根"
+msgstr "개"
+
+msgid "本"
+msgstr "권"
+
+msgid "颗"
+msgstr "개"
+
+msgid "把"
+msgstr "자루"
+
+msgid "包"
+msgstr "봉"
+
+msgid "份"
+msgstr "인분"
+
+msgid "柄"
+msgstr "자루"
+
+msgid "口"
+msgstr "개"
+
+msgid "条"
+msgstr "개"
+
+msgid "顶"
+msgstr "개"
+
+msgid "双"
+msgstr "켤레"
+
+msgid "叠"
+msgstr "묶음"
+
+msgid "张"
+msgstr "장"
+
+msgid "具"
+msgstr "구"
+
+msgid "支"
+msgstr "개"
+
+msgid "封"
+msgstr "통"
+
+msgid "只"
+msgstr "개"
+
+msgid "坛"
+msgstr "독"
+
+msgid "串"
+msgstr "줄"
+
+msgid "卷"
+msgstr "권"
+
+msgid "块"
+msgstr "개"
+
+msgid "粒"
+msgstr "알"
+
+msgid "朵"
+msgstr "송이"
+
+msgid "株"
+msgstr "포기"
+
+msgid "杯"
+msgstr "잔"
+
+msgid "副"
+msgstr "개"
+
+msgid "棵"
+msgstr "포기"
+
+msgid "片"
+msgstr "장"
+
+msgid "盘"
+msgstr "접시"
+
+msgid "斤"
+msgstr "근"
+
+msgid "挂"
+msgstr "덩이"
+
+msgid "捆"
+msgstr "타래"
+
+msgid "册"
+msgstr "권"
+
+msgid "囊"
+msgstr "부대"
+
+msgid "袋"
+msgstr "봉지"
+
+msgid "页"
+msgstr "장"
+
+msgid "辆"
+msgstr "대"
+
+msgid "函"
+msgstr "함"
+
+msgid "碗"
+msgstr "그릇"
+
+msgid "银子"
+msgstr "은자"
+
+msgid "黄金"
+msgstr "황금"
+
+msgid "布衣"
+msgstr "베옷"
+
+msgid "包子"
+msgstr "만두"
+
+msgid "烤鸡腿"
+msgstr "구운 닭다리"
+
+msgid "牛皮酒袋"
+msgstr "소가죽 술부대"
+
+msgid "旧书"
+msgstr "낡은 책"
+
+msgid "金疮药"
+msgstr "금창약"
+
+msgid "长剑"
+msgstr "장검"
+
+msgid "玄苏剑"
+msgstr "현소검"
+
+msgid "丝绸马褂"
+msgstr "비단 마고자"
+
+msgid "化尸粉"
+msgstr "화시분"
+
+msgid "蛇药"
+msgstr "뱀독 해독약"
+
+msgid "飞镖"
+msgstr "표창"
+
+msgid "极乐逍遥散"
+msgstr "극락소요산"
+
+msgid "单刀"
+msgstr "단도"
+
+msgid "布袋"
+msgstr "베자루"
+
+msgid "皮鞭"
+msgstr "가죽 채찍"
+
+msgid "牛皮盾"
+msgstr "소가죽 방패"
+
+msgid "八角锤"
+msgstr "팔각추"
+
+msgid "细剑"
+msgstr "세검"
+
+msgid "妖刀狗屠"
+msgstr "요도 구도"
+
+msgid "吹雪残云靴"
+msgstr "취설잔운화"
+
+msgid "吹雪残云带"
+msgstr "취설잔운대"
+
+msgid "吹雪残云衣"
+msgstr "취설잔운의"
+
+msgid "吹雪残云巾"
+msgstr "취설잔운건"
+
+msgid "邪剑穿灵"
+msgstr "사검 천령"
+
+msgid "蒙汗药"
+msgstr "몽한약"
+
+msgid "金刚杖"
+msgstr "금강장"
+
+msgid "紫金冠"
+msgstr "자금관"
+
+msgid "天兵战甲"
+msgstr "천병전갑"
+
+msgid "金锋剑"
+msgstr "금봉검"
+
+msgid "咒剑王禅"
+msgstr "주검 왕선"
+
+msgid "天师道袍"
+msgstr "천사도포"
+
+msgid "三清神冠"
+msgstr "삼청신관"
+
+msgid "七星翻云靴"
+msgstr "칠성번운화"
+
+msgid "重钢战甲"
+msgstr "강철 중갑"
+
+msgid "五股钢叉"
+msgstr "강철 오지창"
+
+msgid "桃符纸"
+msgstr "도부지"
+
+msgid "魔鞭翩珑"
+msgstr "마편 편롱"
+
+msgid "穿花蛇影鞋"
+msgstr "천화사영혜"
+
+msgid "软金束带"
+msgstr "부드러운 금 허리띠"
+
+msgid "紫霜血蝉衣"
+msgstr "자상혈선의"
+
+msgid "菩提禅杖"
+msgstr "보리선장"
+
+msgid "风泉之剑"
+msgstr "풍천지검"
+
+msgid "短剑"
+msgstr "단검"
+
+msgid "皮衣"
+msgstr "가죽옷"
+
+msgid "太阴八卦袍"
+msgstr "태음팔괘포"
+
+msgid "一具已经腐朽的骸骨"
+msgstr "오래전에 썩어 버린 해골"
+
+msgid "鬼头刀"
+msgstr "귀두도"
+
+msgid "狼皮披风"
+msgstr "늑대 가죽 망토"
+
+msgid "竹管"
+msgstr "대롱"
+
+msgid "过招要旨"
+msgstr "과초요지"
+
+msgid "夜行衣"
+msgstr "야행의"
+
+msgid "飞刀"
+msgstr "비도"
+
+msgid "粗布衣"
+msgstr "거친 베옷"
+
+msgid "蓑衣"
+msgstr "도롱이"
+
+msgid "草鞋"
+msgstr "짚신"
+
+msgid "铁斧"
+msgstr "쇠도끼"
+
+msgid "铁锤"
+msgstr "쇠망치"
+
+msgid "功德箱"
+msgstr "시주함"
+
+msgid "竹剑"
+msgstr "죽검"
+
+msgid "粉红绸衫"
+msgstr "분홍 비단 적삼"
+
+msgid "绣花小鞋"
+msgstr "수놓은 작은 꽃신"
+
+msgid "残破刀谱"
+msgstr "해진 도보"
+
+msgid "大金槌"
+msgstr "커다란 금망치"
+
+msgid "熊皮短靴"
+msgstr "곰 가죽 반장화"
+
+msgid "钢刀"
+msgstr "강철도"
+
+msgid "短斧"
+msgstr "손도끼"
+
+msgid "鹿皮小靴"
+msgstr "사슴 가죽 반장화"
+
+msgid "紫玉宝剑"
+msgstr "자옥보검"
+
+msgid "布裙"
+msgstr "베치마"
+
+msgid "绿罗裙"
+msgstr "초록 비단 치마"
+
+msgid "长鞭"
+msgstr "긴 채찍"
+
+msgid "绵裙"
+msgstr "명주 치마"
+
+msgid "柳玉刀"
+msgstr "유옥도"
+
+msgid "绣花鞋"
+msgstr "수놓은 꽃신"
+
+msgid "银翅金簪"
+msgstr "은날개 금비녀"
+
+msgid "青绫绸裙"
+msgstr "푸른 능라 치마"
+
+msgid "玉竹剑"
+msgstr "옥죽검"
+
+msgid "杀手令牌"
+msgstr "살수 영패"
+
+msgid "宫保鸡丁"
+msgstr "궁보계정"
+
+msgid "水饺"
+msgstr "물만두"
+
+msgid "女儿红"
+msgstr "여아홍"
+
+msgid "脆皮烤鸭"
+msgstr "바삭한 오리구이"
+
+msgid "火摺"
+msgstr "화섭자"
+
+msgid "腰带"
+msgstr "허리띠"
+
+msgid "耳环"
+msgstr "귀고리"
+
+msgid "钻石胸针"
+msgstr "금강석 가슴 장식"
+
+msgid "宝蓝缎衫"
+msgstr "남빛 공단 적삼"
+
+msgid "碧玉红裎带"
+msgstr "벽옥 박은 붉은 띠"
+
+msgid "珍珠项链"
+msgstr "진주 목걸이"
+
+msgid "丝罗巾"
+msgstr "비단 수건"
+
+msgid "冰玉戒指"
+msgstr "빙옥 가락지"
+
+msgid "青纱裙"
+msgstr "푸른 비단 홑치마"
+
+msgid "护身符"
+msgstr "호신부"
+
+msgid "雪花糕"
+msgstr "설화고"
+
+msgid "竹子"
+msgstr "대나무"
+
+msgid "绣花针"
+msgstr "수바늘"
+
+msgid "花针"
+msgstr "꽃바늘"
+
+msgid "红桂花"
+msgstr "붉은 계화"
+
+msgid "小花蕊"
+msgstr "작은 꽃술"
+
+msgid "玉瓷茶杯"
+msgstr "옥자기 찻잔"
+
+msgid "竹蜻蜓"
+msgstr "대나무 잠자리"
+
+msgid "玛瑙手镯"
+msgstr "마노 팔찌"
+
+msgid "舞曲谱"
+msgstr "무곡보"
+
+msgid "黄金令牌"
+msgstr "황금 영패"
+
+msgid "戒刀"
+msgstr "계도"
+
+msgid "灰布僧衣"
+msgstr "잿빛 승복"
+
+msgid "黑眼罩"
+msgstr "검은 안대"
+
+msgid "僧鞋"
+msgstr "승혜"
+
+msgid "青布僧衣"
+msgstr "푸른 승복"
+
+msgid "菜刀"
+msgstr "식칼"
+
+msgid "竹扫把"
+msgstr "대빗자루"
+
+msgid "馒头"
+msgstr "찐빵"
+
+msgid "乌檀木刀"
+msgstr "흑단 목도"
+
+msgid "轻罗绸衫"
+msgstr "얇은 비단 적삼"
+
+msgid "银簪"
+msgstr "은비녀"
+
+msgid "平安符"
+msgstr "평안 부적"
+
+msgid "玉带冠"
+msgstr "옥대관"
+
+msgid "大饼"
+msgstr "전병"
+
+msgid "糖葫芦"
+msgstr "탕후루"
+
+msgid "红龟"
+msgstr "붉은 거북떡"
+
+msgid "从寿衣撕下的布条"
+msgstr "수의에서 찢어 낸 천 조각"
+
+msgid "仙丹"
+msgstr "선단"
+
+msgid "缚仙绳"
+msgstr "박선승"
+
+msgid "寒谷幽兰"
+msgstr "한곡유란"
+
+msgid "「白杨经」"
+msgstr "“백양경”"
+
+msgid "紫罗鸳鸯荷包"
+msgstr "자줏빛 비단 원앙 주머니"
+
+msgid "军刀"
+msgstr "군도"
+
+msgid "青铜战盔"
+msgstr "청동 투구"
+
+msgid "ψ破 残 奇 剑ψ"
+msgstr "ψ파 잔 기 검ψ"
+
+msgid "火 云 战 甲"
+msgstr "화 운 전 갑"
+
+msgid "铁扇剑"
+msgstr "철선검"
+
+msgid "迷幻经纶"
+msgstr "미환경륜"
+
+msgid "古 剑"
+msgstr "고 검"
+
+msgid "书匣"
+msgstr "책함"
+
+msgid "悟疾风劲竹书"
+msgstr "오질풍경죽서"
+
+msgid "紫花瓣儿"
+msgstr "보라 꽃잎"
+
+msgid "西瓜"
+msgstr "수박"
+
+msgid "銮鱼衡冰"
+msgstr "난어형빙"
+
+msgid "多情刀"
+msgstr "다정도"
+
+msgid "无情剑"
+msgstr "무정검"
+
+msgid "西湖醋鱼"
+msgstr "서호초어"
+
+msgid "状元红"
+msgstr "장원홍"
+
+msgid "象皮战靴"
+msgstr "코끼리 가죽 장화"
+
+msgid "淡青长袍"
+msgstr "연푸른 장포"
+
+msgid "艳红绸衫"
+msgstr "새빨간 비단 적삼"
+
+msgid "紫铜战盔"
+msgstr "적동 투구"
+
+msgid "烟雨鞭"
+msgstr "연우편"
+
+msgid "天魔杵"
+msgstr "천마저"
+
+msgid "月白色长裙"
+msgstr "월백색 긴 치마"
+
+msgid "八楞玄铁锤"
+msgstr "팔릉 현철추"
+
+msgid "园工剪"
+msgstr "전지가위"
+
+msgid "鸡毛"
+msgstr "닭털"
+
+msgid "烤山猪肉"
+msgstr "멧돼지 구이"
+
+msgid "人皮酒袋"
+msgstr "사람 가죽 술부대"
+
+msgid "碧玉刀"
+msgstr "벽옥도"
+
+msgid "紫罗兰"
+msgstr "제비꽃"
+
+msgid "红枚瑰"
+msgstr "붉은 장미"
+
+msgid "黄玫瑰"
+msgstr "노란 장미"
+
+msgid "蓝天鹅"
+msgstr "푸른 백조"
+
+msgid "白茶花"
+msgstr "흰 동백꽃"
+
+msgid "黑牡丹"
+msgstr "흑모란"
+
+msgid "蛇鳞皮鞭"
+msgstr "뱀비늘 채찍"
+
+msgid "破烂的粉红布衫"
+msgstr "해진 분홍 베적삼"
+
+msgid "冥府战甲"
+msgstr "명부전갑"
+
+msgid "七股钢叉"
+msgstr "강철 칠지창"
+
+msgid "解牛刀"
+msgstr "소 잡는 칼"
+
+msgid "牛皮束带"
+msgstr "소가죽 허리띠"
+
+msgid "量衣尺"
+msgstr "재단용 자"
+
+msgid "裁衣剪"
+msgstr "재단 가위"
+
+msgid "青布袈裟"
+msgstr "푸른 가사"
+
+msgid "舞蝶彩衫"
+msgstr "춤나비 무늬 적삼"
+
+msgid "霜月刀"
+msgstr "상월도"
+
+msgid "茶叶"
+msgstr "찻잎"
+
+msgid "棋子"
+msgstr "바둑돌"
+
+msgid "说文解字"
+msgstr "설문해자"
+
+msgid "生牛肉"
+msgstr "날소고기"
+
+msgid "牛腿"
+msgstr "소 뒷다리"
+
+msgid "牛尾"
+msgstr "소꼬리"
+
+msgid "熟杂碎"
+msgstr "삶은 내장"
+
+msgid "狗肉"
+msgstr "개고기"
+
+msgid "麻绳"
+msgstr "삼밧줄"
+
+msgid "拂柳鞭"
+msgstr "불류편"
+
+msgid "僧棍"
+msgstr "승곤"
+
+msgid "信件"
+msgstr "편지"
+
+msgid "水烟阁武士氅"
+msgstr "수연각 무사 망토"
+
+msgid "牛皮靴"
+msgstr "소가죽 장화"
+
+msgid "水烟阁司事褂"
+msgstr "수연각 집사 마고자"
+
+msgid "水烟阁司事帽"
+msgstr "수연각 집사 모자"
+
+msgid "鲜红锦衣"
+msgstr "진홍 비단옷"
+
+msgid "鲜红金乌冠"
+msgstr "진홍 금오관"
+
+msgid "焦殇剑"
+msgstr "초상검"
+
+msgid "黑铁杖"
+msgstr "흑철장"
+
+msgid "陶壶"
+msgstr "질항아리"
+
+msgid "追风剑"
+msgstr "추풍검"
+
+msgid "绳子"
+msgstr "밧줄"
+
+msgid "青布道袍"
+msgstr "푸른 도포"
+
+msgid "黑布鞋"
+msgstr "검은 헝겊신"
+
+msgid "魔法入门"
+msgstr "마법 입문"
+
+msgid "符咒简介"
+msgstr "부적 주문 개요"
+
+msgid "拂尘"
+msgstr "불진"
+
+msgid "旧道袍"
+msgstr "낡은 도포"
+
+msgid "青铜道冠"
+msgstr "청동 도관"
+
+msgid "八卦道袍"
+msgstr "팔괘 도포"
+
+msgid "碧玉冠"
+msgstr "벽옥관"
+
+msgid "账册"
+msgstr "장부"
+
+msgid "地牢钥匙"
+msgstr "지하 감옥 열쇠"
+
+msgid "逆灵天书残卷"
+msgstr "역령천서 잔권"
+
+msgid "霍铮的尸首"
+msgstr "곽쟁의 시신"
+
+msgid "石头的尸首"
+msgstr "석두의 시신"
+
+msgid "黑剑"
+msgstr "흑검"
+
+msgid "祭品名单"
+msgstr "제물 명단"
+
+msgid "祭品名册"
+msgstr "제물 명부"
+
+msgid "逆灵天书下半部"
+msgstr "역령천서 하권"
+
+msgid "六阴剑谱"
+msgstr "육음검보"
+
+msgid "印模"
+msgstr "인장 틀"
+
+msgid "马刀"
+msgstr "기병도"
+
+msgid "大秦短剑"
+msgstr "대진 단검"
+
+msgid "马奶酒"
+msgstr "마유주"
+
+msgid "手抓羊肉"
+msgstr "손으로 뜯는 양고기"
+
+msgid "马刀谱"
+msgstr "기병도보"
+
+msgid "琉璃珠"
+msgstr "유리구슬"
+
+msgid "毡毯"
+msgstr "양탄자"
+
+msgid "胡椒"
+msgstr "후추"
+
+msgid "胡饼"
+msgstr "호떡"
+
+msgid "铜壶"
+msgstr "구리 주전자"
+
+msgid "铜牒"
+msgstr "동첩"
+
+msgid "贝叶"
+msgstr "패엽"
+
+msgid "倭刀"
+msgstr "왜도"
+
+msgid "大秦圆盾"
+msgstr "대진 둥근 방패"
+
+msgid "御前侍卫腰牌"
+msgstr "어전 시위 요패"
+
+msgid "寻剑令原本"
+msgstr "심검령 원본"
+
+msgid "兵部抄本"
+msgstr "병부 사본"
+
+msgid "樵夫的旧记载"
+msgstr "나무꾼의 옛 기록"
+
+msgid "手诏"
+msgstr "친필 조서"
+
+msgid "先帝的解读"
+msgstr "선제의 풀이"
+
+msgid "禁中刀谱"
+msgstr "금중도보"
+
+msgid "青铜风铃"
+msgstr "청동 풍령"
+
+msgid "卜风签"
+msgstr "바람점 쪽지"
+
+msgid "雪亭驿的书信"
+msgstr "설정역의 서신"
+
+msgid "刻着记号的布条"
+msgstr "표시를 새긴 천 조각"
+
+msgid "水烟阁武士腰牌"
+msgstr "수연각 무사 요패"
+
+msgid "虹台请柬"
+msgstr "채홍대 청첩"
+
+msgid "柳淳风的引荐信"
+msgstr "유순풍의 천거장"
+
+msgid "二十年前的镖单"
+msgstr "스무 해 전의 표물 장부"
+
+msgid "刻着风纹的石匣"
+msgstr "바람 무늬를 새긴 석갑"
+
+msgid "纳供车"
+msgstr "공물 수레"
+
+msgid "寒於宝衣"
+msgstr "한어보의"
+
+msgid "婢女的尸首"
+msgstr "시녀의 시신"
+
+msgid "昭蓉的尸首"
+msgstr "소용의 시신"
+
+msgid "寻剑令抄本"
+msgstr "심검령 사본"
+
+msgid "程不平的信"
+msgstr "정불평의 편지"
+
+msgid "璃虹的羽"
+msgstr "이홍의 깃털"
+
+msgid "黑焰"
+msgstr "흑염"
+
+msgid "渔夫的尸首"
+msgstr "어부의 시신"
+
+msgid "上清符箓"
+msgstr "상청부록"
+
+msgid "骆家家书"
+msgstr "낙씨 집안 편지"
+
+msgid "附子"
+msgstr "부자"
+
+msgid "麝香"
+msgstr "사향"
+
+msgid "鬼臼"
+msgstr "귀구"
+
+msgid "汤药"
+msgstr "탕약"
+
+msgid "骆家名帖"
+msgstr "낙씨 집안 명첩"
+
+msgid "障眼符"
+msgstr "눈속임 부적"
+
+msgid "封山腰牌"
+msgstr "봉산 요패"
+
+msgid "无名信"
+msgstr "이름 없는 편지"
+
+msgid "执法使手令"
+msgstr "집법사의 친필 명령서"
+
+msgid "翻倒的纳供车"
+msgstr "뒤집힌 공물 수레"
+
+msgid "芦苇丛里的尸首"
+msgstr "갈대숲 속의 시신"
+
+msgid "赤铜令"
+msgstr "적동령"
+
+msgid "冰凿"
+msgstr "얼음 끌"
+
+msgid "石匣出土图"
+msgstr "석갑 발굴 그림"
+
+msgid "振远的名帖"
+msgstr "진원표국의 명첩"
+
+msgid "贺长庚的家信"
+msgstr "하장경의 집안 편지"
+
+msgid "乔阴捕快腰牌"
+msgstr "교음 포쾌 요패"
+
+msgid "大黄石"
+msgstr "커다란 누런 바위"
+
+msgid "铁索"
+msgstr "쇠줄"
+
+msgid "光滑的山壁"
+msgstr "매끄러운 산벽"
+
+msgid "铁门"
+msgstr "철문"
+
+msgid "书"
+msgstr "책"
+
+msgid "悬崖"
+msgstr "벼랑"
+
+msgid "尚书府"
+msgstr "상서부"
+
+msgid "封山剑派北宗"
+msgstr "봉산검파 북종"
+
+msgid "告示"
+msgstr "벽보"
+
+msgid "铁盾会"
+msgstr "철순회"
+
+msgid "佛像"
+msgstr "불상"
+
+msgid "石椅"
+msgstr "돌의자"
+
+msgid "背风的石坳"
+msgstr "바람을 등진 바위틈"
+
+msgid "大松树"
+msgstr "큰 소나무"
+
+msgid "藤蔓"
+msgstr "덩굴"
+
+msgid "招牌"
+msgstr "간판"
+
+msgid "石狮"
+msgstr "돌사자"
+
+msgid "架子"
+msgstr "시렁"
+
+msgid "太师椅"
+msgstr "태사의"
+
+msgid "书架"
+msgstr "서가"
+
+msgid "茅草"
+msgstr "띠풀"
+
+msgid "小牌子"
+msgstr "작은 팻말"
+
+msgid "潭口"
+msgstr "못 어귀"
+
+msgid "胆识"
+msgstr "담력"
+
+msgid "定力"
+msgstr "평정심"
+
+msgid "灵性"
+msgstr "영성"
+
+msgid "实战经验"
+msgstr "실전 경험"
+
+msgid "精"
+msgstr "정"
+
+msgid "气"
+msgstr "기"
+
+msgid "神"
+msgstr "신"
+
+msgid "内力"
+msgstr "내력"
+
+msgid "法力"
+msgstr "법력"
+
+msgid "灵力"
+msgstr "영력"
+
+msgid "潜能"
+msgstr "잠재력"
+
+msgid "加力"
+msgstr "가력"
+
+msgid "守势"
+msgstr "수세"
+
+msgid "车马行"
+msgstr "마차 역참"
+
+msgid "地图"
+msgstr "지도"
+
+msgid "钱"
+msgstr "돈"
+
+msgid "食物"
+msgstr "음식"
+
+msgid "匕首"
+msgstr "비수"
+
+msgid "基本拳脚"
+msgstr "기본 권각"
+
+msgid "基本剑法"
+msgstr "기본 검법"
+
+msgid "基本招架"
+msgstr "기본 막기"
+
+msgid "基本轻功"
+msgstr "기본 경공"
+
+msgid "基本内功"
+msgstr "기본 내공"
+
+msgid "柳家拳"
+msgstr "유가권"
+
+msgid "稳健"
+msgstr "신중"
+
+msgid "爆发"
+msgstr "폭발"
+
+msgid "兽"
+msgstr "야수"
+
+msgid "当前 / 有效 / 最大"
+msgstr "현재 / 유효 / 최대"
+
+msgid "杀气"
+msgstr "살기"
+
+msgid "饮水"
+msgstr "물"
+
+msgid "综合评价"
+msgstr "종합 평가"
+
+msgid "杀过的人"
+msgstr "죽인 사람"
+
+msgid "负重"
+msgstr "짐 무게"
+
+msgid "体重"
+msgstr "몸무게"
+
+msgid "膂力"
+msgstr "완력"
+
+msgid "悟性"
+msgstr "오성"
+
+msgid "容貌"
+msgstr "용모"
+
+msgid "根骨"
+msgstr "근골"
+
+msgid "福缘"
+msgstr "복연"
+
+msgid "阴间"
+msgstr "저승"
+
+msgid "乞丐"
+msgstr "거지"
+
+msgid "李师师"
+msgstr "이사사"
+
+msgid "宝官"
+msgstr "물주"
+
+msgid "知客僧"
+msgstr "지객승"
+
+msgid "裁缝"
+msgstr "재봉사"
+
+msgid "茶工"
+msgstr "차밭 일꾼"
+
+msgid "疯狗"
+msgstr "미친개"
+
+msgid "野狗"
+msgstr "들개"
+
+msgid "杜宽"
+msgstr "두관"
+
+msgid "收破烂的"
+msgstr "넝마주이"
+
+msgid "王铁匠"
+msgstr "왕 대장장이"
+
+msgid "扫地僧"
+msgstr "소지승"
+
+msgid "进香客"
+msgstr "참배객"
+
+msgid "魏无极"
+msgstr "위무극"
+
+msgid "武馆弟子"
+msgstr "무관 제자"
+
+msgid "卖饼大叔"
+msgstr "전병 장수 아저씨"
+
+msgid "卖糖葫芦的"
+msgstr "탕후루 장수"
+
+msgid "卖包子的"
+msgstr "만두 장수"
+
+msgid "家丁"
+msgstr "하인"
+
+msgid "岩蛭"
+msgstr "바위 거머리"
+
+msgid "蜘蛛"
+msgstr "거미"
+
+msgid "金丝雀"
+msgstr "카나리아"
+
+msgid "药僧"
+msgstr "약승"
+
+msgid "船夫"
+msgstr "뱃사공"
+
+msgid "潘若秋"
+msgstr "반약추"
+
+msgid "鸨母"
+msgstr "포주"
+
+msgid "杂货贩"
+msgstr "잡화 장수"
+
+msgid "李火狮"
+msgstr "이화사"
+
+msgid "贵公子"
+msgstr "귀공자"
+
+msgid "玄真"
+msgstr "현진"
+
+msgid "蝴蝶"
+msgstr "나비"
+
+msgid "芳绫"
+msgstr "방릉"
+
+msgid "弈者"
+msgstr "바둑꾼"
+
+msgid "化缘和尚"
+msgstr "탁발승"
+
+msgid "农夫"
+msgstr "농부"
+
+msgid "旅客"
+msgstr "나그네"
+
+msgid "樵夫"
+msgstr "나무꾼"
+
+msgid "护寺武僧"
+msgstr "수호 무승"
+
+msgid "肥岩蛭"
+msgstr "살찐 바위 거머리"
+
+msgid "大岩蛭"
+msgstr "큰 바위 거머리"
+
+msgid "昭仪"
+msgstr "소의"
+
+msgid "圆春"
+msgstr "원춘"
+
+msgid "惜春"
+msgstr "석춘"
+
+msgid "跛僧人"
+msgstr "다리 저는 스님"
+
+msgid "明心"
+msgstr "명심"
+
+msgid "郑屠夫"
+msgstr "정 백정"
+
+msgid "清虚"
+msgstr "청허"
+
+msgid "卧龙岗强盗"
+msgstr "와룡강 강도"
+
+msgid "彩衣少女"
+msgstr "색옷 입은 소녀"
+
+msgid "飞贼"
+msgstr "밤도둑"
+
+msgid "巨岩蛭"
+msgstr "거대 바위 거머리"
+
+msgid "土匪爪牙"
+msgstr "산적 졸개"
+
+msgid "兵器贩子"
+msgstr "병기 장수"
+
+msgid "袭人"
+msgstr "습인"
+
+msgid "土匪首领"
+msgstr "산적 두목"
+
+msgid "趟子手"
+msgstr "쟁자수"
+
+msgid "老队长"
+msgstr "노대장"
+
+msgid "柳绘心"
+msgstr "유회심"
+
+msgid "老兵"
+msgstr "노병"
+
+msgid "大队长"
+msgstr "대대장"
+
+msgid "小队长"
+msgstr "소대장"
+
+msgid "小兵"
+msgstr "졸병"
+
+msgid "僵尸护法"
+msgstr "강시 호법"
+
+msgid "赫造基"
+msgstr "혁조기"
+
+msgid "清云"
+msgstr "청운"
+
+msgid "清玄"
+msgstr "청현"
+
+msgid "独眼头陀"
+msgstr "외눈 두타"
+
+msgid "守城官兵"
+msgstr "수성 관병"
+
+msgid "芙云"
+msgstr "부운"
+
+msgid "梦玉楼"
+msgstr "몽옥루"
+
+msgid "安惜迩"
+msgstr "안석이"
+
+msgid "武官"
+msgstr "무관"
+
+msgid "李信"
+msgstr "이신"
+
+msgid "严廷殷"
+msgstr "엄정은"
+
+msgid "狼狗"
+msgstr "늑대개"
+
+msgid "常老大"
+msgstr "상 두목"
+
+msgid "蓝雨梅"
+msgstr "남우매"
+
+msgid "蓝筱薇"
+msgstr "남소미"
+
+msgid "疯老头子"
+msgstr "실성한 노인"
+
+msgid "莫欣芳"
+msgstr "막흔방"
+
+msgid "邢千慧"
+msgstr "형천혜"
+
+msgid "玉佩"
+msgstr "옥패"
+
+msgid "忘忧草"
+msgstr "망우초"
+
+msgid "无名老妇"
+msgstr "이름 없는 노파"
+
+msgid "密函"
+msgstr "밀서"
+
+msgid "山药蛋"
+msgstr "감자"
+
+msgid "桃木箱"
+msgstr "복숭아나무 궤짝"
+
+msgid "印鉴"
+msgstr "인장"
+
+msgid "小娟"
+msgstr "소연"
+
+msgid "出城令牌"
+msgstr "출성 영패"
+
+msgid "官府悬赏"
+msgstr "관아 현상금"
+
+msgid "黑衣人"
+msgstr "흑의인"
+
+msgid "官府"
+msgstr "관부"
+
+msgid "短工"
+msgstr "품팔이"
+
+msgid "钱庄"
+msgstr "전장"
+
+msgid "红漆大门"
+msgstr "붉은 칠 대문"
+
+msgid "木雕门"
+msgstr "조각한 나무 문"
+
+msgid "房门"
+msgstr "방문"
+
+msgid "瀑布清水"
+msgstr "폭포의 맑은 물"
+
+msgid "湖水"
+msgstr "호숫물"
+
+msgid "泉水"
+msgstr "샘물"
+
+msgid "大门"
+msgstr "대문"
+
+msgid "灌木丛"
+msgstr "덤불"
+
+msgid "山涧石壁"
+msgstr "계곡 암벽"
+
+msgid "向下的山壁"
+msgstr "내려가는 산벽"
+
+msgid "向上的山壁"
+msgstr "올라가는 산벽"
+
+msgid "大青石"
+msgstr "커다란 청석"
+
+msgid "石壁"
+msgstr "석벽"
+
+msgid "路牌"
+msgstr "이정표"
+
+msgid "刀痕"
+msgstr "칼자국"
+
+msgid "脚印"
+msgstr "발자국"
+
+msgid "瀑布"
+msgstr "폭포"
+
+msgid "山壁"
+msgstr "산벽"
+
+msgid "帘幕"
+msgstr "휘장"
+
+msgid "裂口"
+msgstr "갈라진 틈"
+
+msgid "油布"
+msgstr "기름천"
+
+msgid "绳索"
+msgstr "동아줄"
+
+msgid "木门"
+msgstr "나무 문"
+
+msgid "虹台大会"
+msgstr "채홍대 대회"
+
+msgid "樟木匾"
+msgstr "녹나무 현판"
+
+msgid "石碑"
+msgstr "비석"
+
+msgid "擎天柱"
+msgstr "경천주"
+
+msgid "虹谷"
+msgstr "홍곡"
+
+msgid "大石门"
+msgstr "큰 돌문"
+
+msgid "密门"
+msgstr "비밀 문"
+
+msgid "井"
+msgstr "우물"
+
+msgid "图"
+msgstr "그림"
+
+msgid "大石"
+msgstr "큰 돌"
+
+msgid "水"
+msgstr "물"
+
+msgid "蜘蛛网"
+msgstr "거미줄"
+
+msgid "红漆木门"
+msgstr "붉은 칠 나무 문"
+
+msgid "镇教秘籍"
+msgstr "진교 비급"
+
+msgid "拱门"
+msgstr "홍예문"
+
+msgid "铜门"
+msgstr "구리 문"
+
+msgid "后厅大门"
+msgstr "후청 대문"
+
+msgid "雕饰厢门"
+msgstr "조각 장식 곁채 문"
+
+msgid "垂花门"
+msgstr "수화문"
+
+msgid "小帘门"
+msgstr "작은 주렴문"
+
+msgid "檀香木门"
+msgstr "단향목 문"
+
+msgid "楼门"
+msgstr "누각 문"
+
+msgid "茶壶"
+msgstr "찻주전자"
+
+msgid "八卦图"
+msgstr "팔괘도"
+
+msgid "神位前"
+msgstr "신위 앞"
+
+msgid "碧纱橱"
+msgstr "푸른 비단 장롱"
+
+msgid "石床"
+msgstr "돌 평상"
+
+msgid "冰匣"
+msgstr "빙갑"
+
+msgid "灯笼"
+msgstr "등롱"
+
+msgid "墙"
+msgstr "벽"
+
+msgid "湘绣舞曲图"
+msgstr "상수 무곡도"
+
+msgid "西府海棠"
+msgstr "꽃사과나무"
+
+msgid "石牌"
+msgstr "돌 팻말"
+
+msgid "金门"
+msgstr "금문"
+
+msgid "檀木扁额"
+msgstr "단목 편액"
+
+msgid "大锅"
+msgstr "큰 가마솥"
+
+msgid "蒸笼"
+msgstr "찜통"
+
+msgid "衙门大门"
+msgstr "관아 대문"
+
+msgid "铜钉大门"
+msgstr "놋쇠 징 박은 대문"
+
+msgid "柴门"
+msgstr "사립문"
+
+msgid "大洞"
+msgstr "큰 구멍"
+
+msgid "小庙"
+msgstr "작은 사당"
+
+msgid "竹篱"
+msgstr "대울타리"
+
+msgid "书卷"
+msgstr "서책"
+
+msgid "古树"
+msgstr "고목"
+
+msgid "云幡"
+msgstr "구름무늬 깃발"
+
+msgid "空穴"
+msgstr "빈 구멍"
+
+msgid "洞穴"
+msgstr "동굴"
+
+msgid "字条"
+msgstr "쪽지"
+
+msgid "大井"
+msgstr "큰 우물"
+
+msgid "石缝"
+msgstr "바위틈"
+
+msgid "大泽"
+msgstr "큰 늪"
+
+msgid "大皮鼓"
+msgstr "큰 가죽 북"
+
+msgid "机械装置"
+msgstr "기관 장치"
+
+msgid "书柜"
+msgstr "책장"
+
+msgid "水井"
+msgstr "우물"
+
+msgid "隙缝"
+msgstr "틈"
+
+msgid "田老财家大门"
+msgstr "전 부자 댁 대문"
+
+msgid "木船"
+msgstr "나무배"
+
+msgid "玄冰"
+msgstr "현빙"
+
+msgid "冰壁刻字"
+msgstr "얼음벽 글씨"
+
+msgid "封坛"
+msgstr "봉단"
+
+msgid "冰壁"
+msgstr "얼음벽"
+
+msgid "湖畔"
+msgstr "호숫가"
+
+msgid "芦苇丛"
+msgstr "갈대숲"
+
+msgid "小船"
+msgstr "작은 배"
+
+msgid "冰柱"
+msgstr "얼음 기둥"
+
+msgid "穿灵"
+msgstr "천령"
+
+msgid "坛心"
+msgstr "제단 한가운데"
+
+msgid "那颗头"
+msgstr "그 머리"
+
+msgid "大铁门"
+msgstr "큰 철문"
+
+msgid "小木门"
+msgstr "작은 나무 문"
+
+msgid "帘子"
+msgstr "문발"
+
+msgid "布告"
+msgstr "포고문"
+
+msgid "牌子"
+msgstr "팻말"
+
+msgid "台子"
+msgstr "단상"
+
+msgid "凸起"
+msgstr "돌기"
+
+msgid "天花板"
+msgstr "천장"
+
+msgid "床"
+msgstr "침상"
+
+msgid "城门"
+msgstr "성문"
+
+msgid "草丛"
+msgstr "풀숲"
+
+msgid "柴草"
+msgstr "섶나무 더미"
+
+msgid "玉帘门"
+msgstr "옥주렴 문"
+
+msgid "城墙"
+msgstr "성벽"
+
+msgid "蔓藤"
+msgstr "넝쿨"
+
+msgid "青石板"
+msgstr "청석판"
+
+msgid "巨石"
+msgstr "거대한 바위"
+
+msgid "石墙"
+msgstr "돌담"
+
+msgid "圆孔"
+msgstr "둥근 구멍"
+
+msgid "声音"
+msgstr "소리"
+
+msgid "铁链"
+msgstr "쇠사슬"
+
+msgid "石板"
+msgstr "돌판"
+
+msgid "人影"
+msgstr "사람 그림자"
+
+msgid "殿门"
+msgstr "전각 문"
+
+msgid "西牢房的铁栅门"
+msgstr "서쪽 옥방 쇠창살문"
+
+msgid "北牢房的铁栅门"
+msgstr "북쪽 옥방 쇠창살문"
+
+msgid "东牢房的铁栅门"
+msgstr "동쪽 옥방 쇠창살문"
+
+msgid "北门"
+msgstr "북문"
+
+msgid "黑门"
+msgstr "검은 문"
+
+msgid "小门"
+msgstr "작은 문"
+
+msgid "炭筐"
+msgstr "숯 광주리"
+
+msgid "木鱼"
+msgstr "목탁"
+
+msgid "通铺"
+msgstr "공동 침상"
+
+msgid "大案"
+msgstr "큰 탁자"
+
+msgid "铁匣"
+msgstr "쇠상자"
+
+msgid "铁钉"
+msgstr "쇠못"
+
+msgid "酒坛"
+msgstr "술독"
+
+msgid "门缝"
+msgstr "문틈"
+
+msgid "书案"
+msgstr "서안"
+
+msgid "黑幡"
+msgstr "검은 깃발"
+
+msgid "香炉"
+msgstr "향로"
+
+msgid "经书"
+msgstr "경서"
+
+msgid "药架"
+msgstr "약재 선반"
+
+msgid "刻痕"
+msgstr "새긴 자국"
+
+msgid "黑石坛"
+msgstr "검은 돌 제단"
+
+msgid "黑匣"
+msgstr "검은 상자"
+
+msgid "王府大门"
+msgstr "왕부 대문"
+
+msgid "界碑"
+msgstr "경계비"
+
+msgid "马栏"
+msgstr "말 우리"
+
+msgid "石鼓"
+msgstr "돌북"
+
+msgid "木人"
+msgstr "목인"
+
+msgid "交椅"
+msgstr "교의"
+
+msgid "火塘"
+msgstr "화덕"
+
+msgid "毡帐"
+msgstr "모전 천막"
+
+msgid "烟尘"
+msgstr "흙먼지"
+
+msgid "工地名册"
+msgstr "공사장 명부"
+
+msgid "辘轳"
+msgstr "도르래"
+
+msgid "枷锁"
+msgstr "족쇄"
+
+msgid "海神龛"
+msgstr "해신 감실"
+
+msgid "平底船"
+msgstr "평저선"
+
+msgid "大盾"
+msgstr "큰 방패"
+
+msgid "火坛"
+msgstr "불 제단"
+
+msgid "木牌"
+msgstr "나무 팻말"
+
+msgid "门规木牌"
+msgstr "문규 팻말"
+
+msgid "火前问话"
+msgstr "불 앞의 문답"
+
+msgid "冯禄的文书"
+msgstr "풍록의 문서"
+
+msgid "板地"
+msgstr "마룻바닥"
+
+msgid "铜狮"
+msgstr "청동 사자"
+
+msgid "日晷"
+msgstr "해시계"
+
+msgid "龙椅"
+msgstr "용상"
+
+msgid "黑丝绦"
+msgstr "검은 비단 끈"
+
+msgid "枯井"
+msgstr "마른 우물"
+
+msgid "养心门"
+msgstr "양심문"
+
+msgid "舆图"
+msgstr "여지도"
+
+msgid "樟木匣"
+msgstr "녹나무 상자"
+
+msgid "御案"
+msgstr "임금의 서안"
+
+msgid "朝上揭发"
+msgstr "조정에서 고발"
+
+msgid "皇叔的通缉"
+msgstr "황숙의 수배령"
+
+msgid "雾里的人影"
+msgstr "안개 속 사람 그림자"
+
+msgid "冻僵的探子"
+msgstr "얼어붙은 정탐꾼"
+
+msgid "兵部旗"
+msgstr "병부 깃발"
+
+msgid "门楣上的铜钩"
+msgstr "문미의 구리 고리"
+
+msgid "雪亭的铃"
+msgstr "설정의 방울"
+
+msgid "老松岭的铃"
+msgstr "노송령의 방울"
+
+msgid "水烟阁的铃"
+msgstr "수연각의 방울"
+
+msgid "野羊山的铃"
+msgstr "야양산의 방울"
+
+msgid "晚月庄的铃"
+msgstr "만월장의 방울"
+
+msgid "乔阴的铃"
+msgstr "교음의 방울"
+
+msgid "关北的铃"
+msgstr "관북의 방울"
+
+msgid "番坊的铃"
+msgstr "번방의 방울"
+
+msgid "玉螺湖村的铃"
+msgstr "옥라호촌의 방울"
+
+msgid "京师的铃"
+msgstr "경사의 방울"
+
+msgid "旋风"
+msgstr "회오리바람"
+
+msgid "云海"
+msgstr "운해"
