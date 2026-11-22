@@ -39056,7 +39056,7 @@ msgid "半个时辰"
 msgstr "반 시진"
 
 msgid "两"
-msgstr "2"
+msgstr "냥"
 
 msgid "{count}个半时辰"
 msgstr "{count}시진 반"

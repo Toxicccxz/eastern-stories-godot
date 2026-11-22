@@ -649,9 +649,10 @@ static func _blow_word(blow: BattleNarrationLine) -> String:
 
 
 static func _count_word(count: int) -> String:
+	# Only Chinese writes them in words; elsewhere digits (两 is also the tael).
 	# TRANSLATORS: the count of moves in a folded battle line: 两 / 三 / 四 / 五, digits beyond.
 	var words: Dictionary[int, String] = {2: "两", 3: "三", 4: "四", 5: "五"}
-	return TranslationServer.translate(words[count]) if words.has(count) else str(count)
+	return TranslationServer.translate(words[count]) if words.has(count) and MessageGrammar.shows_chinese() else str(count)
 
 
 static func _lines_of(entries: Array[BattleFeedbackProjection]) -> Array[BattleNarrationLine]:
