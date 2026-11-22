@@ -424,6 +424,9 @@ msgstr ""
 #. native.npc.juechen_liaochen gender
 #. native.npc.toutuo_hall gender
 #. native.npc.toutuo_liuyun gender
+#. native.npc.liaochen_kneel gender
+#. native.npc.liaochen_sanyen gender
+#. native.npc.assembly_liaochen gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -861,6 +864,7 @@ msgstr ""
 #. es2:d/choyin/halfhole short
 #. native.npc.green_mother inquiry topic
 #. native.npc.juechen_liaochen inquiry topic
+#. native.npc.liaochen_kneel inquiry topic
 #: scenes/world/choyin/choyin_cliff_cave.tscn scenes/world/oldpine/oldpine_caves.tscn data/oldpine/rooms.json data/green/npcs.json data/choyin/rooms.json data/native/npcs.json
 msgid "山洞"
 msgstr ""
@@ -3629,6 +3633,8 @@ msgstr ""
 #. common.npc.bonze.master inquiry topic
 #. es2:d/sanyen/heal_room short
 #. native.npc.toutuo_liuyun title
+#. native.npc.liaochen_sanyen title
+#. native.npc.liaochen_sanyen inquiry topic
 #: scenes/world/sanyen/heal_room_house.tscn data/common/npcs.json data/sanyen/rooms.json data/native/npcs.json data/sanyen/voxel/grounds.json
 msgid "流云轩"
 msgstr ""
@@ -4450,6 +4456,8 @@ msgstr ""
 #. native.npc.assembly_daughter inquiry topic
 #. native.npc.lu_decai_home inquiry topic
 #. native.npc.maoshan_gardener inquiry topic
+#. native.npc.liaochen_sanyen inquiry topic
+#. native.npc.assembly_liaochen inquiry topic
 #. native:waterfog/terrace short
 #: scenes/world/waterfog/waterfog_terrace.tscn data/common/atlas.json data/common/npcs.json data/story/epilogue.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/native/npcs.json data/native/rooms.json
 msgid "虹台"
@@ -6491,8 +6499,11 @@ msgstr ""
 msgid "同门师妹"
 msgstr ""
 
+#. native.npc.juechen_liaochen inquiry topic
 #. native.npc.toutuo_hall inquiry topic
 #. native.npc.toutuo_liuyun inquiry topic
+#. native.npc.liaochen_kneel inquiry topic
+#. native.npc.liaochen_sanyen inquiry topic
 #: core/relationships/family_relation.gd data/native/npcs.json
 msgid "师父"
 msgstr ""
@@ -14919,7 +14930,8 @@ msgid "绝尘心法只能用学的或是从运用中增加熟练度。"
 msgstr ""
 
 #. jingang-staff name
-#: data/common/skills.json
+#. native.npc.liaochen_sanyen inquiry topic
+#: data/common/skills.json data/native/npcs.json
 msgid "金刚杖法"
 msgstr ""
 
@@ -16332,10 +16344,11 @@ msgstr ""
 #. common.npc.juechen.master inquiry topic
 #. green.jade region
 #. green.maze region
+#. ending cards.title
 #. juechen place
 #. faction.juechen region
 #. green name
-#: data/common/atlas.json data/common/npcs.json data/common/journal.json data/story/factions.json data/story/faction_juechen.json data/green/world.json
+#: data/common/atlas.json data/common/npcs.json data/common/journal.json data/story/epilogue.json data/story/factions.json data/story/faction_juechen.json data/green/world.json
 msgid "青石村"
 msgstr ""
 
@@ -16826,6 +16839,9 @@ msgstr ""
 #. faction.juechen title
 #. native.npc.juechen_liaochen family.name
 #. native.npc.juechen_liaochen inquiry topic
+#. native.npc.liaochen_kneel family.name
+#. native.npc.liaochen_sanyen family.name
+#. native.npc.assembly_liaochen family.name
 #: data/common/families.json data/common/npcs.json data/story/factions.json data/story/faction_juechen.json data/native/npcs.json
 msgid "绝尘派"
 msgstr ""
@@ -17508,6 +17524,7 @@ msgstr ""
 
 #. common.npc.swordsman.master inquiry topic
 #. common.npc.fighter.executioner inquiry topic
+#. common.npc.juechen.master inquiry topic
 #. common.npc.taoist.taolord inquiry topic
 #. common.npc.dancer.master inquiry topic
 #. common.npc.bonze.master inquiry topic
@@ -17518,6 +17535,7 @@ msgstr ""
 #. city.npc.chen inquiry topic
 #. native.npc.lu_decai_home inquiry topic
 #. native.npc.maoshan_gardener inquiry topic
+#. native.npc.liaochen_sanyen inquiry topic
 #: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "这一票"
 msgstr ""
@@ -17532,6 +17550,7 @@ msgstr ""
 #. common.npc.swordsman.master inquiry.这一票.rules.say
 #. common.npc.fighter.executioner inquiry.这一票.rules.say
 #. common.npc.juechen.master inquiry.下山.rules.say
+#. common.npc.juechen.master inquiry.这一票.rules.say
 #. common.npc.taoist.taolord inquiry.这一票.rules.say
 #. common.npc.dancer.master inquiry.改投.rules.say
 #. common.npc.dancer.master inquiry.这一票.rules.say
@@ -17545,6 +17564,7 @@ msgstr ""
 #. city.npc.chen inquiry.这一票.rules.say
 #. native.npc.lu_decai_home inquiry.这一票.rules.say
 #. native.npc.maoshan_gardener inquiry.这一票.rules.say
+#. native.npc.liaochen_sanyen inquiry.这一票.rules.say
 #: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "虹台上已经入了席。票就是票了。"
 msgstr ""
@@ -17572,6 +17592,7 @@ msgstr ""
 #. common.npc.swordsman.master inquiry.这一票.rules.say
 #. common.npc.fighter.executioner inquiry.这一票.rules.say
 #. common.npc.juechen.master inquiry.下山.rules.say
+#. common.npc.juechen.master inquiry.这一票.rules.say
 #. common.npc.taoist.taolord inquiry.这一票.rules.say
 #. common.npc.dancer.master inquiry.改投.rules.say
 #. common.npc.dancer.master inquiry.这一票.rules.say
@@ -17596,6 +17617,8 @@ msgstr ""
 #. native.npc.latemoon_daughter inquiry.娘.rules.say
 #. native.npc.lu_decai_home inquiry.这一票.rules.say
 #. native.npc.maoshan_gardener inquiry.这一票.rules.say
+#. native.npc.liaochen_kneel inquiry.下山.rules.say
+#. native.npc.liaochen_sanyen inquiry.这一票.rules.say
 #: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/latemoon/npcs.json data/sanyen/npcs.json data/city/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "……"
 msgstr ""
@@ -18967,6 +18990,8 @@ msgstr ""
 #. common.npc.juechen.master inquiry.青石村.rules.lines.say
 #. common.npc.juechen.master inquiry.虹台.rules.lines.say
 #. common.npc.juechen.master inquiry.虹台.rules.say
+#. common.npc.juechen.master inquiry.玄尘.rules.say
+#. common.npc.juechen.master inquiry.守阵.rules.say
 #: data/common/npcs.json
 msgid "绝尘派不问世事。"
 msgstr ""
@@ -19023,8 +19048,35 @@ msgid "……村里人的事，你要管，自己去管。"
 msgstr ""
 
 #. common.npc.juechen.master inquiry.虹台.rules.say
-#: data/common/npcs.json
+#. native.npc.liaochen_sanyen inquiry.虹台.rules.say
+#: data/common/npcs.json data/native/npcs.json
 msgid "正月十七的事，过去了。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.虹台.rules.say
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/common/npcs.json data/waterfog/world.json
+msgid "绝尘派这一票，在你手里。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "了尘替老道去。虹台的事，问他。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "阵推到了洞口，老道答应过的，下山走一趟。投旧盟主，椅子照旧。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.虹台.rules.lines.emote
+#: data/common/npcs.json
+msgid "眯着眼睛看了你一会儿。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "……那个阵，是你陪着推出去的。这一票，你要，就是你的。"
 msgstr ""
 
 #. common.npc.juechen.master inquiry.虹台.rules.say
@@ -19055,7 +19107,8 @@ msgstr ""
 #. common.npc.juechen.master inquiry topic
 #. native.npc.niling_lead_chanter inquiry topic
 #. native.npc.xuan_mingzi_cliff inquiry topic
-#: data/common/npcs.json data/niling/npcs.json
+#. native.npc.liaochen_kneel inquiry topic
+#: data/common/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "下山"
 msgstr ""
 
@@ -19068,10 +19121,16 @@ msgstr ""
 
 #. common.npc.juechen.master inquiry.下山.rules.say
 #: data/common/npcs.json
+msgid "了尘替老道去了。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.下山.rules.say
+#: data/common/npcs.json
 msgid "说过了。老道下山。"
 msgstr ""
 
 #. common.npc.juechen.master inquiry.下山.rules.lines.emote
+#. common.npc.juechen.master inquiry.这一票.rules.lines.emote
 #: data/common/npcs.json
 msgid "拂了拂袖子。"
 msgstr ""
@@ -19079,6 +19138,196 @@ msgstr ""
 #. common.npc.juechen.master inquiry.下山.rules.lines.say
 #: data/common/npcs.json
 msgid "好。老道走一趟。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry topic
+#. fanfang.npc.lama_master inquiry topic
+#. native.npc.toutuo_liuyun inquiry topic
+#: data/common/npcs.json data/fanfang/npcs.json data/native/npcs.json
+msgid "玄尘"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.say
+#: data/common/npcs.json
+msgid "了尘走了。玄尘这个名字，也跟着他下了山。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.say
+#: data/common/npcs.json
+msgid "那个名字，了尘叫过一回，就够了。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.say
+#: data/common/npcs.json
+msgid "叫过了。……那个名字三十年没人叫了。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.emote
+#: data/common/npcs.json
+msgid "睁开眼睛，看了你很久。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.say
+#: data/common/npcs.json
+msgid "了尘跟你说的？"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.emote
+#: data/common/npcs.json
+msgid "望着佛像顶上那颗夜明珠。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.say
+#: data/common/npcs.json
+msgid "玄尘。……那个名字三十年没人叫了。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.say
+#: data/common/npcs.json
+msgid "三十年前，老道是山烟寺玄字辈的和尚，玄智是老道的师兄。天竺来的法师背着经上山，师父不收。老道想看那部经，就追出了山门。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.say
+#: data/common/npcs.json
+msgid "在番坊住了一年，法王点化了老道：佛经、道书、大秦人的书，经就是经，不拣。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.say
+#: data/common/npcs.json
+msgid "法王跟你说，他没有点化过老道？……他向来这么说。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.say
+#: data/common/npcs.json
+msgid "你说，师兄收了那部经？"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.emote
+#: data/common/npcs.json
+msgid "闭上眼睛，很久没有说话。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.say
+#: data/common/npcs.json
+msgid "三十年。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.say
+#: data/common/npcs.json
+msgid "后来走到青石村后山，摆了这个阵。阵外的事，老道不管；阵里的人，老道护着。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.say
+#: data/common/npcs.json
+msgid "了尘是阵里的人。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.lines.say
+#: data/common/npcs.json
+msgid "师兄还是守着本寺一脉。他守得住，老道就放心了。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.玄尘.rules.say
+#: data/common/npcs.json
+msgid "老道绝尘。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry topic
+#: data/common/npcs.json
+msgid "守阵"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.守阵.confirm
+#: data/common/npcs.json
+msgid ""
+"守阵：了尘留在石室。绝尘子把八卦阵往外推到青石村北边的洞口，那里从此不进鬼卒。\n"
+"绝尘子肯把奇门遁甲（连同它的根基小天魔道）教给不是绝尘派的人（只这两门）。\n"
+"绝尘子下山一回：正月十七虹台上，绝尘派来，这一票投旧盟主。\n"
+"下山那条路就没了。要这么说吗？"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.守阵.rules.say
+#: data/common/npcs.json
+msgid "阵推到洞口了。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.守阵.rules.say
+#: data/common/npcs.json
+msgid "了尘走了。阵，老道一个人守。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.守阵.rules.lines.emote
+#: data/common/npcs.json
+msgid "看着跪在地上的了尘，很久没有说话。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.守阵.rules.lines.say
+#: data/common/npcs.json
+msgid "起来。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.守阵.rules.lines.say
+#: data/common/npcs.json
+msgid "阵，老道往外推，推到洞口。青石村北边，往后什么都进不来。山下的人冻不着，阵里的人也不出去。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.守阵.rules.lines.line
+#: data/common/npcs.json
+msgid ""
+"了尘把金刚杖拾起来，站起身，退到了师父身后。\n"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.守阵.rules.lines.say
+#: data/common/npcs.json
+msgid "绝尘派不问世事——这一回，老道问一回。正月十七，老道下山走一趟。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.守阵.rules.say
+#. common.npc.bonze.master inquiry.守寺.rules.say
+#: data/common/npcs.json
+msgid "守什么？"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.这一票.confirm
+#: data/common/npcs.json
+msgid ""
+"请绝尘子把绝尘派这一票交给你：正月十七虹台上，绝尘派听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n"
+"要这么说吗？"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.这一票.rules.say
+#: data/common/npcs.json
+msgid "说过了。绝尘派听你的。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.这一票.rules.lines.say
+#: data/common/npcs.json
+msgid "好。绝尘派这一票，你拿去。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry topic
+#. common.npc.bonze.master inquiry topic
+#. native.npc.juechen_liaochen name
+#. native.npc.liaochen_kneel name
+#. native.npc.liaochen_sanyen name
+#. native.npc.assembly_liaochen name
+#: data/common/npcs.json data/native/npcs.json
+msgid "了尘"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.了尘.rules.lines.say
+#: data/common/npcs.json
+msgid "他回日照山了。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.了尘.rules.lines.emote
+#: data/common/npcs.json
+msgid "望着大厅南边的石门。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.了尘.rules.lines.say
+#: data/common/npcs.json
+msgid "出了阵，就是世事。"
 msgstr ""
 
 #. common.npc.juechen.master apprentice.commoners_only
@@ -21136,7 +21385,8 @@ msgstr ""
 
 #. common.npc.bonze.master inquiry topic
 #. fanfang.npc.lama_master inquiry topic
-#: data/common/npcs.json data/fanfang/npcs.json
+#. native.npc.liaochen_sanyen inquiry topic
+#: data/common/npcs.json data/fanfang/npcs.json data/native/npcs.json
 msgid "头陀"
 msgstr ""
 
@@ -21146,6 +21396,7 @@ msgid "他在流云轩。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry.头陀.rules.lines.emote
+#. common.npc.bonze.master inquiry.了尘.rules.lines.emote
 #: data/common/npcs.json
 msgid "捻了一颗念珠。"
 msgstr ""
@@ -21237,7 +21488,8 @@ msgstr ""
 #. common.npc.bonze.master inquiry.寺规.rules.lines.emote
 #. common.npc.bonze.master inquiry.改投.rules.lines.emote
 #. common.npc.bonze.master inquiry.这一票.rules.lines.emote
-#: data/common/npcs.json
+#. native.npc.liaochen_sanyen inquiry.这一票.rules.lines.emote
+#: data/common/npcs.json data/native/npcs.json
 msgid "双手合十。"
 msgstr ""
 
@@ -21493,11 +21745,6 @@ msgstr ""
 msgid "寺规就是寺规。外人不进流云轩，外来的经，也不进。……阿弥陀佛。"
 msgstr ""
 
-#. common.npc.bonze.master inquiry.守寺.rules.say
-#: data/common/npcs.json
-msgid "守什么？"
-msgstr ""
-
 #. common.npc.bonze.master inquiry.这一票.confirm
 #: data/common/npcs.json
 msgid ""
@@ -21513,6 +21760,16 @@ msgstr ""
 #. common.npc.bonze.master inquiry.这一票.rules.lines.say
 #: data/common/npcs.json
 msgid "阿弥陀佛。山烟寺听施主的。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.了尘.rules.lines.say
+#: data/common/npcs.json
+msgid "了尘回来了。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.了尘.rules.lines.say
+#: data/common/npcs.json
+msgid "三十年前跟着玄尘师弟跑出山门的那个小沙弥，在流云轩给老衲烧过药炉。……他回来，不算外人。"
 msgstr ""
 
 #. common.npc.bonze.master ordination.lines
@@ -26224,6 +26481,26 @@ msgstr ""
 msgid "乔阴的老葛用左手砍柴，砍得慢。逢人就说：命是山烟寺的方丈守回来的。"
 msgstr ""
 
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "青石村北边那个山洞，门上换了一条新铁链。阿牛背着小翠从门口走过，再也不往里钻了。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "村长还是常叹那一句「国之将亡」。只是现在，他会把后半句说完。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "洞口多了一圈不知谁摆的石头，洞里那股寒气没了，村北的狗夜里也不叫了。后山的石室里，绝尘子还坐在佛像下，了尘守在他身后。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "日照山的流云轩里多了一个拿金刚杖的和尚，抬上山的人，他扶着进门。青石村后山的石室里，只剩绝尘子一个人坐在佛像下。"
+msgstr ""
+
 #. ending cards.title
 #. oldpine.npc.spy name
 #: data/story/epilogue.json data/oldpine/npcs.json
@@ -26969,6 +27246,26 @@ msgstr ""
 #. juechen lines.text
 #: data/story/factions.json
 msgid "绝尘子答应了：正月十七下山走一趟。"
+msgstr ""
+
+#. juechen lines.text
+#: data/story/factions.json
+msgid "了尘说起了三十年前：绝尘子就是走出山烟寺山门的玄尘。"
+msgstr ""
+
+#. juechen lines.text
+#: data/story/factions.json
+msgid "绝尘派守了阵：八卦阵推到了青石村北边的洞口，了尘留在石室。"
+msgstr ""
+
+#. juechen lines.text
+#: data/story/factions.json
+msgid "了尘下了山，回日照山的流云轩救人。"
+msgstr ""
+
+#. juechen lines.text
+#: data/story/factions.json
+msgid "正月十七，绝尘派那一票听你的。"
 msgstr ""
 
 #. maoshan lines.text
@@ -27870,7 +28167,9 @@ msgstr ""
 #. faction.latemoon/split/brought_home reward.rank.title
 #. faction.buxuan/split/testify reward.rank.title
 #. faction.buxuan/split/home reward.rank.title
-#: data/story/faction_celestial.json data/story/faction_latemoon.json data/story/faction_buxuan.json
+#. faction.juechen/split/guard reward.rank.title
+#. faction.juechen/split/leave reward.rank.title
+#: data/story/faction_celestial.json data/story/faction_latemoon.json data/story/faction_buxuan.json data/story/faction_juechen.json
 msgid "执事"
 msgstr ""
 
@@ -29476,7 +29775,7 @@ msgstr ""
 
 #. faction.juechen summary
 #: data/story/faction_juechen.json
-msgid "青石村北边那个拴着铁链的山洞，村长说「绝对不可以打开」。现在洞里真的有东西了，村里的孩子又钻了进去。山洞后面就是八卦阵，阵后面是不问世事的绝尘子。"
+msgid "青石村北边那个拴着铁链的山洞，村长说「绝对不可以打开」。现在洞里真的有东西了。山洞后面是八卦阵，阵后面是不问世事的绝尘子——三十年前，他是山烟寺的玄尘。他的首徒了尘要下山。"
 msgstr ""
 
 #. faction.juechen lapses.text
@@ -29566,7 +29865,52 @@ msgstr ""
 
 #. faction.juechen/xuanchen text
 #: data/story/faction_juechen.json
-msgid "了尘说起了三十年前的事。"
+msgid "了尘说起了三十年前：他是山烟寺的小沙弥，跟着玄尘师叔走出了山门。玄尘，就是师父。他要回山烟寺去。"
+msgstr ""
+
+#. faction.juechen/name objective
+#: data/story/faction_juechen.json
+msgid "问绝尘子「玄尘」。"
+msgstr ""
+
+#. faction.juechen/name text
+#: data/story/faction_juechen.json
+msgid "绝尘子认了：「玄尘。……那个名字三十年没人叫了。」了尘走到佛像前，跪了下来。"
+msgstr ""
+
+#. faction.juechen/meet objective
+#: data/story/faction_juechen.json
+msgid "了尘跪在佛像前，等师父一句话。（话听了一半就走开的：守阵问绝尘子「守阵」，下山问了尘「下山」。）"
+msgstr ""
+
+#. faction.juechen/meet text
+#: data/story/faction_juechen.json
+msgid "了尘说他想下山，回流云轩救人。绝尘子说可以把阵推到洞口。他回过头来问你。"
+msgstr ""
+
+#. faction.juechen/split objective
+#: data/story/faction_juechen.json
+msgid "守阵（问绝尘子「守阵」）：了尘留下，八卦阵推到青石村北边的洞口，那里从此不进鬼卒；绝尘子肯教外人奇门遁甲；虹台上绝尘子下山一回，投旧盟主。下山（问了尘「下山」）：了尘回山烟寺流云轩救人，肯教外人金刚杖法；虹台上了尘替绝尘派上台，投颜违。两边绝尘派的弟子都晋执事。"
+msgstr ""
+
+#. faction.juechen/split/guard text
+#: data/story/faction_juechen.json
+msgid "你劝了尘留下。绝尘子把八卦阵推到了青石村北边的洞口，山洞里的东西再也出不来了。"
+msgstr ""
+
+#. faction.juechen/split/guard reward.deed
+#: data/story/faction_juechen.json
+msgid "陪绝尘子把八卦阵推到了青石村的洞口"
+msgstr ""
+
+#. faction.juechen/split/leave text
+#: data/story/faction_juechen.json
+msgid "了尘拜别了师父，下山回了日照山的流云轩。「出了阵，就是世事。」"
+msgstr ""
+
+#. faction.juechen/split/leave reward.deed
+#: data/story/faction_juechen.json
+msgid "送了尘出了八卦阵，回山烟寺流云轩救人"
 msgstr ""
 
 #. faction.assembly title
@@ -29808,6 +30152,16 @@ msgstr ""
 #. faction.assembly checklist.label
 #: data/story/faction_assembly.json
 msgid "绝尘派：下山来，投旧盟主"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "绝尘派：了尘替师父来，投颜违——鬼卒要剿"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "绝尘派：听你的"
 msgstr ""
 
 #. faction.assembly/wait objective
@@ -38419,6 +38773,21 @@ msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
+msgid "老道下山，就这一回。阵推到了青石村的洞口，北边的东西进不了村——椅子，照旧。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "阿弥陀佛。贫僧了尘，替师父来。鬼卒要剿干净，神教要逐——山烟寺的僧人死在神教手里过。绝尘派投颜违。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "师父说，出了阵，就是世事。绝尘派这一票，在施主手里。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
 msgid "长老们说投七长老，天邪就投七长老。今天的票，由执法使来唱。"
 msgstr ""
 
@@ -38762,6 +39131,16 @@ msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
+msgid "绝尘派——颜违。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "绝尘派——投你。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
 msgid "绝尘派——没有来，不算。"
 msgstr ""
 
@@ -38808,6 +39187,11 @@ msgstr ""
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
 msgid "颜违，八票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "颜违，九票。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -38953,6 +39337,11 @@ msgstr ""
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
 msgid "你，八票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "你，九票。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -39650,6 +40039,31 @@ msgstr ""
 #: data/green/npcs.json
 msgid ""
 "造孽啊........\n"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "北边那个山洞，寒气没了。洞口不知谁摆了一圈石头，阿牛钻进去转了一圈，又从原路转出来了。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.emote
+#: data/green/npcs.json
+msgid "望着北边的山。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "村北的狗，夜里也不叫了。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "后山下来过一个拿杖的……和尚。在洞口念了一夜的经，第二天一早往南去了。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "国之将亡，必有妖孽。……有妖孽，也有念经的人。"
 msgstr ""
 
 #. green.npc.oldman2 inquiry.山洞.rules.lines.say
@@ -63415,12 +63829,6 @@ msgstr ""
 msgid "收不收，是山烟寺的事。"
 msgstr ""
 
-#. fanfang.npc.lama_master inquiry topic
-#. native.npc.toutuo_liuyun inquiry topic
-#: data/fanfang/npcs.json data/native/npcs.json
-msgid "玄尘"
-msgstr ""
-
 #. fanfang.npc.lama_master inquiry.玄尘.rules.lines.say
 #: data/fanfang/npcs.json
 msgid "了尘？那个跟在玄尘身后的小沙弥……也老了吧。"
@@ -71409,6 +71817,7 @@ msgstr ""
 #. native.npc.assembly_lu_decai_true inquiry.虹台
 #. native.npc.assembly_lu_decai inquiry.虹台
 #. native.npc.assembly_juechenzi inquiry.虹台
+#. native.npc.assembly_liaochen inquiry.虹台
 #: data/native/npcs.json
 msgid "正月十七，九派都在这里。有话，台上说。"
 msgstr ""
@@ -73929,11 +74338,6 @@ msgstr ""
 msgid "那洞闹鬼。村长拴了门的。"
 msgstr ""
 
-#. native.npc.juechen_liaochen name
-#: data/native/npcs.json
-msgid "了尘"
-msgstr ""
-
 #. native.npc.juechen_liaochen long
 #: data/native/npcs.json
 msgid ""
@@ -73941,6 +74345,9 @@ msgid ""
 msgstr ""
 
 #. native.npc.juechen_liaochen family.title
+#. native.npc.liaochen_kneel family.title
+#. native.npc.liaochen_sanyen family.title
+#. native.npc.assembly_liaochen family.title
 #: data/native/npcs.json
 msgid "首徒"
 msgstr ""
@@ -73955,6 +74362,16 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "了尘捻着腕上的佛珠，嘴唇动了动，没有出声。\n"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.山洞.rules.lines.say
+#: data/native/npcs.json
+msgid "阵推到洞口了。洞里的东西出不来，村里的孩子也钻不进去——进去转一圈，又从原路转出来。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.山洞.rules.lines.say
+#: data/native/npcs.json
+msgid "师父说，这样就够了。"
 msgstr ""
 
 #. native.npc.juechen_liaochen inquiry.山洞.rules.lines.say
@@ -74012,6 +74429,97 @@ msgstr ""
 msgid "贫道了尘。"
 msgstr ""
 
+#. native.npc.juechen_liaochen inquiry.师父.rules.say
+#: data/native/npcs.json
+msgid "师父的事，问师父。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "阵推到洞口了。青石村北边，往后什么都进不来。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.emote
+#. native.npc.liaochen_sanyen inquiry.虹台.rules.lines.emote
+#: data/native/npcs.json
+msgid "捻了捻腕上的佛珠。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "我留下。三十年前跟着他出山门的时候，我就说过，他去哪里，我去哪里。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.say
+#: data/native/npcs.json
+msgid "三十年前的事，都跟你说了。去问师父「玄尘」——他认不认，是他的事。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.emote
+#: data/native/npcs.json
+msgid "看了一眼佛像下的师父，把你拉到大厅一角，压低了声音。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "三十年前，我九岁，是日照山山烟寺的小沙弥，在流云轩给方丈烧药炉。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "那年一个天竺来的法师背着两部经上山，住持不收。寺里有一位玄尘师叔，追出了山门——我跟在他后面跑出去的。他回头看见我，没赶我走。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "在番坊住了一年，又往北走，走到青石村后山，师叔摆了这个阵，改了道号，叫绝尘。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.emote
+#: data/native/npcs.json
+msgid "朝佛像下看了一眼。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "就是师父。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "我跟了他三十年。这几年山洞里出来那些东西，山下的人一个一个地冻死，流云轩救不过来。师父不管。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "乔阴那个樵夫老葛，被鬼卒抓了一把，抬上了日照山。流云轩的药一碗一碗地灌，寒气赶不出去——你去过，你知道。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "后来是金门外那个独眼的头陀，一掌把寒气按了出来。流云轩的药，治不了这个。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "我要回山烟寺去。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "你去问师父「玄尘」。那个名字，他三十年没让人叫过了。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "后来是方丈守了三天三夜，命保住了，一只手废了。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.say
+#: data/native/npcs.json
+msgid "师父是绝尘派的祖师。我是他头一个徒弟。"
+msgstr ""
+
 #. native.npc.toutuo_hall long
 #: data/native/npcs.json
 msgid ""
@@ -74030,6 +74538,7 @@ msgstr ""
 
 #. native.npc.toutuo_hall inquiry topic
 #. native.npc.toutuo_liuyun inquiry topic
+#. native.npc.liaochen_sanyen inquiry topic
 #: data/native/npcs.json
 msgid "玄智"
 msgstr ""
@@ -74115,6 +74624,7 @@ msgid ""
 msgstr ""
 
 #. native.npc.toutuo_liuyun accept_fight.say
+#. native.npc.liaochen_sanyen accept_fight.say
 #: data/native/npcs.json
 msgid "流云轩是看病的地方。"
 msgstr ""
@@ -74162,6 +74672,291 @@ msgstr ""
 #. native.npc.toutuo_liuyun inquiry.玄尘.rules.say
 #: data/native/npcs.json
 msgid "三十年前跟我师父走的那个人。我没见过他。"
+msgstr ""
+
+#. native.npc.liaochen_kneel long
+#: data/native/npcs.json
+msgid ""
+"了尘跪在佛像前，金刚杖横放在身前的地上，腕上那串佛珠一动不动。佛像顶上的夜明珠照着他剃过又蓄起来的发茬。他在等师父一句话。\n"
+msgstr ""
+
+#. native.npc.liaochen_kneel accept_fight.say
+#: data/native/npcs.json
+msgid "我跪在这里，不动手。"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.师父
+#: data/native/npcs.json
+msgid "我跪在这里，等师父一句话。"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.山洞
+#: data/native/npcs.json
+msgid "洞里的东西还会出来。阵守得住石室，守不住山下。"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.name
+#: data/native/npcs.json
+msgid "贫道了尘。……三十年前，我叫了尘，三十年后，我还叫了尘。"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.下山.confirm
+#: data/native/npcs.json
+msgid ""
+"下山：了尘回日照山山烟寺，到流云轩救人（收了经的，他跟独眼头陀在一起；守了寺的，他在流云轩做药僧）。\n"
+"了尘肯把金刚杖法教给不是绝尘派的人（只这一门）。\n"
+"绝尘子不下山：正月十七虹台上，了尘替绝尘派上台——鬼卒要剿，神教要逐，这一票投颜违。\n"
+"守阵那条路就没了。要这么说吗？"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.下山.rules.say
+#: data/native/npcs.json
+msgid "这是师父和我的事。"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.下山.rules.say
+#: data/native/npcs.json
+msgid "师父说了守阵。我留下。"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.下山.rules.lines.emote
+#: data/native/npcs.json
+msgid "回头看了一眼佛像下的师父。"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.下山.rules.lines.line
+#: data/native/npcs.json
+msgid ""
+"绝尘子没有睁眼。过了很久，他说了一句：「出了阵，就是世事。」\n"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.下山.rules.lines.say
+#: data/native/npcs.json
+msgid "是。"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.下山.rules.lines.emote
+#: data/native/npcs.json
+msgid "朝师父磕了三个头，拾起金刚杖，站了起来。"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.下山.rules.lines.say
+#: data/native/npcs.json
+msgid "正月十七，师父不下山，我替他去。"
+msgstr ""
+
+#. native.npc.liaochen_kneel inquiry.下山.rules.lines.line
+#: data/native/npcs.json
+msgid ""
+"了尘出了石室，往南边的荒山路去了。\n"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"了尘走到佛像前，跪了下来，把那根金刚杖横放在身前的地上。\n"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.say
+#: data/native/npcs.json
+msgid "师父。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.emote
+#: data/native/npcs.json
+msgid "坐在佛像下，眼睛半闭着。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.say
+#: data/native/npcs.json
+msgid "说。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.say
+#: data/native/npcs.json
+msgid "三十年前，是师父领我出的山门。今天，我想回去。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.say
+#: data/native/npcs.json
+msgid "山洞里出来了东西，山下的人一个一个地冻死。阵守得住石室，守不住山下。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.say
+#: data/native/npcs.json
+msgid "番坊的经，师伯收下了。流云轩现在治得了鬼卒的寒——可只有一个头陀，一双手。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.say
+#: data/native/npcs.json
+msgid "师伯守着本寺一脉，流云轩还是赶不出那股寒。我是流云轩出来的人，我回去，不算外人。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.say
+#: data/native/npcs.json
+msgid "阵守得住石室，就守得住青石村。老道把阵往外推，推到洞口——青石村北边，往后什么都进不来。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.say
+#: data/native/npcs.json
+msgid "你留下，跟着老道守阵。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.emote
+#: data/native/npcs.json
+msgid "伏在地上，没有起来。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.say
+#: data/native/npcs.json
+msgid "流云轩缺的是人手。……师父，我想下山。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.emote
+#: data/native/npcs.json
+msgid "睁开眼睛，看着跪在地上的了尘，又转过头来看着你。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.say
+#: data/native/npcs.json
+msgid "这孩子跟了老道三十年，头一回开口要走。你走过老道的阵，进过那个洞——你说吧。"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"（守阵，问绝尘子「守阵」；下山，问了尘「下山」。）\n"
+msgstr ""
+
+#. native.npc.liaochen_sanyen long
+#: data/native/npcs.json
+msgid ""
+"一个四十来岁的和尚，头是新剃的，青皮还没褪尽；洗白的旧道袍外头罩了一件山烟寺的灰布僧衣，腕上缠着那串磨得发亮的佛珠，金刚杖靠在药柜边上。他在流云轩里煎药、扶病人，手脚很快。\n"
+msgstr ""
+
+#. native.npc.liaochen_sanyen chat_msg
+#: data/native/npcs.json
+msgid ""
+"了尘把药罐从炉子上端下来，吹了吹，倒进碗里。\n"
+msgstr ""
+
+#. native.npc.liaochen_sanyen chat_msg
+#: data/native/npcs.json
+msgid ""
+"了尘扶着病人坐起来，一勺一勺地喂药。\n"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.师父.rules.say
+#: data/native/npcs.json
+msgid "师父说，出了阵，就是世事。……他还坐在那尊佛像下吧。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.流云轩.rules.lines.say
+#: data/native/npcs.json
+msgid "头陀师兄管火，我管药罐。鬼卒抓的伤抬上来，他一掌，我一碗。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.流云轩.rules.lines.emote
+#: data/native/npcs.json
+msgid "朝药柜下坐着的独眼头陀看了一眼。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.流云轩.rules.lines.say
+#: data/native/npcs.json
+msgid "三十年前没进门的经，进了门。师父要是知道……他知道。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.流云轩.rules.lines.say
+#: data/native/npcs.json
+msgid "方丈说，我本来就是本寺的人，三十年前出的山门，今天回来，不算外人。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.流云轩.rules.lines.say
+#: data/native/npcs.json
+msgid "鬼卒的寒，流云轩还是赶不出去。能救一个，是一个。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.流云轩.rules.say
+#: data/native/npcs.json
+msgid "流云轩缺人手。我在这里煎药，扶病人。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.头陀.rules.say
+#: data/native/npcs.json
+msgid "师父当年追出山门，追的就是他师父背的那部经。三十年，经进了门，我也回来了。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.玄智
+#: data/native/npcs.json
+msgid "方丈是师父的师兄。我回来那天，他什么也没问，指了指流云轩。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.金刚杖法
+#: data/native/npcs.json
+msgid "师父教的杖法，招式跟山烟寺的流云杖法是一样的。你要学，我教。别的，我不教。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.name
+#: data/native/npcs.json
+msgid "贫僧了尘。……出了阵，又叫回贫僧了。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.虹台.rules.say
+#: data/native/npcs.json
+msgid "绝尘派这一票，在施主手里。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.虹台.rules.lines.say
+#: data/native/npcs.json
+msgid "正月十七，师父不下山，贫僧替他上虹台。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.虹台.rules.lines.say
+#: data/native/npcs.json
+msgid "鬼卒要剿干净，神教要逐——山烟寺的僧人死在神教手里过。绝尘派投颜违。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.虹台.rules.lines.say
+#: data/native/npcs.json
+msgid "可这条路，是施主陪着走出来的。这一票，施主要，就是施主的。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.虹台.rules.say
+#: data/native/npcs.json
+msgid "正月十七，师父那一席的事，师父早说定了。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.这一票.confirm
+#: data/native/npcs.json
+msgid ""
+"请了尘把绝尘派这一票交给你：正月十七虹台上，绝尘派听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n"
+"要这么说吗？"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.这一票.rules.say
+#: data/native/npcs.json
+msgid "说过了。绝尘派听施主的。"
+msgstr ""
+
+#. native.npc.liaochen_sanyen inquiry.这一票.rules.lines.say
+#: data/native/npcs.json
+msgid "阿弥陀佛。绝尘派听施主的。"
+msgstr ""
+
+#. native.npc.assembly_liaochen title
+#: data/native/npcs.json
+msgid "绝尘派首徒"
+msgstr ""
+
+#. native.npc.assembly_liaochen long
+#: data/native/npcs.json
+msgid ""
+"了尘坐在绝尘派的旗下，头是新剃的，金刚杖横在膝上。他替师父坐着这把椅子。\n"
+msgstr ""
+
+#. native.npc.assembly_liaochen fight_deferred
+#: data/native/npcs.json
+msgid "了尘摆了摆手：今天是推选的日子，不动手。"
 msgstr ""
 
 #. native:snow/letter_to_chen name

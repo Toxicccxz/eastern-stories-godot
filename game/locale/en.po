@@ -36436,8 +36436,8 @@ msgstr "Mountain Mist Temple kept to its own line. Xuanzhi handed the palm-leaf 
 msgid "陪山烟寺守住了本寺一脉，把西来的经送回了番坊"
 msgstr "Helped Mountain Mist Temple keep to its own line, and sent the sutra from the west back to the Foreign Quarter"
 
-msgid "青石村北边那个拴着铁链的山洞，村长说「绝对不可以打开」。现在洞里真的有东西了，村里的孩子又钻了进去。山洞后面就是八卦阵，阵后面是不问世事的绝尘子。"
-msgstr "The Village Head says the chained cave north of Bluestone Village \"must never be opened\". Now there really is something in it, and the village children have crawled in again. Behind the cave lies the Eight Trigram Formation, and behind the formation, Juechenzi, who stays out of the world's affairs."
+#~ msgid "青石村北边那个拴着铁链的山洞，村长说「绝对不可以打开」。现在洞里真的有东西了，村里的孩子又钻了进去。山洞后面就是八卦阵，阵后面是不问世事的绝尘子。"
+#~ msgstr "The Village Head says the chained cave north of Bluestone Village \"must never be opened\". Now there really is something in it, and the village children have crawled in again. Behind the cave lies the Eight Trigram Formation, and behind the formation, Juechenzi, who stays out of the world's affairs."
 
 msgid "你离了绝尘派。青石村的事，到此为止。"
 msgstr "You have left the Dustless School. Bluestone Village's business ends here."
@@ -36490,8 +36490,8 @@ msgstr "Liaochen says: Shifu knows there is something in the cave. As long as th
 msgid "了尘说起师父的时候，一直看着佛像下的绝尘子，话没有说完。问他「师父」。"
 msgstr "When Liaochen speaks of his Shifu, he keeps looking at Juechenzi beneath the Buddha statue, and does not finish what he is saying. Ask him about \"Shifu\"."
 
-msgid "了尘说起了三十年前的事。"
-msgstr "Liaochen speaks of what happened thirty years ago."
+#~ msgid "了尘说起了三十年前的事。"
+#~ msgstr "Liaochen speaks of what happened thirty years ago."
 
 msgid "正月十七 · 虹台大会"
 msgstr "The Seventeenth · Rainbow Terrace Assembly"
@@ -40863,3 +40863,444 @@ msgstr "{skill} improved"
 
 msgid "这一场没有长进。"
 msgstr "Nothing gained this bout."
+
+msgid "绝尘派这一票，在你手里。"
+msgstr "The Dustless School's vote is in your hands."
+
+msgid "了尘替老道去。虹台的事，问他。"
+msgstr "Liaochen goes in this old Daoist's place. The Rainbow Terrace is his to answer for. Ask him."
+
+msgid "阵推到了洞口，老道答应过的，下山走一趟。投旧盟主，椅子照旧。"
+msgstr "The array is pushed out to the cave mouth. This old Daoist gave his word: he comes down the mountain once. A vote for the old Alliance Leader. The chair stays as it is."
+
+msgid "眯着眼睛看了你一会儿。"
+msgstr " narrows his eyes and looks at you for a while."
+
+msgid "……那个阵，是你陪着推出去的。这一票，你要，就是你的。"
+msgstr "...You helped push that array out. This vote, if you want it, is yours."
+
+msgid "了尘替老道去了。"
+msgstr "Liaochen has gone in this old Daoist's place."
+
+msgid "了尘走了。玄尘这个名字，也跟着他下了山。"
+msgstr "Liaochen is gone. The name Xuanchen went down the mountain with him."
+
+msgid "那个名字，了尘叫过一回，就够了。"
+msgstr "That name. Liaochen said it once. Once is enough."
+
+msgid "叫过了。……那个名字三十年没人叫了。"
+msgstr "It has been said. ...No one had said that name in thirty years."
+
+msgid "睁开眼睛，看了你很久。"
+msgstr " opens his eyes and looks at you for a long time."
+
+msgid "了尘跟你说的？"
+msgstr "Liaochen told you?"
+
+msgid "望着佛像顶上那颗夜明珠。"
+msgstr " gazes at the luminous pearl atop the Buddha."
+
+msgid "玄尘。……那个名字三十年没人叫了。"
+msgstr "Xuanchen. ...No one has said that name in thirty years."
+
+msgid "三十年前，老道是山烟寺玄字辈的和尚，玄智是老道的师兄。天竺来的法师背着经上山，师父不收。老道想看那部经，就追出了山门。"
+msgstr "Thirty years ago this old Daoist was a monk of Mountain Mist Temple, of the Xuan generation. Xuanzhi was my senior brother. A monk from India carried sutras up the mountain, and our master would not take them. This old Daoist wanted to read those sutras, so I ran out of the mountain gate after him."
+
+msgid "在番坊住了一年，法王点化了老道：佛经、道书、大秦人的书，经就是经，不拣。"
+msgstr "I lived a year in the Foreign Quarter, and the Dharma King opened my eyes: Buddhist sutras, Daoist books, the books of the Daqin. A scripture is a scripture. You don't pick and choose."
+
+msgid "法王跟你说，他没有点化过老道？……他向来这么说。"
+msgstr "The Dharma King told you he never opened my eyes? ...He always says that."
+
+msgid "你说，师兄收了那部经？"
+msgstr "You say my senior brother took that sutra in?"
+
+msgid "闭上眼睛，很久没有说话。"
+msgstr " closes his eyes and says nothing for a long while."
+
+msgid "三十年。"
+msgstr "Thirty years."
+
+msgid "后来走到青石村后山，摆了这个阵。阵外的事，老道不管；阵里的人，老道护着。"
+msgstr "Later I walked to the hills behind Bluestone Village and laid out this array. What lies outside the array, this old Daoist leaves alone. Whoever is inside it, this old Daoist protects."
+
+msgid "了尘是阵里的人。"
+msgstr "Liaochen is inside it."
+
+msgid "师兄还是守着本寺一脉。他守得住，老道就放心了。"
+msgstr "My senior brother still keeps to the temple's own line. As long as he can hold it, this old Daoist can rest easy."
+
+msgid "老道绝尘。"
+msgstr "This old Daoist is Juechen."
+
+msgid "守阵"
+msgstr "Hold the Array"
+
+msgid "守阵：了尘留在石室。绝尘子把八卦阵往外推到青石村北边的洞口，那里从此不进鬼卒。\n绝尘子肯把奇门遁甲（连同它的根基小天魔道）教给不是绝尘派的人（只这两门）。\n绝尘子下山一回：正月十七虹台上，绝尘派来，这一票投旧盟主。\n下山那条路就没了。要这么说吗？"
+msgstr "Hold the array: Liaochen stays in the Stone Chamber. Juechenzi pushes the Eight Trigram Formation out to the cave mouth north of Bluestone Village, and no Ghost Soldier gets through there again.\nJuechenzi will teach Qimen Dunjia (with its root, Lesser Demon Lore) to those outside the Dustless School (those two only).\nJuechenzi comes down the mountain once: on the seventeenth, on the Rainbow Terrace, the Dustless School comes and votes for the old Alliance Leader.\nThe way down the mountain is gone. Say it that way?"
+
+msgid "阵推到洞口了。"
+msgstr "The array is pushed out to the cave mouth."
+
+msgid "了尘走了。阵，老道一个人守。"
+msgstr "Liaochen is gone. This old Daoist holds the array alone."
+
+msgid "看着跪在地上的了尘，很久没有说话。"
+msgstr " looks at Liaochen kneeling on the floor and says nothing for a long while."
+
+msgid "起来。"
+msgstr "Get up."
+
+msgid "阵，老道往外推，推到洞口。青石村北边，往后什么都进不来。山下的人冻不着，阵里的人也不出去。"
+msgstr "This old Daoist will push the array out, all the way to the cave mouth. North of Bluestone Village, nothing gets through again. The people below won't freeze, and the ones inside the array won't go out."
+
+msgid "了尘把金刚杖拾起来，站起身，退到了师父身后。\n"
+msgstr "Liaochen picks up the vajra staff, rises, and steps back behind his Shifu.\n"
+
+msgid "绝尘派不问世事——这一回，老道问一回。正月十七，老道下山走一趟。"
+msgstr "The Dustless School does not concern itself with the world. This once, this old Daoist will. On the seventeenth, this old Daoist comes down the mountain."
+
+msgid "请绝尘子把绝尘派这一票交给你：正月十七虹台上，绝尘派听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Ask Juechenzi to hand the Dustless School's vote to you: on the seventeenth, on the Rainbow Terrace, the Dustless School goes the way you say. Stand up yourself and the vote is yours; if not, you decide who gets it.\nSay it that way?"
+
+msgid "说过了。绝尘派听你的。"
+msgstr "It has been said. The Dustless School goes with you."
+
+msgid "好。绝尘派这一票，你拿去。"
+msgstr "Good. The Dustless School's vote, take it."
+
+msgid "他回日照山了。"
+msgstr "He has gone back to Sunlit Mountain."
+
+msgid "望着大厅南边的石门。"
+msgstr " gazes at the stone door on the south side of the hall."
+
+msgid "出了阵，就是世事。"
+msgstr "Outside the array, it is the world."
+
+msgid "了尘回来了。"
+msgstr "Liaochen has come back."
+
+msgid "三十年前跟着玄尘师弟跑出山门的那个小沙弥，在流云轩给老衲烧过药炉。……他回来，不算外人。"
+msgstr "The little novice who ran out of the mountain gate after my junior brother Xuanchen thirty years ago. He tended this old monk's medicine stove in Drifting Cloud Lodge. ...Coming back, he is no outsider."
+
+msgid "青石村北边那个山洞，门上换了一条新铁链。阿牛背着小翠从门口走过，再也不往里钻了。"
+msgstr "The cave north of Bluestone Village has a new iron chain on its door. Aniu walks past it with Xiaocui on his back, and never crawls in again."
+
+msgid "村长还是常叹那一句「国之将亡」。只是现在，他会把后半句说完。"
+msgstr "The Village Head still sighs that line, \"When a country is about to fall.\" Only now he finishes the second half."
+
+msgid "洞口多了一圈不知谁摆的石头，洞里那股寒气没了，村北的狗夜里也不叫了。后山的石室里，绝尘子还坐在佛像下，了尘守在他身后。"
+msgstr "A ring of stones nobody remembers laying sits at the cave mouth. The cold has gone out of the cave, and the dogs north of the village no longer bark at night. In the Stone Chamber behind the hills, Juechenzi still sits beneath the Buddha, and Liaochen stands guard behind him."
+
+msgid "日照山的流云轩里多了一个拿金刚杖的和尚，抬上山的人，他扶着进门。青石村后山的石室里，只剩绝尘子一个人坐在佛像下。"
+msgstr "Drifting Cloud Lodge on Sunlit Mountain has a monk with a vajra staff now. Whoever is carried up the mountain, he helps through the door. In the Stone Chamber behind Bluestone Village, Juechenzi sits beneath the Buddha alone."
+
+msgid "了尘说起了三十年前：绝尘子就是走出山烟寺山门的玄尘。"
+msgstr "Liaochen told of thirty years ago: Juechenzi is Xuanchen, who walked out of the gate of Mountain Mist Temple."
+
+msgid "绝尘派守了阵：八卦阵推到了青石村北边的洞口，了尘留在石室。"
+msgstr "The Dustless School held the array: the Eight Trigram Formation now reaches the cave mouth north of Bluestone Village, and Liaochen stayed in the Stone Chamber."
+
+msgid "了尘下了山，回日照山的流云轩救人。"
+msgstr "Liaochen went down the mountain, back to Drifting Cloud Lodge on Sunlit Mountain to save lives."
+
+msgid "正月十七，绝尘派那一票听你的。"
+msgstr "On the seventeenth, the Dustless School's vote goes with you."
+
+msgid "青石村北边那个拴着铁链的山洞，村长说「绝对不可以打开」。现在洞里真的有东西了。山洞后面是八卦阵，阵后面是不问世事的绝尘子——三十年前，他是山烟寺的玄尘。他的首徒了尘要下山。"
+msgstr "The chained cave north of Bluestone Village: the Village Head says it \"must never be opened.\" Now something really is in there. Behind the cave lies the Eight Trigram Formation, and behind the formation, Juechenzi, who does not concern himself with the world. Thirty years ago he was Xuanchen of Mountain Mist Temple. His First Disciple, Liaochen, wants to go down the mountain."
+
+msgid "了尘说起了三十年前：他是山烟寺的小沙弥，跟着玄尘师叔走出了山门。玄尘，就是师父。他要回山烟寺去。"
+msgstr "Liaochen told of thirty years ago: he was a little novice of Mountain Mist Temple who followed Martial Uncle Xuanchen out of the mountain gate. Xuanchen is his Shifu. He wants to go back to Mountain Mist Temple."
+
+msgid "问绝尘子「玄尘」。"
+msgstr "Ask Juechenzi about \"Xuanchen.\""
+
+msgid "绝尘子认了：「玄尘。……那个名字三十年没人叫了。」了尘走到佛像前，跪了下来。"
+msgstr "Juechenzi owned it: \"Xuanchen. ...No one has said that name in thirty years.\" Liaochen walked before the Buddha and knelt."
+
+msgid "了尘跪在佛像前，等师父一句话。（话听了一半就走开的：守阵问绝尘子「守阵」，下山问了尘「下山」。）"
+msgstr "Liaochen kneels before the Buddha, waiting for one word from his Shifu. (If you walked off halfway through: to hold the array, ask Juechenzi about \"Hold the Array\"; to go down the mountain, ask Liaochen about \"Come Down.\")"
+
+msgid "了尘说他想下山，回流云轩救人。绝尘子说可以把阵推到洞口。他回过头来问你。"
+msgstr "Liaochen said he wants to go down the mountain, back to Drifting Cloud Lodge to save lives. Juechenzi said he could push the array out to the cave mouth. He turned to you."
+
+msgid "守阵（问绝尘子「守阵」）：了尘留下，八卦阵推到青石村北边的洞口，那里从此不进鬼卒；绝尘子肯教外人奇门遁甲；虹台上绝尘子下山一回，投旧盟主。下山（问了尘「下山」）：了尘回山烟寺流云轩救人，肯教外人金刚杖法；虹台上了尘替绝尘派上台，投颜违。两边绝尘派的弟子都晋执事。"
+msgstr "Hold the array (ask Juechenzi about \"Hold the Array\"): Liaochen stays, the Eight Trigram Formation is pushed out to the cave mouth north of Bluestone Village and no Ghost Soldier gets through there again; Juechenzi will teach outsiders Qimen Dunjia; on the Rainbow Terrace Juechenzi comes down the mountain once and votes for the old Alliance Leader. Go down the mountain (ask Liaochen about \"Come Down\"): Liaochen goes back to Drifting Cloud Lodge at Mountain Mist Temple to save lives and will teach outsiders the Vajra Staff; on the Rainbow Terrace Liaochen takes the Dustless School's seat and votes for Yan Wei. Either way, disciples of the Dustless School rise to Deacon."
+
+msgid "你劝了尘留下。绝尘子把八卦阵推到了青石村北边的洞口，山洞里的东西再也出不来了。"
+msgstr "You talked Liaochen into staying. Juechenzi pushed the Eight Trigram Formation out to the cave mouth north of Bluestone Village, and what is in the cave will never get out again."
+
+msgid "陪绝尘子把八卦阵推到了青石村的洞口"
+msgstr "Helped Juechenzi push the Eight Trigram Formation out to the cave mouth of Bluestone Village"
+
+msgid "了尘拜别了师父，下山回了日照山的流云轩。「出了阵，就是世事。」"
+msgstr "Liaochen took leave of his Shifu and went down the mountain, back to Drifting Cloud Lodge on Sunlit Mountain. \"Outside the array, it is the world.\""
+
+msgid "送了尘出了八卦阵，回山烟寺流云轩救人"
+msgstr "Saw Liaochen out of the Eight Trigram Formation, back to Drifting Cloud Lodge at Mountain Mist Temple to save lives"
+
+msgid "绝尘派：了尘替师父来，投颜违——鬼卒要剿"
+msgstr "Dustless School: Liaochen comes for his Shifu and votes for Yan Wei; clear out the Ghost Soldiers"
+
+msgid "绝尘派：听你的"
+msgstr "Dustless School: goes with you"
+
+msgid "老道下山，就这一回。阵推到了青石村的洞口，北边的东西进不了村——椅子，照旧。"
+msgstr "This old Daoist comes down the mountain just this once. The array is pushed out to the cave mouth of Bluestone Village, and what is in the north cannot get into the village. The chair stays as it is."
+
+msgid "阿弥陀佛。贫僧了尘，替师父来。鬼卒要剿干净，神教要逐——山烟寺的僧人死在神教手里过。绝尘派投颜违。"
+msgstr "Amitabha. This poor monk is Liaochen, here for my Shifu. The Ghost Soldiers must be cleared out to the last, and the Order driven out. Monks of Mountain Mist Temple have died at the Order's hands. The Dustless School votes for Yan Wei."
+
+msgid "师父说，出了阵，就是世事。绝尘派这一票，在施主手里。"
+msgstr "My Shifu says: outside the array, it is the world. The Dustless School's vote is in your hands, Benefactor."
+
+msgid "绝尘派——颜违。"
+msgstr "Dustless School: Yan Wei."
+
+msgid "绝尘派——投你。"
+msgstr "Dustless School: you."
+
+msgid "颜违，九票。"
+msgstr "Yan Wei, 9 votes."
+
+msgid "你，九票。"
+msgstr "You, 9 votes."
+
+msgid "北边那个山洞，寒气没了。洞口不知谁摆了一圈石头，阿牛钻进去转了一圈，又从原路转出来了。"
+msgstr "The cold has gone out of that cave in the north. Somebody laid a ring of stones at its mouth. Aniu crawled in, went round once, and came right back out the way he went in."
+
+msgid "望着北边的山。"
+msgstr " gazes at the hills to the north."
+
+msgid "村北的狗，夜里也不叫了。"
+msgstr "And the dogs north of the village don't bark at night anymore."
+
+msgid "后山下来过一个拿杖的……和尚。在洞口念了一夜的经，第二天一早往南去了。"
+msgstr "Somebody came down from the hills with a staff. A... monk. He chanted sutras at the cave mouth all night and went south at first light."
+
+msgid "国之将亡，必有妖孽。……有妖孽，也有念经的人。"
+msgstr "When a country is about to fall, monsters are sure to rise. ...Where there are monsters, there are also people who chant."
+
+msgid "阵推到洞口了。洞里的东西出不来，村里的孩子也钻不进去——进去转一圈，又从原路转出来。"
+msgstr "The array is pushed out to the cave mouth. Whatever is in the cave can't get out, and the village children can't get in. They crawl in, go round once, and come out the way they went in."
+
+msgid "师父说，这样就够了。"
+msgstr "Shifu says that is enough."
+
+msgid "师父的事，问师父。"
+msgstr "Shifu's business, ask Shifu."
+
+msgid "阵推到洞口了。青石村北边，往后什么都进不来。"
+msgstr "The array is pushed out to the cave mouth. North of Bluestone Village, nothing gets through again."
+
+msgid "捻了捻腕上的佛珠。"
+msgstr " turns the beads on his wrist."
+
+msgid "我留下。三十年前跟着他出山门的时候，我就说过，他去哪里，我去哪里。"
+msgstr "I'm staying. Thirty years ago, when I followed him out of the mountain gate, I said it: wherever he goes, I go."
+
+msgid "三十年前的事，都跟你说了。去问师父「玄尘」——他认不认，是他的事。"
+msgstr "I've told you all of thirty years ago. Go and ask Shifu about \"Xuanchen.\" Whether he owns it is his business."
+
+msgid "看了一眼佛像下的师父，把你拉到大厅一角，压低了声音。"
+msgstr " glances at his Shifu beneath the Buddha, draws you into a corner of the hall, and lowers his voice."
+
+msgid "三十年前，我九岁，是日照山山烟寺的小沙弥，在流云轩给方丈烧药炉。"
+msgstr "Thirty years ago I was nine, a little novice of Mountain Mist Temple on Sunlit Mountain, minding the Abbot's medicine stove in Drifting Cloud Lodge."
+
+msgid "那年一个天竺来的法师背着两部经上山，住持不收。寺里有一位玄尘师叔，追出了山门——我跟在他后面跑出去的。他回头看见我，没赶我走。"
+msgstr "That year a monk from India carried two sutras up the mountain, and the Abbot would not take them. There was a Martial Uncle Xuanchen in the temple who ran out of the mountain gate after him. I ran out behind him. He turned, saw me, and didn't send me back."
+
+msgid "在番坊住了一年，又往北走，走到青石村后山，师叔摆了这个阵，改了道号，叫绝尘。"
+msgstr "We lived a year in the Foreign Quarter, then went north, all the way to the hills behind Bluestone Village. Martial Uncle laid out this array and took a new Daoist name: Juechen."
+
+msgid "朝佛像下看了一眼。"
+msgstr " glances toward the foot of the Buddha."
+
+msgid "就是师父。"
+msgstr "He is my Shifu."
+
+msgid "我跟了他三十年。这几年山洞里出来那些东西，山下的人一个一个地冻死，流云轩救不过来。师父不管。"
+msgstr "I've followed him for thirty years. These last years things have been coming out of that cave, and the people below freeze to death one after another. Drifting Cloud Lodge can't save them all. Shifu does nothing."
+
+msgid "乔阴那个樵夫老葛，被鬼卒抓了一把，抬上了日照山。流云轩的药一碗一碗地灌，寒气赶不出去——你去过，你知道。"
+msgstr "That woodcutter from Tallshade, Old Ge: a Ghost Soldier clawed him, and they carried him up Sunlit Mountain. Drifting Cloud Lodge poured medicine into him bowl after bowl, and the cold wouldn't leave. You were there. You know."
+
+msgid "后来是金门外那个独眼的头陀，一掌把寒气按了出来。流云轩的药，治不了这个。"
+msgstr "In the end it was that one-eyed ascetic outside the Golden Gate who pressed the cold out of him with one palm. Drifting Cloud Lodge's medicine can't cure that."
+
+msgid "我要回山烟寺去。"
+msgstr "I'm going back to Mountain Mist Temple."
+
+msgid "你去问师父「玄尘」。那个名字，他三十年没让人叫过了。"
+msgstr "Go and ask Shifu about \"Xuanchen.\" He hasn't let anyone call him that in thirty years."
+
+msgid "后来是方丈守了三天三夜，命保住了，一只手废了。"
+msgstr "In the end the Abbot sat up with him three days and three nights. His life was saved. One hand was lost."
+
+msgid "师父是绝尘派的祖师。我是他头一个徒弟。"
+msgstr "Shifu is the Founder of the Dustless School. I am his first disciple."
+
+msgid "了尘跪在佛像前，金刚杖横放在身前的地上，腕上那串佛珠一动不动。佛像顶上的夜明珠照着他剃过又蓄起来的发茬。他在等师父一句话。\n"
+msgstr "Liaochen kneels before the Buddha, the vajra staff laid across the floor in front of him, the beads on his wrist perfectly still. The luminous pearl atop the Buddha lights the stubble of hair, shaved once and grown back. He is waiting for one word from his Shifu.\n"
+
+msgid "我跪在这里，不动手。"
+msgstr "I'm kneeling here. I won't raise a hand."
+
+msgid "我跪在这里，等师父一句话。"
+msgstr "I'm kneeling here, waiting for one word from Shifu."
+
+msgid "洞里的东西还会出来。阵守得住石室，守不住山下。"
+msgstr "What is in that cave will keep coming out. The array can hold the Stone Chamber. It can't hold the land below."
+
+msgid "贫道了尘。……三十年前，我叫了尘，三十年后，我还叫了尘。"
+msgstr "This poor Daoist is Liaochen. ...Thirty years ago I was called Liaochen, and thirty years on I am still Liaochen."
+
+msgid "下山：了尘回日照山山烟寺，到流云轩救人（收了经的，他跟独眼头陀在一起；守了寺的，他在流云轩做药僧）。\n了尘肯把金刚杖法教给不是绝尘派的人（只这一门）。\n绝尘子不下山：正月十七虹台上，了尘替绝尘派上台——鬼卒要剿，神教要逐，这一票投颜违。\n守阵那条路就没了。要这么说吗？"
+msgstr "Go down the mountain: Liaochen goes back to Mountain Mist Temple on Sunlit Mountain, to save lives in Drifting Cloud Lodge (if the temple accepted the sutra, he works beside the One-Eyed Ascetic; if it kept to its own, he serves as a medicine monk there).\nLiaochen will teach the Vajra Staff to those outside the Dustless School (that one only).\nJuechenzi does not come down: on the seventeenth, on the Rainbow Terrace, Liaochen takes the Dustless School's seat. The Ghost Soldiers to be cleared, the Order driven out: the vote goes to Yan Wei.\nThe way of holding the array is gone. Say it that way?"
+
+msgid "这是师父和我的事。"
+msgstr "This is between Shifu and me."
+
+msgid "师父说了守阵。我留下。"
+msgstr "Shifu said to hold the array. I'm staying."
+
+msgid "回头看了一眼佛像下的师父。"
+msgstr " looks back at his Shifu beneath the Buddha."
+
+msgid "绝尘子没有睁眼。过了很久，他说了一句：「出了阵，就是世事。」\n"
+msgstr "Juechenzi does not open his eyes. After a long while he says one thing: \"Outside the array, it is the world.\"\n"
+
+msgid "是。"
+msgstr "Yes."
+
+msgid "朝师父磕了三个头，拾起金刚杖，站了起来。"
+msgstr " kowtows three times to his Shifu, takes up the vajra staff, and stands."
+
+msgid "正月十七，师父不下山，我替他去。"
+msgstr "On the seventeenth, Shifu will not come down the mountain. I'll go in his place."
+
+msgid "了尘出了石室，往南边的荒山路去了。\n"
+msgstr "Liaochen leaves the Stone Chamber and takes the wild hill road south.\n"
+
+msgid "了尘走到佛像前，跪了下来，把那根金刚杖横放在身前的地上。\n"
+msgstr "Liaochen walks before the Buddha and kneels, laying the vajra staff across the floor in front of him.\n"
+
+msgid "师父。"
+msgstr "Shifu."
+
+msgid "坐在佛像下，眼睛半闭着。"
+msgstr " sits beneath the Buddha, eyes half closed."
+
+msgid "说。"
+msgstr "Speak."
+
+msgid "三十年前，是师父领我出的山门。今天，我想回去。"
+msgstr "Thirty years ago, Shifu led me out of the mountain gate. Today, I want to go back."
+
+msgid "山洞里出来了东西，山下的人一个一个地冻死。阵守得住石室，守不住山下。"
+msgstr "Things have come out of that cave, and the people below freeze to death one after another. The array can hold the Stone Chamber. It can't hold the land below."
+
+msgid "番坊的经，师伯收下了。流云轩现在治得了鬼卒的寒——可只有一个头陀，一双手。"
+msgstr "Martial Uncle has taken in the Foreign Quarter's sutra. Drifting Cloud Lodge can cure the Ghost Soldiers' cold now. But there is only one ascetic, and one pair of hands."
+
+msgid "师伯守着本寺一脉，流云轩还是赶不出那股寒。我是流云轩出来的人，我回去，不算外人。"
+msgstr "Martial Uncle keeps to the temple's own line, and Drifting Cloud Lodge still can't drive out that cold. I came out of Drifting Cloud Lodge. If I go back, I'm no outsider."
+
+msgid "阵守得住石室，就守得住青石村。老道把阵往外推，推到洞口——青石村北边，往后什么都进不来。"
+msgstr "If the array can hold the Stone Chamber, it can hold Bluestone Village. This old Daoist will push it out, all the way to the cave mouth. North of the village, nothing gets through again."
+
+msgid "你留下，跟着老道守阵。"
+msgstr "You stay, and hold the array with this old Daoist."
+
+msgid "伏在地上，没有起来。"
+msgstr " lies prostrate on the floor and does not get up."
+
+msgid "流云轩缺的是人手。……师父，我想下山。"
+msgstr "What Drifting Cloud Lodge lacks is hands. ...Shifu, I want to go down the mountain."
+
+msgid "睁开眼睛，看着跪在地上的了尘，又转过头来看着你。"
+msgstr " opens his eyes, looks at Liaochen kneeling on the floor, then turns to you."
+
+msgid "这孩子跟了老道三十年，头一回开口要走。你走过老道的阵，进过那个洞——你说吧。"
+msgstr "This boy has followed this old Daoist for thirty years, and today is the first time he has asked to leave. You walked this old Daoist's array, and you went into that cave. You say it."
+
+msgid "（守阵，问绝尘子「守阵」；下山，问了尘「下山」。）\n"
+msgstr "(To hold the array, ask Juechenzi about \"Hold the Array\"; to go down the mountain, ask Liaochen about \"Come Down.\")\n"
+
+msgid "一个四十来岁的和尚，头是新剃的，青皮还没褪尽；洗白的旧道袍外头罩了一件山烟寺的灰布僧衣，腕上缠着那串磨得发亮的佛珠，金刚杖靠在药柜边上。他在流云轩里煎药、扶病人，手脚很快。\n"
+msgstr "A monk of about forty, his head freshly shaved, the skin still pale. Over a faded old Daoist robe he wears the grey cloth robe of Mountain Mist Temple, the beads worn smooth on his wrist, his vajra staff leaning by the medicine cabinet. He brews medicine and helps the sick in Drifting Cloud Lodge, quick with his hands.\n"
+
+msgid "了尘把药罐从炉子上端下来，吹了吹，倒进碗里。\n"
+msgstr "Liaochen lifts the medicine pot off the stove, blows on it, and pours it into a bowl.\n"
+
+msgid "了尘扶着病人坐起来，一勺一勺地喂药。\n"
+msgstr "Liaochen helps a patient sit up and feeds him the medicine spoon by spoon.\n"
+
+msgid "师父说，出了阵，就是世事。……他还坐在那尊佛像下吧。"
+msgstr "Shifu said: outside the array, it is the world. ...I suppose he still sits beneath that Buddha."
+
+msgid "头陀师兄管火，我管药罐。鬼卒抓的伤抬上来，他一掌，我一碗。"
+msgstr "Senior Brother Ascetic keeps the fire; I keep the pots. When they carry up someone a Ghost Soldier has clawed, he gives one palm, I give one bowl."
+
+msgid "朝药柜下坐着的独眼头陀看了一眼。"
+msgstr " glances at the One-Eyed Ascetic sitting beneath the medicine cabinet."
+
+msgid "三十年前没进门的经，进了门。师父要是知道……他知道。"
+msgstr "The sutra that couldn't get through the gate thirty years ago is through it now. If Shifu knew... He knows."
+
+msgid "方丈说，我本来就是本寺的人，三十年前出的山门，今天回来，不算外人。"
+msgstr "The Abbot says I was always one of the temple's own. I left by the mountain gate thirty years ago; coming back today, I'm no outsider."
+
+msgid "鬼卒的寒，流云轩还是赶不出去。能救一个，是一个。"
+msgstr "Drifting Cloud Lodge still can't drive out the Ghost Soldiers' cold. Each one we save is one saved."
+
+msgid "流云轩缺人手。我在这里煎药，扶病人。"
+msgstr "Drifting Cloud Lodge is short of hands. I brew medicine here and help the sick."
+
+msgid "师父当年追出山门，追的就是他师父背的那部经。三十年，经进了门，我也回来了。"
+msgstr "When Shifu ran out of the mountain gate back then, it was the sutra his master carried that he ran after. Thirty years on, the sutra is through the gate, and I'm back too."
+
+msgid "方丈是师父的师兄。我回来那天，他什么也没问，指了指流云轩。"
+msgstr "The Abbot is Shifu's senior brother. The day I came back, he asked nothing at all. He just pointed to Drifting Cloud Lodge."
+
+msgid "师父教的杖法，招式跟山烟寺的流云杖法是一样的。你要学，我教。别的，我不教。"
+msgstr "The staff Shifu taught me. Its moves are the same as Mountain Mist Temple's Cloudflow Staff. If you want to learn it, I'll teach you. Nothing else."
+
+msgid "贫僧了尘。……出了阵，又叫回贫僧了。"
+msgstr "This poor monk is Liaochen. ...Outside the array, I'm back to \"this poor monk.\""
+
+msgid "绝尘派这一票，在施主手里。"
+msgstr "The Dustless School's vote is in your hands, Benefactor."
+
+msgid "正月十七，师父不下山，贫僧替他上虹台。"
+msgstr "On the seventeenth, Shifu will not come down the mountain. This poor monk will go up the Rainbow Terrace in his place."
+
+msgid "鬼卒要剿干净，神教要逐——山烟寺的僧人死在神教手里过。绝尘派投颜违。"
+msgstr "The Ghost Soldiers must be cleared out to the last, and the Order driven out. Monks of Mountain Mist Temple have died at the Order's hands. The Dustless School votes for Yan Wei."
+
+msgid "可这条路，是施主陪着走出来的。这一票，施主要，就是施主的。"
+msgstr "But this road, Benefactor, you walked out of the array with me. This vote, if you want it, is yours."
+
+msgid "正月十七，师父那一席的事，师父早说定了。"
+msgstr "On the seventeenth, the matter of Shifu's seat: Shifu settled it long ago."
+
+msgid "请了尘把绝尘派这一票交给你：正月十七虹台上，绝尘派听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Ask Liaochen to hand the Dustless School's vote to you: on the seventeenth, on the Rainbow Terrace, the Dustless School goes the way you say. Stand up yourself and the vote is yours; if not, you decide who gets it.\nSay it that way?"
+
+msgid "说过了。绝尘派听施主的。"
+msgstr "It has been said. The Dustless School goes with you, Benefactor."
+
+msgid "阿弥陀佛。绝尘派听施主的。"
+msgstr "Amitabha. The Dustless School goes with you, Benefactor."
+
+msgid "绝尘派首徒"
+msgstr "First Disciple of the Dustless School"
+
+msgid "了尘坐在绝尘派的旗下，头是新剃的，金刚杖横在膝上。他替师父坐着这把椅子。\n"
+msgstr "Liaochen sits under the Dustless School's banner, his head freshly shaved, the vajra staff across his knees. He keeps this chair for his Shifu.\n"
+
+msgid "了尘摆了摆手：今天是推选的日子，不动手。"
+msgstr "Liaochen waves a hand. \"Today is the day of the election. No fighting.\""
