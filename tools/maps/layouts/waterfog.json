@@ -938,6 +938,11 @@
             "name": "AssemblyJuechenzi",
             "at": [408, 720],
             "id": "waterfog.terrace_top.juechenzi.1"
+          },
+          {
+            "name": "AssemblyLiaochen",
+            "at": [408, 720],
+            "id": "waterfog.terrace_top.liaochen.1"
           }
         ],
         "interactions": [

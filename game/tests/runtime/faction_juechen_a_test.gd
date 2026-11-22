@@ -99,8 +99,8 @@ func _test_data() -> void:
 	if quest == null:
 		return
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
-	_check(ids == [&"elder", &"cave", &"saying", &"report", &"liaochen", &"xuanchen"], "绝尘 A's steps, then the stub: %s" % [ids])
-	_check(quest.steps.all(func(step: StoryQuestDefinition.Step) -> bool: return not step.is_branch()), "no choice in 绝尘 A (the split is 绝尘 B's)")
+	_check(ids.slice(0, 6) == [&"elder", &"cave", &"saying", &"report", &"liaochen", &"xuanchen"], "绝尘 A's steps, then the stub (绝尘 B fills it): %s" % [ids])
+	_check(quest.steps.slice(0, 6).all(func(step: StoryQuestDefinition.Step) -> bool: return not step.is_branch()), "no choice in 绝尘 A (the split is 绝尘 B's)")
 	var report: StoryQuestDefinition.Step = quest.step(&"report")
 	_check(report.reward.rank_title == "大弟子" and report.reward.rank_family == FAMILY and not report.reward.deed.is_empty(), "绝尘子 told: 大弟子 for his own, a deed")
 	_check(quest.step(&"xuanchen").target.npc_ids.has(LIAOCHEN), "then 了尘 again (绝尘 B)")
@@ -112,7 +112,7 @@ func _test_data() -> void:
 		var spawn: NpcSpawnDefinition = catalog.spawn(spawn_id)
 		_check(spawn != null and spawn.staged, "%s is on the story's stage" % spawn_id)
 	_check(catalog.spawn(&"native.cave1.ghoul").cleared_mark == "洞口的鬼卒倒了" and catalog.spawn(&"native.cave2.ghoul").cleared_mark == "洞底的鬼卒倒了", "each 鬼卒 marks its own beating")
-	_check(not catalog.spawn(&"native.cavehall.liaochen").staged, "了尘 lives in the hall")
+	_check(catalog.spawn(&"native.cavehall.liaochen").present == null, "了尘 lives in the hall (until 绝尘 B's 玄尘)")
 	for id: StringName in [KID, MOTHER, LIAOCHEN]:
 		_check(catalog.npc(id).hooks() != null and catalog.npc(id).hooks().always_kept, "%s can only be knocked down" % id)
 		_check(NpcLifeBook.entry(id) != null, "%s has its life" % id)
