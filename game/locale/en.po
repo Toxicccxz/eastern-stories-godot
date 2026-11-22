@@ -15731,7 +15731,7 @@ msgid "你双手合掌，虔诚的祈祷。\n手上的镯子嗡嗡作响。 突�
 msgstr "You press your palms together and pray with devotion.\nThe bracelet on your hand hums. Suddenly a cloud of smoke... \n"
 
 msgid "这是一卷由上等丝绸编成，以湘绣作成的舞曲图。上有记载一些舞曲 \n每一曲都有它独特的风格与内涵。一幅幅玄天玉女翩然起舞，十分壮观。\n\n  曲目： \n \n  广陵散 \n  春宫怨 \n \n对你而言基本舞步你可以参悟，至于较高深步法似乎需人指导了。 \n"
-msgstr "This is a scroll of fine silk, embroidered in Xiang style with dance pieces. It records several dances, \neach with its own style and meaning. Scene after scene shows the Jade Maiden of Dark Heaven dancing, a magnificent sight.\n\n  Pieces: \n \n  Song of Guangling \n  Spring Palace Lament \n \nYou can work out the basic steps for yourself; the higher steps seem to need someone to teach you. \n"
+msgstr "This is a scroll of fine silk, embroidered in Xiang style with dance pieces. It records several dances, \neach with its own style and meaning. Scene after scene shows the Jade Maiden of Dark Heaven dancing, a magnificent sight.\n\n  Pieces: \n \n  Guangling San \n  Spring Palace Lament \n \nYou can work out the basic steps for yourself; the higher steps seem to need someone to teach you. \n"
 
 msgid "跳「春宫怨」"
 msgstr "Dance \"Spring Palace Lament\""
@@ -16916,7 +16916,7 @@ msgid "$N在卦象中跳起舞来..一曲「 有凤来仪 」突然..."
 msgstr "$N {N:dance|dances} in the bagua pattern... a piece, \"The Phoenix Comes to Court\", suddenly..."
 
 msgid "$N在卦象中跳起舞来..一曲「 西出阳关 」突然..."
-msgstr "$N {N:dance|dances} in the trigram pattern... \"Westward Out of Yangguan\", and suddenly..."
+msgstr "$N {N:dance|dances} in the bagua pattern... \"Westward Out of Yangguan\", and suddenly..."
 
 msgid "请人替跳"
 msgstr "Ask someone to dance for you"
