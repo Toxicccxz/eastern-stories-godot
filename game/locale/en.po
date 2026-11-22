@@ -26354,7 +26354,7 @@ msgid "城门旁的木板上钉了一张新告示，压在旧的上头，墨还�
 msgstr "A new notice is nailed to the board beside the gate, pasted over the old one, the ink still fresh:\n"
 
 msgid "「兵部文书至：槐阳反。随他们说。——槐阳王府」\n"
-msgstr "\"A paper from the Ministry of War: Huaiyang is in revolt. Let them say it. -- The House of Huaiyang\"\n"
+msgstr "\"A paper from the Ministry of War: Huaiyang is in revolt. Let them say it.—The House of Huaiyang\""
 
 msgid "底下还是那方正红的印。旧告示的一角从新纸底下露出来，「本府不奉」四个字还看得见。\n"
 msgstr "Beneath it is the same true-red seal. A corner of the old notice shows from under the new paper, and the words \"this House does not accept\" can still be read.\n"
@@ -26363,7 +26363,7 @@ msgid "一张告示钉在城门旁的木板上，纸已经让风沙打得发毛�
 msgstr "A notice is nailed to the board beside the gate, the paper battered fuzzy by wind and sand, the writing in a thick brush:\n"
 
 msgid "「兵部征夫令，本府不奉。有持兵部文书到关北拿人者，以盗论。——槐阳王府」\n"
-msgstr "\"The Ministry of War's levy of laborers: this House does not accept. Anyone who comes Beyond the Pass with Ministry papers to seize people will be treated as a robber. -- The House of Huaiyang\"\n"
+msgstr "\"The Ministry of War's levy of laborers: this House does not accept. Anyone who comes Beyond the Pass with Ministry papers to seize people will be treated as a robber.—The House of Huaiyang\""
 
 msgid "告示底下盖着一方大印，印色正红。你见过逆灵宫那叠文书上的印——这一方和那些不一样。\n"
 msgstr "A great seal is stamped below the notice, the ink true red. You have seen the seals on the stack of papers in the Black Palace: this one is not like those.\n"
