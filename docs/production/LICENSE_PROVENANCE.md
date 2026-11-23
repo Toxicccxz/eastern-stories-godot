@@ -109,6 +109,12 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   archive (font 707,536 bytes, SHA-256 `f533986a872978ebe94f7d6fbf8f2ddac0d300b8b726b7cec45458b0da343472`).
   SIL Open Font License 1.1, the same `OFL-FusionPixel.txt` (the archive's OFL.txt is identical);
   used unmodified for the interface's text in 繁體中文.
+- `game/assets/fonts/fusion-pixel-12px-proportional-ko.otf.woff2` — 缝合像素 12 px
+  proportional, Korean (its Hangul from Galmuri, all 11,172 syllables; proportional curly
+  quotes; Han characters in Korean forms), from the same release and archive (font 698,044
+  bytes, SHA-256 `4dadf6770d9a0bbe4e78dbd7aeb0a5d5c763f495f21e190faec61ba1aefdb544`). SIL Open
+  Font License 1.1, the same `OFL-FusionPixel.txt`; used unmodified for the interface's text in
+  한국어.
 - `game/assets/fonts/fusion-pixel-12px-proportional-ja.otf.woff2` — 缝合像素 12 px
   proportional, Japanese glyph forms (all 6,355 kanji of JIS X 0208, kana, proportional curly
   quotes), from the same release and archive (font 703,028 bytes, SHA-256

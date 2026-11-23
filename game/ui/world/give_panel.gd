@@ -94,7 +94,7 @@ func picks() -> Array:
 
 ## What the ticked gifts ask first, above 确认给予 ("" for nothing).
 func show_warning(text: String) -> void:
-	_warning.text = text
+	_warning.text = KoreanText.shown(text)
 	_warning.visible = not text.is_empty()
 
 

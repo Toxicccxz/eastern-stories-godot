@@ -16,6 +16,26 @@ class Choice:
 	var zoom_percent: int = 66
 
 
+## The silk ribbon through the lettering (TitleRibbon), in percent of the lettering's ink box (x
+## parts of its width, y parts of its height): the points its middle runs through, three numbers
+## each — x, y, and 1 in front of the lettering or 0 behind it (the band changes sides halfway
+## between two points that differ); which two points it is held between (before and after them its
+## loose ends stream in the wind); its width (parts of the ink's height); the points the words sit
+## on (one, or one a word); the point its seal is stamped on; where it flies in from and drifts off
+## toward.
+class Ribbon:
+	var path: Array[int] = [-14, 92, 1, -3, 74, 1, 11, 62, 1, 33, 70, 0, 56, 62, 1, 82, 56, 0, 104, 66, 1, 118, 86, 1, 136, 94, 1]
+	var held: Array[int] = [1, 6]
+	var band: int = 16
+	var text: Array[int] = [2, 4]
+	var seal: int = 6
+	var from: Array[int] = [-60, 160]
+	var to: Array[int] = [240, -70]
+
+	func points() -> int:
+		return path.size() / 3
+
+
 ## By the menu button's name (NewGameButton, ContinueButton, …).
 var choices: Dictionary[StringName, Choice] = {}
 ## Lettering masks (white = ink) by language code; "default" for any other language.
@@ -24,6 +44,11 @@ var seals: Dictionary[String, String] = {}
 ## The line spaced out under the title by language code ("default" for any other): the title
 ## in the other language.
 var lines: Dictionary[String, String] = {}
+## The line as a lettering mask (red = ink) where it is not set in a shipped font, by the same
+## language codes as `lines`.
+var line_masks: Dictionary[String, String] = {}
+## The ribbon by language code ("default" for any other).
+var ribbons: Dictionary[String, Ribbon] = {}
 ## Where the sun stands and where the logo's middle stands, in percent of the screen.
 var sun_percent: Array[int] = [28, 20]
 var logo_percent: Array[int] = [28, 21]
@@ -50,6 +75,15 @@ func line_for(language: String) -> String:
 	return lines.get(language, lines.get("default", ""))
 
 
+## The line's mask goes with the line: a language with a line of its own takes only its own mask.
+func line_mask_for(language: String) -> String:
+	return line_masks.get(language if lines.has(language) else "default", "")
+
+
+func ribbon_for(language: String) -> Ribbon:
+	return ribbons.get(language, ribbons.get("default", Ribbon.new()))
+
+
 static func from_record(reader: ContentRecordReader) -> TitleScreenDefinition:
 	var definition := TitleScreenDefinition.new()
 	for key: String in ["sun_percent", "logo_percent"]:
@@ -64,6 +98,33 @@ static func from_record(reader: ContentRecordReader) -> TitleScreenDefinition:
 	definition.logos = reader.text_map("logos")
 	definition.seals = reader.text_map("seals")
 	definition.lines = reader.text_map("lines")
+	definition.line_masks = reader.text_map("line_masks")
+	var ribbons: ContentRecordReader = reader.child("ribbons")
+	if ribbons != null:
+		for language: String in ribbons.keys():
+			var entry: ContentRecordReader = ribbons.child(language)
+			var ribbon := Ribbon.new()
+			for key: String in ["path", "held", "text", "from", "to"]:
+				if entry.has(key):
+					ribbon.set(key, entry.integer_list(key))
+			ribbon.band = entry.integer("band", ribbon.band)
+			ribbon.seal = entry.integer("seal", ribbon.seal)
+			var count: int = ribbon.points()
+			if ribbon.path.size() % 3 != 0 or count < 4:
+				entry.fail("path", "expected at least four [x, y, in front] points")
+			if ribbon.held.size() != 2 or ribbon.held[0] < 1 or ribbon.held[1] > count - 2 or ribbon.held[0] >= ribbon.held[1]:
+				entry.fail("held", "expected two points with a loose end beyond each")
+			for point: int in ribbon.text + [ribbon.seal]:
+				if point < 0 or point >= count:
+					entry.fail("text", "expected points of the path")
+			for key: String in ["from", "to"]:
+				if (ribbon.get(key) as Array).size() != 2:
+					entry.fail(key, "expected [x, y]")
+			if ribbon.band < 5 or ribbon.band > 60:
+				entry.fail("band", "expected 5..60")
+			entry.finish()
+			definition.ribbons[language] = ribbon
+		ribbons.finish()
 	var choices: ContentRecordReader = reader.child("choices")
 	if choices != null:
 		for name: String in choices.keys():

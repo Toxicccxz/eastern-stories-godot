@@ -25,8 +25,6 @@ const TEXT_SIZE: int = 18
 # TRANSLATORS: how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
 const SPEECH_MARK: String = "道："
 const SPEECH_MARK_REACH: int = 10
-## An opening quote a translated SPEECH_MARK may end in, and the mark that closes it.
-const QUOTE_PAIRS: Dictionary[String, String] = {"「": "」", "『": "』", "“": "”", "‘": "’", "\"": "\""}  # NO_TRANSLATE
 
 var _ui: SharedGameplayUI
 ## character id -> [PanelContainer, seconds left]
@@ -94,23 +92,28 @@ func forget(character_id: StringName) -> void:
 
 
 ## `line` is said (it hands over to what is said early on: 店小二说道：…), not only done.
+## (A Korean line's word joiners are not counted: KoreanText.)
 static func is_speech(line: String) -> bool:
-	var mark: int = line.strip_edges().find(TranslationServer.translate(SPEECH_MARK))
+	var mark: int = KoreanText.without_joiners(line).strip_edges().find(_said())
 	return mark >= 0 and mark <= SPEECH_MARK_REACH
 
 
-## What a bubble says for `line`: what is said, without who says it. A language whose mark ends
-## in an opening quote (日本語「, 한국어 “) loses the closing one at the end too.
+## What a bubble says for `line`: what is said, without who says it. A language whose mark
+## opens the quote (Korean: 말한다. “, Japanese: 「) loses the closing quote too.
 static func bubble_text(line: String) -> String:
-	var text: String = line.strip_edges()
-	var said: String = TranslationServer.translate(SPEECH_MARK)
+	var text: String = KoreanText.without_joiners(line).strip_edges()
+	var said: String = _said()
 	var mark: int = text.find(said)
 	if mark >= 0 and mark <= SPEECH_MARK_REACH:
 		text = text.substr(mark + said.length()).strip_edges()
-		var closing: String = QUOTE_PAIRS.get(said.right(1), "")
+		var closing: String = {"“": "”", "\"": "\"", "「": "」", "『": "』"}.get(said.right(1), "")  # NO_TRANSLATE: quote marks
 		if not closing.is_empty() and text.ends_with(closing):
-			text = text.left(text.length() - closing.length()).strip_edges()
-	return text
+			text = text.left(-1).strip_edges()
+	return KoreanText.shown(text)
+
+
+static func _said() -> String:
+	return KoreanText.without_joiners(TranslationServer.translate(SPEECH_MARK))
 
 
 func _process(delta: float) -> void:

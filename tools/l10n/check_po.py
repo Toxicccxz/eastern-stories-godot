@@ -17,6 +17,11 @@ wrong. This catches them. Rules (docs/production/english_style.md):
   quotes and ellipsis are full-width Chinese forms (a letter is half as wide);
 * in Chinese (zh_*.po): every slot and token stays, $P and $p included, as often as in the
   source: the sentence is the same sentence in other characters;
+* in Korean (ko.po, docs/production/korean_style.md): slots as in a Latin language, $P/$p
+  allowed (그, 그녀, 당신 fill them); a particle pair (을(를), (으)로, (이)라는...) only right
+  after a slot or token, or opening a line that follows a name (an NPC's action): after
+  written text the translator picks the form; no Han character and no Chinese punctuation
+  (。，、：；！？「」『』（）, ……) is left: Korean writes . , : ; ! ? “ ” ‘ ’ ( ) and one ….
 * in Japanese (ja.po, docs/production/japanese_style.md): slots as in a Latin language, $P/$p
   allowed (彼, 彼女, あなた fill them); every kanji is a Japanese form (JIS X 0208, the set
   the pixel face draws: 剣 not 剑, 気 not 气), so a Simplified character left behind shows up;
@@ -40,8 +45,13 @@ SLOT = re.compile(r"\{([a-z_]+)\}")
 GRAMMAR = re.compile(r"\{([Nn]):([^{}]*)\}")
 PRONOUNS = {"he", "him", "his", "himself"}
 FULL_WIDTH = ("“", "”", "…")
-HAN = re.compile(r"[㐀-䶿一-鿿豈-﫿]")
 # english_style.md, Tone: words that break the period in any line (a button's "OK" is the UI's own word).
+# KoreanParticles: the pairs a Korean translation writes after a slot.
+PARTICLE_PAIR = re.compile(r"\(으\)로|\(이\)(?=[가-힣])|(?:은\(는\)|는\(은\)|이\(가\)|가\(이\)|을\(를\)|를\(을\)|과\(와\)|와\(과\)|아\(야\)|야\(아\)|이여\(여\)|여\(이여\)|이었\(였\)|였\(이었\))")
+# What a pair may follow: a {slot}, an ES2 token or %s/%d, past closing quotes and brackets.
+PAIR_AFTER = re.compile(r"(\{[a-z_]+\}|\$(RESPECT|SELF|[NnPplw])|%[sd])[』」”’\"')\]》]*$")
+HAN = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
+CHINESE_PUNCTUATION = ("。", "，", "、", "：", "；", "！", "？", "「", "」", "『", "』", "（", "）", "……")
 # japanese_style.md: kanji outside JIS X 0208 that Japanese writes and the ja pixel face draws
 # (a surname, a name's rare character). Add one only after checking both.
 JAPANESE_EXTRA_KANJI = "逄佾璦妮彤翎庾玦鏢酆雩榭邢羿鄔魈芷玫"
@@ -110,6 +120,7 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
     known = {(ctx, msgid) for ctx, msgid, _ in parse(pot)}
     problems = []
     latin = not po.stem.startswith("zh")
+    korean = po.stem.startswith("ko")
     japanese = po.stem.startswith("ja")
     for ctx, msgid, msgstr in parse(po):
         where = f"{po.name}: {msgid[:40]!r}"
@@ -129,6 +140,9 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
                     problems.append(f"{where}: {token} differs")
             if sorted(SLOT.findall(msgid)) != sorted(SLOT.findall(msgstr)):
                 problems.append(f"{where}: {{slots}} differ")
+            continue
+        if korean:
+            problems.extend(_korean_problems(where, msgid, msgstr))
             continue
         if japanese:
             problems.extend(_japanese_problems(where, msgid, msgstr))
@@ -153,6 +167,24 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
             problems.append(f"{where}: a modern word ({MODERN.search(msgstr).group(0)}): english_style.md, Tone")
         if any(mark in msgstr for mark in FULL_WIDTH):
             problems.append(f"{where}: a full-width “ ” or … (write \" and ...)")
+    return problems
+
+
+def _korean_problems(where: str, msgid: str, msgstr: str) -> list[str]:
+    problems = []
+    source_slots = set(SLOT.findall(msgid))
+    for slot in SLOT.findall(msgstr):
+        if slot not in source_slots:
+            problems.append(f"{where}: invents the slot {{{slot}}}")
+    for pair in PARTICLE_PAIR.finditer(msgstr):
+        before = msgstr[: pair.start()]
+        if before.strip() and not PAIR_AFTER.search(before):
+            problems.append(f"{where}: a particle pair {pair.group(0)} after written text: write the form")
+    if HAN.search(msgstr):
+        problems.append(f"{where}: a Han character ({HAN.search(msgstr).group(0)}) in Korean")
+    marks = [mark for mark in CHINESE_PUNCTUATION if mark in msgstr]
+    if marks:
+        problems.append(f"{where}: Chinese punctuation {' '.join(marks)} (write . , : ; ! ? “ ” ‘ ’ ( ) …)")
     return problems
 
 

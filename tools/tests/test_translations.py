@@ -59,6 +59,28 @@ class TranslationsTest(unittest.TestCase):
         clean = [("结果只是轻轻地划破$p的皮肉。", "結果只是輕輕地劃破$p的皮肉。"), ("$RESPECT饶命！小的这就离开！", "$RESPECT饒命！小的這就離開！")]
         self.assertEqual(check_po.problems_in(_po(clean, "zh_Hant")), [])
 
+    def test_korean_rules(self) -> None:
+        cases = {
+            "after written text": ("你给{npc}{item}。", "점소이을(를) 불렀다."),
+            "a Han character": ("店小二", "店小二"),
+            "Chinese punctuation": ("新游戏", "새 게임。"),
+            "invents the slot": ("{npc}{action}", "{npc}{action}{mood}"),
+            "lost $N": ("$N挥拳攻击$n的$l", "$n의 $l을(를) 친다."),
+        }
+        for label, entry in cases.items():
+            with self.subTest(label=label):
+                problems = check_po.problems_in(_po([entry], "ko"))
+                self.assertTrue(any(label in problem for problem in problems), problems)
+        clean = [
+            ("你给{npc}{item}。", "{npc}에게 {item}을(를) 건넸다."),
+            ("结果只是轻轻地划破$p的皮肉。", "$p의 살갗을 살짝 베었을 뿐이다."),
+            ("$N挥拳攻击$n的$l", "$N은(는) $n의 $l(으)로 주먹을 날린다."),
+            ("你向{npc}打听有关『{topic}』的消息。", "{npc}에게 ‘{topic}’에 대해 물었다."),
+            ("看见你，放下了手里的扫帚。", "이(가) 당신을 보고 빗자루를 내려놓는다."),
+            ("{npc}对你哈哈一笑：{npc}便是{self}！", "{npc}이(가) 껄껄 웃는다. “내가 바로 {self}요!”"),
+        ]
+        self.assertEqual(check_po.problems_in(_po(clean, "ko")), [])
+
     def test_japanese_writes_japanese_forms(self) -> None:
         cases = {
             "not a Japanese kanji form": ("颜违，零票。", "顔違、零票。长"),

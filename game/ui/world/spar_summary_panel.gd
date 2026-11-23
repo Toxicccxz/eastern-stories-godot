@@ -101,14 +101,14 @@ func present(summary: CombatSparSummary) -> void:
 	_summary = summary
 	title.text = title_text(summary.outcome)
 	title.add_theme_color_override("font_color", _title_colour(summary.outcome))
-	opponent_line.text = _opponent_text(summary)
+	opponent_line.text = KoreanText.shown(_opponent_text(summary))
 	blow_line.text = _blow_text(summary.outcome)
 	for child: Node in gains.get_children():
 		gains.remove_child(child)
 		child.queue_free()
 	for line: String in gain_lines(summary):
 		var label := _line(gains, &"")
-		label.text = line
+		label.text = KoreanText.shown(line)
 	var screen: Vector2 = get_viewport().get_visible_rect().size if is_inside_tree() else Vector2(1280, 720)
 	var width: float = minf(WIDTH, screen.x - SCREEN_MARGIN * 2.0 - 40.0)
 	for label: Label in [opponent_line, blow_line]:

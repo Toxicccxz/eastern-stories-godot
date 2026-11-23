@@ -63,34 +63,50 @@ func _test_logo_blocks() -> void:
 		blurred = blurred or (pixel.g > 0.05 and pixel.r < 0.01)
 	_check(image.get_width() >= 800 and greys.size() > 8, "a large mask that keeps its antialiased edge: %d wide, %d greys" % [image.get_width(), greys.size()])
 	_check(blurred, "with the ink blurred wide beside it, past the ink's own edge")
-	_check(definition.line_for("zh_CN") == "EASTERN STORIES" and definition.line_for("en") == "东方故事" and definition.line_for("ja") == "東方物語", "the other language spaced out under the title (日本語: 故事 is an anecdote there)")
+	_check(definition.line_for("zh_CN") == "EASTERN STORIES" and definition.line_for("en") == "东方故事" and definition.line_for("ja") == "東方物語", "the other language on the ribbon (日本語: 故事 is an anecdote there)")
+	_check(definition.line_mask_for("zh_CN") == "" and ResourceLoader.exists(definition.line_mask_for("en")), "EASTERN STORIES set in Cinzel, 东方故事 from a brush mask (its font is not shipped)")
+	var woven: TitleScreenDefinition.Ribbon = definition.ribbon_for("zh_CN")
+	var sides: Dictionary = {}
+	for point: int in range(woven.held[0], woven.held[1] + 1):
+		sides[woven.path[point * 3 + 2]] = true
+	_check(sides.size() == 2 and woven.text.size() == 2, "the Chinese title's ribbon runs in front of some characters and behind others, a word of EASTERN STORIES on each stretch in front")
 	var logo := TitleLogo.new()
-	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true)
+	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true, woven, definition.line_mask_for("zh_CN"))
 	var letters: TextureRect = logo.get_node("LogoView/Letters") as TextureRect
 	var seal: TextureRect = logo.get_node("LogoView/Seal") as TextureRect
-	var line: Label = logo.get_node("LogoView/Line") as Label
-	if _check(letters != null and seal != null and line != null, "the lettering, its seal and the line under it"):
+	var ribbon: TitleRibbon = logo.ribbon()
+	logo.place_for(Vector2(1920, 1080))
+	if _check(letters != null and seal != null and ribbon != null, "the lettering, its ribbon and its seal"):
 		var ink: ShaderMaterial = letters.material as ShaderMaterial
 		_check(ink != null and ink.shader == TitleLogo.INK and ink.get_shader_parameter("mask") == letters.texture, "inked by its shader from the mask")
 		_check(is_equal_approx(float(ink.get_shader_parameter("dry")), TitleLogo.DRY), "brush lettering shows its dry streaks")
-		_check(seal.visible and line.text == "EASTERN STORIES", "侠 on the Chinese title, EASTERN STORIES under it")
+		_check(seal.visible and ribbon.words() == "EASTERN STORIES", "侠 on the Chinese title, EASTERN STORIES on its ribbon")
+		var band: ShaderMaterial = ribbon.material as ShaderMaterial
+		var seal_mat: ShaderMaterial = seal.material as ShaderMaterial
+		logo.write = 0.05
+		logo._process(0.0)
+		_check(not ribbon.showing() and float(seal_mat.get_shader_parameter("fade")) < 0.01, "just begun: neither the ribbon nor the seal yet")
 		logo.write = 0.5
 		logo._process(0.0)
-		var seal_mat: ShaderMaterial = seal.material as ShaderMaterial
-		_check(float(seal_mat.get_shader_parameter("fade")) < 0.01 and line.modulate.a < 0.01, "half written: neither the line nor the seal yet")
+		_check(ribbon.showing() and float(seal_mat.get_shader_parameter("fade")) < 0.01, "half written: the ribbon on its way in, no seal yet")
 		logo.write = 1.0
 		logo._process(0.0)
-		_check(float(seal_mat.get_shader_parameter("fade")) > 0.99 and line.modulate.a > 0.99 and seal.scale.is_equal_approx(Vector2.ONE), "written: the line up and the seal stamped")
+		_check(float(seal_mat.get_shader_parameter("fade")) > 0.99 and float(band.get_shader_parameter("fade")) > 0.99 and seal.scale.is_equal_approx(Vector2.ONE), "written: the ribbon at rest and the seal stamped")
+		var lettering: Rect2 = letters.get_rect()
+		_check(seal.get_rect().get_center().distance_to(ribbon.seal_at) < ribbon.band * 0.2 and ribbon.seal_at.x > lettering.position.x + lettering.size.x * 0.85, "the seal on the ribbon where it leaves the last character")
 		var dim: ShaderMaterial = (logo.get_node("Dim") as ColorRect).material as ShaderMaterial
-		_check(line.modulate.r < 0.2 and float(dim.get_shader_parameter("strength")) < 0.01, "black ink on the clouds, no dusk yet")
+		_check(float(dim.get_shader_parameter("strength")) < 0.01, "black ink on the clouds, no dusk yet")
 		logo.lit = 1.0
 		logo._process(0.0)
-		_check(line.modulate.r > 0.9 and float(dim.get_shader_parameter("strength")) > 0.99, "the light has passed: white, on the dusk")
+		_check(float(dim.get_shader_parameter("strength")) > 0.99, "the light has passed: white, on the dusk")
 		logo.burn = 1.15
 		logo._process(0.0)
-		_check(float(seal_mat.get_shader_parameter("fade")) < 0.01 and line.modulate.a < 0.01 and float(dim.get_shader_parameter("strength")) < 0.01, "lifted off: nothing left")
+		_check(float(seal_mat.get_shader_parameter("fade")) < 0.01 and float(band.get_shader_parameter("fade")) < 0.01 and float(dim.get_shader_parameter("strength")) < 0.01, "lifted off: nothing left")
 	var english := TitleLogo.new()
-	english.build(definition.logo_for("en"), definition.seal_for("en"), definition.line_for("en"), false)
+	english.build(definition.logo_for("en"), definition.seal_for("en"), definition.line_for("en"), false, definition.ribbon_for("en"), definition.line_mask_for("en"))
+	var english_words: ShaderMaterial = english.ribbon().get_node("Line").material as ShaderMaterial
+	_check(english.ribbon().words() == "东方故事" and int(english_words.get_shader_parameter("mode")) == 2, "the English title's ribbon carries 东方故事 from its mask")
+	_check(definition.line_for("zh_Hant") == "東方故事" and TitleRibbon._latin("EASTERN STORIES") and not TitleRibbon._latin("東方故事"), "繁體 東方故事 on the ribbon, set in WenKai (Cinzel has no Han)")
 	var plain: ShaderMaterial = (english.get_node("LogoView/Letters") as TextureRect).material as ShaderMaterial
 	_check(not (english.get_node("LogoView/Seal") as TextureRect).visible and (english.get_node("LogoView/Letters") as TextureRect).texture != letters.texture and is_zero_approx(float(plain.get_shader_parameter("dry"))), "English is its own lettering: no Chinese seal, no brush streaks")
 	for node: TitleLogo in [logo, english]:
@@ -98,27 +114,25 @@ func _test_logo_blocks() -> void:
 
 
 ## Wider than 16:9 the title keeps its 16:9 size and place for the screen's height, and the menu's
-## column stays under its line, on a phone too (owner, 2026-11-20: on a 20:9 phone the menu sat in
+## column stays under it and its ribbon, on a phone too (owner, 2026-11-20: on a 20:9 phone the menu sat in
 ## the middle of the screen, over the lettering, which had also grown with the width).
 func _test_wide_screens(tree: SceneTree) -> void:
 	var definition: TitleScreenDefinition = GameContent.catalog().title_screen()
 	var logo := TitleLogo.new()
 	logo.at = Vector2(definition.logo_percent[0], definition.logo_percent[1]) / 100.0
 	logo.width_px = definition.logo_width_px
-	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true)
+	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true, definition.ribbon_for("zh_CN"), definition.line_mask_for("zh_CN"))
 	var letters: TextureRect = logo.get_node("LogoView/Letters") as TextureRect
-	var line: Label = logo.get_node("LogoView/Line") as Label
 	logo.place_for(Vector2(1280, 800))
 	_check(is_equal_approx(letters.size.x, logo.width_px), "the Steam Deck's 16:10 keeps its title: %.1f wide" % letters.size.x)
 	logo.place_for(Vector2(1920, 1080))
 	_check(is_equal_approx(letters.size.x, logo.width_px * 1.5), "so does 16:9: %.1f wide" % letters.size.x)
-	var sixteen_nine: Array[Rect2] = [letters.get_rect(), line.get_rect()]
-	# The line's letters end a font's height under its top (its box is taller).
-	var line_bottoms: Dictionary[Vector2, float] = {Vector2(1920, 1080): _letters_bottom(line)}
+	var sixteen_nine: Array = [letters.get_rect(), logo.bottom()]
+	var line_bottoms: Dictionary[Vector2, float] = {Vector2(1920, 1080): logo.bottom()}
 	for screen: Vector2 in [Vector2(2400, 1080), Vector2(2560, 1080), Vector2(3840, 1080)]:
 		logo.place_for(screen)
-		_check(letters.get_rect().is_equal_approx(sixteen_nine[0]) and line.get_rect().is_equal_approx(sixteen_nine[1]), "%s keeps the 16:9 title at the left, the rest for the 沙盘: %s" % [screen, letters.get_rect()])
-		line_bottoms[screen] = _letters_bottom(line)
+		_check(letters.get_rect().is_equal_approx(sixteen_nine[0]) and is_equal_approx(logo.bottom(), sixteen_nine[1]), "%s keeps the 16:9 title at the left, the rest for the 沙盘: %s" % [screen, letters.get_rect()])
+		line_bottoms[screen] = logo.bottom()
 	logo.free()
 	var shell: ApplicationShellController = SHELL_SCENE.instantiate()
 	shell.configure_before_start(GameSaveStorageProfile.isolated_test("title-wide"), ShellTests.MemoryFiles.new(), null, ShellTests.MemoryFiles.new())
@@ -137,16 +151,13 @@ func _test_wide_screens(tree: SceneTree) -> void:
 			await tree.process_frame
 		var first: Rect2 = shell.new_game_button.get_global_rect()
 		var menu: Rect2 = panel.get_global_rect()
-		_check(first.position.y * 1.5 >= line_bottoms[screen], "%s: the menu starts under the title's line (%.0f ≥ %.0f px)" % [screen_case[2], first.position.y * 1.5, line_bottoms[screen]])
+		_check(first.position.y * 1.5 >= line_bottoms[screen], "%s: the menu starts under the title and its ribbon (%.0f ≥ %.0f px)" % [screen_case[2], first.position.y * 1.5, line_bottoms[screen]])
 		_check(menu.position.x < view.size.x * 0.15 and menu.end.y <= view.end.y, "%s: a column at the lower left: %s" % [screen_case[2], menu])
 		_check(scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_DISABLED, "%s: all of it shows, without scrolling" % screen_case[2])
 	presenter.set_capability(GodotSafeAreaCapability.new())
 	shell.queue_free()
 	await tree.process_frame
 
-
-static func _letters_bottom(line: Label) -> float:
-	return line.position.y + line.get_theme_font("font").get_height(line.get_theme_font_size("font_size"))
 
 
 func _test_shell(tree: SceneTree) -> void:
