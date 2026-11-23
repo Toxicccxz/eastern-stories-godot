@@ -1,8 +1,8 @@
 # Localization
 
 Simplified Chinese (zh_CN) is the source language: every message's ID is its source text
-(gettext). Traditional Chinese (`game/locale/zh_Hant.po`), English (`game/locale/en.po`) and Korean
-(`game/locale/ko.po`) are in preview; the decisions behind this setup are in
+(gettext). Traditional Chinese (`game/locale/zh_Hant.po`), English (`game/locale/en.po`), Korean
+(`game/locale/ko.po`) and Japanese (`game/locale/ja.po`) are in preview; the decisions behind this setup are in
 [DECISIONS](../migration/DECISIONS.md#localization-the-source-text-is-the-key-2026-10-03).
 
 ## Writing player text
@@ -59,7 +59,8 @@ choice and the Settings language.
    (Poedit: Update from POT; `msgmerge`); changed messages come back fuzzy.
 4. `python tools/l10n/check_po.py` checks every `.po` against the template (slots kept, no stale
    messages, grammar marks well formed, no full-width “ ” … in a Latin language; in Korean a
-   particle pair only after a slot, no Han character, no Chinese punctuation);
+   particle pair only after a slot, no Han character, no Chinese punctuation; in Japanese every
+   kanji a Japanese form and no Chinese punctuation);
    `tools/tests/test_translations.py` runs it in the gate.
 
 ## Working on a translation
@@ -86,6 +87,13 @@ Korean: style, registers, names, the particle pairs after a slot (`을(를)`, re
 [korean_style.md](korean_style.md). A place that shows filled text without the control
 translating it calls `KoreanText.shown()`; `korean_lines_test` fills every template and fails on
 a pair left over.
+
+Japanese: style, voices, the forms of address `{self}` and `{respect}` take, names (kanji in
+Japanese forms), the words Chinese and Japanese write alike but mean differently, numbers and
+typography are in [japanese_style.md](japanese_style.md). Japanese needs no grammar marks: its
+particles do not change with the name before them, and it breaks lines between any two characters.
+A rare kanji outside JIS X 0208 (a name's) goes on check_po's `JAPANESE_EXTRA_KANJI` once the ja
+face is seen to draw it.
 
 Traditional Chinese is drafted, not translated by hand: one Taiwan-standard text, the story's words
 unchanged, Taiwan's words in the interface (DECISIONS「繁體中文 (preview)」). After the template

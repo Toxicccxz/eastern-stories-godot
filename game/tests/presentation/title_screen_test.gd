@@ -65,7 +65,7 @@ func _test_logo_blocks() -> void:
 		blurred = blurred or (pixel.g > 0.05 and pixel.r < 0.01)
 	_check(image.get_width() >= 800 and greys.size() > 8, "a large mask that keeps its antialiased edge: %d wide, %d greys" % [image.get_width(), greys.size()])
 	_check(blurred, "with the ink blurred wide beside it, past the ink's own edge")
-	_check(definition.line_for("zh_CN") == "EASTERN STORIES" and definition.line_for("en") == "东方故事", "the other language on the ribbon")
+	_check(definition.line_for("zh_CN") == "EASTERN STORIES" and definition.line_for("en") == "东方故事" and definition.line_for("ja") == "東方物語", "the other language on the ribbon (日本語: 故事 is an anecdote there)")
 	_check(definition.line_mask_for("zh_CN") == "" and ResourceLoader.exists(definition.line_mask_for("en")), "EASTERN STORIES set in Cinzel, 东方故事 from a brush mask (its font is not shipped)")
 	var woven: TitleScreenDefinition.Ribbon = definition.ribbon_for("zh_CN")
 	var sides: Dictionary = {}
