@@ -22,7 +22,7 @@ const ENTERING_LAYER: int = 101
 const LOGO_FROM_SECONDS: float = 0.9
 const LIGHT_FROM_SECONDS: float = 2.7
 const LIGHT_SECONDS: float = 0.7
-const MENU_UP_SECONDS: float = LOGO_FROM_SECONDS + TitleLogo.STAMP_FROM + TitleLogo.STAMP_SECONDS + 0.1
+const MENU_UP_SECONDS: float = LOGO_FROM_SECONDS + TitleLogo.STAMP_FROM + TitleLogo.STAMP_SECONDS + TitleLogo.SETTLE_SECONDS + 0.1
 ## How long the white holds before the voxel animation comes onto it.
 const LOADER_AFTER_SECONDS: float = 0.0
 ## `write` once the title is written, its line up and its seal stamped.
@@ -128,7 +128,7 @@ func entering() -> bool:
 func _build_logo() -> void:
 	var language: String = TranslationServer.get_locale()
 	# Brush lettering goes with a seal: the languages that have one.
-	logo.build(definition.logo_for(language), definition.seal_for(language), definition.line_for(language), not definition.seal_for(language).is_empty())
+	logo.build(definition.logo_for(language), definition.seal_for(language), definition.line_for(language), not definition.seal_for(language).is_empty(), definition.ribbon_for(language), definition.line_mask_for(language))
 
 
 func _notification(what: int) -> void:

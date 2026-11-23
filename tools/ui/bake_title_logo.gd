@@ -1,14 +1,15 @@
 extends SceneTree
 ## Bakes the title's lettering masks (DECISIONS「标题画面」): 东方故事 lettered in 云峰飞云体 (a
 ## rough, free brush hand) — every character its own size, set close and a little off the line, as a title is
-## brushed and not typed — EASTERN STORIES in Cinzel capitals, and the seal's 侠 in 霞鹜文楷.
+## brushed and not typed — EASTERN / STORIES in two lines of Cinzel capitals with 东方故事 for
+## its ribbon in the same brush hand, and the seal's 侠 in 霞鹜文楷.
 ## Each mask is rendered large and antialiased, padded for the shadow, with the ink in red and the
 ## same ink blurred wide in green (TitleLogo's shader soaks the ink in from the strokes' cores
 ## and casts the shadow with it). The game reads only these masks, so the brush font is not
 ## shipped.
 ## Windowed (it renders text):
 ##   <godot> --path game --script <abs>/tools/ui/bake_title_logo.gd -- <云峰飞云体.ttf>
-## Writes game/assets/textures/title/logo_zh_CN.png, logo_en.png, seal_zh_CN.png.
+## Writes game/assets/textures/title/logo_zh_CN.png, logo_en.png, line_en.png, seal_zh_CN.png.
 
 const OUT: String = "res://assets/textures/title/"
 const PLAIN: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
@@ -25,7 +26,12 @@ const ZH: Array = [
 	["事", 316, 0.82, -4, 1.5],
 ]
 const EN_SIZE: int = 150
-const EN_SPACING: int = 26
+const EN_SPACING: int = 10
+## The English title's second line stands this much of its size below the first.
+const EN_LEADING: float = 0.92
+## 东方故事 on the English title's ribbon: its size and the room between its characters.
+const LINE_SIZE: int = 120
+const LINE_SPACING: int = 14
 const SEAL_SIZE: int = 120
 ## Clear pixels round the ink, for the shadow and the soaking edge.
 const PAD: int = 48
@@ -66,7 +72,10 @@ func _run() -> void:
 	var roman := FontVariation.new()
 	roman.base_font = load(ROMAN) as FontFile
 	roman.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): ROMAN_WEIGHT}
-	_save(await _mask([["EASTERN STORIES", roman, EN_SIZE, Vector2.ZERO, 0.0, EN_SPACING]]), "logo_en")
+	# English leads in two lines, left-aligned and close: EASTERN over STORIES.
+	_save(await _mask([["EASTERN", roman, EN_SIZE, Vector2.ZERO, 0.0, EN_SPACING], ["STORIES", roman, EN_SIZE, Vector2(0.0, EN_SIZE * EN_LEADING), 0.0, EN_SPACING]]), "logo_en")
+	# 东方故事 on the English title's ribbon, in the same brush hand (the font is not shipped).
+	_save(await _mask([["东方故事", brush, LINE_SIZE, Vector2.ZERO, 0.0, LINE_SPACING]]), "line_en")
 	_save(await _mask([["侠", plain, SEAL_SIZE, Vector2.ZERO, 0.0, 0]]), "seal_zh_CN")
 	quit(0)
 

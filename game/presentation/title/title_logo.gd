@@ -4,48 +4,38 @@ extends Control
 ## The title's logo (DECISIONS「标题画面」): the title lettered in ink — 东方故事 brushed, every
 ## character its own size (or EASTERN STORIES in capitals; one language leads at a time) — flat,
 ## no relief: black ink written on the clouds, turned paper white by a band of light as the
-## clouds part; a vermilion seal (侠) stamped at its foot; the other language spaced out under it
-## to the lettering's own width; and a dusk down the left of the screen behind it and the menu.
+## clouds part; a silk ribbon threaded through it with the title in the other language on it
+## (TitleRibbon), its vermilion seal (侠) stamped on the ribbon; and a dusk down the left
+## of the screen behind it and the menu.
 ## It is drawn into a see-through view of its own, whose picture TitleSky reads to cut the sun's
 ## shafts between the strokes. TitleScreen tweens:
-##   write  0 → 1   the ink soaking in, left to right (INK_SECONDS), the line under it coming up,
-##                  then the seal stamped down with a small rebound (ARRIVAL_SECONDS for 0 → 1)
+##   write  0 → 1   the ink soaking in, left to right (INK_SECONDS), the ribbon flying in and
+##                  threading itself through the lettering (RIBBON_SECONDS), then the seal stamped
+##                  down on it with a small rebound (ARRIVAL_SECONDS for 0 → 1)
 ##   lit    0 → 1   the light crossing: black ink to white, the dusk coming in behind
 ##   glint          a band of gold passing over the lettering (glint_at: 0 its left, 1 its right)
 ##   charge         the lettering brightening before it goes
-##   burn  -0.2 → 1.15  the ink lifting off as smoke (LEAVING_SECONDS for 0 → 1)
+##   burn  -0.2 → 1.15  the ribbon drifting on and fading, the ink lifting off as smoke
+##                  (LEAVING_SECONDS for 0 → 1)
 
 const INK: Shader = preload("res://presentation/title/shaders/title_logo.gdshader")
 const SEAL: Shader = preload("res://presentation/title/shaders/title_seal.gdshader")
 const DIM: Shader = preload("res://presentation/title/shaders/title_dim.gdshader")
-## The line under the title: Cinzel for Latin letters (EASTERN STORIES), 霞鹜文楷 for Chinese.
-const LINE_FONT: FontFile = preload("res://assets/fonts/LXGWWenKaiLite-Medium.ttf")
-const LINE_ROMAN: FontFile = preload("res://assets/fonts/Cinzel-VariableFont_wght.ttf")
-const LINE_ROMAN_WEIGHT: int = 500
-## The arrival's beats, in seconds: the writing, the line under the title coming up, the seal's
-## stamp (down from 1.6 times its size to 0.96, then settling to 1).
+## The arrival's beats, in seconds: the writing, the ribbon threading in, the seal's stamp (down from
+## 1.6 times its size to 0.96, then settling to 1).
 const INK_SECONDS: float = 1.3
-const LINE_SECONDS: Vector2 = Vector2(1.0, 1.45)
-const STAMP_FROM: float = 1.4
+const RIBBON_SECONDS: Vector2 = Vector2(0.3, 2.3)
+const STAMP_FROM: float = 2.3
 const STAMP_SECONDS: float = 0.18
 const SETTLE_SECONDS: float = 0.08
-const ARRIVAL_SECONDS: float = 1.7
+const ARRIVAL_SECONDS: float = 2.6
+## How much of the leaving the ribbon takes to drift on and fade.
+const RIBBON_LEAVING: float = 0.9
 const LEAVING_SECONDS: float = 1.0
-## The line under the title: its size against the lettering's height (Latin capitals under brush
-## characters; characters under a line of capitals), with a floor in UI pixels at 1280 wide; how
-## much of the lettering's width it is spaced out to, and the most room between two letters (parts
-## of its size); the gap above it.
-const LINE_SHARE: float = 0.19
-const LINE_SHARE_UNDER_CAPITALS: float = 0.62
-const LINE_MIN: float = 22.0
-const LINE_WIDE: float = 0.94
-const LINE_SPACE_MOST: float = 1.4
-const LINE_GAP: float = 0.1
-## The seal's side against the lettering's height, the room between it and the last letter (UI
-## pixels at 1280 wide), and where its middle stands down the lettering (0 top, 1 foot).
-const SEAL_SHARE: float = 0.27
-const SEAL_GAP: float = 6.0
-const SEAL_DOWN: float = 0.8
+## The seal against the ribbon's width, and its turn (degrees): stamped on the band where it
+## leaves the lettering, like a seal on a letter's fold.
+const SEAL_SHARE: float = 0.82
+const SEAL_TURN: float = 2.5
 ## The seal's mask is padded; its square fills this much of it (title_seal.gdshader's inset).
 const SEAL_FILL: float = 0.76
 ## The lettering masks' clear border (tools/ui/bake_title_logo.gd PAD), in mask pixels.
@@ -69,13 +59,13 @@ var width_px: float = 560.0
 var _view: SubViewport
 var _dim: ColorRect
 var _letters: TextureRect
-var _line: Label
+var _ribbon: TitleRibbon
 var _seal: TextureRect
 var _smoke: CPUParticles2D
 var _ink: ShaderMaterial
 var _seal_mat: ShaderMaterial
 var _dim_mat: ShaderMaterial
-var _line_at: Vector2 = Vector2.ZERO
+var _ink_bottom: float = 0.0
 var _was_leaving: bool = false
 
 
@@ -108,32 +98,40 @@ func _init() -> void:
 	add_child(shown)
 	_ink = _material(INK)
 	_letters = _rect("Letters", _ink)
+	_ribbon = TitleRibbon.new()
+	_view.add_child(_ribbon)
 	_seal_mat = _material(SEAL)
 	_seal = _rect("Seal", _seal_mat)
-	_line = Label.new()
-	_line.name = "Line"
-	_line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	# The line is the title in the other language (title_screen.json), never a translation.
-	_line.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	_line.add_theme_constant_override("shadow_offset_x", 0)
-	_line.add_theme_constant_override("shadow_offset_y", 2)
-	_line.add_theme_constant_override("shadow_outline_size", 10)
-	_view.add_child(_line)
+	_seal.rotation_degrees = SEAL_TURN
 	_smoke = _ink_smoke()
 	_view.add_child(_smoke)
 
 
-## Letters `mask_path` (red = ink, green = the ink blurred wide), stamps the seal of `seal_path`
-## ("" for none) and spaces `line` out under it. `brushed`: the lettering is brush calligraphy
-## (its dry streaks show).
-func build(mask_path: String, seal_path: String, line: String = "", brushed: bool = true) -> void:
+## Letters `mask_path` (red = ink, green = the ink blurred wide), weaves `ribbon` through its foot
+## with `line` on it (or `line_mask`, red = ink, when it is not set in a shipped font), and stamps
+## the seal of `seal_path` ("" for none) on the ribbon's twist. `brushed`: the lettering is brush
+## calligraphy (its dry streaks show). The line is the title in the other language
+## (title_screen.json), never a translation.
+func build(mask_path: String, seal_path: String, line: String = "", brushed: bool = true, ribbon: TitleScreenDefinition.Ribbon = null, line_mask: String = "") -> void:
 	_letters.texture = _texture(mask_path)
 	_ink.set_shader_parameter("mask", _letters.texture)
 	_ink.set_shader_parameter("dry", DRY if brushed else 0.0)
 	_seal.texture = _texture(seal_path)
 	_seal.visible = _seal.texture != null
-	_line.text = line
+	_ribbon.config = ribbon if ribbon != null else TitleScreenDefinition.Ribbon.new()
+	_ribbon.set_words(line, _texture(line_mask))
 	_place()
+
+
+## The ribbon woven through the lettering.
+func ribbon() -> TitleRibbon:
+	return _ribbon
+
+
+## How low the title reaches in the view (pixels): the lettering's ink or the ribbon, whichever is
+## lower. The menu stays under it.
+func bottom() -> float:
+	return maxf(_ribbon.bottom, _ink_bottom)
 
 
 func texture() -> Texture2D:
@@ -158,17 +156,15 @@ func _process(_delta: float) -> void:
 	_ink.set_shader_parameter("glint", glint)
 	_ink.set_shader_parameter("charge", charge)
 	var leaving: float = clampf(burn, 0.0, 1.0)
-	# The line: up with a small rise, black on the clouds and white once the light has passed.
-	var line_up: float = smoothstep(LINE_SECONDS.x, LINE_SECONDS.y, t)
-	var white: float = smoothstep(0.3, 0.8, lit)
-	_line.modulate = Color(INK_BLACK.lerp(PAPER_WHITE, white), line_up * (1.0 - smoothstep(0.0, 0.5, leaving)))
-	_line.add_theme_color_override("font_shadow_color", Color(0.02, 0.015, 0.01, 0.9 * white))
-	_line.position = _line_at + Vector2(0.0, (1.0 - line_up) * 8.0)
+	# The ribbon drifts in, easing in and easing to rest; it leaves the same way.
+	var arrived: float = clampf((t - RIBBON_SECONDS.x) / (RIBBON_SECONDS.y - RIBBON_SECONDS.x), 0.0, 1.0)
+	var gone: float = clampf(leaving / RIBBON_LEAVING, 0.0, 1.0)
+	_ribbon.show_part(0.5 - 0.5 * cos(PI * arrived), smoothstep(0.0, 1.0, gone))
 	var down: float = clampf((t - STAMP_FROM) / STAMP_SECONDS, 0.0, 1.0)
 	var settle: float = clampf((t - STAMP_FROM - STAMP_SECONDS) / SETTLE_SECONDS, 0.0, 1.0)
 	var scale_now: float = lerpf(1.6, 0.96, down * down) if down < 1.0 else lerpf(0.96, 1.0, smoothstep(0.0, 1.0, settle))
 	_seal.scale = Vector2.ONE * scale_now
-	_seal_mat.set_shader_parameter("fade", smoothstep(0.0, 0.35, down) * (1.0 - smoothstep(0.2, 0.7, leaving)))
+	_seal_mat.set_shader_parameter("fade", smoothstep(0.0, 0.35, down) * (1.0 - smoothstep(0.0, 0.15, leaving)))
 	# The dusk comes with the light and stays until the smoke has gone.
 	_dim_mat.set_shader_parameter("strength", smoothstep(0.0, 1.0, lit) * (1.0 - smoothstep(0.85, 1.15, burn)))
 	var going: bool = burn > 0.0 and burn < 1.0
@@ -208,27 +204,13 @@ func place_for(screen: Vector2) -> void:
 	var ink_top: float = _letters.position.y + pad.y
 	var ink_wide: float = size_px.x - pad.x * 2.0
 	var ink_tall: float = size_px.y - pad.y * 2.0
-	var latin: bool = _latin(_line.text)
-	var font_size: int = maxi(8, roundi(maxf(ink_tall * (LINE_SHARE if latin else LINE_SHARE_UNDER_CAPITALS), LINE_MIN * unit)))
-	var face := FontVariation.new()
-	face.base_font = LINE_ROMAN if latin else LINE_FONT
-	if latin:
-		face.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): LINE_ROMAN_WEIGHT}
-	# Spaced out to the lettering's width (never tighter than the font's own setting).
-	var natural: float = face.get_string_size(_line.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-	var gaps: int = maxi(1, _line.text.length() - 1)
-	face.spacing_glyph = clampi(roundi((ink_wide * LINE_WIDE - natural) / gaps), 0, roundi(font_size * LINE_SPACE_MOST))
-	_line.add_theme_font_override("font", face)
-	_line.add_theme_font_size_override("font_size", font_size)
-	_line.size = Vector2(ink_wide, font_size * 1.6)
-	# The last gap trails the last letter: half of it back, so the letters sit centred.
-	_line_at = Vector2(ink_left + face.spacing_glyph / 2.0, ink_top + ink_tall + maxf(ink_tall * LINE_GAP, font_size * 0.3))
-	_line.position = _line_at
-	var square: float = ink_tall * SEAL_SHARE
-	var side: float = square / SEAL_FILL
+	_ink_bottom = ink_top + ink_tall
+	_ribbon.lay(Rect2(ink_left, ink_top, ink_wide, ink_tall), letters, _letters.get_rect(), screen, unit)
+	var side: float = _ribbon.band * SEAL_SHARE / SEAL_FILL
 	_seal.size = Vector2(side, side)
 	_seal.pivot_offset = _seal.size / 2.0
-	_seal.position = Vector2(ink_left + ink_wide + SEAL_GAP * unit + square / 2.0, ink_top + ink_tall * SEAL_DOWN) - _seal.size / 2.0
+	# On the band where it leaves the lettering.
+	_seal.position = _ribbon.seal_at - _seal.size / 2.0
 	_smoke.position = middle
 	_smoke.emission_rect_extents = Vector2(ink_wide, ink_tall) * 0.5
 	_smoke.scale_amount_min = 10.0 * unit / 32.0
@@ -284,14 +266,6 @@ static func _ink_smoke() -> CPUParticles2D:
 	ramp.set_color(ramp.get_point_count() - 1, Color(PAPER_WHITE, 0.0))
 	smoke.color_ramp = ramp
 	return smoke
-
-
-## Whether `text` is all Latin letters (it is set in Cinzel, else in 霞鹜文楷).
-static func _latin(text: String) -> bool:
-	for i: int in text.length():
-		if text.unicode_at(i) > 0x24F:
-			return false
-	return true
 
 
 static func _texture(path: String) -> Texture2D:
