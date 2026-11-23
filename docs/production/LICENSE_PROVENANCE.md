@@ -139,6 +139,15 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   **the font file is not shipped or modified, only the four characters' image**; confirm the
   foundry's terms again before release), EASTERN STORIES from Cinzel and 侠 from 霞鹜文楷 (both
   OFL).
+- `game/assets/textures/title/logo_ko.png` — the Korean title's lettering mask, 동방이야기 rendered
+  by the same tool from 추사 사랑체 Bold (ChusaLoveBold, made and opened by 예산군 Yesan County
+  under 공공누리 제1유형 (KOGL Type 1: commercial use and derivative works allowed, source must be
+  credited); listed on [눈누](https://noonnu.cc/font_page/883), file `ChusaLoveBold.woff2` from
+  `cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/`, 2,230,852 bytes, SHA-256
+  `f9b9bc5143b40f62f731c059c6753efe271947dbbdbacb024db178377cf44cac`) — **the font file is not
+  shipped, only the five syllables' image**. A release must carry the credit, e.g. in its
+  credits: 「본 저작물은 '예산군'에서 공공누리 제1유형으로 개방한 '추사사랑체'를 이용하였으며,
+  해당 저작물은 '예산군 www.yesan.go.kr'에서 무료로 다운받으실 수 있습니다.」
 
 ## Character portraits (AI-generated)
 

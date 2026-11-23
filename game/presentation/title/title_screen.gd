@@ -127,8 +127,7 @@ func entering() -> bool:
 
 func _build_logo() -> void:
 	var language: String = TranslationServer.get_locale()
-	# Brush lettering goes with a seal: the languages that have one.
-	logo.build(definition.logo_for(language), definition.seal_for(language), definition.line_for(language), not definition.seal_for(language).is_empty(), definition.ribbon_for(language), definition.line_mask_for(language))
+	logo.build(definition.logo_for(language), definition.seal_for(language), definition.line_for(language), definition.brushed(language), definition.ribbon_for(language), definition.line_mask_for(language))
 
 
 func _notification(what: int) -> void:
