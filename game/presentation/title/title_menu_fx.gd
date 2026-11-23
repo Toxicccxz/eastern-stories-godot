@@ -77,7 +77,7 @@ func decorate(button: Button) -> void:
 	swash.name = "Swash"
 	swash.show_behind_parent = true
 	swash.position = Vector2(-26, 0)
-	swash.size = Vector2(300, 46)
+	swash.size = Vector2(300, 46 - GameTheme.TITLE_MENU_TRIM_TOP - GameTheme.TITLE_MENU_TRIM_BOTTOM)
 	swash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var mat := ShaderMaterial.new()
 	mat.shader = SWASH

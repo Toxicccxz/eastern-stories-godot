@@ -38,6 +38,9 @@ const LEAVING_SECONDS: float = 1.0
 ## above it.
 const LINE_SHARE: float = 0.19
 const LINE_SHARE_UNDER_CAPITALS: float = 0.62
+## Latin letters under a long, low title (동방이야기) are as big as under 东方故事: at least this
+## share of the lettering's width.
+const LINE_SHARE_OF_LONG: float = 0.075
 ## Characters under Latin lettering also stay within this share of its width (two lines of it
 ## stand tall).
 const LINE_SHARE_OF_WIDTH: float = 0.07
@@ -218,7 +221,7 @@ func place_for(screen: Vector2) -> void:
 	var ink_wide: float = size_px.x - pad.x * 2.0
 	var ink_tall: float = size_px.y - pad.y * 2.0
 	var latin: bool = _latin(_line.text)
-	var share: float = ink_tall * LINE_SHARE if latin else minf(ink_tall * LINE_SHARE_UNDER_CAPITALS, ink_wide * LINE_SHARE_OF_WIDTH)
+	var share: float = maxf(ink_tall * LINE_SHARE, ink_wide * LINE_SHARE_OF_LONG) if latin else minf(ink_tall * LINE_SHARE_UNDER_CAPITALS, ink_wide * LINE_SHARE_OF_WIDTH)
 	var font_size: int = maxi(8, roundi(maxf(share, LINE_MIN * unit)))
 	var face := FontVariation.new()
 	face.base_font = LINE_ROMAN if latin else LINE_FONT
