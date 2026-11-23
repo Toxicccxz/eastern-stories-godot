@@ -103,7 +103,15 @@ func _test_logo_blocks() -> void:
 	english.place_for(Vector2(1920, 1080))
 	var english_letters: TextureRect = english.get_node("LogoView/Letters") as TextureRect
 	_check(english_mask.get_height() > english_mask.get_width() * TitleLogo.TALL_MOST and english_letters.size.y <= english.width_px * 1.5 * TitleLogo.TALL_MOST + 0.5 and is_equal_approx(english_letters.position.x, english.at.x * 1920.0 - english.width_px * 1.5 / 2.0), "the two-line English title drawn no taller than 东方故事, its left edge where 东方故事's is")
-	for node: TitleLogo in [logo, english]:
+	var korean := TitleLogo.new()
+	korean.build(definition.logo_for("ko"), definition.seal_for("ko"), definition.line_for("ko"), true)
+	logo.place_for(Vector2(1280, 720))
+	korean.place_for(Vector2(1280, 720))
+	var sizes: Array[int] = []
+	for node: TitleLogo in [logo, korean]:
+		sizes.append((node.get_node("LogoView/Line") as Label).get_theme_font_size("font_size"))
+	_check(absi(sizes[0] - sizes[1]) <= 2, "EASTERN STORIES as big under the long, low 동방이야기 as under 东方故事: %s" % [sizes])
+	for node: TitleLogo in [logo, english, korean]:
 		node.free()
 
 
@@ -118,13 +126,15 @@ func _test_wide_screens(tree: SceneTree) -> void:
 	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true)
 	var letters: TextureRect = logo.get_node("LogoView/Letters") as TextureRect
 	var line: Label = logo.get_node("LogoView/Line") as Label
+	logo.place_for(Vector2(1280, 720))
+	var line_bottoms: Dictionary[Vector2, float] = {Vector2(1280, 720): _letters_bottom(line)}
 	logo.place_for(Vector2(1280, 800))
 	_check(is_equal_approx(letters.size.x, logo.width_px), "the Steam Deck's 16:10 keeps its title: %.1f wide" % letters.size.x)
 	logo.place_for(Vector2(1920, 1080))
 	_check(is_equal_approx(letters.size.x, logo.width_px * 1.5), "so does 16:9: %.1f wide" % letters.size.x)
 	var sixteen_nine: Array[Rect2] = [letters.get_rect(), line.get_rect()]
 	# The line's letters end a font's height under its top (its box is taller).
-	var line_bottoms: Dictionary[Vector2, float] = {Vector2(1920, 1080): _letters_bottom(line)}
+	line_bottoms[Vector2(1920, 1080)] = _letters_bottom(line)
 	for screen: Vector2 in [Vector2(2400, 1080), Vector2(2560, 1080), Vector2(3840, 1080)]:
 		logo.place_for(screen)
 		_check(letters.get_rect().is_equal_approx(sixteen_nine[0]) and line.get_rect().is_equal_approx(sixteen_nine[1]), "%s keeps the 16:9 title at the left, the rest for the 沙盘: %s" % [screen, letters.get_rect()])
@@ -138,16 +148,19 @@ func _test_wide_screens(tree: SceneTree) -> void:
 	var presenter: SafeAreaPresenter = shell.get_node("SafeAreaPresentation") as SafeAreaPresenter
 	var panel: Control = shell.get_node("ShellCanvas/MainMenuPanel/Center/Panel") as Control
 	var scroll: ScrollContainer = panel.get_node("ResponsiveScroll") as ScrollContainer
-	# Screens 1080 pixels high draw 720 UI pixels: 1.5 to one. The phone (20:9) is touch-sized.
-	for screen_case: Array in [[Vector2(1920, 1080), false, "16:9"], [Vector2(2560, 1080), false, "a 21:9 monitor"], [Vector2(2400, 1080), true, "a 20:9 phone"]]:
+	# Screens 1080 pixels high draw 720 UI pixels: 1.5 to one. The phone (20:9) is touch-sized. A
+	# 1280×720 window snaps its interface to 4/3 (540 UI rows): the menu's rows close up to stay
+	# under the line there (owner, 2026-11-22: it sat over 新游戏).
+	for screen_case: Array in [[Vector2(1920, 1080), false, "16:9", 1.5], [Vector2(2560, 1080), false, "a 21:9 monitor", 1.5], [Vector2(2400, 1080), true, "a 20:9 phone", 1.5], [Vector2(1280, 720), false, "a 1280×720 window", 4.0 / 3.0]]:
 		var screen: Vector2 = screen_case[0]
-		var view := Rect2(Vector2.ZERO, (screen / 1.5).floor())
+		var ui: float = screen_case[3]
+		var view := Rect2(Vector2.ZERO, (screen / ui).floor())
 		presenter.set_capability(FixedSafeArea.new(SafeAreaMetrics.new(view, view, false, screen_case[1])))
 		for i: int in 4:
 			await tree.process_frame
 		var first: Rect2 = shell.new_game_button.get_global_rect()
 		var menu: Rect2 = panel.get_global_rect()
-		_check(first.position.y * 1.5 >= line_bottoms[screen], "%s: the menu starts under the title's line (%.0f ≥ %.0f px)" % [screen_case[2], first.position.y * 1.5, line_bottoms[screen]])
+		_check(first.position.y * ui >= line_bottoms[screen], "%s: the menu starts under the title's line (%.0f ≥ %.0f px)" % [screen_case[2], first.position.y * ui, line_bottoms[screen]])
 		_check(menu.position.x < view.size.x * 0.15 and menu.end.y <= view.end.y, "%s: a column at the lower left: %s" % [screen_case[2], menu])
 		_check(scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_DISABLED, "%s: all of it shows, without scrolling" % screen_case[2])
 	presenter.set_capability(GodotSafeAreaCapability.new())

@@ -44,6 +44,11 @@ const BUTTON_PAD := Vector4(16, 6, 16, 9)
 const SUNK_PAD := Vector4(16, 9, 16, 6)
 ## The main menu's rows: the room over the letters (TitleMenuFx sets them there too).
 const TITLE_MENU_PAD_TOP: int = 2
+## The pixel face's line is taller than its letters (48 for 36): the main menu's rows trim this
+## much off its top and foot, so the column sits lower and the line under the title stays clear
+## of it (owner, 2026-11-22: the rows close up rather than the title shrinking).
+const TITLE_MENU_TRIM_TOP: int = 8
+const TITLE_MENU_TRIM_BOTTOM: int = 2
 const HUD_CHIP_PAD := Vector4(10, 3, 10, 6)
 const HUD_CHIP_SUNK_PAD := Vector4(10, 6, 10, 3)
 const KIND := UiBlocks.Kind
@@ -347,9 +352,14 @@ func _title(pixel: FontFile) -> void:
 		set_stylebox(state, &"TitleMenuItem", bare)
 	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color", "font_disabled_color", "font_shadow_color"]:
 		set_color(state, &"TitleMenuItem", Color(0, 0, 0, 0))
-	set_font("font", &"TitleMenuItem", pixel)
+	# The trimmed line, on the buttons and on the voxel letters over them alike.
+	var trimmed := FontVariation.new()
+	trimmed.base_font = pixel
+	trimmed.spacing_top = -TITLE_MENU_TRIM_TOP
+	trimmed.spacing_bottom = -TITLE_MENU_TRIM_BOTTOM
+	set_font("font", &"TitleMenuItem", trimmed)
 	set_font_size("font_size", &"TitleMenuItem", PIXEL_SIZE)
-	_label(&"TitleMenuLetters", UiPalette.LETTER, PIXEL_SIZE, pixel)
+	_label(&"TitleMenuLetters", UiPalette.LETTER, PIXEL_SIZE, trimmed)
 	_label(&"TitleCaption", Color("fff3dc"), PIXEL_SIZE, pixel)
 	set_color("font_outline_color", &"TitleCaption", Color(0.08, 0.05, 0.04, 0.85))
 	set_constant("outline_size", &"TitleCaption", 6)

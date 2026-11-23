@@ -123,7 +123,7 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 ## Where the main menu's column starts (a share of the content area's height) when it fits
 ## there, and the highest it may go (just under the logo). The content area keeps its own
 ## margin from the bottom.
-const MENU_TOP_SHARE: float = 0.4
+const MENU_TOP_SHARE: float = 0.47
 const MENU_HIGHEST_SHARE: float = 0.30
 
 
