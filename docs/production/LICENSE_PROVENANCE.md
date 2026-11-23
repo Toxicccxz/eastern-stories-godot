@@ -148,6 +148,13 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   shipped, only the five syllables' image**. A release must carry the credit, e.g. in its
   credits: 「본 저작물은 '예산군'에서 공공누리 제1유형으로 개방한 '추사사랑체'를 이용하였으며,
   해당 저작물은 '예산군 www.yesan.go.kr'에서 무료로 다운받으실 수 있습니다.」
+- `game/assets/textures/title/logo_ja.png` — the Japanese title's lettering mask, 東方物語 rendered
+  by the same tool from 衡山毛筆フォント行書 (Kouzan Brush Font Gyousho, brushed and made by the
+  calligrapher 青柳衡山 Aoyagi Kouzan, published by 武蔵システム Musashi System,
+  <https://opentype.jp/kouzangyousho.htm>: free, commercial use allowed without restriction,
+  free to use in logos; file `KouzanGyousho.zip` → TrueType font, 5,640,044 bytes, SHA-256
+  `6b063cc0f9591ea2e71c97f06c8e663d04a0b0ac4bbe6c0e4c3b49a13215db99`) — **the font file is not
+  shipped, only the four characters' image**.
 
 ## Character portraits (AI-generated)
 

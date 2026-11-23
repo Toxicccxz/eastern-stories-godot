@@ -39,10 +39,10 @@ func _test_data() -> void:
 		_check(choice.weather in TitleScreenDefinition.WEATHERS, "%s drifts a known weather" % button)
 	_check(definition.choice(&"ContinueButton").place == &"", "继续 flies to the save's own place")
 	_check(atlas.cell(definition.new_game_place) != null, "a new journey's place is on the 沙盘")
-	for language: String in ["zh_CN", "zh_Hant", "en", "ko", "fr"]:
+	for language: String in ["zh_CN", "zh_Hant", "en", "ko", "ja", "fr"]:
 		_check(ResourceLoader.exists(definition.logo_for(language)), "a logo mask for %s" % language)
-	_check(definition.logo_for("ko") != definition.logo_for("en") and definition.own_title("ko") and definition.own_title("zh_CN") and definition.own_title("zh_Hant") and not definition.own_title("en") and not definition.own_title("fr"), "Chinese and Korean lead with titles of their own; English and the rest with the English one")
-	for language: String in ["zh_CN", "zh_Hant", "ko"]:
+	_check(definition.logo_for("ko") != definition.logo_for("en") and definition.logo_for("ja") != definition.logo_for("en") and definition.own_title("ko") and definition.own_title("ja") and definition.own_title("zh_CN") and definition.own_title("zh_Hant") and not definition.own_title("en") and not definition.own_title("fr"), "Chinese, Korean and Japanese lead with titles of their own; English and the rest with the English one")
+	for language: String in ["zh_CN", "zh_Hant", "ko", "ja"]:
 		_check(definition.line_for(language) == "EASTERN STORIES", "%s leads with its own title, English under it (owner 2026-11-22)" % language)
 	for language: String in ["en", "fr"]:
 		_check(definition.line_for(language) == "东方故事", "%s leads with the English title, the Chinese under it" % language)
@@ -69,7 +69,7 @@ func _test_logo_blocks() -> void:
 	_check(image.get_width() >= 800 and greys.size() > 8, "a large mask that keeps its antialiased edge: %d wide, %d greys" % [image.get_width(), greys.size()])
 	_check(blurred, "with the ink blurred wide beside it, past the ink's own edge")
 	_check(definition.line_for("zh_CN") == "EASTERN STORIES" and definition.line_for("en") == "东方故事", "the other language spaced out under the title")
-	_check(definition.line_for("ja") == "東方物語", "日本語 under the English title until it has its own: 東方物語 (故事 is an anecdote there)")
+	_check(definition.line_for("ja") == "EASTERN STORIES" and ResourceLoader.exists(definition.seal_for("ja")), "日本語 leads with its own 東方物語 (故事 is an anecdote there), English under it, the 侠 seal")
 	var logo := TitleLogo.new()
 	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true)
 	var letters: TextureRect = logo.get_node("LogoView/Letters") as TextureRect
