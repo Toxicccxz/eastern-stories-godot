@@ -39,8 +39,10 @@ func _test_data() -> void:
 		_check(choice.weather in TitleScreenDefinition.WEATHERS, "%s drifts a known weather" % button)
 	_check(definition.choice(&"ContinueButton").place == &"", "继续 flies to the save's own place")
 	_check(atlas.cell(definition.new_game_place) != null, "a new journey's place is on the 沙盘")
-	for language: String in ["zh_CN", "en", "fr"]:
+	for language: String in ["zh_CN", "en", "ko", "fr"]:
 		_check(ResourceLoader.exists(definition.logo_for(language)), "a logo mask for %s" % language)
+	_check(definition.logo_for("ko") != definition.logo_for("en") and definition.brushed("ko") and definition.brushed("zh_CN") and not definition.brushed("en") and not definition.brushed("fr"), "동방이야기 brushed in its own mask; the English capitals are not")
+	_check(definition.line_for("ko") == "EASTERN STORIES" and definition.line_mask_for("ko") == "", "the Korean title's ribbon in English, as every language but English (owner 2026-11-22)")
 	_check(ResourceLoader.exists(definition.seal_for("zh_CN")) and definition.seal_for("en") == "", "侠 on the Chinese seal; no Chinese on another language's")
 	var errors: Array[String] = []
 	var reader := ContentRecordReader.new({"choices": {"NewGameButton": {"weather": "rain", "zoom_percent": 5}}, "logo_width_px": 10}, "test", errors)

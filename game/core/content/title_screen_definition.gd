@@ -67,6 +67,12 @@ func logo_for(language: String) -> String:
 	return logos.get(language, logos.get("default", ""))
 
 
+## Whether `language` has brush lettering of its own (written with a dry brush): any mask but the
+## default one (the English capitals).
+func brushed(language: String) -> bool:
+	return logos.has(language) and logos[language] != logos.get("default", "")
+
+
 func seal_for(language: String) -> String:
 	return seals.get(language, seals.get("default", ""))
 

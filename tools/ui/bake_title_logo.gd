@@ -10,6 +10,8 @@ extends SceneTree
 ## Windowed (it renders text):
 ##   <godot> --path game --script <abs>/tools/ui/bake_title_logo.gd -- <云峰飞云体.ttf>
 ## Writes game/assets/textures/title/logo_zh_CN.png, logo_en.png, line_en.png, seal_zh_CN.png.
+## The Korean title, 동방이야기 in a Korean brush hand (추사 사랑체 Bold; the font is not shipped):
+##   ... -- <font> ko [mask name]      writes logo_ko.png (or the name given)
 
 const OUT: String = "res://assets/textures/title/"
 const PLAIN: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
@@ -24,6 +26,15 @@ const ZH: Array = [
 	["方", 244, 0.8, -16, 1.5],
 	["故", 264, 0.84, 18, -1.0],
 	["事", 316, 0.82, -4, 1.5],
+]
+## 동방이야기, the Korean title, set the same way (owner 2026-11-22: a Korean brush hand near
+## 飞云体's, the line on its ribbon in English).
+const KO: Array = [
+	["동", 290, 0.0, 4, -2.0],
+	["방", 236, 0.74, -14, 1.5],
+	["이", 214, 0.72, 16, -1.0],
+	["야", 248, 0.66, -6, 1.0],
+	["기", 296, 0.72, 8, -1.5],
 ]
 const EN_SIZE: int = 150
 const EN_SPACING: int = 10
@@ -56,19 +67,11 @@ func _run() -> void:
 		return
 	var plain: FontFile = load(PLAIN) as FontFile
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT))
-	var lettered: Array = []
-	var x: float = 0.0
-	var last: float = 0.0
-	var tallest: float = 0.0
-	for piece: Array in ZH:
-		tallest = maxf(tallest, float(piece[1]))
-	for piece: Array in ZH:
-		x += last * float(piece[2])
-		var size: float = float(piece[1])
-		# A label's glyph sits about its own size tall from its top: middles on one line.
-		lettered.append([piece[0], brush, int(size), Vector2(x, (tallest - size) * 0.62 + float(piece[3])), float(piece[4]), 0])
-		last = size
-	_save(await _mask(lettered), "logo_zh_CN")
+	if args.size() >= 2 and args[1] == "ko":
+		_save(await _mask(_brushed(KO, brush)), args[2] if args.size() >= 3 else "logo_ko")
+		quit(0)
+		return
+	_save(await _mask(_brushed(ZH, brush)), "logo_zh_CN")
 	var roman := FontVariation.new()
 	roman.base_font = load(ROMAN) as FontFile
 	roman.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): ROMAN_WEIGHT}
@@ -78,6 +81,23 @@ func _run() -> void:
 	_save(await _mask([["东方故事", brush, LINE_SIZE, Vector2.ZERO, 0.0, LINE_SPACING]]), "line_en")
 	_save(await _mask([["侠", plain, SEAL_SIZE, Vector2.ZERO, 0.0, 0]]), "seal_zh_CN")
 	quit(0)
+
+
+## A brushed title's characters ([character, size, step, drop, turn] rows) as _mask() pieces.
+func _brushed(rows: Array, brush: Font) -> Array:
+	var lettered: Array = []
+	var x: float = 0.0
+	var last: float = 0.0
+	var tallest: float = 0.0
+	for piece: Array in rows:
+		tallest = maxf(tallest, float(piece[1]))
+	for piece: Array in rows:
+		x += last * float(piece[2])
+		var size: float = float(piece[1])
+		# A label's glyph sits about its own size tall from its top: middles on one line.
+		lettered.append([piece[0], brush, int(size), Vector2(x, (tallest - size) * 0.62 + float(piece[3])), float(piece[4]), 0])
+		last = size
+	return lettered
 
 
 func _save(mask: Image, file: String) -> void:
