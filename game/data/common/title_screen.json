@@ -12,7 +12,8 @@
 		},
 		"lines": {
 			"own": "EASTERN STORIES",
-			"english": "东方故事"
+			"english": "东方故事",
+			"ja": "東方物語"
 		},
 		"seals": {
 			"zh_CN": "res://assets/textures/title/seal_zh_CN.png",

@@ -22,6 +22,11 @@ wrong. This catches them. Rules (docs/production/english_style.md):
   after a slot or token, or opening a line that follows a name (an NPC's action): after
   written text the translator picks the form; no Han character and no Chinese punctuation
   (。，、：；！？「」『』（）, ……) is left: Korean writes . , : ; ! ? “ ” ‘ ’ ( ) and one ….
+* in Japanese (ja.po, docs/production/japanese_style.md): slots as in a Latin language, $P/$p
+  allowed (彼, 彼女, あなた fill them); every kanji is a Japanese form (JIS X 0208, the set
+  the pixel face draws: 剣 not 剑, 気 not 气), so a Simplified character left behind shows up;
+  no Chinese punctuation Japanese does not write (，；“ ” ‘ ’) and no ASCII "...": Japanese
+  writes 、。「」『』 and ……
 
 `python tools/l10n/check_po.py [game/locale/en.po ...]` prints the problems; exit 1 if any.
 """
@@ -47,6 +52,10 @@ PARTICLE_PAIR = re.compile(r"\(으\)로|\(이\)(?=[가-힣])|(?:은\(는\)|는\(
 PAIR_AFTER = re.compile(r"(\{[a-z_]+\}|\$(RESPECT|SELF|[NnPplw])|%[sd])[』」”’\"')\]》]*$")
 HAN = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
 CHINESE_PUNCTUATION = ("。", "，", "、", "：", "；", "！", "？", "「", "」", "『", "』", "（", "）", "……")
+# japanese_style.md: kanji outside JIS X 0208 that Japanese writes and the ja pixel face draws
+# (a surname, a name's rare character). Add one only after checking both.
+JAPANESE_EXTRA_KANJI = "逄佾璦妮彤翎庾玦鏢酆雩榭邢羿鄔魈芷玫"
+NOT_JAPANESE_PUNCTUATION = ("，", "；", "“", "”", "‘", "’")
 MODERN = re.compile(r"\b(dude|bro|okay|awesome|my bad|no worries|freaking|totally|pal|mate)\b", re.IGNORECASE)
 
 
@@ -112,6 +121,7 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
     problems = []
     latin = not po.stem.startswith("zh")
     korean = po.stem.startswith("ko")
+    japanese = po.stem.startswith("ja")
     for ctx, msgid, msgstr in parse(po):
         where = f"{po.name}: {msgid[:40]!r}"
         if (ctx, msgid) not in known:
@@ -133,6 +143,9 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
             continue
         if korean:
             problems.extend(_korean_problems(where, msgid, msgstr))
+            continue
+        if japanese:
+            problems.extend(_japanese_problems(where, msgid, msgstr))
             continue
         if "$P" in msgstr or re.search(r"\$p(?![a-zA-Z])", msgstr):
             problems.append(f"{where}: $P/$p in a translation: write {{N:his}} / {{n:him}}")
@@ -173,6 +186,33 @@ def _korean_problems(where: str, msgid: str, msgstr: str) -> list[str]:
     if marks:
         problems.append(f"{where}: Chinese punctuation {' '.join(marks)} (write . , : ; ! ? “ ” ‘ ’ ( ) …)")
     return problems
+
+
+def _japanese_problems(where: str, msgid: str, msgstr: str) -> list[str]:
+    problems = []
+    source_slots = set(SLOT.findall(msgid))
+    for slot in SLOT.findall(msgstr):
+        if slot not in source_slots:
+            problems.append(f"{where}: invents the slot {{{slot}}}")
+    if GRAMMAR.search(msgstr):
+        problems.append(f"{where}: an English grammar mark {GRAMMAR.search(msgstr).group(0)} in Japanese")
+    for char in sorted(set(HAN.findall(msgstr))):
+        if char not in JAPANESE_EXTRA_KANJI and not _is_jis(char):
+            problems.append(f"{where}: {char} is not a Japanese kanji form (a Simplified character?)")
+    marks = [mark for mark in NOT_JAPANESE_PUNCTUATION if mark in msgstr]
+    if marks:
+        problems.append(f"{where}: Chinese punctuation {' '.join(marks)} (write 、 。 「」 『』)")
+    if "..." in msgstr:
+        problems.append(f"{where}: ASCII ... (write ……)")
+    return problems
+
+
+def _is_jis(char: str) -> bool:
+    try:
+        char.encode("cp932")
+    except UnicodeEncodeError:
+        return False
+    return True
 
 
 def main(argv: list[str]) -> int:

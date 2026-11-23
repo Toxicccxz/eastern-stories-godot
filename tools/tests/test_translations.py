@@ -81,6 +81,21 @@ class TranslationsTest(unittest.TestCase):
         ]
         self.assertEqual(check_po.problems_in(_po(clean, "ko")), [])
 
+    def test_japanese_writes_japanese_forms(self) -> None:
+        cases = {
+            "not a Japanese kanji form": ("颜违，零票。", "顔違、零票。长"),
+            "Chinese punctuation": ("颜违，一票。", "顔違，一票。"),
+            "ASCII ...": ("多谢啦.....", "かたじけない..."),
+            "invents the slot": ("{npc}太累了", "{npc}は{item}に疲れ果てた"),
+            "English grammar mark": ("$N挥拳攻击$n的$l", "$Nは{N:punch|punches}$nの$lを殴る。"),
+        }
+        for label, entry in cases.items():
+            with self.subTest(label=label):
+                problems = check_po.problems_in(_po([entry], "ja"))
+                self.assertTrue(any(label in problem for problem in problems), problems)
+        clean = [("结果只是轻轻地划破$p的皮肉。", "だが$pの皮膚を浅く裂いただけだった。"), ("多谢啦.....", "かたじけない……"), ("颜违，两票。", "顔違、二票。")]
+        self.assertEqual(check_po.problems_in(_po(clean, "ja")), [])
+
     def test_a_dropped_slot_is_allowed(self) -> None:
         self.assertEqual(check_po.problems_in(_po([("{npc}对你哈哈一笑：{npc}便是{self}！", "{npc} laughs. \"That'd be me!\"")])), [])
 

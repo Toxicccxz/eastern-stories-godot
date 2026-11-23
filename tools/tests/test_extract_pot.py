@@ -47,8 +47,9 @@ NOT_SHOWN = {
     # player's own name is kept as typed, not translated).
     "name_parts": "joined names are extracted", "prefixes": "joined to the player's name",
     "surnames": "the player's own name", "male": "the player's own name", "female": "the player's own name",
-    # Text already in a language, keyed by its code: the title's line in 繁體中文 (title_screen.json).
-    "zh_Hant": "already in that language",
+    # Text already in a language, keyed by its code: the title's line in 繁體中文 and 日本語
+    # (title_screen.json).
+    "zh_Hant": "already in that language", "ja": "already in that language",
 }
 
 

@@ -22,7 +22,8 @@ var choices: Dictionary[StringName, Choice] = {}
 var logos: Dictionary[String, String] = {}
 var seals: Dictionary[String, String] = {}
 ## The line spaced out under the title, the title in the other language (owner 2026-11-22): under
-## a language's own title ("own") the English, under the English title ("english") the Chinese.
+## a language's own title ("own") the English, under the English title ("english") the Chinese —
+## or a language's own line by its code (日本語 under the English title until it has its own).
 var lines: Dictionary[String, String] = {}
 ## Where the sun stands and where the logo's middle stands, in percent of the screen.
 var sun_percent: Array[int] = [28, 20]
@@ -54,7 +55,7 @@ func own_title(language: String) -> bool:
 ## The line under `language`'s title: English under a title of its own, Chinese under the English
 ## one (English, and any language with no title of its own).
 func line_for(language: String) -> String:
-	return lines.get("own" if own_title(language) else "english", "")
+	return lines.get(language, lines.get("own" if own_title(language) else "english", ""))
 
 
 static func from_record(reader: ContentRecordReader) -> TitleScreenDefinition:

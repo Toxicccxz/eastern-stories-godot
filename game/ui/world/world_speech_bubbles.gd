@@ -99,14 +99,14 @@ static func is_speech(line: String) -> bool:
 
 
 ## What a bubble says for `line`: what is said, without who says it. A language whose mark
-## opens the quote (Korean: 말한다. “) loses the closing quote too.
+## opens the quote (Korean: 말한다. “, Japanese: 「) loses the closing quote too.
 static func bubble_text(line: String) -> String:
 	var text: String = KoreanText.without_joiners(line).strip_edges()
 	var said: String = _said()
 	var mark: int = text.find(said)
 	if mark >= 0 and mark <= SPEECH_MARK_REACH:
 		text = text.substr(mark + said.length()).strip_edges()
-		var closing: String = {"“": "”", "\"": "\"", "「": "」"}.get(said.right(1), "")  # NO_TRANSLATE: quote marks
+		var closing: String = {"“": "”", "\"": "\"", "「": "」", "『": "』"}.get(said.right(1), "")  # NO_TRANSLATE: quote marks
 		if not closing.is_empty() and text.ends_with(closing):
 			text = text.left(-1).strip_edges()
 	return KoreanText.shown(text)
