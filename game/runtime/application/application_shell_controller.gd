@@ -761,6 +761,11 @@ func request_quit_from_menu() -> bool:
 	return true
 
 
+## The 界面缩放 setting in force (percent).
+func ui_scale_percent() -> int:
+	return _settings_service.committed_snapshot().ui_scale() if _settings_service != null else ApplicationUiScale.DEFAULT
+
+
 ## Whether a journey is under way (the title shows only while none is).
 func session_running() -> bool:
 	return _host != null and not _host_is_exactly_empty()

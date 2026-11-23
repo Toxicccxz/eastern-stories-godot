@@ -103,8 +103,15 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	for index: int in _dialogs.size():
 		_space(_dialogs[index].content, _spacing[index], short)
 	var menu: ResponsivePanelLayout = _dialogs[0]
-	var needed: float = menu.content.get_combined_minimum_size().y + menu.panel.get_theme_stylebox("panel").get_minimum_size().y
-	var column: Rect2 = _menu_column(metrics, needed)
+	# Drawn smaller, the menu's rows are spaced out so the small letters breathe (owner,
+	# 2026-11-23, of three looks at 1280×720).
+	var shrink: float = _title_menu_scale()
+	var rows: VBoxContainer = _rows(menu.content)
+	if rows != null and shrink < 1.0:
+		rows.add_theme_constant_override("separation", SMALL_MENU_SEPARATION)
+	var needed: float = (menu.content.get_combined_minimum_size().y + menu.panel.get_theme_stylebox("panel").get_minimum_size().y) * shrink
+	var column: Rect2 = _menu_column(metrics, needed, shrink)
+	menu.panel.scale = Vector2.ONE * shrink
 	# Scrolled only when even the highest column cannot hold it.
 	var fits: bool = needed <= column.size.y
 	menu.scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED if fits else ScrollContainer.SCROLL_MODE_SHOW_NEVER
@@ -121,9 +128,13 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 
 
 ## Where the main menu's column starts (a share of the content area's height) when it fits
-## there, and the highest it may go (just under the logo). The content area keeps its own
-## margin from the bottom.
+## there — lower when the column is drawn smaller (ApplicationUiScale.title_menu_scale), so it
+## keeps its distance from the title — and the highest it may go (just under the logo). The
+## content area keeps its own margin from the bottom.
 const MENU_TOP_SHARE: float = 0.47
+const MENU_TOP_SHARE_SMALL: float = 0.56
+## The room between the title menu's rows when it is drawn smaller.
+const SMALL_MENU_SEPARATION: int = 14
 const MENU_HIGHEST_SHARE: float = 0.30
 
 
@@ -131,10 +142,25 @@ const MENU_HIGHEST_SHARE: float = 0.30
 ## logo above it and the 沙盘's place to its right, on a phone too (owner, 2026-11-20: kept in the
 ## middle there, it sat over the logo). A short screen lifts it towards the logo, so all `needed`
 ## of it shows without scrolling.
-static func _menu_column(metrics: SafeAreaMetrics, needed: float = 0.0) -> Rect2:
+static func _menu_column(metrics: SafeAreaMetrics, needed: float = 0.0, shrink: float = 1.0) -> Rect2:
 	var area: Rect2 = metrics.content_rect()
-	var top: float = floorf(clampf(area.size.y - needed, area.size.y * MENU_HIGHEST_SHARE, area.size.y * MENU_TOP_SHARE))
+	var lowest: float = lerpf(MENU_TOP_SHARE_SMALL, MENU_TOP_SHARE, clampf((shrink - 0.5) / 0.5, 0.0, 1.0))
+	var top: float = floorf(clampf(area.size.y - needed, area.size.y * MENU_HIGHEST_SHARE, area.size.y * lowest))
 	return Rect2(area.position + Vector2(area.size.x * 0.06, top), Vector2(minf(340.0, area.size.x * 0.5), area.size.y - top))
+
+
+## The title menu's own scale (ApplicationUiScale.title_menu_scale): 1 on a phone, whose
+## interface is kept large on purpose (owner, 2026-11-21).
+func _title_menu_scale() -> float:
+	if OS.has_feature("android") or OS.has_feature("ios") or not is_inside_tree():
+		return 1.0
+	var root: Window = get_tree().root
+	# The shell by its method, not its class: naming ApplicationShellController here made the
+	# two scripts load each other, and a world session loaded on a worker thread failed to build.
+	var shell: Node = get_parent()
+	var percent: int = int(shell.call(&"ui_scale_percent")) if shell != null and shell.has_method(&"ui_scale_percent") else ApplicationUiScale.DEFAULT
+	var base := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1280)), int(ProjectSettings.get_setting("display/window/size/viewport_height", 720)))
+	return ApplicationUiScale.title_menu_scale(percent, root.size, base, root.content_scale_factor)
 
 
 static func _authored_spacing(content: Control) -> PackedInt32Array:
