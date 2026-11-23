@@ -155,7 +155,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_wind.add_theme_color_override("font_color", ACCENT_COLOR)
 	ui.player_wind.mouse_filter = Control.MOUSE_FILTER_STOP
 	# TRANSLATORS: 第十章 A: the HUD wind row's hover (DECISIONS「风」).
-	ui.player_wind.tooltip_text = tr("草往哪边倒，风就往哪边吹。")
+	ui.player_wind.tooltip_text = "草往哪边倒，风就往哪边吹。"
 	ui.player_wind.hide()
 	waits = VBoxContainer.new()
 	waits.name = "Waits"
