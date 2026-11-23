@@ -15,6 +15,7 @@
     "res://tests/application/input_paths_test.gd": 21.6,
     "res://tests/application/journal_codex_test.gd": 41,
     "res://tests/application/journey_end_test.gd": 19.5,
+    "res://tests/application/language_switch_refresh_test.gd": 13,
     "res://tests/application/load_cycles_test.gd": 130.0,
     "res://tests/application/localization_test.gd": 12.5,
     "res://tests/application/project_settings_test.gd": 8.1,

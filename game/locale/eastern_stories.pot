@@ -11793,16 +11793,6 @@ msgstr ""
 msgid "连续打坐练到这个内力上限再停；不限则上限每涨一点就停"
 msgstr ""
 
-#. 连续打坐's target: 不限 (stop at the first raise) or 练到 {target} (a max_force number).
-#: ui/world/martial_arts_page.gd
-msgid "不限"
-msgstr ""
-
-#. 连续打坐's target: 不限 (stop at the first raise) or 练到 {target} (a max_force number).
-#: ui/world/martial_arts_page.gd
-msgid "练到 {target}"
-msgstr ""
-
 #: ui/world/martial_arts_page.gd
 msgid "每次花费的神"
 msgstr ""
@@ -11819,6 +11809,16 @@ msgstr ""
 #. the 武学 page's button that does 修行 again and again until something stops it.
 #: ui/world/martial_arts_page.gd
 msgid "连续修行"
+msgstr ""
+
+#. 连续打坐's target: 不限 (stop at the first raise) or 练到 {target} (a max_force number).
+#: ui/world/martial_arts_page.gd
+msgid "不限"
+msgstr ""
+
+#. 连续打坐's target: 不限 (stop at the first raise) or 练到 {target} (a max_force number).
+#: ui/world/martial_arts_page.gd
+msgid "练到 {target}"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
