@@ -155,8 +155,10 @@ func _title_menu_scale() -> float:
 	if OS.has_feature("android") or OS.has_feature("ios") or not is_inside_tree():
 		return 1.0
 	var root: Window = get_tree().root
-	var shell: ApplicationShellController = get_parent() as ApplicationShellController
-	var percent: int = shell.ui_scale_percent() if shell != null else ApplicationUiScale.DEFAULT
+	# The shell by its method, not its class: naming ApplicationShellController here made the
+	# two scripts load each other, and a world session loaded on a worker thread failed to build.
+	var shell: Node = get_parent()
+	var percent: int = int(shell.call(&"ui_scale_percent")) if shell != null and shell.has_method(&"ui_scale_percent") else ApplicationUiScale.DEFAULT
 	var base := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1280)), int(ProjectSettings.get_setting("display/window/size/viewport_height", 720)))
 	return ApplicationUiScale.title_menu_scale(percent, root.size, base, root.content_scale_factor)
 
