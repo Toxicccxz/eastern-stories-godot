@@ -13,6 +13,9 @@ extends SceneTree
 ## Writes game/assets/textures/title/logo_zh_CN.png, logo_en.png, seal_zh_CN.png.
 ## The Korean title, 동방이야기 in a Korean brush hand (추사 사랑체 Bold; the font is not shipped):
 ##   ... -- <font> ko [mask name]      writes logo_ko.png (or the name given)
+## The Japanese title, 東方物語 in a Japanese brush hand (衡山毛筆フォント行書; 飞云体 has no 東
+## or 語; the font is not shipped):
+##   ... -- <font> ja [mask name]      writes logo_ja.png (or the name given)
 
 const OUT: String = "res://assets/textures/title/"
 const PLAIN: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
@@ -34,6 +37,16 @@ const KO: Array = [
 	["야", 248, 0.66, -6, 1.0],
 	["기", 296, 0.72, 8, -1.5],
 ]
+## 東方物語, the Japanese title (owner 2026-11-22: 故事 is an anecdote in Japanese), set the same
+## way, the line under it in English.
+const JA: Array = [
+	["東", 300, 0.0, 6, -2.0],
+	["方", 244, 0.8, -16, 1.5],
+	["物", 270, 0.84, 18, -1.0],
+	["語", 310, 0.82, -4, 1.5],
+]
+## The titles baked alone, by language: -- <font> <language> [mask name].
+const OWN: Dictionary = {"ko": KO, "ja": JA}
 ## The English title's lines: their size, and how far the second stands below the first (parts
 ## of the size).
 const EN_SIZE: int = 150
@@ -63,8 +76,8 @@ func _run() -> void:
 		return
 	var plain: FontFile = load(PLAIN) as FontFile
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT))
-	if args.size() >= 2 and args[1] == "ko":
-		_save(await _mask(_brushed(KO, brush)), args[2] if args.size() >= 3 else "logo_ko")
+	if args.size() >= 2 and OWN.has(args[1]):
+		_save(await _mask(_brushed(OWN[args[1]], brush)), args[2] if args.size() >= 3 else "logo_" + args[1])
 		quit(0)
 		return
 	_save(await _mask(_brushed(ZH, brush)), "logo_zh_CN")
