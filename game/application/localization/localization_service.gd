@@ -58,6 +58,8 @@ func apply(preference: String) -> bool:
 		if translation == null:
 			push_error("languages: cannot load %s" % language.translation_path)
 			return false
+		if language.language() == KoreanText.LANGUAGE:
+			translation = KoreanTranslation.new(translation)
 	if _active == null:
 		_locale_before = TranslationServer.get_locale()
 	if _loaded != null:
