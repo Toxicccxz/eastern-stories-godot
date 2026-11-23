@@ -163,6 +163,19 @@ func _test_pixel_scale() -> void:
 			_check(total <= stretch * 1.5 + 0.001, "%s at %d percent: never smaller than the interface is laid out for (%.3f)" % [window, percent, total])
 			_check(total >= last - 0.001, "%s: a larger setting is never drawn smaller" % [window])
 			last = total
+	# The title's menu keeps about its 1920×1080 share of the screen, on whole font pixels, never
+	# drawn larger than the interface (owner, 2026-11-23: at 1280×720 it crowded the title).
+	var at_720: float = ApplicationUiScale.title_menu_scale(100, Vector2i(1280, 720), base, ApplicationUiScale.pixel_factor(100, Vector2i(1280, 720), base))
+	_check(is_equal_approx(at_720, 0.5), "1280×720: the title menu drawn one step smaller than the interface (half of 4/3)")
+	for window: Vector2i in [Vector2i(1920, 1080), Vector2i(1600, 900), Vector2i(2560, 1440)]:
+		_check(is_equal_approx(ApplicationUiScale.title_menu_scale(100, window, base, ApplicationUiScale.pixel_factor(100, window, base)), 1.0), "%s: the title menu as the interface draws it" % window)
+	for window: Vector2i in [Vector2i(1280, 720), Vector2i(1366, 768), Vector2i(1280, 800), Vector2i(1920, 1080), Vector2i(1088, 612)]:
+		for percent: int in ApplicationUiScale.PERCENTS:
+			var stretch: float = minf(window.x / 1280.0, window.y / 720.0)
+			var current: float = ApplicationUiScale.pixel_factor(percent, window, base)
+			var menu: float = ApplicationUiScale.title_menu_scale(percent, window, base, current)
+			var pixel: float = menu * current * stretch * GameTheme.GRID
+			_check(menu <= 1.0 and absf(pixel - roundf(pixel)) < 0.001 and pixel >= 1.0, "%s at %d percent: the title menu's font pixel is %.3f screen pixels" % [window, percent, pixel])
 
 
 ## Sizes written into the interface's scenes are on the pixel face's steps too. The painted

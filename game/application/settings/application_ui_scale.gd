@@ -49,6 +49,22 @@ static func pixel_factor(percent: int, window: Vector2i, base: Vector2i, mobile:
 	return float(steps) * PIXEL_SCALE_STEP / stretch
 
 
+## The title's menu column keeps about the share of the screen it has at 1920×1080 (owner,
+## 2026-11-23: at 1280×720 the interface's whole step of 4/3 drew it half again as large against
+## the screen, crowding the title): its own whole step nearest TITLE_MENU_SHARE of the window's
+## stretch (times the setting), never larger than the interface's `current` content scale. The
+## scale to draw the column at inside the interface (1 where they agree).
+const TITLE_MENU_SHARE: float = 8.0 / 9.0
+
+
+static func title_menu_scale(percent: int, window: Vector2i, base: Vector2i, current: float) -> float:
+	if window.x <= 0 or window.y <= 0 or base.x <= 0 or base.y <= 0 or current <= 0.0:
+		return 1.0
+	var stretch: float = minf(float(window.x) / float(base.x), float(window.y) / float(base.y))
+	var steps: int = maxi(1, roundi(stretch * TITLE_MENU_SHARE * factor(percent) / PIXEL_SCALE_STEP))
+	return minf(1.0, float(steps) * PIXEL_SCALE_STEP / (stretch * current))
+
+
 ## Whether the three settings draw differently in `window`: on a small one they all come out
 ## at the same whole step, and the 设置 page says so.
 static func levels_differ(window: Vector2i, base: Vector2i, mobile: bool = false) -> bool:
