@@ -46,16 +46,15 @@ func seal_for(language: String) -> String:
 	return seals.get(language, seals.get("default", ""))
 
 
-## Whether `language` has brush lettering of its own (written with a dry brush): any mask but the
-## default one (the English capitals).
-func brushed(language: String) -> bool:
-	return logos.has(language) and logos[language] != logos.get("default", "")
+## Whether `language` leads with a title of its own (the others lead with the English one).
+func own_title(language: String) -> bool:
+	return logos.has(language)
 
 
 ## The line under `language`'s title: English under a title of its own, Chinese under the English
 ## one (English, and any language with no title of its own).
 func line_for(language: String) -> String:
-	return lines.get("own" if brushed(language) else "english", "")
+	return lines.get("own" if own_title(language) else "english", "")
 
 
 static func from_record(reader: ContentRecordReader) -> TitleScreenDefinition:

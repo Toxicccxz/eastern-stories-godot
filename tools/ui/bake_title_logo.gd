@@ -1,8 +1,9 @@
 extends SceneTree
 ## Bakes the title's lettering masks (DECISIONS「标题画面」): 东方故事 lettered in 云峰飞云体 (a
 ## rough, free brush hand) — every character its own size, set close and a little off the line,
-## as a title is brushed and not typed — EASTERN STORIES in Cinzel capitals, and the seal's 侠 in
-## 霞鹜文楷.
+## as a title is brushed and not typed — Eastern / Stories in two lines of the same hand's own
+## Latin letters (owner 2026-11-22: the English title brushed like the others), and the seal's 侠
+## in 霞鹜文楷.
 ## Each mask is rendered large and antialiased, padded for the shadow, with the ink in red and the
 ## same ink blurred wide in green (TitleLogo's shader soaks the ink in from the strokes' cores
 ## and casts the shadow with it). The game reads only these masks, so the brush font is not
@@ -15,9 +16,6 @@ extends SceneTree
 
 const OUT: String = "res://assets/textures/title/"
 const PLAIN: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
-const ROMAN: String = "res://assets/fonts/Cinzel-VariableFont_wght.ttf"
-## Cinzel's weight axis for the English title.
-const ROMAN_WEIGHT: int = 600
 ## 东方故事, character by character: [character, size in pixels, how far its left edge stands from
 ## the last one's (parts of the last one's size), how far its middle stands below the line's
 ## middle (pixels), its turn (degrees)].
@@ -36,8 +34,11 @@ const KO: Array = [
 	["야", 248, 0.66, -6, 1.0],
 	["기", 296, 0.72, 8, -1.5],
 ]
+## The English title's lines: their size, and how far the second stands below the first (parts
+## of the size).
 const EN_SIZE: int = 150
-const EN_SPACING: int = 26
+const EN_LINES: PackedStringArray = ["Eastern", "Stories"]
+const EN_LEADING: float = 0.9
 const SEAL_SIZE: int = 120
 ## Clear pixels round the ink, for the shadow and the soaking edge.
 const PAD: int = 48
@@ -67,10 +68,10 @@ func _run() -> void:
 		quit(0)
 		return
 	_save(await _mask(_brushed(ZH, brush)), "logo_zh_CN")
-	var roman := FontVariation.new()
-	roman.base_font = load(ROMAN) as FontFile
-	roman.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): ROMAN_WEIGHT}
-	_save(await _mask([["EASTERN STORIES", roman, EN_SIZE, Vector2.ZERO, 0.0, EN_SPACING]]), "logo_en")
+	var english: Array = []
+	for r: int in EN_LINES.size():
+		english.append([EN_LINES[r], brush, EN_SIZE, Vector2(0.0, EN_SIZE * EN_LEADING * r), 0.0, 0])
+	_save(await _mask(english), "logo_en")
 	_save(await _mask([["侠", plain, SEAL_SIZE, Vector2.ZERO, 0.0, 0]]), "seal_zh_CN")
 	quit(0)
 

@@ -41,7 +41,7 @@ func _test_data() -> void:
 	_check(atlas.cell(definition.new_game_place) != null, "a new journey's place is on the 沙盘")
 	for language: String in ["zh_CN", "zh_Hant", "en", "ko", "fr"]:
 		_check(ResourceLoader.exists(definition.logo_for(language)), "a logo mask for %s" % language)
-	_check(definition.logo_for("ko") != definition.logo_for("en") and definition.brushed("ko") and definition.brushed("zh_CN") and definition.brushed("zh_Hant") and not definition.brushed("en") and not definition.brushed("fr"), "东方故事 and 동방이야기 brushed in their own masks; the English capitals are not")
+	_check(definition.logo_for("ko") != definition.logo_for("en") and definition.own_title("ko") and definition.own_title("zh_CN") and definition.own_title("zh_Hant") and not definition.own_title("en") and not definition.own_title("fr"), "Chinese and Korean lead with titles of their own; English and the rest with the English one")
 	for language: String in ["zh_CN", "zh_Hant", "ko"]:
 		_check(definition.line_for(language) == "EASTERN STORIES", "%s leads with its own title, English under it (owner 2026-11-22)" % language)
 	for language: String in ["en", "fr"]:
@@ -95,9 +95,13 @@ func _test_logo_blocks() -> void:
 		logo._process(0.0)
 		_check(float(seal_mat.get_shader_parameter("fade")) < 0.01 and line.modulate.a < 0.01 and float(dim.get_shader_parameter("strength")) < 0.01, "lifted off: nothing left")
 	var english := TitleLogo.new()
-	english.build(definition.logo_for("en"), definition.seal_for("en"), definition.line_for("en"), false)
+	english.build(definition.logo_for("en"), definition.seal_for("en"), definition.line_for("en"), true)
 	var plain: ShaderMaterial = (english.get_node("LogoView/Letters") as TextureRect).material as ShaderMaterial
-	_check(not (english.get_node("LogoView/Seal") as TextureRect).visible and (english.get_node("LogoView/Letters") as TextureRect).texture != letters.texture and is_zero_approx(float(plain.get_shader_parameter("dry"))), "English is its own lettering: no Chinese seal, no brush streaks")
+	_check(not (english.get_node("LogoView/Seal") as TextureRect).visible and (english.get_node("LogoView/Letters") as TextureRect).texture != letters.texture and is_equal_approx(float(plain.get_shader_parameter("dry")), TitleLogo.DRY), "English is its own lettering, brushed like the others (owner 2026-11-22), with no Chinese seal")
+	var english_mask: Texture2D = load(definition.logo_for("en")) as Texture2D
+	english.place_for(Vector2(1920, 1080))
+	var english_letters: TextureRect = english.get_node("LogoView/Letters") as TextureRect
+	_check(english_mask.get_height() > english_mask.get_width() * TitleLogo.TALL_MOST and english_letters.size.y <= english.width_px * 1.5 * TitleLogo.TALL_MOST + 0.5 and is_equal_approx(english_letters.position.x, english.at.x * 1920.0 - english.width_px * 1.5 / 2.0), "the two-line English title drawn no taller than 东方故事, its left edge where 东方故事's is")
 	for node: TitleLogo in [logo, english]:
 		node.free()
 

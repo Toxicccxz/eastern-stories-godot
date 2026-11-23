@@ -33,13 +33,20 @@ const ARRIVAL_SECONDS: float = 1.7
 const LEAVING_SECONDS: float = 1.0
 ## The line under the title: its size against the lettering's height (Latin capitals under brush
 ## characters; characters under a line of capitals), with a floor in UI pixels at 1280 wide; how
-## much of the lettering's width it is spaced out to, and the most room between two letters (parts
-## of its size); the gap above it.
+## much of the lettering's width it may be spaced out to, and the most room between two letters
+## (parts of its size: a plain, sober line under the brushed title, owner 2026-11-22); the gap
+## above it.
 const LINE_SHARE: float = 0.19
 const LINE_SHARE_UNDER_CAPITALS: float = 0.62
+## Characters under Latin lettering also stay within this share of its width (two lines of it
+## stand tall).
+const LINE_SHARE_OF_WIDTH: float = 0.07
+## The lettering is never taller than this share of its width at full size (东方故事's own shape):
+## a taller title (two lines) is drawn smaller, its left edge where the full-size one's is.
+const TALL_MOST: float = 0.46
 const LINE_MIN: float = 22.0
 const LINE_WIDE: float = 0.94
-const LINE_SPACE_MOST: float = 1.4
+const LINE_SPACE_MOST: float = 0.22
 const LINE_GAP: float = 0.1
 ## The seal's side against the lettering's height, the room between it and the last letter (UI
 ## pixels at 1280 wide), and where its middle stands down the lettering (0 top, 1 foot).
@@ -198,10 +205,12 @@ func place_for(screen: Vector2) -> void:
 	var letters: Texture2D = _letters.texture
 	if letters == null:
 		return
-	var size_px := Vector2(width_px * unit, width_px * unit * letters.get_height() / letters.get_width())
+	var wide: float = width_px * unit
+	var size_px := Vector2(wide, wide * letters.get_height() / letters.get_width())
+	size_px *= minf(1.0, wide * TALL_MOST / size_px.y)
 	var middle: Vector2 = at * box
 	_letters.size = size_px
-	_letters.position = middle - size_px / 2.0
+	_letters.position = Vector2(middle.x - wide / 2.0, middle.y - size_px.y / 2.0)
 	# The ink's own box inside the padded mask.
 	var pad: Vector2 = Vector2(MASK_PAD, MASK_PAD) * size_px.x / letters.get_width()
 	var ink_left: float = _letters.position.x + pad.x
@@ -209,7 +218,8 @@ func place_for(screen: Vector2) -> void:
 	var ink_wide: float = size_px.x - pad.x * 2.0
 	var ink_tall: float = size_px.y - pad.y * 2.0
 	var latin: bool = _latin(_line.text)
-	var font_size: int = maxi(8, roundi(maxf(ink_tall * (LINE_SHARE if latin else LINE_SHARE_UNDER_CAPITALS), LINE_MIN * unit)))
+	var share: float = ink_tall * LINE_SHARE if latin else minf(ink_tall * LINE_SHARE_UNDER_CAPITALS, ink_wide * LINE_SHARE_OF_WIDTH)
+	var font_size: int = maxi(8, roundi(maxf(share, LINE_MIN * unit)))
 	var face := FontVariation.new()
 	face.base_font = LINE_ROMAN if latin else LINE_FONT
 	if latin:
