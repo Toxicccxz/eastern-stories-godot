@@ -173,6 +173,14 @@ static func took(state: CharacterState, quest: StoryQuestDefinition, option_id: 
 	return taken != null and taken.option_id == option_id
 
 
+## Whether a line already begun shuts `quest` out (either side's `excludes`).
+static func _excluded(state: CharacterState, quest: StoryQuestDefinition, quests: Array[StoryQuestDefinition]) -> bool:
+	for other: StoryQuestDefinition in quests:
+		if other != quest and is_started(state, other) and (quest.excludes.has(other.quest_id) or other.excludes.has(quest.quest_id)):
+			return true
+	return false
+
+
 ## The step to do now: the first not done whose `only_after` was taken; null once every
 ## step is done or skipped.
 static func current_step(state: CharacterState, quest: StoryQuestDefinition) -> StoryQuestDefinition.Step:
@@ -214,9 +222,13 @@ class FamilyChange:
 	var closes: Array[StoryQuestDefinition] = []
 	## Lines walked to their end whose name and vote it takes back (`lapses.after_done`).
 	var takes_back: Array[StoryQuestDefinition] = []
+	## The new family's own lines that will not open: a line already begun excludes them (势力线复查).
+	var blocked: Array[StoryQuestDefinition] = []
+	## The new family's own lines that were cut short once: they do not begin twice.
+	var gone: Array[StoryQuestDefinition] = []
 
 	func is_empty() -> bool:
-		return ends.is_empty() and closes.is_empty() and takes_back.is_empty()
+		return ends.is_empty() and closes.is_empty() and takes_back.is_empty() and blocked.is_empty() and gone.is_empty()
 
 
 ## What becoming one of `family_id` would do to the lines (DECISIONS「改投提示」): the lines under way
@@ -236,8 +248,13 @@ static func family_change(state: CharacterState, family_id: StringName, quests: 
 				change.ends.append(quest)
 		elif is_done(state, quest) and quest.lapses_after_done and int(state.marks.get(quest.lapsed_mark, 0)) == 0 and as_family.call(quest.lapses) and not test.call(quest.lapses):
 			change.takes_back.append(quest)
-		elif not is_started(state, quest) and quest.starts != null and can_start(state, quest, quests) and as_family.call(quest.starts) and not test.call(quest.starts):
-			begun.append(quest)
+		elif is_lapsed(state, quest) and quest.starts != null and as_family.call(quest.starts) and not test.call(quest.starts):
+			change.gone.append(quest)
+		elif not is_started(state, quest) and quest.starts != null and as_family.call(quest.starts) and not test.call(quest.starts):
+			if can_start(state, quest, quests):
+				begun.append(quest)
+			elif _excluded(state, quest, quests):
+				change.blocked.append(quest)
 	for quest: StoryQuestDefinition in quests:
 		if is_started(state, quest) or begun.has(quest) or not can_start(state, quest, quests):
 			continue

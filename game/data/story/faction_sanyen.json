@@ -179,7 +179,15 @@
 								"deed": "照山烟寺的寺规，没让外人进流云轩"
 							}
 						}
-					]
+					],
+					"target_after": {
+						"mark": "头陀跟你去了流云轩",
+						"map": "sanyen.heal_room_house",
+						"zone": "sanyen.heal_room",
+						"npcs": [
+							"native.npc.sick_woodcutter"
+						]
+					}
 				},
 				{
 					"id": "west",

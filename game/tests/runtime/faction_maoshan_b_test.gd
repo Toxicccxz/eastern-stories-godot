@@ -172,7 +172,7 @@ func _test_burn(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hall.select_npc(lin.character_id) and hall.ask_topics_selected().has("剿") and not hall.ask_topics_selected().has("招安"), "after the 终章: 剿 (招安 is the 卧底's)")
 	_check(_said(_ask(hall, lin, "剿"), "程不平") and state.marks.get("余孽交了官府", 0) == 1 and state.marks.get("余孽有了去处", 0) == 1, "剿: the letter, the 余孽 settled")
 	session.record_journal()
-	_check(state.quests.has("faction.maoshan/crush") and state.quests.has("faction.maoshan#done"), "the line is done")
+	_check(state.quests.has("faction.maoshan/crush/sent") and state.quests.has("faction.maoshan#done") and DeedLog.done(state, "请林忌把逆灵宫的余孽交给官府去剿"), "the line is done, 茅山's own 剿 a deed")
 	_check(_said(_ask(hall, lin, "虹台"), "看着烧的") and state.marks.get("茅山肯听你的", 0) == 1, "虹台: 茅山 would 听你的")
 	_check(_said(_ask(hall, lin, "这一票"), "茅山听你的") and _holds(state, "assembly.maoshan.self"), "这一票")
 	session.shared_ui().standing_page.fill(session.quest_condition_test())
@@ -221,7 +221,7 @@ func _test_keep(tree: SceneTree, session: WorldSessionController) -> void:
 	var lines: Array[String] = await _scene(tree, session, slope)
 	_check(_said(lines, "木鱼声停了") and _said(lines, "教你们认字") and state.marks.get("招安了余孽", 0) == 1 and state.marks.get("余孽有了去处", 0) == 1, "the scene: the 余孽 come down (%s)" % [lines.slice(-6)])
 	session.record_journal()
-	_check(state.quests.has("faction.maoshan/pardon") and state.quests.has("faction.maoshan#done"), "the line is done")
+	_check(state.quests.has("faction.maoshan/pardon/read") and state.quests.has("faction.maoshan#done") and DeedLog.done(state, "请花匠上北麓，把逆灵宫剩下的人念下了山"), "the line is done, the 花匠's reading a deed")
 	library = MapPlaces.enter(session, UPSTAIRS, UPSTAIRS_POINT)
 	await _settle(tree)
 	gardener = _first(session, UPSTAIRS, GARDENER)
@@ -256,7 +256,7 @@ func _test_placed(tree: SceneTree, session: WorldSessionController) -> void:
 	for mark: String in ["终章", "招安了余孽", "余孽有了去处"]:
 		state.marks[mark] = 1 # TEST-ONLY: the 卧底 line asked them down
 	session.record_journal()
-	_check(state.quests.has("faction.maoshan/pardon") and state.quests.has("faction.maoshan#done"), "the 余孽 already settled: the line is done")
+	_check(state.quests.has("faction.maoshan/pardon/pardon_settled") and state.quests.has("faction.maoshan#done"), "the 余孽 already settled: the line is done")
 	var library: WorldMapController = MapPlaces.enter(session, UPSTAIRS, UPSTAIRS_POINT)
 	await _settle(tree)
 	var gardener: NpcRuntimeState = _first(session, UPSTAIRS, GARDENER)

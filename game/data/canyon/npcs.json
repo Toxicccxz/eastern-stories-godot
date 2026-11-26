@@ -418,6 +418,9 @@
 					]
 				}
 			},
+			"calls": [
+				{ "after": 0, "reaction": true, "mark": "跟严廷殷整肃", "not_mark": "赫造基退到了帐柱边", "when": { "not": { "mark": "赫造基被拿下了" } }, "steps": [{ "npc_mood": "cornered" }, { "emote": "看见你进帐，把羽扇一合，从扇骨里抽出一截细剑，退到帐柱边。" }, { "say": "将军要拿我？……好。茅山的术，没教过我束手就擒——你来拿。" }, { "mark": "赫造基退到了帐柱边" }] }
+			],
 			"accept_object": [
 				{ "value_at_most": 0, "say": "ㄟ....Ｔhank Ｙou!!!", "accept": true },
 				{ "giver_mark": "严廷殷看了信", "unless_giver_mark": "赫造基说了拓模", "value_at_least": 800, "lines": [{ "say": "好极了，我就告诉你一项秘密吧。" }, { "emote": "压低了声音。" }, { "say": "将军的印丢的那几天，在后备兵手里。我借来看了一夜——拓了个模子。兵部来的人出了价，比你多，模子就卖了一份给他们。" }, { "say": "这一份留着的你拿去。模子上的朱砂是真印的印色，拿它比一比你那叠文书上的印，就明白了。" }], "gives": "native:canyon/seal_mould", "mark_giver": "赫造基说了拓模", "accept": true },
