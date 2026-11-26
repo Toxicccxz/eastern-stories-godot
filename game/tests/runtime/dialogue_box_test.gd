@@ -133,14 +133,24 @@ func _check_text(tree: SceneTree) -> void:
 	_check(narrow >= 2 and text.get_combined_minimum_size().y > 30.0, "a long line wraps and the control is as tall: %d lines, %s" % [narrow, text.get_combined_minimum_size()])
 	var at: int = text.text.find("老松岭")
 	_check(text.lit(at) and text.lit(at + 2) and not text.lit(at + 3) and not text.lit(0), "the lit places, character by character")
-	# A lit word shimmers for as long as the line shows (owner, 2026-11-26): never still, never out.
-	var dimmest: float = 1.0
-	var brightest: float = 0.0
-	for _i: int in 120:
+	# A lit word flares as it has been typed, and a light keeps running along it for as long as the
+	# line shows (owner, 2026-11-26): first its first character is the brightest, then its last.
+	await _frames(tree, 2)
+	_check(text.brightness(at) > 0.9 and text.brightness(at + 2) > 0.9 and text.brightness(0) == 0.0, "the word flares whole as it has been typed: %s" % text.brightness(at))
+	await _frames(tree, 40)
+	var first_lead: bool = false
+	var last_lead: bool = false
+	var rests: bool = false
+	var unlit: bool = true
+	for _i: int in 240:
 		await tree.process_frame
-		dimmest = minf(dimmest, text.brightness(at))
-		brightest = maxf(brightest, text.brightness(at))
-	_check(dimmest > 0.0 and brightest - dimmest > 0.3 and text.brightness(0) == 0.0, "a lit word keeps shimmering, the rest of the line does not: %s to %s" % [dimmest, brightest])
+		var head: float = text.brightness(at)
+		var tail: float = text.brightness(at + 2)
+		first_lead = first_lead or head - tail > 0.3
+		last_lead = last_lead or (first_lead and tail - head > 0.3)
+		rests = rests or (head == 0.0 and tail == 0.0)
+		unlit = unlit and text.brightness(0) == 0.0
+	_check(first_lead and last_lead and rests and unlit, "a light runs along the lit word again and again, and nowhere else: %s %s %s %s" % [first_lead, last_lead, rests, unlit])
 	var tall: float = text.get_combined_minimum_size().y
 	text.visible_characters = 3
 	await _frames(tree, 2)

@@ -8,32 +8,19 @@ extends Control
 ## and its light. A Label can do neither.
 ##
 ## A lit word is in the lantern colour and shimmers for as long as the line shows (owner,
-## 2026-11-26: 「亮一下那个不错，改成一直在闪烁着亮」): it flares white as its last character is
-## typed, then keeps glowing. The movement is what marks it for a reader who cannot tell the colour.
-
-## How a lit word keeps shimmering.
-enum Style {
-	## The whole word grows brighter and dimmer, a glow about it, as a lamp's flame does.
-	BREATHE,
-	## A light runs along the word from its first character to its last, again and again.
-	SWEEP,
-}
-
-## The shimmer in use.
-static var style: Style = Style.BREATHE
+## 2026-11-26: 「亮一下那个不错，改成一直在闪烁着亮」, then of two rhythms 「一道光扫过」): it flares
+## white as its last character is typed, and from then on a light runs along it from its first
+## character to its last, again and again. The movement is what marks it for a reader who cannot
+## tell the colour.
 
 ## Seconds the flare takes to settle as the word has been typed.
 const FLASH_SECONDS: float = 0.5
-## BREATHE: seconds from one brightest moment to the next, and how far toward white the word goes
-## at its dimmest and its brightest.
-const BREATHE_SECONDS: float = 1.5
-const BREATHE_LOW: float = 0.05
-const BREATHE_HIGH: float = 0.62
-## SWEEP: seconds a light takes to cross a word and to wait before the next, and how wide the
-## light is in characters.
+## The light that runs along a lit word: seconds it takes to cross the word and to wait before the
+## next, how wide it is in characters, and how far toward white a character goes under its middle.
 const SWEEP_SECONDS: float = 0.75
 const SWEEP_REST: float = 0.55
 const SWEEP_WIDTH: float = 1.1
+const SWEEP_LIGHT: float = 0.62
 ## The glow about a glyph at its brightest (its alpha).
 const GLOW: float = 0.42
 ## The font size the pixel measures here are given for.
@@ -197,21 +184,17 @@ func _draw_lit(server: TextServer, canvas: RID, font: RID, size_of: int, at: Vec
 	server.font_draw_glyph(font, canvas, size_of, at, glyph_index, key_color.lerp(Color.WHITE, light))
 
 
-## How bright the character at `index` of span `span` is now: the shimmer, and over it the flare of
-## the moment the word had been typed.
+## How bright the character at `index` of span `span` is now: the light running along the word,
+## and over it the flare of the moment the word had been typed.
 func _light(span: int, index: int) -> float:
 	var shimmer: float = 0.0
-	match style:
-		Style.BREATHE:
-			var wave: float = 0.5 - 0.5 * cos(_clock * TAU / BREATHE_SECONDS)
-			shimmer = lerpf(BREATHE_LOW, BREATHE_HIGH, wave * wave)
-		Style.SWEEP:
-			# The light's middle, in characters from the word's first: from before it to past it.
-			var length: float = float(spans[span].y - spans[span].x)
-			var turn: float = fmod(_clock, SWEEP_SECONDS + SWEEP_REST) / SWEEP_SECONDS
-			var middle: float = lerpf(-SWEEP_WIDTH, length + SWEEP_WIDTH, turn)
-			var away: float = absf(float(index - spans[span].x) + 0.5 - middle) / SWEEP_WIDTH
-			shimmer = BREATHE_HIGH * maxf(0.0, 1.0 - away * away) if turn <= 1.0 else 0.0
+	var turn: float = fmod(_clock, SWEEP_SECONDS + SWEEP_REST) / SWEEP_SECONDS
+	if turn <= 1.0:
+		# The light's middle, in characters from the word's first: from before it to past it.
+		var length: float = float(spans[span].y - spans[span].x)
+		var middle: float = lerpf(-SWEEP_WIDTH, length + SWEEP_WIDTH, turn)
+		var away: float = absf(float(index - spans[span].x) + 0.5 - middle) / SWEEP_WIDTH
+		shimmer = SWEEP_LIGHT * maxf(0.0, 1.0 - away * away)
 	if _flared[span] < 0.0:
 		return shimmer
 	return maxf(shimmer, clampf(1.0 - (_clock - _flared[span]) / FLASH_SECONDS, 0.0, 1.0))
