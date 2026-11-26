@@ -210,6 +210,9 @@ class Drafter:
         if before and parse.tag.POS not in ("ADJF", "PRTF", "NUMR", "NPRO"):
             return word
         want = {case}
+        if before and parse.normal_form == "больший":
+            # «большая» read as the comparative's lemma gives «большей»: decline большой instead.
+            parse = next((p for p in self.morph.parse("большой") if p.tag.POS == "ADJF"), parse)
         if before:
             number = "plur" if self._gender(noun) == "мн" else "sing"
             want.add(number)
