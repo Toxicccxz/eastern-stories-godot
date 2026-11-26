@@ -152,1831 +152,1831 @@ msgid "背包"
 msgstr ""
 
 msgid "军营入口"
-msgstr ""
+msgstr "вход в лагерь"
 
 msgid "小兵营帐"
-msgstr ""
+msgstr "солдатская палатка"
 
 msgid "营火区"
-msgstr ""
+msgstr "у костров"
 
 msgid "小队长营帐"
-msgstr ""
+msgstr "палатка десятника"
 
 msgid "副将营帐"
-msgstr ""
+msgstr "палатка помощника генерала"
 
 msgid "将军营帐"
-msgstr ""
+msgstr "палатка генерала"
 
 msgid "水井 · 装水"
-msgstr ""
+msgstr "колодец · набрать воды"
 
 msgid "兵器库"
-msgstr ""
+msgstr "оружейная"
 
 msgid "武"
-msgstr ""
+msgstr "Оружие"
 
 msgid "竹林道"
-msgstr ""
+msgstr "Бамбуковая тропа"
 
 msgid "竹林道入口"
-msgstr ""
+msgstr "начало Бамбуковой тропы"
 
 msgid "梦幻迷境通道"
-msgstr ""
+msgstr "проход в Призрачный лабиринт"
 
 msgid "镜子"
-msgstr ""
+msgstr "зеркало"
 
 msgid "上道"
-msgstr ""
+msgstr "верхний путь"
 
 msgid "大黄石"
-msgstr ""
+msgstr "большой жёлтый валун"
 
 msgid "碎石小路"
-msgstr ""
+msgstr "щебёночная тропа"
 
 msgid "东北 · 雪亭镇"
-msgstr ""
+msgstr "северо-восток · городок Сюэтин"
 
 msgid "铁索"
-msgstr ""
+msgstr "железная цепь"
 
 msgid "铁索 · 爬下去"
-msgstr ""
+msgstr "железная цепь · спуститься"
 
 msgid "黄石隘口尾"
-msgstr ""
+msgstr "конец Желтокаменного перевала"
 
 msgid "隘口小路"
-msgstr ""
+msgstr "тропа через перевал"
 
 msgid "隘口中道"
-msgstr ""
+msgstr "середина перевала"
 
 msgid "关外小路"
-msgstr ""
+msgstr "тропа за заставой"
 
 msgid "天驼关谷地"
-msgstr ""
+msgstr "долина заставы Тяньто"
 
 msgid "黄石穿林路路口"
-msgstr ""
+msgstr "начало Желтокаменной лесной тропы"
 
 msgid "黄石穿林路"
-msgstr ""
+msgstr "Желтокаменная лесная тропа"
 
 msgid "梦幻迷境入口"
-msgstr ""
+msgstr "вход в Призрачный лабиринт"
 
 msgid "光滑的山壁"
-msgstr ""
+msgstr "гладкая скала"
 
 msgid "铁门"
-msgstr ""
+msgstr "железные ворота"
 
 msgid "南 · 玉螺湖村"
-msgstr ""
+msgstr "юг · деревня Юйлоху"
 
 msgid "东 · 关门 · 关北"
-msgstr ""
+msgstr "восток · ворота заставы · Гуаньбэй"
 
 msgid "铁索 · 爬上去"
-msgstr ""
+msgstr "железная цепь · подняться"
 
 msgid "洞内石室"
-msgstr ""
+msgstr "каменный покой в пещере"
 
 msgid "书柜 · 翻找"
-msgstr ""
+msgstr "книжный шкаф · поискать"
 
 msgid "火龙将军庙"
-msgstr ""
+msgstr "храм Генерала Огненного дракона"
 
 msgid "阶梯 · 下楼"
-msgstr ""
+msgstr "лестница · спуститься"
 
 msgid "山洞"
-msgstr ""
+msgstr "пещера"
 
 msgid "藤蔓 · 爬下去"
-msgstr ""
+msgstr "лианы · спуститься"
 
 msgid "树冠"
-msgstr ""
+msgstr "крона дерева"
 
 msgid "古树 · 爬下去"
-msgstr ""
+msgstr "старое дерево · спуститься"
 
 msgid "云梦大泽"
-msgstr ""
+msgstr "болота Юньмэн"
 
 msgid "荒野小径"
-msgstr ""
+msgstr "тропа в глуши"
 
 msgid "土路"
-msgstr ""
+msgstr "грунтовая дорога"
 
 msgid "青石小路"
-msgstr ""
+msgstr "дорожка из синего камня"
 
 msgid "青石峪"
-msgstr ""
+msgstr "Синекаменное ущелье"
 
 msgid "竹林"
-msgstr ""
+msgstr "бамбуковая роща"
 
 msgid "桐柏山"
-msgstr ""
+msgstr "гора Тунбайшань"
 
 msgid "西 · 乔阴县城"
-msgstr ""
+msgstr "запад · город Цяоинь"
 
 msgid "丹炉"
-msgstr ""
+msgstr "алхимическая печь"
 
 msgid "大泽 · 装水"
-msgstr ""
+msgstr "болото · набрать воды"
 
 msgid "砾石路"
-msgstr ""
+msgstr "галечная дорога"
 
 msgid "绝壁"
-msgstr ""
+msgstr "отвесная скала"
 
 msgid "北 · 乔阴县城"
-msgstr ""
+msgstr "север · город Цяоинь"
 
 msgid "姑射山"
-msgstr ""
+msgstr "гора Гуешань"
 
 msgid "福林酒楼"
-msgstr ""
+msgstr "трактир «Фулинь»"
 
 msgid "方梯 · 下楼"
-msgstr ""
+msgstr "лестница · спуститься"
 
 msgid "方梯 · 上楼"
-msgstr ""
+msgstr "лестница · подняться"
 
 msgid "神秘洞穴"
-msgstr ""
+msgstr "таинственная пещера"
 
 msgid "洞穴 · 闻忘忧草"
-msgstr ""
+msgstr "пещера · вдохнуть запах лилейника"
 
 msgid "云台"
-msgstr ""
+msgstr "Облачная терраса"
 
 msgid "云"
-msgstr ""
+msgstr "облака"
 
 msgid "车马行 · 靠近坐车"
-msgstr ""
+msgstr "извозный двор · подойти, чтобы ехать"
 
 msgid "乔阴县城北门"
-msgstr ""
+msgstr "северные ворота города Цяоинь"
 
 msgid "福林大街"
-msgstr ""
+msgstr "улица Фулинь"
 
 msgid "石板空地"
-msgstr ""
+msgstr "площадка, мощённая плитами"
 
 msgid "西大街"
-msgstr ""
+msgstr "Западная улица"
 
 msgid "树王坟"
-msgstr ""
+msgstr "могила Царя деревьев"
 
 msgid "东大街"
-msgstr ""
+msgstr "Восточная улица"
 
 msgid "东城门"
-msgstr ""
+msgstr "восточные ворота"
 
 msgid "南门广场"
-msgstr ""
+msgstr "площадь у южных ворот"
 
 msgid "承安街"
-msgstr ""
+msgstr "улица Чэнъань"
 
 msgid "十字路口"
-msgstr ""
+msgstr "перекрёсток"
 
 msgid "县府衙门"
-msgstr ""
+msgstr "уездная управа"
 
 msgid "乔阴县城南门"
-msgstr ""
+msgstr "южные ворота города Цяоинь"
 
 msgid "街道"
-msgstr ""
+msgstr "улица"
 
 msgid "曲桥"
-msgstr ""
+msgstr "извилистый мост"
 
 msgid "曼雩台"
-msgstr ""
+msgstr "терраса Маньюй"
 
 msgid "桃林"
-msgstr ""
+msgstr "Персиковая роща"
 
 msgid "阶梯 · 上高台"
-msgstr ""
+msgstr "лестница · подняться на террасу"
 
 msgid "大皮鼓 · 击鼓"
-msgstr ""
+msgstr "большой барабан · ударить"
 
 msgid "西 · 泓水南岸"
-msgstr ""
+msgstr "запад · южный берег реки Хуншуй"
 
 msgid "东 · 城外"
-msgstr ""
+msgstr "восток · за городом"
 
 msgid "南 · 姑射山"
-msgstr ""
+msgstr "юг · гора Гуешань"
 
 msgid "翠柳湖"
-msgstr ""
+msgstr "Ивовое озеро"
 
 msgid "东 · 桃林"
-msgstr ""
+msgstr "восток · Персиковая роща"
 
 msgid "大井 · 装水"
-msgstr ""
+msgstr "большой колодец · набрать воды"
 
 msgid "石缝 · 采"
-msgstr ""
+msgstr "расщелина в камне · собрать"
 
 msgid "大井 · 喝水"
-msgstr ""
+msgstr "большой колодец · напиться"
 
 msgid "书"
-msgstr ""
+msgstr "книга"
 
 msgid "杂货"
-msgstr ""
+msgstr "Товары"
 
 msgid "米"
-msgstr ""
+msgstr "Рис"
 
 msgid "福林楼"
-msgstr ""
+msgstr "Фулинь"
 
 msgid "树王坟内部"
-msgstr ""
+msgstr "внутри могилы Царя деревьев"
 
 msgid "洞壁 · 攀上去"
-msgstr ""
+msgstr "стена пещеры · вскарабкаться"
 
 msgid "寒谷"
-msgstr ""
+msgstr "Холодная долина"
 
 msgid "寒谷尽头"
-msgstr ""
+msgstr "конец Холодной долины"
 
 msgid "内厅"
-msgstr ""
+msgstr "внутренний зал"
 
 msgid "大堂"
-msgstr ""
+msgstr "зал суда"
 
 msgid "县衙内院"
-msgstr ""
+msgstr "внутренний двор управы"
 
 msgid "南 · 衙门口"
-msgstr ""
+msgstr "юг · ворота управы"
 
 msgid "草堂"
-msgstr ""
+msgstr "соломенная хижина"
 
 msgid "庭院"
-msgstr ""
+msgstr "внутренний двор"
 
 msgid "书卷 · 拿书"
-msgstr ""
+msgstr "свитки · взять книгу"
 
 msgid "西花园"
-msgstr ""
+msgstr "западный сад"
 
 msgid "黑松阁西厅"
-msgstr ""
+msgstr "западный зал павильона Хэйсун"
 
 msgid "北花园"
-msgstr ""
+msgstr "северный сад"
 
 msgid "储藏室"
-msgstr ""
+msgstr "кладовая"
 
 msgid "黑松阁正厅"
-msgstr ""
+msgstr "главный зал павильона Хэйсун"
 
 msgid "黑松阁东厅"
-msgstr ""
+msgstr "восточный зал павильона Хэйсун"
 
 msgid "东花园"
-msgstr ""
+msgstr "восточный сад"
 
 msgid "南花园"
-msgstr ""
+msgstr "южный сад"
 
 msgid "城墙 · 爬上去"
-msgstr ""
+msgstr "крепостная стена · взобраться"
 
 msgid "绳子 · 拉"
-msgstr ""
+msgstr "верёвка · потянуть"
 
 msgid "楼梯 · 上楼"
-msgstr ""
+msgstr "лестница · подняться"
 
 msgid "黄土大道"
-msgstr ""
+msgstr "большая жёлтая дорога"
 
 msgid "路口"
-msgstr ""
+msgstr "развилка"
 
 msgid "山脚乡田"
-msgstr ""
+msgstr "поля у подножия"
 
 msgid "黑松山脚"
-msgstr ""
+msgstr "подножие горы Хэйсуншань"
 
 msgid "黑松山腰"
-msgstr ""
+msgstr "склон горы Хэйсуншань"
 
 msgid "花岗石街"
-msgstr ""
+msgstr "гранитная улица"
 
 msgid "铁索桥"
-msgstr ""
+msgstr "цепной мост"
 
 msgid "黑松淳于"
-msgstr ""
+msgstr "замок Чуньюй"
 
 msgid "黑松城堡的西侧"
-msgstr ""
+msgstr "западная сторона замка Хэйсун"
 
 msgid "黑松城堡的东侧"
-msgstr ""
+msgstr "восточная сторона замка Хэйсун"
 
 msgid "夹道"
-msgstr ""
+msgstr "проход между стенами"
 
 msgid "东 · 玉螺湖村"
-msgstr ""
+msgstr "восток · деревня Юйлоху"
 
 msgid "茶馆"
-msgstr ""
+msgstr "чайная"
 
 msgid "万丈深渊"
-msgstr ""
+msgstr "бездонная пропасть"
 
 msgid "黑松阁"
-msgstr ""
+msgstr "павильон Хэйсун"
 
 msgid "悬崖"
-msgstr ""
+msgstr "обрыв"
 
 msgid "铁链 · 顺着走下去"
-msgstr ""
+msgstr "железная цепь · спуститься по ней"
 
 msgid "地牢"
-msgstr ""
+msgstr "темница"
 
 msgid "刑房"
-msgstr ""
+msgstr "пыточная"
 
 msgid "阳台"
-msgstr ""
+msgstr "балкон"
 
 msgid "卧室"
-msgstr ""
+msgstr "спальня"
 
 msgid "膳房"
-msgstr ""
+msgstr "трапезная"
 
 msgid "楼梯 · 下楼"
-msgstr ""
+msgstr "лестница · спуститься"
 
 msgid "大床"
-msgstr ""
+msgstr "большая кровать"
 
 msgid "旺金钱庄"
-msgstr ""
+msgstr "меняльная контора «Ванцзинь»"
 
 msgid "钱庄 · 兑换"
-msgstr ""
+msgstr "меняльная контора · обменять"
 
 msgid "振远总局"
-msgstr ""
+msgstr "главная контора Чжэньюань"
 
 msgid "镖"
-msgstr ""
+msgstr "Охрана"
 
 msgid "李记鞋店"
-msgstr ""
+msgstr "обувная лавка Ли"
 
 msgid "地下密室"
-msgstr ""
+msgstr "подземный тайник"
 
 msgid "小床"
-msgstr ""
+msgstr "узкая кровать"
 
 msgid "向上的阶梯"
-msgstr ""
+msgstr "ступени наверх"
 
 msgid "石板 · 下去"
-msgstr ""
+msgstr "каменная плита · спуститься"
 
 msgid "柴草 · 拨开"
-msgstr ""
+msgstr "хворост · раздвинуть"
 
 msgid "北驿道"
-msgstr ""
+msgstr "северный почтовый тракт"
 
 msgid "京师北门"
-msgstr ""
+msgstr "северные ворота столицы"
 
 msgid "大栅栏"
-msgstr ""
+msgstr "Дашилань"
 
 msgid "京师西一门"
-msgstr ""
+msgstr "первые западные ворота столицы"
 
 msgid "京师街道"
-msgstr ""
+msgstr "улица столицы"
 
 msgid "京师东一门"
-msgstr ""
+msgstr "первые восточные ворота столицы"
 
 msgid "废园"
-msgstr ""
+msgstr "Заброшенный сад"
 
 msgid "祭坛"
-msgstr ""
+msgstr "алтарь"
 
 msgid "京师西街"
-msgstr ""
+msgstr "Западная улица столицы"
 
 msgid "神武门"
-msgstr ""
+msgstr "ворота Божественной доблести"
 
 msgid "京师东街"
-msgstr ""
+msgstr "Восточная улица столицы"
 
 msgid "相国府大门"
-msgstr ""
+msgstr "ворота усадьбы канцлера"
 
 msgid "午门"
-msgstr ""
+msgstr "Полуденные ворота"
 
 msgid "校武场"
-msgstr ""
+msgstr "учебное поле"
 
 msgid "京师西二门"
-msgstr ""
+msgstr "вторые западные ворота столицы"
 
 msgid "天桥"
-msgstr ""
+msgstr "Тяньцяо"
 
 msgid "京师东二门"
-msgstr ""
+msgstr "вторые восточные ворота столицы"
 
 msgid "京师南门"
-msgstr ""
+msgstr "южные ворота столицы"
 
 msgid "尚书府大门"
-msgstr ""
+msgstr "ворота усадьбы министра"
 
 msgid "向下的阶梯"
-msgstr ""
+msgstr "ступени вниз"
 
 msgid "北 · 玉螺湖村"
-msgstr ""
+msgstr "север · деревня Юйлоху"
 
 msgid "连绵的群山"
-msgstr ""
+msgstr "горы без конца и края"
 
 msgid "护国寺"
-msgstr ""
+msgstr "храм Хуго"
 
 msgid "紫禁城"
-msgstr ""
+msgstr "Запретный город"
 
 msgid "尚书府"
-msgstr ""
+msgstr "усадьба министра"
 
 msgid "相国府"
-msgstr ""
+msgstr "усадьба канцлера"
 
 msgid "监狱"
-msgstr ""
+msgstr "тюрьма"
 
 msgid "刑场"
-msgstr ""
+msgstr "лобное место"
 
 msgid "城门 · 出城"
-msgstr ""
+msgstr "городские ворота · выйти из города"
 
 msgid "草丛 · 寻找"
-msgstr ""
+msgstr "заросли травы · поискать"
 
 msgid "午门 · 候旨"
-msgstr ""
+msgstr "Полуденные ворота · ждать указа"
 
 msgid "相国府大门 · 叩门"
-msgstr ""
+msgstr "ворота усадьбы канцлера · постучать"
 
 msgid "药"
-msgstr ""
+msgstr "Снадобья"
 
 msgid "面"
-msgstr ""
+msgstr "шт."
 
 msgid "饼"
-msgstr ""
+msgstr "Лепёшки"
 
 msgid "笔墨"
-msgstr ""
+msgstr "Кисти и тушь"
 
 msgid "太白酒楼二楼"
-msgstr ""
+msgstr "трактир «Тайбай», второй этаж"
 
 msgid "院墙"
-msgstr ""
+msgstr "стена двора"
 
 msgid "北 · 京师东街"
-msgstr ""
+msgstr "север · Восточная улица столицы"
 
 msgid "南 · 尚书府"
-msgstr ""
+msgstr "юг · усадьба министра"
 
 msgid "京师东街 · 跳回去"
-msgstr ""
+msgstr "Восточная улица столицы · спрыгнуть обратно"
 
 msgid "尚书府 · 跳进去"
-msgstr ""
+msgstr "усадьба министра · спрыгнуть внутрь"
 
 msgid "相国府前院"
-msgstr ""
+msgstr "передний двор усадьбы канцлера"
 
 msgid "相国府正厅"
-msgstr ""
+msgstr "главный зал усадьбы канцлера"
 
 msgid "相国府书房"
-msgstr ""
+msgstr "кабинет канцлера"
 
 msgid "四喜绸缎庄"
-msgstr ""
+msgstr "шёлковая лавка «Сыси»"
 
 msgid "空房间"
-msgstr ""
+msgstr "пустая комната"
 
 msgid "太白酒楼"
-msgstr ""
+msgstr "трактир «Тайбай»"
 
 msgid "尚书府庭院"
-msgstr ""
+msgstr "двор усадьбы министра"
 
 msgid "尚书府客厅"
-msgstr ""
+msgstr "гостиная усадьбы министра"
 
 msgid "花园小径"
-msgstr ""
+msgstr "садовая дорожка"
 
 msgid "小径"
-msgstr ""
+msgstr "тропинка"
 
 msgid "花园"
-msgstr ""
+msgstr "сад"
 
 msgid "厨房"
-msgstr ""
+msgstr "кухня"
 
 msgid "客房"
 msgstr ""
 
 msgid "内宅"
-msgstr ""
+msgstr "внутренние покои"
 
 msgid "小路"
-msgstr ""
+msgstr "тропа"
 
 msgid "小屋"
-msgstr ""
+msgstr "комнатка"
 
 msgid "废屋"
-msgstr ""
+msgstr "заброшенный дом"
 
 msgid "京师武器店"
-msgstr ""
+msgstr "оружейная лавка столицы"
 
 msgid "镖局"
-msgstr ""
+msgstr "охранная контора"
 
 msgid "书局"
-msgstr ""
+msgstr "книжная лавка"
 
 msgid "镇北肉铺"
-msgstr ""
+msgstr "мясная лавка «Чжэньбэй»"
 
 msgid "赌场"
-msgstr ""
+msgstr "игорный дом"
 
 msgid "怡红院二楼"
-msgstr ""
+msgstr "дом «Ихун», второй этаж"
 
 msgid "黄土路"
-msgstr ""
+msgstr "жёлтая грунтовая дорога"
 
 msgid "卧龙岗北坡"
-msgstr ""
+msgstr "северный склон Гряды Спящего дракона"
 
 msgid "卧龙岗"
-msgstr ""
+msgstr "Гряда Спящего дракона"
 
 msgid "卧龙岗南坡"
-msgstr ""
+msgstr "южный склон Гряды Спящего дракона"
 
 msgid "绮云镇"
-msgstr ""
+msgstr "городок Циюнь"
 
 msgid "北市场"
-msgstr ""
+msgstr "северный рынок"
 
 msgid "西市场"
-msgstr ""
+msgstr "западный рынок"
 
 msgid "中市场"
-msgstr ""
+msgstr "центральный рынок"
 
 msgid "东市场"
-msgstr ""
+msgstr "восточный рынок"
 
 msgid "南市场"
-msgstr ""
+msgstr "южный рынок"
 
 msgid "绮云镇街道"
-msgstr ""
+msgstr "улица городка Циюнь"
 
 msgid "茶场"
-msgstr ""
+msgstr "чайная плантация"
 
 msgid "江北渡口"
-msgstr ""
+msgstr "переправа на северном берегу"
 
 msgid "张家花园"
-msgstr ""
+msgstr "сад семьи Чжан"
 
 msgid "西 · 晚月庄"
-msgstr ""
+msgstr "запад · усадьба Ваньюэ"
 
 msgid "南 · 泓水"
-msgstr ""
+msgstr "юг · река Хуншуй"
 
 msgid "北 · 雪亭镇"
-msgstr ""
+msgstr "север · городок Сюэтин"
 
 msgid "[启事] 由此入镇收取黄金一两"
-msgstr ""
+msgstr "[Объявление] За вход в городок — один лян золота"
 
 msgid "封山剑派北宗"
-msgstr ""
+msgstr "северная ветвь школы меча Фэншань"
 
 msgid "告示"
-msgstr ""
+msgstr "объявление"
 
 msgid "布庄"
-msgstr ""
+msgstr "лавка тканей"
 
 msgid "斋"
-msgstr ""
+msgstr "Постная трапеза"
 
 msgid "赌"
-msgstr ""
+msgstr "Игра"
 
 msgid "香茗坊二楼"
-msgstr ""
+msgstr "чайная «Сянмин», второй этаж"
 
 msgid "药店"
-msgstr ""
+msgstr "аптека"
 
 msgid "怡红院"
-msgstr ""
+msgstr "дом «Ихун»"
 
 msgid "红娘庄"
-msgstr ""
+msgstr "дом свахи"
 
 msgid "斋院"
-msgstr ""
+msgstr "постный двор"
 
 msgid "张百万家"
-msgstr ""
+msgstr "дом богача Чжана"
 
 msgid "福"
-msgstr ""
+msgstr "Счастье"
 
 msgid "香茗坊"
-msgstr ""
+msgstr "чайная «Сянмин»"
 
 msgid "香茗坊茶窖"
-msgstr ""
+msgstr "чайный погреб «Сянмин»"
 
 msgid "兵器屋"
-msgstr ""
+msgstr "оружейная лавка"
 
 msgid "场院"
-msgstr ""
+msgstr "двор для забав"
 
 msgid "棺材铺"
-msgstr ""
+msgstr "гробовая лавка"
 
 msgid "场院前厅"
-msgstr ""
+msgstr "передний зал двора для забав"
 
 msgid "杂货铺"
-msgstr ""
+msgstr "мелочная лавка"
 
 msgid "路的尽头"
-msgstr ""
+msgstr "конец дороги"
 
 msgid "鬼门大道"
-msgstr ""
+msgstr "дорога Врат призраков"
 
 msgid "酆都城门"
-msgstr ""
+msgstr "ворота города Фэнду"
 
 msgid "鬼门关"
-msgstr ""
+msgstr "Врата призраков"
 
 msgid "奈何桥"
-msgstr ""
+msgstr "мост Найхэ"
 
 msgid "酆都城"
-msgstr ""
+msgstr "город Фэнду"
 
 msgid "黑色城楼"
-msgstr ""
+msgstr "чёрная надвратная башня"
 
 msgid "大雾"
-msgstr ""
+msgstr "густой туман"
 
 msgid "小店"
-msgstr ""
+msgstr "лавочка"
 
 msgid "人影 · 打听「回家」"
-msgstr ""
+msgstr "тень · спросить, как вернуться домой"
 
 msgid "黑店"
-msgstr ""
+msgstr "разбойничий постоялый двор"
 
 msgid "市集西头"
-msgstr ""
+msgstr "западный край рынка"
 
 msgid "市集东头"
-msgstr ""
+msgstr "восточный край рынка"
 
 msgid "铁盾会门前"
-msgstr ""
+msgstr "у ворот братства Железного щита"
 
 msgid "寺前坡道"
-msgstr ""
+msgstr "подъём к храму"
 
 msgid "西 · 码头"
-msgstr ""
+msgstr "запад · пристань"
 
 msgid "拜火祠"
-msgstr ""
+msgstr "святилище огнепоклонников"
 
 msgid "铁盾会"
-msgstr ""
+msgstr "братство Железного щита"
 
 msgid "南 · 日陀罗寺"
-msgstr ""
+msgstr "юг · храм Житоло"
 
 msgid "市舶司"
-msgstr ""
+msgstr "управление морской торговли"
 
 msgid "客栈"
-msgstr ""
+msgstr "постоялый двор"
 
 msgid "海崖口"
-msgstr ""
+msgstr "верх морского обрыва"
 
 msgid "海崖道"
-msgstr ""
+msgstr "дорога по морскому обрыву"
 
 msgid "崖脚"
-msgstr ""
+msgstr "подножие обрыва"
 
 msgid "北 · 忘情谷外 · 玉螺湖村"
-msgstr ""
+msgstr "север · у долины Забвения · деревня Юйлоху"
 
 msgid "南 · 番坊码头"
-msgstr ""
+msgstr "юг · пристань Иноземного квартала"
 
 msgid "市舶司公事房"
-msgstr ""
+msgstr "присутствие управления морской торговли"
 
 msgid "市舶司后院"
-msgstr ""
+msgstr "задний двор управления морской торговли"
 
 msgid "兵部文书 · 看"
-msgstr ""
+msgstr "бумаги Военного ведомства · прочесть"
 
 msgid "祭司的净室"
-msgstr ""
+msgstr "покой жреца"
 
 msgid "火前 · 问话"
-msgstr ""
+msgstr "перед огнём · расспросить"
 
 msgid "日陀罗寺"
-msgstr ""
+msgstr "храм Житоло"
 
 msgid "日陀罗寺佛殿"
-msgstr ""
+msgstr "зал Будды храма Житоло"
 
 msgid "船工棚"
-msgstr ""
+msgstr "навес лодочников"
 
 msgid "番坊码头"
-msgstr ""
+msgstr "пристань Иноземного квартала"
 
 msgid "北 · 崖脚 · 海崖道"
-msgstr ""
+msgstr "север · подножие обрыва · дорога по морскому обрыву"
 
 msgid "东 · 市集"
-msgstr ""
+msgstr "восток · рынок"
 
 msgid "鬼笠馆门庭"
-msgstr ""
+msgstr "двор у ворот зала Призрачной шляпы"
 
 msgid "鬼笠馆板地"
-msgstr ""
+msgstr "дощатый зал Призрачной шляпы"
 
 msgid "板地 · 歇"
-msgstr ""
+msgstr "дощатый пол · отдохнуть"
 
 msgid "铁盾会院子"
-msgstr ""
+msgstr "двор братства Железного щита"
 
 msgid "会首的屋"
-msgstr ""
+msgstr "комната главы братства"
 
 msgid "冯禄的文书 · 对质"
-msgstr ""
+msgstr "бумаги Фэн Лу · уличить"
 
 msgid "岩洞"
-msgstr ""
+msgstr "грот"
 
 msgid "岩穴"
-msgstr ""
+msgstr "каменная нора"
 
 msgid "西 · 峡谷"
-msgstr ""
+msgstr "запад · ущелье"
 
 msgid "山路"
-msgstr ""
+msgstr "горная дорога"
 
 msgid "山路转角"
-msgstr ""
+msgstr "поворот горной дороги"
 
 msgid "岩石坡"
-msgstr ""
+msgstr "каменистый склон"
 
 msgid "峡谷"
-msgstr ""
+msgstr "ущелье"
 
 msgid "南 · 雪亭镇"
-msgstr ""
+msgstr "юг · городок Сюэтин"
 
 msgid "油布 · 钻进车里"
-msgstr ""
+msgstr "промасленная холстина · забраться в повозку"
 
 msgid "绳索 · 攀绳上去"
-msgstr ""
+msgstr "верёвка · подняться по верёвке"
 
 msgid "小土地庙"
-msgstr ""
+msgstr "маленькая кумирня бога земли"
 
 msgid "黑暗山洞"
-msgstr ""
+msgstr "тёмная пещера"
 
 msgid "迷阵"
-msgstr ""
+msgstr "лабиринт"
 
 msgid "绝地"
-msgstr ""
+msgstr "тупик"
 
 msgid "坤——"
-msgstr ""
+msgstr "Кунь — Земля"
 
 msgid "艮——"
-msgstr ""
+msgstr "Гэнь — Гора"
 
 msgid "坎——"
-msgstr ""
+msgstr "Кань — Вода"
 
 msgid "巽——"
-msgstr ""
+msgstr "Сюнь — Ветер"
 
 msgid "震——"
-msgstr ""
+msgstr "Чжэнь — Гром"
 
 msgid "离——"
-msgstr ""
+msgstr "Ли — Огонь"
 
 msgid "兑——"
-msgstr ""
+msgstr "Дуй — Озеро"
 
 msgid "乾——"
-msgstr ""
+msgstr "Цянь — Небо"
 
 msgid "洞口"
-msgstr ""
+msgstr "вход в пещеру"
 
 msgid "山路尽头"
-msgstr ""
+msgstr "конец горной дороги"
 
 msgid "溪水边"
-msgstr ""
+msgstr "у ручья"
 
 msgid "南 · 青石村"
-msgstr ""
+msgstr "юг · деревня Цинши"
 
 msgid "石洞"
-msgstr ""
+msgstr "каменная пещера"
 
 msgid "小路的尽头"
-msgstr ""
+msgstr "конец тропы"
 
 msgid "三叉路口"
-msgstr ""
+msgstr "развилка трёх дорог"
 
 msgid "石板路"
-msgstr ""
+msgstr "мощёная дорога"
 
 msgid "小巷子"
-msgstr ""
+msgstr "переулок"
 
 msgid "小广场"
-msgstr ""
+msgstr "маленькая площадь"
 
 msgid "采石场的空地"
-msgstr ""
+msgstr "площадка у каменоломни"
 
 msgid "工作站"
-msgstr ""
+msgstr "двор каменоломни"
 
 msgid "西 · 雪亭镇"
-msgstr ""
+msgstr "запад · городок Сюэтин"
 
 msgid "北 · 山洞"
-msgstr ""
+msgstr "север · пещера"
 
 msgid "采石场"
-msgstr ""
+msgstr "каменоломня"
 
 msgid "大榕树"
-msgstr ""
+msgstr "большой баньян"
 
 msgid "马房"
-msgstr ""
+msgstr "конюшня"
 
 msgid "木屋"
-msgstr ""
+msgstr "бревенчатая изба"
 
 msgid "井 · 装水"
-msgstr ""
+msgstr "колодец · набрать воды"
 
 msgid "民宅"
-msgstr ""
+msgstr "жилой дом"
 
 msgid "工匠的家"
-msgstr ""
+msgstr "дом мастера"
 
 msgid "村长的家"
-msgstr ""
+msgstr "дом старосты"
 
 msgid "沈记商行"
-msgstr ""
+msgstr "торговый дом Шэня"
 
 msgid "破木牌"
-msgstr ""
+msgstr "сломанная деревянная табличка"
 
 msgid "石室"
-msgstr ""
+msgstr "каменный зал"
 
 msgid "石室大厅"
-msgstr ""
+msgstr "большой каменный зал"
 
 msgid "佛像"
-msgstr ""
+msgstr "статуя Будды"
 
 msgid "石椅"
-msgstr ""
+msgstr "каменное кресло"
 
 msgid "木剑"
-msgstr ""
+msgstr "деревянный меч"
 
 msgid "蒲团"
-msgstr ""
+msgstr "молитвенная подушка"
 
 msgid "土地庙"
-msgstr ""
+msgstr "кумирня бога земли"
 
 msgid "古冢口"
-msgstr ""
+msgstr "вход в древний курган"
 
 msgid "石门"
-msgstr ""
+msgstr "каменная дверь"
 
 msgid "车"
-msgstr ""
+msgstr "повозка"
 
 msgid "西 · 土方 · 工地"
-msgstr ""
+msgstr "запад · земляные работы · стройка"
 
 msgid "帐篷营地"
-msgstr ""
+msgstr "лагерь шатров"
 
 msgid "营地东口"
-msgstr ""
+msgstr "восточный край лагеря"
 
 msgid "西 · 东门 · 马市"
-msgstr ""
+msgstr "запад · восточные ворота · конский рынок"
 
 msgid "东 · 草原"
-msgstr ""
+msgstr "восток · степь"
 
 msgid "篝火 · 等到天黑"
-msgstr ""
+msgstr "костёр · дождаться темноты"
 
 msgid "关外山道"
-msgstr ""
+msgstr "горная дорога за заставой"
 
 msgid "风沙道"
-msgstr ""
+msgstr "дорога ветра и песка"
 
 msgid "关北界碑"
-msgstr ""
+msgstr "пограничная стела Гуаньбэя"
 
 msgid "北 · 槐阳城门"
-msgstr ""
+msgstr "север · ворота города Хуайян"
 
 msgid "南 · 关门 · 天驼关谷地"
-msgstr ""
+msgstr "юг · ворота заставы · долина заставы Тяньто"
 
 msgid "关北封国界"
-msgstr ""
+msgstr "граница удела Гуаньбэй"
 
 msgid "塞外酒肆"
-msgstr ""
+msgstr "кабак за Стеной"
 
 msgid "酒肆后屋"
-msgstr ""
+msgstr "задняя комната кабака"
 
 msgid "马市"
-msgstr ""
+msgstr "конский рынок"
 
 msgid "西 · 王府大街"
-msgstr ""
+msgstr "запад · Княжеская улица"
 
 msgid "东门 · 帐篷营地"
-msgstr ""
+msgstr "восточные ворота · лагерь шатров"
 
 msgid "王府正厅"
-msgstr ""
+msgstr "главный зал княжеской усадьбы"
 
 msgid "王府偏厅"
-msgstr ""
+msgstr "боковой зал княжеской усадьбы"
 
 msgid "王府前院"
-msgstr ""
+msgstr "передний двор княжеской усадьбы"
 
 msgid "王府校场"
-msgstr ""
+msgstr "плац княжеской усадьбы"
 
 msgid "草原路"
-msgstr ""
+msgstr "степная дорога"
 
 msgid "敖包"
-msgstr ""
+msgstr "обо"
 
 msgid "坡"
-msgstr ""
+msgstr "склон"
 
 msgid "西 · 帐篷营地"
-msgstr ""
+msgstr "запад · лагерь шатров"
 
 msgid "东 · 工地"
-msgstr ""
+msgstr "восток · стройка"
 
 msgid "槐阳城门"
-msgstr ""
+msgstr "ворота города Хуайян"
 
 msgid "王府大街"
-msgstr ""
+msgstr "Княжеская улица"
 
 msgid "王府门前"
-msgstr ""
+msgstr "у ворот княжеской усадьбы"
 
 msgid "南 · 关外山道 · 天驼关"
-msgstr ""
+msgstr "юг · горная дорога за заставой · застава Тяньто"
 
 msgid "东 · 马市"
-msgstr ""
+msgstr "восток · конский рынок"
 
 msgid "槐阳王府"
-msgstr ""
+msgstr "княжеская усадьба Хуайян"
 
 msgid "告示 · 看"
-msgstr ""
+msgstr "объявление · прочесть"
 
 msgid "王府大门 · 叩门"
-msgstr ""
+msgstr "ворота княжеской усадьбы · постучать"
 
 msgid "本府不奉"
-msgstr ""
+msgstr "Княжеская усадьба указу не подчиняется"
 
 msgid "工地栅栏门"
-msgstr ""
+msgstr "ворота в ограде стройки"
 
 msgid "工地营帐"
-msgstr ""
+msgstr "палатки на стройке"
 
 msgid "民夫棚"
-msgstr ""
+msgstr "бараки работников"
 
 msgid "土方"
-msgstr ""
+msgstr "земляные работы"
 
 msgid "西 · 草原"
-msgstr ""
+msgstr "запад · степь"
 
 msgid "东 · 古冢口"
-msgstr ""
+msgstr "восток · вход в древний курган"
 
 msgid "枷锁 · 打开枷锁"
-msgstr ""
+msgstr "колодки · снять колодки"
 
 msgid "冷宫"
-msgstr ""
+msgstr "Холодный дворец"
 
 msgid "冷宫偏屋"
-msgstr ""
+msgstr "боковая комната Холодного дворца"
 
 msgid "枯井 · 下去"
-msgstr ""
+msgstr "сухой колодец · спуститься"
 
 msgid "御花园"
-msgstr ""
+msgstr "Императорский сад"
 
 msgid "御花园西北角"
-msgstr ""
+msgstr "северо-западный угол Императорского сада"
 
 msgid "大内侍卫营"
-msgstr ""
+msgstr "казармы дворцовой стражи"
 
 msgid "侍卫营值房"
-msgstr ""
+msgstr "караульная дворцовой стражи"
 
 msgid "西长街"
-msgstr ""
+msgstr "Западная Длинная улица"
 
 msgid "西长街北段"
-msgstr ""
+msgstr "север Западной Длинной улицы"
 
 msgid "养心门外"
-msgstr ""
+msgstr "у ворот Воспитания сердца"
 
 msgid "午门内"
-msgstr ""
+msgstr "за Полуденными воротами"
 
 msgid "金水桥"
-msgstr ""
+msgstr "мосты Золотой воды"
 
 msgid "太和门"
-msgstr ""
+msgstr "ворота Высшей гармонии"
 
 msgid "太和殿广场"
-msgstr ""
+msgstr "площадь перед залом Высшей гармонии"
 
 msgid "太和殿"
-msgstr ""
+msgstr "зал Высшей гармонии"
 
 msgid "井底"
-msgstr ""
+msgstr "дно колодца"
 
 msgid "密道"
-msgstr ""
+msgstr "тайный ход"
 
 msgid "密道北头"
-msgstr ""
+msgstr "северный конец тайного хода"
 
 msgid "铁蹬 · 上去"
-msgstr ""
+msgstr "железные скобы · подняться"
 
 msgid "石阶 · 上去"
-msgstr ""
+msgstr "каменные ступени · подняться"
 
 msgid "养心殿前院"
-msgstr ""
+msgstr "передний двор зала Воспитания сердца"
 
 msgid "养心殿"
-msgstr ""
+msgstr "зал Воспитания сердца"
 
 msgid "西暖阁"
-msgstr ""
+msgstr "Западный тёплый покой"
 
 msgid "御书房"
-msgstr ""
+msgstr "императорский кабинет"
 
 msgid "樟木匣 · 翻看"
-msgstr ""
+msgstr "камфарный ларец · просмотреть"
 
 msgid "御案 · 比对"
-msgstr ""
+msgstr "императорский стол · сличить"
 
 msgid "朝上揭发 · 揭发"
-msgstr ""
+msgstr "разоблачить при дворе · разоблачить"
 
 msgid "皇叔的通缉 · 先解"
-msgstr ""
+msgstr "розыск дяди императора · сначала снять"
 
 msgid "风铃阁"
-msgstr ""
+msgstr "павильон Ветряных колокольчиков"
 
 msgid "静室"
-msgstr ""
+msgstr "тихая комната"
 
 msgid "白石门"
-msgstr ""
+msgstr "Белокаменные ворота"
 
 msgid "白石街"
-msgstr ""
+msgstr "Белокаменная улица"
 
 msgid "铃匠铺"
-msgstr ""
+msgstr "мастерская колокольчиков"
 
 msgid "萧家旧院"
-msgstr ""
+msgstr "старая усадьба семьи Сяо"
 
 msgid "街尾"
-msgstr ""
+msgstr "конец улицы"
 
 msgid "北 · 风铃阁"
-msgstr ""
+msgstr "север · павильон Ветряных колокольчиков"
 
 msgid "白石门 · 出城"
-msgstr ""
+msgstr "Белокаменные ворота · выйти из города"
 
 msgid "台心"
-msgstr ""
+msgstr "сердце террасы"
 
 msgid "云边"
-msgstr ""
+msgstr "край облаков"
 
 msgid "下 · 风铃阁"
-msgstr ""
+msgstr "вниз · павильон Ветряных колокольчиков"
 
 msgid "旋芒 · 自己拔"
-msgstr ""
+msgstr "Вихревой блеск · вытащить своей рукой"
 
 msgid "旋芒 · 请皇叔"
-msgstr ""
+msgstr "Вихревой блеск · попросить дядю императора"
 
 msgid "旋芒 · 让萧辟尘拔"
-msgstr ""
+msgstr "Вихревой блеск · пусть вытащит Сяо Бичэнь"
 
 msgid "云边 · 乘风"
-msgstr ""
+msgstr "край облаков · отдаться ветру"
 
 msgid "幻影道"
-msgstr ""
+msgstr "Призрачная тропа"
 
 msgid "风口"
-msgstr ""
+msgstr "Ветряные ворота"
 
 msgid "石林雾野"
-msgstr ""
+msgstr "Каменный лес в тумане"
 
 msgid "卜风坛"
-msgstr ""
+msgstr "алтарь Гадателей по ветру"
 
 msgid "兵部旧营"
-msgstr ""
+msgstr "старый лагерь Военного ведомства"
 
 msgid "西边的石坳"
-msgstr ""
+msgstr "западная каменная лощина"
 
 msgid "北边的石坳"
-msgstr ""
+msgstr "северная каменная лощина"
 
 msgid "东边的石坳"
-msgstr ""
+msgstr "восточная каменная лощина"
 
 msgid "下 · 镜子"
-msgstr ""
+msgstr "вниз · зеркало"
 
 msgid "背风的石坳"
-msgstr ""
+msgstr "укрытая от ветра ложбина"
 
 msgid "前院"
-msgstr ""
+msgstr "передний двор"
 
 msgid "月洞门"
-msgstr ""
+msgstr "Лунные ворота"
 
 msgid "湘园小径"
-msgstr ""
+msgstr "дорожка сада Сян"
 
 msgid "翠嶂"
-msgstr ""
+msgstr "Изумрудная ширма"
 
 msgid "长廊曲洞"
-msgstr ""
+msgstr "длинная галерея с гротом"
 
 msgid "桂花园"
-msgstr ""
+msgstr "сад османтуса"
 
 msgid "沁芳桥"
-msgstr ""
+msgstr "мост Струящихся ароматов"
 
 msgid "朱栏板桥"
-msgstr ""
+msgstr "дощатый мост с красными перилами"
 
 msgid "紫翎小轩"
-msgstr ""
+msgstr "домик Пурпурного пера"
 
 msgid "甬路"
-msgstr ""
+msgstr "мощёная дорожка"
 
 msgid "沁芳亭"
-msgstr ""
+msgstr "беседка Струящихся ароматов"
 
 msgid "暖香榭"
-msgstr ""
+msgstr "беседка Тёплого аромата"
 
 msgid "稻香榭"
-msgstr ""
+msgstr "беседка Аромата риса"
 
 msgid "翠嫣桥"
-msgstr ""
+msgstr "мост Изумрудной прелести"
 
 msgid "晚月庄后门"
-msgstr ""
+msgstr "задние ворота усадьбы Ваньюэ"
 
 msgid "北 · 前庭"
-msgstr ""
+msgstr "север · передний двор"
 
 msgid "南 · 山路"
-msgstr ""
+msgstr "юг · горная дорога"
 
 msgid "蜿蜒小径"
-msgstr ""
+msgstr "извилистая тропинка"
 
 msgid "北 · 晚月庄后门"
-msgstr ""
+msgstr "север · задние ворота усадьбы Ваньюэ"
 
 msgid "东 · 山烟寺"
-msgstr ""
+msgstr "восток · храм Шаньянь"
 
 msgid "禁闭房"
-msgstr ""
+msgstr "комната для провинившихся"
 
 msgid "后院走道"
-msgstr ""
+msgstr "дорожка заднего двора"
 
 msgid "傍厅"
-msgstr ""
+msgstr "боковой зал"
 
 msgid "后院书房"
-msgstr ""
+msgstr "кабинет на заднем дворе"
 
 msgid "大厅后院"
-msgstr ""
+msgstr "двор за большим залом"
 
 msgid "晚月庄大厅"
-msgstr ""
+msgstr "большой зал усадьбы Ваньюэ"
 
 msgid "晚月庄前庭"
-msgstr ""
+msgstr "передний двор усадьбы Ваньюэ"
 
 msgid "晚月庄大门"
-msgstr ""
+msgstr "ворота усадьбы Ваньюэ"
 
 msgid "碎石小径"
-msgstr ""
+msgstr "щебёночная тропинка"
 
 msgid "密室"
-msgstr ""
+msgstr "тайная комната"
 
 msgid "内厅穿堂"
-msgstr ""
+msgstr "проход у внутреннего зала"
 
 msgid "仪门"
-msgstr ""
+msgstr "церемониальные ворота"
 
 msgid "大饭厅"
-msgstr ""
+msgstr "большая трапезная"
 
 msgid "上等厢房"
-msgstr ""
+msgstr "лучшая гостевая комната"
 
 msgid "后厅"
-msgstr ""
+msgstr "задний зал"
 
 msgid "后厅走道"
-msgstr ""
+msgstr "проход у заднего зала"
 
 msgid "内书房"
-msgstr ""
+msgstr "внутренний кабинет"
 
 msgid "西厢房走道"
-msgstr ""
+msgstr "проход к западному флигелю"
 
 msgid "东厢房走道"
-msgstr ""
+msgstr "проход к восточному флигелю"
 
 msgid "西厢房"
-msgstr ""
+msgstr "западный флигель"
 
 msgid "东厢房"
-msgstr ""
+msgstr "восточный флигель"
 
 msgid "沐浴更衣室"
-msgstr ""
+msgstr "купальня и гардеробная"
 
 msgid "小花池"
-msgstr ""
+msgstr "пруд с лепестками"
 
 msgid "东 · 绮云镇"
-msgstr ""
+msgstr "восток · городок Циюнь"
 
 msgid "南 · 湘园"
-msgstr ""
+msgstr "юг · сад Сян"
 
 msgid "茶壶 · 装水"
-msgstr ""
+msgstr "чайник · набрать воды"
 
 msgid "小花池 · 装水"
-msgstr ""
+msgstr "пруд с лепестками · набрать воды"
 
 msgid "小花池 · 沐浴"
-msgstr ""
+msgstr "пруд с лепестками · искупаться"
 
 msgid "八卦图 · 跳舞"
-msgstr ""
+msgstr "схема восьми триграмм · танцевать"
 
 msgid "石床 · 翻找"
-msgstr ""
+msgstr "каменная лежанка · поискать"
 
 msgid "碧纱橱 · 翻找"
-msgstr ""
+msgstr "зелёная газовая перегородка · поискать"
 
 msgid "八卦图 · 请人替跳"
-msgstr ""
+msgstr "схема восьми триграмм · попросить кого-нибудь станцевать"
 
 msgid "翠湘阁"
-msgstr ""
+msgstr "павильон Цуйсян"
 
 msgid "二楼走廊"
-msgstr ""
+msgstr "коридор второго этажа"
 
 msgid "佛堂"
-msgstr ""
+msgstr "молельня"
 
 msgid "佛堂门前"
-msgstr ""
+msgstr "у молельни"
 
 msgid "前堂楼"
-msgstr ""
+msgstr "верх переднего зала"
 
 msgid "观景台"
-msgstr ""
+msgstr "смотровая площадка"
 
 msgid "缀芳阁"
-msgstr ""
+msgstr "павильон Россыпи цветов"
 
 msgid "神位前 · 跳舞"
-msgstr ""
+msgstr "перед алтарём · танцевать"
 
 msgid "神位前 · 请人替跳"
-msgstr ""
+msgstr "перед алтарём · попросить кого-нибудь станцевать"
 
 msgid "缀芳阁 · 静修"
-msgstr ""
+msgstr "павильон Россыпи цветов · предаться созерцанию"
 
 msgid "后山崖径"
-msgstr ""
+msgstr "тропа по скалам за горой"
 
 msgid "断崖"
-msgstr ""
+msgstr "обрыв"
 
 msgid "南 · 宫主居所的小门"
-msgstr ""
+msgstr "юг · малая дверь покоев владыки дворца"
 
 msgid "地牢甬道"
-msgstr ""
+msgstr "проход в темнице"
 
 msgid "西牢房"
-msgstr ""
+msgstr "западная камера"
 
 msgid "北牢房"
-msgstr ""
+msgstr "северная камера"
 
 msgid "东牢房"
-msgstr ""
+msgstr "восточная камера"
 
 msgid "铁钉 · 摘钥匙"
-msgstr ""
+msgstr "железный гвоздь · снять ключ"
 
 msgid "酒坛 · 下药"
-msgstr ""
+msgstr "кувшин вина · подсыпать зелья"
 
 msgid "石阶 · 上丹房"
-msgstr ""
+msgstr "каменные ступени · подняться в алхимическую"
 
 msgid "黑砖山门"
-msgstr ""
+msgstr "ворота из чёрного кирпича"
 
 msgid "货栈"
-msgstr ""
+msgstr "склад"
 
 msgid "箱子 · 点箱"
-msgstr ""
+msgstr "ящики · пересчитать"
 
 msgid "通铺 · 睡到子时"
-msgstr ""
+msgstr "общие нары · спать до полуночи"
 
 msgid "前殿"
-msgstr ""
+msgstr "передний зал"
 
 msgid "丹房"
-msgstr ""
+msgstr "алхимическая"
 
 msgid "账房"
-msgstr ""
+msgstr "контора"
 
 msgid "北门 · 听"
-msgstr ""
+msgstr "северная дверь · прислушаться"
 
 msgid "木鱼 · 跟诵"
-msgstr ""
+msgstr "деревянная рыба · подхватить напев"
 
 msgid "炭筐 · 添炭"
-msgstr ""
+msgstr "корзина с углём · подсыпать угля"
 
 msgid "大案 · 抄名单"
-msgstr ""
+msgstr "большой стол · переписать список"
 
 msgid "铁匣 · 开匣"
-msgstr ""
+msgstr "железный ларец · открыть"
 
 msgid "门缝 · 拨闩"
-msgstr ""
+msgstr "щель в двери · отодвинуть засов"
 
 msgid "石阶 · 下地牢"
-msgstr ""
+msgstr "каменные ступени · спуститься в темницу"
 
 msgid "宫主居所"
-msgstr ""
+msgstr "покои владыки дворца"
 
 msgid "小门 · 追出去"
-msgstr ""
+msgstr "малая дверь · догнать"
 
 msgid "书案 · 开暗格"
-msgstr ""
+msgstr "письменный стол · открыть тайник"
 
 msgid "后殿"
-msgstr ""
+msgstr "задний зал"
 
 msgid "裂口顶"
-msgstr ""
+msgstr "верх расселины"
 
 msgid "北麓货道"
-msgstr ""
+msgstr "грузовая тропа у северного подножия"
 
 msgid "货栈侧门"
-msgstr ""
+msgstr "боковая дверь склада"
 
 msgid "北 · 逆灵宫山门"
-msgstr ""
+msgstr "север · ворота дворца Нилин"
 
 msgid "南 · 裂口 · 野羊山山路"
-msgstr ""
+msgstr "юг · расселина · дорога на гору Еяншань"
 
 msgid "绳索 · 下到山路"
-msgstr ""
+msgstr "верёвка · спуститься на дорогу"
 
 msgid "老松寨"
-msgstr ""
+msgstr "Сосновый стан"
 
 msgid "秘密通道入口"
-msgstr ""
+msgstr "вход в тайный проход"
 
 msgid "秘密通道"
-msgstr ""
+msgstr "тайный проход"
 
 msgid "南 · 瀑布前"
-msgstr ""
+msgstr "юг · у водопада"
 
 msgid "东下 · 瀑布前"
-msgstr ""
+msgstr "восток, вниз · у водопада"
 
 msgid "山壁上的窄穴"
-msgstr ""
+msgstr "узкая щель в скале"
 
 msgid "瀑布前"
-msgstr ""
+msgstr "у водопада"
 
 msgid "山涧之中"
-msgstr ""
+msgstr "посреди горного потока"
 
 msgid "水潭"
-msgstr ""
+msgstr "омут"
 
 msgid "瀑布清水 · 靠近装水"
-msgstr ""
+msgstr "чистая вода водопада · подойти и набрать"
 
 msgid "岸边取水"
-msgstr ""
+msgstr "набрать воды у берега"
 
 msgid "涧中取水"
-msgstr ""
+msgstr "набрать воды в потоке"
 
 msgid "林间小路"
-msgstr ""
+msgstr "лесная тропа"
 
 msgid "林间空地"
-msgstr ""
+msgstr "лесная поляна"
 
 msgid "小石桥"
-msgstr ""
+msgstr "каменный мостик"
 
 msgid "林间....不....悬崖边"
-msgstr ""
+msgstr "лес... нет... край обрыва"
 
 msgid "栈道顶"
-msgstr ""
+msgstr "верх висячей тропы"
 
 msgid "松树林"
-msgstr ""
+msgstr "сосняк"
 
 msgid "老松寨秘密入口"
-msgstr ""
+msgstr "тайный вход в Сосновый стан"
 
 msgid "大松树"
-msgstr ""
+msgstr "большая сосна"
 
 msgid "藤蔓"
-msgstr ""
+msgstr "лозы"
 
 msgid "栈道"
-msgstr ""
+msgstr "висячая тропа"
 
 msgid "官府告示：此处常有歹人出没。"
-msgstr ""
+msgstr "Объявление управы: здесь часто бесчинствуют лихие люди."
 
 msgid "西·雪亭镇  东·小石桥  南·下坡道"
-msgstr ""
+msgstr "Запад · городок Сюэтин   Восток · каменный мостик   Юг · спуск"
 
 msgid "大青石上"
-msgstr ""
+msgstr "на большом синем камне"
 
 msgid "大松树上"
-msgstr ""
+msgstr "на большой сосне"
 
 msgid "大雄宝殿"
-msgstr ""
+msgstr "зал Великого героя"
 
 msgid "流云轩"
-msgstr ""
+msgstr "домик Плывущих облаков"
 
 msgid "香积厨"
-msgstr ""
+msgstr "монастырская кухня"
 
 msgid "蒸笼 · 打开"
-msgstr ""
+msgstr "пароварка · открыть"
 
 msgid "药圃 · 采"
-msgstr ""
+msgstr "огород лекарственных трав · собрать"
 
 msgid "塔林"
-msgstr ""
+msgstr "лес пагод"
 
 msgid "走廊"
-msgstr ""
+msgstr "коридор"
 
 msgid "庭园"
-msgstr ""
+msgstr "сад во дворе"
 
 msgid "药圃"
-msgstr ""
+msgstr "огород лекарственных трав"
 
 msgid "石板大道"
-msgstr ""
+msgstr "широкая мощёная дорога"
 
 msgid "石板小径"
-msgstr ""
+msgstr "мощёная тропинка"
 
 msgid "山烟寺寺门"
-msgstr ""
+msgstr "ворота храма Шаньянь"
 
 msgid "山烟寺前广场"
-msgstr ""
+msgstr "площадь перед храмом Шаньянь"
 
 msgid "南 · 山门"
-msgstr ""
+msgstr "юг · ворота храма"
 
 msgid "明心塔"
-msgstr ""
+msgstr "пагода Ясного сердца"
 
 msgid "见性塔"
-msgstr ""
+msgstr "пагода Прозрения"
 
 msgid "泓水北侧"
-msgstr ""
+msgstr "северный берег реки Хуншуй"
 
 msgid "江心"
-msgstr ""
+msgstr "середина реки"
 
 msgid "泓水南侧"
-msgstr ""
+msgstr "южный берег реки Хуншуй"
 
 msgid "江南渡口"
-msgstr ""
+msgstr "переправа на южном берегу"
 
 msgid "山脚小路"
-msgstr ""
+msgstr "тропа у подножия"
 
 msgid "盘山小径"
-msgstr ""
+msgstr "горная тропа серпантином"
 
 msgid "山烟寺山门"
-msgstr ""
+msgstr "главные ворота храма Шаньянь"
 
 msgid "北 · 江北渡口"
-msgstr ""
+msgstr "север · переправа на северном берегу"
 
 msgid "东 · 乔阴县城"
-msgstr ""
+msgstr "восток · город Цяоинь"
 
 msgid "山烟寺"
-msgstr ""
+msgstr "храм Шаньянь"
 
 msgid "隧道"
-msgstr ""
+msgstr "тоннель"
 
 msgid "隧道口"
-msgstr ""
+msgstr "вход в тоннель"
 
 msgid "书院"
-msgstr ""
+msgstr "училище"
 
 msgid "山水画"
-msgstr ""
+msgstr "картина с горами и водами"
 
 msgid "安记钱庄"
-msgstr ""
+msgstr "меняльная контора Аня"
 
 msgid "柜台 · 靠近兑换"
-msgstr ""
+msgstr "прилавок · подойти и обменять"
 
 msgid "桑邻药铺"
-msgstr ""
+msgstr "аптека «Санлинь»"
 
 msgid "药柜"
-msgstr ""
+msgstr "аптечный шкаф"
 
 msgid "丰登当铺"
-msgstr ""
+msgstr "ломбард «Фэндэн»"
 
 msgid "柜台 · 估价 / 卖断"
-msgstr ""
+msgstr "прилавок · оценить / продать насовсем"
 
 msgid "布帘"
-msgstr ""
+msgstr "занавеска из ткани"
 
 msgid "饮风客栈"
 msgstr ""
 
 msgid "红木门"
-msgstr ""
+msgstr "дверь красного дерева"
 
 msgid "招牌"
-msgstr ""
+msgstr "вывеска"
 
 msgid "柜台"
-msgstr ""
+msgstr "прилавок"
 
 msgid "饮风客栈 · 二楼"
-msgstr ""
+msgstr "трактир «Иньфэн» · второй этаж"
 
 msgid "广场"
 msgstr ""
@@ -1985,85 +1985,85 @@ msgid "雪亭镇街道"
 msgstr ""
 
 msgid "山坳"
-msgstr ""
+msgstr "горная лощина"
 
 msgid "淳风武馆大门"
 msgstr ""
 
 msgid "青石官道"
-msgstr ""
+msgstr "казённый тракт из синего камня"
 
 msgid "黄土小径"
-msgstr ""
+msgstr "жёлтая земляная тропа"
 
 msgid "打铁铺子"
-msgstr ""
+msgstr "кузница"
 
 msgid "雪亭驿"
-msgstr ""
+msgstr "почтовая станция Сюэтин"
 
 msgid "官府悬赏 · 靠近看榜"
-msgstr ""
+msgstr "объявления о награде · подойти и прочесть"
 
 msgid "谷物加工厂"
-msgstr ""
+msgstr "мельница"
 
 msgid "当"
-msgstr ""
+msgstr "Ломбард"
 
 msgid "淳风武馆"
-msgstr ""
+msgstr "школа боевых искусств Чуньфэн"
 
 msgid "城隍庙"
-msgstr ""
+msgstr "храм Хранителя города"
 
 msgid "木架子"
-msgstr ""
+msgstr "деревянная стойка"
 
 msgid "牌坊"
-msgstr ""
+msgstr "арка"
 
 msgid "告示牌"
-msgstr ""
+msgstr "доска объявлений"
 
 msgid "石狮"
-msgstr ""
+msgstr "каменный лев"
 
 msgid "旗杆"
-msgstr ""
+msgstr "флагшток"
 
 msgid "北 · 野羊山"
-msgstr ""
+msgstr "север · гора Еяншань"
 
 msgid "东 · 青石村"
-msgstr ""
+msgstr "восток · деревня Цинши"
 
 msgid "南 · 卧龙岗"
-msgstr ""
+msgstr "юг · Гряда Спящего дракона"
 
 msgid "南 · 老松岭"
-msgstr ""
+msgstr "юг · Старый сосновый лес"
 
 msgid "石阶 · 茅山"
-msgstr ""
+msgstr "каменные ступени · Маошань"
 
 msgid "西 · 水烟阁"
-msgstr ""
+msgstr "запад · павильон Шуйянь"
 
 msgid "西南 · 黄石隘口"
-msgstr ""
+msgstr "юго-запад · Желтокаменный перевал"
 
 msgid "淳风武馆收徒"
-msgstr ""
+msgstr "Школа Чуньфэн набирает учеников"
 
 msgid "[启事] 由此过路收取黄金一两"
-msgstr ""
+msgstr "[Объявление] За проход — один лян золота"
 
 msgid "淳风武馆教练场"
 msgstr ""
 
 msgid "兵器储藏室"
-msgstr ""
+msgstr "оружейная кладовая"
 
 msgid "淳风武馆大厅"
 msgstr ""
@@ -2072,295 +2072,295 @@ msgid "天井"
 msgstr ""
 
 msgid "书房"
-msgstr ""
+msgstr "кабинет"
 
 msgid "武馆内院"
 msgstr ""
 
 msgid "架子"
-msgstr ""
+msgstr "стойка"
 
 msgid "太师椅"
-msgstr ""
+msgstr "резное кресло"
 
 msgid "石柱"
-msgstr ""
+msgstr "каменная колонна"
 
 msgid "书架"
-msgstr ""
+msgstr "книжная полка"
 
 msgid "仕女图"
-msgstr ""
+msgstr "картина с красавицей"
 
 msgid "火炉"
-msgstr ""
+msgstr "горн"
 
 msgid "神桌"
-msgstr ""
+msgstr "жертвенный стол"
 
 msgid "磨盘 · 靠近做工"
-msgstr ""
+msgstr "жёрнов · подойти и поработать"
 
 msgid "经楼"
-msgstr ""
+msgstr "башня писаний"
 
 msgid "木梯 · 上楼"
-msgstr ""
+msgstr "деревянная лестница · подняться"
 
 msgid "厢房"
-msgstr ""
+msgstr "флигель"
 
 msgid "灵心观大殿"
-msgstr ""
+msgstr "главный зал монастыря Линсинь"
 
 msgid "青石小径"
-msgstr ""
+msgstr "тропинка из синего камня"
 
 msgid "回廊"
-msgstr ""
+msgstr "крытая галерея"
 
 msgid "灵心观广场"
-msgstr ""
+msgstr "площадь монастыря Линсинь"
 
 msgid "藏经楼"
-msgstr ""
+msgstr "хранилище писаний"
 
 msgid "木梯 · 下楼"
-msgstr ""
+msgstr "деревянная лестница · спуститься"
 
 msgid "石英岩石阶"
-msgstr ""
+msgstr "кварцитовые ступени"
 
 msgid "灵心观前"
-msgstr ""
+msgstr "перед монастырём Линсинь"
 
 msgid "灵心观"
-msgstr ""
+msgstr "даосский монастырь Линсинь"
 
 msgid "练功房"
-msgstr ""
+msgstr "зал для упражнений"
 
 msgid "农舍"
-msgstr ""
+msgstr "крестьянский дом"
 
 msgid "农舍后院"
-msgstr ""
+msgstr "задний двор крестьянского дома"
 
 msgid "刘家小房"
-msgstr ""
+msgstr "домик семьи Лю"
 
 msgid "财主家前院"
-msgstr ""
+msgstr "передний двор дома богача"
 
 msgid "财主家南房"
-msgstr ""
+msgstr "южная комната дома богача"
 
 msgid "财主家东房"
-msgstr ""
+msgstr "восточная комната дома богача"
 
 msgid "瓜棚"
-msgstr ""
+msgstr "шалаш на бахче"
 
 msgid "水下岩洞"
-msgstr ""
+msgstr "подводная пещера"
 
 msgid "冰阶"
-msgstr ""
+msgstr "ледяные ступени"
 
 msgid "水潭 · 潜下去"
-msgstr ""
+msgstr "омут · нырнуть"
 
 msgid "玉螺湖畔"
-msgstr ""
+msgstr "берег озера Юйлоху"
 
 msgid "稻田"
-msgstr ""
+msgstr "рисовые поля"
 
 msgid "瓜地"
-msgstr ""
+msgstr "бахча"
 
 msgid "忘情谷外"
-msgstr ""
+msgstr "у долины Забвения"
 
 msgid "北 · 天驼关"
-msgstr ""
+msgstr "север · застава Тяньто"
 
 msgid "西 · 黑松山"
-msgstr ""
+msgstr "запад · гора Хэйсуншань"
 
 msgid "南 · 京师"
-msgstr ""
+msgstr "юг · столица"
 
 msgid "南 · 海崖道 · 番坊"
-msgstr ""
+msgstr "юг · дорога по морскому обрыву · Иноземный квартал"
 
 msgid "玉螺湖"
-msgstr ""
+msgstr "озеро Юйлоху"
 
 msgid "茅草"
-msgstr ""
+msgstr "сухая трава"
 
 msgid "大沟"
-msgstr ""
+msgstr "большой овраг"
 
 msgid "小牌子"
-msgstr ""
+msgstr "маленькая табличка"
 
 msgid "木船 · 划向湖心"
-msgstr ""
+msgstr "лодка · грести к середине озера"
 
 msgid "湖畔 · 等到天黑"
-msgstr ""
+msgstr "берег озера · дождаться темноты"
 
 msgid "芦苇丛 · 拨开芦苇"
-msgstr ""
+msgstr "заросли тростника · раздвинуть тростник"
 
 msgid "瓜地 · 摘西瓜"
-msgstr ""
+msgstr "бахча · сорвать арбуз"
 
 msgid "傅家坡"
-msgstr ""
+msgstr "склон семьи Фу"
 
 msgid "东 · 玉螺湖畔"
-msgstr ""
+msgstr "восток · берег озера Юйлоху"
 
 msgid "小船 · 划回岸边"
-msgstr ""
+msgstr "лодка · грести к берегу"
 
 msgid "湖水 · 潜入湖中"
-msgstr ""
+msgstr "озеро · нырнуть"
 
 msgid "冰下封坛"
-msgstr ""
+msgstr "алтарь печати подо льдом"
 
 msgid "潭口"
-msgstr ""
+msgstr "устье омута"
 
 msgid "潭口 · 游上去"
-msgstr ""
+msgstr "устье омута · всплыть"
 
 msgid "冰柱 · 把铜牒念给她听"
-msgstr ""
+msgstr "ледяной столб · прочесть ей медную табличку"
 
 msgid "穿灵 · 拔出来"
-msgstr ""
+msgstr "Душепронзатель · вытащить"
 
 msgid "封坛 · 看清了"
-msgstr ""
+msgstr "алтарь печати · рассмотреть"
 
 msgid "坛心 · 迎上去"
-msgstr ""
+msgstr "сердце алтаря · шагнуть навстречу"
 
 msgid "那颗头 · 钉下去"
-msgstr ""
+msgstr "голова · пригвоздить"
 
 msgid "告示 · 看告示"
-msgstr ""
+msgstr "объявление · прочесть"
 
 msgid "葬剑亭"
-msgstr ""
+msgstr "беседка Погребённого меча"
 
 msgid "白石阶梯"
-msgstr ""
+msgstr "белокаменная лестница"
 
 msgid "山坡小径"
-msgstr ""
+msgstr "тропа по склону"
 
 msgid "水烟阁前"
-msgstr ""
+msgstr "перед павильоном Шуйянь"
 
 msgid "水烟阁半山亭"
-msgstr ""
+msgstr "беседка на полпути к павильону Шуйянь"
 
 msgid "东 · 雪亭镇"
-msgstr ""
+msgstr "восток · городок Сюэтин"
 
 msgid "水烟阁"
-msgstr ""
+msgstr "павильон Шуйянь"
 
 msgid "深谷"
-msgstr ""
+msgstr "глубокая долина"
 
 msgid "南 · 虹台"
-msgstr ""
+msgstr "юг · Радужная терраса"
 
 msgid "太师椅 · 坐一坐"
-msgstr ""
+msgstr "кресло · присесть"
 
 msgid "柴房"
-msgstr ""
+msgstr "дровяной сарай"
 
 msgid "仆役卧室"
-msgstr ""
+msgstr "комната слуг"
 
 msgid "西侧厅"
-msgstr ""
+msgstr "западный боковой зал"
 
 msgid "水烟阁正厅"
-msgstr ""
+msgstr "главный зал павильона Шуйянь"
 
 msgid "东侧厅"
-msgstr ""
+msgstr "восточный боковой зал"
 
 msgid "水烟阁西侧花厅"
-msgstr ""
+msgstr "западная гостиная павильона Шуйянь"
 
 msgid "水烟阁正门"
-msgstr ""
+msgstr "главные ворота павильона Шуйянь"
 
 msgid "水烟阁东侧花厅"
-msgstr ""
+msgstr "восточная гостиная павильона Шуйянь"
 
 msgid "南 · 水烟阁前"
-msgstr ""
+msgstr "юг · перед павильоном Шуйянь"
 
 msgid "白石梯 · 上楼"
-msgstr ""
+msgstr "белокаменная лестница · подняться"
 
 msgid "阶梯 · 上楼"
-msgstr ""
+msgstr "лестница · подняться"
 
 msgid "虹台大会 · 入席"
-msgstr ""
+msgstr "собрание на Радужной террасе · занять место"
 
 msgid "虹台"
-msgstr ""
+msgstr "Радужная терраса"
 
 msgid "虹谷断崖"
-msgstr ""
+msgstr "обрыв Радужной долины"
 
 msgid "北 · 葬剑亭"
-msgstr ""
+msgstr "север · беседка Погребённого меча"
 
 msgid "振远"
-msgstr ""
+msgstr "Чжэньюань"
 
 msgid "步玄"
-msgstr ""
+msgstr "Бусюань"
 
 msgid "晚月"
-msgstr ""
+msgstr "Ваньюэ"
 
 msgid "山烟"
-msgstr ""
+msgstr "Шаньянь"
 
 msgid "天邪"
-msgstr ""
+msgstr "Тяньсе"
 
 msgid "封山"
-msgstr ""
+msgstr "Фэншань"
 
 msgid "茅山"
-msgstr ""
+msgstr "Маошань"
 
 msgid "绝尘"
-msgstr ""
+msgstr "Цзюэчэнь"
 
 msgid "花紫"
-msgstr ""
+msgstr "Хуацзы"
 
 msgid "聆啸厅"
-msgstr ""
+msgstr "зал Протяжного свиста"
 
 msgid "没有找到存档。"
 msgstr ""
@@ -2567,10 +2567,10 @@ msgid "你胸中杀气翻涌，渐渐压不住了：杀气这么重，走进有�
 msgstr ""
 
 msgid "雄性"
-msgstr ""
+msgstr "самец"
 
 msgid "雌性"
-msgstr ""
+msgstr "самка"
 
 msgid "普通百姓"
 msgstr ""
@@ -3626,16 +3626,16 @@ msgid "{what} ≥ {required}（你 {have}）"
 msgstr ""
 
 msgid "胆识"
-msgstr ""
+msgstr "Отвага"
 
 msgid "定力"
-msgstr ""
+msgstr "Сосредоточенность"
 
 msgid "灵性"
-msgstr ""
+msgstr "Духовность"
 
 msgid "实战经验"
-msgstr ""
+msgstr "Боевой опыт"
 
 msgid "只收男弟子"
 msgstr ""
@@ -4451,25 +4451,25 @@ msgid "{skill}进度 {change}"
 msgstr ""
 
 msgid "精"
-msgstr ""
+msgstr "Цзин"
 
 msgid "气"
-msgstr ""
+msgstr "Ци"
 
 msgid "神"
-msgstr ""
+msgstr "Шэнь"
 
 msgid "内力"
-msgstr ""
+msgstr "Внутренняя сила"
 
 msgid "法力"
-msgstr ""
+msgstr "Чародейская сила"
 
 msgid "灵力"
-msgstr ""
+msgstr "Духовная энергия"
 
 msgid "潜能"
-msgstr ""
+msgstr "Потенциал"
 
 msgid "打坐"
 msgstr ""
@@ -4592,7 +4592,7 @@ msgid "取消已排定的操作"
 msgstr ""
 
 msgid "加力"
-msgstr ""
+msgstr "Усиление"
 
 msgid "现在没有可用的操作。"
 msgstr ""
@@ -4658,7 +4658,7 @@ msgid "？"
 msgstr ""
 
 msgid "守势"
-msgstr ""
+msgstr "Оборона"
 
 msgid "他没手了，你还有 {left} 手"
 msgstr ""
@@ -5688,7 +5688,7 @@ msgid "返回"
 msgstr ""
 
 msgid "车马行"
-msgstr ""
+msgstr "извозный двор"
 
 msgid "大"
 msgstr ""
@@ -6614,7 +6614,7 @@ msgid "角色"
 msgstr ""
 
 msgid "地图"
-msgstr ""
+msgstr "Карта"
 
 msgid "地图：移动"
 msgstr ""
@@ -7165,7 +7165,7 @@ msgid "店"
 msgstr ""
 
 msgid "钱"
-msgstr ""
+msgstr "деньги"
 
 msgid "榜"
 msgstr ""
@@ -7366,7 +7366,7 @@ msgid "钱币"
 msgstr ""
 
 msgid "食物"
-msgstr ""
+msgstr "Еда"
 
 msgid "饮品"
 msgstr ""
@@ -7384,7 +7384,7 @@ msgid "锤"
 msgstr ""
 
 msgid "匕首"
-msgstr ""
+msgstr "кинжал"
 
 msgid "杖"
 msgstr ""
@@ -7534,22 +7534,22 @@ msgid "{item} · {slot}"
 msgstr ""
 
 msgid "基本拳脚"
-msgstr ""
+msgstr "Основы рукопашного боя"
 
 msgid "基本剑法"
-msgstr ""
+msgstr "Основы фехтования"
 
 msgid "基本招架"
-msgstr ""
+msgstr "Основы парирования"
 
 msgid "基本轻功"
-msgstr ""
+msgstr "Основы лёгкого шага"
 
 msgid "基本内功"
-msgstr ""
+msgstr "Основы внутреннего искусства"
 
 msgid "柳家拳"
-msgstr ""
+msgstr "Кулак семьи Лю"
 
 msgid "回到上次自动存档"
 msgstr ""
@@ -8189,54 +8189,54 @@ msgid ""
 msgstr ""
 
 msgid "些"
-msgstr ""
+msgstr "шт."
 
 msgid "文"
 msgstr ""
 
 msgid "银子"
-msgstr ""
+msgstr "серебро"
 
 msgid ""
 "白花花的银子，人见人爱的银子。\n"
 msgstr ""
 
 msgid "黄金"
-msgstr ""
+msgstr "золото"
 
 msgid ""
 "黄澄澄的金子，人见人爱的金子，啊～～金子！\n"
 msgstr ""
 
 msgid "布衣"
-msgstr ""
+msgstr "холщовая рубаха"
 
 msgid ""
 "一件普通的粗布衣服，不值什么钱。\n"
 msgstr ""
 
 msgid "件"
-msgstr ""
+msgstr "шт."
 
 msgid "包子"
-msgstr ""
+msgstr "паровой пирожок"
 
 msgid ""
 "一个香喷喷、热腾腾的大包子。\n"
 msgstr ""
 
 msgid "个"
-msgstr ""
+msgstr "шт."
 
 msgid "烤鸡腿"
-msgstr ""
+msgstr "жареная куриная ножка"
 
 msgid ""
 "一枝烤得香喷喷鸡腿，你还犹豫什麽？准备胃液吧。\n"
 msgstr ""
 
 msgid "根"
-msgstr ""
+msgstr "шт."
 
 msgid "啃得精光的鸡腿骨头"
 msgstr ""
@@ -8246,14 +8246,14 @@ msgid ""
 msgstr ""
 
 msgid "牛皮酒袋"
-msgstr ""
+msgstr "кожаный бурдюк"
 
 msgid ""
 "一个牛皮缝的大酒袋，大概装得八、九升的酒。\n"
 msgstr ""
 
 msgid "旧书"
-msgstr ""
+msgstr "старая книга"
 
 msgid ""
 "这本旧书的纸张都已经泛黄了，上面只有一些字迹模糊的字句，似乎\n"
@@ -8261,30 +8261,30 @@ msgid ""
 msgstr ""
 
 msgid "本"
-msgstr ""
+msgstr "книга"
 
 msgid "金疮药"
-msgstr ""
+msgstr "мазь от ран"
 
 msgid ""
 "一颗金疮药, 可以用来敷上治伤 。\n"
 msgstr ""
 
 msgid "颗"
-msgstr ""
+msgstr "шт."
 
 msgid "长剑"
-msgstr ""
+msgstr "длинный меч"
 
 msgid ""
 "这是一把看起相当普通的长剑，份量大约有十来斤左右。\n"
 msgstr ""
 
 msgid "把"
-msgstr ""
+msgstr "шт."
 
 msgid "玄苏剑"
-msgstr ""
+msgstr "меч Сюаньсу"
 
 msgid ""
 "这是一把通体黝黑的重剑，上面生满了尖锐的倒钩，乃是乔阴柳家\n"
@@ -8292,10 +8292,10 @@ msgid ""
 msgstr ""
 
 msgid "丝绸马褂"
-msgstr ""
+msgstr "шёлковая куртка"
 
 msgid "化尸粉"
-msgstr ""
+msgstr "порошок, растворяющий трупы"
 
 msgid ""
 "这是一包用来毁尸灭迹的化尸粉，只要用一丁点就可以\n"
@@ -8303,13 +8303,13 @@ msgid ""
 msgstr ""
 
 msgid "包"
-msgstr ""
+msgstr "пакет"
 
 msgid "份"
-msgstr ""
+msgstr "порция"
 
 msgid "蛇药"
-msgstr ""
+msgstr "змеиное противоядие"
 
 msgid ""
 "这是一包用来解蛇毒的药\n"
@@ -8317,7 +8317,7 @@ msgid ""
 msgstr ""
 
 msgid "飞镖"
-msgstr ""
+msgstr "метательный дротик"
 
 msgid ""
 "飞镖是一种十分常见的暗器。\n"
@@ -8327,7 +8327,7 @@ msgid "枝"
 msgstr ""
 
 msgid "极乐逍遥散"
-msgstr ""
+msgstr "порошок блаженства"
 
 msgid ""
 "这是一种毒性猛烈的春药，你可以把它倒在酒水之中使用。\n"
@@ -8338,76 +8338,76 @@ msgid ""
 msgstr ""
 
 msgid "单刀"
-msgstr ""
+msgstr "сабля"
 
 msgid ""
 "这是一寻常的单刀，份量大约六、七斤重。\n"
 msgstr ""
 
 msgid "柄"
-msgstr ""
+msgstr "шт."
 
 msgid "布袋"
-msgstr ""
+msgstr "холщовый мешок"
 
 msgid ""
 "这是一口寻常的布袋，可以用来装一些杂物。\n"
 msgstr ""
 
 msgid "口"
-msgstr ""
+msgstr "шт."
 
 msgid "皮鞭"
-msgstr ""
+msgstr "кожаный кнут"
 
 msgid "条"
-msgstr ""
+msgstr "шт."
 
 msgid "牛皮盾"
-msgstr ""
+msgstr "щит из воловьей кожи"
 
 msgid "八角锤"
-msgstr ""
+msgstr "восьмиугольный молот"
 
 msgid ""
 "这是一把八角铜锤，沉甸甸的。\n"
 msgstr ""
 
 msgid "细剑"
-msgstr ""
+msgstr "тонкий меч"
 
 msgid ""
 "这是一把又细又长的剑，轻飘飘的像是女孩子家的玩意。\n"
 msgstr ""
 
 msgid "妖刀狗屠"
-msgstr ""
+msgstr "проклятая сабля Псоубийца"
 
 msgid ""
 "这是一把暗绿色的鬼头刀，拿在手中沈甸甸地。\n"
 msgstr ""
 
 msgid "吹雪残云靴"
-msgstr ""
+msgstr "сапоги Вьюги"
 
 msgid "吹雪残云带"
-msgstr ""
+msgstr "пояс Вьюги"
 
 msgid "吹雪残云衣"
-msgstr ""
+msgstr "одеяние Вьюги"
 
 msgid "吹雪残云巾"
-msgstr ""
+msgstr "повязка Вьюги"
 
 msgid "邪剑穿灵"
-msgstr ""
+msgstr "злой меч Душепронзатель"
 
 msgid ""
 "这是一把血红色的的长剑，份量大约有十来斤左右。\n"
 msgstr ""
 
 msgid "蒙汗药"
-msgstr ""
+msgstr "сонное зелье"
 
 msgid ""
 "这是寻常的绿林盗贼用来作案的蒙汗药，你可以把它倒在\n"
@@ -8415,30 +8415,30 @@ msgid ""
 msgstr ""
 
 msgid "金刚杖"
-msgstr ""
+msgstr "посох ваджры"
 
 msgid ""
 "这是一条紫铜杖，杖的两端似乎封这密文。\n"
 msgstr ""
 
 msgid "紫金冠"
-msgstr ""
+msgstr "пурпурно-золотой венец"
 
 msgid "顶"
-msgstr ""
+msgstr "шт."
 
 msgid "天兵战甲"
-msgstr ""
+msgstr "доспех небесного воина"
 
 msgid "金锋剑"
-msgstr ""
+msgstr "златоострый меч"
 
 msgid ""
 "一把闪闪发著金光的长剑。\n"
 msgstr ""
 
 msgid "咒剑王禅"
-msgstr ""
+msgstr "чародейский меч Ван Чань"
 
 msgid ""
 "这是一把桃木雕成的古剑，闻起来有一股香味，剑身刻著许多你从未见过的咒\n"
@@ -8449,57 +8449,57 @@ msgid "王禅剑发出一股金色的罡气，流遍$N的全身。"
 msgstr ""
 
 msgid "天师道袍"
-msgstr ""
+msgstr "халат Небесного наставника"
 
 msgid "三清神冠"
-msgstr ""
+msgstr "венец Трёх Чистых"
 
 msgid "七星翻云靴"
-msgstr ""
+msgstr "сапоги Семи звёзд"
 
 msgid "双"
-msgstr ""
+msgstr "пара"
 
 msgid "重钢战甲"
-msgstr ""
+msgstr "тяжёлый стальной доспех"
 
 msgid "五股钢叉"
-msgstr ""
+msgstr "пятизубые стальные вилы"
 
 msgid "桃符纸"
-msgstr ""
+msgstr "бумага для талисманов"
 
 msgid ""
 "这是道士们用来画符的符纸，具有封存法力的功用。\n"
 msgstr ""
 
 msgid "叠"
-msgstr ""
+msgstr "пачка"
 
 msgid "张"
-msgstr ""
+msgstr "лист"
 
 msgid "魔鞭翩珑"
-msgstr ""
+msgstr "демонический кнут Пяньлун"
 
 msgid "穿花蛇影鞋"
-msgstr ""
+msgstr "туфли Змеиной тени"
 
 msgid "软金束带"
-msgstr ""
+msgstr "кушак из мягкого золота"
 
 msgid "紫霜血蝉衣"
-msgstr ""
+msgstr "платье Кровавой цикады"
 
 msgid "菩提禅杖"
-msgstr ""
+msgstr "посох бодхи"
 
 msgid ""
 "一条又粗又长，非常沈重的黄铜禅杖，上面镶著六个铜环。\n"
 msgstr ""
 
 msgid "风泉之剑"
-msgstr ""
+msgstr "меч Фэнцюань"
 
 msgid ""
 "这是步玄派历代相传的掌门信物，湛蓝色的剑身跟鹅黄色剑柄，使\n"
@@ -8523,7 +8523,7 @@ msgid "使剑的根底：握剑、出剑、收剑的规矩都在这里。封山�
 msgstr ""
 
 msgid "基本刀法"
-msgstr ""
+msgstr "Основы боя саблей"
 
 msgid "使刀的根底：劈、砍、撩、斩的力道与分寸都从这里练起。春风快意刀、短歌刀法这些刀法都激发在它上面。"
 msgstr ""
@@ -8604,7 +8604,7 @@ msgid "$N步履一沉，左拳拉开，右拳使出「荒山虎吟」击向$n$l"
 msgstr ""
 
 msgid "封山派内功"
-msgstr ""
+msgstr "Внутреннее искусство Фэншань"
 
 msgid "封山剑派的本门内功，只能向师长学，或在运功中慢慢精熟。封山剑法必须配合它才能练；运起功来，还能为自己疗伤。"
 msgstr ""
@@ -8613,7 +8613,7 @@ msgid "封山派内功只能用学的，或是从运用中增加熟练度。"
 msgstr ""
 
 msgid "伏蛟功"
-msgstr ""
+msgstr "Укрощение водяного дракона"
 
 msgid "花紫会一脉的内功，龙头陆得财身怀此功。练功须在有水的地方，既耗气也耗内力。"
 msgstr ""
@@ -8628,7 +8628,7 @@ msgid "你的内力不够"
 msgstr ""
 
 msgid "春风快意刀"
-msgstr ""
+msgstr "Сабля весеннего ветра"
 
 msgid "振远镖局的看家刀法，总镖头陈天星凭它和天邪神掌在江湖上博得「刀掌双绝」之名。招名如「春风拂人醉」「远山伴人痴」「柳叶随人笑」，刀势轻飘，撩斩之间不见锋芒。"
 msgstr ""
@@ -8661,7 +8661,7 @@ msgid "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l"
 msgstr ""
 
 msgid "封山剑法"
-msgstr ""
+msgstr "Меч Фэншань"
 
 msgid "封山剑派是当今武林最大的一支剑派，这套剑法是当年创派的三位剑术名家在封山灵狐顶相互印证、合力创出的。招式并不难学，难在剑意：自「剑气」练起，次练「剑心」「剑芒」「剑神」，四者都练到登峰造极的人少之又少，所以同是封山剑法，造诣深浅不同的人使出来，威力差之千里。剑中有「封」「点」「逐」「缺」四字诀，须以封山派内功为根基。"
 msgstr ""
@@ -8718,7 +8718,7 @@ msgid "$N横剑上前，身形一转手中$w使一招「空谷秋虹」画出一
 msgstr ""
 
 msgid "倒乱七星步法"
-msgstr ""
+msgstr "Шаг смятённых семи звёзд"
 
 msgid "封山派开山祖师锺虔在羿水之滨的石廊峡练武时，每到夜里便与出来吸血的血蛾扑击为戏，仰望北斗七星的方位变幻，发现血蛾无论如何进攻都脱不出七星的规律，苦思几日夜创成这套步法，第一次试招便杀了六只血蛾。它专门对付身法敏捷的敌人，以自然的规律料敌机先，对方一动，便已踏到正确的闪避方位。"
 msgstr ""
@@ -8751,7 +8751,7 @@ msgid "但是$n一招「瑶光音迟」使出，早已绕到$N身後！"
 msgstr ""
 
 msgid "天邪神功"
-msgstr ""
+msgstr "Великое искусство Тяньсе"
 
 msgid "相传是武术之神、太阳神君杞庸在西天大山中见到灵兽天邪虎后有所领悟而创的内功心法，与模拟天邪虎神态的天邪神掌相配。威力极强，消耗体力也极大：运起来能回气、提升战力、以内力强压杀气，最深的一手是「天邪虎啸」，一声长吼震伤身边所有的人。修习须有足够的杀气撑着，苦练下去，定力也会提高。"
 msgstr ""
@@ -8766,7 +8766,7 @@ msgid "由於你苦练天邪神功，你的定力提高了"
 msgstr ""
 
 msgid "茅山道术"
-msgstr ""
+msgstr "Даосские чары Маошань"
 
 msgid "茅山派的法术，以治鬼除魔为主，多是攻敌的法术，兼有符咒之法：紫幽、青冥、苍灵「幽冥三箭」各有所长，又能召唤金甲天兵下凡护法、开「阴阳眼」看见鬼魂，还能驱动尸体。须以天师正道为根基，修为不够便领悟不了更深的道术。"
 msgstr ""
@@ -8790,7 +8790,7 @@ msgid "你的魂魄还没有全部收回，赶快杀死你的$N吧！"
 msgstr ""
 
 msgid "天师正道"
-msgstr ""
+msgstr "Путь Небесных наставников"
 
 msgid "道家的主要学问，茅山派大多数武功、法术都要以它为基础。天师正道修行不够就强练道家武功法术，很容易走火入魔、坠入魔道；杀气太重的人，也修不了它。"
 msgstr ""
@@ -8802,7 +8802,7 @@ msgid "你的杀气太重，无法修炼天师正道。"
 msgstr ""
 
 msgid "谷衣心法"
-msgstr ""
+msgstr "Метод зернового покрова"
 
 msgid "道家的一门内功。人食五谷，肉身都带五谷秽气，谷衣心法把秽气排出体外，修成一层护体之气，叫作「谷衣」——神仙所修称「丹衣」，妖魔所修称「血衣」「土衣」。心法共分十层，练到第五层「小成」左眼珠变成金色，第十层「大成」两眼皆金；运起来能疗伤，也能以「灵神诀」把内力化为法力。"
 msgstr ""
@@ -8814,7 +8814,7 @@ msgid "你的魔力不够，无法提升谷衣心法的造诣。"
 msgstr ""
 
 msgid "天师剑法"
-msgstr ""
+msgstr "Меч Небесного наставника"
 
 msgid "茅山派的剑法，招名「三清归真」「众士护佑」「群魔辟易」「西出紫关」，取道家护法驱魔之意。练这门剑须有相当的内力。"
 msgstr ""
@@ -8847,7 +8847,7 @@ msgid "$N身剑合一，幻化成一道光华，一招「乾坤一掷」扑向$n
 msgstr ""
 
 msgid "读书识字"
-msgstr ""
+msgstr "Грамота"
 
 msgid "认字读书的本事。不识字就读不了任何书谱；识字越深，研读书册时长进越快。勤学苦读，悟性也会慢慢提高，有些讲究文墨的心法也要它做底子。"
 msgstr ""
@@ -8856,7 +8856,7 @@ msgid "由於你的勤学苦读，你的悟性提高了。"
 msgstr ""
 
 msgid "音律"
-msgstr ""
+msgstr "Музыка"
 
 msgid "宫商声律的学问。音律之学有成，灵性会随之提高；步玄派的步玄七诀以音律为根底，音律修为不够，便领悟不了更深的诀窍。"
 msgstr ""
@@ -8865,31 +8865,31 @@ msgid "由於你学习音律之学有成，你的灵性提高了"
 msgstr ""
 
 msgid "乐器"
-msgstr ""
+msgstr "Игра на инструментах"
 
 msgid "吹拉弹拨的技艺，与音律之学互为表里。步玄派掌门骆云舟也传这一门。"
 msgstr ""
 
 msgid "基本行动"
-msgstr ""
+msgstr "Основы движения"
 
 msgid "赶路奔走的根底。脚下快的人追得上人，也甩得开追兵；倒乱七星步、步玄七诀、火蝠身法这类身法，都能激发为行动。"
 msgstr ""
 
 msgid "基本杖法"
-msgstr ""
+msgstr "Основы боя посохом"
 
 msgid "使杖、使棍的根底。山烟寺的流云杖法、绝尘派的金刚杖法都激发在它上面。"
 msgstr ""
 
 msgid "基本暗器"
-msgstr ""
+msgstr "Основы скрытого оружия"
 
 msgid "暗器出手的功夫，准头与劲道都看它。晚月庄、花紫会的人多精于此道。"
 msgstr ""
 
 msgid "听风辨器之术"
-msgstr ""
+msgstr "Искусство слышать ветер"
 
 msgid "临敌时凭风声辨出兵刃来路的本事，专门用来对付看不见的敌人：鬼魂、隐形的妖物，或是在光线昏暗的地方交手。"
 msgstr ""
@@ -8898,7 +8898,7 @@ msgid "顺手牵羊的手上功夫，下手越熟越不易被人察觉，运气�
 msgstr ""
 
 msgid "天邪神掌"
-msgstr ""
+msgstr "Великая ладонь Тяньсе"
 
 msgid "模拟灵兽天邪虎神态的掌法，与天邪神功相配而成，招式有「大天罗式」「小天罗式」「雪阳三连月」「灵动五方鼓」「风雷七星断」。须空手练，天邪神功火候不足、内力太弱都练不成。"
 msgstr ""
@@ -8937,7 +8937,7 @@ msgid "$N吐气扬声，一招「气撼九重天」双掌并力推出"
 msgstr ""
 
 msgid "六阴追魂剑法"
-msgstr ""
+msgstr "Меч шести инь, ловец душ"
 
 msgid "本是道家魔道的武功。三百年前一位天邪派前辈在首穷山一处废墟中得到六阴剑谱，谱分天殇、追魂、绝识三部，他年轻时练武伤了经脉，只练成追魂一部，另外两部至今下落不明。天邪派所传的追魂剑经三百多年演变，戾气消去不少而劲道更增，虽已失传了不少阴毒招式，仍是武林中赫赫有名的剑法。"
 msgstr ""
@@ -8973,7 +8973,7 @@ msgid "$N手中$w直指$n$l，一招「秋坟鬼唱」发出逼人剑气刺去"
 msgstr ""
 
 msgid "火蝠身法"
-msgstr ""
+msgstr "Шаг огненной летучей мыши"
 
 msgid "仿蝙蝠夜飞的身法，招名「寒蝠掠江」「轻蝠点梢」「夜蝠旋身」「火蝠曳空」，侧身一让，便叫来招扑了个空。天邪派与振远镖局都有高手使这门身法。"
 msgstr ""
@@ -8997,7 +8997,7 @@ msgid "只见$p一招「火蝠曳空」，身形向上拔起数尺高，闪了�
 msgstr ""
 
 msgid "七宝天岚舞"
-msgstr ""
+msgstr "Танец небесной дымки"
 
 msgid "晚月庄的舞步身法，招名「蕙芳下凡」「双成献舞」「织女于归」「天女散花」「嫦娥奔月」，翩然起舞之间，已飘出数尺之外。只有女子才能练，又看灵性；勤练舞技，容貌也会更添光彩。"
 msgstr ""
@@ -9030,25 +9030,25 @@ msgid "$n一招「嫦娥奔月」，轻轻一纵优雅的自$N头顶越过！"
 msgstr ""
 
 msgid "基本法术"
-msgstr ""
+msgstr "Основы чародейства"
 
 msgid "神通一类法门的根底：灵力的上限看它，施展神通要用灵力。山烟寺的八识神通便激发在它上面。"
 msgstr ""
 
 msgid "基本咒文"
-msgstr ""
+msgstr "Основы заклинаний"
 
 msgid "念咒施法的根底：法力的上限看它，冥思积下的法力才有地方存。茅山道术、奇门遁甲这些法术都激发在它上面。"
 msgstr ""
 
 msgid "小天魔道"
-msgstr ""
+msgstr "Малый путь Небесного демона"
 
 msgid "道家旁门的一路学问，绝尘派的奇门遁甲以它为根基，小天魔道修为不够，便领悟不了更深的遁甲之术。它只能向师父学，或在实战中体会；每有长进，杀气也跟着重一分。"
 msgstr ""
 
 msgid "奇门遁甲"
-msgstr ""
+msgstr "Искусство чудесных врат"
 
 msgid "绝尘派的法术。口中念咒，大喝一声「疾！」，或化作黑气、金光、火焰、长虹、大雾遁去无踪，或以黑气、金光、火焰、海水、大木把敌人困在当中；战到危急，还能召来天将相助。须以小天魔道为根基。"
 msgstr ""
@@ -9057,7 +9057,7 @@ msgid "你的小天魔道修为不够，无法领悟更高深的奇门遁甲之�
 msgstr ""
 
 msgid "绝尘心法"
-msgstr ""
+msgstr "Метод Цзюэчэнь"
 
 msgid "绝尘派的本门内功。绝尘子本是释家中人，后得奇人指点，悟得道家真谛，佛道双修，自号绝尘，创下此派；这门心法只能向师父学，或在运功中慢慢精熟。"
 msgstr ""
@@ -9066,7 +9066,7 @@ msgid "绝尘心法只能用学的或是从运用中增加熟练度。"
 msgstr ""
 
 msgid "金刚杖法"
-msgstr ""
+msgstr "Алмазный посох"
 
 msgid "绝尘派所传的杖法，招式与山烟寺的流云杖法相同，是「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」四式，起手一杖专扫下盘。练这门杖须有相当的膂力，膂力不足的人宜先把内力练足。"
 msgstr ""
@@ -9096,13 +9096,13 @@ msgid "$N使出一招「游龙穿云」，$w一挺撞向$n$l！"
 msgstr ""
 
 msgid "流云杖法"
-msgstr ""
+msgstr "Посох плывущих облаков"
 
 msgid "山烟寺的杖法，招名「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」，可攻可守。番坊日陀罗寺的龙若法王也传这门杖法。练这门杖须有相当的膂力。"
 msgstr ""
 
 msgid "莲华心法"
-msgstr ""
+msgstr "Метод лотоса"
 
 msgid "五百多年前北冥大泽的黑妖蛇族入侵，一群佛门高僧集思广益，悟出这套心法为百姓疗伤，主要用来迅速医治战斗中所受的皮肉创伤。运起功来既能医治自己，也能替别人疗伤；须以大乘佛法为根基，佛法修为跟不上，便领会不了更深的境界。"
 msgstr ""
@@ -9114,7 +9114,7 @@ msgid "你的大乘佛法修为不够，无法领会更高深的莲华心法。"
 msgstr ""
 
 msgid "婆萝蜜多心经"
-msgstr ""
+msgstr "Сутра сердца"
 
 msgid "从天竺传来的一部内功，性子是火性的：运起来浑身发热，专克阴寒。只能用学的，没有运功的法门；中原只有日陀罗寺的人会，独眼头陀那只眼就是练它练坏的。"
 msgstr ""
@@ -9123,7 +9123,7 @@ msgid "婆萝蜜多心经只能用学的。"
 msgstr ""
 
 msgid "大乘佛法"
-msgstr ""
+msgstr "Учение Махаяны"
 
 msgid "佛门的根本学问，莲华心法、八识神通都以它为根基。杀气太重的人，修不了大乘佛法。"
 msgstr ""
@@ -9132,13 +9132,13 @@ msgid "你的杀气太重，无法修炼大乘佛法。"
 msgstr ""
 
 msgid "诵经"
-msgstr ""
+msgstr "Чтение сутр"
 
 msgid "佛门弟子的日课，晨钟暮鼓之间念诵经文。山烟寺、日陀罗寺的僧人都会这一门。"
 msgstr ""
 
 msgid "八识神通"
-msgstr ""
+msgstr "Дар восьми сознаний"
 
 msgid "佛家一门十分神奇的神通法术，由六百年前的高僧空正大师传下。神通分为八识，各以人的一种隐藏潜力为动力，如今传下来的有三识：心识救醒昏迷濒死之人，游识一念之间便到你见过的人身边，空识把灵力化为潜能。须与高深的佛法相辅，佛法修为不够便学不了。"
 msgstr ""
@@ -9147,37 +9147,37 @@ msgid "你的佛法修为还不够高深，无法学习八识神通。"
 msgstr ""
 
 msgid "基本鞭法"
-msgstr ""
+msgstr "Основы боя плетью"
 
 msgid "使鞭的根底，软鞭出手要收得回来。晚月庄的寒雪鞭法激发在它上面。"
 msgstr ""
 
 msgid "基本锤法"
-msgstr ""
+msgstr "Основы боя молотом"
 
 msgid "使锤一类重兵器的根底，凭的是一身力气。"
 msgstr ""
 
 msgid "基本斧法"
-msgstr ""
+msgstr "Основы боя топором"
 
 msgid "使斧的根底，大开大合，一斧下去要劈得开。"
 msgstr ""
 
 msgid "基本匕法"
-msgstr ""
+msgstr "Основы боя кинжалом"
 
 msgid "使匕首一类短刃的根底，贴身近打，出手要快。"
 msgstr ""
 
 msgid "基本叉法"
-msgstr ""
+msgstr "Основы боя трезубцем"
 
 msgid "使钢叉一类长兵的根底。阴间的鬼卒，手里多是钢叉。"
 msgstr ""
 
 msgid "柔虹指"
-msgstr ""
+msgstr "Палец мягкой радуги"
 
 msgid "晚月庄的指法，只有女子才能练，须空手。招名「菊楼采月」「雪桥翦梅」「柳亭簪花」「桃坟扑蝶」，身影忽前忽后，一转身指尖已点到要害。"
 msgstr ""
@@ -9213,7 +9213,7 @@ msgid "只见$N纤腰一摆，陡然滑出数尺，右手顺著来势一招「�
 msgstr ""
 
 msgid "寒雪鞭法"
-msgstr ""
+msgstr "Плеть холодного снега"
 
 msgid "晚月庄的鞭法，从「寒风起兮」「漫天飞雪」到「狂风骤雪」「风雪交加」，鞭影如满天飞雪，虚虚实实地袭人。须有足够的内力才能练。"
 msgstr ""
@@ -9252,7 +9252,7 @@ msgid "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身"
 msgstr ""
 
 msgid "意寒功"
-msgstr ""
+msgstr "Искусство ледяной воли"
 
 msgid "三十年前以一柄拂尘横扫武林的前辈异人残心师太所创的内功心法，纯走阴柔之路，发出的内劲寒冷无比；传说她曾在沙牢山一掌冻住七只雪狼，堪称当今寒冰掌一路中最凌厉的奇功。交手时阴寒之气常叫对方打个寒噤，运起「意寒睨」，更能以冰冷如刀的眼神伤敌。"
 msgstr ""
@@ -9264,7 +9264,7 @@ msgid "意寒功只能用学的，或是从运用中增加熟练度。"
 msgstr ""
 
 msgid "雪影心法"
-msgstr ""
+msgstr "Метод снежной тени"
 
 msgid "天山一脉的独门内功，只能向师父学，或在运功中慢慢精熟；雪影剑法必须以它为根基。"
 msgstr ""
@@ -9273,7 +9273,7 @@ msgid "天山雪影心法只能用学的或是从运用中增加熟练度。"
 msgstr ""
 
 msgid "雪影剑法"
-msgstr ""
+msgstr "Меч снежной тени"
 
 msgid "天山雪影剑，招名「回光幻电」「风霜碎影」「残阳照雪」「冰谷初虹」「长空雷隐」「断石狼烟」，剑光疾如闪电，身形飘忽如雪影。必须配合天山魔教的独门雪影心法才能练，内力不足也练不成。"
 msgstr ""
@@ -9309,7 +9309,7 @@ msgid "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l"
 msgstr ""
 
 msgid "步玄七诀"
-msgstr ""
+msgstr "Семь секретов Бусюань"
 
 msgid "四百年前「秃笔狂生」骆步玄的成名武功。他原是一介书生，未曾拜师学艺，十九岁起赴京应试，屡试不中，某年考完步出试场，偶一抬头望见街边书肆的一幅对子，竟悟出一套神奇的武功，从此闯荡江湖未逢敌手，五十岁回京定居，创立了步玄派。步玄七诀号称天下轻功「轻捷第一」，姿态潇洒有如书法，第一式「玄羽乱舞」能在短时间里加快身法；须配合步玄心法，又以音律之学为根底。"
 msgstr ""
@@ -9339,7 +9339,7 @@ msgid "$n右足一点，身影向左滑开数尺，避了开去。"
 msgstr ""
 
 msgid "步玄心法"
-msgstr ""
+msgstr "Метод Бусюань"
 
 msgid "步玄派的本门内功，只能向师父学，或在运功中慢慢精熟；步玄七诀、小步玄剑都要以它为根基。"
 msgstr ""
@@ -9348,7 +9348,7 @@ msgid "步玄心法只能学，或是从运用中增加熟练度。"
 msgstr ""
 
 msgid "小步玄剑"
-msgstr ""
+msgstr "Малый меч Бусюань"
 
 msgid "步玄派的剑法，招名「暮雪三叹」「处子弄笛」「阳谷白练」，出剑急如骤雨。须先有相当火候的步玄心法，内力不足也练不成。"
 msgstr ""
@@ -9378,7 +9378,7 @@ msgid "$N手中$w一个圈转，使出「薰容逐电」中锋直进刺向$n的$
 msgstr ""
 
 msgid "油流麻香手"
-msgstr ""
+msgstr "Рука масла и перца"
 
 msgid "花紫会的手上功夫，忽掌忽爪，招名多带市井气——「撺锅手」「撮灰手」「梁上君子」「随棍上身」，劲力一吐，能听见对方骨节作响。须空手练，内力太弱的人练不成。"
 msgstr ""
@@ -9420,7 +9420,7 @@ msgid "$N右手在$n$l划过，随後一招「随棍上身」左爪又向同一�
 msgstr ""
 
 msgid "短歌刀法"
-msgstr ""
+msgstr "Сабля короткой песни"
 
 msgid "招名全出自《短歌行》——「对酒当歌」「人生几何」「譬如朝露」「去日苦多」……弯刀似月，刀势常由下而上撩斩。官府的带刀侍卫、高门大户的护院多使这一路刀法。"
 msgstr ""
@@ -9447,7 +9447,7 @@ msgid "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l"
 msgstr ""
 
 msgid "秋风步"
-msgstr ""
+msgstr "Шаг осеннего ветра"
 
 msgid "招名取自《秋风辞》，从「秋风起兮白云飞」到「箫鼓鸣兮发棹歌」，身影一晃，便已避在数尺之外。练这门步法须有相当的内力；官府的侍卫、衙役常与短歌刀法一同修习。"
 msgstr ""
@@ -9480,7 +9480,7 @@ msgid "$n身形往上一拔，一招「少壮几时兮奈老何」，一个转�
 msgstr ""
 
 msgid "密宗大手印"
-msgstr ""
+msgstr "Великая печать тантры"
 
 msgid "密宗一路的掌法，招名「苦海端无涯」「地狱似有门」「天堂却无路」「万念皆是空」，虚实相生；招架时能以双掌夹住来刃，或以「粘」字诀引偏兵器。须空手练。"
 msgstr ""
@@ -9507,13 +9507,13 @@ msgid "$N使出「佛云以杀止杀」，身形凌空飞起，从空中当头�
 msgstr ""
 
 msgid "铁布衫"
-msgstr ""
+msgstr "Железная рубашка"
 
 msgid "外门护体硬功：闭目凝神，气走全身，不躲不闪也能硬受来招。"
 msgstr ""
 
 msgid "小无相功"
-msgstr ""
+msgstr "Малое искусство без формы"
 
 msgid "逍遥派一路的内功，讲究文墨修养：读书识字的造诣跟不上，小无相功便无法再进。只能向人学，或在运功中慢慢精熟。"
 msgstr ""
@@ -9525,7 +9525,7 @@ msgid "你的文学素养不够无法提升小无相功的造诣。"
 msgstr ""
 
 msgid "禁中刀"
-msgstr ""
+msgstr "Сабля Запретного дворца"
 
 msgid "大内侍卫营的刀法，七式「值门」「出巡」「提灯」「锁宫」「拿下」「护驾」「天明」，一招一式都在宫门、长街、殿上。侍卫营总教头冯策的刀谱末页写着一句：「刀在鞘里的时候最多。」"
 msgstr ""
@@ -9552,7 +9552,7 @@ msgid "$N大喝一声，一招「天明」$w自下而上斜劈，刀光照亮了
 msgstr ""
 
 msgid "关北马刀"
-msgstr ""
+msgstr "Гуаньбэйская сабля"
 
 msgid "关北槐阳王府骑兵的马上刀法，七式从「扬鞭」「回马」「斩缰」到「破阵」「归鞘」，刀自下而上撩出。刀谱每一页的边上都写着同一句话：「撩，不是砍。」"
 msgstr ""
@@ -9579,7 +9579,7 @@ msgid "$N手腕一翻，一招「归鞘」$w收势时顺手一撩，刀背扫过
 msgstr ""
 
 msgid "铁盾剑法"
-msgstr ""
+msgstr "Меч Железного щита"
 
 msgid "番坊铁盾会的剑法，传自流落东方的大秦剑手：盾在前，剑在后，左臂圆盾挡住来招，右手短剑从盾下刺出，七式自「盾墙」至「盾下一剑」。臂上没有盾，铁盾会不教；入了鬼笠馆的人，铁盾会也不教。"
 msgstr ""
@@ -9621,7 +9621,7 @@ msgid "$N矮身藏在盾后，一招「盾下一剑」$w从盾底下猛地刺向
 msgstr ""
 
 msgid "鬼笠刀法"
-msgstr ""
+msgstr "Клинок Призрачной шляпы"
 
 msgid "番坊倭人浪人武馆鬼笠馆的刀法，刀窄而弯，拔刀、横扫、下劈、纳刀、退步五式之外，另有一式「一刀」。门规与中原相反：一击之内定生死。铁盾会的弟子，鬼笠馆不教。"
 msgstr ""
@@ -9765,16 +9765,16 @@ msgid "$N手握$w，眼露凶光，猛地对准$n的$l挥了过去"
 msgstr ""
 
 msgid "稳健"
-msgstr ""
+msgstr "Выдержка"
 
 msgid "爆发"
-msgstr ""
+msgstr "Натиск"
 
 msgid "兽"
-msgstr ""
+msgstr "Зверь"
 
 msgid "当前 / 有效 / 最大"
-msgstr ""
+msgstr "Сейчас / предел / максимум"
 
 msgid "当前是眼下的数；有效是受伤压低的上限，歇着会慢慢长回来，疗伤更快；最大是你的本钱。"
 msgstr ""
@@ -9801,7 +9801,7 @@ msgid "施展神通要用。修行得来，上限看基本法术。"
 msgstr ""
 
 msgid "杀气"
-msgstr ""
+msgstr "Жажда убийства"
 
 msgid "杀人会涨，胆气也跟着壮；太重学不了佛道心法，还可能失控伤人。运功或捐香火能压下去。"
 msgstr ""
@@ -9810,7 +9810,7 @@ msgid "随时间消耗，吃东西补；见底后内力、法力、灵力不再�
 msgstr ""
 
 msgid "饮水"
-msgstr ""
+msgstr "Вода"
 
 msgid "随时间消耗，喝东西补；见底后什么都不再恢复。"
 msgstr ""
@@ -9822,31 +9822,31 @@ msgid "打架、办事得来，请教和自学要花它；没用掉的有上限�
 msgstr ""
 
 msgid "综合评价"
-msgstr ""
+msgstr "Слава"
 
 msgid "江湖上对你的总评：办成差事会涨，认输会掉。"
 msgstr ""
 
 msgid "杀过的人"
-msgstr ""
+msgstr "Убито людей"
 
 msgid "你亲手杀过多少人。"
 msgstr ""
 
 msgid "负重"
-msgstr ""
+msgstr "Ноша"
 
 msgid "身上东西的总重和能背的上限，上限看膂力。"
 msgstr ""
 
 msgid "体重"
-msgstr ""
+msgstr "Вес"
 
 msgid "你自己的分量，也决定肚子能装多少吃喝。"
 msgstr ""
 
 msgid "膂力"
-msgstr ""
+msgstr "Мощь"
 
 msgid "力气：打得更重，背得更多，拿得动沉重的兵器。"
 msgstr ""
@@ -9855,7 +9855,7 @@ msgid "敢不敢抢攻：自动对打时，胆识高的人出手更勤；不少�
 msgstr ""
 
 msgid "悟性"
-msgstr ""
+msgstr "Понятливость"
 
 msgid "天资：学武功更快，耗精更少，打架时也更容易长进。"
 msgstr ""
@@ -9867,19 +9867,19 @@ msgid "临危不乱：对手抢攻前要过你这一关，定力越高他们越�
 msgstr ""
 
 msgid "容貌"
-msgstr ""
+msgstr "Облик"
 
 msgid "长相：有人看脸说话，也有师父看长相收人；容貌高，杀气重的人也不易对你翻脸。"
 msgstr ""
 
 msgid "根骨"
-msgstr ""
+msgstr "Сложение"
 
 msgid "体质：精气神恢复得更快，打坐涨内力更快，昏倒后醒得更早，酒量也大。"
 msgstr ""
 
 msgid "福缘"
-msgstr ""
+msgstr "Удача"
 
 msgid "运气：容易遇上一般人碰不到的机缘，好事坏事都有。"
 msgstr ""
@@ -9888,49 +9888,49 @@ msgid "雪亭镇"
 msgstr ""
 
 msgid "野羊山"
-msgstr ""
+msgstr "гора Еяншань"
 
 msgid "青石村"
-msgstr ""
+msgstr "деревня Цинши"
 
 msgid "青石山路"
 msgstr ""
 
 msgid "老松岭"
-msgstr ""
+msgstr "Старый сосновый лес"
 
 msgid "铁链崖"
 msgstr ""
 
 msgid "晚月庄"
-msgstr ""
+msgstr "усадьба Ваньюэ"
 
 msgid "晚月山路"
 msgstr ""
 
 msgid "日照山"
-msgstr ""
+msgstr "гора Жичжаошань"
 
 msgid "乔阴县城"
-msgstr ""
+msgstr "город Цяоинь"
 
 msgid "乔阴东郊"
-msgstr ""
+msgstr "восточные окрестности города Цяоинь"
 
 msgid "天驼关"
-msgstr ""
+msgstr "застава Тяньто"
 
 msgid "岚城"
-msgstr ""
+msgstr "Ланьчэн"
 
 msgid "玉螺湖村"
-msgstr ""
+msgstr "деревня Юйлоху"
 
 msgid "京师"
-msgstr ""
+msgstr "столица"
 
 msgid "黑松山"
-msgstr ""
+msgstr "гора Хэйсуншань"
 
 msgid "槐阳城"
 msgstr ""
@@ -9945,10 +9945,10 @@ msgid "古冢"
 msgstr ""
 
 msgid "阴间"
-msgstr ""
+msgstr "Загробный мир"
 
 msgid "番坊"
-msgstr ""
+msgstr "Иноземный квартал"
 
 msgid "封山剑派"
 msgstr ""
@@ -9957,7 +9957,7 @@ msgid "封山剑派是当今武林中最大的一支剑派。相传三位剑术�
 msgstr ""
 
 msgid "雪亭镇的淳风武馆"
-msgstr ""
+msgstr "школа Чуньфэн в городке Сюэтин"
 
 msgid "柳家拳没什么花样：先打实一拳，人就贴上去了；贴上去，重拳才够得着，一拳比一拳沉。"
 msgstr ""
@@ -10077,43 +10077,43 @@ msgid "封山剑派北宗是封山剑派里的一支，剑法、拳脚和内功�
 msgstr ""
 
 msgid "振远镖局"
-msgstr ""
+msgstr "охранная контора Чжэньюань"
 
 msgid "振远镖局是京师第一大镖局，在京城一带几乎无人不知其名，绮云镇上也有振远的镖局。镖局里的人走镖凭的是一手春风快意刀。走镖危险，镖局收人先看胆识。"
 msgstr ""
 
 msgid "京师的振远总局"
-msgstr ""
+msgstr "главная контора Чжэньюань в столице"
 
 msgid "东方神教"
-msgstr ""
+msgstr "учение Дунфан"
 
 msgid "东方神教是一个行事隐秘的教门，不立山门，也不收寻常弟子。教中人散在各处，平日看不出身份，外人对它的宗旨所知甚少。只听说教中高手使一路雪影剑法，身法轻疾。"
 msgstr ""
 
 msgid "天邪派"
-msgstr ""
+msgstr "школа Тяньсе"
 
 msgid "天邪派以水烟阁为大本营。水烟阁在雪亭镇西边青石官道尽头的山上，相传最早的主人是武术之神杞庸，后来成了历代武林盟主的行馆，每年正月十七在阁外虹台推选盟主。天邪神功与天邪神掌是这一派的根本，相传是杞庸见灵兽天邪虎而悟出；另有一路六阴追魂剑法，是三百年前一位前辈从废墟中得来的。门规甚严，拜师要么立誓恪守门规，要么接下三招。"
 msgstr ""
 
 msgid "绝尘派"
-msgstr ""
+msgstr "школа Цзюэчэнь"
 
 msgid "绝尘派是绝尘子一手所创的门派。绝尘子原是佛门中人，后得奇人指点，悟得道家真谛，佛道双修，访遍名山大川后自号绝尘。他的修行之所在青石村的石室里，门上写着「非我弟子，莫入此门」。入门看慧根，也要有相当的江湖历练。"
 msgstr ""
 
 msgid "青石村的石室"
-msgstr ""
+msgstr "каменный зал в деревне Цинши"
 
 msgid "茅山派"
-msgstr ""
+msgstr "школа Маошань"
 
 msgid "茅山派自张天师开山立派，世代以降妖伏魔为己任，门户在茅山上的灵心观。门下修谷衣心法，排去体内的五谷秽气，炼成护体之气；修到小成，左眼眼珠会变成金色。法术以治鬼除魔为主，根基是天师正道。灵心观是出家人的道观，只收男弟子。"
 msgstr ""
 
 msgid "茅山的灵心观"
-msgstr ""
+msgstr "даосский монастырь Линсинь на горе Маошань"
 
 msgid "晚月庄是绮云镇以西林子深处的一座大宅院，朱漆大门，门口挂着灯笼，出现在乡野之间显得有些突兀。庄里多是女子，只收女弟子，庄主的琵琶闻名千里。武功以七宝天岚舞的身法、柔虹指和寒雪鞭法见长，内功意寒功纯走阴柔一路。"
 msgstr ""
@@ -10122,58 +10122,58 @@ msgid "山烟寺在绮云镇南、泓水对岸的日照山上，整座寺由上�
 msgstr ""
 
 msgid "日照山的山烟寺"
-msgstr ""
+msgstr "храм Шаньянь на горе Жичжаошань"
 
 msgid "逍遥派"
-msgstr ""
+msgstr "школа Сяояо"
 
 msgid "逍遥派的门户不在这一带，中原少见其门人。听说这一派收徒讲究人品文采，掌门是个风流倜傥的人物。"
 msgstr ""
 
 msgid "天山派"
-msgstr ""
+msgstr "школа Тяньшань"
 
 msgid "天山派的门户远在天山，中原少见其门人。晚月庄后门外的小径，据说就是通往天山的路。"
 msgstr ""
 
 msgid "步玄派"
-msgstr ""
+msgstr "школа Бусюань"
 
 msgid "步玄派是四百年前「秃笔狂生」骆步玄在京城创立的门派。骆步玄原是屡试不中的书生，一日在街边书肆望见一副对子，竟悟出一套武功，从此闯荡江湖。门下的步玄七诀号称天下轻功「轻捷第一」，使起来姿态有如书法；骆家至今是京城有名的武林世家。想入门的人，要先走一趟乔阴曼雩台东边的桃林。"
 msgstr ""
 
 msgid "乔阴县城的曼雩台"
-msgstr ""
+msgstr "терраса Маньюй в городе Цяоинь"
 
 msgid "花紫会"
-msgstr ""
+msgstr "братство Хуацзы"
 
 msgid "花紫会是乞丐们的帮会，只收身上没几个钱的化子。龙头的信物是一只打着二十三个结的皮酒囊；龙头行踪诡秘，据说各处总有七八个替身。会中的武功有油流麻香手和伏蛟功。"
 msgstr ""
 
 msgid "乔阴县城的福林大街"
-msgstr ""
+msgstr "улица Фулинь в городе Цяоинь"
 
 msgid "铁盾会是番坊里大秦人的剑会，门前立着两面比人还高的铁包边大盾，盾面上漆着展翅的鹰。大秦人的祖上从西边来，在这片海边落了脚。会里的剑手左手盾、右手短剑，两两对练；铁盾剑法盾在前、剑在后，没有盾的人不教。"
 msgstr ""
 
 msgid "番坊的铁盾会"
-msgstr ""
+msgstr "братство Железного щита в Иноземном квартале"
 
 msgid "鬼笠馆浪人"
-msgstr ""
+msgstr "ронины зала Призрачной шляпы"
 
 msgid "鬼笠馆是番坊里倭人浪人开的武馆，门楣上挂着一顶破了边的斗笠，馆名就是这么来的。门规只有一句：「一击之内定生死」——刀出鞘，只出一次。鬼笠刀法的刀比中原的窄而弯，劈下去就收，不出第二刀。"
 msgstr ""
 
 msgid "番坊的鬼笠馆"
-msgstr ""
+msgstr "зал Призрачной шляпы в Иноземном квартале"
 
 msgid "日陀罗寺是番坊里一座不大的寺院，由两位天竺僧人所建，赭红的墙头长着草。院中一棵大榕树，是第一代师父从天竺带来的枝条插活的。入寺要先剃度出家，只收男子，所传的是莲华心法、流云杖法这些佛门功夫。"
 msgstr ""
 
 msgid "番坊的日陀罗寺"
-msgstr ""
+msgstr "храм Житоло в Иноземном квартале"
 
 msgid "柳淳风"
 msgstr ""
@@ -10334,7 +10334,7 @@ msgid "封山弟子人人有一块腰牌，正面一座山，背面是自己的�
 msgstr ""
 
 msgid "逄义"
-msgstr ""
+msgstr "Пан И"
 
 msgid "他肯认，就还是封山的人。"
 msgstr ""
@@ -10352,7 +10352,7 @@ msgid "先父临终之时将这武馆交到在下手中，需得好好照看。"
 msgstr ""
 
 msgid "刘安禄"
-msgstr ""
+msgstr "Лю Аньлу"
 
 msgid "刘兄弟在寒舍管事已经五年了，过去之事不须再提。"
 msgstr ""
@@ -10373,13 +10373,13 @@ msgid "老松寨的常老大，人称泼风刀王，什么钱都收。要过他�
 msgstr ""
 
 msgid "黑衣道士"
-msgstr ""
+msgstr "даос в чёрном"
 
 msgid "黑冠黑衣的道士？这一带没有道观。你若在老松岭遇上，小心些，那种人下手没有分寸。"
 msgstr ""
 
 msgid "荐信"
-msgstr ""
+msgstr "рекомендательное письмо"
 
 msgid "老岑的信，你留着。末一行我不认得——他说过他在山里见过一座城，我只当是饿昏了的话。"
 msgstr ""
@@ -10570,7 +10570,7 @@ msgid "很好，$RESPECT多加努力，他日必定有成。"
 msgstr ""
 
 msgid "县城官兵"
-msgstr ""
+msgstr "уездный солдат"
 
 msgid ""
 "这是个正在执行公务的县城官兵，虽然和许多武林人物比起来，官兵\n"
@@ -10587,10 +10587,10 @@ msgid ""
 msgstr ""
 
 msgid "於兰天武"
-msgstr ""
+msgstr "Юйлань Тяньу"
 
 msgid "大天邪"
-msgstr ""
+msgstr "Старший Тяньсе"
 
 msgid "水烟阁传功使"
 msgstr ""
@@ -10623,7 +10623,7 @@ msgid "昭儿？……他还小。朝廷的事，老夫不问了。"
 msgstr ""
 
 msgid "旋芒"
-msgstr ""
+msgstr "Вихревой блеск"
 
 msgid "在老夫手里。三百年前於兰家拔错了一把——决战那日，你来叫我，看老夫这一回拔得对不对。"
 msgstr ""
@@ -10647,7 +10647,7 @@ msgid "樵夫撞进去过，先帝的人没有。老夫不信那些。"
 msgstr ""
 
 msgid "卫沧澜"
-msgstr ""
+msgstr "Вэй Цанлань"
 
 msgid "人送回水烟阁了。庾子建那道门，老夫往后还会去敲。"
 msgstr ""
@@ -10728,10 +10728,10 @@ msgid "传功使的事，交给萧辟尘。——老夫回京。"
 msgstr ""
 
 msgid "萧辟尘"
-msgstr ""
+msgstr "Сяо Бичэнь"
 
 msgid "小天邪"
-msgstr ""
+msgstr "Младший Тяньсе"
 
 msgid ""
 "萧辟尘自幼生长於岚城之中，看起来仙风道骨，不食人间烟火。\n"
@@ -10813,10 +10813,10 @@ msgid "湖底？玉螺湖底下的事，小天邪不问。"
 msgstr ""
 
 msgid "潘军禅"
-msgstr ""
+msgstr "Пань Цзюньчань"
 
 msgid "书 剑 侠"
-msgstr ""
+msgstr "Герой книги и меча"
 
 msgid "水烟阁执法使"
 msgstr ""
@@ -11248,7 +11248,7 @@ msgid "七长老许得出口的，我许不出口。我只问你一句：门规�
 msgstr ""
 
 msgid "绝尘子"
-msgstr ""
+msgstr "Цзюэчэньцзы"
 
 msgid ""
 "绝尘子本为释家人，后得奇人指点，得悟道家真谛，佛道双修，\n"
@@ -11468,7 +11468,7 @@ msgid "好。绝尘派这一票，你拿去。"
 msgstr ""
 
 msgid "了尘"
-msgstr ""
+msgstr "Ляочэнь"
 
 msgid "他回日照山了。"
 msgstr ""
@@ -11496,34 +11496,34 @@ msgid ""
 msgstr ""
 
 msgid "天甲神兵"
-msgstr ""
+msgstr "небесный воин Цзя"
 
 msgid "天乙神兵"
-msgstr ""
+msgstr "небесный воин И"
 
 msgid "天丙神兵"
-msgstr ""
+msgstr "небесный воин Бин"
 
 msgid "天丁神兵"
-msgstr ""
+msgstr "небесный воин Дин"
 
 msgid "天戊神兵"
-msgstr ""
+msgstr "небесный воин У"
 
 msgid "天己神兵"
-msgstr ""
+msgstr "небесный воин Цзи"
 
 msgid "天庚神兵"
-msgstr ""
+msgstr "небесный воин Гэн"
 
 msgid "天辛神兵"
-msgstr ""
+msgstr "небесный воин Синь"
 
 msgid "天壬神兵"
-msgstr ""
+msgstr "небесный воин Жэнь"
 
 msgid "天癸神兵"
-msgstr ""
+msgstr "небесный воин Гуй"
 
 msgid "一道金光由天而降，金光中走出一个身穿金色战袍的将官。"
 msgstr ""
@@ -11538,10 +11538,10 @@ msgid "$N化成一道金光，冲上天际消失不见了。"
 msgstr ""
 
 msgid "林忌"
-msgstr ""
+msgstr "Линь Цзи"
 
 msgid "六指真人"
-msgstr ""
+msgstr "Шестипалый праведник"
 
 msgid ""
 "林忌是一位道行十分高深的修道者，你发现他的眼珠一个是黑色的，一\n"
@@ -11683,7 +11683,7 @@ msgid ""
 msgstr ""
 
 msgid "逆灵宫"
-msgstr ""
+msgstr "дворец Нилин"
 
 msgid "看了你很久，叹了一口气。"
 msgstr ""
@@ -11866,7 +11866,7 @@ msgid "……先听我把话说完。"
 msgstr ""
 
 msgid "黑冠"
-msgstr ""
+msgstr "чёрный венец"
 
 msgid "从香案底下取出一顶黑冠，递给你。"
 msgstr ""
@@ -12144,40 +12144,40 @@ msgid ""
 msgstr ""
 
 msgid "子阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник Цзы"
 
 msgid "丑阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник Чоу"
 
 msgid "寅阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник Инь"
 
 msgid "卯阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник Мао"
 
 msgid "辰阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник Чэнь"
 
 msgid "巳阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник Сы"
 
 msgid "午阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник У"
 
 msgid "未阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник Вэй"
 
 msgid "申阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник Шэнь"
 
 msgid "酉阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник Ю"
 
 msgid "戌阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник Сюй"
 
 msgid "亥阴鬼卒"
-msgstr ""
+msgstr "призрачный стражник Хай"
 
 msgid "一道蓝光从地底升起，蓝光中出现一个手执钢叉、面目狰狞的鬼卒。"
 msgstr ""
@@ -12186,7 +12186,7 @@ msgid "$N的身形发出幽暗的蓝光，沈入地下不见了。"
 msgstr ""
 
 msgid "观想虫"
-msgstr ""
+msgstr "червь помыслов"
 
 msgid ""
 "这是一只由修道人的杂念绮思所化的观想虫，会缠住人的魂魄。\n"
@@ -12214,7 +12214,7 @@ msgid "你觉得一阵天旋地转...."
 msgstr ""
 
 msgid "观想兽"
-msgstr ""
+msgstr "зверь помыслов"
 
 msgid ""
 "这是一只由修道人的杂念绮思所化的观想兽，会缠住人的魂魄。\n"
@@ -12227,7 +12227,7 @@ msgid "你的观想兽被人杀死了！"
 msgstr ""
 
 msgid "僵尸"
-msgstr ""
+msgstr "ходячий мертвец"
 
 msgid ""
 "这是一具被人用符咒控制的僵尸，从它苍白的脸上看不出任何喜怒哀乐。\n"
@@ -12243,10 +12243,10 @@ msgid "$N缓缓地倒了下来，化为一滩血水。"
 msgstr ""
 
 msgid "蓝止萍"
-msgstr ""
+msgstr "Лань Чжипин"
 
 msgid "回音仙子"
-msgstr ""
+msgstr "фея Эха"
 
 msgid "晚月庄主"
 msgstr ""
@@ -12552,7 +12552,7 @@ msgid "好。晚月庄听你的。"
 msgstr ""
 
 msgid "玄智和尚"
-msgstr ""
+msgstr "монах Сюаньчжи"
 
 msgid "住持"
 msgstr ""
@@ -12896,10 +12896,10 @@ msgid "阿弥陀佛，善哉！善哉！"
 msgstr ""
 
 msgid "陆得财"
-msgstr ""
+msgstr "Лу Дэцай"
 
 msgid "黑水伏蛟"
-msgstr ""
+msgstr "Затаившийся дракон Чёрной воды"
 
 msgid ""
 "陆得财是一个浑身脏兮兮的老丐，一副无精打采要死不活的样子，可是\n"
@@ -13048,7 +13048,7 @@ msgid "好。花紫会这一票，你说了算。"
 msgstr ""
 
 msgid "骆云舟"
-msgstr ""
+msgstr "Ло Юньчжоу"
 
 msgid ""
 "骆云舟生於京城有名的武林世家，他的本名是骆建炎，但是因为生性喜爱\n"
@@ -13278,7 +13278,7 @@ msgid "好。步玄听你的。"
 msgstr ""
 
 msgid "风泉剑灵"
-msgstr ""
+msgstr "дух меча Фэнцюань"
 
 msgid ""
 "一个高大的人形，只有轮廓发出暗蓝色的光芒，其他部份都是透明的！\n"
@@ -13300,271 +13300,271 @@ msgid "一阵蓝光笼罩住$N，「嗡」地一声，$N的轮廓又变清晰了
 msgstr ""
 
 msgid "桃干仙"
-msgstr ""
+msgstr "бессмертный Персиковый Ствол"
 
 msgid "桃枝仙"
-msgstr ""
+msgstr "бессмертный Персиковая Ветвь"
 
 msgid "桃谷仙"
-msgstr ""
+msgstr "бессмертный Персиковая Долина"
 
 msgid "桃实仙"
-msgstr ""
+msgstr "бессмертный Персиковый Плод"
 
 msgid "桃花仙"
-msgstr ""
+msgstr "бессмертный Персиковый Цвет"
 
 msgid "桃根仙"
-msgstr ""
+msgstr "бессмертный Персиковый Корень"
 
 msgid "桃萼仙"
-msgstr ""
+msgstr "бессмертный Персиковая Чашечка"
 
 msgid "乞丐"
-msgstr ""
+msgstr "нищий"
 
 msgid "李师师"
-msgstr ""
+msgstr "Ли Шиши"
 
 msgid "宝官"
-msgstr ""
+msgstr "банкомёт"
 
 msgid "知客僧"
-msgstr ""
+msgstr "монах-привратник"
 
 msgid "裁缝"
-msgstr ""
+msgstr "портной"
 
 msgid "茶工"
-msgstr ""
+msgstr "сборщик чая"
 
 msgid "疯狗"
-msgstr ""
+msgstr "бешеная собака"
 
 msgid "野狗"
-msgstr ""
+msgstr "бродячая собака"
 
 msgid "杜宽"
-msgstr ""
+msgstr "Ду Куань"
 
 msgid "收破烂的"
-msgstr ""
+msgstr "старьёвщик"
 
 msgid "王铁匠"
-msgstr ""
+msgstr "кузнец Ван"
 
 msgid "扫地僧"
-msgstr ""
+msgstr "монах-метельщик"
 
 msgid "进香客"
-msgstr ""
+msgstr "паломник"
 
 msgid "魏无极"
-msgstr ""
+msgstr "Вэй Уцзи"
 
 msgid "武馆弟子"
-msgstr ""
+msgstr "ученик школы"
 
 msgid "卖饼大叔"
-msgstr ""
+msgstr "дядька с лепёшками"
 
 msgid "卖糖葫芦的"
-msgstr ""
+msgstr "продавец засахаренного боярышника"
 
 msgid "卖包子的"
-msgstr ""
+msgstr "продавец пирожков"
 
 msgid "家丁"
-msgstr ""
+msgstr "челядинец"
 
 msgid "岩蛭"
-msgstr ""
+msgstr "каменная пиявка"
 
 msgid "蜘蛛"
-msgstr ""
+msgstr "паук"
 
 msgid "金丝雀"
-msgstr ""
+msgstr "канарейка"
 
 msgid "药僧"
-msgstr ""
+msgstr "монах-лекарь"
 
 msgid "船夫"
-msgstr ""
+msgstr "лодочник"
 
 msgid "潘若秋"
-msgstr ""
+msgstr "Пань Жоцю"
 
 msgid "鸨母"
-msgstr ""
+msgstr "хозяйка заведения"
 
 msgid "杂货贩"
-msgstr ""
+msgstr "коробейник"
 
 msgid "李火狮"
-msgstr ""
+msgstr "Ли Хоши"
 
 msgid "贵公子"
-msgstr ""
+msgstr "знатный юноша"
 
 msgid "玄真"
-msgstr ""
+msgstr "Сюаньчжэнь"
 
 msgid "蝴蝶"
-msgstr ""
+msgstr "бабочка"
 
 msgid "芳绫"
-msgstr ""
+msgstr "Фанлин"
 
 msgid "弈者"
-msgstr ""
+msgstr "игрок в го"
 
 msgid "化缘和尚"
-msgstr ""
+msgstr "нищенствующий монах"
 
 msgid "农夫"
-msgstr ""
+msgstr "крестьянин"
 
 msgid "旅客"
-msgstr ""
+msgstr "путник"
 
 msgid "樵夫"
-msgstr ""
+msgstr "дровосек"
 
 msgid "护寺武僧"
-msgstr ""
+msgstr "монах-страж"
 
 msgid "肥岩蛭"
-msgstr ""
+msgstr "жирная каменная пиявка"
 
 msgid "大岩蛭"
-msgstr ""
+msgstr "большая каменная пиявка"
 
 msgid "昭仪"
-msgstr ""
+msgstr "Чжаои"
 
 msgid "圆春"
-msgstr ""
+msgstr "Юаньчунь"
 
 msgid "惜春"
-msgstr ""
+msgstr "Сичунь"
 
 msgid "跛僧人"
-msgstr ""
+msgstr "хромой монах"
 
 msgid "明心"
-msgstr ""
+msgstr "Минсинь"
 
 msgid "郑屠夫"
-msgstr ""
+msgstr "мясник Чжэн"
 
 msgid "僵尸侍者"
-msgstr ""
+msgstr "мертвец-прислужник"
 
 msgid "清虚"
-msgstr ""
+msgstr "Цинсюй"
 
 msgid "卧龙岗强盗"
-msgstr ""
+msgstr "разбойник с холма Лежащего Дракона"
 
 msgid "彩衣少女"
-msgstr ""
+msgstr "барышня в пёстром"
 
 msgid "飞贼"
-msgstr ""
+msgstr "вор-верхолаз"
 
 msgid "巨岩蛭"
-msgstr ""
+msgstr "огромная каменная пиявка"
 
 msgid "土匪爪牙"
-msgstr ""
+msgstr "разбойничий прихвостень"
 
 msgid "兵器贩子"
-msgstr ""
+msgstr "торговец оружием"
 
 msgid "袭人"
-msgstr ""
+msgstr "Сижэнь"
 
 msgid "土匪首领"
-msgstr ""
+msgstr "главарь разбойников"
 
 msgid "趟子手"
-msgstr ""
+msgstr "обозный охранник"
 
 msgid "老队长"
-msgstr ""
+msgstr "старый десятник"
 
 msgid "柳绘心"
-msgstr ""
+msgstr "Лю Хуэйсинь"
 
 msgid "老兵"
-msgstr ""
+msgstr "старый солдат"
 
 msgid "大队长"
-msgstr ""
+msgstr "сотник"
 
 msgid "小队长"
-msgstr ""
+msgstr "десятник"
 
 msgid "小兵"
-msgstr ""
+msgstr "солдат"
 
 msgid "僵尸护法"
-msgstr ""
+msgstr "страж-мертвец"
 
 msgid "赫造基"
-msgstr ""
+msgstr "Хэ Цзаоцзи"
 
 msgid "清云"
-msgstr ""
+msgstr "Цинъюнь"
 
 msgid "清玄"
-msgstr ""
+msgstr "Цинсюань"
 
 msgid "独眼头陀"
-msgstr ""
+msgstr "одноглазый подвижник"
 
 msgid "守城官兵"
-msgstr ""
+msgstr "городской стражник"
 
 msgid "芙云"
-msgstr ""
+msgstr "Фуюнь"
 
 msgid "梦玉楼"
-msgstr ""
+msgstr "Мэн Юйлоу"
 
 msgid "安惜迩"
-msgstr ""
+msgstr "Ань Сиэр"
 
 msgid "武官"
-msgstr ""
+msgstr "офицер"
 
 msgid "李信"
-msgstr ""
+msgstr "Ли Синь"
 
 msgid "严廷殷"
-msgstr ""
+msgstr "Янь Тинъинь"
 
 msgid "狼狗"
-msgstr ""
+msgstr "волкодав"
 
 msgid "常老大"
-msgstr ""
+msgstr "атаман Чан"
 
 msgid "蓝雨梅"
-msgstr ""
+msgstr "Лань Юймэй"
 
 msgid "蓝筱薇"
-msgstr ""
+msgstr "Лань Сяовэй"
 
 msgid "疯老头子"
-msgstr ""
+msgstr "безумный старик"
 
 msgid "莫欣芳"
-msgstr ""
+msgstr "Мо Синьфан"
 
 msgid "邢千慧"
-msgstr ""
+msgstr "Син Цяньхуэй"
 
 msgid "雪亭镇的头几天"
 msgstr ""
@@ -13693,7 +13693,7 @@ msgid "你在兵器储藏室底下的地下密室里拾到一面牛皮盾。"
 msgstr ""
 
 msgid "玉佩"
-msgstr ""
+msgstr "нефритовая подвеска"
 
 msgid "你向青石村的村长打听玉佩。"
 msgstr ""
@@ -13753,7 +13753,7 @@ msgid "你得到了弈者的棋子，一种较轻的暗器。"
 msgstr ""
 
 msgid "忘忧草"
-msgstr ""
+msgstr "трава забвения"
 
 msgid "你向振远镖局的陈剑秋问起陈天星。"
 msgstr ""
@@ -13813,7 +13813,7 @@ msgid "你在密室的石床后面找到了一本舞曲谱。"
 msgstr ""
 
 msgid "无名老妇"
-msgstr ""
+msgstr "безымянная старуха"
 
 msgid "你向内书房的无名老妇问起她的心事：那个蒙面的杀手，是她的私生女。"
 msgstr ""
@@ -13828,13 +13828,13 @@ msgid "你把杀手令牌交给无名老妇，她叹了口气，给了你一本�
 msgstr ""
 
 msgid "密函"
-msgstr ""
+msgstr "тайное письмо"
 
 msgid "你得到了芙云身上的一封密函，信用蜡封著，上面有一个奇怪的图案。"
 msgstr ""
 
 msgid "山药蛋"
-msgstr ""
+msgstr "картофелина"
 
 msgid "你在青石峪遇见一位采药老者，他心疼你饿得面黄肌瘦，从小布包里拿出个山药蛋塞到你手里。"
 msgstr ""
@@ -13846,7 +13846,7 @@ msgid "你在隐士的草堂里趁人不备，从矮几上抓起一本书藏入�
 msgstr ""
 
 msgid "桃木箱"
-msgstr ""
+msgstr "сундук из персикового дерева"
 
 msgid "你向福林酒楼里的武官打听传闻。"
 msgstr ""
@@ -13903,7 +13903,7 @@ msgid "你前后交给大队长三十两银子，他把你列入名册，说从�
 msgstr ""
 
 msgid "印鉴"
-msgstr ""
+msgstr "печать"
 
 msgid "你在将军营帐向严廷殷打听印鉴。"
 msgstr ""
@@ -13945,7 +13945,7 @@ msgid "你在湖底的水下岩洞里撞见了浑身长满白鳞的冰龙。"
 msgstr ""
 
 msgid "小娟"
-msgstr ""
+msgstr "Сяоцзюань"
 
 msgid "你向玉螺湖村的采花妞打听小娟。"
 msgstr ""
@@ -13978,7 +13978,7 @@ msgid "你塞给尚书府的门房三两黄金，他说：这位大人，里面�
 msgstr ""
 
 msgid "出城令牌"
-msgstr ""
+msgstr "пропуск на выезд"
 
 msgid "你向京师守城兵问起出城。"
 msgstr ""
@@ -13990,7 +13990,7 @@ msgid "你把令牌交给京师守城兵，他连忙说：原来是官府中人�
 msgstr ""
 
 msgid "官府悬赏"
-msgstr ""
+msgstr "объявления о розыске"
 
 msgid "你在雪亭驿门外揭下了一张官府悬赏告示，照告示上说的地方去找那个恶人。"
 msgstr ""
@@ -13999,7 +13999,7 @@ msgid "你第一次领到了雪亭驿的悬赏。告示上隔些时候就会贴�
 msgstr ""
 
 msgid "入门"
-msgstr ""
+msgstr "Основы"
 
 msgid "初入江湖"
 msgstr ""
@@ -14311,7 +14311,7 @@ msgid "七座城镇和五个门派的山门都停着车。在车旁「坐车」�
 msgstr ""
 
 msgid "传说"
-msgstr ""
+msgstr "Предания"
 
 msgid "主题故事"
 msgstr ""
@@ -14926,7 +14926,7 @@ msgid "程不平录了供，写信给叔父槐阳王：假印和失踪的人都�
 msgstr ""
 
 msgid "关北"
-msgstr ""
+msgstr "Гуаньбэй"
 
 msgid "假印和失踪的人都往关北去了。先在天驼关把印的事问清楚，再出关去槐阳城，把程不平的信递给槐阳王；然后借兵踏平工地，或者带郭承夜里潜进去。卢卡说他们那边也传说一个找头的鬼。"
 msgstr ""
@@ -15583,7 +15583,7 @@ msgid "日照山的流云轩里多了一个拿金刚杖的和尚，抬上山的�
 msgstr ""
 
 msgid "黑衣人"
-msgstr ""
+msgstr "человек в чёрном"
 
 msgid "那一夜，茅山的人截在北麓下湖的路上。黑砖道观里再没人提起那个新来的道士——只有门房记得，他戴冠的样子不太像。"
 msgstr ""
@@ -15859,7 +15859,7 @@ msgid "朱鸿雪记住了，那天山道上截住她的人的，是你。"
 msgstr ""
 
 msgid "野羊山北麓"
-msgstr ""
+msgstr "северное подножие горы Еяншань"
 
 msgid "北麓的道观空了，官兵封了山门。"
 msgstr ""
@@ -15883,7 +15883,7 @@ msgid "林忌那天一路追到北麓，追回了两个放火的孩子。"
 msgstr ""
 
 msgid "乔阴 · 天驼关 · 京师"
-msgstr ""
+msgstr "уезд Цяоинь · застава Тяньто · столица"
 
 msgid "你是封山剑派的弟子，师父是柳淳风。"
 msgstr ""
@@ -16228,7 +16228,7 @@ msgid "正月十七，花紫会那一票听你的。"
 msgstr ""
 
 msgid "官府"
-msgstr ""
+msgstr "власти"
 
 msgid "乔阴知县程不平替你写过一封信。"
 msgstr ""
@@ -17350,7 +17350,7 @@ msgid "北麓那座道观里还剩着人。湖上的事了了（终章之后）�
 msgstr ""
 
 msgid "乔阴"
-msgstr ""
+msgstr "уезд Цяоинь"
 
 msgid "风泉之剑里住着剑灵；见过它的人，才算步玄的人。骆云舟的大哥在兵部尚书府写了十年字，兵部抄本上多出来的三句是他落的笔——让他上堂作证，还是保住骆家。"
 msgstr ""
@@ -17795,47 +17795,47 @@ msgid ""
 msgstr ""
 
 msgid "短剑"
-msgstr ""
+msgstr "короткий меч"
 
 msgid ""
 "一把粗制滥造的短剑，把手部份用布缠绕了好几圈以防止武器脱手。\n"
 msgstr ""
 
 msgid "皮衣"
-msgstr ""
+msgstr "кожаная куртка"
 
 msgid "太阴八卦袍"
-msgstr ""
+msgstr "халат Великой Инь с триграммами"
 
 msgid "一具已经腐朽的骸骨"
-msgstr ""
+msgstr "давно истлевший скелет"
 
 msgid ""
 "一具已经腐朽的骸骨，靠着石壁坐着，骨头上还挂着几片烂成灰褐色的衣料。身量矮小，牙齿齐全，骨龄不过三十；手边没有剑，也没有刀。石壁上的字自称南危水，说埋骨于此——可水烟阁的五长老南危水，是个高大的老人。\n"
 msgstr ""
 
 msgid "具"
-msgstr ""
+msgstr "тело"
 
 msgid "鬼头刀"
-msgstr ""
+msgstr "палаческий тесак"
 
 msgid ""
 "这是一把沈重的鬼头刀，刀柄上雕著 一个丑陋可怖的鬼头正裂开了嘴大笑。\n"
 msgstr ""
 
 msgid "狼皮披风"
-msgstr ""
+msgstr "плащ из волчьей шкуры"
 
 msgid "竹管"
-msgstr ""
+msgstr "бамбуковая трубка"
 
 msgid ""
 "一根约两寸多长的竹管，上面戳了三个小孔，也许可以用来吹奏？\n"
 msgstr ""
 
 msgid "过招要旨"
-msgstr ""
+msgstr "наставление по поединкам"
 
 msgid ""
 "这是一本介绍过招时如何拆招卸力的书籍。\n"
@@ -17843,28 +17843,28 @@ msgid ""
 msgstr ""
 
 msgid "夜行衣"
-msgstr ""
+msgstr "одежда ночного лазутчика"
 
 msgid ""
 "这是一件夜行人用来掩藏行踪的黑色紧身衣。\n"
 msgstr ""
 
 msgid "飞刀"
-msgstr ""
+msgstr "метательный нож"
 
 msgid ""
 "飞刀是一种十分轻、锐利的匕首，用来当作暗器使用。\n"
 msgstr ""
 
 msgid "土匪探哨"
-msgstr ""
+msgstr "разбойник-лазутчик"
 
 msgid ""
 "这人满脸匪气，一付百无聊赖的模样，令人望而生厌。\n"
 msgstr ""
 
 msgid "土匪"
-msgstr ""
+msgstr "разбойник"
 
 msgid ""
 "这家伙长得高高瘦瘦，脸色苍白，一付无精打采的样子。\n"
@@ -17875,7 +17875,7 @@ msgid ""
 msgstr ""
 
 msgid "黑冠巨蟒"
-msgstr ""
+msgstr "черноголовый питон"
 
 msgid ""
 "一只乌黑油亮的巨蟒，头上生著一个大肉瘤。\n"
@@ -17915,7 +17915,7 @@ msgid ""
 msgstr ""
 
 msgid "土匪喽罗"
-msgstr ""
+msgstr "подручный разбойников"
 
 msgid ""
 "这家伙满脸横肉，一付凶神恶煞的模样，令人望而生畏。\n"
@@ -17986,7 +17986,7 @@ msgid "那道士的事，寨主自己会说。聚义厅在东头。"
 msgstr ""
 
 msgid "泼风刀王"
-msgstr ""
+msgstr "Царь бурной сабли"
 
 msgid "老松寨寨主"
 msgstr ""
@@ -18020,7 +18020,7 @@ msgid "哈哈哈哈哈哈。"
 msgstr ""
 
 msgid "金银花蛇"
-msgstr ""
+msgstr "жимолостная гадюка"
 
 msgid ""
 "一支昂首吐信的毒蛇正虎视眈眈地盯著你。\n"
@@ -18030,30 +18030,30 @@ msgid "你觉得被咬中的地方一阵麻痒！"
 msgstr ""
 
 msgid "粗布衣"
-msgstr ""
+msgstr "рубаха из грубого холста"
 
 msgid "蓑衣"
-msgstr ""
+msgstr "соломенный плащ"
 
 msgid "草鞋"
-msgstr ""
+msgstr "соломенные сандалии"
 
 msgid "铁斧"
-msgstr ""
+msgstr "железный топор"
 
 msgid ""
 "这是一把沈重的铁斧，用来砍柴。\n"
 msgstr ""
 
 msgid "铁锤"
-msgstr ""
+msgstr "железный молот"
 
 msgid ""
 "这是一把沈重的铁锤，打造的相当坚实。\n"
 msgstr ""
 
 msgid "功德箱"
-msgstr ""
+msgstr "ящик для пожертвований"
 
 msgid ""
 "这是寺庙接受善男信女捐献香油钱的功德箱，你可以把想捐的钱\n"
@@ -18061,24 +18061,24 @@ msgid ""
 msgstr ""
 
 msgid "竹剑"
-msgstr ""
+msgstr "бамбуковый меч"
 
 msgid ""
 "这是一把练习剑法用的竹剑，剑尖处用布包了起来以免误伤同伴。\n"
 msgstr ""
 
 msgid "粉红绸衫"
-msgstr ""
+msgstr "розовая шёлковая кофта"
 
 msgid ""
 "这件粉红色的绸衫上面绣著几只黄鹊，闻起来还有一股淡香。\n"
 msgstr ""
 
 msgid "绣花小鞋"
-msgstr ""
+msgstr "расшитые туфельки"
 
 msgid "残破刀谱"
-msgstr ""
+msgstr "истрёпанное руководство по сабле"
 
 msgid ""
 "这似乎是一本什么刀谱的前几页，虽然并没有关于招式的详细解说，可是\n"
@@ -18113,7 +18113,7 @@ msgid "高兴地汪汪叫了起来。"
 msgstr ""
 
 msgid "庙祝"
-msgstr ""
+msgstr "храмовый служитель"
 
 msgid ""
 "这个老人看起来七十多岁了，看著他佝偻的身影，你忽然觉得心情沈重了下来。\n"
@@ -18126,7 +18126,7 @@ msgid "多谢这位$RESPECT，神明一定会保佑你的。"
 msgstr ""
 
 msgid "醉汉"
-msgstr ""
+msgstr "пьяница"
 
 msgid ""
 "一个喝得醉醺醺的年轻人.....\n"
@@ -18178,7 +18178,7 @@ msgid "多谢这位$RESPECT！"
 msgstr ""
 
 msgid "门房"
-msgstr ""
+msgstr "привратник"
 
 msgid ""
 "刘安禄是淳风武馆的门房，除了馆主柳淳风没有人知道他的出身来历，只知\n"
@@ -18542,7 +18542,7 @@ msgid "门外那张榜是乔阴府发的悬赏。榜上的恶人要是教你拿�
 msgstr ""
 
 msgid "老鼠"
-msgstr ""
+msgstr "крыса"
 
 msgid ""
 "一只贼头贼脑的大老鼠。\n"
@@ -18703,7 +18703,7 @@ msgid ""
 msgstr ""
 
 msgid "杨掌柜"
-msgstr ""
+msgstr "хозяин Ян"
 
 msgid ""
 "杨掌柜是这附近相当有名的大善人，常常施舍草药给付不起药钱的穷人\n"
@@ -19181,19 +19181,19 @@ msgid ""
 msgstr ""
 
 msgid "短工"
-msgstr ""
+msgstr "подённая работа"
 
 msgid "钱庄"
-msgstr ""
+msgstr "меняльная лавка"
 
 msgid "红漆大门"
-msgstr ""
+msgstr "красные лакированные ворота"
 
 msgid "木雕门"
-msgstr ""
+msgstr "резная деревянная дверь"
 
 msgid "房门"
-msgstr ""
+msgstr "дверь комнаты"
 
 msgid "往左推"
 msgstr ""
@@ -19242,7 +19242,7 @@ msgid ""
 msgstr ""
 
 msgid "下坡道"
-msgstr ""
+msgstr "спуск"
 
 msgid ""
 "这是一条笔直的坡道，北高南低，道路两旁长满了许多松树，从松\n"
@@ -19328,7 +19328,7 @@ msgid ""
 msgstr ""
 
 msgid "大松树顶"
-msgstr ""
+msgstr "вершина большой сосны"
 
 msgid ""
 "哇....你终于爬上这株松树的树顶了，一阵阵凉风从四面八方吹来\n"
@@ -19391,19 +19391,19 @@ msgid ""
 msgstr ""
 
 msgid "瀑布清水"
-msgstr ""
+msgstr "чистая вода водопада"
 
 msgid "湖水"
-msgstr ""
+msgstr "озёрная вода"
 
 msgid "泉水"
-msgstr ""
+msgstr "родниковая вода"
 
 msgid "大门"
-msgstr ""
+msgstr "ворота"
 
 msgid "灌木丛"
-msgstr ""
+msgstr "кустарник"
 
 msgid "你听到你身后有几个声音大叫：把门关上！把门关上！一个也不许让他们溜走！"
 msgstr ""
@@ -19456,7 +19456,7 @@ msgid "忽然一条人影从南边的帘幕穿了出来。"
 msgstr ""
 
 msgid "山涧石壁"
-msgstr ""
+msgstr "каменная стена ущелья"
 
 msgid "攀爬石壁"
 msgstr ""
@@ -19469,7 +19469,7 @@ msgid "你一付不信邪的表情，开始小心翼翼地攀著石壁爬了上�
 msgstr ""
 
 msgid "向下的山壁"
-msgstr ""
+msgstr "скала вниз"
 
 msgid ""
 "从这个勉强容身的岩穴往下爬，还有一段不算短的距离。\n"
@@ -19479,7 +19479,7 @@ msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往山涧中�
 msgstr ""
 
 msgid "向上的山壁"
-msgstr ""
+msgstr "скала вверх"
 
 msgid "往上爬"
 msgstr ""
@@ -19492,7 +19492,7 @@ msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往上攀爬�
 msgstr ""
 
 msgid "大青石"
-msgstr ""
+msgstr "большой синеватый камень"
 
 msgid ""
 "一块比人还高的钟乳石, 虽然长满了青苔, 但爬上去\n"
@@ -19506,7 +19506,7 @@ msgid "你迅速地爬下大青石。"
 msgstr ""
 
 msgid "石壁"
-msgstr ""
+msgstr "скальная стена"
 
 msgid "埋葬骸骨"
 msgstr ""
@@ -19544,7 +19544,7 @@ msgid ""
 msgstr ""
 
 msgid "路牌"
-msgstr ""
+msgstr "указатель"
 
 msgid ""
 "一块旧木牌，刻着三行字：\n"
@@ -19554,7 +19554,7 @@ msgid ""
 msgstr ""
 
 msgid "刀痕"
-msgstr ""
+msgstr "следы клинка"
 
 msgid "顺着刀痕找"
 msgstr ""
@@ -19570,14 +19570,14 @@ msgid "刀痕指的就是灌木后面那条小径。"
 msgstr ""
 
 msgid "脚印"
-msgstr ""
+msgstr "следы ног"
 
 msgid ""
 "一些杂乱的脚印，不但有人的脚印，看起来还有不少马蹄印。\n"
 msgstr ""
 
 msgid "瀑布"
-msgstr ""
+msgstr "водопад"
 
 msgid ""
 "这个瀑布从数百丈高的山壁上冲激而下，流入一个山涧底的小水潭\n"
@@ -19591,7 +19591,7 @@ msgid ""
 msgstr ""
 
 msgid "山壁"
-msgstr ""
+msgstr "скала"
 
 msgid ""
 "水潭四周的山壁都有数百丈高，想要爬上去「肯定」是休想。\n"
@@ -19603,31 +19603,31 @@ msgid ""
 msgstr ""
 
 msgid "帘幕"
-msgstr ""
+msgstr "занавес"
 
 msgid ""
 "这片帘幕似乎是用一种极薄的丝绸织成的，后面还传来阵阵水声。\n"
 msgstr ""
 
 msgid "大金槌"
-msgstr ""
+msgstr "большая золотая кувалда"
 
 msgid ""
 "一把极其沈重的大槌，要挥动这样的武器非得有过人的膂力不可。\n"
 msgstr ""
 
 msgid "熊皮短靴"
-msgstr ""
+msgstr "короткие сапоги из медвежьей шкуры"
 
 msgid "钢刀"
-msgstr ""
+msgstr "стальная сабля"
 
 msgid ""
 "一把沈重的钢刀，磨得又利又快，看起来相当具杀伤力。\n"
 msgstr ""
 
 msgid "短斧"
-msgstr ""
+msgstr "короткий топор"
 
 msgid ""
 "这种斧头的刃长柄短，是专门用来做兵器的斧头，近战具有相当强的\n"
@@ -19635,10 +19635,10 @@ msgid ""
 msgstr ""
 
 msgid "黄霸"
-msgstr ""
+msgstr "Хуан Ба"
 
 msgid "日月槌"
-msgstr ""
+msgstr "Молоты солнца и луны"
 
 msgid "野羊山三寨主（代寨主）"
 msgstr ""
@@ -19696,7 +19696,7 @@ msgid "霍铮？半年前让道观的人带走了。你问这个做什么。"
 msgstr ""
 
 msgid "霍铮"
-msgstr ""
+msgstr "Хо Чжэн"
 
 msgid "黑衣"
 msgstr ""
@@ -19892,14 +19892,14 @@ msgid ""
 msgstr ""
 
 msgid "裂口"
-msgstr ""
+msgstr "расселина"
 
 msgid ""
 "北边的山壁上一道黑黝黝的裂口，离地约有三四丈，站在路上够不着。裂口边缘的岩石磨得发亮，像是常有东西从那里吊上吊下。\n"
 msgstr ""
 
 msgid "油布"
-msgstr ""
+msgstr "промасленный холст"
 
 msgid "钻进车里"
 msgstr ""
@@ -19923,7 +19923,7 @@ msgid ""
 msgstr ""
 
 msgid "绳索"
-msgstr ""
+msgstr "верёвка"
 
 msgid "攀绳上去"
 msgstr ""
@@ -19945,52 +19945,52 @@ msgid ""
 msgstr ""
 
 msgid "鹿皮小靴"
-msgstr ""
+msgstr "сапожки из оленьей кожи"
 
 msgid "紫玉宝剑"
-msgstr ""
+msgstr "драгоценный меч из пурпурного нефрита"
 
 msgid ""
 "这是一把宝剑，隐含神秘力量。\n"
 msgstr ""
 
 msgid "布裙"
-msgstr ""
+msgstr "холщовая юбка"
 
 msgid ""
 "只有女生才可穿哦!你变态呀! \n"
 msgstr ""
 
 msgid "绿罗裙"
-msgstr ""
+msgstr "зелёная газовая юбка"
 
 msgid "长鞭"
-msgstr ""
+msgstr "длинный кнут"
 
 msgid "绵裙"
-msgstr ""
+msgstr "мягкая шёлковая юбка"
 
 msgid "柳玉刀"
-msgstr ""
+msgstr "сабля из ивового нефрита"
 
 msgid ""
 "这是一柄纤细的柳玉刀，轻薄短小。\n"
 msgstr ""
 
 msgid "绣花鞋"
-msgstr ""
+msgstr "расшитые туфли"
 
 msgid "银翅金簪"
-msgstr ""
+msgstr "золотая шпилька с серебряными крылышками"
 
 msgid "支"
-msgstr ""
+msgstr "шт."
 
 msgid "青绫绸裙"
-msgstr ""
+msgstr "синяя юбка из узорчатого шёлка"
 
 msgid "玉竹剑"
-msgstr ""
+msgstr "меч из нефритового бамбука"
 
 msgid ""
 "这是一把用竹子作成的玉竹剑，手工细腻别致。\n"
@@ -20001,7 +20001,7 @@ msgid ""
 msgstr ""
 
 msgid "封"
-msgstr ""
+msgstr "шт."
 
 msgid "用火烧"
 msgstr ""
@@ -20029,31 +20029,31 @@ msgid ""
 msgstr ""
 
 msgid "杀手令牌"
-msgstr ""
+msgstr "жетон убийцы"
 
 msgid ""
 "一个黑木作的杀手令牌，上面刻著火焰的图腾标志。\n"
 msgstr ""
 
 msgid "宫保鸡丁"
-msgstr ""
+msgstr "курица гунбао"
 
 msgid ""
 "这是一道香辣可口的佳肴。\n"
 msgstr ""
 
 msgid "只"
-msgstr ""
+msgstr "шт."
 
 msgid "水饺"
-msgstr ""
+msgstr "пельмень"
 
 msgid ""
 "这是一个手工细腻的水饺，看起来很好吃。\n"
 msgstr ""
 
 msgid "女儿红"
-msgstr ""
+msgstr "дочернее вино"
 
 msgid ""
 "这是一坛香味浓郁的陈年老酒，是存给待嫁女儿喝的酒。\n"
@@ -20061,56 +20061,56 @@ msgid ""
 msgstr ""
 
 msgid "坛"
-msgstr ""
+msgstr "кувшин"
 
 msgid "脆皮烤鸭"
-msgstr ""
+msgstr "утка с хрустящей корочкой"
 
 msgid ""
 "这是一只看了都会流口水的、香喷喷的烤鸭。\n"
 msgstr ""
 
 msgid "火摺"
-msgstr ""
+msgstr "огниво"
 
 msgid "这是一个可以生火的火摺"
 msgstr ""
 
 msgid "腰带"
-msgstr ""
+msgstr "пояс"
 
 msgid "耳环"
-msgstr ""
+msgstr "серьги с самоцветами"
 
 msgid ""
 "这是一串用宝石镶串成的闪亮耳环。\n"
 msgstr ""
 
 msgid "串"
-msgstr ""
+msgstr "связка"
 
 msgid "钻石胸针"
-msgstr ""
+msgstr "брошь с алмазом"
 
 msgid ""
 "这是一个用钻石镶成的美丽胸饰。\n"
 msgstr ""
 
 msgid "宝蓝缎衫"
-msgstr ""
+msgstr "ярко-синяя атласная кофта"
 
 msgid "碧玉红裎带"
-msgstr ""
+msgstr "нефритово-красный кушак"
 
 msgid ""
 "这是一条丝绸制的彩带，质感佳，上绣有彩霞江水纹。\n"
 msgstr ""
 
 msgid "珍珠项链"
-msgstr ""
+msgstr "жемчужное ожерелье"
 
 msgid "丝罗巾"
-msgstr ""
+msgstr "шёлковый платок"
 
 msgid ""
 "这卷罗巾由上等丝绸编成，绣了一幅幅美女图。个个体态轻盈，翩然\n"
@@ -20118,73 +20118,73 @@ msgid ""
 msgstr ""
 
 msgid "卷"
-msgstr ""
+msgstr "свиток"
 
 msgid "冰玉戒指"
-msgstr ""
+msgstr "перстень из ледяного нефрита"
 
 msgid "青纱裙"
-msgstr ""
+msgstr "синяя кисейная юбка"
 
 msgid "护身符"
-msgstr ""
+msgstr "оберег"
 
 msgid "雪花糕"
-msgstr ""
+msgstr "снежное пирожное"
 
 msgid ""
 "这是一块精致可口的小点心，似雪花般柔软。\n"
 msgstr ""
 
 msgid "块"
-msgstr ""
+msgstr "шт."
 
 msgid "竹子"
-msgstr ""
+msgstr "бамбуковый стебель"
 
 msgid ""
 "这是一根玉竹，还有一些竹叶在上面。\n"
 msgstr ""
 
 msgid "绣花针"
-msgstr ""
+msgstr "вышивальная игла"
 
 msgid ""
 "一种上等铁做成的绣花针\n"
 msgstr ""
 
 msgid "花针"
-msgstr ""
+msgstr "цветочная игла"
 
 msgid ""
 "一种铁做成的绣花针\n"
 msgstr ""
 
 msgid "红桂花"
-msgstr ""
+msgstr "красный османтус"
 
 msgid ""
 "才摘的桂花，发出阵阵淡淡的幽香。\n"
 msgstr ""
 
 msgid "粒"
-msgstr ""
+msgstr "шт."
 
 msgid "小花蕊"
-msgstr ""
+msgstr "цветочная тычинка"
 
 msgid ""
 "这是一朵金黄色的奇特花蕊，有一种淡淡香气。\n"
 msgstr ""
 
 msgid "朵"
-msgstr ""
+msgstr "шт."
 
 msgid "株"
-msgstr ""
+msgstr "шт."
 
 msgid "玉瓷茶杯"
-msgstr ""
+msgstr "чашка из нефритового фарфора"
 
 msgid ""
 "这是一杯香味浓郁上等好茶。是招待贵宾品茗的。\n"
@@ -20192,20 +20192,20 @@ msgid ""
 msgstr ""
 
 msgid "杯"
-msgstr ""
+msgstr "чашка"
 
 msgid "金轩茶"
 msgstr ""
 
 msgid "竹蜻蜓"
-msgstr ""
+msgstr "бамбуковая вертушка"
 
 msgid ""
 "这是一个竹蜻蜓，手工相当细腻。\n"
 msgstr ""
 
 msgid "玛瑙手镯"
-msgstr ""
+msgstr "агатовый браслет"
 
 msgid ""
 "一个由玛瑙作成的美丽手镯。\n"
@@ -20221,7 +20221,7 @@ msgid ""
 msgstr ""
 
 msgid "舞曲谱"
-msgstr ""
+msgstr "свиток танцев"
 
 msgid ""
 "这是一卷由上等丝绸编成，以湘绣作成的舞曲图。上有记载一些舞曲 \n"
@@ -20248,50 +20248,50 @@ msgid ""
 msgstr ""
 
 msgid "黄金令牌"
-msgstr ""
+msgstr "золотой жетон"
 
 msgid ""
 "一个闪闪发亮的黄金令牌，上有一些图腾标志。\n"
 msgstr ""
 
 msgid "戒刀"
-msgstr ""
+msgstr "монашеская сабля"
 
 msgid ""
 "这是一把僧人练武用的戒刀，份量大约四、五斤重。\n"
 msgstr ""
 
 msgid "灰布僧衣"
-msgstr ""
+msgstr "серая монашеская ряса"
 
 msgid "黑眼罩"
-msgstr ""
+msgstr "чёрная повязка на глаз"
 
 msgid "副"
-msgstr ""
+msgstr "шт."
 
 msgid "僧鞋"
-msgstr ""
+msgstr "монашеские туфли"
 
 msgid "青布僧衣"
-msgstr ""
+msgstr "синяя монашеская ряса"
 
 msgid "菜刀"
-msgstr ""
+msgstr "кухонный нож"
 
 msgid ""
 "一把不很利的菜刀, 不过拿来切菜砍肉还是绰绰有馀的。\n"
 msgstr ""
 
 msgid "竹扫把"
-msgstr ""
+msgstr "бамбуковая метла"
 
 msgid ""
 "一把快秃了头的竹扫把。\n"
 msgstr ""
 
 msgid "馒头"
-msgstr ""
+msgstr "паровая булочка"
 
 msgid ""
 "一个香喷喷、热腾腾的大馒头。\n"
@@ -20302,10 +20302,10 @@ msgid ""
 msgstr ""
 
 msgid "棵"
-msgstr ""
+msgstr "шт."
 
 msgid "乌檀木刀"
-msgstr ""
+msgstr "сабля из чёрного дерева"
 
 msgid ""
 "这是一把黑黝黝的乌檀木刀，闻起来有一股淡淡的香气。\n"
@@ -20316,75 +20316,75 @@ msgid ""
 msgstr ""
 
 msgid "「嘉德文选」"
-msgstr ""
+msgstr "«Избранные сочинения Цзядэ»"
 
 msgid "「九韬」"
-msgstr ""
+msgstr "«Девять стратегий»"
 
 msgid "「太公辩」"
-msgstr ""
+msgstr "«Рассуждения Тайгуна»"
 
 msgid "「梁父文集」"
-msgstr ""
+msgstr "«Собрание сочинений Лянфу»"
 
 msgid "「说律」"
-msgstr ""
+msgstr "«О законах»"
 
 msgid "「古文志」"
-msgstr ""
+msgstr "«Записки о древней прозе»"
 
 msgid "「乡书」"
-msgstr ""
+msgstr "«Письма из дома»"
 
 msgid "「佾风斋诗集」"
-msgstr ""
+msgstr "«Стихи из кабинета Ифэн»"
 
 msgid "「寒士列传」"
-msgstr ""
+msgstr "«Жизнеописания бедных учёных»"
 
 msgid "「水龙图注」"
-msgstr ""
+msgstr "«Карты водяного дракона с толкованиями»"
 
 msgid "轻罗绸衫"
-msgstr ""
+msgstr "лёгкая шёлковая кофта"
 
 msgid ""
 "这是一件有钱人家的小姐穿著的衣物，手工相当细致。\n"
 msgstr ""
 
 msgid "银簪"
-msgstr ""
+msgstr "серебряная шпилька"
 
 msgid "平安符"
-msgstr ""
+msgstr "талисман благополучия"
 
 msgid ""
 "一个用红线绑著的平安符，据说可以避邪。\n"
 msgstr ""
 
 msgid "玉带冠"
-msgstr ""
+msgstr "шапка с нефритом"
 
 msgid ""
 "这是一顶镶著美玉的帽冠。\n"
 msgstr ""
 
 msgid "大饼"
-msgstr ""
+msgstr "лепёшка"
 
 msgid ""
 "一个香喷喷、热腾腾的大烧饼。\n"
 msgstr ""
 
 msgid "糖葫芦"
-msgstr ""
+msgstr "засахаренный боярышник"
 
 msgid ""
 "一串看起来就让人垂涎欲滴的糖渍葫芦。\n"
 msgstr ""
 
 msgid "红龟"
-msgstr ""
+msgstr "пирожок в виде красной черепахи"
 
 msgid ""
 "一个大红龟，上面盖了个印子：保境安民。\n"
@@ -20395,7 +20395,7 @@ msgid ""
 msgstr ""
 
 msgid "从寿衣撕下的布条"
-msgstr ""
+msgstr "лоскут, оторванный от савана"
 
 msgid ""
 "这条布条是从一件寿衣上撕下来的，上面密密麻麻写了许多字。\n"
@@ -20417,14 +20417,14 @@ msgid ""
 msgstr ""
 
 msgid "仙丹"
-msgstr ""
+msgstr "пилюля бессмертия"
 
 msgid ""
 "这是一粒仙丹，服食可位列仙班。\n"
 msgstr ""
 
 msgid "缚仙绳"
-msgstr ""
+msgstr "верёвка, вяжущая бессмертных"
 
 msgid ""
 "这是一条由上等金丝编成的绳索, 可缚禽兽鬼怪。上刻有无数咒文，发出耀目金光.\n"
@@ -20442,21 +20442,21 @@ msgid ""
 msgstr ""
 
 msgid "寒谷幽兰"
-msgstr ""
+msgstr "орхидея холодной долины"
 
 msgid ""
 "一株寒谷幽兰，散发着淡淡的香气, 你似乎在晚月庄闻到过.\n"
 msgstr ""
 
 msgid "「白杨经」"
-msgstr ""
+msgstr "трактат «Белый тополь»"
 
 msgid ""
 "这是一本讲述吐纳、养生之法的古书，现在已经不多见了。\n"
 msgstr ""
 
 msgid "紫罗鸳鸯荷包"
-msgstr ""
+msgstr "пурпурный кошелёк с мандаринками"
 
 msgid ""
 "一个绣工十分精细的紫色丝绸荷包，上面绣著一对鸳鸯。\n"
@@ -20467,46 +20467,46 @@ msgid ""
 msgstr ""
 
 msgid "「笑傲江湖」"
-msgstr ""
+msgstr "«Улыбающийся гордый странник»"
 
 msgid "「天龙八部」"
-msgstr ""
+msgstr "«Полубоги и полудемоны»"
 
 msgid "「七剑下天山」"
-msgstr ""
+msgstr "«Семь мечей с Тянь-Шаня»"
 
 msgid "「游侠郭解传」"
-msgstr ""
+msgstr "«Жизнеописание странствующего храбреца Го Се»"
 
 msgid "「七种武器」"
-msgstr ""
+msgstr "«Семь видов оружия»"
 
 msgid "「楚留香传奇之血海飘香」"
-msgstr ""
+msgstr "«Легенда о Чу Люсяне: аромат над кровавым морем»"
 
 msgid "「四大名捕」"
-msgstr ""
+msgstr "«Четыре знаменитых сыщика»"
 
 msgid "「洪武剑侠图」"
-msgstr ""
+msgstr "«Мечники эпохи Хунъу»"
 
 msgid "「秘传八步赶蝉」"
-msgstr ""
+msgstr "«Тайное учение: восемь шагов за цикадой»"
 
 msgid "「陆地飞行之法」"
-msgstr ""
+msgstr "«Искусство полёта по земле»"
 
 msgid "「寒梅弄影之法」"
-msgstr ""
+msgstr "«Искусство тени зимней сливы»"
 
 msgid "「穿花绕树要诀」"
-msgstr ""
+msgstr "«Наставление: сквозь цветы, вокруг деревьев»"
 
 msgid "「八卦步法」"
-msgstr ""
+msgstr "«Шаги восьми триграмм»"
 
 msgid "军刀"
-msgstr ""
+msgstr "армейская сабля"
 
 msgid ""
 "这是一把普通的军刀，看起来没什么奇特。\n"
@@ -20517,27 +20517,27 @@ msgid ""
 msgstr ""
 
 msgid "青铜战盔"
-msgstr ""
+msgstr "бронзовый шлем"
 
 msgid "ψ破 残 奇 剑ψ"
-msgstr ""
+msgstr "ψщербатый дивный мечψ"
 
 msgid ""
 "剑锋处缺了一角，缺角处发出异样白光的奇剑。\n"
 msgstr ""
 
 msgid "火 云 战 甲"
-msgstr ""
+msgstr "доспех Огненного облака"
 
 msgid "铁扇剑"
-msgstr ""
+msgstr "железный веерный меч"
 
 msgid ""
 "这是一柄羽状的铁剑，看起来蛮尖锐的。\n"
 msgstr ""
 
 msgid "迷幻经纶"
-msgstr ""
+msgstr "шапка Морока"
 
 msgid ""
 "上面刻著镇国大将军。\n"
@@ -20548,7 +20548,7 @@ msgid ""
 msgstr ""
 
 msgid "古 剑"
-msgstr ""
+msgstr "древний меч"
 
 msgid ""
 "行云流水，如劲风之竹，气聚于锋，如晦如明，斯行于技，缓动而\n"
@@ -20556,14 +20556,14 @@ msgid ""
 msgstr ""
 
 msgid "书匣"
-msgstr ""
+msgstr "книжный футляр"
 
 msgid ""
 "这是一个铜制的书匣，可以用来装一些书。\n"
 msgstr ""
 
 msgid "悟疾风劲竹书"
-msgstr ""
+msgstr "книга «Бамбук под бурей»"
 
 msgid ""
 "直竹贵地生，风吹动不止，起迄中空立，随风飘不定，斯乃劲风竹\n"
@@ -20576,21 +20576,21 @@ msgid ""
 msgstr ""
 
 msgid "紫花瓣儿"
-msgstr ""
+msgstr "пурпурный лепесток"
 
 msgid ""
 "迷人的紫色瓣儿，发出一股淡淡的香气。\n"
 msgstr ""
 
 msgid "片"
-msgstr ""
+msgstr "шт."
 
 msgid ""
 "这是一本介绍拆招卸力之法的入门书\n"
 msgstr ""
 
 msgid "西瓜"
-msgstr ""
+msgstr "арбуз"
 
 msgid ""
 "一个绿皮墨纹的大西瓜，不但解渴，还能填肚子。\n"
@@ -20604,75 +20604,75 @@ msgid ""
 msgstr ""
 
 msgid "銮鱼衡冰"
-msgstr ""
+msgstr "меч Ледяной рыбы"
 
 msgid ""
 "这是一把银白色的的长剑，份量大约有十来斤左右。\n"
 msgstr ""
 
 msgid "多情刀"
-msgstr ""
+msgstr "сабля Страсти"
 
 msgid ""
 "这是一把耀眼的利刃。\n"
 msgstr ""
 
 msgid "无情剑"
-msgstr ""
+msgstr "меч Бесстрастия"
 
 msgid ""
 "剑锋寒气逼人，剑身发出异样的青光。\n"
 msgstr ""
 
 msgid "西湖醋鱼"
-msgstr ""
+msgstr "рыба Сиху в уксусном соусе"
 
 msgid ""
 "一盘西湖醋鱼，香气四溢，让人垂涎欲滴。\n"
 msgstr ""
 
 msgid "盘"
-msgstr ""
+msgstr "блюдо"
 
 msgid "状元红"
-msgstr ""
+msgstr "вино первого на экзаменах"
 
 msgid ""
 "这是一坛香味浓郁的陈年老酒，是专待状元高中时喝的酒。\n"
 msgstr ""
 
 msgid "象皮战靴"
-msgstr ""
+msgstr "боевые сапоги из слоновьей кожи"
 
 msgid "淡青长袍"
-msgstr ""
+msgstr "бледно-голубой длинный халат"
 
 msgid ""
 "这件淡青长袍绸衫上面绣著几只黄鹊，闻起来还有一股淡香。\n"
 msgstr ""
 
 msgid "艳红绸衫"
-msgstr ""
+msgstr "ярко-красная шёлковая кофта"
 
 msgid ""
 "一件大红色的女子衣衫，看起来有点鲜艳得过火。\n"
 msgstr ""
 
 msgid "紫铜战盔"
-msgstr ""
+msgstr "шлем из красной меди"
 
 msgid "烟雨鞭"
-msgstr ""
+msgstr "кнут Туманного дождя"
 
 msgid "天魔杵"
-msgstr ""
+msgstr "пест Небесного демона"
 
 msgid ""
 "一把暗红色、两丈多长的巨杵。\n"
 msgstr ""
 
 msgid "月白色长裙"
-msgstr ""
+msgstr "длинное лунно-белое платье"
 
 msgid ""
 "简简单单的一套月白色长裙，上面并没有什么装饰，但总给人一种天外仙子的感觉。\n"
@@ -20683,35 +20683,35 @@ msgid ""
 msgstr ""
 
 msgid "八楞玄铁锤"
-msgstr ""
+msgstr "восьмигранный молот из чёрного железа"
 
 msgid ""
 "这是一把八楞玄铁锤，沉甸甸的。\n"
 msgstr ""
 
 msgid "园工剪"
-msgstr ""
+msgstr "садовые ножницы"
 
 msgid ""
 "一把长而锋利的园工剪刀。\n"
 msgstr ""
 
 msgid "鸡毛"
-msgstr ""
+msgstr "куриное перо"
 
 msgid ""
 "用来清除灰尘的鸡毛\n"
 msgstr ""
 
 msgid "烤山猪肉"
-msgstr ""
+msgstr "жареная кабанятина"
 
 msgid ""
 "哇! 好香的烤山猪肉! 不吃还等什么?\n"
 msgstr ""
 
 msgid "斤"
-msgstr ""
+msgstr "цзинь"
 
 msgid "山猪骨头"
 msgstr ""
@@ -20721,7 +20721,7 @@ msgid ""
 msgstr ""
 
 msgid "人皮酒袋"
-msgstr ""
+msgstr "бурдюк из человеческой кожи"
 
 msgid ""
 "一个人皮缝的大酒袋，大概装得八、九升的酒。\n"
@@ -20731,68 +20731,68 @@ msgid "竹叶青"
 msgstr ""
 
 msgid "碧玉刀"
-msgstr ""
+msgstr "сабля из зелёного нефрита"
 
 msgid "这是一把当年张家老祖宗退隐时皇上赐的宝刀"
 msgstr ""
 
 msgid "紫罗兰"
-msgstr ""
+msgstr "фиалка"
 
 msgid ""
 "高贵典雅的紫罗兰，闻起来还有一股淡淡的香味儿。\n"
 msgstr ""
 
 msgid "红枚瑰"
-msgstr ""
+msgstr "красная роза"
 
 msgid ""
 "热奔奔放的红玫瑰。\n"
 msgstr ""
 
 msgid "黄玫瑰"
-msgstr ""
+msgstr "жёлтая роза"
 
 msgid ""
 "含情脉脉的黄玫瑰。\n"
 msgstr ""
 
 msgid "蓝天鹅"
-msgstr ""
+msgstr "голубой лебедь"
 
 msgid ""
 "庄重朴实的蓝天鹅。\n"
 msgstr ""
 
 msgid "白茶花"
-msgstr ""
+msgstr "белая камелия"
 
 msgid ""
 "冰清玉洁的白茶花。\n"
 msgstr ""
 
 msgid "黑牡丹"
-msgstr ""
+msgstr "чёрный пион"
 
 msgid ""
 "清高冷傲的黑牡丹。\n"
 msgstr ""
 
 msgid "蛇鳞皮鞭"
-msgstr ""
+msgstr "кнут из змеиной кожи"
 
 msgid "破烂的粉红布衫"
-msgstr ""
+msgstr "рваная розовая кофта"
 
 msgid ""
 "这件粉红色的布衫上沾满了暗红色的血迹。\n"
 msgstr ""
 
 msgid "冥府战甲"
-msgstr ""
+msgstr "доспех Преисподней"
 
 msgid "七股钢叉"
-msgstr ""
+msgstr "семизубые стальные вилы"
 
 msgid ""
 "一把沈重的大钢叉，七根尖刺发出黑黝黝的光芒。\n"
@@ -20803,59 +20803,59 @@ msgid ""
 msgstr ""
 
 msgid "解牛刀"
-msgstr ""
+msgstr "мясницкий нож"
 
 msgid ""
 "这是一把很锋利的钢刀, 就是短了些。\n"
 msgstr ""
 
 msgid "牛皮束带"
-msgstr ""
+msgstr "пояс из воловьей кожи"
 
 msgid "量衣尺"
-msgstr ""
+msgstr "портновская линейка"
 
 msgid ""
 "一把量衣用的尺子，比一般的宽些。\n"
 msgstr ""
 
 msgid "裁衣剪"
-msgstr ""
+msgstr "портновские ножницы"
 
 msgid ""
 "一把长而锋利的剪刀。\n"
 msgstr ""
 
 msgid "青布袈裟"
-msgstr ""
+msgstr "синяя монашеская накидка"
 
 msgid ""
 "这件青色的袈裟洗得很是干净。\n"
 msgstr ""
 
 msgid "舞蝶彩衫"
-msgstr ""
+msgstr "кофта с бабочками"
 
 msgid ""
 "这件淡绿色的绸衫上面绣著几只彩蝶，煞是好看。\n"
 msgstr ""
 
 msgid "霜月刀"
-msgstr ""
+msgstr "сабля Морозной луны"
 
 msgid ""
 "这是一把耀眼的利刃，刀背上面带有道凹槽，乃是陈剑秋的成名武器。\n"
 msgstr ""
 
 msgid "茶叶"
-msgstr ""
+msgstr "чайный лист"
 
 msgid ""
 "才采的新茶，发出一股淡淡的香气。\n"
 msgstr ""
 
 msgid "棋子"
-msgstr ""
+msgstr "камень для го"
 
 msgid ""
 "棋子是一种较轻的暗器。\n"
@@ -20865,7 +20865,7 @@ msgid "枚"
 msgstr ""
 
 msgid "说文解字"
-msgstr ""
+msgstr "букварь"
 
 msgid ""
 "这是一本介绍读书识字的入门书籍。\n"
@@ -20873,17 +20873,17 @@ msgid ""
 msgstr ""
 
 msgid "生牛肉"
-msgstr ""
+msgstr "сырая говядина"
 
 msgid ""
 "看样子是牛的后腰，但是生肉, 不知能不能吃。\n"
 msgstr ""
 
 msgid "挂"
-msgstr ""
+msgstr "шт."
 
 msgid "牛腿"
-msgstr ""
+msgstr "говяжья нога"
 
 msgid ""
 "哇! 好香的牛腿! 不吃还等什么?\n"
@@ -20897,21 +20897,21 @@ msgid ""
 msgstr ""
 
 msgid "牛尾"
-msgstr ""
+msgstr "бычий хвост"
 
 msgid ""
 "一根又粗又长的牛尾\n"
 msgstr ""
 
 msgid "熟杂碎"
-msgstr ""
+msgstr "варёные потроха"
 
 msgid ""
 "可以吃的杂碎\n"
 msgstr ""
 
 msgid "狗肉"
-msgstr ""
+msgstr "собачатина"
 
 msgid ""
 "哇! 好香的狗肉! 不吃还等什么?\n"
@@ -20925,20 +20925,20 @@ msgid ""
 msgstr ""
 
 msgid "麻绳"
-msgstr ""
+msgstr "пеньковая верёвка"
 
 msgid "拂柳鞭"
-msgstr ""
+msgstr "кнут Ивовой ветви"
 
 msgid "僧棍"
-msgstr ""
+msgstr "монашеский шест"
 
 msgid ""
 "一条又粗又长僧棍，表面已被磨得十分光滑。\n"
 msgstr ""
 
 msgid "信件"
-msgstr ""
+msgstr "письмо"
 
 msgid ""
 "师叔：\n"
@@ -21012,14 +21012,14 @@ msgid ""
 msgstr ""
 
 msgid "苍蝇"
-msgstr ""
+msgstr "муха"
 
 msgid ""
 "一只绿头金翅的大苍蝇。\n"
 msgstr ""
 
 msgid "茶博士"
-msgstr ""
+msgstr "чайный слуга"
 
 msgid ""
 "茶博士正忙着招呼客人, 一手提着茶壶, 一手拿着抹布\n"
@@ -21053,7 +21053,7 @@ msgid ""
 msgstr ""
 
 msgid "林三爷"
-msgstr ""
+msgstr "третий господин Линь"
 
 msgid "棺材铺老板"
 msgstr ""
@@ -21069,14 +21069,14 @@ msgid "您这么年轻就要棺材，早了点吧？"
 msgstr ""
 
 msgid "伙计"
-msgstr ""
+msgstr "приказчик"
 
 msgid ""
 "他一副垂头丧气的样子，一脸倒霉相。\n"
 msgstr ""
 
 msgid "朱鸿雪"
-msgstr ""
+msgstr "Чжу Хунсюэ"
 
 msgid ""
 "朱鸿雪慈眉善目，可又有谁能想到她竟是杀手组织中人。\n"
@@ -21590,7 +21590,7 @@ msgid ""
 msgstr ""
 
 msgid "媒婆"
-msgstr ""
+msgstr "сваха"
 
 msgid ""
 "一位精明能干的老媒婆\n"
@@ -21687,10 +21687,10 @@ msgid "好小子, 居然管起大爷的事来, 看招!"
 msgstr ""
 
 msgid "陈剑秋"
-msgstr ""
+msgstr "Чэнь Цзяньцю"
 
 msgid "霹雳刀"
-msgstr ""
+msgstr "Громовая сабля"
 
 msgid ""
 "    陈剑秋在十几年前创立了振远镖局，凭着一手春风快意刀法在远近\n"
@@ -21824,7 +21824,7 @@ msgid "江湖上的弟兄看得起在下就这么叫开了，实在是惭愧。"
 msgstr ""
 
 msgid "陈天星"
-msgstr ""
+msgstr "Чэнь Тяньсин"
 
 msgid "他是我师叔，如果你帮我找到忘忧草并交给我，我就介绍你去那学艺。"
 msgstr ""
@@ -22026,7 +22026,7 @@ msgid ""
 msgstr ""
 
 msgid "保镖"
-msgstr ""
+msgstr "телохранитель"
 
 msgid "贴身保镖"
 msgstr ""
@@ -22042,7 +22042,7 @@ msgid "这雪亭镇有谁不知道我家老爷镇大官人！"
 msgstr ""
 
 msgid "张百万"
-msgstr ""
+msgstr "толстосум Чжан"
 
 msgid "主人"
 msgstr ""
@@ -22397,64 +22397,64 @@ msgid ""
 msgstr ""
 
 msgid "木门"
-msgstr ""
+msgstr "деревянная дверь"
 
 msgid "水烟阁武士氅"
-msgstr ""
+msgstr "плащ воина павильона Шуйянь"
 
 msgid "牛皮靴"
-msgstr ""
+msgstr "сапоги из воловьей кожи"
 
 msgid "水烟阁司事褂"
-msgstr ""
+msgstr "куртка распорядителя павильона Шуйянь"
 
 msgid "水烟阁司事帽"
-msgstr ""
+msgstr "шапка распорядителя павильона Шуйянь"
 
 msgid "鲜红锦衣"
-msgstr ""
+msgstr "алый парчовый халат"
 
 msgid ""
 "一件鲜红色的锦衣，上面绣著水烟阁的金色乌鸦徽号。\n"
 msgstr ""
 
 msgid "鲜红金乌冠"
-msgstr ""
+msgstr "алая шапка с золотым вороном"
 
 msgid ""
 "这是水烟阁武士常戴的红色圆顶帽，帽缘镶著一圈金线。\n"
 msgstr ""
 
 msgid "焦殇剑"
-msgstr ""
+msgstr "меч Опалённой скорби"
 
 msgid ""
 "一把通体黝黑，又带著一丝焦味的铁剑。\n"
 msgstr ""
 
 msgid "黑铁杖"
-msgstr ""
+msgstr "посох из чёрного железа"
 
 msgid ""
 "这条黑铁杖光看就知道非常沈重，拿在手里才知道比想像中更重。\n"
 msgstr ""
 
 msgid "水烟阁武士"
-msgstr ""
+msgstr "воин павильона Шуйянь"
 
 msgid ""
 "这个人相貌十分魁梧。\n"
 msgstr ""
 
 msgid "水烟阁司事"
-msgstr ""
+msgstr "смотритель павильона Шуйянь"
 
 msgid ""
 "这个人看起来十分和蔼可亲，一双眼睛炯炯有神。\n"
 msgstr ""
 
 msgid "天邪虎"
-msgstr ""
+msgstr "тигр Тяньсе"
 
 msgid ""
 "这是一只天邪派的灵兽「天邪虎」，火红的毛皮上有著如白银般的\n"
@@ -22465,14 +22465,14 @@ msgid "后腿"
 msgstr ""
 
 msgid "仆役"
-msgstr ""
+msgstr "слуга"
 
 msgid ""
 "这个人看起来十分和蔼可亲，看起来不像是会武功的人。\n"
 msgstr ""
 
 msgid "水烟阁红衣武士"
-msgstr ""
+msgstr "красный страж павильона Шуйянь"
 
 msgid ""
 "这个人身著红色水烟阁武士服色，眼神十分锐利。\n"
@@ -22496,7 +22496,7 @@ msgid "（水烟阁的红衣武士从此都把你当作敌人，见到你就会�
 msgstr ""
 
 msgid "南危水"
-msgstr ""
+msgstr "Нань Вэйшуй"
 
 msgid "水烟阁五长老"
 msgstr ""
@@ -22602,7 +22602,7 @@ msgid "老夫知道的都说了。"
 msgstr ""
 
 msgid "陈坚石"
-msgstr ""
+msgstr "Чэнь Цзяньши"
 
 msgid "水烟阁六长老"
 msgstr ""
@@ -22615,7 +22615,7 @@ msgid ""
 msgstr ""
 
 msgid "颜违"
-msgstr ""
+msgstr "Янь Вэй"
 
 msgid "水烟阁七长老"
 msgstr ""
@@ -22853,7 +22853,7 @@ msgid ""
 msgstr ""
 
 msgid "虹台大会"
-msgstr ""
+msgstr "Собрание на Радужной террасе"
 
 msgid "入席"
 msgstr ""
@@ -23668,7 +23668,7 @@ msgid ""
 msgstr ""
 
 msgid "樟木匾"
-msgstr ""
+msgstr "доска с надписью из камфорного дерева"
 
 msgid "加入武者同盟"
 msgstr ""
@@ -23686,7 +23686,7 @@ msgid ""
 msgstr ""
 
 msgid "石碑"
-msgstr ""
+msgstr "каменная стела"
 
 msgid ""
 "石碑上面几个苍劲古朴的字写道：虹谷石台，乙丑年水烟阁第六代\n"
@@ -23708,7 +23708,7 @@ msgid ""
 msgstr ""
 
 msgid "擎天柱"
-msgstr ""
+msgstr "Небесный столп"
 
 msgid ""
 "一根两丈多高的白石柱子，四四方方，上头一道一道刻着箍纹，柱身让几百年的风雨磨圆了角。\n"
@@ -23721,7 +23721,7 @@ msgid ""
 msgstr ""
 
 msgid "虹谷"
-msgstr ""
+msgstr "Радужное ущелье"
 
 msgid ""
 "谷底的水雾一阵一阵往上涌，白茫茫的看不见底。\n"
@@ -23735,7 +23735,7 @@ msgid "水烟阁武士挡住了你的去路。"
 msgstr ""
 
 msgid "陶壶"
-msgstr ""
+msgstr "глиняный кувшин"
 
 msgid ""
 "一个手工制造的陶壶, 看起来年代久远.\n"
@@ -23745,14 +23745,14 @@ msgid "米酒"
 msgstr ""
 
 msgid "追风剑"
-msgstr ""
+msgstr "меч Ветролов"
 
 msgid ""
 "这是一把淡青色的的长剑，看上去锋利异常。\n"
 msgstr ""
 
 msgid "绳子"
-msgstr ""
+msgstr "верёвка"
 
 msgid ""
 "这是一捆粗麻绳. 你可以用它来上吊.\n"
@@ -23760,7 +23760,7 @@ msgid ""
 msgstr ""
 
 msgid "捆"
-msgstr ""
+msgstr "моток"
 
 msgid ""
 "上面刻著一些字:\n"
@@ -23769,10 +23769,10 @@ msgid ""
 msgstr ""
 
 msgid "采石工"
-msgstr ""
+msgstr "каменотёс"
 
 msgid "沈万年"
-msgstr ""
+msgstr "Шэнь Ваньнянь"
 
 msgid "沈记商行掌柜"
 msgstr ""
@@ -23808,7 +23808,7 @@ msgid "我不卖东西给陌生人!"
 msgstr ""
 
 msgid "妇人"
-msgstr ""
+msgstr "женщина"
 
 msgid "没见识过我的菜刀神功是吧, 接招!"
 msgstr ""
@@ -23836,25 +23836,25 @@ msgid ""
 msgstr ""
 
 msgid "小孩"
-msgstr ""
+msgstr "ребёнок"
 
 msgid "工匠"
-msgstr ""
+msgstr "мастеровой"
 
 msgid "老公公"
-msgstr ""
+msgstr "дедушка"
 
 msgid "喊道: 老公我来帮你了!"
 msgstr ""
 
 msgid "老婆婆"
-msgstr ""
+msgstr "бабушка"
 
 msgid "叫道: 好啊,敢砍我老婆, 去死吧!"
 msgstr ""
 
 msgid "村长"
-msgstr ""
+msgstr "староста"
 
 msgid ""
 "嗯...... 你是说那个从古墓盗出来的玉佩?\n"
@@ -23966,7 +23966,7 @@ msgid "对呀.. 你就是妖孽... "
 msgstr ""
 
 msgid "工匠的小孩"
-msgstr ""
+msgstr "сын мастерового"
 
 msgid ""
 "小孩很好奇地往门缝里看去。\n"
@@ -24228,16 +24228,16 @@ msgid ""
 msgstr ""
 
 msgid "大石门"
-msgstr ""
+msgstr "большая каменная дверь"
 
 msgid "密门"
-msgstr ""
+msgstr "потайная дверь"
 
 msgid "井"
-msgstr ""
+msgstr "колодец"
 
 msgid "图"
-msgstr ""
+msgstr "картина"
 
 msgid ""
 "这是一副八卦阵图,图下面有一行模糊的小字：八卦古阵\n"
@@ -24276,7 +24276,7 @@ msgid ""
 msgstr ""
 
 msgid "大石"
-msgstr ""
+msgstr "большой камень"
 
 msgid "推"
 msgstr ""
@@ -24302,7 +24302,7 @@ msgid "你在绝地里苦等良久，终于昏昏沉沉地睡了过去……醒�
 msgstr ""
 
 msgid "水"
-msgstr ""
+msgstr "вода"
 
 msgid "下水寻找"
 msgstr ""
@@ -24321,7 +24321,7 @@ msgid "你在水中忙了半天，结果一无所获。"
 msgstr ""
 
 msgid "蜘蛛网"
-msgstr ""
+msgstr "паутина"
 
 msgid ""
 "一个很大的蜘蛛网.\n"
@@ -24338,59 +24338,59 @@ msgid "入口被魔法封住了！"
 msgstr ""
 
 msgid "青布道袍"
-msgstr ""
+msgstr "синий даосский халат"
 
 msgid ""
 "一件式样简单的青布道袍\n"
 msgstr ""
 
 msgid "黑布鞋"
-msgstr ""
+msgstr "чёрные матерчатые туфли"
 
 msgid "魔法入门"
-msgstr ""
+msgstr "азбука чародейства"
 
 msgid ""
 "这似乎是一本魔法的入门书，里面说了一些稀奇古怪的和一般的武学不同的东西\n"
 msgstr ""
 
 msgid "符咒简介"
-msgstr ""
+msgstr "наставление по заклинаниям"
 
 msgid ""
 "这似乎是一本符咒的简介，里面画着一些稀奇古怪的符号\n"
 msgstr ""
 
 msgid "拂尘"
-msgstr ""
+msgstr "мухогонка"
 
 msgid ""
 "一柄以藤木为柄, 马尾为丝的拂尘\n"
 msgstr ""
 
 msgid "旧道袍"
-msgstr ""
+msgstr "старый даосский халат"
 
 msgid ""
 "一件补了又补, 洗到泛白的旧道袍\n"
 msgstr ""
 
 msgid "青铜道冠"
-msgstr ""
+msgstr "бронзовый даосский венец"
 
 msgid ""
 "一顶青铜道冠\n"
 msgstr ""
 
 msgid "八卦道袍"
-msgstr ""
+msgstr "даосский халат с триграммами"
 
 msgid ""
 "一件胸前绣有八卦的黄色道袍。\n"
 msgstr ""
 
 msgid "碧玉冠"
-msgstr ""
+msgstr "венец из зелёного нефрита"
 
 msgid ""
 "一顶镶著一块碧玉的道冠。\n"
@@ -24427,14 +24427,14 @@ msgid ""
 msgstr ""
 
 msgid "玄和"
-msgstr ""
+msgstr "Сюаньхэ"
 
 msgid ""
 "一个长得眉清目秀的小男孩, 正忙著浇花除草\n"
 msgstr ""
 
 msgid "老道士"
-msgstr ""
+msgstr "старый даос"
 
 msgid ""
 "一位四处云游的老道士, 他正在观心观挂单中。\n"
@@ -24459,20 +24459,20 @@ msgid ""
 msgstr ""
 
 msgid "清灵"
-msgstr ""
+msgstr "Цинлин"
 
 msgid ""
 "一位神情专注的道士, 他正轮值到看守藏经楼。\n"
 msgstr ""
 
 msgid "清平"
-msgstr ""
+msgstr "Цинпин"
 
 msgid "清风"
-msgstr ""
+msgstr "Цинфэн"
 
 msgid "清音"
-msgstr ""
+msgstr "Цинъинь"
 
 msgid ""
 "这是一条宽敞坚实的青石大道, 大道沿著山腰往南向山下延伸, 东\n"
@@ -24619,10 +24619,10 @@ msgid ""
 msgstr ""
 
 msgid "红漆木门"
-msgstr ""
+msgstr "красная лакированная дверь"
 
 msgid "镇教秘籍"
-msgstr ""
+msgstr "тайные руководства учения"
 
 msgid ""
 "红布桌上的镇教秘籍一函一函码得整整齐齐。你数过去，是六函；第七函的位置空着，红布上压着一张发黄的字条：\n"
@@ -24655,7 +24655,7 @@ msgid "你一脚踩在青苔上, 不小心滑了一跤, 四脚朝天地摔在地
 msgstr ""
 
 msgid "婢女"
-msgstr ""
+msgstr "служанка"
 
 msgid ""
 "蓝雨梅是晚月庄主蓝止萍的养女，由于庄主不信任男子，因此\n"
@@ -24901,7 +24901,7 @@ msgid "......"
 msgstr ""
 
 msgid "昭蓉"
-msgstr ""
+msgstr "Чжаожун"
 
 msgid ""
 "她长得十分漂亮！让你忍不住多瞧她几眼，从她身上\n"
@@ -24932,7 +24932,7 @@ msgid "天山派也想要它。守衣的那个女人我打不过，等着看谁�
 msgstr ""
 
 msgid "曲馥琪"
-msgstr ""
+msgstr "Цюй Фуци"
 
 msgid ""
 "她国色天香，娇丽无伦；温柔娴静，秀绝人寰。\n"
@@ -24947,7 +24947,7 @@ msgid ""
 msgstr ""
 
 msgid "苗郁淑"
-msgstr ""
+msgstr "Мяо Юйшу"
 
 msgid ""
 "她看起来很有活力，两眼明亮有神。给你\n"
@@ -25128,10 +25128,10 @@ msgid "回来了就好。……庄主那里，执事的事我替你讨了。"
 msgstr ""
 
 msgid "杀手"
-msgstr ""
+msgstr "убийца"
 
 msgid "蒙面杀手"
-msgstr ""
+msgstr "убийца в маске"
 
 msgid ""
 "这是个蒙面杀手，眉眼看起来有些面熟。\n"
@@ -25199,7 +25199,7 @@ msgid ""
 msgstr ""
 
 msgid "瑷伦"
-msgstr ""
+msgstr "Айлунь"
 
 msgid "晚月庄开山祖师"
 msgstr ""
@@ -25469,7 +25469,7 @@ msgid "你把它给了西厢那个人。凤凰暗了，前厅死了人——几�
 msgstr ""
 
 msgid "安妮儿"
-msgstr ""
+msgstr "Аньниэр"
 
 msgid "手搭在膝上那件月白的衣上，没有抬头。"
 msgstr ""
@@ -25603,7 +25603,7 @@ msgid "宝衣出了庄，没进我的门。你的名字，我记下了。"
 msgstr ""
 
 msgid "虞琼衣"
-msgstr ""
+msgstr "Юй Цюнъи"
 
 msgid "晚月庄弟子"
 msgstr ""
@@ -25617,7 +25617,7 @@ msgid ""
 msgstr ""
 
 msgid "龙韶吟"
-msgstr ""
+msgstr "Лун Шаоинь"
 
 msgid "你觉得被打中的地方一阵麻痒！"
 msgstr ""
@@ -25631,7 +25631,7 @@ msgid ""
 msgstr ""
 
 msgid "阮欣郁"
-msgstr ""
+msgstr "Жуань Синьюй"
 
 msgid ""
 "欣郁大喊： 喂! 兄台! 这不准男人进来! \n"
@@ -25646,7 +25646,7 @@ msgid ""
 msgstr ""
 
 msgid "凤凰"
-msgstr ""
+msgstr "Феникс"
 
 msgid "护庄神像"
 msgstr ""
@@ -25661,7 +25661,7 @@ msgid ""
 msgstr ""
 
 msgid "金仪彤"
-msgstr ""
+msgstr "Цзинь Итун"
 
 msgid ""
 "她国色天香，娇丽无伦；温柔娴静，秀绝人寰。\n"
@@ -25713,7 +25713,7 @@ msgid ""
 msgstr ""
 
 msgid "采花少女"
-msgstr ""
+msgstr "сборщица цветов"
 
 msgid ""
 "采花少女是绮云镇居民的小孩，从小就到晚月庄来摘桂花，蓝止\n"
@@ -25756,13 +25756,13 @@ msgid "华中理工大学的桂花树比晚月庄多多了，你知道吗？"
 msgstr ""
 
 msgid "上官钰翎"
-msgstr ""
+msgstr "Шангуань Юйлин"
 
 msgid "玉涵湘"
-msgstr ""
+msgstr "Юй Ханьсян"
 
 msgid "小金鼠"
-msgstr ""
+msgstr "золотая мышка"
 
 msgid ""
 "一只可爱的长尾巴的小金鼠。 \n"
@@ -25805,7 +25805,7 @@ msgid ""
 msgstr ""
 
 msgid "美珊"
-msgstr ""
+msgstr "Мэйшань"
 
 msgid ""
 "她看起来成熟中带有一些韵味。飘逸的长发\n"
@@ -25813,7 +25813,7 @@ msgid ""
 msgstr ""
 
 msgid "小白兔"
-msgstr ""
+msgstr "белый кролик"
 
 msgid ""
 "一只红眼睛的小白兔。\n"
@@ -25833,7 +25833,7 @@ msgid ""
 msgstr ""
 
 msgid "人灵「区冥」"
-msgstr ""
+msgstr "дух Человека «Оумин»"
 
 msgid "神像"
 msgstr ""
@@ -26257,34 +26257,34 @@ msgid ""
 msgstr ""
 
 msgid "拱门"
-msgstr ""
+msgstr "арочные ворота"
 
 msgid "铜门"
-msgstr ""
+msgstr "бронзовая дверь"
 
 msgid "后厅大门"
-msgstr ""
+msgstr "двери заднего зала"
 
 msgid "雕饰厢门"
-msgstr ""
+msgstr "резная дверь флигеля"
 
 msgid "垂花门"
-msgstr ""
+msgstr "ворота с резными цветами"
 
 msgid "小帘门"
-msgstr ""
+msgstr "дверь за занавеской"
 
 msgid "檀香木门"
-msgstr ""
+msgstr "сандаловая дверь"
 
 msgid "楼门"
-msgstr ""
+msgstr "дверь башни"
 
 msgid "茶壶"
-msgstr ""
+msgstr "чайник"
 
 msgid "八卦图"
-msgstr ""
+msgstr "схема восьми триграмм"
 
 msgid "你现在的神太少了，无法专注跳出舞步！"
 msgstr ""
@@ -26332,7 +26332,7 @@ msgid ""
 msgstr ""
 
 msgid "神位前"
-msgstr ""
+msgstr "перед поминальной табличкой"
 
 msgid "你在神位前跳起舞来。但似乎不得要领！"
 msgstr ""
@@ -26372,7 +26372,7 @@ msgid ""
 msgstr ""
 
 msgid "碧纱橱"
-msgstr ""
+msgstr "шкаф с зелёной кисеёй"
 
 msgid "翻找"
 msgstr ""
@@ -26389,7 +26389,7 @@ msgid "你从橱子内取出玛瑙手镯。"
 msgstr ""
 
 msgid "石床"
-msgstr ""
+msgstr "каменное ложе"
 
 msgid ""
 "你在石床后面找到了一本舞曲谱！\n"
@@ -26430,14 +26430,14 @@ msgid ""
 msgstr ""
 
 msgid "冰匣"
-msgstr ""
+msgstr "ледяной ларец"
 
 msgid ""
 "一只玄冰雕的匣子，齐膝高，匣盖上结着不化的霜。匣面刻着一行小字：凤仪起，匣自开。几百年没人跳对过。\n"
 msgstr ""
 
 msgid "灯笼"
-msgstr ""
+msgstr "фонарь"
 
 msgid ""
 "灯笼上几个娟秀的字迹写著：\n"
@@ -26446,7 +26446,7 @@ msgid ""
 msgstr ""
 
 msgid "墙"
-msgstr ""
+msgstr "стена"
 
 msgid ""
 "    你仔细观看石墙，突然发现原本单调的墙上隐隐约约出现了\n"
@@ -26469,7 +26469,7 @@ msgid ""
 msgstr ""
 
 msgid "湘绣舞曲图"
-msgstr ""
+msgstr "вышитая схема танца"
 
 msgid ""
 "这是一幅湘绣的彩图，上有几名貌美的女子，以不同的姿态\n"
@@ -26478,7 +26478,7 @@ msgid ""
 msgstr ""
 
 msgid "西府海棠"
-msgstr ""
+msgstr "райская яблоня"
 
 msgid "摘花蕊"
 msgstr ""
@@ -26497,7 +26497,7 @@ msgid ""
 msgstr ""
 
 msgid "石牌"
-msgstr ""
+msgstr "каменная табличка"
 
 msgid ""
 "\n"
@@ -26644,7 +26644,7 @@ msgid "师父给你的东西呢？"
 msgstr ""
 
 msgid "僧人"
-msgstr ""
+msgstr "монах"
 
 msgid ""
 "一个笑咪咪的僧人对著你微微颔首。\n"
@@ -26771,7 +26771,7 @@ msgid "他练的那门经，是从番坊来的。番坊的日陀罗寺。"
 msgstr ""
 
 msgid "烧饭僧"
-msgstr ""
+msgstr "монах-повар"
 
 msgid ""
 "一位长得肥肥胖胖, 福福泰泰的中年僧人。\n"
@@ -26781,7 +26781,7 @@ msgid "阿弥陀佛 !! 贫僧的菜刀是用来切菜的, 不是用来砍人的�
 msgstr ""
 
 msgid "小沙弥"
-msgstr ""
+msgstr "юный послушник"
 
 msgid ""
 "一个天真无邪的小和尚, 一颗圆滚滚光溜溜可爱的小光头, 让人看了\n"
@@ -26937,10 +26937,10 @@ msgid ""
 msgstr ""
 
 msgid "金门"
-msgstr ""
+msgstr "Золотые ворота"
 
 msgid "檀木扁额"
-msgstr ""
+msgstr "сандаловая доска с надписью"
 
 msgid ""
 "┌————————┐ ┌————————┐ ┌————————┐\n"
@@ -26978,14 +26978,14 @@ msgid ""
 msgstr ""
 
 msgid "大锅"
-msgstr ""
+msgstr "большой котёл"
 
 msgid ""
 "一个冒著腾腾的热气的黑色大铁锅, 里头正煮著小米粥。\n"
 msgstr ""
 
 msgid "蒸笼"
-msgstr ""
+msgstr "пароварка"
 
 msgid "拿馒头"
 msgstr ""
@@ -27072,7 +27072,7 @@ msgid ""
 msgstr ""
 
 msgid "汤掌柜"
-msgstr ""
+msgstr "хозяин Тан"
 
 msgid ""
 "汤掌柜是这家大酒楼的主人，别看他只是一个小小的酒楼老板，乔阴\n"
@@ -27125,7 +27125,7 @@ msgid "在下失落了一件重要物事，是装在一个桃木箱子里，不�
 msgstr ""
 
 msgid "箱子"
-msgstr ""
+msgstr "ящики"
 
 msgid "对，是桃木做成的箱子。"
 msgstr ""
@@ -27137,7 +27137,7 @@ msgid "如果你见著了，麻烦送还给我，在下定当重重报答。"
 msgstr ""
 
 msgid "陈显祖"
-msgstr ""
+msgstr "Чэнь Сяньцзу"
 
 msgid "不敢，正是在下，不知阁下有何指教？"
 msgstr ""
@@ -27258,7 +27258,7 @@ msgid ""
 msgstr ""
 
 msgid "衙役"
-msgstr ""
+msgstr "служитель управы"
 
 msgid ""
 "衙役精明强干, 满脸正气. \n"
@@ -27281,7 +27281,7 @@ msgid ""
 msgstr ""
 
 msgid "带刀侍卫"
-msgstr ""
+msgstr "гвардеец с саблей"
 
 msgid ""
 "带刀侍卫皆为槐阳王程老王爷麾下骁将,身负绝艺.\n"
@@ -27306,7 +27306,7 @@ msgid "拒了之后，关北的民夫还是一批一批地没了。往哪儿去�
 msgstr ""
 
 msgid "乾瘪老太婆"
-msgstr ""
+msgstr "высохшая старуха"
 
 msgid ""
 "这个老太婆怀中抱了个竹篓，似乎在卖什么东西，也许你可以跟她问问\n"
@@ -27335,7 +27335,7 @@ msgid "老太婆打开竹篓，盖子上贴了张纸片。"
 msgstr ""
 
 msgid "游客"
-msgstr ""
+msgstr "путешественник"
 
 msgid ""
 "这是一位来乔阴县游玩的游客。\n"
@@ -27350,14 +27350,14 @@ msgid ""
 msgstr ""
 
 msgid "书生"
-msgstr ""
+msgstr "учёный"
 
 msgid ""
 "一个看起来相当斯文的书生，正拿著一本书摇头晃脑地读著。\n"
 msgstr ""
 
 msgid "官家小姐"
-msgstr ""
+msgstr "дочь чиновника"
 
 msgid ""
 "一个看起来像是有钱人家的女子，正在这里游湖。\n"
@@ -27382,14 +27382,14 @@ msgid "小女子有一事相求 ... 请您将这个交给游 ... 游公子。"
 msgstr ""
 
 msgid "丫鬟"
-msgstr ""
+msgstr "горничная"
 
 msgid ""
 "一个服侍有钱人家小姐的丫鬟，正无聊地玩弄著衣角。\n"
 msgstr ""
 
 msgid "程不平"
-msgstr ""
+msgstr "Чэн Бупин"
 
 msgid "乔阴县县官"
 msgstr ""
@@ -27536,7 +27536,7 @@ msgid "本县的捕快够用。你是什么人？"
 msgstr ""
 
 msgid "路引"
-msgstr ""
+msgstr "подорожные"
 
 msgid "印是严将军的，他认了。剩下的，问天驼关的人。"
 msgstr ""
@@ -27569,7 +27569,7 @@ msgid "路引？先把收过路费的两个人拿下。"
 msgstr ""
 
 msgid "密信"
-msgstr ""
+msgstr "тайное письмо"
 
 msgid ""
 "把密信交给程不平：他收下当物证，京师的事还没定的，揭发时照样算一样。\n"
@@ -27599,7 +27599,7 @@ msgid "信呢？拿来本县看。"
 msgstr ""
 
 msgid "兵部文书"
-msgstr ""
+msgstr "бумаги Военного ведомства"
 
 msgid "陈显祖的供词录下了，信也给了你。他留在内厅——庾家的人进不了这道门。"
 msgstr ""
@@ -27786,7 +27786,7 @@ msgid ""
 msgstr ""
 
 msgid "酒楼守卫"
-msgstr ""
+msgstr "охранник трактира"
 
 msgid ""
 "一个身穿蓝布衣的人，从他锐利的眼神跟神情，显然是个练家子。\n"
@@ -27805,7 +27805,7 @@ msgid "（福林酒楼报了官：从此守城官兵和县城官兵见到你就�
 msgstr ""
 
 msgid "老者"
-msgstr ""
+msgstr "старик"
 
 msgid ""
 "他白发苍苍,老态龙钟.\n"
@@ -27862,7 +27862,7 @@ msgid "    这里明显的出口是北边和南边。"
 msgstr ""
 
 msgid "黑无常"
-msgstr ""
+msgstr "Чёрный Непостоянный"
 
 msgid "黑无常发出一阵像呻吟的声音，当他发现你正注视著他的时候，瞪了你一眼。"
 msgstr ""
@@ -27898,7 +27898,7 @@ msgid "老者骨碌碌就地打了个滚，说道：我赢了！"
 msgstr ""
 
 msgid "仙鹤"
-msgstr ""
+msgstr "небесный журавль"
 
 msgid ""
 "白羽如雪，不似凡间之物。 \n"
@@ -27908,7 +27908,7 @@ msgid "翅"
 msgstr ""
 
 msgid "紫衣童子"
-msgstr ""
+msgstr "мальчик в лиловом"
 
 msgid ""
 "紫衣童子是乔阴县的小孩，从小孤苦零丁。仙人怜之，带入云台。\n"
@@ -27941,17 +27941,17 @@ msgid "只度有缘人。"
 msgstr ""
 
 msgid "孤魂野鬼"
-msgstr ""
+msgstr "бесприютный дух"
 
 msgid "朦胧鬼影"
-msgstr ""
+msgstr "смутный призрак"
 
 msgid ""
 "一个高大的身影，看起来像是个人，不过 ....\n"
 msgstr ""
 
 msgid "护草神兽"
-msgstr ""
+msgstr "зверь-хранитель травы"
 
 msgid ""
 "看守忘忧草的护草神兽。\n"
@@ -27998,25 +27998,25 @@ msgid ""
 msgstr ""
 
 msgid "慕容巡捕"
-msgstr ""
+msgstr "стражник Мужун"
 
 msgid "西门巡捕"
-msgstr ""
+msgstr "стражник Симэнь"
 
 msgid "公孙巡捕"
-msgstr ""
+msgstr "стражник Гунсунь"
 
 msgid "上官巡捕"
-msgstr ""
+msgstr "стражник Шангуань"
 
 msgid "南宫巡捕"
-msgstr ""
+msgstr "стражник Наньгун"
 
 msgid "欧阳巡捕"
-msgstr ""
+msgstr "стражник Оуян"
 
 msgid "司徒巡捕"
-msgstr ""
+msgstr "стражник Сыту"
 
 msgid "闹了半天原来{name}是个贼啊! 我走一趟吧!"
 msgstr ""
@@ -28382,13 +28382,13 @@ msgid "也不知道隐士怎么弄的，你无法跳出专注的舞步。"
 msgstr ""
 
 msgid "衙门大门"
-msgstr ""
+msgstr "ворота управы"
 
 msgid "铜钉大门"
-msgstr ""
+msgstr "ворота с медными гвоздями"
 
 msgid "柴门"
-msgstr ""
+msgstr "плетёная калитка"
 
 msgid "东行的道路被骆云舟挡住了."
 msgstr ""
@@ -28421,7 +28421,7 @@ msgid ""
 msgstr ""
 
 msgid "大洞"
-msgstr ""
+msgstr "большая дыра"
 
 msgid "爬下去"
 msgstr ""
@@ -28435,7 +28435,7 @@ msgid ""
 msgstr ""
 
 msgid "小庙"
-msgstr ""
+msgstr "маленькое святилище"
 
 msgid ""
 "一间砖砌的小庙，庙里供奉的当然就是「树王公」，你注意到庙里\n"
@@ -28444,14 +28444,14 @@ msgid ""
 msgstr ""
 
 msgid "竹篱"
-msgstr ""
+msgstr "бамбуковая изгородь"
 
 msgid ""
 "篱笆依地势而曲折延伸，你注意到柴门里面有一间草堂。\n"
 msgstr ""
 
 msgid "书卷"
-msgstr ""
+msgstr "свитки"
 
 msgid ""
 "几上的书信手而放，装帧古朴，竟是宋版书，还有几卷汉碑原拓。你按捺不住好奇心想拿\n"
@@ -28472,7 +28472,7 @@ msgid ""
 msgstr ""
 
 msgid "古树"
-msgstr ""
+msgstr "древнее дерево"
 
 msgid "你七手八脚地爬上了古树。"
 msgstr ""
@@ -28487,7 +28487,7 @@ msgid ""
 msgstr ""
 
 msgid "云幡"
-msgstr ""
+msgstr "облачный стяг"
 
 msgid "碰云幡"
 msgstr ""
@@ -28502,7 +28502,7 @@ msgid ""
 msgstr ""
 
 msgid "空穴"
-msgstr ""
+msgstr "пустая ниша"
 
 msgid "插幽兰"
 msgstr ""
@@ -28515,7 +28515,7 @@ msgid ""
 msgstr ""
 
 msgid "洞穴"
-msgstr ""
+msgstr "пещера"
 
 msgid "你在洞里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"
 msgstr ""
@@ -28525,7 +28525,7 @@ msgid ""
 msgstr ""
 
 msgid "字条"
-msgstr ""
+msgstr "записка"
 
 msgid "读"
 msgstr ""
@@ -28581,10 +28581,10 @@ msgid ""
 msgstr ""
 
 msgid "大井"
-msgstr ""
+msgstr "большой колодец"
 
 msgid "石缝"
-msgstr ""
+msgstr "расщелина в скале"
 
 msgid ""
 "石缝里的鬼臼，你已经采过了。\n"
@@ -28614,7 +28614,7 @@ msgid ""
 msgstr ""
 
 msgid "大泽"
-msgstr ""
+msgstr "большое болото"
 
 msgid "闻忘忧草"
 msgstr ""
@@ -28628,7 +28628,7 @@ msgid ""
 msgstr ""
 
 msgid "大皮鼓"
-msgstr ""
+msgstr "большой кожаный барабан"
 
 msgid "击鼓"
 msgstr ""
@@ -28698,7 +28698,7 @@ msgid ""
 msgstr ""
 
 msgid "后备兵"
-msgstr ""
+msgstr "солдат запаса"
 
 msgid ""
 "嘿嘿！你想做啥？\n"
@@ -28900,7 +28900,7 @@ msgid "给我滚出去"
 msgstr ""
 
 msgid "镇国大将军"
-msgstr ""
+msgstr "Великий генерал — оплот державы"
 
 msgid "天邪派第十六代弟子"
 msgstr ""
@@ -29383,14 +29383,14 @@ msgid ""
 msgstr ""
 
 msgid "机械装置"
-msgstr ""
+msgstr "механизм"
 
 msgid ""
 "这是个很大的绞盘，可能是开关铁门用的。\n"
 msgstr ""
 
 msgid "书柜"
-msgstr ""
+msgstr "книжный шкаф"
 
 msgid ""
 "看起来是个普普通通的柜子，或许你可以search看看。\n"
@@ -29435,7 +29435,7 @@ msgid ""
 msgstr ""
 
 msgid "水井"
-msgstr ""
+msgstr "колодец"
 
 msgid "推开"
 msgstr ""
@@ -29453,7 +29453,7 @@ msgid ""
 msgstr ""
 
 msgid "隙缝"
-msgstr ""
+msgstr "щель"
 
 msgid "进去"
 msgstr ""
@@ -29471,7 +29471,7 @@ msgid ""
 msgstr ""
 
 msgid "商人"
-msgstr ""
+msgstr "купец"
 
 msgid ""
 "这是一位从关外来的商人。\n"
@@ -29486,7 +29486,7 @@ msgid ""
 msgstr ""
 
 msgid "农妇"
-msgstr ""
+msgstr "крестьянка"
 
 msgid ""
 "农妇道：我可怜的儿啊，你到那里去了？\n"
@@ -29514,7 +29514,7 @@ msgid ""
 msgstr ""
 
 msgid "鬼卒"
-msgstr ""
+msgstr "призрачный стражник"
 
 msgid "灰绿的皮，钢叉。从湖里爬上来的，渔夫家的老三死在岸上了。屋顶是它们点的。你拔的？"
 msgstr ""
@@ -29523,7 +29523,7 @@ msgid "什么鬼卒？"
 msgstr ""
 
 msgid "老冰匠"
-msgstr ""
+msgstr "старый резчик льда"
 
 msgid "老冰匠死在湖边了，身上看不出什么伤。孩子们天天去柳树底下等他讲冰底下的光……谁会跟一个凿冰的老头过不去？"
 msgstr ""
@@ -29579,7 +29579,7 @@ msgid "唉，我那可怜的儿啊，年龄比你还小。!"
 msgstr ""
 
 msgid "采花妞"
-msgstr ""
+msgstr "девчушка с цветами"
 
 msgid ""
 "天真的小女孩正在玩耍着 \n"
@@ -29589,7 +29589,7 @@ msgid "这要到黑松山去问。"
 msgstr ""
 
 msgid "刘老农"
-msgstr ""
+msgstr "старый крестьянин Лю"
 
 msgid ""
 "刘老农今年快六十了。但手脚还算灵活。\n"
@@ -29638,14 +29638,14 @@ msgid "关北？去年兵部的车从我这田前的路上过，押的都是关�
 msgstr ""
 
 msgid "大老鼠"
-msgstr ""
+msgstr "большая крыса"
 
 msgid ""
 "一只鼠头鼠脑的大老鼠\n"
 msgstr ""
 
 msgid "瓜农"
-msgstr ""
+msgstr "бахчевник"
 
 msgid ""
 "一个中年瓜农，脸上被阳光晒得黝黑，一身的键子\n"
@@ -29671,7 +29671,7 @@ msgid ""
 msgstr ""
 
 msgid "渔夫"
-msgstr ""
+msgstr "рыбак"
 
 msgid ""
 "一个精壮的汉子，头戴斗笠，身披蓑衣。偶尔抬头一看的眼神\n"
@@ -29720,7 +29720,7 @@ msgid "玉螺湖。鱼不多了。"
 msgstr ""
 
 msgid "白鳞冰龙"
-msgstr ""
+msgstr "белый ледяной дракон"
 
 msgid ""
 "一只浑身长满白鳞的龙，\n"
@@ -29919,14 +29919,14 @@ msgid "你的去路被瓜农拦住了。"
 msgstr ""
 
 msgid "田老财家大门"
-msgstr ""
+msgstr "ворота богатея Тяня"
 
 msgid ""
 "你勉强分辨出那上面模糊的字迹：傅家坡\n"
 msgstr ""
 
 msgid "木船"
-msgstr ""
+msgstr "деревянная лодка"
 
 msgid ""
 "关内能经常见到的渔船，你可以划着它到湖中心。\n"
@@ -29946,7 +29946,7 @@ msgid "茅草晃了晃，又遮住了向西的路。"
 msgstr ""
 
 msgid "玄冰"
-msgstr ""
+msgstr "тёмный лёд"
 
 msgid ""
 "身后的入口已经冻上了，冰层坚硬无比，再也砸不开。往上走只能穿过冰龙盘踞的冰厅；过不去的话，就只能在这里等下去了。\n"
@@ -29956,7 +29956,7 @@ msgid "你在冰洞里苦等良久，冻得昏昏沉沉地睡了过去……醒�
 msgstr ""
 
 msgid "冰壁刻字"
-msgstr ""
+msgstr "надпись на ледяной стене"
 
 msgid ""
 "入口对面的冰壁上刻着一行字，刻得很深，三百年的冰长过去也没有把它长平。字是中原字，笔画生硬，像是用剑尖一下一下凿出来的：「吾见钉之。」\n"
@@ -29968,7 +29968,7 @@ msgid ""
 msgstr ""
 
 msgid "封坛"
-msgstr ""
+msgstr "алтарь печати"
 
 msgid ""
 "一座黑石砌的圆坛，齐腰高，坛面磨得发亮。坛心嵌着一块透明的冰，冰里一颗头——闭着眼，眉骨很高，嘴角像在笑。一把剑从头顶直钉下去，钉进坛心的石头里，只有剑柄露在冰外，柄上结着霜。坛边的冰柱里有人。\n"
@@ -29979,7 +29979,7 @@ msgid ""
 msgstr ""
 
 msgid "冰壁"
-msgstr ""
+msgstr "ледяная стена"
 
 msgid ""
 "四壁是整块的冰，冰里有金线一样的纹路，一直盘到顶上。顶是一整块半透明的冰，上面就是冰龙厅的水潭——有影子游过去，很长。壁上刻着一圈金乌的字，和岩洞冰壁上那一行是一个人的笔迹，只是刻得更密，你一个字也不认得。\n"
@@ -30009,7 +30009,7 @@ msgid ""
 msgstr ""
 
 msgid "湖畔"
-msgstr ""
+msgstr "берег озера"
 
 msgid "等到天黑"
 msgstr ""
@@ -30137,7 +30137,7 @@ msgid ""
 msgstr ""
 
 msgid "芦苇丛"
-msgstr ""
+msgstr "заросли тростника"
 
 msgid "拨开芦苇"
 msgstr ""
@@ -30179,7 +30179,7 @@ msgid ""
 msgstr ""
 
 msgid "小船"
-msgstr ""
+msgstr "лодочка"
 
 msgid "划回岸边"
 msgstr ""
@@ -30312,7 +30312,7 @@ msgid ""
 msgstr ""
 
 msgid "冰柱"
-msgstr ""
+msgstr "ледяной столп"
 
 msgid "把铜牒念给她听"
 msgstr ""
@@ -30381,7 +30381,7 @@ msgid ""
 msgstr ""
 
 msgid "穿灵"
-msgstr ""
+msgstr "Душепронзатель"
 
 msgid "拔出来"
 msgstr ""
@@ -30497,7 +30497,7 @@ msgid "不拔？那就等它自己出来。"
 msgstr ""
 
 msgid "坛心"
-msgstr ""
+msgstr "середина алтаря"
 
 msgid "迎上去"
 msgstr ""
@@ -30526,7 +30526,7 @@ msgid ""
 msgstr ""
 
 msgid "那颗头"
-msgstr ""
+msgstr "та голова"
 
 msgid "钉下去"
 msgstr ""
@@ -30598,7 +30598,7 @@ msgid ""
 msgstr ""
 
 msgid "京师守城兵"
-msgstr ""
+msgstr "столичный стражник"
 
 msgid ""
 "这是个正在这里站岗的京师官兵，虽然和许多武林人物比起来，官兵\n"
@@ -30628,7 +30628,7 @@ msgid "这是什么东西啊！你想偷渡呀？"
 msgstr ""
 
 msgid "黑你没商量"
-msgstr ""
+msgstr "«Без торга»"
 
 msgid ""
 "黑你没商量是个看起来相当精明的中年人，他的本名叫做“魏阮”。\n"
@@ -30674,7 +30674,7 @@ msgid ""
 msgstr ""
 
 msgid "万晓生"
-msgstr ""
+msgstr "Вань Сяошэн"
 
 msgid "武器店掌柜"
 msgstr ""
@@ -30696,7 +30696,7 @@ msgid ""
 msgstr ""
 
 msgid "刀拳双绝"
-msgstr ""
+msgstr "Мастер сабли и кулака"
 
 msgid "振远镖局总镖头"
 msgstr ""
@@ -30991,7 +30991,7 @@ msgid ""
 msgstr ""
 
 msgid "老板娘"
-msgstr ""
+msgstr "хозяйка"
 
 msgid "绸缎庄"
 msgstr ""
@@ -31026,10 +31026,10 @@ msgid "谢谢这位客官了。"
 msgstr ""
 
 msgid "钱掌柜"
-msgstr ""
+msgstr "хозяин Цянь"
 
 msgid "钱千万"
-msgstr ""
+msgstr "Миллионщик"
 
 msgid ""
 "钱掌柜长得如一个大面团般，白白胖胖的，虽说早已步入知天命\n"
@@ -31057,7 +31057,7 @@ msgid ""
 msgstr ""
 
 msgid "行人"
-msgstr ""
+msgstr "прохожий"
 
 msgid ""
 "行人摇了摇头，说：世事无常，只苦了我们这些老百姓。\n"
@@ -31091,7 +31091,7 @@ msgid ""
 msgstr ""
 
 msgid "李掌柜"
-msgstr ""
+msgstr "хозяйка Ли"
 
 msgid "鞋店"
 msgstr ""
@@ -31116,7 +31116,7 @@ msgid ""
 msgstr ""
 
 msgid "卖艺壮汉"
-msgstr ""
+msgstr "уличный силач"
 
 msgid ""
 "一个满脸横肉的壮汉，口水四溅，正说着什么。\n"
@@ -31158,7 +31158,7 @@ msgid ""
 msgstr ""
 
 msgid "庾子建"
-msgstr ""
+msgstr "Юй Цзыцзянь"
 
 msgid "兵部尚书"
 msgstr ""
@@ -31230,1192 +31230,1192 @@ msgid "真龙头往墙根里缩了缩：「护院绕一圈要多久，你数过�
 msgstr ""
 
 msgid "赵顺"
-msgstr ""
+msgstr "Чжао Шунь"
 
 msgid "赵昌"
-msgstr ""
+msgstr "Чжао Чан"
 
 msgid "赵振"
-msgstr ""
+msgstr "Чжао Чжэнь"
 
 msgid "赵发"
-msgstr ""
+msgstr "Чжао Фа"
 
 msgid "赵财"
-msgstr ""
+msgstr "Чжао Цай"
 
 msgid "赵俊"
-msgstr ""
+msgstr "Чжао Цзюнь"
 
 msgid "赵彦"
-msgstr ""
+msgstr "Чжао Янь"
 
 msgid "赵良"
-msgstr ""
+msgstr "Чжао Лян"
 
 msgid "赵志"
-msgstr ""
+msgstr "Чжао Чжи"
 
 msgid "赵忠"
-msgstr ""
+msgstr "Чжао Чжун"
 
 msgid "赵孝"
-msgstr ""
+msgstr "Чжао Сяо"
 
 msgid "赵雄"
-msgstr ""
+msgstr "Чжао Сюн"
 
 msgid "赵益"
-msgstr ""
+msgstr "Чжао И"
 
 msgid "赵添"
-msgstr ""
+msgstr "Чжао Тянь"
 
 msgid "赵金"
-msgstr ""
+msgstr "Чжао Цзинь"
 
 msgid "赵辉"
-msgstr ""
+msgstr "Чжао Хуэй"
 
 msgid "赵长"
-msgstr ""
+msgstr "Чжао Чан"
 
 msgid "赵盛"
-msgstr ""
+msgstr "Чжао Шэн"
 
 msgid "赵胜"
-msgstr ""
+msgstr "Чжао Шэн"
 
 msgid "赵进"
-msgstr ""
+msgstr "Чжао Цзинь"
 
 msgid "赵安"
-msgstr ""
+msgstr "Чжао Ань"
 
 msgid "赵福"
-msgstr ""
+msgstr "Чжао Фу"
 
 msgid "赵同"
-msgstr ""
+msgstr "Чжао Тун"
 
 msgid "赵满"
-msgstr ""
+msgstr "Чжао Мань"
 
 msgid "赵富"
-msgstr ""
+msgstr "Чжао Фу"
 
 msgid "赵万"
-msgstr ""
+msgstr "Чжао Вань"
 
 msgid "赵龙"
-msgstr ""
+msgstr "Чжао Лун"
 
 msgid "赵隆"
-msgstr ""
+msgstr "Чжао Лун"
 
 msgid "赵祥"
-msgstr ""
+msgstr "Чжао Сян"
 
 msgid "赵栋"
-msgstr ""
+msgstr "Чжао Дун"
 
 msgid "赵国"
-msgstr ""
+msgstr "Чжао Го"
 
 msgid "赵亿"
-msgstr ""
+msgstr "Чжао И"
 
 msgid "赵寿"
-msgstr ""
+msgstr "Чжао Шоу"
 
 msgid "钱顺"
-msgstr ""
+msgstr "Цянь Шунь"
 
 msgid "钱昌"
-msgstr ""
+msgstr "Цянь Чан"
 
 msgid "钱振"
-msgstr ""
+msgstr "Цянь Чжэнь"
 
 msgid "钱发"
-msgstr ""
+msgstr "Цянь Фа"
 
 msgid "钱财"
-msgstr ""
+msgstr "Цянь Цай"
 
 msgid "钱俊"
-msgstr ""
+msgstr "Цянь Цзюнь"
 
 msgid "钱彦"
-msgstr ""
+msgstr "Цянь Янь"
 
 msgid "钱良"
-msgstr ""
+msgstr "Цянь Лян"
 
 msgid "钱志"
-msgstr ""
+msgstr "Цянь Чжи"
 
 msgid "钱忠"
-msgstr ""
+msgstr "Цянь Чжун"
 
 msgid "钱孝"
-msgstr ""
+msgstr "Цянь Сяо"
 
 msgid "钱雄"
-msgstr ""
+msgstr "Цянь Сюн"
 
 msgid "钱益"
-msgstr ""
+msgstr "Цянь И"
 
 msgid "钱添"
-msgstr ""
+msgstr "Цянь Тянь"
 
 msgid "钱金"
-msgstr ""
+msgstr "Цянь Цзинь"
 
 msgid "钱辉"
-msgstr ""
+msgstr "Цянь Хуэй"
 
 msgid "钱长"
-msgstr ""
+msgstr "Цянь Чан"
 
 msgid "钱盛"
-msgstr ""
+msgstr "Цянь Шэн"
 
 msgid "钱胜"
-msgstr ""
+msgstr "Цянь Шэн"
 
 msgid "钱进"
-msgstr ""
+msgstr "Цянь Цзинь"
 
 msgid "钱安"
-msgstr ""
+msgstr "Цянь Ань"
 
 msgid "钱福"
-msgstr ""
+msgstr "Цянь Фу"
 
 msgid "钱同"
-msgstr ""
+msgstr "Цянь Тун"
 
 msgid "钱满"
-msgstr ""
+msgstr "Цянь Мань"
 
 msgid "钱富"
-msgstr ""
+msgstr "Цянь Фу"
 
 msgid "钱万"
-msgstr ""
+msgstr "Цянь Вань"
 
 msgid "钱龙"
-msgstr ""
+msgstr "Цянь Лун"
 
 msgid "钱隆"
-msgstr ""
+msgstr "Цянь Лун"
 
 msgid "钱祥"
-msgstr ""
+msgstr "Цянь Сян"
 
 msgid "钱栋"
-msgstr ""
+msgstr "Цянь Дун"
 
 msgid "钱国"
-msgstr ""
+msgstr "Цянь Го"
 
 msgid "钱亿"
-msgstr ""
+msgstr "Цянь И"
 
 msgid "钱寿"
-msgstr ""
+msgstr "Цянь Шоу"
 
 msgid "孙顺"
-msgstr ""
+msgstr "Сунь Шунь"
 
 msgid "孙昌"
-msgstr ""
+msgstr "Сунь Чан"
 
 msgid "孙振"
-msgstr ""
+msgstr "Сунь Чжэнь"
 
 msgid "孙发"
-msgstr ""
+msgstr "Сунь Фа"
 
 msgid "孙财"
-msgstr ""
+msgstr "Сунь Цай"
 
 msgid "孙俊"
-msgstr ""
+msgstr "Сунь Цзюнь"
 
 msgid "孙彦"
-msgstr ""
+msgstr "Сунь Янь"
 
 msgid "孙良"
-msgstr ""
+msgstr "Сунь Лян"
 
 msgid "孙志"
-msgstr ""
+msgstr "Сунь Чжи"
 
 msgid "孙忠"
-msgstr ""
+msgstr "Сунь Чжун"
 
 msgid "孙孝"
-msgstr ""
+msgstr "Сунь Сяо"
 
 msgid "孙雄"
-msgstr ""
+msgstr "Сунь Сюн"
 
 msgid "孙益"
-msgstr ""
+msgstr "Сунь И"
 
 msgid "孙添"
-msgstr ""
+msgstr "Сунь Тянь"
 
 msgid "孙金"
-msgstr ""
+msgstr "Сунь Цзинь"
 
 msgid "孙辉"
-msgstr ""
+msgstr "Сунь Хуэй"
 
 msgid "孙长"
-msgstr ""
+msgstr "Сунь Чан"
 
 msgid "孙盛"
-msgstr ""
+msgstr "Сунь Шэн"
 
 msgid "孙胜"
-msgstr ""
+msgstr "Сунь Шэн"
 
 msgid "孙进"
-msgstr ""
+msgstr "Сунь Цзинь"
 
 msgid "孙安"
-msgstr ""
+msgstr "Сунь Ань"
 
 msgid "孙福"
-msgstr ""
+msgstr "Сунь Фу"
 
 msgid "孙同"
-msgstr ""
+msgstr "Сунь Тун"
 
 msgid "孙满"
-msgstr ""
+msgstr "Сунь Мань"
 
 msgid "孙富"
-msgstr ""
+msgstr "Сунь Фу"
 
 msgid "孙万"
-msgstr ""
+msgstr "Сунь Вань"
 
 msgid "孙龙"
-msgstr ""
+msgstr "Сунь Лун"
 
 msgid "孙隆"
-msgstr ""
+msgstr "Сунь Лун"
 
 msgid "孙祥"
-msgstr ""
+msgstr "Сунь Сян"
 
 msgid "孙栋"
-msgstr ""
+msgstr "Сунь Дун"
 
 msgid "孙国"
-msgstr ""
+msgstr "Сунь Го"
 
 msgid "孙亿"
-msgstr ""
+msgstr "Сунь И"
 
 msgid "孙寿"
-msgstr ""
+msgstr "Сунь Шоу"
 
 msgid "李顺"
-msgstr ""
+msgstr "Ли Шунь"
 
 msgid "李昌"
-msgstr ""
+msgstr "Ли Чан"
 
 msgid "李振"
-msgstr ""
+msgstr "Ли Чжэнь"
 
 msgid "李发"
-msgstr ""
+msgstr "Ли Фа"
 
 msgid "李财"
-msgstr ""
+msgstr "Ли Цай"
 
 msgid "李俊"
-msgstr ""
+msgstr "Ли Цзюнь"
 
 msgid "李彦"
-msgstr ""
+msgstr "Ли Янь"
 
 msgid "李良"
-msgstr ""
+msgstr "Ли Лян"
 
 msgid "李志"
-msgstr ""
+msgstr "Ли Чжи"
 
 msgid "李忠"
-msgstr ""
+msgstr "Ли Чжун"
 
 msgid "李孝"
-msgstr ""
+msgstr "Ли Сяо"
 
 msgid "李雄"
-msgstr ""
+msgstr "Ли Сюн"
 
 msgid "李益"
-msgstr ""
+msgstr "Ли И"
 
 msgid "李添"
-msgstr ""
+msgstr "Ли Тянь"
 
 msgid "李金"
-msgstr ""
+msgstr "Ли Цзинь"
 
 msgid "李辉"
-msgstr ""
+msgstr "Ли Хуэй"
 
 msgid "李长"
-msgstr ""
+msgstr "Ли Чан"
 
 msgid "李盛"
-msgstr ""
+msgstr "Ли Шэн"
 
 msgid "李胜"
-msgstr ""
+msgstr "Ли Шэн"
 
 msgid "李进"
-msgstr ""
+msgstr "Ли Цзинь"
 
 msgid "李安"
-msgstr ""
+msgstr "Ли Ань"
 
 msgid "李福"
-msgstr ""
+msgstr "Ли Фу"
 
 msgid "李同"
-msgstr ""
+msgstr "Ли Тун"
 
 msgid "李满"
-msgstr ""
+msgstr "Ли Мань"
 
 msgid "李富"
-msgstr ""
+msgstr "Ли Фу"
 
 msgid "李万"
-msgstr ""
+msgstr "Ли Вань"
 
 msgid "李龙"
-msgstr ""
+msgstr "Ли Лун"
 
 msgid "李隆"
-msgstr ""
+msgstr "Ли Лун"
 
 msgid "李祥"
-msgstr ""
+msgstr "Ли Сян"
 
 msgid "李栋"
-msgstr ""
+msgstr "Ли Дун"
 
 msgid "李国"
-msgstr ""
+msgstr "Ли Го"
 
 msgid "李亿"
-msgstr ""
+msgstr "Ли И"
 
 msgid "李寿"
-msgstr ""
+msgstr "Ли Шоу"
 
 msgid "周顺"
-msgstr ""
+msgstr "Чжоу Шунь"
 
 msgid "周昌"
-msgstr ""
+msgstr "Чжоу Чан"
 
 msgid "周振"
-msgstr ""
+msgstr "Чжоу Чжэнь"
 
 msgid "周发"
-msgstr ""
+msgstr "Чжоу Фа"
 
 msgid "周财"
-msgstr ""
+msgstr "Чжоу Цай"
 
 msgid "周俊"
-msgstr ""
+msgstr "Чжоу Цзюнь"
 
 msgid "周彦"
-msgstr ""
+msgstr "Чжоу Янь"
 
 msgid "周良"
-msgstr ""
+msgstr "Чжоу Лян"
 
 msgid "周志"
-msgstr ""
+msgstr "Чжоу Чжи"
 
 msgid "周忠"
-msgstr ""
+msgstr "Чжоу Чжун"
 
 msgid "周孝"
-msgstr ""
+msgstr "Чжоу Сяо"
 
 msgid "周雄"
-msgstr ""
+msgstr "Чжоу Сюн"
 
 msgid "周益"
-msgstr ""
+msgstr "Чжоу И"
 
 msgid "周添"
-msgstr ""
+msgstr "Чжоу Тянь"
 
 msgid "周金"
-msgstr ""
+msgstr "Чжоу Цзинь"
 
 msgid "周辉"
-msgstr ""
+msgstr "Чжоу Хуэй"
 
 msgid "周长"
-msgstr ""
+msgstr "Чжоу Чан"
 
 msgid "周盛"
-msgstr ""
+msgstr "Чжоу Шэн"
 
 msgid "周胜"
-msgstr ""
+msgstr "Чжоу Шэн"
 
 msgid "周进"
-msgstr ""
+msgstr "Чжоу Цзинь"
 
 msgid "周安"
-msgstr ""
+msgstr "Чжоу Ань"
 
 msgid "周福"
-msgstr ""
+msgstr "Чжоу Фу"
 
 msgid "周同"
-msgstr ""
+msgstr "Чжоу Тун"
 
 msgid "周满"
-msgstr ""
+msgstr "Чжоу Мань"
 
 msgid "周富"
-msgstr ""
+msgstr "Чжоу Фу"
 
 msgid "周万"
-msgstr ""
+msgstr "Чжоу Вань"
 
 msgid "周龙"
-msgstr ""
+msgstr "Чжоу Лун"
 
 msgid "周隆"
-msgstr ""
+msgstr "Чжоу Лун"
 
 msgid "周祥"
-msgstr ""
+msgstr "Чжоу Сян"
 
 msgid "周栋"
-msgstr ""
+msgstr "Чжоу Дун"
 
 msgid "周国"
-msgstr ""
+msgstr "Чжоу Го"
 
 msgid "周亿"
-msgstr ""
+msgstr "Чжоу И"
 
 msgid "周寿"
-msgstr ""
+msgstr "Чжоу Шоу"
 
 msgid "吴顺"
-msgstr ""
+msgstr "У Шунь"
 
 msgid "吴昌"
-msgstr ""
+msgstr "У Чан"
 
 msgid "吴振"
-msgstr ""
+msgstr "У Чжэнь"
 
 msgid "吴发"
-msgstr ""
+msgstr "У Фа"
 
 msgid "吴财"
-msgstr ""
+msgstr "У Цай"
 
 msgid "吴俊"
-msgstr ""
+msgstr "У Цзюнь"
 
 msgid "吴彦"
-msgstr ""
+msgstr "У Янь"
 
 msgid "吴良"
-msgstr ""
+msgstr "У Лян"
 
 msgid "吴志"
-msgstr ""
+msgstr "У Чжи"
 
 msgid "吴忠"
-msgstr ""
+msgstr "У Чжун"
 
 msgid "吴孝"
-msgstr ""
+msgstr "У Сяо"
 
 msgid "吴雄"
-msgstr ""
+msgstr "У Сюн"
 
 msgid "吴益"
-msgstr ""
+msgstr "У И"
 
 msgid "吴添"
-msgstr ""
+msgstr "У Тянь"
 
 msgid "吴金"
-msgstr ""
+msgstr "У Цзинь"
 
 msgid "吴辉"
-msgstr ""
+msgstr "У Хуэй"
 
 msgid "吴长"
-msgstr ""
+msgstr "У Чан"
 
 msgid "吴盛"
-msgstr ""
+msgstr "У Шэн"
 
 msgid "吴胜"
-msgstr ""
+msgstr "У Шэн"
 
 msgid "吴进"
-msgstr ""
+msgstr "У Цзинь"
 
 msgid "吴安"
-msgstr ""
+msgstr "У Ань"
 
 msgid "吴福"
-msgstr ""
+msgstr "У Фу"
 
 msgid "吴同"
-msgstr ""
+msgstr "У Тун"
 
 msgid "吴满"
-msgstr ""
+msgstr "У Мань"
 
 msgid "吴富"
-msgstr ""
+msgstr "У Фу"
 
 msgid "吴万"
-msgstr ""
+msgstr "У Вань"
 
 msgid "吴龙"
-msgstr ""
+msgstr "У Лун"
 
 msgid "吴隆"
-msgstr ""
+msgstr "У Лун"
 
 msgid "吴祥"
-msgstr ""
+msgstr "У Сян"
 
 msgid "吴栋"
-msgstr ""
+msgstr "У Дун"
 
 msgid "吴国"
-msgstr ""
+msgstr "У Го"
 
 msgid "吴亿"
-msgstr ""
+msgstr "У И"
 
 msgid "吴寿"
-msgstr ""
+msgstr "У Шоу"
 
 msgid "郑顺"
-msgstr ""
+msgstr "Чжэн Шунь"
 
 msgid "郑昌"
-msgstr ""
+msgstr "Чжэн Чан"
 
 msgid "郑振"
-msgstr ""
+msgstr "Чжэн Чжэнь"
 
 msgid "郑发"
-msgstr ""
+msgstr "Чжэн Фа"
 
 msgid "郑财"
-msgstr ""
+msgstr "Чжэн Цай"
 
 msgid "郑俊"
-msgstr ""
+msgstr "Чжэн Цзюнь"
 
 msgid "郑彦"
-msgstr ""
+msgstr "Чжэн Янь"
 
 msgid "郑良"
-msgstr ""
+msgstr "Чжэн Лян"
 
 msgid "郑志"
-msgstr ""
+msgstr "Чжэн Чжи"
 
 msgid "郑忠"
-msgstr ""
+msgstr "Чжэн Чжун"
 
 msgid "郑孝"
-msgstr ""
+msgstr "Чжэн Сяо"
 
 msgid "郑雄"
-msgstr ""
+msgstr "Чжэн Сюн"
 
 msgid "郑益"
-msgstr ""
+msgstr "Чжэн И"
 
 msgid "郑添"
-msgstr ""
+msgstr "Чжэн Тянь"
 
 msgid "郑金"
-msgstr ""
+msgstr "Чжэн Цзинь"
 
 msgid "郑辉"
-msgstr ""
+msgstr "Чжэн Хуэй"
 
 msgid "郑长"
-msgstr ""
+msgstr "Чжэн Чан"
 
 msgid "郑盛"
-msgstr ""
+msgstr "Чжэн Шэн"
 
 msgid "郑胜"
-msgstr ""
+msgstr "Чжэн Шэн"
 
 msgid "郑进"
-msgstr ""
+msgstr "Чжэн Цзинь"
 
 msgid "郑安"
-msgstr ""
+msgstr "Чжэн Ань"
 
 msgid "郑福"
-msgstr ""
+msgstr "Чжэн Фу"
 
 msgid "郑同"
-msgstr ""
+msgstr "Чжэн Тун"
 
 msgid "郑满"
-msgstr ""
+msgstr "Чжэн Мань"
 
 msgid "郑富"
-msgstr ""
+msgstr "Чжэн Фу"
 
 msgid "郑万"
-msgstr ""
+msgstr "Чжэн Вань"
 
 msgid "郑龙"
-msgstr ""
+msgstr "Чжэн Лун"
 
 msgid "郑隆"
-msgstr ""
+msgstr "Чжэн Лун"
 
 msgid "郑祥"
-msgstr ""
+msgstr "Чжэн Сян"
 
 msgid "郑栋"
-msgstr ""
+msgstr "Чжэн Дун"
 
 msgid "郑国"
-msgstr ""
+msgstr "Чжэн Го"
 
 msgid "郑亿"
-msgstr ""
+msgstr "Чжэн И"
 
 msgid "郑寿"
-msgstr ""
+msgstr "Чжэн Шоу"
 
 msgid "王顺"
-msgstr ""
+msgstr "Ван Шунь"
 
 msgid "王昌"
-msgstr ""
+msgstr "Ван Чан"
 
 msgid "王振"
-msgstr ""
+msgstr "Ван Чжэнь"
 
 msgid "王发"
-msgstr ""
+msgstr "Ван Фа"
 
 msgid "王财"
-msgstr ""
+msgstr "Ван Цай"
 
 msgid "王俊"
-msgstr ""
+msgstr "Ван Цзюнь"
 
 msgid "王彦"
-msgstr ""
+msgstr "Ван Янь"
 
 msgid "王良"
-msgstr ""
+msgstr "Ван Лян"
 
 msgid "王志"
-msgstr ""
+msgstr "Ван Чжи"
 
 msgid "王忠"
-msgstr ""
+msgstr "Ван Чжун"
 
 msgid "王孝"
-msgstr ""
+msgstr "Ван Сяо"
 
 msgid "王雄"
-msgstr ""
+msgstr "Ван Сюн"
 
 msgid "王益"
-msgstr ""
+msgstr "Ван И"
 
 msgid "王添"
-msgstr ""
+msgstr "Ван Тянь"
 
 msgid "王金"
-msgstr ""
+msgstr "Ван Цзинь"
 
 msgid "王辉"
-msgstr ""
+msgstr "Ван Хуэй"
 
 msgid "王长"
-msgstr ""
+msgstr "Ван Чан"
 
 msgid "王盛"
-msgstr ""
+msgstr "Ван Шэн"
 
 msgid "王胜"
-msgstr ""
+msgstr "Ван Шэн"
 
 msgid "王进"
-msgstr ""
+msgstr "Ван Цзинь"
 
 msgid "王安"
-msgstr ""
+msgstr "Ван Ань"
 
 msgid "王福"
-msgstr ""
+msgstr "Ван Фу"
 
 msgid "王同"
-msgstr ""
+msgstr "Ван Тун"
 
 msgid "王满"
-msgstr ""
+msgstr "Ван Мань"
 
 msgid "王富"
-msgstr ""
+msgstr "Ван Фу"
 
 msgid "王万"
-msgstr ""
+msgstr "Ван Вань"
 
 msgid "王龙"
-msgstr ""
+msgstr "Ван Лун"
 
 msgid "王隆"
-msgstr ""
+msgstr "Ван Лун"
 
 msgid "王祥"
-msgstr ""
+msgstr "Ван Сян"
 
 msgid "王栋"
-msgstr ""
+msgstr "Ван Дун"
 
 msgid "王国"
-msgstr ""
+msgstr "Ван Го"
 
 msgid "王亿"
-msgstr ""
+msgstr "Ван И"
 
 msgid "王寿"
-msgstr ""
+msgstr "Ван Шоу"
 
 msgid "张顺"
-msgstr ""
+msgstr "Чжан Шунь"
 
 msgid "张昌"
-msgstr ""
+msgstr "Чжан Чан"
 
 msgid "张振"
-msgstr ""
+msgstr "Чжан Чжэнь"
 
 msgid "张发"
-msgstr ""
+msgstr "Чжан Фа"
 
 msgid "张财"
-msgstr ""
+msgstr "Чжан Цай"
 
 msgid "张俊"
-msgstr ""
+msgstr "Чжан Цзюнь"
 
 msgid "张彦"
-msgstr ""
+msgstr "Чжан Янь"
 
 msgid "张良"
-msgstr ""
+msgstr "Чжан Лян"
 
 msgid "张志"
-msgstr ""
+msgstr "Чжан Чжи"
 
 msgid "张忠"
-msgstr ""
+msgstr "Чжан Чжун"
 
 msgid "张孝"
-msgstr ""
+msgstr "Чжан Сяо"
 
 msgid "张雄"
-msgstr ""
+msgstr "Чжан Сюн"
 
 msgid "张益"
-msgstr ""
+msgstr "Чжан И"
 
 msgid "张添"
-msgstr ""
+msgstr "Чжан Тянь"
 
 msgid "张金"
-msgstr ""
+msgstr "Чжан Цзинь"
 
 msgid "张辉"
-msgstr ""
+msgstr "Чжан Хуэй"
 
 msgid "张长"
-msgstr ""
+msgstr "Чжан Чан"
 
 msgid "张盛"
-msgstr ""
+msgstr "Чжан Шэн"
 
 msgid "张胜"
-msgstr ""
+msgstr "Чжан Шэн"
 
 msgid "张进"
-msgstr ""
+msgstr "Чжан Цзинь"
 
 msgid "张安"
-msgstr ""
+msgstr "Чжан Ань"
 
 msgid "张福"
-msgstr ""
+msgstr "Чжан Фу"
 
 msgid "张同"
-msgstr ""
+msgstr "Чжан Тун"
 
 msgid "张满"
-msgstr ""
+msgstr "Чжан Мань"
 
 msgid "张富"
-msgstr ""
+msgstr "Чжан Фу"
 
 msgid "张万"
-msgstr ""
+msgstr "Чжан Вань"
 
 msgid "张龙"
-msgstr ""
+msgstr "Чжан Лун"
 
 msgid "张隆"
-msgstr ""
+msgstr "Чжан Лун"
 
 msgid "张祥"
-msgstr ""
+msgstr "Чжан Сян"
 
 msgid "张栋"
-msgstr ""
+msgstr "Чжан Дун"
 
 msgid "张国"
-msgstr ""
+msgstr "Чжан Го"
 
 msgid "张亿"
-msgstr ""
+msgstr "Чжан И"
 
 msgid "张寿"
-msgstr ""
+msgstr "Чжан Шоу"
 
 msgid "陈顺"
-msgstr ""
+msgstr "Чэнь Шунь"
 
 msgid "陈昌"
-msgstr ""
+msgstr "Чэнь Чан"
 
 msgid "陈振"
-msgstr ""
+msgstr "Чэнь Чжэнь"
 
 msgid "陈发"
-msgstr ""
+msgstr "Чэнь Фа"
 
 msgid "陈财"
-msgstr ""
+msgstr "Чэнь Цай"
 
 msgid "陈俊"
-msgstr ""
+msgstr "Чэнь Цзюнь"
 
 msgid "陈彦"
-msgstr ""
+msgstr "Чэнь Янь"
 
 msgid "陈良"
-msgstr ""
+msgstr "Чэнь Лян"
 
 msgid "陈志"
-msgstr ""
+msgstr "Чэнь Чжи"
 
 msgid "陈忠"
-msgstr ""
+msgstr "Чэнь Чжун"
 
 msgid "陈孝"
-msgstr ""
+msgstr "Чэнь Сяо"
 
 msgid "陈雄"
-msgstr ""
+msgstr "Чэнь Сюн"
 
 msgid "陈益"
-msgstr ""
+msgstr "Чэнь И"
 
 msgid "陈添"
-msgstr ""
+msgstr "Чэнь Тянь"
 
 msgid "陈金"
-msgstr ""
+msgstr "Чэнь Цзинь"
 
 msgid "陈辉"
-msgstr ""
+msgstr "Чэнь Хуэй"
 
 msgid "陈长"
-msgstr ""
+msgstr "Чэнь Чан"
 
 msgid "陈盛"
-msgstr ""
+msgstr "Чэнь Шэн"
 
 msgid "陈胜"
-msgstr ""
+msgstr "Чэнь Шэн"
 
 msgid "陈进"
-msgstr ""
+msgstr "Чэнь Цзинь"
 
 msgid "陈安"
-msgstr ""
+msgstr "Чэнь Ань"
 
 msgid "陈福"
-msgstr ""
+msgstr "Чэнь Фу"
 
 msgid "陈同"
-msgstr ""
+msgstr "Чэнь Тун"
 
 msgid "陈满"
-msgstr ""
+msgstr "Чэнь Мань"
 
 msgid "陈富"
-msgstr ""
+msgstr "Чэнь Фу"
 
 msgid "陈万"
-msgstr ""
+msgstr "Чэнь Вань"
 
 msgid "陈龙"
-msgstr ""
+msgstr "Чэнь Лун"
 
 msgid "陈隆"
-msgstr ""
+msgstr "Чэнь Лун"
 
 msgid "陈祥"
-msgstr ""
+msgstr "Чэнь Сян"
 
 msgid "陈栋"
-msgstr ""
+msgstr "Чэнь Дун"
 
 msgid "陈国"
-msgstr ""
+msgstr "Чэнь Го"
 
 msgid "陈亿"
-msgstr ""
+msgstr "Чэнь И"
 
 msgid "陈寿"
-msgstr ""
+msgstr "Чэнь Шоу"
 
 msgid "刘顺"
-msgstr ""
+msgstr "Лю Шунь"
 
 msgid "刘昌"
-msgstr ""
+msgstr "Лю Чан"
 
 msgid "刘振"
-msgstr ""
+msgstr "Лю Чжэнь"
 
 msgid "刘发"
-msgstr ""
+msgstr "Лю Фа"
 
 msgid "刘财"
-msgstr ""
+msgstr "Лю Цай"
 
 msgid "刘俊"
-msgstr ""
+msgstr "Лю Цзюнь"
 
 msgid "刘彦"
-msgstr ""
+msgstr "Лю Янь"
 
 msgid "刘良"
-msgstr ""
+msgstr "Лю Лян"
 
 msgid "刘志"
-msgstr ""
+msgstr "Лю Чжи"
 
 msgid "刘忠"
-msgstr ""
+msgstr "Лю Чжун"
 
 msgid "刘孝"
-msgstr ""
+msgstr "Лю Сяо"
 
 msgid "刘雄"
-msgstr ""
+msgstr "Лю Сюн"
 
 msgid "刘益"
-msgstr ""
+msgstr "Лю И"
 
 msgid "刘添"
-msgstr ""
+msgstr "Лю Тянь"
 
 msgid "刘金"
-msgstr ""
+msgstr "Лю Цзинь"
 
 msgid "刘辉"
-msgstr ""
+msgstr "Лю Хуэй"
 
 msgid "刘长"
-msgstr ""
+msgstr "Лю Чан"
 
 msgid "刘盛"
-msgstr ""
+msgstr "Лю Шэн"
 
 msgid "刘胜"
-msgstr ""
+msgstr "Лю Шэн"
 
 msgid "刘进"
-msgstr ""
+msgstr "Лю Цзинь"
 
 msgid "刘安"
-msgstr ""
+msgstr "Лю Ань"
 
 msgid "刘福"
-msgstr ""
+msgstr "Лю Фу"
 
 msgid "刘同"
-msgstr ""
+msgstr "Лю Тун"
 
 msgid "刘满"
-msgstr ""
+msgstr "Лю Мань"
 
 msgid "刘富"
-msgstr ""
+msgstr "Лю Фу"
 
 msgid "刘万"
-msgstr ""
+msgstr "Лю Вань"
 
 msgid "刘龙"
-msgstr ""
+msgstr "Лю Лун"
 
 msgid "刘隆"
-msgstr ""
+msgstr "Лю Лун"
 
 msgid "刘祥"
-msgstr ""
+msgstr "Лю Сян"
 
 msgid "刘栋"
-msgstr ""
+msgstr "Лю Дун"
 
 msgid "刘国"
-msgstr ""
+msgstr "Лю Го"
 
 msgid "刘亿"
-msgstr ""
+msgstr "Лю И"
 
 msgid "刘寿"
-msgstr ""
+msgstr "Лю Шоу"
 
 msgid "林顺"
-msgstr ""
+msgstr "Линь Шунь"
 
 msgid "林昌"
-msgstr ""
+msgstr "Линь Чан"
 
 msgid "林振"
-msgstr ""
+msgstr "Линь Чжэнь"
 
 msgid "林发"
-msgstr ""
+msgstr "Линь Фа"
 
 msgid "林财"
-msgstr ""
+msgstr "Линь Цай"
 
 msgid "林俊"
-msgstr ""
+msgstr "Линь Цзюнь"
 
 msgid "林彦"
-msgstr ""
+msgstr "Линь Янь"
 
 msgid "林良"
-msgstr ""
+msgstr "Линь Лян"
 
 msgid "林志"
-msgstr ""
+msgstr "Линь Чжи"
 
 msgid "林忠"
-msgstr ""
+msgstr "Линь Чжун"
 
 msgid "林孝"
-msgstr ""
+msgstr "Линь Сяо"
 
 msgid "林雄"
-msgstr ""
+msgstr "Линь Сюн"
 
 msgid "林益"
-msgstr ""
+msgstr "Линь И"
 
 msgid "林添"
-msgstr ""
+msgstr "Линь Тянь"
 
 msgid "林金"
-msgstr ""
+msgstr "Линь Цзинь"
 
 msgid "林辉"
-msgstr ""
+msgstr "Линь Хуэй"
 
 msgid "林长"
-msgstr ""
+msgstr "Линь Чан"
 
 msgid "林盛"
-msgstr ""
+msgstr "Линь Шэн"
 
 msgid "林胜"
-msgstr ""
+msgstr "Линь Шэн"
 
 msgid "林进"
-msgstr ""
+msgstr "Линь Цзинь"
 
 msgid "林安"
-msgstr ""
+msgstr "Линь Ань"
 
 msgid "林福"
-msgstr ""
+msgstr "Линь Фу"
 
 msgid "林同"
-msgstr ""
+msgstr "Линь Тун"
 
 msgid "林满"
-msgstr ""
+msgstr "Линь Мань"
 
 msgid "林富"
-msgstr ""
+msgstr "Линь Фу"
 
 msgid "林万"
-msgstr ""
+msgstr "Линь Вань"
 
 msgid "林龙"
-msgstr ""
+msgstr "Линь Лун"
 
 msgid "林隆"
-msgstr ""
+msgstr "Линь Лун"
 
 msgid "林祥"
-msgstr ""
+msgstr "Линь Сян"
 
 msgid "林栋"
-msgstr ""
+msgstr "Линь Дун"
 
 msgid "林国"
-msgstr ""
+msgstr "Линь Го"
 
 msgid "林亿"
-msgstr ""
+msgstr "Линь И"
 
 msgid "林寿"
-msgstr ""
+msgstr "Линь Шоу"
 
 msgid "客人"
 msgstr ""
@@ -32430,7 +32430,7 @@ msgid ""
 msgstr ""
 
 msgid "花匠"
-msgstr ""
+msgstr "садовник"
 
 msgid ""
 "一个老老实实、本本分分的庄园花匠，多年的风霜刻满\n"
@@ -32504,7 +32504,7 @@ msgid "替我交给师兄。烧也好，留也好，是茅山的事。我这儿�
 msgstr ""
 
 msgid "骆建章"
-msgstr ""
+msgstr "Ло Цзяньчжан"
 
 msgid "骆先生？老爷下了狱，相国把他叫去了。那个人，在这府里十年，没说过一句多余的话。"
 msgstr ""
@@ -32513,7 +32513,7 @@ msgid "骆先生？客厅里写字的那位。老爷的信，十封有九封是�
 msgstr ""
 
 msgid "庾清尘"
-msgstr ""
+msgstr "Юй Цинчэнь"
 
 msgid "老爷下了狱，小姐去了相国府。……我在这儿把花浇完，也该走了。"
 msgstr ""
@@ -32918,13 +32918,13 @@ msgid ""
 msgstr ""
 
 msgid "大铁门"
-msgstr ""
+msgstr "большие железные ворота"
 
 msgid "小木门"
-msgstr ""
+msgstr "маленькая деревянная дверь"
 
 msgid "帘子"
-msgstr ""
+msgstr "занавеска"
 
 msgid "店小二对你一白眼:你是谁呀，闯什么闯！"
 msgstr ""
@@ -32958,7 +32958,7 @@ msgid ""
 msgstr ""
 
 msgid "布告"
-msgstr ""
+msgstr "указ"
 
 msgid ""
 "布告经风吹日晒，字迹已经不可分辨了。\n"
@@ -32994,7 +32994,7 @@ msgid ""
 msgstr ""
 
 msgid "牌子"
-msgstr ""
+msgstr "табличка"
 
 msgid ""
 "我们提供的服务有：\n"
@@ -33023,7 +33023,7 @@ msgid ""
 msgstr ""
 
 msgid "台子"
-msgstr ""
+msgstr "помост"
 
 msgid ""
 "只有皇帝能站在这个汉白玉台子上面，隐约地你好象看到台子的下面\n"
@@ -33031,7 +33031,7 @@ msgid ""
 msgstr ""
 
 msgid "凸起"
-msgstr ""
+msgstr "выступ"
 
 msgid "按下"
 msgstr ""
@@ -33063,7 +33063,7 @@ msgid "天花板忽然发出轧轧的声音，向上的阶梯又缓缓地收了�
 msgstr ""
 
 msgid "天花板"
-msgstr ""
+msgstr "потолок"
 
 msgid ""
 "天花板上有一块石板，似乎可以推开。\n"
@@ -33074,14 +33074,14 @@ msgid ""
 msgstr ""
 
 msgid "床"
-msgstr ""
+msgstr "кровать"
 
 msgid ""
 "一张破旧的小床，铺着些乾草。你拨开乾草——床底下压着一块石板，石板边上有新蹭的泥，像是常有人掀开。\n"
 msgstr ""
 
 msgid "城门"
-msgstr ""
+msgstr "городские ворота"
 
 msgid ""
 "京师守城兵说道：没有官府通令，任何人不能出入京师。\n"
@@ -33096,7 +33096,7 @@ msgid ""
 msgstr ""
 
 msgid "草丛"
-msgstr ""
+msgstr "заросли травы"
 
 msgid "寻找"
 msgstr ""
@@ -33114,7 +33114,7 @@ msgid ""
 msgstr ""
 
 msgid "柴草"
-msgstr ""
+msgstr "хворост"
 
 msgid ""
 "你拨开墙根下那捆柴草，底下果然有个狗洞，刚容得下一个人。\n"
@@ -33222,7 +33222,7 @@ msgid ""
 msgstr ""
 
 msgid "卖花姑娘"
-msgstr ""
+msgstr "цветочница"
 
 msgid ""
 "美丽的卖花姑娘正在向行人售花儿\n"
@@ -33249,7 +33249,7 @@ msgid ""
 msgstr ""
 
 msgid "紫衣家丁"
-msgstr ""
+msgstr "слуга в лиловом"
 
 msgid ""
 "这是一位黑松堡的家丁，专负责盘察去黑松堡的行人。\n"
@@ -33262,30 +33262,30 @@ msgid "看你那贼眉鼠眼，尖嘴猴腮的样儿，决不是什么好东西�
 msgstr ""
 
 msgid "园工"
-msgstr ""
+msgstr "садовый работник"
 
 msgid "黑松一剪"
-msgstr ""
+msgstr "Ножницы Чёрной Сосны"
 
 msgid "黑松一剪是方园几十里有名的园工。一把大剪使的出神如化。"
 msgstr ""
 
 msgid "蜜蜂"
-msgstr ""
+msgstr "пчела"
 
 msgid ""
 "一只疯狂的杀人蜂\n"
 msgstr ""
 
 msgid "小园工"
-msgstr ""
+msgstr "юный садовый работник"
 
 msgid ""
 "一位年轻的小园工\n"
 msgstr ""
 
 msgid "护院"
-msgstr ""
+msgstr "охранник усадьбы"
 
 msgid ""
 "这是黑松堡的护院\n"
@@ -33300,7 +33300,7 @@ msgid ""
 msgstr ""
 
 msgid "女佣人"
-msgstr ""
+msgstr "прислужница"
 
 msgid ""
 "满脸风霜的女佣人\n"
@@ -33313,13 +33313,13 @@ msgid "淳于"
 msgstr ""
 
 msgid "淳于怀太"
-msgstr ""
+msgstr "Чуньюй Хуайтай"
 
 msgid "堡主"
 msgstr ""
 
 msgid "巨型犬"
-msgstr ""
+msgstr "волкодав"
 
 msgid ""
 "这是一只凶猛无比，半人多高的巨型狼犬\n"
@@ -33329,14 +33329,14 @@ msgid "狼犬向你疯狂的哮道：呜汪！呜汪！呜汪！呜汪！"
 msgstr ""
 
 msgid "信鸽"
-msgstr ""
+msgstr "почтовый голубь"
 
 msgid ""
 "一只乖巧的小信鸽\n"
 msgstr ""
 
 msgid "厨子"
-msgstr ""
+msgstr "повар"
 
 msgid ""
 "你看到一个小厨子， 正在用碧玉刀剔猪骨。\n"
@@ -33389,7 +33389,7 @@ msgid "小娟遍体鳞伤，只剩一口气，这一击会要了她的命。确�
 msgstr ""
 
 msgid "狱卒"
-msgstr ""
+msgstr "тюремщик"
 
 msgid ""
 "这是黑松堡的狱卒\n"
@@ -33544,7 +33544,7 @@ msgid ""
 msgstr ""
 
 msgid "玉帘门"
-msgstr ""
+msgstr "дверь с нефритовой завесой"
 
 msgid "你被黑松堡散出的强烈杀气当了回来。"
 msgstr ""
@@ -33562,63 +33562,63 @@ msgid ""
 msgstr ""
 
 msgid "城墙"
-msgstr ""
+msgstr "городская стена"
 
 msgid ""
 "城墙虽陡，但长满了蔓藤。你似乎可以试着爬上去。\n"
 msgstr ""
 
 msgid "蔓藤"
-msgstr ""
+msgstr "вьюнки"
 
 msgid ""
 "蔓藤长满了城墙，你似乎可以试着爬上去。\n"
 msgstr ""
 
 msgid "青石板"
-msgstr ""
+msgstr "синеватая каменная плита"
 
 msgid ""
 "青石板劳牢的镶在地下，但它下面似乎是空的。\n"
 msgstr ""
 
 msgid "巨石"
-msgstr ""
+msgstr "валун"
 
 msgid ""
 "这是一块千斤巨石，阻住了通向北面的路。\n"
 msgstr ""
 
 msgid "石墙"
-msgstr ""
+msgstr "каменная стена"
 
 msgid ""
 "这是一道三丈高，厚达尺许的石墙。墙上的圆孔很适合用来发暗箭。\n"
 msgstr ""
 
 msgid "圆孔"
-msgstr ""
+msgstr "круглое отверстие"
 
 msgid ""
 "你试着往圆孔里看，可是里面太黑了，什么也看不到。\n"
 msgstr ""
 
 msgid "声音"
-msgstr ""
+msgstr "звук"
 
 msgid ""
 "这显然是拉开强弩的声音。\n"
 msgstr ""
 
 msgid "铁链"
-msgstr ""
+msgstr "железная цепь"
 
 msgid ""
 "这里只有一条铁链。\n"
 msgstr ""
 
 msgid "石板"
-msgstr ""
+msgstr "каменная плита"
 
 msgid ""
 "很沉重的石板，但你似乎可以推动它。\n"
@@ -33674,46 +33674,46 @@ msgid ""
 msgstr ""
 
 msgid "子阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник Цзы"
 
 msgid "丑阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник Чоу"
 
 msgid "寅阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник Инь"
 
 msgid "卯阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник Мао"
 
 msgid "辰阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник Чэнь"
 
 msgid "巳阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник Сы"
 
 msgid "午阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник У"
 
 msgid "未阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник Вэй"
 
 msgid "申阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник Шэнь"
 
 msgid "酉阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник Ю"
 
 msgid "戌阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник Сюй"
 
 msgid "亥阴鬼牙将"
-msgstr ""
+msgstr "призрачный сотник Хай"
 
 msgid "阴鬼牙将是守关鬼卒里的精锐，你现在只是一缕鬼魂，打输了会再死一次，再受一次死亡的惩罚。确定要攻击他吗？"
 msgstr ""
 
 msgid "白无常"
-msgstr ""
+msgstr "Белый Непостоянный"
 
 msgid ""
 "白无常伸著长长的舌头瞪著你，死白的脸上看不出任何喜怒哀乐。\n"
@@ -33832,7 +33832,7 @@ msgid "你走著走著..... 发现四周景色居然都没有变...."
 msgstr ""
 
 msgid "人影"
-msgstr ""
+msgstr "смутные фигуры"
 
 msgid ""
 "从你站的位置很难辨别出那几个人的容貌, 四个披著黑斗蓬的人斜靠在壁\n"
@@ -33870,7 +33870,7 @@ msgid ""
 msgstr ""
 
 msgid "账册"
-msgstr ""
+msgstr "учётная книга"
 
 msgid ""
 "一本黑皮的账册，封皮上没有字。翻开是一笔笔纳供的账：金帛、腌肉、麻绳……每一页的末尾另起一行，记的不是东西。\n"
@@ -33914,7 +33914,7 @@ msgid ""
 msgstr ""
 
 msgid "地牢钥匙"
-msgstr ""
+msgstr "ключ от темницы"
 
 msgid ""
 "一把乌黑的铁钥匙，齿很深，柄上系着一截黑布。地牢三扇铁栅门用的都是它。\n"
@@ -33924,7 +33924,7 @@ msgid "这把钥匙还用得着，不能随便丢。"
 msgstr ""
 
 msgid "逆灵天书残卷"
-msgstr ""
+msgstr "обрывок «Небесной книги Нилин»"
 
 msgid ""
 "半卷黑皮的经书，封皮上「逆灵天书」四个字只剩下三个。里面的字横着竖着走，看一眼就头晕。这是玄冥子的——他说过，要练六阴剑，拿着它来后山找他。\n"
@@ -33934,28 +33934,28 @@ msgid "这卷残卷不能随便丢。"
 msgstr ""
 
 msgid "霍铮的尸首"
-msgstr ""
+msgstr "тело Хо Чжэна"
 
 msgid ""
 "霍铮的尸首。铁链还在手腕上，拳头攥着，指缝里有血——不是他的。他到最后也没求饶。\n"
 msgstr ""
 
 msgid "石头的尸首"
-msgstr ""
+msgstr "тело Шитоу"
 
 msgid ""
 "一个小孩子的尸首，头上两个小抓揪。他蜷在墙角，手里还攥着一颗小石子。\n"
 msgstr ""
 
 msgid "黑剑"
-msgstr ""
+msgstr "чёрный меч"
 
 msgid ""
 "一把通体乌黑的长剑，剑身上没有一点光，像是把照上去的光都吃了进去。握在手里冰凉，剑脊上刻着一行细字，看不懂。\n"
 msgstr ""
 
 msgid "祭品名单"
-msgstr ""
+msgstr "список жертв"
 
 msgid ""
 "你从逆灵宫账房的大案上抄下来的一张名单，一行一口人。字是你的，墨还没干透。\n"
@@ -34009,7 +34009,7 @@ msgid ""
 msgstr ""
 
 msgid "祭品名册"
-msgstr ""
+msgstr "книга жертв"
 
 msgid ""
 "一本黑皮的册子，比账房的账册薄，线装，封皮上没有字。里面一页一口人，每个名字底下压着一方押印——人是谁送上山来的，就押谁的印。\n"
@@ -34039,7 +34039,7 @@ msgid ""
 msgstr ""
 
 msgid "逆灵天书下半部"
-msgstr ""
+msgstr "вторая половина «Небесной книги Нилин»"
 
 msgid ""
 "一卷黑皮的经书，比残卷厚得多。封皮上「逆灵天书」四个字一个不少，底下一个小字：「下」。里面的字是暗红的，横着走竖着走——前殿的长案上白天摊着的就是它。\n"
@@ -34049,17 +34049,17 @@ msgid "这卷天书不能随便丢。"
 msgstr ""
 
 msgid "六阴剑谱"
-msgstr ""
+msgstr "руководство по мечу Шести Инь"
 
 msgid ""
 "一册黑布面的手抄本，封面上写着「六阴 · 追魂」。里面是玄冥子的字，六页图，每一页都是一个人影朝另一个人影刺出一剑，剑尖上画着一缕烟。最后一页的边上批着一行小字：「天殇不传。」\n"
 msgstr ""
 
 msgid "册"
-msgstr ""
+msgstr "том"
 
 msgid "绞盘道士"
-msgstr ""
+msgstr "даос у ворота"
 
 msgid ""
 "一个黑衣黑冠的道士，两手把着绞盘的摇柄，肩膀一耸一耸。他看了你一眼，又低头去摇，像是什么也没看见——能上到这里来的，在他眼里都是宫里放上来的人。\n"
@@ -34094,7 +34094,7 @@ msgid ""
 msgstr ""
 
 msgid "门房道士"
-msgstr ""
+msgstr "даос-привратник"
 
 msgid ""
 "一个黑衣黑冠的道士，坐在门房的桌后，面前摊着一本簿子，手里的笔却半天不动。他的眼睛不看簿子，看门洞——谁进来，他先看冠，再看脸。\n"
@@ -34127,7 +34127,7 @@ msgid ""
 msgstr ""
 
 msgid "守门道士"
-msgstr ""
+msgstr "даос-страж ворот"
 
 msgid ""
 "一个黑衣黑冠的道士，背着手站在院子里，腰上一柄短剑。他站得笔直，眼睛半闭着，像在听什么——听见生人的脚步，眼睛就睁开了。\n"
@@ -34156,7 +34156,7 @@ msgid ""
 msgstr ""
 
 msgid "货栈道士"
-msgstr ""
+msgstr "даос-кладовщик"
 
 msgid ""
 "一个黑衣黑冠的道士，袖子挽着，正把一只箱子里的绸缎一匹匹抖开来数。他数得很慢，数到一半停下来，往那几只画着符的箱子那边瞟一眼，再从头数。\n"
@@ -34191,7 +34191,7 @@ msgid ""
 msgstr ""
 
 msgid "诵经道士"
-msgstr ""
+msgstr "даос-чтец"
 
 msgid ""
 "一个黑衣黑冠的道士，跪在蒲团上，两手按着膝盖，嘴唇一开一合。他诵经的声音又低又快，像是怕慢一个字就要挨罚。他的眼睛是闭着的。\n"
@@ -34242,7 +34242,7 @@ msgid ""
 msgstr ""
 
 msgid "领诵道士"
-msgstr ""
+msgstr "старший даос-чтец"
 
 msgid ""
 "一个黑衣黑冠的老道士，跪在最前头的蒲团上，面前一只乌黑的木鱼。他一下一下敲着，节拍一丝不乱，诵的字句比别人多一倍。进来什么人、出去什么人，他一次头也没抬过。\n"
@@ -34315,7 +34315,7 @@ msgid ""
 msgstr ""
 
 msgid "管事道士"
-msgstr ""
+msgstr "даос-управитель"
 
 msgid ""
 "一个黑衣黑冠的道士，坐在账房的大案后面，手里一支笔，面前一本账。他的手指上全是墨，指甲缝里是黑的。他抬头看了你一眼，眼睛先落在你的冠上。\n"
@@ -34394,7 +34394,7 @@ msgid ""
 msgstr ""
 
 msgid "狱卒道士"
-msgstr ""
+msgstr "даос-тюремщик"
 
 msgid ""
 "一个黑衣黑冠的道士，靠着甬道的石壁站着，腰上没有钥匙，只有一柄短剑和一根鞭子。他听见脚步声就直起身来，先看冠，再看脸。\n"
@@ -34421,7 +34421,7 @@ msgid "狱卒道士道：北边那间的小的？傅家坡抓来的。宫主说�
 msgstr ""
 
 msgid "民夫"
-msgstr ""
+msgstr "подневольный работник"
 
 msgid "狱卒道士道：东边两个，关北挖河的。挖不动了，就送到这里来。"
 msgstr ""
@@ -34456,7 +34456,7 @@ msgid "霍铮咬着牙道：两年前他们上山，寨子折了一半弟兄。�
 msgstr ""
 
 msgid "石头"
-msgstr ""
+msgstr "Шитоу"
 
 msgid "霍铮朝北边一偏头：北边那间的娃娃，傅家坡抓来的，才七岁。半年了，哭都哭不出声了。你要是能开门，先开他的。"
 msgstr ""
@@ -34571,7 +34571,7 @@ msgid "……带我回家。"
 msgstr ""
 
 msgid "关北民夫"
-msgstr ""
+msgstr "подневольный работник из Гуаньбэя"
 
 msgid ""
 "一个黑瘦的汉子，手掌全是老茧，肩膀上一道挑担磨出来的硬皮。他穿的是河工的短褂，上头印着一个「役」字。他靠着墙坐着，眼睛半闭，像是把力气都省着。\n"
@@ -34601,7 +34601,7 @@ msgid "俺们回关北！多谢恩公！"
 msgstr ""
 
 msgid "商玦"
-msgstr ""
+msgstr "Шан Цзюэ"
 
 msgid "逆灵宫宫主"
 msgstr ""
@@ -34665,7 +34665,7 @@ msgid "坛底的石缝里有什么东西在爬。两个鬼卒从坛底爬了出�
 msgstr ""
 
 msgid "玄冥子"
-msgstr ""
+msgstr "Сюаньминцзы"
 
 msgid "逆灵宫大弟子"
 msgstr ""
@@ -34841,7 +34841,7 @@ msgid "带着它来后山找我——不是现在。"
 msgstr ""
 
 msgid "无头黑影"
-msgstr ""
+msgstr "безголовая тень"
 
 msgid ""
 "一个人形的黑影，没有头。它的脖颈处是一片比夜更黑的空，两只手朝前伸着，一下一下地摸索。它不出声——它没有嘴。\n"
@@ -34884,7 +34884,7 @@ msgid "狱卒道士朝西边一偏头：西边那间。子时第一个就是他�
 msgstr ""
 
 msgid "巡殿道士"
-msgstr ""
+msgstr "даос-дозорный"
 
 msgid ""
 "一个黑衣黑冠的道士，提着一盏罩着黑纱的灯，在前殿里一步一步地走。走到北门前，他总要停一停，侧耳听一会儿门里的动静，再转身往回走。\n"
@@ -35025,7 +35025,7 @@ msgid "我走。货栈那边有个侧门，门槛低，他们夜里不看。"
 msgstr ""
 
 msgid "货郎"
-msgstr ""
+msgstr "коробейник"
 
 msgid ""
 "一个精瘦的货郎，鞋跑丢了一只，额角一块青紫。他的货担不见了，只剩腰上一只拨浪鼓，他一直用手捂着，不让它出声。\n"
@@ -35051,7 +35051,7 @@ msgid "我不问。我从货栈的侧门走，再也不过野羊山了。"
 msgstr ""
 
 msgid "采药人"
-msgstr ""
+msgstr "сборщик трав"
 
 msgid ""
 "一个上了年纪的采药人，背上的竹篓被收走了，腰里还别着一把小药锄的空套子。他的手上全是草汁染的绿，指甲缝里塞着泥。\n"
@@ -35141,7 +35141,7 @@ msgid ""
 msgstr ""
 
 msgid "追杀的道士"
-msgstr ""
+msgstr "даос-преследователь"
 
 msgid ""
 "一个黑衣黑冠的道士，剑提在手里，站在山路转角的风口上，眼睛盯着上山下山的每一个人。\n"
@@ -35236,31 +35236,31 @@ msgid ""
 msgstr ""
 
 msgid "殿门"
-msgstr ""
+msgstr "двери зала"
 
 msgid "西牢房的铁栅门"
-msgstr ""
+msgstr "решётка западной камеры"
 
 msgid "铁栅门锁着，锁是新的，摇一摇纹丝不动。钥匙不在这里。"
 msgstr ""
 
 msgid "北牢房的铁栅门"
-msgstr ""
+msgstr "решётка северной камеры"
 
 msgid "铁栅门锁着。栅栏里有人往后缩了缩。"
 msgstr ""
 
 msgid "东牢房的铁栅门"
-msgstr ""
+msgstr "решётка восточной камеры"
 
 msgid "铁栅门锁着。里面的人抬起头看了看你，又低下去。"
 msgstr ""
 
 msgid "北门"
-msgstr ""
+msgstr "северные ворота"
 
 msgid "黑门"
-msgstr ""
+msgstr "чёрная дверь"
 
 msgid "下到山路"
 msgstr ""
@@ -35270,7 +35270,7 @@ msgid ""
 msgstr ""
 
 msgid "小门"
-msgstr ""
+msgstr "маленькая дверь"
 
 msgid "追出去"
 msgstr ""
@@ -35291,7 +35291,7 @@ msgid ""
 msgstr ""
 
 msgid "炭筐"
-msgstr ""
+msgstr "корзина с углём"
 
 msgid "添炭"
 msgstr ""
@@ -35336,7 +35336,7 @@ msgid ""
 msgstr ""
 
 msgid "木鱼"
-msgstr ""
+msgstr "деревянная рыба"
 
 msgid "你已经会了。回蒲团上去。"
 msgstr ""
@@ -35398,7 +35398,7 @@ msgid ""
 msgstr ""
 
 msgid "通铺"
-msgstr ""
+msgstr "общие нары"
 
 msgid "睡到子时"
 msgstr ""
@@ -35484,7 +35484,7 @@ msgid ""
 msgstr ""
 
 msgid "大案"
-msgstr ""
+msgstr "большой стол"
 
 msgid "抄名单"
 msgstr ""
@@ -35516,7 +35516,7 @@ msgid ""
 msgstr ""
 
 msgid "铁匣"
-msgstr ""
+msgstr "железный ларец"
 
 msgid "开匣"
 msgstr ""
@@ -35574,7 +35574,7 @@ msgid ""
 msgstr ""
 
 msgid "铁钉"
-msgstr ""
+msgstr "железный гвоздь"
 
 msgid "摘钥匙"
 msgstr ""
@@ -35606,7 +35606,7 @@ msgid ""
 msgstr ""
 
 msgid "酒坛"
-msgstr ""
+msgstr "кувшины с вином"
 
 msgid "下药"
 msgstr ""
@@ -35640,7 +35640,7 @@ msgid ""
 msgstr ""
 
 msgid "门缝"
-msgstr ""
+msgstr "щель в двери"
 
 msgid "拨闩"
 msgstr ""
@@ -35662,7 +35662,7 @@ msgid ""
 msgstr ""
 
 msgid "书案"
-msgstr ""
+msgstr "письменный стол"
 
 msgid "开暗格"
 msgstr ""
@@ -35700,21 +35700,21 @@ msgid ""
 msgstr ""
 
 msgid "黑幡"
-msgstr ""
+msgstr "чёрные стяги"
 
 msgid ""
 "黑布的幡从一丈多高的杆子上垂到地，布面上用暗红的颜色写满了字，笔画横着走、竖着走，像是经文又像是符咒。风一过，字就一闪一闪地动，盯久了眼睛发酸。\n"
 msgstr ""
 
 msgid "香炉"
-msgstr ""
+msgstr "курильница"
 
 msgid ""
 "一只齐腰高的黑铁香炉，炉口里烧着的不是香，是一把把黑色的碎末，冒着极淡的青烟，味道苦得呛人。炉身上铸着一圈无头的人形，手拉着手。\n"
 msgstr ""
 
 msgid "经书"
-msgstr ""
+msgstr "писания"
 
 msgid ""
 "乌黑的长案上摊着一卷黑皮的经书，字是暗红的，横着走竖着走，和黑幡上的一样。你盯着看了一会儿，字像是在动，赶紧移开了眼。案角摆着一只木鱼，鱼身上的漆被敲掉了一块。\n"
@@ -35725,21 +35725,21 @@ msgid ""
 msgstr ""
 
 msgid "药架"
-msgstr ""
+msgstr "полка со снадобьями"
 
 msgid ""
 "药架上的罐子一只只封着口，签子上写的不是药名：「野羊 · 丁未秋」「关北 · 戊申冬」……有一只罐子的签子上写着「傅家坡 · 待」，罐子是空的。\n"
 msgstr ""
 
 msgid "刻痕"
-msgstr ""
+msgstr "царапины"
 
 msgid ""
 "西边那扇铁栅门里的墙根上，一排排指甲刻出来的道道，五个一组，刻了一百多组。最后一组只有三道。\n"
 msgstr ""
 
 msgid "黑石坛"
-msgstr ""
+msgstr "алтарь из чёрного камня"
 
 msgid ""
 "黑石砌成的坛，齐胸高，坛面磨得发亮。坛上烧着一团黑焰，没有温度，没有声音，凑近了看，焰心里像有东西在动。坛脚的石缝里塞着碎骨。\n"
@@ -35750,7 +35750,7 @@ msgid ""
 msgstr ""
 
 msgid "黑匣"
-msgstr ""
+msgstr "чёрный ларец"
 
 msgid ""
 "一只黑漆木匣，开着。匣里垫着黑绒，绒上压出一个长条形的印子，像是放过一卷书——或者一把剑。\n"
@@ -35767,7 +35767,7 @@ msgid "狱卒道士一步跨过来，拦在铁栅门前：「新关的，管事�
 msgstr ""
 
 msgid "印模"
-msgstr ""
+msgstr "слепок печати"
 
 msgid ""
 "一块巴掌大的泥模，拓的是镇国大将军印的印面，「镇国大将军」五个字反着。模子边上沾着一抹朱砂，正红的，拿到亮处看还泛一点黄光。赫造基拓它的时候，真印正丢在后备兵手里。\n"
@@ -35801,31 +35801,31 @@ msgid ""
 msgstr ""
 
 msgid "马刀"
-msgstr ""
+msgstr "кавалерийская сабля"
 
 msgid ""
 "一把关北的马刀，刀身带弯，刀背厚，刀柄缠着牛皮绳。马上一撩就是一条口子，平地上使也凑合。\n"
 msgstr ""
 
 msgid "大秦短剑"
-msgstr ""
+msgstr "дациньский короткий меч"
 
 msgid ""
 "一把大秦的短剑，剑身宽而直，两面开刃，剑尖是一个三角。剑柄是一整块骨头雕的，握上去正合手。剑鞘是铁片缀的，上面錾着一只看不出是什么的鸟。卢卡说这是好剑，他没说错。\n"
 msgstr ""
 
 msgid "马奶酒"
-msgstr ""
+msgstr "кумыс"
 
 msgid ""
 "一只羊皮缝的酒囊，装着酸味冲鼻的马奶酒。关里人头一口皱眉，第二口就不皱了。\n"
 msgstr ""
 
 msgid "囊"
-msgstr ""
+msgstr "бурдюк"
 
 msgid "手抓羊肉"
-msgstr ""
+msgstr "баранина на кости"
 
 msgid ""
 "一大块带骨的羊肉，锅里现捞出来的，撒了一把盐。关北人不用筷子，用手抓。\n"
@@ -35839,14 +35839,14 @@ msgid ""
 msgstr ""
 
 msgid "马刀谱"
-msgstr ""
+msgstr "руководство по кавалерийской сабле"
 
 msgid ""
 "一册翻得起毛的小册子，羊皮封面，里头是用炭笔画的七页图：一个人在马上，刀自下而上撩出去。每一页边上都写着同一句话：「撩，不是砍。」最后一页画的是一个人跳下马，把刀插回鞘里。\n"
 msgstr ""
 
 msgid "关门兵"
-msgstr ""
+msgstr "страж заставы"
 
 msgid "天驼关守军"
 msgstr ""
@@ -35916,7 +35916,7 @@ msgid "大将军的兵。门是大将军的，钱也是。你要是大将军的�
 msgstr ""
 
 msgid "关门"
-msgstr ""
+msgstr "ворота заставы"
 
 msgid "谷地东壁这道门是先帝年间开的，通关北的军道。以前一年走不了几个人，这一年多了——兵部的车，一辆一辆往北去。"
 msgstr ""
@@ -35940,7 +35940,7 @@ msgid "这是什么东西？拿回去。"
 msgstr ""
 
 msgid "城门兵"
-msgstr ""
+msgstr "стражник городских ворот"
 
 msgid ""
 "一个穿灰褐短袄的兵，腰里一把弯刀，脸让风沙吹得黑红。他看人的眼神直来直去，不像朝廷的兵那样先看你的衣裳。\n"
@@ -35973,7 +35973,7 @@ msgid "老王爷镇关北二十年。他说话不绕弯子，你也别绕。"
 msgstr ""
 
 msgid "驼夫"
-msgstr ""
+msgstr "погонщик верблюдов"
 
 msgid ""
 "一个裹着羊皮袄的驼夫，脸上一层沙，牙倒是很白。他的骆驼卧在城门里嚼草，鼻子里哼哼地出气。\n"
@@ -36000,7 +36000,7 @@ msgid "草原东边？别去。兵部的人圈了一大片地在挖什么，见�
 msgstr ""
 
 msgid "铁匠"
-msgstr ""
+msgstr "кузнец"
 
 msgid ""
 "一个光着膀子的铁匠，胸口的汗混着铁屑。砧子上一把弯刀刚出炉，还红着。他打的是马刀——关北的刀都带弯，马上好使。\n"
@@ -36027,7 +36027,7 @@ msgid "兵部的人来买过铁镐，一买两百把。两百把铁镐，挖的�
 msgstr ""
 
 msgid "巴朗"
-msgstr ""
+msgstr "Балан"
 
 msgid "马贩"
 msgstr ""
@@ -36051,7 +36051,7 @@ msgid "关北的矮脚马，不好看，耐跑。一天二百里，不吃精料�
 msgstr ""
 
 msgid "卢卡"
-msgstr ""
+msgstr "Лука"
 
 msgid "那个高鼻子？大秦来的，说是什么剑会的人。在我这儿坐了半个月，天天想卖他那把剑换路费——没人识货。他那把剑是好东西，我看得出，可关北人不使短剑。"
 msgstr ""
@@ -36066,7 +36066,7 @@ msgid "卢卡老说的那个地方？海边，很远。他说他们的人都在�
 msgstr ""
 
 msgid "大秦剑手"
-msgstr ""
+msgstr "мечник из Дацинь"
 
 msgid ""
 "一个高鼻深目的异族人，头发是褐色的，剪得很短，下巴上一层胡茬。他穿着关北人的羊皮袄，袄底下露出一截铁片缀成的甲。面前铺着一块布，布上放着一把短剑，剑身宽、直，和中原的剑都不一样。\n"
@@ -36160,7 +36160,7 @@ msgid "很远。西边的西边。我们是逃出来的人，不是使臣。剑�
 msgstr ""
 
 msgid "安敦"
-msgstr ""
+msgstr "Аньдунь"
 
 msgid "会首。在番坊等我——等不到我，等到你也行。"
 msgstr ""
@@ -36279,7 +36279,7 @@ msgid ""
 msgstr ""
 
 msgid "牧民"
-msgstr ""
+msgstr "скотовод"
 
 msgid ""
 "一个穿毡袍的牧民，腰里系一条红布带，脚上是软底的皮靴。他赶了两匹马来卖，自己坐在栏边啃干肉。\n"
@@ -36306,7 +36306,7 @@ msgid "兵部的人在草原东边挖一座古冢。我们的老人说，那是�
 msgstr ""
 
 msgid "胡三娘"
-msgstr ""
+msgstr "Ху Саньнян"
 
 msgid "酒肆掌柜"
 msgstr ""
@@ -36345,7 +36345,7 @@ msgid "王爷是好王爷，拒了兵部的令。可拒了令，人还是没了�
 msgstr ""
 
 msgid "秦婆子"
-msgstr ""
+msgstr "бабка Цинь"
 
 msgid ""
 "一个瘦小的老妇人，裹着一件补了又补的毡袍，坐在墙根的板凳上，面前一碗马奶酒没动。她每过一会儿就看一眼门。\n"
@@ -36356,7 +36356,7 @@ msgid ""
 msgstr ""
 
 msgid "老秦"
-msgstr ""
+msgstr "старина Цинь"
 
 msgid "回来了。你看他坐在那儿，瘦得脱了形——是你开的牢门，他跟我说了一百遍。"
 msgstr ""
@@ -36377,7 +36377,7 @@ msgid "关北的壮丁，一批一批。王爷拒了令，兵部就自己来人�
 msgstr ""
 
 msgid "秦小六"
-msgstr ""
+msgstr "Цинь Сяолю"
 
 msgid ""
 "一个半大的少年，瘦，眼睛很亮，手里攥着一根马鞭。他坐在老妇人身边，一会儿站起来一会儿坐下。\n"
@@ -36435,7 +36435,7 @@ msgid "铁栅门，黑得看不见手。隔壁关着一个汉子，骂了半年�
 msgstr ""
 
 msgid "王府门军"
-msgstr ""
+msgstr "стражник княжеских ворот"
 
 msgid ""
 "一个穿灰褐短袄、外罩皮甲的门军，腰刀，手按在刀柄上。他看你的眼神不凶，只是不让。\n"
@@ -36467,7 +36467,7 @@ msgid "兵部的人来过一回，拿着文书要王爷交人。王爷把文书�
 msgstr ""
 
 msgid "程朔"
-msgstr ""
+msgstr "Чэн Шо"
 
 msgid ""
 "六十六岁的老人，坐在交椅上背挺得笔直，头发全白了，眉毛也白了，眼睛却亮。一身灰布袍子，腰里一把刀，不是摆设。他说话直来直去，一句是一句，从不说「本王」。\n"
@@ -36632,7 +36632,7 @@ msgid "夜里的事，王府不知道。你也不知道。"
 msgstr ""
 
 msgid "郭承"
-msgstr ""
+msgstr "Го Чэн"
 
 msgid "王府骁将"
 msgstr ""
@@ -36769,7 +36769,7 @@ msgid "等这事了了，我给你一册刀谱——现在没工夫。"
 msgstr ""
 
 msgid "侍卫"
-msgstr ""
+msgstr "гвардеец"
 
 msgid ""
 "一个王府的侍卫，皮甲，马刀，站在交椅一侧，眼睛看着门口。\n"
@@ -36786,7 +36786,7 @@ msgid "兵部的人上回来，王爷把文书扔出了门。我们没动手—�
 msgstr ""
 
 msgid "管家"
-msgstr ""
+msgstr "дворецкий"
 
 msgid ""
 "一个干瘦的老头，灰袍子，手里一本账，耳朵上夹着一支笔。他是王府唯一不带刀的人。\n"
@@ -36813,7 +36813,7 @@ msgid "王府的账，马、草、人。人那一页最难记。"
 msgstr ""
 
 msgid "王府兵"
-msgstr ""
+msgstr "княжеский солдат"
 
 msgid ""
 "一个王府的兵，光着膀子练刀，皮甲放在木人脚下。他的刀法只有两式：撩，劈。\n"
@@ -36885,7 +36885,7 @@ msgid "老夫路过时看了一眼。白衣武官——和二十年前老松岭�
 msgstr ""
 
 msgid "吕隼"
-msgstr ""
+msgstr "Люй Сунь"
 
 msgid "兵部监工"
 msgstr ""
@@ -36986,7 +36986,7 @@ msgid "车？运土的车。"
 msgstr ""
 
 msgid "裴照"
-msgstr ""
+msgstr "Пэй Чжао"
 
 msgid "白衣武官队长"
 msgstr ""
@@ -37036,7 +37036,7 @@ msgid "兵部的记号。问多了没好处。"
 msgstr ""
 
 msgid "白衣武官"
-msgstr ""
+msgstr "офицер в белом"
 
 msgid ""
 "一个身着白衣的朝廷武官，腰悬长剑，站得笔直。白衣下摆沾着黄土。\n"
@@ -37061,7 +37061,7 @@ msgid ""
 msgstr ""
 
 msgid "守夜武官"
-msgstr ""
+msgstr "офицер ночного дозора"
 
 msgid ""
 "一个白衣武官坐在火边，剑横在膝上，脑袋一点一点地打盹。火快灭了。\n"
@@ -37114,7 +37114,7 @@ msgid "说是修官道。修官道往土丘里挖什么？挖出来的都是灰�
 msgstr ""
 
 msgid "挖不动的民夫"
-msgstr ""
+msgstr "обессилевший работник"
 
 msgid ""
 "一个瘦得脱了形的汉子，靠在车轮上，枷倒是摘了——挖不动的人用不着枷。他的眼睛看着土丘，不看人。\n"
@@ -37134,7 +37134,7 @@ msgid "关北。营地里有俺婆娘。你要是去，别说看见俺。"
 msgstr ""
 
 msgid "押车道士"
-msgstr ""
+msgstr "даос-обозник"
 
 msgid ""
 "一个黑衣黑冠的道士，袖子挽到肘上，手里一根鞭子。他看一眼车上的油布，又看一眼土丘的口子，像在等什么。\n"
@@ -37160,7 +37160,7 @@ msgid "那门？兵部的人凿了半年。凿不开的东西，自有开得了�
 msgstr ""
 
 msgid "王府骑兵"
-msgstr ""
+msgstr "княжеский всадник"
 
 msgid ""
 "一个王府的骑兵，皮甲马刀，脸让风吹得黑红，刀还在马上的撩势里。\n"
@@ -37178,7 +37178,7 @@ msgid ""
 msgstr ""
 
 msgid "牧羊人"
-msgstr ""
+msgstr "пастух"
 
 msgid ""
 "一个老牧羊人，坐在石头上，鞭子横在膝盖上，羊在他四周的草里走。他的脸晒得像牛皮，眼睛眯着看东边。\n"
@@ -37208,7 +37208,7 @@ msgid "我的羊。兵部征人，倒没征羊。"
 msgstr ""
 
 msgid "民夫家属"
-msgstr ""
+msgstr "родственница работника"
 
 msgid ""
 "一个裹着头巾的妇人，坐在篝火边搓着手里的一根羊毛绳，眼睛一直往东边看。她男人被兵部的人带走四十天了。\n"
@@ -37235,7 +37235,7 @@ msgid "草原东边。俺去过一回，栅栏外头站了半天，白衣的不�
 msgstr ""
 
 msgid "篝火"
-msgstr ""
+msgstr "костёр"
 
 msgid "等消息的火。今天不用等了——人都回来了。火还烧着，烧给没等到的那些年。"
 msgstr ""
@@ -37247,7 +37247,7 @@ msgid "等消息的火。谁家男人回来了，火边就少一个人。到现�
 msgstr ""
 
 msgid "回来的民夫"
-msgstr ""
+msgstr "вернувшийся работник"
 
 msgid "回家的人"
 msgstr ""
@@ -37404,14 +37404,14 @@ msgid ""
 msgstr ""
 
 msgid "王府大门"
-msgstr ""
+msgstr "ворота княжеского дворца"
 
 msgid ""
 "回头看，关门是一座石砌的门楼，门洞里嵌着铁栅，这会儿抬着。门楼上没有匾，只钉着一面褪了色的黄旗，旗上一个「严」字。门里是天驼关的谷地，门外就是关北了。\n"
 msgstr ""
 
 msgid "界碑"
-msgstr ""
+msgstr "пограничный камень"
 
 msgid ""
 "一方齐人高的青石碑，碑面朝南，刻着「关北封国界」五个大字，字口里的朱漆早褪成了褐色。碑脚堆着过路人放的石子，碑背面有人用刀刻了一行小字：「出了关，就是王法。」\n"
@@ -37422,28 +37422,28 @@ msgid ""
 msgstr ""
 
 msgid "马栏"
-msgstr ""
+msgstr "загон для лошадей"
 
 msgid ""
 "木栏围着的马栏，栏里十来匹马，枣红的、青的、黑的，都是关北的矮脚马，耐跑。栏外的木桩上拴着两匹，是刚换了主的。马粪和草料的味道混在一起，风一吹满街都是。\n"
 msgstr ""
 
 msgid "石鼓"
-msgstr ""
+msgstr "каменные барабаны"
 
 msgid ""
 "一对石鼓，鼓面让几十年的手摸得溜光，鼓身上刻的不是狮子，是两匹对着的马。鼓脚的石头裂了一道，用铁箍箍着。\n"
 msgstr ""
 
 msgid "木人"
-msgstr ""
+msgstr "деревянный манекен"
 
 msgid ""
 "校场边一排木人，每个木人的左肩都让刀劈去了一块——王府的骁将练的是马上一撩的刀，撩的都是同一个地方。木人脚下的土踩得比石头还硬。\n"
 msgstr ""
 
 msgid "交椅"
-msgstr ""
+msgstr "кресло главы"
 
 msgid ""
 "正厅上首不是龙椅，是一把旧的胡床交椅，椅背上搭一张虎皮，虎皮的毛磨秃了一半。椅子旁立着一架兵器，刀在上，剑在下，都不是摆设——刀口上有新磨的痕。\n"
@@ -37454,14 +37454,14 @@ msgid ""
 msgstr ""
 
 msgid "火塘"
-msgstr ""
+msgstr "очаг"
 
 msgid ""
 "屋子正中挖出来的火塘，四边砌着石头，塘里的羊粪火不旺，却一直不灭。火上吊着一口黑锅，锅里的羊肉咕嘟咕嘟地响。火塘边的地上磨得油亮，是多少年来人坐出来的。\n"
 msgstr ""
 
 msgid "毡帐"
-msgstr ""
+msgstr "войлочные юрты"
 
 msgid ""
 "五顶毡帐，柳条扎的骨架，外头蒙着毡子，毡子用马鬃绳勒出一道道棱。门帘都朝南，帘子上缝着各家的花样：一家是云头，一家是鹿，一家什么也没有，只有补丁。帐顶的天窗开着，炊烟从那儿出来。\n"
@@ -37472,14 +37472,14 @@ msgid ""
 msgstr ""
 
 msgid "烟尘"
-msgstr ""
+msgstr "клубы пыли"
 
 msgid ""
 "东边那缕黄尘不是烟，是土——几百个人在挖土，挖出来的土一筐一筐倒上去，风一吹就是这一缕。尘底下隐约有白点子在动，是武官的白衣。\n"
 msgstr ""
 
 msgid "工地名册"
-msgstr ""
+msgstr "список работников стройки"
 
 msgid ""
 "钉在棚柱上的一张名册，纸让雨淋过，字还认得出：\n"
@@ -37489,7 +37489,7 @@ msgid ""
 msgstr ""
 
 msgid "辘轳"
-msgstr ""
+msgstr "ворот"
 
 msgid ""
 "坑边架着一架辘轳，绳子磨得发亮，吊着一只土筐。筐里的土是灰白的夯土，夹着碎陶片，有一片上头还有红彩。坑壁上一层一层的土色不一样——这土丘不是天生的，是人堆的。\n"
@@ -37575,7 +37575,7 @@ msgid ""
 msgstr ""
 
 msgid "枷锁"
-msgstr ""
+msgstr "кандалы"
 
 msgid "打开枷锁"
 msgstr ""
@@ -37639,45 +37639,45 @@ msgid "土方东头两个白衣武官横过剑，拦住你：兵部重地，闲�
 msgstr ""
 
 msgid "琉璃珠"
-msgstr ""
+msgstr "стеклянные бусы"
 
 msgid ""
 "一串琉璃珠子，有蓝的、绿的、琥珀色的，透亮，里头有一丝一丝的气泡。对着太阳一照，手心里落下一小片彩光。\n"
 msgstr ""
 
 msgid "毡毯"
-msgstr ""
+msgstr "войлочный ковёр"
 
 msgid ""
 "一张卷起来的毡毯，红底黄花，花纹一圈套一圈。摸上去又厚又密，带着羊毛的气味。\n"
 msgstr ""
 
 msgid "胡椒"
-msgstr ""
+msgstr "чёрный перец"
 
 msgid ""
 "一小布袋胡椒，黑黑的一粒一粒，袋口一松，那股辣味直冲鼻子。在京师，这一袋能换不少银子。\n"
 msgstr ""
 
 msgid "袋"
-msgstr ""
+msgstr "мешочек"
 
 msgid "胡饼"
-msgstr ""
+msgstr "кунжутная лепёшка"
 
 msgid ""
 "一张烤得焦黄的胡饼，上头撒满芝麻，又硬又香。走远路的人带着，一个月不坏。\n"
 msgstr ""
 
 msgid "铜壶"
-msgstr ""
+msgstr "медный чайник"
 
 msgid ""
 "一把细嘴的铜壶，壶身上敲满了星星似的花纹。装着清水，一路晃荡也不洒。\n"
 msgstr ""
 
 msgid "铜牒"
-msgstr ""
+msgstr "медная пластина"
 
 msgid ""
 "巴掌大的一片铜，边角磨圆了，颜色发黑，拿在手里沉甸甸的。正面刻着几行字，笔画很深，是用剑尖一下一下刻出来的——字是中原字，刻字的人却不大会写，有几个笔画反了。背面一只展翅的鹰。铜是凉的，可刚从火坛底下取出来的时候，是温的。\n"
@@ -37712,7 +37712,7 @@ msgid ""
 msgstr ""
 
 msgid "贝叶"
-msgstr ""
+msgstr "пальмовый лист"
 
 msgid ""
 "一片狭长的贝叶，两指宽，一尺来长，叶头穿了一个小孔。叶面上用铁笔刻着一行一行天竺字，刻痕里抹了烟灰，是婆萝蜜多心经的第一页。叶边空白处，有人用中原字添了一行小字：「收不收，是山烟寺的事。」\n"
@@ -37722,21 +37722,21 @@ msgid "这是龙若法王托你带回山烟寺的经，不能随便丢。"
 msgstr ""
 
 msgid "倭刀"
-msgstr ""
+msgstr "японский меч"
 
 msgid ""
 "一把倭国的长刀，刀身窄而弯，只开一面刃，刀背磨得发亮。刀柄长，缠着黑丝绳，两只手握得下。浪人说：一刀。\n"
 msgstr ""
 
 msgid "大秦圆盾"
-msgstr ""
+msgstr "дациньский круглый щит"
 
 msgid ""
 "一面大秦人的圆盾，木胎蒙牛皮，铁皮包边，盾心一个铁泡。盾面上漆着一只展翅的鹰，漆掉了一半，盾沿全是剑尖戳出来的白点。左臂套上去正合适。\n"
 msgstr ""
 
 msgid "盐脚夫"
-msgstr ""
+msgstr "носильщик соли"
 
 msgid ""
 "一个背着盐包的脚夫，盐包压得他的腰弯成一张弓。他的脸上、眉毛上一层白霜，是汗干了留下的盐。\n"
@@ -37766,13 +37766,13 @@ msgid "这条路是凿出来的，我爷爷那辈人凿的。下雨天别走，�
 msgstr ""
 
 msgid "海"
-msgstr ""
+msgstr "море"
 
 msgid "看多了就不看了。海又不给饭吃。"
 msgstr ""
 
 msgid "船工"
-msgstr ""
+msgstr "лодочник"
 
 msgid ""
 "一个晒得黑红的船工，光着脚，裤腿卷到膝盖，肩上搭着一条湿缆绳。他的手上全是绳子勒出来的老茧。\n"
@@ -37811,7 +37811,7 @@ msgid "货上岸，十抽一。冯大人的规矩。我们不交，我们没货�
 msgstr ""
 
 msgid "卸货的胡商"
-msgstr ""
+msgstr "иноземный купец на разгрузке"
 
 msgid "胡商"
 msgstr ""
@@ -37844,7 +37844,7 @@ msgid "铁盾会的人？他们替商队看过货、打过强盗。现在没人�
 msgstr ""
 
 msgid "税吏"
-msgstr ""
+msgstr "сборщик пошлин"
 
 msgid ""
 "一个戴小帽的税吏，坐在码头当中的桌子后头。桌上一本账、一杆秤、一个钱匣子；他拨一下算盘，看一眼海，再拨一下。\n"
@@ -37865,7 +37865,7 @@ msgid "市集西头，灰墙的院子。冯大人在里头。"
 msgstr ""
 
 msgid "冯禄"
-msgstr ""
+msgstr "Фэн Лу"
 
 msgid "冯大人是京师派来的。番坊的事，他说了算。"
 msgstr ""
@@ -37877,7 +37877,7 @@ msgid "船是南边商人的，番坊没有自己的船。"
 msgstr ""
 
 msgid "琉璃商"
-msgstr ""
+msgstr "торговец стеклом"
 
 msgid ""
 "一个高鼻子的胡商，面前的毡子上摆满了琉璃珠子和琉璃杯。太阳一照，五颜六色的光落在他的胡子上。\n"
@@ -37904,7 +37904,7 @@ msgid "冯大人？他扣过我一箱杯子，说是要验。验了三个月，�
 msgstr ""
 
 msgid "毡毯商"
-msgstr ""
+msgstr "торговец коврами"
 
 msgid ""
 "一个胡子花白的胡商，盘腿坐在一堆毡毯上。身后的竹竿上挂着一张张毡毯，红底黄花，花纹是一圈套一圈的。\n"
@@ -37931,7 +37931,7 @@ msgid "铁盾会的人买过我一张，铺在他们会首的屋里。会首是�
 msgstr ""
 
 msgid "香料商"
-msgstr ""
+msgstr "торговка пряностями"
 
 msgid ""
 "一个包着头巾的胡商妇人，守着一排敞口的麻袋。她用一只铜勺子舀香料，舀一勺，抖一抖，再倒回去一点。\n"
@@ -37958,7 +37958,7 @@ msgid "他会说三种话，一种也说不好。"
 msgstr ""
 
 msgid "铜器商"
-msgstr ""
+msgstr "торговец медной посудой"
 
 msgid ""
 "一个胳膊粗壮的胡商，面前的木架上挂满了铜壶、铜盘和铜铃。他拿一把小锤子在一只盘子上敲花纹，叮叮当当，一刻不停。\n"
@@ -37985,7 +37985,7 @@ msgid "东头那座黑石头房子。火三百年没灭，祭司说火前不能�
 msgstr ""
 
 msgid "看摊的孩子"
-msgstr ""
+msgstr "мальчик у прилавка"
 
 msgid ""
 "一个七八岁的孩子，头发卷卷的，替他娘看着香料摊。见人就喊「看看，看看」，喊的是三种话。\n"
@@ -38009,7 +38009,7 @@ msgid "我没坐过船。船是别人的。"
 msgstr ""
 
 msgid "说书的老胡人"
-msgstr ""
+msgstr "старый иноземный сказитель"
 
 msgid ""
 "一个白胡子的老胡人，坐在街边的一块毡子上，面前一只铜碗。他讲的是中原话，讲得很慢，时不时冒出一个谁也听不懂的词，又自己把它换成中原话。\n"
@@ -38078,7 +38078,7 @@ msgid "他们在番坊住了三十年，税从来没拖过。可兵部的令下�
 msgstr ""
 
 msgid "浪人"
-msgstr ""
+msgstr "ронин"
 
 msgid "鬼笠馆的。他们想要铁盾会那块地，想了好些年了。兵部的令一下，他们比我还高兴。"
 msgstr ""
@@ -38117,7 +38117,7 @@ msgid "你有一块印模——卢卡说的。拿出来，对一对。拿不出�
 msgstr ""
 
 msgid "书办"
-msgstr ""
+msgstr "писарь"
 
 msgid ""
 "一个瘦瘦的书办，趴在书案的一角抄东西，抄一行，抬一次头，看一眼冯大人。\n"
@@ -38137,7 +38137,7 @@ msgid "大人？大人这几天睡不着。"
 msgstr ""
 
 msgid "差役"
-msgstr ""
+msgstr "рассыльный"
 
 msgid ""
 "一个腰里挂着铁尺的差役，靠着墙站着，一会儿换一条腿。\n"
@@ -38346,7 +38346,7 @@ msgid "回来了。剑没卖。会首说他做得对。"
 msgstr ""
 
 msgid "穆护"
-msgstr ""
+msgstr "маг"
 
 msgid "拜火祠祭司"
 msgstr ""
@@ -38412,7 +38412,7 @@ msgid "进来可以。火前，不说谎。"
 msgstr ""
 
 msgid "拜火的胡商"
-msgstr ""
+msgstr "купец-огнепоклонник"
 
 msgid ""
 "一个跪在火坛前的胡商，额头贴着地，嘴里低低地念着什么。他的背上还搭着赶路的毡子，鞋底的泥是黄的——刚进番坊。\n"
@@ -38439,7 +38439,7 @@ msgid "他们不进来。三十年了。"
 msgstr ""
 
 msgid "龙若法王"
-msgstr ""
+msgstr "владыка дхармы Лунжо"
 
 msgid ""
 "一个七十来岁的老僧，皮肤黝黑，光头，眉毛全白了，耳垂长得几乎到肩。他盘腿坐在榕树下的蒲团上，一身赭红的僧衣，手里一串黑木的念珠拨得很慢。他说中原话带着天竺的腔，可一个字也不错。\n"
@@ -38481,7 +38481,7 @@ msgid "大秦人存在火前的那片铜？老衲听说过。三百年前的事�
 msgstr ""
 
 msgid "榕树"
-msgstr ""
+msgstr "баньян"
 
 msgid "第一代的师父从天竺带来一根枝条，插在这儿，活了。树活了七十年，老衲也活了七十年。"
 msgstr ""
@@ -38574,7 +38574,7 @@ msgid "后来的事，老衲只听人说过：青石村后山有一个阵，阵�
 msgstr ""
 
 msgid "天竺僧"
-msgstr ""
+msgstr "индийский монах"
 
 msgid ""
 "一个皮肤黝黑的僧人，光头，赤脚，身上裹着一块赭红的布。他念的经没有一个字听得懂，调子却很好听。\n"
@@ -38607,7 +38607,7 @@ msgid "他们的火在街那头。我们的佛在这头。中间是卖香料的�
 msgstr ""
 
 msgid "早川直义"
-msgstr ""
+msgstr "Хаякава Наоёси"
 
 msgid "鬼笠馆馆主"
 msgstr ""
@@ -38788,7 +38788,7 @@ msgid ""
 msgstr ""
 
 msgid "黑影"
-msgstr ""
+msgstr "чёрная тень"
 
 msgid ""
 "一个从头到脚裹在黑布里的人，蹲在火坛后头，只露一双眼睛。火光照不到他。\n"
@@ -38885,7 +38885,7 @@ msgid ""
 msgstr ""
 
 msgid "海神龛"
-msgstr ""
+msgstr "божница морского бога"
 
 msgid ""
 "一座齐腰高的石龛，石头让海风蚀出了一个个小洞。龛里供的不是神像，是一块磨得溜圆的黑石头。石前摆着贝壳、一枚铜钱、半块干饼——都是出海的人放的。龛边刻着两个字：「平安」，字口里长了青苔。\n"
@@ -38896,14 +38896,14 @@ msgid ""
 msgstr ""
 
 msgid "平底船"
-msgstr ""
+msgstr "плоскодонки"
 
 msgid ""
 "三条平底船，船底平，船头方，帆是竹篾一片一片编的。船身刷的桐油黑得发亮，船头画着一只眼睛。船工说，船不是番坊的，是南边来的商人的；番坊人只管装卸、守船，拿一份工钱。\n"
 msgstr ""
 
 msgid "大盾"
-msgstr ""
+msgstr "большие щиты"
 
 msgid ""
 "两面大盾，比人还高一头，长方的，盾面弯成半个筒。木胎外头蒙着牛皮，边上包着铁，铆钉一圈一圈。盾面上漆着一只展翅的鹰，金漆掉了一半，露出底下的红。盾脚插在土里，插得很深，像是从来没拔出来过。\n"
@@ -38916,14 +38916,14 @@ msgid ""
 msgstr ""
 
 msgid "火坛"
-msgstr ""
+msgstr "огненный алтарь"
 
 msgid ""
 "一座黑石砌的火坛，齐胸高，石头让三百年的烟熏得乌黑发亮。坛顶一团火，不高不低，不红不白，烧得很静，看不见柴，也看不见油。火前的石头上磨出一块白印子，是一代一代跪出来的。坛身上刻着一行弯弯曲曲的字，没有人认得；祭司说那是祠规——火前不说谎。\n"
 msgstr ""
 
 msgid "木牌"
-msgstr ""
+msgstr "деревянная табличка"
 
 msgid ""
 "一块巴掌大的木牌钉在墙上，木头发黑，上面刻着一行弯弯曲曲的字——大秦人自己的字。安敦说，那是剑会的第一条规矩，三百年前第一代会首刻的：盾在前，剑在后。盾不倒，人不倒。\n"
@@ -38938,7 +38938,7 @@ msgid ""
 msgstr ""
 
 msgid "门规木牌"
-msgstr ""
+msgstr "доска с уставом"
 
 msgid ""
 "一块白木牌，立在墙根，墨写着一行字：「一击之内定生死」。字写得又瘦又硬，像刀刻的。牌子底下的土让人跪过，陷下去两个坑。\n"
@@ -38969,7 +38969,7 @@ msgid ""
 msgstr ""
 
 msgid "火前问话"
-msgstr ""
+msgstr "вопросы у огня"
 
 msgid ""
 "火坛前没有人。穆护的净室里亮着灯，门关着。\n"
@@ -39067,7 +39067,7 @@ msgid "大秦人的牒？他们托了你。——那就先站定。火前只问�
 msgstr ""
 
 msgid "冯禄的文书"
-msgstr ""
+msgstr "бумаги Фэн Лу"
 
 msgid "对质"
 msgstr ""
@@ -39132,7 +39132,7 @@ msgid ""
 msgstr ""
 
 msgid "板地"
-msgstr ""
+msgstr "дощатый пол"
 
 msgid "歇"
 msgstr ""
@@ -39162,7 +39162,7 @@ msgid ""
 msgstr ""
 
 msgid "御前侍卫腰牌"
-msgstr ""
+msgstr "поясной жетон дворцового стражника"
 
 msgid ""
 "一块铜腰牌，巴掌大，正面刻着「御前侍卫」四个字，背面一个编号，编号底下有人用刀尖划了一道——上一个带它的人留下的。\n"
@@ -39172,7 +39172,7 @@ msgid "这块腰牌不能随便丢。"
 msgstr ""
 
 msgid "寻剑令原本"
-msgstr ""
+msgstr "подлинник указа о поисках меча"
 
 msgid ""
 "一卷黄绫裹着的诏书，只有一行字，先帝的御笔：「寻剑，不得扰民一户。」后头钤着一方御宝，朱色正红。\n"
@@ -39182,7 +39182,7 @@ msgid "先帝的诏书不能随便丢。"
 msgstr ""
 
 msgid "兵部抄本"
-msgstr ""
+msgstr "копия Военного ведомства"
 
 msgid ""
 "兵部存档的寻剑令复本，同一个日子，同一个开头。「寻剑」之后多出三行：「征民夫，设关卡，拿人。」后头盖着兵部的印，印色暗红发黑。\n"
@@ -39192,20 +39192,20 @@ msgid "这卷抄本不能随便丢。"
 msgstr ""
 
 msgid "樵夫的旧记载"
-msgstr ""
+msgstr "старая запись дровосека"
 
 msgid ""
 "一页发黄的手札，先帝的字：「樵夫言：入山遇风，风大不能行，伏地良久；风止，抬头见白石城，铃声满耳。——风停处即是城。」页边有一行小字，墨色新些：「父皇，儿也想去。」\n"
 msgstr ""
 
 msgid "页"
-msgstr ""
+msgstr "лист"
 
 msgid "这页手札不能随便丢。"
 msgstr ""
 
 msgid "手诏"
-msgstr ""
+msgstr "собственноручный указ"
 
 msgid ""
 "一张黄笺，字写得很慢，一笔一划：「皇叔：前诏非朕本意。朝中无人，侄儿请叔父回来。——昭」底下一方小印，印泥还没干透。\n"
@@ -39215,7 +39215,7 @@ msgid "皇帝的手诏不能随便丢。"
 msgstr ""
 
 msgid "先帝的解读"
-msgstr ""
+msgstr "толкование покойного государя"
 
 msgid ""
 "一卷先帝的手稿，推敲商句遗书的最后两句，密密麻麻改了好几遍。最后一页只写着：「风自岚来。逆风而行，风止之处，城见。」页角有庾子建的批注：「试过三次，未果。」\n"
@@ -39225,14 +39225,14 @@ msgid "这卷手稿不能随便丢。"
 msgstr ""
 
 msgid "禁中刀谱"
-msgstr ""
+msgstr "руководство по Дворцовой сабле"
 
 msgid ""
 "一册蓝布面的小本子，边角磨得发白，里头是工笔画的七个人形，一招一式都在宫门、长街、殿上。每一页的边上冯策用小楷批了一句，最后一页是：「刀在鞘里的时候最多。」\n"
 msgstr ""
 
 msgid "葛升"
-msgstr ""
+msgstr "Гэ Шэн"
 
 msgid "兵部武选司主事"
 msgstr ""
@@ -39310,7 +39310,7 @@ msgid "三场都过了。——明日早朝殿试，午门候旨。"
 msgstr ""
 
 msgid "赵勇"
-msgstr ""
+msgstr "Чжао Юн"
 
 msgid "御林军校尉"
 msgstr ""
@@ -39335,7 +39335,7 @@ msgid "第一场是我。打到见血就算，不许下死手。"
 msgstr ""
 
 msgid "孙锐"
-msgstr ""
+msgstr "Сунь Жуй"
 
 msgid ""
 "一个三十出头的校尉，个子不高，站得像钉在地上。他看人的时候眼睛半眯着，像在量你的步子。\n"
@@ -39348,7 +39348,7 @@ msgid "第二场是我。赵勇那小子手重，我比他手准。"
 msgstr ""
 
 msgid "邓骁"
-msgstr ""
+msgstr "Дэн Сяо"
 
 msgid "御林军将领"
 msgstr ""
@@ -39375,7 +39375,7 @@ msgid ""
 msgstr ""
 
 msgid "守门禁军"
-msgstr ""
+msgstr "гвардеец у ворот"
 
 msgid "禁军"
 msgstr ""
@@ -39395,7 +39395,7 @@ msgid "宫门重地。要进去，要么是皇上宣的，要么是跟着上朝�
 msgstr ""
 
 msgid "皇城"
-msgstr ""
+msgstr "Императорский город"
 
 msgid "你看见的是午门。里头的事，不是你该问的。"
 msgstr ""
@@ -39404,7 +39404,7 @@ msgid "天子脚下，谁跟你比划。"
 msgstr ""
 
 msgid "韦执中"
-msgstr ""
+msgstr "Вэй Чжичжун"
 
 msgid "相国"
 msgstr ""
@@ -39583,7 +39583,7 @@ msgid "当年打仗是一把好手，老夫亲眼见过。如今……如今他�
 msgstr ""
 
 msgid "老仆"
-msgstr ""
+msgstr "старый слуга"
 
 msgid ""
 "一个弯着腰的老仆，手里一把竹扫帚，扫得很慢，扫过的地方一片落叶也没有。\n"
@@ -39601,7 +39601,7 @@ msgid "相国在正厅。夜里在书房，常常看书看到天亮。"
 msgstr ""
 
 msgid "於兰昭"
-msgstr ""
+msgstr "Юйлань Чжао"
 
 msgid "天子"
 msgstr ""
@@ -39674,7 +39674,7 @@ msgid "槐阳王不奉诏。不奉诏是什么，你读过书就知道。"
 msgstr ""
 
 msgid "朝臣"
-msgstr ""
+msgstr "придворный"
 
 msgid ""
 "一个穿朝服的官，笏板捧在胸前，眼睛看着自己的靴尖。\n"
@@ -39684,7 +39684,7 @@ msgid "……下官什么都没说。"
 msgstr ""
 
 msgid "福安"
-msgstr ""
+msgstr "Фуань"
 
 msgid "内侍"
 msgstr ""
@@ -39703,7 +39703,7 @@ msgid "养心殿在西边。白天跟着我走，夜里……夜里别问我。"
 msgstr ""
 
 msgid "司礼太监"
-msgstr ""
+msgstr "евнух-церемониймейстер"
 
 msgid "司礼监"
 msgstr ""
@@ -39747,7 +39747,7 @@ msgid "……容朕想想。退朝。"
 msgstr ""
 
 msgid "巡夜禁军"
-msgstr ""
+msgstr "гвардеец ночного дозора"
 
 msgid ""
 "一个披甲的禁军，红缨盔，一手提着灯笼，一手按着刀，走几步停一停，往暗处照一照。\n"
@@ -39784,7 +39784,7 @@ msgid "天亮时，侍卫营的人又把你从午门推了出去。"
 msgstr ""
 
 msgid "小太监"
-msgstr ""
+msgstr "молодой евнух"
 
 msgid ""
 "一个十几岁的小太监，抱着一摞文书，低着头小步快走，走过你身边的时候眼睛也不抬。\n"
@@ -39797,7 +39797,7 @@ msgid "皇上……皇上在养心殿。你、你是哪个宫的？"
 msgstr ""
 
 msgid "宫女"
-msgstr ""
+msgstr "дворцовая служанка"
 
 msgid ""
 "一个穿青衣的宫女，提着一只竹篮，在柏树底下拣落下的枯枝。\n"
@@ -39810,7 +39810,7 @@ msgid "西北角那边？别去。那里只住着一个老嬷嬷，脾气怪。"
 msgstr ""
 
 msgid "钟嬷嬷"
-msgstr ""
+msgstr "матушка Чжун"
 
 msgid "先帝女官"
 msgstr ""
@@ -39862,7 +39862,7 @@ msgid "夜里他们提着灯笼走，走几步停一停。灯照得到的地方�
 msgstr ""
 
 msgid "大内侍卫"
-msgstr ""
+msgstr "дворцовый гвардеец"
 
 msgid ""
 "一个年轻的侍卫，光着膀子对着木人劈刀，一刀一刀都砍在同一道口子上。\n"
@@ -40050,7 +40050,7 @@ msgid "老夫回去，水烟阁正月十七还选不选盟主，看他们的。�
 msgstr ""
 
 msgid "逆灵宫信使"
-msgstr ""
+msgstr "гонец дворца Нилин"
 
 msgid ""
 "一个黑衣黑冠的道士，坐在黑暗里，一动不动，只有眼睛亮。他冠上的丝绦断了一根。\n"
@@ -40117,7 +40117,7 @@ msgid "冯策一把扭住庾子建的胳膊，刀「当啷」落在金砖上。�
 msgstr ""
 
 msgid "冯策"
-msgstr ""
+msgstr "Фэн Цэ"
 
 msgid "大内侍卫营总教头"
 msgstr ""
@@ -40136,7 +40136,7 @@ msgid "冯策收了刀，抱拳：湖底的事，算老夫一个。"
 msgstr ""
 
 msgid "宋朴"
-msgstr ""
+msgstr "Сун Пу"
 
 msgid "大内侍卫营副教头"
 msgstr ""
@@ -40276,56 +40276,56 @@ msgid ""
 msgstr ""
 
 msgid "铜狮"
-msgstr ""
+msgstr "бронзовые львы"
 
 msgid ""
 "太和门前一对铜狮子，蹲在汉白玉的座上。狮头被摸了几百年，亮得发黄；身上别处都生了一层暗绿的锈。东边那只脚下踩着一只绣球，西边那只脚下按着一只小狮子。\n"
 msgstr ""
 
 msgid "日晷"
-msgstr ""
+msgstr "солнечные часы"
 
 msgid ""
 "一座汉白玉的日晷，晷面斜斜地朝着南天，铜针的影子落在刻度上。刻度旁有人用指甲刻了一道浅痕——大约是哪个站班的侍卫等下朝等得不耐烦。\n"
 msgstr ""
 
 msgid "龙椅"
-msgstr ""
+msgstr "драконий трон"
 
 msgid ""
 "七层台阶上一把金漆的龙椅，椅背上盘着九条龙，扶手的龙头被手握得发亮。椅子太大了：坐垫上另垫了一块厚褥子，脚下还摆着一只脚踏——坐在这上头的人，脚够不着地。\n"
 msgstr ""
 
 msgid "黑丝绦"
-msgstr ""
+msgstr "чёрный шёлковый шнур"
 
 msgid ""
 "一根黑色的丝绦，一头扯断了，另一头还打着结。是从一顶黑冠上扯下来的——逆灵宫的道士戴的那种。\n"
 msgstr ""
 
 msgid "枯井"
-msgstr ""
+msgstr "высохший колодец"
 
 msgid ""
 "一口枯井，井沿是青石的，磨出几道深深的绳槽。往下看，黑得看不见底，可是井壁上嵌着一道道铁蹬，最上面那几道擦得发亮。\n"
 msgstr ""
 
 msgid "养心门"
-msgstr ""
+msgstr "ворота Янсинь"
 
 msgid ""
 "养心门关着，门闩在里头。门缝里透出一点灯光——皇上睡得晚。（养心殿是这一章后面的事。）\n"
 msgstr ""
 
 msgid "舆图"
-msgstr ""
+msgstr "карта державы"
 
 msgid ""
 "一幅旧舆图，北到关北，南到玉螺湖，西南角用朱笔圈了一个地方，旁边两个小字：「岚城？」。圈是新描的，墨色比舆图上的字深得多——有人常常对着它看。\n"
 msgstr ""
 
 msgid "樟木匣"
-msgstr ""
+msgstr "ларец из камфорного дерева"
 
 msgid ""
 "樟木匣里还剩几册先帝的手札，记的都是岚城：哪年派了谁去，回来说了什么。\n"
@@ -40344,7 +40344,7 @@ msgid ""
 msgstr ""
 
 msgid "御案"
-msgstr ""
+msgstr "императорский стол"
 
 msgid "比对"
 msgstr ""
@@ -40394,7 +40394,7 @@ msgid ""
 msgstr ""
 
 msgid "朝上揭发"
-msgstr ""
+msgstr "обличение при дворе"
 
 msgid ""
 "皇帝摇摇头：这件事，已经定了。\n"
@@ -40464,7 +40464,7 @@ msgid ""
 msgstr ""
 
 msgid "皇叔的通缉"
-msgstr ""
+msgstr "розыск дяди императора"
 
 msgid "先解"
 msgstr ""
@@ -40504,7 +40504,7 @@ msgid "御书房的门锁着，钥匙在皇上身上。"
 msgstr ""
 
 msgid "青铜风铃"
-msgstr ""
+msgstr "бронзовый ветряной колокольчик"
 
 msgid ""
 "一只青铜小铃，比拇指大不了多少，铃身长满了绿锈，只有铃舌是亮的。铃舌上刻着一个小小的「尘」字。挂绳是一截褪成粉橘色的红绳，打着一个孩子才打得出的死结。\n"
@@ -40515,7 +40515,7 @@ msgid "这只风铃不能随便丢。"
 msgstr ""
 
 msgid "卜风签"
-msgstr ""
+msgstr "бирка гадания по ветру"
 
 msgid ""
 "一支黑竹签，上面用朱砂密密地写着小字，是卜风的记录：\n"
@@ -40537,7 +40537,7 @@ msgid ""
 msgstr ""
 
 msgid "卜风道士"
-msgstr ""
+msgstr "гадатель по ветру"
 
 msgid ""
 "一个黑衣黑冠的道士，蹲在黑石坛边烧符，符烧完了就看灰往哪边飞，然后在一支竹签上写一笔。他的嘴唇冻得发紫，眼睛红着，像是很多天没睡。\n"
@@ -40581,7 +40581,7 @@ msgid ""
 msgstr ""
 
 msgid "岚翁"
-msgstr ""
+msgstr "старец Лань"
 
 msgid ""
 "一个白发白须的老人，坐在十铃架下的蒲团上，衣裳是白的，袖口被门口的风吹得一直在动，他的人却一动不动。看不出他有多大年纪——脸上没有几道皱纹，眼睛却老得很。\n"
@@ -40673,7 +40673,7 @@ msgid "那个砍柴的？他伏在石头上睡着了，醒来就看见城。他�
 msgstr ""
 
 msgid "岚童"
-msgstr ""
+msgstr "дитя Лань"
 
 msgid ""
 "一个八九岁的小姑娘，白衣裳，头发被风吹得乱蓬蓬的，脖子上挂着一只小铜铃。她蹲在门洞边上，看你看得很认真。\n"
@@ -40707,7 +40707,7 @@ msgid "尘哥哥是萧家的。他放风筝，风大，连人带风筝一起飞�
 msgstr ""
 
 msgid "老蔺"
-msgstr ""
+msgstr "старина Линь"
 
 msgid "铃匠"
 msgstr ""
@@ -40747,7 +40747,7 @@ msgid "我们不吃饭，不生火，不种地。风来了就听，风走了就�
 msgstr ""
 
 msgid "扫云的老妪"
-msgstr ""
+msgstr "старая метельщица облаков"
 
 msgid ""
 "一个白发的老婆婆，拿着一把竹扫帚，在街边扫——扫的不是落叶，是飘上来的雾，她一扫，雾就退下去一点。\n"
@@ -40778,7 +40778,7 @@ msgid "烟城？那是我们的亲戚。烟霞霓岚，四座城，各住各的�
 msgstr ""
 
 msgid "岚城人"
-msgstr ""
+msgstr "житель Ланьчэна"
 
 msgid ""
 "一个穿白衣的人，在街上慢慢地走，走几步停一下，侧着头听风铃。他看见你，点一点头，没有说话。\n"
@@ -40981,7 +40981,7 @@ msgid "上头一股迷香，甜得发腻，雾浓得伸手不见五指。你走�
 msgstr ""
 
 msgid "雾里的人影"
-msgstr ""
+msgstr "фигура в тумане"
 
 msgid ""
 "雾里站着一个人影。走近了，只是磨亮的黄石上映出来的你自己，跟着你停，跟着你走。\n"
@@ -41040,7 +41040,7 @@ msgid ""
 msgstr ""
 
 msgid "冻僵的探子"
-msgstr ""
+msgstr "замёрзший лазутчик"
 
 msgid ""
 "一个穿兵部号衣的人蜷在塌了的帐篷边，早就冻僵了，脸朝着北边的石坳。他怀里揣着半张纸，字被露水泡开了，还认得出几行：\n"
@@ -41050,7 +41050,7 @@ msgid ""
 msgstr ""
 
 msgid "兵部旗"
-msgstr ""
+msgstr "знамя Военного ведомства"
 
 msgid ""
 "一面兵部的旗倒在草里，旗杆从中间断了，断口是新的白茬——是风折的，不是人砍的。旗面上的「兵」字被风扯得只剩半边。\n"
@@ -41065,7 +41065,7 @@ msgid ""
 msgstr ""
 
 msgid "门楣上的铜钩"
-msgstr ""
+msgstr "медный крюк над дверью"
 
 msgid ""
 "一只铜钩，钩尖朝上，擦得很亮。岚城家家门口都有一只，挂的是孩子的铃；这一只空了二十年。\n"
@@ -41080,7 +41080,7 @@ msgid ""
 msgstr ""
 
 msgid "雪亭的铃"
-msgstr ""
+msgstr "колокол городка Сюэтин"
 
 msgid ""
 "雪亭的铃。铃身发暗，刻着「雪亭」两个字，一声不响。\n"
@@ -41092,7 +41092,7 @@ msgid ""
 msgstr ""
 
 msgid "老松岭的铃"
-msgstr ""
+msgstr "колокол Старого соснового леса"
 
 msgid ""
 "老松岭的铃。铃身发暗，刻着「老松岭」两个字，一声不响。\n"
@@ -41104,7 +41104,7 @@ msgid ""
 msgstr ""
 
 msgid "水烟阁的铃"
-msgstr ""
+msgstr "колокол павильона Шуйянь"
 
 msgid ""
 "水烟阁的铃。铃身发暗，刻着「水烟阁」两个字，一声不响。\n"
@@ -41116,7 +41116,7 @@ msgid ""
 msgstr ""
 
 msgid "野羊山的铃"
-msgstr ""
+msgstr "колокол горы Еяншань"
 
 msgid ""
 "野羊山的铃。铃身发暗，刻着「野羊山」两个字，一声不响。\n"
@@ -41128,7 +41128,7 @@ msgid ""
 msgstr ""
 
 msgid "晚月庄的铃"
-msgstr ""
+msgstr "колокол усадьбы Ваньюэ"
 
 msgid ""
 "晚月庄的铃。铃身发暗，刻着「晚月庄」两个字，一声不响。\n"
@@ -41140,7 +41140,7 @@ msgid ""
 msgstr ""
 
 msgid "乔阴的铃"
-msgstr ""
+msgstr "колокол уезда Цяоинь"
 
 msgid ""
 "乔阴的铃。铃身发暗，刻着「乔阴」两个字，一声不响。\n"
@@ -41152,7 +41152,7 @@ msgid ""
 msgstr ""
 
 msgid "关北的铃"
-msgstr ""
+msgstr "колокол Гуаньбэя"
 
 msgid ""
 "关北的铃。铃身发暗，刻着「关北」两个字，一声不响。\n"
@@ -41164,7 +41164,7 @@ msgid ""
 msgstr ""
 
 msgid "番坊的铃"
-msgstr ""
+msgstr "колокол Иноземного квартала"
 
 msgid ""
 "番坊的铃。铃身发暗，刻着「番坊」两个字，一声不响。\n"
@@ -41176,7 +41176,7 @@ msgid ""
 msgstr ""
 
 msgid "玉螺湖村的铃"
-msgstr ""
+msgstr "колокол деревни Юйлоху"
 
 msgid ""
 "玉螺湖村的铃。铃身发暗，刻着「玉螺湖村」两个字，一声不响。\n"
@@ -41188,7 +41188,7 @@ msgid ""
 msgstr ""
 
 msgid "京师的铃"
-msgstr ""
+msgstr "колокол столицы"
 
 msgid ""
 "京师的铃。铃身发暗，刻着「京师」两个字，一声不响。\n"
@@ -41200,7 +41200,7 @@ msgid ""
 msgstr ""
 
 msgid "旋风"
-msgstr ""
+msgstr "вихрь"
 
 msgid ""
 "一股旋风，从台心的白石上直卷上去。风里一把剑，剑尖朝下，一圈一圈地转：剑身是白的，转起来像一圈光。\n"
@@ -41223,7 +41223,7 @@ msgid ""
 msgstr ""
 
 msgid "云海"
-msgstr ""
+msgstr "море облаков"
 
 msgid ""
 "云在脚下翻。云缝里偶尔露出一点地面——山、河、一片黄的石头——一眨眼又合上了。看得久了，会觉得是自己在往前走。\n"
@@ -41458,7 +41458,7 @@ msgid ""
 msgstr ""
 
 msgid "木人（初阶）"
-msgstr ""
+msgstr "деревянный манекен I"
 
 msgid ""
 "这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前贴著一张褪色的红纸，写著「初阶」两个字，是武馆给初学的弟子拆招用的。\n"
@@ -41468,63 +41468,63 @@ msgid "身上的机括「咔嗒」一响，摆好了架势。"
 msgstr ""
 
 msgid "木人（二阶）"
-msgstr ""
+msgstr "деревянный манекен II"
 
 msgid ""
 "这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前的红纸写著「二阶」，木头上满是拳脚留下的印子。\n"
 msgstr ""
 
 msgid "木人（三阶）"
-msgstr ""
+msgstr "деревянный манекен III"
 
 msgid ""
 "这是一具铁木削成的练功木人，机括比旁边几具紧得多，还手又快又沉。胸前的红纸写著「三阶」。\n"
 msgstr ""
 
 msgid "木人（四阶）"
-msgstr ""
+msgstr "деревянный манекен IV"
 
 msgid ""
 "这是一具铁木削成的练功木人，关节处包著铜皮，听说是柳馆主亲手调过机括的。胸前的红纸写著「四阶」。\n"
 msgstr ""
 
 msgid "木人（五阶）"
-msgstr ""
+msgstr "деревянный манекен V"
 
 msgid ""
 "这具木人通体乌黑，是一整块铁木雕成的，机括藏在里头看不见。胸前的红纸写著「五阶」，武馆里能把它打得摇晃的人没有几个。\n"
 msgstr ""
 
 msgid "流窜毛贼"
-msgstr ""
+msgstr "бродячий воришка"
 
 msgid ""
 "一个贼眉鼠眼的毛贼，衣衫上补丁叠著补丁，腰间却鼓鼓囊囊的，不知又从谁家摸来了什么。雪亭驿的告示上正画著他的像。\n"
 msgstr ""
 
 msgid "剪径贼"
-msgstr ""
+msgstr "разбойник с большой дороги"
 
 msgid ""
 "一个满脸横肉的汉子，专在山路上拦人剪径，不知劫过多少过往的客商。雪亭驿的告示上正画著他的像。\n"
 msgstr ""
 
 msgid "采花贼"
-msgstr ""
+msgstr "развратник"
 
 msgid ""
 "一个油头粉面的年轻人，手里摇著一柄折扇，眼神却阴鸷得很。官府悬赏捉拿他已有好些日子了。\n"
 msgstr ""
 
 msgid "江洋大盗"
-msgstr ""
+msgstr "матёрый разбойник"
 
 msgid ""
 "一个虬髯大汉，身上带著好几处刀疤，据说在江北做过好几票大买卖，官府悬了重赏要他的人头。\n"
 msgstr ""
 
 msgid "杀人魔头"
-msgstr ""
+msgstr "кровавый изверг"
 
 msgid ""
 "一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n"
@@ -41594,7 +41594,7 @@ msgid ""
 msgstr ""
 
 msgid "信使"
-msgstr ""
+msgstr "гонец"
 
 msgid ""
 "一个风尘满面的信使，白袍下摆沾著泥点，刚从马上跳下来，气还没喘匀。\n"
@@ -41604,13 +41604,13 @@ msgid "下官只管传话。方位将军叫我当众报了，你也听见了。"
 msgstr ""
 
 msgid "白道长"
-msgstr ""
+msgstr "даос Бай"
 
 msgid "白道长命下官回禀，说时辰已到。道长自己在何处，下官不敢说。"
 msgstr ""
 
 msgid "江湖客"
-msgstr ""
+msgstr "странник"
 
 msgid ""
 "一个风尘仆仆的江湖人，背著个长条布包，缩在广场边上探头探脑地往官队那边张望。\n"
@@ -41808,7 +41808,7 @@ msgid ""
 msgstr ""
 
 msgid "庾家管事"
-msgstr ""
+msgstr "управляющий семьи Юй"
 
 msgid ""
 "一个穿酱色便衣的中年人，腰里的刀用布裹着，手搭在上头。他不像是来喝酒的——眼睛在街上扫，扫到陈显祖就停了。\n"
@@ -41865,7 +41865,7 @@ msgid ""
 msgstr ""
 
 msgid "庾家打手"
-msgstr ""
+msgstr "громила семьи Юй"
 
 msgid ""
 "一个便衣的壮汉，刀已经出了鞘。酱色的短衣，和管事一个颜色。\n"
@@ -41907,7 +41907,7 @@ msgid "箱子还给我了，书也给了你。里头最要紧的东西，如今�
 msgstr ""
 
 msgid "璃虹"
-msgstr ""
+msgstr "Лихун"
 
 msgid "金乌"
 msgstr ""
@@ -41941,7 +41941,7 @@ msgid "我哥哥。金乌的长子。它捉了我，他追到这里，钉了它�
 msgstr ""
 
 msgid "侮天鬼"
-msgstr ""
+msgstr "Хулитель Небес"
 
 msgid "它没有头的时候，是一团焰。有了头，就有了名，有了名，就能把人当柴烧。这颗头在冰里睡了三百年，它在底下长了三百年。"
 msgstr ""
@@ -42479,7 +42479,7 @@ msgid ""
 msgstr ""
 
 msgid "黑冠道士"
-msgstr ""
+msgstr "даос в чёрном венце"
 
 msgid ""
 "一个黑衣黑冠的逆灵宫道士，脸冻得发青，手里的剑结了霜。\n"
@@ -42733,7 +42733,7 @@ msgid "兵部奉旨，宣——"
 msgstr ""
 
 msgid "罗七"
-msgstr ""
+msgstr "Ло Ци"
 
 msgid "封山弟子"
 msgstr ""
@@ -42806,7 +42806,7 @@ msgid ""
 msgstr ""
 
 msgid "帮闲"
-msgstr ""
+msgstr "прихлебатель"
 
 msgid ""
 "一个游手好闲的后生，学着武馆弟子的样子在腰里扎了一条麻布带子，手里攥着一把还没捂热的碎银。\n"
@@ -42831,7 +42831,7 @@ msgid "我……我们都是武馆的弟子。问七哥去。"
 msgstr ""
 
 msgid "阿桂"
-msgstr ""
+msgstr "А-Гуй"
 
 msgid ""
 "一个十二三岁的男孩，裤脚短了一截，手里的竹剑是自己削的，握柄上缠着一圈麻绳。\n"
@@ -42892,7 +42892,7 @@ msgid "你要是觉得我没有错，就留下来。北宗只有我一个人，�
 msgstr ""
 
 msgid "小满"
-msgstr ""
+msgstr "Сяомань"
 
 msgid ""
 "一个扎着两条小辫的女孩，竹剑比她的胳膊还长，站桩站得一丝不苟。\n"
@@ -42908,7 +42908,7 @@ msgid "绘心姐的剑上系着一条粉穗子。等我学会了「封」，她�
 msgstr ""
 
 msgid "铁盾会少年"
-msgstr ""
+msgstr "юноша Железного щита"
 
 msgid ""
 "一个十六七岁的异族少年，高鼻深目，头发卷得像羊毛。左臂上套着一面小圆盾，右手握着一柄竹剑——握法还是握短剑的握法。\n"
@@ -42972,7 +42972,7 @@ msgid "爹爹说剑不外传。可是你看——传出去的剑，今夜站在�
 msgstr ""
 
 msgid "皮货商"
-msgstr ""
+msgstr "скупщик мехов"
 
 msgid ""
 "一个四十上下的关北汉子，裹着一件半旧的羊皮袄，背上一卷毡子。他在阁前来回踱着，看人的时候先看人家腰里，笑起来眼睛不笑。\n"
@@ -43052,7 +43052,7 @@ msgid "水烟阁武士从门里出来，把皮货商反剪了双手，押进阁�
 msgstr ""
 
 msgid "投师的少年"
-msgstr ""
+msgstr "юноша, ищущий наставника"
 
 msgid ""
 "一个十五六岁的少年，草鞋上全是泥，背上斜插着一柄木刀，一双眼睛直往阁门里瞟。\n"
@@ -43099,7 +43099,7 @@ msgid "你、你要干什么？"
 msgstr ""
 
 msgid "驿卒"
-msgstr ""
+msgstr "станционный гонец"
 
 msgid ""
 "一个精瘦的驿卒，背着一只油布包袱，腰里挂着雪亭驿的火印腰牌，额上一层汗。\n"
@@ -43269,7 +43269,7 @@ msgid "黑冠道士捂着伤口爬起来，丢下竹竿和木板，顺着湖岸�
 msgstr ""
 
 msgid "兵部画吏"
-msgstr ""
+msgstr "рисовальщик Военного ведомства"
 
 msgid ""
 "一个穿青色公服的瘦长汉子，背着一只画筒，蹲在山壁下的土坑边，一手按着纸，一手拿炭条描坑沿的形状。腰里却挂着一口刀。\n"
@@ -43507,7 +43507,7 @@ msgid "正月十七的事，定了。"
 msgstr ""
 
 msgid "老周"
-msgstr ""
+msgstr "старина Чжоу"
 
 msgid "振远趟子手"
 msgstr ""
@@ -43592,7 +43592,7 @@ msgid "碎石小路那一段荒，过了铁索才是天驼关的地界。要出�
 msgstr ""
 
 msgid "蒙面后生"
-msgstr ""
+msgstr "юноша в маске"
 
 msgid "劫镖的"
 msgstr ""
@@ -43687,7 +43687,7 @@ msgid "振远？京师第一大镖局。二十年前死了十一个人，没一�
 msgstr ""
 
 msgid "劫道的汉子"
-msgstr ""
+msgstr "дорожный грабитель"
 
 msgid ""
 "一个敞着怀的汉子，腰里扎着草绳，刀已经出了鞘。看样子不是吃这碗饭的，是被人花钱叫来的。\n"
@@ -43719,7 +43719,7 @@ msgid "……我回内书房去。她要怎样，随她。"
 msgstr ""
 
 msgid "无名女子"
-msgstr ""
+msgstr "безымянная женщина"
 
 msgid "无名老妇的女儿"
 msgstr ""
@@ -43794,7 +43794,7 @@ msgid "神教的人也在看这座台子。我站在这里，他们看得见。"
 msgstr ""
 
 msgid "胡管事"
-msgstr ""
+msgstr "управляющий Ху"
 
 msgid "兵部的管事"
 msgstr ""
@@ -43819,7 +43819,7 @@ msgid "关北的河要人挖。兵部的令——你有意见，去兵部说。"
 msgstr ""
 
 msgid "卖身契"
-msgstr ""
+msgstr "кабальные записи"
 
 msgid "什么契？没有的事。……你是哪家的？"
 msgstr ""
@@ -44003,7 +44003,7 @@ msgid ""
 msgstr ""
 
 msgid "钱贵"
-msgstr ""
+msgstr "Цянь Гуй"
 
 msgid "收过路费的"
 msgstr ""
@@ -44052,7 +44052,7 @@ msgid ""
 msgstr ""
 
 msgid "牛四"
-msgstr ""
+msgstr "Ню Сы"
 
 msgid ""
 "一个粗壮的汉子，敞着一件旧号衣，号衣上的字拆掉了。他抱着胳膊站在镇口那块官府公告底下，腰里挂一口刀，面前摆着一只钱匣子，进镇的人都得从他跟前过。\n"
@@ -44666,7 +44666,7 @@ msgid ""
 msgstr ""
 
 msgid "老葛"
-msgstr ""
+msgstr "старина Гэ"
 
 msgid "乔阴樵夫"
 msgstr ""
@@ -44816,7 +44816,7 @@ msgid "树王坟？再也不去了。柴不好砍，命要紧。"
 msgstr ""
 
 msgid "阿牛"
-msgstr ""
+msgstr "А-Ню"
 
 msgid ""
 "一个八九岁的男孩，脸冻得发青，嘴唇发紫，背上趴着他的妹妹小翠，两只小手死死搂着他的脖子。\n"
@@ -45329,7 +45329,7 @@ msgid "了尘摆了摆手：今天是推选的日子，不动手。"
 msgstr ""
 
 msgid "雪亭驿的书信"
-msgstr ""
+msgstr "письмо со станции Сюэтин"
 
 msgid ""
 "一封封好的书信，信封上写着：绮云镇 振远镖局 陈剑秋 亲启。\n"
@@ -45339,7 +45339,7 @@ msgid "这封信是要送到陈镖头手里的，不能随便丢。"
 msgstr ""
 
 msgid "刻着记号的布条"
-msgstr ""
+msgstr "лоскут с метками"
 
 msgid "这块布条不能随便丢。"
 msgstr ""
@@ -45349,7 +45349,7 @@ msgid ""
 msgstr ""
 
 msgid "水烟阁武士腰牌"
-msgstr ""
+msgstr "поясной жетон воина павильона Шуйянь"
 
 msgid ""
 "一面黄铜腰牌，正面铸着一只展翅的金乌，背面刻着「水烟阁」三字和一个「岭」字。铜面发黑，边角磨得发亮，不知在谁身上挂了多少年。\n"
@@ -45359,7 +45359,7 @@ msgid "这面腰牌不能随便丢。"
 msgstr ""
 
 msgid "虹台请柬"
-msgstr ""
+msgstr "приглашение на Радужную террасу"
 
 msgid ""
 "一张大红的帖子，封皮上烫着两个金字「虹台」，边上磨得起了毛。\n"
@@ -45380,14 +45380,14 @@ msgid "这封信不能随便丢。"
 msgstr ""
 
 msgid "柳淳风的引荐信"
-msgstr ""
+msgstr "рекомендательное письмо Лю Чуньфэна"
 
 msgid ""
 "一封封好的信，封皮上写着「水烟阁 潘军禅贤弟 亲启」，落款「柳淳风」。封口的火漆上印着一枝柳。\n"
 msgstr ""
 
 msgid "二十年前的镖单"
-msgstr ""
+msgstr "охранная накладная двадцатилетней давности"
 
 msgid ""
 "一张发黄的镖单，振远镖局的印鉴已经模糊。所押之物写着：水烟阁盟主印一方，密件一匣。起运地关北，收件人水烟阁盟主卫沧澜。末尾一行小字：乙丑年失镖于老松岭瀑布一带，镖师随从无一人生还。\n"
@@ -45397,7 +45397,7 @@ msgid "这张镖单不能随便丢。"
 msgstr ""
 
 msgid "刻着风纹的石匣"
-msgstr ""
+msgstr "каменный ларец с узором ветра"
 
 msgid ""
 "一只尺许长的青石匣子，匣面刻着一圈风纹，匣口严丝合缝，看不出锁眼在哪里。摇一摇，里面有极轻的一声响。\n"
@@ -45430,17 +45430,17 @@ msgid ""
 msgstr ""
 
 msgid "纳供车"
-msgstr ""
+msgstr "повозка с данью"
 
 msgid ""
 "一辆双轮板车，车上盖着油布，油布底下露出几只箱子的角。车辕上拴着一根粗麻绳，绳子绷得笔直，一头没进北边山壁的裂口里——上头有人在拉。车板上烙着一个「羊」字。\n"
 msgstr ""
 
 msgid "辆"
-msgstr ""
+msgstr "шт."
 
 msgid "寒於宝衣"
-msgstr ""
+msgstr "драгоценное одеяние Ханьюя"
 
 msgid ""
 "一件月白的衣，料子像结了霜的水，摸上去不冷，站在它旁边却觉得凉。衣襟里缝着一行小字：寒於留衣，月神守之，火不能近。守衣人瑷伦说，它挡得住黑焰——几百年没人试过。\n"
@@ -45450,28 +45450,28 @@ msgid "这件衣不能随便丢。"
 msgstr ""
 
 msgid "婢女的尸首"
-msgstr ""
+msgstr "тело служанки"
 
 msgid ""
 "一个婢女倒在前厅的地上，手里还攥着抹布。喉下一道细口，是极细的剑。\n"
 msgstr ""
 
 msgid "昭蓉的尸首"
-msgstr ""
+msgstr "тело Чжаожун"
 
 msgid ""
 "昭蓉倒在内厅的门边，像是听见前厅的动静跑出来，没跑到。她的手还搭在门框上。\n"
 msgstr ""
 
 msgid "寻剑令抄本"
-msgstr ""
+msgstr "копия указа о поисках меча"
 
 msgid ""
 "一卷发黄的纸，边角磨得起了毛，叠过又展开过许多回。抄的是二十年前兵部颁下的寻剑令，一句：「寻剑，不得扰民一户。」底下另起一行，密密地写着一队人的名字——二十三个，每个名字后头点了一个墨点，像在数人。最后一个名字是陈显祖，没有点。\n"
 msgstr ""
 
 msgid "程不平的信"
-msgstr ""
+msgstr "письмо Чэн Бупина"
 
 msgid ""
 "一封封好的信，火漆上压着乔阴县印，封皮写着「叔父大人亲启」。程不平说：兵部的印是真的，令不是先帝的；假印和失踪的人都往关北去了——这封信替你敲开天驼关军营的门。\n"
@@ -45489,7 +45489,7 @@ msgid ""
 msgstr ""
 
 msgid "璃虹的羽"
-msgstr ""
+msgstr "перо Лихун"
 
 msgid ""
 "一片巴掌长的羽毛，浅金色，拿在手里不冷也不热。它不沾水，也不化；放在暗处，边上有一圈很淡的光。璃虹说，再封的时候把它放回坛上，她认得它。\n"
@@ -45499,7 +45499,7 @@ msgid "这是璃虹的羽，不能丢。"
 msgstr ""
 
 msgid "黑焰"
-msgstr ""
+msgstr "чёрное пламя"
 
 msgid ""
 "一条从侮天鬼身上拖出来的黑焰，像鞭子一样甩来甩去。焰是黑的，扫过的地方，冰「嗤」地化开一道。\n"
@@ -45509,27 +45509,27 @@ msgid "黑焰是侮天鬼身上的东西。"
 msgstr ""
 
 msgid "渔夫的尸首"
-msgstr ""
+msgstr "тело рыбака"
 
 msgid ""
 "一个渔夫倒在岸边的泥里，脸朝下。网还攥在手里，网里什么都没有。背上三个孔，是钢叉。\n"
 msgstr ""
 
 msgid "上清符箓"
-msgstr ""
+msgstr "книга «Талисманы Высшей чистоты»"
 
 msgid ""
 "一函蓝布面的旧书，封签上写着「上清符箓」。前半本是朱砂画的符，一笔一划；后半本的空白处挤满了另一种字——墨色发黑，一行压着一行，像是从火里抢出来的。\n"
 msgstr ""
 
 msgid "函"
-msgstr ""
+msgstr "книга"
 
 msgid "这函书不能随便丢。"
 msgstr ""
 
 msgid "骆家家书"
-msgstr ""
+msgstr "письмо семьи Ло"
 
 msgid ""
 "一张素笺折成的小方块，封口没有封，背面写着「大哥亲启」四个字，字写得飞快，最后一笔甩出了格子。\n"
@@ -45539,7 +45539,7 @@ msgid "这封家书不能随便丢。"
 msgstr ""
 
 msgid "附子"
-msgstr ""
+msgstr "аконит"
 
 msgid ""
 "一块乌黑的块根，拳头大小，带着药圃的湿泥，掰开来里面是灰白的。方丈说它回阳。\n"
@@ -45549,34 +45549,34 @@ msgid "这是方丈方子上的药，不能随便丢。"
 msgstr ""
 
 msgid "麝香"
-msgstr ""
+msgstr "мускус"
 
 msgid ""
 "一小包桑皮纸包着的麝香，纸上印着「桑邻药铺」四个字。隔着纸都闻得到那股冲鼻的香。\n"
 msgstr ""
 
 msgid "鬼臼"
-msgstr ""
+msgstr "подофилл"
 
 msgid ""
 "一株连根拔起的草，叶子八个角，叶下垂着一朵暗红的花，根上还沾着树王坟边的黑土，摸上去凉凉的。\n"
 msgstr ""
 
 msgid "汤药"
-msgstr ""
+msgstr "целебный отвар"
 
 msgid ""
 "一碗黑褐色的汤药，还烫手，附子的苦味里冲着一股麝香。\n"
 msgstr ""
 
 msgid "碗"
-msgstr ""
+msgstr "миска"
 
 msgid "这碗药是煎给樵夫的，不能随便倒掉。"
 msgstr ""
 
 msgid "骆家名帖"
-msgstr ""
+msgstr "визитная карточка семьи Ло"
 
 msgid ""
 "一张大红的名帖，折成三折。正面一行字：「京师骆氏 骆建炎 拜上 韦相国」，字写得飞快，最后一笔甩出了格子——骆云舟的字。\n"
@@ -45590,7 +45590,7 @@ msgid ""
 msgstr ""
 
 msgid "障眼符"
-msgstr ""
+msgstr "талисман отвода глаз"
 
 msgid ""
 "一张黄纸符，朱砂画的符纹弯弯绕绕，纸角写着一行小字：「茅山 障眼」。带在身上，夜里巡夜的人眼睛短一截。\n"
@@ -45600,21 +45600,21 @@ msgid "这张符不能随便丢。"
 msgstr ""
 
 msgid "封山腰牌"
-msgstr ""
+msgstr "поясной жетон школы Фэншань"
 
 msgid ""
 "一块黄杨木腰牌，正面刻着一座山，背面一个「逄」字，包浆很厚，是戴了十几年的东西。系绳上还拴着一枚竹筹，烙着「绮云 · 赌」三个字。\n"
 msgstr ""
 
 msgid "无名信"
-msgstr ""
+msgstr "письмо без подписи"
 
 msgid ""
 "一张折得很小的薄纸，没有抬头，也没有落款，只有几行蝇头小字：「阁中椅子空否。卫某生死、所在。阁里谁与谁近。正月十七，几派到。」\n"
 msgstr ""
 
 msgid "执法使手令"
-msgstr ""
+msgstr "приказ блюстителя закона"
 
 msgid ""
 "一张水烟阁的笺纸，潘军禅的字龙飞凤舞：「振远镖局陈剑秋兄：二十年前老松岭失镖之镖单，请交来人带回水烟阁。潘军禅。」下面盖着执法使的朱印。\n"
@@ -45624,49 +45624,49 @@ msgid "这张手令不能随便丢。"
 msgstr ""
 
 msgid "翻倒的纳供车"
-msgstr ""
+msgstr "перевёрнутая повозка с данью"
 
 msgid ""
 "一辆翻倒在路边的双轮板车，车辕断了，油布扯成了一条一条。箱子全被撬开了，里面是空的。车板上烙着一个「羊」字，车辕上钉着一道黄符——茅山的符。\n"
 msgstr ""
 
 msgid "芦苇丛里的尸首"
-msgstr ""
+msgstr "тело в камышах"
 
 msgid ""
 "一个穿黑衣的人脸朝下伏在芦苇丛里，泥水没过了半边脸。背上三个孔，是钢叉。右手攥成拳，压在身子底下。\n"
 msgstr ""
 
 msgid "赤铜令"
-msgstr ""
+msgstr "жетон из красной меди"
 
 msgid ""
 "一块赤铜铸的令牌，比黑木令沉得多。正面刻着火焰的图腾，背面一个「东」字。神教里，只有替神教办成过事的人才拿得到它。\n"
 msgstr ""
 
 msgid "冰凿"
-msgstr ""
+msgstr "пешня"
 
 msgid ""
 "一把铁打的冰凿，木柄磨得油亮，凿尖上还结着冰碴。柄上缠着几圈旧布，布上有补丁。\n"
 msgstr ""
 
 msgid "石匣出土图"
-msgstr ""
+msgstr "набросок раскопа ларца"
 
 msgid ""
 "一张炭条画的图：黄石隘口的山壁，山壁下一个土坑，坑沿量了尺寸。旁边一行小字：「起匣处。山底下或另有一只，待查。」落款兵部职方司。\n"
 msgstr ""
 
 msgid "振远的名帖"
-msgstr ""
+msgstr "визитная карточка конторы Чжэньюань"
 
 msgid ""
 "一张大红的名帖，折成两折，正面一个斗大的「镖」字，底下一行：「振远镖局 陈天星 拜上」。背面是陈天星亲笔的一句：「持帖者，振远的朋友。」\n"
 msgstr ""
 
 msgid "贺长庚的家信"
-msgstr ""
+msgstr "письмо Хэ Чангэна домой"
 
 msgid ""
 "一张折得发软的信纸，字是托人写的，歪歪扭扭：「……镖走到老松岭口，兵部的人在岭上等着，镖头说照走。爹这趟回来，给平儿买一把好刀。」落款：乙丑年 贺长庚。\n"
@@ -45683,7 +45683,7 @@ msgid "这叠卖身契不能随便丢。"
 msgstr ""
 
 msgid "乔阴捕快腰牌"
-msgstr ""
+msgstr "поясной жетон сыщика уезда Цяоинь"
 
 msgid ""
 "一块黑漆木腰牌，巴掌大，正面阴刻「乔阴县捕」四个字，背面烙着县印，穿着一根褪了色的红绳。\n"

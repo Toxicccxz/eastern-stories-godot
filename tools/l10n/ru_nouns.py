@@ -87,6 +87,32 @@ def _walk(node, genders: dict[str, str]) -> None:
             _walk(value, genders)
 
 
+def _palladius_syllables() -> frozenset[str]:
+    """Every syllable Palladius writes (a generous set: a few combinations Chinese lacks do no harm)."""
+    initials = ["", "б", "п", "м", "ф", "д", "т", "н", "л", "г", "к", "х", "цз", "ц", "с", "чж", "ч", "ш", "ж"]
+    finals = ["а", "о", "э", "ай", "эй", "ао", "оу", "ань", "энь", "ан", "эн", "ун", "эр", "и", "ы", "я", "е", "яо",
+              "ю", "янь", "инь", "ян", "ин", "юн", "у", "уа", "уай", "уй", "уань", "унь", "уан", "уэй", "юй", "юэ",
+              "юань", "юнь", "ё"]
+    found = {i + f for i in initials for f in finals}
+    found |= {"ва", "во", "вай", "вэй", "вань", "вэнь", "ван", "вэн"}
+    return frozenset(found)
+
+
+PALLADIUS = _palladius_syllables()
+
+
+def _palladius_word(word: str) -> bool:
+    """Whether `word` splits into Palladius syllables (ъ marks a boundary: Цинъинь)."""
+    text = word.lower()
+    for part in text.split("ъ"):
+        reachable = [True] + [False] * len(part)
+        for end in range(1, len(part) + 1):
+            reachable[end] = any(reachable[start] and part[start:end] in PALLADIUS for start in range(max(0, end - 5), end))
+        if not part or not reachable[-1]:
+            return False
+    return True
+
+
 class Drafter:
     def __init__(self) -> None:
         import pymorphy3
@@ -106,7 +132,9 @@ class Drafter:
             endings = ("я", "ю", "я", "ем", "е") if soft else ("а", "у", "а", "ом", "е")
             head = " ".join(words[:-1] + [""])
             return ["м"] + [head + stem + ending for ending in endings] + ["", ""], "a Chinese man's name: its last word declined"
-        parses = [self._parse(word) for word in words]
+        parses = [self._parse(word, i < len(words) - 1) for i, word in enumerate(words)]
+        if parses[0] is not None and parses[0].tag.POS == "PREP":
+            return ["мн" if parses[-1] is not None and parses[-1].tag.number == "plur" else "м", "", "", "", "", "", "", ""], "a phrase opening with a preposition: not declined"
         head = next((i for i, p in enumerate(parses) if p is not None and p.tag.POS == "NOUN"), None)
         if head is None:
             return ["м", "", "", "", "", "", "", ""], "no noun found: not declined"
@@ -132,26 +160,35 @@ class Drafter:
             note = "a word the dictionary does not know"
         return row, note
 
-    def _parse(self, word: str):
+    def _parse(self, word: str, more_follow: bool = False):
         if not re.fullmatch(r"[А-Яа-яЁё-]+", word):
             return None
         parses = self.morph.parse(word)
         nominative = [p for p in parses if "nomn" in p.tag and "sing" in p.tag or "nomn" in p.tag and "Pltm" in p.tag or p.tag.POS in ("ADJF", "PRTF") and "nomn" in p.tag]
         plain = [p for p in nominative if not any(mark in p.tag for mark in ("Geox", "Name", "Surn", "Patr", "Orgn", "Abbr"))]
+        if more_follow:
+            # A word before others is an adjective when it can be one: Малый меч, not «малый» a lad.
+            adjectives = [p for p in plain or nominative if p.tag.POS in ("ADJF", "PRTF")]
+            if adjectives:
+                return adjectives[0]
         return (plain or nominative or parses)[0]
 
     def _is_chinese_name(self, words: list[str], gender_hint: str) -> bool:
-        if len(words) < 2 or not all(re.fullmatch(r"[А-ЯЁ][а-яё]+", word) for word in words):
+        """Every word a capitalised run of Palladius syllables (Лю Чуньфэн, Линь Чжи, Ланьчэн); a
+        single word only when the dictionary does not know it as a common word."""
+        if not all(re.fullmatch(r"[А-ЯЁ][а-яёъ]+", word) and _palladius_word(word) for word in words):
             return False
-        if gender_hint in ("男性", FEMALE):
+        if len(words) > 1 or gender_hint in ("男性", FEMALE):
             return True
-        return all(not any(p.is_known for p in self.morph.parse(word)) or "Surn" in self.morph.parse(word)[0].tag or "Name" in self.morph.parse(word)[0].tag for word in words) and len(words) >= 2
+        return not any(p.is_known and not any(mark in p.tag for mark in ("Name", "Surn", "Geox")) for p in self.morph.parse(words[0]))
 
     @staticmethod
     def _gender(noun) -> str:
         tag = noun.tag
         if "Pltm" in tag or tag.number == "plur":
             return "мн"
+        if "Ms-f" in tag:
+            return "м"  # a common-gender person (убийца, слуга): a man unless the NPC is a woman
         return {"masc": "м", "femn": "ж", "neut": "ср"}.get(tag.gender or "", "м")
 
     def _inflect(self, word: str, parse, case: str, noun, animate: bool, before: bool, is_head: bool) -> str:
