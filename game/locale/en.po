@@ -14623,8 +14623,8 @@ msgstr "The ice chest opens. A moon-white robe falls to the floor, and cold hits
 msgid "宝衣到手。交回瑷伦守到决战；交给安妮儿，或者带着它走出晚月庄的大门——宝衣一离开瑷伦，庄就没了护佑，当夜会出事：东方神教派来的杀手会摸进前厅，见人就动手——要打一场；打不过，退出前厅，她不追。"
 msgstr "The robe is yours. Give it back to Ailun to keep until the final battle; give it to Anni'er; or walk out of Latemoon Manor's gate with it. Once the robe leaves Ailun, the manor loses its protection and something will happen that night: a killer sent by the Golden Crow Order will slip into the front hall and go for anyone there—you'll have to fight; if you can't win, back out of the front hall and she won't follow."
 
-msgid "你把宝衣交给了安妮儿。她说：月神族守了几百年，守给我的。你配得上——东方神教记得你。"
-msgstr "You give the robe to Anni'er. She says: \"The Moon God clan kept it for centuries—kept it for me. You're worthy. The Golden Crow Order will remember you.\""
+#~ msgid "你把宝衣交给了安妮儿。她说：月神族守了几百年，守给我的。你配得上——东方神教记得你。"
+#~ msgstr "You give the robe to Anni'er. She says: \"The Moon God clan kept it for centuries—kept it for me. You're worthy. The Golden Crow Order will remember you.\""
 
 msgid "把寒於宝衣交给了东方神教的安妮儿"
 msgstr "Gave Hanyu's Robe to Anni'er of the Golden Crow Order"
@@ -14635,8 +14635,8 @@ msgstr "You give the robe back to Ailun. She puts it on: \"I'll keep it until th
 msgid "把寒於宝衣留给了守衣人瑷伦"
 msgstr "Left Hanyu's Robe with its keeper, Ailun"
 
-msgid "你带着宝衣走出了晚月庄的大门。庄失去了护佑。"
-msgstr "You walk out of Latemoon Manor's gate with the robe. The manor has lost its protection."
+#~ msgid "你带着宝衣走出了晚月庄的大门。庄失去了护佑。"
+#~ msgstr "You walk out of Latemoon Manor's gate with the robe. The manor has lost its protection."
 
 msgid "带走了寒於宝衣"
 msgstr "Took Hanyu's Robe away"
@@ -15601,8 +15601,8 @@ msgstr "Waterfog Pavilion has drawn closer to the court. Men from the Ministry o
 msgid "绮云镇 · 场院"
 msgstr "Cloudweave Town · The Pleasure Yard"
 
-msgid "九派逐了东方神教。棺材铺后面的场院关了门，朱鸿雪不知去向。"
-msgstr "The nine schools drove out the Golden Crow Order. The Pleasure Yard behind the coffin shop has shut its gates, and no one knows where Zhu Hongxue has gone."
+#~ msgid "九派逐了东方神教。棺材铺后面的场院关了门，朱鸿雪不知去向。"
+#~ msgstr "The nine schools drove out the Golden Crow Order. The Pleasure Yard behind the coffin shop has shut its gates, and no one knows where Zhu Hongxue has gone."
 
 msgid "神教照旧在棺材铺后面的场院里派差事。九派说，只要不犯到他们头上。"
 msgstr "The Order still hands out its jobs in the Pleasure Yard behind the coffin shop. As long as it doesn't come down on their heads, say the nine schools."
@@ -16168,8 +16168,8 @@ msgstr "I got out by myself. The Golden Crow Order took me in and gave me this t
 msgid "朱鸿雪派我回晚月庄：我是她的女儿，内书房的门对我开着，宝衣藏在哪里，我看得见。"
 msgstr "Zhu Hongxue sent me back to Latemoon Manor: I'm her daughter, the door of the Inner Study is open to me, and wherever the robe is hidden, I can see it."
 
-msgid "我在这屋里住了三年。宝衣一直在瑷伦身上，我一回也没有动手。"
-msgstr "I lived in this house for three years. The robe was on Ailun the whole time, and I never once made a move."
+#~ msgid "我在这屋里住了三年。宝衣一直在瑷伦身上，我一回也没有动手。"
+#~ msgstr "I lived in this house for three years. The robe was on Ailun the whole time, and I never once made a move."
 
 msgid "从腰间解下一块黑木令牌，丢给你。"
 msgstr " unties a black-wood token from her waist and tosses it to you."
@@ -16297,8 +16297,8 @@ msgstr "Better to say you don't know than to talk nonsense. The robe is in the i
 msgid "还衣"
 msgstr "Return the robe"
 
-msgid "把寒於宝衣还给瑷伦：她又是守衣人，池边的凤凰回来；决战那日问她「湖底」，她穿着它跟你下湖。\n宝衣从此不在你身上，下湖时没有它挡寒气。\n要还吗？"
-msgstr "Return Hanyu's Robe to Ailun: she becomes the Robe-Keeper again, and the phoenix by the pool returns. On the day of the final battle, ask her about \"The Lakebed\" and she will wear it and go down the lake with you.\nThe robe will no longer be on you, and you'll have nothing to turn the cold aside when you go down.\nReturn it?"
+#~ msgid "把寒於宝衣还给瑷伦：她又是守衣人，池边的凤凰回来；决战那日问她「湖底」，她穿着它跟你下湖。\n宝衣从此不在你身上，下湖时没有它挡寒气。\n要还吗？"
+#~ msgstr "Return Hanyu's Robe to Ailun: she becomes the Robe-Keeper again, and the phoenix by the pool returns. On the day of the final battle, ask her about \"The Lakebed\" and she will wear it and go down the lake with you.\nThe robe will no longer be on you, and you'll have nothing to turn the cold aside when you go down.\nReturn it?"
 
 msgid "衣在湖底烧了。它挡在了该挡的地方，不必再说还不还。"
 msgstr "The robe burned in the lakebed. It stood where it needed to stand. There's no more need to talk of returning it or not."
@@ -17452,8 +17452,8 @@ msgstr "The list has been read through. Which side you stand on, ask me about \"
 msgid "名单上还有最后一个名字。出去走一走，再回来。"
 msgstr "There is one last name on the list. Go out for a walk, and come back."
 
-msgid "三个名字，都是靠近湖底那件东西的人。"
-msgstr "Three names, all of them people who came close to that thing at the bottom of the lake."
+#~ msgid "三个名字，都是靠近湖底那件东西的人。"
+#~ msgstr "Three names, all of them people who came close to that thing at the bottom of the lake."
 
 msgid "玉螺湖村稻田西头的湖岸上，有个戴黑冠的道士，白天在那里量水——逆灵宫的人。"
 msgstr "On the lakeshore at the west end of Jade Conch Village's rice paddies there is a Daoist in a black crown who measures the water by day. A person from the Black Palace."
@@ -17542,8 +17542,8 @@ msgstr "The three names are not done yet."
 msgid "交什么差？"
 msgstr "Hand in what?"
 
-msgid "站朱鸿雪：神教只有一个教主，是她。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；安妮儿回西厢闭门，往后不再同你说神教的事（宝衣要是在她手里，终章还没打完的，她照样带着它来）。正月十七那天，神教的杀手会在山道上截一派的轿子。\n这是东方神教这条线的大分裂，选了不能改。要站朱鸿雪吗？"
-msgstr "Stand with Zhu Hongxue: the Order has only one Leader, and it is she.\nShe takes back your red copper token and gives you the gold token, and teaches you the Tianshan Snowshade Sword and the Snowshade Heart Method. Anni'er goes back into the West Wing and shuts the door, and from now on will not speak to you of the Order (if the robe is in her hands and the finale is not yet fought out, she will still bring it along as ever). On the seventeenth of the first month, the Order's assassins will stop one school's sedan chair on the mountain road.\nThis is the great split in the Golden Crow Order's line, and it can't be undone once chosen. Stand with Zhu Hongxue?"
+#~ msgid "站朱鸿雪：神教只有一个教主，是她。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；安妮儿回西厢闭门，往后不再同你说神教的事（宝衣要是在她手里，终章还没打完的，她照样带着它来）。正月十七那天，神教的杀手会在山道上截一派的轿子。\n这是东方神教这条线的大分裂，选了不能改。要站朱鸿雪吗？"
+#~ msgstr "Stand with Zhu Hongxue: the Order has only one Leader, and it is she.\nShe takes back your red copper token and gives you the gold token, and teaches you the Tianshan Snowshade Sword and the Snowshade Heart Method. Anni'er goes back into the West Wing and shuts the door, and from now on will not speak to you of the Order (if the robe is in her hands and the finale is not yet fought out, she will still bring it along as ever). On the seventeenth of the first month, the Order's assassins will stop one school's sedan chair on the mountain road.\nThis is the great split in the Golden Crow Order's line, and it can't be undone once chosen. Stand with Zhu Hongxue?"
 
 msgid "神教只有一个教主。你知道是谁。"
 msgstr "The Order has only one Leader. You know who it is."
@@ -22867,8 +22867,8 @@ msgstr "Winter of the Yichou year, two months after that shipment, Far-Road took
 msgid "兵部替一家镖局的死人发抚恤？剑秋知道。你去问他。"
 msgstr "The Ministry of War pays compensation for an escort agency's dead? Jianqiu knows. Go ask him."
 
-msgid "查到底：陈天星把振远的总账押去乔阴县衙，交程知县——告兵部，也告振远自己拿过兵部的钱。\n陈剑秋会关了绮云分局的门。正月十七，振远那一票投旧盟主（已经入了虹台的席的，这一票不再跟着变）；京师的事还没定的，这本账也算揭发的一样人证物证。\n说了就不能再站到陈剑秋那边。要这么说吗？"
-msgstr "Follow it through: Chen Tianxing sends Far-Road's master ledger to the Tallshade magistrate's court, to Magistrate Cheng, accusing the Ministry of War and also Far-Road itself of taking the Ministry's money.\nChen Jianqiu will close the Cloudweave branch's doors. On the seventeenth of the first month, Far-Road's vote goes to the old Alliance Leader (for those who have already taken seats at the Rainbow Terrace, this vote no longer changes with it). As for the Capital's affairs not yet settled, the ledger counts as witness and proof of the exposure.\nOnce said, you can never stand on Chen Jianqiu's side again. Say it?"
+#~ msgid "查到底：陈天星把振远的总账押去乔阴县衙，交程知县——告兵部，也告振远自己拿过兵部的钱。\n陈剑秋会关了绮云分局的门。正月十七，振远那一票投旧盟主（已经入了虹台的席的，这一票不再跟着变）；京师的事还没定的，这本账也算揭发的一样人证物证。\n说了就不能再站到陈剑秋那边。要这么说吗？"
+#~ msgstr "Follow it through: Chen Tianxing sends Far-Road's master ledger to the Tallshade magistrate's court, to Magistrate Cheng, accusing the Ministry of War and also Far-Road itself of taking the Ministry's money.\nChen Jianqiu will close the Cloudweave branch's doors. On the seventeenth of the first month, Far-Road's vote goes to the old Alliance Leader (for those who have already taken seats at the Rainbow Terrace, this vote no longer changes with it). As for the Capital's affairs not yet settled, the ledger counts as witness and proof of the exposure.\nOnce said, you can never stand on Chen Jianqiu's side again. Say it?"
 
 msgid "账已经上路了。"
 msgstr "The ledger is already on the road."
@@ -29200,8 +29200,8 @@ msgstr "This ledger must not be thrown away."
 msgid "你翻到最后几页。每一页末尾另起的那一行，记的是人：\n"
 msgstr "You turn to the last few pages. The line begun at the foot of each page records people:\n"
 
-msgid "「野羊寨，三名，丁未年秋，入丹房。」\n「关北民夫，七名，戊申年冬，三名入丹房，四名留用。」\n「傅家坡，孩童一名，七岁，戊申年腊月，留用，待子时。」\n"
-msgstr "\"Goathill Stockade, three, autumn of the Dingwei year, to the Elixir Room.\"\n\"Laborers from Beyond the Pass, seven, winter of the Wushen year; three to the Elixir Room, four kept for use.\"\n\"Fu Family Slope, one child, seven years old, twelfth month of the Wushen year, kept for use, awaiting midnight.\"\n"
+#~ msgid "「野羊寨，三名，丁未年秋，入丹房。」\n「关北民夫，七名，戊申年冬，三名入丹房，四名留用。」\n「傅家坡，孩童一名，七岁，戊申年腊月，留用，待子时。」\n"
+#~ msgstr "\"Goathill Stockade, three, autumn of the Dingwei year, to the Elixir Room.\"\n\"Laborers from Beyond the Pass, seven, winter of the Wushen year; three to the Elixir Room, four kept for use.\"\n\"Fu Family Slope, one child, seven years old, twelfth month of the Wushen year, kept for use, awaiting midnight.\"\n"
 
 msgid "纳供的不只是金帛。你把账册合上，手心全是汗。\n"
 msgstr "The tribute is not only gold and silk. You close the ledger. Your palms are soaked with sweat.\n"
@@ -30223,8 +30223,8 @@ msgstr "Seize the intruder."
 msgid "前院里的道士都转过身来。你头上那顶冠，不灵了。\n"
 msgstr "The Daoists in the front courtyard all turn around. The cap on your head no longer works.\n"
 
-msgid "他的剑还垂着，没有动。这一仗你打不过——趁他还没出手，走：出了前院的门，下山去。逃得出去，就算过了这一关。\n"
-msgstr "His sword still hangs and he has not moved. You cannot win this fight. Before he strikes, go: out of the courtyard gate and down the mountain. If you get away, you have passed this trial.\n"
+#~ msgid "他的剑还垂着，没有动。这一仗你打不过——趁他还没出手，走：出了前院的门，下山去。逃得出去，就算过了这一关。\n"
+#~ msgstr "His sword still hangs and he has not moved. You cannot win this fight. Before he strikes, go: out of the courtyard gate and down the mountain. If you get away, you have passed this trial.\n"
 
 msgid "玄冥子撑着剑退进了前殿：「北麓的路，你走不远。」"
 msgstr "Xuanmingzi props himself on his sword and retreats into the Front Hall: \"The road from the North Foot, you will not get far on it.\""
@@ -30244,8 +30244,8 @@ msgstr " lifts his head and looks at you. It is the first time he has looked up.
 msgid "大弟子那一夜在后殿就说过。我一直记着。"
 msgstr "The senior disciple said it that night in the Rear Hall. I have remembered it ever since."
 
-msgid "他的剑还垂着，没有动。宫里的人都在这儿，这一仗不必打——趁他还没出手，走：出了前院的门，下山去。逃得出去，就算过了这一关。\n"
-msgstr "His sword still hangs and he has not moved. All the Palace's people are here, and this fight need not be fought. Before he strikes, go: out of the courtyard gate and down the mountain. If you get away, you have passed this trial.\n"
+#~ msgid "他的剑还垂着，没有动。宫里的人都在这儿，这一仗不必打——趁他还没出手，走：出了前院的门，下山去。逃得出去，就算过了这一关。\n"
+#~ msgstr "His sword still hangs and he has not moved. All the Palace's people are here, and this fight need not be fought. Before he strikes, go: out of the courtyard gate and down the mountain. If you get away, you have passed this trial.\n"
 
 msgid "一个黑衣黑冠的道士，剑提在手里，站在山路转角的风口上，眼睛盯着上山下山的每一个人。\n"
 msgstr "A Daoist in a black robe and black cap stands in the windy corner of the mountain road, a sword in his hand, his eyes on everyone who goes up or down.\n"
@@ -30661,8 +30661,8 @@ msgstr "On the jet-black long table lies a scroll of black-leather scripture, it
 msgid "一座三足铜丹炉，炉身熏得乌黑。炉口的火苗是青色的，没有一点热气。炉边的托盘上摆着几颗乌黑的丹丸，闻着是一股说不出的腥甜。你不想知道它们是什么炼的。\n"
 msgstr "A three-legged bronze elixir furnace, its body smoked black. The flame in its mouth is blue and gives no warmth at all. On the tray beside it sit a few jet-black pills, smelling of an indescribable sweet rankness. You do not want to know what they are made from.\n"
 
-msgid "药架上的罐子一只只封着口，签子上写的不是药名：「野羊 · 丁未秋」「关北 · 戊申冬」……有一只罐子的签子上写着「傅家坡 · 待」，罐子是空的。\n"
-msgstr "The jars on the medicine shelves are each sealed shut, and the labels are not drug names: \"Goathill · autumn of Dingwei\", \"Beyond the Pass · winter of Wushen\"... On one jar the label reads \"Fu Family Slope · Pending\", and the jar is empty.\n"
+#~ msgid "药架上的罐子一只只封着口，签子上写的不是药名：「野羊 · 丁未秋」「关北 · 戊申冬」……有一只罐子的签子上写着「傅家坡 · 待」，罐子是空的。\n"
+#~ msgstr "The jars on the medicine shelves are each sealed shut, and the labels are not drug names: \"Goathill · autumn of Dingwei\", \"Beyond the Pass · winter of Wushen\"... On one jar the label reads \"Fu Family Slope · Pending\", and the jar is empty.\n"
 
 msgid "西边那扇铁栅门里的墙根上，一排排指甲刻出来的道道，五个一组，刻了一百多组。最后一组只有三道。\n"
 msgstr "In the wall at the foot of the west iron-grated door, rows of marks scratched with fingernails, in groups of five, more than a hundred groups. The last group has only three.\n"
@@ -31432,8 +31432,8 @@ msgstr " takes the letter, reads it through by the light leaking down the crack 
 msgid "庾子建的字，兵部尚书的私印。"
 msgstr "Yu Zijian's handwriting. The Minister of War's private seal."
 
-msgid "这封信在一天，庾家就不敢清乔阴的巷子。叫花子要的，就是这个。"
-msgstr "As long as this letter exists, the Yu family won't dare clear Tallshade's alleys. That's all a beggar wants."
+#~ msgid "这封信在一天，庾家就不敢清乔阴的巷子。叫花子要的，就是这个。"
+#~ msgstr "As long as this letter exists, the Yu family won't dare clear Tallshade's alleys. That's all a beggar wants."
 
 msgid "朝身后的墙努了努嘴。"
 msgstr " jerks his chin at the wall behind him."
@@ -31723,8 +31723,8 @@ msgstr "Mount Mao Sorcery—I teach it. Men and women alike. Senior Brother keep
 msgid "根基是天师正道，先学那个；天师正道不到一半，道术就领悟不下去。"
 msgstr "Its root is the Way of the Celestial Masters; study that first. Until the Way of the Celestial Masters is half learned, the sorcery cannot be understood."
 
-msgid "请花匠拿着《上清符箓》上北麓：他同道观里剩下的人念一遍他们自己的经，把肯下山的领下来，交茅山看着。\n他在北麓的绞盘边等你——你上了北麓，就看得到。\n正月十七虹台上，这件事就算了了，不能再改。\n就这样吗？"
-msgstr "Ask the gardener to take the \"Highest Clarity Talismans\" up the North Foot: he will recite their own scriptures to those left in the abbey, bring down those willing to leave the mountain, and put them in Mount Mao's keeping.\nHe waits for you by the winch on the North Foot—go up the North Foot and you will see him.\nOn the seventeenth of the first month on the Rainbow Terrace, this matter counts as settled and can no longer be changed.\nDo it this way?"
+#~ msgid "请花匠拿着《上清符箓》上北麓：他同道观里剩下的人念一遍他们自己的经，把肯下山的领下来，交茅山看着。\n他在北麓的绞盘边等你——你上了北麓，就看得到。\n正月十七虹台上，这件事就算了了，不能再改。\n就这样吗？"
+#~ msgstr "Ask the gardener to take the \"Highest Clarity Talismans\" up the North Foot: he will recite their own scriptures to those left in the abbey, bring down those willing to leave the mountain, and put them in Mount Mao's keeping.\nHe waits for you by the winch on the North Foot—go up the North Foot and you will see him.\nOn the seventeenth of the first month on the Rainbow Terrace, this matter counts as settled and can no longer be changed.\nDo it this way?"
 
 msgid "人都下了山。他们烧了一辈子香，坛上写的是什么，现在知道了。"
 msgstr "They have all come down the mountain. They burned incense all their lives; now they know what was written on the altar."
@@ -34147,8 +34147,8 @@ msgstr "Anni'er stands beside the square table without sitting. She wears the sa
 msgid "在这里给我？……也好，让她看着。"
 msgstr "Give it to me here? ...Fine. Let her watch."
 
-msgid "站安妮儿：一代教主收回教主令。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章还没打完的，她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局。\n这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？"
-msgstr "Side with Anni'er: the First Leader takes back the Order Leader's token.\nShe takes back your red copper token and gives you a gold token, and teaches you the Tianshan Snowshade Sword and the Snowshade Heart Method. Zhu Hongxue concedes and does not leave. From now on the Order will take only jobs against those who deserve to die. If the final chapter is not yet fought, she will come to hold the mouth of the pool at the lakeside (whether or not the robe is in her hands). On the seventeenth of the first month, the Order will not go and disrupt the Rainbow Terrace.\nThis is the great split in the Golden Crow Order's line. Once chosen, it cannot be changed. Side with Anni'er?"
+#~ msgid "站安妮儿：一代教主收回教主令。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章还没打完的，她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局。\n这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？"
+#~ msgstr "Side with Anni'er: the First Leader takes back the Order Leader's token.\nShe takes back your red copper token and gives you a gold token, and teaches you the Tianshan Snowshade Sword and the Snowshade Heart Method. Zhu Hongxue concedes and does not leave. From now on the Order will take only jobs against those who deserve to die. If the final chapter is not yet fought, she will come to hold the mouth of the pool at the lakeside (whether or not the robe is in her hands). On the seventeenth of the first month, the Order will not go and disrupt the Rainbow Terrace.\nThis is the great split in the Golden Crow Order's line. Once chosen, it cannot be changed. Side with Anni'er?"
 
 msgid "去西厢找我。天山的剑，在那里教。"
 msgstr "Find me in the west wing. The Tianshan sword is taught there."
@@ -34189,8 +34189,8 @@ msgstr "The last name on the list: Anni'er."
 msgid "一直站在八仙桌旁，这时才开口。"
 msgstr " has stood beside the square table all along and only now speaks."
 
-msgid "封法在我脑子里，是因为湖底那东西还没有死透。要我的命，自己来拿。"
-msgstr "The rite is in my head because the thing at the lake bottom has not yet died for good. If you want my life, come and take it yourself."
+#~ msgid "封法在我脑子里，是因为湖底那东西还没有死透。要我的命，自己来拿。"
+#~ msgstr "The rite is in my head because the thing at the lake bottom has not yet died for good. If you want my life, come and take it yourself."
 
 msgid "宝衣在西厢。衣在谁手里，封法就在谁手里。"
 msgstr "The robe is in the west wing. Whoever holds the robe holds the rite."
@@ -34612,8 +34612,8 @@ msgstr " does not struggle."
 msgid "交吧。振远的人，官府的人，本来就是一伙的。"
 msgstr "Go on, hand me over. Far-Road's people and the authorities were always in it together."
 
-msgid "老周拿麻绳把他捆了，押着下了铁索。天驼关的官兵接了人，记下了振远的名字。\n"
-msgstr "Old Zhou ties him up with hemp rope and marches him down the iron cables. The soldiers of Camelback Pass take him and write down Far-Road's name.\n"
+#~ msgid "老周拿麻绳把他捆了，押着下了铁索。天驼关的官兵接了人，记下了振远的名字。\n"
+#~ msgstr "Old Zhou ties him up with hemp rope and marches him down the iron cables. The soldiers of Camelback Pass take him and write down Far-Road's name.\n"
 
 msgid "放劫镖的后生走。\n他会留下他爹最后的一封家信——二十年前那趟镖，信里有一句话。\n劫镖的人从此不见官。要这么做吗？"
 msgstr "Let the young robber go.\nHe will leave you his father's last letter home: in it, a line about that run twenty years ago.\nThe robber will never face the law. Do it?"
@@ -34645,8 +34645,8 @@ msgstr "Masked, she sits on a bluestone slab in the bamboo grove, a slender swor
 msgid "竹林深处，有人压着声音在哭。\n"
 msgstr "Deep in the bamboo grove, someone is weeping, trying not to be heard.\n"
 
-msgid "那一夜，前厅的两个丫头，内厅的昭蓉，是我杀的。宝衣出了庄门，朱鸿雪要的东西没了——神教我回不去，这里我也回不来。"
-msgstr "That night, the two maids in the front hall and Zhaorong in the inner hall: I killed them. The robe has left the manor gate, and what Zhu Hongxue wanted is gone. I cannot go back to the Order, and I cannot come back here either."
+#~ msgid "那一夜，前厅的两个丫头，内厅的昭蓉，是我杀的。宝衣出了庄门，朱鸿雪要的东西没了——神教我回不去，这里我也回不来。"
+#~ msgstr "That night, the two maids in the front hall and Zhaorong in the inner hall: I killed them. The robe has left the manor gate, and what Zhu Hongxue wanted is gone. I cannot go back to the Order, and I cannot come back here either."
 
 msgid "拿去。给她，还是还给神教，你定。"
 msgstr "Take it. Give it to her or return it to the Order, as you decide."
@@ -35119,8 +35119,8 @@ msgstr "Lu Decai of Tallshade is a stand-in for the Dragon Head. You counted the
 msgid "你在京师尚书府的后墙根下见到了真龙头：二十三个结。"
 msgstr "At the foot of the back wall of the Minister's Mansion in the Capital, you met the true Dragon Head: twenty-three knots."
 
-msgid "尚书府小屋那封密信，你交给了真龙头。庾家不敢清乔阴的巷子。"
-msgstr "You gave the secret letter from the Small Room of the Minister's Mansion to the true Dragon Head. The Yu family dares not clear Tallshade's alleys."
+#~ msgid "尚书府小屋那封密信，你交给了真龙头。庾家不敢清乔阴的巷子。"
+#~ msgstr "You gave the secret letter from the Small Room of the Minister's Mansion to the true Dragon Head. The Yu family dares not clear Tallshade's alleys."
 
 msgid "密信你交给了官府。叫花子不再跟你说正事。"
 msgstr "You gave the secret letter to the authorities. The beggars no longer talk business with you."
@@ -35230,8 +35230,8 @@ msgstr "Zhu Hongxue gave you a black-wood token. The Order's assassins know it."
 msgid "你手上沾了神教教主的血。朱鸿雪的令，到此为止。"
 msgstr "Your hands are stained with the blood of the Order's Leader. Zhu Hongxue's orders end here."
 
-msgid "朱鸿雪给过你三个名字，都是靠近湖底封物的人。"
-msgstr "Zhu Hongxue gave you three names, all of them people who came close to what's sealed under the lake."
+#~ msgid "朱鸿雪给过你三个名字，都是靠近湖底封物的人。"
+#~ msgstr "Zhu Hongxue gave you three names, all of them people who came close to what's sealed under the lake."
 
 msgid "你替朱鸿雪杀了玉螺湖凿冰的老冰匠。"
 msgstr "You killed the old ice cutter who cut ice on Jade Conch Lake, for Zhu Hongxue."
@@ -35413,8 +35413,8 @@ msgstr "You are no longer of the Wayward School. Waterfog Pavilion's business en
 msgid "去水烟阁正厅，问执法使潘军禅「山门」。"
 msgstr "Go to Waterfog Main Hall and ask the Enforcer, Pan Junchan, about \"Mountain Gate\"."
 
-msgid "潘军禅说，正月十七快到了，上山的人多；这一个月，有人在打听盟主的事。他要一个新面孔去山门值一班。"
-msgstr "Pan Junchan says the seventeenth of the first month is near, and many people are coming up the mountain; this month, someone has been asking about the Alliance Leader. He wants a new face to stand a watch at the gate."
+#~ msgid "潘军禅说，正月十七快到了，上山的人多；这一个月，有人在打听盟主的事。他要一个新面孔去山门值一班。"
+#~ msgstr "Pan Junchan says the seventeenth of the first month is near, and many people are coming up the mountain; this month, someone has been asking about the Alliance Leader. He wants a new face to stand a watch at the gate."
 
 msgid "到水烟阁前值守：三个上山的人在门外候着。问清他们的「来意」，听他们怎么说「盟主」，看看「路引」——认出那个来打听盟主的探子，把他「拿下」。拿错了人，真的探子会趁乱走掉。"
 msgstr "Keep watch at the Waterfog Forecourt: three people who came up the mountain wait outside the gate. Ask their \"Errand\", hear what they say of \"Alliance Leader\", look at their \"Travel Passes\": find the spy who came asking about the Alliance Leader, and \"Seize\" him. Seize the wrong man, and the real spy will slip away in the confusion."
@@ -35491,8 +35491,8 @@ msgstr "Stood with Pan Junchan in Waterfog Main Hall: wait for the Alliance Lead
 msgid "戴着黑冠回逆灵宫，替茅山的林忌做眼线。"
 msgstr "Go back into the Black Palace in the black cap, as Lin Ji's eyes for Mount Mao."
 
-msgid "疑点满了三条。宫里认出你，只是早晚的事——下回戴着冠进前院，就是那一天：那一仗你打不过，不必打，出了前院的门就算逃过了。黑冠不会再替你遮掩；递出去的名单、带走的名册，茅山照样用得上，剑谱也还在你手里。"
-msgstr "Three suspicions now. The Palace knowing you is only a matter of time, and the next time you enter the Front Yard in the cap is that day: you cannot win that fight and need not fight it, for once out through the Front Yard gate you have escaped. The black cap will not cover for you again; the list you passed on and the register you took are still of use to Mount Mao, and the sword manual is still yours."
+#~ msgid "疑点满了三条。宫里认出你，只是早晚的事——下回戴着冠进前院，就是那一天：那一仗你打不过，不必打，出了前院的门就算逃过了。黑冠不会再替你遮掩；递出去的名单、带走的名册，茅山照样用得上，剑谱也还在你手里。"
+#~ msgstr "Three suspicions now. The Palace knowing you is only a matter of time, and the next time you enter the Front Yard in the cap is that day: you cannot win that fight and need not fight it, for once out through the Front Yard gate you have escaped. The black cap will not cover for you again; the list you passed on and the register you took are still of use to Mount Mao, and the sword manual is still yours."
 
 msgid "疑点"
 msgstr "Suspicions"
@@ -35671,8 +35671,8 @@ msgstr "Finale: go down to the lake in the black cap. In the ice dragons' hall y
 msgid "冰龙厅里，第一剑是你从背后刺的。商玦带着那一剑的伤，同你打完了这一场。"
 msgstr "In the ice dragons' hall, the first stroke was yours, from behind. Shang Jue fought the rest of the battle with that wound."
 
-msgid "宫里剩下的人，林忌要一个了断。交官府去剿（问林忌「剿」，先确认）：官兵上北麓，一个也走不了——正月十七投颜违的那一边，说的就是这个。劝他们下山、交茅山看管（问林忌「招安」，再回北麓同宫里当家的说「下山」）：玄冥子还在，就是他；不在了，是领诵的道士。没有了断的，正月十七那一天他们会自己找上门来。"
-msgstr "Lin Ji wants an end to those left in the Palace. Hand them to the authorities to crush (ask Lin Ji about \"Suppress\"; you will be asked first): soldiers go up the North Foot, and not one gets away; this is what the side voting for Yan Wei on the seventeenth of the first month means. Talk them down the mountain into Mount Mao's keeping (ask Lin Ji about \"Amnesty\", then go back to the North Foot and tell whoever runs the Palace \"Come Down\"): Xuanmingzi, if he is still there; if not, the lead chanter. If there is no end, on the seventeenth of the first month they will come to you themselves."
+#~ msgid "宫里剩下的人，林忌要一个了断。交官府去剿（问林忌「剿」，先确认）：官兵上北麓，一个也走不了——正月十七投颜违的那一边，说的就是这个。劝他们下山、交茅山看管（问林忌「招安」，再回北麓同宫里当家的说「下山」）：玄冥子还在，就是他；不在了，是领诵的道士。没有了断的，正月十七那一天他们会自己找上门来。"
+#~ msgstr "Lin Ji wants an end to those left in the Palace. Hand them to the authorities to crush (ask Lin Ji about \"Suppress\"; you will be asked first): soldiers go up the North Foot, and not one gets away; this is what the side voting for Yan Wei on the seventeenth of the first month means. Talk them down the mountain into Mount Mao's keeping (ask Lin Ji about \"Amnesty\", then go back to the North Foot and tell whoever runs the Palace \"Come Down\"): Xuanmingzi, if he is still there; if not, the lead chanter. If there is no end, on the seventeenth of the first month they will come to you themselves."
 
 msgid "你把北麓那座道观交给了官府。官兵上了山，宫里剩下的人一个也没走脱。"
 msgstr "You gave the abbey on the North Foot to the authorities. Soldiers went up the mountain, and not one of those left in the Palace got away."
@@ -35722,11 +35722,11 @@ msgstr "Took back a black-wood token from the reeds on the Jade Conch Lakeshore"
 msgid "黑木令在你身上了。朱鸿雪还有差事交给持令的人：回绮云镇的场院，问朱鸿雪「差事」。"
 msgstr "The black-wood token is on you. Zhu Hongxue has errands for the one who holds it: go back to the Pleasure Yard in Cloudweave Town and ask Zhu Hongxue about \"Errands\"."
 
-msgid "朱鸿雪说了三个名字：湖边量水的黑冠道士、黄石隘口画图的兵部画吏、玉螺湖村凿冰的老冰匠——都是靠近湖底封物的人。"
-msgstr "Zhu Hongxue named three names: the Black-Cap Daoist measuring the water by the lake, the War Ministry Painter drawing at Yellow Rock Pass, and the old ice cutter who cuts ice at Jade Conch Village: all of them people who came close to what's sealed under the lake."
+#~ msgid "朱鸿雪说了三个名字：湖边量水的黑冠道士、黄石隘口画图的兵部画吏、玉螺湖村凿冰的老冰匠——都是靠近湖底封物的人。"
+#~ msgstr "Zhu Hongxue named three names: the Black-Cap Daoist measuring the water by the lake, the War Ministry Painter drawing at Yellow Rock Pass, and the old ice cutter who cuts ice at Jade Conch Village: all of them people who came close to what's sealed under the lake."
 
-msgid "朱鸿雪的三个名字，都是靠近湖底封物的人。玉螺湖村稻田西头的湖岸上，白天有个黑冠道士在量水——逆灵宫的人，打倒他。天驼关黄石隘口的山壁下，兵部的画吏在画当年石匣出土的地方——打倒了，放他走就算。第三个是玉螺湖村年年凿冰的老冰匠，在柳树下的湖岸边：怎么办，看你。"
-msgstr "Zhu Hongxue's three names are all people who came close to what's sealed under the lake. On the lakeshore at the west end of Jade Conch Village's Rice Paddies, a Black-Cap Daoist measures the water by day: one of the Black Palace's, so knock him down. Beneath the cliff face at Yellow Rock Pass in Camelback Pass, the War Ministry Painter is drawing the spot where the stone box was dug up: knock him down, and letting him go is enough. The third is the old ice cutter who cuts ice at Jade Conch Village every year, on the lakeshore under the willow: what to do is up to you."
+#~ msgid "朱鸿雪的三个名字，都是靠近湖底封物的人。玉螺湖村稻田西头的湖岸上，白天有个黑冠道士在量水——逆灵宫的人，打倒他。天驼关黄石隘口的山壁下，兵部的画吏在画当年石匣出土的地方——打倒了，放他走就算。第三个是玉螺湖村年年凿冰的老冰匠，在柳树下的湖岸边：怎么办，看你。"
+#~ msgstr "Zhu Hongxue's three names are all people who came close to what's sealed under the lake. On the lakeshore at the west end of Jade Conch Village's Rice Paddies, a Black-Cap Daoist measures the water by day: one of the Black Palace's, so knock him down. Beneath the cliff face at Yellow Rock Pass in Camelback Pass, the War Ministry Painter is drawing the spot where the stone box was dug up: knock him down, and letting him go is enough. The third is the old ice cutter who cuts ice at Jade Conch Village every year, on the lakeshore under the willow: what to do is up to you."
 
 msgid "湖边量水的道士、隘口画图的画吏，都了了。"
 msgstr "The Daoist measuring the water by the lake and the painter drawing at the pass are both dealt with."
@@ -35779,8 +35779,8 @@ msgstr "Zhu Hongxue says there is one last name on the list. Leave the Pleasure 
 msgid "场院里，朱鸿雪念出了名单上最后一个名字。安妮儿就站在厅里。"
 msgstr "In the Pleasure Yard, Zhu Hongxue reads out the last name on the list. Anni'er is standing right there in the hall."
 
-msgid "神教只能有一个教主。站安妮儿（问她「教主」）：她收回教主令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走，往后只派该死的人的差事；终章她来湖畔守潭口，正月十七神教不去虹台搅局。站朱鸿雪（问她「教主」）：她给你黄金令牌，教同一套武功；安妮儿回西厢闭门，不再同你说神教的事；正月十七那天，神教的杀手会在山道上截一派的轿子。"
-msgstr "The Order can have only one Leader. Stand with Anni'er (ask her about \"Order Leader\"): she takes back the Order Leader's token, gives you a gold token, and teaches you the Tianshan Snowshade Sword and the Snowshade Heart Method; Zhu Hongxue concedes and stays, and from then on takes only jobs against those who deserve to die; in the finale Anni'er comes to the lakeshore to hold the mouth of the pool, and on the seventeenth of the first month the Order does not come to stir up the Rainbow Terrace. Stand with Zhu Hongxue (ask her about \"Order Leader\"): she gives you a gold token and teaches the same arts; Anni'er goes back into the West Wing and shuts the door, and no longer speaks to you of the Order; on the seventeenth of the first month, the Order's assassins will stop one school's sedan chair on the mountain road."
+#~ msgid "神教只能有一个教主。站安妮儿（问她「教主」）：她收回教主令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走，往后只派该死的人的差事；终章她来湖畔守潭口，正月十七神教不去虹台搅局。站朱鸿雪（问她「教主」）：她给你黄金令牌，教同一套武功；安妮儿回西厢闭门，不再同你说神教的事；正月十七那天，神教的杀手会在山道上截一派的轿子。"
+#~ msgstr "The Order can have only one Leader. Stand with Anni'er (ask her about \"Order Leader\"): she takes back the Order Leader's token, gives you a gold token, and teaches you the Tianshan Snowshade Sword and the Snowshade Heart Method; Zhu Hongxue concedes and stays, and from then on takes only jobs against those who deserve to die; in the finale Anni'er comes to the lakeshore to hold the mouth of the pool, and on the seventeenth of the first month the Order does not come to stir up the Rainbow Terrace. Stand with Zhu Hongxue (ask her about \"Order Leader\"): she gives you a gold token and teaches the same arts; Anni'er goes back into the West Wing and shuts the door, and no longer speaks to you of the Order; on the seventeenth of the first month, the Order's assassins will stop one school's sedan chair on the mountain road."
 
 msgid "你站到了安妮儿一边。她收回了教主令，把一块黄金令牌放进你手里：天山的剑，到西厢去学。"
 msgstr "You stood with Anni'er. She took back the Order Leader's token and put a gold token in your hand: for the Tianshan sword, come to the West Wing."
@@ -35887,8 +35887,8 @@ msgstr "The Mistress, Lan Zhiping, is in Latemoon Manor's front hall. Ask her ab
 msgid "蓝止萍说：晚月庄失传过一支舞，叫沧海龙吟。步子绣在后院书房的湘绣舞曲图上，曲子在舞曲谱里；两样凑齐，到二楼佛堂，在区冥的神位前跳一回。"
 msgstr "Lan Zhiping says: Latemoon Manor once lost a dance, the Dragon's Song on the Blue Sea. Its steps are stitched on the embroidered dance chart in the Back Yard Study, and its music is in the dance score; bring the two together, go to the Shrine Room on the second floor, and dance it once before Ouming's spirit tablet."
 
-msgid "沧海龙吟的步子在后院书房墙上的湘绣舞曲图里（昭仪天天对着它看），曲子在舞曲谱里（翠湘阁的莫欣芳知道谱放在哪）。看过那幅图，把舞曲谱拿到手。"
-msgstr "The steps of the Dragon's Song on the Blue Sea are in the embroidered dance chart on the wall of the Back Yard Study (Zhaoyi gazes at it every day), and the music is in the dance score (Mo Xinfang of Green Xiang Chamber knows where it is kept). Look at the chart and get hold of the score."
+#~ msgid "沧海龙吟的步子在后院书房墙上的湘绣舞曲图里（昭仪天天对着它看），曲子在舞曲谱里（翠湘阁的莫欣芳知道谱放在哪）。看过那幅图，把舞曲谱拿到手。"
+#~ msgstr "The steps of the Dragon's Song on the Blue Sea are in the embroidered dance chart on the wall of the Back Yard Study (Zhaoyi gazes at it every day), and the music is in the dance score (Mo Xinfang of Green Xiang Chamber knows where it is kept). Look at the chart and get hold of the score."
 
 msgid "图上的姿势，谱上的曲子，你都记下了：沧海龙吟。"
 msgstr "The poses on the chart and the music in the score are both in your memory now: the Dragon's Song on the Blue Sea."
@@ -36043,8 +36043,8 @@ msgstr "Lu Decai at the foot of the wall: twenty-three knots. He is the true Dra
 msgid "真龙头要尚书府后院小屋里那封庾子建亲笔的密信（问他「密信」）；乔阴的程不平也要它，拿去当物证。玉螺湖底那件事之后，逆灵宫的信使才坐进小屋，信在他身上：进了小屋就是一场仗，他见人就动手，打不过就退出屋外。交给花紫会（问真龙头「密信」）：真龙头拿它压着庾家，官府那条线就断了；京师的事还没定的，这封信也不能拿去朝上揭发了。交给官府（问乔阴县衙的程不平「密信」）：揭发时照样算一样，花紫会这条线就断了。"
 msgstr "The true Dragon Head wants the secret letter in Yu Zijian's own hand from the Small Room in the back courtyard of the Minister's Mansion (ask him about \"Secret Letter\"); Cheng Buping of Tallshade wants it too, as evidence. Only after the business at the bottom of Jade Conch Lake does the Black Palace's Messenger sit down in the Small Room, and the letter is on him: entering the Small Room means a fight, he attacks anyone he sees, and if you can't win, back out of the room. Give it to the Beggars' Guild (ask the true Dragon Head about \"Secret Letter\"): the true Dragon Head holds it over the Yu family, and the authorities' thread is cut; if the Capital business is not yet settled, the letter can no longer be used to denounce at court either. Give it to the authorities (ask Cheng Buping at Tallshade Yamen about \"Secret Letter\"): it still counts as one piece when you denounce, and the Beggars' Guild's thread is cut."
 
-msgid "你把密信交给了真龙头。他把它塞进了皮酒囊的网绳里：这封信在一天，庾家就不敢清乔阴的巷子。"
-msgstr "You gave the secret letter to the true Dragon Head. He tucked it into the netting of his leather wineskin: as long as this letter exists, the Yu family dares not clear Tallshade's alleys."
+#~ msgid "你把密信交给了真龙头。他把它塞进了皮酒囊的网绳里：这封信在一天，庾家就不敢清乔阴的巷子。"
+#~ msgstr "You gave the secret letter to the true Dragon Head. He tucked it into the netting of his leather wineskin: as long as this letter exists, the Yu family dares not clear Tallshade's alleys."
 
 msgid "把尚书府小屋里的密信交给了花紫会的真龙头"
 msgstr "Gave the secret letter from the Small Room of the Minister's Mansion to the Beggars' Guild's true Dragon Head"
@@ -36283,8 +36283,8 @@ msgstr "Luo Yunzhou is the Luo family's second son. His elder brother, Luo Jianz
 msgid "等主线第九章：湖底的事了了，才进得了京"
 msgstr "Wait for Chapter 9 of the main story: only once the business at the bottom of the lake is over can you enter the Capital"
 
-msgid "把家书送进京（「给」骆建章）：他在兵部尚书府的客厅里写字——进府先打点大门的门房；见过韦相国的，问相国「骆建章」，他写个条子给门房。庾子建下了狱，骆建章就在西街的相国府。"
-msgstr "Take the letter home to the Capital (give it to Luo Jianzhang): he writes in the reception hall of the Minister's Mansion; to get in, first square the gatekeeper at the gate, or, if you have met Chancellor Wei, ask the Chancellor about \"Luo Jianzhang\" and he will write the gatekeeper a note. If Yu Zijian is in prison, Luo Jianzhang is at the Chancellor's House on West Street."
+#~ msgid "把家书送进京（「给」骆建章）：他在兵部尚书府的客厅里写字——进府先打点大门的门房；见过韦相国的，问相国「骆建章」，他写个条子给门房。庾子建下了狱，骆建章就在西街的相国府。"
+#~ msgstr "Take the letter home to the Capital (give it to Luo Jianzhang): he writes in the reception hall of the Minister's Mansion; to get in, first square the gatekeeper at the gate, or, if you have met Chancellor Wei, ask the Chancellor about \"Luo Jianzhang\" and he will write the gatekeeper a note. If Yu Zijian is in prison, Luo Jianzhang is at the Chancellor's House on West Street."
 
 msgid "骆建章读完了信：「他还是那么写字，最后一笔甩出格子。」抄本的事，他一句没提。"
 msgstr "Luo Jianzhang has read the letter: \"He still writes the same way, the last stroke flung out of the square.\" Of the copy, he says not a word."
@@ -36637,8 +36637,8 @@ msgstr "Dustless School: stays out of the world's affairs, and does not come"
 msgid "绝尘派：下山来，投旧盟主"
 msgstr "Dustless School: comes down the mountain, and votes for the old Alliance Leader"
 
-msgid "正月十七，九派在水烟阁外的虹台推选武林盟主：颜违、旧盟主（卫沧澜回来了就是他，没回来就是那把空椅子），或者你。湖底的事了了，才会开会。各派的票跟着你做过的事走——封山、天邪看那两条线走到哪一边。"
-msgstr "On the seventeenth of the first month, the nine schools choose the Alliance Leader of the wulin on the Rainbow Terrace outside Waterfog Pavilion: Yan Wei, the old Alliance Leader (Wei Canglan if he has come back; if not, that empty chair), or you. Only once the business at the bottom of the lake is over will the assembly meet. Each school's vote follows what you have done: Empty Mountain and the Wayward School go whichever way those two lines ended."
+#~ msgid "正月十七，九派在水烟阁外的虹台推选武林盟主：颜违、旧盟主（卫沧澜回来了就是他，没回来就是那把空椅子），或者你。湖底的事了了，才会开会。各派的票跟着你做过的事走——封山、天邪看那两条线走到哪一边。"
+#~ msgstr "On the seventeenth of the first month, the nine schools choose the Alliance Leader of the wulin on the Rainbow Terrace outside Waterfog Pavilion: Yan Wei, the old Alliance Leader (Wei Canglan if he has come back; if not, that empty chair), or you. Only once the business at the bottom of the lake is over will the assembly meet. Each school's vote follows what you have done: Empty Mountain and the Wayward School go whichever way those two lines ended."
 
 msgid "湖底的事了了。正月十七的虹台大会，照旧要开。"
 msgstr "The business at the bottom of the lake is over. The Rainbow Terrace Assembly on the seventeenth of the first month will still be held."
@@ -36796,8 +36796,8 @@ msgstr "Good. Mount Mao goes with you."
 msgid "剿"
 msgstr "Suppress"
 
-msgid "把北麓那座道观交给官府去剿：林忌把门户和上山的路写给程不平，官兵上山，宫里剩下的人一个也走不了。\n正月十七虹台上，这件事就算了了，不能再改。\n就这样吗？"
-msgstr "Hand the abbey on the North Foot to the authorities to suppress: Lin Ji writes out its gates and the way up the mountain for Cheng Buping, soldiers go up, and not one of those left in the Palace gets away.\nOn the seventeenth, on the Rainbow Terrace, the matter will be closed, and it cannot be changed.\nSettle it this way?"
+#~ msgid "把北麓那座道观交给官府去剿：林忌把门户和上山的路写给程不平，官兵上山，宫里剩下的人一个也走不了。\n正月十七虹台上，这件事就算了了，不能再改。\n就这样吗？"
+#~ msgstr "Hand the abbey on the North Foot to the authorities to suppress: Lin Ji writes out its gates and the way up the mountain for Cheng Buping, soldiers go up, and not one of those left in the Palace gets away.\nOn the seventeenth, on the Rainbow Terrace, the matter will be closed, and it cannot be changed.\nSettle it this way?"
 
 msgid "官兵已经上了北麓。宫里剩下的人，一个也走不了。"
 msgstr "The soldiers are already up on the North Foot. Not one of those left in the Palace will get away."
@@ -36817,8 +36817,8 @@ msgstr " takes up a brush and writes a letter, then draws the gates of the abbey
 msgid "这封信今晚就到乔阴，程不平会转给兵部。"
 msgstr "This letter will reach Tallshade tonight. Cheng Buping will pass it on to the Ministry of War."
 
-msgid "官兵上了北麓，宫里剩下的人一个也走不了。正月十七虹台上，这件事就算了了。"
-msgstr "The soldiers will go up the North Foot, and not one of those left in the Palace will get away. On the seventeenth, on the Rainbow Terrace, the matter will be closed."
+#~ msgid "官兵上了北麓，宫里剩下的人一个也走不了。正月十七虹台上，这件事就算了了。"
+#~ msgstr "The soldiers will go up the North Foot, and not one of those left in the Palace will get away. On the seventeenth, on the Rainbow Terrace, the matter will be closed."
 
 msgid "书烧了，他们的字茅山不认得了——那就不必认得。"
 msgstr "The book is burned, and Mount Mao can no longer read their script. Then there is no need to."
@@ -36832,8 +36832,8 @@ msgstr "Suppress what?"
 msgid "招安"
 msgstr "Amnesty"
 
-msgid "劝宫里剩下的人下山，交茅山看管：回北麓，同宫里当家的（玄冥子还在，就是他；不在了，就是领诵的道士）说「下山」——你一直戴着他们的冠，这一说，他们就知道你是谁的人了。\n正月十七虹台上，这件事就算了了，不能再改。\n就这样吗？"
-msgstr "Persuade those left in the Palace to come down the mountain into Mount Mao's keeping: go back to the North Foot and say \"Come Down\" to whoever runs the Palace now (Xuanmingzi, if he is still there; if not, the lead chanter). You have worn their cap all along; once you say it, they will know whose side you are on.\nOn the seventeenth, on the Rainbow Terrace, the matter will be closed, and it cannot be changed.\nSettle it this way?"
+#~ msgid "劝宫里剩下的人下山，交茅山看管：回北麓，同宫里当家的（玄冥子还在，就是他；不在了，就是领诵的道士）说「下山」——你一直戴着他们的冠，这一说，他们就知道你是谁的人了。\n正月十七虹台上，这件事就算了了，不能再改。\n就这样吗？"
+#~ msgstr "Persuade those left in the Palace to come down the mountain into Mount Mao's keeping: go back to the North Foot and say \"Come Down\" to whoever runs the Palace now (Xuanmingzi, if he is still there; if not, the lead chanter). You have worn their cap all along; once you say it, they will know whose side you are on.\nOn the seventeenth, on the Rainbow Terrace, the matter will be closed, and it cannot be changed.\nSettle it this way?"
 
 msgid "官兵已经上了北麓。来不及了。"
 msgstr "The soldiers are already up on the North Foot. It is too late."
@@ -39988,8 +39988,8 @@ msgstr "The Enforcer deals in blades, not clothing."
 msgid "山门"
 msgstr "Mountain Gate"
 
-msgid "山门的事办完了。正月十七之前，上山的人还会多。"
-msgstr "The gate business is done. Before the seventeenth of the first month, still more people will be coming up the mountain."
+#~ msgid "山门的事办完了。正月十七之前，上山的人还会多。"
+#~ msgstr "The gate business is done. Before the seventeenth of the first month, still more people will be coming up the mountain."
 
 msgid "人跑了。拿错的那一个，我赔过礼了。"
 msgstr "The man got away. The one we seized by mistake, I have made my apologies to."
@@ -40018,8 +40018,8 @@ msgstr "Three people who came up the mountain are waiting in front of the Pavili
 msgid "把手里的卷宗一合，冲你招了招手。"
 msgstr " shuts the file in his hands and beckons you over."
 
-msgid "你来得正好。正月十七快到了，这些日子上山的人多：拜师的、送信的、看热闹的。"
-msgstr "You have come at the right time. The seventeenth of the first month is near, and many people come up the mountain these days: to become disciples, to deliver letters, to watch the excitement."
+#~ msgid "你来得正好。正月十七快到了，这些日子上山的人多：拜师的、送信的、看热闹的。"
+#~ msgstr "You have come at the right time. The seventeenth of the first month is near, and many people come up the mountain these days: to become disciples, to deliver letters, to watch the excitement."
 
 msgid "可这一个月，阁里丢了两份名帖，山下的客栈里也有人在打听——盟主还活着没有。"
 msgstr "But this month the Pavilion has lost two calling cards, and at the inn below the mountain someone has been asking whether the Alliance Leader is still alive."
@@ -40090,8 +40090,8 @@ msgstr "The Alliance Leader's affairs are the Seventh Elder's to decide now. A D
 msgid "等。他回来，或者不回来，椅子都是他的。"
 msgstr "We wait. Whether he comes back or not, the chair is his."
 
-msgid "盟主在厅里坐着。是你带回来的。"
-msgstr "The Alliance Leader sits in the hall. You brought him back."
+#~ msgid "盟主在厅里坐着。是你带回来的。"
+#~ msgstr "The Alliance Leader sits in the hall. You brought him back."
 
 msgid "京师的事了结了，盟主还是没有回来。七长老常下楼来看那把椅子——你出去走一走，他再下来的时候，你在厅里。"
 msgstr "The Capital business is settled, and the Alliance Leader still has not come back. The Seventh Elder often comes downstairs to look at that chair. Go out for a walk, and when he comes down again, be in the hall."
@@ -40102,8 +40102,8 @@ msgstr "Twenty years ago, those who took the Alliance Leader were the Ministry o
 msgid "看了一眼厅侧坐着的那个白发老人，压低了声音。"
 msgstr " glances at the white-haired old man sitting at the side of the hall and lowers his voice."
 
-msgid "盟主回来了——是你从尚书府带出来的。他说，领头的白衣武官是庾子建的亲兵。"
-msgstr "The Alliance Leader is back, and you are the one who brought him out of the Minister's Mansion. He says the Officer in White who led them was one of Yu Zijian's personal guards."
+#~ msgid "盟主回来了——是你从尚书府带出来的。他说，领头的白衣武官是庾子建的亲兵。"
+#~ msgstr "The Alliance Leader is back, and you are the one who brought him out of the Minister's Mansion. He says the Officer in White who led them was one of Yu Zijian's personal guards."
 
 msgid "陈天星查清了：那趟镖是兵部点名改走老松岭的。兵部知道盟主哪一天过岭。"
 msgstr "Chen Tianxing has got to the bottom of it: the Ministry of War named that shipment and changed its route to Old Pine Ridge. The Ministry knew which day the Alliance Leader would cross the ridge."
@@ -40621,8 +40621,8 @@ msgstr "Those left in the Palace have come down the mountain, and Mount Mao watc
 msgid "回北麓去，同宫里当家的说「下山」。"
 msgstr "Go back to the North Foot and say \"Down the Mountain\" to whoever runs the Palace."
 
-msgid "宫里剩下的人，交官府去剿（问我「剿」），还是劝他们下山、交茅山看着（问我「招安」）——你定。正月十七之前，给我一个了断。"
-msgstr "Those left in the Palace: hand them to the authorities to purge (ask me \"Suppress\"), or persuade them to come down the mountain into Mount Mao's keeping (ask me \"Amnesty\"). You decide. Before the seventeenth of the first month, give me an end to it."
+#~ msgid "宫里剩下的人，交官府去剿（问我「剿」），还是劝他们下山、交茅山看着（问我「招安」）——你定。正月十七之前，给我一个了断。"
+#~ msgstr "Those left in the Palace: hand them to the authorities to purge (ask me \"Suppress\"), or persuade them to come down the mountain into Mount Mao's keeping (ask me \"Amnesty\"). You decide. Before the seventeenth of the first month, give me an end to it."
 
 msgid "唤首那一夜过去了。茅山没等到你的话。"
 msgstr "The night of the Calling of the Head has passed. Mount Mao never got word from you."
@@ -40639,8 +40639,8 @@ msgstr "The business under the lake is over, and Shang Jue has not come back. Bu
 msgid "茅山要一个了断。交给官府去剿，还是劝他们下山，交茅山看着。"
 msgstr "Mount Mao wants an end to it. Hand them to the authorities to purge, or persuade them to come down the mountain into Mount Mao's keeping."
 
-msgid "交官府去剿，问我「剿」；劝他们下山、交茅山看着，问我「招安」。正月十七之前，给我一个了断。"
-msgstr "To hand them to the authorities to purge, ask me \"Suppress\"; to persuade them down the mountain into Mount Mao's keeping, ask me \"Amnesty.\" Before the seventeenth of the first month, give me an end to it."
+#~ msgid "交官府去剿，问我「剿」；劝他们下山、交茅山看着，问我「招安」。正月十七之前，给我一个了断。"
+#~ msgstr "To hand them to the authorities to purge, ask me \"Suppress\"; to persuade them down the mountain into Mount Mao's keeping, ask me \"Amnesty.\" Before the seventeenth of the first month, give me an end to it."
 
 msgid "湖上的事要紧。先去湖上。"
 msgstr "The lake comes first. Go to the lake."
@@ -41122,8 +41122,8 @@ msgstr " glances toward the foot of the Buddha."
 msgid "就是师父。"
 msgstr "He is my Shifu."
 
-msgid "我跟了他三十年。这几年山洞里出来那些东西，山下的人一个一个地冻死，流云轩救不过来。师父不管。"
-msgstr "I've followed him for thirty years. These last years things have been coming out of that cave, and the people below freeze to death one after another. Drifting Cloud Lodge can't save them all. Shifu does nothing."
+#~ msgid "我跟了他三十年。这几年山洞里出来那些东西，山下的人一个一个地冻死，流云轩救不过来。师父不管。"
+#~ msgstr "I've followed him for thirty years. These last years things have been coming out of that cave, and the people below freeze to death one after another. Drifting Cloud Lodge can't save them all. Shifu does nothing."
 
 msgid "乔阴那个樵夫老葛，被鬼卒抓了一把，抬上了日照山。流云轩的药一碗一碗地灌，寒气赶不出去——你去过，你知道。"
 msgstr "That woodcutter from Tallshade, Old Ge: a Ghost Soldier clawed him, and they carried him up Sunlit Mountain. Drifting Cloud Lodge poured medicine into him bowl after bowl, and the cold wouldn't leave. You were there. You know."

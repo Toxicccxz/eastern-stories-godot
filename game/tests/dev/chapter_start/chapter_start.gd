@@ -111,6 +111,7 @@ const LINES: Array[Dictionary] = [
 	]},
 	{"key": "juechen", "quest": &"faction.juechen", "title": "绝尘", "stages": [
 		{"key": "guest", "title": "过了八卦阵（村长的山洞）", "next": &"elder", "from": &"main.chapter5"},
+		{"key": "told", "title": "洞里的事说完了（守阵还是下山）", "next": &"xuanchen", "from": &"main.chapter8"},
 	]},
 ]
 
@@ -620,6 +621,7 @@ static func _write_line(session: WorldSessionController, of: Spec) -> void:
 		"sanyen/help": Fixtures.sanyen_helper(session)
 		"sanyen/west": Fixtures.sanyen_treated(session)
 		"juechen/guest": Fixtures.juechen_guest(session)
+		"juechen/told": Fixtures.juechen_told(session)
 
 
 ## The player into `zone_id` wherever it lies (handed off to its map through a way in that the data

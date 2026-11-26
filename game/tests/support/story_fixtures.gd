@@ -1201,3 +1201,15 @@ static func sanyen_treated(session: WorldSessionController, heal: bool = true) -
 static func juechen_guest(session: WorldSessionController) -> void:
 	for mark: String in ["走出了八卦阵", "过阵的客"]:
 		_mark(session.player_runtime().state, mark)
+
+
+## 绝尘 A done (势力线第三批; DECISIONS「绝尘 A」「绝尘 B」): the 村长's 山洞, 阿牛 led home, the saying, 绝尘子 told of
+## the village, 了尘 on what is in the cave. 绝尘 B's `xuanchen` (了尘 of his master: 守阵 or 下山 follows) next.
+static func juechen_told(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	if state.family == null or state.family.family_id != &"family.juechen":
+		juechen_guest(session)
+	for key: String in ["faction.juechen#started", "faction.juechen/elder", "faction.juechen/cave", "faction.juechen/saying", "faction.juechen/report", "faction.juechen/liaochen"]:
+		_write(state, key)
+	for mark: String in ["村长说了山洞", "洞口的鬼卒倒了", "洞底的鬼卒倒了", "妇人喊了孩子", "孩子回了家", "村长说完了那句话", "绝尘子听了山洞", "了尘说了洞里的事"]:
+		_mark(state, mark)
