@@ -129,6 +129,12 @@ does not know the name its slot will hold. The game finishes a filled line (`Rus
   player (вы) becomes вас, вам, вами. The whole phrase changes (an adjective with its noun), and
   the accusative is the right one for a person or a thing (бандита, меч). After written text the
   translator writes the case.
+* **capitals**: every name in ru.po opens with a capital (a label, a button, a list shows it so:
+  «Трактирный слуга», «Кожаный бурдюк»); a common noun goes lower case when the game fills it into
+  a sentence after a case mark («Вы зовёте трактирного слугу»). So a name slot that does not open a
+  sentence always carries a mark, `{:им}` for the nominative: «Здесь стоит {npc}{:им}.» The noun
+  table keeps a common noun under its lower-case key; a Chinese name, a place and a title keep the
+  capital everywhere.
 * **gender**, `{~:ушли|ушёл|ушла|ушло}` — agrees with the nearest case-marked name before it (else
   after it), always in this order: **мн (вы, a plural) | м | ж | ср**; three forms when ср
   cannot occur. A person is the person's gender (a староста who is a woman: ж), a beast or a thing

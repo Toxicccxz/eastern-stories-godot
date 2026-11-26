@@ -52,7 +52,7 @@ FEMALE_BEAST = "雌性"
 
 
 def _name_sources() -> dict[str, str]:
-    """msgid → the gender of the NPC named so ("" for a thing), for every name in the template."""
+    """msgid → its notes, for every name in the template."""
     found: dict[str, str] = {}
     text = POT.read_text(encoding="utf-8")
     for chunk in text.split("\n\n"):
@@ -61,8 +61,12 @@ def _name_sources() -> dict[str, str]:
             continue
         fields = " ".join(block.notes)
         if any(re.search(rf"(^|\s){re.escape(field)}(\s|/|$)", fields) for field in NAME_FIELDS):
-            found[block.msgid] = ""
+            found[block.msgid] = fields
     return found
+
+
+# A place (a room's or region's name) is a proper name; a person, beast or thing is not.
+PLACE_FIELDS = ("short", "region")
 
 
 def _npc_genders() -> dict[str, str]:
@@ -160,6 +164,14 @@ class Drafter:
         if any(p is None or not p.is_known for p in parses[: head + 1]):
             note = "a word the dictionary does not know"
         return row, note
+
+    def is_proper(self, name: str) -> bool:
+        """A transliterated name, or a phrase whose first word the dictionary knows only as a name."""
+        words = name.split(" ")
+        if self._is_chinese_name(words, ""):
+            return True
+        parses = self.morph.parse(words[0])
+        return not any(p.is_known and not any(mark in p.tag for mark in ("Name", "Surn", "Geox")) for p in parses)
 
     def _parse(self, word: str, more_follow: bool = False):
         if not re.fullmatch(r"[А-Яа-яЁё-]+", word):
@@ -262,12 +274,18 @@ def draft(dry: bool) -> int:
     added = 0
     for _ctx, msgid, msgstr in parse(PO):
         name = msgstr.strip()
-        if msgid not in names or not name or name in table or len(name.split(" ")) > 6:
+        lowered = name[:1].lower() + name[1:]
+        if msgid not in names or not name or name in table or lowered in table or len(name.split(" ")) > 6:
             continue
         if not re.fullmatch(r"[А-Яа-яЁё][А-Яа-яЁё \-]*", name):
             continue
         row, note = drafter.row(name, genders.get(msgid, ""))
-        table[name] = row
+        # ru.po shows every name with its capital; a common noun's row is kept under its lower-case
+        # key, so a sentence shows it in lower case (RussianNouns.is_common). A Chinese name, a
+        # place and a title keep the capital.
+        place = any(re.search(rf"(^|\s){field}(\s|/|$)", names[msgid]) for field in PLACE_FIELDS)
+        proper = place or drafter.is_proper(name)
+        table[name if proper else lowered] = row
         added += 1
         print(f"{msgid}\t{name}\t{' | '.join(row)}\t{note}")
     if not dry:

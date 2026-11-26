@@ -46,6 +46,16 @@ static func knows(name: String) -> bool:
 	return not row(name).is_empty()
 
 
+## Whether `name` is a common noun: its row is kept under a lower-case key (трактирный слуга,
+## вы), so a sentence shows it in lower case; a proper name's key has its capital (Лю Чуньфэн).
+static func is_common(name: String) -> bool:
+	_load()
+	var lowered: String = name.left(1).to_lower() + name.substr(1)
+	if lowered == YOU:
+		return true
+	return lowered != lowered.left(1).to_upper() + lowered.substr(1) and _rows.has(lowered)
+
+
 ## The most words a known name has: how far back RussianText looks for one.
 static func longest() -> int:
 	_load()

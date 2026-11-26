@@ -118,6 +118,12 @@ static func _named(before: String, case: String) -> Dictionary:
 		if not kept.is_empty():
 			kept += " "
 		var shaped: String = RussianNouns.counted(name, _last_number(kept)) if case == COUNTED else RussianNouns.form(name, case)
+		# A common noun is shown with a capital on its own (a label, a button) and in lower case
+		# inside a sentence: «Трактирный слуга» → «Вы зовёте трактирного слугу».
+		if _opens_sentence(kept + opening_marks):
+			shaped = shaped.left(1).to_upper() + shaped.substr(1)
+		elif RussianNouns.is_common(name):
+			shaped = shaped.left(1).to_lower() + shaped.substr(1)
 		result.text = kept + opening_marks + shaped + tail
 		result.gender = RussianNouns.gender_of(name)
 		result.resolved = true
@@ -171,6 +177,19 @@ static func _unfilled_after_number(text: String) -> bool:
 		return false
 	var numbers: Array[RegExMatch] = _number.search_all(text)
 	return numbers.is_empty() or numbers[numbers.size() - 1].get_start() < last_slot[last_slot.size() - 1].get_start()
+
+
+## Whether a word after `prefix` opens a sentence: nothing before it, or a full stop, a ! or ?, or
+## a quotation opened after a colon (говорит: «…), past BBCode tags and spaces.
+static func _opens_sentence(prefix: String) -> bool:
+	var plain: String = RegEx.create_from_string("\\[[^\\]]*\\]").sub(prefix, "", true).strip_edges()
+	var quoted: bool = plain.ends_with("«") or plain.ends_with("\"")
+	if quoted:
+		plain = plain.left(plain.length() - 1).strip_edges()
+	if plain.is_empty():
+		return true
+	var last: String = plain[plain.length() - 1]
+	return ".!?\n".contains(last) or (quoted and last == ":")
 
 
 static func _is_letter(c: String) -> bool:

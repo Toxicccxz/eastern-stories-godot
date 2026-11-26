@@ -12,6 +12,7 @@ const ROWS: Dictionary = {
 	"Лю Чуньфэн": ["м", "Лю Чуньфэна", "Лю Чуньфэну", "Лю Чуньфэна", "Лю Чуньфэном", "Лю Чуньфэне", "", ""],
 	"Лань Чжипин": ["ж", "", "", "", "", "", "", ""],
 	"ножницы": ["мн", "ножниц", "ножницам", "ножницы", "ножницами", "ножницах", "", ""],
+	"трактирный слуга": ["м", "трактирного слуги", "трактирному слуге", "трактирного слугу", "трактирным слугой", "трактирном слуге", "трактирных слуги", "трактирных слуг"],
 	"слуга": ["м", "слуги", "слуге", "слугу", "слугой", "слуге", "слуги", "слуг"],
 }
 
@@ -47,6 +48,11 @@ func _test_cases() -> void:
 	_same(RussianText.finish("Вы зовёте «бандит»{:вин}."), "Вы зовёте «бандита».", "past a quote")
 	_same(RussianText.finish("Вы бьёте пугало{:вин}."), "Вы бьёте пугало.", "a name with no row stays")
 	_same(RussianText.finish("Без меток."), "Без меток.", "no marks")
+	_same(RussianText.finish("Вы зовёте Трактирный слуга{:вин}."), "Вы зовёте трактирного слугу.", "a common noun shown with its capital goes lower case in a sentence")
+	_same(RussianText.finish("Трактирный слуга{:им} кивает."), "Трактирный слуга кивает.", "and keeps it opening one")
+	_same(RussianText.finish("Вы кланяетесь. Трактирный слуга{:дат} везёт."), "Вы кланяетесь. Трактирному слуге везёт.", "after a full stop")
+	_same(RussianText.finish("Вы видите Лю Чуньфэн{:вин}."), "Вы видите Лю Чуньфэна.", "a proper name keeps its capital")
+	_same(RussianText.finish("Он говорит: «бандит{:им} ушёл»."), "Он говорит: «Бандит ушёл».", "a quotation after a colon opens a sentence")
 
 
 func _test_gender() -> void:
@@ -76,7 +82,7 @@ func _test_unfilled() -> void:
 	var template: String = "{npc}{:им} {~:ударили|ударил|ударила} вас и {count} {#:раз|раза|раз}. $n{:вин} %s{:дат}"
 	_same(RussianText.finish(template), template, "a template keeps every mark after a slot")
 	var filled: String = template.replace("{npc}", "Бродячая собака").replace("{count}", "2").replace("$n", "бандит").replace("%s", "слуга")
-	_same(RussianText.finish(filled), "Бродячая собака ударила вас и 2 раза. бандита слуге", "and the filled line resolves them")
+	_same(RussianText.finish(filled), "Бродячая собака ударила вас и 2 раза. Бандита слуге", "and the filled line resolves them")
 
 
 func _test_message_grammar() -> void:
