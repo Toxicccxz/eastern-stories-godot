@@ -87,8 +87,8 @@ sh ш, r жэ/ж; e э (Хэ, Цзэ); yi и, ye е, you ю, yu юй. 柳淳风 
 name and is transliterated, the generic word translated, as Russian writes Chinese places (Пекин,
 Хуашань, Шаолинь): городок Сюэтин (雪亭镇), городок Циюнь (绮云镇), уезд Цяоинь (乔阴), Ланьчэн (岚城),
 храм Шаньянь (山烟寺), трактир «Иньфэн» (饮风客栈: the description says once what the name means).
-A place named by plain description, in the wild or a room, is translated: Старый сосновый лес
-(老松林), Бамбуковая тропа (竹林道), Желтокаменный перевал (黄石隘口), Заброшенный сад (废园). The
+A place named by plain description, in the wild or a room, is translated: Хребет Старых сосен
+(老松岭), Бамбуковая тропа (竹林道), Желтокаменный перевал (黄石隘口), Заброшенный сад (废园). The
 glossary marks every place T (transliterated) or П (translated); one place has one name on the
 map, in a quest and in speech. The generic words:
 镇 городок, 县 уезд, 村 деревня, 城 город, 山 гора, 寺 монастырь, 庙 храм, 观 даосский монастырь,
