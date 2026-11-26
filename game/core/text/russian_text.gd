@@ -35,10 +35,29 @@ static var _mark: RegEx
 static var _player_mark: RegEx
 static var _unfilled_end: RegEx
 static var _number: RegEx
+static var _stop: RegEx
+static var _stop_dash: RegEx
 
 
-## `text` with every mark it can resolve resolved; unchanged when it has none.
+## `text` with every mark it can resolve resolved, and a quotation's full stop where Russian puts
+## it; unchanged when it has neither.
 static func finish(text: String) -> String:
+	return _quotes_closed(_resolved(text))
+
+
+## A quotation's full stop goes after the closing quote («Иди».), a comma before a dash after it
+## («Иди», — сказал он); a quotation ending in ? ! or ... keeps its own mark («Кто там?»). A
+## said line is often filled into «{line}» with its own full stop, so this is done on the shown line.
+static func _quotes_closed(text: String) -> String:
+	if not text.contains(".»"):
+		return text
+	if _stop_dash == null:
+		_stop_dash = RegEx.create_from_string("(?<!\\.)\\.» —")
+		_stop = RegEx.create_from_string("(?<!\\.)\\.»")
+	return _stop.sub(_stop_dash.sub(text, "», —", true), "».", true)
+
+
+static func _resolved(text: String) -> String:
 	if not text.contains("{"):
 		return text
 	if text.contains("{" + PLAYER_MARK + ":"):

@@ -172,6 +172,10 @@ Numbers the Chinese writes in characters come out in digits (`ChineseNumber.of`)
   pixel face has “ ” only as two-letter-wide Chinese glyphs: a face that draws them narrow brings
   „“ back everywhere. Dialogue is quoted, not dashed: «Лю Чуньфэн говорит: «…»» — one line is one
   speaker.
+* A quotation's full stop goes after the closing quote («Иди».), and a comma before a dash after
+  it («Иди», — сказал он); a quotation ending in ? ! or ... keeps its own mark («Кто там?»)
+  (Мильчин, Справочник издателя и автора). `RussianText` does this on every shown line, since a
+  said line is often filled into «{line}» with its own stop.
 * The dash is an em dash with spaces ( — ), never a hyphen; a range takes an en dash (2–4).
 * An ellipsis is three dots `...` (the face's … is full width), whatever the Chinese has.
 * ё is written where it is said (ещё, её, ушёл).
