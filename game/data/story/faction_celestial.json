@@ -16,7 +16,8 @@
 			"lapses": {
 				"when": {"not": {"family": "family.celestial"}},
 				"text": "你已经不是天邪派的人了。水烟阁的事，到此为止。",
-				"mark": "天邪的线断了"
+				"mark": "天邪的线断了",
+				"after_done": true
 			},
 			"steps": [
 				{

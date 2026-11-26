@@ -305,6 +305,11 @@ var excludes: Array[StringName] = []
 var lapses: JournalEntryDefinition
 var lapsed_text: String = ""
 var lapsed_mark: String = ""
+## Native (势力线复查 第 4 问; DECISIONS「势力线复查」): `lapses.after_done` true: the lapse's `mark` is set
+## also when `when` comes to hold after the quest was done (a member who walked the whole line, then
+## left the family): the quest stays done, and what reads the mark (the family's vote, the name its
+## head gave) is taken back.
+var lapses_after_done: bool = false
 ## Native (势力线复查; DECISIONS「线断了」): `lapses_also` [{when, text, mark}]: other ways the quest is
 ## cut short, each with its own text; `mark` (required, written by nothing else) tells which it was
 ## (卧底: the 余孽 settled through 茅山 while the wearer was still at the chores).
@@ -366,6 +371,9 @@ static func from_record(reader: ContentRecordReader) -> StoryQuestDefinition:
 		JournalEntryDefinition.read_when(lapses, definition.lapses)
 		definition.lapsed_text = lapses.required_text("text")
 		definition.lapsed_mark = lapses.text("mark")
+		definition.lapses_after_done = lapses.boolean("after_done", false)
+		if definition.lapses_after_done and definition.lapsed_mark.is_empty():
+			lapses.fail("after_done", "what is taken back reads the lapse's mark")
 		if definition.lapses.when in [JournalEntryDefinition.When.HEARD, JournalEntryDefinition.When.CHAT]:
 			lapses.fail("when", "heard and chat are recorded as they happen: a quest lapses on what holds")
 		lapses.finish()

@@ -573,10 +573,20 @@
 		{
 			"id": "assembly.fonxan.self",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 封山: the line walked to its split, the head asked for it (柳淳风 本宗／柳绘心 北宗)"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 封山: the line walked to its split, the head asked for it (柳淳风 本宗／柳绘心 北宗)",
+				"native: 势力线复查 (owner 2026-11-26 第 4 问; DECISIONS「势力线复查」) — the vote listens to a member only: one who left the family (its line's lapse mark, set after the line's end too) holds it no more, and the family votes as it would have"
 			],
 			"when": {
-				"mark": "封山听你的"
+				"all": [
+					{
+						"mark": "封山听你的"
+					},
+					{
+						"not": {
+							"mark": "封山的线断了"
+						}
+					}
+				]
 			}
 		},
 		{
@@ -591,7 +601,7 @@
 					},
 					{
 						"not": {
-							"mark": "封山听你的"
+							"cond": "assembly.fonxan.self"
 						}
 					}
 				]
@@ -611,7 +621,7 @@
 					},
 					{
 						"not": {
-							"mark": "封山听你的"
+							"cond": "assembly.fonxan.self"
 						}
 					}
 				]
@@ -620,10 +630,20 @@
 		{
 			"id": "assembly.celestial.self",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 天邪: the line walked to its split, 潘军禅 asked for it"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 天邪: the line walked to its split, 潘军禅 asked for it",
+				"native: 势力线复查 (owner 2026-11-26 第 4 问; DECISIONS「势力线复查」) — the vote listens to a member only: one who left the family (its line's lapse mark, set after the line's end too) holds it no more, and the family votes as it would have"
 			],
 			"when": {
-				"mark": "天邪听你的"
+				"all": [
+					{
+						"mark": "天邪听你的"
+					},
+					{
+						"not": {
+							"mark": "天邪的线断了"
+						}
+					}
+				]
 			}
 		},
 		{
@@ -635,7 +655,7 @@
 				"all": [
 					{
 						"not": {
-							"mark": "天邪听你的"
+							"cond": "assembly.celestial.self"
 						}
 					},
 					{
@@ -671,7 +691,7 @@
 				"all": [
 					{
 						"not": {
-							"mark": "天邪听你的"
+							"cond": "assembly.celestial.self"
 						}
 					},
 					{

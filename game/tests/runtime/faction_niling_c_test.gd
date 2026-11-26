@@ -77,7 +77,7 @@ func _test_data() -> void:
 	var cards: Dictionary = {}
 	for card: EpilogueDefinition.Card in ending.cards:
 		cards[card.card_id] = card
-	_check(cards.has(&"black_robe") and (cards[&"black_robe"] as EpilogueDefinition.Card).lines.size() == 3, "the 黑衣人 card, a line for each end")
+	_check(cards.has(&"black_robe") and (cards[&"black_robe"] as EpilogueDefinition.Card).lines.size() == 4, "the 黑衣人 card, a line for each end (and 玄冥子's night: 势力线复查)")
 	_check((cards[&"goathill"] as EpilogueDefinition.Card).lines.any(func(line: EpilogueDefinition.Line) -> bool: return line.text.contains("见过商玦")), "the man in the north snow is named 商玦")
 	for end: Array in [["前夜倒戈", "截在北麓"], ["被识破", "茅山的眼线"]]:
 		var state := CharacterState.new()

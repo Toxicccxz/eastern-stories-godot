@@ -8,6 +8,7 @@
 			"points": ["niling.winch.winch_taoist.1"],
 			"legacy_room": "native: 逆灵宫 A (the winch on the crack's top)",
 			"legacy_quantity": 1,
+			"resident": true,
 			"until": { "mark": "余孽有了去处" }
 		},
 		{
@@ -18,6 +19,7 @@
 			"points": ["niling.gatehouse.gatekeeper.1"],
 			"legacy_room": "native: 逆灵宫 A (the 黑砖山门's 门房)",
 			"legacy_quantity": 1,
+			"resident": true,
 			"until": { "mark": "余孽有了去处" }
 		},
 		{
@@ -28,6 +30,7 @@
 			"points": ["niling.yard.gate_guard.1", "niling.yard.gate_guard.2"],
 			"legacy_room": "native: 逆灵宫 A (the two 守门道士 inside the gate)",
 			"legacy_quantity": 2,
+			"resident": true,
 			"until": { "mark": "余孽有了去处" },
 			"cleared_mark": "山门的道士倒了"
 		},
@@ -39,6 +42,7 @@
 			"points": ["niling.store.store_taoist.1"],
 			"legacy_room": "native: 逆灵宫 A (the 货栈)",
 			"legacy_quantity": 1,
+			"resident": true,
 			"until": { "mark": "余孽有了去处" }
 		},
 		{
@@ -54,6 +58,7 @@
 			],
 			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the four chanting in the 前殿)",
 			"legacy_quantity": 4,
+			"resident": true,
 			"until": { "mark": "余孽有了去处" }
 		},
 		{
@@ -66,6 +71,7 @@
 			],
 			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the one at the 木鱼)",
 			"legacy_quantity": 1,
+			"resident": true,
 			"until": { "mark": "余孽有了去处" }
 		},
 		{
@@ -78,6 +84,7 @@
 			],
 			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the 账房)",
 			"legacy_quantity": 1,
+			"resident": true,
 			"until": { "mark": "余孽有了去处" }
 		},
 		{

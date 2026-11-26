@@ -60,7 +60,7 @@ func _test_data() -> void:
 	_check(conditions.has("assembly.yan_wins") and conditions["assembly.yan_wins"].amount == 5 and conditions.has("assembly.self_backed"), "换盟主要过半: five")
 	var niling: StoryQuestDefinition = catalog.story_quest(&"faction.niling")
 	var after: StoryQuestDefinition.Step = niling.step(&"aftermath")
-	_check(after.is_branch() and after.weight == StoryQuestDefinition.WEIGHT_BIG and after.only_after == &"remnant" and after.option(&"crush") != null and after.option(&"pardon") != null, "卧底's stub grown: 剿 or 招安, the remnant way's split")
+	_check(after.is_branch() and after.weight == StoryQuestDefinition.WEIGHT_BIG and after.only_after.is_empty() and after.option(&"crush") != null and after.option(&"pardon") != null and after.option(&"assembly") != null, "卧底's stub grown: 剿 or 招安 (or the 虹台's own verdict), whichever way the line came (势力线复查)")
 	_check(catalog.item(INVITE) != null, "the invitation is an item")
 
 

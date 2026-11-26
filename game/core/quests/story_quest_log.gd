@@ -212,9 +212,11 @@ class FamilyChange:
 	var ends: Array[StoryQuestDefinition] = []
 	## Lines not begun that could begin now and that a line it begins would exclude for good.
 	var closes: Array[StoryQuestDefinition] = []
+	## Lines walked to their end whose name and vote it takes back (`lapses.after_done`).
+	var takes_back: Array[StoryQuestDefinition] = []
 
 	func is_empty() -> bool:
-		return ends.is_empty() and closes.is_empty()
+		return ends.is_empty() and closes.is_empty() and takes_back.is_empty()
 
 
 ## What becoming one of `family_id` would do to the lines (DECISIONS「改投提示」): the lines under way
@@ -232,6 +234,8 @@ static func family_change(state: CharacterState, family_id: StringName, quests: 
 		if is_active(state, quest):
 			if _lapses_now(quest, as_family) and not _lapses_now(quest, test):
 				change.ends.append(quest)
+		elif is_done(state, quest) and quest.lapses_after_done and int(state.marks.get(quest.lapsed_mark, 0)) == 0 and as_family.call(quest.lapses) and not test.call(quest.lapses):
+			change.takes_back.append(quest)
 		elif not is_started(state, quest) and quest.starts != null and can_start(state, quest, quests) and as_family.call(quest.starts) and not test.call(quest.starts):
 			begun.append(quest)
 	for quest: StoryQuestDefinition in quests:
@@ -294,6 +298,9 @@ static func _look(state: CharacterState, quests: Array[StoryQuestDefinition], te
 		if not is_started(state, quest) and can_start(state, quest, quests) and (quest.starts == null or test.call(quest.starts)):
 			_write(state, key_started(quest))
 			recorded.append(Fresh.new(Kind.STARTED, quest))
+		# Walked to its end, then walked out of (`lapses.after_done`): the mark alone, the quest stays done.
+		if quest.lapses_after_done and is_done(state, quest) and int(state.marks.get(quest.lapsed_mark, 0)) == 0 and test.call(quest.lapses):
+			state.marks[quest.lapsed_mark] = 1
 		if not is_active(state, quest):
 			continue
 		if _lapse(state, quest, test, recorded):
