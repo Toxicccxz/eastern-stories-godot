@@ -686,6 +686,9 @@ func _check_progression() -> void:
 	for chain_id: StringName in _progression.chain_percent:
 		if not chains.has(chain_id):
 			_errors.append("progression.chain_percent: no chain '%s'" % chain_id)
+	for chain_id: StringName in _progression.chain_levels:
+		if not chains.has(chain_id):
+			_errors.append("progression.chain_level: no chain '%s'" % chain_id)
 	var quests: Dictionary[StringName, bool] = {}
 	for quest: StoryQuestDefinition in _story_quests:
 		quests[quest.quest_id] = true

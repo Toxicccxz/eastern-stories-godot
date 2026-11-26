@@ -4,7 +4,9 @@ extends RefCounted
 ## (pacing exp_gates `elon`; elon.c's 100000 kept in the data), and her accept test's lashes carry
 ## 35% of her inner force and spare the student, as her story lashes do (DECISIONS「考验三招」): a
 ## woman of 30000 exp who sat about half her 打坐 cap stands them six or seven times in ten; one
-## who does not faints, never dies, keeps no wound. The confirm says so.
+## who does not faints, never dies, keeps no wound. The confirm says so, and the real test
+## (TeacherService.take_trial(), which hands the rule's modifiers to each blow) spares one who
+## never sat, whom elon.c's full lashes would wound or kill.
 
 const Grown := preload("res://tests/support/grown_character.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
@@ -41,12 +43,16 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
-## Below 30000 she sends the student to 芷萍; from 30000 she asks for the test.
-func _test_gate(manor: WorldMapController, elon: NpcRuntimeState, state: CharacterState) -> void:
-	var teacher: TeacherService = null
+func _teacher(manor: WorldMapController, elon: NpcRuntimeState) -> TeacherService:
 	for node: Node in manor.service_nodes:
 		if node is TeacherService and (node as TeacherService).npc == elon:
-			teacher = node
+			return node
+	return null
+
+
+## Below 30000 she sends the student to 芷萍; from 30000 she asks for the test.
+func _test_gate(manor: WorldMapController, elon: NpcRuntimeState, state: CharacterState) -> void:
+	var teacher: TeacherService = _teacher(manor, elon)
 	_check(teacher != null, "瑷伦 takes students")
 	if teacher == null:
 		return
@@ -88,6 +94,17 @@ func _test_lashes(manor: WorldMapController, elon: NpcRuntimeState, state: Chara
 		if manor.attack_player_outside_fight(elon, rule.blow_modifiers()) == null or state.vitality.current < 0:
 			stood_all = false
 	_check(stood_all, "one who sat to the cap stands them")
+	# The real test, through the service: a 30000 woman who never sat (气 100) cannot stand 35% lashes;
+	# she falls alive, with no wound and no condition. Without the rule's modifiers elon.c's lashes
+	# (her full force, lethal) would wound her or kill her.
+	elon.character_state.recovery.inner_force.current = elon_force
+	Grown.grow(state, 30000, 0)
+	var teacher: TeacherService = _teacher(manor, elon)
+	_check(teacher != null and teacher.offers_trial(), "the never-sat woman is offered the test")
+	if teacher != null and teacher.offers_trial():
+		var result: NpcApprenticeTrial.Result = teacher.take_trial()
+		_check(result.outcome == NpcApprenticeTrial.Outcome.FAILED, "she does not stand them (%s)" % NpcApprenticeTrial.Outcome.find_key(result.outcome))
+		_check(not state.is_death_threshold_reached() and state.vitality.effective == state.vitality.maximum and state.conditions.size() == 0, "she falls alive, no wound (effective %d of %d), no condition (%d)" % [state.vitality.effective, state.vitality.maximum, state.conditions.size()])
 	elon.character_state.recovery.inner_force.current = elon_force
 
 

@@ -8,9 +8,10 @@ extends RefCounted
 ## chapter's quest (`milestone`), the first visit of each region it leads into, the places
 ## (名胜) on its way, 第一章's 黑衣道士 (a notable defeat). Two tiers: the main story alone from the
 ## first two hours' 1000 exp, and a player who explores on the side from 2500. The sim
-## (tests/sim/mainline_fight_sim.gd) and the boss_strength suites grow their character to these, so
-## a change to 历练 moves the character the suites measure instead of leaving them green against a
-## character nobody plays.
+## (tests/sim/mainline_fight_sim.gd) and the boss_strength suites grow their character to the
+## exploring tier's and to TUNED for the main story alone (成长曲线 A: the arrival its fights were
+## tuned at), and growth_curve_data_test fails once main_story() leaves TUNED by more than 1%: a change
+## to 历练 that moves the character is caught, and the fights are then measured, and tuned, again.
 
 ## Where the first two hours leave a player who follows the story, and one who explores too.
 const MAIN_START: int = 1000

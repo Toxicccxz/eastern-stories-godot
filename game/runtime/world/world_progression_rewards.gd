@@ -60,7 +60,7 @@ func defeated(npc: NpcRuntimeState) -> void:
 func book_read_through(item_definition_id: StringName) -> void:
 	var item: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
 	if item != null:
-		_give(ProgressionRules.Kind.BOOK, item_definition_id, tr(item.display_name), true, -1 if item.study == null else item.study.exp_required)
+		_give(ProgressionRules.Kind.BOOK, item_definition_id, tr(item.display_name), true, book_level(item))
 
 
 ## A quest ended whose reward is a 历练 (任务系统): given once, for the quest.
@@ -135,10 +135,45 @@ func _beaten(npc: NpcRuntimeState) -> void:
 	_give(kind, definition.definition_id, tr(definition.display_name), true, npc.character_state.progression.combat_experience)
 
 
-## The level a chain's content is of (pacing milestone_stage_headroom): its region's recommended_exp,
-## the region named by the chain id's first part (snow.newcomer: 雪亭镇); -1 when there is none.
+## The level a chain's content is of (pacing milestone_stage_headroom): progression.json's
+## `chain_level` for one whose last step asks more than its region (green.maze: the 八卦阵's wind),
+## else its region's recommended_exp, the region named by the chain id's first part (snow.newcomer:
+## 雪亭镇); -1 when there is none.
 static func chain_level(chain_id: StringName) -> int:
-	var region: RegionDefinition = GameContent.catalog().region(StringName(String(chain_id).get_slice(".", 0)))
+	var levels: Dictionary[StringName, int] = GameContent.catalog().progression().chain_levels
+	if levels.has(chain_id):
+		return levels[chain_id]
+	return region_level(StringName(String(chain_id).get_slice(".", 0)))
+
+
+## The level a book's read-through is of (pacing milestone_stage_headroom): the highest of what it
+## asks to start (study.exp_required), what a martial skill asks to be learnt up to the book's depth
+## (learn.c's gate at max_skill - 1: the read-through is the study past max_skill), and the level of
+## the region the book belongs to (its id's path: es2:d/<region>/..., es2:u/<region>/...,
+## native:<region>/...); -1 for an item that is no book.
+static func book_level(item: ItemContentDefinition) -> int:
+	if item == null or item.study == null:
+		return -1
+	var level: int = maxi(item.study.exp_required, region_level(item_region(item.item_definition_id)))
+	var skill: SkillDefinition = GameContent.catalog().skill(item.study.skill_id)
+	if skill != null and skill.skill_type == SkillDefinition.Type.MARTIAL and item.study.max_skill > 0:
+		level = maxi(level, LearnService.required_combat_experience(item.study.max_skill - 1))
+	return level
+
+
+## The region an item's id names (es2:d/choyin/... and native:guanbei/...: the region of that name), or
+## &"" (es2:obj/..., one of no region).
+static func item_region(definition_id: StringName) -> StringName:
+	var id: String = String(definition_id)
+	for prefix: String in ["es2:d/", "es2:u/", "native:"]:
+		if id.begins_with(prefix):
+			return StringName(id.substr(prefix.length()).get_slice("/", 0))
+	return &""
+
+
+## A region's recommended_exp as a content level; -1 when there is no such region or it has none.
+static func region_level(region_id: StringName) -> int:
+	var region: RegionDefinition = null if region_id.is_empty() else GameContent.catalog().region(region_id)
 	return -1 if region == null or region.recommended_exp <= 0 else region.recommended_exp
 
 
