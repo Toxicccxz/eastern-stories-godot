@@ -223,6 +223,8 @@ def _japanese_problems(where: str, msgid: str, msgstr: str) -> list[str]:
 RUSSIAN_CASE = re.compile(r"\{:([^{}]*)\}")
 RUSSIAN_AGREE = re.compile(r"\{([~#]):([^{}]*)\}")
 CASE_AFTER = re.compile(r"(\{[a-z_]+\}|\$(RESPECT|SELF|[NnPplw])|%[sd])[»“\"')]*(\[/[a-z]+\])*$")
+# The first of three or four gender forms is the plural: ушли, рады, должны (a word ending -и/-ы).
+PLURAL_FIRST = re.compile(r"[иы](сь)?[\s,.!?»]*$")
 RUSSIAN_CASES = ("им", "род", "дат", "вин", "твор", "пред", "счёт")
 # The pixel face draws these with its Chinese glyphs, two letters wide.
 RUSSIAN_WIDE = ("“", "”", "…")

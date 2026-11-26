@@ -106,6 +106,7 @@ class TranslationsTest(unittest.TestCase):
             "bad count": ("%d 分钟前", "%d {#:минуту|минут} назад"),
             "$P/$p in Russian": ("结果只是轻轻地划破$p的皮肉。", "Лишь царапина на коже $p."),
             "full width": ("%d 分钟前", "%d {#:минуту|минуты|минут} назад…"),
+            "does not open with the plural": ("$N挥拳攻击$n的$l", "$N {N:ударил|ударили|ударила} $n{:вин} в $l."),
             "a Han character": ("店小二", "店小二"),
         }
         for label, entry in cases.items():
