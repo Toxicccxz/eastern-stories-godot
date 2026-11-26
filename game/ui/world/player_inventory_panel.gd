@@ -534,7 +534,7 @@ func _show_item(row: PlayerInventoryRowProjection) -> void:
 	inspect_text.text = "\n".join(_facts(row))
 	var compared: Array = _comparison(row)
 	if not compared.is_empty():
-		compare_label.text = compared[0]
+		compare_label.text = ShownText.of(compared[0])
 		compare_label.add_theme_color_override("font_color", compared[1])
 		compare_label.visible = true
 	action_rows.add_child(_actions(row))

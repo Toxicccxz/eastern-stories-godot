@@ -56,10 +56,10 @@ func show_postings(postings: Array[WorldBounties.Posting]) -> void:
 		text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		# TRANSLATORS: native (A2): one bounty on the board: the outlaw, where it was last seen ({place} in {region}), its silver.
-		text.text = tr("{outlaw} · 出没于{region}{place}一带 · 赏银{silver}两").format({
+		text.text = ShownText.of(tr("{outlaw} · 出没于{region}{place}一带 · 赏银{silver}两").format({
 			"outlaw": tr(_npc_name(posting.tier.npc_id)), "region": tr(_region_name(posting.place.zone_id)),
 			"place": tr(_zone_name(posting.place.zone_id)), "silver": ChineseNumber.of(posting.tier.silver),
-		}) + (tr("（已揭）") if posting.taken else "")
+		}) + (tr("（已揭）") if posting.taken else ""))
 		row.add_child(text)
 		var button := Button.new()
 		button.custom_minimum_size = Vector2(96, 40)

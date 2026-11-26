@@ -105,7 +105,7 @@ func refresh(player: WorldPlayerRuntimeState, session: WorldSessionController) -
 	}
 	for stat_id: StringName in gifts:
 		_show(state, stat_id, str(gifts[stat_id]))
-	milestones.text = milestone_text(state)
+	milestones.text = ShownText.of(milestone_text(state))
 	if session != null:
 		var carried: int = session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id))
 		_show(state, &"burden", "%d / %d" % [carried, player.maximum_encumbrance])
