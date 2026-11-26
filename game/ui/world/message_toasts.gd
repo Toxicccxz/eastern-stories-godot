@@ -125,9 +125,10 @@ func place(area: Rect2, width: float, max_lines: int) -> void:
 	_layout(0.0, true)
 
 
-## A message for the toasts; dropped while they are suppressed.
+## A message for the toasts; dropped while they are suppressed, unless a scene holds them (it
+## waits for after the scene then, as the rest that came in it).
 func push(text: String, color: Color = PLAIN_TEXT, colored: bool = false) -> void:
-	if _suppressed or text.strip_edges().is_empty():
+	if (_suppressed and not held) or text.strip_edges().is_empty():
 		return
 	var entry := Entry.new()
 	entry.text = KoreanText.shown(text)
@@ -145,7 +146,8 @@ func set_suppressed(on: bool) -> void:
 		return
 	_suppressed = on
 	visible = not on
-	if on:
+	# A scene's question (its answers in the dialogue box) takes none of what the scene gathered.
+	if on and not held:
 		clear()
 
 

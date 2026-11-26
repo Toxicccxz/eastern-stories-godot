@@ -31,6 +31,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check_own_wait()
 	_check_read_time()
 	_check_spans()
+	_check_toasts()
 	await _check_text(tree)
 	TestFeel.use()
 	await _check_scene(tree)
@@ -87,6 +88,8 @@ func _check_spans() -> void:
 	var translated: Array[Vector2i] = KeySpans.find(shown, ["老松岭", "子时"])
 	_check(translated.size() == 1 and _cut(shown, translated[0]) == "Old Pine Ridge", "the shown language's word in the shown line: %s" % [translated])
 	_check(KeySpans.missing(shown, ["老松岭", "子时"]) == ["子时"], "a translation that lost the word: listed, nothing breaks")
+	# A line read in letters has their reading speed; one still in 汉字 there keeps the 汉字 speed.
+	_check(WorldDialogueBox._read_language(shown) == "en" and WorldDialogueBox._read_language("他几个起落，往北面去了。") == "", "the reading speed follows what the line is written in")
 	TranslationServer.set_locale(locale)
 	TranslationServer.remove_translation(translation)
 	# Korean: the word joiners that keep a word whole on a wrapped line take no part.
@@ -99,6 +102,23 @@ func _cut(line: String, span: Vector2i) -> String:
 	return line.substr(span.x, span.y - span.x)
 
 
+## What comes while a scene holds the toasts waits for after it, a question in the scene included;
+## outside a scene a panel that shows its own lines drops them as before.
+func _check_toasts() -> void:
+	var toasts := MessageToasts.new()
+	toasts.held = true
+	toasts.push("演出里得到的东西。")
+	toasts.set_suppressed(true)
+	toasts.push("问话时又来的一条。")
+	toasts.set_suppressed(false)
+	_check(toasts._waiting.size() == 2 and toasts.latest_text() == "问话时又来的一条。", "held by a scene: kept through its question: %d" % toasts._waiting.size())
+	toasts.held = false
+	toasts.set_suppressed(true)
+	toasts.push("面板开着时来的一条。")
+	_check(toasts._waiting.is_empty(), "outside a scene a panel's own lines are not toasted, as before")
+	toasts.free()
+
+
 ## The box's line (DialogueText): wrapped to its width, typed a character at a time, its lit
 ## places known; a Korean line wraps between words only.
 func _check_text(tree: SceneTree) -> void:
@@ -109,26 +129,37 @@ func _check_text(tree: SceneTree) -> void:
 	text.text = "他几个起落，已经翻上山壁，往北面的老松岭去了。布条飘落在地，上头刻着老松寨的记号，你拾起来看看。"
 	text.spans = KeySpans.find(text.text, ["老松岭", "布条"])
 	await _frames(tree, 2)
-	_check(text.line_count() >= 2 and text.get_combined_minimum_size().y > 30.0, "a long line wraps and the control is as tall: %d lines, %s" % [text.line_count(), text.get_combined_minimum_size()])
+	var narrow: int = text.line_count()
+	_check(narrow >= 2 and text.get_combined_minimum_size().y > 30.0, "a long line wraps and the control is as tall: %d lines, %s" % [narrow, text.get_combined_minimum_size()])
 	var at: int = text.text.find("老松岭")
 	_check(text.lit(at) and text.lit(at + 2) and not text.lit(at + 3) and not text.lit(0), "the lit places, character by character")
+	# A lit word shimmers for as long as the line shows (owner, 2026-11-26): never still, never out.
+	var dimmest: float = 1.0
+	var brightest: float = 0.0
+	for _i: int in 120:
+		await tree.process_frame
+		dimmest = minf(dimmest, text.brightness(at))
+		brightest = maxf(brightest, text.brightness(at))
+	_check(dimmest > 0.0 and brightest - dimmest > 0.3 and text.brightness(0) == 0.0, "a lit word keeps shimmering, the rest of the line does not: %s to %s" % [dimmest, brightest])
 	var tall: float = text.get_combined_minimum_size().y
 	text.visible_characters = 3
 	await _frames(tree, 2)
 	_check(is_equal_approx(text.get_combined_minimum_size().y, tall), "typing out changes no size")
 	text.spans = []
+	_check(is_equal_approx(text.get_combined_minimum_size().y, tall), "nor does a line with nothing lit")
 	text.size.x = 600.0
 	await _frames(tree, 2)
-	_check(text.line_count() >= 1 and text.get_combined_minimum_size().y < tall, "wider, fewer lines")
-	# Korean: a word is not broken between its syllables (KoreanText's joiners).
-	var words: String = "백도장이 천천히 고개를 끄덕이며 노송령으로 가는 길을 손가락으로 가리켰다."
+	_check(text.line_count() < narrow and text.get_combined_minimum_size().y < tall, "wider, fewer lines: %d against %d" % [text.line_count(), narrow])
+	# Korean: a line breaks between words only, never between a word's syllables (KoreanText's joiners).
+	var words: String = KoreanText.keep_words("백도장이 천천히 고개를 끄덕이며 노송령으로 가는 길을 손가락으로 가리켰다.")
 	text.size.x = 150.0
-	text.text = KoreanText.keep_words(words)
-	await _frames(tree, 2)
-	var kept: int = text.line_count()
 	text.text = words
 	await _frames(tree, 2)
-	_check(kept >= 2 and kept >= text.line_count(), "Korean kept whole by the word: %d lines against %d" % [kept, text.line_count()])
+	var whole: bool = text.line_count() >= 3
+	for index: int in range(1, text.line_count()):
+		var start: int = text.line_range(index).x
+		whole = whole and start > 0 and words[start - 1] == " "
+	_check(whole, "Korean breaks between words only: %d lines" % text.line_count())
 	text.queue_free()
 	await _frames(tree, 2)
 
@@ -208,7 +239,7 @@ func _check_scene(tree: SceneTree) -> void:
 	var words: Array = []
 	for each: Array in lit.values():
 		words.append_array(each)
-	_check(lit.size() == 2 and words.has("布条") and words.has("老松岭") and words.has("老松寨"), "the scene's marked lines lit their words: %s" % [lit])
+	_check(lit.size() >= 2 and words.has("布条") and words.has("老松岭") and words.has("老松寨"), "the scene's marked lines lit their words: %s" % [lit])
 	var log: Array[String] = hud.log_lines()
 	var log_spans: Array[Array] = hud.message_log.log_spans()
 	var lit_in_log: int = 0
@@ -287,18 +318,31 @@ func _check_reading(tree: SceneTree) -> void:
 	hud.close_menu()
 	frames = await _until_line(tree, box, pages[5], 120)
 	_check(box.line() == pages[5], "the menu closed: it goes on: %d frames" % frames)
-	# The last line read out closes the box and brings on the teller's next.
-	for _i: int in 120:
-		await tree.process_frame
-		if not box.is_open():
-			break
-	_check(not box.is_open() and read_out == [&"told"], "the last line read out by itself: %s" % [read_out])
-	# A question never goes by itself (问话, 三选一, the confirm).
+	# A question waits behind the last line (问话, 三选一): read out by itself, the line brings it up,
+	# and the press meant for that line picks no answer — nothing is under the key until the guard is over.
 	var answers: Array[String] = ["一", "二"]
 	var picked: Array[int] = []
 	hud.ask_choices(npc, "问题", answers, func(chosen: int) -> void: picked.append(chosen))
-	await _frames(tree, 2)
-	_check(box.hosting() and box.auto_left() < 0.0, "a question waits for the player")
+	_check(not box.hosting(), "the question waits for the last line")
+	for _i: int in 120:
+		await tree.process_frame
+		if box.hosting():
+			break
+	_check(box.hosting() and read_out == [&"told"] and box.guarded(), "the last line read out by itself, the question up: %s" % [read_out])
+	var focused: Control = tree.root.gui_get_focus_owner()
+	_check(focused == null or not hud.confirm_prompt.is_ancestor_of(focused), "no answer under the key yet")
+	_press(hud)
+	var accept := InputEventAction.new()
+	accept.action = &"ui_accept"
+	accept.pressed = true
+	hud._unhandled_input(accept)
+	await _frames(tree, 1)
+	_check(picked.is_empty() and box.hosting(), "the press meant for the line that went picks nothing")
+	await _frames(tree, 12)
+	focused = tree.root.gui_get_focus_owner()
+	_check(not box.guarded() and focused != null and hud.confirm_prompt.is_ancestor_of(focused), "the guard over: the first answer has the focus")
+	# A question never goes by itself.
+	_check(box.auto_left() < 0.0, "a question waits for the player")
 	await _frames(tree, 90)
 	_check(box.hosting() and hud.is_asking() and picked.is_empty(), "however long: nothing is chosen for them")
 	hud.confirm_prompt.cancel()

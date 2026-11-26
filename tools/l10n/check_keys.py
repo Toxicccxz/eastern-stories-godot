@@ -55,7 +55,8 @@ def _walk(node: object, where: str, found: list[tuple[str, str, list[str]]]) -> 
 
 
 def _lettered(char: str) -> bool:
-    return char.isascii() and char.isalnum()
+    # As KeySpans._letter: digits, A–Z, a–z, and the accented Latin letters.
+    return (char.isascii() and char.isalnum()) or 0xC0 <= ord(char) <= 0x24F
 
 
 def stands_in(line: str, word: str) -> bool:

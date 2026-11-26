@@ -68,6 +68,9 @@ var _read_left: float = 0.0
 ## Seconds a press is still not taken: the line came by itself a moment ago, and the press was
 ## meant for the one that went (FeelDefinition.dialogue_press_guard_seconds()).
 var _guard: float = 0.0
+## What takes the focus once the guard is over (a question hosted the moment a line went by
+## itself: its first answer is not under the key until then).
+var _focus_later: Control
 
 
 func configure(ui: SharedGameplayUI) -> void:
@@ -313,6 +316,21 @@ func advance() -> bool:
 	return true
 
 
+## A line went by itself a moment ago: the press that comes now was meant for it and takes
+## nothing on — not the next line, not a question's answer, not what the place offers (the HUD
+## asks before it hands the key to anything).
+func guarded() -> bool:
+	return _guard > 0.0
+
+
+## `control` (a hosted question's first answer) takes the focus: now, or once the guard is over.
+func give_focus(control: Control) -> void:
+	if guarded():
+		_focus_later = control
+	else:
+		FocusNav.give(control)
+
+
 ## Seconds until the page goes on by itself; -1 when it waits for the player (nothing told, the
 ## setting off, no reading time in the feel).
 func auto_left() -> float:
@@ -368,7 +386,7 @@ func _show_page() -> void:
 	_text.spans = KeySpans.find(page[1], marked, _found_terms())
 	_text.visible = true
 	_text.color = TEXT_COLOR if page[2] else DEED_COLOR
-	_read_left = GameContent.catalog().pacing().feel.dialogue_read_seconds(_read_length(page[1]), TranslationServer.get_locale().get_slice("_", 0))
+	_read_left = GameContent.catalog().pacing().feel.dialogue_read_seconds(_read_length(page[1]), _read_language(page[1]))
 	if page[3] != null:
 		_who = page[3]
 	_show_busts(false, page[2])
@@ -421,6 +439,13 @@ func _finish_typing() -> void:
 
 
 func _process(delta: float) -> void:
+	# The guard runs down whether the box shows or not: the next box takes its first press.
+	if _guard > 0.0:
+		_guard = maxf(_guard - delta, 0.0)
+		if _guard <= 0.0 and is_instance_valid(_focus_later):
+			if hosting() and _hosted.is_ancestor_of(_focus_later) and _focus_later.is_visible_in_tree():
+				FocusNav.give(_focus_later)
+			_focus_later = null
 	if not is_open():
 		return
 	# A fight, a fall or a death takes the screen: the lines are in 消息.
@@ -431,7 +456,6 @@ func _process(delta: float) -> void:
 	# 系统, the focus pause and a question over the box hold it as it stands.
 	if _held():
 		return
-	_guard = maxf(_guard - delta, 0.0)
 	if _typing():
 		_typed += delta / maxf(GameContent.catalog().pacing().feel.dialogue_char_seconds(), 0.001)
 		# A Korean line's word joiners take no time (KoreanText).
@@ -449,10 +473,19 @@ func _auto() -> bool:
 	return DialogueAuto.on and GameContent.catalog().pacing().feel.dialogue_auto()
 
 
-## The box stands as it is: the game is paused (系统, the window left), the menu is open, or a
-## question lies over it in the shared frame.
+## The box stands as it is: the game is paused (系统, the window left), the menu is open, a
+## question lies over it in the shared frame, or a card covers the world and has the key (the
+## opening card, 拜师, a death; the rest and the 切磋 summary).
 func _held() -> bool:
-	return get_tree().paused or (_ui != null and (_ui.menu.is_presented() or _ui.panel_open()))
+	if get_tree().paused:
+		return true
+	if _ui == null:
+		return false
+	if _ui.menu.is_presented() or _ui.panel_open():
+		return true
+	if is_instance_valid(_ui.life_overlay) and (_ui.life_overlay.card_shown() or _ui.life_overlay.is_blocking()):
+		return true
+	return (is_instance_valid(_ui.rest_overlay) and _ui.rest_overlay.shown()) or (is_instance_valid(_ui.spar_summary) and _ui.spar_summary.shown())
 
 
 ## The characters of `text` a reader reads: no spaces, no joiners.
@@ -462,6 +495,20 @@ static func _read_length(text: String) -> int:
 		if not text[index] in [" ", "\n", "\t", "　", KoreanText.WORD_JOINER]:
 			count += 1
 	return count
+
+
+## The language `text` is read in: the shown language's, unless the line is still in 汉字 there
+## (a line not translated yet reads at the 汉字 speed, not at a letter's).
+static func _read_language(text: String) -> String:
+	var language: String = TranslationServer.get_locale().get_slice("_", 0)
+	if language == "ja" or not language in FeelDefinition.AUTO_LANGUAGES:
+		return language
+	var han: int = 0
+	for index: int in text.length():
+		var code: int = text.unicode_at(index)
+		if code >= 0x4E00 and code <= 0x9FFF:
+			han += 1
+	return "" if han * 2 >= _read_length(text) else language
 
 
 ## The names the next quest steps lead to (StoryKeyTerms): lit wherever a line says one.

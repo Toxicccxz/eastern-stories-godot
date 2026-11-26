@@ -1997,7 +1997,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 				controls.append(language_option)
 			if focus_pause_check.visible:
 				controls.append(focus_pause_check)
-			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, battle_opening_option, objective_hints_check, autosave_notice_check, dialogue_auto_check, day_night_option, master_volume_slider])
+			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, battle_opening_option, objective_hints_check, autosave_notice_check, day_night_option, dialogue_auto_check, master_volume_slider])
 			if settings_apply_button.visible:
 				controls.append(settings_apply_button)
 			controls.append_array([settings_cancel_button, keys_button])

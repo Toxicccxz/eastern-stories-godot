@@ -440,6 +440,12 @@ func configure(player: WorldPlayerRuntimeType) -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible or menu.is_presented() or event.is_echo():
 		return
+	# A line of the dialogue box went by itself a moment ago (DECISIONS「过场读法」): the press
+	# that comes now was meant for it, and takes nothing else on either (the next line, an
+	# answer of the question that followed, what the place offers).
+	if dialogue_box.guarded() and event.is_pressed() and (event.is_action(&"interact") or event.is_action("ui_accept")):
+		get_viewport().set_input_as_handled()
+		return
 	# E on a card's 继续 or a row of the interaction popup presses it, as in the dialogue box
 	# (Enter / Space / A already do; 审查修补 M).
 	if _interact_presses_focus(event):
