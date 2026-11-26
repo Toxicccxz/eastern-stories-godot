@@ -285,6 +285,8 @@ def draft(dry: bool) -> int:
         # place and a title keep the capital.
         place = any(re.search(rf"(^|\s){field}(\s|/|$)", names[msgid]) for field in PLACE_FIELDS)
         proper = place or drafter.is_proper(name)
+        if not proper:
+            row = [row[0]] + [form[:1].lower() + form[1:] for form in row[1:]]
         table[name if proper else lowered] = row
         added += 1
         print(f"{msgid}\t{name}\t{' | '.join(row)}\t{note}")
