@@ -168,7 +168,8 @@ func _notification(what: int) -> void:
 ## when the card goes.
 func _process(_delta: float) -> void:
 	var hud: SharedGameplayUI = null if _session == null else _session.shared_ui()
-	_room.visible = hud != null and hud.visible and not hud.panel_open() and not hud.menu.is_presented() and not _loading
+	# A scene's black bars have the top of the screen (DECISIONS「过场黑边」).
+	_room.visible = hud != null and hud.visible and not hud.panel_open() and not hud.menu.is_presented() and not _loading and not hud.scene_covered()
 	if _room.visible and _room.modulate.a > 0.0:
 		_place_room()
 	if _room.visible and _banner.modulate.a > 0.0:

@@ -82,8 +82,9 @@ func refresh() -> void:
 		line.text = ShownText.of(wait.text)
 		bar.visible = wait.progress >= 0.0
 		bar.value = clampf(wait.progress, 0.0, 1.0)
-		# The dialogue box has its own 继续.
-		button.visible = wait.hurry.is_valid() and not _ui.dialogue_box.is_open()
+		# The dialogue box has its own 下一句; a scene's bars put the card away, and a button
+		# nobody sees takes no click.
+		button.visible = wait.hurry.is_valid() and not _ui.dialogue_box.is_open() and not _ui.scene_covered()
 	box.visible = not _shown.is_empty()
 
 

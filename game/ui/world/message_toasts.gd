@@ -68,6 +68,9 @@ var _width: float = 420.0
 var _latest: Entry
 ## How far above the foot of the area the stack stands (the dialogue box is under it).
 var lift: float = 0.0
+## A scene has the screen (DECISIONS「过场黑边」): no time passes for the toasts and what comes
+## waits, to be read once the scene is over (the host fades them meanwhile).
+var held: bool = false
 
 
 func _init() -> void:
@@ -122,9 +125,10 @@ func place(area: Rect2, width: float, max_lines: int) -> void:
 	_layout(0.0, true)
 
 
-## A message for the toasts; dropped while they are suppressed.
+## A message for the toasts; dropped while they are suppressed, unless a scene holds them (it
+## waits for after the scene then, as the rest that came in it).
 func push(text: String, color: Color = PLAIN_TEXT, colored: bool = false) -> void:
-	if _suppressed or text.strip_edges().is_empty():
+	if (_suppressed and not held) or text.strip_edges().is_empty():
 		return
 	var entry := Entry.new()
 	entry.text = ShownText.of(text)
@@ -142,7 +146,8 @@ func set_suppressed(on: bool) -> void:
 		return
 	_suppressed = on
 	visible = not on
-	if on:
+	# A scene's question (its answers in the dialogue box) takes none of what the scene gathered.
+	if on and not held:
 		clear()
 
 
@@ -179,7 +184,7 @@ func shown_texts() -> Array[String]:
 func _process(delta: float) -> void:
 	# Hidden (the pause menu, the HUD put away): no time passes for them, so each is
 	# still read for its full time once they show again.
-	if _suppressed or not is_visible_in_tree():
+	if _suppressed or held or not is_visible_in_tree():
 		return
 	_cooldown = maxf(0.0, _cooldown - delta)
 	for toast: Toast in _shown:

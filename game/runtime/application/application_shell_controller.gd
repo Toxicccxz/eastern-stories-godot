@@ -64,6 +64,8 @@ signal interaction_changed
 ## 按键一览 (DECISIONS「按键」): opens key_page over 设置.
 @onready var keys_button: Button = %KeysButton
 @onready var autosave_notice_check: CheckButton = %AutosaveNoticeCheck
+## 对白自动继续 (DialogueAuto; DECISIONS「过场读法」).
+@onready var dialogue_auto_check: CheckButton = %DialogueAutoCheck
 @onready var day_night_option: OptionButton = %DayNightOption
 ## 总音量 (DECISIONS「战斗拍数 C」): the Master bus, 0–100.
 @onready var master_volume_slider: HSlider = %MasterVolumeSlider
@@ -886,6 +888,11 @@ func apply_settings() -> bool:
 		if notice.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
 			settings_status_label.text = "自动存档提示已生效，但未能保存。"
 			return false
+	if dialogue_auto_check.button_pressed != committed.dialogue_auto():
+		var auto: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_dialogue_auto(dialogue_auto_check.button_pressed)
+		if auto.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = "对白自动继续已生效，但未能保存。"
+			return false
 	if graphics_quality_option.get_selected_id() != committed.graphics_quality():
 		var drawn: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_graphics_quality(graphics_quality_option.get_selected_id())
 		if drawn.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
@@ -1620,6 +1627,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	focus_pause_check.disabled = not settings_interactive
 	keys_button.disabled = not settings_interactive
 	autosave_notice_check.disabled = not settings_interactive
+	dialogue_auto_check.disabled = not settings_interactive
 	day_night_option.disabled = not settings_interactive
 	master_volume_slider.editable = settings_interactive
 	settings_apply_button.visible = window_mode_row.visible or ui_scale_row.visible or language_row.visible or battle_speed_row.visible
@@ -1826,6 +1834,8 @@ func _configure_battle_options() -> void:
 	focus_pause_check.tooltip_text = "切到别的窗口时游戏暂停，回来后按「继续」接着玩；关掉后照样走，但窗口在后台时手柄不起作用"
 	# 自动存档提示 (DECISIONS「自动存档」): only the line; the autosave goes on.
 	autosave_notice_check.tooltip_text = "自动存档后左下角提示一行；关掉后照样自动存档，只是不提示"
+	# 对白自动继续 (DECISIONS「过场读法」): a told line goes on by itself after its reading time.
+	dialogue_auto_check.tooltip_text = "剧情演出和大段讲述里，一句话读完的时间到了就自己到下一句；关掉后每一句都等你按键。打听、问话和选择始终等你"
 	# 昼夜 (DECISIONS「昼夜」): the map's light follows the game's day, or holds day or night.
 	day_night_option.clear()
 	day_night_option.add_item("跟随游戏时间", DayNightPreference.Value.FOLLOW)
@@ -1861,6 +1871,7 @@ func _select_committed_battle() -> void:
 	objective_hints_check.set_pressed_no_signal(committed.objective_hints())
 	focus_pause_check.set_pressed_no_signal(committed.pause_on_focus_loss())
 	autosave_notice_check.set_pressed_no_signal(committed.autosave_notice())
+	dialogue_auto_check.set_pressed_no_signal(committed.dialogue_auto())
 	var day_night: int = day_night_option.get_item_index(committed.day_night())
 	if day_night >= 0:
 		day_night_option.select(day_night)
@@ -1929,6 +1940,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		focus_pause_check,
 		keys_button,
 		autosave_notice_check,
+		dialogue_auto_check,
 		day_night_option,
 		master_volume_slider,
 		settings_apply_button,
@@ -1985,7 +1997,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 				controls.append(language_option)
 			if focus_pause_check.visible:
 				controls.append(focus_pause_check)
-			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, battle_opening_option, objective_hints_check, autosave_notice_check, day_night_option, master_volume_slider])
+			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, battle_opening_option, objective_hints_check, autosave_notice_check, day_night_option, dialogue_auto_check, master_volume_slider])
 			if settings_apply_button.visible:
 				controls.append(settings_apply_button)
 			controls.append_array([settings_cancel_button, keys_button])
