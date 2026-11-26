@@ -138,7 +138,7 @@ class Drafter:
             head = " ".join(words[:-1] + [""])
             return ["м"] + [head + stem + ending for ending in endings] + ["", ""], "a Chinese man's name: its last word declined"
         parses = [self._parse(word, i < len(words) - 1) for i, word in enumerate(words)]
-        if parses[0] is not None and parses[0].tag.POS == "PREP":
+        if any(p.tag.POS == "PREP" for p in self.morph.parse(words[0])):
             return ["мн" if parses[-1] is not None and parses[-1].tag.number == "plur" else "м", "", "", "", "", "", "", ""], "a phrase opening with a preposition: not declined"
         head = next((i for i, p in enumerate(parses) if p is not None and p.tag.POS == "NOUN"), None)
         if head is None:
