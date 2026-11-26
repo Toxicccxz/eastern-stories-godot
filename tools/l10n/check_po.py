@@ -27,6 +27,12 @@ wrong. This catches them. Rules (docs/production/english_style.md):
   the pixel face draws: 剣 not 剑, 気 not 气), so a Simplified character left behind shows up;
   no Chinese punctuation Japanese does not write (，；“ ” ‘ ’) and no ASCII "...": Japanese
   writes 、。「」『』 and ……
+* in Russian (ru.po, docs/production/russian_style.md): slots as in a Latin language; no $P/$p
+  (write {N:…}/{n:…} forms); {N:a|b} or three/four forms {N:вы|м|ж|ср}, no English pronoun;
+  a case mark {:и}…{:п} or {:ч} only right after a slot or token (past closing quotes and
+  tags): after written text the translator writes the case; {~:м|ж|ср|мн} needs a case mark in
+  the line to agree with; {#:1|2–4|5+} and {:ч} need a number slot before them; no Han
+  character and no Chinese punctuation (。，、：；！？「」『』（）……) is left.
 
 `python tools/l10n/check_po.py [game/locale/en.po ...]` prints the problems; exit 1 if any.
 """
@@ -122,6 +128,7 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
     latin = not po.stem.startswith("zh")
     korean = po.stem.startswith("ko")
     japanese = po.stem.startswith("ja")
+    russian = po.stem.startswith("ru")
     for ctx, msgid, msgstr in parse(po):
         where = f"{po.name}: {msgid[:40]!r}"
         if (ctx, msgid) not in known:
@@ -146,6 +153,9 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
             continue
         if japanese:
             problems.extend(_japanese_problems(where, msgid, msgstr))
+            continue
+        if russian:
+            problems.extend(_russian_problems(where, msgid, msgstr))
             continue
         if "$P" in msgstr or re.search(r"\$p(?![a-zA-Z])", msgstr):
             problems.append(f"{where}: $P/$p in a translation: write {{N:his}} / {{n:him}}")
@@ -204,6 +214,55 @@ def _japanese_problems(where: str, msgid: str, msgstr: str) -> list[str]:
         problems.append(f"{where}: Chinese punctuation {' '.join(marks)} (write 、 。 「」 『』)")
     if "..." in msgstr:
         problems.append(f"{where}: ASCII ... (write ……)")
+    return problems
+
+
+# RussianText: a case mark, an agreement with a name, a counted word.
+RUSSIAN_CASE = re.compile(r"\{:([^{}]*)\}")
+RUSSIAN_AGREE = re.compile(r"\{([~#]):([^{}]*)\}")
+CASE_AFTER = re.compile(r"(\{[a-z_]+\}|\$(RESPECT|SELF|[NnPplw])|%[sd])[»“\"')]*(\[/[a-z]+\])*$")
+NUMBER_SLOT = re.compile(r"%d|\{(count|n|amount|left|number|level|cost|silver|have|current|maximum|required|score|exp|percent|days|hours|times)\}")
+
+
+def _russian_problems(where: str, msgid: str, msgstr: str) -> list[str]:
+    problems = []
+    source_slots = set(SLOT.findall(msgid))
+    for slot in SLOT.findall(msgstr):
+        if slot not in source_slots:
+            problems.append(f"{where}: invents the slot {{{slot}}}")
+    if "$P" in msgstr or re.search(r"\$p(?![a-zA-Z])", msgstr):
+        problems.append(f"{where}: $P/$p in Russian: write {{N:вас|его|её}} forms")
+    for role, body in GRAMMAR.findall(msgstr):
+        forms = body.split("|")
+        if len(forms) < 2 or len(forms) > 4 or not all(forms):
+            problems.append(f"{where}: bad form {{{role}:{body}}} (two to four forms: вы|м|ж|ср)")
+        if role == "n" and _count(msgid, "$n") == 0 and not re.search(r"\$p(?![a-zA-Z])", msgid):
+            problems.append(f"{where}: {{n:…}} in a line with no $n (nor $p)")
+    cases = list(RUSSIAN_CASE.finditer(msgstr))
+    for mark in cases:
+        if mark.group(1) not in list("ирдвтпч"):
+            problems.append(f"{where}: unknown case mark {mark.group(0)} (и р д в т п, or ч)")
+        elif not CASE_AFTER.search(msgstr[: mark.start()]):
+            problems.append(f"{where}: a case mark {mark.group(0)} after written text: write the form")
+        if mark.group(1) == "ч" and not NUMBER_SLOT.search(msgstr[: mark.start()]):
+            problems.append(f"{where}: {{:ч}} with no number slot before it")
+    for mark in RUSSIAN_AGREE.finditer(msgstr):
+        forms = mark.group(2).split("|")
+        if mark.group(1) == "~":
+            if len(forms) < 2 or len(forms) > 4 or not all(forms):
+                problems.append(f"{where}: bad agreement {mark.group(0)} (м|ж, or м|ж|ср|мн)")
+            if not cases:
+                problems.append(f"{where}: {mark.group(0)} with no case-marked name to agree with")
+        else:
+            if len(forms) != 3 or not all(forms):
+                problems.append(f"{where}: bad count {mark.group(0)} (three forms: 1|2–4|5+)")
+            if not NUMBER_SLOT.search(msgstr[: mark.start()]) and not re.search(r"\d", msgstr[: mark.start()]):
+                problems.append(f"{where}: {mark.group(0)} with no number before it")
+    if HAN.search(msgstr):
+        problems.append(f"{where}: a Han character ({HAN.search(msgstr).group(0)}) in Russian")
+    marks = [mark for mark in CHINESE_PUNCTUATION if mark in msgstr]
+    if marks:
+        problems.append(f"{where}: Chinese punctuation {' '.join(marks)} (write . , : ; ! ? « » ( ) ...)")
     return problems
 
 

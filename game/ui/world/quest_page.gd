@@ -185,7 +185,7 @@ func shown_text() -> String:
 ## `color` transparent keeps the theme's.
 func _label(parent: Node, text: String, color: Color) -> Label:
 	var label := Label.new()
-	label.text = KoreanText.shown(text)
+	label.text = ShownText.of(text)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	if color.a > 0.0:

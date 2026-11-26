@@ -109,7 +109,7 @@ static func bubble_text(line: String) -> String:
 		var closing: String = {"“": "”", "\"": "\"", "「": "」", "『": "』"}.get(said.right(1), "")  # NO_TRANSLATE: quote marks
 		if not closing.is_empty() and text.ends_with(closing):
 			text = text.left(-1).strip_edges()
-	return KoreanText.shown(text)
+	return ShownText.of(text)
 
 
 static func _said() -> String:

@@ -757,7 +757,7 @@ func _chip(flow: HFlowContainer, node_name: String, text: String, pressed: Calla
 ## 吃 / 喝 / 装水 on the item read: what it said stays under it, and the rows refresh.
 func _use(how: Callable, id: StringName) -> void:
 	var line: String = how.call(id)
-	use_feedback.text = KoreanText.shown(line)
+	use_feedback.text = ShownText.of(line)
 	_feedback_for = id
 	supplies_used.emit(line)
 

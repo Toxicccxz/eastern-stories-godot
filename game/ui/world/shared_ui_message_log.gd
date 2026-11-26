@@ -83,7 +83,7 @@ func _append(lines: Array[ColoredLine], toast: bool) -> void:
 	stack.set_suppressed(_toasts_suppressed())
 	for line: ColoredLine in lines:
 		if not line.text.is_empty():
-			line.text = KoreanText.shown(line.text)
+			line.text = ShownText.of(line.text)
 			_log_lines.append(line.text)
 			_log_colors.append(line.color)
 			if toast:

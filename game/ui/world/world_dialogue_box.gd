@@ -237,7 +237,7 @@ func answer_as_written(lines: Array[String]) -> void:
 
 
 func _write_answer(lines: Array[String]) -> void:
-	_text.text = KoreanText.shown("\n".join(lines))
+	_text.text = ShownText.of("\n".join(lines))
 	_text.add_theme_color_override("font_color", TEXT_COLOR)
 	_start_typing()
 	_text.visible = not lines.is_empty()

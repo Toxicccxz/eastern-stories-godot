@@ -232,7 +232,7 @@ func _leave_stage() -> void:
 
 
 func _present(lines: Array[ColoredLine]) -> void:
-	status.text = KoreanText.shown("\n".join(ColoredLine.texts(lines)))
+	status.text = ShownText.of("\n".join(ColoredLine.texts(lines)))
 	bar.hide()
 	stop_button.hide()
 	var parent := get_parent() as CanvasItem

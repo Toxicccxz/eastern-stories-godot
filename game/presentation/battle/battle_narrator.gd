@@ -370,8 +370,8 @@ static func _limb_and_weapon(text: String, limb: String, weapon: String) -> Stri
 ## or a name in lower case comes out capitalised.
 static func vision(message: String, me: StringName, you: StringName, cast: BattlePresentationProjection) -> String:
 	var viewer: StringName = cast.player_id
-	var target: MessageGrammar.Role = null if you.is_empty() else MessageGrammar.Role.new(viewer == you, cast.gender(you))
-	message = MessageGrammar.resolve(message, MessageGrammar.Role.new(viewer == me, cast.gender(me)), target)
+	var target: MessageGrammar.Role = null if you.is_empty() else MessageGrammar.Role.new(viewer == you, cast.gender(you), _t(cast.display_name(you)))
+	message = MessageGrammar.resolve(message, MessageGrammar.Role.new(viewer == me, cast.gender(me), _t(cast.display_name(me))), target)
 	return MessageGrammar.capitalize(_filled(message, me, you, cast))
 
 

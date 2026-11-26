@@ -9,21 +9,12 @@ extends RefCounted
 ## joiner (U+2060, no width, no glyph) between the syllables of a word keeps it whole. The
 ## joiners are put in where the text is shown, never in the .po or a save, and taken out
 ## again before the particles are read, so a line can pass through here any number of times.
+## ShownText finishes a line in Korean here; FinishedTranslation does it for a control's own text.
 
 const LANGUAGE: String = "ko"
 const WORD_JOINER: String = "⁠"
 
 static var _syllable_pair: RegEx
-
-
-## `text` as the shown language shows it: finished in Korean, as it is otherwise. Every place
-## that puts a filled line on screen without the control translating it calls this (the
-## log, toasts, the dialogue box, battle lines); a control that translates its own text gets
-## it from KoreanTranslation.
-static func shown(text: String) -> String:
-	if text.is_empty() or TranslationServer.get_locale().get_slice("_", 0) != LANGUAGE:
-		return text
-	return finish(text)
 
 
 ## The particles picked and the words kept whole, whatever the shown language.

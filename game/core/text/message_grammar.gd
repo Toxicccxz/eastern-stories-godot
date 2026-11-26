@@ -11,6 +11,10 @@ extends RefCounted
 ##                      $N's pronoun: you/you/your/yourself for the player, else by gender
 ##                      (she/her/her/herself, it/its for a beast or a thing); {n:…} for $n.
 ##   $N's  $n's         "your" when that one is the player; a name keeps its 's.
+##   {N:ударили|ударил|ударила|ударило}
+##                      three or four forms (Russian, docs/production/russian_style.md): the
+##                      player (вы), then by the gender of $N's name — the Russian name's own
+##                      (RussianNouns: собака is ж), else the character's — м | ж | ср.
 ##
 ## resolve() runs on the translated template before a site fills $N/$n/$P/$p as it always
 ## has, so a Chinese line comes out exactly as before. capitalize() runs on the filled line
@@ -30,15 +34,18 @@ const _PRONOUNS: Dictionary[String, PackedStringArray] = {
 static var _token: RegEx
 
 
-## Who $N or $n is for the grammar: the player (as they read it) or someone of a gender.
+## Who $N or $n is for the grammar: the player (as they read it) or someone of a gender;
+## `name` is the name as shown, when the site knows it (fill() sets it).
 class Role:
 	extends RefCounted
 	var is_you: bool
 	var gender: StringName
+	var name: String
 
-	func _init(p_is_you: bool = false, p_gender: StringName = &"") -> void:
+	func _init(p_is_you: bool = false, p_gender: StringName = &"", p_name: String = "") -> void:
 		is_you = p_is_you
 		gender = p_gender
+		name = p_name
 
 
 static func you() -> Role:
@@ -77,6 +84,10 @@ static func resolve(text: String, actor: Role, target: Role = null) -> String:
 ## A translated message_vision() line filled the plain way: the grammar forms, then $N with
 ## `actor_text` and $n with `target_text` (a null role's token is left as written), capitalised.
 static func fill(text: String, actor: Role, actor_text: String, target: Role = null, target_text: String = "") -> String:
+	if actor != null and actor.name.is_empty():
+		actor.name = actor_text
+	if target != null and target.name.is_empty():
+		target.name = target_text
 	var out: String = resolve(text, actor, target)
 	if actor != null:
 		out = out.replace("$N", actor_text)
@@ -93,18 +104,19 @@ static func shows_chinese() -> bool:
 
 ## Upper-cases a Latin letter that opens the line or a sentence (after . ! ? and a space,
 ## past an opening quote or bracket), and in Korean picks the particles after the filled
-## names (KoreanParticles). Only under a loaded translation: the source language (Chinese)
+## names (KoreanParticles), in Russian puts the filled names in their cases (RussianText).
+## Only under a loaded translation: the source language (Chinese)
 ## has none, whatever the system locale is before Settings applies one.
 static func capitalize(text: String) -> String:
 	if text.is_empty() or shows_chinese():
 		return text
-	text = KoreanText.shown(text)
+	text = ShownText.of(text)
 	var chars: PackedStringArray = []
 	var opens: bool = true
 	for index: int in range(text.length()):
 		var c: String = text[index]
 		if opens:
-			if c >= "a" and c <= "z":
+			if (c >= "a" and c <= "z") or (c >= "а" and c <= "я") or c == "ё":
 				c = c.to_upper()
 				opens = false
 			elif not (c in [" ", "\"", "“", "‘", "'", "(", "[", "—", "\n"]):
@@ -124,7 +136,26 @@ static func _form(role: Role, first: String, second: String, written: String) ->
 			push_error("MessageGrammar: unknown pronoun %s" % written)
 			return written
 		return forms[_pronoun_index(role)]
+	if second.contains("|"):
+		var forms: PackedStringArray = [first]
+		forms.append_array(second.split("|"))
+		var index: int = 0 if role.is_you else _russian_gender_index(role)
+		return forms[index] if index < forms.size() else forms[1]
 	return first if role.is_you else second
+
+
+## 1 м, 2 ж, 3 ср: the gender of the Russian name when it is known, else the character's.
+static func _russian_gender_index(role: Role) -> int:
+	match RussianNouns.gender_of(role.name):
+		"ж":
+			return 2
+		"ср":
+			return 3
+		"м", "мн":
+			return 1
+	if role.gender == CharacterState.GENDER_FEMALE or role.gender == &"雌性":  # NO_TRANSLATE: a gender value
+		return 2
+	return 1
 
 
 static func _pronoun_index(role: Role) -> int:
