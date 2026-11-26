@@ -94,11 +94,37 @@ def _run(
         raise RuntimeError(f"verification command timed out after {timeout:g} s and was stopped") from None
     # A grandchild still holding the pipe must not hang the step.
     relay.join(timeout=30)
+    # A crash after a SCRIPT ERROR fails on the error (no second run that might not print it).
+    if _crashed(returncode) and not script_errors:
+        raise StepCrashed(f"verification command failed with exit code {returncode} (crashed)")
     if returncode != 0:
         raise RuntimeError(f"verification command failed with exit code {returncode}")
     if script_errors:
         shown = "\n".join(script_errors[:20])
         raise RuntimeError(f"{len(script_errors)} {SCRIPT_ERROR_MARKER} line(s) in the output:\n{shown}")
+
+
+class StepCrashed(RuntimeError):
+    """A Godot step the process itself crashed out of (a signal, or a Windows fault code)."""
+
+
+def _crashed(returncode: int) -> bool:
+    """Killed by a signal (POSIX: negative) or ended by an unhandled fault (Windows: an NTSTATUS
+    error, 0xC0000000 and above, e.g. 0xC0000005 for an access violation)."""
+    return returncode < 0 or returncode >= 0xC0000000
+
+
+def _run_import(command: list[str], env: dict[str, str] | None, timeout: float = IMPORT_TIMEOUT_SECONDS) -> None:
+    """The editor's headless import, run once more if the process crashed. Godot 4.7.2 now and
+    then segfaults on the main thread at exit, after the import has finished and every worker
+    thread has ended (CI 2026-11-20: exit -6 or -11, no message, in about one cold import in
+    twenty). A second run is warm and short; a crash again, an exit code or a SCRIPT ERROR line
+    still fails the step."""
+    try:
+        _run(command, env=env, timeout=timeout, fail_on_script_errors=True)
+    except StepCrashed as crash:
+        print(f"{crash}; the import is run once more", flush=True)
+        _run(command, env=env, timeout=timeout, fail_on_script_errors=True)
 
 
 class _ScriptErrorCollector:
@@ -458,12 +484,7 @@ def main(argv: list[str] | None = None) -> int:
         validate_godot_version(godot)
         godot_env = _godot_environment(REPOSITORY / "build/verify-godot-environment")
         print("[3/5] Development Godot headless editor validation", flush=True)
-        _run(
-            [str(godot), "--headless", "--path", "game", "--editor", "--quit"],
-            env=godot_env,
-            timeout=IMPORT_TIMEOUT_SECONDS,
-            fail_on_script_errors=True,
-        )
+        _run_import([str(godot), "--headless", "--path", "game", "--editor", "--quit"], godot_env)
 
         print("[4/5] Complete gameplay test suites, one process each", flush=True)
         if args.skip_gameplay_tests:
@@ -479,12 +500,7 @@ def main(argv: list[str] | None = None) -> int:
         errors = validate_release_project(release_project)
         if errors:
             raise RuntimeError("\n".join(errors))
-        _run(
-            [str(godot), "--headless", "--path", str(release_project), "--editor", "--quit"],
-            env=godot_env,
-            timeout=IMPORT_TIMEOUT_SECONDS,
-            fail_on_script_errors=True,
-        )
+        _run_import([str(godot), "--headless", "--path", str(release_project), "--editor", "--quit"], godot_env)
         # The cleaned copy started as a player starts it: main menu, 新的旅程, a few hundred
         # frames, one save. Any error line fails it (the import above logs missing-import
         # errors of its own on a cold cache, so only its SCRIPT ERROR lines count).

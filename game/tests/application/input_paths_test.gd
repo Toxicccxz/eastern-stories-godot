@@ -31,6 +31,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		await _test_pause_in_dialogue(tree, shell)
 		await _test_pause_in_scene(tree, shell)
 		await _test_window_focus(tree, shell)
+		await _test_walk_by_position(tree, shell)
 		await _test_key_page(tree, shell)
 		await _test_pause_in_epilogue(tree, shell)
 		shell.queue_free()
@@ -70,6 +71,17 @@ func _test_card_after_pause(tree: SceneTree, shell: ApplicationShellController) 
 	var session: WorldSessionController = shell.runtime_host().current_session()
 	var overlay: PlayerLifeOverlay = session.shared_ui().life_overlay
 	_check(overlay.card_shown(), "the opening card is up")
+	# A small screen (owner 2026-11-22: the card ran off a phone): the card narrows and its text
+	# scrolls, 继续 stays on the screen.
+	tree.root.content_scale_factor = 2.0
+	await _frames(tree, 3)
+	var screen := Rect2(Vector2.ZERO, tree.root.get_visible_rect().size)
+	var card: Rect2 = overlay._panel.get_global_rect()
+	_check(screen.encloses(card) and screen.encloses(overlay._continue.get_global_rect()), "on a small screen the card fits: %s in %s" % [card, screen])
+	_check(overlay._scroll.get_v_scroll_bar().max_value > overlay._scroll.get_v_scroll_bar().page, "its long text scrolls")
+	tree.root.content_scale_factor = 1.0
+	await _frames(tree, 3)
+	_check(Rect2(Vector2.ZERO, tree.root.get_visible_rect().size).encloses(overlay._panel.get_global_rect()), "and fits the full screen")
 	var cases: Array[Array] = [
 		["keys, the opening card", false, ""],
 		["pad, a card while playing", true, "柳淳风收下了你。\n\n你成了封山剑派第十四代弟子。"],
@@ -106,6 +118,29 @@ func _test_card_after_pause(tree: SceneTree, shell: ApplicationShellController) 
 		await _frames(tree, 2)
 		_check(not overlay.card_shown() and not session.world_time_held(), "%s: confirm closes the card" % label)
 		_check(not session.shared_ui().interaction_open(), "%s: and nothing under it was interacted with" % label)
+
+
+## A key event whose keycode and physical keycode differ (AZERTY's Z at QWERTY's W) walks by
+## its position: up.
+func _test_walk_by_position(tree: SceneTree, shell: ApplicationShellController) -> void:
+	var session: WorldSessionController = shell.runtime_host().current_session()
+	var map := session.active_map() as WorldMapController
+	var body: Node2D = map.runtime_player_body()
+	var before: Vector2 = body.global_position
+	var down := InputEventKey.new()
+	down.physical_keycode = KEY_W
+	down.keycode = KEY_Z
+	down.unicode = "z".unicode_at(0)
+	down.pressed = true
+	_check(InputMap.event_is_action(down, &"move_up", true) and not InputMap.event_is_action(down, &"move_down", true), "Z typed at W's place is 走 up")
+	Input.parse_input_event(down)
+	for frame: int in 20:
+		await tree.physics_frame
+	var up := down.duplicate() as InputEventKey
+	up.pressed = false
+	Input.parse_input_event(up)
+	await _frames(tree, 2)
+	_check(body.global_position.y < before.y - 1.0, "and the player walked up: %s → %s" % [before, body.global_position])
 
 
 ## Esc in the dialogue box opens 系统 (it was dead there); the box stands where it was and
@@ -214,19 +249,41 @@ func _test_focus_pause_setting() -> void:
 
 
 ## The letter keys are bound by position; the glyph names the letter (here, QWERTY's).
+## Every A to Z key event in the game's actions has no keycode and a physical one
+## (20 actions have one; a binding written by key would print and act wrong on AZERTY).
 func _test_key_names() -> void:
-	for action: StringName in [&"move_up", &"interact", &"menu_open"]:
+	var lettered: Array[StringName] = []
+	for action: StringName in InputMap.get_actions():
+		if String(action).begins_with("ui_"):
+			continue # Godot's own text and dialog shortcuts (Ctrl+C and so on), not the game's.
 		for event: InputEvent in InputMap.action_get_events(action):
 			var key := event as InputEventKey
-			if key != null and key.physical_keycode >= KEY_A and key.physical_keycode <= KEY_Z:
-				_check(key.keycode == KEY_NONE, "%s: by position only" % action)
+			if key == null:
+				continue
+			var letter: bool = (key.keycode >= KEY_A and key.keycode <= KEY_Z) or (key.physical_keycode >= KEY_A and key.physical_keycode <= KEY_Z)
+			if not letter:
+				continue
+			if not lettered.has(action):
+				lettered.append(action)
+			_check(key.keycode == KEY_NONE and key.physical_keycode >= KEY_A and key.physical_keycode <= KEY_Z, "%s: a letter by position only (keycode %d, physical %d)" % [action, key.keycode, key.physical_keycode])
+	_check(lettered.size() == 20, "20 actions have a letter key: %s" % [lettered])
+	# A key cap prints what the key types: the punctuation an AZERTY layout has where QWERTY's
+	# letters are shows as itself, not by its English name.
+	var caps: Dictionary[Key, String] = {
+		KEY_COMMA: ",", KEY_PERIOD: ".", KEY_SEMICOLON: ";", KEY_COLON: ":", KEY_APOSTROPHE: "'",
+		KEY_BRACKETLEFT: "[", KEY_SLASH: "/", KEY_A: "A", KEY_Z: "Z", 0xE9 as Key: "É",
+		KEY_ESCAPE: "Esc", KEY_SPACE: "Space", KEY_UP: "Up", KEY_F1: "F1", KEY_PAGEUP: "PgUp",
+	}
+	for code: Key in caps:
+		_check(InputGlyphs.key_text(code) == caps[code], "key cap for %d: %s, not %s" % [code, caps[code], InputGlyphs.key_text(code)])
 	_check(InputGlyphs.key_names(&"move_up") == PackedStringArray(["W", "Up"]), "走 up: W / Up: %s" % [InputGlyphs.key_names(&"move_up")])
 	_check(InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.XBOX) == PackedStringArray(["A"]) and InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.PLAYSTATION) == PackedStringArray(["叉"]) and InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.NINTENDO) == PackedStringArray(["B"]), "交互 on the three pads")
 	_check(bool(ProjectSettings.get_setting("input_devices/joypads/ignore_joypad_on_unfocused_application")), "Godot drops a pad's input while the window has no focus")
 
 
-## The window losing its focus: 系统 over the game, the world held, a pad steering nothing;
-## back, 系统 stays until 继续. With the setting off the game runs on, a pad still steers nothing.
+## The window losing its focus: the focus pause over the game, the world held, a pad steering
+## nothing; back, it stays until 继续 and says it can be turned off. With the setting off the
+## game runs on, a pad still steers nothing.
 func _test_window_focus(tree: SceneTree, shell: ApplicationShellController) -> void:
 	var session: WorldSessionController = shell.runtime_host().current_session()
 	var map := session.active_map() as WorldMapController
@@ -234,7 +291,7 @@ func _test_window_focus(tree: SceneTree, shell: ApplicationShellController) -> v
 	var minutes: float = session.day_clock().day_minutes()
 	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
 	await _frames(tree, 2)
-	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED and tree.paused and not shell.interaction_allowed(), "the window lost its focus: paused")
+	_check(shell.focus_held() and shell.focus_layer.shown() and tree.paused and not shell.interaction_allowed(), "the window lost its focus: paused")
 	var standing: Vector2 = map.runtime_player_body().global_position
 	Input.parse_input_event(_motion(JOY_AXIS_LEFT_X, 1.0))
 	await _frames(tree, 2)
@@ -242,11 +299,14 @@ func _test_window_focus(tree: SceneTree, shell: ApplicationShellController) -> v
 	Input.parse_input_event(_motion(JOY_AXIS_LEFT_X, 0.0))
 	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
 	await _frames(tree, 4)
-	_check(shell.interaction_allowed() and shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED and shell.lifecycle_info.visible, "back: still paused, 系统 says why")
+	_check(shell.interaction_allowed() and shell.focus_held() and shell.focus_layer.shown() and tree.paused, "back: still paused, the page says why")
+	var note: Label = shell.focus_layer.find_child("Note", true, false) as Label
+	_check(note != null and note.is_visible_in_tree() and note.text.contains("切出窗口时暂停"), "and that 设置 can turn it off")
+	_check(not shell.pause_visible(), "系统 is not opened for it")
 	_check(is_equal_approx(session.day_clock().day_minutes(), minutes), "no game time went by")
 	await _key(tree, KEY_ESCAPE)
 	await _frames(tree, 2)
-	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and not tree.paused, "Esc: playing again")
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and not shell.focus_held() and not shell.focus_layer.shown() and not tree.paused, "Esc: playing again")
 	_check(map.runtime_player_body().global_position == standing, "the player stood still")
 	# Paused by the player first: coming back leaves it paused.
 	await _key(tree, KEY_ESCAPE)
@@ -254,7 +314,7 @@ func _test_window_focus(tree: SceneTree, shell: ApplicationShellController) -> v
 	await _frames(tree, 2)
 	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
 	await _frames(tree, 4)
-	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED, "paused before, paused after")
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED and not shell.focus_layer.shown(), "paused before, paused after, 系统 as it was")
 	await _key(tree, KEY_ESCAPE)
 	await _frames(tree, 2)
 	# The setting off: the window's focus pauses nothing; the pad is still not heard.
@@ -287,7 +347,8 @@ func _test_key_page(tree: SceneTree, shell: ApplicationShellController) -> void:
 	_check(page.visible and tree.root.gui_get_focus_owner() == page.back_button, "A on 按键一览: the page, 返回 focused")
 	var walk: Array[String] = page.row_text("走路")
 	_check(walk.size() == 2 and walk[0] == "W / A / S / D / 方向键" and walk[1] == "LS / 十字键", "走路: keys and pad: %s" % [walk])
-	_check(page.row_text("暂停（系统）") == ["Esc", "Back"], "暂停: %s" % [page.row_text("暂停（系统）")])
+	_check(page.row_text("暂停（系统）") == ["Esc", "视图键"], "暂停: %s" % [page.row_text("暂停（系统）")])
+	_check(page.row_text("切换视角") == ["V", "RS"] and page.row_text("地图：缩放") == ["- / =", "LT / RT"] and page.row_text("地图：移动") == ["—", "LS"], "the view key and the map's: %s %s" % [page.row_text("切换视角"), page.row_text("地图：缩放")])
 	await _joy(tree, JOY_BUTTON_DPAD_UP)
 	_check(tree.root.gui_get_focus_owner() == page.back_button, "the focus stays on the page")
 	await _joy(tree, JOY_BUTTON_B)

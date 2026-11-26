@@ -33,13 +33,23 @@ const ARRIVAL_SECONDS: float = 1.7
 const LEAVING_SECONDS: float = 1.0
 ## The line under the title: its size against the lettering's height (Latin capitals under brush
 ## characters; characters under a line of capitals), with a floor in UI pixels at 1280 wide; how
-## much of the lettering's width it is spaced out to, and the most room between two letters (parts
-## of its size); the gap above it.
+## much of the lettering's width it may be spaced out to, and the most room between two letters
+## (parts of its size: a plain, sober line under the brushed title, owner 2026-11-22); the gap
+## above it.
 const LINE_SHARE: float = 0.19
 const LINE_SHARE_UNDER_CAPITALS: float = 0.62
+## Latin letters under a long, low title (동방이야기) are as big as under 东方故事: at least this
+## share of the lettering's width.
+const LINE_SHARE_OF_LONG: float = 0.075
+## Characters under Latin lettering also stay within this share of its width (two lines of it
+## stand tall).
+const LINE_SHARE_OF_WIDTH: float = 0.07
+## The lettering is never taller than this share of its width at full size (东方故事's own shape):
+## a taller title (two lines) is drawn smaller, its left edge where the full-size one's is.
+const TALL_MOST: float = 0.46
 const LINE_MIN: float = 22.0
 const LINE_WIDE: float = 0.94
-const LINE_SPACE_MOST: float = 1.4
+const LINE_SPACE_MOST: float = 0.22
 const LINE_GAP: float = 0.1
 ## The seal's side against the lettering's height, the room between it and the last letter (UI
 ## pixels at 1280 wide), and where its middle stands down the lettering (0 top, 1 foot).
@@ -113,6 +123,8 @@ func _init() -> void:
 	_line = Label.new()
 	_line.name = "Line"
 	_line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	# The line is the title in the other language (title_screen.json), never a translation.
+	_line.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	_line.add_theme_constant_override("shadow_offset_x", 0)
 	_line.add_theme_constant_override("shadow_offset_y", 2)
 	_line.add_theme_constant_override("shadow_outline_size", 10)
@@ -183,15 +195,25 @@ func _place() -> void:
 		return
 	var window: Vector2i = get_tree().root.size.max(Vector2i(64, 64))
 	_view.size = window
-	var screen := Vector2(window)
-	var unit: float = screen.x / 1280.0
+	place_for(Vector2(window))
+
+
+## Lays the title out for a window `screen` pixels big. A screen wider than 16:9 (a phone, an
+## ultrawide monitor) keeps the title it has at 16:9 for its height, at the left: the extra width
+## goes to the 沙盘, and the menu's column stays under the line (owner, 2026-11-20: grown with the
+## width, the lettering came down over the menu on a 20:9 phone).
+func place_for(screen: Vector2) -> void:
+	var box: Vector2 = title_box(screen)
+	var unit: float = box.x / 1280.0
 	var letters: Texture2D = _letters.texture
 	if letters == null:
 		return
-	var size_px := Vector2(width_px * unit, width_px * unit * letters.get_height() / letters.get_width())
-	var middle: Vector2 = at * screen
+	var wide: float = width_px * unit
+	var size_px := Vector2(wide, wide * letters.get_height() / letters.get_width())
+	size_px *= minf(1.0, wide * TALL_MOST / size_px.y)
+	var middle: Vector2 = at * box
 	_letters.size = size_px
-	_letters.position = middle - size_px / 2.0
+	_letters.position = Vector2(middle.x - wide / 2.0, middle.y - size_px.y / 2.0)
 	# The ink's own box inside the padded mask.
 	var pad: Vector2 = Vector2(MASK_PAD, MASK_PAD) * size_px.x / letters.get_width()
 	var ink_left: float = _letters.position.x + pad.x
@@ -199,7 +221,8 @@ func _place() -> void:
 	var ink_wide: float = size_px.x - pad.x * 2.0
 	var ink_tall: float = size_px.y - pad.y * 2.0
 	var latin: bool = _latin(_line.text)
-	var font_size: int = maxi(8, roundi(maxf(ink_tall * (LINE_SHARE if latin else LINE_SHARE_UNDER_CAPITALS), LINE_MIN * unit)))
+	var share: float = maxf(ink_tall * LINE_SHARE, ink_wide * LINE_SHARE_OF_LONG) if latin else minf(ink_tall * LINE_SHARE_UNDER_CAPITALS, ink_wide * LINE_SHARE_OF_WIDTH)
+	var font_size: int = maxi(8, roundi(maxf(share, LINE_MIN * unit)))
 	var face := FontVariation.new()
 	face.base_font = LINE_ROMAN if latin else LINE_FONT
 	if latin:
@@ -223,6 +246,12 @@ func _place() -> void:
 	_smoke.emission_rect_extents = Vector2(ink_wide, ink_tall) * 0.5
 	_smoke.scale_amount_min = 10.0 * unit / 32.0
 	_smoke.scale_amount_max = 26.0 * unit / 32.0
+
+
+## The part of a `screen` the title is laid out in: all of it up to 16:9, the 16:9 at its left
+## beyond that.
+static func title_box(screen: Vector2) -> Vector2:
+	return Vector2(minf(screen.x, screen.y * 16.0 / 9.0), screen.y)
 
 
 func _rect(node_name: String, mat: ShaderMaterial) -> TextureRect:

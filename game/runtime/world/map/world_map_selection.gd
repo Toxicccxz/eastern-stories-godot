@@ -496,6 +496,9 @@ func ask_selected(topic: String) -> Array[String]:
 		var going: NpcRuntimeState = _map.npcs.first_npc_in_zone(answer.also_leaves, target.world_location().zone_id, true)
 		if going != null:
 			_map.npcs.leave_for_good(going)
+		else:
+			# Nobody of them standing in the room (knocked down, away): their spawn's `until` takes them next time.
+			push_warning("also_leaves: no '%s' standing beside %s" % [answer.also_leaves, target.definition().definition_id])
 	# 晚月 B (DECISIONS「演完回屋」): the answer changes who is on the stage, judged in front of the player.
 	if answer.restage and session != null:
 		WorldStoryPresence.stage(session, _map)
@@ -611,7 +614,7 @@ func kneel_selected() -> Array[String]:
 	var lines: Array[ColoredLine] = []
 	for line: String in ordination.lines:
 		# TRANSLATORS: message_vision(): the one kneeling, for the $N of a 剃度 line.
-		lines.append(ColoredLine.new(tr(line).replace("$N", tr("你")).replace("$n", npc), ordination.color))
+		lines.append(ColoredLine.new(MessageGrammar.fill(tr(line), MessageGrammar.you(), tr("你"), MessageGrammar.other(selected_npc().character_state.gender), npc), ordination.color))
 	var dharma_name: String = ordination.dharma_name(_player.facts.display_name, _world_interaction_random.legacy_random)
 	lines.append(ColoredLine.new(tr("{npc}说道：{line}").format({"npc": npc, "line": NpcTalk.line(ordination.say).format({"name": dharma_name})})))
 	_player.temp_marks.erase(ordination.temp)

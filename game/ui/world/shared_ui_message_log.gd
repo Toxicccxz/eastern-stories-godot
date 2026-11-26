@@ -83,6 +83,7 @@ func _append(lines: Array[ColoredLine], toast: bool) -> void:
 	stack.set_suppressed(_toasts_suppressed())
 	for line: ColoredLine in lines:
 		if not line.text.is_empty():
+			line.text = KoreanText.shown(line.text)
 			_log_lines.append(line.text)
 			_log_colors.append(line.color)
 			if toast:
@@ -154,6 +155,15 @@ func describe_arrival() -> void:
 func describe_again() -> void:
 	_described_zone_id = &""
 	describe_new_zone()
+
+
+## The last described room's title and description in the language shown now ([] when none):
+## the room panel at the top reads them again when the language changes.
+func described_room_texts() -> PackedStringArray:
+	var zone: ZoneDefinition = GameContent.catalog().zone(_described_zone_id)
+	if zone == null:
+		return PackedStringArray()
+	return PackedStringArray([tr(zone.display_name), room_prose(tr(zone.description)) + sky_line(zone)])
 
 
 func describe_new_zone() -> void:

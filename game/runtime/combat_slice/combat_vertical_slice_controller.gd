@@ -177,7 +177,6 @@ func _execute_lifecycle(
 		corpse_id,
 		arena_destination,
 		CombatSliceDemoFactory.create_death_item_facts_for(victim, inventory_state),
-		DeathItemPolicyRegistry.new(),
 		DeathRewearPolicyRegistry.new(),
 	)
 	var body: CombatSliceCharacterBody = _body_for(victim)

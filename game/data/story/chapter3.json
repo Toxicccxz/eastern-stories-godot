@@ -179,6 +179,7 @@
 				{
 					"id": "home",
 					"only_after": "rescue",
+					"keeps": ["native.npc.huo_zheng"],
 					"objective": "带霍铮回野羊山的土地庙。",
 					"done": {
 						"mark": "霍铮回了寨"

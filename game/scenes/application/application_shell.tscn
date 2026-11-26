@@ -79,18 +79,18 @@ theme_override_constants/margin_bottom = 4
 
 [node name="VBox" type="VBoxContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 2
+theme_override_constants/separation = 0
 
 [node name="NewGameButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 48)
+custom_minimum_size = Vector2(260, 40)
 layout_mode = 2
 text = "新游戏"
 alignment = 0
 
 [node name="ContinueButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 48)
+custom_minimum_size = Vector2(260, 40)
 layout_mode = 2
 disabled = true
 text = "继续"
@@ -98,7 +98,7 @@ alignment = 0
 
 [node name="LoadButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 48)
+custom_minimum_size = Vector2(260, 40)
 layout_mode = 2
 disabled = true
 text = "读取存档"
@@ -106,7 +106,7 @@ alignment = 0
 
 [node name="RecoveryButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 48)
+custom_minimum_size = Vector2(260, 40)
 layout_mode = 2
 disabled = true
 text = "恢复存档"
@@ -114,14 +114,14 @@ alignment = 0
 
 [node name="MenuSettingsButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 48)
+custom_minimum_size = Vector2(260, 40)
 layout_mode = 2
 text = "设置"
 alignment = 0
 
 [node name="QuitButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 48)
+custom_minimum_size = Vector2(260, 40)
 layout_mode = 2
 text = "退出游戏"
 alignment = 0
@@ -274,13 +274,6 @@ layout_mode = 2
 theme_type_variation = &"TitleLabel"
 text = "暂停"
 horizontal_alignment = 1
-
-[node name="LifecycleInfo" type="Label" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-text = "游戏在后台时暂停了。离开前请手动存档，以免丢失最近的进度。"
-autowrap_mode = 2
 
 [node name="ResumeButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
@@ -626,6 +619,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(56, 0)
 layout_mode = 2
 theme_type_variation = &"MutedLabel"
+metadata/keeps_width = true
 text = "80%"
 horizontal_alignment = 2
 vertical_alignment = 1

@@ -42,3 +42,11 @@ func _slot_less_than(
 	if right == null:
 		return false
 	return String(left.armor_type) < String(right.armor_type)
+
+
+## The order NativeItemStateSnapshot keeps these records in: by character ID, a missing record first.
+## Reads the fields themselves, not their getters: a save sorts thousands of records.
+static func before(left: NativeCharacterArmorRecord, right: NativeCharacterArmorRecord) -> bool:
+	if left == null:
+		return right != null
+	return right != null and String(left._character_id) < String(right._character_id)

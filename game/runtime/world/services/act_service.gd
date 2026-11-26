@@ -35,6 +35,18 @@ func offers_player() -> bool:
 	return _act_for_player() != null
 
 
+## offers_player() with the player's facts already taken (WorldMapActs.facts()): only the room's
+## own flags are this command's. VoxelGlints asks all of a map's commands with one taking — each
+## taking its own cost a town's frame 15 ms on a desktop and a phone's several times that.
+func offers_player_given(known: ScriptedAct.Facts) -> bool:
+	if map == null or map.player_runtime() == null:
+		return false
+	if map.session != null:
+		known.room = map.session.room_states().flags(definition.zone_id)
+	var state: CharacterState = map.player_runtime().state
+	return definition.act.act_for(state.gender, state.affiliation.class_id, known) != null
+
+
 ## The button: the player's branch, asked first when it must be.
 func interact() -> void:
 	if not in_reach():
@@ -90,7 +102,7 @@ static func ask_first_or_run(on: WorldMapController, act: ScriptedAct, verb_text
 	if act.moves_player() and on.patrols.refuses_move():
 		return
 	if act.asks(on.player_runtime().state.marks):
-		on.session.shared_ui().ask_first(TranslationServer.translate(act.ask), TranslationServer.translate(act.choice), run, still_valid, on_cancel)
+		on.session.shared_ui().ask_first(act.asked(on.acts.facts().holds), TranslationServer.translate(act.choice), run, still_valid, on_cancel)
 		return
 	var costs: Dictionary[String, int] = act.fainting_costs(on.player_runtime().state)
 	if not costs.is_empty():

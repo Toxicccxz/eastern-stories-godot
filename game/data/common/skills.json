@@ -166,7 +166,7 @@
 			],
 			"practice": {
 				"refuses": true,
-				"fail": "封山派内功只能用学的，或是从运用(exert)中增加熟练度。"
+				"fail": "封山派内功只能用学的，或是从运用中增加熟练度。"
 			}
 		},
 		{
@@ -421,7 +421,7 @@
 			],
 			"practice": {
 				"refuses": true,
-				"fail": "天邪神功只能用学的，或是从运用(exert)中增加熟练度。"
+				"fail": "天邪神功只能用学的，或是从运用中增加熟练度。"
 			},
 			"valid_learn": {
 				"bellicosity": "你的杀气不够，无法领悟更高深的天邪神功。"
@@ -509,7 +509,7 @@
 			],
 			"practice": {
 				"refuses": true,
-				"fail": "谷衣心法只能用学的，或是从运用(exert)中增加熟练度。"
+				"fail": "谷衣心法只能用学的，或是从运用中增加熟练度。"
 			},
 			"valid_learn": {
 				"max_mana": "你的魔力不够，无法提升谷衣心法的造诣。"
@@ -901,7 +901,7 @@
 			"standard_force_hit": true,
 			"practice": {
 				"refuses": true,
-				"fail": "绝尘心法只能用学的或是从运用(exert)中增加熟练度。"
+				"fail": "绝尘心法只能用学的或是从运用中增加熟练度。"
 			}
 		},
 		{
@@ -1023,7 +1023,7 @@
 			],
 			"practice": {
 				"refuses": true,
-				"fail": "莲华心法只能用学的，或是从运用(exert)中增加熟练度。"
+				"fail": "莲华心法只能用学的，或是从运用中增加熟练度。"
 			},
 			"valid_learn": {
 				"effective_skill": "你的大乘佛法修为不够，无法领会更高深的莲华心法。"
@@ -1265,7 +1265,7 @@
 			],
 			"practice": {
 				"refuses": true,
-				"fail": "意寒功只能用学的，或是从运用(exert)中增加熟练度。"
+				"fail": "意寒功只能用学的，或是从运用中增加熟练度。"
 			}
 		},
 		{
@@ -1281,7 +1281,7 @@
 			"standard_force_hit": true,
 			"practice": {
 				"refuses": true,
-				"fail": "天山雪影心法只能用学的或是从运用(exert)中增加熟练度。"
+				"fail": "天山雪影心法只能用学的或是从运用中增加熟练度。"
 			}
 		},
 		{
@@ -1393,7 +1393,7 @@
 			"standard_force_hit": true,
 			"practice": {
 				"refuses": true,
-				"fail": "步玄心法只能学，或是从运用(exert)中增加熟练度。"
+				"fail": "步玄心法只能学，或是从运用中增加熟练度。"
 			}
 		},
 		{
@@ -1698,7 +1698,7 @@
 			"standard_force_hit": true,
 			"practice": {
 				"refuses": true,
-				"fail": "小无相功只能用学的或是从运用(exert)中增加熟练度。"
+				"fail": "小无相功只能用学的或是从运用中增加熟练度。"
 			},
 			"valid_learn": {
 				"effective_skill": "你的文学素养不够无法提升小无相功的造诣。"

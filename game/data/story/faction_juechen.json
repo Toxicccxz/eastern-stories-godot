@@ -6,9 +6,10 @@
 			"line": "faction",
 			"region": "青石村",
 			"sources": [
-				"native: 势力线第三批 绝尘 A (剧情总纲 §4 第 7 条「绝尘派」, §3 第五章 (鬼卒出来了); 计划 势力线第三批_计划.md §7 绝尘 A, §2 第 1、2 条, §3, §8 第 8 行, §10 第 1–4 条, §12 Q1 Q2 Q5, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 A」). daemon/class/juechen/master.c (绝尘子: spi 24 and combat_exp to be taken, the gate a knob: DECISIONS「绝尘的经验门槛」), d/green/entrance.c (the wind at the 迷阵's mouth, the same gate), d/green/eight7.c (八卦阵, and 走出了八卦阵 that the stream's search does not take: DECISIONS「八卦阵与追风剑」), d/green/cave0.c (洞口: 一道厚厚的木门, 上面用一条手臂粗的铁链拴著; 一股寒气), cave1.c, cave2.c (洞内奇寒澈骨), d/green/npc/kid4.c (村长说这道门绝对不可以打开喔), woman2.c (明知山洞那边闹鬼, 没事带著我们家那两个跑过去), oldman2.c (村长: 国之将亡....., never finished), d/green/README (北边有一个废弃的山洞, 相传闹鬼). The line shows for 绝尘子's own (taken as ES2 takes them, at the knob's experience) and for a 过阵的客 (one who walked out of the 八卦阵 and asked 绝尘子「青石村」). From 第五章 on (the 鬼卒 are up): the 妇人 calling at the north road, 村长's 山洞, two 鬼卒 in the cave while the boy is in it, 阿牛 led out to his mother, 村长 finishing 国之将亡, 必有妖孽, 绝尘子 told (大弟子 for his own: 绝尘派不问世事) and 了尘 (new: the master knows what is in the cave) are the plan's (续写); the line stops at a stub step `xuanchen` that 绝尘 B fills."
+				"native: 势力线第三批 绝尘 A (剧情总纲 §4 第 7 条「绝尘派」, §3 第五章 (鬼卒出来了); 计划 势力线第三批_计划.md §7 绝尘 A, §2 第 1、2 条, §3, §8 第 8 行, §10 第 1–4 条, §12 Q1 Q2 Q5, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 A」). daemon/class/juechen/master.c (绝尘子: spi 24 and combat_exp to be taken, the gate a knob: DECISIONS「绝尘的经验门槛」), d/green/entrance.c (the wind at the 迷阵's mouth, the same gate), d/green/eight7.c (八卦阵, and 走出了八卦阵 that the stream's search does not take: DECISIONS「八卦阵与追风剑」), d/green/cave0.c (洞口: 一道厚厚的木门, 上面用一条手臂粗的铁链拴著; 一股寒气), cave1.c, cave2.c (洞内奇寒澈骨), d/green/npc/kid4.c (村长说这道门绝对不可以打开喔), woman2.c (明知山洞那边闹鬼, 没事带著我们家那两个跑过去), oldman2.c (村长: 国之将亡....., never finished), d/green/README (北边有一个废弃的山洞, 相传闹鬼). The line shows for 绝尘子's own (taken as ES2 takes them, at the knob's experience) and for a 过阵的客 (one who walked out of the 八卦阵 and asked 绝尘子「青石村」). From 第五章 on (the 鬼卒 are up): the 妇人 calling at the north road, 村长's 山洞, two 鬼卒 in the cave while the boy is in it, 阿牛 led out to his mother, 村长 finishing 国之将亡, 必有妖孽, 绝尘子 told (大弟子 for his own: 绝尘派不问世事) and 了尘 (new: the master knows what is in the cave) are the plan's (续写); the line stops at a stub step `xuanchen` that 绝尘 B fills.",
+				"native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」). daemon/class/juechen/master.c (绝尘子: 本为释家人, 后得奇人点化, 佛道双修), d/green/npc/master.c (the draft that has 龙若法王 found 绝尘派: here 玄尘 of 山烟寺, 点化 by 龙若 as he tells it, founded it), d/green/cavehall.c (the Buddha, the pearl on it). The stub `xuanchen` filled (了尘「师父」: thirty years ago a 小沙弥 of 山烟寺 who ran after 玄尘 out of the gate; the 樵夫 of 山烟寺 A; he wants to go back), 绝尘子「玄尘」 (he owns the name: 那个名字三十年没人叫了; a word for what 山烟寺 B did and what 龙若 said), the scene in the hall (绝尘子 under the Buddha, 了尘 on his knees), the split: 守阵 (了尘 stays; the 阵 pushed out to the cave's mouth, no 鬼卒 north of the village; 绝尘子 teaches one not of 绝尘派 the 奇门遁甲 and its 小天魔道; 绝尘派 comes and votes the old 盟主) or 下山 (了尘 to 流云轩, beside the 头陀 or as a 药僧; he teaches anyone the 金刚杖法; he sits 绝尘派's seat on the 虹台 and votes 颜违); 执事 for 绝尘派's own either way. 续写."
 			],
-			"summary": "青石村北边那个拴着铁链的山洞，村长说「绝对不可以打开」。现在洞里真的有东西了，村里的孩子又钻了进去。山洞后面就是八卦阵，阵后面是不问世事的绝尘子。",
+			"summary": "青石村北边那个拴着铁链的山洞，村长说「绝对不可以打开」。现在洞里真的有东西了。山洞后面是八卦阵，阵后面是不问世事的绝尘子——三十年前，他是山烟寺的玄尘。他的首徒了尘要下山。",
 			"starts": {
 				"any": [
 					{
@@ -173,7 +174,7 @@
 					"done": {
 						"mark": "了尘说了玄尘"
 					},
-					"text": "了尘说起了三十年前的事。",
+					"text": "了尘说起了三十年前：他是山烟寺的小沙弥，跟着玄尘师叔走出了山门。玄尘，就是师父。他要回山烟寺去。",
 					"target": {
 						"map": "green.stone_house",
 						"zone": "green.cavehall",
@@ -181,6 +182,90 @@
 							"native.npc.juechen_liaochen"
 						]
 					}
+				},
+				{
+					"id": "name",
+					"objective": "问绝尘子「玄尘」。",
+					"done": {
+						"mark": "绝尘子认了玄尘"
+					},
+					"text": "绝尘子认了：「玄尘。……那个名字三十年没人叫了。」了尘走到佛像前，跪了下来。",
+					"target": {
+						"map": "green.stone_house",
+						"zone": "green.cavehall",
+						"npcs": [
+							"common.npc.juechen.master"
+						]
+					}
+				},
+				{
+					"id": "meet",
+					"objective": "了尘跪在佛像前，等师父一句话。（话听了一半就走开的：守阵问绝尘子「守阵」，下山问了尘「下山」。）",
+					"done": {
+						"any": [
+							{
+								"mark": "绝尘子和了尘说完了话"
+							},
+							{
+								"mark": "绝尘派守了阵"
+							},
+							{
+								"mark": "了尘下了山"
+							}
+						]
+					},
+					"text": "了尘说他想下山，回流云轩救人。绝尘子说可以把阵推到洞口。他回过头来问你。",
+					"target": {
+						"map": "green.stone_house",
+						"zone": "green.cavehall",
+						"npcs": [
+							"native.npc.liaochen_kneel",
+							"common.npc.juechen.master"
+						]
+					}
+				},
+				{
+					"id": "split",
+					"weight": "big",
+					"objective": "守阵（问绝尘子「守阵」）：了尘留下，八卦阵推到青石村北边的洞口，那里从此不进鬼卒；绝尘子肯教外人奇门遁甲；虹台上绝尘子下山一回，投旧盟主。下山（问了尘「下山」）：了尘回山烟寺流云轩救人，肯教外人金刚杖法；虹台上了尘替绝尘派上台，投颜违。两边绝尘派的弟子都晋执事。",
+					"target": {
+						"map": "green.stone_house",
+						"zone": "green.cavehall",
+						"npcs": [
+							"common.npc.juechen.master",
+							"native.npc.liaochen_kneel"
+						]
+					},
+					"options": [
+						{
+							"id": "guard",
+							"done": {
+								"mark": "绝尘派守了阵"
+							},
+							"text": "你劝了尘留下。绝尘子把八卦阵推到了青石村北边的洞口，山洞里的东西再也出不来了。",
+							"reward": {
+								"deed": "陪绝尘子把八卦阵推到了青石村的洞口",
+								"rank": {
+									"family": "family.juechen",
+									"title": "执事"
+								}
+							}
+						},
+						{
+							"id": "leave",
+							"done": {
+								"mark": "了尘下了山"
+							},
+							"text": "了尘拜别了师父，下山回了日照山的流云轩。「出了阵，就是世事。」",
+							"reward": {
+								"deed": "送了尘出了八卦阵，回山烟寺流云轩救人",
+								"rank": {
+									"family": "family.juechen",
+									"title": "执事"
+								}
+							}
+						}
+					]
 				}
 			]
 		}

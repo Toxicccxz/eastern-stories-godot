@@ -25,6 +25,8 @@ const QUEST_ARROW_SCALE: float = 1.25
 const QUEST_SPIN: float = 2.4
 @export_file("*.json") var layout_path: String
 var map: WorldMapController
+## The ways-out names over the map (their source name in meta entrance_title).
+var _entrance_labels: Array[Label3D] = []
 ## 第十章 A: the guiding wind as shown, easing toward the rule's (WorldMapWinds.vector()).
 var _wind_shown: Vector2 = Vector2.ZERO
 var camera: Camera3D
@@ -45,6 +47,10 @@ var labels: Dictionary[StringName, Label3D] = {}
 var _camera_base_size: float = 24.0
 var _zoom: float = 1.0
 var _zoom_tween: Tween
+## The push-in the camera rests at between shows: 1.0 on a desktop; on a phone or tablet the
+## feel's phone_view_percent (nearer: the people larger on a small screen). A show works from
+## the layout's size as before and gives the camera back to this (unstage()).
+var rest_zoom: float = 1.0
 ## 战斗演出 B (DECISIONS「战斗演出 B」): the view staged for a show (a fight's opening) — the camera
 ## eased onto `_stage_target` instead of the player (_stage_blend 0 → 1), lower over it
 ## (_view_height under VIEW_HEIGHT: a flatter pitch), the exit arrows and the quest marker away.
@@ -102,6 +108,11 @@ const QUEST_GLOW: String = "d9452c"
 var quest_marker: Node3D
 ## What the marker was placed for ("" none): the target and the quest ledger's size.
 var _quest_key: String = ""
+## The follower apart the marker points to first (WorldLeftBehind.follower_goal(); DECISIONS
+## 「尸体和走散的同伴」), looked for every APART_LOOK_MS, not every frame (it reads every map).
+var _apart: MapAtlas.Goal
+var _apart_looked_ms: int = -1
+const APART_LOOK_MS: int = 500
 ## The twinkling points over what does something but may not look it (DECISIONS「交互闪光点」).
 var glints: VoxelGlints
 var _built: bool = false
@@ -121,6 +132,8 @@ var _frame_usec: int = 0
 ## the map with fewer pixels, GodotWindowModeCapability._draw_picture()).
 const SLOW_HINT_HIGH: String = "画面卡顿时，可以在「设置」里把「画质」调低；全屏时调低「分辨率」也会更流畅"
 const SLOW_HINT_LOW: String = "画面仍然卡顿时，可以在「设置」里调低「分辨率」：全屏时画面会更流畅"
+## A phone has no 分辨率 to lower (DECISIONS「手机画质」): on 高 the 画质 alone, on 低 nothing.
+const SLOW_HINT_PHONE: String = "画面卡顿时，可以在「设置」里把「画质」调低"
 var _target: Vector3
 var _offset := Vector3(21.213203,26,21.213203)
 var _view_yaw: float = VIEW_SIDE_ANGLE
@@ -133,15 +146,45 @@ var _panning: bool = false
 var _context_names: bool = false
 ## 状态挂在身上 (DECISIONS「战斗运功」): seconds till the figures' conditions are read again.
 var _states_wait: float = 0.0
+## 世界演出 (DECISIONS「世界演出」): the rain over this map and the small motions of things touched
+## (a door's swing, a thing flying to the hand, a start, a wader's splash); made with the world,
+## gone with it. Whether each door was open at the last look, who had its alert mark up, and
+## where each walker last splashed.
+var weather: VoxelWeather
+var touches: VoxelTouches
+var _door_open: Dictionary[StringName, bool] = {}
+var _alerted: Dictionary[StringName, bool] = {}
+var _wade_from: Dictionary[StringName, Vector3] = {}
+var _ground_layer: TileMapLayer
+## The map was just shown (or its rain just made): the rain is as the sky is, at once.
+var _weather_fresh: bool = true
 
 func _ready() -> void:
 	map = get_parent() as WorldMapController
 	process_priority = -20
+	rest_zoom = device_rest_zoom()
+	_zoom = rest_zoom
+
+
+## The camera's resting push-in on this device (rest_zoom).
+static func device_rest_zoom() -> float:
+	var percent: int = GameContent.catalog().pacing().feel.phone_view_percent
+	if percent <= 0 or not (OS.has_feature("android") or OS.has_feature("ios")):
+		return 1.0
+	return clampf(percent / 100.0, 0.3, 1.0)
 
 func _exit_tree() -> void:
 	_deactivate()
 	if _building:
 		release_world()
+
+## The language changed mid-game (Settings): the ways out read their names again.
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_TRANSLATION_CHANGED:
+		return
+	for label: Label3D in _entrance_labels:
+		if is_instance_valid(label):
+			label.text = tr(String(label.get_meta(&"entrance_title", ""))) + "  ›"
 
 func _process(delta: float) -> void:
 	if map == null or map.player_body == null or not map.player_body.player_controlled:
@@ -174,6 +217,7 @@ func _process(delta: float) -> void:
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
 	geometry.water.set_dusk(lighting.weights["dusk"])
 	_sync_wind(delta)
+	_sync_weather(delta)
 	if geometry.foliage != null:
 		geometry.foliage.advance(delta, _plant_contacts())
 	geometry.ambience.night = lighting.amount
@@ -185,9 +229,15 @@ func _process(delta: float) -> void:
 ## splits, how many lamps cast. The renderer's own part GraphicsQuality.apply() has set.
 func _apply_quality() -> void:
 	_quality_applied = GraphicsQuality.revision
+	if is_instance_valid(weather):
+		weather.queue_free()
+		weather = null
 	lighting.lamp_shadow_limit = GraphicsQuality.lamp_shadows()
+	lighting.lamp_light_limit = GraphicsQuality.lamp_lights()
+	occlusion.plain_when_clear = GraphicsQuality.plain_occluders()
 	if lighting.sun != null:
 		lighting.sun.directional_shadow_mode = GraphicsQuality.sun_shadow_mode()
+		lighting.sun.directional_shadow_max_distance = GraphicsQuality.sun_shadow_distance()
 	if _active:
 		get_viewport().msaa_3d = GraphicsQuality.msaa()
 
@@ -199,13 +249,15 @@ func _watch_frames() -> void:
 	var real: float = 0.0 if _frame_usec == 0 else float(now-_frame_usec)/1000000.0
 	_frame_usec = now
 	var due: int = GraphicsQuality.slow_hint_due()
+	if GraphicsQuality.phone and due == GraphicsQuality.Value.LOW:
+		due = -1
 	if due < 0 or map.session == null or DisplayServer.get_name() == "headless":
 		return
 	if _slow_watch == null or _slow_level != due:
 		_slow_watch = GraphicsQualityHint.new()
 		_slow_level = due
 	if _slow_watch.advance(real):
-		map.session.shared_ui().toasts().push(tr(SLOW_HINT_HIGH if due == GraphicsQuality.Value.HIGH else SLOW_HINT_LOW))
+		map.session.shared_ui().toasts().push(tr(SLOW_HINT_PHONE if GraphicsQuality.phone else SLOW_HINT_HIGH if due == GraphicsQuality.Value.HIGH else SLOW_HINT_LOW))
 		GraphicsQuality.note_slow_hint_told()
 
 ## 第十章 A (DECISIONS「风」): a map's guiding wind (WorldMapWinds) shown: the long grass leans along
@@ -266,13 +318,26 @@ func _build() -> void:
 		occlusion.register(entry["node"])
 		await geometry.breathe()
 	for shutter: Node3D in shutters.values()+opened.values():
-		occlusion.register(shutter)
+		occlusion.register(shutter, true)
+	# A world built again after a release has a new VoxelOcclusion: the 画质's part again.
+	occlusion.plain_when_clear = GraphicsQuality.plain_occluders()
 	if geometry.foliage != null:
 		occlusion.share_show(geometry.foliage.material)
 	await geometry.breathe()
 	var indoor: bool = layout.get("indoor",false)
 	lighting.build(world,occlusion,indoor,VoxelLighting.merge_profile(_region_light(indoor),layout.get("light",{})))
 	_sync_light(true)
+	# The figures of everyone here, under the loading screen too: made on the first frame shown,
+	# a town's dozens of them stalled it (a phone's for seconds). Hidden until that frame, which
+	# shows each as first seen (one lying is down already, VoxelPerson).
+	for body: WorldCharacterBody2D in _bodies():
+		if not actors.has(body.character_id):
+			_make_actor(body)
+			actors[body.character_id].visible = false
+			await geometry.breathe()
+	# The phone's plain occluders find who is behind what by a grid for the camera's angle.
+	if occlusion.plain_when_clear and camera != null:
+		occlusion.prepare(camera)
 	_built = true
 	_building = false
 	if covered:
@@ -302,6 +367,11 @@ func restage() -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime() as WorldPlayerRuntimeState
 	for entry: Dictionary in geometry.staged_props:
 		(entry["node"] as Node3D).visible = WorldStoryPresence.look_on_stage(entry["look"],player,session.player_held_item_ids(),session.player_worn_item_ids(),session.day_phase_id())
+
+## Whether a voxel world stands here or is being built (release_world() lets it go).
+func holds_world() -> bool:
+	return _built or _building
+
 
 func release_world() -> void:
 	if not _built and not _building:
@@ -338,7 +408,7 @@ func release_world() -> void:
 	camera = null
 	if _zoom_tween != null and _zoom_tween.is_valid():
 		_zoom_tween.kill()
-	_zoom = 1.0
+	_zoom = rest_zoom
 	if _stage_tween != null and _stage_tween.is_valid():
 		_stage_tween.kill()
 	staged = false
@@ -351,6 +421,10 @@ func release_world() -> void:
 	layout = {}
 	_last_player = Vector2.INF
 	_built = false
+	_door_open.clear()
+	_alerted.clear()
+	_wade_from.clear()
+	_ground_layer = null
 
 ## A region-wide default beside the map's config (data/<region>/voxel/<name>); {} without one.
 func _region_file(name: String) -> Dictionary:
@@ -391,6 +465,10 @@ func _sync_light(immediate: bool = false) -> void:
 		lighting.set_cloud_level(0,immediate)
 
 func _activate() -> void:
+	# 世界演出: a world kept while the player was away takes the doors and the sky as they are now
+	# (a door changed meanwhile does not swing as the map is shown, nor the rain fade).
+	_door_open.clear()
+	_weather_fresh = true
 	_old_modulate = map.modulate
 	map.modulate.a = 0.0
 	_old_msaa = get_viewport().msaa_3d
@@ -533,7 +611,7 @@ func picture_lines() -> float:
 	return float(viewport.get_texture().get_size().y)*viewport.scaling_3d_scale
 
 ## 战斗拍数 C: the camera pushes in to `factor` of the layout's size (below 1: nearer) over
-## `seconds` (0: at once); 1.0 brings it back. The ground's projection follows in _follow().
+## `seconds` (0: at once); rest_zoom brings it back. The ground's projection follows in _follow().
 func set_zoom(factor: float, seconds: float = 0.0) -> void:
 	_zoom = clampf(factor,0.3,1.0)
 	if _zoom_tween != null and _zoom_tween.is_valid():
@@ -546,7 +624,7 @@ func set_zoom(factor: float, seconds: float = 0.0) -> void:
 	_zoom_tween = create_tween()
 	_zoom_tween.tween_property(camera,"size",_camera_base_size*_zoom,seconds).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 
-## The camera's push-in now (1.0: the layout's size).
+## The camera's push-in now (1.0: the layout's size; rest_zoom between shows).
 func zoom() -> float:
 	return _zoom
 
@@ -564,7 +642,7 @@ func unstage(seconds: float) -> void:
 	if quest_marker != null:
 		quest_marker.visible = true
 	_ease_stage(0.0, VIEW_HEIGHT, seconds)
-	set_zoom(1.0, seconds)
+	set_zoom(rest_zoom, seconds)
 
 func _ease_stage(blend: float, height: float, seconds: float) -> void:
 	if _stage_tween != null and _stage_tween.is_valid():
@@ -679,6 +757,16 @@ func _label(parent: Node3D, text: String, height: float = 2.2) -> Label3D:
 	parent.add_child(label)
 	return label
 
+## The player's body and every resident's here.
+func _bodies() -> Array[WorldCharacterBody2D]:
+	var bodies: Array[WorldCharacterBody2D] = [map.player_body]
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
+		if body != null:
+			bodies.append(body)
+	return bodies
+
+
 func _sync_actors(delta: float) -> void:
 	var hovered: StringName = pick_at(get_viewport().get_mouse_position()) if _context_names else &""
 	var bodies: Array[WorldCharacterBody2D] = [map.player_body]
@@ -691,11 +779,17 @@ func _sync_actors(delta: float) -> void:
 			bodies.append(body)
 	var seen: Dictionary[StringName,bool] = {}
 	var fall_seconds: float = GameContent.catalog().pacing().feel.fall_seconds
+	# At most one figure made a frame (several arriving at once stalled a phone's frame); the next
+	# waits a frame, unseen.
+	var made: bool = false
 	for body: WorldCharacterBody2D in bodies:
 		var id: StringName = body.character_id
 		seen[id] = true
 		var fresh: bool = not actors.has(id)
 		if fresh:
+			if made and body != map.player_body:
+				continue
+			made = true
 			_make_actor(body)
 		var actor: Node3D = actors[id]
 		# Whether the figure was hidden until now (one dead and gone that is back: it stands at once).
@@ -786,6 +880,12 @@ func _sync_actors(delta: float) -> void:
 		if alert_marks.has(id):
 			alert_marks[id].visible = marked and (not placing() or _placed.has(id))
 			alert_marks[id].text = mark.text if mark != null else alert_marks[id].text
+		# 世界演出: the moment its mark comes up, it starts.
+		if marked and not _alerted.get(id, false) and not placing() and _touches() != null:
+			touches.startle(model, alert_marks.get(id))
+		_alerted[id] = marked
+		if model.get(&"walking") == true and not model is Flyer:
+			_wade(id, body, next)
 		_sync_watch_cone(actor, body)
 	for id: StringName in actors.keys():
 		if not seen.has(id):
@@ -817,11 +917,92 @@ func _sync_actors(delta: float) -> void:
 			if model != null and _falls.has(id):
 				_fell_facing[id] = model.rotation.y
 			_lingering.erase(id)
+			_alerted.erase(id)
+			_wade_from.erase(id)
 			actors[id].queue_free()
 			actors.erase(id)
 			labels.erase(id)
 			alert_marks.erase(id)
 			_falls.erase(id)
+
+
+## 世界演出: the things that move what the view drew (made on first use, with the world); null
+## while the feel shows none of it.
+func _touches() -> VoxelTouches:
+	if GameContent.catalog().pacing().feel.world_fx_seconds <= 0.0 or world == null:
+		return null
+	if not is_instance_valid(touches):
+		touches = VoxelTouches.new()
+		touches.name = "Touches"
+		world.add_child(touches)
+	return touches
+
+
+## 世界演出: the rain. It falls while the sky the light follows (a held one, the layout's, else the
+## session's) is at its darkest, outdoors, where the region and the map have rain (world_fx.json).
+func _sync_weather(delta: float) -> void:
+	if GameContent.catalog().pacing().feel.world_fx_seconds <= 0.0 or world == null:
+		if is_instance_valid(weather):
+			weather.visible = false
+		return
+	if not is_instance_valid(weather):
+		weather = VoxelWeather.new()
+		weather.name = "Weather"
+		world.add_child(weather)
+		weather.configure(VoxelWeather.kind_for(map.region_id(), map.map_id()), GraphicsQuality.level == GraphicsQuality.Value.LOW)
+		_weather_fresh = true
+	var hold: Dictionary = layout.get("hold",{})
+	var level: int = held_cloud if held_cloud >= 0 else int(hold.get("cloud",-1))
+	if level < 0:
+		level = map.session.sky_level() if map.session != null else 0
+	weather.advance(INF if _weather_fresh else delta, VoxelWeather.falls(level, geometry.indoor, not weather.kind.is_empty()), _target, _wind_shown)
+	_weather_fresh = false
+
+
+## 世界演出: `node` (the drawing of the floor thing `id`, just gone from the map) was beside the
+## player as it went and is in their pack now: it flies to their hand. False: it is not shown so (the caller frees it).
+func _taken_by_player(node: Node3D, id: StringName) -> bool:
+	if bool(node.get_meta(&"corpse", false)) or _touches() == null or map.player_runtime().life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		return false
+	# It is the player's now (someone else's taking, a thing buried or gone off the stage is not;
+	# nor one that merged into a pile the player held, which has no place of its own to fly to).
+	if map.session == null or not _held(map.session.player_inventory_rows(), id):
+		return false
+	var mine: Node3D = actors.get(map.player_body.character_id)
+	if mine == null or mine.position.distance_to(node.position) > float(VoxelWeather.part("pickup").get("reach", 2.2)):
+		return false
+	return touches.fly_to_hand(node, mine.position + Vector3.UP * 1.0)
+
+
+## Whether `rows` (the player's pack, with what its containers hold) have the item instance `id`.
+static func _held(rows: Array, id: StringName) -> bool:
+	for row: PlayerInventoryRowProjection in rows:
+		if row.item_instance_id == id or _held(row.contents, id):
+			return true
+	return false
+
+
+## 世界演出: one walking through shallow water splashes every stride.
+func _wade(id: StringName, body: WorldCharacterBody2D, at: Vector3) -> void:
+	var look: Dictionary = VoxelWeather.part("wade")
+	var last: Vector3 = _wade_from.get(id, Vector3.INF)
+	if last != Vector3.INF and at.distance_to(last) < float(look.get("stride", 0.7)):
+		return
+	_wade_from[id] = at
+	if last == Vector3.INF or _touches() == null:
+		return
+	if (look.get("kinds", []) as Array).has(_ground_kind(body.global_position)):
+		touches.splash(at)
+
+
+## The ground's kind (the TerrainGround layer's `terrain`) under a 2D point; "" off the ground.
+func _ground_kind(at: Vector2) -> String:
+	if not is_instance_valid(_ground_layer):
+		_ground_layer = map.find_child("TerrainGround", true, false) as TileMapLayer
+		if _ground_layer == null:
+			return ""
+	var tile: TileData = _ground_layer.get_cell_tile_data(_ground_layer.local_to_map(_ground_layer.to_local(at)))
+	return String(tile.get_custom_data("terrain")) if tile != null else ""
 
 
 ## 战斗肢体: how far over a figure is (0 upright .. 1 flat) when it is `fall` of the way down:
@@ -1101,12 +1282,26 @@ func _sync_objects() -> void:
 				node.position = node.position.lerp(place[0],placed_blend)
 	for id: StringName in objects.keys():
 		if not seen.has(id):
-			objects[id].queue_free()
+			var gone: Node3D = objects[id]
 			objects.erase(id)
+			# 世界演出: a thing the player took from beside them flies to their hand.
+			if not _taken_by_player(gone, id):
+				gone.queue_free()
 	for id: StringName in shutters:
-		shutters[id].visible = not map.doors_by_id[id].is_open()
-		if opened.has(id):
-			opened[id].visible = not shutters[id].visible
+		var open: bool = map.doors_by_id[id].is_open()
+		var leaf: Node3D = shutters[id]
+		var swung: bool = opened.has(id)
+		# 世界演出: a door that changed since the last look swings (one with an open form of its
+		# own changes as it did); else its leaf is there while it is shut.
+		if _door_open.has(id) and _door_open[id] != open and not swung and _touches() != null and touches.swing_door(id, leaf, open, VoxelMapGeometry.point(map.player_body.global_position)):
+			_door_open[id] = open
+			continue
+		_door_open[id] = open
+		if is_instance_valid(touches) and touches.swinging(id):
+			continue
+		leaf.visible = not open
+		if swung:
+			opened[id].visible = open
 
 func _object(id: StringName, at: Vector2, title: String, corpse: bool, lying: Dictionary = {}, facing: float = NAN) -> void:
 	if not objects.has(id):
@@ -1128,6 +1323,7 @@ func _object(id: StringName, at: Vector2, title: String, corpse: bool, lying: Di
 		else:
 			_draw_object(node,id,corpse)
 		_label(node,title,0.7).name = "Title"
+		node.set_meta(&"corpse", corpse)
 		objects[id] = node
 	objects[id].position = VoxelMapGeometry.point(at)
 	# A corpse's name changes as it decays (obj/corpse.c).
@@ -1159,6 +1355,7 @@ func _draw_object(node: Node3D, id: StringName, corpse: bool) -> void:
 	s.flush()
 
 func _make_entrances() -> void:
+	_entrance_labels.clear()
 	for node: Node in geometry.areas:
 		var passage := node as WorldPassageArea2D
 		if passage == null:
@@ -1173,6 +1370,10 @@ func _make_entrances() -> void:
 		marker.position = VoxelMapGeometry.point(passage.global_position)
 		world.add_child(marker)
 		var label: Label3D = _label(marker,title+"  ›",float(settings.get("label_height",1.6)))
+		# The source name, read again when the language changes (_notification).
+		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+		label.set_meta(&"entrance_title", String(settings.get("title",zone.display_name)))
+		_entrance_labels.append(label)
 		label.modulate = Color("f6d98e")
 		label.font_size = 36
 		label.outline_size = 9
@@ -1326,7 +1527,7 @@ func _sync_glints(delta: float) -> void:
 func _sync_quest_marker() -> void:
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var state: CharacterState = null if player == null else player.state
-	var goal: MapAtlas.Goal = null if state == null else MapAtlas.goal(GameContent.catalog(), state)
+	var goal: MapAtlas.Goal = null if state == null else MapAtlas.goal(GameContent.catalog(), state, _apart_goal())
 	var key: String = "" if goal == null else "%s/%s/%s/%s/%d/%d" % [goal.map_id, goal.zone_id, goal.waypoint, goal.npc_ids, state.quests.size(), state.visited_maps.size()]
 	if key != _quest_key:
 		_quest_key = key
@@ -1343,6 +1544,14 @@ func _sync_quest_marker() -> void:
 	var spinner: Node3D = quest_marker.get_node_or_null("Spinner") as Node3D
 	if spinner != null:
 		spinner.rotation.y = _arrow_clock * QUEST_SPIN
+
+
+func _apart_goal() -> MapAtlas.Goal:
+	var now: int = Time.get_ticks_msec()
+	if map.session != null and (_apart_looked_ms < 0 or now - _apart_looked_ms >= APART_LOOK_MS or now < _apart_looked_ms):
+		_apart_looked_ms = now
+		_apart = WorldLeftBehind.follower_goal(map.session)
+	return _apart
 
 
 ## The quest marker over the nearest standing one of the people the step is about, else over its
@@ -1574,6 +1783,15 @@ func _make_shutters() -> void:
 			s.box(node,Vector3(0,1.1,0),size,"9d4d39")
 		s.flush()
 		shutters[id] = node
+		# 世界演出: a plain leaf (a room's door, the plain shutter) swings — where it hangs shut and
+		# half its width along the wall, from its hinge edge (a room door's is the one away from its
+		# knob: its own -x, turned as it is). A drawn look (a boulder, a curtain, a gate with its
+		# posts and lintel) changes as it did.
+		if look.is_empty():
+			var half: float = maxf(size.x, size.z)/2.0
+			node.set_meta(VoxelTouches.DOOR_AT, node.position)
+			node.set_meta(VoxelTouches.DOOR_TURN, node.rotation.y)
+			node.set_meta(VoxelTouches.DOOR_SPAN, Vector3(half, 0.0, 0.0).rotated(Vector3.UP, node.rotation.y) if geometry.indoor else (Vector3(half, 0.0, 0.0) if size.x >= size.z else Vector3(0.0, 0.0, half)))
 
 ## An indoor 房门: a frame that always stands in the doorway, even in a cut-away wall,
 ## and a panelled leaf (the shutter node) that shows only while the door is shut.

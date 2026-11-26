@@ -1,0 +1,50 @@
+{
+	"_comment": "练功演出 (DECISIONS「练功演出」): what a continuous 练习 / 请教 / 打坐 / 冥思 / 修行 shows on the map while its window steps aside, and the 成长时刻 a gain is marked with. Presentation only: nothing here changes a rule, a cost or what is saved. Durations of the stage and of a moment are pacing.json's feel (training_stage_ms, growth_moment_ms: 0 none).",
+	"training": {
+		"_comment": "zoom: the camera's push-in on the one training (WorldVoxelView.set_zoom: 1 the map's own, smaller closer) over zoom_seconds. round: seconds one stroke (or one dodge, one parry) takes, rest included; teacher_lead: how far ahead of the pupil a master shows the same stroke. trail: the weapon leaves its light, in the school's colour (battle_stage.json schools). whoosh_db: how loud a stroke's whoosh is (the fight's is 0). forms: how a skill is shown, by the use it is practised as or, for 请教, the first use the skill serves (a weapon's use is a stroke with that weapon and needs no entry) — form strike (weapon: the weapon's skill, \"\" bare hands), react (react: VoxelPerson.REACTIONS dodge / parry), sit (cross-legged, the 气 about it) or study (the master talks, the pupil listens); default: any other. cultivation: the colour of the 气 by what is cultivated. sit: the art about one seated (BattleArts.KINDS), how often it rises (every) and how long one lasts (seconds), the light on the figure. min_seconds: the least the stage stands, from the window stepping aside (a run of a few steps is over in half a second: the figure is given the time for a stroke). hold: seconds the stage stays once the run stops — plain, or `moment` shares of the feel's growth_moment_ms when the run ended on a gain (a level, a maximum).",
+		"zoom": 0.45,
+		"zoom_seconds": 0.4,
+		"round": 1.1,
+		"teacher_lead": 0.5,
+		"trail": true,
+		"whoosh_db": -12.0,
+		"forms": {
+			"unarmed": {"form": "strike", "weapon": ""},
+			"dodge": {"form": "react", "react": "dodge"},
+			"parry": {"form": "react", "react": "parry"},
+			"force": {"form": "sit", "colour": "ffe2a8"},
+			"spells": {"form": "sit", "colour": "a8d4ff"},
+			"magic": {"form": "sit", "colour": "a6e08a"},
+			"default": {"form": "study"}
+		},
+		"cultivation": {
+			"exercise": {"colour": "ffe2a8"},
+			"meditate": {"colour": "a8d4ff"},
+			"respirate": {"colour": "a6e08a"}
+		},
+		"sit": {"art": "swirl", "every": 1.5, "seconds": 1.3, "light": {"energy": 1.1, "range": 3.2}},
+		"min_seconds": 1.45,
+		"hold": {"plain": 0.2, "moment": 1.0}
+	},
+	"moments": {
+		"_comment": "成长时刻: read off the player's own state every check_seconds (GrowthWatch): a skill's level, a skill first learned, a maximum of 内力 / 法力 / 灵力 raised, a master taken, a quest ended, a story's thing (items.json `quest`) first come by. More than `bulk` of one kind at once is a set-up, not a gain: none is shown. At most `queue` wait their turn (the oldest small ones make way). A moment is a brush stroke with its words at `y` of the screen's height and, on the player's figure, an art (BattleArts.KINDS) in `colour` with a light; during a fight they wait for its end. kinds: tier (tiers: seconds as a share of the feel's growth_moment_ms, the stroke's size, the words' size), stroke and ink (the stroke's and the words' colours), art, colour, sound (BattleSounds: seal / clapper / gong / drum …, pitch, db), pose (VoxelPerson.REACTIONS, held while it shows).",
+		"check_seconds": 0.25,
+		"bulk": 3,
+		"queue": 4,
+		"y": 0.2,
+		"light": {"energy": 1.4, "range": 3.4},
+		"kinds": {
+			"skill_level": {"tier": "small", "stroke": "d9a441", "ink": "2b1a0a", "art": "crown", "colour": "ffd98a", "sound": "clapper", "pitch": 1.6, "db": -8.0},
+			"maximum_up": {"tier": "small", "stroke": "6fc3d6", "ink": "0e2a33", "art": "surge", "colour": "9fe0f0", "sound": "clapper", "pitch": 1.3, "db": -8.0},
+			"skill_learned": {"tier": "medium", "stroke": "e2b64f", "ink": "2b1a0a", "art": "descend", "colour": "ffe9a8", "sound": "seal", "pitch": 1.0, "db": -3.0},
+			"key_item": {"tier": "medium", "stroke": "b69ae0", "ink": "1f1533", "art": "mend", "colour": "d9c2ff", "sound": "seal", "pitch": 1.2, "db": -4.0},
+			"quest_done": {"tier": "medium", "stroke": "b3261e", "ink": "f6ead2", "art": "mend", "colour": "ffd98a", "sound": "seal", "pitch": 0.9, "db": -2.0},
+			"apprenticed": {"tier": "large", "stroke": "b3261e", "ink": "f6ead2", "art": "descend", "colour": "ffd86a", "sound": "gong", "pitch": 1.0, "db": -4.0, "pose": "bow"}
+		},
+		"tiers": {
+			"small": {"seconds": 1.0, "size": [280, 46], "font": 32},
+			"medium": {"seconds": 1.7, "size": [400, 64], "font": 44},
+			"large": {"seconds": 2.4, "size": [500, 84], "font": 58}
+		}
+	}
+}

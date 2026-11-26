@@ -124,6 +124,21 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		_check(hud.is_ancestor_of(actions[index]), "reparent retains unique-name identity")
 	for control: Control in [hud.player_vitality, hud.player_vitality_text, hud.selected_target_label, hud.target_vitality, hud.target_vitality_text, hud.inspection_text, hud.combat_log]:
 		_check(hud.is_ancestor_of(control), "reparent preserves authored information identity")
+	# A phone (owner, 2026-11-21): the movement pad's corner is kept clear only while the pad is
+	# on the screen; with a gamepad connected the toasts stand at the bottom left, as on a desktop.
+	var phone := Rect2(0, 0, 1200, 540)
+	var hud_layout: SharedGameplayLayout = hud.get_node("PresentationLayout") as SharedGameplayLayout
+	for pad_shown: bool in [true, false]:
+		# The 8T's 2400×1080: drawn at 2 over the base's 1.5 stretch, 4/3 of content scale.
+		capability.metrics = SafeAreaMetrics.new(phone, phone, false, true, 4.0 / 3.0, pad_shown)
+		presenter.refresh()
+		await _settle(tree)
+		var toasts_x: float = capability.metrics.future_movement_rect().end.x + 8.0 if pad_shown else capability.metrics.content_rect().position.x
+		_check(is_equal_approx(hud_layout.toasts.position.x, toasts_x), "a phone %s: the toasts from x %.0f (at %.0f)" % ["with the pad" if pad_shown else "with a gamepad", toasts_x, hud_layout.toasts.position.x])
+		# Touch-sized buttons only when played by touch (owner, 2026-11-21: too thick with a gamepad).
+		var tall: float = 64.0 if pad_shown else SharedGameplayLayout.HUD_CHIP_HEIGHT
+		var toggle: Control = hud_layout.menu_button.get_parent().get_node("ViewSide") as Control
+		_check(capability.metrics.touch_sized() == pad_shown and is_equal_approx(hud_layout.menu_button.custom_minimum_size.y, tall) and is_equal_approx(toggle.custom_minimum_size.y, tall), "a phone %s: 菜单 and the view side %.0f tall" % ["with the pad" if pad_shown else "with a gamepad", tall])
 	capability.metrics = _window(Rect2(0, 0, 1280.0 / 1.5, 480), 1.5)
 	presenter.refresh()
 	# The interaction popup (DECISIONS「说话和交互」): each landmark's action label, as its
@@ -140,6 +155,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		await _settle(tree)
 		var button: Button = hud.interaction_panel.button_of(landmark.action_label)
 		_check(button != null and capability.metrics.content_rect().encloses(button.get_global_rect()), "current authored traversal label fits the popup at 150%")
+		_upright_text(layout.frame, "%s's popup at 150%%" % landmark.display_name)
 		layout.close_panel()
 	hud.set_process(true)
 	hud.set_selected_target(null)
@@ -150,6 +166,20 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	shell.request_settings_from_pause()
 	await _settle(tree)
 	await _cycle_surface(tree, shell, shell.settings_panel, capability, presenter)
+	# A phone (the OnePlus 8T: 1200x540 logical at 2x), played by touch and with a gamepad: no
+	# text stands on end there either (owner, 2026-11-21: 总音量's "80%" did, on the desktop too).
+	var desk_metrics: SafeAreaMetrics = capability.metrics
+	var desk_size: Vector2i = tree.root.size
+	tree.root.size = Vector2i(1200, 540)
+	for pad_shown: bool in [true, false]:
+		capability.metrics = SafeAreaMetrics.new(phone, phone, false, true, 4.0 / 3.0, pad_shown)
+		presenter.refresh()
+		await _settle(tree)
+		_upright_text(shell.settings_panel, "设置 on a phone %s" % ("by touch" if pad_shown else "with a gamepad"))
+	tree.root.size = desk_size
+	capability.metrics = desk_metrics
+	presenter.refresh()
+	await _settle(tree)
 	_check(tree.paused and not session.can_process(), "sampler/reflow during paused Settings never advances gameplay")
 	shell.cancel_settings()
 	shell.request_return_to_main_menu()
@@ -218,6 +248,7 @@ func _cycle_surface(tree: SceneTree, shell: ApplicationShellController, surface:
 		for panel: Node in surface.find_children("*", "PanelContainer", true, false):
 			if (panel as Control).is_visible_in_tree():
 				_check(next.content_rect().grow(0.5).encloses((panel as Control).get_global_rect()), "reflow visible panel stays inside the window: %s %s at %s: %s" % [surface.name, (panel as Control).name, screen, (panel as Control).get_global_rect()])
+		_upright_text(surface, "%s at %s" % [surface.name, screen])
 
 
 func _dynamic_rows(tree: SceneTree, shell: ApplicationShellController, hud: SharedGameplayUI, capability: FakeSafe, presenter: SafeAreaPresenter) -> void:

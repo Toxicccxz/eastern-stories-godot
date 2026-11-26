@@ -33,6 +33,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_kinds()
 	_setting()
 	_weapon_sounds()
+	_stage_lights(tree)
 	await _voices(tree)
 	await _fight(tree)
 	BattlePace.opening = BattlePace.Opening.OFF
@@ -203,6 +204,30 @@ func _setting() -> void:
 	var old: ApplicationSettingsResult = repository.load()
 	_check(old.succeeded() and old.snapshot().battle_opening() == BattlePace.Opening.FULL, "a version 10 file reads as 全程")
 	_check(not ApplicationSettingsSnapshot.defaults().with_battle_opening(9).is_valid(), "no such opening: invalid")
+
+
+## 手机稳 30 帧 (DECISIONS「手机画质」): a lethal base laid whole — on the desktop its lamp and the
+## braziers' fires light it; on a phone's 低 none of them is a light, the flames and the glowing
+## bricks still there; a phone's 高 lights it as the desktop does.
+func _stage_lights(tree: SceneTree) -> void:
+	var was_phone: bool = GraphicsQuality.phone
+	var was_level: int = GraphicsQuality.level
+	var lights: Dictionary[String, int] = {}
+	var glowing: Dictionary[String, bool] = {}
+	for case: Array in [["desktop", false, GraphicsQuality.Value.LOW], ["phone 低", true, GraphicsQuality.Value.LOW], ["phone 高", true, GraphicsQuality.Value.HIGH]]:
+		GraphicsQuality.phone = case[1]
+		GraphicsQuality.level = case[2] # the level as the settings left it (apply() would change the renderer)
+		var arena := BattleArena.new()
+		tree.root.add_child(arena)
+		arena.lay([Vector2(-48, 0), Vector2(48, 0)], Vector2(-48, 0), CombatEncounterMode.Value.LETHAL, 1.0, false, 7)
+		arena.skip()
+		lights[case[0]] = arena.find_children("*", "OmniLight3D", true, false).size()
+		glowing[case[0]] = arena.glowing_bricks() > 0 and not arena._flames.is_empty()
+		arena.free()
+	GraphicsQuality.phone = was_phone
+	GraphicsQuality.level = was_level
+	_check(lights["desktop"] >= 2 and lights["phone 高"] == lights["desktop"], "the desktop's and a phone's 高 lethal base are lit: lamp and fires (%d, %d)" % [lights["desktop"], lights["phone 高"]])
+	_check(lights["phone 低"] == 0 and glowing["phone 低"] and glowing["desktop"], "a phone's 低: no light of the stage's own (%d), the flames and glowing bricks still there" % lights["phone 低"])
 
 
 ## 战斗演出 C: a blow's sounds by what it was struck with — the player's own: the weapon's layer
@@ -401,6 +426,15 @@ func _fight(tree: SceneTree) -> void:
 		await tree.process_frame
 	_check(not is_instance_valid(arena), "the base taken down")
 	_check(not view.staged and is_equal_approx(view.view_height(), WorldVoxelView.VIEW_HEIGHT) and is_equal_approx(view.zoom(), 1.0), "the camera given back (height %.2f, zoom %.2f)" % [view.view_height(), view.zoom()])
+	# A phone's camera rests nearer (the feel's phone_view_percent): a show starts from the
+	# layout's size and gives it back to that rest, not to the layout's.
+	view.rest_zoom = 0.75 # TEST-ONLY: what device_rest_zoom() gives on a phone
+	view.stage(view.camera_offset(), WorldVoxelView.VIEW_HEIGHT, 0.5, 0.0)
+	view.unstage(0.0)
+	_check(is_equal_approx(view.zoom(), 0.75) and is_equal_approx(view.camera.size, view.base_size() * 0.75), "a phone's camera given back to its own rest (zoom %.2f)" % view.zoom())
+	view.rest_zoom = 1.0
+	view.set_zoom(1.0)
+	_check(is_equal_approx(WorldVoxelView.device_rest_zoom(), 1.0), "a desktop's camera rests at the layout's size")
 	for _frame: int in 60:
 		if not ui.opening.landing():
 			break

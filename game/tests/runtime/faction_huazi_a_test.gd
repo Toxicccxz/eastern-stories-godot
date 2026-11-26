@@ -9,6 +9,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const RealFight := preload("res://tests/support/real_fight.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 const QUEST: StringName = &"faction.huazi"
 const MASTER: StringName = &"common.npc.beggar.master"
 const JUDGE: StringName = &"choyin.npc.judgeman"
@@ -29,6 +31,9 @@ const DUKOU: StringName = &"cloud.dukou"
 const DUKOU_POINT: StringName = &"cloud.dukou.river_return"
 const WALL: StringName = &"city.street3"
 const WALL_POINT: StringName = &"city.street3.wall_return"
+const HUT: StringName = &"city.shangshu.xiaowu"
+const HUT_POINT: StringName = &"city.shangshu.xiaowu.courier.1"
+const COURIER: StringName = &"native.npc.niling_courier"
 const HALL: StringName = &"choyin.yamen"
 const HALL_POINT: StringName = &"choyin.yamen.hall_entry"
 
@@ -178,8 +183,31 @@ func _test_to_huazi(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(missing.is_empty(), "played leaves what huazi_found writes: %s" % [missing])
 	state.marks["湖底一章"] = 1 # TEST-ONLY: 第九章
 	_check(_said(_ask(city, head, "密信"), "见人就动手"), "第九章: the 小屋's courier has the letter")
-	_check(not city.give_new_item_to_player(LETTER).is_empty(), "TEST-ONLY: the 密信, as the 小屋 drops it")
-	state.marks["小屋的信使倒了"] = 1 # TEST-ONLY
+	# DECISIONS「势力线的仗」: the 小屋's fight with real numbers — a character who also explored, at
+	# 第九章's arrival (湖底一章 puts him there), a sword in hand; 了结, the letter falls where he was.
+	RealFight.ready_player(session, Arrival.exploring(&"main.chapter9"))
+	var hut: WorldMapController = MapPlaces.enter(session, HUT, HUT_POINT)
+	await _settle(tree)
+	var courier: NpcRuntimeState = _first(session, HUT, COURIER)
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	for second: int in 4:
+		if coordinator.has_active_encounter():
+			break
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+		hut.hostilities.process_pending_aggression()
+	_check(courier != null and coordinator.has_active_encounter(), "the 小屋: the courier falls on whoever comes in")
+	var steps: int = RealFight.fight_out(session, true)
+	await _settle(tree)
+	_check(steps < RealFight.MAX_STEPS and RealFight.player_stands(session) and state.marks.get("小屋的信使倒了", 0) == 1, "the fight to its end, the courier down, the player standing (%d steps; player %s %d/%d, courier %s)" % [steps, CharacterRuntimeLifeStatus.Value.find_key(session.player_runtime().life_status), state.vitality.current, state.vitality.maximum, "gone" if courier == null else CharacterRuntimeLifeStatus.Value.find_key(courier.life_status)])
+	var letter: StringName = hut.floor_item_of(LETTER, HUT)
+	_check(not letter.is_empty(), "the 密信 lies where he fell")
+	if not letter.is_empty() and hut.select_floor_item(letter):
+		hut.take_selected_floor_item()
+	_check(session.player_held_item_ids().get(LETTER, false) == true, "the 密信 picked up")
+	city = MapPlaces.enter(session, WALL, WALL_POINT)
+	await _settle(tree)
+	head = _first(session, WALL, HEAD)
 	_check(head.definition().talk().confirm_applies("密信", state.marks, &"", city.acts.facts().carried), "with the letter, asked first")
 	_check(_said(_ask(city, head, "密信"), "不敢清乔阴的巷子") and state.marks.get("密信给了花紫会", 0) == 1 and session.player_held_item_ids().get(LETTER, false) == false, "given to 花紫会: the letter is his")
 	session.record_journal()

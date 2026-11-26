@@ -98,6 +98,22 @@ then each map in turn with a screenshot under `build/walkthrough/shots/`; fails 
 python tools/ci/start_smoke.py walk --godot <godot> [--maps snow.outdoor,snow.inn_upstairs,cloud.outdoor] [--screen 1]
 ```
 
+The waits the player feels are measured with `game/tests/dev/perf/probe_perf.gd` (windowed; an
+isolated save profile, the focus pause off): `fight [n]` times a fight's closing and the frame its
+autosave falls in, `save [n]` the autosave's capture and 继续, `maps a,b,c` a map change, the video
+memory and a screenshot. Against an exported build it runs from outside the pack:
+`<godot> --main-pack <dist>/windows/Eastern-Stories-Godot.pck --script <abs>/game/tests/dev/perf/probe_perf.gd -- fight <out.json> 5`
+(the Godot binary with the exported pack: the release `.exe` takes no `--main-pack`).
+Four small cores (the weak-machine stand-in of DECISIONS「等待的量」): start the process with
+`ProcessorAffinity = 0xF0000` (logical cores 16–19). Take no timings while another verify runs.
+
+A real window loses its focus to any click elsewhere, and 切出窗口时暂停 (on by default) then pauses
+the game under its pause page. `walk` turns it off for its run (`lifecycle_adapter().pause_on_focus_loss
+= false`, the user's settings file untouched) and fails a map shot taken while the shell is not
+playing (`focus_held()` false, the tree not paused). A session's own windowed script (a walk kit
+under `build/`, a measuring script under `game/tests/dev/`) must do the same: turn the focus pause
+off right after the shell is in the tree and check that it is playing before each shot or timing.
+
 The Phase 10B4 QA bridge (F6 saves, F7 corrupts the development save) is opt-in:
 
 ```text
@@ -197,8 +213,8 @@ Windows release checklist (rendering). The game writes the renderer it actually 
 first line of its log after Godot's banner (`Eastern Stories <version> · Godot … · <driver> driver, …`) (`%APPDATA%/Godot/app_userdata/<project>/logs/godot.log`); a
 driver given on the command line, by Steam or by Godot's own fallback may differ from Vulkan. Before
 a release, run the exported game windowed through 乔阴县城 and 雪亭镇 three times and compare the
-picture and the video memory (`Performance.RENDER_VIDEO_MEM_USED`; the kit of 2026-11-12 is
-`build/perf-r/probe_maps.gd`):
+picture and the video memory (`Performance.RENDER_VIDEO_MEM_USED`; the kit is
+`game/tests/dev/perf/probe_perf.gd`, mode `maps`; it replaces 2026-11-12's `build/perf-r/probe_maps.gd`):
 
 1. As shipped (Vulkan, mobile renderer): 2026-11-12, RTX 4070 SUPER, 530 MB at the start,
    594 MB after 乔阴, 606 MB after 雪亭镇.
@@ -305,7 +321,10 @@ round:
    `playtest-<date>` on it (its message names the commit and the world revision), pushes the tag,
    and runs `ci.yml` by hand on it (`workflow_dispatch`): the `Windows Release Build` job makes the
    ZIP from exactly that commit (`build-manifest.json` records it, `tools/build/build.py`). Pushing a
-   tag is the owner's call: the agent cuts a round only when the owner says so.
+   tag is the owner's call: the agent cuts a round only when the owner says so. If the push or the
+   dispatch fails, or the run fails, run `cut` again with the same `--name`: a tag already on origin
+   (on the same commit as the local one) is resumed — CI is started on it again unless a run on it
+   succeeded or is still going. A failed command prints what `git` or `gh` said.
 2. **Fetch.** When the run is green, `python tools/build/playtest_round.py fetch playtest-<date>`
    downloads the artifact into `build/playtest/<tag>/` and unpacks `game/` there: that `.exe` is the
    game of the round, from New Game or Continue, in the release save slot. Beside it,

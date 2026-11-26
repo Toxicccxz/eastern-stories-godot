@@ -1,7 +1,8 @@
 # Localization
 
 Simplified Chinese (zh_CN) is the source language: every message's ID is its source text
-(gettext). No translations ship yet; the decisions behind this setup are in
+(gettext). Traditional Chinese (`game/locale/zh_Hant.po`), English (`game/locale/en.po`), Korean
+(`game/locale/ko.po`) and Japanese (`game/locale/ja.po`) are in preview; the decisions behind this setup are in
 [DECISIONS](../migration/DECISIONS.md#localization-the-source-text-is-the-key-2026-10-03).
 
 ## Writing player text
@@ -48,10 +49,66 @@ choice and the Settings language.
 1. Make `game/locale/<code>.po` from the template (Poedit: New from POT; Weblate or msginit
    work too) and translate. Untranslated messages show the Simplified source.
 2. Add the language to `game/locale/languages.json`: `code`, its own `name`, `script` (Hans or
-   Hant for Chinese), `translation` (`res://locale/<code>.po`) and the system `fonts` to try.
-   Settings lists it under 语言 (跟随系统 and each language by its own name).
+   Hant for Chinese), `translation` (`res://locale/<code>.po`) and the system `fonts` to try; a
+   language with glyph forms of its own names its pixel face in `face` (繁體中文: 缝合像素 zh_tw),
+   which `LocalizationService` puts into the theme's face while the language shows.
+   Settings lists it under 语言 (跟随系统 and each language by its own name). While it is still
+   being translated add `"preview": true`: players can choose it, but a system in that language
+   is not given it on its own.
 3. When the source text changes later, regenerate the template and update each `.po` from it
    (Poedit: Update from POT; `msgmerge`); changed messages come back fuzzy.
+4. `python tools/l10n/check_po.py` checks every `.po` against the template (slots kept, no stale
+   messages, grammar marks well formed, no full-width “ ” … in a Latin language; in Korean a
+   particle pair only after a slot, no Han character, no Chinese punctuation; in Japanese every
+   kanji a Japanese form and no Chinese punctuation);
+   `tools/tests/test_translations.py` runs it in the gate.
+
+## Working on a translation
+
+The `.po` is the one home of a language's text: nothing regenerates it, so an edit in Poedit or
+by hand stays. Batches go in with `tools/l10n/po_batch.py`, which changes only the entries it is
+given and keeps every other line as it was:
+
+* `po_batch.py todo game/locale/en.po --from data/oldpine` lists what is not translated yet
+  (missing, empty or fuzzy) where it is used, one line each: key, source, where, notes;
+* `po_batch.py apply game/locale/en.po batch.tsv` writes a batch of `key<TAB>translation` lines
+  (`=source<TAB>translation` also works; `\n` is a line break): changed in place, new ones at
+  the end, a fuzzy flag cleared;
+* `po_batch.py sync game/locale/en.po` turns what the template dropped into obsolete entries,
+  after which `todo` lists the changed line again.
+
+Keep batches and scratch lists under `build/`, then run `check_po.py`.
+
+English: style, names, terms and the grammar marks ES2's templates need are in
+[english_style.md](english_style.md).
+
+Korean: style, registers, names, the particle pairs after a slot (`을(를)`, resolved by
+`KoreanParticles` once a line is filled) and word-whole wrapping (`KoreanText`) are in
+[korean_style.md](korean_style.md). A place that shows filled text without the control
+translating it calls `KoreanText.shown()`; `korean_lines_test` fills every template and fails on
+a pair left over.
+
+Japanese: style, voices, the forms of address `{self}` and `{respect}` take, names (kanji in
+Japanese forms), the words Chinese and Japanese write alike but mean differently, numbers and
+typography are in [japanese_style.md](japanese_style.md). Japanese needs no grammar marks: its
+particles do not change with the name before them, and it breaks lines between any two characters.
+A rare kanji outside JIS X 0208 (a name's) goes on check_po's `JAPANESE_EXTRA_KANJI` once the ja
+face is seen to draw it.
+
+Traditional Chinese is drafted, not translated by hand: one Taiwan-standard text, the story's words
+unchanged, Taiwan's words in the interface (DECISIONS「繁體中文 (preview)」). After the template
+changes, `python tools/l10n/po_batch.py sync game/locale/zh_Hant.po`, then
+
+    python tools/l10n/zh_hant.py draft game/locale/zh_Hant.po > build/l10n/zh_hant_batch.tsv
+    python tools/l10n/po_batch.py apply game/locale/zh_Hant.po build/l10n/zh_hant_batch.tsv
+    python tools/l10n/zh_hant.py check game/locale/zh_Hant.po
+
+`draft` converts what is not translated yet with OpenCC s2tw (`pip install opencc`, a development
+tool: the game reads the .po) and `tools/l10n/zh_hant_rules.tsv`: the phrases s2tw gets wrong
+here, one standard form for the variants it mixes, and the interface words. Read the new lines'
+one-to-many characters (干 乾 幹, 里 裡, 只 隻, 发 髮, 后 後, 台 臺 檯…) and add a phrase rule for
+any it gets wrong, so the next draft gets it right too. `check` converts every message back
+(tw2s) and fails on one that no longer says what its source says.
 
 A system's language is matched by `LanguageResolver`: Chinese by script (Hans for CN, SG, MY or
 no region; Hant for TW, HK, MO), others by language; anything not listed reads Simplified.

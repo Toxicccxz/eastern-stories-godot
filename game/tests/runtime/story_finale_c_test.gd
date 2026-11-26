@@ -35,7 +35,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var ending: EpilogueDefinition = catalog.epilogue(&"ending")
-	_check(ending != null and ending.cards.size() == 19 and ending.final != null and ending.final.key == "你留在了冰里", "the ending: nineteen cards (卧底 C: 黑衣人; 振远 B: 绮云镇; 官府 B: 天驼关; 茅山 B: 茅山; 山烟寺 B: 日照山), final for the player in the ice")
+	_check(ending != null and ending.cards.size() == 20 and ending.final != null and ending.final.key == "你留在了冰里", "the ending: twenty cards (卧底 C: 黑衣人; 振远 B: 绮云镇; 官府 B: 天驼关; 茅山 B: 茅山; 山烟寺 B: 日照山; 绝尘 B: 青石村), final for the player in the ice")
 	_check(ending.cards.slice(0, 10).all(func(card: EpilogueDefinition.Card) -> bool: return catalog.map(card.place) != null), "ten places, each a map of the world")
 	for herald: StringName in [&"native.square.herald_feng_ce", &"native.square.herald_uncle", &"native.square.herald_ministry"]:
 		var spawn: NpcSpawnDefinition = catalog.spawn(herald)

@@ -154,10 +154,10 @@ func _init() -> void:
 	exercise_target.name = "ExerciseTarget"
 	exercise_target.custom_minimum_size = Vector2(120, 40)
 	# TRANSLATORS: the 武学 page beside 连续打坐: how far it runs (前两小时 A); 不限 stops at the first raised maximum.
-	exercise_target.tooltip_text = tr("连续打坐练到这个内力上限再停；不限则上限每涨一点就停")
+	exercise_target.tooltip_text = "连续打坐练到这个内力上限再停；不限则上限每涨一点就停"
 	for target: int in EXERCISE_TARGETS:
-		# TRANSLATORS: 连续打坐's target: 不限 (stop at the first raise) or 练到 {target} (a max_force number).
-		exercise_target.add_item(tr("不限") if target == 0 else tr("练到 {target}").format({"target": target}), target)
+		exercise_target.add_item("", target)
+	_label_exercise_targets()
 	exercise.add_child(exercise_target)
 	_title("加力")
 	var enforce := HBoxContainer.new()
@@ -212,6 +212,19 @@ func _init() -> void:
 
 func configure(session: WorldSessionController) -> void:
 	_session = session
+
+
+## The targets are filled in (练到 25): a language switch writes them again.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and exercise_target != null:
+		_label_exercise_targets()
+
+
+func _label_exercise_targets() -> void:
+	for index: int in exercise_target.item_count:
+		var target: int = exercise_target.get_item_id(index)
+		# TRANSLATORS: 连续打坐's target: 不限 (stop at the first raise) or 练到 {target} (a max_force number).
+		exercise_target.set_item_text(index, tr("不限") if target == 0 else tr("练到 {target}").format({"target": target}))
 
 
 ## Fills the page from the current state, in the shown language.
@@ -285,7 +298,7 @@ func refresh() -> void:
 	rest_button.visible = WorldSessionController.rest_offered() and not RestRules.rested(state)
 	var refused: String = _session.rest_refusal()
 	rest_button.disabled = running or not refused.is_empty()
-	rest_button.tooltip_text = tr(RestLines.HINT) if refused.is_empty() else refused
+	rest_button.tooltip_text = _session.rest_hint() if refused.is_empty() else refused
 	feedback.text = "\n".join(ColoredLine.texts(_last_lines if _last_lines != null else arts.last_lines))
 	_fit_cards()
 
@@ -605,6 +618,8 @@ func _start_run(run: PlayerTrainingRun, what: String, button: Button, after: Con
 		return
 	_last_lines = null
 	_run_button = button
+	# 自动歇: the menu holds world time; a rest of the run's own lifts that hold.
+	run.window_holds.assign([SharedGameplayUI.MENU_TIME_HOLD])
 	progress.start(run, what, after)
 	if is_visible_in_tree():
 		refresh()

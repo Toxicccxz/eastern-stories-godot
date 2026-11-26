@@ -10,6 +10,8 @@ extends VBoxContainer
 
 # TRANSLATORS: the 任务 page before any quest began or story entry was recorded.
 const NOTHING_YET: String = "你还没有记下什么江湖见闻。"
+# TRANSLATORS: the 任务 page: the heading over where the player's corpse lies and who waits apart (DECISIONS「尸体和走散的同伴」).
+const LEFT_BEHIND: String = "留在路上的"
 
 ## quest.c's lines for 朱鸿雪's task (the 差事 column).
 var quest_text: Label
@@ -17,6 +19,10 @@ var _sections: Dictionary[String, VBoxContainer] = {}
 var _stories: Dictionary[String, JournalStories] = {}
 var _quests: Dictionary[String, VBoxContainer] = {}
 var _nothing: Label
+## Native (DECISIONS「尸体和走散的同伴」): where the player's corpses with things in them lie and who
+## waits apart from them (WorldLeftBehind), one line each, above the columns; hidden when none.
+var _left_behind: PanelContainer
+var _left_lines: VBoxContainer
 
 
 func _init() -> void:
@@ -25,6 +31,15 @@ func _init() -> void:
 	_nothing = _label(self, NOTHING_YET, Color(0, 0, 0, 0))
 	_nothing.name = "Nothing"
 	_nothing.theme_type_variation = &"MutedLabel"
+	_left_behind = card(self)
+	_left_behind.name = "LeftBehind"
+	_left_lines = _left_behind.get_child(0) as VBoxContainer
+	var left_heading := _label(_left_lines, LEFT_BEHIND, Color(0, 0, 0, 0))
+	left_heading.name = "Heading"
+	left_heading.theme_type_variation = &"HeadingLabel"
+	# A message of its own (the POT knows it): translated as the page shows, as the columns' names.
+	left_heading.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_INHERIT
+	_left_behind.visible = false
 	for line: String in StoryQuestDefinition.LINES:
 		var section := VBoxContainer.new()
 		section.name = line.capitalize()
@@ -54,9 +69,12 @@ func _init() -> void:
 ## `respect`: how NPCs address the player ($RESPECT in quoted lines); `task_lines` quest.c's
 ## lines for 朱鸿雪's task ("" for none); `test` a condition -> whether it holds for the player now
 ## (WorldSessionController.quest_condition_test(): the current steps' checklists; none, no rows).
-func fill(state: CharacterState, respect: String, task_lines: String, test: Callable = Callable()) -> void:
+## `left_behind`: one line for each corpse with things in it and each follower apart
+## (WorldLeftBehind.line()).
+func fill(state: CharacterState, respect: String, task_lines: String, test: Callable = Callable(), left_behind: Array[String] = []) -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
-	var anything: bool = false
+	_fill_left_behind(left_behind)
+	var anything: bool = not left_behind.is_empty()
 	for line: String in StoryQuestDefinition.LINES:
 		var quests: VBoxContainer = _quests[line]
 		for child: Node in quests.get_children():
@@ -136,11 +154,24 @@ static func card(parent: Node) -> PanelContainer:
 	return card
 
 
+func _fill_left_behind(left_behind: Array[String]) -> void:
+	for index: int in range(_left_lines.get_child_count() - 1, 0, -1):
+		var old: Node = _left_lines.get_child(index)
+		_left_lines.remove_child(old)
+		old.queue_free()
+	for text: String in left_behind:
+		_label(_left_lines, text, Color(0, 0, 0, 0)).name = "Line"
+	_left_behind.visible = not left_behind.is_empty()
+
+
 ## Every text the page shows, one per line, the hidden columns left out (tests).
 func shown_text() -> String:
 	var lines: Array[String] = []
 	if _nothing.visible:
 		lines.append(_nothing.text)
+	if _left_behind.visible:
+		for node: Node in _left_lines.get_children():
+			lines.append((node as Label).text)
 	for line: String in StoryQuestDefinition.LINES:
 		if not _sections[line].visible:
 			continue
@@ -154,7 +185,7 @@ func shown_text() -> String:
 ## `color` transparent keeps the theme's.
 func _label(parent: Node, text: String, color: Color) -> Label:
 	var label := Label.new()
-	label.text = text
+	label.text = KoreanText.shown(text)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	if color.a > 0.0:

@@ -72,6 +72,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_raid(tree, raid)
 	raid.free()
 	await tree.process_frame
+	var spared: WorldSessionController = await _session(tree, CharacterState.GENDER_MALE)
+	await _test_spare_beside_guo(tree, spared)
+	spared.free()
+	await tree.process_frame
 	var sneak: WorldSessionController = await _session(tree, CharacterState.GENDER_MALE)
 	await _test_sneak(tree, sneak)
 	sneak.free()
@@ -102,7 +106,7 @@ func _test_data() -> void:
 	var cheng: NpcDefinition = catalog.npc(&"native.npc.cheng_shuo")
 	_check(cheng != null and cheng.age == 66 and cheng.dealings().object_rules.size() == 4 and cheng.talk().inquiry_topics().has("借兵"), "程朔: 66, takes the letter, asked for his men")
 	var guo: NpcDefinition = catalog.npc(&"native.npc.guo_cheng")
-	_check(guo != null and guo.hooks() != null and guo.hooks().follows_every_way and guo.hooks().moods["going"].flags == [NpcDefinition.FLAG_FOLLOWS_PLAYER] and guo.hooks().calls.size() == 5 and guo.hooks().calls[0].act.mark == "借了兵" and guo.hooks().fights_beside_player, "郭承 follows every way in his mood going and fights beside the player; the word of 借兵 reaches him at the drill yard")
+	_check(guo != null and guo.hooks() != null and guo.hooks().follows_every_way and guo.hooks().moods["going"].flags == [NpcDefinition.FLAG_FOLLOWS_PLAYER] and guo.hooks().calls.size() == 6 and guo.hooks().moods.has("home") and guo.hooks().moods["home"].flags.is_empty() and guo.hooks().calls[0].act.mark == "借了兵" and guo.hooks().fights_beside_player, "郭承 follows every way in his mood going and fights beside the player; the word of 借兵 reaches him at the drill yard")
 	var nan: NpcDefinition = catalog.npc(&"native.npc.nan_weishui_guest")
 	_check(nan != null and nan.hooks() != null and nan.hooks().scene_mark == "见过重逢" and nan.hooks().calls.filter(func(call: NpcHooks.Call) -> bool: return call.scene).size() == 3 and nan.skill_map().get(&"sword") == &"fonxansword", "南危水 the guest: elder5.c's arts, a three-beat scene")
 	var guest: NpcSpawnDefinition = catalog.spawn(&"guanbei.palace_hall.nan_weishui")
@@ -262,7 +266,8 @@ func _test_escorted(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(guo != null and state.marks.get("郭承跟上了", 0) == 1 and guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and ui.log_lines().any(func(line: String) -> bool: return line.contains("六骑听你的")), "郭承: 王爷的话到了 — he follows: %s" % [ui.log_lines().slice(-3)])
 	_check(_ask(court, guo, "潜入").any(func(line: String) -> bool: return line.contains("白天踏过去")), "潜入 of 郭承 after 借兵: 不用潜")
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_planned.bind(true))
+	# played on past the fixture's step (卢卡, 郭承: the later fixtures'); a bought sword and the 酒肆's 老秦 are the suite's errands
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_planned.bind(true), ["卢卡说了鬼", "卢卡说了番坊", "郭承跟上了", "郭承提过霍铮", "买了卢卡的剑", "老秦认出你"], [])
 	_check(handoff.is_empty(), "关北 A–B played (借兵) leaves what chapter6_planned(raid) writes: %s" % [handoff])
 
 
@@ -400,6 +405,10 @@ func _test_raid(tree: SceneTree, session: WorldSessionController) -> void:
 	shackles.interact()
 	await _settle(tree)
 	_check(state.marks.get("踏平了工地", 0) == 1 and state.marks.get("进得了古冢口", 0) == 1 and _count_in(session, &"guanbei.sheds", CORVEE) == 0 and ui.log_lines().any(func(line: String) -> bool: return line.contains("八个民夫")), "every 枷 opened, the eight gone home: %s" % [ui.log_lines().slice(-4)])
+	for second: int in 2:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	_check_guo_home(session, "六骑我带回校场")
 	session.record_journal()
 	_check(state.quests.has("main.chapter6/raid") and StoryQuestLog.objective(state, quests).begins_with("回马市问大秦剑手卢卡"), "the raid step done, 卢卡 next: %s" % [StoryQuestLog.objective(state, quests)])
 	var barrow: WorldMapController = await _go_with(tree, session, &"guanbei.barrow_mouth")
@@ -432,14 +441,12 @@ func _test_raid(tree: SceneTree, session: WorldSessionController) -> void:
 	var family: NpcRuntimeState = await _beside(tree, session, camp, &"guanbei.camp.family.1")
 	_check(_ask(camp, family, "民夫").any(func(line: String) -> bool: return line.contains("八个都回来了")), "the families: 八个都回来了")
 	# 郭承's 《马刀谱》, read toward 40.
-	await _wait_for_guo(tree, session, &"guanbei.camp")
-	var guo_here: NpcRuntimeState = null
-	for npc: NpcRuntimeState in camp.npc_runtimes():
-		if npc.definition().definition_id == GUO:
-			guo_here = npc
-	_check(guo_here != null and camp.select_npc(guo_here.character_id) and camp.ask_selected("刀谱").any(func(line: String) -> bool: return line.contains("马刀谱")) and state.marks.get("得了刀谱", 0) == 1, "郭承 hands over the 《马刀谱》")
+	# DECISIONS「郭承回校场」: he is at the drill yard now.
+	var drill: WorldMapController = await _go_with(tree, session, &"guanbei.drill")
+	var guo_here: NpcRuntimeState = await _beside(tree, session, drill, &"guanbei.drill.guo_cheng.1")
+	_check(guo_here != null and drill.select_npc(guo_here.character_id) and drill.ask_selected("刀谱").any(func(line: String) -> bool: return line.contains("马刀谱")) and state.marks.get("得了刀谱", 0) == 1, "郭承 hands over the 《马刀谱》 at the drill yard")
 	var manual_id: StringName = _carried(session, MANUAL)
-	_check(not manual_id.is_empty() and _ask(camp, guo_here, "刀谱").any(func(line: String) -> bool: return line.contains("自己练")), "the manual in hand; asked again: 自己练")
+	_check(not manual_id.is_empty() and _ask(drill, guo_here, "刀谱").any(func(line: String) -> bool: return line.contains("自己练")), "the manual in hand; asked again: 自己练")
 	state.skills.set_raw_level(SkillIds.LITERATE, 10) # TEST-ONLY
 	state.progression.combat_experience = 30000 # TEST-ONLY: 研读 wants it
 	state.spirit = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY: the 神 it costs
@@ -454,8 +461,61 @@ func _test_raid(tree: SceneTree, session: WorldSessionController) -> void:
 	var lao_qin: NpcRuntimeState = await _beside(tree, session, inn, &"guanbei.inn_hall.lao_qin.1")
 	_check(_ask(inn, lao_qin, "工地").any(func(line: String) -> bool: return line.contains("该踏平")), "老秦: 那地方该踏平")
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(true))
+	# played on into 关北 D (chapter6_done writes those); 老秦 is the suite's errand
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(true), ["卢卡说了鬼", "卢卡说了番坊", "关北一章", "程朔知道了", "得了刀谱", "老秦认出你"], [])
 	_check(handoff.is_empty(), "关北 C played (the raid) leaves what chapter6_site_done(raid) writes: %s" % [handoff])
+
+
+## Owner 2026-11-19 (DECISIONS「了结 / 放过」Q2): 郭承, following the player (not their summons),
+## holds for 了结 / 放过 as the riders do — 吕隼 knocked down and spared at the 工地 lives (ES2 had
+## 郭承 kill him a second later), and his word 吕隼招了 is reached.
+func _test_spare_beside_guo(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	StoryFixtures.chapter6_planned(session, true)
+	var court: WorldMapController = MapPlaces.enter(session, &"guanbei.palace_yard", &"guanbei.palace_yard.hall_return")
+	_check(court != null and await MapPlaces.drive_to_zone(tree, court, &"guanbei.drill"), "spare: out to the drill yard")
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	var guo: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.drill.guo_cheng.1")
+	_check(guo != null and guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER), "spare: 郭承 follows")
+	var site: WorldMapController = null
+	for zone_id: StringName in [&"guanbei.market", &"guanbei.camp", &"guanbei.steppe_road", &"guanbei.fence_gate"]:
+		site = await _go_with(tree, session, zone_id)
+		if site == null:
+			break
+	_check(site != null and site.map_id() == &"guanbei.worksite" and _count_in(session, &"guanbei.fence_gate", GUO) == 1, "spare: at the 工地's gate with 郭承")
+	if site == null or guo == null:
+		return
+	var after_knockout: int = BattlePace.after_knockout
+	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	for second: int in 14:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+		if coordinator.has_active_encounter():
+			break
+	var lu_sun: NpcRuntimeState = null
+	for npc: NpcRuntimeState in site.npc_runtimes():
+		if npc.definition().definition_id == LU_SUN and coordinator.has_active_encounter() and coordinator.active_encounter().participant_for(npc.character_id) != null:
+			lu_sun = npc
+	_check(lu_sun != null and coordinator.active_encounter().participant_for(guo.character_id) != null and site.summoner_of(guo.character_id).is_empty() and guo.relationship.has_lethal_target(lu_sun.character_id), "spare: the fight on, 郭承 in it beside the player (no summons of theirs) and out to kill 吕隼")
+	if lu_sun == null:
+		BattlePace.after_knockout = after_knockout
+		_fight_out(session)
+		return
+	_full(session.player_runtime())
+	lu_sun.character_state.vitality.current = -1 # TEST-ONLY: knocked down
+	coordinator.advance_scheduler(0.0)
+	_check(lu_sun.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and coordinator.held_victims().has(lu_sun.character_id) and not guo.relationship.has_lethal_target(lu_sun.character_id), "spare: 吕隼 falls; 郭承 holds his blow with the rest")
+	_check(coordinator.spare_downed(lu_sun.character_id), "spare: 放过 吕隼")
+	for second: int in 5:
+		coordinator.advance_scheduler(1.0)
+	_check(lu_sun.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and not guo.relationship.has_lethal_target(lu_sun.character_id), "spare: the fight goes on and nobody kills him, 郭承 neither")
+	var rounds: int = _fight_out(session)
+	BattlePace.after_knockout = after_knockout
+	_check(not coordinator.has_active_encounter() and lu_sun.life_status != CharacterRuntimeLifeStatus.Value.DEAD and state.marks.get("吕隼招了", 0) == 1, "spare: the fight over in %d rounds, 吕隼 lives and 吕隼招了 is written" % rounds)
+	_check(guo.life_status != CharacterRuntimeLifeStatus.Value.DEAD and (guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) or state.marks.get("郭承回了校场", 0) == 1), "spare: 郭承 lives, following still unless the 工地 done sent him home (郭承回了校场)")
 
 
 ## 潜入 (关北 C): the 工地 by day turns the player away; 等到天黑 at the fire; the night's four 枷, the watch,
@@ -546,6 +606,7 @@ func _test_sneak(tree: SceneTree, session: WorldSessionController) -> void:
 		session.advance_npc_heartbeat(1.0)
 		await _settle(tree)
 	_check(state.marks.get("救了一半", 0) == 1 and state.marks.get("进得了古冢口", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("走！")), "郭承: 走！ — 救了一半: %s" % [ui.log_lines().slice(-3)])
+	_check_guo_home(session, "我回校场")
 	session.record_journal()
 	_check(state.quests.has("main.chapter6/sneak") and StoryQuestLog.objective(state, quests).begins_with("回马市问大秦剑手卢卡"), "the sneak step done, 卢卡 next: %s" % [StoryQuestLog.objective(state, quests)])
 	# By day: the four left in the 枷, the officers back; the cart gone from the 古冢口.
@@ -582,12 +643,9 @@ func _test_sneak(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(camp2 != null and _count_in(session, &"guanbei.camp", FREED) == 4, "four home at the camp")
 	var family2: NpcRuntimeState = await _beside(tree, session, camp2, &"guanbei.camp.family.1")
 	_check(_ask(camp2, family2, "民夫").any(func(line: String) -> bool: return line.contains("没在里头")), "a family: 俺家的……没在里头")
-	await _wait_for_guo(tree, session, &"guanbei.camp")
-	var guo2: NpcRuntimeState = null
-	for npc: NpcRuntimeState in camp2.npc_runtimes():
-		if npc.definition().definition_id == GUO:
-			guo2 = npc
-	_check(guo2 != null and camp2.select_npc(guo2.character_id) and camp2.ask_selected("刀谱").any(func(line: String) -> bool: return line.contains("救了四个，也是救")) and not _carried(session, MANUAL).is_empty(), "郭承's manual on this road too: 救了四个，也是救")
+	var drill2: WorldMapController = await _go_with(tree, session, &"guanbei.drill")
+	var guo2: NpcRuntimeState = await _beside(tree, session, drill2, &"guanbei.drill.guo_cheng.1")
+	_check(guo2 != null and drill2.select_npc(guo2.character_id) and drill2.ask_selected("刀谱").any(func(line: String) -> bool: return line.contains("救了四个，也是救")) and not _carried(session, MANUAL).is_empty(), "郭承's manual on this road too, at the drill yard: 救了四个，也是救")
 	var hall2: WorldMapController = await _go_with(tree, session, &"guanbei.palace_hall")
 	for second: int in 3:
 		session.advance_npc_heartbeat(1.0)
@@ -595,7 +653,8 @@ func _test_sneak(tree: SceneTree, session: WorldSessionController) -> void:
 	var cheng2: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.palace_hall.cheng_shuo.1")
 	_check(hall2 != null and state.marks.get("程朔知道了", 0) == 1 and state.marks.get("王府干净", 0) == 1 and cheng2 != null and cheng2.has_flag(StringName(NpcMood.FLAG_PREFIX + "clean")) and ui.log_lines().any(func(line: String) -> bool: return line.contains("王府不知道")), "程朔 in his 干净 mood: 夜里的事，王府不知道: %s" % [ui.log_lines().slice(-3)])
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(false))
+	# played on into 关北 D (chapter6_done writes those)
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(false), ["吕隼说了少了四个", "见过车路过", "得了刀谱", "程朔知道了"], [])
 	_check(handoff.is_empty(), "关北 C played (the sneak) leaves what chapter6_site_done(sneak) writes: %s" % [handoff])
 
 
@@ -611,7 +670,7 @@ func _go_with(tree: SceneTree, session: WorldSessionController, zone_id: StringN
 		if session.player_runtime().world_location().zone_id != portal.source_zone_id and not await MapPlaces.drive_to_zone(tree, map, portal.source_zone_id):
 			return null
 		for _frame: int in 400:
-			if _count_in(session, portal.source_zone_id, GUO) == 1:
+			if _count_in(session, portal.source_zone_id, GUO) == 1 or not _guo_follows(session):
 				break
 			session.advance_npc_heartbeat(0.2) # his walk goes on world time
 			await tree.physics_frame
@@ -626,6 +685,31 @@ func _go_with(tree: SceneTree, session: WorldSessionController, zone_id: StringN
 	if session.player_runtime().world_location().zone_id != zone_id and not await MapPlaces.drive_to_zone(tree, map, zone_id):
 		return null
 	return map
+
+
+## DECISIONS「郭承回校场」: as chapter 6's 工地 ends 郭承 says his line, follows no more and is back at the
+## 校场's drill yard, on its own map.
+func _check_guo_home(session: WorldSessionController, line: String) -> void:
+	var ui: SharedGameplayUI = session.shared_ui()
+	var guo: NpcRuntimeState = null
+	for map: WorldMapController in session.world_maps():
+		for npc: NpcRuntimeState in map.npc_runtimes():
+			if npc.definition().definition_id == GUO:
+				guo = npc
+	_check(
+		guo != null and not guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and guo.world_location().zone_id == &"guanbei.drill"
+		and guo.world_location().map_id == &"guanbei.palace_court" and session.player_runtime().state.marks.get("郭承回了校场", 0) == 1
+		and ui.log_lines().any(func(said: String) -> bool: return said.contains(line)),
+		"郭承 back at the 校场, following no more (%s): %s" % ["none" if guo == null else String(guo.world_location().zone_id), ui.log_lines().slice(-3)],
+	)
+
+
+func _guo_follows(session: WorldSessionController) -> bool:
+	for map: WorldMapController in session.world_maps():
+		for npc: NpcRuntimeState in map.npc_runtimes():
+			if npc.definition().definition_id == GUO and npc.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER):
+				return true
+	return false
 
 
 ## TEST-ONLY: 郭承 given time to walk after the player into `zone_id` (his walk goes on world time).

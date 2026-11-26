@@ -14,6 +14,7 @@ var failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary:
 	_test_data()
 	_test_logo_blocks()
+	await _test_wide_screens(tree)
 	await _test_shell(tree)
 	return {"assertions": assertions, "failures": failures}
 
@@ -38,8 +39,13 @@ func _test_data() -> void:
 		_check(choice.weather in TitleScreenDefinition.WEATHERS, "%s drifts a known weather" % button)
 	_check(definition.choice(&"ContinueButton").place == &"", "继续 flies to the save's own place")
 	_check(atlas.cell(definition.new_game_place) != null, "a new journey's place is on the 沙盘")
-	for language: String in ["zh_CN", "en", "fr"]:
+	for language: String in ["zh_CN", "zh_Hant", "en", "ko", "ja", "fr"]:
 		_check(ResourceLoader.exists(definition.logo_for(language)), "a logo mask for %s" % language)
+	_check(definition.logo_for("ko") != definition.logo_for("en") and definition.logo_for("ja") != definition.logo_for("en") and definition.own_title("ko") and definition.own_title("ja") and definition.own_title("zh_CN") and definition.own_title("zh_Hant") and not definition.own_title("en") and not definition.own_title("fr"), "Chinese, Korean and Japanese lead with titles of their own; English and the rest with the English one")
+	for language: String in ["zh_CN", "zh_Hant", "ko", "ja"]:
+		_check(definition.line_for(language) == "EASTERN STORIES", "%s leads with its own title, English under it (owner 2026-11-22)" % language)
+	for language: String in ["en", "fr"]:
+		_check(definition.line_for(language) == "东方故事", "%s leads with the English title, the Chinese under it" % language)
 	_check(ResourceLoader.exists(definition.seal_for("zh_CN")) and definition.seal_for("en") == "", "侠 on the Chinese seal; no Chinese on another language's")
 	var errors: Array[String] = []
 	var reader := ContentRecordReader.new({"choices": {"NewGameButton": {"weather": "rain", "zoom_percent": 5}}, "logo_width_px": 10}, "test", errors)
@@ -63,6 +69,7 @@ func _test_logo_blocks() -> void:
 	_check(image.get_width() >= 800 and greys.size() > 8, "a large mask that keeps its antialiased edge: %d wide, %d greys" % [image.get_width(), greys.size()])
 	_check(blurred, "with the ink blurred wide beside it, past the ink's own edge")
 	_check(definition.line_for("zh_CN") == "EASTERN STORIES" and definition.line_for("en") == "东方故事", "the other language spaced out under the title")
+	_check(definition.line_for("ja") == "EASTERN STORIES" and ResourceLoader.exists(definition.seal_for("ja")), "日本語 leads with its own 東方物語 (故事 is an anecdote there), English under it, the 侠 seal")
 	var logo := TitleLogo.new()
 	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true)
 	var letters: TextureRect = logo.get_node("LogoView/Letters") as TextureRect
@@ -89,11 +96,80 @@ func _test_logo_blocks() -> void:
 		logo._process(0.0)
 		_check(float(seal_mat.get_shader_parameter("fade")) < 0.01 and line.modulate.a < 0.01 and float(dim.get_shader_parameter("strength")) < 0.01, "lifted off: nothing left")
 	var english := TitleLogo.new()
-	english.build(definition.logo_for("en"), definition.seal_for("en"), definition.line_for("en"), false)
+	english.build(definition.logo_for("en"), definition.seal_for("en"), definition.line_for("en"), true)
 	var plain: ShaderMaterial = (english.get_node("LogoView/Letters") as TextureRect).material as ShaderMaterial
-	_check(not (english.get_node("LogoView/Seal") as TextureRect).visible and (english.get_node("LogoView/Letters") as TextureRect).texture != letters.texture and is_zero_approx(float(plain.get_shader_parameter("dry"))), "English is its own lettering: no Chinese seal, no brush streaks")
-	for node: TitleLogo in [logo, english]:
+	_check(not (english.get_node("LogoView/Seal") as TextureRect).visible and (english.get_node("LogoView/Letters") as TextureRect).texture != letters.texture and is_equal_approx(float(plain.get_shader_parameter("dry")), TitleLogo.DRY), "English is its own lettering, brushed like the others (owner 2026-11-22), with no Chinese seal")
+	var english_mask: Texture2D = load(definition.logo_for("en")) as Texture2D
+	english.place_for(Vector2(1920, 1080))
+	var english_letters: TextureRect = english.get_node("LogoView/Letters") as TextureRect
+	_check(english_mask.get_height() > english_mask.get_width() * TitleLogo.TALL_MOST and english_letters.size.y <= english.width_px * 1.5 * TitleLogo.TALL_MOST + 0.5 and is_equal_approx(english_letters.position.x, english.at.x * 1920.0 - english.width_px * 1.5 / 2.0), "the two-line English title drawn no taller than 东方故事, its left edge where 东方故事's is")
+	var korean := TitleLogo.new()
+	korean.build(definition.logo_for("ko"), definition.seal_for("ko"), definition.line_for("ko"), true)
+	logo.place_for(Vector2(1280, 720))
+	korean.place_for(Vector2(1280, 720))
+	var sizes: Array[int] = []
+	for node: TitleLogo in [logo, korean]:
+		sizes.append((node.get_node("LogoView/Line") as Label).get_theme_font_size("font_size"))
+	_check(absi(sizes[0] - sizes[1]) <= 2, "EASTERN STORIES as big under the long, low 동방이야기 as under 东方故事: %s" % [sizes])
+	for node: TitleLogo in [logo, english, korean]:
 		node.free()
+
+
+## Wider than 16:9 the title keeps its 16:9 size and place for the screen's height, and the menu's
+## column stays under its line, on a phone too (owner, 2026-11-20: on a 20:9 phone the menu sat in
+## the middle of the screen, over the lettering, which had also grown with the width).
+func _test_wide_screens(tree: SceneTree) -> void:
+	var definition: TitleScreenDefinition = GameContent.catalog().title_screen()
+	var logo := TitleLogo.new()
+	logo.at = Vector2(definition.logo_percent[0], definition.logo_percent[1]) / 100.0
+	logo.width_px = definition.logo_width_px
+	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true)
+	var letters: TextureRect = logo.get_node("LogoView/Letters") as TextureRect
+	var line: Label = logo.get_node("LogoView/Line") as Label
+	logo.place_for(Vector2(1280, 720))
+	var line_bottoms: Dictionary[Vector2, float] = {Vector2(1280, 720): _letters_bottom(line)}
+	logo.place_for(Vector2(1280, 800))
+	_check(is_equal_approx(letters.size.x, logo.width_px), "the Steam Deck's 16:10 keeps its title: %.1f wide" % letters.size.x)
+	logo.place_for(Vector2(1920, 1080))
+	_check(is_equal_approx(letters.size.x, logo.width_px * 1.5), "so does 16:9: %.1f wide" % letters.size.x)
+	var sixteen_nine: Array[Rect2] = [letters.get_rect(), line.get_rect()]
+	# The line's letters end a font's height under its top (its box is taller).
+	line_bottoms[Vector2(1920, 1080)] = _letters_bottom(line)
+	for screen: Vector2 in [Vector2(2400, 1080), Vector2(2560, 1080), Vector2(3840, 1080)]:
+		logo.place_for(screen)
+		_check(letters.get_rect().is_equal_approx(sixteen_nine[0]) and line.get_rect().is_equal_approx(sixteen_nine[1]), "%s keeps the 16:9 title at the left, the rest for the 沙盘: %s" % [screen, letters.get_rect()])
+		line_bottoms[screen] = _letters_bottom(line)
+	logo.free()
+	var shell: ApplicationShellController = SHELL_SCENE.instantiate()
+	shell.configure_before_start(GameSaveStorageProfile.isolated_test("title-wide"), ShellTests.MemoryFiles.new(), null, ShellTests.MemoryFiles.new())
+	tree.root.add_child(shell)
+	for i: int in 6:
+		await tree.process_frame
+	var presenter: SafeAreaPresenter = shell.get_node("SafeAreaPresentation") as SafeAreaPresenter
+	var panel: Control = shell.get_node("ShellCanvas/MainMenuPanel/Center/Panel") as Control
+	var scroll: ScrollContainer = panel.get_node("ResponsiveScroll") as ScrollContainer
+	# Screens 1080 pixels high draw 720 UI pixels: 1.5 to one. The phone (20:9) is touch-sized. A
+	# 1280×720 window snaps its interface to 4/3 (540 UI rows): the menu's rows close up to stay
+	# under the line there (owner, 2026-11-22: it sat over 新游戏).
+	for screen_case: Array in [[Vector2(1920, 1080), false, "16:9", 1.5], [Vector2(2560, 1080), false, "a 21:9 monitor", 1.5], [Vector2(2400, 1080), true, "a 20:9 phone", 1.5], [Vector2(1280, 720), false, "a 1280×720 window", 4.0 / 3.0]]:
+		var screen: Vector2 = screen_case[0]
+		var ui: float = screen_case[3]
+		var view := Rect2(Vector2.ZERO, (screen / ui).floor())
+		presenter.set_capability(FixedSafeArea.new(SafeAreaMetrics.new(view, view, false, screen_case[1])))
+		for i: int in 4:
+			await tree.process_frame
+		var first: Rect2 = shell.new_game_button.get_global_rect()
+		var menu: Rect2 = panel.get_global_rect()
+		_check(first.position.y * ui >= line_bottoms[screen], "%s: the menu starts under the title's line (%.0f ≥ %.0f px)" % [screen_case[2], first.position.y * ui, line_bottoms[screen]])
+		_check(menu.position.x < view.size.x * 0.15 and menu.end.y <= view.end.y, "%s: a column at the lower left: %s" % [screen_case[2], menu])
+		_check(scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_DISABLED, "%s: all of it shows, without scrolling" % screen_case[2])
+	presenter.set_capability(GodotSafeAreaCapability.new())
+	shell.queue_free()
+	await tree.process_frame
+
+
+static func _letters_bottom(line: Label) -> float:
+	return line.position.y + line.get_theme_font("font").get_height(line.get_theme_font_size("font_size"))
 
 
 func _test_shell(tree: SceneTree) -> void:
@@ -153,3 +229,14 @@ func _test_shell(tree: SceneTree) -> void:
 	_check(not title.visible and not title.entering(), "then the title is gone")
 	shell.queue_free()
 	await tree.process_frame
+
+
+## Measures the screen it is given: one this test cannot open.
+class FixedSafeArea extends SafeAreaCapability:
+	var _metrics: SafeAreaMetrics
+
+	func _init(metrics: SafeAreaMetrics) -> void:
+		_metrics = metrics
+
+	func measure(_viewport: Viewport) -> SafeAreaMetrics:
+		return _metrics

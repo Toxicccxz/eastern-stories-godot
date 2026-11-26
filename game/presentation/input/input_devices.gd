@@ -25,6 +25,14 @@ var kind: int = Kind.KEYBOARD_MOUSE
 var pad_style: int = PadStyle.XBOX
 
 
+## A gamepad is connected (Godot's joypad list; on Android only a device that reports a gamepad
+## or joystick source): the touch controls step aside (MobileTouchAdapter), and the HUD stops
+## keeping room for them (GodotSafeAreaCapability). Here, not in MobileTouchAdapter: the HUD's
+## metrics must not load the shell's scripts, which load the Session scene.
+static func gamepad_connected() -> bool:
+	return not Input.get_connected_joypads().is_empty()
+
+
 ## The one instance the game's hints follow.
 static func shared() -> InputDevices:
 	if _shared == null:

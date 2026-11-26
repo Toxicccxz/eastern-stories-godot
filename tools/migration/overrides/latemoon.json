@@ -220,7 +220,7 @@
 			],
 			"inquiry": {
 				"庄规": {
-					"confirm": "依庄规：人交给蓝止萍处置——台上不杀，可她不能再待在庄里。\n晚月庄这一票投颜违（逐神教）；老妇从此不再开口。本庄弟子晋阶执事。\n要这么说吗？",
+					"confirm": "依庄规：人交给蓝止萍处置——台上不杀，可她不能再待在庄里。\n晚月庄这一票投颜违（逐神教）（已经入了虹台的席的，这一票不再跟着变）；老妇从此不再开口。本庄弟子晋阶执事。\n要这么说吗？",
 					"confirm_marks": ["大厅说起了庄规"],
 					"confirm_lacks": ["晚月庄依了庄规", "她回了晚月庄", "晚月庄的线断了"],
 					"listed_marks": ["大厅说起了庄规"],
@@ -278,8 +278,8 @@
 						{"asker_marks": ["大会散了"], "say": "虹台上的事，晚月庄记着。"},
 						{"asker_marks": ["终章", "晚月庄的票随了庄规"], "asker_lacks": ["晚月庄听你的"], "marks_asker": ["晚月庄表了态", "晚月庄肯听你的"], "lines": [{"say": "晚月庄这一票投颜违。神教的人进过庄门，往后庄门要关紧——颜违说了，他当了盟主就逐神教。"}, {"say": "这条庄规，是你陪我守下来的。这一票你要，就给你。"}]},
 						{"asker_marks": ["终章", "晚月庄的票随了她"], "asker_lacks": ["晚月庄听你的"], "marks_asker": ["晚月庄表了态", "晚月庄肯听你的"], "lines": [{"emote": "看了你一会儿。"}, {"say": "晚月庄这一票投旧盟主。庄里收着一个神教的人——官府管不到这里，颜违也别想管到这里来。"}, {"say": "庄规你替她破了一回。……这一票你要，我也给。"}]},
-						{"asker_marks": ["晚月庄改投颜违"], "say": "晚月庄这一票投颜违。说定了。"},
 						{"asker_marks": ["晚月庄听你的"], "say": "晚月庄这一票，你说了算。"},
+						{"asker_marks": ["晚月庄改投颜违"], "say": "晚月庄这一票投颜违。说定了。"},
 						{"asker_marks": ["终章", "宝衣烧了"], "marks_asker": ["晚月庄表了态", "晚月庄肯改投"], "lines": [{"say": "寒於宝衣烧了。晚月庄守了几百年的东西，挡完那一口就没了。"}, {"say": "晚月庄这一票原该投旧盟主：封地照旧，官府管不到这里。可神教的人还在庄外转——颜违说了，他当了盟主就逐神教。"}, {"say": "你一句话，晚月庄这一票就投他。"}]},
 						{"asker_marks": ["终章", "宝衣给了安妮儿"], "marks_asker": ["晚月庄表了态", "晚月庄肯改投"], "lines": [{"emote": "脸色淡了下来。"}, {"say": "宝衣在西厢那位手里。神教迟早要拿它做文章。"}, {"say": "晚月庄这一票原该投旧盟主……颜违说了，他当了盟主就逐神教。你一句话，这一票就投他。"}]},
 						{"asker_marks": ["终章", "宝衣回了庄"], "asker_lacks": ["瑷伦留在了冰里"], "marks_asker": ["晚月庄表了态", "晚月庄肯听你的"], "lines": [{"say": "宝衣在瑷伦手里——出过一回庄，是你送回来的。"}, {"say": "晚月庄这一票原该投旧盟主。你要，就给你。"}]},
@@ -1346,7 +1346,7 @@
 			],
 			"inquiry": {
 				"西出阳关": ["『西出阳关』是一种幻影式舞步。可以移形换影。\n"],
-				"学舞": ["来!我教你...『西出阳关』(dancing out)是 ..... \n经过雨梅指导后你渐渐懂了! \n", { "mark_asker": "dance_out" }],
+				"学舞": ["来!我教你...『西出阳关』是 ..... \n经过雨梅指导后你渐渐懂了! \n", { "mark_asker": "dance_out" }],
 				"舞": ["我会的舞是属于「幻影式舞步」。\n"],
 				"芳绫": ["她是个可爱的女孩。不过有点任性，听说她贪玩被关在 \n禁闭室。听说她爱玩竹蜻蜓哦。\n"],
 				"竹蜻蜓": ["庄内有人会用竹子作成不同物品。\n"],
@@ -1371,14 +1371,14 @@
 						{"say": "嗯 ...为这舞曲名。似乎雨梅姊知道。"}
 					]
 				},
-				"有凤来仪": ["嗯 ...为这舞曲名。(dancing yu-fong)很有名！ \n", { "mark_asker": "dance_yu_fong" }],
+				"有凤来仪": ["嗯 ...为这舞曲名。很有名！ \n", { "mark_asker": "dance_yu_fong" }],
 				"西出阳关": ["「幻影式舞步」步法与地点都很重要。\n"],
 				"芳绫": ["她聪明伶俐，会跳一些自创的舞步。\n"],
 				"画": ["沧海龙吟是一幅湘绣舞曲图，记载一些珍贵舞步。\n"],
 				"寒谷龙舞": { "rules": [ { "lines": [
 					{ "line": "昭仪很奇怪的望著你，说道:嘻!你对舞有兴趣呀! " },
 					{ "line": "只见两眼溜来溜去，一种很神秘的表情，嘟著嘴。" },
-					{ "line": "过了一会说：好吧!偷偷跟你说，你可以查看墙上的图。(dragon-dance) " },
+					{ "line": "过了一会说：好吧!偷偷跟你说，你可以查看墙上的图。 " },
 					{ "say": "...." }
 				] } ] },
 				"舞": { "rules": [ { "lines": [
@@ -1442,7 +1442,7 @@
 							"line": "『 庄内前厅某处藏有一宝物手镯哦!』\n"
 						},
 						{
-							"line": "你可以找找看! (search bracelet) \n"
+							"line": "你可以找找看! \n"
 						}
 					]
 				},
@@ -1488,6 +1488,9 @@
 						{
 							"asker_marks": [
 								"接下了瑷伦三鞭"
+							],
+							"asker_lacks": [
+								"冰匣开了"
 							],
 							"mood": "going",
 							"mark_asker": "芳绫跟你去了",
@@ -1774,7 +1777,7 @@
 					]
 				},
 				"女儿": {
-					"confirm": "带她回来：她留在晚月庄，跟着她娘守内书房，不再蒙面。\n晚月庄这一票投旧盟主（不要官府、也不要颜违管到庄里来）；蓝止萍从此对你冷一分。本庄弟子的执事，由老妇向庄主讨。\n要这么说吗？",
+					"confirm": "带她回来：她留在晚月庄，跟着她娘守内书房，不再蒙面。\n晚月庄这一票投旧盟主（不要官府、也不要颜违管到庄里来）（已经入了虹台的席的，这一票不再跟着变）；蓝止萍从此对你冷一分。本庄弟子的执事，由老妇向庄主讨。\n要这么说吗？",
 					"confirm_marks": [
 						"大厅说起了庄规"
 					],
@@ -2402,7 +2405,7 @@
 			"function do_dance": "the act: the line (HIM 『 春宫怨 』 plain), 50 sen (asked first when it would knock the player out), then the hall (latemoon1); any other dance did nothing; tell_room() lines are for others"
 		},
 		"d/latemoon/room/npc/elon.c": {
-			"function init": "accept test: the panel's 接受测试 (the trial in set)",
+			"function init": "accept test: the panel's 接受测试",
 			"function do_accept": "apprentice rule in set (kind trial): offered to those its checks pass (a man heard 老身不收男徒!, one short of 100000 combat_exp nothing), asked first; the first lash's sigh and shake print nothing; set(\"title\") is the rule's title, given when she takes the player (DECISIONS 晚月庄 D)",
 			"function attempt_apprentice": "apprentice rule in set: 100000 combat_exp, then women, each with its say; then commoners only (要叛师！！！ shouted in the room, angry prints nothing, kill_ob(); asked first)"
 		},

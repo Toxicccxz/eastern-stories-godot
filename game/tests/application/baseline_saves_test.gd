@@ -28,6 +28,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _autosave_rolls(tree)
 	await _kept_save(tree)
 	await _death_card_goes_back(tree)
+	await _death_save(tree)
 	await _broken_autosave_keeps_the_card(tree)
 	TestDeath.restore()
 	await _no_autosave_when_off(tree)
@@ -302,7 +303,7 @@ func _autosave_moments(tree: SceneTree) -> void:
 	_check(not autosave.begin(session, later) and not autosave.running() and not autosave.waiting(), "the moment passes")
 	session.player_runtime().state.ghost = false
 	# 全项目审查第四批: where the player stands is no place a save can put them back (a doorway:
-	# door state is not saved): Save says so, the autosave waits for them to step on, quietly.
+	# door state is not saved): Save says so, the autosave's moment waits, quietly, for the next.
 	var body: WorldCharacterBody2D = session.active_map().runtime_player_body()
 	var stood: Vector2 = body.global_position
 	body.global_position = Vector2(-5000, -5000) # TEST-ONLY: a spot no zone of the map holds
@@ -310,11 +311,10 @@ func _autosave_moments(tree: SceneTree) -> void:
 	_check(refused.outcome == OldPineSaveEligibilityResult.Outcome.PLAYER_POSITION, "Save is refused for where the player stands: %d" % refused.outcome)
 	_check(not autosave.begin(session, later) and autosave.waiting() and not autosave.running(), "the autosave's moment waits")
 	_check(autosave.take_finished() == null, "and nothing is told: no 自动存档失败")
-	_check(not autosave.retry(session, later + 10) and autosave.waiting(), "tried again within the second: still there")
-	_check(not autosave.retry(session, later + 1200) and autosave.waiting(), "a second on, still standing there: still waiting")
+	_check(not autosave.begin(session, later + 1200) and autosave.waiting(), "the next moment, still standing there: still waiting")
 	body.global_position = stood
-	_check(autosave.retry(session, later + 1200) == false, "never twice within the second")
-	_check(autosave.retry(session, later + 2400) and autosave.running() and not autosave.waiting(), "a step away, it saves")
+	# Not tried while the player walks (save_waiting_test, through the host): the next moment.
+	_check(autosave.begin(session, later + 2400) and autosave.running() and not autosave.waiting(), "a step away, the next moment saves")
 	await _autosaved(tree, host)
 	await _frames(tree)
 	var said: Array[String] = session.shared_ui().toasts().shown_texts()
@@ -423,7 +423,7 @@ func _death_card_goes_back(tree: SceneTree) -> void:
 	await _die(tree, session)
 	_check(_to_autosave(overlay).visible and _to_autosave(overlay).text == "回到上次自动存档", "the card offers it")
 	await tree.process_frame
-	_check(tree.root.gui_get_focus_owner() != null and tree.root.gui_get_focus_owner().name == &"Continue", "继续 keeps the keys")
+	_check(tree.root.gui_get_focus_owner() != null and tree.root.gui_get_focus_owner().name == &"ToAutosave", "回到上次自动存档 has the keys, not 继续 (DECISIONS「死前存档」)")
 	_check(_to_autosave(overlay).focus_mode != Control.FOCUS_NONE, "the pad can reach it")
 	overlay.return_to_autosave()
 	_check(shell.shell_state().mode() == ApplicationShellState.Mode.RESULT and shell.result_prompt.is_asking() and shell.result_label.text.contains("回到上次自动存档") and shell.result_prompt.detail.text.contains("雪亭镇"), "asks, saying where: " + shell.result_prompt.detail.text)
@@ -431,7 +431,7 @@ func _death_card_goes_back(tree: SceneTree) -> void:
 	_check(tree.paused and tree.root.gui_get_focus_owner() == shell.cancel_button, "the question holds the keys over the card")
 	_check(shell.dismiss_current_result() and shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and not tree.paused, "取消: back on the card")
 	await _frames(tree)
-	_check(overlay.text().contains("你死了。") and tree.root.gui_get_focus_owner() != null and tree.root.gui_get_focus_owner().name == &"Continue", "继续 has the keys again")
+	_check(overlay.text().contains("你死了。") and tree.root.gui_get_focus_owner() != null and tree.root.gui_get_focus_owner().name == &"ToAutosave", "the card has the keys again")
 	overlay.return_to_autosave()
 	_check(shell.confirm_current_result(), "读取")
 	await _frames(tree)
@@ -451,6 +451,97 @@ func _death_card_goes_back(tree: SceneTree) -> void:
 	_check(not _to_autosave(overlay).visible, "another journey's autosave is not offered, whatever the name")
 	shell.free()
 	await _frames(tree)
+
+
+## DECISIONS「死前存档」: as the card comes up the autosave is copied byte for byte into the 死前存档;
+## the autosave rolls on after the return to life, the copy stays; a second death while the first
+## corpse still holds things keeps it; once that corpse is empty the next death replaces it. The
+## load list names it, the save list does not offer it, and it loads.
+func _death_save(tree: SceneTree) -> void:
+	var files: MemoryFiles = MemoryFiles.new()
+	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("baseline-before-death")
+	var shell: ApplicationShellController = await _shell(tree, files, profile)
+	await _new_game(tree, shell)
+	var host: OldPineGameRuntimeHost = shell.runtime_host()
+	var session: WorldSessionController = host.current_session()
+	var auto_path: String = profile.for_slot(GameSaveSnapshot.AUTO_SLOT_ID).canonical_path()
+	var death_path: String = profile.for_slot(GameSaveSnapshot.DEATH_SLOT_ID).canonical_path()
+	session.player_runtime().state.progression.combat_experience = 321
+	_check(host.autosave().begin(session), "an autosave")
+	await _autosaved(tree, host)
+	_check(host.read_slots().all(func(row: GameSaveSlotSummary) -> bool: return row.slot_id != GameSaveSnapshot.DEATH_SLOT_ID), "no 死前存档 row before a death")
+	# Something in the bag (what is worn stays on the player: DECISIONS「减轻死亡」).
+	_check(not (session.active_map() as WorldMapController).give_new_item_to_player(&"es2:obj/longsword").is_empty(), "TEST-ONLY: a sword in the bag")
+	await _die(tree, session)
+	await _death_copied(tree, host)
+	_check(files.files.has(death_path) and files.files[death_path] == files.files[auto_path], "the autosave copied byte for byte as the card came up")
+	_check(WorldLeftBehind.corpses(session).size() == 1, "the corpse holds the things")
+	var rows: Array[GameSaveSlotSummary] = host.read_slots()
+	_check(rows[rows.size() - 1].slot_id == GameSaveSnapshot.DEATH_SLOT_ID and rows[rows.size() - 1].state == GameSaveSlotSummary.State.READY, "the load list has the 死前存档 row")
+	_check(ApplicationSlotText.row(rows[rows.size() - 1]).begins_with("死前存档"), "named plainly: " + ApplicationSlotText.row(rows[rows.size() - 1]))
+	# Back to life at the 城隍庙: the autosave rolls on, the copy stays.
+	await _back_to_life(tree, session)
+	session.player_runtime().state.progression.combat_experience = 500
+	host.autosave().restart_interval(-1)
+	_check(host.autosave().begin(session), "the autosave after the return to life")
+	await _autosaved(tree, host)
+	_check(_exp(files, profile, GameSaveSnapshot.AUTO_SLOT_ID) == 500 and _exp(files, profile, GameSaveSnapshot.DEATH_SLOT_ID) == 321, "the autosave rolled on, the 死前存档 kept the world before the death")
+	# Dead again on the way back, the first corpse still full: the copy from before it stays.
+	await _die(tree, session)
+	await _death_copied(tree, host)
+	_check(_exp(files, profile, GameSaveSnapshot.DEATH_SLOT_ID) == 321, "a second death while the first corpse holds things keeps it")
+	# The things fetched (the first corpse emptied): the next death replaces it.
+	await _back_to_life(tree, session)
+	for place: WorldLeftBehind.Place in WorldLeftBehind.corpses(session):
+		var map: WorldMapController = session.world_map_of(place.map_id)
+		map.corpses._destruct_corpse(map.corpses.find_corpse(place.id))
+	_check(WorldLeftBehind.corpses(session).is_empty(), "no corpse holds anything now")
+	_check(shell.request_pause(), "系统")
+	await _frames(tree)
+	_check(shell.request_save_slots(), "the save list")
+	_check(shell._slot_rows.all(func(row: GameSaveSlotSummary) -> bool: return row.slot_id != GameSaveSnapshot.DEATH_SLOT_ID), "nobody saves to the 死前存档")
+	_check(shell.cancel_slots() and shell.request_resume(), "back to the world")
+	await _frames(tree)
+	session.player_runtime().state.progression.combat_experience = 600
+	host.autosave().restart_interval(-1)
+	_check(host.autosave().begin(session), "an autosave")
+	await _autosaved(tree, host)
+	await _die(tree, session)
+	await _death_copied(tree, host)
+	_check(_exp(files, profile, GameSaveSnapshot.DEATH_SLOT_ID) == 600 and files.files[death_path] == files.files[auto_path], "the next death replaced it")
+	# It loads, from the main menu too.
+	shell.free()
+	await _frames(tree)
+	shell = await _shell(tree, files, profile)
+	host = shell.runtime_host()
+	_check(shell.request_load_slots(), "读取存档")
+	var row: int = -1
+	for index: int in shell.slot_panel.buttons().size():
+		if shell.slot_panel.buttons()[index].text.begins_with("死前存档"):
+			row = index
+	_check(row >= 0 and shell.choose_slot_row(row), "the 死前存档 row, picked")
+	await _frames(tree)
+	var back: WorldSessionController = host.current_session()
+	_check(back != null and back.player_runtime().state.progression.combat_experience == 600 and not back.player_runtime().state.ghost, "alive, before the death")
+	shell.free()
+	await _frames(tree)
+
+
+func _death_copied(tree: SceneTree, host: OldPineGameRuntimeHost) -> void:
+	var frames: int = 0
+	while host.death_save().running() and frames < 5000:
+		frames += 1
+		await tree.process_frame
+	await tree.process_frame
+
+
+## 继续 on the card, then the gargoyle's word: back at the 城隍庙.
+func _back_to_life(tree: SceneTree, session: WorldSessionController) -> void:
+	session.continue_after_death()
+	await _frames(tree)
+	session.request_reincarnation()
+	await _frames(tree, 12)
+	_check(not session.player_runtime().state.ghost and session.active_map_id() == SnowWorldDefinitions.temple_map_id(), "back to life at the temple")
 
 
 ## The file turned bad: told, and the player is back on the card, the world as it was.

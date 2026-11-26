@@ -281,7 +281,7 @@ func _ask_before_gift(rule: NpcObjectRule, npc: NpcRuntimeState, content: ItemCo
 	var teaching: NpcTeaching = master.teaching()
 	var family: FamilyDefinition = null if teaching == null else GameContent.catalog().family(teaching.family_id)
 	if rule.recruit and family != null and _player.apprenticeship_request.recruit_takes_at_once(_player.state, master):
-		var change: String = TeacherPanel.family_change_warning(_player, master, tr(family.display_name))
+		var change: String = TeacherPanel.family_change_warning(_player, master, tr(family.display_name), _session.quest_condition_test())
 		if not change.is_empty():
 			return tr(GIVE_RECRUITS_AT_ONCE).format({"npc": tr(master.display_name), "item": tr(content.display_name), "warning": change})
 	return tr(rule.ask)

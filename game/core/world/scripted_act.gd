@@ -10,7 +10,8 @@ extends RefCounted
 ## has or lacks, `mark` a saved mark they have (`not_mark` one they lack: d/canyon/npc/
 ## vice_general.c's marks/军营) and `carries` an id something they carry
 ## answers to (present(id, me): letter.c's 火摺), `present` an NPC standing in the room
-## (present("cook bonze"): d/sanyen/kitchen.c; one lying unconscious says nothing, 默认), `thirsty`
+## (present("cook bonze"): d/sanyen/kitchen.c; one lying unconscious says nothing, 默认; a list: every
+## one of them, DECISIONS「说话的人得在场」: whoever a step is spoken `by` is asked here), `thirsty`
 ## that they can still drink (query("water") below max_water_capacity(): d/choyin/s_street1.c's
 ## well), `at_least` their force, max_force and force_factor at least so much (d/canyon/bamboo/
 ## bamboo3.c's stone), `room` and `not_room` a flag the act's room has or lacks (its set(), set_temp():
@@ -45,7 +46,9 @@ extends RefCounted
 ## - `kill`: kill_ob(player) and the player's fight_ob(): a fight to the death;
 ## - `give` (an item) `unless_temp`: the item new()'d to the player, unless they carry the
 ##   set_temp() flag already (which the gift sets), then its `lines`; `give_one_of` (items)
-##   new()s the one random(how many) picks (d/choyin/club.c's switch(random(3)));
+##   new()s the one random(how many) picks (d/choyin/club.c's switch(random(3))); `wield` true
+##   (native, DECISIONS「穿灵在手」): the weapon given goes into the player's hand, what they held
+##   back into the bag (穿灵 pulled as 侮天鬼 rises: the bag cannot be opened in the fight);
 ## - `set_temp` a flag: set_temp(flag, 1) on the player (saved, as all of them);
 ## - `clear_temp` a flag: set_temp(flag, 0) (d/canyon/canyon4.c's 军营/swear, spent by the oath);
 ## - `set_room`, `clear_room` a flag of the act's room (bamboo3.c's set("exits/enter"), delete());
@@ -64,7 +67,8 @@ extends RefCounted
 ##   an NPC definition, the first of them standing by leaves with it (刘老农领着娟儿匆匆离去);
 ## - `by` (an NPC definition; native, 主线 A, DECISIONS「剧情演出」): the first of them standing in
 ##   the room is the act's NPC from then on (its lines in its bubble, its leave, its drop), as
-##   `comes` makes the comer so; one not there ends the act (its remaining steps are theirs);
+##   `comes` makes the comer so; one not there ends the act (its remaining steps are theirs). The
+##   act asks them `present` (DECISIONS「说话的人得在场」), so a scene is not half played;
 ## - `drop` (an item; native): a new one lies down at the act's NPC's feet (at the player's
 ##   for a room's act), as something let fall in a scene;
 ## - `take` (an item; native, 第十章 C, DECISIONS「拿走」): one the player carries of that definition is
@@ -83,6 +87,8 @@ extends RefCounted
 ## - `restage` true (native, 大会 B): the map's stage is judged again now, in front of the player
 ##   (WorldStoryPresence.stage(): the nine 派 come up onto the 虹台 as the line says they do; who is off the
 ##   stage now leaves), its staged props too; `by` finds those just come;
+## - any step may carry `present` (an NPC definition; native, DECISIONS「说话的人得在场」): it runs only
+##   while one of them stands in the act's room, judged as it is reached (石头 sent home only if he came);
 ## - `title` (native, 大会 B; DECISIONS「台上的选择」): set("title", …) on the player: their title from now on
 ##   (武林盟主), over a family's until a family's rank is raised again;
 ## - `summon` (a spawn id; native, 逆灵宫 C): every absent NPC of that summoned spawn of this map
@@ -125,8 +131,10 @@ var carries: String = ""
 ## Native (逆灵宫 A; DECISIONS「逆灵宫 A」): an id something the player wears answers to (the
 ## 黑冠 on their head), as `carries` for what they carry.
 var wears: String = ""
-## An NPC definition present() in the room.
+## An NPC definition present() in the room (the first of `presents`).
 var present: StringName = &""
+## Every NPC definition that must stand in the room (`present` as a list).
+var presents: Array[StringName] = []
 var thirsty: bool = false
 var at_least: Dictionary[String, int] = {}
 var room: String = ""
@@ -151,6 +159,9 @@ var choice: String = ""
 ## Native (大会 B; DECISIONS「台上的选择」): the `ask` is put only while the player lacks every one of these
 ## marks (入席 asked once: a day walked away from and come back to goes on without asking again).
 var ask_lacks: Array[String] = []
+## Native (修补 Z; DECISIONS「台上的选择」): lines put into the `ask` at its `{lines}` (or after it) while
+## their `when` holds, in order: [[line, condition or null], ...] (入席 lists that day's trouble).
+var ask_lines: Array[Array] = []
 var steps: Array[Step] = []
 
 
@@ -349,6 +360,8 @@ class Step:
 	var item_id: StringName = &""
 	var pick: Array[StringName] = []
 	var unless_temp: String = ""
+	## `give`'s `wield` (native; DECISIONS「穿灵在手」): the new weapon goes into the player's hand.
+	var wield: bool = false
 	var lines: Array[NpcLine] = []
 	## set_temp, clear_temp, unmark, mark, set_room, clear_room, npc_flag, npc_mood: the flag,
 	## mark or mood.
@@ -366,6 +379,9 @@ class Step:
 	## that moment (the facts' `holds`, as a branch's `when`); else it is passed over and the next one
 	## runs. null: always. A scene with many people in it says each one's line only if they came.
 	var only_when: JournalEntryDefinition = null
+	## Native (DECISIONS「说话的人得在场」): the step runs only while an NPC of this definition stands in
+	## the act's room (judged as it is reached); &"": always.
+	var only_present: StringName = &""
 
 
 ## Whether the branch is for a player of this gender and class, with these `facts` (none:
@@ -385,7 +401,7 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (when == null or (known.holds.is_valid() and bool(known.holds.call(when))))
 		and (carries.is_empty() or known.carried.has(carries))
 		and (wears.is_empty() or known.worn.has(wears))
-		and (present.is_empty() or known.present_npcs.has(present))
+		and presents.all(func(id: StringName) -> bool: return known.present_npcs.has(id))
 		and (not thirsty or known.thirsty)
 		and at_least.keys().all(func(key: String) -> bool: return known.numbers.get(key, 0) >= at_least[key])
 		and (room.is_empty() or known.room.get(room, 0) != 0)
@@ -404,6 +420,19 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 ## Whether the branch's `ask` is put to a player with these saved marks (its `ask_lacks`).
 func asks(known: Dictionary) -> bool:
 	return not ask.is_empty() and ask_lacks.all(func(each: String) -> bool: return known.get(each, 0) == 0)
+
+
+## The `ask` as the player reads it, in the shown language: the `ask_lines` that hold now (`holds`: a
+## condition -> whether it holds) one a line at its `{lines}`, or after it when it has none.
+func asked(holds: Callable) -> String:
+	var lines: String = ""
+	for entry: Array in ask_lines:
+		if entry[1] == null or (holds.is_valid() and bool(holds.call(entry[1]))):
+			lines += TranslationServer.translate(String(entry[0])) + "\n"
+	var text: String = TranslationServer.translate(ask)
+	if text.contains("{lines}"):
+		return text.replace("{lines}", lines)
+	return text if lines.is_empty() else text + "\n" + lines.strip_edges()
 
 
 ## The first branch of `acts` that is for the player; null when none is.
@@ -461,7 +490,7 @@ static func resource_of(state: CharacterState, key: String) -> CharacterResource
 	return state.spirit
 
 
-## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, not_mark?, carries?, wears?, present?, thirsty?,
+## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, not_mark?, carries?, wears?, present?: id | [id], thirsty?,
 ## at_least?: {force?, max_force?, force_factor?}, room?, not_room?, exists?, present_in?: {npc, zone},
 ## kar_above?: [n], kar_draw?, per_below?, npc_in?, ask?, choice?, steps: [step]}.
 static func from_record(reader: ContentRecordReader) -> ScriptedAct:
@@ -482,7 +511,12 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 		JournalEntryDefinition.read_when(reader, act.when, "when")
 	act.carries = reader.text("carries")
 	act.wears = reader.text("wears")
-	act.present = StringName(reader.text("present"))
+	if reader.is_text("present"):
+		act.presents.append(StringName(reader.text("present")))
+	else:
+		for npc_id: String in reader.text_list("present"):
+			act.presents.append(StringName(npc_id))
+	act.present = &"" if act.presents.is_empty() else act.presents[0]
 	act.thirsty = reader.boolean("thirsty", false)
 	var numbers: ContentRecordReader = reader.child("at_least")
 	if numbers != null:
@@ -525,6 +559,15 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	act.ask_lacks = reader.text_list("ask_lacks")
 	if not act.ask_lacks.is_empty() and act.ask.is_empty():
 		reader.fail("ask_lacks", "says when the ask is put: the branch asks")
+	for record: ContentRecordReader in reader.children("ask_lines"):
+		var condition: JournalEntryDefinition = null
+		if record.has("when"):
+			condition = JournalEntryDefinition.new()
+			JournalEntryDefinition.read_when(record, condition, "when")
+		act.ask_lines.append([record.required_text("line"), condition])
+		record.finish()
+	if not act.ask_lines.is_empty() and act.ask.is_empty():
+		reader.fail("ask_lines", "are lines of the ask: the branch asks")
 	act.steps = _steps(reader, "steps")
 	reader.finish()
 	if act.steps.is_empty():
@@ -570,6 +613,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	if reader.has("when"):
 		step.only_when = JournalEntryDefinition.new()
 		JournalEntryDefinition.read_when(reader, step.only_when, "when")
+	step.only_present = StringName(reader.text("present"))
 	match kinds[0]:
 		"line":
 			step.kind = Kind.LINE
@@ -662,6 +706,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 				if step.pick.size() < 2:
 					reader.fail("give_one_of", "draws among two items or more")
 			step.unless_temp = reader.text("unless_temp")
+			step.wield = reader.boolean("wield", false)
 			for record: ContentRecordReader in reader.children("lines"):
 				var said: NpcLine = NpcLine.from_record(record, true)
 				record.finish()

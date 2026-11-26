@@ -26,6 +26,11 @@ extends ExpPacingSim
 ##   rest_limit_seconds) and presses again. Every wait is the real recovery's world seconds; the
 ##   report turns them into real time with the rest (pacing rest_world_scale times faster) and
 ##   without it (standing, as before 歇到回满). Seeded; nothing here is read by the game.
+## - `auto` (成长曲线 B, pacing training_auto_rest): the runs rest by themselves. The same lessons,
+##   sittings and rests; a 请教 run is one press a skill a chapter and stops only at a level
+##   gained, an 打坐 run (to the target) is one press a chapter, each step feel's
+##   training_auto_step_ms apart, every rest at pacing's rest_world_scale with no press (a rest at
+##   its longest goes on by itself).
 
 const Arrival := preload("res://tests/support/story_arrival.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
@@ -66,10 +71,21 @@ var extra: Dictionary[StringName, Array] = {}
 var recommended: Dictionary[StringName, int] = {}
 ## Whether the potential is spent and 打坐 done between chapters (false: the exp path only).
 var train_between: bool = true
+## The runs rest by themselves (自动歇): see above.
+var auto: bool = false
 
 ## Cumulative counts and world seconds.
 var lessons: int = 0
 var learn_stops: int = 0
+## Of learn_stops: the levels gained (a 请教 run stops there with 自动歇 as well).
+var level_stops: int = 0
+## 打坐 runs pressed (one a chapter that takes a step: the 武学 page's 练到 N).
+var exercise_runs: int = 0
+## 请教 runs pressed: one a skill that takes a lesson in a chapter's training (the game runs one skill
+## at a time; this sim takes them in turn).
+var learn_runs: int = 0
+## Rests taken (each a stop without 自动歇).
+var rests: int = 0
 var learn_rest: float = 0.0
 var exercises: int = 0
 var exercise_stops: int = 0
@@ -102,6 +118,10 @@ class Row:
 	var sen: int = 0
 	var lessons: int = 0
 	var learn_stops: int = 0
+	var level_stops: int = 0
+	var exercise_runs: int = 0
+	var learn_runs: int = 0
+	var rests: int = 0
 	var learn_rest: float = 0.0
 	var exercises: int = 0
 	var exercise_stops: int = 0
@@ -121,6 +141,11 @@ func journey(start_exp: int) -> void:
 	var pacing: PacingDefinition = GameContent.catalog().pacing()
 	rest_scale = rest_scale_override if rest_scale_override >= 0.0 else float(pacing.rest_world_scale)
 	rest_limit = float(pacing.rest_limit_seconds)
+	# pacing.json's feel (a cold process turns it off for the session: TestFeel.production keeps it).
+	var feel: FeelDefinition = TestFeel.production
+	var shipped_step: float = feel.training_auto_step_seconds if auto else feel.training_step_seconds
+	if shipped_step > 0.0:
+		step_seconds = shipped_step
 	progression.combat_experience = start_exp
 	_wield(&"es2:obj/longsword")
 	@warning_ignore("integer_division")
@@ -167,6 +192,7 @@ func train() -> void:
 ## One lesson to each skill in turn until the potential is spent or no skill can go further.
 func _learn_all(teacher: TeacherService) -> void:
 	var open: Array[StringName] = SKILLS.duplicate()
+	var taught: Dictionary[StringName, bool] = {}
 	var guard: int = 0
 	while not open.is_empty() and unspent() > 0 and guard < 400000:
 		guard += 1
@@ -189,8 +215,12 @@ func _learn_all(teacher: TeacherService) -> void:
 			continue
 		var result: LearnResult = teacher.request_learn(skill_id, true)
 		lessons += 1
+		if not taught.has(skill_id):
+			taught[skill_id] = true
+			learn_runs += 1
 		if result != null and result.completion == LearnResult.Completion.LEVEL_INCREASED:
 			learn_stops += 1
+			level_stops += 1
 		open.push_back(open.pop_front())
 
 
@@ -220,6 +250,7 @@ func _exercise() -> void:
 	var target: int = CultivationService.exercise_cap(s, arts.apply_modifier(&"force")) * force_percent / 100
 	var refused_after_rest: int = 0
 	var guard: int = 0
+	var pressed: bool = false
 	while s.recovery.inner_force.maximum < target and guard < 2000000:
 		guard += 1
 		var preview: CultivationResult = arts.preview_cultivation(TrainingRun.Kind.EXERCISE, EXERCISE_KEE)
@@ -244,6 +275,9 @@ func _exercise() -> void:
 			return
 		arts.exercise(EXERCISE_KEE, true)
 		exercises += 1
+		if not pressed:
+			pressed = true
+			exercise_runs += 1
 
 
 ## Rests until 精, 气 and 神 are full (RestRules), in 2 s pulses of the real recovery: the world
@@ -258,6 +292,7 @@ func _rest_counting(kind: StringName) -> float:
 		waited += PULSE_SECONDS
 	if waited >= REST_GUARD_SECONDS:
 		push_error("growth sim: a rest did not end (%s)" % kind)
+	rests += 1
 	await tree.process_frame
 	if rest_limit > 0.0:
 		var presses: int = int(waited / rest_limit)
@@ -337,6 +372,10 @@ func _row(label: String) -> Row:
 	row.sen = s.spirit.maximum
 	row.lessons = lessons
 	row.learn_stops = learn_stops
+	row.level_stops = level_stops
+	row.exercise_runs = exercise_runs
+	row.learn_runs = learn_runs
+	row.rests = rests
 	row.learn_rest = learn_rest
 	row.exercises = exercises
 	row.exercise_stops = exercise_stops
@@ -351,7 +390,62 @@ func _row(label: String) -> Row:
 func real_seconds(row: Row, resting: bool) -> float:
 	var waits: float = row.learn_rest + row.exercise_rest + row.self_rest
 	var waited: float = waits / rest_scale if resting and rest_scale > 0.0 else waits
-	return float(row.lessons + row.exercises) * step_seconds + float(row.learn_stops + row.exercise_stops + row.self_stops) * STOP_SECONDS + float(row.self_clicks) * CLICK_SECONDS + waited
+	var stops: int = presses(row) if resting else row.learn_stops + row.exercise_stops + row.self_stops
+	return float(row.lessons + row.exercises) * step_seconds + float(stops) * STOP_SECONDS + float(row.self_clicks) * CLICK_SECONDS + waited
+
+
+## The presses up to `row` (the report's 停下): each stop without 自动歇; with it (`auto`) a 请教
+## run's start for each skill a chapter teaches and at each level, an 打坐 run's once a chapter and
+## 自学's own (it has no run), the rests none.
+func presses(row: Row) -> int:
+	if auto:
+		return row.level_stops + row.learn_runs + row.exercise_runs + row.self_stops
+	return row.learn_stops + row.exercise_stops + row.self_stops
+
+
+## The parts of real_seconds(`row`, true): steps, presses and rests, in seconds.
+func real_parts(row: Row) -> Vector3:
+	var steps: float = float(row.lessons + row.exercises) * step_seconds + float(row.self_clicks) * CLICK_SECONDS
+	var stops: int = presses(row)
+	var waits: float = row.learn_rest + row.exercise_rest + row.self_rest
+	return Vector3(steps, float(stops) * STOP_SECONDS, waits / rest_scale if rest_scale > 0.0 else waits)
+
+
+## The row labelled `label` (a chapter's arrival, or "end"), or null.
+func row_of(label: String) -> Row:
+	for row: Row in rows:
+		if row.label == label:
+			return row
+	return null
+
+
+## Lessons an hour of training (resting) between arriving at `from` and at `to`.
+func lessons_per_hour(from: String, to: String) -> float:
+	var a: Row = row_of(from)
+	var b: Row = row_of(to)
+	if a == null or b == null:
+		return 0.0
+	var hours: float = (real_seconds(b, true) - real_seconds(a, true)) / 3600.0
+	return float(b.lessons - a.lessons) / hours if hours > 0.0 else 0.0
+
+
+## The report's last lines: training time to the finale and past it, its parts, and lessons an hour late.
+func summary() -> String:
+	var lines: Array[String] = []
+	lines.append("mode: %s; step %.0f ms; rest x%.0f" % ["自动歇" if auto else "today (stop at each want of 精/气)", step_seconds * 1000.0, rest_scale])
+	for label: String in ["main.finale", "end"]:
+		var row: Row = row_of(label)
+		if row == null:
+			continue
+		var parts: Vector3 = real_parts(row)
+		lines.append("training to %s: %.2f h (steps %.0f min, presses %.0f min, rests %.0f min; %d lessons, %d 打坐, %d rests, %d presses)" % [
+			label, real_seconds(row, true) / 3600.0, parts.x / 60.0, parts.y / 60.0, parts.z / 60.0,
+			row.lessons, row.exercises, row.rests, roundi(parts.y / STOP_SECONDS),
+		])
+	lines.append("lessons an hour: chapter9->10 %.0f, chapter10->finale %.0f" % [
+		lessons_per_hour("main.chapter9", "main.chapter10"), lessons_per_hour("main.chapter10", "main.finale"),
+	])
+	return "\n".join(lines)
 
 
 ## The report: one line per chapter (on arriving there, after the training before it).
@@ -366,7 +460,7 @@ func table() -> String:
 		lines.append("| %s | %d | %d | %d | %d | %s | %d/%d | %d/%d/%d | %d | %d | %d | %d | %.0f | %.1f | %.1f |" % [
 			row.label, row.experience, row.potential_earned, row.potential_cut, row.unspent, "/".join(levels),
 			row.max_force, row.force_cap, row.kee, row.gin, row.sen, row.lessons, row.exercises, row.self_clicks,
-			row.learn_stops + row.exercise_stops + row.self_stops, (row.learn_rest + row.exercise_rest + row.self_rest) / 60.0,
+			presses(row), (row.learn_rest + row.exercise_rest + row.self_rest) / 60.0,
 			real_seconds(row, true) / 60.0, real_seconds(row, false) / 60.0,
 		])
 	return "\n".join(lines)

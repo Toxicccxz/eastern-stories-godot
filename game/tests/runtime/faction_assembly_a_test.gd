@@ -31,6 +31,9 @@ var _count: int = 0
 var _failures: Array[String] = []
 
 
+## Every 派 has stated its vote (TEST-ONLY): the 任务 page's rows count stated votes only.
+const STATED: Array = ["封山表了态", "天邪表了态", "振远表了态", "茅山表了态", "晚月庄表了态", "山烟寺表了态", "步玄表了态", "花紫会表了态", "绝尘表了态"]
+
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_votes()
@@ -50,7 +53,7 @@ func _test_data() -> void:
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
 	_check(ids == [&"wait", &"invite", &"canvass", &"day"], "its steps: %s" % [ids])
 	_check(quest.step(&"canvass").target.map_id == &"waterfog.terrace" and quest.step(&"canvass").objective.contains("骆云舟"), "the last step leads to the 虹台 and says where the nine are")
-	_check(quest.checklist.size() == 3 + 9 + 27 and quest.checklist[0].counts and quest.checklist[0].condition.amount == 9, "已表态 x／9, 颜违's and yours, then a row for each 派's vote (振远 B: 振远 听你的 too; 花紫会 B: 花紫会 颜违 and 听你的; 茅山 B: 茅山 旧盟主; 步玄 B: 步玄 旧盟主; 山烟寺 B: 山烟寺 旧盟主——收经, and 听你的)")
+	_check(quest.checklist.size() == 3 + 5 + 9 + 29 and quest.checklist[0].counts and quest.checklist[0].condition.amount == 9, "已表态 x／9, 颜违's and yours, that day's trouble below the mountain (修补 Z), then a row for each 派's vote (振远 B: 振远 听你的 too; 花紫会 B: 花紫会 颜违 and 听你的; 茅山 B: 茅山 旧盟主; 步玄 B: 步玄 旧盟主; 山烟寺 B: 山烟寺 旧盟主——收经, and 听你的; 绝尘 B: 绝尘 颜违 and 听你的)")
 	var conditions: Dictionary[String, JournalEntryDefinition] = catalog.conditions()
 	for sect: StringName in SECTS:
 		_check(conditions.has("assembly.%s.stated" % sect), "%s: 表态 named" % sect)
@@ -150,14 +153,16 @@ func _test_votes() -> void:
 	# before the 终章 nobody talks of it
 	state = _fresh([])
 	_check(not _listed(state, &"cloud.npc.b_header", "虹台") and _heard(state, &"cloud.npc.b_header", "虹台", "早了") and not _holds(state, "assembly.zhenyuan.stated"), "before the 终章: 「虹台」 not listed, nothing said")
-	# the count: five to change the 盟主
+	# the count: five to change the 盟主 (the 任务 page's rows read these: the votes stated so far, 修补 Z)
 	state = _fresh(["终章"])
-	_check(_count_of(state, "assembly.yan_wins") == 5 and _holds(state, "assembly.yan_wins"), "nothing done: 天邪, 振远, 茅山, 山烟寺, 步玄 — five for 颜违, he has it")
-	state = _fresh(["终章", "跟了北宗", "站了颜违"])
+	_check(_count_of(state, "assembly.yan_wins") == 0 and not _holds(state, "assembly.yan_wins"), "nothing stated yet: the row counts none")
+	state = _fresh(["终章"] + STATED)
+	_check(_count_of(state, "assembly.yan_wins") == 5 and _holds(state, "assembly.yan_wins"), "nothing done, all stated: 天邪, 振远, 茅山, 山烟寺, 步玄 — five for 颜违, he has it")
+	state = _fresh(["终章", "跟了北宗", "站了颜违"] + STATED)
 	_check(_count_of(state, "assembly.yan_wins") == 6, "北宗 and 站了颜违: six")
-	state = _fresh(["终章", "跟了本宗", "站了潘军禅", "振远改投旧盟主", "山烟寺改投旧盟主"])
+	state = _fresh(["终章", "跟了本宗", "站了潘军禅", "振远改投旧盟主", "山烟寺改投旧盟主"] + STATED)
 	_check(_count_of(state, "assembly.yan_wins") == 2 and not _holds(state, "assembly.yan_wins"), "two for 颜违: the chair stays")
-	state = _fresh(["终章", "跟了本宗", "站了潘军禅", "振远改投旧盟主"])
+	state = _fresh(["终章", "跟了本宗", "站了潘军禅", "振远改投旧盟主"] + STATED)
 	_check(_count_of(state, "assembly.yan_wins") == 3 and not _holds(state, "assembly.yan_wins"), "three: short of five")
 	for mark: String in ["封山听你的", "天邪听你的", "茅山听你的", "晚月庄听你的"]:
 		state.marks[mark] = 1 # TEST-ONLY

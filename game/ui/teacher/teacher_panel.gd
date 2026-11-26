@@ -43,10 +43,14 @@ var _run_skill: StringName = &""
 ## What 确定 does for the question showing.
 var _on_confirm: Callable = Callable()
 
-# TRANSLATORS: asked before 拜师 makes the player leave their family (recruit.c's betrayal): {title} is the player's title now (封山剑派第十四代弟子), {master} the new master, {family} the new family, {score} the player's 综合评价 now, {next} how many times they will have betrayed a family.
-const BETRAYAL_WARNING: String = "你现在是{title}。改投{master}门下，就是背叛师门：\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n· 门派、师父和称号都换成{family}的；已经学会的武功保留。\n· 日后再改投别派，又算一次背叛。\n确定要改投吗？"
-# TRANSLATORS: asked before the player, who has no family yet, takes their first master: changing family later is a betrayal (recruit.c, master.c). {master} the new master, {family} the new family.
-const FIRST_MASTER_WARNING: String = "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n· 综合评价清零。\n· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n确定要拜师吗？"
+# TRANSLATORS: asked before 拜师 makes the player leave their family (recruit.c's betrayal): {title} is the player's title now (封山剑派第十四代弟子), {master} the new master, {family} the new family, {score} the player's 综合评价 now, {next} how many times they will have betrayed a family, {lines} the LINE_ENDS / LINE_CLOSES lines (or nothing).
+const BETRAYAL_WARNING: String = "你现在是{title}。改投{master}门下，就是背叛师门：\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n· 门派、师父和称号都换成{family}的；已经学会的武功保留。\n· 日后再改投别派，又算一次背叛。\n{lines}确定要改投吗？"
+# TRANSLATORS: asked before the player, who has no family yet, takes their first master: changing family later is a betrayal (recruit.c, master.c). {master} the new master, {family} the new family, {lines} the LINE_ENDS / LINE_CLOSES lines (or nothing).
+const FIRST_MASTER_WARNING: String = "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n· 综合评价清零。\n· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n{lines}确定要拜师吗？"
+# TRANSLATORS: in the question before a change of family, one line per 势力 line it cuts short for good (DECISIONS「改投提示」): {title} the line's name on the 任务 page.
+const LINE_ENDS: String = "· 「{title}」这条线就此中止，以后再也接不上。\n"
+# TRANSLATORS: in the question before a change of family, one line per 势力 line it shuts for good before it began (a line the new family begins excludes it; DECISIONS「改投提示」): {title} the line's name.
+const LINE_CLOSES: String = "· 「{title}」这条线从此不会再出现。\n"
 # TRANSLATORS: asked before 拜师 or an oath that makes the player change master inside their family: {current} the master now, {master} the new one, {teach} what {current} teaches them after (one of the CHANGE_TEACHES_* lines, or nothing).
 const CHANGE_MASTER_WARNING: String = "你现在是{current}的嫡传弟子。改拜{master}为师，{current}就不再是你的师父：\n· 门派不变，辈分随{master}。\n{teach}确定要改拜{master}为师吗？"
 # TRANSLATORS: what the old master teaches a member of the family who is not their apprentice (master.c prevent_learn()): {current}, {pronoun} 他 or 她 for them.
@@ -185,6 +189,10 @@ func interact() -> void:
 func _process(_delta: float) -> void:
 	if not is_instance_valid(panel):
 		return
+	# The focus pause keeps the panel and its run as they are (DECISIONS「切出窗口」).
+	var hud: SharedGameplayUI = _contact.map.session.shared_ui() if _contact != null and _contact.map != null and _contact.map.session != null else null
+	if hud != null and hud.focus_paused():
+		return
 	if panel.visible and not _contact.can_teach():
 		close_panel()
 	if panel.visible:
@@ -256,7 +264,7 @@ func refresh() -> void:
 	rest_button.visible = WorldSessionController.rest_offered() and not RestRules.rested(state) and not is_confirming()
 	var refused: String = _contact.map.session.rest_refusal()
 	rest_button.disabled = running or not refused.is_empty()
-	rest_button.tooltip_text = tr(RestLines.HINT) if refused.is_empty() else refused
+	rest_button.tooltip_text = _contact.map.session.rest_hint() if refused.is_empty() else refused
 
 
 ## Shown as the interaction popup's page (its rows do 拜师 and what follows).
@@ -299,7 +307,7 @@ func apprentice_question() -> Array[String]:
 ## (betrayal, a first master, a change of master), as [question, choice, cancel]; the
 ## question "" when it changes none of these.
 func _family_change_question(player: WorldPlayerRuntimeState, master: NpcDefinition, betray_choice: String, first_choice: String) -> Array[String]:
-	var text: String = family_change_warning(player, master, _family_name())
+	var text: String = family_change_warning(player, master, _family_name(), _quest_test())
 	if text.is_empty():
 		return ["", "", ""]
 	if NpcApprenticeship.would_betray(player.state, master):
@@ -311,21 +319,38 @@ func _family_change_question(player: WorldPlayerRuntimeState, master: NpcDefinit
 ## betray their family, gives them their first master or changes it inside their family;
 ## "" when it does none of these. The 背包 asks it too before a gift the master answers with
 ## a recruit that takes the player at once (d/city/npc/chen.c: 陈剑秋's letter).
-static func family_change_warning(player: WorldPlayerRuntimeState, master: NpcDefinition, family_name: String) -> String:
+## `quest_test` tells whether a condition holds now (WorldSessionController.quest_condition_test()):
+## with it, the 势力 lines the change of family ends or shuts are named (DECISIONS「改投提示」).
+static func family_change_warning(player: WorldPlayerRuntimeState, master: NpcDefinition, family_name: String, quest_test: Callable = Callable()) -> String:
 	if NpcApprenticeship.would_betray(player.state, master):
 		return _t(BETRAYAL_WARNING).format({
 			"title": player.shown_title(), "master": _t(master.display_name),
 			"family": family_name, "score": player.state.progression.score,
-			"next": player.state.apprenticeship.betrayer_count + 1,
+			"next": player.state.apprenticeship.betrayer_count + 1, "lines": line_changes(player, master, quest_test),
 		})
 	if NpcApprenticeship.would_join_first(player.state, master):
-		return _t(FIRST_MASTER_WARNING).format({"master": _t(master.display_name), "family": family_name})
+		return _t(FIRST_MASTER_WARNING).format({"master": _t(master.display_name), "family": family_name, "lines": line_changes(player, master, quest_test)})
 	if NpcApprenticeship.would_change_master(player.state, master):
 		var current: String = _current_master_name(player)
 		return _t(CHANGE_MASTER_WARNING).format({
 			"current": current, "master": _t(master.display_name), "teach": _old_master_teaches(player, current),
 		})
 	return ""
+
+
+## One LINE_ENDS / LINE_CLOSES line for each 势力 line becoming `master`'s apprentice ends or shuts
+## (StoryQuestLog.family_change()); "" for none, or when `quest_test` is not given.
+static func line_changes(player: WorldPlayerRuntimeState, master: NpcDefinition, quest_test: Callable) -> String:
+	var teaching: NpcTeaching = null if master == null else master.teaching()
+	if teaching == null or not quest_test.is_valid():
+		return ""
+	var change: StoryQuestLog.FamilyChange = StoryQuestLog.family_change(player.state, teaching.family_id, GameContent.catalog().story_quests(), quest_test)
+	var text: String = ""
+	for quest: StoryQuestDefinition in change.ends:
+		text += _t(LINE_ENDS).format({"title": _t(quest.title)})
+	for quest: StoryQuestDefinition in change.closes:
+		text += _t(LINE_CLOSES).format({"title": _t(quest.title)})
+	return text
 
 
 static func _current_master_name(player: WorldPlayerRuntimeState) -> String:
@@ -397,11 +422,14 @@ func trial_question() -> Array[String]:
 	var npc_name: String = tr(master.display_name)
 	var after: String = tr(TRIAL_OFFERS).format({"master": npc_name, "pronoun": _pronoun(master)})
 	if player.apprenticeship_request.recruit_takes_at_once(player.state, master):
+		var lines: String = line_changes(player, master, _quest_test()).strip_edges()
 		if NpcApprenticeship.would_betray(player.state, master):
 			after = tr(TRIAL_BETRAYS).format({
 				"title": player.shown_title(), "master": npc_name, "family": _family_name(),
 				"score": player.state.progression.score, "next": player.state.apprenticeship.betrayer_count + 1,
 			})
+			if not lines.is_empty():
+				after += "\n" + lines
 		elif NpcApprenticeship.would_change_master(player.state, master):
 			var current: String = _current_master_name(player)
 			after = tr(TRIAL_CHANGES_MASTER).format({"current": current, "master": npc_name, "teach": _old_master_teaches(player, current)}).strip_edges()
@@ -409,6 +437,8 @@ func trial_question() -> Array[String]:
 			after = tr(TRIAL_RECRUITS).format({"master": npc_name, "family": _family_name()})
 			if NpcApprenticeship.would_join_first(player.state, master):
 				after += "\n" + tr(TRIAL_FIRST_MASTER)
+			if not lines.is_empty():
+				after += "\n" + lines
 	var spared: bool = not _contact.teaching().apprentice.lethal
 	return [tr(TRIAL_WARNING_SPARED if spared else TRIAL_WARNING).format({"master": npc_name, "after": after}), "接受测试", "不试了"]
 
@@ -425,6 +455,12 @@ static func _pronoun(master: NpcDefinition) -> String:
 		return TranslationServer.translate("她")
 	# TRANSLATORS: a man named in the third person (gender.c).
 	return TranslationServer.translate("他")
+
+
+## Whether a condition holds now, for the 势力 lines a change of family names (DECISIONS「改投提示」).
+func _quest_test() -> Callable:
+	var session: WorldSessionController = _contact.map.session
+	return Callable() if session == null else session.quest_condition_test()
 
 
 func _family_name() -> String:
@@ -496,6 +532,8 @@ func _run_learn(skill_id: StringName) -> void:
 	feedback.text = ""
 	var skill: String = tr(GameContent.catalog().skill(skill_id).display_name)
 	var run: PlayerTrainingRun = PlayerTrainingRun.learn(_contact.map.session, _contact, skill_id)
+	# 自动歇: the popup this page is in holds world time; a rest of the run's own lifts that hold.
+	run.window_holds.assign([SharedGameplayUI.INTERACTION_TIME_HOLD])
 	_run_skill = skill_id
 	# TRANSLATORS: a continuous 请教 under way: %s the skill.
 	progress.start(run, tr("连续请教「%s」") % skill, learn_buttons[skill_id].get_parent() as Control)

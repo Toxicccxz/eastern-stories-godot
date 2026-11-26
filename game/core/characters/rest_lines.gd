@@ -9,6 +9,8 @@ const BUTTON: String = "歇到回满"
 const HINT: String = "找个地方坐下歇着，让时间走起来：精、气、神慢慢回满就起身。世界照常运转，有人来袭会把你惊起。"
 # TRANSLATORS: said as the player sits down to rest.
 const BEGIN: String = "你找个地方坐下，歇一歇。"
+# TRANSLATORS: after 歇到回满's hover and the sitting-down line while a timed errand (朱鸿雪's task) runs: resting speeds the world up, the errand's time with it.
+const ERRAND: String = "身上的限时差事照样计时：歇得越久，剩下的时辰越少。"
 # TRANSLATORS: the rest's band over the world while it goes on: {time} how long so far (一盏茶的工夫, 半个时辰 …).
 const UNDER_WAY: String = "歇息中……已歇{time}"
 # TRANSLATORS: the rest's button that stops it.
@@ -76,6 +78,18 @@ static func ended(outcome: RestRules.Outcome, minutes: int) -> String:
 	if text.is_empty():
 		return ""
 	return TranslationServer.translate(text).format({"time": duration(minutes)})
+
+
+## 歇到回满's hover; `errand`: a timed errand runs (it keeps counting while the player rests).
+static func hint(errand: bool) -> String:
+	var text: String = TranslationServer.translate(HINT)
+	return text + "\n" + TranslationServer.translate(ERRAND) if errand else text
+
+
+## The sitting-down line; `errand` as for hint().
+static func begin_line(errand: bool) -> String:
+	var text: String = TranslationServer.translate(BEGIN)
+	return text + TranslationServer.translate(ERRAND) if errand else text
 
 
 ## So far: the band's line.

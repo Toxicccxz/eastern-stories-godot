@@ -107,6 +107,16 @@ position = Vector2(91, -124)
 script = ExtResource("marker")
 spawn_point_id = &"sanyen.heal_room.toutuo.1"
 
+[node name="HealRoomLiaochen1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-132, 83)
+script = ExtResource("marker")
+spawn_point_id = &"sanyen.heal_room.liaochen.1"
+
+[node name="HealRoomLiaochenToutuo1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(5, -116)
+script = ExtResource("marker")
+spawn_point_id = &"sanyen.heal_room.liaochen_toutuo.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

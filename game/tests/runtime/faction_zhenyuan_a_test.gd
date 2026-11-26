@@ -9,6 +9,7 @@ extends RefCounted
 ## 第九章 runs. Leaving 振远 ends the line of one who took the 镖 as 振远's own.
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
+const FollowerWalk := preload("res://tests/support/follower_walk.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const QUEST: StringName = &"faction.zhenyuan"
 const JIANQIU: StringName = &"cloud.npc.b_header"
@@ -24,7 +25,6 @@ const BUREAU_POINT: StringName = &"cloud.biaoju.eroad2_entry"
 const ROAD: StringName = &"canyon.road"
 const ROAD_POINT: StringName = &"canyon.road.snow_arrival"
 const HQ: StringName = &"city.biaoju"
-const HQ_POINT: StringName = &"city.biaoju.street1_entry"
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -112,9 +112,9 @@ func _test_handed(tree: SceneTree, session: WorldSessionController) -> void:
 	for visited: String in ["cloud.outdoor", "snow.outdoor"]:
 		state.visited_maps[visited] = 1 # TEST-ONLY: been there
 	town.give_new_item_to_player(&"es2:obj/money/silver") # TEST-ONLY: the fare
-	MapPlaces.enter(session, &"cloud.entrance", &"cloud.entrance.coach_arrival") # TEST-ONLY: through the town
-	carter = _first(session, &"cloud.eroad2", CARTER)
-	carter.set_world_location(town.location_for_zone(&"cloud.entrance")) # TEST-ONLY: 老周 behind (the suite does not walk him)
+	_check(await _go_with(tree, session, &"cloud.entrance", CARTER) == town, "through the town to its mouth: %s" % FollowerWalk.failure)
+	carter = _first(session, &"cloud.entrance", CARTER)
+	_check(carter != null, "老周 came along to the town's mouth: %s" % [_where(session, CARTER)])
 	var coach: CoachService = town.service(&"cloud.entrance.coach") as CoachService
 	_check(coach != null and await MapPlaces.drive(tree, town, MapPlaces.service_spot(town, &"cloud.entrance.coach")) and coach.in_reach(), "at the 车马行")
 	var rides: Array[CoachLines.Ride] = [] if coach == null else coach.rides()
@@ -127,8 +127,8 @@ func _test_handed(tree: SceneTree, session: WorldSessionController) -> void:
 		ui.confirm_prompt.cancel_button.pressed.emit()
 		await _settle(tree)
 		_ask(town, carter, "上路")
-	# TEST-ONLY: the road walked, 老周 behind (a way the player leads: he comes along).
-	_check(_lead(session, ROAD, ROAD_POINT), "on the 碎石小路")
+	# The road walked, 老周 behind: north to 雪亭镇, along the 青石官道 to the 碎石小路.
+	_check(await _to_road(tree, session) != null, "on the 碎石小路: %s" % FollowerWalk.failure)
 	_check(_count_in(session, ROAD, CARTER) == 1 and _count_in(session, ROAD, SON) == 1, "老周 came along; 贺平 waits")
 	await _until_fight(tree, session)
 	_check(state.marks.get("见过劫镖", 0) == 1 and _count_in(session, ROAD, ROBBER) == 2, "his two lines, then his two men")
@@ -151,7 +151,7 @@ func _test_handed(tree: SceneTree, session: WorldSessionController) -> void:
 	session.record_journal()
 	_check(state.quests.has("faction.zhenyuan/robber/hand") and DeedLog.done(state, "把碎石小路上劫镖的后生交了官"), "the choice and its deed")
 	# 京师: the cart comes in at the door.
-	_check(_lead(session, HQ, HQ_POINT), "in the 振远总局")
+	_check(await _down_to_hq(tree, session) != null, "down the 铁索 and on to the 振远总局: %s" % FollowerWalk.failure)
 	_check(_count_in(session, HQ, CARTER) == 1, "老周 and the cart came in")
 	var before: int = ui.log_lines().size()
 	await _beats(tree, session, 3)
@@ -192,7 +192,7 @@ func _test_fight_again(tree: SceneTree, session: WorldSessionController) -> void
 	await _beats(tree, session, 1)
 	var bureau: WorldMapController = session.active_map() as WorldMapController
 	_ask(bureau, _first(session, BUREAU, CARTER), "上路")
-	_check(_lead(session, ROAD, ROAD_POINT), "on the 碎石小路")
+	_check(await _to_road(tree, session) != null, "on the 碎石小路: %s" % FollowerWalk.failure)
 	_check(_count_in(session, ROAD, CARTER) == 1, "老周 came along: %s" % [_where(session, CARTER)])
 	await _until_fight(tree, session)
 	_check(session.combat_encounter_coordinator().has_active_encounter(), "the fight")
@@ -219,18 +219,18 @@ func _test_freed_disciple(tree: SceneTree, session: WorldSessionController) -> v
 	_check(_said(_ask(bureau, _first(session, BUREAU, JIANQIU), "走镖"), "镖头") and state.marks.get("以本局弟子走镖", 0) == 1, "陈剑秋 to his own: 回来你就是镖头")
 	_ask(bureau, _first(session, BUREAU, CARTER), "上路")
 	state.marks["见过劫镖"] = 1 # TEST-ONLY: the robbery seen before
-	_check(_lead(session, ROAD, ROAD_POINT), "on the 碎石小路")
+	_check(await _to_road(tree, session) != null and _count_in(session, ROAD, CARTER) == 1, "on the 碎石小路, 老周 behind: %s" % FollowerWalk.failure)
 	await _beats(tree, session, 2)
 	var road: WorldMapController = session.active_map() as WorldMapController
 	var son: NpcRuntimeState = _first(session, ROAD, SON)
 	session.npc_spared(son) # TEST-ONLY
 	# On to 京师 before he is handed over or let go: 陈天星 does not take the 镖 yet.
-	_check(_lead(session, HQ, HQ_POINT), "in the 振远总局 too soon")
+	_check(await _down_to_hq(tree, session) != null, "in the 振远总局 too soon: %s" % FollowerWalk.failure)
 	await _beats(tree, session, 3)
 	var early: WorldMapController = session.active_map() as WorldMapController
 	_check(not state.marks.has("镖交到了总局") and _count_in(session, HQ, CARTER) == 1, "the robber not settled: no delivery, 老周 waits with the cart")
 	_check(_said(_ask(early, _first(session, HQ, TIANXING), "镖车"), "还没给个了结"), "陈天星: settle the robber first")
-	_check(_lead(session, ROAD, ROAD_POINT), "back on the 碎石小路, 老周 behind")
+	_check(await _up_to_road(tree, session) != null and _count_in(session, ROAD, CARTER) == 1, "back up the 铁索 to the 碎石小路, 老周 behind: %s" % FollowerWalk.failure)
 	await _beats(tree, session, 2)
 	road = session.active_map() as WorldMapController
 	son = _first(session, ROAD, SON)
@@ -238,7 +238,7 @@ func _test_freed_disciple(tree: SceneTree, session: WorldSessionController) -> v
 	_check(son.definition().talk().confirm_applies("走吧", state.marks), "走吧 is asked first")
 	_check(_said(_ask(road, son, "走吧"), "拿给陈天星看") and state.marks.get("放走了劫镖的", 0) == 1 and session.player_held_item_ids().get(LETTER, false) == true, "let go: his father's letter")
 	_check(not son.definition().talk().confirm_applies("交官府", state.marks), "the other way is closed")
-	_check(_lead(session, HQ, HQ_POINT), "in the 振远总局")
+	_check(await _down_to_hq(tree, session) != null and _count_in(session, HQ, CARTER) == 1, "in the 振远总局, 老周 behind: %s" % FollowerWalk.failure)
 	await _beats(tree, session, 3)
 	session.record_journal()
 	_check(state.quests.has("faction.zhenyuan/deliver") and state.affiliation.family_title == "镖头", "振远's own: 镖头 (%s)" % state.affiliation.family_title)
@@ -257,13 +257,40 @@ func _test_freed_disciple(tree: SceneTree, session: WorldSessionController) -> v
 	_check(state.quests.has("faction.zhenyuan#lapsed") and state.marks.get("振远的线断了", 0) == 1, "left 振远: the line lapsed")
 
 
-## TEST-ONLY: the player taken to `zone_id` by a way they lead (handoff_led): who follows every way comes along.
-func _lead(session: WorldSessionController, zone_id: StringName, point_id: StringName) -> bool:
-	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
-	if zone == null:
-		return false
-	var result: OldPineMapHandoffResult = session.handoff_led(zone.map_id, zone_id, zone.combat_location_id, point_id)
-	return result != null and result.succeeded()
+## TEST-ONLY: the player walks to `zone_id` through the doors and ways out of town, waiting at each for
+## `follower_id` to come up (FollowerWalk: go.c follow_me(), no handoff that carries him along for the suite).
+func _go_with(tree: SceneTree, session: WorldSessionController, zone_id: StringName, follower_id: StringName) -> WorldMapController:
+	var map: WorldMapController = await FollowerWalk.go_with(tree, session, zone_id, follower_id)
+	await _settle(tree)
+	return map
+
+
+## From 绮云镇 north to 雪亭镇 and along the 青石官道 to the 碎石小路, 老周 behind. TEST-ONLY: the crazy dog of
+## sroad4 would start a fight on the way (canyon_test's, snow_south_road_test's): sent off for good first (knocked
+## down, it is up again long before the player has walked from 绮云镇).
+func _to_road(tree: SceneTree, session: WorldSessionController) -> WorldMapController:
+	var snow: WorldMapController = session.world_map_of(&"snow.outdoor")
+	var dog: NpcRuntimeState = null if snow == null else snow.find_resident_npc(&"snow.sroad4.crazy_dog.1.character")
+	if dog != null and dog.exists_in_map:
+		snow.npcs.leave_for_good(dog)
+	return await _go_with(tree, session, ROAD, CARTER)
+
+
+## From the 碎石小路 down the 铁索 to 天驼关 (the act, a way the player leads), then south along the 黄土大道
+## to 京师's 振远总局, 老周 behind all the way (the road step's objective).
+func _down_to_hq(tree: SceneTree, session: WorldSessionController) -> WorldMapController:
+	if await FollowerWalk.act_with(tree, session, &"canyon.road.chain", CARTER) == null:
+		return null
+	return await _go_with(tree, session, HQ, CARTER)
+
+
+## Back from 京师 to the 碎石小路: north to 天驼关's foot of the 铁索 and up it, 老周 behind.
+func _up_to_road(tree: SceneTree, session: WorldSessionController) -> WorldMapController:
+	if await _go_with(tree, session, &"canyon.canyon1", CARTER) == null:
+		return null
+	var road: WorldMapController = await FollowerWalk.act_with(tree, session, &"canyon.canyon1.chain", CARTER)
+	await _settle(tree)
+	return road
 
 
 func _until_fight(tree: SceneTree, session: WorldSessionController) -> void:

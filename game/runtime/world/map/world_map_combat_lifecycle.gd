@@ -176,6 +176,8 @@ func _throw_weapon(binding: CombatSliceCharacterBinding) -> Array[ColoredLine]:
 ## weapons, weight / 500 + rigidity + str each; random(wap) over 2 x wdp knocks the
 ## victim's weapon away, over wdp nearly, over wdp / 2 breaks it, else sparks.
 ## message_vision(): the room sees it. Rigidity is the item's set("rigidity") (the whips').
+## DECISIONS「任务兵器不脱手」: a weapon that cannot be dropped (no_drop: 穿灵, 旋芒) is never
+## knocked away nor broken: a roll that would is only the 险些脱手.
 func _bash_weapon(binding: CombatSliceCharacterBinding, victim: CombatSliceCharacterBinding, parried: bool, random: CombatRandomSource) -> Array[ColoredLine]:
 	var weapon: EquippedWeaponRef = binding.state.equipment.primary_weapon()
 	var parrying: EquippedWeaponRef = null if victim == null else victim.state.equipment.primary_weapon()
@@ -188,6 +190,11 @@ func _bash_weapon(binding: CombatSliceCharacterBinding, victim: CombatSliceChara
 	var roll: int = random.legacy_random(wap) if wap > 0 else 0
 	var who: String = _vision_name(victim)
 	var held: String = item_name(parrying.instance_id)
+	var parrying_content: ItemContentDefinition = GameContent.catalog().item(parrying.weapon_id)
+	@warning_ignore("integer_division")
+	if parrying_content != null and parrying_content.no_drop and roll > wdp / 2:
+		# TRANSLATORS: weapond.c bash_weapon(): {who} nearly loses the weapon ({weapon}).
+		return [ColoredLine.new(tr("{who}只觉得手中{weapon}一震，险些脱手！").format({"who": who, "weapon": held}))]
 	if roll > 2 * wdp:
 		# TRANSLATORS: weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
 		var line := ColoredLine.new(tr("{who}只觉得手中{weapon}把持不定，脱手飞出！").format({"who": who, "weapon": held}), ColoredLine.HIW)
@@ -275,12 +282,13 @@ func lifecycle_is_pending() -> bool:
 
 
 ## DECISIONS「主线卡死点」: whether the NPC `character_id` is one a story step still hangs on
-## (StoryKeeps): knocked down, never killed.
+## (StoryKeeps): knocked down, never killed. One the story will not let be fought at all
+## (`fight_deferred`, DECISIONS「不能动手的人」) is so too, should a fight ever reach it.
 func kept(character_id: StringName) -> bool:
 	if _player == null or _player.state == null:
 		return false
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
-	return npc != null and StoryKeeps.keeps(_player.state, npc.definition(), GameContent.catalog().story_quests())
+	return npc != null and (npc.definition().dealings().is_fight_deferred() or StoryKeeps.keeps(_player.state, npc.definition(), GameContent.catalog().story_quests()))
 
 
 ## DECISIONS「主线卡死点」: before a fighter's fall or death is looked at (inspect_lifecycle()), one
@@ -318,11 +326,13 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	var killer_npc: NpcRuntimeState = null if killer == null else _map.npcs.find_resident_npc(killer.character_id)
 	var killer_heard: bool = killer_npc != null and (_map.npc_life.player_hears(killer_npc) or (is_player and _map.npc_life.player_shares_zone(killer_npc)))
 	var victim_npc: NpcRuntimeState = null if is_player else _map.npcs.find_resident_npc(victim.character_id)
+	var by_our_side: bool = not is_player and _on_players_side(killer, victim, participants)
 	# chard.c make_corpse(): owner_is_killed() of what it carries (windspring.c) before the
 	# corpse takes the rest: the item is gone, its NPC comes once the death is done.
 	var comes: Array[StringName] = []
 	if (victim_npc != null or is_player) and opportunity != null and opportunity.outcome == CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_DEATH:
 		comes = _owner_is_killed(victim, &"" if victim_npc == null else victim_npc.definition().definition_id)
+		_gone_with_owner(victim)
 		if victim_npc != null:
 			_die_carries(victim_npc, killer)
 	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants, killer)
@@ -341,18 +351,22 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 			_owner_killed_comes(item_id, location)
 		if victim_npc != null:
 			# yamen_po.c die(): last_damage_from (the player, or one they called) gets crime_lv.
-			var by_player: bool = killer != null and _player != null and _map.npcs.summoners.get(killer.character_id, killer.character_id) == _player.character_id
+			var by_player: bool = killer != null and _player != null and _map.npcs.caller_of(killer.character_id) == _player.character_id
 			_map.patrols.died(victim_npc, by_player)
 			# xiaojuan2.c die(): query_temp("last_damage_from")->set("marks/murder", 1), on the
 			# one who struck last (one the player called keeps it: it is no player).
 			var hooks: NpcHooks = victim_npc.definition().hooks()
 			if hooks != null and not hooks.die_marks_killer.is_empty() and killer != null and _player != null and killer.character_id == _player.character_id:
 				_player.state.marks[hooks.die_marks_killer] = 1
+			# 修补 Z (DECISIONS「倒在你这边的人手里」): a death a story waits on counts whoever on the player's side
+			# struck last (a follower, a helper, one they called), and one that vanishes in smoke too.
+			if hooks != null and not hooks.die_marks.is_empty() and by_our_side and _player != null:
+				_player.state.marks[hooks.die_marks] = 1
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and killer != null:
 		_map.corpses.killed_enemy(killer_npc, killer_heard)
 		# combatd.c killer_reward(): a possessed killer's reward goes to who called it (its
 		# !is_living() test always holds: nothing defines is_living()).
-		var rewarded: StringName = _map.npcs.summoners.get(killer.character_id, killer.character_id)
+		var rewarded: StringName = _map.npcs.caller_of(killer.character_id)
 		if rewarded == _player.character_id and victim_npc != null:
 			_player_killer_reward(victim_npc)
 	# A2: the player's own blow felled or killed someone of note (历练).
@@ -403,6 +417,20 @@ func _owner_is_killed(victim: CombatSliceCharacterBinding, definition_id: String
 			continue
 		comes.append(item.item_definition_id)
 	return comes
+
+
+## What `victim` carries that is part of them (ItemContentDefinition.goes_with_owner(): 侮天鬼's
+## 黑焰) is gone as they die, before the corpse or the floor takes the rest.
+func _gone_with_owner(victim: CombatSliceCharacterBinding) -> void:
+	var owner := ItemLifecycleOwnerContext.new(victim.character_id, victim.state.equipment, victim.armor)
+	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, victim.character_id)):
+		var item: ItemInstance = _item_index.resolve(item_id)
+		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+		if content == null or not content.goes_with_owner():
+			continue
+		var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE, owner)
+		if not (removal.succeeded and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)):
+			push_error("goes_with_owner: %s could not be destroyed" % item_id)
 
 
 ## d/choyin/npc/lion.c die(): before ::die() makes the corpse, a new 忘忧草 goes into the NPC
@@ -576,7 +604,6 @@ func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: Combat
 		allocation.item_instance_id,
 		destination,
 		_death_item_facts_for(victim.character_id),
-		DeathItemPolicyRegistry.new(),
 		DeathRewearPolicyRegistry.new(),
 		_death_context_for(victim, killer, destination),
 	)
@@ -684,6 +711,32 @@ func _world_destination_for(character_id: StringName) -> InventoryTransferDestin
 		true,
 		_map.WORLD_CAPACITY,
 	)
+
+
+## Whether `killer` stands on the player's side against `victim`: the player, one the player called, or
+## one fighting the victim that is not fighting the player while the player fights the victim too (a
+## follower, a helper beside them). Read before the lifecycle clears the fight's relations.
+func _on_players_side(killer: CombatSliceCharacterBinding, victim: CombatSliceCharacterBinding, participants: Array[CombatSliceCharacterBinding]) -> bool:
+	if killer == null or victim == null or _player == null:
+		return false
+	var player_id: StringName = _player.character_id
+	if killer.character_id == player_id or _map.npcs.summoners.get(killer.character_id, &"") == player_id:
+		return true
+	# The fight's own sides first: a helper still counts when the player already lies knocked out.
+	var coordinator: CombatEncounterCoordinator = null if _map.session == null else _map.session.combat_encounter_coordinator()
+	var encounter: CombatEncounter = null if coordinator == null or not coordinator.has_active_encounter() else coordinator.active_encounter()
+	if encounter != null:
+		var mine: CombatParticipant = encounter.participant_for(player_id)
+		var theirs: CombatParticipant = encounter.participant_for(killer.character_id)
+		if mine != null and theirs != null:
+			return mine.side_id == theirs.side_id
+	var player: CombatSliceCharacterBinding = null
+	for candidate: CombatSliceCharacterBinding in participants:
+		if candidate.character_id == player_id:
+			player = candidate
+	if player == null or killer.relationship.has_opponent(player_id) or player.relationship.has_opponent(killer.character_id):
+		return false
+	return player.relationship.has_opponent(victim.character_id) or victim.relationship.has_opponent(player_id)
 
 
 ## damage.c die(): the killer is last_damage_from, whoever hit the victim last,

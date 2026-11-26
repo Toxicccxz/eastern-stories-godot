@@ -9,6 +9,8 @@ extends CanvasLayer
 ## text the game puts up (show_card(): the opening's theme story, 拜师) with 继续, world
 ## time held under it (hold_world_time) until the player goes on; a death takes its place.
 const REVIVED_NOTICE_SECONDS: float = 4.0
+## Each line past the first two of that notice keeps it up this much longer.
+const NOTICE_LINE_SECONDS: float = 1.5
 ## Basic skill names follow cmds/std/enable.c valid_types.
 const SKILL_NAMES: Dictionary[StringName, String] = {
 	&"unarmed": "基本拳脚", &"sword": "基本剑法", &"parry": "基本招架",
@@ -18,11 +20,19 @@ const CARD_HOLD: StringName = &"card"
 ## A card's text is wider than the death card's lines.
 const CARD_WIDTH: float = 700.0
 const DEATH_WIDTH: float = 300.0
+## Room the card leaves round it on the screen (owner 2026-11-22: the opening card ran off a
+## phone's screen): it narrows to the screen, and a text taller than what is left scrolls.
+const SCREEN_MARGIN: float = 24.0
 
 var _session: WorldSessionController
 var _dim: ColorRect
 var _panel: PanelContainer
 var _text: Label
+## The text's scroll: as tall as the text, or as the screen allows (the right stick, PgUp /
+## PgDn and the wheel scroll it).
+var _scroll: ScrollContainer
+## What the scroll was last fitted to (_fit runs every frame; the text is measured on change).
+var _fitted: Array = []
 var _continue: Button
 var _to_autosave: Button
 var _last_phase: PlayerLifeFlow.Phase = PlayerLifeFlow.Phase.NONE
@@ -38,6 +48,11 @@ var _card_held: bool = false
 ## The card's panel showed last frame: hidden under the shell's pause and shown again, 继续
 ## takes the focus back (the pause's own focus went with it).
 var _panel_was_shown: bool = false
+## Someone who attacks on sight stood by the corpse as the death card came up (WorldLeftBehind;
+## looked at once, not every frame: it reads every map).
+var _corpse_guarded: bool = false
+## The corpse holds something (what the player wields and wears stays on them).
+var _corpse_holds: bool = true
 
 
 func configure(session: WorldSessionController) -> void:
@@ -64,11 +79,17 @@ func _ready() -> void:
 	var rows: VBoxContainer = VBoxContainer.new()
 	rows.add_theme_constant_override("separation", 12)
 	_panel.add_child(rows)
+	_scroll = ScrollContainer.new()
+	_scroll.name = "TextScroll"
+	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_scroll.add_to_group(PadSupport.SCROLL_GROUP)
+	rows.add_child(_scroll)
 	_text = Label.new()
 	_text.name = "LifeText"
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_text.custom_minimum_size = Vector2(DEATH_WIDTH, 0)
-	rows.add_child(_text)
+	_scroll.add_child(_text)
 	_continue = Button.new()
 	_continue.name = "Continue"
 	_continue.text = "继续"
@@ -114,7 +135,8 @@ func _process(delta: float) -> void:
 	_reincarnations_told = _session.reincarnations()
 	if woke or reincarnated:
 		_notice = tr("慢慢地你终於又有了知觉....") if woke else _revived_notice(flow)
-		_notice_remaining = REVIVED_NOTICE_SECONDS
+		# A longer word after the return to life (what waits where) stays a little longer.
+		_notice_remaining = REVIVED_NOTICE_SECONDS + NOTICE_LINE_SECONDS * maxi(_notice.count("\n") - 1, 0)
 		# The defeat heading no longer describes the player.
 		if _session.shared_ui() != null:
 			_session.shared_ui().show_combat_result(_notice)
@@ -140,6 +162,8 @@ func _process(delta: float) -> void:
 		PlayerLifeFlow.Phase.DEATH_SEQUENCE:
 			if not death_card_up:
 				_to_autosave.visible = _shell_autosave() != null
+				_corpse_guarded = WorldLeftBehind.corpse_guarded(_session, flow.corpse_item_instance_id)
+				_corpse_holds = WorldLeftBehind.corpses(_session).any(func(place: WorldLeftBehind.Place) -> bool: return place.id == flow.corpse_item_instance_id)
 			_show(_death_text(flow), true, true)
 		_:
 			if _session.opening_card_due():
@@ -157,14 +181,15 @@ func _process(delta: float) -> void:
 
 ## A blocking screen dims the world and takes its clicks; the short notice
 ## after coming back does neither.
-func _show(value: String, can_continue: bool, blocking: bool) -> void:
+func _show(value: String, can_continue: bool, blocking: bool, width: float = DEATH_WIDTH) -> void:
 	visible = true
-	_text.text = value
-	_text.custom_minimum_size.x = DEATH_WIDTH
-	_panel.custom_minimum_size.x = DEATH_WIDTH + 20.0
+	if _text.text != value:
+		_text.text = value
+		_scroll.scroll_vertical = 0
 	_continue.visible = can_continue
 	if not can_continue:
 		_to_autosave.visible = false
+	_fit(width)
 	# The shell's question over the card stands alone.
 	_panel.visible = _world_has_focus()
 	var reappeared: bool = _panel.visible and not _panel_was_shown
@@ -175,8 +200,10 @@ func _show(value: String, can_continue: bool, blocking: bool) -> void:
 	# frame (the menu opened over it keeps its own).
 	var focused: Control = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
 	var wanted: bool = blocking or (_card_held and (reappeared or focused == null) and not _menu_open())
+	# On the death card 回到上次自动存档 takes it when it is there (DECISIONS「死前存档」): 继续 is
+	# chosen, not pressed by a reflex.
 	if can_continue and wanted and is_inside_tree() and _world_has_focus() and focused not in [_continue, _to_autosave]:
-		_continue.grab_focus()
+		(_to_autosave if _to_autosave.visible else _continue).grab_focus()
 	_dim.color.a = 0.72 if blocking else 0.0
 	_dim.mouse_filter = Control.MOUSE_FILTER_STOP if blocking else Control.MOUSE_FILTER_IGNORE
 
@@ -186,14 +213,46 @@ func _show_card(value: String) -> void:
 	_to_autosave.visible = false
 	# The focus goes to 继续 once, as the card comes up: the pause panel over it keeps its own.
 	var first: bool = not _card_held
-	_show(value, true, first)
+	_show(value, true, first, CARD_WIDTH)
 	_dim.color.a = 0.72
 	_dim.mouse_filter = Control.MOUSE_FILTER_STOP
-	_text.custom_minimum_size.x = CARD_WIDTH
-	_panel.custom_minimum_size.x = CARD_WIDTH + 20.0
 	if first:
 		_card_held = true
 		_session.hold_world_time(CARD_HOLD)
+
+
+## The text `width` wide, or narrower to leave SCREEN_MARGIN on each side; its scroll as tall
+## as the text, or as the screen leaves above the buttons.
+func _fit(width: float) -> void:
+	var screen: Vector2 = get_viewport().get_visible_rect().size if is_inside_tree() else Vector2(1280, 720)
+	var key: Array = [_text.text, width, screen, _continue.visible, _to_autosave.visible]
+	if key == _fitted:
+		return
+	_fitted = key
+	var frame: StyleBox = _panel.get_theme_stylebox(&"panel")
+	var sides: Vector2 = Vector2(frame.get_margin(SIDE_LEFT) + frame.get_margin(SIDE_RIGHT), frame.get_margin(SIDE_TOP) + frame.get_margin(SIDE_BOTTOM))
+	var shown: float = floorf(clampf(screen.x - SCREEN_MARGIN * 2.0 - sides.x, 160.0, width))
+	_text.custom_minimum_size.x = shown
+	_panel.custom_minimum_size.x = 0.0
+	var below: float = 0.0
+	for button: Button in [_continue, _to_autosave]:
+		if button.visible:
+			below += button.get_combined_minimum_size().y + 12.0
+	var room: float = maxf(screen.y - SCREEN_MARGIN * 2.0 - sides.y - below, 80.0)
+	_scroll.custom_minimum_size = Vector2(shown, minf(_text_height(shown), room))
+
+
+## How tall `_text` is wrapped `width` wide.
+func _text_height(width: float) -> float:
+	var font: Font = _text.get_theme_font(&"font")
+	var size: int = _text.get_theme_font_size(&"font_size")
+	var flags: int = TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE
+	var paragraph := TextParagraph.new()
+	paragraph.break_flags = flags
+	paragraph.width = width
+	paragraph.add_string(_text.text, font, size)
+	var lines: int = paragraph.get_line_count()
+	return ceilf(paragraph.get_size().y + maxi(lines - 1, 0) * _text.get_theme_constant(&"line_spacing")) + 2.0
 
 
 func _release_card() -> void:
@@ -237,7 +296,18 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 	if not flow.corpse_place.is_empty():
 		var corpse: StringName = flow.corpse_item_instance_id
 		if corpse.is_empty() or _session.inventory_state().is_registered(corpse):
-			lines.append(tr("你的尸体和随身物品留在：%s") % flow.corpse_place)
+			var keeps: bool = GameContent.catalog().pacing().death_keeps_equipped
+			if keeps and not _corpse_holds:
+				# TRANSLATORS: the death card (DECISIONS「死后留在身上」): the wielded weapon and worn things stay on the player, nothing else was carried.
+				lines.append(tr("兵器和身上穿的还在你身上；尸体上没有留下东西。"))
+			elif keeps:
+				# TRANSLATORS: the death card (DECISIONS「死后留在身上」): the wielded weapon and worn things stay on the player; money and the bag lie with the corpse at %s.
+				lines.append(tr("兵器和身上穿的还在你身上；钱和背包里的东西留在尸体上：%s") % flow.corpse_place)
+			else:
+				lines.append(tr("你的尸体和随身物品留在：%s") % flow.corpse_place)
+			if _corpse_guarded and _corpse_holds:
+				# TRANSLATORS: the death card: someone who attacks on sight stands where the corpse lies (DECISIONS「死前存档」).
+				lines.append(tr("尸体旁还守着见人就打的对手，回去取东西要先过他这一关。"))
 			if _session.corpse_waits(corpse):
 				lines.append(tr("尸体不会腐烂，等你回去取。"))
 		elif _session.corpse_scattered(corpse):
@@ -249,11 +319,14 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 	return "\n".join(lines).strip_edges()
 
 
-## Back at the temple; where the corpse waits, if it does (DECISIONS「减轻死亡」).
-func _revived_notice(flow: PlayerLifeFlow) -> String:
+## Back at the temple: where each corpse with things in it lies and who waits apart, read from the
+## world (WorldLeftBehind; DECISIONS「减轻死亡」「尸体和走散的同伴」), and how to get 精气神 back.
+func _revived_notice(_flow: PlayerLifeFlow) -> String:
 	var lines: Array[String] = [tr("一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。")]
-	if not flow.corpse_place.is_empty() and _session.corpse_waits(flow.corpse_item_instance_id):
-		lines.append(tr("你的尸体和随身物品还在：%s") % flow.corpse_place)
+	for place: WorldLeftBehind.Place in WorldLeftBehind.all(_session):
+		lines.append(WorldLeftBehind.line(_session, place))
+	# TRANSLATORS: after the return to life: 精, 气 and 神 are at 1 (damage.c die()); 歇到回满 is the button on the 武学 page (DECISIONS「歇到回满」).
+	lines.append(tr("精、气、神都只剩 1：在武学页按「歇到回满」，养足了再上路。"))
 	return "\n".join(lines)
 
 

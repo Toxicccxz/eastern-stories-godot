@@ -166,6 +166,10 @@ func _test_testify_open(tree: SceneTree, session: WorldSessionController) -> voi
 	session.record_journal()
 	_check(_step(session) == &"meet" and _target(session).zone_id == HALL, "next: the 相国府's hall")
 	_check(_first(session, ENTRANCE, BROTHER) == null, "no 骆建章 on the 曼雩台")
+	# 修补 Z: 乔阴's own 骆云舟 steps aside while he is in the capital (one 骆云舟 at a time), and comes back.
+	WorldStoryPresence.stage(session, entrance) # TEST-ONLY: judged now, as the next coming onto the map would
+	await _settle(tree)
+	_check(_first(session, ENTRANCE, LUO) == null, "while he is in the capital, no 骆云舟 at 乔阴's gate")
 	var hall: WorldMapController = await _to_hall_scene(tree, session)
 	var luo: NpcRuntimeState = _first(session, HALL, LUO_CITY)
 	_check(luo != null and hall.select_npc(luo.character_id) and hall.ask_topics_selected().has("作证"), "作证 listed on 骆云舟")

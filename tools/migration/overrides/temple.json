@@ -34,7 +34,7 @@
 				},
 				"烧": {
 					"listed_marks": ["师兄弟见了面"],
-					"confirm": "跟林忌：《上清符箓》投进殿前的香炉，镇教秘籍从此少一函——茅山宁可没有这本书。花匠下山回京城，守着庾清尘。\n林忌教你谷衣心法。正月十七虹台上，茅山这一票投颜违：主剿，北麓剿干净，不留根。\n终章之后北麓那座道观里的人还没有去处的，问林忌「剿」，官兵上山。\n要这么办吗？",
+					"confirm": "跟林忌：《上清符箓》投进殿前的香炉，镇教秘籍从此少一函——茅山宁可没有这本书。花匠下山回京城，守着庾清尘。\n林忌教你谷衣心法。正月十七虹台上，茅山这一票投颜违：主剿，北麓剿干净，不留根（已经入了虹台的席的，这一票不再跟着变）。\n终章之后北麓那座道观里的人还没有去处的，问林忌「剿」，官兵上山。\n要这么办吗？",
 					"confirm_marks": ["师兄弟见了面"],
 					"confirm_lacks": ["茅山烧了符箓", "茅山收了符箓", "茅山的线断了"],
 					"rules": [
@@ -822,7 +822,7 @@
 			"set item_desc": "a look-only landmark (石碑) in world.json",
 			"reset": "the guards on duty: world.json spawns with `draw` (one of guard_taoist1-3 and one of taoist_guard1-3 a reset; DECISIONS 茅山 A)",
 			"function reset": "the guards on duty: world.json spawns with `draw` (DECISIONS 茅山 A)",
-			"function valid_leave": "world.json exit_rules temple.road2.wall: enter only for 茅山派 (the invisible wall), pass_lines for one who may; the tell_room() goes to others only"
+			"function valid_leave": "world.json exit_rules temple.road2.wall: enter only for 茅山派, pass_lines for one who may; the tell_room() goes to others only"
 		},
 		"d/temple/book_room1.c": {
 			"function valid_leave": "world.json exit_rules temple.book_room1.out: its pass_lines (the tell_room() goes to others only)"

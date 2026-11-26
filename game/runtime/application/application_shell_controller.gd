@@ -33,7 +33,6 @@ signal interaction_changed
 ## 退出游戏 (desktop; a phone's app is left the platform's way).
 @onready var quit_button: Button = %QuitButton
 @onready var pause_panel: Control = %PausePanel
-@onready var lifecycle_info: Label = %LifecycleInfo
 @onready var resume_button: Button = %ResumeButton
 @onready var save_button: Button = %SaveButton
 @onready var pause_load_button: Button = %PauseLoadButton
@@ -142,6 +141,8 @@ var _name_rng := RandomNumberGenerator.new()
 var _activity: ApplicationActivity = ApplicationActivity.new()
 ## 按键一览 over 设置 (KeyBindingsPage).
 var key_page: KeyBindingsPage
+## The pause the lost focus brings, over whatever is open (DECISIONS「切出窗口」).
+var focus_layer: FocusPauseLayer
 ## The zone the session being started opens at ("" for a new journey): the title dives there.
 var _starting_zone: StringName = &""
 
@@ -186,10 +187,9 @@ func _on_mobile_activity_event(event: ApplicationActivity.Event) -> void:
 			var presenter: SafeAreaPresenter = get_node_or_null("SafeAreaPresentation")
 			if presenter != null:
 				presenter.set_observation_enabled(false)
-			if _state.mode() == ApplicationShellState.Mode.PLAYING:
-				_set_state(ApplicationShellState.paused())
-			else:
-				_render_state() # Keep modal origin/draft/result unchanged.
+			# Playing: the focus pause lies over what is open and keeps it (focus_held());
+			# elsewhere the modal origin/draft/result stay unchanged.
+			_render_state()
 		interaction_changed.emit()
 	else:
 		_refresh_mobile_presentation(_activity.presentation_revision())
@@ -234,12 +234,41 @@ func _sync_application_pause() -> void:
 	get_tree().paused = not interaction_allowed() or pause_context or _activity.resume_gate() == ApplicationActivity.ResumeGate.EXPLICIT_AFTER_LIFECYCLE
 
 
+## The session started or loaded: playing, under the focus pause when the window was left
+## meanwhile (the gate keeps the tree paused until 继续).
 func _present_committed_session() -> void:
-	if not interaction_allowed() or _activity.resume_gate() == ApplicationActivity.ResumeGate.EXPLICIT_AFTER_LIFECYCLE:
+	if not interaction_allowed():
 		_activity.require_explicit_resume()
-		_set_state(ApplicationShellState.paused())
+	_set_state(ApplicationShellState.playing())
+
+
+## Whether the focus pause holds the game: the window was left while playing (or while a
+## session started) and 继续 has not been pressed since. The world is paused; what was open
+## stays as it was (SharedGameplayUI leaves it alone).
+func focus_held() -> bool:
+	return _state.mode() == ApplicationShellState.Mode.PLAYING and _activity.resume_gate() == ApplicationActivity.ResumeGate.EXPLICIT_AFTER_LIFECYCLE
+
+
+## 继续 on the focus pause: the game goes on with whatever was open.
+func resume_from_focus_pause() -> bool:
+	if not interaction_allowed() or not focus_held():
+		return false
+	input_context_changing.emit()
+	_release_transition_actions()
+	_activity.clear_resume_gate()
+	_sync_application_pause()
+	_render_state()
+	interaction_changed.emit()
+	return true
+
+
+func _render_focus_layer() -> void:
+	if focus_layer == null:
+		return
+	if focus_held():
+		focus_layer.present(not lifecycle_capability().enabled())
 	else:
-		_set_state(ApplicationShellState.playing())
+		focus_layer.withdraw()
 
 
 func configure_before_start(
@@ -325,10 +354,12 @@ func _ready() -> void:
 	language_option.get_popup().window_input.connect(_popup_system_input.bind(language_option))
 	key_page = KeyBindingsPage.new()
 	shell_canvas.add_child(key_page)
+	# After RuntimeHostSlot: it hears the keys before the host's nodes do (_input runs from
+	# the last node up).
+	focus_layer = FocusPauseLayer.new()
+	add_child(focus_layer)
+	focus_layer.resume_requested.connect(resume_from_focus_pause)
 	keys_button.pressed.connect(func() -> void: key_page.open(keys_button))
-	if not lifecycle_capability().enabled():
-		# TRANSLATORS: on 系统 after the desktop window lost its focus (切出窗口时暂停).
-		lifecycle_info.text = "切到别的窗口时，游戏暂停了。"
 	# Pad support (owner, DECISIONS「手柄」): last, so it sees every
 	# input event before the touch adapter takes touches.
 	add_child(PadSupport.new())
@@ -409,7 +440,7 @@ func _process(_delta: float) -> void:
 ## 1280×720 at 100 %): the page says so rather than offer three choices that change nothing.
 func _show_ui_scale_note() -> void:
 	var base := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1280)), int(ProjectSettings.get_setting("display/window/size/viewport_height", 720)))
-	var differ: bool = ApplicationUiScale.levels_differ(get_tree().root.size, base)
+	var differ: bool = ApplicationUiScale.levels_differ(get_tree().root.size, base, OS.has_feature("android") or OS.has_feature("ios"))
 	if ui_scale_note.visible == differ:
 		ui_scale_note.visible = not differ
 
@@ -477,6 +508,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	var handled: bool = false
 	match _state.mode():
+		ApplicationShellState.Mode.PLAYING when focus_held():
+			handled = resume_from_focus_pause()
 		ApplicationShellState.Mode.PLAYING:
 			if cancel_pressed and ExplorationPresentationBlocker.is_blocked(get_tree()):
 				var panel: ResponsivePanelLayout = ResponsivePanelLayout.top_interaction_panel(get_tree())
@@ -554,6 +587,8 @@ func _handle_system_back() -> void:
 			cancel_slots()
 		ApplicationShellState.Mode.PAUSED:
 			request_resume()
+		ApplicationShellState.Mode.PLAYING when focus_held():
+			resume_from_focus_pause()
 		ApplicationShellState.Mode.PLAYING:
 			var panel: ResponsivePanelLayout = ResponsivePanelLayout.top_interaction_panel(get_tree())
 			if panel != null:
@@ -724,6 +759,11 @@ func request_quit_from_menu() -> bool:
 	_quit_requested = true
 	_exit_capability.request_quit(get_tree())
 	return true
+
+
+## The 界面缩放 setting in force (percent).
+func ui_scale_percent() -> int:
+	return _settings_service.committed_snapshot().ui_scale() if _settings_service != null else ApplicationUiScale.DEFAULT
 
 
 ## Whether a journey is under way (the title shows only while none is).
@@ -939,7 +979,7 @@ func request_recovery_source(source: int) -> bool:
 
 
 func request_pause() -> bool:
-	if not interaction_allowed():
+	if not interaction_allowed() or focus_held():
 		return false
 	if (
 		_state.mode() != ApplicationShellState.Mode.PLAYING
@@ -1023,9 +1063,10 @@ func _open_slots(purpose: int, origin: int) -> bool:
 	_slot_origin = origin
 	_slot_rows = _host.read_slots().duplicate()
 	if purpose == SlotPurpose.SAVE:
-		# Nobody saves to the 决战前 slot: only the act before the battle writes it.
+		# Nobody saves to the 决战前 slot (only the act before the battle writes it) or to the
+		# 死前存档 (only a death writes it, DECISIONS「死前存档」).
 		for index: int in range(_slot_rows.size() - 1, -1, -1):
-			if _slot_rows[index].slot_id == GameSaveSnapshot.KEEP_SLOT_ID:
+			if _slot_rows[index].slot_id in [GameSaveSnapshot.KEEP_SLOT_ID, GameSaveSnapshot.DEATH_SLOT_ID]:
 				_slot_rows.remove_at(index)
 	_previous_autosave_row = -1
 	if purpose == SlotPurpose.LOAD:
@@ -1509,7 +1550,7 @@ func _set_state(next: ApplicationShellState) -> bool:
 
 func _render_state(defer_focus: bool = true) -> void:
 	var mode: int = _state.mode()
-	lifecycle_info.visible = _activity.resume_gate() == ApplicationActivity.ResumeGate.EXPLICIT_AFTER_LIFECYCLE
+	_render_focus_layer()
 	_release_shell_focus()
 	shell_canvas.visible = mode != ApplicationShellState.Mode.PLAYING
 	main_menu_panel.visible = mode == ApplicationShellState.Mode.MAIN_MENU

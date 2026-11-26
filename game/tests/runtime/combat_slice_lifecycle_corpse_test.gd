@@ -74,7 +74,6 @@ func _test_relationship_clear_preserves_source_facts() -> void:
 		&"unused-ordinary-corpse",
 		_arena_destination(),
 		[],
-		DeathItemPolicyRegistry.new(),
 		DeathRewearPolicyRegistry.new(),
 	)
 	_assert_eq(ordinary_result.reciprocal_cleanup_successes, 1, "ordinary reciprocal opponent removal succeeds")
@@ -109,7 +108,6 @@ func _test_unconscious_adapter_exact_transition() -> void:
 		&"unused-corpse",
 		_arena_destination(),
 		[],
-		DeathItemPolicyRegistry.new(),
 		DeathRewearPolicyRegistry.new(),
 	)
 	_assert_eq(result.outcome, CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE, "current below zero completes unconscious lifecycle")
@@ -147,7 +145,6 @@ func _test_unconscious_adapter_exact_transition() -> void:
 		&"current-threshold-corpse",
 		_arena_destination(),
 		[],
-		DeathItemPolicyRegistry.new(),
 		DeathRewearPolicyRegistry.new(),
 	)
 	_assert_eq(death_result.outcome, CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE, "current below zero while unconscious completes normal death")
@@ -185,7 +182,6 @@ func _test_second_corpse_placement_failure_preserves_partial_transition() -> voi
 		&"second-placement-failure-corpse",
 		constrained_arena,
 		CombatSliceDemoFactory.create_death_item_facts_for(victim, inventory),
-		DeathItemPolicyRegistry.new(),
 		DeathRewearPolicyRegistry.new(),
 	)
 	_assert_eq(result.death_inventory_result.completion_status, DeathInventoryResult.CompletionStatus.COMPLETED, "closed death service completes inventory processing despite the source-positioned first placement failure")

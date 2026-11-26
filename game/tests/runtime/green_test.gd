@@ -83,8 +83,10 @@ func _test_data() -> void:
 		&"green.npc.oldman2": 1, &"green.npc.kid1": 1, &"green.npc.kid2": 2, &"green.npc.kid4": 2, &"green.npc.spider": 3,
 		&"common.npc.juechen.master": 1,
 		# 绝尘 A (DECISIONS「绝尘 A」): the cave's two 鬼卒, 阿牛 and his mother on the story's stage; 了尘 in the hall.
-		&"native.npc.hell_runner_tomb": 2, &"native.npc.green_cave_kid": 1, &"native.npc.green_mother": 1, &"native.npc.juechen_liaochen": 1,
-	}, "twenty villagers of twelve kinds, three spiders the web calls in, 绝尘子 and 了尘 in the hall, 绝尘 A's stage: %s" % spawns)
+		&"native.npc.hell_runner_tomb": 2, &"native.npc.green_cave_kid": 1, &"native.npc.green_mother": 1,
+		# 绝尘 B (DECISIONS「绝尘 B」): 了尘 standing until 绝尘子 owns the name 玄尘, kneeling until the split, standing again after 守阵.
+		&"native.npc.juechen_liaochen": 2, &"native.npc.liaochen_kneel": 1,
+	}, "twenty villagers of twelve kinds, three spiders the web calls in, 绝尘子 and 了尘 in the hall, 绝尘 A's and B's stage: %s" % spawns)
 	_check(catalog.spawn(&"green.village.house3.spiders").summoned, "the spiders are summoned (house3.c call_spider())")
 	_check(catalog.item(ROPE).hang and catalog.item(ROPE).value == 5, "绳子: hang")
 	var sword: ItemContentDefinition = catalog.item(WINDSWORD)

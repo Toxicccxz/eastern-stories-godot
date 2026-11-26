@@ -23,6 +23,9 @@ var greens: Array = ["3e6947", "60884d", "8da85d", "b1b96d"]
 var petals: Array = ["f2e8c5", "edc26b", "dba4b9", "a7a2cf"]
 var gust: float = 0.0
 var butterfly_count: int = 8
+## The share of the planted tufts drawn, spread evenly (the 画质's `grass`; 1 draws every one).
+## `roots` and `flowers` keep every tuft planted.
+var density: float = 1.0
 
 func plant(at: Vector3, kind: int, size: float, angle: float) -> void:
 	var key := Vector3i(floori(at.x / 8.0), floori(at.z / 8.0), kind)
@@ -44,6 +47,18 @@ func finish() -> void:
 		if not _meshes.has(kind):
 			_meshes[kind] = _tuft(kind)
 		var transforms: Array = batch[1]
+		if density < 1.0:
+			# Spread evenly; rounded, not floored, so a lone flower or fern in its chunk stays.
+			var kept: Array = []
+			var share: float = 0.5
+			for transform: Transform3D in transforms:
+				share += density
+				if share >= 1.0:
+					share -= 1.0
+					kept.append(transform)
+			transforms = kept
+			if transforms.is_empty():
+				continue
 		var multi := MultiMesh.new()
 		multi.transform_format = MultiMesh.TRANSFORM_3D
 		multi.mesh = _meshes[kind]

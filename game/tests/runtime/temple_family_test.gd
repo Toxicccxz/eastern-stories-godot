@@ -133,7 +133,7 @@ func _test_apprentice_rule() -> void:
 	request = NpcApprenticeship.new()
 	request.request(other, master, family, 1, "壮士")
 	request.cancel()
-	_check(request.request(other, master, family, 2, "壮士", NpcApprenticeship.COMMONER_TITLE, "", "", true) == NpcApprenticeship.Outcome.MASTER_BUSY and request.lines == [ASKED, BUSY] and request.is_pending_with(MASTER), "asked while his answer is due: 慢著，一个一个来: %s" % [request.lines])
+	_check(request.request(other, master, family, 2, "壮士", "", "", true) == NpcApprenticeship.Outcome.MASTER_BUSY and request.lines == [ASKED, BUSY] and request.is_pending_with(MASTER), "asked while his answer is due: 慢著，一个一个来: %s" % [request.lines])
 	_check(request.answer(other, master, family, 3, "壮士") == NpcApprenticeship.Outcome.RECRUITED and NpcApprenticeship.is_master_of(other, master), "the one answer takes him")
 	# Withdrawn, not asked again: his recruit is an offer, taken by the next 拜师.
 	var third: CharacterState = _fresh(CharacterState.GENDER_MALE)
@@ -218,7 +218,7 @@ func _test_practice() -> void:
 	mind.skills.set_raw_level(&"gouyee", 2)
 	mind.skills.map_skill(&"force", &"gouyee")
 	mind.recovery.mana = CharacterInternalResourceState.new(0, 5)
-	_check(_practice(mind, &"force", registry) == ["谷衣心法只能用学的，或是从运用(exert)中增加熟练度。"], "谷衣心法 refuses practice")
+	_check(_practice(mind, &"force", registry) == ["谷衣心法只能用学的，或是从运用中增加熟练度。"], "谷衣心法 refuses practice")
 
 
 ## necromancy.c practice_skill() (茅山 C): the 观想虫 still standing refuses first, then

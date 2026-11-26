@@ -39,6 +39,7 @@ var tab_buttons: Array[Button] = []
 ## The keys or pad buttons that step through the tabs (Q / E, LB / RB), at the strip's ends.
 var tab_glyphs: Array[TextureRect] = []
 var close_button: Button
+var _tabs: HFlowContainer
 var pages: Array[Control] = []
 ## Where the shell puts its pause buttons (继续, 存档, 设置, 返回主菜单) while it shows
 ## this window.
@@ -110,6 +111,10 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 		tabs.add_child(button)
 		tab_buttons.append(button)
 	tab_glyphs.append(_tab_glyph(tabs, &"menu_tab_next"))
+	_tabs = tabs
+	# ResponsivePanelLayout leaves these gaps to fit_tabs().
+	tabs.set_meta(&"own_separation", true)
+	fit_tabs()
 	close_button = Button.new()
 	close_button.name = "Close"
 	close_button.text = "关闭"
@@ -188,12 +193,13 @@ func _attach() -> void:
 
 
 ## The window keeps one size whatever the tab but 地图 (centred in the safe area); touch
-## screens keep the top strip for the pause button, as the shared frame does.
+## screens keep the top strip for the pause button while it is there (not with a gamepad), as
+## the shared frame does.
 func _reflow(metrics: SafeAreaMetrics) -> void:
 	if metrics == null:
 		return
 	var area: Rect2 = metrics.content_rect()
-	if metrics.touch_sized():
+	if metrics.touch_controls():
 		area.position.y += 72
 		area.size.y = maxf(1, area.size.y - 72)
 	var wanted: Vector2 = area.size - Vector2(MAP_MARGIN, MAP_MARGIN) * 2.0 if _current == Tab.MAP else WINDOW_SIZE
@@ -208,6 +214,7 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 ## through the shell, which pauses the tree and calls begin_pause_view(); the other tabs
 ## open at once (world time held, the tree running).
 func open(tab: int = -1) -> void:
+	fit_tabs()
 	var wanted: int = _current if tab < 0 else tab
 	if wanted == Tab.SYSTEM and not _paused_view:
 		var host: Node = _host()
@@ -302,6 +309,14 @@ func end_pause_view() -> void:
 ## Whether the shell's pause shows this window (its buttons are on 系统).
 func in_pause_view() -> bool:
 	return _paused_view
+
+
+## The tabs' gap for the shown language: English words are wider than two characters, so
+## its eight tabs sit closer to stay on one row beside 关闭 at 1280×720 (english_style.md).
+func fit_tabs() -> void:
+	if _tabs == null:
+		return
+	_tabs.add_theme_constant_override("h_separation", 8 if MessageGrammar.shows_chinese() else 0)
 
 
 func is_presented() -> bool:

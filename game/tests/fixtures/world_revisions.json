@@ -129,6 +129,21 @@
 			"revision": "SOURCE_ENTRY_SANYEN_B_V1",
 			"spawn_points": 887,
 			"fingerprint": "aef4d21274c985cc9d152dc0ca56f159dc46684ba38d9efc30b8bcdd4f546ef1"
+		},
+		{
+			"revision": "SOURCE_ENTRY_REVIEW_FIX_Z_V1",
+			"spawn_points": 887,
+			"fingerprint": "8e3db4e9d36178d8d15587b302e972927e38263283a76ec1cad58f45e026f5a0"
+		},
+		{
+			"revision": "SOURCE_ENTRY_BLACK_FLAME_V1",
+			"spawn_points": 887,
+			"fingerprint": "cc39c3bb9bed516591ff82f7309260a86550dee2ea066c30aad088786a933dff"
+		},
+		{
+			"revision": "SOURCE_ENTRY_JUECHEN_B_V1",
+			"spawn_points": 892,
+			"fingerprint": "99f439329e6a1147432d4615ecd13bc6291d2f5a233ebbe525786974038a13d0"
 		}
 	]
 }

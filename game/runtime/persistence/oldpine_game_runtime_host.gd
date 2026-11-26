@@ -40,6 +40,8 @@ var _configured: bool = false
 var _autosave: GameAutosave
 ## 终章 A (DECISIONS「决战前存档」): the 决战前 save an act asks for, on its own slot.
 var _kept: GameAutosave
+## DECISIONS「死前存档」: the autosave copied as the player dies.
+var _death_save: GameDeathSave
 var _slots: Array[GameSaveSlotSummary] = []
 ## While no journey runs and starts go in slices (DECISIONS「加载画面」), every map's scene is
 ## read on worker threads and held here, so a start does not read them; let go once a journey
@@ -87,6 +89,7 @@ func _ready() -> void:
 		)
 	_autosave = GameAutosave.new(_coordinator.repository_for(GameSaveSnapshot.AUTO_SLOT_ID))
 	_kept = GameAutosave.new(_coordinator.repository_for(GameSaveSnapshot.KEEP_SLOT_ID), GameSaveSnapshot.KEEP_SLOT_ID, false)
+	_death_save = GameDeathSave.new(_coordinator.repository_for(GameSaveSnapshot.AUTO_SLOT_ID), _coordinator.repository_for(GameSaveSnapshot.DEATH_SLOT_ID))
 	if _startup_mode == StartupMode.MANUAL:
 		var manual_result: OldPineRuntimeSaveLoadResult = (
 			OldPineRuntimeSaveLoadResult.success(null)
@@ -118,10 +121,7 @@ func _process(_delta: float) -> void:
 	_frame.emit()
 	_take_read_scenes()
 	_tell_kept()
-	# An autosave moment that waited for the player to step out of a doorway, or for an NPC to
-	# finish what it makes for them (GameAutosave.WAITED), is taken once it can be.
-	if _autosave != null and _current_session != null and is_instance_valid(_current_session) and not _request_pending and _autosave.waiting():
-		_autosave.retry(_current_session)
+	_tell_death_save()
 	var saved: GameSaveResult = null if _autosave == null else _autosave.take_finished()
 	if saved == null or _current_session == null or not is_instance_valid(_current_session):
 		return
@@ -140,12 +140,24 @@ func _tell_kept() -> void:
 	_current_session.shared_ui().toasts().push(tr("已存下「决战前」存档") if kept.succeeded() else tr("「决战前」存档没能存下"))
 
 
-## Waits for both the autosave and the 决战前 save under way.
+## The 死前存档 is told only when it could not be written (DECISIONS「死前存档」).
+func _tell_death_save() -> void:
+	var copied: GameSaveResult = null if _death_save == null else _death_save.take_finished()
+	if copied == null or copied.succeeded() or _current_session == null or not is_instance_valid(_current_session):
+		return
+	push_warning("death save: %s %s %s" % [GameSaveResult.Outcome.keys()[copied.outcome], copied.path, copied.detail])
+	# TRANSLATORS: native: the autosave could not be copied as the player died (DECISIONS「死前存档」).
+	_current_session.shared_ui().toasts().push(tr("「死前存档」没能存下"))
+
+
+## Waits for the autosave, the 决战前 save and the 死前存档 copy under way.
 func _wait_saves() -> void:
 	if _autosave != null:
 		_autosave.wait()
 	if _kept != null:
 		_kept.wait()
+	if _death_save != null:
+		_death_save.wait()
 
 
 func _exit_tree() -> void:
@@ -217,9 +229,11 @@ func _session_began(session: WorldSessionController, loaded: bool) -> void:
 	# What the menu's check of a slot kept for 继续 is not needed once a session runs.
 	GameSaveRepository.forget_checked()
 	session.autosave_moment.connect(_on_autosave_moment.bind(session), CONNECT_DEFERRED)
+	session.quiet_moment.connect(_on_quiet_moment.bind(session), CONNECT_DEFERRED)
 	# Not deferred: the world is taken as the act's step finds it, before the steps after it.
 	session.keep_save_requested.connect(_on_keep_save.bind(session))
 	session.epilogue_ended.connect(_on_epilogue_ended.bind(session), CONNECT_DEFERRED)
+	session.player_died.connect(_on_player_died.bind(session))
 	if loaded:
 		_autosave.restart_interval()
 	else:
@@ -228,6 +242,16 @@ func _session_began(session: WorldSessionController, loaded: bool) -> void:
 
 func _on_autosave_moment(session: WorldSessionController) -> void:
 	if session == _current_session and not _request_pending:
+		_autosave.begin(session)
+
+
+## A moment that waited (GameAutosave.WAITED: the player in a doorway, someone making a thing
+## for them) is not tried while the player walks (the capture's long frame would fall on a
+## step): it is taken at the next map change, fight's end or window opened (审查修补 X).
+func _on_quiet_moment(session: WorldSessionController) -> void:
+	if session != _current_session or _request_pending:
+		return
+	if _autosave.waiting():
 		_autosave.begin(session)
 
 
@@ -241,11 +265,30 @@ func _on_epilogue_ended(final: bool, session: WorldSessionController) -> void:
 		journey_ended.emit()
 
 
-## An act's `keep_save` (DECISIONS「决战前存档」): the 决战前 slot, now.
+## The death card comes up (DECISIONS「死前存档」): the autosave, once the one under way is written,
+## is copied as it lies on disk.
+func _on_player_died(corpse_id: StringName, session: WorldSessionController) -> void:
+	if session != _current_session or _request_pending or _death_save == null:
+		return
+	_autosave.wait()
+	_death_save.begin(session, corpse_id)
+
+
+## The 死前存档 (DECISIONS「死前存档」).
+func death_save() -> GameDeathSave:
+	return _death_save
+
+
+## An act's `keep_save` (DECISIONS「决战前存档」): the 决战前 slot, now; what the NPCs make for
+## the player is done first, as for a Save. It never waits for a later moment: the act's next
+## steps are the point of no return (下了决战), so a 决战前 save taken after them would not be one.
 func _on_keep_save(session: WorldSessionController) -> void:
 	if session != _current_session or _request_pending or _kept == null:
 		return
+	if OldPineSaveEligibility.inspect(session, true).allowed():
+		session.finish_npc_work()
 	if not _kept.begin(session):
+		_kept.restart_interval() # No waiting moment is kept for it.
 		# Said once, here: a capture that failed left its result behind, taken now so _tell_kept()
 		# does not say it again.
 		_kept.take_finished()
@@ -379,6 +422,11 @@ func request_end_session() -> bool:
 func request_save(slot_id: StringName = &"") -> bool:
 	if not _begin_request() or not _select_for_request(slot_id):
 		return false
+	# A making or a test under way is finished first (the thing handed over, the deed told):
+	# 等一会儿再存档 could not be waited out on 系统, where the world stands still. Only when
+	# nothing else refuses the save: a refused one hands over nothing.
+	if _current_session != null and is_instance_valid(_current_session) and OldPineSaveEligibility.inspect(_current_session, true).allowed():
+		_current_session.finish_npc_work()
 	call_deferred("_execute_save")
 	return true
 
@@ -476,6 +524,11 @@ func _execute_end_session() -> void:
 			OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
 		)
 	else:
+		# A start in slices takes the world down in slices too (WorldSessionController.take_down_slice()).
+		var slice: int = _start_slice_usec()
+		if slice > 0:
+			while not session.take_down_slice(slice):
+				await _frame
 		session_slot.remove_child(session)
 		_current_session = null
 		session.queue_free()

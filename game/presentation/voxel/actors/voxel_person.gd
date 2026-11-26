@@ -81,6 +81,8 @@ const REACTIONS: Dictionary[String, Array] = {
 	"gather": [-0.62, -0.32, -0.62, -0.32, 0.0, -0.2, 1.3, -0.1, 0.1, 0.0, 0.0],
 	"cast": [-0.25, 0.2, -1.5, 0.05, 0.06, -0.3, 0.9, -0.3, 0.28, 0.0, 0.0],
 	"roar": [-0.45, 0.95, -0.45, 0.95, -0.2, -0.2, 0.9, -0.2, 0.2, 0.0, 0.0],
+	# 练功演出: the bow to a master (both hands joined before the breast, the body bent low).
+	"bow": [-1.15, -0.4, -1.15, -0.4, 0.8, 0.0, 0.7, -0.05, 0.05, 0.0, 0.0],
 }
 ## One lying senseless: the arms fallen outward, the legs a little apart.
 const LIMP: Array[float] = [0.0, 0.35, 0.0, 0.35, 0.0, 0.0, 0.7, -0.15, 0.15]
@@ -125,6 +127,17 @@ var weary: float = 0.0
 var sway: float = 0.0
 var shiver: float = 0.0
 var _weary: float = 0.0
+## 练功演出 (DECISIONS「练功演出」): one that sits down where it stands to work its 气 — cross-legged
+## on the ground, both hands in its lap, its breath slow and deep — eased down and up over
+## SIT_SECONDS; and a gesture (GESTURE_SECONDS) it shows whatever its work and whoever it attends
+## to (a master showing a pupil).
+var sitting: bool = false
+var showing: String = ""
+var _sit: float = 0.0
+const SIT_SECONDS: float = 0.35
+## Seated: the arms forward and in (the hands meet in the lap), the knees apart.
+const SIT_ARMS: Vector2 = Vector2(-0.72, 0.34)
+const SIT_KNEES: float = 0.42
 ## person_states.json `weary`: the stoop (radians), the arms' sinking (radians), the panting.
 var _worn: Array[float] = [0.22, 0.35, 1.0]
 ## One lying on its back is raised this far (half its depth would be under the ground).
@@ -682,10 +695,17 @@ func _process(delta: float) -> void:
 		_tremble()
 		_blink()
 		return
+	_sit = move_toward(_sit, 1.0 if sitting and not walking else 0.0, delta/SIT_SECONDS)
+	if _sit > 0.0:
+		_sit_pose()
+		_tremble()
+		_blink()
+		return
 	var leg_y: float = 0.57*_legs_k - sink
 	_place(legs[0], Vector3(POSE_LEGS[pose] if posed else stride, 0.0, 0.0), leg_y)
 	_place(legs[1], Vector3(POSE_LEGS[pose] if posed else -stride, 0.0, 0.0), leg_y)
-	var gesturing: bool = not walking and working and at_ease and GESTURE_SECONDS.has(gesture)
+	var act: String = showing if GESTURE_SECONDS.has(showing) else gesture
+	var gesturing: bool = not walking and (working or act == showing) and at_ease and GESTURE_SECONDS.has(act)
 	if gesturing:
 		# The gesture writes the arms and the lean itself, from this rest.
 		arms[0].rotation = Vector3(-stride*0.75, 0.0, 0.0)
@@ -702,7 +722,7 @@ func _process(delta: float) -> void:
 	_tremble()
 	_blink()
 	if gesturing:
-		_gesture(fmod(clock, GESTURE_SECONDS[gesture])/GESTURE_SECONDS[gesture])
+		_gesture(act, fmod(clock, GESTURE_SECONDS[act])/GESTURE_SECONDS[act])
 
 
 ## Where a plain-figure point of the head is on this body, in the torso's space (what is bound
@@ -722,6 +742,22 @@ func _stoop() -> Vector3:
 	if _weary <= 0.0 and sway <= 0.0:
 		return Vector3.ZERO
 	return Vector3(snappedf(_weary*_worn[0], 0.01), 0.0, snappedf(sin(clock*1.6)*sway, 0.01))
+
+
+## Seated on the ground (`sitting`), `_sit` of the way down: the legs out before it with the knees
+## apart, the hips on the ground, the hands in the lap, the breath slow and deep.
+func _sit_pose() -> void:
+	var k: float = smoothstep(0.0, 1.0, _sit)
+	var hip: float = 0.57*_legs_k
+	var sink: float = (hip - 0.12)*k
+	_place(legs[0], Vector3(POSE_LEGS["sit_ground"]*k, -SIT_KNEES*k, 0.0), hip - sink)
+	_place(legs[1], Vector3(POSE_LEGS["sit_ground"]*k, SIT_KNEES*k, 0.0), hip - sink)
+	_turn(arms[0], Vector3(SIT_ARMS.x*k, 0.0, SIT_ARMS.y*k))
+	_turn(arms[1], Vector3(SIT_ARMS.x*k, 0.0, -SIT_ARMS.y*k))
+	_turn(torso, Vector3.ZERO)
+	var rise: float = snappedf(sin(clock*1.3)*0.02*k, BREATH_STEP) - sink
+	if not is_equal_approx(torso.position.y, rise):
+		torso.position.y = rise
 
 
 ## The breath's rise now: a hundredth of the figure's height, in steps, a few a second; one
@@ -759,8 +795,8 @@ static func _place(part: Node3D, angles: Vector3, y: float) -> void:
 
 ## One moment `t` (0..1) of the gesture's round: arms (0 holds the tool) and the lean of the body.
 ## Arms turn forward and up with a negative x.
-func _gesture(t: float) -> void:
-	match gesture:
+func _gesture(act: String, t: float) -> void:
+	match act:
 		"hoe", "pick", "chop":
 			# Up slowly over the head, down hard, a rest with the tool in the ground.
 			var swing: float = -0.35

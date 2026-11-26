@@ -18,6 +18,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var keep: Callable = GraphicsQuality.keep_hint_told
 	_levels()
 	_device_default()
+	_phone()
 	_storage()
 	_slow_hint()
 	await _settings_page(tree)
@@ -48,6 +49,30 @@ func _device_default() -> void:
 	# Only a Windows build ships: on a Deck it runs through Proton, whatever adapter name the
 	# translation layer reports.
 	_check(GraphicsQuality.default_for("NVIDIA GeForce RTX 4070 SUPER", "1") == GraphicsQuality.Value.LOW, "the Windows build under Proton with SteamDeck=1, any adapter: 低")
+
+
+## DECISIONS「手机画质」: on a phone each level takes the data's `phone` overrides and a first start
+## takes the phone's default; the desktop keeps its own levels, its whole 3D picture, every lamp
+## lit and every tuft of grass.
+func _phone() -> void:
+	var was: bool = GraphicsQuality.phone
+	GraphicsQuality.phone = false
+	_check(is_equal_approx(GraphicsQuality.scale_3d(GraphicsQuality.Value.LOW), 1.0) and GraphicsQuality.lamp_lights(GraphicsQuality.Value.LOW) == -1 and is_equal_approx(GraphicsQuality.grass(GraphicsQuality.Value.LOW), 1.0), "the desktop draws the whole 3D picture, every lamp and all the grass, at either level")
+	_check(not GraphicsQuality.settings(GraphicsQuality.Value.HIGH).has("scale_3d") and GraphicsQuality.device_default() == GraphicsQuality.default_for(RenderingServer.get_video_adapter_name(), OS.get_environment("SteamDeck")), "and keeps its own levels and first level")
+	_check(GraphicsQuality.max_fps(GraphicsQuality.Value.LOW) == 0 and GraphicsQuality.max_fps(GraphicsQuality.Value.HIGH) == 0 and not GraphicsQuality.settings(GraphicsQuality.Value.LOW).has("max_fps"), "the desktop's frame rate is never held by 画质")
+	_check(GraphicsQuality.stage_lights(GraphicsQuality.Value.LOW) and GraphicsQuality.stage_lights(GraphicsQuality.Value.HIGH), "and a fight's stage keeps its lights at either level")
+	GraphicsQuality.phone = true
+	var phone: Dictionary = GraphicsQuality.data().get("phone", {})
+	var low: Dictionary = phone.get("levels", {}).get("low", {})
+	_check(GraphicsQuality.device_default() == GraphicsQuality.from_storage(String(phone.get("default", ""))) and GraphicsQuality.device_default() == GraphicsQuality.Value.LOW, "a phone starts on its 低")
+	_check(GraphicsQuality.scale_3d(GraphicsQuality.Value.LOW) < 1.0 and GraphicsQuality.lamp_lights(GraphicsQuality.Value.LOW) == int(low.get("lamp_lights")) and GraphicsQuality.lamp_lights(GraphicsQuality.Value.LOW) >= 1 and GraphicsQuality.grass(GraphicsQuality.Value.LOW) < 1.0, "its 低: fewer 3D pixels, the nearest lamps lit, thinner grass")
+	_check(GraphicsQuality.msaa(GraphicsQuality.Value.HIGH) == Viewport.MSAA_DISABLED and GraphicsQuality.lamp_shadows(GraphicsQuality.Value.LOW) == int(low.get("lamp_shadows")) and GraphicsQuality.sun_shadow_mode(GraphicsQuality.Value.LOW) == DirectionalLight3D.SHADOW_ORTHOGONAL, "no MSAA even on its 高; its 低's lamp shadows and one sun split as written")
+	_check(GraphicsQuality.settings(GraphicsQuality.Value.HIGH).get("shadow_filter") != null and GraphicsQuality.scale_3d(GraphicsQuality.Value.HIGH) >= GraphicsQuality.scale_3d(GraphicsQuality.Value.LOW) and GraphicsQuality.lamp_lights(GraphicsQuality.Value.HIGH) >= GraphicsQuality.lamp_lights(GraphicsQuality.Value.LOW), "its 高 draws at least as much as its 低")
+	# 手机稳 30 帧 (owner 2026-11-22): 低 holds a steady 30 (and the phone cooler), 高 no more than
+	# 60 even on a 120 Hz screen.
+	_check(GraphicsQuality.max_fps(GraphicsQuality.Value.LOW) == 30 and GraphicsQuality.max_fps(GraphicsQuality.Value.HIGH) == 60, "its 低 holds a steady 30 frames a second, its 高 no more than 60")
+	_check(not GraphicsQuality.stage_lights(GraphicsQuality.Value.LOW) and GraphicsQuality.stage_lights(GraphicsQuality.Value.HIGH), "its 低's fights bring no lights of their own (the glow stays); its 高's do")
+	GraphicsQuality.phone = was
 
 
 func _storage() -> void:

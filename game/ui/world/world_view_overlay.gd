@@ -137,8 +137,8 @@ func show_room(title: String, description: String, seconds: float) -> void:
 	if _loading:
 		_room_waiting = _room_showing
 		return
-	_room_title.text = title
-	_room_text.text = description
+	_room_title.text = KoreanText.shown(title)
+	_room_text.text = KoreanText.shown(description)
 	_kill(_room_tween)
 	_place_room()
 	var fade: float = minf(0.3, seconds * BANNER_FADE_SHARE)
@@ -146,6 +146,20 @@ func show_room(title: String, description: String, seconds: float) -> void:
 	_room_tween.tween_property(_room, "modulate:a", 1.0, fade)
 	_room_tween.tween_interval(maxf(0.0, seconds - 2.0 * fade))
 	_room_tween.tween_property(_room, "modulate:a", 0.0, fade)
+
+
+## The language changed (Settings, mid-game): a room panel still showing reads its room again
+## in the new language and runs out its time as before.
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_TRANSLATION_CHANGED or _room_title == null or _session == null:
+		return
+	var hud: SharedGameplayUI = _session.shared_ui()
+	if hud == null or hud.message_log == null:
+		return
+	var texts: PackedStringArray = hud.message_log.described_room_texts()
+	if texts.size() == 2 and _room.modulate.a > 0.0:
+		_room_title.text = texts[0]
+		_room_text.text = texts[1]
 
 
 ## The room's text gives way to a panel, the menu or a fight (its time runs on); while it

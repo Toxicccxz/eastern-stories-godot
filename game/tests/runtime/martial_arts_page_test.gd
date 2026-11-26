@@ -80,7 +80,7 @@ func _test_force_route(tree: SceneTree) -> void:
 	_check(not _page.buttons.has("enable:force:fonxanforce") and _page.buttons.has("disable:force") and _page.buttons.has("practice:force"), "the enabled skill is not offered again (it would empty force)")
 	_check(_page.skills_text.text.contains("□封山派内功"), "skills.c marks the enabled skill: " + _page.skills_text.text)
 	_page.buttons["practice:force"].pressed.emit()
-	_check(_last() == ["封山派内功只能用学的，或是从运用(exert)中增加熟练度。"], "fonxanforce.c refuses practice")
+	_check(_last() == ["封山派内功只能用学的，或是从运用中增加熟练度。"], "fonxanforce.c refuses practice")
 	@warning_ignore("integer_division")
 	var gain: int = 30 * (_state.skills.raw_level(&"force") + _state.attributes.constitution) / 300
 	var kee: int = _state.vitality.current
@@ -170,7 +170,7 @@ func _test_self_learn_and_study() -> void:
 	_hud.open_martial_arts()
 	_check(_page.study_row.visible and _page.buttons["study:test:old_book"].text == "研读旧书", "研读旧书 offered")
 	_page.buttons["study:test:old_book"].pressed.emit()
-	_check(_last() == ["你是个文盲，先学学读书识字(literate)吧。"], "study.c needs literate")
+	_check(_last() == ["你是个文盲，先学学读书识字吧。"], "study.c needs literate")
 	_hud.dismiss_current_panel()
 	_check(_learn_to(&"literate", 1), "读书识字 from 柳淳风")
 	_hud.open_martial_arts()

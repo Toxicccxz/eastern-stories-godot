@@ -55,7 +55,7 @@ func shown_hints() -> Array[String]:
 		for part: Node in hint.get_children():
 			if part is TextureRect:
 				var glyph: InputGlyphs.Glyph = ((part as TextureRect).texture as InputGlyphTexture).glyph()
-				parts.append("?" if glyph == null else glyph.text if not glyph.text.is_empty() else "shape%d" % glyph.shape)
+				parts.append("?" if glyph == null else InputGlyphs.shown_name(glyph))
 			elif part is Label:
 				parts.append((part as Label).text)
 		shown.append(" ".join(parts))
@@ -91,6 +91,8 @@ func _rebuild() -> void:
 		label.add_theme_font_size_override("font_size", GameTheme.text_size(13))
 		label.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		# One line, even inside a panel that wraps its labels (ResponsivePanelLayout).
+		label.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
 		item.add_child(label)
 		add_child(item)
 	visible = not devices.is_touch() and get_child_count() > 0

@@ -150,8 +150,9 @@ func _ready() -> void:
 	for value: int in [CombatStance.Value.ATTACK, CombatStance.Value.GUARD, CombatStance.Value.EVADE]:
 		var button := Button.new()
 		button.name = "Stance%s" % CombatStance.STORAGE[value].capitalize()
-		button.text = CombatStance.label(value)
-		button.tooltip_text = CombatStance.description(value)
+		# The source text: the button translates it as it draws, so a language switch reaches it.
+		button.text = CombatStance.LABELS[value]
+		button.tooltip_text = CombatStance.DESCRIPTIONS[value]
 		button.toggle_mode = true
 		# 界面重做 4: the stance held is lacquer.
 		button.theme_type_variation = &"ToggleButton"
@@ -223,7 +224,7 @@ func _ready() -> void:
 	exert_menu = MenuButton.new()
 	exert_menu.name = "Exerts"
 	# TRANSLATORS: the battle panel's one button for every 运功 (exert) the player can do; it opens a list.
-	exert_menu.text = tr("运功")
+	exert_menu.text = "运功"
 	exert_menu.custom_minimum_size = ACTION_SIZE
 	exert_menu.flat = false
 	exert_menu.switch_on_hover = false
@@ -232,9 +233,9 @@ func _ready() -> void:
 	yield_button = Button.new()
 	yield_button.name = "YieldRound"
 	# TRANSLATORS: the battle panel's button that gives up the moves left this round (the enemies act, the next round waits for you).
-	yield_button.text = tr("收势")
+	yield_button.text = "收势"
 	# TRANSLATORS: hover of 收势.
-	yield_button.tooltip_text = tr("放弃这一回合剩下的手，让对手出招；赢来的手照样归你。")
+	yield_button.tooltip_text = "放弃这一回合剩下的手，让对手出招；赢来的手照样归你。"
 	yield_button.theme_type_variation = &"ChipButton"
 	yield_button.custom_minimum_size = ACTION_SIZE
 	yield_button.visible = false
@@ -721,17 +722,19 @@ static func _won_line(source: StringName) -> String:
 
 ## The line for the beat `index` of `beats`: what it went on, and what its blow met on the ring
 ## and the verdict as the resolver recorded them when it was struck (CombatRoundBeats.against /
-## rings) — the strip never works the ring out itself (自动 runs a round between two looks).
+## rings / read) — the strip never works the ring out itself (自动 runs a round between two looks).
 static func beat_line(beats: CombatRoundBeats, index: int) -> String:
 	var against: StringName = beats.against[index] if index < beats.against.size() else &""
 	var ring: int = beats.rings[index] if index < beats.rings.size() else 0
-	return result_line(beats.spent[index], against, ring)
+	var read: bool = beats.read[index] if index < beats.read.size() else true
+	return result_line(beats.spent[index], against, ring, read)
 
 
-## 「你出虚，他起手守 · 克」: a beat the player spent on `key` against the target's move
-## `before` (&"" unknown: no verdict), `ring` the resolver's verdict (1 克, -1 被克, 0 平); a
-## perform or an order by its name alone.
-static func result_line(key: StringName, before: StringName, ring: int = 0) -> String:
+## 「你出虚，对上他的守 · 克！」: a beat the player spent on `key` against the target's move
+## `before` (&"" none: no verdict), `ring` the resolver's verdict (1 克, -1 被克, 0 平); a move the
+## player did not read (`read` false: its card said 「起手：？」) is not named — 「你出虚 · 克！」
+## (review 2026-11-19). A perform or an order by its name alone.
+static func result_line(key: StringName, before: StringName, ring: int = 0, read: bool = true) -> String:
 	if key == CombatEncounterScheduler.SPENT_BUSY:
 		# TRANSLATORS: the battle strip after a beat the player lost to being busy.
 		return TranslationServer.translate("这一手你在忙")
@@ -753,8 +756,11 @@ static func result_line(key: StringName, before: StringName, ring: int = 0) -> S
 	elif ring < 0:
 		# TRANSLATORS: the battle strip's verdict after a beat: the target's move beat the player's on the ring.
 		verdict = TranslationServer.translate("被克")
-	# TRANSLATORS: the battle strip after a beat: {mine} the player's tag, {theirs} the target's, {verdict} 克！/ 被克 / 平.
-	return TranslationServer.translate("你出{mine}，他起手{theirs} · {verdict}").format({"mine": mine, "theirs": CombatMoveTags.label(before), "verdict": verdict})
+	if not read:
+		# TRANSLATORS: the battle strip after a beat whose opponent move the player has not learned to read: {mine} the player's tag, {verdict} 克！/ 被克 / 平.
+		return TranslationServer.translate("你出{mine} · {verdict}").format({"mine": mine, "verdict": verdict})
+	# TRANSLATORS: the battle strip after a beat: {mine} the player's tag, {theirs} the target's move it met, {verdict} 克！/ 被克 / 平.
+	return TranslationServer.translate("你出{mine}，对上他的{theirs} · {verdict}").format({"mine": mine, "theirs": CombatMoveTags.label(before), "verdict": verdict})
 
 
 ## The sentence: pointing at a move or an action, what it would take; else the last beat's
@@ -939,12 +945,13 @@ static func move_tooltip(move: CombatActionDefinition) -> String:
 	var tag: String = CombatMoveTags.description(move.tag)
 	if move.legacy_action_text.is_empty():
 		return tag
+	var action: String = MessageGrammar.resolve(TranslationServer.translate(move.legacy_action_text), MessageGrammar.you(), MessageGrammar.other())
 	# TRANSLATORS: the words standing for the one hit, the limb and the weapon in a move's hover line (no one is hit yet).
-	var line: String = (TranslationServer.translate("{action}！").format({"action": TranslationServer.translate(move.legacy_action_text)})
+	var line: String = (TranslationServer.translate("{action}！").format({"action": action})
 		.replace("$N", TranslationServer.translate("你")).replace("$P", TranslationServer.translate("你"))
 		.replace("$n", TranslationServer.translate("对手")).replace("$p", TranslationServer.translate("对手"))
 		.replace("$l", TranslationServer.translate("要害")).replace("$w", TranslationServer.translate("兵刃")))
-	return "%s\n%s" % [line, tag]
+	return "%s\n%s" % [MessageGrammar.capitalize(line), tag]
 
 
 ## The keys and the pad walk the rows (DECISIONS「战斗界面」): left and right along the moves

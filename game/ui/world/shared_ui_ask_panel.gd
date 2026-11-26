@@ -81,6 +81,7 @@ func open_ask() -> void:
 		var button := Button.new()
 		button.name = "Topic"
 		button.text = tr(topic)
+		button.set_meta(&"topic", topic)
 		button.theme_type_variation = &"ChipButton"
 		button.custom_minimum_size = Vector2(80, 40)
 		button.pressed.connect(_ask_topic.bind(topic))
@@ -92,6 +93,7 @@ func open_ask() -> void:
 		say.name = "Relay"
 		# TRANSLATORS: say a line beside the NPC that it answers ({line}: 必有妖孽).
 		say.text = tr("接话：{line}").format({"line": tr(phrase)})
+		say.set_meta(&"phrase", phrase)
 		say.theme_type_variation = &"ChipButton"
 		say.custom_minimum_size = Vector2(80, 40)
 		say.pressed.connect(_say_beside.bind(phrase))
@@ -123,6 +125,23 @@ func open_ask_topic(topic: String) -> void:
 	# Asked at once, over the topics' prompt still typing out (no confirm: a guide's topic).
 	if _shown() and map != null and map.ask_topics_selected().has(topic):
 		_ask_now(topic)
+
+
+## The language changed with the panel open (Settings, the world paused): its topics, the
+## speaker and the prompt read again in the new language; nothing is asked again.
+func relabel() -> void:
+	if not _shown():
+		return
+	for button: Node in _ask_topics.get_children():
+		if button.has_meta(&"topic"):
+			(button as Button).text = tr(String(button.get_meta(&"topic")))
+	for say: Node in _ask_relay.get_children():
+		if say.has_meta(&"phrase"):
+			(say as Button).text = tr("接话：{line}").format({"line": tr(String(say.get_meta(&"phrase")))})
+	var target: NpcRuntimeState = _ui.selection.selected_target
+	if _ui.dialogue_box.hosted() == _ask_panel and target != null:
+		_ui.dialogue_box.host(tr(target.definition().display_name), _ask_panel, target)
+		_ui.dialogue_box.answer_as_written([tr("你可以打听这些事情：")])
 
 
 ## The 打听 panel shows (in the dialogue box, or the shared frame).

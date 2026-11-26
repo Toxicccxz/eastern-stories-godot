@@ -36,23 +36,8 @@ const OwnerContextScript := preload(
 const LifecycleResultScript := preload(
 	"res://core/items/lifecycle/item_lifecycle_result.gd"
 )
-const FailingArmorStateScript := preload(
-	"res://tests/support/failing_lifecycle_armor_state.gd"
-)
 const DeathContextScript := preload("res://core/death/death_context.gd")
 const DeathFactsScript := preload("res://core/death/death_item_facts.gd")
-const DeathPolicyRegistryScript := preload(
-	"res://core/death/death_item_policy_registry.gd"
-)
-const DestroyPolicyScript := preload(
-	"res://core/death/destroy_death_item_policy.gd"
-)
-const WindspringPolicyScript := preload(
-	"res://core/death/windspring_death_item_policy.gd"
-)
-const PolicyResultScript := preload(
-	"res://core/death/death_item_policy_result.gd"
-)
 const RewearRegistryScript := preload(
 	"res://core/death/death_rewear_policy_registry.gd"
 )
@@ -76,8 +61,6 @@ const CHARACTER_ID: StringName = &"character:dead"
 const WORLD_ID: StringName = &"world:death_place"
 const CORPSE_DEF: StringName = &"item:corpse"
 const MAILBOX_DEF: StringName = &"item:mailbox"
-const ROOMMAKER_DEF: StringName = &"item:roommaker"
-const WINDSPRING_DEF: StringName = &"item:windspring"
 const BANDAGE_DEF: StringName = &"item:bandage"
 const SKIRT_DEF: StringName = &"item:latemoon_skirt"
 const PLAIN_DEF: StringName = &"item:plain"
@@ -91,7 +74,6 @@ var _failures: Array[String] = []
 
 func run_all() -> Dictionary[String, Variant]:
 	_test_direct_snapshot_default_and_container_subtree()
-	_test_destroy_policies_and_windspring_boundary()
 	_test_ghost_precedence_and_equipment_failure()
 	_test_normal_and_wizard_corpse_creation()
 	_test_normal_weapon_container_and_partial_failure()
@@ -99,7 +81,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_corpse_worn_release_and_lock()
 	_test_decay_timing_final_scatter_and_no_environment()
 	_test_stack_cleanup_and_independent_state()
-	_test_fact_binding_and_policy_lifecycle_failure()
+	_test_fact_binding()
 	_test_blocked_processing_is_not_restartable()
 	_test_capacity_placement_and_decay_boundaries()
 	return {
@@ -123,115 +105,21 @@ func _test_direct_snapshot_default_and_container_subtree() -> void:
 	var sword: ItemInstanceScript = _register(
 		inventory, &"a_sword", WEAPON_DEF, 4, character
 	)
-	var nested_policy_registry: DeathPolicyRegistryScript = DeathPolicyRegistryScript.new()
-	nested_policy_registry.register_policy(MAILBOX_DEF, DestroyPolicyScript.new())
 	var result: DeathResultScript = DeathServiceScript.process(
 		_context(owner, true, false),
 		inventory,
 		StackCollectionScript.new(),
 		[_facts(bag), _facts(nested), _facts(sword)],
-		nested_policy_registry,
 		RewearRegistryScript.new(),
 	)
 	_assert_eq(result.branch, DeathResultScript.Branch.GHOST, "ghost branch")
 	_assert_eq(result.direct_snapshot_ids, [&"a_sword", &"b_bag"], "direct-only stable snapshot")
-	_assert_eq(result.policy_results.size(), 2, "nested item receives no death policy")
 	_assert_eq(result.survivor_transfer_results[0].item_instance_id, &"b_bag", "reverse survivor order starts bag")
 	_assert_eq(result.survivor_transfer_results[1].item_instance_id, &"a_sword", "reverse survivor order ends sword")
 	_assert_true(inventory.is_direct_child(&"b_bag", _world_endpoint()), "bag transferred once")
 	_assert_true(inventory.is_direct_child(&"nested", EndpointScript.new(EndpointScript.Kind.ITEM, &"b_bag")), "nested item follows bag subtree")
-	_assert_true(inventory.is_registered(&"nested"), "nested mailbox hook is not evaluated")
+	_assert_true(inventory.is_registered(&"nested"), "nested item stays live")
 	_assert_eq(result.corpse_state, null, "ghost creates no corpse")
-
-
-func _test_destroy_policies_and_windspring_boundary() -> void:
-	var inventory: InventoryScript = InventoryScript.new()
-	var owner: OwnerContextScript = _owner()
-	var character: EndpointScript = _character_endpoint()
-	var mailbox: ItemInstanceScript = _register(inventory, &"mailbox", MAILBOX_DEF, 1, character)
-	_register(inventory, &"mail_child", PLAIN_DEF, 1, EndpointScript.new(EndpointScript.Kind.ITEM, mailbox.item_instance_id))
-	var roommaker: ItemInstanceScript = _register(inventory, &"roommaker", ROOMMAKER_DEF, 1, character)
-	var registry: DeathPolicyRegistryScript = DeathPolicyRegistryScript.new()
-	_assert_true(registry.register_policy(MAILBOX_DEF, DestroyPolicyScript.new()), "register mailbox policy")
-	_assert_true(registry.register_policy(ROOMMAKER_DEF, DestroyPolicyScript.new()), "register roommaker policy")
-	var result: DeathResultScript = DeathServiceScript.process(
-		_context(owner, true, false), inventory, StackCollectionScript.new(),
-		[_facts(mailbox), _facts(roommaker)], registry, RewearRegistryScript.new()
-	)
-	_assert_eq(result.outcome, DeathResultScript.Outcome.COMPLETED, "destroy policies complete")
-	_assert_eq(result.destroyed_instance_ids, [&"mail_child", &"mailbox", &"roommaker"], "mailbox subtree and roommaker removed")
-	_assert_false(inventory.is_registered(&"mailbox"), "mailbox is no longer live")
-	_assert_false(inventory.is_registered(&"mail_child"), "mailbox child follows subtree destruction")
-	_assert_eq(result.survivor_transfer_results.size(), 0, "destroyed items are not survivors")
-
-	var keep_inventory: InventoryScript = InventoryScript.new()
-	var keep_owner: OwnerContextScript = _owner()
-	var windspring: ItemInstanceScript = _register(
-		keep_inventory, &"windspring", WINDSPRING_DEF, 1, _character_endpoint()
-	)
-	var wind_registry: DeathPolicyRegistryScript = DeathPolicyRegistryScript.new()
-	wind_registry.register_policy(WINDSPRING_DEF, WindspringPolicyScript.new())
-	var keep_result: DeathResultScript = DeathServiceScript.process(
-		_context(keep_owner, true, false, true), keep_inventory,
-		StackCollectionScript.new(), [_facts(windspring)], wind_registry,
-		RewearRegistryScript.new()
-	)
-	_assert_eq(keep_result.policy_results[0].outcome, PolicyResultScript.Outcome.KEEP, "sword-soul owner keeps windspring")
-	_assert_true(keep_inventory.is_direct_child(&"windspring", _world_endpoint()), "kept windspring follows ghost transfer")
-
-	var defer_inventory: InventoryScript = InventoryScript.new()
-	var defer_owner: OwnerContextScript = _owner()
-	var deferred_sword: ItemInstanceScript = _register(
-		defer_inventory, &"windspring", WINDSPRING_DEF, 1, _character_endpoint()
-	)
-	var defer_result: DeathResultScript = DeathServiceScript.process(
-		_context(defer_owner, true, false), defer_inventory,
-		StackCollectionScript.new(), [_facts(deferred_sword)], wind_registry,
-		RewearRegistryScript.new()
-	)
-	_assert_eq(defer_result.outcome, DeathResultScript.Outcome.DEFERRED_RUNTIME_EFFECT, "windspring does not fake NPC completion")
-	_assert_eq(defer_result.deferred_effects.size(), 1, "one typed spawn intent")
-	_assert_eq(defer_result.deferred_effects[0].npc_definition_id, &"", "no invented native NPC definition ID")
-	_assert_eq(defer_result.deferred_effects[0].legacy_npc_source_path, "reference/es2/mudlib/daemon/class/scholar/sword_soul.c", "legacy NPC source retained")
-	_assert_true(defer_inventory.is_direct_child(&"windspring", _character_endpoint()), "deferred sword remains with owner until spawn path completes")
-	var killer_endpoint: EndpointScript = EndpointScript.new(
-		EndpointScript.Kind.WORLD, &"world:killer_location"
-	)
-	var killer_context: DeathContextScript = DeathContextScript.new(
-		CHARACTER_ID, true, false, _world_destination(), defer_owner, "Dead One",
-		&"男性", 20, 100, 1000, false, killer_endpoint, &"", true
-	)
-	var killer_policy: PolicyResultScript = wind_registry.evaluate(
-		killer_context, _facts(deferred_sword)
-	)
-	_assert_true(killer_policy.spawn_intent.world_endpoint.same_identity(killer_endpoint), "present killer endpoint wins over owner fallback")
-	var missing_killer_context: DeathContextScript = DeathContextScript.new(
-		CHARACTER_ID, true, false, _world_destination(), defer_owner, "Dead One",
-		&"男性", 20, 100, 1000, false, null, &"", true
-	)
-	var missing_killer_policy: PolicyResultScript = wind_registry.evaluate(
-		missing_killer_context, _facts(deferred_sword)
-	)
-	_assert_eq(missing_killer_policy.outcome, PolicyResultScript.Outcome.DEPENDENCY_UNAVAILABLE, "present killer without environment does not fall back to owner")
-	var missing_inventory: InventoryScript = InventoryScript.new()
-	var missing_sword: ItemInstanceScript = _register(
-		missing_inventory,
-		&"missing_windspring",
-		WINDSPRING_DEF,
-		1,
-		_character_endpoint(),
-	)
-	var missing_process: DeathResultScript = DeathServiceScript.process(
-		missing_killer_context,
-		missing_inventory,
-		StackCollectionScript.new(),
-		[_facts(missing_sword)],
-		wind_registry,
-		RewearRegistryScript.new(),
-	)
-	_assert_eq(missing_process.outcome, DeathResultScript.Outcome.POLICY_DEPENDENCY_UNAVAILABLE, "missing target is not mislabeled as a deferred effect")
-	_assert_eq(missing_process.deferred_effects, [], "missing target produces no executable spawn intent")
-	_assert_eq(missing_process.restart_disposition, DeathResultScript.RestartDisposition.DO_NOT_RESTART_FROM_BEGINNING, "missing dependency is an explicit non-restartable boundary")
 
 
 func _test_ghost_precedence_and_equipment_failure() -> void:
@@ -248,7 +136,7 @@ func _test_ghost_precedence_and_equipment_failure() -> void:
 	var result: DeathResultScript = DeathServiceScript.process(
 		_context(owner, true, true, false, &"", 0), inventory,
 		StackCollectionScript.new(), [_facts(sword), _facts(armor_item, armor_definition)],
-		DeathPolicyRegistryScript.new(), RewearRegistryScript.new()
+		RewearRegistryScript.new()
 	)
 	_assert_eq(result.branch, DeathResultScript.Branch.GHOST, "ghost wins over wizard")
 	_assert_eq(result.survivor_transfer_results.size(), 2, "ghost continues after ordinary move failures")
@@ -269,7 +157,7 @@ func _test_normal_and_wizard_corpse_creation() -> void:
 	var wizard_result: DeathResultScript = DeathServiceScript.process(
 		_context(owner, false, true, false, &"女性", 100000, 77, 456, 9000),
 		inventory, StackCollectionScript.new(), [],
-		DeathPolicyRegistryScript.new(), RewearRegistryScript.new(), corpse_item,
+		RewearRegistryScript.new(), corpse_item,
 		ItemDefinitionScript.new(CORPSE_DEF, "reference/es2/mudlib/obj/corpse.c")
 	)
 	_assert_eq(wizard_result.branch, DeathResultScript.Branch.WIZARD, "wizard branch")
@@ -277,7 +165,6 @@ func _test_normal_and_wizard_corpse_creation() -> void:
 	_assert_eq(inventory.own_weight(&"corpse"), 456, "corpse own weight comes from victim query_weight snapshot")
 	_assert_true(inventory.is_direct_child(&"corpse", _world_endpoint()), "corpse placement attempted before wizard return")
 	_assert_true(inventory.is_direct_child(&"ordinary", _character_endpoint()), "wizard inventory is untouched")
-	_assert_eq(wizard_result.policy_results.size(), 0, "wizard runs no death item policies")
 	_assert_eq(wizard_result.direct_snapshot_ids.size(), 0, "wizard takes no death-inventory snapshot")
 	_assert_eq(wizard_result.corpse_state.maximum_contents_encumbrance, 9000, "corpse capacity snapshots victim maximum")
 	_assert_eq(wizard_result.corpse_state.victim_display_name, "Dead One", "corpse stores victim display snapshot")
@@ -295,7 +182,6 @@ func _test_normal_and_wizard_corpse_creation() -> void:
 		placement_inventory,
 		StackCollectionScript.new(),
 		[],
-		DeathPolicyRegistryScript.new(),
 		RewearRegistryScript.new(),
 		ItemInstanceScript.new(&"unplaced_corpse", CORPSE_DEF),
 		ItemDefinitionScript.new(CORPSE_DEF),
@@ -316,7 +202,7 @@ func _test_normal_weapon_container_and_partial_failure() -> void:
 	equipment.wield(WeaponRefScript.new(sword.item_instance_id, WeaponDefinitionScript.new(WEAPON_DEF, &"sword", 0)), false)
 	var result: DeathResultScript = DeathServiceScript.process(
 		_context(owner), inventory, StackCollectionScript.new(), [_facts(bag), _facts(sword)],
-		DeathPolicyRegistryScript.new(), RewearRegistryScript.new(),
+		RewearRegistryScript.new(),
 		ItemInstanceScript.new(&"corpse", CORPSE_DEF), ItemDefinitionScript.new(CORPSE_DEF)
 	)
 	var corpse_endpoint: EndpointScript = EndpointScript.new(EndpointScript.Kind.ITEM, &"corpse")
@@ -334,7 +220,7 @@ func _test_normal_weapon_container_and_partial_failure() -> void:
 	var fail_result: DeathResultScript = DeathServiceScript.process(
 		_context(fail_owner, false, false, false, &"", 100000, 10, 0, 0),
 		fail_inventory, StackCollectionScript.new(), [_facts(first), _facts(second)],
-		DeathPolicyRegistryScript.new(), RewearRegistryScript.new(),
+		RewearRegistryScript.new(),
 		ItemInstanceScript.new(&"corpse2", CORPSE_DEF), ItemDefinitionScript.new(CORPSE_DEF)
 	)
 	var corpse2: EndpointScript = EndpointScript.new(EndpointScript.Kind.ITEM, &"corpse2")
@@ -361,7 +247,7 @@ func _test_normal_weapon_container_and_partial_failure() -> void:
 	var weapon_fail: DeathResultScript = DeathServiceScript.process(
 		_context(weapon_fail_owner, false, false, false, &"", 100000, 10, 0, 0),
 		weapon_fail_inventory, StackCollectionScript.new(), [_facts(failed_sword)],
-		DeathPolicyRegistryScript.new(), RewearRegistryScript.new(),
+		RewearRegistryScript.new(),
 		ItemInstanceScript.new(&"corpse3", CORPSE_DEF), ItemDefinitionScript.new(CORPSE_DEF)
 	)
 	_assert_false(weapon_fail.survivor_transfer_results[0].succeeded, "normal wielded move failure is retained")
@@ -377,7 +263,7 @@ func _test_worn_rewear_paths_and_custom_policies() -> void:
 	ArmorServiceScript.wear(success_owner.armor_state, success_inventory, _character_endpoint(), armor_item, armor_definition)
 	var success: DeathResultScript = DeathServiceScript.process(
 		_context(success_owner), success_inventory, StackCollectionScript.new(),
-		[_facts(armor_item, armor_definition)], DeathPolicyRegistryScript.new(),
+		[_facts(armor_item, armor_definition)],
 		RewearRegistryScript.new(), ItemInstanceScript.new(&"corpse", CORPSE_DEF),
 		ItemDefinitionScript.new(CORPSE_DEF)
 	)
@@ -392,7 +278,7 @@ func _test_worn_rewear_paths_and_custom_policies() -> void:
 	var fail: DeathResultScript = DeathServiceScript.process(
 		_context(fail_owner, false, false, false, &"", 100000, 10, 0, 0),
 		fail_inventory, StackCollectionScript.new(), [_facts(failed_armor, armor_definition)],
-		DeathPolicyRegistryScript.new(), RewearRegistryScript.new(),
+		RewearRegistryScript.new(),
 		ItemInstanceScript.new(&"corpse", CORPSE_DEF), ItemDefinitionScript.new(CORPSE_DEF)
 	)
 	_assert_false(fail.survivor_transfer_results[0].succeeded, "worn move can fail after detach")
@@ -409,7 +295,7 @@ func _test_worn_rewear_paths_and_custom_policies() -> void:
 	custom.register_latemoon_skirt(SKIRT_DEF)
 	var bandage_result: DeathResultScript = DeathServiceScript.process(
 		_context(bandage_owner), bandage_inventory, StackCollectionScript.new(),
-		[_facts(bandage, bandage_definition)], DeathPolicyRegistryScript.new(), custom,
+		[_facts(bandage, bandage_definition)], custom,
 		ItemInstanceScript.new(&"corpse", CORPSE_DEF), ItemDefinitionScript.new(CORPSE_DEF)
 	)
 	_assert_eq(bandage_result.rewear_results[0].outcome, RewearResultScript.Outcome.FALLBACK_TRANSFERRED, "bandage fixed wear failure triggers fallback")
@@ -424,7 +310,7 @@ func _test_worn_rewear_paths_and_custom_policies() -> void:
 	var skirt_result: DeathResultScript = DeathServiceScript.process(
 		_context(skirt_owner, false, false, false, &"女性"), skirt_inventory,
 		StackCollectionScript.new(), [_facts(skirt, skirt_definition)],
-		DeathPolicyRegistryScript.new(), custom,
+		custom,
 		ItemInstanceScript.new(&"corpse", CORPSE_DEF), ItemDefinitionScript.new(CORPSE_DEF)
 	)
 	_assert_eq(skirt_result.rewear_results[0].outcome, RewearResultScript.Outcome.WORN_ON_CORPSE, "female this_player skirt calls base wear")
@@ -446,7 +332,6 @@ func _test_worn_rewear_paths_and_custom_policies() -> void:
 		nonfemale_inventory,
 		StackCollectionScript.new(),
 		[_facts(nonfemale_skirt, skirt_definition)],
-		DeathPolicyRegistryScript.new(),
 		custom,
 		ItemInstanceScript.new(&"corpse", CORPSE_DEF),
 		ItemDefinitionScript.new(CORPSE_DEF),
@@ -460,7 +345,7 @@ func _test_worn_rewear_paths_and_custom_policies() -> void:
 	ArmorServiceScript.wear(missing_owner.armor_state, missing_inventory, _character_endpoint(), missing_skirt, skirt_definition)
 	var missing: DeathResultScript = DeathServiceScript.process(
 		_context(missing_owner), missing_inventory, StackCollectionScript.new(),
-		[_facts(missing_skirt, skirt_definition)], DeathPolicyRegistryScript.new(), custom,
+		[_facts(missing_skirt, skirt_definition)], custom,
 		ItemInstanceScript.new(&"corpse", CORPSE_DEF), ItemDefinitionScript.new(CORPSE_DEF)
 	)
 	_assert_eq(missing.outcome, DeathResultScript.Outcome.REWEAR_DEPENDENCY_UNAVAILABLE, "missing dynamic this_player gender is explicit")
@@ -644,82 +529,15 @@ func _test_stack_cleanup_and_independent_state() -> void:
 	_assert_false(second.is_worn(&"one"), "corpse projections are not shared")
 
 
-func _test_fact_binding_and_policy_lifecycle_failure() -> void:
+func _test_fact_binding() -> void:
 	var bound_item: ItemInstanceScript = ItemInstanceScript.new(&"bound", MAILBOX_DEF)
 	var bound: DeathFactsScript = DeathFactsScript.new(bound_item)
 	_assert_eq(bound.item_instance_id, &"bound", "facts bind one immutable instance ID")
 	_assert_eq(bound.item_definition_id, MAILBOX_DEF, "facts derive definition from same instance")
 	_assert_false(DeathFactsScript.new(null).has_valid_identity(), "null instance cannot create valid facts")
 
-	var inventory: InventoryScript = InventoryScript.new()
-	var equipment: EquipmentScript = EquipmentScript.new()
-	var failing_armor: ArmorScript = FailingArmorStateScript.new(&"hybrid")
-	var owner: OwnerContextScript = OwnerContextScript.new(
-		CHARACTER_ID,
-		equipment,
-		failing_armor,
-	)
-	var hybrid: ItemInstanceScript = _register(
-		inventory,
-		&"hybrid",
-		MAILBOX_DEF,
-		1,
-		_character_endpoint(),
-	)
-	equipment.wield(
-		WeaponRefScript.new(
-			hybrid.item_instance_id,
-			WeaponDefinitionScript.new(MAILBOX_DEF, &"sword", 0),
-		),
-		false,
-	)
-	var policies: DeathPolicyRegistryScript = DeathPolicyRegistryScript.new()
-	policies.register_policy(MAILBOX_DEF, DestroyPolicyScript.new())
-	var result: DeathResultScript = DeathServiceScript.process(
-		_context(owner, true),
-		inventory,
-		StackCollectionScript.new(),
-		[_facts(hybrid)],
-		policies,
-		RewearRegistryScript.new(),
-	)
-	_assert_eq(result.outcome, DeathResultScript.Outcome.POLICY_DESTRUCTION_FAILED, "policy lifecycle failure is top-level exact")
-	_assert_eq(result.policy_lifecycle_results.size(), 1, "failed lifecycle evidence is retained")
-	_assert_eq(result.policy_lifecycle_results[0].outcome, LifecycleResultScript.Outcome.ARMOR_DETACH_FAILED, "exact lifecycle failure is observable")
-	_assert_true(result.policy_lifecycle_results[0].weapon_detached, "partial hand cleanup is observable")
-	var lifecycle_copy: Array[LifecycleResultScript] = result.policy_lifecycle_results
-	lifecycle_copy.clear()
-	_assert_eq(result.policy_lifecycle_results.size(), 1, "lifecycle result array is defensive")
-	_assert_true(equipment.are_both_hands_empty(), "partial lifecycle cleanup remains authoritative")
-	_assert_true(inventory.is_registered(&"hybrid"), "failed destruction leaves item live")
-	_assert_eq(result.destroyed_instance_ids, [], "failed policy is not reported destroyed")
-	_assert_eq(result.survivor_transfer_results, [], "failed policy is not treated as survivor")
-	_assert_eq(result.completion_status, DeathResultScript.CompletionStatus.BLOCKED_INCOMPLETE, "partial failure is incomplete")
-	_assert_eq(result.restart_disposition, DeathResultScript.RestartDisposition.DO_NOT_RESTART_FROM_BEGINNING, "partial failure forbids blind restart")
-
 
 func _test_blocked_processing_is_not_restartable() -> void:
-	var wind_inventory: InventoryScript = InventoryScript.new()
-	var wind_owner: OwnerContextScript = _owner()
-	var first: ItemInstanceScript = _register(wind_inventory, &"a_keep", PLAIN_DEF, 1, _character_endpoint())
-	var wind: ItemInstanceScript = _register(wind_inventory, &"b_wind", WINDSPRING_DEF, 1, _character_endpoint())
-	var later_mail: ItemInstanceScript = _register(wind_inventory, &"c_mail", MAILBOX_DEF, 1, _character_endpoint())
-	var wind_policies: DeathPolicyRegistryScript = DeathPolicyRegistryScript.new()
-	wind_policies.register_policy(WINDSPRING_DEF, WindspringPolicyScript.new())
-	wind_policies.register_policy(MAILBOX_DEF, DestroyPolicyScript.new())
-	var blocked: DeathResultScript = DeathServiceScript.process(
-		_context(wind_owner), wind_inventory, StackCollectionScript.new(),
-		[_facts(first), _facts(wind), _facts(later_mail)], wind_policies,
-		RewearRegistryScript.new(), ItemInstanceScript.new(&"wind_corpse", CORPSE_DEF),
-		ItemDefinitionScript.new(CORPSE_DEF),
-	)
-	_assert_eq(blocked.outcome, DeathResultScript.Outcome.DEFERRED_RUNTIME_EFFECT, "windspring blocks at source order boundary")
-	_assert_eq(blocked.policy_results.size(), 2, "later policy is not evaluated after deferred effect")
-	_assert_true(wind_inventory.is_registered(&"c_mail"), "later mailbox remains live and unevaluated")
-	_assert_eq(blocked.survivor_transfer_results, [], "survivor movement has not begun")
-	_assert_eq(blocked.completion_status, DeathResultScript.CompletionStatus.BLOCKED_INCOMPLETE, "windspring result says incomplete")
-	_assert_eq(blocked.restart_disposition, DeathResultScript.RestartDisposition.DO_NOT_RESTART_FROM_BEGINNING, "created corpse and policy work cannot be replayed")
-
 	var skirt_inventory: InventoryScript = InventoryScript.new()
 	var skirt_owner: OwnerContextScript = _owner()
 	var later: ItemInstanceScript = _register(skirt_inventory, &"a_later", PLAIN_DEF, 1, _character_endpoint())
@@ -730,7 +548,7 @@ func _test_blocked_processing_is_not_restartable() -> void:
 	rewear.register_latemoon_skirt(SKIRT_DEF)
 	var skirt_blocked: DeathResultScript = DeathServiceScript.process(
 		_context(skirt_owner), skirt_inventory, StackCollectionScript.new(),
-		[_facts(later), _facts(skirt, skirt_definition)], DeathPolicyRegistryScript.new(),
+		[_facts(later), _facts(skirt, skirt_definition)],
 		rewear, ItemInstanceScript.new(&"skirt_corpse", CORPSE_DEF),
 		ItemDefinitionScript.new(CORPSE_DEF),
 	)
@@ -746,7 +564,7 @@ func _test_blocked_processing_is_not_restartable() -> void:
 	ArmorServiceScript.wear(timing_owner.armor_state, timing_inventory, _character_endpoint(), invalid_armor, _armor_definition(ARMOR_DEF, &"cloth"))
 	var timing: DeathResultScript = DeathServiceScript.process(
 		_context(timing_owner), timing_inventory, StackCollectionScript.new(),
-		[_facts(invalid_armor), _facts(earlier_move)], DeathPolicyRegistryScript.new(),
+		[_facts(invalid_armor), _facts(earlier_move)],
 		RewearRegistryScript.new(), ItemInstanceScript.new(&"timing_corpse", CORPSE_DEF),
 		ItemDefinitionScript.new(CORPSE_DEF),
 	)
@@ -762,7 +580,7 @@ func _test_capacity_placement_and_decay_boundaries() -> void:
 	var exact: DeathResultScript = DeathServiceScript.process(
 		_context(exact_owner, false, false, false, &"", 1000, 10, 100, 5),
 		exact_inventory, StackCollectionScript.new(), [_facts(exact_item)],
-		DeathPolicyRegistryScript.new(), RewearRegistryScript.new(),
+		RewearRegistryScript.new(),
 		ItemInstanceScript.new(&"exact_corpse", CORPSE_DEF), ItemDefinitionScript.new(CORPSE_DEF),
 	)
 	_assert_true(exact.survivor_transfer_results[0].succeeded, "equal corpse contents capacity succeeds")
@@ -774,7 +592,7 @@ func _test_capacity_placement_and_decay_boundaries() -> void:
 	var unplaced_result: DeathResultScript = DeathServiceScript.process(
 		_context(unplaced_owner, false, false, false, &"", 0, 10, 5, 10),
 		unplaced_inventory, StackCollectionScript.new(), [_facts(unplaced_item)],
-		DeathPolicyRegistryScript.new(), RewearRegistryScript.new(),
+		RewearRegistryScript.new(),
 		ItemInstanceScript.new(&"unplaced_normal", CORPSE_DEF), ItemDefinitionScript.new(CORPSE_DEF),
 	)
 	_assert_false(unplaced_result.corpse_placement_result.succeeded, "normal placement failure is retained")

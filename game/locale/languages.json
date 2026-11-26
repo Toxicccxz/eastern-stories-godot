@@ -6,6 +6,38 @@
 			"name": "简体中文",
 			"script": "Hans",
 			"fonts": ["Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei"]
+		},
+		{
+			"code": "zh_Hant",
+			"name": "繁體中文（預覽）",
+			"script": "Hant",
+			"translation": "res://locale/zh_Hant.po",
+			"face": "res://assets/fonts/fusion-pixel-12px-proportional-zh_tw.otf.woff2",
+			"preview": true,
+			"fonts": ["Microsoft JhengHei UI", "Microsoft JhengHei", "PingFang TC", "Noto Sans CJK TC", "Source Han Sans TC"]
+		},
+		{
+			"code": "en",
+			"name": "English (preview)",
+			"translation": "res://locale/en.po",
+			"preview": true,
+			"fonts": ["Segoe UI", "Helvetica Neue", "Noto Sans", "DejaVu Sans"]
+		},
+		{
+			"code": "ko",
+			"name": "한국어 (미리 보기)",
+			"translation": "res://locale/ko.po",
+			"face": "res://assets/fonts/fusion-pixel-12px-proportional-ko.otf.woff2",
+			"preview": true,
+			"fonts": ["Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans CJK KR", "Noto Sans KR", "Source Han Sans K", "NanumGothic"]
+		},
+		{
+			"code": "ja",
+			"name": "日本語（プレビュー）",
+			"translation": "res://locale/ja.po",
+			"face": "res://assets/fonts/fusion-pixel-12px-proportional-ja.otf.woff2",
+			"preview": true,
+			"fonts": ["Yu Gothic UI", "Meiryo UI", "Meiryo", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", "Noto Sans JP", "Source Han Sans JP"]
 		}
 	]
 }

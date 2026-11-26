@@ -236,9 +236,15 @@ func _test_host(tree: SceneTree) -> void:
 	_check(host.last_load_result() != null and host.last_load_result().succeeded() and host.current_session() != first and host.session_invariant_holds(), "the Load replaces the world")
 	_check(frames > 3, "the Load over several frames: %d" % frames)
 	var loaded_text: String = _save_text(host.current_session())
+	var leaving: WorldSessionController = host.current_session()
+	var leaving_maps: Array = []
+	leaving_maps.assign(leaving.world_maps())
 	_check(host.request_end_session(), "back to the main menu")
-	await _while_pending(tree, host)
+	frames = await _while_pending(tree, host)
+	_check(frames > 3, "back to the main menu over several frames, the world coming down in slices: %d" % frames)
+	_check(host.current_session() == null and host.session_invariant_holds(), "the world is out of its slot")
 	await tree.process_frame
+	_check(not is_instance_valid(leaving) and leaving_maps.size() > 1 and leaving_maps.all(func(map: Variant) -> bool: return not is_instance_valid(map)), "the world and every map of it freed: %d" % leaving_maps.size())
 	_check(host.request_continue(), "Continue is asked for")
 	frames = await _while_pending(tree, host)
 	_check(host.last_load_result() != null and host.last_load_result().succeeded() and host.session_invariant_holds(), "Continue reaches the world")

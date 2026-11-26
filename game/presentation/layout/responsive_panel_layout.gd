@@ -10,6 +10,9 @@ var raised: bool = false
 ## The size the panel keeps whatever its content, within the area (the interaction popup:
 ## owner, 2026-10-17); zero: it fits its content.
 var fixed_size: Vector2 = Vector2.ZERO
+## On a touch screen the panel's buttons grow to touch size and its text to 20 at least; false
+## keeps it as authored (the title's menu: its lettered rows are big enough to tap).
+var touch_sized: bool = true
 ## Metadata on a control that keeps its authored width (see _prepare_controls).
 const KEEPS_WIDTH: StringName = &"keeps_width"
 
@@ -56,7 +59,7 @@ func apply(metrics: SafeAreaMetrics, rect: Rect2, centered: bool = false, prefer
 	_available = rect
 	_centered = centered
 	_preferred_width = preferred_width
-	_touch = metrics.touch_sized()
+	_touch = touch_sized and metrics.touch_sized()
 	_prepare_controls(content)
 	queue_layout()
 
@@ -69,7 +72,8 @@ func _prepare_controls(node: Node) -> void:
 			var font_key: StringName = &"normal_font_size" if control is RichTextLabel else &"font_size"
 			_font_sizes[control] = control.get_theme_font_size(font_key) if control.has_theme_font_size_override(font_key) else -1
 		var original: Vector2 = _minimums[control]
-		if control is FlowContainer:
+		# A flow that sets its own gaps (the game menu's tabs, per language) keeps them.
+		if control is FlowContainer and not control.has_meta(&"own_separation"):
 			control.add_theme_constant_override("h_separation", 8)
 			control.add_theme_constant_override("v_separation", 8)
 		# Godot renames sibling rows with duplicate names; identify their stable list parent.

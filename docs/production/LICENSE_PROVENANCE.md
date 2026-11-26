@@ -104,6 +104,22 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   release 2026.10.25, `fusion-pixel-font-12px-proportional-otf.woff2-v2026.10.25.zip` (font
   701,520 bytes, SHA-256 `b67eb7aa592622e5bc1152b800d32404bb887a1e3a2e669b0c2a873d388590d6`). SIL Open Font License 1.1,
   `game/assets/fonts/OFL-FusionPixel.txt`; used unmodified for the pixel interface's text.
+- `game/assets/fonts/fusion-pixel-12px-proportional-zh_tw.otf.woff2` — 缝合像素 12 px
+  proportional, Traditional Chinese in Taiwan's standard glyph forms, from the same release and
+  archive (font 707,536 bytes, SHA-256 `f533986a872978ebe94f7d6fbf8f2ddac0d300b8b726b7cec45458b0da343472`).
+  SIL Open Font License 1.1, the same `OFL-FusionPixel.txt` (the archive's OFL.txt is identical);
+  used unmodified for the interface's text in 繁體中文.
+- `game/assets/fonts/fusion-pixel-12px-proportional-ko.otf.woff2` — 缝合像素 12 px
+  proportional, Korean (its Hangul from Galmuri, all 11,172 syllables; proportional curly
+  quotes; Han characters in Korean forms), from the same release and archive (font 698,044
+  bytes, SHA-256 `4dadf6770d9a0bbe4e78dbd7aeb0a5d5c763f495f21e190faec61ba1aefdb544`). SIL Open
+  Font License 1.1, the same `OFL-FusionPixel.txt`; used unmodified for the interface's text in
+  한국어.
+- `game/assets/fonts/fusion-pixel-12px-proportional-ja.otf.woff2` — 缝合像素 12 px
+  proportional, Japanese glyph forms (all 6,355 kanji of JIS X 0208, kana, proportional curly
+  quotes), from the same release and archive (font 703,028 bytes, SHA-256
+  `089801509cc8eefeb811af9142de5a1aa3a9eab3768e319f1ef163fa8045110f`). SIL Open Font License 1.1,
+  the same `OFL-FusionPixel.txt`; used unmodified for the interface's text in 日本語.
 - `game/assets/fonts/ZhiMangXing-Regular.ttf` — 志莽行书 (Zhi Mang Xing), from the
   [google/fonts](https://github.com/google/fonts/tree/main/ofl/zhimangxing) repository, `ofl/zhimangxing`
   (4,063,532 bytes, SHA-256 `644e0cae9b40f0b10ab729a01bd32032e3973bac22be3dccae01bf6ae7fde969`). SIL Open Font License 1.1,
@@ -123,6 +139,22 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   **the font file is not shipped or modified, only the four characters' image**; confirm the
   foundry's terms again before release), EASTERN STORIES from Cinzel and 侠 from 霞鹜文楷 (both
   OFL).
+- `game/assets/textures/title/logo_ko.png` — the Korean title's lettering mask, 동방이야기 rendered
+  by the same tool from 추사 사랑체 Bold (ChusaLoveBold, made and opened by 예산군 Yesan County
+  under 공공누리 제1유형 (KOGL Type 1: commercial use and derivative works allowed, source must be
+  credited); listed on [눈누](https://noonnu.cc/font_page/883), file `ChusaLoveBold.woff2` from
+  `cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/`, 2,230,852 bytes, SHA-256
+  `f9b9bc5143b40f62f731c059c6753efe271947dbbdbacb024db178377cf44cac`) — **the font file is not
+  shipped, only the five syllables' image**. A release must carry the credit, e.g. in its
+  credits: 「본 저작물은 '예산군'에서 공공누리 제1유형으로 개방한 '추사사랑체'를 이용하였으며,
+  해당 저작물은 '예산군 www.yesan.go.kr'에서 무료로 다운받으실 수 있습니다.」
+- `game/assets/textures/title/logo_ja.png` — the Japanese title's lettering mask, 東方物語 rendered
+  by the same tool from 衡山毛筆フォント行書 (Kouzan Brush Font Gyousho, brushed and made by the
+  calligrapher 青柳衡山 Aoyagi Kouzan, published by 武蔵システム Musashi System,
+  <https://opentype.jp/kouzangyousho.htm>: free, commercial use allowed without restriction,
+  free to use in logos; file `KouzanGyousho.zip` → TrueType font, 5,640,044 bytes, SHA-256
+  `6b063cc0f9591ea2e71c97f06c8e663d04a0b0ac4bbe6c0e4c3b49a13215db99`) — **the font file is not
+  shipped, only the four characters' image**.
 
 ## Character portraits (AI-generated)
 

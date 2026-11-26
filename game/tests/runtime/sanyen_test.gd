@@ -182,7 +182,7 @@ func _test_kitchen(tree: SceneTree, session: WorldSessionController) -> void:
 	cook.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: knocked out, as a fight would leave him
 	steamer.interact()
 	var lines: Array[String] = hud.log_lines()
-	_check(lines[-1].contains("又白又Ｑ的大馒头(maintal)"), "a cook lying there says nothing (默认): the lid lifts: %s" % [lines.slice(-2)])
+	_check(lines[-1].contains("又白又Ｑ的大馒头"), "a cook lying there says nothing (默认): the lid lifts: %s" % [lines.slice(-2)])
 	var taken: int = 0
 	for _i: int in 5:
 		if not (map.traverse_selected_portal() as TakeLandmarkPolicy.Result).taken_item_id.is_empty():

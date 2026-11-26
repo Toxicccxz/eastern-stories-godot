@@ -92,6 +92,9 @@ var _contains: Array[StringName] = []
 var _owner_killed_npc: StringName = &""
 var _owner_killed_unless: StringName = &""
 var _owner_killed_lines: Array[String] = []
+## Native (DECISIONS「侮天鬼的黑焰」): part of the one who carries it (侮天鬼's 黑焰): when they
+## die it is gone with them, before the corpse (or, for one who vanishes, the floor) takes the rest.
+var _goes_with_owner: bool = false
 ## A weapon weapond.c bash_weapon() broke: the original's name (shown as 断掉的<name>).
 var _broken_from_name: String = ""
 ## cmds/std/scribe.c draws 符 on it: the 桃符纸 (owner, DECISIONS 茅山 A: only on it).
@@ -299,6 +302,7 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	definition._unique = reader.boolean("unique", false)
 	definition._quest_item = reader.boolean("quest", false)
 	definition._masters = reader.boolean("master", false)
+	definition._goes_with_owner = reader.boolean("goes_with_owner", false)
 	var killed: ContentRecordReader = reader.child("owner_is_killed")
 	if killed != null:
 		definition._owner_killed_npc = StringName(killed.required_text("npc"))
@@ -385,6 +389,11 @@ func owner_killed_unless() -> StringName:
 ## What the killer's room reads as it comes.
 func owner_killed_lines() -> Array[String]:
 	return _owner_killed_lines.duplicate()
+
+
+## Whether it goes when its holder dies (part of them: 侮天鬼's 黑焰).
+func goes_with_owner() -> bool:
+	return _goes_with_owner
 
 
 ## The names create() draws from (book.c's names[random(sizeof(names))]); empty for one name.

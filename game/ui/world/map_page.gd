@@ -7,8 +7,11 @@ extends Control
 ## chosen place holds. A line on the card sets 指路: the world's marker walks the player there,
 ## and the road there lights up here. What the player knows comes from MapAtlas.
 ##
-## Each place is a button: direction keys and the pad walk between them, the view follows,
-## confirm goes to the card, left comes back. Mouse: drag to move, wheel to zoom.
+## Each place is a button: direction keys and the D-pad walk between them, the view follows,
+## confirm goes to the card, left or back (B, Esc) comes back. Mouse: drag to move, wheel to
+## zoom. A pad (owner 2026-11-22: stepping place to place alone was clumsy): the left stick
+## moves the view freely and the place nearest its middle (the reticle) is chosen, the triggers
+## zoom, X goes back to where the player stands, Y is 全图 / 近看; the keys = - H F the same.
 ##
 ## Opened at a 车马行's cart (DECISIONS「车马行」) the page offers its rides: a cart stands by each
 ## place one goes to, the card names the fare and the time on the road and has 坐车去这里, the road
@@ -20,9 +23,17 @@ const PIN_ZOOM: float = 0.4
 const MAX_ZOOM: float = 1.2
 const CARD_WIDTH: float = 290.0
 const MOVE_SECONDS: float = 0.22
+## The left stick: how far the view moves a second at full tilt (screen pixels), the tilt it
+## ignores, and how near the view's middle a place is chosen (screen pixels).
+const PAN_SPEED: float = 720.0
+const STICK_DEADZONE: float = 0.24
+const PICK_RADIUS: float = 64.0
+## The triggers (or = and -) held: the zoom doubles in this many seconds.
+const ZOOM_DOUBLING_SECONDS: float = 0.7
 const PIN_COLOURS: Dictionary[StringName, Color] = {
 	MapAtlas.TARGET: Color("c8351f"), MapAtlas.MASTER: Color("c98a2e"), MapAtlas.SHOP: Color("3f8a6a"), MapAtlas.BANK: Color("b8862e"),
 	MapAtlas.HOCKSHOP: Color("8a6a9a"), MapAtlas.BOUNTY: Color("b0432e"), MapAtlas.ERRAND: Color("3f6a9a"),
+	MapAtlas.CORPSE: Color("4a4038"), MapAtlas.FOLLOWER: Color("2f7a8a"),
 }
 const GROUND: Color = Color("6c8294")
 const CLOUD_DRIFT: float = 70.0
@@ -97,8 +108,24 @@ var _rides: Dictionary[StringName, CoachLines.Ride] = {}
 var _choose_ride: Callable
 ## The carts standing by the places a ride goes to, and the one rolling along the road.
 var _cart_marks: Array[TextureRect] = []
+## Native (DECISIONS「尸体和走散的同伴」): the player's corpses with things in them and the followers
+## apart (WorldLeftBehind.marks()), set before fill(): a pin by each place's name on the 沙盘, and a
+## row and a pin in its card.
+var left_behind: Array[MapAtlas.Mark] = []
+## The follower apart the arrow points to (WorldLeftBehind.follower_goal()), set before fill().
+var follower_goal: MapAtlas.Goal
+var _left_marks: Array[Label] = []
 var _cart: Sprite2D
 var _riding: Tween
+## The view's middle while a pad steers the 沙盘; the pad's hints at its foot.
+var reticle: Control
+var hints: InputHintRow
+## A place chosen by the stick (the view stays where the stick left it).
+var _picking: bool = false
+## Where the stick's tilt is read (tests give their own).
+var tilt_source: Callable = MapPage.stick
+## The place the player stands in (its button: the map they are on folds into it).
+var _home: StringName = &""
 
 
 func _init() -> void:
@@ -156,6 +183,17 @@ func _init() -> void:
 	arrow.size = Vector2(26, 42)
 	arrow.hide()
 	overlay.add_child(arrow)
+	reticle = Control.new()
+	reticle.name = "Reticle"
+	reticle.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	reticle.size = Vector2(30, 30)
+	reticle.draw.connect(_draw_reticle)
+	reticle.hide()
+	overlay.add_child(reticle)
+	hints = InputHintRow.new()
+	hints.name = "MapHints"
+	sand.add_child(hints)
+	_show_hints()
 	_build_card()
 
 
@@ -194,7 +232,15 @@ func _haze(from_colour: Color, to_colour: Color, from: Vector2, to: Vector2, rad
 	return rect
 
 
+## The pad and key hints at the foot of the 沙盘, in the shown language.
+func _show_hints() -> void:
+	# TRANSLATORS: the 地图 page's pad and key hints at the foot of the 沙盘.
+	hints.set_hints([[&"map_pan", tr("移动")], [[&"map_zoom_out", &"map_zoom_in"], tr("缩放")], [&"map_here", tr("回到所在")], [&"map_overview", tr("全图")], [&"ui_accept", tr("查看")]])
+
+
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and hints != null:
+		_show_hints()
 	if what == NOTIFICATION_VISIBILITY_CHANGED:
 		set_process(is_visible_in_tree())
 		# Another tab, the pause: the cart on the road stops and the ride with it.
@@ -210,6 +256,112 @@ func _process(delta: float) -> void:
 	_shade.position = Vector2(60.0 + drift, 250.0)
 	for index: int in _glows.size():
 		_glows[index].position = _along_way(fposmod(_clock * GLOW_SPEED + index * GLOW_GAP, maxf(_way_length, 1.0)))
+	_steer(delta)
+
+
+## The stick and the triggers (or = and -) while a place on the 沙盘 has the focus.
+func _steer(delta: float) -> void:
+	var on_sand: bool = _pictures != null and not riding() and _focused_place() != null
+	reticle.visible = on_sand and InputDevices.shared().is_gamepad()
+	# A window without focus takes no pad (DECISIONS「切出窗口」); a headless run has no window to ask.
+	if not on_sand or (DisplayServer.get_name() != "headless" and not get_window().has_focus()):
+		return
+	var zoom: float = Input.get_action_strength(&"map_zoom_in") - Input.get_action_strength(&"map_zoom_out")
+	if not is_zero_approx(zoom):
+		_set_zoom(_zoom * pow(2.0, zoom * delta / ZOOM_DOUBLING_SECONDS), _free_view() / 2.0)
+	var tilt: Vector2 = tilt_source.call()
+	if tilt == Vector2.ZERO:
+		return
+	if _move != null and _move.is_valid():
+		_move.kill()
+	_centre += tilt * PAN_SPEED * delta / _zoom
+	_apply_view()
+	_pick_near_middle()
+
+
+## The left stick's tilt past STICK_DEADZONE, rescaled from it (zero when it rests).
+static func stick() -> Vector2:
+	for device: int in Input.get_connected_joypads():
+		var tilt := Vector2(Input.get_joy_axis(device, JOY_AXIS_LEFT_X), Input.get_joy_axis(device, JOY_AXIS_LEFT_Y))
+		if tilt.length() > STICK_DEADZONE:
+			return tilt.normalized() * minf(inverse_lerp(STICK_DEADZONE, 1.0, tilt.length()), 1.0)
+	return Vector2.ZERO
+
+
+## The place button with the focus, or null.
+func _focused_place() -> Button:
+	if not is_visible_in_tree():
+		return null
+	var focused: Button = get_viewport().gui_get_focus_owner() as Button
+	return focused if focused != null and cell_buttons.values().has(focused) else null
+
+
+## The place nearest the view's middle, within PICK_RADIUS, takes the focus (the view stays).
+func _pick_near_middle() -> void:
+	var best: StringName = &""
+	var nearest: float = PICK_RADIUS / _zoom
+	for map_id: StringName in cell_buttons:
+		var gap: float = (_middle(map_id) - _centre).length()
+		if gap < nearest:
+			nearest = gap
+			best = map_id
+	if best.is_empty() or best == _selected:
+		return
+	_picking = true
+	cell_buttons[best].grab_focus()
+	_picking = false
+
+
+## X / H: back to the place the player stands in.
+func _go_here() -> void:
+	var here: Button = cell_buttons.get(_home)
+	if here == null:
+		return
+	if here.has_focus():
+		_move_to(_middle(_home))
+	else:
+		FocusNav.give(here)
+
+
+## A place's own input: the stick moves the view (_steer), not the focus from place to place.
+func _cell_input(event: InputEvent) -> void:
+	var motion := event as InputEventJoypadMotion
+	if motion != null and motion.axis in [JOY_AXIS_LEFT_X, JOY_AXIS_LEFT_Y]:
+		get_viewport().set_input_as_handled()
+		return
+	# PadSupport's repeat of a held direction: the stick's is the view's.
+	var repeat := event as InputEventAction
+	if repeat != null and repeat.action in PadSupport.DIRECTIONS and tilt_source.call() != Vector2.ZERO:
+		get_viewport().set_input_as_handled()
+
+
+## A line of the card: back (B, Esc) goes to its place on the 沙盘 (the next one closes the menu).
+func _card_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"ui_cancel") and not event.is_echo() and not riding():
+		var place: Button = cell_buttons.get(_selected)
+		if place != null:
+			get_viewport().set_input_as_handled()
+			FocusNav.give(place)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not is_visible_in_tree() or riding() or _pictures == null or event.is_echo() or not event.is_pressed():
+		return
+	if event.is_action_pressed(&"map_here"):
+		get_viewport().set_input_as_handled()
+		_go_here()
+	elif event.is_action_pressed(&"map_overview"):
+		get_viewport().set_input_as_handled()
+		_toggle_zoom()
+
+
+func _draw_reticle() -> void:
+	var middle: Vector2 = reticle.size / 2.0
+	for way: Vector2 in [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]:
+		var from: Vector2 = middle + way * 6.0
+		var to: Vector2 = middle + way * 13.0
+		reticle.draw_line(from, to, UiPalette.OUTLINE, 5.0)
+		reticle.draw_line(from, to, UiPalette.LANTERN, 2.0)
 
 
 func _along_way(distance: float) -> Vector2:
@@ -252,7 +404,9 @@ func _build_card() -> void:
 	zoom_button = Button.new()
 	zoom_button.name = "Zoom"
 	zoom_button.pressed.connect(_toggle_zoom)
+	zoom_button.gui_input.connect(_card_input)
 	column.add_child(zoom_button)
+	InputGlyphs.decorate(zoom_button, &"map_overview")
 
 
 ## Shows the world as `state` knows it, the view on the player, who stands in `map_id`.
@@ -282,12 +436,14 @@ func fill(state: CharacterState, map_id: StringName, zone_id: StringName) -> voi
 	var home: StringName = catalog.atlas().home_of(catalog, map_id)
 	if not cell_buttons.has(home) and not cell_buttons.is_empty():
 		home = cell_buttons.keys()[0]
+	_home = home
 	_zoom = clampf(_zoom, _fit_zoom(), MAX_ZOOM)
 	if cell_buttons.has(home):
 		_centre = _middle(home)
 		_select(home)
 	_show_goal()
 	_show_cart_marks()
+	_show_left_marks()
 	_apply_view()
 
 
@@ -415,6 +571,32 @@ func _show_cart_marks() -> void:
 	_place_overlays()
 
 
+## A pin by the name of each place where the player left something on the road (left_behind):
+## seen from afar, not only in the place's card.
+func _show_left_marks() -> void:
+	for mark: Label in _left_marks:
+		overlay.remove_child(mark)
+		mark.queue_free()
+	_left_marks.clear()
+	var catalog: ContentCatalog = GameContent.catalog()
+	var shown: Dictionary[String, bool] = {}
+	var by_cell: Dictionary[StringName, int] = {}
+	for mark: MapAtlas.Mark in left_behind:
+		var cell: StringName = catalog.atlas().home_of(catalog, mark.map_id)
+		var key: String = "%s/%s" % [cell, mark.kind]
+		if not cell_buttons.has(cell) or shown.has(key):
+			continue
+		shown[key] = true
+		var pin: Label = _pin_label(mark)
+		pin.name = "LeftMark"
+		pin.set_meta("cell", cell)
+		pin.set_meta("index", by_cell.get(cell, 0))
+		by_cell[cell] = by_cell.get(cell, 0) + 1
+		overlay.add_child(pin)
+		_left_marks.append(pin)
+	_place_overlays()
+
+
 ## The layers the bake left that do not change: the land, the cloud's shadow, the mist, the clouds.
 func _dress_stage() -> void:
 	var whole: Vector2 = _pictures.stage_size()
@@ -491,6 +673,7 @@ func _add_cell_button(cell: AtlasCell, seen: MapAtlas.Seen) -> void:
 	button.add_theme_stylebox_override("focus", _plate_style(Color(0, 0, 0, 0), Color("ffe6a8"), 2))
 	button.focus_entered.connect(_select.bind(cell.map_id))
 	button.pressed.connect(_enter_card.bind(cell.map_id))
+	button.gui_input.connect(_cell_input)
 	overlay.add_child(button)
 	cell_buttons[cell.map_id] = button
 
@@ -533,7 +716,8 @@ func _select(map_id: StringName) -> void:
 	_show_pins()
 	if offers_rides():
 		_light_route(_ride_route(map_id))
-	_move_to(_middle(map_id))
+	if not _picking:
+		_move_to(_middle(map_id))
 
 
 func _move_to(place: Vector2) -> void:
@@ -583,6 +767,16 @@ func _fill_card() -> void:
 	# TRANSLATORS: the 地图 page's card: shows the way to this place.
 	_row(tr("指路到这里"), _point.bind(_selected, &"", tr(cell.name))).theme_type_variation = &"ChipButton"
 	_marks = MapAtlas.marks(catalog, _state, _selected)
+	var known: Array[StringName] = MapAtlas.known_maps(catalog, _state, _selected)
+	var ahead: Array[MapAtlas.Mark] = []
+	for mark: MapAtlas.Mark in left_behind:
+		if known.has(mark.map_id):
+			ahead.append(mark)
+	if not ahead.is_empty():
+		# What the player left on the road comes first after the quest's target.
+		var target: Array[MapAtlas.Mark] = _marks.filter(func(mark: MapAtlas.Mark) -> bool: return mark.kind == MapAtlas.TARGET)
+		var rest: Array[MapAtlas.Mark] = _marks.filter(func(mark: MapAtlas.Mark) -> bool: return mark.kind != MapAtlas.TARGET)
+		_marks = target + ahead + rest
 	for mark: MapAtlas.Mark in _marks:
 		var place: String = tr(catalog.zone(mark.zone_id).display_name)
 		if mark.kind == MapAtlas.TARGET:
@@ -597,8 +791,8 @@ func _fill_card() -> void:
 		if map_id != _selected and _state.visited_maps.has(String(map_id)):
 			var place: String = tr(_map_name(catalog, map_id))
 			_row("· " + place, _point.bind(map_id, &"", place))
-	var goal: MapAtlas.Goal = MapAtlas.goal(catalog, _state)
-	if goal != null and not goal.waypoint and MapAtlas.arrow_cell(catalog, _state, _here_map, goal.map_id) == _selected and not _has_target_mark():
+	var goal: MapAtlas.Goal = MapAtlas.goal(catalog, _state, follower_goal)
+	if goal != null and not goal.waypoint and goal != follower_goal and MapAtlas.arrow_cell(catalog, _state, _here_map, goal.map_id) == _selected and not _has_target_mark():
 		_objective_line(tr(StoryQuestLog.objective(_state, catalog.story_quests())))
 	if not _state.waypoint_map.is_empty():
 		# TRANSLATORS: the 地图 page's card: takes back the 指路 the player set.
@@ -688,6 +882,7 @@ func _row(text: String, pressed: Callable) -> Button:
 	button.tooltip_text = text
 	button.theme_type_variation = &"RowButton"
 	button.pressed.connect(pressed)
+	button.gui_input.connect(_card_input)
 	rows.add_child(button)
 	row_buttons.append(button)
 	return button
@@ -758,6 +953,12 @@ func _pin_word(kind: StringName) -> String:
 		MapAtlas.BOUNTY:
 			# TRANSLATORS: one-word mark on the 地图 page: the bounty board.
 			return tr("榜")
+		MapAtlas.CORPSE:
+			# TRANSLATORS: one-word mark on the 地图 page: the player's own corpse, their things still on it.
+			return tr("尸")
+		MapAtlas.FOLLOWER:
+			# TRANSLATORS: one-word mark on the 地图 page: someone who follows the player and waits apart from them.
+			return tr("伴")
 	# TRANSLATORS: one-word mark on the 地图 page: someone who gives errands.
 	return tr("差")
 
@@ -773,6 +974,8 @@ func _show_pins() -> void:
 	if _zoom < PIN_ZOOM or _selected.is_empty() or not _pictures.has_picture(_selected):
 		return
 	var catalog: ContentCatalog = GameContent.catalog()
+	# Marks in the same room stand side by side, not on top of each other.
+	var at_key: Dictionary[String, int] = {}
 	for mark: MapAtlas.Mark in _marks:
 		var key: String = "zone:%s" % mark.zone_id
 		if mark.map_id != _selected:
@@ -782,11 +985,31 @@ func _show_pins() -> void:
 			key = "door:%s" % step.to_map
 		var inside: Vector2 = _pictures.pin(_selected, key)
 		if inside != Vector2.INF:
-			_add_pin(mark, _pictures.corner(_selected, _cell(_selected).at) + inside)
+			var beside: int = at_key.get(key, 0)
+			at_key[key] = beside + 1
+			_add_pin(mark, _pictures.corner(_selected, _cell(_selected).at) + inside, beside)
 	_place_overlays()
 
 
-func _add_pin(mark: MapAtlas.Mark, at: Vector2) -> void:
+func _add_pin(mark: MapAtlas.Mark, at: Vector2, beside: int = 0) -> void:
+	var pin: Label = _pin_label(mark)
+	pin.set_meta("at", at)
+	pin.set_meta("beside", beside)
+	overlay.add_child(pin)
+	_pins.append(pin)
+
+
+## A pin stays a round 24 px mark: the menu's responsive layout (ResponsivePanelLayout) wraps every
+## label it finds and lets go of its width, which squeezes one made before it ran to a sliver.
+static func _keep_round(pin: Label) -> void:
+	if pin == null:
+		return
+	pin.autowrap_mode = TextServer.AUTOWRAP_OFF
+	pin.custom_minimum_size = Vector2(24, 24)
+	pin.reset_size()
+
+
+func _pin_label(mark: MapAtlas.Mark) -> Label:
 	var pin := Label.new()
 	pin.name = "Pin"
 	pin.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
@@ -796,6 +1019,7 @@ func _add_pin(mark: MapAtlas.Mark, at: Vector2) -> void:
 	pin.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	pin.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	pin.custom_minimum_size = Vector2(24, 24)
+	pin.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
 	pin.add_theme_font_size_override("font_size", GameTheme.text_size(13))
 	pin.add_theme_color_override("font_color", Color("fff6e6"))
 	var style := StyleBoxFlat.new()
@@ -804,14 +1028,12 @@ func _add_pin(mark: MapAtlas.Mark, at: Vector2) -> void:
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(12)
 	pin.add_theme_stylebox_override("normal", style)
-	pin.set_meta("at", at)
-	overlay.add_child(pin)
-	_pins.append(pin)
+	return pin
 
 
 func _show_goal() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
-	var goal: MapAtlas.Goal = MapAtlas.goal(catalog, _state)
+	var goal: MapAtlas.Goal = MapAtlas.goal(catalog, _state, follower_goal)
 	var cell: StringName = &"" if goal == null else MapAtlas.arrow_cell(catalog, _state, _here_map, goal.map_id)
 	arrow.visible = cell_buttons.has(cell)
 	if arrow.visible:
@@ -929,14 +1151,22 @@ func _place_overlays() -> void:
 		button.reset_size()
 		button.position = _to_view(_middle(map_id)) + Vector2(-button.size.x / 2.0, under - button.size.y / 2.0)
 	for pin: Control in _pins:
-		pin.reset_size()
-		pin.position = _to_view(pin.get_meta("at")) - Vector2(pin.size.x / 2.0, pin.size.y + 8.0)
+		_keep_round(pin as Label)
+		pin.position = _to_view(pin.get_meta("at")) - Vector2(pin.size.x / 2.0, pin.size.y + 8.0) + Vector2((pin.size.x + 2.0) * int(pin.get_meta("beside", 0)), 0.0)
 	if arrow.visible:
 		arrow.position = _to_view(_middle(arrow.get_meta("cell"))) - Vector2(arrow.size.x / 2.0, arrow.size.y + 26.0)
+	reticle.position = (_free_view() / 2.0 - reticle.size / 2.0).round()
+	hints.size = Vector2(_free_view().x - 24.0, 0.0)
+	hints.position = Vector2(12.0, sand.size.y - hints.get_combined_minimum_size().y - 10.0)
 	for mark: TextureRect in _cart_marks:
 		var button: Button = cell_buttons.get(mark.get_meta("cell"))
 		if button != null:
 			mark.position = button.position + Vector2(-mark.size.x - 2.0, (button.size.y - mark.size.y) / 2.0)
+	for mark: Label in _left_marks:
+		var button: Button = cell_buttons.get(mark.get_meta("cell"))
+		if button != null:
+			_keep_round(mark)
+			mark.position = button.position + Vector2(button.size.x + 2.0 + int(mark.get_meta("index")) * (mark.size.x + 2.0), (button.size.y - mark.size.y) / 2.0)
 
 
 ## The 沙盘 just covers the view; what the card hides is a drag or a step away.

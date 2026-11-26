@@ -238,13 +238,7 @@ func player_left() -> void:
 	end_scene()
 	# make_stage() tells and hands to the giver wherever they are (tell_object(), move(who)):
 	# leaving, the player hears the rest at once and gets the thing (DECISIONS 晚月庄 C).
-	for character_id: StringName in makings.keys():
-		while makings.has(character_id):
-			_make_stage(character_id)
-	# A test still being told: the rest at once (ES2 told it all in one command).
-	for character_id: StringName in trials.keys():
-		while trials.has(character_id):
-			_trial_step(character_id)
+	finish_work(true)
 	# A master's answer to 拜师 still to come is said to the room the player left (a refusal
 	# ends the request: DECISIONS 山烟寺 C), as on one map; gone, it would leave it pending.
 	if ambience != null:
@@ -453,6 +447,34 @@ func settle() -> void:
 			if npc_heartbeat != null:
 				npc_heartbeat.forget_revive(npc.character_id)
 			_woke(npc, false)
+
+
+## What the player waits for from this map's NPCs, done at once: a making's rest told and the
+## thing handed over, a test's rest told and its deed recorded (ES2 told a test in one command).
+## `tellings`: a making that gives nothing (a story, 黄石隘口) is told to its end too; without
+## it such a telling goes on as it was. Leaving the map does all of it; a Save the player asks
+## for, and the 决战前 save, what a save would lose (holds_work(); DECISIONS「自动存档」).
+func finish_work(tellings: bool) -> void:
+	for character_id: StringName in makings.keys():
+		if not tellings and (makings[character_id]["making"] as NpcMaking).gives.is_empty():
+			continue
+		while makings.has(character_id):
+			_make_stage(character_id)
+	for character_id: StringName in trials.keys():
+		while trials.has(character_id):
+			_trial_step(character_id)
+
+
+## Whether a save now would lose something the player is owed: a making that gives a thing
+## (its temp mark is saved, the call_out is not) or a test whose deed is still to come. A
+## telling that gives nothing loses only its last lines.
+func holds_work() -> bool:
+	if not trials.is_empty():
+		return true
+	for pending: Dictionary in makings.values():
+		if not (pending["making"] as NpcMaking).gives.is_empty():
+			return true
+	return false
 
 
 ## shaowei.c accept_object(): call_out("make_stage", every, who, 0).
@@ -721,7 +743,7 @@ func _chant_stage(npc: NpcRuntimeState) -> void:
 		_map.hud().npc_says(npc, [ColoredLine.new(said)], [said])
 		# What happens with it (narration, not speech) is the game's own message.
 		if not stage.line.is_empty():
-			_map.hud().append_log_lines([tr(stage.line).replace("$N", name)])
+			_map.hud().append_log_lines([MessageGrammar.fill(tr(stage.line), MessageGrammar.other(npc.character_state.gender), name)])
 	npc.character_state.progression.combat_experience += stage.combat_exp
 	var next: int = npc.chant_stage + 1
 	var wait: float = 0.0
@@ -1133,9 +1155,14 @@ func _start_stealing(npc: NpcRuntimeState) -> void:
 	if GameContent.catalog().zone_forbids_fighting(npc.world_location().zone_id):
 		return
 	var steal: NpcSteal = npc.definition().dealings().steal
+	# DECISIONS「任务物品不被拿走」: a thief never takes what cannot be dropped (no_drop): it is neither
+	# the thing named nor among those picked from (ES2's steal.c takes anything).
 	var item_id: StringName = _player_item_with_alias(steal.what)
 	if item_id.is_empty():
-		var carried: Array[StringName] = _player_carried_item_ids()
+		var carried: Array[StringName] = []
+		for id: StringName in _player_carried_item_ids():
+			if not _kept_from_thieves(id):
+				carried.append(id)
 		if carried.is_empty():
 			return
 		item_id = carried[ambience.random().legacy_random(carried.size())]
@@ -1208,13 +1235,19 @@ func _player_carried_item_ids() -> Array[StringName]:
 	return _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id))
 
 
-## present(alias, me): the first of the player's own things answering to `alias`.
+## present(alias, me): the first of the player's own things answering to `alias` that a thief may take.
 func _player_item_with_alias(alias: StringName) -> StringName:
 	for item_id: StringName in _player_carried_item_ids():
 		var content: ItemContentDefinition = _item_content(item_id)
-		if content != null and content.aliases().has(String(alias)):
+		if content != null and content.aliases().has(String(alias)) and not content.no_drop:
 			return item_id
 	return &""
+
+
+## Whether a thief leaves `item_id` alone: it cannot be dropped (no_drop).
+func _kept_from_thieves(item_id: StringName) -> bool:
+	var content: ItemContentDefinition = _item_content(item_id)
+	return content != null and content.no_drop
 
 
 func _item_content(item_id: StringName) -> ItemContentDefinition:
@@ -1295,7 +1328,7 @@ func _special(npc: NpcRuntimeState, action: NpcSpecialAction) -> void:
 	var lines: Array[ColoredLine] = []
 	for line: VisionLine in context.lines:
 		# Out of a fight only exert lines show: $N is the NPC.
-		lines.append(ColoredLine.new(tr(line.template).strip_edges().replace("$N", tr(npc.definition().display_name)), line.color))
+		lines.append(ColoredLine.new(MessageGrammar.fill(tr(line.template).strip_edges(), MessageGrammar.other(npc.character_state.gender), tr(npc.definition().display_name)), line.color))
 	_map.hud().append_colored_lines(lines)
 
 

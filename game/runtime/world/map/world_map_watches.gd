@@ -193,10 +193,12 @@ func _catch(npc: NpcRuntimeState, watch: NpcWatch) -> void:
 	if not watch.until_phase.is_empty():
 		session.wait_until_phase(watch.until_phase)
 	var out: ZoneDefinition = GameContent.catalog().zone(watch.release_zone_id)
-	if out != null and session.handoff_to(out.map_id, out.zone_id, out.combat_location_id, watch.release_point_id).succeeded():
+	if out != null and session.handoff_rejoined(out.map_id, out.zone_id, out.combat_location_id, watch.release_point_id).succeeded():
 		var arrived: WorldMapController = session.active_map() as WorldMapController
 		if arrived != null and arrived.hud() != null:
 			arrived.hud().describe_arrival()
+		# DECISIONS「走散的同伴回来」: who follows every way comes to the one put out.
+		session.bring_followers_back()
 	_catching = false
 
 

@@ -318,19 +318,19 @@
 			},
 			"scene_mark": "隘口的道士",
 			"calls": [
-				{ "after": 1, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 1, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.white_officer", "steps": [
 					{ "line": "一名白衣武官从山壁下的土坑里捧出一只尺许长的石匣，匣面刻着一圈风纹。" },
 					{ "by": "native.npc.white_officer" },
 					{ "say": "总教头，挖出来了！" }
 				] },
-				{ "after": 5, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 5, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.feng_ce", "steps": [
 					{ "by": "native.npc.feng_ce" },
 					{ "say": "打开。" }
 				] },
 				{ "after": 8, "scene": true, "not_mark": "隘口的道士", "steps": [
 					{ "say": "冯总教头，匣子开不得。这是岚城的风铃，寻风的人才用得上，旁人开了，只会招祸。" }
 				] },
-				{ "after": 12, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 12, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.black_taoist_pass", "steps": [
 					{ "line": "崖上忽然一道黑影掠下，一个黑衣黑冠的道士落在土坑边，一把抢过石匣，转身便往山壁上纵去！" },
 					{ "by": "native.npc.black_taoist_pass" },
 					{ "say": "多谢诸位代劳！" },
@@ -339,14 +339,14 @@
 					{ "line": "黑衣道士衣角一扯，一块布条飘落在地。他几个起落，已经翻上山壁，往北面的老松岭去了。" },
 					{ "leave": true }
 				] },
-				{ "after": 16, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 16, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.white_officer", "steps": [
 					{ "by": "native.npc.white_officer" },
 					{ "say": "追！" },
 					{ "leave": true },
 					{ "by": "native.npc.white_officer" },
 					{ "leave": true }
 				] },
-				{ "after": 19, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 19, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.feng_ce", "steps": [
 					{ "by": "native.npc.feng_ce" },
 					{ "emote": "回过头来，目光落在你身上。" },
 					{ "say": "这不是你该来的地方。" }
@@ -399,7 +399,7 @@
 				"黑衣道士一边招架一边往洞口瞟。\n"
 			],
 			"spared": { "mark": "放过了黑衣道士", "leave": true, "line": "黑衣道士捂着伤口翻身爬起，连滚带爬地逃出了山洞，往北边去了。" },
-			"die_marks_killer": "杀了黑衣道士"
+			"die_marks": "杀了黑衣道士"
 		},
 		{
 			"id": "native.npc.tribute_taoist",
@@ -512,7 +512,7 @@
 				"cps": 15,
 				"per": 28
 			},
-			"combat_exp": 80000,
+			"combat_exp": 15500,
 			"score": 600,
 			"attitude": "aggressive",
 			"capabilities": [
@@ -521,14 +521,15 @@
 			"ignores_when": {
 				"cond": "dongfang.token_holds"
 			},
+			"alert_say": "蒙面杀手拔剑冷冷道：东方神教办事。衣走了，这庄子没人护着了——挡路的，一起倒下。",
 			"skills": {
-				"unarmed": 80,
-				"sword": 80,
-				"parry": 80,
-				"dodge": 70,
-				"move": 60,
-				"six-chaos-sword": 70,
-				"pyrobat-steps": 60
+				"unarmed": 45,
+				"sword": 45,
+				"parry": 45,
+				"dodge": 41,
+				"move": 35,
+				"six-chaos-sword": 41,
+				"pyrobat-steps": 35
 			},
 			"skill_map": {
 				"dodge": "pyrobat-steps",
@@ -621,6 +622,7 @@
 					"after": 1,
 					"scene": true,
 					"not_mark": "见过庾家拦路",
+					"present": "choyin.npc.sergeant",
 					"steps": [
 						{
 							"emote": "从酒楼对面的屋檐下走出来，拦在街心。身后三个便衣的汉子散开，手都按着刀柄。"
@@ -634,6 +636,7 @@
 					"after": 4,
 					"scene": true,
 					"not_mark": "见过庾家拦路",
+					"present": "choyin.npc.sergeant",
 					"steps": [
 						{
 							"by": "choyin.npc.sergeant"
@@ -650,6 +653,7 @@
 					"after": 7,
 					"scene": true,
 					"not_mark": "见过庾家拦路",
+					"present": "choyin.npc.sergeant",
 					"steps": [
 						{
 							"by": "native.npc.yu_steward"
@@ -1211,7 +1215,7 @@
 				"sword": "six-chaos-sword",
 				"parry": "six-chaos-sword"
 			},
-			"fight_deferred": "你的剑穿过商玦的袖子，像穿过一缕烟。他只是笑了一笑。",
+			"fight_deferred": "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他只是笑了一笑。",
 			"inquiry": {
 				"拔": {
 					"rules": [
@@ -1258,6 +1262,7 @@
 					"after": 13,
 					"scene": true,
 					"not_mark": "商玦劝过你",
+					"present": "native.npc.lihong",
 					"steps": [
 						{
 							"say": "你拿着剑，鬼醒了才找得到头；找到了头，才灭得了它。你以为它封着就是安稳？它在长。三百年，长了三百年。"
@@ -3095,16 +3100,18 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 3000, "max_gin": 1200, "max_sen": 1200, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 6000, "max_gin": 1200, "max_sen": 1200, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
-			"apply": { "attack": 80, "damage": 40 },
+			"apply": { "attack": 10, "damage": 100 },
+			"carry": [{"item": "native:village/black_flame", "source": "native: 侮天鬼的黑焰 (owner 2026-11-20「A」; DECISIONS「侮天鬼的黑焰」)", "equip": "wield"}],
 			"skills": {
 				"unarmed": 60,
+				"whip": 60,
 				"dodge": 130,
-				"parry": 140,
+				"parry": 60,
 				"force": 150
 			},
 			"summoned": {
@@ -3149,16 +3156,18 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 6000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
-			"apply": { "attack": 80, "damage": 40 },
+			"apply": { "attack": 10, "damage": 130 },
+			"carry": [{"item": "native:village/black_flame", "source": "native: 侮天鬼的黑焰 (owner 2026-11-20「A」; DECISIONS「侮天鬼的黑焰」)", "equip": "wield"}],
 			"skills": {
 				"unarmed": 60,
+				"whip": 60,
 				"dodge": 130,
-				"parry": 160,
+				"parry": 60,
 				"force": 150
 			},
 			"summoned": {
@@ -3203,16 +3212,18 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 6000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
-			"apply": { "attack": 80, "damage": 40 },
+			"apply": { "attack": 10, "damage": 130 },
+			"carry": [{"item": "native:village/black_flame", "source": "native: 侮天鬼的黑焰 (owner 2026-11-20「A」; DECISIONS「侮天鬼的黑焰」)", "equip": "wield"}],
 			"skills": {
 				"unarmed": 60,
+				"whip": 60,
 				"dodge": 130,
-				"parry": 160,
+				"parry": 60,
 				"force": 150
 			},
 			"summoned": {
@@ -3257,16 +3268,18 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 3000, "max_gin": 1900, "max_sen": 1900, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 6000, "max_gin": 1900, "max_sen": 1900, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
-			"apply": { "attack": 80, "damage": 40 },
+			"apply": { "attack": 10, "damage": 150 },
+			"carry": [{"item": "native:village/black_flame", "source": "native: 侮天鬼的黑焰 (owner 2026-11-20「A」; DECISIONS「侮天鬼的黑焰」)", "equip": "wield"}],
 			"skills": {
 				"unarmed": 60,
+				"whip": 60,
 				"dodge": 130,
-				"parry": 180,
+				"parry": 60,
 				"force": 150
 			},
 			"summoned": {
@@ -4509,6 +4522,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4545,6 +4559,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4564,6 +4579,7 @@
 					},
 					"mark": "大秦人留下了",
 					"not_mark": "内院撞见了",
+					"present": "native.npc.shield_youth",
 					"steps": [
 						{
 							"by": "native.npc.shield_youth"
@@ -4628,6 +4644,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4647,6 +4664,7 @@
 					},
 					"mark": "竹书给了柳绘心",
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4705,6 +4723,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -5306,7 +5325,7 @@
 			"die_carries": {
 				"item": "native:waterfog/spy_letter"
 			},
-			"die_marks_killer": "拿下了探子"
+			"die_marks": "拿下了探子"
 		},
 		{
 			"id": "native.npc.waterfog_hopeful",
@@ -5673,7 +5692,7 @@
 					"listed_marks": [
 						"场院的话说完了"
 					],
-					"confirm": "站安妮儿：一代教主收回教主令。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局。\n这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？",
+					"confirm": "站安妮儿：一代教主收回教主令。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章还没打完的，她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局。\n这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？",
 					"rules": [
 						{
 							"asker_marks": [
@@ -5747,6 +5766,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5773,6 +5793,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5837,6 +5858,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5932,6 +5954,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5990,6 +6013,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -6115,6 +6139,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -6229,6 +6254,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -6271,6 +6297,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -6464,7 +6491,7 @@
 				"leave": true,
 				"line": "黑冠道士捂着伤口爬起来，丢下竹竿和木板，顺着湖岸往北边跑了。"
 			},
-			"die_marks_killer": "量水的道士倒了"
+			"die_marks": "量水的道士倒了"
 		},
 		{
 			"id": "native.npc.war_painter",
@@ -6564,7 +6591,7 @@
 			"die_carries": {
 				"item": "native:canyon/dig_sketch"
 			},
-			"die_marks_killer": "兵部画吏倒了"
+			"die_marks": "兵部画吏倒了"
 		},
 		{
 			"id": "native.npc.ice_cutter",
@@ -6754,15 +6781,15 @@
 				"con": 24,
 				"kar": 12
 			},
-			"combat_exp": 80000,
+			"combat_exp": 15500,
 			"skills": {
-				"unarmed": 80,
-				"sword": 80,
-				"parry": 80,
-				"dodge": 70,
-				"move": 60,
-				"six-chaos-sword": 70,
-				"pyrobat-steps": 60
+				"unarmed": 45,
+				"sword": 45,
+				"parry": 45,
+				"dodge": 41,
+				"move": 35,
+				"six-chaos-sword": 41,
+				"pyrobat-steps": 35
 			},
 			"skill_map": {
 				"dodge": "pyrobat-steps",
@@ -7987,6 +8014,12 @@
 						},
 						{
 							"asker_marks": [
+								"认了管事的陆得财"
+							],
+							"say": "酒囊系在乔阴那个腰上了。……你认的是他，叫花子不认两个龙头。"
+						},
+						{
+							"asker_marks": [
 								"福林大街碰了面"
 							],
 							"asker_lacks": [
@@ -8612,7 +8645,7 @@
 					"listed_marks": [
 						"师兄弟见了面"
 					],
-					"confirm": "跟花匠：《上清符箓》锁回藏经楼二楼，花匠留在山上守书——他教茅山道术，谁都教，女子也教。正月十七虹台上，茅山这一票投旧盟主：北麓剩下的人交茅山看着。\n林忌不会点头，从此对你冷一分。终章之后北麓那座道观里的人还没有去处的，花匠拿着书上北麓去劝。\n要这么办吗？",
+					"confirm": "跟花匠：《上清符箓》锁回藏经楼二楼，花匠留在山上守书——他教茅山道术，谁都教，女子也教。正月十七虹台上，茅山这一票投旧盟主：北麓剩下的人交茅山看着（已经入了虹台的席的，这一票不再跟着变）。\n林忌不会点头，从此对你冷一分。终章之后北麓那座道观里的人还没有去处的，花匠拿着书上北麓去劝。\n要这么办吗？",
 					"confirm_marks": [
 						"师兄弟见了面"
 					],
@@ -9463,7 +9496,7 @@
 					"listed_marks": [
 						"骆家兄弟见了面"
 					],
-					"confirm": "保住骆家：骆云舟带大哥回乔阴，抄本的事从此不提；骆建章在曼雩台上给弟弟抄谱。\n第九章还没定的，揭发里少了骆建章这一样人证（本来就没有，不扣别的）。骆家照旧是京城的世家：正月十七虹台上，步玄这一票投颜违。\n要这么办吗？",
+					"confirm": "保住骆家：骆云舟带大哥回乔阴，抄本的事从此不提；骆建章在曼雩台上给弟弟抄谱。\n第九章还没定的，揭发里少了骆建章这一样人证（本来就没有，不扣别的）。骆家照旧是京城的世家：正月十七虹台上，步玄这一票投颜违（已经入了虹台的席的，这一票不再跟着变）。\n要这么办吗？",
 					"confirm_marks": [
 						"骆家兄弟见了面"
 					],
@@ -9768,7 +9801,7 @@
 					"listed_marks": [
 						"骆家兄弟见了面"
 					],
-					"confirm": "让大哥作证：骆建章写供状、上堂，说出兵部抄本上多出来的三句是庾子建口述、他落的笔。\n第九章还没定的，朝上揭发多一样人证；庾子建已经下了狱的，大哥照实供，代笔矫令，判流放关北；私了过、或者先解了皇叔通缉的，供状送进刑部、抄一份给乔阴程不平，庾子建的案子重开。\n骆家从此和朝廷翻脸：正月十七虹台上，步玄这一票投旧盟主——兵部的旧案，查到底。\n要这么办吗？",
+					"confirm": "让大哥作证：骆建章写供状、上堂，说出兵部抄本上多出来的三句是庾子建口述、他落的笔。\n第九章还没定的，朝上揭发多一样人证；庾子建已经下了狱的，大哥照实供，代笔矫令，判流放关北；私了过、或者先解了皇叔通缉的，供状送进刑部、抄一份给乔阴程不平，庾子建的案子重开。\n骆家从此和朝廷翻脸：正月十七虹台上，步玄这一票投旧盟主——兵部的旧案，查到底（已经入了虹台的席的，这一票不再跟着变）。\n要这么办吗？",
 					"confirm_marks": [
 						"骆家兄弟见了面"
 					],
@@ -10139,7 +10172,7 @@
 							}
 						]
 					},
-					"present": "native.npc.luo_jianzhang",
+					"present": ["native.npc.luo_jianzhang", "native.npc.wei_zhizhong"],
 					"steps": [
 						{
 							"by": "native.npc.wei_zhizhong"
@@ -10858,7 +10891,7 @@
 		},
 		{
 			"id": "native.npc.juechen_liaochen",
-			"legacy_source": "native: 势力线第三批 绝尘 A (剧情总纲 §4 第 7 条「绝尘派」, §3 第五章 (鬼卒出来了); 计划 势力线第三批_计划.md §7 绝尘 A, §2 第 1、2 条, §3, §8 第 8 行, §10 第 1–4 条, §12 Q1 Q2 Q5, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 A」) — 绝尘子's first apprentice (ES2 has none but the master: daemon/class/juechen/master.c), a 小沙弥 who walked out of 山烟寺 thirty years ago after 玄尘 (计划 §3: 绝尘子 is 玄尘; 绝尘 B tells it), in the 石室's hall beside the master (d/green/cavehall.c). He asks after the cave and says the master knows what is in it. 续写. The attributes are fixed here",
+			"legacy_source": "native: 势力线第三批 绝尘 A (剧情总纲 §4 第 7 条「绝尘派」, §3 第五章 (鬼卒出来了); 计划 势力线第三批_计划.md §7 绝尘 A, §2 第 1、2 条, §3, §8 第 8 行, §10 第 1–4 条, §12 Q1 Q2 Q5, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 A」) — 绝尘子's first apprentice (ES2 has none but the master: daemon/class/juechen/master.c), a 小沙弥 who walked out of 山烟寺 thirty years ago after 玄尘 (计划 §3: 绝尘子 is 玄尘; 绝尘 B tells it), in the 石室's hall beside the master (d/green/cavehall.c). He asks after the cave and says the master knows what is in it. 续写. The attributes are fixed here; native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 师父: thirty years ago he was a 小沙弥 of 山烟寺 who ran after 玄尘 (绝尘子) out of the gate; he wants to go back to 流云轩 (the 樵夫's tale for one who walked 山烟寺 A). Off the hall once 绝尘子 owns the name (the kneeling one comes on); back in the hall after 守阵 (or a lapse)",
 			"name": "了尘",
 			"aliases": [
 				"liao chen",
@@ -10928,6 +10961,19 @@
 					"rules": [
 						{
 							"asker_marks": [
+								"绝尘派守了阵"
+							],
+							"lines": [
+								{
+									"say": "阵推到洞口了。洞里的东西出不来，村里的孩子也钻不进去——进去转一圈，又从原路转出来。"
+								},
+								{
+									"say": "师父说，这样就够了。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
 								"了尘说了洞里的事"
 							],
 							"lines": [
@@ -10978,7 +11024,202 @@
 				],
 				"name": [
 					"贫道了尘。"
-				]
+				],
+				"师父": {
+					"rules": [
+						{
+							"asker_marks": [
+								"绝尘的线断了"
+							],
+							"say": "师父的事，问师父。"
+						},
+						{
+							"asker_marks": [
+								"绝尘派守了阵"
+							],
+							"lines": [
+								{
+									"say": "阵推到洞口了。青石村北边，往后什么都进不来。"
+								},
+								{
+									"emote": "捻了捻腕上的佛珠。"
+								},
+								{
+									"say": "我留下。三十年前跟着他出山门的时候，我就说过，他去哪里，我去哪里。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"了尘说了玄尘"
+							],
+							"say": "三十年前的事，都跟你说了。去问师父「玄尘」——他认不认，是他的事。"
+						},
+						{
+							"asker_marks": [
+								"了尘说了洞里的事",
+								"喂了樵夫药",
+								"头陀进了流云轩"
+							],
+							"mark_asker": "了尘说了玄尘",
+							"lines": [
+								{
+									"emote": "看了一眼佛像下的师父，把你拉到大厅一角，压低了声音。"
+								},
+								{
+									"say": "三十年前，我十二岁，是日照山山烟寺的小沙弥，在流云轩给方丈烧药炉。"
+								},
+								{
+									"say": "那年一个天竺来的法师背着两部经上山，住持不收。寺里有一位玄尘师叔，追出了山门——我跟在他后面跑出去的。他回头看见我，没赶我走。"
+								},
+								{
+									"say": "在番坊住了一年，又往北走，走到青石村后山，师叔摆了这个阵，改了道号，叫绝尘。"
+								},
+								{
+									"emote": "朝佛像下看了一眼。"
+								},
+								{
+									"say": "就是师父。"
+								},
+								{
+									"say": "我跟了他三十年。这几年山洞里出来那些东西，山下的人一个一个地冻死，流云轩救不过来。师父不管。"
+								},
+								{
+									"say": "乔阴那个樵夫老葛，被鬼卒抓了一把，抬上了日照山。流云轩的药一碗一碗地灌，寒气赶不出去——你去过，你知道。"
+								},
+								{
+									"say": "后来是金门外那个独眼的头陀，一掌把寒气按了出来。流云轩的药，治不了这个。"
+								},
+								{
+									"say": "我要回山烟寺去。"
+								},
+								{
+									"say": "你去问师父「玄尘」。那个名字，他三十年没让人叫过了。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"了尘说了洞里的事",
+								"喂了樵夫药",
+								"守了寺规"
+							],
+							"mark_asker": "了尘说了玄尘",
+							"lines": [
+								{
+									"emote": "看了一眼佛像下的师父，把你拉到大厅一角，压低了声音。"
+								},
+								{
+									"say": "三十年前，我十二岁，是日照山山烟寺的小沙弥，在流云轩给方丈烧药炉。"
+								},
+								{
+									"say": "那年一个天竺来的法师背着两部经上山，住持不收。寺里有一位玄尘师叔，追出了山门——我跟在他后面跑出去的。他回头看见我，没赶我走。"
+								},
+								{
+									"say": "在番坊住了一年，又往北走，走到青石村后山，师叔摆了这个阵，改了道号，叫绝尘。"
+								},
+								{
+									"emote": "朝佛像下看了一眼。"
+								},
+								{
+									"say": "就是师父。"
+								},
+								{
+									"say": "我跟了他三十年。这几年山洞里出来那些东西，山下的人一个一个地冻死，流云轩救不过来。师父不管。"
+								},
+								{
+									"say": "乔阴那个樵夫老葛，被鬼卒抓了一把，抬上了日照山。流云轩的药一碗一碗地灌，寒气赶不出去——你去过，你知道。"
+								},
+								{
+									"say": "后来是方丈守了三天三夜，命保住了，一只手废了。"
+								},
+								{
+									"say": "我要回山烟寺去。"
+								},
+								{
+									"say": "你去问师父「玄尘」。那个名字，他三十年没让人叫过了。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"了尘说了洞里的事",
+								"喂了樵夫药"
+							],
+							"mark_asker": "了尘说了玄尘",
+							"lines": [
+								{
+									"emote": "看了一眼佛像下的师父，把你拉到大厅一角，压低了声音。"
+								},
+								{
+									"say": "三十年前，我十二岁，是日照山山烟寺的小沙弥，在流云轩给方丈烧药炉。"
+								},
+								{
+									"say": "那年一个天竺来的法师背着两部经上山，住持不收。寺里有一位玄尘师叔，追出了山门——我跟在他后面跑出去的。他回头看见我，没赶我走。"
+								},
+								{
+									"say": "在番坊住了一年，又往北走，走到青石村后山，师叔摆了这个阵，改了道号，叫绝尘。"
+								},
+								{
+									"emote": "朝佛像下看了一眼。"
+								},
+								{
+									"say": "就是师父。"
+								},
+								{
+									"say": "我跟了他三十年。这几年山洞里出来那些东西，山下的人一个一个地冻死，流云轩救不过来。师父不管。"
+								},
+								{
+									"say": "乔阴那个樵夫老葛，被鬼卒抓了一把，抬上了日照山。流云轩的药一碗一碗地灌，寒气赶不出去——你去过，你知道。"
+								},
+								{
+									"say": "我要回山烟寺去。"
+								},
+								{
+									"say": "你去问师父「玄尘」。那个名字，他三十年没让人叫过了。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"了尘说了洞里的事"
+							],
+							"mark_asker": "了尘说了玄尘",
+							"lines": [
+								{
+									"emote": "看了一眼佛像下的师父，把你拉到大厅一角，压低了声音。"
+								},
+								{
+									"say": "三十年前，我十二岁，是日照山山烟寺的小沙弥，在流云轩给方丈烧药炉。"
+								},
+								{
+									"say": "那年一个天竺来的法师背着两部经上山，住持不收。寺里有一位玄尘师叔，追出了山门——我跟在他后面跑出去的。他回头看见我，没赶我走。"
+								},
+								{
+									"say": "在番坊住了一年，又往北走，走到青石村后山，师叔摆了这个阵，改了道号，叫绝尘。"
+								},
+								{
+									"emote": "朝佛像下看了一眼。"
+								},
+								{
+									"say": "就是师父。"
+								},
+								{
+									"say": "我跟了他三十年。这几年山洞里出来那些东西，山下的人一个一个地冻死，流云轩救不过来。师父不管。"
+								},
+								{
+									"say": "我要回山烟寺去。"
+								},
+								{
+									"say": "你去问师父「玄尘」。那个名字，他三十年没让人叫过了。"
+								}
+							]
+						},
+						{
+							"say": "师父是绝尘派的祖师。我是他头一个徒弟。"
+						}
+					]
+				}
 			}
 		},
 		{
@@ -11435,6 +11676,792 @@
 						}
 					]
 				}
+			}
+		},
+		{
+			"id": "native.npc.liaochen_kneel",
+			"legacy_source": "native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 了尘 (绝尘 A's 首徒, a 小沙弥 of 山烟寺 thirty years ago) on his knees before the Buddha in the 石室's hall (d/green/cavehall.c) once 绝尘子 owned the name 玄尘: the scene (`scene_mark` 了尘跪在了佛前), and 下山 asked of him; until the split. 续写. His numbers are the standing one's",
+			"name": "了尘",
+			"aliases": [
+				"liao chen",
+				"liaochen",
+				"了尘",
+				"首徒"
+			],
+			"class": "taoist",
+			"gender": "男性",
+			"age": 42,
+			"attributes": {
+				"str": 24,
+				"con": 26,
+				"cor": 22,
+				"spi": 26,
+				"int": 24,
+				"cps": 28,
+				"kar": 20,
+				"per": 18
+			},
+			"resources": {
+				"max_force": 800,
+				"force": 800,
+				"max_atman": 400,
+				"atman": 400,
+				"max_mana": 600,
+				"mana": 600
+			},
+			"combat_exp": 300000,
+			"force_factor": 10,
+			"family": {
+				"name": "绝尘派",
+				"generation": 2,
+				"title": "首徒"
+			},
+			"attitude": "peaceful",
+			"skills": {
+				"force": 80,
+				"dodge": 70,
+				"parry": 70,
+				"unarmed": 50,
+				"staff": 80,
+				"literate": 60,
+				"juechen-force": 80,
+				"jingang-staff": 80
+			},
+			"skill_map": {
+				"staff": "jingang-staff",
+				"force": "juechen-force"
+			},
+			"carry": [
+				{
+					"item": "es2:daemon/class/juechen/jingang_staff",
+					"source": "daemon/class/juechen/jingang_staff.c",
+					"equip": "wield"
+				}
+			],
+			"long": "了尘跪在佛像前，金刚杖横放在身前的地上，腕上那串佛珠一动不动。佛像顶上的夜明珠照着他剃过又蓄起来的发茬。他在等师父一句话。\n",
+			"always_kept": true,
+			"accept_fight": [
+				{
+					"say": "我跪在这里，不动手。",
+					"accept": false
+				}
+			],
+			"inquiry": {
+				"师父": [
+					"我跪在这里，等师父一句话。"
+				],
+				"山洞": [
+					"洞里的东西还会出来。阵守得住石室，守不住山下。"
+				],
+				"name": [
+					"贫道了尘。……三十年前，我叫了尘，三十年后，我还叫了尘。"
+				],
+				"下山": {
+					"confirm": "下山：了尘回日照山山烟寺，到流云轩救人（收了经的，他跟独眼头陀在一起；守了寺的，他在流云轩做药僧）。\n了尘肯把金刚杖法教给不是绝尘派的人（只这一门）。\n绝尘子不下山：正月十七虹台上，了尘替绝尘派上台——鬼卒要剿，神教要逐，这一票投颜违（已经入了虹台的席的，这一票不再跟着变）。\n守阵那条路就没了。要这么说吗？",
+					"confirm_marks": [
+						"了尘跪在了佛前"
+					],
+					"confirm_lacks": [
+						"绝尘派守了阵",
+						"了尘下了山",
+						"绝尘的线断了"
+					],
+					"listed_marks": [
+						"了尘跪在了佛前"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"绝尘的线断了"
+							],
+							"say": "这是师父和我的事。"
+						},
+						{
+							"asker_marks": [
+								"绝尘派守了阵"
+							],
+							"say": "师父说了守阵。我留下。"
+						},
+						{
+							"asker_marks": [
+								"了尘跪在了佛前"
+							],
+							"asker_lacks": [
+								"入了虹台的席"
+							],
+							"marks_asker": [
+								"了尘下了山",
+								"绝尘的票随了下山",
+								"绝尘派肯来"
+							],
+							"leaves": true,
+							"lines": [
+								{
+									"emote": "回头看了一眼佛像下的师父。"
+								},
+								{
+									"line": "绝尘子没有睁眼。过了很久，他说了一句：「出了阵，就是世事。」\n"
+								},
+								{
+									"say": "是。"
+								},
+								{
+									"emote": "朝师父磕了三个头，拾起金刚杖，站了起来。"
+								},
+								{
+									"say": "正月十七，师父不下山，我替他去。"
+								},
+								{
+									"line": "了尘出了石室，往南边的荒山路去了。\n"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"了尘跪在了佛前"
+							],
+							"mark_asker": "了尘下了山",
+							"leaves": true,
+							"lines": [
+								{
+									"emote": "回头看了一眼佛像下的师父。"
+								},
+								{
+									"line": "绝尘子没有睁眼。过了很久，他说了一句：「出了阵，就是世事。」\n"
+								},
+								{
+									"say": "是。"
+								},
+								{
+									"emote": "朝师父磕了三个头，拾起金刚杖，站了起来。"
+								},
+								{
+									"line": "了尘出了石室，往南边的荒山路去了。\n"
+								}
+							]
+						},
+						{
+							"say": "……"
+						}
+					]
+				}
+			},
+			"scene_mark": "了尘跪在了佛前",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "了尘跪在了佛前",
+					"when": {
+						"all": [
+							{
+								"mark": "绝尘子认了玄尘"
+							},
+							{
+								"not": {
+									"mark": "绝尘派守了阵"
+								}
+							},
+							{
+								"not": {
+									"mark": "了尘下了山"
+								}
+							},
+							{
+								"not": {
+									"mark": "绝尘的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.juechen.master",
+					"steps": [
+						{
+							"line": "了尘走到佛像前，跪了下来，把那根金刚杖横放在身前的地上。\n"
+						},
+						{
+							"say": "师父。"
+						}
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"not_mark": "了尘跪在了佛前",
+					"when": {
+						"all": [
+							{
+								"mark": "绝尘子认了玄尘"
+							},
+							{
+								"not": {
+									"mark": "绝尘派守了阵"
+								}
+							},
+							{
+								"not": {
+									"mark": "了尘下了山"
+								}
+							},
+							{
+								"not": {
+									"mark": "绝尘的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.juechen.master",
+					"steps": [
+						{
+							"by": "common.npc.juechen.master"
+						},
+						{
+							"emote": "坐在佛像下，眼睛半闭着。"
+						},
+						{
+							"say": "说。"
+						}
+					]
+				},
+				{
+					"after": 7,
+					"scene": true,
+					"not_mark": "了尘跪在了佛前",
+					"when": {
+						"all": [
+							{
+								"mark": "绝尘子认了玄尘"
+							},
+							{
+								"not": {
+									"mark": "绝尘派守了阵"
+								}
+							},
+							{
+								"not": {
+									"mark": "了尘下了山"
+								}
+							},
+							{
+								"not": {
+									"mark": "绝尘的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.juechen.master",
+					"steps": [
+						{
+							"say": "三十年前，是师父领我出的山门。今天，我想回去。"
+						},
+						{
+							"say": "山洞里出来了东西，山下的人一个一个地冻死。阵守得住石室，守不住山下。"
+						}
+					]
+				},
+				{
+					"after": 9,
+					"scene": true,
+					"not_mark": "了尘跪在了佛前",
+					"when": {
+						"all": [
+							{
+								"mark": "绝尘子认了玄尘"
+							},
+							{
+								"not": {
+									"mark": "绝尘派守了阵"
+								}
+							},
+							{
+								"not": {
+									"mark": "了尘下了山"
+								}
+							},
+							{
+								"not": {
+									"mark": "绝尘的线断了"
+								}
+							},
+							{
+								"mark": "山烟寺收了经"
+							}
+						]
+					},
+					"present": "common.npc.juechen.master",
+					"steps": [
+						{
+							"say": "番坊的经，师伯收下了。流云轩现在治得了鬼卒的寒——可只有一个头陀，一双手。"
+						}
+					]
+				},
+				{
+					"after": 9,
+					"scene": true,
+					"not_mark": "了尘跪在了佛前",
+					"when": {
+						"all": [
+							{
+								"mark": "绝尘子认了玄尘"
+							},
+							{
+								"not": {
+									"mark": "绝尘派守了阵"
+								}
+							},
+							{
+								"not": {
+									"mark": "了尘下了山"
+								}
+							},
+							{
+								"not": {
+									"mark": "绝尘的线断了"
+								}
+							},
+							{
+								"mark": "山烟寺守了寺"
+							}
+						]
+					},
+					"present": "common.npc.juechen.master",
+					"steps": [
+						{
+							"say": "师伯守着本寺一脉，流云轩还是赶不出那股寒。我是流云轩出来的人，我回去，不算外人。"
+						}
+					]
+				},
+				{
+					"after": 11,
+					"scene": true,
+					"not_mark": "了尘跪在了佛前",
+					"when": {
+						"all": [
+							{
+								"mark": "绝尘子认了玄尘"
+							},
+							{
+								"not": {
+									"mark": "绝尘派守了阵"
+								}
+							},
+							{
+								"not": {
+									"mark": "了尘下了山"
+								}
+							},
+							{
+								"not": {
+									"mark": "绝尘的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.juechen.master",
+					"steps": [
+						{
+							"by": "common.npc.juechen.master"
+						},
+						{
+							"say": "阵守得住石室，就守得住青石村。老道把阵往外推，推到洞口——青石村北边，往后什么都进不来。"
+						},
+						{
+							"say": "你留下，跟着老道守阵。"
+						}
+					]
+				},
+				{
+					"after": 14,
+					"scene": true,
+					"not_mark": "了尘跪在了佛前",
+					"when": {
+						"all": [
+							{
+								"mark": "绝尘子认了玄尘"
+							},
+							{
+								"not": {
+									"mark": "绝尘派守了阵"
+								}
+							},
+							{
+								"not": {
+									"mark": "了尘下了山"
+								}
+							},
+							{
+								"not": {
+									"mark": "绝尘的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.juechen.master",
+					"steps": [
+						{
+							"emote": "伏在地上，没有起来。"
+						},
+						{
+							"say": "流云轩缺的是人手。……师父，我想下山。"
+						}
+					]
+				},
+				{
+					"after": 17,
+					"scene": true,
+					"not_mark": "了尘跪在了佛前",
+					"when": {
+						"all": [
+							{
+								"mark": "绝尘子认了玄尘"
+							},
+							{
+								"not": {
+									"mark": "绝尘派守了阵"
+								}
+							},
+							{
+								"not": {
+									"mark": "了尘下了山"
+								}
+							},
+							{
+								"not": {
+									"mark": "绝尘的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.juechen.master",
+					"steps": [
+						{
+							"by": "common.npc.juechen.master"
+						},
+						{
+							"emote": "睁开眼睛，看着跪在地上的了尘，又转过头来看着你。"
+						},
+						{
+							"say": "这孩子跟了老道三十年，头一回开口要走。你走过老道的阵，进过那个洞——你说吧。"
+						},
+						{
+							"line": "（守阵，问绝尘子「守阵」；下山，问了尘「下山」。）\n"
+						},
+						{
+							"mark": "绝尘子和了尘说完了话"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.liaochen_sanyen",
+			"legacy_source": "native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 了尘 after 下山: back at 日照山 (d/sanyen/heal_room.c, 流云轩), his head shaved again, nursing the sick (beside the 独眼头陀 when 山烟寺 took the sutra, as a 药僧 when it kept to its own); he teaches the 金刚杖法 (daemon/skill/jingang-staff.c) to anyone and nothing else, and sits 绝尘派's seat on the 虹台 for his master (颜违). 续写. His numbers are the hall's 了尘's",
+			"name": "了尘",
+			"aliases": [
+				"liao chen",
+				"liaochen",
+				"了尘",
+				"首徒"
+			],
+			"title": "流云轩",
+			"class": "bonze",
+			"gender": "男性",
+			"age": 42,
+			"attributes": {
+				"str": 24,
+				"con": 26,
+				"cor": 22,
+				"spi": 26,
+				"int": 24,
+				"cps": 28,
+				"kar": 20,
+				"per": 18
+			},
+			"resources": {
+				"max_force": 800,
+				"force": 800,
+				"max_atman": 400,
+				"atman": 400,
+				"max_mana": 600,
+				"mana": 600
+			},
+			"combat_exp": 300000,
+			"force_factor": 10,
+			"family": {
+				"name": "绝尘派",
+				"generation": 2,
+				"title": "首徒"
+			},
+			"attitude": "peaceful",
+			"skills": {
+				"force": 80,
+				"dodge": 70,
+				"parry": 70,
+				"unarmed": 50,
+				"staff": 80,
+				"literate": 60,
+				"juechen-force": 80,
+				"jingang-staff": 80
+			},
+			"skill_map": {
+				"staff": "jingang-staff",
+				"force": "juechen-force"
+			},
+			"carry": [
+				{
+					"item": "es2:daemon/class/juechen/jingang_staff",
+					"source": "daemon/class/juechen/jingang_staff.c",
+					"equip": "wield"
+				}
+			],
+			"long": "一个四十来岁的和尚，头是新剃的，青皮还没褪尽；洗白的旧道袍外头罩了一件山烟寺的灰布僧衣，腕上缠着那串磨得发亮的佛珠，金刚杖靠在药柜边上。他在流云轩里煎药、扶病人，手脚很快。\n",
+			"always_kept": true,
+			"chat_chance": 3,
+			"chat_msg": [
+				"了尘把药罐从炉子上端下来，吹了吹，倒进碗里。\n",
+				"了尘扶着病人坐起来，一勺一勺地喂药。\n"
+			],
+			"accept_fight": [
+				{
+					"say": "流云轩是看病的地方。",
+					"accept": false
+				}
+			],
+			"recognize_apprentice": [
+				{
+					"accept": true,
+					"skills": [
+						"jingang-staff"
+					]
+				}
+			],
+			"inquiry": {
+				"师父": [
+					"师父说，出了阵，就是世事。……他还坐在那尊佛像下吧。"
+				],
+				"流云轩": {
+					"rules": [
+						{
+							"asker_marks": [
+								"山烟寺收了经"
+							],
+							"lines": [
+								{
+									"say": "头陀师兄管火，我管药罐。鬼卒抓的伤抬上来，他一掌，我一碗。"
+								},
+								{
+									"emote": "朝药柜下坐着的独眼头陀看了一眼。"
+								},
+								{
+									"say": "三十年前没进门的经，进了门。师父要是知道……他知道。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"山烟寺守了寺"
+							],
+							"lines": [
+								{
+									"say": "方丈说，我本来就是本寺的人，三十年前出的山门，今天回来，不算外人。"
+								},
+								{
+									"say": "鬼卒的寒，流云轩还是赶不出去。能救一个，是一个。"
+								}
+							]
+						},
+						{
+							"say": "流云轩缺人手。我在这里煎药，扶病人。"
+						}
+					]
+				},
+				"头陀": {
+					"listed_marks": [
+						"山烟寺收了经"
+					],
+					"rules": [
+						{
+							"say": "师父当年追出山门，追的就是他师父背的那部经。三十年，经进了门，我也回来了。"
+						}
+					]
+				},
+				"玄智": [
+					"方丈是师父的师兄。我回来那天，他什么也没问，指了指流云轩。"
+				],
+				"金刚杖法": [
+					"师父教的杖法，招式跟山烟寺的流云杖法是一样的。你要学，我教。别的，我不教。"
+				],
+				"name": [
+					"贫僧了尘。……出了阵，又叫回贫僧了。"
+				],
+				"虹台": {
+					"listed_marks": [
+						"终章"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"大会散了"
+							],
+							"say": "正月十七的事，过去了。"
+						},
+						{
+							"asker_marks": [
+								"绝尘听你的"
+							],
+							"say": "绝尘派这一票，在施主手里。"
+						},
+						{
+							"asker_marks": [
+								"绝尘肯听你的",
+								"绝尘的票随了下山"
+							],
+							"say": "说过了。这条路是施主陪着走出来的，这一票，施主要，就是施主的。"
+						},
+						{
+							"asker_marks": [
+								"终章",
+								"绝尘的票随了下山"
+							],
+							"marks_asker": [
+								"绝尘表了态",
+								"绝尘肯听你的"
+							],
+							"lines": [
+								{
+									"say": "正月十七，师父不下山，贫僧替他上虹台。"
+								},
+								{
+									"say": "鬼卒要剿干净，神教要逐——山烟寺的僧人死在神教手里过。绝尘派投颜违。"
+								},
+								{
+									"emote": "捻了捻腕上的佛珠。"
+								},
+								{
+									"say": "可这条路，是施主陪着走出来的。这一票，施主要，就是施主的。"
+								}
+							]
+						},
+						{
+							"say": "正月十七，师父那一席的事，师父早说定了。"
+						}
+					]
+				},
+				"这一票": {
+					"confirm": "请了尘把绝尘派这一票交给你：正月十七虹台上，绝尘派听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？",
+					"confirm_marks": [
+						"绝尘肯听你的",
+						"绝尘的票随了下山"
+					],
+					"confirm_lacks": [
+						"入了虹台的席",
+						"绝尘听你的"
+					],
+					"listed_marks": [
+						"绝尘肯听你的",
+						"绝尘的票随了下山"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"入了虹台的席"
+							],
+							"say": "虹台上已经入了席。票就是票了。"
+						},
+						{
+							"asker_marks": [
+								"绝尘听你的"
+							],
+							"say": "说过了。绝尘派听施主的。"
+						},
+						{
+							"asker_marks": [
+								"绝尘肯听你的",
+								"绝尘的票随了下山"
+							],
+							"mark_asker": "绝尘听你的",
+							"lines": [
+								{
+									"emote": "双手合十。"
+								},
+								{
+									"say": "阿弥陀佛。绝尘派听施主的。"
+								}
+							]
+						},
+						{
+							"say": "……"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.assembly_liaochen",
+			"legacy_source": "native: 势力线第三批 绝尘 B (剧情总纲 §4 第 7 条「绝尘派」; 计划 势力线第三批_计划.md §7 绝尘 B, §3 三十年前的旧事, §8 第 8 行与「要改大会的地方」, §10 第 4、11、12 条, §12 Q5 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 B」) — 了尘 on the 虹台 that day for 绝尘派 (绝尘子 stays in his 石室: 下山), one more of him as 霍铮 and 卫沧澜 by the lake: the hall's 了尘's numbers",
+			"name": "了尘",
+			"aliases": [
+				"liao chen",
+				"liaochen",
+				"了尘"
+			],
+			"title": "绝尘派首徒",
+			"class": "bonze",
+			"gender": "男性",
+			"age": 42,
+			"attributes": {
+				"str": 24,
+				"con": 26,
+				"cor": 22,
+				"spi": 26,
+				"int": 24,
+				"cps": 28,
+				"kar": 20,
+				"per": 18
+			},
+			"resources": {
+				"max_force": 800,
+				"force": 800,
+				"max_atman": 400,
+				"atman": 400,
+				"max_mana": 600,
+				"mana": 600
+			},
+			"combat_exp": 300000,
+			"force_factor": 10,
+			"family": {
+				"name": "绝尘派",
+				"generation": 2,
+				"title": "首徒"
+			},
+			"attitude": "friendly",
+			"skills": {
+				"force": 80,
+				"dodge": 70,
+				"parry": 70,
+				"unarmed": 50,
+				"staff": 80,
+				"literate": 60,
+				"juechen-force": 80,
+				"jingang-staff": 80
+			},
+			"skill_map": {
+				"staff": "jingang-staff",
+				"force": "juechen-force"
+			},
+			"carry": [
+				{
+					"item": "es2:daemon/class/juechen/jingang_staff",
+					"source": "daemon/class/juechen/jingang_staff.c",
+					"equip": "wield"
+				}
+			],
+			"long": "了尘坐在绝尘派的旗下，头是新剃的，金刚杖横在膝上。他替师父坐着这把椅子。\n",
+			"fight_deferred": "了尘摆了摆手：今天是推选的日子，不动手。",
+			"inquiry": {
+				"虹台": [
+					"正月十七，九派都在这里。有话，台上说。"
+				]
 			}
 		}
 	]

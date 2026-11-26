@@ -8,9 +8,10 @@ var _view: WorldVoxelView
 
 func _ready() -> void:
 	focus_mode = Control.FOCUS_NONE
-	text = tr("切至左侧")
-	tooltip_text = tr("切换左侧与右侧 45° 固定视角")
-	pressed.connect(_toggle)
+	# The source text: the button translates it as it draws, so a language switch reaches it.
+	text = "切至左侧"
+	tooltip_text = "切换左侧与右侧 45° 固定视角"
+	pressed.connect(toggle)
 	visible = false
 
 func _process(_delta: float) -> void:
@@ -24,8 +25,9 @@ func _process(_delta: float) -> void:
 		if _view != null:
 			_view.set_view_side(left_view,true)
 
-func _toggle() -> void:
+## The other side (the button, V or the right stick pressed: SharedGameplayUI).
+func toggle() -> void:
 	left_view = not left_view
-	text = tr("切至右侧") if left_view else tr("切至左侧")
+	text = "切至右侧" if left_view else "切至左侧"
 	if is_instance_valid(_view):
 		_view.set_view_side(left_view)

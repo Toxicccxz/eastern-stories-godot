@@ -9,6 +9,7 @@ extends RefCounted
 ## mother (follows_player), 村长 finishing 国之将亡，必有妖孽, 绝尘子 told (大弟子 for his own), 了尘; the stub.
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
+const FollowerWalk := preload("res://tests/support/follower_walk.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Es2PacingScript := preload("res://tests/support/es2_pacing.gd")
 const QUEST: StringName = &"faction.juechen"
@@ -98,8 +99,8 @@ func _test_data() -> void:
 	if quest == null:
 		return
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
-	_check(ids == [&"elder", &"cave", &"saying", &"report", &"liaochen", &"xuanchen"], "绝尘 A's steps, then the stub: %s" % [ids])
-	_check(quest.steps.all(func(step: StoryQuestDefinition.Step) -> bool: return not step.is_branch()), "no choice in 绝尘 A (the split is 绝尘 B's)")
+	_check(ids.slice(0, 6) == [&"elder", &"cave", &"saying", &"report", &"liaochen", &"xuanchen"], "绝尘 A's steps, then the stub (绝尘 B fills it): %s" % [ids])
+	_check(quest.steps.slice(0, 6).all(func(step: StoryQuestDefinition.Step) -> bool: return not step.is_branch()), "no choice in 绝尘 A (the split is 绝尘 B's)")
 	var report: StoryQuestDefinition.Step = quest.step(&"report")
 	_check(report.reward.rank_title == "大弟子" and report.reward.rank_family == FAMILY and not report.reward.deed.is_empty(), "绝尘子 told: 大弟子 for his own, a deed")
 	_check(quest.step(&"xuanchen").target.npc_ids.has(LIAOCHEN), "then 了尘 again (绝尘 B)")
@@ -111,7 +112,7 @@ func _test_data() -> void:
 		var spawn: NpcSpawnDefinition = catalog.spawn(spawn_id)
 		_check(spawn != null and spawn.staged, "%s is on the story's stage" % spawn_id)
 	_check(catalog.spawn(&"native.cave1.ghoul").cleared_mark == "洞口的鬼卒倒了" and catalog.spawn(&"native.cave2.ghoul").cleared_mark == "洞底的鬼卒倒了", "each 鬼卒 marks its own beating")
-	_check(not catalog.spawn(&"native.cavehall.liaochen").staged, "了尘 lives in the hall")
+	_check(catalog.spawn(&"native.cavehall.liaochen").present == null, "了尘 lives in the hall (until 绝尘 B's 玄尘)")
 	for id: StringName in [KID, MOTHER, LIAOCHEN]:
 		_check(catalog.npc(id).hooks() != null and catalog.npc(id).hooks().always_kept, "%s can only be knocked down" % id)
 		_check(NpcLifeBook.entry(id) != null, "%s has its life" % id)
@@ -192,10 +193,11 @@ func _test_guest(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_target(session).zone_id == PATH0, "the step's target is his mother now")
 	var leading: NpcInquiryRule = NpcInquiryRule.decide(GameContent.catalog().npc(ELDER).talk().inquiry_rules("山洞"), state.marks)
 	_check(leading != null and leading.lines.any(func(line: NpcLine) -> bool: return line.text.contains("北边路口")), "村长 to one leading the boy: to his mother")
-	_check(await _lead(tree, session, CAVE0, CAVE0_POINT), "out of the cave")
+	_check(await _go_with(tree, session, CAVE0, KID) != null, "out of the cave, he behind: %s" % FollowerWalk.failure)
 	_check(_first(session, CAVE0, KID) != null, "he came along")
-	_check(await _lead(tree, session, PATH0, PATH0_POINT), "down to the north road")
-	village = session.active_map() as WorldMapController
+	village = await _go_with(tree, session, PATH0, KID)
+	_check(village != null, "down to the north road, he behind: %s" % FollowerWalk.failure)
+	_check(_first(session, PATH0, KID) != null, "he came down with the player")
 	lines = await _scene(tree, session, village)
 	_check(_said(lines, "叫你们别去") and state.marks.get("孩子回了家", 0) == 1, "his mother (%s)" % [lines.slice(-6)])
 	_check(_first(session, PATH0, KID) == null and _first(session, PATH0, MOTHER) == null, "they went home together")
@@ -285,14 +287,12 @@ func _enter(tree: SceneTree, session: WorldSessionController, zone_id: StringNam
 	return map
 
 
-## TEST-ONLY: the player taken to `zone_id` by a way they lead (handoff_led): who follows every way comes along.
-func _lead(tree: SceneTree, session: WorldSessionController, zone_id: StringName, point_id: StringName) -> bool:
-	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
-	if zone == null:
-		return false
-	var result: OldPineMapHandoffResult = session.handoff_led(zone.map_id, zone_id, zone.combat_location_id, point_id)
+## TEST-ONLY: the player walks to `zone_id` through the doors, waiting at each for `follower_id` to come up
+## (FollowerWalk: go.c follow_me(), no handoff that carries him along for the suite).
+func _go_with(tree: SceneTree, session: WorldSessionController, zone_id: StringName, follower_id: StringName) -> WorldMapController:
+	var map: WorldMapController = await FollowerWalk.go_with(tree, session, zone_id, follower_id)
 	await _settle(tree)
-	return result != null and result.succeeded()
+	return map
 
 
 ## TEST-ONLY: a scene as one comes into its room, through to its end.

@@ -19,11 +19,14 @@ var validation_result: NativeItemStateValidationResult:
 		)
 
 
+## `p_adopt`: the snapshot is new and nothing else holds it (NativeItemStateCapture's own): the
+## result keeps it as it is, without a copy.
 func _init(
 	p_snapshot: NativeItemStateSnapshot = null,
 	p_validation_result: NativeItemStateValidationResult = null,
+	p_adopt: bool = false,
 ) -> void:
-	_snapshot = null if p_snapshot == null else p_snapshot.duplicate_snapshot()
+	_snapshot = p_snapshot if p_snapshot == null or p_adopt else p_snapshot.duplicate_snapshot()
 	_validation_result = (
 		NativeItemStateValidationResult.new(
 			NativeItemStateValidationResult.Outcome.INVALID_SNAPSHOT
@@ -35,3 +38,11 @@ func _init(
 			p_validation_result.related_id,
 		)
 	)
+
+
+## The snapshot itself, handed over without a copy to a caller that keeps it as its own (a game
+## save built on it): the result holds it no more, and no longer reads as succeeded.
+func take_snapshot() -> NativeItemStateSnapshot:
+	var taken: NativeItemStateSnapshot = _snapshot
+	_snapshot = null
+	return taken

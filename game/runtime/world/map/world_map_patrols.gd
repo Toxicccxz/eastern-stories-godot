@@ -171,12 +171,12 @@ func pass_sentence(judge: NpcRuntimeState) -> void:
 	var lines: Array[ColoredLine] = []
 	var fainted: bool = false
 	if level > 0:
-		lines.append(ColoredLine.new(tr(sentence.beat_line).replace("$N", you).format({"boards": ChineseNumber.of(level * 10)}), ColoredLine.HIR))
+		lines.append(ColoredLine.new(MessageGrammar.fill(tr(sentence.beat_line), MessageGrammar.you(), you).format({"boards": ChineseNumber.of(level * 10)}), ColoredLine.HIR))
 		fainted = NpcSentence.beat(state, level).fainted
 		if fainted:
 			for index: int in range(sentence.faint_lines.size()):
-				lines.append(ColoredLine.new(tr(sentence.faint_lines[index]).replace("$N", you), ColoredLine.HIR if index == 0 else ColoredLine.PLAIN))
-		lines.append(ColoredLine.new(tr(sentence.warn_line).replace("$N", tr(judge.definition().display_name)).replace("$n", you), ColoredLine.HIR))
+				lines.append(ColoredLine.new(MessageGrammar.fill(tr(sentence.faint_lines[index]), MessageGrammar.you(), you), ColoredLine.HIR if index == 0 else ColoredLine.PLAIN))
+		lines.append(ColoredLine.new(MessageGrammar.fill(tr(sentence.warn_line), MessageGrammar.other(judge.character_state.gender), tr(judge.definition().display_name), MessageGrammar.you(), you), ColoredLine.HIR))
 		CrimeRecord.clear_crime(state)
 	else:
 		lines.append(ColoredLine.new(tr(sentence.sorry_line)))
@@ -184,9 +184,12 @@ func pass_sentence(judge: NpcRuntimeState) -> void:
 	_player.awaiting_sentence = false
 	var out: ZoneDefinition = GameContent.catalog().zone(sentence.out_zone_id)
 	var here: WorldMapController = _map
-	if out != null and session != null and session.handoff_to(out.map_id, out.zone_id, out.combat_location_id, sentence.out_point_id).succeeded():
+	if out != null and session != null and session.handoff_rejoined(out.map_id, out.zone_id, out.combat_location_id, sentence.out_point_id).succeeded():
 		here = session.active_map() as WorldMapController
 		here.hud().describe_arrival()
+	# DECISIONS「走散的同伴回来」: who follows every way comes to the one let go.
+	if session != null:
+		session.bring_followers_back()
 	# heart_beat(): a value below 0 knocks out; unconcious() for one the strokes left at 1.
 	if fainted:
 		state.fall_unconscious()

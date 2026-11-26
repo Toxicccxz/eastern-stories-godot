@@ -15,6 +15,11 @@ const AUTO_SLOT_ID: StringName = &"auto"
 ## no return (the dive into the finale); the autosave never rolls into it, the player never saves to
 ## it, and the list shows it only once there is something in it.
 const KEEP_SLOT_ID: StringName = &"keep"
+## Native (DECISIONS「死前存档」): the autosave as it lay on disk when the player died, copied byte
+## for byte as the death card comes up; only the next death replaces it, and not while an earlier
+## corpse of the player still holds things. Nobody saves to it; the list shows it once it holds
+## something.
+const DEATH_SLOT_ID: StringName = &"death"
 const DEFAULT_SLOT_ID: StringName = &"slot-1"
 ## The one fixed slot before them: old files name it, and nothing writes it any more.
 const LEGACY_SLOT_ID: StringName = &"default-v1"
@@ -123,25 +128,39 @@ func _init(
 	p_npc_initialization_rng: RandomStreamSnapshot = null,
 	p_world_interaction_rng: RandomStreamSnapshot = null,
 	p_world_content_revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1,
+	p_adopt: bool = false,
 ) -> void:
-	_metadata = (
-		ValueTypes.GameSaveMetadata.new(FORMAT_ID, CURRENT_SCHEMA_VERSION, "", ValueTypes.OptionalText.none(), &"development", DEFAULT_SLOT_ID)
-		if p_metadata == null else p_metadata.duplicate_snapshot()
-	)
 	_session_kind = p_session_kind
 	_world_content_revision = p_world_content_revision
-	_item_id_allocator = ValueTypes.ItemIdAllocatorSnapshot.new() if p_item_id_allocator == null else p_item_id_allocator.duplicate_snapshot()
-	_player = ValueTypes.PlayerRuntimeSnapshot.new() if p_player == null else p_player.duplicate_snapshot()
-	for record: ValueTypes.NpcSpawnStateSnapshot in p_npc_spawn_states:
-		_npc_spawn_states.append(null if record == null else record.duplicate_snapshot())
-	for record: ValueTypes.CorpseSnapshot in p_corpses:
-		_corpses.append(null if record == null else record.duplicate_snapshot())
+	if p_metadata == null:
+		p_metadata = ValueTypes.GameSaveMetadata.new(FORMAT_ID, CURRENT_SCHEMA_VERSION, "", ValueTypes.OptionalText.none(), &"development", DEFAULT_SLOT_ID)
+	elif not p_adopt:
+		p_metadata = p_metadata.duplicate_snapshot()
+	_metadata = p_metadata
+	if p_adopt:
+		# The parts are new and nothing else holds them (a capture's, a decoder's): this
+		# snapshot's own as they are (ValueTypes.CharacterStateSnapshot).
+		_item_id_allocator = ValueTypes.ItemIdAllocatorSnapshot.new() if p_item_id_allocator == null else p_item_id_allocator
+		_player = ValueTypes.PlayerRuntimeSnapshot.new() if p_player == null else p_player
+		_npc_spawn_states = p_npc_spawn_states
+		_corpses = p_corpses
+		_items = NativeItemStateSnapshot.new() if p_items == null else p_items
+		_combat_rng = RandomStreamSnapshot.new() if p_combat_rng == null else p_combat_rng
+		_npc_initialization_rng = RandomStreamSnapshot.new() if p_npc_initialization_rng == null else p_npc_initialization_rng
+		_world_interaction_rng = RandomStreamSnapshot.new() if p_world_interaction_rng == null else p_world_interaction_rng
+	else:
+		_item_id_allocator = ValueTypes.ItemIdAllocatorSnapshot.new() if p_item_id_allocator == null else p_item_id_allocator.duplicate_snapshot()
+		_player = ValueTypes.PlayerRuntimeSnapshot.new() if p_player == null else p_player.duplicate_snapshot()
+		for record: ValueTypes.NpcSpawnStateSnapshot in p_npc_spawn_states:
+			_npc_spawn_states.append(null if record == null else record.duplicate_snapshot())
+		for record: ValueTypes.CorpseSnapshot in p_corpses:
+			_corpses.append(null if record == null else record.duplicate_snapshot())
+		_items = NativeItemStateSnapshot.new() if p_items == null else p_items.duplicate_snapshot()
+		_combat_rng = RandomStreamSnapshot.new() if p_combat_rng == null else p_combat_rng.duplicate_snapshot()
+		_npc_initialization_rng = RandomStreamSnapshot.new() if p_npc_initialization_rng == null else p_npc_initialization_rng.duplicate_snapshot()
+		_world_interaction_rng = RandomStreamSnapshot.new() if p_world_interaction_rng == null else p_world_interaction_rng.duplicate_snapshot()
 	_npc_spawn_states.sort_custom(_npc_before)
 	_corpses.sort_custom(_corpse_before)
-	_items = NativeItemStateSnapshot.new() if p_items == null else p_items.duplicate_snapshot()
-	_combat_rng = RandomStreamSnapshot.new() if p_combat_rng == null else p_combat_rng.duplicate_snapshot()
-	_npc_initialization_rng = RandomStreamSnapshot.new() if p_npc_initialization_rng == null else p_npc_initialization_rng.duplicate_snapshot()
-	_world_interaction_rng = RandomStreamSnapshot.new() if p_world_interaction_rng == null else p_world_interaction_rng.duplicate_snapshot()
 
 
 func duplicate_snapshot() -> GameSaveSnapshot:
@@ -152,7 +171,7 @@ func duplicate_snapshot() -> GameSaveSnapshot:
 
 ## Whether `slot_id` names a slot of the game's.
 static func is_slot_id(slot_id: StringName) -> bool:
-	return slot_id == AUTO_SLOT_ID or slot_id == KEEP_SLOT_ID or MANUAL_SLOT_IDS.has(slot_id)
+	return slot_id == AUTO_SLOT_ID or slot_id == KEEP_SLOT_ID or slot_id == DEATH_SLOT_ID or MANUAL_SLOT_IDS.has(slot_id)
 
 
 func keep_derived(value: RefCounted) -> void:

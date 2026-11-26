@@ -155,7 +155,10 @@ static func _bare_hands_weigh(
 	enemy_kee: Array[int], player_kee: int, outgoing_chance: Array[float], incoming_chance: Array[float],
 ) -> bool:
 	var rules: CombatPowerRules = outgoing[0].rules
-	var even: CombatPowerRules = rules.duplicate_snapshot().with_bare_hands(maxi(100, rules.bare_parry_percent), mini(100, rules.armed_parry_percent), rules.bare_damage_percent)
+	var even: CombatPowerRules = rules.duplicate_snapshot().with_parries(
+		maxi(100, rules.player_bare_parry_percent), rules.player_armed_parry_percent,
+		rules.foe_bare_parry_percent, mini(100, rules.foe_armed_parry_percent),
+	)
 	var even_out: Array[CombatAttackInput] = []
 	var even_in: Array[CombatAttackInput] = []
 	for index: int in outgoing.size():
@@ -215,12 +218,13 @@ static func parry_gate(input: CombatAttackInput) -> float:
 	var defender: CombatDefenderSnapshot = input.defender
 	var ap: int = attack_power(input)
 	var pp: int
+	var side: CombatPowerRules.ParrySide = CombatPowerRules.parry_side(attacker.player, defender.player)
 	if defender.has_primary_weapon:
-		pp = input.rules.parry_power(true, attacker.has_weapon, _power(defender, defender.effective_parry_skill_level, input.rules), 0, attacker.player or defender.player)
-	elif attacker.has_weapon and (input.rules.bare_parry_percent == 0 or not (attacker.player or defender.player)):
+		pp = input.rules.parry_power(true, attacker.has_weapon, _power(defender, defender.effective_parry_skill_level, input.rules), 0, side)
+	elif attacker.has_weapon and input.rules.bare_parry_percent_for(side) == 0:
 		pp = 0
 	else:
-		pp = input.rules.parry_power(false, attacker.has_weapon, 0, _power(defender, defender.effective_unarmed_skill_level, input.rules), attacker.player or defender.player)
+		pp = input.rules.parry_power(false, attacker.has_weapon, 0, _power(defender, defender.effective_unarmed_skill_level, input.rules), side)
 	pp = maxi(1, pp)
 	return float(ap) / float(ap + pp)
 

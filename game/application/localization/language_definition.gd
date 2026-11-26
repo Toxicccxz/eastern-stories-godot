@@ -14,8 +14,14 @@ var script_code: String
 var translation_path: String
 ## System font families tried first for this language's text.
 var font_names: PackedStringArray
+## The pixel face for a language with glyph forms of its own (繁體中文: Taiwan's standard
+## forms); empty to show the bundled face.
+var face_path: String = ""
 ## A translation built in memory (the test pseudo-locale); otherwise loaded from translation_path.
 var translation: Translation
+## A language still being translated ("preview" in languages.json): a player can choose it in
+## Settings, but a system in that language is not given it on its own.
+var preview: bool = false
 
 
 func _init(
