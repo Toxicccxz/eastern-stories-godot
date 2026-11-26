@@ -230,6 +230,7 @@ static func _apply_battle(settings: ApplicationSettingsSnapshot) -> void:
 	ObjectiveHints.shown = settings.objective_hints()
 	DayNightPreference.mode = settings.day_night()
 	AutosaveNotice.shown = settings.autosave_notice()
+	DialogueAuto.on = settings.dialogue_auto()
 	GraphicsQuality.apply(settings.graphics_quality())
 	GraphicsQuality.hint_told = settings.quality_hint_told()
 
@@ -268,6 +269,22 @@ func apply_and_persist_pause_on_focus_loss(paused: bool) -> ApplicationSettingsS
 ## 自动存档提示 (AutosaveNotice; DECISIONS「自动存档」) at once, kept with the other settings.
 func apply_and_persist_autosave_notice(shown: bool) -> ApplicationSettingsServiceResult:
 	_committed = _committed.with_autosave_notice(shown)
+	_apply_battle(_committed)
+	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
+	return ApplicationSettingsServiceResult.new(
+		(
+			ApplicationSettingsServiceResult.Outcome.SUCCESS
+			if repository_result.succeeded()
+			else ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE
+		),
+		repository_result.outcome(),
+		_committed,
+	)
+
+
+## 对白自动继续 (DialogueAuto; DECISIONS「过场读法」) at once, kept with the other settings.
+func apply_and_persist_dialogue_auto(on: bool) -> ApplicationSettingsServiceResult:
+	_committed = _committed.with_dialogue_auto(on)
 	_apply_battle(_committed)
 	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
 	return ApplicationSettingsServiceResult.new(

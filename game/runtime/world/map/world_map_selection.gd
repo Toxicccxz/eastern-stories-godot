@@ -473,7 +473,8 @@ func ask_selected(topic: String) -> Array[String]:
 				answer.say(at_feet)
 			if not answer.mark_on_give.is_empty():
 				_player.state.marks[answer.mark_on_give] = 1
-	_map.hud().append_colored_lines(answer.lines)
+	# The answer is read in the dialogue box: lit in 消息 as there (DECISIONS「关键信息高亮」).
+	_map.hud().append_read_lines(answer.lines)
 	# What was recorded of the answer, after the answer itself.
 	session.tell_journal(heard)
 	session.tell_quests(quests_heard)

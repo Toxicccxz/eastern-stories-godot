@@ -1538,7 +1538,7 @@ func _bob_arrows(delta: float) -> void:
 		var way: StringName = &"" if quest_marker == null else quest_marker.get_meta("way",&"")
 		if not way.is_empty() and (way == id or (arrow.get_meta("passages",[]) as Array).has(way)):
 			near = false
-		arrow.visible = near and not staged
+		arrow.visible = near and not _marks_away()
 		arrow.rotation.y = atan2(direction.x,direction.y)
 		# A door's floats over its lintel, clear of the shut leaf; a passage's over the floor.
 		arrow.position.y = (2.85 if arrow.get_meta("door",false) else 1.0)+sin(_arrow_clock*3.2)*0.2
@@ -1552,6 +1552,17 @@ func _sync_glints(delta: float) -> void:
 		add_child(glints)
 		glints.build(map)
 	glints.advance(delta, staged or placing())
+
+## The exit arrows and the quest marker are away: the view is staged for a show, or a scene has
+## the screen.
+func _marks_away() -> bool:
+	return staged or _scene_has_screen()
+
+## A scene's black bars are in (DECISIONS「过场黑边」): what leads the player somewhere — the exit
+## arrows, the ways out with their names, the quest marker — is away until they are out again.
+func _scene_has_screen() -> bool:
+	var hud: SharedGameplayUI = map.hud()
+	return hud != null and hud.scene_covered()
 
 ## The quest marker follows the player's 指路, else the tracked quest (MapAtlas.goal): placed
 ## anew when the goal or the ledger changes, bobbing with the exit arrows meanwhile; over a
@@ -1568,8 +1579,7 @@ func _sync_quest_marker() -> void:
 		_place_quest_marker(goal, state)
 	if quest_marker == null:
 		return
-	if staged:
-		quest_marker.visible = false
+	quest_marker.visible = not _marks_away()
 	var bob: float = sin(_arrow_clock * 3.2) * 0.2
 	if quest_marker.has_meta("npc_ids"):
 		_follow_quest_person(bob)
@@ -1852,7 +1862,7 @@ func _reveal_entrances() -> void:
 		var passage: WorldPassageArea2D = entry["passage"]
 		var distance: float = passage.global_position.distance_to(map.player_body.global_position)
 		# 战斗演出 D: the map is the backdrop while figures stand on a raised stage.
-		(entry["node"] as Node3D).visible = passage.is_open() and distance<900.0 and not placing()
+		(entry["node"] as Node3D).visible = passage.is_open() and distance<900.0 and not placing() and not _scene_has_screen()
 
 func _plant_contacts() -> PackedVector3Array:
 	var contacts := PackedVector3Array()

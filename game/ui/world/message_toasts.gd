@@ -68,6 +68,9 @@ var _width: float = 420.0
 var _latest: Entry
 ## How far above the foot of the area the stack stands (the dialogue box is under it).
 var lift: float = 0.0
+## A scene has the screen (DECISIONS「过场黑边」): no time passes for the toasts and what comes
+## waits, to be read once the scene is over (the host fades them meanwhile).
+var held: bool = false
 
 
 func _init() -> void:
@@ -179,7 +182,7 @@ func shown_texts() -> Array[String]:
 func _process(delta: float) -> void:
 	# Hidden (the pause menu, the HUD put away): no time passes for them, so each is
 	# still read for its full time once they show again.
-	if _suppressed or not is_visible_in_tree():
+	if _suppressed or held or not is_visible_in_tree():
 		return
 	_cooldown = maxf(0.0, _cooldown - delta)
 	for toast: Toast in _shown:

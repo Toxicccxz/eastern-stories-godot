@@ -41331,3 +41331,23 @@ msgstr "It has been said. This road, Benefactor, you walked out with me. This vo
 
 msgid "{master}的三招是真打：\n· 每一招都实打实地落在你身上。\n· 哪一招接不住，测试就算失败：你会昏倒，但不伤性命、不留伤，歇一会儿就能再来。\n{after}\n确定接受测试吗？"
 msgstr "{master}'s three moves are for real:\n· Every move lands on you for real.\n· Fail to take any one of them and you fail the test: you'll pass out, but you won't be killed or hurt, and can try again after a rest.\n{after}\nTake the test?"
+
+msgid "对白自动继续"
+msgstr "Auto-Advance Dialogue"
+
+msgid "对白自动继续已生效，但未能保存。"
+msgstr "Auto-advance applied, but the setting couldn't be saved."
+
+msgid "剧情演出和大段讲述里，一句话读完的时间到了就自己到下一句；关掉后每一句都等你按键。打听、问话和选择始终等你"
+msgstr "In story scenes and long tellings, a line moves on by itself once there has been time to read it. When off, every line waits for your key. Asking, questions and choices always wait for you"
+
+msgid "下一句"
+msgstr "Next"
+
+msgctxt "lit"
+msgid "布条"
+msgstr "strip"
+
+msgctxt "lit"
+msgid "子时"
+msgstr "midnight"

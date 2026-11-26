@@ -527,6 +527,12 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
             for item in value:
                 if isinstance(item, str):
                     catalog.add(item, relative, note=note)
+        elif key == "keys" and isinstance(value, list):
+            # A line's marked words (NpcLine.keys, 关键信息高亮): each is looked for in the shown line in
+            # the shown language, so each is translated as the line's own translation writes it.
+            for item in value:
+                if isinstance(item, str) and has_chinese(item):
+                    catalog.add(item, relative, context="lit", note=f"{note}: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)")
         elif key == "choose" and isinstance(value, dict):
             # An act's choice (ScriptedAct `choose`, 大会 B): what is asked, each option and why one is greyed,
             # then the options' own questions and steps.

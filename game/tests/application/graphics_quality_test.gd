@@ -85,7 +85,7 @@ func _storage() -> void:
 	_check(back.succeeded() and back.snapshot().graphics_quality() == GraphicsQuality.Value.LOW and back.snapshot().quality_hint_told() and back.snapshot().version() == ApplicationSettingsSnapshot.SCHEMA_VERSION, "and read back")
 	var lines := PackedStringArray()
 	for line: String in text.replace("schema_version=%d" % ApplicationSettingsSnapshot.SCHEMA_VERSION, "schema_version=11").split("\n"):
-		if not line.begins_with("graphics_quality=") and not line.begins_with("quality_hint_told=") and not line.begins_with("pause_on_focus_loss="):
+		if not line.begins_with("graphics_quality=") and not line.begins_with("quality_hint_told=") and not line.begins_with("pause_on_focus_loss=") and not line.begins_with("dialogue_auto="):
 			lines.append(line)
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "\n".join(lines).to_utf8_buffer()
 	var old: ApplicationSettingsResult = repository.load()

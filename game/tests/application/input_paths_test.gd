@@ -24,6 +24,7 @@ class DesktopWindow extends MobileLifecycleCapability:
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_focus_pause_setting()
+	_test_dialogue_auto_setting()
 	_test_key_names()
 	var shell: ApplicationShellController = await _start(tree, "input-paths")
 	if shell != null:
@@ -241,11 +242,29 @@ func _test_focus_pause_setting() -> void:
 	_check(back.snapshot().with_ui_scale(125).pause_on_focus_loss() == false, "another setting changed keeps it")
 	var lines := PackedStringArray()
 	for line: String in text.replace("schema_version=%d" % ApplicationSettingsSnapshot.SCHEMA_VERSION, "schema_version=12").split("\n"):
-		if not line.begins_with("pause_on_focus_loss="):
+		if not line.begins_with("pause_on_focus_loss=") and not line.begins_with("dialogue_auto="):
 			lines.append(line)
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "\n".join(lines).to_utf8_buffer()
 	var old: ApplicationSettingsResult = repository.load()
 	_check(old.succeeded() and old.snapshot().pause_on_focus_loss(), "a version 12 file reads as on")
+
+
+## 对白自动继续 is kept with the settings (version 14), on by default; an older file reads on.
+func _test_dialogue_auto_setting() -> void:
+	var files := ShellTests.MemoryFiles.new()
+	var repository := ApplicationSettingsRepository.new(files)
+	_check(repository.write(ApplicationSettingsSnapshot.defaults().with_dialogue_auto(false)).succeeded(), "written")
+	var text: String = files.files[ApplicationSettingsRepository.SETTINGS_PATH].get_string_from_utf8()
+	var back: ApplicationSettingsResult = repository.load()
+	_check(back.succeeded() and not back.snapshot().dialogue_auto() and text.contains("dialogue_auto=false"), "对白自动继续 off is kept: %s" % text)
+	_check(back.snapshot().with_ui_scale(125).dialogue_auto() == false and back.snapshot().with_pause_on_focus_loss(false).dialogue_auto() == false, "another setting changed keeps it")
+	var lines := PackedStringArray()
+	for line: String in text.replace("schema_version=%d" % ApplicationSettingsSnapshot.SCHEMA_VERSION, "schema_version=13").split("\n"):
+		if not line.begins_with("dialogue_auto="):
+			lines.append(line)
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "\n".join(lines).to_utf8_buffer()
+	var old: ApplicationSettingsResult = repository.load()
+	_check(old.succeeded() and old.snapshot().dialogue_auto(), "a version 13 file reads as on")
 
 
 ## The letter keys are bound by position; the glyph names the letter (here, QWERTY's).
