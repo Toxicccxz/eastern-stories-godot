@@ -34,7 +34,7 @@ wrong. This catches them. Rules (docs/production/english_style.md):
   {~:мн|м|ж|ср} (three or four forms) needs a case mark in the line to agree with;
   {#:1|2–4|5+} and {:счёт} need a number slot before them; no Han character, no Chinese
   punctuation (。，、：；！？「」『』（）……) and none the pixel face draws full width (“ ” …):
-  Russian writes « », „ " inside, — and ...
+  Russian writes « », „ " inside, — and ...; a name slot inside a sentence carries a case mark
 
 `python tools/l10n/check_po.py [game/locale/en.po ...]` prints the problems; exit 1 if any.
 """
@@ -225,6 +225,9 @@ RUSSIAN_AGREE = re.compile(r"\{([~#]):([^{}]*)\}")
 CASE_AFTER = re.compile(r"(\{[a-z_]+\}|\$(RESPECT|SELF|[NnPplw])|%[sd])[»“\"')]*(\[/[a-z]+\])*$")
 # The first of three or four gender forms is the plural: ушли, рады, должны (a word ending -и/-ы).
 PLURAL_FIRST = re.compile(r"[иы](сь)?[\s,.!?»]*$")
+# A slot filled with a name, which ru.po writes with a capital: inside a sentence it needs a case
+# mark ({:им} for the nominative) so the game shows a common noun in lower case.
+NAME_SLOT = re.compile(r"(\{(?:npc|item|target|who|master|teacher|whom|weapon|corpse|container|outlaw|zombie)\}|\$n(?![a-z]))(?![»\"]*\{:)")
 RUSSIAN_CASES = ("им", "род", "дат", "вин", "твор", "пред", "счёт")
 # The pixel face draws these with its Chinese glyphs, two letters wide.
 RUSSIAN_WIDE = ("“", "”", "…")
@@ -269,6 +272,11 @@ def _russian_problems(where: str, msgid: str, msgstr: str) -> list[str]:
                 problems.append(f"{where}: bad count {mark.group(0)} (three forms: 1|2–4|5+)")
             if not NUMBER_SLOT.search(msgstr[: mark.start()]) and not re.search(r"\d", msgstr[: mark.start()]):
                 problems.append(f"{where}: {mark.group(0)} with no number before it")
+    for slot in NAME_SLOT.finditer(msgstr):
+        before = re.sub(r"\[[^\]]*\]", "", msgstr[: slot.start()]).strip()
+        if before and not before.endswith((".", "!", "?", "«", "\n")):
+            problems.append(f"{where}: {slot.group(1)} inside a sentence with no case mark (write {{:им}} for the nominative)")
+            break
     if HAN.search(msgstr):
         problems.append(f"{where}: a Han character ({HAN.search(msgstr).group(0)}) in Russian")
     marks = [mark for mark in CHINESE_PUNCTUATION if mark in msgstr]
