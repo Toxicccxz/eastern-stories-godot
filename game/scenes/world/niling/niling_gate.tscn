@@ -254,6 +254,16 @@ position = Vector2(-280, -306)
 script = ExtResource("marker")
 spawn_point_id = &"niling.yard.unmasker_chanter.1"
 
+[node name="YardSoldier1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-415, 19)
+script = ExtResource("marker")
+spawn_point_id = &"niling.yard.soldier.1"
+
+[node name="YardSoldier2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-144, 19)
+script = ExtResource("marker")
+spawn_point_id = &"niling.yard.soldier.2"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

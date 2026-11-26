@@ -2658,6 +2658,36 @@
 				"追杀的道士喝道：戴着宫里的冠替茅山做事，你当北麓没有人了？\n",
 				"追杀的道士朝山上喊了一声，风把声音吹散了。\n"
 			]
+		},
+		{
+			"id": "native.npc.niling_soldier",
+			"legacy_source": "native: 势力线复查 (owner 2026-11-26 第 1 问「余孽了断之后的道观」; DECISIONS「势力线复查」) over obj/npc/garrison.c (the 县城官兵's numbers and kit) — the 官府's men inside the 逆灵宫's gate once the 余孽 were given to them (余孽交了官府). 续写",
+			"name": "官兵",
+			"aliases": ["soldier", "官兵"],
+			"title": "乔阴县",
+			"gender": "男性",
+			"age": 28,
+			"long": "一个穿号衣的官兵，按着腰里的长剑站在黑砖地上，靴子上还沾着北麓的黄泥。他隔一会儿就朝前殿那边看一眼，好像那扇门里还会走出什么人来。\n",
+			"attributes": {"str": 27, "cor": 26, "cps": 25},
+			"combat_exp": 100000,
+			"attitude": "peaceful",
+			"skills": {"unarmed": 70, "sword": 70, "parry": 70, "dodge": 70, "move": 100},
+			"carry": [
+				{"item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear"},
+				{"item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield"}
+			],
+			"apply": {"attack": 70, "defense": 70, "damage": 30, "armor": 70},
+			"chat_chance": 6,
+			"chat_msg": [
+				"官兵搓了搓手：这院子大白天也冷。\n",
+				"官兵朝墙角那堆黑幡看了一眼，往地上啐了一口。\n"
+			],
+			"inquiry": {
+				"逆灵宫": ["封了。乔阴程县令的文书，茅山的道长指的路。里头的人一个也没走脱，都押下山了。"],
+				"道士": ["押下山了。有几个半大的孩子，问什么都不说，只会念那几句听不懂的经。"],
+				"地牢": ["底下还关着人的，都放了，各回各家。墙上那些指甲刻的道道，弟兄们看了都不说话。"],
+				"封条": ["县里的封条。你要进去看就看，里头搬空了——别碰后殿那座坛，晦气。"]
+			}
 		}
 	]
 }
