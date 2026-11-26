@@ -63,7 +63,7 @@ func _test_every_master() -> void:
 		&"common.npc.fighter.champion": [["须通过考验", null]],
 		&"common.npc.fighter.master": [["拜师时另有要求", null]],
 		&"city.npc.chen": [["须另有机缘", null]],
-		&"latemoon.npc.room.elon": [["实战经验 ≥ 100000（你 5000）", false], ["只收女弟子", false], ["只收没有门派的人", true], ["须通过考验", null]],
+		&"latemoon.npc.room.elon": [["实战经验 ≥ 30000（你 5000）", false], ["只收女弟子", false], ["只收没有门派的人", true], ["须通过考验", null]],
 		&"latemoon.npc.room.annihi": [["不收徒", false]],
 	}
 	var catalog: ContentCatalog = GameContent.catalog()

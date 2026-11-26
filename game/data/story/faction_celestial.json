@@ -19,6 +19,7 @@
 				"mark": "天邪的线断了",
 				"after_done": true
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "hear",

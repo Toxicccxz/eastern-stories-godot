@@ -38,6 +38,7 @@
 				"text": "你离了晚月庄。庄里的事，到此为止。",
 				"mark": "晚月庄的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "lost",

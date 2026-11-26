@@ -19,8 +19,9 @@ extends RefCounted
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Grown := preload("res://tests/support/grown_character.gd")
-## DECISIONS「考验三招」: a character of 晚月庄's recommended_exp who sat about an hour (half its
-## max_force cap) stands her lashes six or seven times in ten.
+## DECISIONS「考验三招」: a character of 晚月庄's recommended_exp as it was then (10000; 成长曲线 A
+## made it the main story's arrival, 6505, and its package C retunes the lashes) who sat about an
+## hour (half its max_force cap) stands her lashes six or seven times in ten.
 const SAMPLES: int = 200
 const PASS_LOW: float = 0.55
 const PASS_HIGH: float = 0.80
@@ -108,7 +109,7 @@ func _test_kept(tree: SceneTree, session: WorldSessionController) -> void:
 	var trials: Array[NpcTrial] = manor.npc_life.story_trials_offered(elon)
 	_check(trials.size() == 1 and trials[0].label == "接她三鞭" and trials[0].confirm.begins_with("瑷伦的三鞭是真打"), "her trial is now a row of the popup, asked first")
 	_test_pass_rate(manor, elon, trials[0], state)
-	Grown.grow(state, 10000, 100) # TEST-ONLY: 晚月庄's recommended_exp, max_force at its cap (always stood)
+	Grown.grow(state, 10000, 100) # TEST-ONLY: 晚月庄's recommended_exp before 成长曲线 A, max_force at its cap (always stood)
 	var result: NpcApprenticeTrial.Result = manor.npc_life.take_story_trial(elon, trials[0])
 	await _told(tree, session, manor, elon)
 	_check(result.outcome == NpcApprenticeTrial.Outcome.PASSED and result.blows == 3 and state.marks.get("接下了瑷伦三鞭", 0) == 1 and DeedLog.done(state, "接下了守衣人瑷伦的三鞭"), "three lashes stood: the mark and the deed; outcome %s" % result.outcome)

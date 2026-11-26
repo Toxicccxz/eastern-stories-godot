@@ -57,6 +57,7 @@
 				"text": "叫花子不再跟你说正事。花紫会的事，到此为止。",
 				"mark": "花紫会的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "errand",

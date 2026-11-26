@@ -3,16 +3,18 @@
 	"check_seconds": 0.2,
 	"scenes": {
 		"shade_called": {
-			"_comment": "第三章 唤首: the headless shade takes form before the dark altar (商玦's rite, niling.altar).",
+			"_comment": "第三章 唤首: the headless shade takes form before the dark altar (商玦's rite, niling.altar) — bars of red light round the altar, the chant's slips, then the flame. Bright colours and the camera near: the hall is dark and all of it is in the picture.",
 			"map": "niling.rear", "npc": "native.npc.headless_shade", "at": [-8, 66],
 			"layers": [
-				{"art": "vanish", "colour": "241a2e", "seconds": 1.6, "scale": 2.0},
-				{"art": "surge", "colour": "7a2236", "seconds": 1.8, "delay": 0.2, "scale": 2.0},
-				{"art": "roar", "colour": "b04a5a", "seconds": 1.2, "delay": 0.6, "scale": 2.1}
+				{"motif": "pillars", "colour": "ff3a52", "seconds": 2.0, "scale": 2.6},
+				{"art": "chant", "colour": "e8d8a8", "seconds": 2.2, "delay": 0.2, "scale": 2.6},
+				{"art": "surge", "colour": "e8344e", "seconds": 1.8, "delay": 0.6, "scale": 2.8},
+				{"art": "roar", "colour": "ff6a7a", "seconds": 1.4, "delay": 1.1, "scale": 2.8}
 			],
-			"light": {"colour": "a03048", "energy": 2.2, "range": 7.0, "seconds": 2.0},
+			"light": {"colour": "d03050", "energy": 3.2, "range": 8.0, "seconds": 2.8},
 			"shake": [0.1, 0.7],
-			"sound": ["drum", 0.7, -2.0]
+			"sound": ["drum", 0.7, -2.0],
+			"zoom": [0.5, 0.5, 2.4]
 		},
 		"impaler_pulled": {
 			"_comment": "第八章 拔穿灵: the sword comes out of the seal — the ice's light breaks, and something opens its eyes.",
@@ -39,17 +41,17 @@
 			"zoom": [0.7, 0.5, 1.6]
 		},
 		"xuanmang_out": {
-			"_comment": "第十章 旋芒: the sword leaves the terrace's whirlwind (whoever takes it) and the wind falls apart.",
+			"_comment": "第十章 旋芒: the sword leaves the terrace's whirlwind (whoever takes it) and the wind falls apart. Blue, not white: the terrace is white stone.",
 			"map": "lancheng.terrace", "present": {"any": [{"mark": "旋芒在你手里"}, {"mark": "旋芒在皇叔手里"}, {"mark": "旋芒在萧辟尘手里"}]}, "at": [512, 336],
 			"layers": [
-				{"art": "swirl", "colour": "d0dde6", "seconds": 1.6, "scale": 2.6},
-				{"motif": "ring", "colour": "e4edf3", "seconds": 1.4, "delay": 0.1, "scale": 2.6},
-				{"art": "roar", "colour": "ffffff", "seconds": 1.0, "delay": 0.3, "scale": 2.6}
+				{"art": "swirl", "colour": "2f9bd8", "seconds": 2.0, "scale": 3.0},
+				{"motif": "ring", "colour": "1f6fb0", "seconds": 1.6, "delay": 0.1, "scale": 3.0},
+				{"art": "roar", "colour": "6fd0ff", "seconds": 1.2, "delay": 0.4, "scale": 3.0}
 			],
-			"light": {"colour": "f0f6ff", "energy": 2.4, "range": 8.0, "seconds": 1.8},
+			"light": {"colour": "9fdcff", "energy": 2.8, "range": 9.0, "seconds": 2.2},
 			"shake": [0.1, 0.5],
 			"sound": ["whoosh", 0.6, 0.0],
-			"zoom": [0.7, 0.4, 1.4]
+			"zoom": [0.55, 0.4, 1.8]
 		},
 		"demon_formed": {
 			"_comment": "终章 侮天鬼成形: a headless shape of black flame stands up out of the seal. Short and all at once: the fight opens half a second later.",

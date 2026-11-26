@@ -199,7 +199,8 @@ func _test_tracked_and_shown() -> void:
 func _test_quest_reward() -> void:
 	var rules: ProgressionRules = GameContent.catalog().progression()
 	_check(MilestoneRewards.KIND_NAMES[ProgressionRules.Kind.QUEST] == "quest" and ProgressionRules.KIND_KEYS["quest"] == ProgressionRules.Kind.QUEST, "the QUEST kind")
-	_check(rules.reward_exp(ProgressionRules.Kind.QUEST, 0, &"main.prologue") == 15 and rules.reward_exp(ProgressionRules.Kind.QUEST, 150, &"main.prologue") == 40, "progression.json: a quest is one unit (100%)")
+	_check(rules.reward_exp(ProgressionRules.Kind.QUEST, 0, &"main.prologue") == 37 and rules.reward_exp(ProgressionRules.Kind.QUEST, 150, &"main.prologue") == 100, "progression.json: the prologue is 250% of the unit (成长曲线 A's quest_percent)")
+	_check(rules.reward_exp(ProgressionRules.Kind.QUEST, 0, &"t.unlisted") == 15, "a quest quest_percent does not name is one unit (100%)")
 	var errors: Array[String] = []
 	var custom: ProgressionRules = ProgressionRules.from_record(ContentRecordReader.new({"stages": [{"min_exp": 0, "unit": 100, "potential_cap": 100}], "rewards": {"quest": 50}, "quest_percent": {"t.big": 300}}, "p", errors))
 	_check(errors.is_empty() and custom.reward_exp(ProgressionRules.Kind.QUEST, 0, &"t.small") == 50 and custom.reward_exp(ProgressionRules.Kind.QUEST, 0, &"t.big") == 300, "quest_percent overrides the kind's percent for one quest")

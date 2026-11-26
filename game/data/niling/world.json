@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "niling", "name": "逆灵宫", "recommended_exp": 30000 }
+		{ "id": "niling", "name": "逆灵宫", "recommended_exp": 4696 }
 	],
 	"maps": [
 		{ "id": "niling.slope", "region": "niling", "scene": "res://scenes/world/niling/niling_slope.tscn", "entry": "niling.winch.rope_arrival" },

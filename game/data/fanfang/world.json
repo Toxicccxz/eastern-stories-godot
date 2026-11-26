@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "fanfang", "name": "番坊", "recommended_exp": 200000 }
+		{ "id": "fanfang", "name": "番坊", "recommended_exp": 14500 }
 	],
 	"maps": [
 		{ "id": "fanfang.cliff_road", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_cliff_road.tscn", "entry": "fanfang.cliff_top.valley_arrival" },

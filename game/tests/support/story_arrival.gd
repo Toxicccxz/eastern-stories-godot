@@ -2,7 +2,8 @@ extends RefCounted
 
 ## TEST-ONLY (DECISIONS「主线必打的仗」): the combat_exp a character has on arriving at each chapter
 ## of the main story, derived from the game's own 历练 (common/progression.json's stages and reward
-## percents, each quest's `quest_percent`, the regions' recommended_exp and pacing's 落后补偿) along
+## percents, each quest's `quest_percent`, the regions' recommended_exp, pacing's 落后补偿 and its
+## milestone_stage_headroom) along
 ## ROUTE, the one thing written here: what the main story alone earns in each chapter — the
 ## chapter's quest (`milestone`), the first visit of each region it leads into, the places
 ## (名胜) on its way, 第一章's 黑衣道士 (a notable defeat). Two tiers: the main story alone from the
@@ -47,6 +48,7 @@ static func arrival(quest_id: StringName, start: int) -> int:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var rules: ProgressionRules = catalog.progression()
 	var max_percent: int = catalog.pacing().catch_up_max_percent
+	var headroom: int = catalog.pacing().milestone_stage_headroom
 	var progression := CharacterProgressionState.new()
 	var exp: int = start
 	for chapter: Array in ROUTE:
@@ -54,10 +56,38 @@ static func arrival(quest_id: StringName, start: int) -> int:
 			return exp
 		for reward: Array in chapter[1]:
 			var region: RegionDefinition = catalog.region(reward[1])
-			var base: int = rules.reward_exp(KINDS[reward[0]], exp, chapter[0])
+			var base: int = rules.reward_exp(KINDS[reward[0]], exp, chapter[0], content_level(reward[0], region), headroom)
 			var percent: int = ProgressionGain.catch_up_percent(exp, 0 if region == null else region.recommended_exp, max_percent)
 			exp += ProgressionGain.scaled(progression, base, percent)
 	return exp if quest_id.is_empty() else -1
+
+
+## The level of a ROUTE reward's content (pacing milestone_stage_headroom, as WorldProgressionRewards
+## prices it): a region's or 名胜's region's recommended_exp; the notable foe's too (ROUTE names its
+## region, not the foe: 第一章's 黑衣道士 is of 老松岭's level); a quest has none (-1).
+static func content_level(kind: StringName, region: RegionDefinition) -> int:
+	if kind == &"quest" or region == null or region.recommended_exp <= 0:
+		return -1
+	return region.recommended_exp
+
+
+## The main story's arrival exp at each chapter that its must-win fights were tuned at (DECISIONS
+## 「主线必打的仗」 second round; 成长曲线 A moved the 历练 around and kept it, DECISIONS「成长曲线 A」).
+## The strength suites (tests/sim/mainline_fight_sim.gd's main-story tier) measure here, so a drift
+## too small to move a win rate (成长曲线 A: 0.1–0.3%) does not reshuffle their seeded duels;
+## growth_curve_data_test fails as soon as main_story() leaves it by more than 1%, and the fights
+## must then be measured, and tuned, at the new arrival.
+const TUNED: Dictionary[StringName, int] = {
+	&"main.prologue": MAIN_START, &"main.chapter1": 1820, &"main.chapter2": 2495, &"main.chapter3": 4696,
+	&"main.chapter4": 6505, &"main.chapter5": 8443, &"main.chapter6": 11626, &"main.chapter7": 14500,
+	&"main.chapter8": 21136, &"main.chapter9": 22936, &"main.chapter10": 31486, &"main.finale": 37276,
+}
+
+
+## The arrival the must-win fights of `quest_id`'s chapter were tuned at (TUNED; main_story() for a
+## chapter it does not name).
+static func tuned(quest_id: StringName) -> int:
+	return TUNED.get(quest_id, main_story(quest_id))
 
 
 ## The main story alone (from the first two hours' MAIN_START).

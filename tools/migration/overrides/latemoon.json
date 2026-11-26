@@ -323,6 +323,7 @@
 				"requires": [
 					{
 						"combat_exp": 100000,
+						"exp_gate": "elon",
 						"refuse_say": "拜师! 不敢当，我都老了!你去找「芷萍」好了，看她收不收你?"
 					},
 					{
@@ -331,6 +332,8 @@
 					}
 				],
 				"commoners_only": "{title}{nickname}{name}要叛师！！！",
+				"inner_force_percent": 35,
+				"lethal": false,
 				"ask_say": "$RESPECT若真的有心，不妨让我看看你的所学",
 				"ask_tell": "如果想拜师的话，就请接受测试",
 				"blows": [
