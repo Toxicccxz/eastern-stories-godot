@@ -11,11 +11,14 @@ extends RefCounted
 ##
 ## gender is м, ж, ср or мн (a word with no singular, ножницы); few and many are the counted
 ## forms after 2–4 and 5 or more (два бурдюка, пять бурдюков); a form left empty is the
-## nominative (a name Russian does not decline: Лань Чжипин). The file is the one home of these
+## nominative (a name Russian does not decline: Лань Чжипин). A person's gender is the person's
+## (a староста who is a woman is ж); a beast's or a thing's is the word's (собака is ж). The file is the one home of these
 ## forms: tools/l10n/ru_nouns.py drafts a row for a name that has none and never changes a row.
 
 const PATH: String = "res://locale/ru_nouns.json"
-const CASES: String = "ирдвтп"
+## The case marks, in the order of a row's forms: nominative, genitive, dative, accusative,
+## instrumental, prepositional.
+const CASES: PackedStringArray = ["им", "род", "дат", "вин", "твор", "пред"]
 const GENDERS: PackedStringArray = ["м", "ж", "ср", "мн"]
 ## вы, the player, as the narration names them; its verbs take the plural.
 const YOU: String = "вы"
@@ -55,7 +58,7 @@ static func gender_of(name: String) -> String:
 	return "" if found.is_empty() else String(found[0])
 
 
-## `name` in `case` (one of и р д в т п), its first letter kept as it was; `name` itself when
+## `name` in `case` (one of CASES), its first letter kept as it was; `name` itself when
 ## it is not known or that form is empty.
 static func form(name: String, case: String) -> String:
 	var at: int = CASES.find(case)

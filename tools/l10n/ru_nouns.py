@@ -18,7 +18,9 @@ development tool: the game reads the JSON):
   (a genitive complement: мастер школы) stay;
 * a transliterated Chinese name (every word capitalised, no dictionary word) declines its last
   word when it is a man's and ends in a consonant (Лю Чуньфэн → Лю Чуньфэна); a woman's, or one
-  ending in a vowel, does not change; the gender comes from the NPC's own data.
+  ending in a vowel, does not change; the gender comes from the NPC's own data;
+* a person's gender is the person's (староста who is a woman: ж), a beast's or a thing's the
+  word's (собака: ж, whatever the dog).
 
 `python tools/l10n/ru_nouns.py draft` adds the new rows and lists them for review (`--dry` only
 lists); `python tools/l10n/ru_nouns.py check` fails on a malformed row.
@@ -123,6 +125,9 @@ class Drafter:
             few.append(self._counted(word, parses[i], noun, 2, i < head, i == head))
             many.append(self._counted(word, parses[i], noun, 5, i < head, i == head))
         row += [" ".join(few), " ".join(many)]
+        # A person's gender is the person's (a староста who is a woman is ж), a beast's the word's.
+        if gender_hint in ("男性", FEMALE) and gender != "мн":
+            row[0] = "ж" if gender_hint == FEMALE else "м"
         if any(p is None or not p.is_known for p in parses[: head + 1]):
             note = "a word the dictionary does not know"
         return row, note

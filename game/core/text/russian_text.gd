@@ -5,19 +5,22 @@ extends RefCounted
 ## its sentence wants, a word agreeing with that name's gender, a word agreeing with a number.
 ## The translation writes marks the game resolves once a line is filled (ShownText):
 ##
-##   {npc}{:в}                 the name just before in that case (и р д в т п), from RussianNouns:
-##                             «Вы бьёте {npc}{:в}» → «Вы бьёте бандита»; вы → вас, вам, вами
-##   {~:ударил|ударила|ударило|ударили}
-##                             agrees with the nearest name marked before it (else after it):
-##                             м | ж | ср | мн (вы, a plural noun); fewer forms: ср and мн take м
+##   {npc}{:вин}               the name just before in that case (им род дат вин твор пред), from
+##                             RussianNouns: «Вы бьёте {npc}{:вин}» → «Вы бьёте бандита»; вы → вас
+##   {~:ушли|ушёл|ушла|ушло}   agrees with the nearest name marked before it (else after it):
+##                             мн (вы, a plural noun) | м | ж | ср — MessageGrammar's {N:…} order;
+##                             three forms: ср takes м
 ##   %d {#:день|дня|дней}       agrees with the nearest number before it: 1 | 2–4 | 5+
-##   {count} {item}{:ч}        a filled noun counted by the number before it (два бурдюка)
+##   {count} {item}{:счёт}     a filled noun counted by the number before it (два бурдюка)
 ##
-## A mark after a slot not filled yet ({npc}{:в}, $n{:в}, %s{:в}) stays for the filled line, and so
+## A mark after a slot not filled yet ({npc}{:вин}, $n{:вин}, %s{:вин}) stays for the filled line, and so
 ## do the words that agree with it. A mark after a name with no row leaves the name as it is.
 ## $N and $n agree through MessageGrammar's {N:…} forms, which know whether $N is the player.
 
 const LANGUAGE: String = "ru"
+const COUNTED: String = "счёт"
+## The agreement forms in order: the plural (вы) first, then м ж ср.
+const AGREEMENT_ORDER: PackedStringArray = ["мн", "м", "ж", "ср"]
 const _CLOSERS: String = "»“\"')]"  # NO_TRANSLATE: closing quotes and brackets
 const _UNFILLED: String = "\\{[a-z_]+\\}|\\$(?:RESPECT|SELF|[NnPplw])|%[sd]"
 
@@ -31,7 +34,7 @@ static func finish(text: String) -> String:
 	if not text.contains("{"):
 		return text
 	if _mark == null:
-		_mark = RegEx.create_from_string("\\{(?:(:)([ирдвтпч])|([~#]):([^{}]*))\\}")
+		_mark = RegEx.create_from_string("\\{(?:(:)(им|род|дат|вин|твор|пред|счёт)|([~#]):([^{}]*))\\}")
 		_unfilled_end = RegEx.create_from_string("(?:" + _UNFILLED + ")$")
 		_number = RegEx.create_from_string("\\d+")
 	var marks: Array[RegExMatch] = _mark.search_all(text)
@@ -75,7 +78,7 @@ static func finish(text: String) -> String:
 static func _named(before: String, case: String) -> Dictionary:
 	var result: Dictionary = {"text": before, "gender": "", "resolved": false, "unfilled": false}
 	var end: int = before.length()
-	# Past closing quotes and BBCode closing tags: «[color=red]бандит[/color]»{:в}.
+	# Past closing quotes and BBCode closing tags: «[color=red]бандит[/color]»{:вин}.
 	while end > 0:
 		var c: String = before[end - 1]
 		if c == "]":
@@ -114,7 +117,7 @@ static func _named(before: String, case: String) -> Dictionary:
 		var kept: String = " ".join(words.slice(0, start_word))
 		if not kept.is_empty():
 			kept += " "
-		var shaped: String = RussianNouns.counted(name, _last_number(kept)) if case == "ч" else RussianNouns.form(name, case)
+		var shaped: String = RussianNouns.counted(name, _last_number(kept)) if case == COUNTED else RussianNouns.form(name, case)
 		result.text = kept + opening_marks + shaped + tail
 		result.gender = RussianNouns.gender_of(name)
 		result.resolved = true
@@ -134,11 +137,12 @@ static func _by_gender(agreement: Dictionary, names: Array[Dictionary]) -> Strin
 				break
 	if not named.is_empty() and named.unfilled:
 		return agreement.written
-	if named.is_empty() or not named.resolved:
-		return String(agreement.forms[0])
 	var forms: PackedStringArray = agreement.forms
-	var index: int = maxi(RussianNouns.GENDERS.find(String(named.gender)), 0)
-	return forms[index] if index < forms.size() else forms[0]
+	var masculine: int = mini(1, forms.size() - 1)
+	if named.is_empty() or not named.resolved:
+		return forms[masculine]
+	var index: int = maxi(AGREEMENT_ORDER.find(String(named.gender)), 0)
+	return forms[index] if index < forms.size() else forms[masculine]
 
 
 static func _by_number(agreement: Dictionary, out: String) -> String:

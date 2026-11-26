@@ -13,8 +13,9 @@ extends RefCounted
 ##   $N's  $n's         "your" when that one is the player; a name keeps its 's.
 ##   {N:ударили|ударил|ударила|ударило}
 ##                      three or four forms (Russian, docs/production/russian_style.md): the
-##                      player (вы), then by the gender of $N's name — the Russian name's own
-##                      (RussianNouns: собака is ж), else the character's — м | ж | ср.
+##                      player (вы) or a plural name, then by the gender of $N's name — the
+##                      Russian name's own (RussianNouns: собака is ж), else the character's —
+##                      м | ж | ср; three forms: ср takes м.
 ##
 ## resolve() runs on the translated template before a site fills $N/$n/$P/$p as it always
 ## has, so a Chinese line comes out exactly as before. capitalize() runs on the filled line
@@ -144,14 +145,16 @@ static func _form(role: Role, first: String, second: String, written: String) ->
 	return first if role.is_you else second
 
 
-## 1 м, 2 ж, 3 ср: the gender of the Russian name when it is known, else the character's.
+## 0 мн, 1 м, 2 ж, 3 ср: the gender of the Russian name when it is known, else the character's.
 static func _russian_gender_index(role: Role) -> int:
 	match RussianNouns.gender_of(role.name):
+		"мн":
+			return 0
 		"ж":
 			return 2
 		"ср":
 			return 3
-		"м", "мн":
+		"м":
 			return 1
 	if role.gender == CharacterState.GENDER_FEMALE or role.gender == &"雌性":  # NO_TRANSLATE: a gender value
 		return 2

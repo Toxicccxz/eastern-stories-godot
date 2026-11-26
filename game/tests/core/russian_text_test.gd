@@ -11,6 +11,7 @@ const ROWS: Dictionary = {
 	"кожаный бурдюк": ["м", "кожаного бурдюка", "кожаному бурдюку", "кожаный бурдюк", "кожаным бурдюком", "кожаном бурдюке", "кожаных бурдюка", "кожаных бурдюков"],
 	"Лю Чуньфэн": ["м", "Лю Чуньфэна", "Лю Чуньфэну", "Лю Чуньфэна", "Лю Чуньфэном", "Лю Чуньфэне", "", ""],
 	"Лань Чжипин": ["ж", "", "", "", "", "", "", ""],
+	"ножницы": ["мн", "ножниц", "ножницам", "ножницы", "ножницами", "ножницах", "", ""],
 	"слуга": ["м", "слуги", "слуге", "слугу", "слугой", "слуге", "слуги", "слуг"],
 }
 
@@ -33,29 +34,30 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _test_cases() -> void:
-	_same(RussianText.finish("Вы бьёте бандит{:в}."), "Вы бьёте бандита.", "accusative")
-	_same(RussianText.finish("Вы отдаёте кожаный бурдюк{:в} бандит{:д}."), "Вы отдаёте кожаный бурдюк бандиту.", "two names, two cases")
-	_same(RussianText.finish("Бандит{:и} рычит."), "Бандит рычит.", "a capital kept (nominative)")
-	_same(RussianText.finish("Бандит{:т} доволен."), "Бандитом доволен.", "a capital kept")
-	_same(RussianText.finish("Вы смотрите на бродячая собака{:в}."), "Вы смотрите на бродячую собаку.", "a name of two words")
-	_same(RussianText.finish("Вы кланяетесь Лю Чуньфэн{:д}."), "Вы кланяетесь Лю Чуньфэну.", "a Chinese name that declines")
-	_same(RussianText.finish("Вы кланяетесь Лань Чжипин{:д}."), "Вы кланяетесь Лань Чжипин.", "one that does not")
-	_same(RussianText.finish("Бандит бьёт вы{:в}!"), "Бандит бьёт вас!", "вы")
-	_same(RussianText.finish("Вы{:д} везёт."), "Вам везёт.", "Вы with its capital")
-	_same(RussianText.finish("Вы бьёте [color=red]бандит[/color]{:в}."), "Вы бьёте [color=red]бандита[/color].", "past a BBCode tag")
-	_same(RussianText.finish("Вы зовёте «бандит»{:в}."), "Вы зовёте «бандита».", "past a quote")
-	_same(RussianText.finish("Вы бьёте пугало{:в}."), "Вы бьёте пугало.", "a name with no row stays")
+	_same(RussianText.finish("Вы бьёте бандит{:вин}."), "Вы бьёте бандита.", "accusative")
+	_same(RussianText.finish("Вы отдаёте кожаный бурдюк{:вин} бандит{:дат}."), "Вы отдаёте кожаный бурдюк бандиту.", "two names, two cases")
+	_same(RussianText.finish("Бандит{:им} рычит."), "Бандит рычит.", "a capital kept (nominative)")
+	_same(RussianText.finish("Бандит{:твор} доволен."), "Бандитом доволен.", "a capital kept")
+	_same(RussianText.finish("Вы смотрите на бродячая собака{:вин}."), "Вы смотрите на бродячую собаку.", "a name of two words")
+	_same(RussianText.finish("Вы кланяетесь Лю Чуньфэн{:дат}."), "Вы кланяетесь Лю Чуньфэну.", "a Chinese name that declines")
+	_same(RussianText.finish("Вы кланяетесь Лань Чжипин{:дат}."), "Вы кланяетесь Лань Чжипин.", "one that does not")
+	_same(RussianText.finish("Бандит бьёт вы{:вин}!"), "Бандит бьёт вас!", "вы")
+	_same(RussianText.finish("Вы{:дат} везёт."), "Вам везёт.", "Вы with its capital")
+	_same(RussianText.finish("Вы бьёте [color=red]бандит[/color]{:вин}."), "Вы бьёте [color=red]бандита[/color].", "past a BBCode tag")
+	_same(RussianText.finish("Вы зовёте «бандит»{:вин}."), "Вы зовёте «бандита».", "past a quote")
+	_same(RussianText.finish("Вы бьёте пугало{:вин}."), "Вы бьёте пугало.", "a name with no row stays")
 	_same(RussianText.finish("Без меток."), "Без меток.", "no marks")
 
 
 func _test_gender() -> void:
-	_same(RussianText.finish("Бандит{:и} {~:ушёл|ушла|ушло|ушли}."), "Бандит ушёл.", "м")
-	_same(RussianText.finish("Бродячая собака{:и} {~:ушёл|ушла|ушло|ушли}."), "Бродячая собака ушла.", "ж by the noun")
-	_same(RussianText.finish("Вы{:и} {~:ушёл|ушла|ушло|ушли}."), "Вы ушли.", "вы takes the plural")
-	_same(RussianText.finish("Вы{:и} {~:ушёл|ушла}."), "Вы ушёл.", "two forms: мн takes м")
-	_same(RussianText.finish("Вам {~:ответил|ответила} Лань Чжипин{:и}."), "Вам ответила Лань Чжипин.", "a name after the word")
-	_same(RussianText.finish("Пугало{:и} {~:упал|упала|упало}."), "Пугало упал.", "a name with no row: the first form")
-	_same(RussianText.finish("Слуга{:и} {~:пришёл|пришла} к бандит{:д}."), "Слуга пришёл к бандиту.", "the nearest name before")
+	_same(RussianText.finish("Бандит{:им} {~:ушли|ушёл|ушла|ушло}."), "Бандит ушёл.", "м")
+	_same(RussianText.finish("Бродячая собака{:им} {~:ушли|ушёл|ушла|ушло}."), "Бродячая собака ушла.", "ж by the noun")
+	_same(RussianText.finish("Вы{:им} {~:ушли|ушёл|ушла|ушло}."), "Вы ушли.", "вы takes the plural")
+	_same(RussianText.finish("Бродячая собака{:им} {~:ушли|ушёл|ушла}."), "Бродячая собака ушла.", "three forms")
+	_same(RussianText.finish("Ножницы{:им} {~:упали|упал|упала}."), "Ножницы упали.", "a plural noun")
+	_same(RussianText.finish("Вам {~:ответили|ответил|ответила} Лань Чжипин{:им}."), "Вам ответила Лань Чжипин.", "a name after the word")
+	_same(RussianText.finish("Пугало{:им} {~:упали|упал|упала|упало}."), "Пугало упал.", "a name with no row: м")
+	_same(RussianText.finish("Слуга{:им} {~:пришли|пришёл|пришла} к бандит{:дат}."), "Слуга пришёл к бандиту.", "the nearest name before")
 
 
 func _test_numbers() -> void:
@@ -64,29 +66,30 @@ func _test_numbers() -> void:
 	_same(RussianText.finish("Прошло 11 {#:день|дня|дней}."), "Прошло 11 дней.", "11")
 	_same(RussianText.finish("Прошло 22 {#:день|дня|дней}."), "Прошло 22 дня.", "22")
 	_same(RussianText.finish("Прошло 105 {#:день|дня|дней}."), "Прошло 105 дней.", "105")
-	_same(RussianText.finish("У вас 1 кожаный бурдюк{:ч}."), "У вас 1 кожаный бурдюк.", "a counted noun: 1")
-	_same(RussianText.finish("У вас 2 кожаный бурдюк{:ч}."), "У вас 2 кожаных бурдюка.", "2")
-	_same(RussianText.finish("У вас 25 кожаный бурдюк{:ч}."), "У вас 25 кожаных бурдюков.", "25")
+	_same(RussianText.finish("У вас 1 кожаный бурдюк{:счёт}."), "У вас 1 кожаный бурдюк.", "a counted noun: 1")
+	_same(RussianText.finish("У вас 2 кожаный бурдюк{:счёт}."), "У вас 2 кожаных бурдюка.", "2")
+	_same(RussianText.finish("У вас 25 кожаный бурдюк{:счёт}."), "У вас 25 кожаных бурдюков.", "25")
 	_check(RussianNouns.plural_index(0) == 2 and RussianNouns.plural_index(21) == 0 and RussianNouns.plural_index(114) == 2, "plural_index")
 
 
 func _test_unfilled() -> void:
-	var template: String = "{npc}{:и} {~:ударил|ударила} вас и {count} {#:раз|раза|раз}. $n{:в} %s{:д}"
+	var template: String = "{npc}{:им} {~:ударили|ударил|ударила} вас и {count} {#:раз|раза|раз}. $n{:вин} %s{:дат}"
 	_same(RussianText.finish(template), template, "a template keeps every mark after a slot")
 	var filled: String = template.replace("{npc}", "Бродячая собака").replace("{count}", "2").replace("$n", "бандит").replace("%s", "слуга")
 	_same(RussianText.finish(filled), "Бродячая собака ударила вас и 2 раза. бандита слуге", "and the filled line resolves them")
 
 
 func _test_message_grammar() -> void:
-	var line: String = "$N {N:бьёте|бьёт} $n{:в}, и $n {n:отскочили|отскочил|отскочила|отскочило}."
+	var line: String = "$N {N:бьёте|бьёт} $n{:вин}, и $n {n:отскочили|отскочил|отскочила|отскочило}."
 	_same(MessageGrammar.resolve(line, MessageGrammar.you(), MessageGrammar.other(CharacterState.GENDER_FEMALE)),
-		"$N бьёте $n{:в}, и $n отскочила.", "two forms by the player, four by gender")
+		"$N бьёте $n{:вин}, и $n отскочила.", "two forms by the player, four by gender")
 	_same(MessageGrammar.resolve(line, MessageGrammar.other(), MessageGrammar.you()),
-		"$N бьёт $n{:в}, и $n отскочили.", "the player as $n")
+		"$N бьёт $n{:вин}, и $n отскочили.", "the player as $n")
 	_same(MessageGrammar.resolve("$N {N:упали|упал|упала}.", MessageGrammar.Role.new(false, CharacterState.GENDER_MALE, "бродячая собака")),
 		"$N упала.", "the Russian name's gender over the character's")
 	_same(MessageGrammar.resolve("$N {N:упали|упал|упала}.", MessageGrammar.other(&"雌性")), "$N упала.", "a female beast with no name")
 	_same(MessageGrammar.resolve("$N {N:упали|упал|упала}.", MessageGrammar.other(&"中性神")), "$N упал.", "three forms: no ср, м")
+	_same(MessageGrammar.resolve("$N {N:упали|упал|упала}.", MessageGrammar.Role.new(false, &"", "ножницы")), "$N упали.", "a plural name takes the вы form")
 
 
 func _test_shown() -> void:
@@ -95,18 +98,18 @@ func _test_shown() -> void:
 	russian.locale = "ru"
 	TranslationServer.add_translation(russian)
 	TranslationServer.set_locale("ru")
-	_same(MessageGrammar.fill("$N {N:бьёте|бьёт} $n{:в}.", MessageGrammar.you(), "вы", MessageGrammar.other(), "бандит"),
+	_same(MessageGrammar.fill("$N {N:бьёте|бьёт} $n{:вин}.", MessageGrammar.you(), "вы", MessageGrammar.other(), "бандит"),
 		"Вы бьёте бандита.", "a filled line: the case, then the capital")
-	_same(MessageGrammar.fill("$N {N:бьёте|бьёт} $n{:в}.", MessageGrammar.other(), "бандит", MessageGrammar.you(), "вы"),
+	_same(MessageGrammar.fill("$N {N:бьёте|бьёт} $n{:вин}.", MessageGrammar.other(), "бандит", MessageGrammar.you(), "вы"),
 		"Бандит бьёт вас.", "Cyrillic capitalised")
 	_same(MessageGrammar.fill("$N {N:упали|упал|упала}.", MessageGrammar.other(CharacterState.GENDER_MALE), "бродячая собака"),
 		"Бродячая собака упала.", "fill() gives the role its name")
-	_same(ShownText.of("Вы бьёте бандит{:в}."), "Вы бьёте бандита.", "ShownText in Russian")
+	_same(ShownText.of("Вы бьёте бандит{:вин}."), "Вы бьёте бандита.", "ShownText in Russian")
 	var wrapped := FinishedTranslation.new(_inner())
-	_same(String(wrapped.get_message("{npc}走了。")), "{npc}{:и} {~:ушёл|ушла}.", "a template keeps its marks")
-	_same(String(wrapped.get_message("Бандит{:и} {~:ушёл|ушла}.")), "Бандит ушёл.", "a filled line a control translates")
+	_same(String(wrapped.get_message("{npc}走了。")), "{npc}{:им} {~:ушли|ушёл|ушла}.", "a template keeps its marks")
+	_same(String(wrapped.get_message("Бандит{:им} {~:ушли|ушёл|ушла}.")), "Бандит ушёл.", "a filled line a control translates")
 	TranslationServer.set_locale("zh_CN")
-	_same(ShownText.of("бандит{:в}"), "бандит{:в}", "left alone outside Russian")
+	_same(ShownText.of("бандит{:вин}"), "бандит{:вин}", "left alone outside Russian")
 	TranslationServer.remove_translation(russian)
 	TranslationServer.set_locale(before)
 
@@ -114,7 +117,7 @@ func _test_shown() -> void:
 func _inner() -> Translation:
 	var inner := Translation.new()
 	inner.locale = "ru"
-	inner.add_message("{npc}走了。", "{npc}{:и} {~:ушёл|ушла}.")
+	inner.add_message("{npc}走了。", "{npc}{:им} {~:ушли|ушёл|ушла}.")
 	return inner
 
 
