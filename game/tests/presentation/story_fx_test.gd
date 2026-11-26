@@ -77,6 +77,24 @@ func _check_play(tree: SceneTree) -> void:
 	check(most >= 3 and figures >= 1, "its layers and its light come up, larger than a fight's (%d up at most)" % most)
 	check(jolted > 0.01 and jolted <= float(scene["shake"][0]) + 0.001 and is_zero_approx(camera.h_offset) and is_zero_approx(camera.v_offset), "the picture jolts, within its reach, and is still again (%.3f)" % jolted)
 	check(fx.showing() == 0, "all of it gone when it is over")
+	# Cleared while it plays (the map left and come back to): gone at once, nothing more begun.
+	check(fx.play("demon_slain", VoxelStoryFx.data()["scenes"]["demon_slain"]), "another, to be cut short")
+	for step: int in 12:
+		await tree.process_frame
+	var before_clear: int = fx.showing()
+	fx.reset()
+	await tree.process_frame
+	await tree.process_frame
+	check(before_clear >= 2 and fx.showing() == 0 and is_zero_approx(camera.h_offset) and is_zero_approx(camera.v_offset), "reset: what showed is gone, the picture still (%d were up)" % before_clear)
+	for step: int in 90:
+		await tree.process_frame
+	check(fx.showing() == 0, "and its later layers never begin")
+	var slain: Dictionary = VoxelStoryFx.data()["scenes"]["demon_slain"]
+	var formed: Dictionary = VoxelStoryFx.data()["scenes"]["demon_formed"]
+	var longest: float = 0.0
+	for layer: Dictionary in formed["layers"]:
+		longest = maxf(longest, float(layer.get("delay", 0.0)) + float(layer["seconds"]))
+	check(slain["at"] == [0.0, 0.0] and longest <= 1.2, "the nail's scene is on the altar; the shape's is over before the fight has the stage (%.1f s)" % longest)
 	root.free()
 	await tree.process_frame
 

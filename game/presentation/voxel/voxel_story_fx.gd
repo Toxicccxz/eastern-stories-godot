@@ -25,6 +25,11 @@ var _seen: bool = false
 var _jolt: float = 0.0
 var _jolt_seconds: float = 0.0
 var _jolt_left: float = 0.0
+## Counts the times what was showing was cleared (reset()): a layer or a push-in still waiting
+## from before does nothing.
+var _round: int = 0
+## The camera's push-in to give back ([view, the zoom before, the zoom set]); empty: none.
+var _zoomed: Array = []
 var _rng := RandomNumberGenerator.new()
 
 
@@ -64,6 +69,20 @@ static func holds(scene: Dictionary, player: WorldPlayerRuntimeState, held: Dict
 func reset() -> void:
 	_held.clear()
 	_seen = false
+	clear()
+
+
+## What is showing is gone at once (a map left while a scene played and come back to): the
+## figures and the light, the jolt, the camera's push-in given back.
+func clear() -> void:
+	_round += 1
+	for child: Node in get_children():
+		child.queue_free()
+	if _jolt_left > 0.0 and is_instance_valid(camera):
+		camera.h_offset = 0.0
+		camera.v_offset = 0.0
+	_jolt_left = 0.0
+	_give_back_zoom(0.0)
 
 
 ## The names of `scenes` whose trigger came true since the last look. The first look tells none.
@@ -90,9 +109,10 @@ func play(name: String, scene: Dictionary, view: WorldVoxelView = null) -> bool:
 		if layer is Dictionary:
 			var begin: Tween = create_tween()
 			begin.tween_interval(maxf(0.0, float(layer.get("delay", 0.0))))
-			begin.tween_callback(_layer.bind(layer, centre))
+			begin.tween_callback(_layer.bind(layer, centre, _round))
 	var light: Dictionary = scene.get("light", {})
-	if float(light.get("energy", 0.0)) > 0.0:
+	# 画质 低 on a phone goes without the fight's lights (GraphicsQuality.stage_lights()): so here.
+	if float(light.get("energy", 0.0)) > 0.0 and GraphicsQuality.stage_lights():
 		var lamp := OmniLight3D.new()
 		lamp.name = "StoryLight"
 		lamp.light_color = Color(String(light.get("colour", "ffffff")))
@@ -115,18 +135,22 @@ func play(name: String, scene: Dictionary, view: WorldVoxelView = null) -> bool:
 	if sound.size() == 3:
 		BattleSounds.cue(StringName(String(sound[0])), float(sound[1]), float(sound[2]))
 	var zoom: Array = scene.get("zoom", [])
-	if zoom.size() == 3 and view != null and not view.placing():
+	if zoom.size() == 3 and view != null and not view.placing() and _zoomed.is_empty():
 		var before: float = view.zoom()
-		view.set_zoom(minf(before, float(zoom[0])), float(zoom[1]))
+		var near: float = minf(before, float(zoom[0]))
+		view.set_zoom(near, float(zoom[1]))
+		_zoomed = [view, before, near]
 		var back: Tween = create_tween()
 		back.tween_interval(float(zoom[1]) + float(zoom[2]))
-		back.tween_callback(_unzoom.bind(view, before, float(zoom[1])))
+		back.tween_callback(_unzoom.bind(_round, float(zoom[1])))
 	played.append(name)
 	return true
 
 
 ## One layer begun at `centre`: a figure of the fight's arts or of the schools', at its scale.
-func _layer(layer: Dictionary, centre: Vector3) -> void:
+func _layer(layer: Dictionary, centre: Vector3, round_begun: int) -> void:
+	if round_begun != _round:
+		return
 	var seconds: float = maxf(0.1, float(layer.get("seconds", 1.5)))
 	var colour := Color(String(layer.get("colour", "ffffff")))
 	var tween: Tween = create_tween().set_parallel(true)
@@ -143,10 +167,21 @@ func _layer(layer: Dictionary, centre: Vector3) -> void:
 	tween.chain().tween_callback(GrowthFx.drop.bind(figure))
 
 
-## The camera back where it stood, unless a fight has taken it meanwhile.
-func _unzoom(view: Variant, before: float, seconds: float) -> void:
-	if is_instance_valid(view) and not (view as WorldVoxelView).placing():
-		(view as WorldVoxelView).set_zoom(before, seconds)
+## The push-in of the round `round_begun` is over: the camera goes back.
+func _unzoom(round_begun: int, seconds: float) -> void:
+	if round_begun == _round:
+		_give_back_zoom(seconds)
+
+
+## The camera back where it stood before the push-in — unless something else has it now (a fight,
+## a training run: the zoom is no longer the one set here).
+func _give_back_zoom(seconds: float) -> void:
+	if _zoomed.is_empty():
+		return
+	var view: Variant = _zoomed[0]
+	if is_instance_valid(view) and not (view as WorldVoxelView).placing() and is_equal_approx((view as WorldVoxelView).zoom(), float(_zoomed[2])):
+		(view as WorldVoxelView).set_zoom(float(_zoomed[1]), seconds)
+	_zoomed = []
 
 
 ## How many figures and lights are up now (tests).
@@ -172,3 +207,4 @@ func _exit_tree() -> void:
 	if is_instance_valid(camera) and _jolt_left > 0.0:
 		camera.h_offset = 0.0
 		camera.v_offset = 0.0
+	_jolt_left = 0.0
