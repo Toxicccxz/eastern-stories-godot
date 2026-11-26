@@ -16,6 +16,17 @@ extends RefCounted
 ##   and what NPCs say shows in the bottom left's toasts as before).
 ## - dialogue_char_ms: a line in the dialogue box types out this fast (0: no box, and what
 ##   is told goes to the bubbles and the shared frame as before; DECISIONS「对话框」).
+## - 过场演出 A (DECISIONS「过场读法」): a line that is told (a scene's, a told story's; never 打听's
+##   answers or a question) goes on by itself once it has typed out and been up its reading time:
+##   dialogue_auto_ms + dialogue_auto_char_ms for each character (dialogue_auto_char_ms_en / _ko /
+##   _ja where that language is shown: a letter, a syllable and a kana are read at other speeds
+##   than a 汉字), never under dialogue_auto_min_ms nor over dialogue_auto_max_ms.
+##   dialogue_auto_ms 0: no line goes on by itself (E / A / a click takes each on, as before).
+##   dialogue_press_guard_ms: a press this soon after a line came by itself is not taken (it was
+##   meant for the line that just went; 0: every press is).
+## - scene_bars_ms (DECISIONS「过场黑边」): a scene's two black bars slide in and out in this long,
+##   the status card, the toasts, the quest marker and the exit arrows away meanwhile (0: no bars,
+##   the HUD stays); scene_bars_percent: each bar's height in percent of the screen's.
 ## - speech_reach_px: how near (and on the screen) the player must be for an NPC's
 ##   greeting and chat (DECISIONS「说话和交互」); 0: anywhere in its room, as ES2.
 ## - room_text_ms / room_text_char_ms: a room's title and description show at the top this
@@ -107,6 +118,16 @@ var _speech_bubble_ms: int = 0
 var _speech_bubble_char_ms: int = 0
 var _speech_reach_px: int = 0
 var _dialogue_char_ms: int = 0
+var _dialogue_auto_ms: int = 0
+var _dialogue_auto_char_ms: int = 0
+var _dialogue_auto_char_ms_en: int = 0
+var _dialogue_auto_char_ms_ko: int = 0
+var _dialogue_auto_char_ms_ja: int = 0
+var _dialogue_auto_min_ms: int = 0
+var _dialogue_auto_max_ms: int = 0
+var _dialogue_press_guard_ms: int = 0
+var _scene_bars_ms: int = 0
+var _scene_bars_percent: int = 0
 var _room_text_ms: int = 0
 var _room_text_char_ms: int = 0
 var _menu_fade_ms: int = 0
@@ -379,6 +400,38 @@ func dialogue_char_seconds() -> float:
 	return float(_dialogue_char_ms) / 1000.0
 
 
+## Whether a told line goes on by itself (DECISIONS「过场读法」).
+func dialogue_auto() -> bool:
+	return _dialogue_auto_ms > 0
+
+
+## Seconds a told line of `characters` characters stays up once typed out, read in `language`
+## (a locale's language: "en", "ko", "ja"; any other reads at the 汉字 speed). 0: it waits.
+func dialogue_read_seconds(characters: int, language: String = "") -> float:
+	if _dialogue_auto_ms <= 0:
+		return 0.0
+	var each: int = _dialogue_auto_char_ms
+	if language in AUTO_LANGUAGES and int(get("_dialogue_auto_char_ms_" + language)) > 0:
+		each = int(get("_dialogue_auto_char_ms_" + language))
+	var whole: int = _dialogue_auto_ms + maxi(characters, 0) * each
+	if _dialogue_auto_max_ms > 0:
+		whole = mini(whole, _dialogue_auto_max_ms)
+	return float(maxi(whole, _dialogue_auto_min_ms)) / 1000.0
+
+
+func dialogue_press_guard_seconds() -> float:
+	return float(_dialogue_press_guard_ms) / 1000.0
+
+
+func scene_bars_seconds() -> float:
+	return float(_scene_bars_ms) / 1000.0
+
+
+## Each bar's share of the screen's height (0: none).
+func scene_bars_share() -> float:
+	return float(_scene_bars_percent) / 100.0 if _scene_bars_ms > 0 else 0.0
+
+
 ## Seconds a room's `text` stays at the top (0: rooms are told in the toasts).
 func room_text_seconds(text: String) -> float:
 	if _room_text_ms <= 0:
@@ -401,6 +454,16 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_speech_bubble_char_ms = int(values.get("speech_bubble_char_ms", _speech_bubble_char_ms))
 	_speech_reach_px = int(values.get("speech_reach_px", _speech_reach_px))
 	_dialogue_char_ms = int(values.get("dialogue_char_ms", _dialogue_char_ms))
+	_dialogue_auto_ms = int(values.get("dialogue_auto_ms", _dialogue_auto_ms))
+	_dialogue_auto_char_ms = int(values.get("dialogue_auto_char_ms", _dialogue_auto_char_ms))
+	_dialogue_auto_char_ms_en = int(values.get("dialogue_auto_char_ms_en", _dialogue_auto_char_ms_en))
+	_dialogue_auto_char_ms_ko = int(values.get("dialogue_auto_char_ms_ko", _dialogue_auto_char_ms_ko))
+	_dialogue_auto_char_ms_ja = int(values.get("dialogue_auto_char_ms_ja", _dialogue_auto_char_ms_ja))
+	_dialogue_auto_min_ms = int(values.get("dialogue_auto_min_ms", _dialogue_auto_min_ms))
+	_dialogue_auto_max_ms = int(values.get("dialogue_auto_max_ms", _dialogue_auto_max_ms))
+	_dialogue_press_guard_ms = int(values.get("dialogue_press_guard_ms", _dialogue_press_guard_ms))
+	_scene_bars_ms = int(values.get("scene_bars_ms", _scene_bars_ms))
+	_scene_bars_percent = int(values.get("scene_bars_percent", _scene_bars_percent))
 	_room_text_ms = int(values.get("room_text_ms", _room_text_ms))
 	_room_text_char_ms = int(values.get("room_text_char_ms", _room_text_char_ms))
 	_menu_fade_ms = int(values.get("menu_fade_ms", _menu_fade_ms))
@@ -466,7 +529,12 @@ func but(values: Dictionary) -> FeelDefinition:
 	return copy.with_values(values)
 
 
+## The languages with a reading speed of their own (dialogue_auto_char_ms_<language>).
+const AUTO_LANGUAGES: Array[String] = ["en", "ko", "ja"]
+
 const KEYS: Array[String] = [
+	"dialogue_auto_ms", "dialogue_auto_char_ms", "dialogue_auto_char_ms_en", "dialogue_auto_char_ms_ko", "dialogue_auto_char_ms_ja",
+	"dialogue_auto_min_ms", "dialogue_auto_max_ms", "dialogue_press_guard_ms", "scene_bars_ms", "scene_bars_percent",
 	"map_fade_out_ms", "map_fade_in_ms", "map_banner_ms", "door_fade_out_ms", "door_fade_in_ms", "camera_follow_speed", "move_accel_ms",
 	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "speech_reach_px", "dialogue_char_ms", "room_text_ms", "room_text_char_ms", "menu_fade_ms", "battle_slow_percent",
 	"battle_fast_percent", "battle_line_ms", "bar_tween_ms", "hit_flash_ms", "battle_end_hold_ms",
@@ -487,6 +555,10 @@ static func from_record(reader: ContentRecordReader) -> FeelDefinition:
 	for key: String in KEYS:
 		if int(values[key]) < 0:
 			reader.fail(key, "must not be negative")
+	if int(values["scene_bars_percent"]) > 25:
+		reader.fail("scene_bars_percent", "at most 25 (the two bars leave half the screen)")
+	if int(values["dialogue_auto_max_ms"]) > 0 and int(values["dialogue_auto_max_ms"]) < int(values["dialogue_auto_min_ms"]):
+		reader.fail("dialogue_auto_max_ms", "not under dialogue_auto_min_ms")
 	if int(values["phone_view_percent"]) > 100:
 		reader.fail("phone_view_percent", "at most 100 (a phone's camera rests no farther out than the map's own framing)")
 	return FeelDefinition.new().with_values(values)

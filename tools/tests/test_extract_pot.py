@@ -239,6 +239,17 @@ class ContentTest(unittest.TestCase):
                     "僧人说：偷东西不好。"]),
         )
 
+    def test_a_lines_lit_words(self) -> None:
+        # 关键信息高亮: a scene line's marked words reach the template under the context "lit" (a
+        # translation gives the word as the line writes it only where that differs from the word's own).
+        catalog = extract_pot.Catalog()
+        document = {"npcs": [{"id": "native.npc.priest", "calls": [{"scene": True, "steps": [
+            {"say": "等子时。", "keys": ["子时"]},
+            {"line": "一块布条飘落在地。", "keys": ["布条"]},
+        ]}]}]}
+        extract_pot.extract_content(document, "data/native/npcs.json", catalog)
+        self.assertEqual(sorted(_ids(catalog)), sorted([("", "等子时。"), ("lit", "子时"), ("", "一块布条飘落在地。"), ("lit", "布条")]))
+
     def test_an_acts_choice(self) -> None:
         # 大会 B's `choose`: what is asked, each option, why one is greyed, its question and its steps' lines;
         # none of their marks.

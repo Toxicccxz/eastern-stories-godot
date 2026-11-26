@@ -10,6 +10,7 @@ from pathlib import Path
 REPOSITORY = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPOSITORY / "tools/l10n"))
 
+import check_keys  # noqa: E402
 import check_po  # noqa: E402
 
 
@@ -21,6 +22,43 @@ def _po(entries: list[tuple[str, str]], code: str = "en") -> Path:
     handle.write("\n".join(lines))
     handle.close()
     return Path(handle.name)
+
+
+class LitWordsTest(unittest.TestCase):
+    """tools/l10n/check_keys.py: the lit words (关键信息高亮) a translation's line does not have."""
+
+    def test_every_marked_word_stands_in_its_line(self) -> None:
+        lines = check_keys.marked_lines()
+        self.assertTrue(lines, "the content marks some lines")
+        self.assertEqual(check_keys.lost_in_source(lines), [])
+
+    def test_the_listing_names_what_a_translation_lost(self) -> None:
+        lines = [("native/npcs.json", "一块布条飘落在地，往老松岭去了。", ["布条", "老松岭"])]
+        # The item's own name is not how the line says it: listed; the place's name is: not listed.
+        po = _po([("一块布条飘落在地，往老松岭去了。", "A strip of cloth falls; he is off to Old Pine Ridge."), ("布条", "Cloth Strip"), ("老松岭", "Old Pine Ridge")])
+        problems = check_keys.lost_in(po, lines)
+        self.assertEqual(len(problems), 1, problems)
+        self.assertIn("布条", problems[0])
+        # The word's form under the context "lit" is the one looked for.
+        text = po.read_text(encoding="utf-8") + '\nmsgctxt "lit"\nmsgid "布条"\nmsgstr "strip"\n'
+        po.write_text(text, encoding="utf-8")
+        self.assertEqual(check_keys.lost_in(po, lines), [])
+        # A line not translated shows in Chinese, its words too: nothing to list.
+        self.assertEqual(check_keys.lost_in(_po([("布条", "Cloth Strip")]), lines), [])
+
+    def test_letters_match_whole_words_in_any_case(self) -> None:
+        self.assertTrue(check_keys.stands_in("He made for old pine ridge.", "Old Pine Ridge"))
+        self.assertFalse(check_keys.stands_in("Lightning struck.", "Li"))
+        self.assertTrue(check_keys.stands_in("도사는 노\u2060송\u2060령으로 갔소.", "노송령"))
+        self.assertFalse(check_keys.stands_in("He left.", ""))
+
+    def test_shipped_translations_light_every_marked_word(self) -> None:
+        # Not a rule of the game (a word a line lacks is simply not lit): the shipped translations
+        # are kept clean so that a new miss shows up here and is looked at.
+        lines = check_keys.marked_lines()
+        for path in sorted((REPOSITORY / "game/locale").glob("*.po")):
+            with self.subTest(path=path.name):
+                self.assertEqual(check_keys.lost_in(path, lines), [])
 
 
 class TranslationsTest(unittest.TestCase):

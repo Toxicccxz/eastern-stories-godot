@@ -13,6 +13,9 @@ var text: String
 var as_written: bool
 var whisper: bool
 var authored_color: StringName = ColoredLine.PLAIN
+## Native (过场演出 A; DECISIONS「关键信息高亮」): `keys` — the words of this line the player acts on
+## after it (ColoredLine.keys). Each stands in the text as written; KeySpans.LIMIT at most.
+var keys: Array[String] = []
 
 
 func _init(p_emote: bool = false, p_text: String = "", p_as_written: bool = false, p_whisper: bool = false) -> void:
@@ -45,12 +48,14 @@ func color() -> StringName:
 
 ## The sentence in its colour.
 func colored(npc_name: String, respect: String) -> ColoredLine:
-	return ColoredLine.new(sentence(npc_name, respect), color())
+	var line := ColoredLine.new(sentence(npc_name, respect), color())
+	line.keys = keys
+	return line
 
 
 ## A record with exactly one of `say`, `emote`, `line` and `whisper`, and where the line
 ## is shown in colour (`colored`: ScriptedAct steps, an exit rule's hand-back) an optional
-## `color` (not for a whisper); null (and a reported failure) otherwise.
+## `color` (not for a whisper); `keys` the words to light; null (and a reported failure) otherwise.
 static func from_record(reader: ContentRecordReader, colored: bool = false) -> NpcLine:
 	var kinds: int = int(reader.has("say")) + int(reader.has("emote")) + int(reader.has("line")) + int(reader.has("whisper"))
 	if kinds != 1:
@@ -67,6 +72,12 @@ static func from_record(reader: ContentRecordReader, colored: bool = false) -> N
 		parsed.authored_color = StringName(reader.required_text("color"))
 		if not ColoredLine.COLORS.has(parsed.authored_color) or parsed.whisper:
 			reader.fail("color", "expected one of %s, and no colour on a whisper" % [ColoredLine.COLORS])
+	parsed.keys = reader.text_list("keys")
+	if parsed.keys.size() > KeySpans.LIMIT:
+		reader.fail("keys", "a line lights %d words at most" % KeySpans.LIMIT)
+	for key: String in parsed.keys:
+		if key.is_empty() or not parsed.text.contains(key):
+			reader.fail("keys", "'%s' does not stand in the line" % key)
 	return parsed
 
 

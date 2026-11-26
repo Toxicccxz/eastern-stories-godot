@@ -14,6 +14,9 @@ var _log_lines: Array[String] = []
 ## The ES2 colour of each log line (ColoredLine; &"" plain), e.g. kill_ob()'s
 ## 看起来X想杀死你！ in HIR bright red.
 var _log_colors: Array[StringName] = []
+## The lit places of each log line (KeySpans; DECISIONS「关键信息高亮」): what the dialogue box lit
+## as the line was read, kept with the line. [] for a line with none.
+var _log_spans: Array[Array] = []
 ## Lines the world printed while a fight ran that read best after its result
 ## (killer_reward()'s quest reward): shown with show_combat_result().
 var _after_fight_lines: Array[ColoredLine] = []
@@ -73,31 +76,63 @@ func append_colored_lines(lines: Array[ColoredLine]) -> void:
 
 
 ## What an NPC says (its bubble shows it): in 消息; a toast only while the feel shows no
-## bubbles.
-func append_speech(lines: Array[ColoredLine]) -> void:
-	_append(lines, not GameContent.catalog().pacing().feel.shows_bubbles())
+## bubbles. `read`: the lines are read in the dialogue box, and lit here as they are there.
+func append_speech(lines: Array[ColoredLine], read: bool = false) -> void:
+	_append(lines, not GameContent.catalog().pacing().feel.shows_bubbles(), read)
 
 
-func _append(lines: Array[ColoredLine], toast: bool) -> void:
+## What the player reads in the dialogue box without an NPC's act behind it (打听's answer): in
+## 消息 as append_colored_lines() puts it, lit for the names the next steps lead to.
+func append_read_lines(lines: Array[ColoredLine]) -> void:
+	_append(lines, true, true)
+
+
+func _append(lines: Array[ColoredLine], toast: bool, lit: bool = false) -> void:
 	var stack: MessageToasts = _presentation_layout.toasts
 	stack.set_suppressed(_toasts_suppressed())
+	# Lit only where the dialogue box shows: with the feel off nothing is read there.
+	var lights: bool = lit and GameContent.catalog().pacing().feel.shows_dialogue_box()
+	var found: Array[String] = []
+	if lights:
+		found = _ui.key_terms()
 	for line: ColoredLine in lines:
 		if not line.text.is_empty():
 			line.text = KoreanText.shown(line.text)
 			_log_lines.append(line.text)
 			_log_colors.append(line.color)
+			_log_spans.append(KeySpans.find(line.text, line.keys, found) if lights else [])
 			if toast:
 				# A message of several lines (god.c's 朱鸿雪沉思了一会儿，说道： / 请在…) is shown whole.
 				stack.push(line.text.replace("\n", " "), SharedGameplayUI.ES2_COLORS.get(line.color, MessageToasts.PLAIN_TEXT), SharedGameplayUI.ES2_COLORS.has(line.color))
 	while _log_lines.size() > SharedGameplayUI.MAX_LOG_LINES:
 		_log_lines.pop_front()
 		_log_colors.pop_front()
+		_log_spans.pop_front()
 	var shown: PackedStringArray = []
 	for index: int in _log_lines.size():
-		var plain: String = _log_lines[index].replace("[", "[lb]")
+		var plain: String = _lit(_log_lines[index], _log_spans[index])
 		var color: StringName = _log_colors[index]
 		shown.append("[color=#%s]%s[/color]" % [SharedGameplayUI.ES2_COLORS[color].to_html(false), plain] if SharedGameplayUI.ES2_COLORS.has(color) else plain)
 	_ui.combat_log.text = "\n".join(shown)
+
+
+## A log line as BBCode, its lit places in the lantern colour and underlined (DialogueText marks
+## them in the box).
+static func _lit(line: String, spans: Array) -> String:
+	if spans.is_empty():
+		return line.replace("[", "[lb]")
+	var out: String = ""
+	var from: int = 0
+	for span: Vector2i in spans:
+		out += line.substr(from, span.x - from).replace("[", "[lb]")
+		out += "[color=#%s][u]%s[/u][/color]" % [UiPalette.LANTERN.to_html(false), line.substr(span.x, span.y - span.x).replace("[", "[lb]")]
+		from = span.y
+	return out + line.substr(from).replace("[", "[lb]")
+
+
+## The lit places of the log's lines, oldest first (tests).
+func log_spans() -> Array[Array]:
+	return _log_spans.duplicate()
 
 
 ## The bottom left's toasts (MessageToasts).
@@ -135,6 +170,7 @@ func log_lines() -> Array[String]:
 func clear() -> void:
 	_log_lines.clear()
 	_log_colors.clear()
+	_log_spans.clear()
 	_ui.combat_log.text = ""
 
 
