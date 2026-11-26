@@ -191,3 +191,16 @@ the canteen card → «пропуск в столовую Бауманки» · 
 `check_po.py` (slots, marks, punctuation) and a read of ten lines against the Chinese: two each of
 names, fights, speech, descriptions and UI; two problems or more, read thirty. Every new name goes
 into the glossary and `ru_nouns.json` before merging.
+
+## The title
+
+The title screen shows the language's own brushed title and an English line under it (the rule
+for every language with its own title; only English has 东方故事 under it). Russian's title is made
+in its own package (a Cyrillic brush face, samples for the owner, `logo_ru.png`).
+
+## Decided by the owner (2026-11-26)
+
+* Places: the compromise — a real name transliterated with a translated generic word, a place
+  named by plain description translated; every place marked T or П in the glossary.
+* In-jokes localized as listed (Бауманка, Майк Мягков, Word and Лексикон, «Без торга»).
+* The narration calls the player lower-case вы.
