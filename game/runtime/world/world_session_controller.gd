@@ -1439,6 +1439,11 @@ func player_runtime() -> WorldPlayerRuntimeType:
 	return _player
 
 
+## Russian speech to the player as ты agrees with the player's gender ({игрок:пришёл|пришла}).
+func _tell_text_the_player() -> void:
+	RussianText.player_gender = _player.state.gender if _player != null and _player.state != null else &""
+
+
 func inventory_state() -> InventoryState:
 	return _inventory
 
@@ -1813,6 +1818,7 @@ func _initialize_authorities() -> bool:
 		_stacks = birth.stacks
 		_item_index = birth.item_index
 		_player = NewPlayerRuntimeComposition.create(PLAYER_ID, birth.player, SnowWorldDefinitions.birth_location())
+		_tell_text_the_player()
 		return _player != null
 	_inventory = InventoryState.new()
 	_stacks = CombinedStackCollection.new()
@@ -1843,6 +1849,7 @@ func _initialize_authorities() -> bool:
 			prototype.state.attributes.strength
 		),
 	)
+	_tell_text_the_player()
 	var demo_primary: EquippedWeaponRef = _player.state.equipment.primary_weapon()
 	if demo_primary == null:
 		return false
@@ -1887,6 +1894,7 @@ func _initialize_restore_authorities() -> bool:
 	if _restore_preparation == null or not _restore_preparation.is_valid():
 		return false
 	_player = _restore_preparation.player
+	_tell_text_the_player()
 	_inventory = _restore_preparation.item_domain.inventory
 	_stacks = _restore_preparation.item_domain.combined_stacks
 	_foods = _restore_preparation.item_domain.food_collection

@@ -107,6 +107,7 @@ class TranslationsTest(unittest.TestCase):
             "$P/$p in Russian": ("结果只是轻轻地划破$p的皮肉。", "Лишь царапина на коже $p."),
             "full width": ("%d 分钟前", "%d {#:минуту|минуты|минут} назад…"),
             "inside a sentence with no case mark": ("你给{npc}{item}。", "Вы даёте {item}{:вин} и {npc} кивает."),
+            "bad player form": ("看见你，放下了手里的扫帚。", "видит вас: «Ты {игрок:пришёл|пришла|пришло}!»"),
             "does not open with the plural": ("$N挥拳攻击$n的$l", "$N {N:ударил|ударили|ударила} $n{:вин} в $l."),
             "a Han character": ("店小二", "店小二"),
         }
@@ -119,6 +120,7 @@ class TranslationsTest(unittest.TestCase):
             ("你打坐 {count} 次", "Медитация: {count} {#:раз|раза|раз}"),
             ("$N挥拳攻击$n的$l", "$N {N:бьёте|бьёт} $n{:вин} кулаком в $l."),
             ("{count}{unit}{item}", "{count} {item}{:счёт}"),
+            ("看见你，放下了手里的扫帚。", "видит вас: «Ты {игрок:пришёл|пришла}!»"),
             ("看见你，放下了手里的扫帚。", "видит вас и опускает метлу."),
         ]
         self.assertEqual(check_po.problems_in(_po(clean, "ru")), [])

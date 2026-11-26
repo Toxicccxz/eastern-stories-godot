@@ -25,6 +25,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_cases()
 	_test_gender()
 	_test_numbers()
+	_test_player()
 	_test_unfilled()
 	_test_message_grammar()
 	_test_shown()
@@ -64,6 +65,17 @@ func _test_gender() -> void:
 	_same(RussianText.finish("Вам {~:ответили|ответил|ответила} Лань Чжипин{:им}."), "Вам ответила Лань Чжипин.", "a name after the word")
 	_same(RussianText.finish("Пугало{:им} {~:упали|упал|упала|упало}."), "Пугало упал.", "a name with no row: м")
 	_same(RussianText.finish("Слуга{:им} {~:пришли|пришёл|пришла} к бандит{:дат}."), "Слуга пришёл к бандиту.", "the nearest name before")
+
+
+func _test_player() -> void:
+	var before: StringName = RussianText.player_gender
+	RussianText.player_gender = CharacterState.GENDER_FEMALE
+	_same(RussianText.finish("Ты {игрок:пришёл|пришла} к {npc}{:дат}."), "Ты пришла к {npc}{:дат}.", "the player's gender, in a template too")
+	RussianText.player_gender = CharacterState.GENDER_MALE
+	_same(RussianText.finish("Ты {игрок:пришёл|пришла}, бандит{:им} {~:ушли|ушёл|ушла}."), "Ты пришёл, бандит ушёл.", "a man; other marks still resolve")
+	RussianText.player_gender = &""
+	_same(RussianText.finish("Я {игрок:устал|устала}."), "Я устал.", "no player yet: the first form")
+	RussianText.player_gender = before
 
 
 func _test_numbers() -> void:

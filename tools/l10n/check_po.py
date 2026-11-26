@@ -272,6 +272,10 @@ def _russian_problems(where: str, msgid: str, msgstr: str) -> list[str]:
                 problems.append(f"{where}: bad count {mark.group(0)} (three forms: 1|2–4|5+)")
             if not NUMBER_SLOT.search(msgstr[: mark.start()]) and not re.search(r"\d", msgstr[: mark.start()]):
                 problems.append(f"{where}: {mark.group(0)} with no number before it")
+    for mark in re.finditer(r"\{игрок:([^{}]*)\}", msgstr):
+        forms = mark.group(1).split("|")
+        if len(forms) != 2 or not all(forms):
+            problems.append(f"{where}: bad player form {mark.group(0)} (two forms: м|ж)")
     for slot in NAME_SLOT.finditer(msgstr):
         before = re.sub(r"\[[^\]]*\]", "", msgstr[: slot.start()]).strip()
         if before and not before.endswith((".", "!", "?", "«", "\n")):

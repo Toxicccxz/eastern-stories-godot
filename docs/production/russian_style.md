@@ -146,6 +146,9 @@ does not know the name its slot will hold. The game finishes a filled line (`Rus
   marks for three kinds of subject, one order for all of them. **The first of three or four forms
   is always the plural** (ушли, ударили, рады, должны): check_po fails a first form that does not
   end in -и or -ы, which catches a form order mixed up.
+* **the player's gender**, `{игрок:пришёл|пришла}` (м | ж): for a past tense or short adjective
+  of the player spoken to as ты, or speaking as я («Ты {игрок:выбрал|выбрала}.»). The narration's
+  вы and a speaker's вы take the plural and need none.
 * **numbers**: `%d {#:день|дня|дней}` agrees with the number before it (1 | 2–4 | 5+, 11–14 take
   the third); the translator writes the forms the sentence's case asks for («на 2 дня», «через 5
   дней»). `{count} {item}{:счёт}` counts a filled name (2 кожаных бурдюка). **{:счёт} is not a case**: it

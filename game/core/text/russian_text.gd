@@ -12,6 +12,9 @@ extends RefCounted
 ##                             three forms: ср takes м
 ##   %d {#:день|дня|дней}       agrees with the nearest number before it: 1 | 2–4 | 5+
 ##   {count} {item}{:счёт}     a filled noun counted by the number before it (два бурдюка)
+##   {игрок:пришёл|пришла}     the player's own gender, for a past tense or short adjective of the
+##                             player spoken to as ты or speaking as я (the narration's вы needs
+##                             none): м | ж, from player_gender, which the world session sets
 ##
 ## A mark after a slot not filled yet ({npc}{:вин}, $n{:вин}, %s{:вин}) stays for the filled line, and so
 ## do the words that agree with it. A mark after a name with no row leaves the name as it is.
@@ -24,7 +27,12 @@ const AGREEMENT_ORDER: PackedStringArray = ["мн", "м", "ж", "ср"]
 const _CLOSERS: String = "»“\"')]"  # NO_TRANSLATE: closing quotes and brackets
 const _UNFILLED: String = "\\{[a-z_]+\\}|\\$(?:RESPECT|SELF|[NnPplw])|%[sd]"
 
+const PLAYER_MARK: String = "игрок"
+
+## The player's gender (CharacterState's value): set by the world session once it has its player.
+static var player_gender: StringName = &""
 static var _mark: RegEx
+static var _player_mark: RegEx
 static var _unfilled_end: RegEx
 static var _number: RegEx
 
@@ -33,6 +41,8 @@ static var _number: RegEx
 static func finish(text: String) -> String:
 	if not text.contains("{"):
 		return text
+	if text.contains("{" + PLAYER_MARK + ":"):
+		text = _for_player(text)
 	if _mark == null:
 		_mark = RegEx.create_from_string("\\{(?:(:)(им|род|дат|вин|твор|пред|счёт)|([~#]):([^{}]*))\\}")
 		_unfilled_end = RegEx.create_from_string("(?:" + _UNFILLED + ")$")
@@ -72,6 +82,14 @@ static func finish(text: String) -> String:
 		var place: int = agreement.at
 		out = out.left(place) + chosen + out.substr(place)
 	return out
+
+
+## `text` with each {игрок:м|ж} replaced by the form for the player's gender.
+static func _for_player(text: String) -> String:
+	if _player_mark == null:
+		_player_mark = RegEx.create_from_string("\\{" + PLAYER_MARK + ":([^{}|]*)\\|([^{}]*)\\}")
+	var female: bool = player_gender == CharacterState.GENDER_FEMALE
+	return _player_mark.sub(text, "$2" if female else "$1", true)
 
 
 ## `before` with its last name put in `case`: {text, gender, resolved, unfilled}.
