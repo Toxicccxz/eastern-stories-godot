@@ -23,7 +23,8 @@ development tool: the game reads the JSON):
   word's (собака: ж, whatever the dog).
 
 `python tools/l10n/ru_nouns.py draft` adds the new rows and lists them for review (`--dry` only
-lists); `python tools/l10n/ru_nouns.py check` fails on a malformed row.
+lists); `prune` drops the rows of names no translation uses any more (renamed in review);
+`check` fails on a malformed row.
 """
 
 from __future__ import annotations
@@ -275,13 +276,28 @@ def draft(dry: bool) -> int:
     return 0
 
 
+def prune() -> int:
+    """Drops the rows whose name no translation in ru.po is any more (a name renamed in review)."""
+    table = load_table()
+    shown = {msgstr.strip() for _ctx, _msgid, msgstr in parse(PO) if msgstr.strip()}
+    gone = [name for name in table if name not in shown and name[:1].upper() + name[1:] not in shown and name[:1].lower() + name[1:] not in shown]
+    for name in gone:
+        del table[name]
+        print(name)
+    write_table(table)
+    print(f"{len(gone)} rows dropped", file=sys.stderr)
+    return 0
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("command", choices=["draft", "check"])
+    parser.add_argument("command", choices=["draft", "check", "prune"])
     parser.add_argument("--dry", action="store_true", help="list the rows a draft would add, write nothing")
     args = parser.parse_args(argv)
     if args.command == "draft":
         return draft(args.dry)
+    if args.command == "prune":
+        return prune()
     found = problems(load_table())
     for problem in found:
         print(problem)
