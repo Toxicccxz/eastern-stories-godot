@@ -5352,7 +5352,7 @@ msgid "结果在$p$l划出一道细长的血痕。"
 msgstr "Удар оставляет у $n{:род} на $l{:пред} длинную тонкую кровавую полосу."
 
 msgid "结果「嗤」地一声划出一道伤口！"
-msgstr "Свист — и на теле открывается рана!"
+msgstr "Свист — и открывается рана!"
 
 msgid "结果「嗤」地一声划出一道血淋淋的伤口！"
 msgstr "Свист — и открывается кровавая рана!"
@@ -7984,7 +7984,7 @@ msgid "前往"
 msgstr ""
 
 msgid "当前 {current} / 有效 {effective} / 最大 {maximum}"
-msgstr "Сейчас {current} / доступно {effective} / предел {maximum}"
+msgstr "Сейчас {current} / действующее {effective} / максимум {maximum}"
 
 msgid "建议：{next}"
 msgstr "Совет: {next}"
