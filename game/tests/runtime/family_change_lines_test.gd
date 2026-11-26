@@ -102,7 +102,17 @@ func _test_sanyen_shuts_dongfang() -> void:
 		_check(text.contains("· 「东方神教」这条线从此不会再出现。"), "named: %s" % text)
 	_begin(state, &"faction.dongfang", 0) # TEST-ONLY: took 朱鸿雪's order
 	change = StoryQuestLog.family_change(state, &"family.sanyen", _catalog.story_quests(), _test(state))
-	_check(change.is_empty(), "one already in 东方神教: 山烟寺's line never begins, nothing running ends")
+	_check(change.ends.is_empty() and change.closes.is_empty() and _ids(change.blocked) == [&"faction.sanyen"], "one already in 东方神教: nothing running ends; 山烟寺's own line never begins, and the question says so (势力线复查): %s" % [_ids(change.blocked)])
+	if master != null:
+		var blocked: String = TeacherPanel.family_change_warning(_player(state, NpcApprenticeship.COMMONER_TITLE), master, "山烟寺", _test(state))
+		_check(blocked.contains("· 「山烟寺」这条线不会出现：你走过的另一条线同它不能并存。"), "named: %s" % blocked)
+	# A line cut short once does not begin again for one who comes back to the family.
+	var back := CharacterState.new()
+	var fonxan: StoryQuestDefinition = _quest(&"faction.fonxan")
+	back.quests[StoryQuestLog.key_started(fonxan)] = 1 # TEST-ONLY
+	back.quests[StoryQuestLog.key_lapsed(fonxan)] = 2 # TEST-ONLY: left 封山 with the line under way
+	change = StoryQuestLog.family_change(back, &"family.fonxan", _catalog.story_quests(), _test(back))
+	_check(_ids(change.gone) == [&"faction.fonxan"] and change.blocked.is_empty(), "back to 封山: its line was cut short once (%s)" % [_ids(change.gone)])
 
 
 func _test_nothing_to_tell() -> void:

@@ -407,6 +407,17 @@ class AssemblyCountTest(unittest.TestCase):
                 problems.append(("封山 absent but waiting rewarded", sorted(base)[:12]))
         self.assertEqual(problems[:8], [])
 
+    def test_the_model_lists_the_data_s_factions(self):
+        """The model's own lists are the data's: a tenth family (or one dropped) in conditions.json or in
+        the 声望 page's votes fails here instead of passing unseen (势力线复查)."""
+        voting = sorted({match.group(1) for cond_id in CONDS for match in [re.fullmatch(r"assembly\.([a-z]+)\.self", cond_id)] if match})
+        self.assertEqual(sorted(FACTIONS), voting)
+        self.assertEqual(sorted(FACTION_STATES), voting)
+        self.assertEqual(sorted(NAMES), voting)
+        for faction in voting:
+            for suffix in ("yan", "old", "stated"):
+                self.assertIn("assembly.%s.%s" % (faction, suffix), CONDS)
+
     def test_faction_lists_agree(self):
         """Every list of named conditions `assembly[.day].<faction>.<suffix>` names the factions that have it."""
         pattern = re.compile(r"^assembly\.(day\.)?([a-z]+)\.([a-z_]+)$")

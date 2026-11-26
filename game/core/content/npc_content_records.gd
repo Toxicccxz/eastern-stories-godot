@@ -391,6 +391,9 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 	definition.with_cleared_mark(reader.text("cleared_mark"))
 	definition.with_same_person(StringName(reader.text("same_person")))
 	definition.with_presence(_presence(reader, "present"), _presence(reader, "until"))
+	definition.with_native_resident(reader.boolean("resident", false))
+	if reader.boolean("resident", false) and not definition.resident:
+		reader.fail("resident", "a resident is a room's own (not summoned, drawn or made once) that the story takes off its stage (`until` or `present`)")
 	# DECISIONS「主线卡死点」: a summoned spawn may carry a `present` too: a scene's late beat calls
 	# them, and the stage puts them on once the scene was cut short before it (no `until` alone).
 	if definition.staged and reader.has("draw"):

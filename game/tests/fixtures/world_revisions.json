@@ -144,6 +144,11 @@
 			"revision": "SOURCE_ENTRY_JUECHEN_B_V1",
 			"spawn_points": 892,
 			"fingerprint": "99f439329e6a1147432d4615ecd13bc6291d2f5a233ebbe525786974038a13d0"
+		},
+		{
+			"revision": "SOURCE_ENTRY_FACTION_RECHECK_V1",
+			"spawn_points": 894,
+			"fingerprint": "bf4ee7ac3878fa2891577ee506431f075b68b437a6a2d2dcd1c7e097422eda8e"
 		}
 	]
 }

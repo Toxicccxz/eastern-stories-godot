@@ -111,7 +111,7 @@ static func _node(node: Variant, parent: String, step: bool, owner: Dictionary) 
 		var name: String = str(key)
 		var value: Variant = record[key]
 		if name.contains("mark") and not WRITE_KEYS.has(name):
-			var writes: bool = (step and name == "mark") or (parent == "reward" and name == "marks") or (parent == "lapses" and name == "mark")
+			var writes: bool = (step and name == "mark") or (parent == "reward" and name == "marks") or (parent in ["lapses", "lapses_also"] and name == "mark")
 			if not writes:
 				_add(_marks, value)
 		if ITEM_KEYS.has(name) and not (name.begins_with("item") and ITEM_LAYING.has(parent)):

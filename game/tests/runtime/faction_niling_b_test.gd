@@ -334,10 +334,10 @@ func _test_killed_xuan(_tree: SceneTree, session: WorldSessionController) -> voi
 	var state: CharacterState = session.player_runtime().state
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(QUEST)
 	StoryFixtures.niling_ledger(session, "lin", false)
-	state.marks["了结了玄冥子"] = 1 # TEST-ONLY: as his die_marks_killer writes
+	state.marks["了结了玄冥子"] = 1 # TEST-ONLY: as his die_marks writes
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"none") and StoryQuestLog.current_step(state, quest).step_id == &"hour", "玄冥子 killed: routed past too")
-	_check(GameContent.catalog().npc(XUAN).hooks().die_marks_killer == "了结了玄冥子", "his killer is marked")
+	_check(GameContent.catalog().npc(XUAN).hooks().die_marks == "了结了玄冥子" and GameContent.catalog().npc(XUAN).hooks().die_marks_killer.is_empty(), "his death is marked whoever of the player's side strikes last (势力线复查: a helper's blow left the step undone)")
 
 
 ## 卧底 A delivered through `door`, then 林忌's word on the dungeon asked for: at the temple, the crown on.

@@ -792,6 +792,7 @@
     "native.npc.xiao_pichen_ice": {"same_as": "common.npc.fighter.master"},
     "native.npc.neizhai_guard": {"same_as": "city.npc.shangshu.huyuan"},
     "native.npc.niling_courier": {"same_as": "native.npc.niling_gatekeeper"},
+    "native.npc.niling_soldier": {"same_as": "common.npc.garrison"},
     "native.npc.niling_wind_diviner": {
       "note": "卜风道士：黑衣黑冠，三十八岁，熬夜熬得憔悴，眼眶熬红、嘴唇冻紫；一手一捆竹签、一手一张符；立绘 Muse 2026-11-08",
       "coat": "292728", "pants": "161519", "skin": "f3cca8", "hair": "161519",

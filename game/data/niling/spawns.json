@@ -7,7 +7,9 @@
 			"zone": "niling.winch",
 			"points": ["niling.winch.winch_taoist.1"],
 			"legacy_room": "native: 逆灵宫 A (the winch on the crack's top)",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"resident": true,
+			"until": { "mark": "余孽有了去处" }
 		},
 		{
 			"id": "niling.gatehouse.gatekeeper",
@@ -16,7 +18,9 @@
 			"zone": "niling.gatehouse",
 			"points": ["niling.gatehouse.gatekeeper.1"],
 			"legacy_room": "native: 逆灵宫 A (the 黑砖山门's 门房)",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"resident": true,
+			"until": { "mark": "余孽有了去处" }
 		},
 		{
 			"id": "niling.yard.gate_guards",
@@ -26,6 +30,8 @@
 			"points": ["niling.yard.gate_guard.1", "niling.yard.gate_guard.2"],
 			"legacy_room": "native: 逆灵宫 A (the two 守门道士 inside the gate)",
 			"legacy_quantity": 2,
+			"resident": true,
+			"until": { "mark": "余孽有了去处" },
 			"cleared_mark": "山门的道士倒了"
 		},
 		{
@@ -35,7 +41,9 @@
 			"zone": "niling.store",
 			"points": ["niling.store.store_taoist.1"],
 			"legacy_room": "native: 逆灵宫 A (the 货栈)",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"resident": true,
+			"until": { "mark": "余孽有了去处" }
 		},
 		{
 			"id": "niling.front.chanters",
@@ -49,7 +57,9 @@
 				"niling.front.chanter.4"
 			],
 			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the four chanting in the 前殿)",
-			"legacy_quantity": 4
+			"legacy_quantity": 4,
+			"resident": true,
+			"until": { "mark": "余孽有了去处" }
 		},
 		{
 			"id": "niling.front.lead_chanter",
@@ -60,7 +70,9 @@
 				"niling.front.lead_chanter.1"
 			],
 			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the one at the 木鱼)",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"resident": true,
+			"until": { "mark": "余孽有了去处" }
 		},
 		{
 			"id": "niling.counting.steward",
@@ -71,7 +83,9 @@
 				"niling.counting.steward.1"
 			],
 			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the 账房)",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"resident": true,
+			"until": { "mark": "余孽有了去处" }
 		},
 		{
 			"id": "niling.corridor.jailers",
@@ -201,6 +215,9 @@
 					},
 					{
 						"mark": "被识破"
+					},
+					{
+						"mark": "余孽有了去处"
 					}
 				]
 			},
@@ -220,9 +237,7 @@
 			"present": {
 				"mark": "见过唤首"
 			},
-			"until": {
-				"mark": "林忌说了地牢"
-			}
+			"until": { "any": [{ "mark": "林忌说了地牢" }, { "mark": "余孽有了去处" }] }
 		},
 		{
 			"id": "niling.yard.unmasking_xuan",
@@ -236,6 +251,7 @@
 			"legacy_quantity": 1,
 			"present": {
 				"all": [
+					{ "not": { "mark": "余孽有了去处" } },
 					{
 						"cond": "niling.unmasking"
 					},
@@ -269,6 +285,7 @@
 			"legacy_quantity": 1,
 			"present": {
 				"all": [
+					{ "not": { "mark": "余孽有了去处" } },
 					{
 						"cond": "niling.unmasking"
 					},
@@ -291,6 +308,16 @@
 			"until": {
 				"mark": "被识破"
 			}
+		},
+		{
+			"id": "niling.yard.soldiers",
+			"npc": "native.npc.niling_soldier",
+			"map": "niling.gate",
+			"zone": "niling.yard",
+			"points": ["niling.yard.soldier.1", "niling.yard.soldier.2"],
+			"legacy_room": "native: 势力线复查 (owner 2026-11-26 第 1 问; DECISIONS「势力线复查」) — the 余孽 given to the 官府 (余孽交了官府): two 官兵 where the 守门道士 stood, the 道观 sealed and empty behind them",
+			"legacy_quantity": 2,
+			"present": { "mark": "余孽交了官府" }
 		}
 	]
 }

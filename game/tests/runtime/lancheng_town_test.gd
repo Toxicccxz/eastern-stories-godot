@@ -178,9 +178,10 @@ func _test_town(tree: SceneTree, session: WorldSessionController) -> void:
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"elder") or StoryQuestLog.current_step(state, quest) == null or StoryQuestLog.current_step(state, quest).step_id != &"elder", "the elder step done")
 	# DECISIONS「不能动手的人」: 攻击 on him shows his line, and nothing starts.
+	# The log keeps a fixed number of lines: once it is full its size no longer grows, so the new line is looked for among the last ones.
 	var shown_before: int = ui.log_lines().size()
 	var attacked: CombatSliceInitiationResult = hall.attack_selected() if weng != null else null
-	_check(attacked != null and attacked.outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not session.combat_encounter_coordinator().has_active_encounter() and _said(ui.log_lines().slice(shown_before), "按了回去"), "岚翁 cannot be fought: 攻击 shows a wind holding the hand back")
+	_check(attacked != null and attacked.outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not session.combat_encounter_coordinator().has_active_encounter() and _said(ui.log_lines().slice(maxi(0, mini(shown_before, ui.log_lines().size() - 2))), "按了回去"), "岚翁 cannot be fought: 攻击 shows a wind holding the hand back (log %d -> %d lines)" % [shown_before, ui.log_lines().size()])
 	# 章与章之间的衔接: what this package played out holds what C's fixture writes.
 	# the wind's road is the world's draw; the 岚童's question and 萧辟尘's bell the suite's errands
 	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_asked.bind("deal", false, true, false), ["岚童问过你", "风眼在北"], [&"native:lancheng/wind_bell"])

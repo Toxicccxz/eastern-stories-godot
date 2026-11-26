@@ -31,6 +31,30 @@
 						"quest": "faction.niling#started"
 					},
 					{
+						"quest": "faction.zhenyuan#started"
+					},
+					{
+						"quest": "faction.latemoon#started"
+					},
+					{
+						"quest": "faction.huazi#started"
+					},
+					{
+						"quest": "faction.court#started"
+					},
+					{
+						"quest": "faction.maoshan#started"
+					},
+					{
+						"quest": "faction.buxuan#started"
+					},
+					{
+						"quest": "faction.sanyen#started"
+					},
+					{
+						"quest": "faction.juechen#started"
+					},
+					{
 						"mark": "终章"
 					}
 				]
@@ -613,7 +637,7 @@
 			"steps": [
 				{
 					"id": "wait",
-					"objective": "正月十七，九派在水烟阁外的虹台推选武林盟主：颜违、旧盟主（卫沧澜回来了就是他，没回来就是那把空椅子），或者你。湖底的事了了，才会开会。各派的票跟着你做过的事走——封山、天邪看那两条线走到哪一边。",
+					"objective": "正月十七，九派在水烟阁外的虹台推选武林盟主：颜违、旧盟主（卫沧澜回来了就是他，没回来就是那把空椅子），或者你。湖底的事了了，才会开会。九派的票跟着你做过的事走：每一派那条线走到哪一边，它的票就在哪一边。",
 					"done": {
 						"mark": "终章"
 					},
