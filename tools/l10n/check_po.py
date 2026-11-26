@@ -243,6 +243,8 @@ def _russian_problems(where: str, msgid: str, msgstr: str) -> list[str]:
         forms = body.split("|")
         if len(forms) < 2 or len(forms) > 4 or not all(forms):
             problems.append(f"{where}: bad form {{{role}:{body}}} (two forms вы|other, or вы|м|ж|ср)")
+        elif len(forms) > 2 and not PLURAL_FIRST.search(forms[0]):
+            problems.append(f"{where}: {{{role}:{body}}} does not open with the plural (вы|м|ж|ср)")
         if role == "n" and _count(msgid, "$n") == 0 and not re.search(r"\$p(?![a-zA-Z])", msgid):
             problems.append(f"{where}: {{n:…}} in a line with no $n (nor $p)")
     cases = list(RUSSIAN_CASE.finditer(msgstr))
@@ -258,6 +260,8 @@ def _russian_problems(where: str, msgid: str, msgstr: str) -> list[str]:
         if mark.group(1) == "~":
             if len(forms) < 3 or len(forms) > 4 or not all(forms):
                 problems.append(f"{where}: bad agreement {mark.group(0)} (мн|м|ж or мн|м|ж|ср)")
+            elif not PLURAL_FIRST.search(forms[0]):
+                problems.append(f"{where}: {mark.group(0)} does not open with the plural (мн|м|ж|ср)")
             if not cases:
                 problems.append(f"{where}: {mark.group(0)} with no case-marked name to agree with")
         else:
