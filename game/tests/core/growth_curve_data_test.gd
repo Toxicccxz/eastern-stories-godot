@@ -10,13 +10,6 @@ extends RefCounted
 
 const Arrival := preload("res://tests/support/story_arrival.gd")
 
-## The main story's arrival exp the must-win fights were tuned at (DECISIONS「主线必打的仗」 second
-## round; tests/support/story_arrival.gd before 成长曲线 A), chapter by chapter.
-const TUNED: Dictionary[StringName, int] = {
-	&"main.chapter1": 1820, &"main.chapter2": 2495, &"main.chapter3": 4696, &"main.chapter4": 6505,
-	&"main.chapter5": 8443, &"main.chapter6": 11626, &"main.chapter7": 14500, &"main.chapter8": 21136,
-	&"main.chapter9": 22936, &"main.chapter10": 31486, &"main.finale": 37276,
-}
 ## How far (percent) an arrival may drift from TUNED before the fights need measuring again.
 const DRIFT_PERCENT: int = 1
 ## Regions the first two hours walk (their recommended_exp is tuned with them, DECISIONS「经验节奏」):
@@ -38,11 +31,12 @@ func run_all() -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
-## Each chapter's arrival (main story alone) within DRIFT_PERCENT of what the fights were tuned at.
+## Each chapter's arrival (main story alone) within DRIFT_PERCENT of what the fights were tuned at
+## (StoryArrival.TUNED, where the strength suites measure them).
 func _test_arrival_kept() -> void:
-	for quest_id: StringName in TUNED:
+	for quest_id: StringName in Arrival.TUNED:
 		var arrival: int = Arrival.main_story(quest_id)
-		var tuned: int = TUNED[quest_id]
+		var tuned: int = Arrival.TUNED[quest_id]
 		_check(absi(arrival - tuned) * 100 <= tuned * DRIFT_PERCENT, "%s: the main story arrives with %d exp, the must-win fights were tuned at %d (within %d%%; more, and run_mainline_fight_sim.gd must tune them again)" % [quest_id, arrival, tuned, DRIFT_PERCENT])
 
 

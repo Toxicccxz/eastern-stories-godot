@@ -50,8 +50,11 @@ var _catalog: ContentCatalog
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
-	# This suite pins ES2's call_out seconds (DECISIONS「响应性」: the game's come sooner).
+	# This suite pins ES2's call_out seconds (DECISIONS「响应性」: the game's come sooner), and elon.c's
+	# 100000 (the game asks 30000 through pacing exp_gates `elon`: DECISIONS「成长曲线 A」, pinned by
+	# growth_curve_data_test and elon_apprentice_test).
 	var es2_reactions: PacingDefinition = Es2Pacing.use_reactions()
+	var es2_gates: PacingDefinition = Es2Pacing.use_es2_exp_gates()
 	_catalog = GameContent.catalog()
 	_test_data()
 	_test_lan_rule()
@@ -71,6 +74,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_continue(tree, session)
 	session.free()
 	await tree.process_frame
+	Es2Pacing.restore(es2_gates)
 	Es2Pacing.restore(es2_reactions)
 	return {"assertions": _count, "failures": _failures}
 

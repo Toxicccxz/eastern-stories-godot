@@ -71,6 +71,25 @@ static func content_level(kind: StringName, region: RegionDefinition) -> int:
 	return region.recommended_exp
 
 
+## The main story's arrival exp at each chapter that its must-win fights were tuned at (DECISIONS
+## 「主线必打的仗」 second round; 成长曲线 A moved the 历练 around and kept it, DECISIONS「成长曲线 A」).
+## The strength suites (tests/sim/mainline_fight_sim.gd's main-story tier) measure here, so a drift
+## too small to move a win rate (成长曲线 A: 0.1–0.3%) does not reshuffle their seeded duels;
+## growth_curve_data_test fails as soon as main_story() leaves it by more than 1%, and the fights
+## must then be measured, and tuned, at the new arrival.
+const TUNED: Dictionary[StringName, int] = {
+	&"main.prologue": MAIN_START, &"main.chapter1": 1820, &"main.chapter2": 2495, &"main.chapter3": 4696,
+	&"main.chapter4": 6505, &"main.chapter5": 8443, &"main.chapter6": 11626, &"main.chapter7": 14500,
+	&"main.chapter8": 21136, &"main.chapter9": 22936, &"main.chapter10": 31486, &"main.finale": 37276,
+}
+
+
+## The arrival the must-win fights of `quest_id`'s chapter were tuned at (TUNED; main_story() for a
+## chapter it does not name).
+static func tuned(quest_id: StringName) -> int:
+	return TUNED.get(quest_id, main_story(quest_id))
+
+
 ## The main story alone (from the first two hours' MAIN_START).
 static func main_story(quest_id: StringName) -> int:
 	return arrival(quest_id, MAIN_START)

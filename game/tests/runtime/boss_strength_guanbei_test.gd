@@ -2,13 +2,14 @@ extends "res://tests/runtime/boss_strength_test.gd"
 
 ## DECISIONS「主线必打的仗」: 第六章's two fights (郭承 and the 王府骑兵 beside the player: the helped
 ## band) and 第九章 揭发's 庾子建 with 冯策 beside (a choice's fight, DECISIONS「主线人物的武功」: not
-## tuned, a wide band only; measured at the exploring exp of 第九章, `exploring_only`, as before);
+## tuned, a wide band only; measured at the exploring exp of 第九章, `exploring_only`, as before; since
+## 成长曲线 A explorers arrive with 8% more, 34720, and the fist build wins it about 88% in six seeds);
 ## boss_strength_test has the how.
 
 const GUANBEI_TARGETS: Dictionary[String, Variant] = {
 	"第六章 借兵 踏平工地": HELPED,
 	"第六章 潜入 守夜武官×2": HELPED,
-	"第九章 揭发 庾子建（冯策并肩，选择）": [0.10, 0.80],
+	"第九章 揭发 庾子建（冯策并肩，选择）": [0.10, 0.95],
 }
 
 
