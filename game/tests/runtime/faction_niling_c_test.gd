@@ -43,7 +43,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	for test: Callable in [_test_turn, _test_deep_chosen, _test_unmasked_xuan, _test_unmasked_chanter, _test_after_unmasked, _test_missed, _test_after_finale, _test_hall_turn, _test_hall_deep, _test_hall_deep_dragons, _test_hall_deep_bare]:
+	for test: Callable in [_test_turn, _test_deep_chosen, _test_unmasked_xuan, _test_unmasked_chanter, _test_after_unmasked, _test_missed, _test_after_finale, _test_hall_turn, _test_hall_deep, _test_hall_deep_dragons, _test_hall_deep_bare, _test_settled_at_hour, _test_settled_at_chores, _test_turned_settles, _test_deep_settles, _test_found_out_settles, _test_entry_closed]:
 		var session: WorldSessionController = await _session(tree)
 		await test.call(tree, session)
 		session.free()
@@ -61,8 +61,9 @@ func _test_data() -> void:
 	_check(split.weight == StoryQuestDefinition.WEIGHT_BIG and split.only_after == &"net" and split.options.map(func(option: StoryQuestDefinition.Option) -> StringName: return option.option_id) == [&"turn", &"deep", &"missed"], "the line's one split: 倒戈 or 潜伏 (or the night let pass)")
 	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) == 2 and quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 2, "1 big on each way the main story routes (收网; after the 终章 大会 A's 余孽), 2 small (owner 2026-11-09)")
 	_check(split.objective.contains("疑点不到三条") and split.objective.contains("四个道士会先扑你") and split.objective.contains("黑冠从此没用"), "both sides' costs said before the choice")
-	_check(quest.step(&"hall_turn").only_after == &"turn" and quest.step(&"hall_deep").only_after == &"deep" and quest.step(&"aftermath").only_after == &"remnant", "each way its own last step")
-	_check(quest.lapses != null and quest.lapsed_mark == "疑点满了" and quest.lapsed_text.contains("下回戴着冠进前院") and quest.lapsed_text.contains("不必打") and quest.lapsed_text.contains("剑谱也还在你手里"), "three 疑点: the line lapses, what was done still counts")
+	_check(quest.step(&"hall_turn").only_after == &"turn" and quest.step(&"hall_deep").only_after == &"deep" and quest.step(&"aftermath").only_after.is_empty(), "each way its own step in the 冰龙厅; the 余孽 after it whichever way (势力线复查 第 5 问)")
+	_check(quest.lapses != null and quest.lapsed_mark == "疑点满了" and quest.lapsed_text.contains("下回戴着冠进前院") and quest.lapsed_text.contains("不必打") and quest.lapsed_text.contains("到手的也还在你手里") and not quest.lapsed_text.contains("名单"), "three 疑点: the line lapses, what was done still counts (and nothing is said of a list never copied)")
+	_check(quest.lapses_also.size() == 1 and quest.lapses_also[0].mark == "黑冠用不着了" and quest.lapses_also[0].text.contains("道观空了"), "the 余孽 settled while the wearer is at the chores: the line is cut short, in its own words")
 	for id: StringName in PALACE:
 		var when: JournalEntryDefinition = catalog.npc(id).dealings().ignores_when
 		_check(when != null and when.when == JournalEntryDefinition.When.ALL and when.parts.size() == 3, "%s minds the crown only while it holds (niling.crown_holds)" % id)
@@ -272,7 +273,7 @@ func _test_missed(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not talk.confirm_applies("倒戈", state.marks) and _said(_ask(temple, lin, "倒戈"), "来不及了") and not state.marks.has("前夜倒戈"), "the night come: too late to turn")
 	_check(_said(_ask(temple, lin, "逆灵宫"), "茅山没等到你的话"), "林忌: the night passed")
 	session.record_journal()
-	_check(StoryQuestLog.took(state, quest, &"missed") and StoryQuestLog.is_done(state, quest), "the split let pass: the line over, nothing left hanging")
+	_check(StoryQuestLog.took(state, quest, &"missed") and StoryQuestLog.current_step(state, quest).step_id == &"aftermath", "the split let pass: nothing of the night left hanging, the 余孽 are what is left")
 
 
 ## After the 终章: 林忌 asks of the 余孽 (续灯), no 收网; the line waits on the 虹台大会.
@@ -290,6 +291,110 @@ func _test_after_finale(tree: SceneTree, session: WorldSessionController) -> voi
 	_check(temple.select_npc(lin.character_id) and not temple.ask_topics_selected().has("倒戈"), "no 收网 to choose")
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"remnant") and StoryQuestLog.current_step(state, quest).step_id == &"aftermath", "the line waits on the 虹台大会")
+
+
+## The 余孽 settled through 茅山's line (its 「剿」) before 林忌 ever spoke of them to his 眼线: at `hour`
+## the line takes them as settled and ends with what was done (势力线复查: it stopped there for good).
+func _test_settled_at_hour(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(QUEST)
+	StoryFixtures.niling_scripture(session, "night", false)
+	for mark: String in ["岚城一章", "下了决战", "商玦倒了", "终章", "茅山烧了符箓"]:
+		state.marks[mark] = 1 # TEST-ONLY: the main story over, 茅山's book burnt
+	session.record_journal()
+	_check(StoryQuestLog.current_step(state, quest).step_id == &"hour", "at the hour, 林忌 not yet asked")
+	var temple: WorldMapController = MapPlaces.enter(session, TEMPLE, TEMPLE_POINT)
+	await _settle(tree)
+	var lin: NpcRuntimeState = _first(session, TEMPLE, LIN)
+	_check(_said(_ask(temple, lin, "剿"), "书烧了") and state.marks.get("余孽交了官府", 0) == 1 and state.marks.get("余孽有了去处", 0) == 1 and not state.marks.has("林忌说了余孽"), "茅山's 「剿」 first")
+	_check(_said(_ask(temple, lin, "逆灵宫"), "官兵上了北麓"), "林忌 of the 道观: the soldiers are up")
+	session.record_journal()
+	_check(StoryQuestLog.took(state, quest, &"remnant") and StoryQuestLog.took(state, quest, &"crush") and StoryQuestLog.is_done(state, quest) and DeedLog.done(state, "把逆灵宫的余孽交给官府去剿"), "the line ends with what was done")
+
+
+## The same while the wearer is still at the chores: the 道观 is empty, the line is cut short and says why.
+func _test_settled_at_chores(_tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(QUEST)
+	StoryFixtures.niling_ledger(session, "xuan", false)
+	session.record_journal()
+	_check(StoryQuestLog.is_active(state, quest) and not state.marks.has("后山的事了了"), "under way, the 后山 not settled")
+	for mark: String in ["终章", "招安了余孽", "余孽有了去处"]:
+		state.marks[mark] = 1 # TEST-ONLY: the 花匠 read them down the hill
+	session.record_journal()
+	_check(StoryQuestLog.is_lapsed(state, quest) and state.marks.get("黑冠用不着了", 0) == 1 and not state.marks.has("疑点满了"), "cut short, by its own mark")
+	_check(StoryQuestLog.lapsed_text(state, quest).contains("道观空了") and _shown(session).contains("道观空了") and not _shown(session).contains("疑点满了三条"), "the 任务 page says which way it ended")
+
+
+## 前夜倒戈, the 终章 over: 林忌 speaks of the 余孽 to this one too; the 黑冠 passes no more, so 茅山's
+## people go up for the 招安 (势力线复查 第 5 问).
+func _test_turned_settles(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(QUEST)
+	StoryFixtures.niling_scripture(session, "night", false)
+	for mark: String in ["岚城一章", "林忌说了收网", "前夜倒戈", "下了决战", "商玦倒了", "终章"]:
+		state.marks[mark] = 1 # TEST-ONLY: turned, the 冰龙厅 won
+	session.record_journal()
+	_check(StoryQuestLog.took(state, quest, &"turn") and StoryQuestLog.current_step(state, quest).step_id == &"aftermath", "the 冰龙厅 done: the 余孽 are next")
+	var temple: WorldMapController = MapPlaces.enter(session, TEMPLE, TEMPLE_POINT)
+	await _settle(tree)
+	var lin: NpcRuntimeState = _first(session, TEMPLE, LIN)
+	_check(_said(_ask(temple, lin, "逆灵宫"), "续灯") and state.marks.get("林忌说了余孽", 0) == 1, "林忌 of the 余孽, not of the night gone by")
+	_check(_said(_ask(temple, lin, "招安"), "茅山的人替你上山去说") and state.marks.get("招安了余孽", 0) == 1 and state.marks.get("余孽有了去处", 0) == 1 and not state.marks.has("林忌要招安"), "招安: 茅山 speaks for one the 道观 knows")
+	session.record_journal()
+	_check(StoryQuestLog.took(state, quest, &"pardon") and StoryQuestLog.is_done(state, quest) and DeedLog.done(state, "劝逆灵宫的余孽下山，交茅山看管"), "the line ends: 招安")
+
+
+## 潜伏到底, the 终章 over: the 余孽 the same; the 黑冠 still passes, so the word is the wearer's to carry.
+func _test_deep_settles(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(QUEST)
+	StoryFixtures.niling_scripture(session, "night", false)
+	for mark: String in ["岚城一章", "林忌说了收网", "潜伏到底", "下了决战", "商玦倒了", "终章"]:
+		state.marks[mark] = 1 # TEST-ONLY
+	session.record_journal()
+	var temple: WorldMapController = MapPlaces.enter(session, TEMPLE, TEMPLE_POINT)
+	await _settle(tree)
+	var lin: NpcRuntimeState = _first(session, TEMPLE, LIN)
+	var first: Array[String] = _ask(temple, lin, "逆灵宫")
+	_check(_said(first, "续灯") and not _said(first, "那就去吧"), "no 「那就去吧」 after the lake: %s" % [first])
+	_check(_said(_ask(temple, lin, "招安"), "回北麓去") and state.marks.get("林忌要招安", 0) == 1 and not state.marks.has("余孽有了去处"), "招安: back to the 北麓 under the crown")
+	_check(_said(_ask(temple, lin, "剿"), "已经答应去劝") and not state.marks.has("余孽交了官府") and StoryQuestLog.is_active(state, quest), "promised: no 剿 on top of it")
+
+
+## Found out (three 疑点) after the 招安 was promised, or before 林忌 spoke at all: the 道观's door is shut
+## to this one, and the 余孽 can still be settled (势力线复查: nothing could settle them).
+func _test_found_out_settles(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	StoryFixtures.niling_scripture(session, "night", false)
+	for mark: String in ["岚城一章", "下了决战", "商玦倒了", "终章", "林忌说了余孽", "林忌要招安", "疑点满了"]:
+		state.marks[mark] = 1 # TEST-ONLY: promised, then found out
+	var temple: WorldMapController = MapPlaces.enter(session, TEMPLE, TEMPLE_POINT)
+	await _settle(tree)
+	var lin: NpcRuntimeState = _first(session, TEMPLE, LIN)
+	_check(_said(_ask(temple, lin, "逆灵宫"), "再问我一次「招安」"), "林忌 sends the one found out back to 「招安」")
+	_check(_said(_ask(temple, lin, "招安"), "茅山的人替你上山去说") and state.marks.get("招安了余孽", 0) == 1 and state.marks.get("余孽有了去处", 0) == 1, "茅山 goes up instead")
+	for mark: String in ["林忌说了余孽", "林忌要招安", "招安了余孽", "余孽有了去处", "后山的事了了"]:
+		state.marks.erase(mark) # TEST-ONLY: found out at the chores, 林忌 never spoke
+	_check(_said(_ask(temple, lin, "逆灵宫"), "了断还由你定") and state.marks.get("林忌说了余孽", 0) == 1, "found out before the hour: after the 终章 the 余孽 are still this one's to settle")
+	_check(lin.definition().talk().confirm_applies("剿", state.marks) and _said(_ask(temple, lin, "剿"), "程不平") and state.marks.get("余孽交了官府", 0) == 1, "剿")
+
+
+## The 余孽 settled: neither 林忌 nor 霍铮 takes a new 眼线 (the line would stop at its first door).
+func _test_entry_closed(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	for mark: String in ["逆灵宫一章", "林忌说了逆灵宫", "霍铮回了寨", "霍铮说了茅山", "终章", "余孽交了官府", "余孽有了去处"]:
+		state.marks[mark] = 1 # TEST-ONLY
+	var temple: WorldMapController = MapPlaces.enter(session, TEMPLE, TEMPLE_POINT)
+	await _settle(tree)
+	var lin: NpcRuntimeState = _first(session, TEMPLE, LIN)
+	_check(not lin.definition().talk().confirm_applies("眼线", state.marks) and _said(_ask(temple, lin, "眼线"), "用不着眼线") and not state.marks.has("答应了做眼线"), "林忌 takes no 眼线")
+	var huo: NpcDefinition = GameContent.catalog().npc(&"native.npc.huo_zheng")
+	_check(huo != null, "霍铮 at home")
+	if huo != null:
+		var none: Array[String] = []
+		_check(not huo.talk().confirm_applies("眼线", state.marks) and _rule_says(NpcInquiryRule.decide(huo.talk().inquiry_rules("眼线"), state.marks, null, &"", &"", 0, {}, none), "用不着了"), "霍铮 takes no 眼线")
+		_check(_rule_says(NpcInquiryRule.decide(huo.talk().inquiry_rules("茅山"), state.marks, null, &"", &"", 0, {}, none), "空了"), "and says why")
 
 
 ## The 冰龙厅 for one who turned, the dragons beaten: two of his four; 商玦 whole.
@@ -405,6 +510,10 @@ func _first(session: WorldSessionController, zone_id: StringName, definition_id:
 		if npc.exists_in_map and not npc.has_flag(NpcDefinition.FLAG_GONE) and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD and npc.world_location().zone_id == zone_id and NpcDefinition.unnamed_id(npc.definition().definition_id) == definition_id:
 			return npc
 	return null
+
+
+func _rule_says(rule: NpcInquiryRule, part: String) -> bool:
+	return rule != null and rule.lines.any(func(line: NpcLine) -> bool: return line.sentence("霍铮", "").contains(part))
 
 
 func _said(lines: Array, part: String) -> bool:

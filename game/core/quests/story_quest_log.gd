@@ -230,7 +230,7 @@ static func family_change(state: CharacterState, family_id: StringName, quests: 
 	var begun: Array[StoryQuestDefinition] = []
 	for quest: StoryQuestDefinition in quests:
 		if is_active(state, quest):
-			if quest.lapses != null and as_family.call(quest.lapses) and not test.call(quest.lapses):
+			if _lapses_now(quest, as_family) and not _lapses_now(quest, test):
 				change.ends.append(quest)
 		elif not is_started(state, quest) and quest.starts != null and can_start(state, quest, quests) and as_family.call(quest.starts) and not test.call(quest.starts):
 			begun.append(quest)
@@ -327,15 +327,45 @@ static func _look(state: CharacterState, quests: Array[StoryQuestDefinition], te
 	return recorded
 
 
-## Cut short when its `lapses` holds: "#lapsed", its mark, a LAPSED fresh. False when it does not hold.
+## Cut short when its `lapses` holds (or one of `lapses_also`, asked in order after it): "#lapsed",
+## that way's mark, a LAPSED fresh. False when none holds.
 static func _lapse(state: CharacterState, quest: StoryQuestDefinition, test: Callable, recorded: Array[Fresh]) -> bool:
-	if quest.lapses == null or not test.call(quest.lapses):
-		return false
+	var mark: String = ""
+	if quest.lapses != null and test.call(quest.lapses):
+		mark = quest.lapsed_mark
+	else:
+		var other: StoryQuestDefinition.Lapse = null
+		for lapse: StoryQuestDefinition.Lapse in quest.lapses_also:
+			if test.call(lapse.when):
+				other = lapse
+				break
+		if other == null:
+			return false
+		mark = other.mark
 	_write(state, key_lapsed(quest))
-	if not quest.lapsed_mark.is_empty():
-		state.marks[quest.lapsed_mark] = 1
+	if not mark.is_empty():
+		state.marks[mark] = 1
 	recorded.append(Fresh.new(Kind.LAPSED, quest))
 	return true
+
+
+## Whether the quest would be cut short as `test` judges its conditions.
+static func _lapses_now(quest: StoryQuestDefinition, test: Callable) -> bool:
+	if quest.lapses != null and test.call(quest.lapses):
+		return true
+	for lapse: StoryQuestDefinition.Lapse in quest.lapses_also:
+		if test.call(lapse.when):
+			return true
+	return false
+
+
+## What the 任务 page says of a quest cut short: the text of the way it was (`lapses_also` by its
+## mark), else `lapses`' own.
+static func lapsed_text(state: CharacterState, quest: StoryQuestDefinition) -> String:
+	for lapse: StoryQuestDefinition.Lapse in quest.lapses_also:
+		if state != null and int(state.marks.get(lapse.mark, 0)) != 0:
+			return lapse.text
+	return quest.lapsed_text
 
 
 static func _write(state: CharacterState, key: String) -> void:
@@ -425,7 +455,7 @@ static func shown(state: CharacterState, quests: Array[StoryQuestDefinition], li
 		for entry: Array in recorded:
 			view.entries.append(entry[1])
 		if view.lapsed:
-			view.entries.append(quest.lapsed_text)
+			view.entries.append(lapsed_text(state, quest))
 		elif not view.done:
 			var step: StoryQuestDefinition.Step = current_step(state, quest)
 			view.objective = "" if step == null else step.objective
@@ -462,7 +492,7 @@ static func told_lines(fresh: Fresh, with_next: bool, state: CharacterState) -> 
 			lines.append(ColoredLine.new(_t("【任务完成】{title}").format({"title": _t(fresh.quest.title)}), ColoredLine.HIW))
 		Kind.LAPSED:
 			# TRANSLATORS: native (任务系统, 线断了): a quest was cut short: {title} its name, {text} why.
-			lines.append(ColoredLine.new(_t("【任务中止】{title}：{text}").format({"title": _t(fresh.quest.title), "text": _t(fresh.quest.lapsed_text)}), ColoredLine.HIW))
+			lines.append(ColoredLine.new(_t("【任务中止】{title}：{text}").format({"title": _t(fresh.quest.title), "text": _t(lapsed_text(state, fresh.quest))}), ColoredLine.HIW))
 	return lines
 
 

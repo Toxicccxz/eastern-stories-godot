@@ -19731,6 +19731,69 @@ msgstr ""
 msgid "逆灵宫"
 msgstr ""
 
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "官兵上了北麓。宫里剩下的人，这一回一个也走不了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "宫里剩下的人下了山，茅山看着。坛上的火，灭了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#. common.npc.taoist.taolord inquiry.剿.rules.say
+#. common.npc.taoist.taolord inquiry.招安.rules.say
+#: data/common/npcs.json
+msgid "师弟已经上了北麓。他去劝，就让他劝完。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "宫里认出你了，那道门你进不去。劝他们下山的事，再问我一次「招安」——茅山的人替你上山去说。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#. common.npc.taoist.taolord inquiry.招安.rules.say
+#: data/common/npcs.json
+msgid "回北麓去，同宫里当家的说「下山」。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "宫里剩下的人，交官府去剿（问我「剿」），还是劝他们下山、交茅山看着（问我「招安」）——你定。给我一个了断。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.emote
+#: data/common/npcs.json
+msgid "把拂尘搭在臂弯里，金色的那只眼睛望着北边。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "湖底的事了了，商玦没有回来。可北麓那座道观里还有人——坛上的火没有灭，他们管这叫续灯。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "茅山要一个了断。交给官府去剿，还是劝他们下山，交茅山看着。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "交官府去剿，问我「剿」；劝他们下山、交茅山看着，问我「招安」。你定。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "那道门你进不去了。可这件事是你起的头，了断还由你定。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "交官府去剿，问我「剿」；劝他们下山、交茅山看着，问我「招安」——茅山的人替你上山去说。"
+msgstr ""
+
 #. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.emote
 #: data/common/npcs.json
 msgid "看了你很久，叹了一口气。"
@@ -19763,53 +19826,12 @@ msgstr ""
 
 #. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
 #: data/common/npcs.json
-msgid "官兵上了北麓。宫里剩下的人，这一回一个也走不了。"
-msgstr ""
-
-#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
-#: data/common/npcs.json
-msgid "宫里剩下的人下了山，茅山看着。坛上的火，灭了。"
-msgstr ""
-
-#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
-#. common.npc.taoist.taolord inquiry.招安.rules.say
-#: data/common/npcs.json
-msgid "回北麓去，同宫里当家的说「下山」。"
-msgstr ""
-
-#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
-#: data/common/npcs.json
-msgid "宫里剩下的人，交官府去剿（问我「剿」），还是劝他们下山、交茅山看着（问我「招安」）——你定。正月十七之前，给我一个了断。"
-msgstr ""
-
-#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
-#: data/common/npcs.json
 msgid "唤首那一夜过去了。茅山没等到你的话。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
 #: data/common/npcs.json
 msgid "倒戈，还是潜伏，你定。定了，来告诉我。"
-msgstr ""
-
-#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.emote
-#: data/common/npcs.json
-msgid "把拂尘搭在臂弯里，金色的那只眼睛望着北边。"
-msgstr ""
-
-#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
-#: data/common/npcs.json
-msgid "湖底的事了了，商玦没有回来。可北麓那座道观里还有人——坛上的火没有灭，他们管这叫续灯。"
-msgstr ""
-
-#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
-#: data/common/npcs.json
-msgid "茅山要一个了断。交给官府去剿，还是劝他们下山，交茅山看着。"
-msgstr ""
-
-#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
-#: data/common/npcs.json
-msgid "交官府去剿，问我「剿」；劝他们下山、交茅山看着，问我「招安」。正月十七之前，给我一个了断。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
@@ -19967,6 +19989,11 @@ msgid ""
 "答应下来，戴着黑冠回逆灵宫，做茅山的眼线。\n"
 "一个人只藏得住一重身份：接了这件事，东方神教那边的门，从此不再为你开。\n"
 "答应吗？"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.say
+#: data/common/npcs.json
+msgid "北麓那座道观空了。茅山用不着眼线了。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.眼线.rules.say
@@ -20305,7 +20332,7 @@ msgstr ""
 #: data/common/npcs.json
 msgid ""
 "把北麓那座道观交给官府去剿：林忌把门户和上山的路写给程不平，官兵上山，宫里剩下的人一个也走不了。\n"
-"正月十七虹台上，这件事就算了了，不能再改。\n"
+"这件事定了就不能再改。\n"
 "就这样吗？"
 msgstr ""
 
@@ -20318,12 +20345,6 @@ msgstr ""
 #. common.npc.taoist.taolord inquiry.招安.rules.say
 #: data/common/npcs.json
 msgid "人已经下山了，茅山看着。"
-msgstr ""
-
-#. common.npc.taoist.taolord inquiry.剿.rules.say
-#. common.npc.taoist.taolord inquiry.招安.rules.say
-#: data/common/npcs.json
-msgid "师弟已经上了北麓。他去劝，就让他劝完。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.剿.rules.say
@@ -20343,7 +20364,7 @@ msgstr ""
 
 #. common.npc.taoist.taolord inquiry.剿.rules.lines.say
 #: data/common/npcs.json
-msgid "官兵上了北麓，宫里剩下的人一个也走不了。正月十七虹台上，这件事就算了了。"
+msgid "官兵上了北麓，宫里剩下的人一个也走不了。这件事，就算了了。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.剿.rules.lines.say
@@ -20369,8 +20390,8 @@ msgstr ""
 #. common.npc.taoist.taolord inquiry.招安.confirm
 #: data/common/npcs.json
 msgid ""
-"劝宫里剩下的人下山，交茅山看管：回北麓，同宫里当家的（玄冥子还在，就是他；不在了，就是领诵的道士）说「下山」——你一直戴着他们的冠，这一说，他们就知道你是谁的人了。\n"
-"正月十七虹台上，这件事就算了了，不能再改。\n"
+"劝宫里剩下的人下山，交茅山看管。黑冠还作数的：回北麓，同宫里当家的（玄冥子还在，就是他；不在了，就是领诵的道士）说「下山」——你一直戴着他们的冠，这一说，他们就知道你是谁的人了。黑冠已经不作数的：茅山的人替你上山去说。\n"
+"这件事定了就不能再改。\n"
 "就这样吗？"
 msgstr ""
 
@@ -20387,6 +20408,16 @@ msgstr ""
 #. common.npc.taoist.taolord inquiry.招安.rules.lines.say
 #: data/common/npcs.json
 msgid "好。宫里剩下的，大半是被拐上山的孩子，烧了一辈子香，不知道自己烧的是什么。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.招安.rules.lines.say
+#: data/common/npcs.json
+msgid "那道门你进不去了——北麓上认得你这张脸。茅山的人替你上山去说：宫主没回来，唤首那一夜下湖的人，一个也没回来。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.招安.rules.lines.say
+#: data/common/npcs.json
+msgid "肯下山的，茅山看着。坛上的火，他们自己会灭。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.招安.rules.lines.say
@@ -25450,6 +25481,11 @@ msgstr ""
 msgid "信丢了的话，回乔阴县衙问程不平「兵部文书」，他会再写一封"
 msgstr ""
 
+#. main.chapter6/general checklist.label
+#: data/story/chapter6.json
+msgid "信已经递到槐阳王府了：不带信去问严廷殷「信」，他也认"
+msgstr ""
+
 #. main.chapter6/adviser objective
 #: data/story/chapter6.json
 msgid "军师赫造基知道印的事。他卖秘密——八两银子。"
@@ -28200,7 +28236,12 @@ msgstr ""
 
 #. faction.niling lapses.text
 #: data/story/faction_niling.json
-msgid "疑点满了三条。宫里认出你，只是早晚的事——下回戴着冠进前院，就是那一天：那一仗你打不过，不必打，出了前院的门就算逃过了。黑冠不会再替你遮掩；递出去的名单、带走的名册，茅山照样用得上，剑谱也还在你手里。"
+msgid "疑点满了三条。宫里认出你，只是早晚的事——下回戴着冠进前院，就是那一天：那一仗你打不过，不必打，出了前院的门就算逃过了。黑冠不会再替你遮掩；已经递出去、带出来的东西，茅山照样用得上，到手的也还在你手里。"
+msgstr ""
+
+#. faction.niling lapses_also.text
+#: data/story/faction_niling.json
+msgid "北麓那座道观里剩下的人有了去处，道观空了。黑冠用不着了——宫里的事，到此为止；已经递出去、带出来的东西，茅山照样用得上。"
 msgstr ""
 
 #. faction.niling checklist.label
@@ -28500,7 +28541,7 @@ msgstr ""
 
 #. faction.niling/aftermath objective
 #: data/story/faction_niling.json
-msgid "宫里剩下的人，林忌要一个了断。交官府去剿（问林忌「剿」，先确认）：官兵上北麓，一个也走不了——正月十七投颜违的那一边，说的就是这个。劝他们下山、交茅山看管（问林忌「招安」，再回北麓同宫里当家的说「下山」）：玄冥子还在，就是他；不在了，是领诵的道士。没有了断的，正月十七那一天他们会自己找上门来。"
+msgid "湖底的事了了（终章之后），宫里剩下的人还在——回灵心观问林忌「逆灵宫」，他要一个了断。交官府去剿（问林忌「剿」，先确认）：官兵上北麓，一个也走不了——正月十七投颜违的那一边，说的就是这个。劝他们下山、交茅山看管（问林忌「招安」）：黑冠还作数的，再回北麓同宫里当家的说「下山」——玄冥子还在，就是他；不在了，是领诵的道士；黑冠已经不作数的，茅山的人替你上山去说。没有了断的，正月十七那一天他们会自己找上门来。"
 msgstr ""
 
 #. faction.niling/aftermath/crush text
@@ -47988,6 +48029,16 @@ msgstr ""
 msgid "出关往北，谷地东壁有一道关门，我的兵守着。凭这封信，他们放你。关北是槐阳王的地界，到了那边，别提我。"
 msgstr ""
 
+#. canyon.npc.general inquiry.信.rules.lines.emote
+#: data/canyon/npcs.json
+msgid "听你把信里写的说了一遍，眉毛挑了挑。"
+msgstr ""
+
+#. canyon.npc.general inquiry.信.rules.lines.say
+#: data/canyon/npcs.json
+msgid "信已经递到老王爷手里了？程不平，老王爷那个读书的侄子。乔阴县的官管到我天驼关来了。"
+msgstr ""
+
 #. canyon.npc.general inquiry.信.rules.say
 #: data/canyon/npcs.json
 msgid "程县令写了信？信呢？……没有信，关上的兵不认。丢了就回乔阴，找程县令再写一封。"
@@ -57204,6 +57255,11 @@ msgstr ""
 msgid "霍铮低声道：老二就是老刘。那天他不肯跟来，骂老子是去送死。……他骂得对。"
 msgstr ""
 
+#. native.npc.huo_zheng inquiry.茅山.rules.say
+#: data/niling/npcs.json
+msgid "前些日子林真人要过一个进得去的人。用不着了——北麓那座道观，空了。"
+msgstr ""
+
 #. native.npc.huo_zheng inquiry.茅山.rules.lines.say
 #: data/niling/npcs.json
 msgid "前些日子茅山灵心观来了个小道士，替他们的林忌真人带话：北麓那座道观还在，地牢里还在进人。"
@@ -57227,6 +57283,11 @@ msgstr ""
 #. native.npc.huo_zheng inquiry.茅山.rules.say
 #: data/niling/npcs.json
 msgid "茅山？牛鼻子道士，跟野羊寨没来往。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.眼线.rules.say
+#: data/niling/npcs.json
+msgid "用不着了。北麓那座道观空了，林真人那边不要人了。"
 msgstr ""
 
 #. native.npc.huo_zheng inquiry.眼线.rules.say

@@ -170,6 +170,25 @@ class CheckRow:
 		return row
 
 
+## One more way a quest is cut short (`lapses_also`).
+class Lapse:
+	extends RefCounted
+	var when: JournalEntryDefinition
+	var text: String = ""
+	var mark: String = ""
+
+	static func from_record(reader: ContentRecordReader) -> Lapse:
+		var lapse := Lapse.new()
+		lapse.when = JournalEntryDefinition.new()
+		JournalEntryDefinition.read_when(reader, lapse.when)
+		lapse.text = reader.required_text("text")
+		lapse.mark = reader.required_text("mark")
+		if lapse.when.when in [JournalEntryDefinition.When.HEARD, JournalEntryDefinition.When.CHAT]:
+			reader.fail("when", "heard and chat are recorded as they happen: a quest lapses on what holds")
+		reader.finish()
+		return lapse
+
+
 class Step:
 	extends RefCounted
 	var step_id: StringName
@@ -286,6 +305,10 @@ var excludes: Array[StringName] = []
 var lapses: JournalEntryDefinition
 var lapsed_text: String = ""
 var lapsed_mark: String = ""
+## Native (势力线复查; DECISIONS「线断了」): `lapses_also` [{when, text, mark}]: other ways the quest is
+## cut short, each with its own text; `mark` (required, written by nothing else) tells which it was
+## (卧底: the 余孽 settled through 茅山 while the wearer was still at the chores).
+var lapses_also: Array[Lapse] = []
 ## Native (势力线第一批 卧底 A; DECISIONS「任务级清单」): rows (CheckRow) the 任务 page shows under the
 ## objective whichever step is the one to do, above the step's own (「疑点：1／3」 and which they are,
 ## kept in sight the whole way); shown while the quest is under way, never once it is over.
@@ -346,6 +369,10 @@ static func from_record(reader: ContentRecordReader) -> StoryQuestDefinition:
 		if definition.lapses.when in [JournalEntryDefinition.When.HEARD, JournalEntryDefinition.When.CHAT]:
 			lapses.fail("when", "heard and chat are recorded as they happen: a quest lapses on what holds")
 		lapses.finish()
+	for record: ContentRecordReader in reader.children("lapses_also"):
+		definition.lapses_also.append(Lapse.from_record(record))
+	if lapses == null and not definition.lapses_also.is_empty():
+		reader.fail("lapses_also", "more ways to lapse come after `lapses`")
 	for record: ContentRecordReader in reader.children("checklist"):
 		definition.checklist.append(CheckRow.from_record(record))
 	definition.pinned = reader.boolean("pinned", false)
