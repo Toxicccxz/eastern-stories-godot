@@ -607,6 +607,8 @@ func _check_story_quests() -> void:
 			_check_condition(origin + ".starts", quest.starts)
 		if quest.lapses != null:
 			_check_condition(origin + ".lapses", quest.lapses)
+		for lapse: StoryQuestDefinition.Lapse in quest.lapses_also:
+			_check_condition(origin + ".lapses_also", lapse.when)
 		_check_reward(origin + ".reward", quest.reward)
 		_check_checklist(origin, quest.checklist)
 		for other: StringName in quest.requires + quest.excludes:

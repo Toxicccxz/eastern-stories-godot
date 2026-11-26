@@ -17,7 +17,7 @@ const CROWN: StringName = &"native:niling/black_crown"
 const PEOPLE: Dictionary = {
 	&"niling.winch": {&"native.npc.niling_winch_taoist": 1, &"native.npc.maoshan_gardener_north": 1}, # 茅山 B: the 花匠 by the winch (on the stage once he went up)
 	&"niling.gatehouse": {&"native.npc.niling_gatekeeper": 1},
-	&"niling.yard": {&"native.npc.niling_gate_guard": 2, &"native.npc.xuan_mingzi_unmasking": 1, &"native.npc.niling_lead_chanter_unmasking": 1}, # 卧底 C: who waits for one found out (one of the two, by the story)
+	&"niling.yard": {&"native.npc.niling_gate_guard": 2, &"native.npc.xuan_mingzi_unmasking": 1, &"native.npc.niling_lead_chanter_unmasking": 1, &"native.npc.niling_soldier": 2}, # 卧底 C: who waits for one found out (one of the two, by the story); 势力线复查: the 官兵 once the 余孽 were given up
 	&"niling.store": {&"native.npc.niling_store_taoist": 1},
 	&"niling.front": {&"native.npc.niling_chanter": 4, &"native.npc.niling_lead_chanter": 1, &"native.npc.niling_patrol": 1},
 	&"niling.counting": {&"native.npc.niling_steward": 1},

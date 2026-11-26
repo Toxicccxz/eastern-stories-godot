@@ -94,6 +94,14 @@
 						]
 					},
 					{
+						"mark": "余孽有了去处",
+						"steps": [
+							{ "line": "麻绳还垂在裂口上，底下没有人守了。你抓住它，手脚并用地攀上去——上头的绞盘没有声音。\n" },
+							{ "damage": { "kee": 20 } },
+							{ "move": "niling.winch", "point": "niling.winch.rope_arrival" }
+						]
+					},
+					{
 						"present": "native.npc.tribute_taoist",
 						"steps": [
 							{ "line": "押车道士盯着你，手按在剑柄上：「此处无路，施主请回。」\n" }

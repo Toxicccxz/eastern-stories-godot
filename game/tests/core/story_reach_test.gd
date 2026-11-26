@@ -76,7 +76,7 @@ const CONDITION_PARENTS: Array[String] = [
 	"shown_if", "checklist", "lapses_when",
 ]
 ## Under these keys a `mark` / `marks` is what happens (a trial passed, one spared, a way taken).
-const WRITE_PARENTS: Array[String] = ["trials", "caught", "spared", "routes", "lapses", "landmarks"]
+const WRITE_PARENTS: Array[String] = ["trials", "caught", "spared", "routes", "lapses", "lapses_also", "landmarks"]
 
 ## Who writes a mark (gives an item): the file, the NPC whose record it is in ("" for none), the
 ## people an act's branch or a step's `by` needs standing first, the room of a world act, and what

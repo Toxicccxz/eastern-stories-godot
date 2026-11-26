@@ -209,7 +209,7 @@ func _test_to_huazi(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	head = _first(session, WALL, HEAD)
 	_check(head.definition().talk().confirm_applies("密信", state.marks, &"", city.acts.facts().carried), "with the letter, asked first")
-	_check(_said(_ask(city, head, "密信"), "不敢清乔阴的巷子") and state.marks.get("密信给了花紫会", 0) == 1 and session.player_held_item_ids().get(LETTER, false) == false, "given to 花紫会: the letter is his")
+	_check(_said(_ask(city, head, "密信"), "没人敢清乔阴的巷子") and state.marks.get("密信给了花紫会", 0) == 1 and session.player_held_item_ids().get(LETTER, false) == false, "given to 花紫会: the letter is his")
 	session.record_journal()
 	_check(StoryQuestLog.took(state, catalog.story_quest(QUEST), &"huazi") and StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"rescue" and not state.quests.has("faction.huazi#lapsed"), "the choice and its deed; 卫沧澜 next (花紫会 B)")
 	missing = StoryFixtures.missing_after_play(session, StoryFixtures.huazi_letter)
