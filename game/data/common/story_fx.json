@@ -1,0 +1,81 @@
+{
+	"_comment": "主线场面 (DECISIONS「主线场面」): a short effect of its own over a key moment of the main story, shown on the map where it happens. Presentation only: the view reads the player's own marks and who stands on the map (every check_seconds) and shows the scene's effect the moment its trigger comes true in front of the player; it asks no act, holds nothing and changes nothing. Off with the feel's world_fx_ms at 0 (the suites). scenes: name -> map (the map id it plays on), its trigger — present (a journal `when`, as a stage prop's: a mark, a quest key), npc (someone of that NPC definition stands on the map), item (the player holds that item definition); all that are given must hold — at ([x, y] map pixels: its centre), layers (each one figure of glowing blocks: art (BattleArts.KINDS) or motif (BattleSchoolMotifs.KINDS), colour, seconds, delay before it begins, scale), light (colour, energy, range, seconds), shake ([how far the picture jolts, seconds]), sound ([BattleSounds kind, pitch, db]), zoom ([the camera's push-in, seconds to get there, seconds held]; not while a fight has the camera).",
+	"check_seconds": 0.2,
+	"scenes": {
+		"shade_called": {
+			"_comment": "第三章 唤首: the headless shade takes form before the dark altar (商玦's rite, niling.altar).",
+			"map": "niling.rear", "npc": "native.npc.headless_shade", "at": [-8, 66],
+			"layers": [
+				{"art": "vanish", "colour": "241a2e", "seconds": 1.6, "scale": 2.0},
+				{"art": "surge", "colour": "7a2236", "seconds": 1.8, "delay": 0.2, "scale": 2.0},
+				{"art": "roar", "colour": "b04a5a", "seconds": 1.2, "delay": 0.6, "scale": 2.1}
+			],
+			"light": {"colour": "a03048", "energy": 2.2, "range": 7.0, "seconds": 2.0},
+			"shake": [0.1, 0.7],
+			"sound": ["drum", 0.7, -2.0]
+		},
+		"impaler_pulled": {
+			"_comment": "第八章 拔穿灵: the sword comes out of the seal — the ice's light breaks, and something opens its eyes.",
+			"map": "village.seal_chamber", "present": {"mark": "拔了穿灵"}, "at": [0, 0],
+			"layers": [
+				{"art": "descend", "colour": "cfeaff", "seconds": 1.6, "scale": 2.4},
+				{"motif": "shards", "colour": "e6f6ff", "seconds": 1.4, "delay": 0.2, "scale": 2.2},
+				{"art": "roar", "colour": "ff5a4a", "seconds": 1.4, "delay": 1.0, "scale": 2.4}
+			],
+			"light": {"colour": "cfeaff", "energy": 2.6, "range": 8.0, "seconds": 2.4},
+			"shake": [0.16, 0.9],
+			"sound": ["gong", 0.8, -3.0],
+			"zoom": [0.7, 0.5, 1.8]
+		},
+		"feather_given": {
+			"_comment": "第八章 留剑: 璃虹 gives her feather from the ice.",
+			"map": "village.seal_chamber", "item": "native:village/lihong_feather", "at": [128, -24],
+			"layers": [
+				{"motif": "petals", "colour": "ffd0e8", "seconds": 2.0, "scale": 1.8},
+				{"art": "mend", "colour": "d8f0ff", "seconds": 2.0, "delay": 0.3, "scale": 1.8}
+			],
+			"light": {"colour": "ffe0f0", "energy": 1.6, "range": 6.0, "seconds": 2.2},
+			"sound": ["seal", 1.3, -6.0],
+			"zoom": [0.7, 0.5, 1.6]
+		},
+		"xuanmang_out": {
+			"_comment": "第十章 旋芒: the sword leaves the terrace's whirlwind (whoever takes it) and the wind falls apart.",
+			"map": "lancheng.terrace", "present": {"any": [{"mark": "旋芒在你手里"}, {"mark": "旋芒在皇叔手里"}, {"mark": "旋芒在萧辟尘手里"}]}, "at": [512, 336],
+			"layers": [
+				{"art": "swirl", "colour": "d0dde6", "seconds": 1.6, "scale": 2.6},
+				{"motif": "wave", "colour": "e4edf3", "seconds": 1.4, "delay": 0.1, "scale": 2.6},
+				{"art": "roar", "colour": "ffffff", "seconds": 1.0, "delay": 0.3, "scale": 2.6}
+			],
+			"light": {"colour": "f0f6ff", "energy": 2.4, "range": 8.0, "seconds": 1.8},
+			"shake": [0.1, 0.5],
+			"sound": ["whoosh", 0.6, 0.0],
+			"zoom": [0.7, 0.4, 1.4]
+		},
+		"demon_formed": {
+			"_comment": "终章 侮天鬼成形: a headless shape of black flame stands up out of the seal.",
+			"map": "village.seal_chamber", "present": {"mark": "侮天鬼成形"}, "at": [0, 165],
+			"layers": [
+				{"art": "surge", "colour": "3a2050", "seconds": 2.0, "scale": 2.8},
+				{"motif": "pillars", "colour": "6a4a9a", "seconds": 1.6, "delay": 0.1, "scale": 2.3},
+				{"art": "vanish", "colour": "1a1024", "seconds": 1.8, "delay": 0.3, "scale": 2.5}
+			],
+			"light": {"colour": "7a52b8", "energy": 2.6, "range": 9.0, "seconds": 2.4},
+			"shake": [0.2, 1.0],
+			"sound": ["drum", 0.55, 0.0]
+		},
+		"demon_slain": {
+			"_comment": "终章 钉灭: the flame parts, the head splits, the fire goes out.",
+			"map": "village.seal_chamber", "present": {"mark": "侮天鬼灭了"}, "at": [0, 165],
+			"layers": [
+				{"art": "crown", "colour": "ffe9a8", "seconds": 2.0, "scale": 2.6},
+				{"motif": "shards", "colour": "ffd98a", "seconds": 1.4, "delay": 0.1, "scale": 2.3},
+				{"art": "roar", "colour": "fff4d0", "seconds": 1.6, "delay": 0.4, "scale": 2.9},
+				{"art": "mend", "colour": "ffe2a8", "seconds": 2.4, "delay": 0.8, "scale": 2.3}
+			],
+			"light": {"colour": "ffe2a8", "energy": 3.0, "range": 10.0, "seconds": 3.0},
+			"shake": [0.15, 0.8],
+			"sound": ["gong", 1.0, -2.0],
+			"zoom": [0.75, 0.5, 2.0]
+		}
+	}
+}
