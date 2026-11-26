@@ -111,6 +111,7 @@ func _service() -> void:
 	check(not MessageGrammar.shows_chinese() and ChineseNumber.of(10) == "10", "numbers the game fills are digits")
 	check(WorldSpeechBubbles.bubble_text("店小二「いらっしゃいませ」") == "いらっしゃいませ" and WorldSpeechBubbles.bubble_text("店小二が首を振った。「知らない」") == "知らない", "a bubble shows what is said, without the name and the quotes")
 	check(TranslationServer.translate("两") == "両", "两 is the tael of silver there (the number two before a measure word is a digit outside Chinese)")
+	check(service.apply("ru") and WorldSpeechBubbles.bubble_text("Трактирный слуга говорит: «Заходите!»") == "Заходите!" and WorldSpeechBubbles.bubble_text("Трактирный слуга зевает.") == "Трактирный слуга зевает.", "Русский: a bubble shows what is said, without who says it and the «»")
 	service.apply("zh_Hant")
 	service.release()
 	check(TranslationServer.get_locale() == before and face.data == bundled, "release puts the locale and the face back")
