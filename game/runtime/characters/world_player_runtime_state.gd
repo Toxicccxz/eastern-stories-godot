@@ -198,6 +198,15 @@ func take_name(display_name: String) -> void:
 	_facts = PlayerIdentityFacts.new(display_name, _facts.title, _facts.age)
 
 
+## 成长曲线 C: the player is `age` now (PlayerAging; never younger than they were); a save keeps it.
+## The caller refreshes the maxima (race/human.c's).
+func grow_up(age: int) -> bool:
+	if age <= _facts.age:
+		return false
+	_facts = PlayerIdentityFacts.new(_facts.display_name, _facts.title, age)
+	return true
+
+
 ## The title as the player reads it. A family member's is assign_apprentice()'s put
 ## together again in the shown language; the one kept (and saved) stays as ES2 wrote it.
 ## A title the story gave (an act's `title`, 大会 B: 武林盟主; DECISIONS「台上的选择」) is set("title") over

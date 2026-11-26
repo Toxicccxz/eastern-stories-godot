@@ -95,6 +95,14 @@
 		"training_auto_rest": true,
 		"exp_gates": { "juechen": 20000, "elon": 30000 },
 		"milestone_stage_headroom": 1,
+		"player_age_by_exp": [
+			{ "exp": 4000, "age": 15 },
+			{ "exp": 6500, "age": 16 },
+			{ "exp": 9000, "age": 17 },
+			{ "exp": 12000, "age": 18 },
+			{ "exp": 20000, "age": 19 },
+			{ "exp": 30000, "age": 20 }
+		],
 		"npc_idle": {
 			"enabled": true,
 			"pause_min_ms": 2500,

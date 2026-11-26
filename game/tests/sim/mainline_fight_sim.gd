@@ -28,6 +28,9 @@ const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const Arrival := preload("res://tests/support/story_arrival.gd")
 
 const BUFFER: int = 1000000
+## How far the player has sat (percent of exercise.c's cap): the growth sim's player sits to it
+## (成长曲线 C; until then the fights were tuned with half).
+const FORCE_PERCENT: int = 100
 ## Scheduler steps (one second of the fight's clock each) before a duel is called a loss.
 const MAX_STEPS: int = 4000
 ## Steps a lost duel may run on with its foes worn to 1 kee before they are put down (a foe the
@@ -372,7 +375,10 @@ func _reset() -> void:
 	# Grown anew each duel: what a duel taught (exp, skills, potential) is not carried into the next.
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var state: CharacterState = player.state
-	Grown.grow(state, _experience, 50, build == SWORD)
+	# The growth sim's player (成长曲线 C): its levels, 打坐 to the cap as it sits, 精 and 气 of its age;
+	# the age in the player's identity too, so a maxima refresh and NPCs' words agree with it.
+	Grown.grow(state, _experience, FORCE_PERCENT, build == SWORD)
+	player.grow_up(Grown.TestAging.production_age(_experience))
 	state.attributes.force_factor = 0
 	# The last duel's dead taken away (a corpse a duel would fill the room).
 	for corpse: CorpseState in map.corpses._corpse_states.duplicate():
