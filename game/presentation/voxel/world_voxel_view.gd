@@ -156,6 +156,11 @@ var _door_open: Dictionary[StringName, bool] = {}
 var _alerted: Dictionary[StringName, bool] = {}
 var _wade_from: Dictionary[StringName, Vector3] = {}
 var _ground_layer: TileMapLayer
+## 主线场面 (DECISIONS「主线场面」): a key moment of the main story on this map, shown as it
+## happens (VoxelStoryFx; made with the world on a map that has such a scene); seconds till the
+## player's marks and who stands here are read again.
+var story_fx: VoxelStoryFx
+var _story_wait: float = 0.0
 ## The map was just shown (or its rain just made): the rain is as the sky is, at once.
 var _weather_fresh: bool = true
 
@@ -218,6 +223,7 @@ func _process(delta: float) -> void:
 	geometry.water.set_dusk(lighting.weights["dusk"])
 	_sync_wind(delta)
 	_sync_weather(delta)
+	_sync_story(delta)
 	if geometry.foliage != null:
 		geometry.foliage.advance(delta, _plant_contacts())
 	geometry.ambience.night = lighting.amount
@@ -465,6 +471,9 @@ func _sync_light(immediate: bool = false) -> void:
 		lighting.set_cloud_level(0,immediate)
 
 func _activate() -> void:
+	# 主线场面: what is true as the map is shown happened before the player's eyes were here.
+	if is_instance_valid(story_fx):
+		story_fx.reset()
 	# 世界演出: a world kept while the player was away takes the doors and the sky as they are now
 	# (a door changed meanwhile does not swing as the map is shown, nor the rain fade).
 	_door_open.clear()
@@ -936,6 +945,31 @@ func _touches() -> VoxelTouches:
 		touches.name = "Touches"
 		world.add_child(touches)
 	return touches
+
+
+## 主线场面: reads the player's marks and who stands on the map a few times a second; a scene of
+## this map whose trigger came true since the last look is played where it happens.
+func _sync_story(delta: float) -> void:
+	if GameContent.catalog().pacing().feel.world_fx_seconds <= 0.0 or world == null or map.session == null:
+		return
+	_story_wait -= delta
+	if _story_wait > 0.0:
+		return
+	_story_wait = maxf(0.05, float(VoxelStoryFx.data().get("check_seconds", 0.2)))
+	var scenes: Dictionary = VoxelStoryFx.scenes_for(map.map_id())
+	if scenes.is_empty():
+		return
+	if not is_instance_valid(story_fx):
+		story_fx = VoxelStoryFx.new()
+		story_fx.name = "StoryFx"
+		world.add_child(story_fx)
+	story_fx.camera = camera
+	var standing: Dictionary[StringName, bool] = {}
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+			standing[npc.definition().definition_id] = true
+	for name: String in story_fx.look(scenes, map.player_runtime(), map.session.player_held_item_ids(), map.session.player_worn_item_ids(), map.session.day_phase_id(), standing):
+		story_fx.play(name, scenes[name], self)
 
 
 ## 世界演出: the rain. It falls while the sky the light follows (a held one, the layout's, else the

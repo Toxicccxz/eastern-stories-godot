@@ -42,7 +42,8 @@ static func play(host: Node, model: Node3D, kind: String, colour: Color, seconds
 	art.set_meta(&"growth", kind)
 	tween.chain().tween_callback(GrowthFx.drop.bind(art))
 	made.append(art)
-	if float(light.get("energy", 0.0)) > 0.0:
+	# 画质 低 on a phone goes without the fight's lights (GraphicsQuality.stage_lights()): so here.
+	if float(light.get("energy", 0.0)) > 0.0 and GraphicsQuality.stage_lights():
 		var lamp := OmniLight3D.new()
 		lamp.name = "GrowthLight"
 		lamp.light_color = colour
