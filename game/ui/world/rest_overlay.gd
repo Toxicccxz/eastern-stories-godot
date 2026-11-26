@@ -70,7 +70,7 @@ func begin(after: Callable = Callable()) -> String:
 	if not refused.is_empty():
 		return refused
 	_after = after
-	_text.text = RestLines.under_way(0)
+	_text.text = ShownText.of(RestLines.under_way(0))
 	_stop.text = tr(RestLines.STOP)
 	_show(true)
 	return ""
@@ -92,7 +92,7 @@ func _process(_delta: float) -> void:
 	if not _session.resting():
 		_show(false)
 		return
-	_text.text = RestLines.under_way(_session.rest_minutes())
+	_text.text = ShownText.of(RestLines.under_way(_session.rest_minutes()))
 	# A window holds the world (and the rest with it): the band steps back under it.
 	var held: bool = _session.world_time_held()
 	_dim.visible = not held

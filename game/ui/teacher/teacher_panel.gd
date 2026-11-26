@@ -231,7 +231,7 @@ func refresh() -> void:
 		"gin": state.essence.current, "potential": state.progression.potential - state.progression.potential_spent,
 		"exp": state.progression.combat_experience,
 	}))
-	status.text = "\n".join(lines)
+	status.text = ShownText.of("\n".join(lines))
 	# As the interaction popup's page (请教), 拜师 and what follows it are the popup's own
 	# rows, asked on its pages (DECISIONS「说话和交互」).
 	var here: bool = not _hosted()
@@ -248,7 +248,7 @@ func refresh() -> void:
 		_quotes_dirty = false
 		for skill_id: StringName in quote_labels:
 			var quote: LearnQuote = _contact.quote(skill_id)
-			quote_labels[skill_id].text = "" if quote == null else LearnLines.quote_line(quote, _contact.display_name(), catalog.skill(skill_id))
+			quote_labels[skill_id].text = "" if quote == null else ShownText.of(LearnLines.quote_line(quote, _contact.display_name(), catalog.skill(skill_id)))
 	for skill_id: StringName in quote_labels:
 		quote_labels[skill_id].visible = not quote_labels[skill_id].text.is_empty() and not is_confirming()
 	# While a continuous 请教 runs, only its 停止 (and 离开) can be pressed.
@@ -550,13 +550,13 @@ func _run_finished(_lines: Array[ColoredLine]) -> void:
 
 
 func _show_last() -> void:
-	feedback.text = "\n".join(_contact.last_lines)
+	feedback.text = ShownText.of("\n".join(_contact.last_lines))
 	_quotes_dirty = true
 	refresh()
 
 
 func _show_apprentice_last() -> void:
-	apprentice_feedback.text = "\n".join(_contact.last_lines)
+	apprentice_feedback.text = ShownText.of("\n".join(_contact.last_lines))
 	_quotes_dirty = true
 	refresh()
 
