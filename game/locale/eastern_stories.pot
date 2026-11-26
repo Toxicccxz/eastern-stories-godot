@@ -17496,6 +17496,16 @@ msgstr ""
 
 #. common.npc.swordsman.master inquiry.虹台.rules.lines.say
 #: data/common/npcs.json
+msgid "你已经不是封山的人了。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "颜违许了北宗一个座。封山这一票，跟着颜违走了——那一票不在我手里。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
 msgid "你已经不是封山的人了。掌门传人这四个字，我收回来。"
 msgstr ""
 
@@ -17506,7 +17516,7 @@ msgstr ""
 
 #. common.npc.swordsman.master inquiry.虹台.rules.say
 #: data/common/npcs.json
-msgid "你已经不是封山的人了。封山这一票，不同外人商量。"
+msgid "你已经不是封山的人了。正月十七的事，不同外人商量。"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.虹台.rules.say
@@ -18688,6 +18698,31 @@ msgstr ""
 #. common.npc.fighter.executioner inquiry.虹台.rules.say
 #: data/common/npcs.json
 msgid "你已经不是天邪派的人了。执事的名分和这一票，刑堂都收回了。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "你已经不是天邪派的人了。天邪这一票，长老们说投七长老。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "你已经不是天邪派的人了。天邪这一票，等盟主回来——我说过的话不改。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "你已经不是天邪派的人了。盟主回来了，天邪这一票，投他。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "你已经不是天邪派的人了。盟主没有回来，长老们的意思，天邪这一票投七长老。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "你已经不是天邪派的人了。正月十七的事，不同外人说。"
 msgstr ""
 
 #. common.npc.fighter.executioner inquiry.虹台.rules.say
@@ -20422,6 +20457,11 @@ msgstr ""
 
 #. common.npc.taoist.taolord inquiry.剿.rules.say
 #: data/common/npcs.json
+msgid "那道门你进不去了。劝他们下山的事，再问我一次「招安」——茅山的人替你上山去说。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.剿.rules.say
+#: data/common/npcs.json
 msgid "你已经答应去劝他们下山了。回北麓去，同宫里当家的说「下山」。"
 msgstr ""
 
@@ -21126,6 +21166,11 @@ msgstr ""
 
 #. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
 #: data/common/npcs.json
+msgid "瑷伦和那件衣留在了湖底的冰里。东厢的门，庄里给她留着。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
+#: data/common/npcs.json
 msgid "宝衣回来了，池边的凤凰又亮了。晚月庄记你这一回。"
 msgstr ""
 
@@ -21148,11 +21193,6 @@ msgstr ""
 #. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
 #: data/common/npcs.json
 msgid "你去跟她要——她不会给。可晚月庄要让她知道，这件衣是谁的。"
-msgstr ""
-
-#. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
-#: data/common/npcs.json
-msgid "沧海龙吟跳回来了，区冥记得你。瑷伦和那件衣留在了湖底的冰里——东厢的门，庄里给她留着。"
 msgstr ""
 
 #. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
@@ -28676,7 +28716,7 @@ msgstr ""
 
 #. faction.niling/split/missed text
 #: data/story/faction_niling.json
-msgid "唤首那一夜过去了。你什么也没有交出去，也没有跟他们下湖。"
+msgid "唤首那一夜过去了。你什么也没有交出去，也没有跟他们下湖。宫里剩下的人还在：湖底的事了了之后，林忌要一个了断（问他「逆灵宫」）。"
 msgstr ""
 
 #. faction.niling/hall_turn objective
@@ -28686,7 +28726,7 @@ msgstr ""
 
 #. faction.niling/hall_turn text
 #: data/story/faction_niling.json
-msgid "冰龙厅里，商玦身边只剩两个道士——另外两个，茅山在北麓截下了。"
+msgid "冰龙厅里，商玦身边只剩两个道士——另外两个，茅山在北麓截下了。宫里剩下的人还在：湖底的事了了之后，林忌要一个了断（问他「逆灵宫」）。"
 msgstr ""
 
 #. faction.niling/hall_deep objective
@@ -28696,12 +28736,12 @@ msgstr ""
 
 #. faction.niling/hall_deep text
 #: data/story/faction_niling.json
-msgid "冰龙厅里，第一剑是你从背后刺的。商玦带着那一剑的伤，同你打完了这一场。"
+msgid "冰龙厅里，第一剑是你从背后刺的。商玦带着那一剑的伤，同你打完了这一场。宫里剩下的人还在：湖底的事了了之后，林忌要一个了断（问他「逆灵宫」）。"
 msgstr ""
 
 #. faction.niling/aftermath objective
 #: data/story/faction_niling.json
-msgid "湖底的事了了（终章之后），宫里剩下的人还在——回灵心观问林忌「逆灵宫」，他要一个了断。交官府去剿（问林忌「剿」，先确认）：官兵上北麓，一个也走不了——正月十七投颜违的那一边，说的就是这个。劝他们下山、交茅山看管（问林忌「招安」）：黑冠还作数的，再回北麓同宫里当家的说「下山」——玄冥子还在，就是他；不在了，是领诵的道士；黑冠已经不作数的，茅山的人替你上山去说。没有了断的，正月十七那一天他们会自己找上门来。"
+msgid "宫里剩下的人，林忌要一个了断。交官府去剿（问林忌「剿」，先确认）：官兵上北麓，一个也走不了——正月十七投颜违的那一边，说的就是这个。劝他们下山、交茅山看管（问林忌「招安」）：黑冠还作数的，再回北麓同宫里当家的说「下山」——玄冥子还在，就是他；不在了，是领诵的道士；黑冠已经不作数的，茅山的人替你上山去说。没有了断的，正月十七那一天他们会自己找上门来。"
 msgstr ""
 
 #. faction.niling/aftermath/crush text
@@ -32174,6 +32214,11 @@ msgstr ""
 #. snow.npc.girl inquiry.虹台.rules.say
 #: data/snow/npcs.json
 msgid "你已经不是北宗的人了。北宗的座，我自己去坐。"
+msgstr ""
+
+#. snow.npc.girl inquiry.虹台.rules.say
+#: data/snow/npcs.json
+msgid "你已经不是封山的人了。虹台的事，问爹爹去。"
 msgstr ""
 
 #. snow.npc.girl inquiry.虹台.rules.say
@@ -41713,6 +41758,11 @@ msgstr ""
 msgid "替跳"
 msgstr ""
 
+#. latemoon.npc.funlin inquiry.替跳.rules.say
+#: data/latemoon/npcs.json
+msgid "走呀走呀！佛堂在二楼！"
+msgstr ""
+
 #. latemoon.npc.funlin inquiry.替跳.rules.lines.emote
 #: data/latemoon/npcs.json
 msgid "从地上一跃而起。"
@@ -41726,11 +41776,6 @@ msgstr ""
 #. latemoon.npc.funlin inquiry.替跳.rules.lines.say
 #: data/latemoon/npcs.json
 msgid "带我去佛堂——这支舞我做梦都想跳。蓝姐姐问起来，你替我扛着。"
-msgstr ""
-
-#. latemoon.npc.funlin inquiry.替跳.rules.say
-#: data/latemoon/npcs.json
-msgid "走呀走呀！佛堂在二楼！"
 msgstr ""
 
 #. latemoon.npc.funlin inquiry.替跳.rules.say
@@ -59094,6 +59139,12 @@ msgstr ""
 #. niling.store.crates act.acts.steps.line
 #: data/niling/world.json
 msgid ""
+"箱子还堆在那里，箱板上烙着「羊」字。没有人数了。\n"
+msgstr ""
+
+#. niling.store.crates act.acts.steps.line
+#: data/niling/world.json
+msgid ""
 "箱子点过了：野羊寨的二十三只，关北的九只，画符的四只。\n"
 msgstr ""
 
@@ -59237,6 +59288,12 @@ msgstr ""
 #. niling.store.bunk act.acts.steps.line
 #: data/niling/world.json
 msgid ""
+"通铺上的被褥卷着，落了一层灰。没有人睡在这里了。\n"
+msgstr ""
+
+#. niling.store.bunk act.acts.steps.line
+#: data/niling/world.json
+msgid ""
 "已经是子时了。货栈里鼾声一片。\n"
 msgstr ""
 
@@ -59268,6 +59325,12 @@ msgstr ""
 #. niling.front.listen act.verb
 #: data/niling/world.json
 msgid "听"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"北门那边没有光，也没有人声。\n"
 msgstr ""
 
 #. niling.front.listen act.acts.steps.line
@@ -59362,6 +59425,12 @@ msgstr ""
 #. niling.counting.desk act.verb
 #: data/niling/world.json
 msgid "抄名单"
+msgstr ""
+
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"账册还摊在案上。名单上的人，如今不用抄了。\n"
 msgstr ""
 
 #. niling.counting.desk act.acts.steps.line
@@ -73764,6 +73833,11 @@ msgid ""
 "他在北麓的绞盘边等你——你上了北麓，就看得到。\n"
 "这件事定了就不能再改。\n"
 "就这样吗？"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.北麓.rules.say
+#: data/native/npcs.json
+msgid "北麓的事，虹台上定了。用不着我上去念了。"
 msgstr ""
 
 #. native.npc.maoshan_gardener inquiry.北麓.rules.say

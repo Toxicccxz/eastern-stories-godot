@@ -83,6 +83,11 @@ func _test_verdict() -> void:
 	var state: CharacterState = _fresh(["终章", "后山的事了了", "林忌说了余孽", SETTLED, VERDICT])
 	var lin: NpcTalk = catalog.npc(&"common.npc.taoist.taolord").talk()
 	_check(_says(NpcInquiryRule.decide(lin.inquiry_rules("逆灵宫"), state.marks), "虹台上定了"), "林忌 of the 道观 after the verdict")
+	var gardener: NpcInquiryRule = NpcInquiryRule.decide(catalog.npc(&"native.npc.maoshan_gardener").talk().inquiry_rules("北麓"), _fresh(["终章", "茅山收了符箓", SETTLED, VERDICT]).marks)
+	_check(_says(gardener, "虹台上定了") and gardener.mark_asker.is_empty(), "the 花匠 does not set out for a 道观 the 虹台 emptied")
+	for spawn_id: StringName in [&"niling.yard.unmasking_xuan", &"niling.yard.unmasking_chanter"]:
+		var found_out: CharacterState = _fresh(["答应了做眼线", "疑点满了", "残卷没回宫", "那一夜丢了人", "名册不见了", "放过了玄冥子", SETTLED, CRUSHED])
+		_check(not _on_stage(catalog.spawn(spawn_id), found_out), "%s: nobody waits to unmask one in the emptied 道观" % spawn_id)
 	_check(not lin.confirm_applies("剿", state.marks) and not lin.confirm_applies("招安", state.marks), "nothing left to confirm")
 	_check(catalog.zone(&"niling.front").description_for(state.marks).contains("没有人跪着"), "the 前殿 emptied by neither of the player's ways")
 
@@ -128,15 +133,19 @@ func _test_left_family() -> void:
 		_check(state.marks.get(row[2], 0) == 1 and StoryQuestLog.is_done(state, quest) and not StoryQuestLog.is_lapsed(state, quest), "%s: the mark set, the line still done" % row[0])
 		_check(not _holds(catalog.conditions()[row[4] + ".self"], state) and (_holds(catalog.conditions()[row[4] + ".old"], state) != _holds(catalog.conditions()[row[4] + ".yan"], state)), "%s: the vote back to the family's own" % row[0])
 	var liu: NpcInquiryRule = NpcInquiryRule.decide(catalog.npc(&"common.npc.swordsman.master").talk().inquiry_rules("虹台"), _fresh(["终章", "跟了本宗", "封山听你的", "封山的线断了"]).marks)
-	_check(_says(liu, "收回来") and liu.mark_asker.is_empty() and liu.marks_asker.is_empty(), "柳淳风 takes the name back and gives nothing")
+	_check(_says(liu, "收回来") and liu.mark_asker == "封山表了态" and liu.marks_asker.is_empty(), "柳淳风 takes the name back, says how 封山 votes, and gives nothing")
+	var girl: NpcInquiryRule = NpcInquiryRule.decide(catalog.npc(&"snow.npc.girl").talk().inquiry_rules("虹台"), _fresh(["终章", "跟了本宗", "封山听你的", "封山的线断了"]).marks)
+	_check(_says(girl, "问爹爹去"), "柳绘心 does not speak of 北宗's vote to one who left 本宗")
 	var pan: NpcInquiryRule = NpcInquiryRule.decide(catalog.npc(&"common.npc.fighter.executioner").talk().inquiry_rules("虹台"), _fresh(["终章", "站了潘军禅", "天邪听你的", "天邪的线断了"]).marks)
-	_check(_says(pan, "刑堂都收回了") and pan.marks_asker.is_empty(), "潘军禅 the same")
+	_check(_says(pan, "等盟主回来") and pan.mark_asker == "天邪表了态", "潘军禅 says how 天邪 votes")
+	var early: NpcInquiryRule = NpcInquiryRule.decide(catalog.npc(&"common.npc.fighter.executioner").talk().inquiry_rules("虹台"), _fresh(["终章", "天邪的线断了"]).marks)
+	_check(early != null and early.mark_asker == "天邪表了态" and not _says(early, "执事"), "one who left before any rank is not told of a rank taken back, and 天邪 is on the 表态 list all the same")
 
 
 ## owner 第 6 问: what was owed is played: 安妮儿 pays a word back with a word, 淳风武馆's disciples do look to the player.
 func _test_owed() -> void:
 	var annie: String = FileAccess.get_file_as_string("res://data/latemoon/npcs.json")
-	_check(annie.contains('"mark": "替安妮儿瞒了", "not_mark": "安妮儿还了一句"') and annie.contains("最后一个名字是我"), "安妮儿's reaction to one who covered for her, once")
+	_check(annie.contains('"mark": "替安妮儿瞒了", "not_mark": "安妮儿还了一句", "when": { "not": { "any": [{ "mark": "场院的话说完了" }') and annie.contains("最后一个名字是我"), "安妮儿's reaction to one who covered for her, once, and only while the name is still to be read out")
 	var snow: String = FileAccess.get_file_as_string("res://data/snow/npcs.json")
 	_check(snow.contains('"mark": "替刘安禄瞒了", "not_mark": "弟子们问过你"') and snow.contains("要问，问他去"), "李火狮's reaction: the disciples asked")
 	var pages: String = FileAccess.get_file_as_string("res://data/story/factions.json")

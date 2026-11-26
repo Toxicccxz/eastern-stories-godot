@@ -210,7 +210,7 @@
 									},
 									{
 										"not": {
-											"quest": "faction.niling#started"
+											"quest": "faction.niling/aftermath/crush"
 										}
 									}
 								]
@@ -259,6 +259,11 @@
 									},
 									{
 										"mark": "花匠上了北麓"
+									},
+									{
+										"not": {
+											"quest": "faction.niling/aftermath/pardon"
+										}
 									}
 								]
 							},

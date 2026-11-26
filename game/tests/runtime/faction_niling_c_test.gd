@@ -61,7 +61,7 @@ func _test_data() -> void:
 	_check(split.weight == StoryQuestDefinition.WEIGHT_BIG and split.only_after == &"net" and split.options.map(func(option: StoryQuestDefinition.Option) -> StringName: return option.option_id) == [&"turn", &"deep", &"missed"], "the line's one split: 倒戈 or 潜伏 (or the night let pass)")
 	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) == 2 and quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 2, "1 big on each way the main story routes (收网; after the 终章 大会 A's 余孽), 2 small (owner 2026-11-09)")
 	_check(split.objective.contains("疑点不到三条") and split.objective.contains("四个道士会先扑你") and split.objective.contains("黑冠从此没用"), "both sides' costs said before the choice")
-	_check(quest.step(&"hall_turn").only_after == &"turn" and quest.step(&"hall_deep").only_after == &"deep" and quest.step(&"aftermath").only_after.is_empty(), "each way its own step in the 冰龙厅; the 余孽 after it whichever way (势力线复查 第 5 问)")
+	_check(quest.step(&"hall_turn").only_after == &"turn" and quest.step(&"hall_deep").only_after == &"deep" and quest.step(&"aftermath").only_after == &"remnant" and quest.step(&"hall_turn").text.contains("问他「逆灵宫」") and quest.step(&"hall_deep").text.contains("问他「逆灵宫」"), "each way its own last step; the 冰龙厅's two tell that 林忌 still wants the 余孽 settled (势力线复查 第 5 问: his answers settle them, no second split on that way)")
 	_check(quest.lapses != null and quest.lapsed_mark == "疑点满了" and quest.lapsed_text.contains("下回戴着冠进前院") and quest.lapsed_text.contains("不必打") and quest.lapsed_text.contains("到手的也还在你手里") and not quest.lapsed_text.contains("名单"), "three 疑点: the line lapses, what was done still counts (and nothing is said of a list never copied)")
 	_check(quest.lapses_also.size() == 1 and quest.lapses_also[0].mark == "黑冠用不着了" and quest.lapses_also[0].text.contains("道观空了"), "the 余孽 settled while the wearer is at the chores: the line is cut short, in its own words")
 	for id: StringName in PALACE:
@@ -273,7 +273,7 @@ func _test_missed(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not talk.confirm_applies("倒戈", state.marks) and _said(_ask(temple, lin, "倒戈"), "来不及了") and not state.marks.has("前夜倒戈"), "the night come: too late to turn")
 	_check(_said(_ask(temple, lin, "逆灵宫"), "茅山没等到你的话"), "林忌: the night passed")
 	session.record_journal()
-	_check(StoryQuestLog.took(state, quest, &"missed") and StoryQuestLog.current_step(state, quest).step_id == &"aftermath", "the split let pass: nothing of the night left hanging, the 余孽 are what is left")
+	_check(StoryQuestLog.took(state, quest, &"missed") and StoryQuestLog.is_done(state, quest), "the split let pass: the line over, nothing left hanging")
 
 
 ## After the 终章: 林忌 asks of the 余孽 (续灯), no 收网; the line waits on the 虹台大会.
@@ -335,14 +335,14 @@ func _test_turned_settles(tree: SceneTree, session: WorldSessionController) -> v
 	for mark: String in ["岚城一章", "林忌说了收网", "前夜倒戈", "下了决战", "商玦倒了", "终章"]:
 		state.marks[mark] = 1 # TEST-ONLY: turned, the 冰龙厅 won
 	session.record_journal()
-	_check(StoryQuestLog.took(state, quest, &"turn") and StoryQuestLog.current_step(state, quest).step_id == &"aftermath", "the 冰龙厅 done: the 余孽 are next")
+	_check(StoryQuestLog.took(state, quest, &"turn") and StoryQuestLog.is_done(state, quest), "the 冰龙厅 done: the line is walked")
 	var temple: WorldMapController = MapPlaces.enter(session, TEMPLE, TEMPLE_POINT)
 	await _settle(tree)
 	var lin: NpcRuntimeState = _first(session, TEMPLE, LIN)
 	_check(_said(_ask(temple, lin, "逆灵宫"), "续灯") and state.marks.get("林忌说了余孽", 0) == 1, "林忌 of the 余孽, not of the night gone by")
 	_check(_said(_ask(temple, lin, "招安"), "茅山的人替你上山去说") and state.marks.get("招安了余孽", 0) == 1 and state.marks.get("余孽有了去处", 0) == 1 and not state.marks.has("林忌要招安"), "招安: 茅山 speaks for one the 道观 knows")
 	session.record_journal()
-	_check(StoryQuestLog.took(state, quest, &"pardon") and StoryQuestLog.is_done(state, quest) and DeedLog.done(state, "劝逆灵宫的余孽下山，交茅山看管"), "the line ends: 招安")
+	_check(not StoryQuestLog.took(state, quest, &"pardon") and StoryQuestLog.is_done(state, quest) and state.marks.get("招安了余孽", 0) == 1 and not lin.definition().talk().confirm_applies("剿", state.marks), "settled by his answers: no step of the line, nothing left to confirm")
 
 
 ## 潜伏到底, the 终章 over: the 余孽 the same; the 黑冠 still passes, so the word is the wearer's to carry.
@@ -359,7 +359,9 @@ func _test_deep_settles(tree: SceneTree, session: WorldSessionController) -> voi
 	var first: Array[String] = _ask(temple, lin, "逆灵宫")
 	_check(_said(first, "续灯") and not _said(first, "那就去吧"), "no 「那就去吧」 after the lake: %s" % [first])
 	_check(_said(_ask(temple, lin, "招安"), "回北麓去") and state.marks.get("林忌要招安", 0) == 1 and not state.marks.has("余孽有了去处"), "招安: back to the 北麓 under the crown")
-	_check(_said(_ask(temple, lin, "剿"), "已经答应去劝") and not state.marks.has("余孽交了官府") and StoryQuestLog.is_active(state, quest), "promised: no 剿 on top of it")
+	_check(_said(_ask(temple, lin, "剿"), "已经答应去劝") and not state.marks.has("余孽交了官府") and StoryQuestLog.is_done(state, quest), "promised: no 剿 on top of it")
+	state.marks["疑点满了"] = 1 # TEST-ONLY: found out after the promise
+	_check(_said(_ask(temple, lin, "剿"), "再问我一次「招安」"), "found out after the promise: 「剿」 sends back to 「招安」 too")
 
 
 ## Found out (three 疑点) after the 招安 was promised, or before 林忌 spoke at all: the 道观's door is shut

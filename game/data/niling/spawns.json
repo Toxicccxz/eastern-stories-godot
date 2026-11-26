@@ -251,6 +251,7 @@
 			"legacy_quantity": 1,
 			"present": {
 				"all": [
+					{ "not": { "mark": "余孽有了去处" } },
 					{
 						"cond": "niling.unmasking"
 					},
@@ -284,6 +285,7 @@
 			"legacy_quantity": 1,
 			"present": {
 				"all": [
+					{ "not": { "mark": "余孽有了去处" } },
 					{
 						"cond": "niling.unmasking"
 					},
