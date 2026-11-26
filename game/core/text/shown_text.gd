@@ -29,6 +29,15 @@ static func finish(text: String, language: String) -> String:
 	return text
 
 
+## `text` as a label that stands alone (a topic button): its first letter a capital where the
+## shown language has capitals. Russian writes a word that is also filled into sentences (姑娘
+## барышня, a topic and a form of address) in lower case; its button still opens with a capital.
+static func label(text: String) -> String:
+	if text.is_empty():
+		return text
+	return text.left(1).to_upper() + text.substr(1)
+
+
 ## Whether `language` finishes its lines (and so loads its catalog through FinishedTranslation).
 static func finishes(language: String) -> bool:
 	return language == KoreanText.LANGUAGE or language == RussianText.LANGUAGE

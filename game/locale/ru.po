@@ -2681,7 +2681,7 @@ msgid "小姑娘"
 msgstr "юная барышня"
 
 msgid "姑娘"
-msgstr "Барышня"
+msgstr "барышня"
 
 msgid "婆婆"
 msgstr "бабушка"
