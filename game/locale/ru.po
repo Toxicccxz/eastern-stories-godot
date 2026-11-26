@@ -2681,7 +2681,7 @@ msgid "小姑娘"
 msgstr "юная барышня"
 
 msgid "姑娘"
-msgstr "барышня"
+msgstr "Барышня"
 
 msgid "婆婆"
 msgstr "бабушка"
@@ -3358,13 +3358,13 @@ msgid "{title} {name}"
 msgstr ""
 
 msgid "这里"
-msgstr "это место"
+msgstr "Это место"
 
 msgid "名字"
-msgstr "имя"
+msgstr "Имя"
 
 msgid "传闻"
-msgstr "слухи"
+msgstr "Слухи"
 
 msgid "%s摇摇头，说道：没听说过。"
 msgstr "%s качает головой: «Впервые слышу.»"
