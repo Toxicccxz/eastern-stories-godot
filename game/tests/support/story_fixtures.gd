@@ -520,7 +520,8 @@ static func finale_fought(session: WorldSessionController, who: String = "self",
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.finale/hall", "main.finale/depths", "main.finale/demon"]:
 		_write(state, key)
-	for mark: String in ["商玦说过", "商玦倒了", "回到了湖底", "侮天鬼成形", "侮天鬼倒了"]:
+	# One who kept the sword in chapter 8 draws it here (the pull act's finale branch: 终章拔了穿灵).
+	for mark: String in ["商玦说过", "商玦倒了", "回到了湖底", "侮天鬼成形", "侮天鬼倒了"] + ([] if pulled else ["终章拔了穿灵"]):
 		_mark(state, mark)
 
 
