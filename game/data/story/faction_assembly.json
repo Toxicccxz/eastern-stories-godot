@@ -609,6 +609,7 @@
 					}
 				}
 			],
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "wait",

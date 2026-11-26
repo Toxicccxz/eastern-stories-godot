@@ -58,10 +58,32 @@ func stage(combat_exp: int) -> Stage:
 	return found
 
 
-## The exp a reward of `kind` (or of chain or quest `chain_id`) is worth at `combat_exp`.
+## Which of `stages` `combat_exp` stands in (0 when there are none).
+func stage_index(combat_exp: int) -> int:
+	var found: int = 0
+	for index: int in stages.size():
+		if stages[index].min_exp <= combat_exp:
+			found = index
+	return found
+
+
+## The stage a reward is priced at for a player of `combat_exp`: theirs, or (pacing
+## milestone_stage_headroom, 成长曲线 A) at most `headroom` stages above the stage of the content's
+## own level `content_exp` (`headroom` or `content_exp` negative: no cap).
+func priced_stage(combat_exp: int, content_exp: int = -1, headroom: int = -1) -> Stage:
+	if stages.is_empty():
+		return null
+	var index: int = stage_index(combat_exp)
+	if headroom >= 0 and content_exp >= 0:
+		index = mini(index, stage_index(content_exp) + headroom)
+	return stages[index]
+
+
+## The exp a reward of `kind` (or of chain or quest `chain_id`) is worth at `combat_exp`, priced
+## (priced_stage()) at most `headroom` stages above its content's level `content_exp`.
 @warning_ignore("integer_division")
-func reward_exp(kind: Kind, combat_exp: int, chain_id: StringName = &"") -> int:
-	var at: Stage = stage(combat_exp)
+func reward_exp(kind: Kind, combat_exp: int, chain_id: StringName = &"", content_exp: int = -1, headroom: int = -1) -> int:
+	var at: Stage = priced_stage(combat_exp, content_exp, headroom)
 	if at == null:
 		return 0
 	var percent: int = int(percents.get(kind, 0))

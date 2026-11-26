@@ -38,6 +38,7 @@
 				"text": "你离了绝尘派。青石村的事，到此为止。",
 				"mark": "绝尘的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "elder",

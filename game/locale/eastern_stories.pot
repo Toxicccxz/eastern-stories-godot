@@ -10964,6 +10964,16 @@ msgid ""
 "确定接受测试吗？"
 msgstr ""
 
+#. asked before an accept test whose blows spare the student (瑷伦's, 成长曲线 A: no wound, no death). {master} the master, {after} what passing it does (one of the TRIAL_* lines).
+#: ui/teacher/teacher_panel.gd
+msgid ""
+"{master}的三招是真打：\n"
+"· 每一招都实打实地落在你身上。\n"
+"· 哪一招接不住，测试就算失败：你会昏倒，但不伤性命、不留伤，歇一会儿就能再来。\n"
+"{after}\n"
+"确定接受测试吗？"
+msgstr ""
+
 #. the accept test's last point when passing it makes the player the master's apprentice at once: {master}, {family}.
 #: ui/teacher/teacher_panel.gd
 msgid "· 三招都接住，便拜入{master}门下，成为{family}的弟子。"

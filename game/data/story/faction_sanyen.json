@@ -41,6 +41,7 @@
 				"text": "你离了山烟寺。流云轩的事，到此为止。",
 				"mark": "山烟寺的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "rx",

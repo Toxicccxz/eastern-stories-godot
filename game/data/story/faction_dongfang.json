@@ -24,6 +24,7 @@
 				"text": "你手上沾了神教教主的血。朱鸿雪的令，到此为止。",
 				"mark": "神教的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "west",

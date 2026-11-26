@@ -41328,3 +41328,6 @@ msgstr "Go down the mountain: Liaochen goes back to Mountain Mist Temple on Sunl
 
 msgid "说过了。这条路是施主陪着走出来的，这一票，施主要，就是施主的。"
 msgstr "It has been said. This road, Benefactor, you walked out with me. This vote, if you want it, is yours."
+
+msgid "{master}的三招是真打：\n· 每一招都实打实地落在你身上。\n· 哪一招接不住，测试就算失败：你会昏倒，但不伤性命、不留伤，歇一会儿就能再来。\n{after}\n确定接受测试吗？"
+msgstr "{master}'s three moves are for real:\n· Every move lands on you for real.\n· Fail to take any one of them and you fail the test: you'll pass out, but you won't be killed or hurt, and can try again after a rest.\n{after}\nTake the test?"
