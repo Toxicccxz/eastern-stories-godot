@@ -23,6 +23,8 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_verdict()
 	_test_promises()
 	_test_left_family()
+	_test_owed()
+	_test_celestial_after()
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
@@ -129,6 +131,46 @@ func _test_left_family() -> void:
 	_check(_says(liu, "收回来") and liu.mark_asker.is_empty() and liu.marks_asker.is_empty(), "柳淳风 takes the name back and gives nothing")
 	var pan: NpcInquiryRule = NpcInquiryRule.decide(catalog.npc(&"common.npc.fighter.executioner").talk().inquiry_rules("虹台"), _fresh(["终章", "站了潘军禅", "天邪听你的", "天邪的线断了"]).marks)
 	_check(_says(pan, "刑堂都收回了") and pan.marks_asker.is_empty(), "潘军禅 the same")
+
+
+## owner 第 6 问: what was owed is played: 安妮儿 pays a word back with a word, 淳风武馆's disciples do look to the player.
+func _test_owed() -> void:
+	var annie: String = FileAccess.get_file_as_string("res://data/latemoon/npcs.json")
+	_check(annie.contains('"mark": "替安妮儿瞒了", "not_mark": "安妮儿还了一句"') and annie.contains("最后一个名字是我"), "安妮儿's reaction to one who covered for her, once")
+	var snow: String = FileAccess.get_file_as_string("res://data/snow/npcs.json")
+	_check(snow.contains('"mark": "替刘安禄瞒了", "not_mark": "弟子们问过你"') and snow.contains("要问，问他去"), "李火狮's reaction: the disciples asked")
+	var pages: String = FileAccess.get_file_as_string("res://data/story/factions.json")
+	_check(pages.contains("她还了你一句") and pages.contains("弟子们先看的是你"), "the 声望 page tells both")
+
+
+## 复查 第 1 条: the 天邪 line reached its chair after the 虹台: no scene before the chair, nothing left to
+## stand for; the split closes itself and the rank comes all the same.
+func _test_celestial_after() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var quests: Array[StoryQuestDefinition] = catalog.story_quests()
+	var quest: StoryQuestDefinition = catalog.story_quest(&"faction.celestial")
+	var state: CharacterState = _fresh(["终章", "大会散了", "潘军禅说了盟主的下落", "卫沧澜出了尚书府"])
+	state.family = FamilyState.new(&"family.celestial", 3)
+	state.quests[StoryQuestLog.key_started(quest)] = 1 # TEST-ONLY
+	for step: StoryQuestDefinition.Step in quest.steps:
+		if step.step_id == &"chair":
+			break
+		state.quests[StoryQuestLog.key_step(quest, step, null if step.options.is_empty() else step.options[0])] = state.quests.size() + 1 # TEST-ONLY: walked so far
+	_check(not _holds(catalog.conditions()["celestial.chair"], state), "no scene before the chair once the 虹台 is over")
+	var temps: Dictionary[String, int] = {}
+	var held: Dictionary[StringName, bool] = {}
+	var fresh: Array[StoryQuestLog.Fresh] = StoryQuestLog.record(state, temps, held, &"", quests)
+	_check(StoryQuestLog.took(state, quest, &"over") and StoryQuestLog.took(state, quest, &"late") and StoryQuestLog.is_done(state, quest), "the chair and the split close themselves")
+	var ranked: bool = fresh.any(func(told: StoryQuestLog.Fresh) -> bool: return told.reward() != null and told.reward().rank_title == "执事" and told.reward().deed == "替水烟阁办完了山门、镖单和盟主下落三件事")
+	_check(ranked and not state.marks.has("站了颜违") and not state.marks.has("站了潘军禅"), "the rank and the deed, and no side taken")
+	var seen: CharacterState = _fresh(["终章", "大会散了", "正厅撞见了"])
+	seen.family = FamilyState.new(&"family.celestial", 3)
+	for npc_id: StringName in [&"waterfog.npc.elder7", &"common.npc.fighter.executioner"]:
+		var talk: NpcTalk = catalog.npc(npc_id).talk()
+		var none: Array[String] = []
+		var rule: NpcInquiryRule = NpcInquiryRule.decide(talk.inquiry_rules("椅子"), seen.marks, null, &"", &"", 0, {}, none, seen.family.family_id)
+		_check(not talk.confirm_applies("椅子", seen.marks) and _says(rule, "虹台上"), "%s: the chair is settled, nothing asked first" % npc_id)
+		_check(rule != null and rule.mark_asker.is_empty(), "%s: no side written for a member after the 虹台" % npc_id)
 
 
 func _says(rule: NpcInquiryRule, part: String) -> bool:

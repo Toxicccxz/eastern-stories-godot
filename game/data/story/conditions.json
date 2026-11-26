@@ -97,7 +97,8 @@
 		{
 			"id": "celestial.chair",
 			"sources": [
-				"native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」) — the 正厅 scene (颜违 and 潘军禅 before the 太师椅): told what 潘军禅 knows, the 盟主's fate settled, still of the line."
+				"native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」) — the 正厅 scene (颜违 and 潘军禅 before the 太师椅): told what 潘军禅 knows, the 盟主's fate settled, still of the line.",
+				"native: 势力线复查 (DECISIONS「势力线复查」) — not once the 虹台 is over: there is no vote left to stand for"
 			],
 			"when": {
 				"all": [
@@ -110,6 +111,11 @@
 					{
 						"not": {
 							"mark": "天邪的线断了"
+						}
+					},
+					{
+						"not": {
+							"mark": "大会散了"
 						}
 					}
 				]

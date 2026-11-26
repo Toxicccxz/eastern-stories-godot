@@ -740,6 +740,7 @@
 				"remembers": { "lasting": true, "chat_chance": 8, "chat_msg": ["安妮儿看了你一眼，像在数你的名字有几个字。\n"] }
 			},
 			"calls": [
+				{ "after": 1, "reaction": true, "mark": "替安妮儿瞒了", "not_mark": "安妮儿还了一句", "steps": [{ "emote": "放下手里的茶盏，看了你一会儿。" }, { "say": "朱鸿雪那边，你只说了一个故人。场院里的话，传得到西厢。" }, { "say": "你替我瞒了一句，我还你一句：朱鸿雪手里有一张名单，最后一个名字是我。她念到那一个的时候，你想清楚站在哪一边。" }, { "mark": "安妮儿还了一句" }] },
 				{ "after": 0, "reaction": true, "mark": "带走了宝衣", "not_mark": "安妮儿记下了", "when": { "not": { "mark": "宝衣回了庄" } }, "steps": [{ "say": "宝衣出了庄，没进我的门。你的名字，我记下了。" }, { "npc_mood": "remembers" }, { "mark": "安妮儿记下了" }] }
 			],
 			"recognize_apprentice": [

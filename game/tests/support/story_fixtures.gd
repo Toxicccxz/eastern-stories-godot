@@ -626,7 +626,7 @@ static func celestial_escorted(session: WorldSessionController, caught: bool = t
 static func celestial_split(session: WorldSessionController, yan: bool, caught: bool = true, to_chen: bool = false) -> void:
 	celestial_escorted(session, caught, to_chen)
 	var state: CharacterState = session.player_runtime().state
-	for key: String in ["faction.celestial/leader", "faction.celestial/rescue", "faction.celestial/chair", "faction.celestial/split/%s" % ("side_yan" if yan else "side_pan"), "faction.celestial#done"]:
+	for key: String in ["faction.celestial/leader", "faction.celestial/rescue", "faction.celestial/chair/hall", "faction.celestial/split/%s" % ("side_yan" if yan else "side_pan"), "faction.celestial#done"]:
 		_write(state, key)
 	for mark: String in ["潘军禅说了盟主的下落", "正厅撞见了", "正厅的话说完了", "站了颜违" if yan else "站了潘军禅"]:
 		_mark(state, mark)
