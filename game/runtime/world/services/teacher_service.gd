@@ -211,9 +211,10 @@ func _strike_trial() -> NpcApprenticeTrial.Result:
 	var family: FamilyDefinition = GameContent.catalog().family(teaching().family_id)
 	var cast: BattlePresentationProjection = BattleProjectionBuilder.cast_of(map.session, [npc.character_id])
 	var narrator := BattleNarrator.new()
+	var modifiers: CombatRoundModifiers = teaching().apprentice.blow_modifiers()
 	var attack := func() -> Variant:
 		var seen: Array[ColoredLine] = []
-		var blow: CombatSliceOpportunityResult = map.attack_player_outside_fight(npc)
+		var blow: CombatSliceOpportunityResult = map.attack_player_outside_fight(npc, modifiers)
 		if blow == null:
 			return null
 		for line: BattleNarrationLine in narrator.attack_chain(blow.forward_result, blow.chain_result, cast, blow.post_action_lines(), blow.reverse_post_action_lines()):

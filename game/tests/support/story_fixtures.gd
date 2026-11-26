@@ -520,7 +520,8 @@ static func finale_fought(session: WorldSessionController, who: String = "self",
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.finale/hall", "main.finale/depths", "main.finale/demon"]:
 		_write(state, key)
-	for mark: String in ["商玦说过", "商玦倒了", "回到了湖底", "侮天鬼成形", "侮天鬼倒了"]:
+	# One who kept the sword in chapter 8 draws it here (the pull act's finale branch: 终章拔了穿灵).
+	for mark: String in ["商玦说过", "商玦倒了", "回到了湖底", "侮天鬼成形", "侮天鬼倒了"] + ([] if pulled else ["终章拔了穿灵"]):
 		_mark(state, mark)
 
 
@@ -625,7 +626,7 @@ static func celestial_escorted(session: WorldSessionController, caught: bool = t
 static func celestial_split(session: WorldSessionController, yan: bool, caught: bool = true, to_chen: bool = false) -> void:
 	celestial_escorted(session, caught, to_chen)
 	var state: CharacterState = session.player_runtime().state
-	for key: String in ["faction.celestial/leader", "faction.celestial/rescue", "faction.celestial/chair", "faction.celestial/split/%s" % ("side_yan" if yan else "side_pan"), "faction.celestial#done"]:
+	for key: String in ["faction.celestial/leader", "faction.celestial/rescue", "faction.celestial/chair/hall", "faction.celestial/split/%s" % ("side_yan" if yan else "side_pan"), "faction.celestial#done"]:
 		_write(state, key)
 	for mark: String in ["潘军禅说了盟主的下落", "正厅撞见了", "正厅的话说完了", "站了颜违" if yan else "站了潘军禅"]:
 		_mark(state, mark)
@@ -1200,3 +1201,15 @@ static func sanyen_treated(session: WorldSessionController, heal: bool = true) -
 static func juechen_guest(session: WorldSessionController) -> void:
 	for mark: String in ["走出了八卦阵", "过阵的客"]:
 		_mark(session.player_runtime().state, mark)
+
+
+## 绝尘 A done (势力线第三批; DECISIONS「绝尘 A」「绝尘 B」): the 村长's 山洞, 阿牛 led home, the saying, 绝尘子 told of
+## the village, 了尘 on what is in the cave. 绝尘 B's `xuanchen` (了尘 of his master: 守阵 or 下山 follows) next.
+static func juechen_told(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	if state.family == null or state.family.family_id != &"family.juechen":
+		juechen_guest(session)
+	for key: String in ["faction.juechen#started", "faction.juechen/elder", "faction.juechen/cave", "faction.juechen/saying", "faction.juechen/report", "faction.juechen/liaochen"]:
+		_write(state, key)
+	for mark: String in ["村长说了山洞", "洞口的鬼卒倒了", "洞底的鬼卒倒了", "妇人喊了孩子", "孩子回了家", "村长说完了那句话", "绝尘子听了山洞", "了尘说了洞里的事"]:
+		_mark(state, mark)

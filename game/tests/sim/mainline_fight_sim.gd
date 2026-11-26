@@ -235,7 +235,9 @@ static func exps_of(entry: Dictionary) -> Array[int]:
 		out.assign(entry["exps"])
 	elif entry.has("chapter"):
 		if not entry.get("exploring_only", false):
-			out.append(Arrival.main_story(entry["chapter"]))
+			# The main story's tier at the arrival the fights were tuned at (StoryArrival.TUNED;
+			# growth_curve_data_test holds the live arrival to it).
+			out.append(Arrival.tuned(entry["chapter"]))
 		out.append(Arrival.exploring(entry["chapter"]))
 	if entry.get("after_death", false):
 		for index: int in out.size():

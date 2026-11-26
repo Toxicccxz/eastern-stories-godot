@@ -49,6 +49,12 @@ const BETRAYAL_WARNING: String = "你现在是{title}。改投{master}门下，�
 const FIRST_MASTER_WARNING: String = "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n· 综合评价清零。\n· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n{lines}确定要拜师吗？"
 # TRANSLATORS: in the question before a change of family, one line per 势力 line it cuts short for good (DECISIONS「改投提示」): {title} the line's name on the 任务 page.
 const LINE_ENDS: String = "· 「{title}」这条线就此中止，以后再也接不上。\n"
+# TRANSLATORS: native (势力线复查): before joining another family, a line already walked to its end: {title} its name.
+const LINE_TAKES_BACK: String = "· 「{title}」这条线已经走完：它给你的名分和虹台上那一票，就此收回。\n"
+# TRANSLATORS: native (势力线复查): before joining a family, its own line that will not open because a line already walked excludes it: {title} its name.
+const LINE_BLOCKED: String = "· 「{title}」这条线不会出现：你走过的另一条线同它不能并存。\n"
+# TRANSLATORS: native (势力线复查): before joining a family again, its own line that was cut short once: {title} its name.
+const LINE_GONE: String = "· 「{title}」这条线断过，回到这一派也接不上了。\n"
 # TRANSLATORS: in the question before a change of family, one line per 势力 line it shuts for good before it began (a line the new family begins excludes it; DECISIONS「改投提示」): {title} the line's name.
 const LINE_CLOSES: String = "· 「{title}」这条线从此不会再出现。\n"
 # TRANSLATORS: asked before 拜师 or an oath that makes the player change master inside their family: {current} the master now, {master} the new one, {teach} what {current} teaches them after (one of the CHANGE_TEACHES_* lines, or nothing).
@@ -61,6 +67,8 @@ const CHANGE_TEACHES_NONE: String = "· {current}只教嫡传弟子，以后不�
 const TRIAL_CHANGES_MASTER: String = "· 你现在是{current}的嫡传弟子；三招都接住，便改拜{master}为师，{current}就不再是你的师父。\n{teach}"
 # TRANSLATORS: asked before 於兰天武's accept test (champion.c: three real blows; owner: asked first). {master} the master, {after} what passing it does (one of the TRIAL_* lines).
 const TRIAL_WARNING: String = "{master}的三招是真打：\n· 每一招都实打实地落在你身上，挨中了会受伤。\n· 哪一招接不住，测试就算失败，你随后会昏倒。\n· 伤得太重会死。\n{after}\n确定接受测试吗？"
+# TRANSLATORS: asked before an accept test whose blows spare the student (瑷伦's, 成长曲线 A: no wound, no death). {master} the master, {after} what passing it does (one of the TRIAL_* lines).
+const TRIAL_WARNING_SPARED: String = "{master}的三招是真打：\n· 每一招都实打实地落在你身上。\n· 哪一招接不住，测试就算失败：你会昏倒，但不伤性命、不留伤，歇一会儿就能再来。\n{after}\n确定接受测试吗？"
 # TRANSLATORS: the accept test's last point when passing it makes the player the master's apprentice at once: {master}, {family}.
 const TRIAL_RECRUITS: String = "· 三招都接住，便拜入{master}门下，成为{family}的弟子。"
 # TRANSLATORS: added when that would be the player's first master: changing family later is a betrayal.
@@ -336,7 +344,7 @@ static func family_change_warning(player: WorldPlayerRuntimeState, master: NpcDe
 	return ""
 
 
-## One LINE_ENDS / LINE_CLOSES line for each 势力 line becoming `master`'s apprentice ends or shuts
+## One LINE_ENDS / LINE_TAKES_BACK / LINE_CLOSES line for each 势力 line becoming `master`'s apprentice ends, takes back or shuts
 ## (StoryQuestLog.family_change()); "" for none, or when `quest_test` is not given.
 static func line_changes(player: WorldPlayerRuntimeState, master: NpcDefinition, quest_test: Callable) -> String:
 	var teaching: NpcTeaching = null if master == null else master.teaching()
@@ -346,6 +354,12 @@ static func line_changes(player: WorldPlayerRuntimeState, master: NpcDefinition,
 	var text: String = ""
 	for quest: StoryQuestDefinition in change.ends:
 		text += _t(LINE_ENDS).format({"title": _t(quest.title)})
+	for quest: StoryQuestDefinition in change.takes_back:
+		text += _t(LINE_TAKES_BACK).format({"title": _t(quest.title)})
+	for quest: StoryQuestDefinition in change.blocked:
+		text += _t(LINE_BLOCKED).format({"title": _t(quest.title)})
+	for quest: StoryQuestDefinition in change.gone:
+		text += _t(LINE_GONE).format({"title": _t(quest.title)})
 	for quest: StoryQuestDefinition in change.closes:
 		text += _t(LINE_CLOSES).format({"title": _t(quest.title)})
 	return text
@@ -437,7 +451,8 @@ func trial_question() -> Array[String]:
 				after += "\n" + tr(TRIAL_FIRST_MASTER)
 			if not lines.is_empty():
 				after += "\n" + lines
-	return [tr(TRIAL_WARNING).format({"master": npc_name, "after": after}), "接受测试", "不试了"]
+	var spared: bool = not _contact.teaching().apprentice.lethal
+	return [tr(TRIAL_WARNING_SPARED if spared else TRIAL_WARNING).format({"master": npc_name, "after": after}), "接受测试", "不试了"]
 
 
 func take_trial_now() -> void:

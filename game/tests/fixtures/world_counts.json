@@ -493,6 +493,7 @@
 		"niling.corridor.jailers_keyed",
 		"niling.yard.unmasking_xuan",
 		"niling.yard.unmasking_chanter",
+		"niling.yard.soldiers",
 		"guanbei.gate.gate_guards",
 		"guanbei.gate.camel_drivers",
 		"guanbei.street.smith",
@@ -777,9 +778,9 @@
 		"native.heal_room.liaochen_toutuo",
 		"native.terrace.liaochen"
 	],
-	"world_npcs": 892,
+	"world_npcs": 894,
 	"resident_maps": 168,
-	"new_game_items": 1329,
+	"new_game_items": 1333,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -1083,7 +1084,7 @@
 		"death.inn1_house": 0,
 		"death.inn2_house": 0,
 		"niling.slope": 2,
-		"niling.gate": 6,
+		"niling.gate": 8,
 		"niling.hall": 7,
 		"niling.dungeon": 13,
 		"niling.rear": 5,
@@ -1121,7 +1122,7 @@
 		"lancheng.pavilion": 1,
 		"lancheng.terrace": 3
 	},
-	"npc_draws_after_oldpine": 2623,
+	"npc_draws_after_oldpine": 2633,
 	"technical_maps": 9,
 	"technical_items": 58,
 	"technical_npcs": 37,

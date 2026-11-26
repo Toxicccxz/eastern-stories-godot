@@ -38,6 +38,7 @@
 				"text": "你离了茅山。灵心观的事，到此为止。",
 				"mark": "茅山的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "library",
@@ -192,33 +193,94 @@
 					"id": "crush",
 					"only_after": "burn",
 					"objective": "北麓那座道观里还剩着人。湖上的事了了（终章之后），问林忌「剿」：官兵上山，一个也走不了。北麓的人已经有了去处的，这一步就过了。",
-					"done": {
-						"mark": "余孽有了去处"
-					},
-					"text": "北麓那座道观里剩下的人，有了去处。",
 					"target": {
 						"map": "temple.temple1_house",
 						"zone": "temple.temple1",
 						"npcs": [
 							"common.npc.taoist.taolord"
 						]
-					}
+					},
+					"weight": "route",
+					"options": [
+						{
+							"id": "sent",
+							"done": {
+								"all": [
+									{
+										"mark": "余孽交了官府"
+									},
+									{
+										"not": {
+											"quest": "faction.niling/aftermath/crush"
+										}
+									}
+								]
+							},
+							"text": "林忌把北麓那座道观的门户写给了官府。官兵上了山，一个也没走脱。",
+							"reward": {
+								"deed": "请林忌把逆灵宫的余孽交给官府去剿"
+							}
+						},
+						{
+							"id": "crush_settled",
+							"done": {
+								"mark": "余孽有了去处"
+							},
+							"text": "北麓那座道观里剩下的人，有了去处。"
+						}
+					]
 				},
 				{
 					"id": "pardon",
 					"only_after": "keep",
 					"objective": "北麓那座道观里还剩着人。湖上的事了了（终章之后），问藏经楼二楼的花匠「北麓」：他拿着书上北麓去念他们自己的经——你上北麓，在绞盘边看他念完。北麓的人已经有了去处的，这一步就过了。",
-					"done": {
-						"mark": "余孽有了去处"
-					},
-					"text": "北麓那座道观里剩下的人，有了去处。",
 					"target": {
 						"map": "temple.library",
 						"zone": "temple.book_room2",
 						"npcs": [
 							"native.npc.maoshan_gardener"
 						]
-					}
+					},
+					"target_after": {
+						"mark": "花匠上了北麓",
+						"map": "niling.slope",
+						"zone": "niling.winch",
+						"npcs": [
+							"native.npc.maoshan_gardener_north"
+						]
+					},
+					"weight": "route",
+					"options": [
+						{
+							"id": "read",
+							"done": {
+								"all": [
+									{
+										"mark": "招安了余孽"
+									},
+									{
+										"mark": "花匠上了北麓"
+									},
+									{
+										"not": {
+											"quest": "faction.niling/aftermath/pardon"
+										}
+									}
+								]
+							},
+							"text": "花匠在绞盘边念完了他们自己的经。肯下山的，跟着他下了山，交茅山看着。",
+							"reward": {
+								"deed": "请花匠上北麓，把逆灵宫剩下的人念下了山"
+							}
+						},
+						{
+							"id": "pardon_settled",
+							"done": {
+								"mark": "余孽有了去处"
+							},
+							"text": "北麓那座道观里剩下的人，有了去处。"
+						}
+					]
 				}
 			]
 		}

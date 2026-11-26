@@ -60,7 +60,7 @@ func defeated(npc: NpcRuntimeState) -> void:
 func book_read_through(item_definition_id: StringName) -> void:
 	var item: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
 	if item != null:
-		_give(ProgressionRules.Kind.BOOK, item_definition_id, tr(item.display_name), true)
+		_give(ProgressionRules.Kind.BOOK, item_definition_id, tr(item.display_name), true, -1 if item.study == null else item.study.exp_required)
 
 
 ## A quest ended whose reward is a 历练 (任务系统): given once, for the quest.
@@ -86,7 +86,7 @@ func look() -> void:
 	if not _enabled() or player == null or player.state == null:
 		return
 	for chain: JournalChainDefinition in JournalLog.finished_chains(player.state, GameContent.catalog().journal_chains()):
-		_give(ProgressionRules.Kind.CHAIN, chain.chain_id, tr(chain.title), false)
+		_give(ProgressionRules.Kind.CHAIN, chain.chain_id, tr(chain.title), false, chain_level(chain.chain_id))
 	# 打坐's steps (前两小时 A, owner Q5): each max_force number first reached, lowest first.
 	for threshold: int in _rules().force_milestones:
 		if player.state.recovery.inner_force.maximum >= threshold:
@@ -96,11 +96,12 @@ func look() -> void:
 	if location == null or player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or player.state.ghost:
 		return
 	var region: RegionDefinition = GameContent.catalog().region(location.region_id)
+	var level: int = -1 if region == null or region.recommended_exp <= 0 else region.recommended_exp
 	if region != null:
-		_give(ProgressionRules.Kind.REGION, region.region_id, tr(region.display_name), false)
+		_give(ProgressionRules.Kind.REGION, region.region_id, tr(region.display_name), false, level)
 	if _rules().places.has(location.zone_id):
 		var zone: ZoneDefinition = GameContent.catalog().zone(location.zone_id)
-		_give(ProgressionRules.Kind.PLACE, location.zone_id, tr(zone.display_name), false)
+		_give(ProgressionRules.Kind.PLACE, location.zone_id, tr(zone.display_name), false, level)
 
 
 ## A fight began: what its rewards' cuts say starts afresh.
@@ -131,17 +132,27 @@ func _beaten(npc: NpcRuntimeState) -> void:
 	if not MilestoneRewards.opponent_counts(player.state.progression.combat_experience, npc.character_state.progression.combat_experience):
 		return
 	var kind: ProgressionRules.Kind = ProgressionRules.Kind.DEFEAT if _rules().notable_npcs.has(definition.definition_id) else ProgressionRules.Kind.SPAR
-	_give(kind, definition.definition_id, tr(definition.display_name), true)
+	_give(kind, definition.definition_id, tr(definition.display_name), true, npc.character_state.progression.combat_experience)
 
 
-func _give(kind: ProgressionRules.Kind, id: StringName, name: String, after_fight: bool) -> void:
+## The level a chain's content is of (pacing milestone_stage_headroom): its region's recommended_exp,
+## the region named by the chain id's first part (snow.newcomer: 雪亭镇); -1 when there is none.
+static func chain_level(chain_id: StringName) -> int:
+	var region: RegionDefinition = GameContent.catalog().region(StringName(String(chain_id).get_slice(".", 0)))
+	return -1 if region == null or region.recommended_exp <= 0 else region.recommended_exp
+
+
+## Gives the reward of `kind` for `id` (`name` shown); `content_exp` the level of the content it is
+## for (pacing milestone_stage_headroom; -1: none, the player's own stage).
+func _give(kind: ProgressionRules.Kind, id: StringName, name: String, after_fight: bool, content_exp: int = -1) -> void:
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
 	if not _enabled() or player == null or player.state == null:
 		return
 	var state: CharacterState = player.state
 	var location: WorldLocationState = player.world_location()
 	var zone_id: StringName = &"" if location == null else location.zone_id
-	var grant: MilestoneRewards.Grant = MilestoneRewards.grant(state, _rules(), kind, id, catch_up_percent(state, zone_id), GameContent.catalog().pacing().staged_potential_cap)
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var grant: MilestoneRewards.Grant = MilestoneRewards.grant(state, _rules(), kind, id, catch_up_percent(state, zone_id), pacing.staged_potential_cap, content_exp, pacing.milestone_stage_headroom)
 	var hud: SharedGameplayUI = _session.shared_ui()
 	if grant == null or hud == null:
 		return

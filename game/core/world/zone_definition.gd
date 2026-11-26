@@ -11,6 +11,8 @@ extends RefCounted
 ## instead, with its line (d/choyin/club.c: pray and dancing fail in the hermit's hall).
 ## `indoors`: a room inside (a building's, a tent, a cave, a dungeon): an aggressive NPC there
 ## notices whoever is in the room (ES2 init()), not only who comes near it (DECISIONS「室内察觉」).
+## Native (势力线复查; DECISIONS「势力线复查」): `looks` [{marks, long}]: what one bearing all those
+## marks reads instead of the room's text (the 逆灵宫 emptied), the first that holds; as a landmark's.
 var _zone_id: StringName
 var _map_id: StringName
 var _room_ids: Array[StringName] = []
@@ -19,6 +21,7 @@ var _link_ids: Array[StringName] = []
 var _distinct: bool = false
 var _refusals: Dictionary[String, String] = {}
 var _indoors: bool = false
+var _looks: Array[WorldLandmarkDefinition.Look] = []
 
 var zone_id: StringName:
 	get:
@@ -80,6 +83,14 @@ static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
 	)
 	definition._refusals = reader.text_map("refuses")
 	definition._indoors = reader.boolean("indoors", false)
+	for record: ContentRecordReader in reader.children("looks"):
+		var look := WorldLandmarkDefinition.Look.new()
+		look.marks = record.text_list("marks")
+		look.long = record.required_text("long")
+		record.finish()
+		if look.marks.is_empty():
+			record.fail("marks", "a look is for one bearing marks")
+		definition._looks.append(look)
 	reader.finish()
 	return definition
 
@@ -89,7 +100,21 @@ func with_primary_room(room: RoomDefinition) -> ZoneDefinition:
 	var copy := ZoneDefinition.new(_zone_id, _map_id, _room_ids, room, _link_ids, _distinct)
 	copy._refusals = _refusals.duplicate()
 	copy._indoors = _indoors
+	copy._looks = _looks.duplicate()
 	return copy
+
+
+## The room's text as one bearing `marks` reads it: the first of `looks` whose marks they all bear,
+## else the primary room's authored long text.
+func description_for(marks: Dictionary[String, int]) -> String:
+	for look: WorldLandmarkDefinition.Look in _looks:
+		if look.marks.all(func(mark: String) -> bool: return marks.get(mark, 0) != 0):
+			return look.long
+	return description
+
+
+func looks() -> Array[WorldLandmarkDefinition.Look]:
+	return _looks.duplicate()
 
 
 ## What the room answers instead of a carried item's `command` ("" when it lets it be).

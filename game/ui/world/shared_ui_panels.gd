@@ -34,7 +34,7 @@ func open_look() -> void:
 	var zone: ZoneDefinition = _ui.card.current_zone()
 	if zone == null or not _session.portable_inventory_available():
 		return
-	_presentation_layout.room.text = SharedUiMessageLog.room_prose(tr(zone.description)) + _ui.message_log.sky_line(zone)
+	_presentation_layout.room.text = SharedUiMessageLog.room_prose(tr(_ui.card.room_description(zone))) + _ui.message_log.sky_line(zone)
 	_presentation_layout.open_panel(tr(zone.display_name), _presentation_layout.room)
 
 

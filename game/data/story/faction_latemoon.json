@@ -38,6 +38,7 @@
 				"text": "你离了晚月庄。庄里的事，到此为止。",
 				"mark": "晚月庄的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "lost",
@@ -56,7 +57,7 @@
 				},
 				{
 					"id": "score",
-					"objective": "沧海龙吟的步子在后院书房墙上的湘绣舞曲图里（昭仪天天对着它看），曲子在舞曲谱里（翠湘阁的莫欣芳知道谱放在哪）。看过那幅图，把舞曲谱拿到手。",
+					"objective": "沧海龙吟的步子在后院书房墙上的湘绣舞曲图里（昭仪天天对着它看），曲子在舞曲谱里（先问翠湘阁的莫欣芳「舞曲谱」，再到密室的石床后面找：问过她，石床后面才找得到）。看过那幅图，把舞曲谱拿到手。",
 					"done": {
 						"all": [
 							{
@@ -79,6 +80,11 @@
 						"npcs": [
 							"latemoon.npc.girl"
 						]
+					},
+					"target_after": {
+						"mark": "dance-book",
+						"map": "latemoon.manor",
+						"zone": "latemoon.latemoon8"
 					}
 				},
 				{

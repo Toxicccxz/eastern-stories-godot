@@ -36,6 +36,7 @@
 				"text": "你离了振远镖局。镖局的事，到此为止。",
 				"mark": "振远的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "take",

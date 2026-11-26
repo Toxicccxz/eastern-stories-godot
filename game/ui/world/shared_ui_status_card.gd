@@ -98,6 +98,13 @@ func current_zone() -> ZoneDefinition:
 	return null if _player == null else GameContent.catalog().zone(_player.world_location().zone_id)
 
 
+## `zone`'s text as the player reads it now (ZoneDefinition.description_for() their marks), as authored.
+func room_description(zone: ZoneDefinition) -> String:
+	if zone == null:
+		return ""
+	return zone.description if _player == null else zone.description_for(_player.state.marks)
+
+
 ## The current zone's name, as authored.
 func location_name() -> String:
 	var zone: ZoneDefinition = current_zone()

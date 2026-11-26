@@ -101,6 +101,11 @@ extends RefCounted
 ##   combat_exp_below, a master's apprentice check of combat_exp) asks this many instead of its ES2
 ##   value, which stays in its data (entrance.c's and juechen/master.c's 100000). Left out (ES2):
 ##   each asks its own. The catalog applies them as the pacing is set (ContentCatalog.set_pacing()).
+## - milestone_stage_headroom (成长曲线 A; DECISIONS「成长曲线 A」): a one-time 历练 for content of its own
+##   level (a region or 名胜 by its region's recommended_exp, a chain by its region's, a book by its
+##   exp_required, a spar or defeat by the opponent's combat_exp) is priced at most this many stages
+##   above that level's stage; quests, bounties and 打坐's steps are not. -1 (left out): the player's
+##   own stage, however far above (A2 经验节奏). ES2 has no such rewards.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -179,6 +184,7 @@ var _rest_world_scale: int = 0
 var _rest_limit_seconds: int = 0
 var _training_auto_rest: bool = false
 var _exp_gates: Dictionary[StringName, int] = {}
+var _milestone_stage_headroom: int = -1
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -366,6 +372,10 @@ var training_auto_rest: bool:
 var exp_gates: Dictionary[StringName, int]:
 	get:
 		return _exp_gates.duplicate()
+## How many stages above its content's own a one-time 历练 is priced at most (-1: no cap).
+var milestone_stage_headroom: int:
+	get:
+		return _milestone_stage_headroom
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 ## How people move about inside their room (the record's `npc_idle`; NpcIdleTuning, DECISIONS
@@ -415,6 +425,7 @@ func copy() -> PacingDefinition:
 	record.with_coach(_coach_travel, _coach_fare_base, _coach_fare_per_leg, _coach_minutes_per_leg)
 	record.with_rest(_rest_world_scale, _rest_limit_seconds, _training_auto_rest)
 	record.with_exp_gates(_exp_gates)
+	record.with_milestone_stage_headroom(_milestone_stage_headroom)
 	record.feel = feel
 	record.npc_idle = npc_idle
 	return record
@@ -480,6 +491,12 @@ func exp_gate(gate: StringName, es2_value: int) -> int:
 ## This record with the named experience gates set (tests, and from_record()); {} is ES2's.
 func with_exp_gates(gates: Dictionary[StringName, int]) -> PacingDefinition:
 	_exp_gates = gates.duplicate()
+	return self
+
+
+## This record with the one-time 历练's stage headroom set (tests, and from_record()); -1 is no cap.
+func with_milestone_stage_headroom(stages: int) -> PacingDefinition:
+	_milestone_stage_headroom = stages
 	return self
 
 
@@ -660,6 +677,9 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 				reader.fail("exp_gates." + gate, "must not be negative")
 			gates[StringName(gate)] = named[gate]
 	definition.with_exp_gates(gates)
+	definition.with_milestone_stage_headroom(reader.integer("milestone_stage_headroom", -1))
+	if definition._milestone_stage_headroom < -1:
+		reader.fail("milestone_stage_headroom", "must be -1 (no cap) or more")
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)

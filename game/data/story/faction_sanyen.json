@@ -41,6 +41,7 @@
 				"text": "你离了山烟寺。流云轩的事，到此为止。",
 				"mark": "山烟寺的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "rx",
@@ -179,7 +180,15 @@
 								"deed": "照山烟寺的寺规，没让外人进流云轩"
 							}
 						}
-					]
+					],
+					"target_after": {
+						"mark": "头陀跟你去了流云轩",
+						"map": "sanyen.heal_room_house",
+						"zone": "sanyen.heal_room",
+						"npcs": [
+							"native.npc.sick_woodcutter"
+						]
+					}
 				},
 				{
 					"id": "west",
