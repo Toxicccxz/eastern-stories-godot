@@ -222,7 +222,10 @@ func _test_letter_pointers(catalog: ContentCatalog) -> void:
 		var never: Dictionary[String, int] = {}
 		_check(_said(NpcInquiryRule.decide(rules, never, null, &"", &"", 0, {}, none), "什么信"), "严廷殷, no letter ever written: 什么信？")
 		var delivered: Dictionary[String, int] = {"程不平写了信": 1, "信递到了": 1}
-		_check(not _said(NpcInquiryRule.decide(rules, delivered, null, &"", &"", 0, {}, none), "再写一封"), "严廷殷, the letter delivered: no errand back")
+		# The gate's soldiers take the letter too, so it can reach 程朔 before 严廷殷 saw it: he takes the
+		# player's word, or 第六章's first step (and 官府's 路引) could never be done (势力线复查).
+		var told: NpcInquiryRule = NpcInquiryRule.decide(rules, delivered, null, &"", &"", 0, {}, none)
+		_check(not _said(told, "再写一封") and told.mark_asker == "严廷殷看了信" and _said(told, "军师"), "严廷殷, the letter delivered before he saw it: no errand back, he hears it and sends on to the 军师")
 	var quest: StoryQuestDefinition = null
 	for each: StoryQuestDefinition in catalog.story_quests():
 		if each.quest_id == &"main.chapter6":

@@ -43,7 +43,7 @@ func _test_data() -> void:
 	var ids: Array = [] if quest == null else quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
 	_check(ids == [&"hear", &"watch", &"report", &"escort", &"trace", &"leader", &"rescue", &"chair", &"split"], "its steps: %s" % [ids])
 	var split: StoryQuestDefinition.Step = quest.step(&"split")
-	_check(split.is_branch() and split.weight == StoryQuestDefinition.WEIGHT_BIG and split.options.size() == 2, "the chair is the line's one big split, of two")
+	_check(split.is_branch() and split.weight == StoryQuestDefinition.WEIGHT_BIG and split.options.size() == 3 and split.option(&"late") != null and split.option(&"late").reward.rank_title == "执事", "the chair is the line's one big split, of two (and a third the 虹台 closes: no vote left, the rank all the same)")
 	for option: StoryQuestDefinition.Option in split.options:
 		_check(not option.reward.deed.is_empty() and option.reward.rank_title == "执事" and option.reward.rank_family == &"family.celestial", "%s: a deed and 执事" % option.option_id)
 	_check(split.objective.contains("问他「椅子」") and split.objective.contains("颜违会记下你") and split.objective.contains("只同你谈公事"), "what either side costs is said before the choice")
@@ -105,7 +105,7 @@ func _test_back_with_yan(tree: SceneTree, session: WorldSessionController) -> vo
 	await _settle(tree)
 	_check(_count_in(session, HALL, WEI) == 1, "卫沧澜 sits in the 正厅")
 	var told: Array[String] = _ask(hall, _first(session, HALL, PAN), "盟主")
-	_check(_said(told, "是你从尚书府带出来的") and _said(told, "陈天星查清了") and _said(told, "出去走一走") and not _said(told, "线索在京师"), "with 卫沧澜 back, the telling: %s" % [told])
+	_check(_said(told, "没有你上京那一趟") and _said(told, "陈天星查清了") and _said(told, "出去走一走") and not _said(told, "线索在京师"), "with 卫沧澜 back, the telling: %s" % [told])
 	session.record_journal()
 	_check(state.quests.has("faction.celestial/rescue") and StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"chair", "the 盟主's step passes on the spot")
 	var lines: Array[String] = await _scene(tree, session)

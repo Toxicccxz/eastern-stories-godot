@@ -22,7 +22,18 @@
 							"when": {
 								"item": "native:choyin/magistrate_letter"
 							},
+							"if": {
+								"not": {
+									"mark": "信递到了"
+								}
+							},
 							"missing": "信丢了的话，回乔阴县衙问程不平「兵部文书」，他会再写一封"
+						},
+						{
+							"label": "信已经递到槐阳王府了：不带信去问严廷殷「信」，他也认",
+							"if": {
+								"mark": "信递到了"
+							}
 						}
 					],
 					"done": {

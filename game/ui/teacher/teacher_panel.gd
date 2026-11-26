@@ -49,6 +49,12 @@ const BETRAYAL_WARNING: String = "你现在是{title}。改投{master}门下，�
 const FIRST_MASTER_WARNING: String = "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n· 综合评价清零。\n· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n{lines}确定要拜师吗？"
 # TRANSLATORS: in the question before a change of family, one line per 势力 line it cuts short for good (DECISIONS「改投提示」): {title} the line's name on the 任务 page.
 const LINE_ENDS: String = "· 「{title}」这条线就此中止，以后再也接不上。\n"
+# TRANSLATORS: native (势力线复查): before joining another family, a line already walked to its end: {title} its name.
+const LINE_TAKES_BACK: String = "· 「{title}」这条线已经走完：它给你的名分和虹台上那一票，就此收回。\n"
+# TRANSLATORS: native (势力线复查): before joining a family, its own line that will not open because a line already walked excludes it: {title} its name.
+const LINE_BLOCKED: String = "· 「{title}」这条线不会出现：你走过的另一条线同它不能并存。\n"
+# TRANSLATORS: native (势力线复查): before joining a family again, its own line that was cut short once: {title} its name.
+const LINE_GONE: String = "· 「{title}」这条线断过，回到这一派也接不上了。\n"
 # TRANSLATORS: in the question before a change of family, one line per 势力 line it shuts for good before it began (a line the new family begins excludes it; DECISIONS「改投提示」): {title} the line's name.
 const LINE_CLOSES: String = "· 「{title}」这条线从此不会再出现。\n"
 # TRANSLATORS: asked before 拜师 or an oath that makes the player change master inside their family: {current} the master now, {master} the new one, {teach} what {current} teaches them after (one of the CHANGE_TEACHES_* lines, or nothing).
@@ -338,7 +344,7 @@ static func family_change_warning(player: WorldPlayerRuntimeState, master: NpcDe
 	return ""
 
 
-## One LINE_ENDS / LINE_CLOSES line for each 势力 line becoming `master`'s apprentice ends or shuts
+## One LINE_ENDS / LINE_TAKES_BACK / LINE_CLOSES line for each 势力 line becoming `master`'s apprentice ends, takes back or shuts
 ## (StoryQuestLog.family_change()); "" for none, or when `quest_test` is not given.
 static func line_changes(player: WorldPlayerRuntimeState, master: NpcDefinition, quest_test: Callable) -> String:
 	var teaching: NpcTeaching = null if master == null else master.teaching()
@@ -348,6 +354,12 @@ static func line_changes(player: WorldPlayerRuntimeState, master: NpcDefinition,
 	var text: String = ""
 	for quest: StoryQuestDefinition in change.ends:
 		text += _t(LINE_ENDS).format({"title": _t(quest.title)})
+	for quest: StoryQuestDefinition in change.takes_back:
+		text += _t(LINE_TAKES_BACK).format({"title": _t(quest.title)})
+	for quest: StoryQuestDefinition in change.blocked:
+		text += _t(LINE_BLOCKED).format({"title": _t(quest.title)})
+	for quest: StoryQuestDefinition in change.gone:
+		text += _t(LINE_GONE).format({"title": _t(quest.title)})
 	for quest: StoryQuestDefinition in change.closes:
 		text += _t(LINE_CLOSES).format({"title": _t(quest.title)})
 	return text

@@ -93,13 +93,16 @@ var staged: bool:
 ## Native (主线卡死点; DECISIONS「主线卡死点」): an ES2 room's own people whom the story takes off its
 ## stage one day (`until`) or for a while (`present`, 修补 Z: 乔阴's 骆云舟 while he is in the capital):
 ## there from the world's start, as in ES2. While they are on the stage, a room reset makes one who
-## died anew, as ES2's reset() does.
+## died anew, as ES2's reset() does. A native room's own people are residents when their spawn says
+## `resident` true (势力线复查: the 逆灵宫's 道士, there until its 余孽 are settled); a native spawn that does
+## not is one of the story's own, gone for good once dead.
 var resident: bool:
 	get:
 		return (
 			staged and _initial_spawn_policy == InitialSpawnPolicy.INITIAL_ONLY
-			and not _once and not _legacy_source_room_path.begins_with("native")
+			and not _once and (_native_resident or not _legacy_source_room_path.begins_with("native"))
 		)
+var _native_resident: bool = false
 ## A resident the story takes away only for a while (its `present`): off the stage it steps aside and
 ## comes back when `present` holds again, as a day phase's people do (WorldStoryPresence.stage).
 var away_for_a_while: bool:
@@ -118,6 +121,11 @@ func remade_by_reset() -> bool:
 func with_presence(p_present: JournalEntryDefinition, p_until: JournalEntryDefinition) -> NpcSpawnDefinition:
 	_present = p_present
 	_until = p_until
+	return self
+
+
+func with_native_resident(flag: bool) -> NpcSpawnDefinition:
+	_native_resident = flag
 	return self
 
 

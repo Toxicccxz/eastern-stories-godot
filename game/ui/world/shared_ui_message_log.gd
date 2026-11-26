@@ -199,7 +199,7 @@ func described_room_texts() -> PackedStringArray:
 	var zone: ZoneDefinition = GameContent.catalog().zone(_described_zone_id)
 	if zone == null:
 		return PackedStringArray()
-	return PackedStringArray([tr(zone.display_name), room_prose(tr(zone.description)) + sky_line(zone)])
+	return PackedStringArray([tr(zone.display_name), room_prose(tr(_ui.card.room_description(zone))) + sky_line(zone)])
 
 
 func describe_new_zone() -> void:
@@ -215,7 +215,7 @@ func describe_new_zone() -> void:
 			and not previous.distinct and not zone.distinct and GameContent.catalog().zones_adjacent(previous.zone_id, zone.zone_id)):
 		return
 	var title: String = tr(zone.display_name)
-	var description: String = room_prose(tr(zone.description)) + sky_line(zone)
+	var description: String = room_prose(tr(_ui.card.room_description(zone))) + sky_line(zone)
 	# TRANSLATORS: a room's title and its description, as the log shows them on arrival.
 	var line: String = tr("【{title}】{description}").format({"title": title, "description": description})
 	var seconds: float = GameContent.catalog().pacing().feel.room_text_seconds(description)

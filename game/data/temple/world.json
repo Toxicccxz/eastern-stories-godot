@@ -82,7 +82,7 @@
 		{ "id": "temple.grounds.road2.taoist_guard3", "npc": "temple.npc.taoist_guard3", "map": "temple.grounds", "zone": "temple.road2", "points": ["temple.road2.taoist_guard3.1"], "legacy_room": "d/temple/road2.c", "legacy_quantity": 1, "draw": "temple.road2.taoist_guard" }
 	],
 	"landmarks": [
-		{ "id": "temple.book_room2.landmark.scriptures", "zone": "temple.book_room2", "name": "镇教秘籍", "policy": "look", "long": "红布桌上的镇教秘籍一函一函码得整整齐齐。你数过去，是六函；第七函的位置空着，红布上压着一张发黄的字条：\n\n    书我带走。师兄守山，我守人。\n\n", "legacy_source": "d/temple/book_room2.c (桌上整齐地放著茅山的镇教秘籍); native: 势力线第三批 茅山 A (剧情总纲 §4 第 5 条「茅山派」: 花匠是林忌的师弟【明文 gardener.c:38】，在尚书府替人做事; 计划 势力线第三批_计划.md §4 茅山 A, §2, §12 Q1 Q3, owner 2026-11-17「都照推荐」; DECISIONS「势力线第三批」「茅山 A」)", "teaches": ["看过师弟的字条"] },
+		{ "id": "temple.book_room2.landmark.scriptures", "zone": "temple.book_room2", "name": "镇教秘籍", "policy": "look", "long": "红布桌上的镇教秘籍一函一函码得整整齐齐。你数过去，是六函；第七函的位置空着，红布上压着一张发黄的字条：\n\n    书我带走。师兄守山，我守人。\n\n", "legacy_source": "d/temple/book_room2.c (桌上整齐地放著茅山的镇教秘籍); native: 势力线第三批 茅山 A (剧情总纲 §4 第 5 条「茅山派」: 花匠是林忌的师弟【明文 gardener.c:38】，在尚书府替人做事; 计划 势力线第三批_计划.md §4 茅山 A, §2, §12 Q1 Q3, owner 2026-11-17「都照推荐」; DECISIONS「势力线第三批」「茅山 A」)", "teaches": ["看过师弟的字条"], "looks": [{"marks": ["茅山收了符箓"], "long": "红布桌上的镇教秘籍一函一函码得整整齐齐。你数过去，是七函：第七函回来了，函套上多了一道新锁。那张发黄的字条还压在红布底下，只露出一个角。\n"}, {"marks": ["茅山烧了符箓"], "long": "红布桌上的镇教秘籍一函一函码得整整齐齐。你数过去，是六函；第七函的位置空着，那张发黄的字条不见了，红布上留着一小撮纸灰。\n"}] },
 		{ "id": "temple.road2.landmark.slab", "zone": "temple.road2", "name": "石碑", "policy": "look", "long": "石碑上写著 : \n\n    非\n    茅  不\n    山  得\n    弟  进\n    子  入\n\n", "legacy_source": "d/temple/road2.c" }
 	],
 	"exit_rules": [

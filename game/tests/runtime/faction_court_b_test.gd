@@ -168,9 +168,11 @@ func _test_purge(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not vice.definition().talk().confirm_applies("揭发", state.marks) and _said(_ask(camp, vice, "揭发"), "将军定了"), "李信: 整肃 chosen, no 揭发")
 	camp = MapPlaces.enter(session, CAMP8, &"canyon.camp8.adviser.1")
 	var adviser: NpcRuntimeState = await _beside(tree, session, camp, &"canyon.camp8.adviser.1")
-	session.npc_spared(adviser) # TEST-ONLY: beaten before he was asked: as ES2, nothing
-	_check(not state.marks.has("赫造基被拿下了"), "spared out of his mood: nothing")
-	_check(_said(_ask(camp, adviser, "路引"), "束手就擒") and adviser.has_flag(StringName(NpcMood.FLAG_PREFIX + "cornered")), "asked: he is cornered")
+	# 势力线复查: he is cornered the moment the one who came for him walks in, asked or not (beaten before
+	# the question, he was ES2's 300000 and his fall counted for nothing).
+	await _settle(tree)
+	_check(adviser.has_flag(StringName(NpcMood.FLAG_PREFIX + "cornered")) and state.marks.get("赫造基退到了帐柱边", 0) == 1 and _said(session.shared_ui().log_lines(), "束手就擒"), "the 军师 backs to the tent pole on sight")
+	_check(_said(_ask(camp, adviser, "路引"), "束手就擒"), "asked: the same answer")
 	await _settle(tree)
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "he waits for the player to attack (a kill: kept, then spared)")
 	# DECISIONS「势力线的仗」: fought with real numbers — a character who also explored, at 第六章's

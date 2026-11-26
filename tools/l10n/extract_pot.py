@@ -418,6 +418,9 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
         lapses = quest.get("lapses")
         if isinstance(lapses, dict) and isinstance(lapses.get("text"), str):
             catalog.add(lapses["text"], relative, note=f"{quest_id} lapses.text")
+        for other in quest.get("lapses_also", []):
+            if isinstance(other, dict) and isinstance(other.get("text"), str):
+                catalog.add(other["text"], relative, note=f"{quest_id} lapses_also.text")
         reward = quest.get("reward")
         if isinstance(reward, dict) and isinstance(reward.get("deed"), str):
             catalog.add(reward["deed"], relative, note=f"{quest_id} reward.deed")
