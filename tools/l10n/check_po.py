@@ -223,8 +223,9 @@ def _japanese_problems(where: str, msgid: str, msgstr: str) -> list[str]:
 RUSSIAN_CASE = re.compile(r"\{:([^{}]*)\}")
 RUSSIAN_AGREE = re.compile(r"\{([~#]):([^{}]*)\}")
 CASE_AFTER = re.compile(r"(\{[a-z_]+\}|\$(RESPECT|SELF|[NnPplw])|%[sd])[»“\"')]*(\[/[a-z]+\])*$")
-# The first of three or four gender forms is the plural: ушли, рады, должны (a word ending -и/-ы).
-PLURAL_FIRST = re.compile(r"[иы](сь)?[\s,.!?»]*$")
+# The first of three or four gender forms is the plural: ушли, рады, должны (a word ending -и/-ы),
+# or the вы / plural pronoun (вас, вам, ваш…, их, них, ним).
+PLURAL_FIRST = re.compile(r"(?:[иы](?:сь)?|ва(?:с|м|ми|ш\w*)|н?и(?:х|м|ми))[\s,.!?»]*$")
 # A slot filled with a name, which ru.po writes with a capital: inside a sentence it needs a case
 # mark ({:им} for the nominative) so the game shows a common noun in lower case.
 NAME_SLOT = re.compile(r"(\{(?:npc|item|target|who|master|teacher|whom|weapon|corpse|container|outlaw|zombie)\}|\$n(?![a-z]))(?![»\"]*\{:)")
