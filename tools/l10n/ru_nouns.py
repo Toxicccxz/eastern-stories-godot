@@ -275,10 +275,11 @@ def draft(dry: bool) -> int:
     genders = _npc_genders()
     drafter = Drafter()
     added = 0
-    for _ctx, msgid, msgstr in parse(PO):
+    for ctx, msgid, msgstr in parse(PO):
         name = msgstr.strip()
         lowered = name[:1].lower() + name[1:]
-        if msgid not in names or not name or name in table or lowered in table or len(name.split(" ")) > 6:
+        # A word lit in a line (msgctxt "lit") is that line's own form, not a name to decline.
+        if ctx == "lit" or msgid not in names or not name or name in table or lowered in table or len(name.split(" ")) > 6:
             continue
         if not re.fullmatch(r"[А-Яа-яЁё][А-Яа-яЁё \-]*", name):
             continue
