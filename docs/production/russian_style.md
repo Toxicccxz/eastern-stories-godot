@@ -199,8 +199,10 @@ into the glossary and `ru_nouns.json` before merging.
 ## The title
 
 The title screen shows the language's own brushed title and an English line under it (the rule
-for every language with its own title; only English has 东方故事 under it). Russian's title is made
-in its own package (a Cyrillic brush face, samples for the owner, `logo_ru.png`).
+for every language with its own title; only English has 东方故事 under it). Russian's is the
+game's name, Восточные / истории in two lines like the English title, in Mister Brush (a rough
+dry-brush capital hand; the owner picked it from three samples, 2026-11-27), with the 侠 seal:
+`logo_ru.png`.
 
 ## Decided by the owner (2026-11-26)
 
