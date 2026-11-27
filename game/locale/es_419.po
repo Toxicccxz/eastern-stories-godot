@@ -41946,14 +41946,14 @@ msgstr "Un pirata descalzo, quemado por el sol, con un aro de cobre en una oreja
 msgid "禁军逃卒"
 msgstr "Desertor de la guardia"
 
-msgid "一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军营里逃出来，在京师北边的官道上专劫过路的官差，使的是大内的刀法。\n"
-msgstr "Un hombre con media armadura de hierro de la Guardia de palacio; le rasparon a filo la placa con su número, y el sable del cinto es todavía el que le dieron en el cuartel. Huyó del cuartel de la guardia en la Ciudad Imperial y ahora asalta a los funcionarios que pasan por el camino al norte de la Capital, con el sable del propio palacio.\n"
+#~ msgid "一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军营里逃出来，在京师北边的官道上专劫过路的官差，使的是大内的刀法。\n"
+#~ msgstr "Un hombre con media armadura de hierro de la Guardia de palacio; le rasparon a filo la placa con su número, y el sable del cinto es todavía el que le dieron en el cuartel. Huyó del cuartel de la guardia en la Ciudad Imperial y ahora asalta a los funcionarios que pasan por el camino al norte de la Capital, con el sable del propio palacio.\n"
 
 msgid "逆灵宫余孽"
 msgstr "Remanente del Palacio Negro"
 
-msgid "一个黑衣道士，冠上的丝绦断了，脸上横着一道新疤。湖底那一仗以后，逆灵宫的人四散，他是还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n"
-msgstr "Un taoísta de negro, con el cordón de la corona roto y una cicatriz reciente que le cruza la cara. Desde aquella batalla bajo el lago, la gente del Palacio Negro se dispersó; él es uno de los que siguen matando: junto al Lago Caracola de Jade ya faltan dos casas de pescadores.\n"
+#~ msgid "一个黑衣道士，冠上的丝绦断了，脸上横着一道新疤。湖底那一仗以后，逆灵宫的人四散，他是还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n"
+#~ msgstr "Un taoísta de negro, con el cordón de la corona roto y una cicatriz reciente que le cruza la cara. Desde aquella batalla bajo el lago, la gente del Palacio Negro se dispersó; él es uno de los que siguen matando: junto al Lago Caracola de Jade ya faltan dos casas de pescadores.\n"
 
 msgid "等乔阴的案子了结以后"
 msgstr "se cierre el caso de Sombra Alta"
@@ -41966,6 +41966,12 @@ msgstr "se calmen las aguas en la Capital"
 
 msgid "等湖底的事了结以后"
 msgstr "termine lo de debajo del lago"
+
+msgid "一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军里逃了出来，如今在京师北边的官道上专劫过路的官差。\n"
+msgstr "Un hombre con media armadura de hierro de la Guardia de palacio; la placa con su número la rasparon a filo de cuchillo, pero el sable que lleva al cinto sigue siendo el que le dio el cuartel. Desertó de la Guardia de palacio en la Ciudad Imperial y ahora asalta a los funcionarios que pasan por el camino real al norte de la Capital.\n"
+
+msgid "一个黑冠道士，冠上的丝绦断了一根，脸上横着一道新疤。湖底那一仗以后，逆灵宫的黑冠有的回了北麓，有的不知去向；他是不肯回去、还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n"
+msgstr "Un taoísta de los Gorros negros: a su gorro se le rompió uno de los cordones de seda y le cruza la cara una cicatriz reciente. Desde aquella batalla bajo el lago, algunos Gorros negros del Palacio Negro volvieron a las faldas del norte y otros se perdieron sin dejar rastro; él es de los que no quisieron volver y siguen matando: a orillas del Lago Caracola de Jade ya faltan dos familias de pescadores.\n"
 
 msgctxt "lit"
 msgid "子时之前"

@@ -133,16 +133,16 @@ const OUTLAW: String = "outlaw"
 ## at the exp a player first meets it on the board (A2's five where the ceiling's gap-filling now puts
 ## the next one up: twice the last), and on to the ceiling (twice its own). The last four: from the
 ## main story's arrival after the chapter that opens them (StoryArrival.TUNED; the finale's own end
-## for the last).
+## for the last). Every one with the same 长剑 (no story blade), so the rows compare.
 const BOUNTY: Array[Dictionary] = [
 	{"label": "悬赏 剪径贼", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.2"]], "exps": [200, 790], "weapon": &"es2:obj/longsword"},
 	{"label": "悬赏 采花贼", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.3"]], "exps": [800, 1990], "weapon": &"es2:obj/longsword"},
 	{"label": "悬赏 江洋大盗", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.4"]], "exps": [2000, 4990], "weapon": &"es2:obj/longsword"},
 	{"label": "悬赏 杀人魔头", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.5"]], "exps": [5000, 10990], "weapon": &"es2:obj/longsword"},
-	{"label": "悬赏 越狱死囚", "zone": &"choyin.solidpath1", "point": &"choyin.solidpath1.gate_arrival", "enemies": [[OUTLAW, "native.npc.outlaw.6"]], "exps": [11626, 15990], "weapon": &"es2:obj/longsword"},
+	{"label": "悬赏 越狱死囚", "zone": &"choyin.tongbhill", "point": &"choyin.tongbhill.furnace_return", "enemies": [[OUTLAW, "native.npc.outlaw.6"]], "exps": [11626, 15990], "weapon": &"es2:obj/longsword"},
 	{"label": "悬赏 劫船海寇", "zone": &"fanfang.cliff_top", "point": &"fanfang.cliff_top.valley_arrival", "enemies": [[OUTLAW, "native.npc.outlaw.7"]], "exps": [21136, 25990], "weapon": &"es2:obj/longsword"},
-	{"label": "悬赏 禁军逃卒", "zone": &"city.nroad1", "point": &"city.nroad1.coach_arrival", "enemies": [[OUTLAW, "native.npc.outlaw.8"]], "exps": [31486, 43990], "weapon": &"es2:obj/longsword"},
-	{"label": "悬赏 逆灵宫余孽", "zone": &"village.valley1", "point": &"village.valley1.cave_return", "enemies": [[OUTLAW, "native.npc.outlaw.9"]], "exps": [48000, 69990], "weapon": &"native:lancheng/xuanmang"},
+	{"label": "悬赏 禁军逃卒", "zone": &"city.nroad2", "point": &"city.nroad2.village_arrival", "enemies": [[OUTLAW, "native.npc.outlaw.8"]], "exps": [31486, 43990], "weapon": &"es2:obj/longsword"},
+	{"label": "悬赏 逆灵宫余孽", "zone": &"village.valley1", "point": &"village.valley1.cave_return", "enemies": [[OUTLAW, "native.npc.outlaw.9"]], "exps": [48000, 69990], "weapon": &"es2:obj/longsword"},
 ]
 
 
@@ -228,7 +228,8 @@ class Result:
 
 ## Tuning, this run only (run_mainline_fight_sim.gd's `tune=`): NPC definition ID -> {"exp": n,
 ## "skills": {skill: raw level}, "kee": n, "force": n, "applies": {key: n}} put on each foe of that
-## definition as a duel opens.
+## definition as a duel opens. Every fact replaces the foe's own but `applies`, which adds to the
+## definition's `apply` (CombatSliceProjectionBuilder._apply sums both): write the sum into data.
 var tune: Dictionary = {}
 ## Print each duel's end (run_mainline_fight_sim.gd's `verbose`).
 var verbose: bool = false

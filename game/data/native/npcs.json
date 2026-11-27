@@ -268,7 +268,7 @@
 			],
 			"gender": "男性",
 			"age": 29,
-			"long": "一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军营里逃出来，在京师北边的官道上专劫过路的官差，使的是大内的刀法。\n",
+			"long": "一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军里逃了出来，如今在京师北边的官道上专劫过路的官差。\n",
 			"attributes": {
 				"str": 26,
 				"cor": 24,
@@ -281,26 +281,21 @@
 			},
 			"combat_exp": 22000,
 			"resources": {
-				"max_kee": 1500
+				"max_kee": 1800
 			},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"apply": {
-				"attack": 20,
-				"damage": 60
+				"attack": 70,
+				"damage": 160
 			},
 			"skills": {
 				"blade": 56,
-				"palace-blade": 48,
 				"parry": 54,
 				"dodge": 50,
 				"unarmed": 40
-			},
-			"skill_map": {
-				"blade": "palace-blade",
-				"parry": "palace-blade"
 			},
 			"carry": [
 				{
@@ -323,7 +318,7 @@
 			],
 			"gender": "男性",
 			"age": 50,
-			"long": "一个黑衣道士，冠上的丝绦断了，脸上横着一道新疤。湖底那一仗以后，逆灵宫的人四散，他是还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n",
+			"long": "一个黑冠道士，冠上的丝绦断了一根，脸上横着一道新疤。湖底那一仗以后，逆灵宫的黑冠有的回了北麓，有的不知去向；他是不肯回去、还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n",
 			"attributes": {
 				"str": 26,
 				"cor": 24,
@@ -343,16 +338,16 @@
 				"aggressive_on_player_presence"
 			],
 			"apply": {
-				"attack": 20,
-				"damage": 60
+				"attack": 42,
+				"damage": 125
 			},
 			"skills": {
-				"sword": 66,
-				"six-chaos-sword": 60,
-				"parry": 62,
-				"dodge": 62,
-				"force": 56,
-				"unarmed": 45
+				"sword": 58,
+				"six-chaos-sword": 56,
+				"parry": 54,
+				"dodge": 54,
+				"force": 50,
+				"unarmed": 40
 			},
 			"skill_map": {
 				"sword": "six-chaos-sword",
