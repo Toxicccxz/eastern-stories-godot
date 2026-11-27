@@ -94,6 +94,9 @@ var _round_order: Array[StringName] = []
 var _round_cursor: int = 0
 var _round_progress: bool = false
 var _pending_costs: Array = []
+## 师娘彩蛋 A (DECISIONS「听雨」): the hands the player's order between rounds won them
+## (SpecialReport.won_beat), given as the round begins.
+var _pending_earns: int = 0
 var _yield_pending: bool = false
 ## 战斗拍数 C (DECISIONS「战斗拍数 C」): the beats an NPC's chat() special cost it after its
 ## round's beats were spent (character_id -> [[key, cost]]), charged to its next round.
@@ -391,6 +394,8 @@ func beats_now(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding
 	if actor_id == _player_id:
 		for cost: Array in _pending_costs:
 			preview.spend(cost[0], cost[1])
+		for _won: int in _pending_earns:
+			preview.earn(CombatSchoolSkeleton.EARN_OPPONENT_MISSED, _beat_rules.earned_beat_cap)
 		if _yield_pending:
 			preview.yield_rest()
 	return preview
@@ -1130,6 +1135,12 @@ func advance(
 		# 战斗拍数 C: a perform's own busy counts into the beats it cost.
 		if queued.request.category == CombatTacticalRequest.Category.MARTIAL_SPECIAL:
 			_absorb_special_busy(_find_binding(bindings, _player_id), _beat_rules.cost_of_action(key))
+		# 师娘彩蛋 A: the order won them a hand (「听雨」 dodged or parried), after its cost.
+		if tactical_result.special != null and tactical_result.special.won_beat and not _one_beat():
+			if _round_running:
+				_earn(_find_binding(bindings, _player_id), _skeleton_of(_find_binding(bindings, _player_id)), bindings)
+			else:
+				_pending_earns += 1
 	if tactical_result != null and tactical_result.special != null:
 		var special_blows: Array = _report_blows(tactical_result.special)
 		_note_interrupts(special_blows, true)
@@ -1293,9 +1304,12 @@ func _begin_round(bindings: Array[CombatSliceCharacterBinding]) -> void:
 		var mine: CombatRoundBeats = _beats_of(_player_id, bindings)
 		for cost: Array in _pending_costs:
 			mine.spend(cost[0], cost[1])
+		for _won: int in _pending_earns:
+			_earn(_find_binding(bindings, _player_id), _skeleton_of(_find_binding(bindings, _player_id)), bindings)
 		if _yield_pending:
 			mine.yield_rest()
 	_pending_costs.clear()
+	_pending_earns = 0
 	_yield_pending = false
 
 
@@ -1415,6 +1429,9 @@ func _take_beat(
 			var ran: CombatNpcChatResult = event.chat
 			if ran != null and ran.special() != null:
 				_hurts(_report_blows(ran.special()), bindings, random_source, boundary)
+				# 师娘彩蛋 A: the perform won its fighter a hand (「听雨」 dodged or parried).
+				if ran.special().won_beat:
+					_earn(actor, _skeleton_of(actor), bindings)
 		if boundary != null and not _inspect(boundary, bindings, event):
 			return false
 		if beats.has_beats() or beats.settled:
@@ -1701,7 +1718,7 @@ func _note_heavy(attacker_id: StringName, victim_id: StringName, move: CombatAct
 
 ## `actor` wins a beat this round by its school (within earned_beat_cap), and the log says so.
 func _earn(actor: CombatSliceCharacterBinding, skeleton: CombatSchoolSkeleton, bindings: Array[CombatSliceCharacterBinding]) -> void:
-	if actor == null or actor.life_status != CombatSliceLifeStatus.Value.ACTIVE or not actor.relationship.is_fighting() or actor.busy.is_busy():
+	if skeleton == null or actor == null or actor.life_status != CombatSliceLifeStatus.Value.ACTIVE or not actor.relationship.is_fighting() or actor.busy.is_busy():
 		return
 	var beats: CombatRoundBeats = _beats_of(actor.character_id, bindings)
 	if not beats.earn(skeleton.earn, _beat_rules.earned_beat_cap):

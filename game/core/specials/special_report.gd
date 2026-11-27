@@ -9,6 +9,10 @@ var me_id: StringName
 var _lines: Array[VisionLine] = []
 var _attacks: Array[SpecialAttack] = []
 var _damaged: Array[StringName] = []
+## The file won its performer a hand this round (SpecialContext.wins_beat).
+var _won_beat: bool = false
+var won_beat: bool:
+	get: return _won_beat
 
 
 func _init(
@@ -19,6 +23,11 @@ func _init(
 	_lines = p_lines.duplicate()
 	_attacks = p_attacks.duplicate()
 	_damaged = p_damaged.duplicate()
+
+
+func with_won_beat(won: bool) -> SpecialReport:
+	_won_beat = won
+	return self
 
 
 func lines() -> Array[VisionLine]:

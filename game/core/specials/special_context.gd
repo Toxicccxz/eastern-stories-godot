@@ -39,6 +39,9 @@ var revived: bool = false
 var fainted: bool = false
 ## The file moved `me` to `target`'s room (drift_sense.c me->move(environment(ob))).
 var drifted: bool = false
+## The file won `me` a hand this round, their school's way (师娘彩蛋 A: 「听雨」 was dodged or
+## parried): the fight gives it within the round's earned_beat_cap.
+var wins_beat: bool = false
 ## Keeps the object `random` calls alive (a Callable does not).
 var _random_source: Object
 
@@ -135,7 +138,7 @@ func report() -> SpecialReport:
 	var shown: Array[VisionLine] = lines
 	if lines.is_empty() and attacks.is_empty() and fail_line != null:
 		shown = [fail_line]
-	return SpecialReport.new(me.character_id, shown, attacks, damaged)
+	return SpecialReport.new(me.character_id, shown, attacks, damaged).with_won_beat(wins_beat)
 
 
 ## notify_fail(template): what only the performer reads; the file returns 0.
