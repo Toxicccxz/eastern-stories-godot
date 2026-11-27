@@ -1564,7 +1564,7 @@ func combat_outlook(npc: NpcRuntimeState, spar: bool = false) -> CombatOutlook:
 	if GameContent.catalog().pacing().combat_forecast:
 		var forecast: CombatForecast = CombatForecastBuilder.for_attack(self, npc)
 		if forecast != null:
-			return CombatOutlook.new(forecast.line(spar), forecast.enemies, forecast)
+			return CombatOutlook.new(forecast.line(spar), forecast.enemies, forecast, forecast.line_parts(spar))
 	return CombatOutlook.new(RelativeStrength.line(_player.state.progression.combat_experience, npc.character_state.progression.combat_experience))
 
 
