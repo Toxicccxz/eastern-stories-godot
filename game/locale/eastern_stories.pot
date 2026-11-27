@@ -10683,6 +10683,11 @@ msgstr ""
 msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或自学，用掉一些潜能吧。"
 msgstr ""
 
+#. native (成长曲线 C): the player grew a year older with experience; {age} the age now (ChineseNumber: 十六, or digits), {kee} and {gin} how much max 气 and 精 grew.
+#: runtime/world/world_session_controller.gd
+msgid "【长大】你{age}岁了：气的上限多了 {kee} 点，精的上限多了 {gin} 点。"
+msgstr ""
+
 #. a follower ({name}) left behind finds the player again (DECISIONS「走散的同伴回来」).
 #: runtime/world/world_session_controller.gd
 msgid "{name}找了过来，又跟在你身边。"
