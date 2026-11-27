@@ -50700,10 +50700,16 @@ msgid ""
 "你握住剑柄。冰柱里的光只剩一线。你往上一拔——冰「喀」地一声裂开，剑出来了。\n"
 msgstr ""
 
-#. village.seal_altar.pull act.acts.steps.line
+#. village.seal_altar.pull act.acts.steps.lines.line
 #: data/village/world.json
 msgid ""
 "穿灵握在你手里，剑身上的霜一点一点化了。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.bare_lines.line
+#: data/village/world.json
+msgid ""
+"你把穿灵收在身边，剑身上的霜一点一点化了。你练的是拳，空着手迎上去。\n"
 msgstr ""
 
 #. village.seal_altar.pull act.acts.steps.line

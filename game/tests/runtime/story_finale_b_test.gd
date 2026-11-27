@@ -9,7 +9,8 @@ extends RefCounted
 ##   the keepers' 穿灵, 璃虹's feather, the services of the 封坛.
 ## - 灭 (seal kept, 旋芒 in hand, 安妮儿 with the robe, every 帮手, 能灭它): the 冰龙厅 — 商玦's two lines,
 ##   the dragons on his four, 冯策 beside; 商玦 down; the pool asked first; the 封坛 with 安妮儿; 穿灵 drawn
-##   now (asked first) into the player's hand, the robe's form; down; 钉下去 asked first — 旋芒, the robe, the nail, 璃虹 out of the
+##   now (asked first), kept by as the player's hands are empty (柳家拳; into the hand that holds a
+##   sword: the armed run), the robe's form; down; 钉下去 asked first — 旋芒, the robe, the nail, 璃虹 out of the
 ##   ice: 侮天鬼灭了; up at dawn to the lakeside, home next.
 ## - 再封 (the sword drawn in 第八章, 冰龙 beaten, 瑷伦 called, 萧辟尘 with 旋芒, 南危水): his four come at
 ##   the player; the grown form with the robe (瑷伦's); 钉下去 says only a seal; 瑷伦 on 留下, 穿灵 given her:
@@ -34,12 +35,13 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	for kind: String in ["slay", "seal", "self"]:
+	for kind: String in ["slay", "seal", "self", "armed"]:
 		var session: WorldSessionController = await _session(tree)
 		match kind:
 			"slay": await _test_slay(tree, session)
 			"seal": await _test_seal(tree, session)
 			"self": await _test_self(tree, session)
+			"armed": await _test_pull_armed(tree, session)
 		session.free()
 		await tree.process_frame
 	return {"assertions": _count, "failures": _failures.duplicate()}
@@ -95,9 +97,10 @@ func _test_slay(tree: SceneTree, session: WorldSessionController) -> void:
 	ui.confirm_prompt.confirm_button.pressed.emit()
 	await _settle(tree)
 	_check(session.player_held_item_ids().has(SWORD) and state.marks.get("侮天鬼成形", 0) == 1 and _said(_recent(ui), "宝衣的下摆一展"), "the sword in hand; it takes shape, the robe holds its flame")
-	# DECISIONS「穿灵在手」: the bag cannot be opened in the fight that follows: 穿灵 is wielded, not packed.
-	var wielded: EquippedWeaponRef = state.equipment.primary_weapon()
-	_check(wielded != null and wielded.weapon_id == SWORD and _said(_recent(ui), "穿灵握在你手里"), "穿灵 drawn into the player's hand before 侮天鬼 comes")
+	# DECISIONS「穿灵在手」「成长曲线 C」: 穿灵 takes the place of a weapon in hand (_test_pull_armed);
+	# this character fights with 柳家拳, its hands empty, and they stay empty for the fight that follows
+	# (the bag cannot be opened in it): 穿灵 is kept by.
+	_check(state.equipment.primary_weapon() == null and state.equipment.secondary_weapon() == null and _said(_recent(ui), "空着手迎上去") and not _said(_recent(ui), "穿灵握在你手里"), "empty-handed, 穿灵 kept by and the hands left free before 侮天鬼 comes")
 	_check(_first(session, ALTAR, &"native.npc.wutian_gui") != null and _first(session, ALTAR, &"native.npc.wutian_gui_blazing") == null, "the form the robe faces")
 	var demon: NpcRuntimeState = _first(session, ALTAR, &"native.npc.wutian_gui")
 	var held: EquippedWeaponRef = null if demon == null else demon.character_state.equipment.primary_weapon()
@@ -125,6 +128,25 @@ func _test_slay(tree: SceneTree, session: WorldSessionController) -> void:
 	# the suite's choices at the 封坛; the 三器 the suite gives as ChapterStart.carried does
 	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.finale_ended.bind("slay", "self", "expose", false), TABLE + ["能灭它", "宝衣烧了"], [ChapterStart.IMPALER, ChapterStart.XUANMANG, ChapterStart.FEATHER])
 	_check(handoff.is_empty(), "终章 B played (灭) leaves what finale_ended(slay) writes: %s" % [handoff])
+
+
+## DECISIONS「穿灵在手」: one who comes to the 封坛 with a sword in hand (旋芒 here) and draws 穿灵 on the
+## 查清 ledger holds 穿灵 for the fight; the sword in hand goes back into the bag.
+func _test_pull_armed(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var ui: SharedGameplayUI = session.shared_ui()
+	_ledger(session, "self", "expose", false, ["宝衣给了安妮儿", "能灭它"])
+	state.marks["回到了湖底"] = 1 # TEST-ONLY: down the pool after 商玦 (_test_slay plays it)
+	var altar: WorldMapController = MapPlaces.enter(session, ALTAR, &"village.seal_altar.pool_arrival") # TEST-ONLY
+	await _settle(tree)
+	var xuanmang: StringName = _carried(altar, XUANMANG)
+	_check(not xuanmang.is_empty() and session.wield_player_item(xuanmang).succeeded and state.equipment.primary_weapon() != null and state.equipment.primary_weapon().weapon_id == XUANMANG, "armed: 旋芒 in hand at the 封坛")
+	await _act(tree, altar, &"village.seal_altar.pull")
+	_check(ui.is_asking(), "armed: 穿灵 drawn now, asked first")
+	ui.confirm_prompt.confirm_button.pressed.emit()
+	await _settle(tree)
+	var wielded: EquippedWeaponRef = state.equipment.primary_weapon()
+	_check(wielded != null and wielded.weapon_id == SWORD and _said(_recent(ui), "穿灵握在你手里") and not _said(_recent(ui), "空着手迎上去") and not _carried(altar, XUANMANG).is_empty(), "armed: 穿灵 in hand before 侮天鬼 comes, 旋芒 back in the bag")
 
 
 func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
