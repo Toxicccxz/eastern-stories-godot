@@ -3,14 +3,15 @@
   "courtyard": true,
   "cutaway_rooms": true,
   "camera_size": 21,
-  "note": "镇外小院 (native:snow/rain_yard, rain_house; 师娘彩蛋 A): a small yard inside a low earth wall with grass on its top, the woodpile against the east wall, the middle trodden bare in a ring; three tiled rooms north of it — an old desk by the window, an empty scabbard on a peg, a blue curtain to the inner room, a kettle on the stove. Poor, plain, swept, used every day.",
+  "note": "镇外小院 (native:snow/rain_yard, rain_house; 师娘彩蛋 A): a small yard inside a low earth wall with grass on its top, the woodpile against the east wall, the middle trodden bare in a ring; three tiled rooms north of it — an old desk by the window, an empty scabbard on a peg, a blue curtain to the inner room, a kettle on the stove, a string of dried chillies under the eaves. Poor, plain, swept, used every day.",
   "palette": {
     "wood": ["7a6248", "8a7054", "6a543c"],
     "wall": "c2b596"
   },
-  "wall_height": 2.8,
+  "wall_height": 2.5,
   "wall_looks": [
-    {"rect": [-1000, -1000, 1000, 1000], "style": "plaster", "wall": "c2b596", "colors": ["c2b596", "b8ab8c", "ae9f80", "cabf9e"], "note": "old plaster gone the colour of the earth wall"}
+    {"rect": [-400, -40, 400, 480], "style": "earth", "wall": "a88e66", "colors": ["a88e66", "9c8460", "b09670", "94794f"], "note": "the yard's rammed-earth wall"},
+    {"rect": [-320, -480, 300, -40], "style": "plaster", "wall": "c2b596", "colors": ["c2b596", "b8ab8c", "ae9f80", "cabf9e"], "note": "the house's old plaster"}
   ],
   "door_looks": {},
   "ground": {
@@ -36,6 +37,7 @@
     {"kind": "curtain", "at": [-284, -200], "size": [64, 16], "rotation": 90, "note": "the blue curtain to the inner room"},
     {"kind": "candlestick", "at": [-200, -360], "size": [12, 12], "elevation": 1.2, "height": 0.4, "note": "the lamp on the desk"},
     {"kind": "glow", "at": [-160, -330], "color": "ffc078", "day": 0.1, "night": 0.75, "range": 5.0, "height": 1.0},
+    {"kind": "string_hang", "goods": "chili", "at": [120, -36], "size": [48, 16], "wall_mounted": true, "note": "a string of dried chillies under the eaves"},
     {"kind": "hanging_lantern", "at": [-16, -8], "note": "a paper lantern under the eaves, over the door to the yard"}
   ],
   "actors": {

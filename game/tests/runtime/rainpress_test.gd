@@ -1,6 +1,6 @@
 extends RefCounted
 
-## 师娘彩蛋 A (DECISIONS「听雨」): 封山剑法's 「听雨」 (perform rainpress) — only for one taught,
+## 师娘彩蛋 A (DECISIONS「师娘彩蛋 A」): 封山剑法's 「听雨」 (perform rainpress) — only for one taught,
 ## one move and some force for one thrust the enemy has to answer; dodged or parried, it leaves
 ## them open (露空, by the skill's open_percent) and wins its performer a hand this round as a 隙
 ## does (within the round's one), landed it is only the blow. Data first, then real fights through the scheduler.

@@ -1,7 +1,7 @@
 class_name RainpressPerform
 extends PerformFunction
 
-## 封山剑法's 「听雨」 (perform rainpress): the game's own (师娘彩蛋 A; DECISIONS「听雨」). ES2 names
+## 封山剑法's 「听雨」 (perform rainpress): the game's own (师娘彩蛋 A; DECISIONS「师娘彩蛋 A」). ES2 names
 ## 柳淳风「风雨双侠」 (daemon/class/swordsman/master.c) and writes nothing of the other one; the
 ## game's 沈疏雨 is she, and this is her half of the sword: 封山 waits for the enemy to miss
 ## (隙), 「听雨」 makes the opening — a thrust the enemy has to answer.

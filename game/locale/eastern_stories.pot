@@ -427,6 +427,7 @@ msgstr ""
 #. native.npc.liaochen_kneel gender
 #. native.npc.liaochen_sanyen gender
 #. native.npc.assembly_liaochen gender
+#. native.npc.he_shouzhuo gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -535,6 +536,7 @@ msgstr ""
 #. native.npc.assembly_daughter gender
 #. native.npc.sword_soul_spar gender
 #. native.npc.green_mother gender
+#. native.npc.shen_shuyu gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
@@ -1909,6 +1911,8 @@ msgstr ""
 #. native.npc.liu_huixin_north family.name
 #. native.npc.liu_huixin_lake title
 #. native.npc.assembly_liu_huixin title
+#. native.npc.shen_shuyu family.name
+#. native.npc.he_shouzhuo family.name
 #: scenes/world/cloud/cloud_outdoor.tscn data/common/families.json data/snow/npcs.json data/native/npcs.json
 msgid "封山剑派北宗"
 msgstr ""
@@ -3904,6 +3908,10 @@ msgstr ""
 msgid "官府悬赏 · 靠近看榜"
 msgstr ""
 
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "柴门 · 叩门"
+msgstr ""
+
 #. es2:d/snow/workplace short
 #: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_workplace_house.tscn data/snow/rooms.json data/snow/voxel/outdoor.json
 msgid "谷物加工厂"
@@ -3982,6 +3990,16 @@ msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
 msgid "[启事] 由此过路收取黄金一两"
+msgstr ""
+
+#. native:snow/rain_yard short
+#: scenes/world/snow/snow_rain_compound.tscn data/native/rooms.json
+msgid "镇外小院"
+msgstr ""
+
+#. native:snow/rain_house short
+#: scenes/world/snow/snow_rain_compound.tscn data/native/rooms.json
+msgid "瓦屋"
 msgstr ""
 
 #. es2:d/snow/school2 short
@@ -6634,6 +6652,8 @@ msgstr ""
 #. latemoon.npc.upstar.huei family.title
 #. city.npc.chen family.title
 #. native.npc.liu_huixin_north family.title
+#. native.npc.shen_shuyu family.title
+#. native.npc.he_shouzhuo family.title
 #: core/relationships/npc_apprenticeship.gd data/common/npcs.json data/story/faction_fonxan.json data/snow/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "弟子"
 msgstr ""
@@ -7027,7 +7047,7 @@ msgstr ""
 msgid "你请先用 enable 指令选择你要使用的外功。"
 msgstr ""
 
-#: core/specials/perform_service.gd core/specials/powerfocus_perform.gd
+#: core/specials/perform_service.gd core/specials/powerfocus_perform.gd core/specials/rainpress_perform.gd
 msgid "你所使用的外功中没有这种功能。"
 msgstr ""
 
@@ -7050,6 +7070,31 @@ msgstr ""
 #. hover of 使出「点」字诀: {force} the internal power one thrust takes.
 #: core/specials/powerfocus_perform.gd
 msgid "用 {force} 点内力把劲力聚在剑尖，这一剑伤得更重；内力不够，剑会险些脱手，白白耽误几手"
+msgstr ""
+
+#: core/specials/rainpress_perform.gd
+msgid "「听雨」"
+msgstr ""
+
+#: core/specials/rainpress_perform.gd
+msgid "「听雨」只能对战斗中的对手使用。"
+msgstr ""
+
+#: core/specials/rainpress_perform.gd
+msgid "你的内力不够，使不出「听雨」。"
+msgstr ""
+
+#: core/specials/rainpress_perform.gd
+msgid "$N剑势一变，使出「听雨」，剑尖密如雨点罩向$n，逼得$p非接不可！"
+msgstr ""
+
+#: core/specials/rainpress_perform.gd
+msgid "$n这一下接得仓促，身前露出了空子。"
+msgstr ""
+
+#. hover of 使出「听雨」: {force} the internal power one thrust takes.
+#: core/specials/rainpress_perform.gd
+msgid "用 {force} 点内力出一剑逼对方接招：对方闪开或架住，就露出空子（下一招更难躲开、架住），你这回合多一手；打中了就只是这一剑"
 msgstr ""
 
 #: core/specials/saveme_spell.gd
@@ -16403,8 +16448,9 @@ msgstr ""
 #. assembly cards.title
 #. fonxan place
 #. faction.fonxan region
+#. region.rain_yard region
 #. snow name
-#: data/common/atlas.json data/common/journal.json data/story/prologue.json data/story/epilogue.json data/story/factions.json data/story/faction_fonxan.json data/snow/world.json
+#: data/common/atlas.json data/common/journal.json data/story/prologue.json data/story/epilogue.json data/story/factions.json data/story/faction_fonxan.json data/story/region_rain_yard.json data/snow/world.json
 msgid "雪亭镇"
 msgstr ""
 
@@ -17074,6 +17120,7 @@ msgstr ""
 #. native.npc.liu_huixin_north inquiry topic
 #. native.npc.liu_chunfeng_lake name
 #. native.npc.assembly_liu_chunfeng name
+#. native.npc.shen_shuyu inquiry topic
 #: data/common/npcs.json data/snow/npcs.json data/native/npcs.json
 msgid "柳淳风"
 msgstr ""
@@ -17081,6 +17128,8 @@ msgstr ""
 #. common.npc.swordsman.master nickname
 #. native.npc.liu_chunfeng_lake nickname
 #. native.npc.assembly_liu_chunfeng nickname
+#. native.npc.shen_shuyu nickname
+#. native.npc.shen_shuyu inquiry topic
 #: data/common/npcs.json data/native/npcs.json
 msgid "风雨双侠"
 msgstr ""
@@ -23154,6 +23203,7 @@ msgstr ""
 #. native.npc.liu_huixin_north name
 #. native.npc.liu_huixin_lake name
 #. native.npc.assembly_liu_huixin name
+#. native.npc.shen_shuyu inquiry topic
 #: data/common/quests.json data/snow/npcs.json data/native/npcs.json
 msgid "柳绘心"
 msgstr ""
@@ -28323,6 +28373,61 @@ msgstr ""
 msgid "和柳绘心立了封山剑派北宗"
 msgstr ""
 
+#. region.rain_yard title
+#: data/story/region_rain_yard.json
+msgid "镇外的小院"
+msgstr ""
+
+#. region.rain_yard summary
+#: data/story/region_rain_yard.json
+msgid "雪亭镇东边的黄土小径旁有一座小院，住着一位「北宗的师娘」。"
+msgstr ""
+
+#. region.rain_yard/meet objective
+#: data/story/region_rain_yard.json
+msgid "进小院看看。"
+msgstr ""
+
+#. region.rain_yard/meet text
+#: data/story/region_rain_yard.json
+msgid "院里练剑的妇人叫沈疏雨。二十年前，江湖上把她和柳淳风合称「风雨双侠」。"
+msgstr ""
+
+#. region.rain_yard/ask objective
+#: data/story/region_rain_yard.json
+msgid "问沈疏雨「雨」。"
+msgstr ""
+
+#. region.rain_yard/ask text
+#: data/story/region_rain_yard.json
+msgid "她没有答，叫你先去和院里的何守拙过几招。"
+msgstr ""
+
+#. region.rain_yard/spar objective
+#: data/story/region_rain_yard.json
+msgid "和何守拙切磋一场，点到为止。他只守不攻——看看封山的剑等得到几个空子。"
+msgstr ""
+
+#. region.rain_yard/spar text
+#: data/story/region_rain_yard.json
+msgid "何守拙守了三十年门。他不出剑，你就没有空子可等。"
+msgstr ""
+
+#. region.rain_yard/learn objective
+#: data/story/region_rain_yard.json
+msgid "回去再问沈疏雨「雨」。"
+msgstr ""
+
+#. region.rain_yard/learn text
+#: data/story/region_rain_yard.json
+msgid "沈疏雨把「听雨」教给了你：一剑逼过去，对方接了，身前就空了。这一招不在封山的谱上。想试，就再找何守拙过几招。"
+msgstr ""
+
+#. region.rain_yard/learn reward.deed
+#: data/story/region_rain_yard.json
+msgid "从镇外的沈疏雨那里学到了封山谱上没有的「听雨」"
+msgstr ""
+
 #. faction.celestial summary
 #: data/story/faction_celestial.json
 msgid "拜了天邪派，水烟阁的门就由你守一回。"
@@ -32196,6 +32301,7 @@ msgstr ""
 
 #. snow.npc.girl inquiry topic
 #. native.npc.liu_huixin_north inquiry topic
+#. native.npc.shen_shuyu inquiry topic
 #: data/snow/npcs.json data/native/npcs.json
 msgid "北宗"
 msgstr ""
@@ -32820,6 +32926,53 @@ msgstr ""
 #. city.bank.counter name
 #: data/snow/world.json data/city/world.json data/snow/voxel/bank_house.json
 msgid "钱庄"
+msgstr ""
+
+#. snow.eroad2.rain_gate name
+#: data/snow/world.json
+msgid "小院的柴门"
+msgstr ""
+
+#. snow.eroad2.rain_gate act.verb
+#. city.xiangguo_gate.knock act.verb
+#. guanbei.palace_front.knock act.verb
+#: data/snow/world.json data/city/world.json data/guanbei/world.json
+msgid "叩门"
+msgstr ""
+
+#. snow.eroad2.rain_gate act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"柴门虚掩着，一推就开。\n"
+msgstr ""
+
+#. snow.eroad2.rain_gate act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"你叩了叩柴门。院里劈柴的声音停了。\n"
+msgstr ""
+
+#. snow.eroad2.rain_gate act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"一个花白头发的老人把门拉开半扇，看了看你腰间的剑，又看了看你握剑的那只手。\n"
+msgstr ""
+
+#. snow.eroad2.rain_gate act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"老人说道：封山的剑。……进来吧，她在院里。\n"
+msgstr ""
+
+#. snow.eroad2.rain_gate act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"你叩了叩柴门。院里有劈柴的声音，没有人应。\n"
+msgstr ""
+
+#. snow.eroad2.rain_gate.shut lines
+#: data/snow/world.json
+msgid "柴门从里面闩着。（门边可以叩门。）"
 msgstr ""
 
 #. snow.school.gate name
@@ -55611,12 +55764,6 @@ msgid ""
 "午门的铁门关着。守门的禁军说道：宫门重地，闲人止步。要进去，要么是皇上宣的，要么是跟着上朝的官。\n"
 msgstr ""
 
-#. city.xiangguo_gate.knock act.verb
-#. guanbei.palace_front.knock act.verb
-#: data/city/world.json data/guanbei/world.json
-msgid "叩门"
-msgstr ""
-
 #. city.xiangguo_gate.knock act.acts.steps.line
 #: data/city/world.json
 msgid ""
@@ -75665,6 +75812,188 @@ msgstr ""
 msgid "了尘摆了摆手：今天是推选的日子，不动手。"
 msgstr ""
 
+#. native.npc.shen_shuyu name
+#. native.npc.he_shouzhuo inquiry topic
+#: data/native/npcs.json
+msgid "沈疏雨"
+msgstr ""
+
+#. native.npc.shen_shuyu long
+#: data/native/npcs.json
+msgid ""
+"沈疏雨四十出头，一身洗旧了的青布衣裙，头发用一根木簪绾着。她站着的时候两肩是松的，像是随时可以往任何一边让开半步。镇上的人只知道镇外住着一位「北宗的师娘」，没有几个人见过她出剑。\n"
+msgstr ""
+
+#. native.npc.shen_shuyu fight_deferred
+#: data/native/npcs.json
+msgid "沈疏雨摇了摇头：我的剑不是拿来和你比的。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.风雨双侠
+#: data/native/npcs.json
+msgid "那是二十年前别人叫的。风是他，雨是我。如今镇上只叫他柳馆主，叫我「镇外那一位」。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.北宗
+#: data/native/npcs.json
+msgid "雪亭这一支本来就叫北宗。他接了掌门，把牌子上那两个字去了；我没有去。就这么回事。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.柳淳风
+#: data/native/npcs.json
+msgid "他的剑是等。等得起的人，才配使那一套。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.柳绘心
+#: data/native/npcs.json
+msgid "她常来。来了就练剑，练完就走，话不多——这一点像她爹。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry topic
+#. native.npc.he_shouzhuo name
+#: data/native/npcs.json
+msgid "何守拙"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.何守拙
+#: data/native/npcs.json
+msgid "老何是北宗的看门剑，守了三十年门。他那把剑不伤人，可也没几个人碰得着他。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry topic
+#: data/native/npcs.json
+msgid "雨"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.say
+#: data/native/npcs.json
+msgid "「听雨」是逼，不是抢。他接得住，你就多一剑；他接不住，那一剑也就够了。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.lines.say
+#: data/native/npcs.json
+msgid "等到几个空子？"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.lines.emote
+#: data/native/npcs.json
+msgid "听你说完，笑了一下。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.lines.say
+#: data/native/npcs.json
+msgid "老何守了三十年门，他不出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.lines.say
+#: data/native/npcs.json
+msgid "看好。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.lines.emote
+#: data/native/npcs.json
+msgid "拔剑。剑尖没有刺向哪一处，只是一点一点压过来，密得像檐下的雨，由不得你不抬手去接。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.lines.say
+#: data/native/npcs.json
+msgid "他接了，身前就空了，那一下是你的；他不接，这一剑就落在他身上。两头都是你的——这叫「听雨」。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.lines.say
+#: data/native/npcs.json
+msgid "这一招不在封山的谱上。你学了去，用不用、说不说是谁教的，都随你。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.say
+#: data/native/npcs.json
+msgid "先去和老何过几招。回来再说。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.lines.say
+#: data/native/npcs.json
+msgid "封山的剑等人犯错。那个人要是不犯错呢？"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.lines.say
+#: data/native/npcs.json
+msgid "你先去和老何过几招——就在院里，点到为止。回来告诉我，你等到了几个空子。"
+msgstr ""
+
+#. native.npc.shen_shuyu calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"院子当中，一个青衣妇人正在走一套剑。剑很慢，一步一停，像是在等什么人接她的下一招。\n"
+msgstr ""
+
+#. native.npc.shen_shuyu calls.steps.emote
+#: data/native/npcs.json
+msgid "收了剑，看了你一眼。"
+msgstr ""
+
+#. native.npc.shen_shuyu calls.steps.say
+#: data/native/npcs.json
+msgid "封山的步子。……是他的徒弟，还是绘心的？"
+msgstr ""
+
+#. native.npc.shen_shuyu calls.steps.say
+#: data/native/npcs.json
+msgid "都一样。进了这道门，就不问是哪一宗了。"
+msgstr ""
+
+#. native.npc.he_shouzhuo title
+#: data/native/npcs.json
+msgid "北宗的看门剑"
+msgstr ""
+
+#. native.npc.he_shouzhuo long
+#: data/native/npcs.json
+msgid ""
+"何守拙花白头发，两条胳膊晒得黝黑，袖口挽到肘弯。他在老北宗守了三十年门，后来牌子没了，他跟着师娘搬到了镇外，照旧每天劈柴、扫院子。他手边总靠着一把旧剑，剑刃上全是豁口——都是架别人的剑架出来的。\n"
+msgstr ""
+
+#. native.npc.he_shouzhuo inquiry topic
+#: data/native/npcs.json
+msgid "过招"
+msgstr ""
+
+#. native.npc.he_shouzhuo inquiry.过招.rules.say
+#: data/native/npcs.json
+msgid "学了？来，再过几招。这回我看你怎么敲门。"
+msgstr ""
+
+#. native.npc.he_shouzhuo inquiry.过招.rules.say
+#: data/native/npcs.json
+msgid "来。点到为止——我只守门，不出门。你能碰着我一下，就算你的。"
+msgstr ""
+
+#. native.npc.he_shouzhuo inquiry.沈疏雨
+#: data/native/npcs.json
+msgid "师娘的剑，我守了三十年门也没看全。"
+msgstr ""
+
+#. native.npc.he_shouzhuo inquiry topic
+#: data/native/npcs.json
+msgid "看门剑"
+msgstr ""
+
+#. native.npc.he_shouzhuo inquiry.看门剑
+#: data/native/npcs.json
+msgid "守门的剑只有一个道理：门在，人在。别的我不会。"
+msgstr ""
+
+#. native.npc.he_shouzhuo chat_msg
+#: data/native/npcs.json
+msgid ""
+"何守拙把一截木头立在墩子上，一斧下去，不偏不倚劈成两半。\n"
+msgstr ""
+
+#. native.npc.he_shouzhuo chat_msg
+#: data/native/npcs.json
+msgid ""
+"何守拙拿起靠在墙边的旧剑看了看刃口，又放了回去。\n"
+msgstr ""
+
 #. native:snow/letter_to_chen name
 #: data/native/items.json
 msgid "雪亭驿的书信"
@@ -76308,6 +76637,18 @@ msgstr ""
 #: data/native/rooms.json
 msgid ""
 "书房里到处是书：架子上、桌上、地上，一摞一摞，有的用绳子捆着，有的摊开着，上面压着砚台。窗下一张榻，榻上一床旧被子——这屋子的主人常常在这里过夜。桌上一盏油灯，灯芯剪得很短。\n"
+msgstr ""
+
+#. native:snow/rain_yard long
+#: data/native/rooms.json
+msgid ""
+"柴门里是一个不大的院子，四面围着半人高的土墙，墙头长了草。靠东墙码着一垛劈好的柴，根根一般长短。院子当中的地被人踩得发白，光溜溜的一圈，一根草也没有——有人天天在这里走同一套步子。北面三间瓦屋，檐下挂着一串干辣椒，窗纸是新糊的。往南出了柴门就是黄土小径。\n"
+msgstr ""
+
+#. native:snow/rain_house long
+#: data/native/rooms.json
+msgid ""
+"屋里收拾得很干净。靠窗一张旧书案，案上一只粗瓷茶壶、两只杯子，一只倒扣着。墙上的木钉挂着一个空剑鞘，鞘上的漆磨得露出了木头，剑穗却是新换的。里间门口垂着一幅蓝布帘子。屋角的炉子上坐着一把水壶，壶嘴冒着细细的白气。\n"
 msgstr ""
 
 #: data/canyon/voxel/pass.json data/guanbei/voxel/gorge.json

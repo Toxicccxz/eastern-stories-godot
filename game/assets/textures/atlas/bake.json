@@ -1958,6 +1958,10 @@
      454.0,
      80.9
     ],
+    "door:snow.rain_compound": [
+     322.5,
+     285.6
+    ],
     "door:snow.school_compound": [
      374.8,
      195.7
@@ -2044,7 +2048,7 @@
     ]
    },
    "size": [
-    601,
+    600,
     391
    ]
   },
@@ -2482,7 +2486,7 @@
   }
  },
  "common": "c1ba39048a5df73c8e527e33ff40e8c023a35bc40163ac0a5dcc277e4190b5d1",
- "fingerprint": "4c17b2760b9109e186eb0085a6eb4c314ca22117667812ef15d6b833d1b3ba14",
+ "fingerprint": "a719e8316783895c29b550de641ccc68ca6e6513a67cf87fe028277cb4067b8e",
  "frame": [
   -769.1,
   14.6,
@@ -2509,7 +2513,7 @@
   "niling": "75720853de14bc13bb9e3e2d6e9e29367a96305eed980a6e7f5a8ab6f37682b1",
   "oldpine": "bf7e81bda02f49dcb1d5562b4c2a56327885413245b8b8f3e9ffa516e70395d5",
   "sanyen": "7b20be8a021156c324b872c4e75317101f9b0d04a64b6cfa81f3b865880e1d03",
-  "snow": "636aa175fa47269d2585daa5f7fda17f0723b303e8d92572ebd1c707e8f92868",
+  "snow": "7c1c97c8ec49283e664a15b15c30d034eb4b8ac5703668e5ef389a04065b6fbe",
   "temple": "a8aed7c0037063d23f938049e11335a6078096e79481842e94932003f44ab9fe",
   "village": "f0e37de1f60ed1cb8fa4dd7ca036f90c9c716a82904442800d8a8114e0973600",
   "waterfog": "34d2e8ff31bcaff8a16acffc1229737d08fc2eb672c6295816d364a76835c24c"

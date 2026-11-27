@@ -94,7 +94,7 @@ var _round_order: Array[StringName] = []
 var _round_cursor: int = 0
 var _round_progress: bool = false
 var _pending_costs: Array = []
-## 师娘彩蛋 A (DECISIONS「听雨」): the hands the player's order between rounds won them
+## 师娘彩蛋 A (DECISIONS「师娘彩蛋 A」): the hands the player's order between rounds won them
 ## (SpecialReport.won_beat), given as the round begins.
 var _pending_earns: int = 0
 var _yield_pending: bool = false
