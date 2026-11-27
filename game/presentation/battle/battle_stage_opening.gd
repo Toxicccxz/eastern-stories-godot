@@ -157,6 +157,7 @@ func open(p_view: WorldVoxelView, map: WorldMapController, fighters: Dictionary[
 	view.world.add_child(arena)
 	arena.laid.connect(_on_laid)
 	backdrop = VoxelBackdrop.new()
+	backdrop.water = view.geometry.water if view.geometry != null else null
 	view.world.add_child(backdrop)
 	_mode = mode
 	backdrop.set_look(_look_of(mode).get("backdrop", {}))

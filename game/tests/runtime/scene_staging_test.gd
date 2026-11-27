@@ -666,9 +666,27 @@ func _check_cut_short(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(stage.pose(me).is_empty() and not stage.shows(), "the scene ended: the player's figure up again")
 	await _frames(tree, 3)
 	_check(view.actors[runners[0].character_id].visible, "their figures show")
-	# One who walked and is still there is put back at once when the scene is cut.
+	# 过场演出 C: two of one kind sent off one after the other, each by its own way out. The first
+	# only waits for its way out to be shown; by the rules it has left, so the second `by` finds
+	# the one still here (the 隘口's two 武官 after「追！」), and both are gone in the end.
+	_tell(map, runners[0], [
+		{"say": "走"},
+		{"leave": true, "do": {"act": "exit", "by": String(SOUTH_DOOR)}},
+		{"by": String(RUNNER)},
+		{"leave": true, "do": {"act": "exit", "by": String(SOUTH_DOOR)}},
+	])
+	_check(stage.leaving(runners[0].character_id) and stage.leaving(runners[1].character_id), "each of the two waits for its own way out")
+	_check(runners[0].exists_in_map and runners[1].exists_in_map, "both still stand there while the line is read")
+	_check(map.npcs.first_npc_in_zone(RUNNER, ALTAR, true) == null, "by the rules neither is found any more")
+	_check(map.npcs.first_npc_in_zone(RUNNER, ALTAR, true, &"", true) != null, "the scene's own picture still finds them")
+	box.advance()
+	stage.advance(60.0)
+	_check(not runners[0].exists_in_map and not runners[1].exists_in_map and runners[1].has_flag(NpcDefinition.FLAG_GONE), "both walked out and are gone for good")
+	_check(not stage.leaving(runners[0].character_id) and not stage.between(), "nobody waits to leave, nothing held")
+	_end(map, box)
 	for runner: NpcRuntimeState in runners:
-		map.npcs.vanish(runner)
+		if runner.exists_in_map:
+			map.npcs.vanish(runner)
 	var second: WorldSessionController = session
 	var other: NpcRuntimeState = _npc(map, RUNNER)
 	_check(other == null, "the 鬼卒 sent away (TEST-ONLY) before they fall on the player")
@@ -948,8 +966,9 @@ func _end(map: WorldMapController, box: WorldDialogueBox) -> void:
 	map.npc_life.end_scene()
 
 
+## The first of them standing in the 后殿, one who only waits for its way out to be shown too.
 func _npc(map: WorldMapController, definition_id: StringName) -> NpcRuntimeState:
-	return map.npcs.first_npc_in_zone(definition_id, ALTAR, true)
+	return map.npcs.first_npc_in_zone(definition_id, ALTAR, true, &"", true)
 
 
 func _npcs(map: WorldMapController, definition_id: StringName) -> Array[NpcRuntimeState]:

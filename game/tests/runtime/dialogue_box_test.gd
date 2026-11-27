@@ -220,6 +220,7 @@ func _check_scene(tree: SceneTree) -> void:
 	_check(box.line() == first and is_equal_approx(session.day_clock().day_minutes(), minutes), "it waits for the player")
 	_check(box.auto_left() < 0.0, "the suites' feel: no line goes on by itself")
 	var read: int = 1
+	var counted: String = first
 	var spoken: Array[String] = []
 	var lit: Dictionary[String, Array] = {}
 	var tail_bars: float = -1.0
@@ -228,6 +229,11 @@ func _check_scene(tree: SceneTree) -> void:
 			break
 		if box.is_open():
 			var at: String = box.line()
+			# A line that came after the box had shut (someone walked out in between) is read too.
+			if at != counted:
+				counted = at
+				read += 1
+				spoken.append(box.speaker())
 			if not box.lit_words().is_empty():
 				lit[at] = box.lit_words()
 			# The scene holds until its last line is read (过场演出 B: its steps are done before
@@ -237,8 +243,14 @@ func _check_scene(tree: SceneTree) -> void:
 			_press(hud)
 			await _frames(tree, 3)
 			if box.is_open() and box.line() != at:
+				counted = box.line()
 				read += 1
 				spoken.append(box.speaker())
+		elif hud.staging() != null and hud.staging().between():
+			# 过场演出 C: with no page open someone is walking out (the 黑衣道士, the two 武官): one
+			# press takes them to the end of their way, and the scene's next call comes.
+			_press(hud)
+			await _frames(tree, 2)
 		else:
 			await tree.process_frame
 	_check(read >= 10, "one press a line, every line read: %d" % read)

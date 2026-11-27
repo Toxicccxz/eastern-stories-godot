@@ -11,6 +11,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const RealFight := preload("res://tests/support/real_fight.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 const QUEST: StringName = &"faction.dongfang"
 const GOD: StringName = &"cloud.npc.god"
 const ANNIE: StringName = &"latemoon.npc.room.annihi"
@@ -134,11 +136,15 @@ func _test_truth_spared_annie(tree: SceneTree, session: WorldSessionController) 
 	await _settle(tree)
 	var taoist: NpcRuntimeState = _first(session, FIELD, TAOIST)
 	_check(taoist != null, "by day the 黑冠道士 measures the lake")
+	# DECISIONS「势力线的仗」: the two fought with real numbers — a character who also explored, at
+	# 第五章's arrival (the names want 「宝衣一章」), a sword in hand; let go where they fall, dead where the sword kills outright.
+	RealFight.ready_player(session, Arrival.exploring(&"main.chapter5"))
 	_check(_said(_ask(field, taoist, "量水"), "湖底那东西"), "量水: what he measures")
 	await _until_fight(tree, session)
 	_check(session.combat_encounter_coordinator().has_active_encounter(), "and he draws")
-	await _flee(tree, session)
-	taoist.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: beaten
+	var steps: int = RealFight.fight_out(session)
+	await _settle(tree)
+	_check(steps < RealFight.MAX_STEPS and RealFight.player_stands(session), "the 道士 fought to the end, the player standing (%d steps; 气 %d/%d)" % [steps, state.vitality.current, state.vitality.maximum])
 	session.record_journal()
 	_check(state.marks.get("量水的道士倒了", 0) == 1, "beaten: 量水的道士倒了")
 	# The 画吏 at 黄石隘口: fought, spared, his drawing on the ground.
@@ -146,13 +152,15 @@ func _test_truth_spared_annie(tree: SceneTree, session: WorldSessionController) 
 	await _settle(tree)
 	var painter: NpcRuntimeState = _first(session, PASS, PAINTER)
 	_check(painter != null and _said(_ask(gorge, painter, "画图"), "第二只"), "the 画吏 under the rock wall: a second 石匣?")
+	RealFight.Grown.heal(state)
 	await _until_fight(tree, session)
-	await _flee(tree, session)
-	painter.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: beaten
-	session.npc_spared(painter) # TEST-ONLY: as 放过 does
-	gorge.npcs.leave_for_good(painter)
+	steps = RealFight.fight_out(session)
+	await _settle(tree)
+	_check(steps < RealFight.MAX_STEPS and RealFight.player_stands(session), "the 画吏 fought to the end, the player standing (%d steps; 气 %d/%d)" % [steps, state.vitality.current, state.vitality.maximum])
 	session.record_journal()
-	_check(state.marks.get("兵部画吏倒了", 0) == 1 and not gorge.floor_item_of(SKETCH, PASS).is_empty(), "spared: he ran, his drawing on the ground")
+	# Let go he runs and his drawing falls; a sword's wound kills without a fall, and it is on him.
+	var left: Array[StringName] = RealFight.left_behind(session, SKETCH, PASS)
+	_check(state.marks.get("兵部画吏倒了", 0) == 1 and (not left[0].is_empty() or not left[1].is_empty()) and _first(session, PASS, PAINTER) == null, "beaten: he is gone, his drawing on the ground or on his corpse")
 	_check(StoryQuestLog.current_step(state, quest).step_id == &"icer", "the two done: the old man next")
 	# The old man: 搬走, asked first; his chisel; he goes.
 	field = MapPlaces.enter(session, SHORE7, SHORE7_POINT)
@@ -440,21 +448,6 @@ func _ask(map: WorldMapController, npc: NpcRuntimeState, topic: String) -> Array
 	if map == null or npc == null or not map.select_npc(npc.character_id):
 		return []
 	return map.ask_selected(topic)
-
-
-func _flee(tree: SceneTree, session: WorldSessionController) -> void:
-	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var rounds: int = 0
-	while coordinator.has_active_encounter() and rounds < 600:
-		for info: CombatTacticalActionInfo in coordinator.action_infos():
-			if info.action_id == CombatFleeTacticalPolicy.ACTION_ID:
-				coordinator.submit_player_action(CombatTacticalRequest.new(StringName("flee:%d" % rounds), coordinator.active_encounter().encounter_id, player.character_id, info.action_id, info.category))
-		coordinator.advance_scheduler(1.0)
-		rounds += 1
-	session.shared_ui().dismiss_current_panel()
-	for _frame: int in range(3):
-		await tree.physics_frame
 
 
 ## The instance id of the first of `definition_id` the player carries ("" when none).

@@ -92,7 +92,7 @@
       ]
     }
   },
-  "water": {
+  "water": {"life": {"fish": {"max": 0}, "weed": 0, "finds": {"max": 0}, "note": "the seal's pool keeps only its own fish"}, 
     "kinds": {
       "water": {
         "colors": [

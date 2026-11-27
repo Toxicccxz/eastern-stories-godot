@@ -42038,3 +42038,15 @@ msgstr "Inside the brushwood gate is a yard of no great size, ringed by a mud wa
 
 msgid "屋里收拾得很干净。靠窗一张旧书案，案上一只粗瓷茶壶、两只杯子，一只倒扣着。墙上的木钉挂着一个空剑鞘，鞘上的漆磨得露出了木头，剑穗却是新换的。里间门口垂着一幅蓝布帘子。屋角的炉子上坐着一把水壶，壶嘴冒着细细的白气。\n"
 msgstr "The room is kept very clean. By the window is an old writing desk, and on it a coarse china teapot and two cups, one turned upside down. An empty scabbard hangs from a wooden peg on the wall, its lacquer worn through to the wood, though its tassel is new. A blue cloth curtain hangs in the doorway of the inner room. On the stove in the corner sits a kettle, a thin white steam rising from its spout.\n"
+
+msgid "朝厅上的大哥看了一眼。"
+msgstr " glances at his brother across the hall."
+
+msgid "大哥的事还没定。定之前，步玄这一票照骆家的老规矩投他；这厅上的话说完了，你再问我一回。"
+msgstr "My brother's matter isn't settled. Until it is, Mystic Step votes for him, the way the Luo family always has. When what is said in this hall has been said, ask me once more."
+
+msgid "后来方丈收了那部经，头陀在佛前受了戒，进了流云轩——你在场，你知道。三十年前没进门的经，进了门。"
+msgstr "Then the Abbot accepted that sutra, and the ascetic took the precepts before the Buddha and went into Drifting Cloud Lodge. You were there. You know. The sutra that couldn't get through the gate thirty years ago is through it now."
+
+msgid "后来方丈把那片贝叶还给了头陀，头陀回了番坊——你在场，你知道。那股寒，流云轩往后还是赶不出去。"
+msgstr "Then the Abbot handed that palm-leaf page back to the ascetic, and the ascetic went back to the Foreign Quarter. You were there. You know. Drifting Cloud Lodge still won't be able to drive that cold out."
