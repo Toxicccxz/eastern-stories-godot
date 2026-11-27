@@ -41711,3 +41711,27 @@ msgstr "Después el abad aceptó aquel sutra, y el asceta tomó los preceptos an
 
 msgid "后来方丈把那片贝叶还给了头陀，头陀回了番坊——你在场，你知道。那股寒，流云轩往后还是赶不出去。"
 msgstr "Después el abad le devolvió aquella hoja de palma al asceta, y el asceta regresó al Barrio Extranjero. Usted estuvo allí; usted lo sabe. Ese frío, el Cenador de las Nubes Errantes seguirá sin poder sacarlo."
+
+msgctxt "lit"
+msgid "子时之前"
+msgstr "antes de medianoche"
+
+msgctxt "lit"
+msgid "顺着转一圈，逆着转三圈"
+msgstr "una vuelta en sentido horario, tres en antihorario"
+
+msgctxt "lit"
+msgid "冷宫的井"
+msgstr "pozo del Palacio Frío"
+
+msgctxt "lit"
+msgid "正月十七"
+msgstr "17 del primer mes"
+
+msgctxt "lit"
+msgid "今夜"
+msgstr "esta noche"
+
+msgctxt "lit"
+msgid "三器"
+msgstr "las tres reliquias"

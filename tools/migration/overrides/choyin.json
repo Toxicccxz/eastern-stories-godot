@@ -897,7 +897,7 @@
 							"emote": "另取一张纸，写了一封信，封好，压上县印。", "shot": "near"
 						},
 						{
-							"say": "这封信给家叔槐阳王。假印和失踪的人都往关北去了——拿着它去天驼关，军营的门会开。", "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
+							"say": "这封信给家叔槐阳王。假印和失踪的人都往关北去了——拿着它去天驼关，军营的门会开。", "keys": ["槐阳王", "天驼关"], "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
 						},
 						{
 							"give": "native:choyin/magistrate_letter", "do": {"act": "hand", "item": "native:choyin/magistrate_letter", "to": "player"}
@@ -981,7 +981,7 @@
 							"emote": "提笔，停了停，还是写了一封信，封好，压上县印。", "shot": "near"
 						},
 						{
-							"say": "这封信给家叔槐阳王。本县只能照纸写——他信不信，本县不敢说。假印和失踪的人都往关北去了，拿着它去天驼关。", "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
+							"say": "这封信给家叔槐阳王。本县只能照纸写——他信不信，本县不敢说。假印和失踪的人都往关北去了，拿着它去天驼关。", "keys": ["槐阳王", "天驼关"], "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
 						},
 						{
 							"give": "native:choyin/magistrate_letter", "do": {"act": "hand", "item": "native:choyin/magistrate_letter", "to": "player"}

@@ -41833,3 +41833,27 @@ msgstr "그 뒤 방장께서 그 경을 받아들이셨고, 두타는 불상 앞
 
 msgid "后来方丈把那片贝叶还给了头陀，头陀回了番坊——你在场，你知道。那股寒，流云轩往后还是赶不出去。"
 msgstr "그 뒤 방장께서 그 패엽을 두타에게 돌려주셨고, 두타는 번방으로 돌아갔습니다. 시주께서 그 자리에 계셨으니 아실 것입니다. 그 한기는 유운헌에서 앞으로도 몰아내지 못합니다."
+
+msgctxt "lit"
+msgid "子时之前"
+msgstr "자시 전"
+
+msgctxt "lit"
+msgid "顺着转一圈，逆着转三圈"
+msgstr "시계 방향으로 한 바퀴, 반대로 세 바퀴"
+
+msgctxt "lit"
+msgid "冷宫的井"
+msgstr "냉궁의 우물"
+
+msgctxt "lit"
+msgid "正月十七"
+msgstr "정월 열이렛날"
+
+msgctxt "lit"
+msgid "今夜"
+msgstr "오늘 밤"
+
+msgctxt "lit"
+msgid "三器"
+msgstr "삼기"

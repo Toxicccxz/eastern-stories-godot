@@ -41858,3 +41858,31 @@ msgstr "Then the Abbot accepted that sutra, and the ascetic took the precepts be
 
 msgid "后来方丈把那片贝叶还给了头陀，头陀回了番坊——你在场，你知道。那股寒，流云轩往后还是赶不出去。"
 msgstr "Then the Abbot handed that palm-leaf page back to the ascetic, and the ascetic went back to the Foreign Quarter. You were there. You know. Drifting Cloud Lodge still won't be able to drive that cold out."
+
+msgctxt "lit"
+msgid "湖底"
+msgstr "the lake bottom"
+
+msgctxt "lit"
+msgid "子时之前"
+msgstr "before midnight"
+
+msgctxt "lit"
+msgid "顺着转一圈，逆着转三圈"
+msgstr "turn once clockwise, three times counterclockwise"
+
+msgctxt "lit"
+msgid "冷宫的井"
+msgstr "the well in the Cold Palace"
+
+msgctxt "lit"
+msgid "正月十七"
+msgstr "the seventeenth"
+
+msgctxt "lit"
+msgid "今夜"
+msgstr "tonight"
+
+msgctxt "lit"
+msgid "三器"
+msgstr "the three"

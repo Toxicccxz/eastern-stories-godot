@@ -215,7 +215,7 @@
 				{"after": 9, "scene": true, "when": {"all": [{"cond": "latemoon.rule_day"}, {"mark": "令牌给了老妇"}]}, "not_mark": "大厅说起了庄规", "steps": [{"by": "latemoon.npc.room.old"}, {"emote": "把手里那块黑木令牌攥得更紧了。"}]},
 				{"after": 12, "scene": true, "when": {"cond": "latemoon.rule_day"}, "not_mark": "大厅说起了庄规", "steps": [{"by": "common.npc.dancer.master"}, {"say": "人交给我。晚月庄不杀不还手的人——可她不能再待在庄里。怎么处置，是庄里的事。"}]},
 				{"after": 15, "scene": true, "when": {"cond": "latemoon.rule_day"}, "not_mark": "大厅说起了庄规", "steps": [{"by": "latemoon.npc.room.old"}, {"say": "她是我女儿。"}]},
-				{"after": 18, "scene": true, "when": {"cond": "latemoon.rule_day"}, "not_mark": "大厅说起了庄规", "steps": [{"by": "common.npc.dancer.master"}, {"say": "依庄规，问我「庄规」；要带她回来，去内书房问老人家「女儿」。"}]},
+				{"after": 18, "scene": true, "when": {"cond": "latemoon.rule_day"}, "not_mark": "大厅说起了庄规", "steps": [{"by": "common.npc.dancer.master"}, {"say": "依庄规，问我「庄规」；要带她回来，去内书房问老人家「女儿」。", "keys": ["庄规", "女儿"]}]},
 				{"after": 21, "scene": true, "when": {"cond": "latemoon.rule_day"}, "not_mark": "大厅说起了庄规", "steps": [{"by": "latemoon.npc.room.old"}, {"emote": "转身往内书房走，她女儿跟在后面。"}, {"home": "latemoon.npc.room.killer"}, {"home": "latemoon.npc.room.old"}]}
 			],
 			"inquiry": {
