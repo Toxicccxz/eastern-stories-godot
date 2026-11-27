@@ -4,6 +4,10 @@ extends RefCounted
 ## chosen move taken without a draw, the stance's and the tag's percents at combatd.c's
 ## percent sites (nothing changes at 0), the knobs read from the record.
 
+## Schools nobody learns that keep to one tag on purpose: 侮天鬼's 黑焰鞭影 strikes quick only
+## (成长曲线 C, DECISIONS「侮天鬼的黑焰」: a whip's 抽 is 虚, which met a fist's 快 every time).
+const ONE_TAG_BY_DESIGN: Array[StringName] = [&"black-flame-lash"]
+
 var _assertion_count: int = 0
 var _failures: Array[String] = []
 
@@ -44,7 +48,8 @@ func _test_action_records() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var liuh: SkillDefinition = catalog.skill(&"liuh-ken")
 	_assert_true(liuh != null and liuh.action_set().actions().size() == 4 and liuh.action_set().actions().all(func(action: CombatActionDefinition) -> bool: return action.tag != CombatMoveTags.NONE and not action.display_name.is_empty()), "柳家拳's four moves are tagged and named")
-	# 战斗决策层 4: every school's moves are tagged, each school with at least three tags.
+	# 战斗决策层 4: every school's moves are tagged, each school with at least three tags (but for
+	# ONE_TAG_BY_DESIGN).
 	var schools: int = 0
 	var untagged: Array[String] = []
 	var narrow: Array[String] = []
@@ -58,7 +63,7 @@ func _test_action_records() -> void:
 			if action.tag == CombatMoveTags.NONE:
 				untagged.append(String(action.action_id))
 			kinds[action.tag] = true
-		if kinds.size() < 3:
+		if kinds.size() < 3 and not ONE_TAG_BY_DESIGN.has(skill_id):
 			narrow.append(String(skill_id))
 	_assert_true(schools >= 16 and untagged.is_empty(), "every move of the %d schools carries a tag: %s" % [schools, untagged])
 	_assert_true(narrow.is_empty(), "each school uses at least three tags: %s" % [narrow])

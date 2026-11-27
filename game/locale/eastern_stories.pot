@@ -15293,6 +15293,7 @@ msgid "$N手中一紧，使招「狂风骤雪」，手里$w一鞭接著一鞭不
 msgstr ""
 
 #. snowwhip actions.damage_type
+#. black-flame-lash actions.damage_type
 #. actions.damage_type
 #: data/common/skills.json data/common/combat_actions.json
 msgid "鞭伤"
@@ -15756,6 +15757,31 @@ msgstr ""
 #. wu-shun valid_learn.effective_skill
 #: data/common/skills.json
 msgid "你的文学素养不够无法提升小无相功的造诣。"
+msgstr ""
+
+#. black-flame-lash name
+#: data/common/skills.json
+msgid "黑焰鞭影"
+msgstr ""
+
+#. black-flame-lash summary
+#: data/common/skills.json
+msgid "侮天鬼身上那条黑焰的出手：焰舌一吐、焰卷一缠、焰星一溅，都是快的，一下接一下，不蓄势，也不停。"
+msgstr ""
+
+#. black-flame-lash actions.action
+#: data/common/skills.json
+msgid "$N肩上的黑焰一吐，一道「焰舌」直舔$n的$l"
+msgstr ""
+
+#. black-flame-lash actions.action
+#: data/common/skills.json
+msgid "$N手中$w一卷，「焰卷」贴着地面缠向$n的$l"
+msgstr ""
+
+#. black-flame-lash actions.action
+#: data/common/skills.json
+msgid "$N$w一抖，迸出点点「焰星」，溅向$n的$l"
 msgstr ""
 
 #. palace-blade name

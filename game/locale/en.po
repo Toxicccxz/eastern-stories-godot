@@ -41831,3 +41831,18 @@ msgstr "[Growing Up] You are {age} now: your max Qi rose by {kee} and your max E
 
 msgid "你把穿灵收在身边，剑身上的霜一点一点化了。你练的是拳，空着手迎上去。\n"
 msgstr "You keep Spiritpiercer by you, and the frost on the blade melts away bit by bit. You fight with your fists; you meet it empty-handed.\n"
+
+msgid "黑焰鞭影"
+msgstr "Black Flame Lash"
+
+msgid "侮天鬼身上那条黑焰的出手：焰舌一吐、焰卷一缠、焰星一溅，都是快的，一下接一下，不蓄势，也不停。"
+msgstr "How the black flame on the Heaven-Defier strikes: a flame tongue darts, a flame coil winds, flame stars spatter—all of them quick, one after another, never gathering itself, never stopping."
+
+msgid "$N肩上的黑焰一吐，一道「焰舌」直舔$n的$l"
+msgstr "The black flame on $N's shoulders darts out: a \"Flame Tongue\" licks straight at $n's $l"
+
+msgid "$N手中$w一卷，「焰卷」贴着地面缠向$n的$l"
+msgstr "$N {N:curl|curls} $w into a \"Flame Coil\" that winds along the ground toward $n's $l"
+
+msgid "$N$w一抖，迸出点点「焰星」，溅向$n的$l"
+msgstr "$N {N:shake|shakes} $w, and \"Flame Stars\" spatter at $n's $l"

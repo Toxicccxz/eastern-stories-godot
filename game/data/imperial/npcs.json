@@ -2162,13 +2162,14 @@
 				"con": 26,
 				"kar": 16
 			},
-			"combat_exp": 185000,
+			"combat_exp": 220000,
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
+			"apply": { "damage": 15 },
 			"skills": {
-				"sword": 89,
+				"whip": 89,
 				"parry": 84,
 				"dodge": 84,
 				"force": 84,
@@ -2176,8 +2177,8 @@
 			},
 			"carry": [
 				{
-					"item": "es2:obj/longsword",
-					"source": "d/city/npc/guard.c",
+					"item": "es2:d/temple/obj/whip",
+					"source": "native: 成长曲线 C (owner 2026-11-27「改用新办法」; DECISIONS「成长曲线 C」) — a 逆灵宫 道士's 拂尘 (d/temple/obj/whip), for the 长剑 of d/city/npc/guard.c",
 					"equip": "wield"
 				},
 				{
