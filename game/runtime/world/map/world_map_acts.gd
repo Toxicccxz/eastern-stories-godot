@@ -37,6 +37,8 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 		known.room = _map.session.room_states().flags(here if room_zone_id.is_empty() else room_zone_id)
 	known.item_exists = _map.floor_items.item_exists
 	known.standing_in = _standing_in
+	if _map.npc_life.arrival_zone_id == here:
+		known.came_from_zone = _map.npc_life.came_from_zone_id
 	known.kar = _player.state.attributes.karma
 	known.ghost = _player.state.ghost
 	known.per = _player.state.attributes.personality

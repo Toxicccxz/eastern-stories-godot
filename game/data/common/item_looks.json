@@ -344,6 +344,8 @@
 		"native:city/he_letter": { "kind": "paper", "paper": "cdbf98", "ink": "3a3026" },
 		"native:choyin/indentures": { "kind": "paper", "paper": "e2d6b4", "ink": "8a1e1a" },
 		"native:choyin/constable_badge": { "kind": "token", "color": "2a2420:gloss", "border": "6a4a2a", "emblem": "c8b48a", "cord": "a8322a", "tassel": "a8322a" },
-		"native:canyon/road_passes": { "kind": "paper", "paper": "e0d2ae", "ink": "a8281e" }
+		"native:canyon/road_passes": { "kind": "paper", "paper": "e0d2ae", "ink": "a8281e" },
+		"native:snow/silver_hairpin": { "kind": "headwear", "style": "hairpin", "color": "c9ccc8:gloss", "accent": "a8aca8:gloss" },
+		"native:snow/rain_slips": { "kind": "scroll", "open": true, "paper": "c8a868", "rod": "8a6a3a", "ink": "2a2420" }
 	}
 }

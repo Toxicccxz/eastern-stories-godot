@@ -156,6 +156,9 @@ var kar_draw_at_least: int = 0
 var per_below: int = 0
 ## npc_in: the zone the acting NPC stands in.
 var npc_in: StringName = &""
+## not_came_from (native, 师娘彩蛋 B; DECISIONS「师娘彩蛋 B」): zones the player must not have just walked
+## in from (the door they came in by): a greeting for one who comes back, not one stepping out of the next room.
+var not_came_from: Array[StringName] = []
 ## is_ghost(): -1 either, 0 a living player only, 1 a ghost only.
 var ghost_state: int = -1
 var ask: String = ""
@@ -199,6 +202,8 @@ class Facts:
 	var ghost: bool = false
 	## Where the acting NPC stands (`npc_in`); "" without one.
 	var npc_zone: StringName = &""
+	## The zone the player walked in from (`not_came_from`); "" from another map or when nothing is known.
+	var came_from_zone: StringName = &""
 	## The day's phase (`phase`); "" without a clock.
 	var phase_id: StringName = &""
 	## (JournalEntryDefinition) -> whether it holds for the player now (`when`); none: it never does.
@@ -420,6 +425,7 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (exists.is_empty() or (known.item_exists.is_valid() and bool(known.item_exists.call(exists))))
 		and (present_in_npc.is_empty() or (known.standing_in.is_valid() and bool(known.standing_in.call(present_in_npc, present_in_zone))))
 		and (npc_in.is_empty() or known.npc_zone == npc_in)
+		and not not_came_from.has(known.came_from_zone)
 		and (ghost_state < 0 or known.ghost == (ghost_state == 1))
 		# Last: the rolls draw, and only for a branch otherwise for the player.
 		and (kar_above.is_empty() or known.kar_rolls(kar_above))
@@ -561,6 +567,8 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	if reader.has("per_below") and act.per_below <= 0:
 		reader.fail("per_below", "must be positive")
 	act.npc_in = StringName(reader.text("npc_in"))
+	for zone: String in reader.text_list("not_came_from"):
+		act.not_came_from.append(StringName(zone))
 	if reader.has("ghost"):
 		act.ghost_state = 1 if reader.boolean("ghost", false) else 0
 	act.ask = reader.text("ask")

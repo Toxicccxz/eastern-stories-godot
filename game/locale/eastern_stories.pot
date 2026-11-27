@@ -3996,6 +3996,10 @@ msgstr ""
 msgid "[启事] 由此过路收取黄金一两"
 msgstr ""
 
+#: scenes/world/snow/snow_rain_compound.tscn
+msgid "书案 · 坐下"
+msgstr ""
+
 #. native:snow/rain_yard short
 #: scenes/world/snow/snow_rain_compound.tscn data/native/rooms.json
 msgid "镇外小院"
@@ -7044,6 +7048,26 @@ msgstr ""
 msgid "但是什麽也没有发生。"
 msgstr ""
 
+#: core/specials/nightrain_perform.gd
+msgid "「夜雨」"
+msgstr ""
+
+#: core/specials/nightrain_perform.gd
+msgid "「夜雨」只能对战斗中的对手使用。"
+msgstr ""
+
+#: core/specials/nightrain_perform.gd
+msgid "你的内力不够，使不出「夜雨」。"
+msgstr ""
+
+#: core/specials/nightrain_perform.gd
+msgid "$N剑势一沉，使出「夜雨」，剑尖细细密密地压向$n，像檐下落了一夜的雨，逼得$p非接不可！"
+msgstr ""
+
+#: core/specials/nightrain_perform.gd
+msgid "$n接得一乱，身前空了一块。"
+msgstr ""
+
 #: core/specials/perform_service.gd
 msgid "( 你上一个动作还没有完成，不能施用外功。)"
 msgstr ""
@@ -7097,7 +7121,7 @@ msgstr ""
 msgid "$n这一下接得仓促，身前露出了空子。"
 msgstr ""
 
-#. hover of 使出「听雨」: {force} the internal power one thrust takes.
+#. hover of 使出「听雨」 or 「夜雨」 (the same move): {force} the internal power one thrust takes.
 #: core/specials/rainpress_perform.gd
 msgid "用 {force} 点内力出一剑逼对方接招：对方闪开或架住，就露出空子（下一招更难躲开、架住），你这回合多一手；打中了就只是这一剑"
 msgstr ""
@@ -12500,7 +12524,8 @@ msgid "你可以打听这些事情："
 msgstr ""
 
 #. leaves the conversation in the dialogue box.
-#: ui/world/shared_ui_ask_panel.gd
+#. snow.rain_house.desk act.acts.steps.choose.options.choice
+#: ui/world/shared_ui_ask_panel.gd data/snow/world.json
 msgid "告辞"
 msgstr ""
 
@@ -17174,7 +17199,8 @@ msgstr ""
 
 #. common.npc.swordsman.master inquiry topic
 #. snow.npc.girl inquiry topic
-#: data/common/npcs.json data/snow/npcs.json
+#. native.npc.shen_shuyu inquiry topic
+#: data/common/npcs.json data/snow/npcs.json data/native/npcs.json
 msgid "竹书"
 msgstr ""
 
@@ -17857,6 +17883,11 @@ msgstr ""
 #. common.npc.swordsman.master accept_object.say
 #: data/common/npcs.json
 msgid "牌是逄师弟的。你先去绮云镇问他一句，牌是怎么到外人手里的。"
+msgstr ""
+
+#. common.npc.swordsman.master calls.steps.say
+#: data/common/npcs.json
+msgid "最近总往镇外跑。练功是好事，别耽误了正事。"
 msgstr ""
 
 #. common.npc.swordsman.master calls.steps.say
@@ -28454,17 +28485,37 @@ msgstr ""
 msgid "何守拙守了三十年门。他不先出剑，你就没有空子可等。"
 msgstr ""
 
-#. region.rain_yard/learn objective
+#. region.rain_yard/secret objective
 #: data/story/region_rain_yard.json
 msgid "回去再问沈疏雨「雨」。"
 msgstr ""
 
-#. region.rain_yard/learn text
+#. region.rain_yard/secret text
 #: data/story/region_rain_yard.json
-msgid "沈疏雨把「听雨」教给了你：一剑逼过去，对方接了，身前就空了。这一招不在封山的谱上。想试，就再找何守拙过几招。"
+msgid "沈疏雨问起柳淳风那卷竹书，要你别同他说她问过。你答应了：替她瞒了师父一回。"
 msgstr ""
 
-#. region.rain_yard/learn reward.deed
+#. region.rain_yard/night objective
+#: data/story/region_rain_yard.json
+msgid "天黑以后，到瓦屋的书案边坐下。留下，她在灯下把「雨」说完；告辞，她明早再教。学到的是同一招。"
+msgstr ""
+
+#. region.rain_yard/night/stay text
+#: data/story/region_rain_yard.json
+msgid "你留下了。天快亮的时候，她把「雨」教给了你，叫它「夜雨」，又给了你一支旧银簪。"
+msgstr ""
+
+#. region.rain_yard/night/stay reward.deed
+#: data/story/region_rain_yard.json
+msgid "在镇外的小院里学到了「夜雨」"
+msgstr ""
+
+#. region.rain_yard/night/leave text
+#: data/story/region_rain_yard.json
+msgid "你告辞了。第二天一早，她把「雨」教给了你，叫它「听雨」，又给了你一卷竹简。"
+msgstr ""
+
+#. region.rain_yard/night/leave reward.deed
 #: data/story/region_rain_yard.json
 msgid "从镇外的沈疏雨那里学到了封山谱上没有的「听雨」"
 msgstr ""
@@ -31707,6 +31758,11 @@ msgstr ""
 msgid "瞒什么？"
 msgstr ""
 
+#. snow.npc.fist_trainer calls.steps.say
+#: data/snow/npcs.json
+msgid "柳馆主前两天还问起你。说你最近总往镇外跑。"
+msgstr ""
+
 #. snow.npc.fist_trainer calls.steps.emote
 #: data/snow/npcs.json
 msgid "把你拉到练武场边上，压低了声音。"
@@ -33011,6 +33067,218 @@ msgid ""
 "你叩了叩柴门。院里有劈柴的声音，没有人应。\n"
 msgstr ""
 
+#. snow.rain_house.desk name
+#. niling.master.desk name
+#: data/snow/world.json data/niling/world.json
+msgid "书案"
+msgstr ""
+
+#. snow.rain_house.desk act.verb
+#: data/snow/world.json
+msgid "坐下"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"书案擦得很干净，两只杯子都倒扣着。灯芯剪得很短。\n"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"书案上压着一张纸，是她试笔的字，只写了一个：雨。\n"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"书案擦得很干净。\n"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"帘子一掀，沈疏雨进来了。她把灯拨亮了些，在书案对面坐下。\n"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.say
+#: data/snow/world.json
+msgid "「雨」这一招，我只在夜里说。白天说，老何听得见；老何听见了，他也就知道了。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.say
+#: data/snow/world.json
+msgid "你替我瞒了一回。这一回，换我不瞒你。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.emote
+#: data/snow/world.json
+msgid "给你倒了一杯茶，又给自己倒了一杯。灯芯噼啪响了一声。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.say
+#: data/snow/world.json
+msgid "夜深了。你是留下听我说完，还是明早再来？"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.text
+#: data/snow/world.json
+msgid "沈疏雨在等你回答："
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.text
+#. snow.rain_house.desk act.acts.steps.choose.options.choice
+#. native.npc.lihong inquiry topic
+#. native.npc.lihong_ashore inquiry topic
+#. native.npc.elon_altar inquiry topic
+#. native.npc.nan_weishui_altar inquiry topic
+#. native.npc.xiao_pichen_altar inquiry topic
+#. native.npc.yulan_tianwu_altar inquiry topic
+#. native.npc.annie_altar inquiry topic
+#. native.npc.lihong_finale inquiry topic
+#: data/snow/world.json data/native/npcs.json
+msgid "留下"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.confirm
+#: data/snow/world.json
+msgid ""
+"留下来，听她在灯下把「雨」说完。\n"
+"这一夜之后，有些话只有你们两个人知道；柳淳风不会知道。\n"
+"学到的是同一招，叫「夜雨」。\n"
+"要留下吗？"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.emote
+#: data/snow/world.json
+msgid "没有再说话，起身把门闩上了。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.line
+#: data/snow/world.json
+msgid ""
+"灯芯烧到了头，屋里暗了下去。窗外起了雨，一阵密，一阵疏。\n"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.line
+#: data/snow/world.json
+msgid ""
+"天快亮的时候，雨停了。\n"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.emote
+#: data/snow/world.json
+msgid "披着外衣坐在书案边，用手指蘸了茶水，在案上一点一点地画给你看。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.say
+#: data/snow/world.json
+msgid "他接了，身前就空了，那一下是你的；他不接，这一剑就落在他身上。两头都是你的。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.say
+#: data/snow/world.json
+msgid "这一招，夜里学的，就叫「夜雨」吧。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.emote
+#: data/snow/world.json
+msgid "从妆奁里取出一支旧银簪，放在你手心里。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.say
+#: data/snow/world.json
+msgid "我年轻时戴的。收着。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.text
+#: data/snow/world.json
+msgid "告辞，明早再来"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.confirm
+#: data/snow/world.json
+msgid ""
+"告辞，明早再来。\n"
+"她会在白天把「雨」教给你，叫「听雨」。\n"
+"要告辞吗？"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.emote
+#: data/snow/world.json
+msgid "点了点头，像是早知道你会这么说。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.say
+#: data/snow/world.json
+msgid "也好。明早来。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.line
+#: data/snow/world.json
+msgid ""
+"你回镇上歇了一夜。\n"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.line
+#: data/snow/world.json
+msgid ""
+"第二天一早你再来时，她已经在院子里等你了。\n"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.emote
+#: data/snow/world.json
+msgid "拔剑。剑尖没有刺向哪一处，只是一点一点压过来，密得像檐下的雨，由不得你不抬手去接。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.say
+#: data/snow/world.json
+msgid "他接了，身前就空了，那一下是你的；他不接，这一剑就落在他身上。两头都是你的——这叫「听雨」。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.emote
+#: data/snow/world.json
+msgid "从袖子里取出一卷竹简递给你。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.choose.options.steps.say
+#: data/snow/world.json
+msgid "昨夜写的。头一回有人把它写下来。"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.ask
+#: data/snow/world.json
+msgid "要在屋里等到天黑吗？（世界的时间会过去，别的地方照旧过它们的日子。）"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.choice
+#. village.lakeside.wait act.verb
+#. village.lakeside.wait act.acts.choice
+#. guanbei.camp.fire act.verb
+#. guanbei.camp.fire act.acts.choice
+#: data/snow/world.json data/village/world.json data/guanbei/world.json
+msgid "等到天黑"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"你在书案边坐下。院里劈柴的声音一下一下，后来停了。\n"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"天黑了。\n"
+msgstr ""
+
+#. snow.rain_house.desk act.acts.steps.line
+#: data/snow/world.json
+msgid ""
+"书案上的灯没点。\n"
+msgstr ""
+
 #. snow.eroad2.rain_gate.shut lines
 #: data/snow/world.json
 msgid "柴门从里面闩着。（门边可以叩门。）"
@@ -34305,7 +34573,8 @@ msgstr ""
 #. es2:d/choyin/obj/silver_clasp unit
 #. es2:d/city/obj/token unit
 #. native:lancheng/diviner_slip unit
-#: data/latemoon/items.json data/choyin/items.json data/city/items.json data/lancheng/items.json
+#. native:snow/silver_hairpin unit
+#: data/latemoon/items.json data/choyin/items.json data/city/items.json data/lancheng/items.json data/native/items.json
 msgid "支"
 msgstr ""
 
@@ -34535,6 +34804,7 @@ msgstr ""
 #. native:imperial/war_ministry_copy unit
 #. native:imperial/late_emperor_reading unit
 #. native:choyin/decree_copy unit
+#. native:snow/rain_slips unit
 #: data/latemoon/items.json data/niling/items.json data/imperial/items.json data/native/items.json
 msgid "卷"
 msgstr ""
@@ -50340,14 +50610,6 @@ msgstr ""
 msgid "湖畔"
 msgstr ""
 
-#. village.lakeside.wait act.verb
-#. village.lakeside.wait act.acts.choice
-#. guanbei.camp.fire act.verb
-#. guanbei.camp.fire act.acts.choice
-#: data/village/world.json data/guanbei/world.json
-msgid "等到天黑"
-msgstr ""
-
 #. village.lakeside.wait act.acts.ask
 #: data/village/world.json
 msgid ""
@@ -60023,11 +60285,6 @@ msgstr ""
 #: data/niling/world.json
 msgid ""
 "北门关着。这个时辰，门后没有闩。\n"
-msgstr ""
-
-#. niling.master.desk name
-#: data/niling/world.json
-msgid "书案"
 msgstr ""
 
 #. niling.master.desk act.verb
@@ -70422,18 +70679,6 @@ msgstr ""
 msgid "三百年。冰里不冷，也不饿，就是长。头在长，我在等。第一个带着铜来的，是你。"
 msgstr ""
 
-#. native.npc.lihong inquiry topic
-#. native.npc.lihong_ashore inquiry topic
-#. native.npc.elon_altar inquiry topic
-#. native.npc.nan_weishui_altar inquiry topic
-#. native.npc.xiao_pichen_altar inquiry topic
-#. native.npc.yulan_tianwu_altar inquiry topic
-#. native.npc.annie_altar inquiry topic
-#. native.npc.lihong_finale inquiry topic
-#: data/native/npcs.json
-msgid "留下"
-msgstr ""
-
 #. native.npc.lihong inquiry.留下.rules.lines.say
 #: data/native/npcs.json
 msgid "把我的羽还给我——光回来一点，够再守三百年。穿灵交给我，我钉回去。"
@@ -71095,6 +71340,7 @@ msgid "我在这里。你下去的时候，我在你前头。"
 msgstr ""
 
 #. native.npc.elon_lake calls.steps.emote
+#. native.npc.shen_shuyu calls.steps.emote
 #: data/native/npcs.json
 msgid "看见你，点了点头。"
 msgstr ""
@@ -76132,7 +76378,17 @@ msgstr ""
 
 #. native.npc.shen_shuyu inquiry.雨.rules.say
 #: data/native/npcs.json
+msgid "那一夜的雨，你记着就好。出剑的时候，别让人看出是谁教的。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.say
+#: data/native/npcs.json
 msgid "「听雨」是逼，不是抢。他接得住，你就多一剑；他接不住，那一剑也就够了。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.雨.rules.say
+#: data/native/npcs.json
+msgid "天黑以后，屋里说。"
 msgstr ""
 
 #. native.npc.shen_shuyu inquiry.雨.rules.lines.say
@@ -76150,24 +76406,14 @@ msgstr ""
 msgid "老何守了三十年门，他不先出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
 msgstr ""
 
-#. native.npc.shen_shuyu inquiry.雨.rules.lines.say
-#: data/native/npcs.json
-msgid "看好。"
-msgstr ""
-
 #. native.npc.shen_shuyu inquiry.雨.rules.lines.emote
 #: data/native/npcs.json
-msgid "拔剑。剑尖没有刺向哪一处，只是一点一点压过来，密得像檐下的雨，由不得你不抬手去接。"
+msgid "停了一停。"
 msgstr ""
 
 #. native.npc.shen_shuyu inquiry.雨.rules.lines.say
 #: data/native/npcs.json
-msgid "他接了，身前就空了，那一下是你的；他不接，这一剑就落在他身上。两头都是你的——这叫「听雨」。"
-msgstr ""
-
-#. native.npc.shen_shuyu inquiry.雨.rules.lines.say
-#: data/native/npcs.json
-msgid "这一招不在封山的谱上。你学了去，用不用、说不说是谁教的，都随你。"
+msgid "那卷书……你读过吗？"
 msgstr ""
 
 #. native.npc.shen_shuyu inquiry.雨.rules.say
@@ -76183,6 +76429,70 @@ msgstr ""
 #. native.npc.shen_shuyu inquiry.雨.rules.lines.say
 #: data/native/npcs.json
 msgid "你先去和老何过几招——就在院里，点到为止。回来告诉我，你等到了几个空子。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.竹书.confirm
+#: data/native/npcs.json
+msgid ""
+"答应沈疏雨：她问起过那卷书，这件事不告诉柳淳风。\n"
+"答应了，就是替她瞒了师父一回。\n"
+"要答应吗？"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.竹书.rules.say
+#: data/native/npcs.json
+msgid "书的事，你知我知。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.竹书.rules.lines.emote
+#: data/native/npcs.json
+msgid "听你说完书里那几句，半晌没有出声。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.竹书.rules.lines.say
+#: data/native/npcs.json
+msgid "直竹贵地生……他二十岁就写得出这一句，后来倒忘了。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.竹书.rules.lines.say
+#: data/native/npcs.json
+msgid "我问过这卷书，你别同他说。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.竹书.rules.lines.say
+#: data/native/npcs.json
+msgid "天黑以后再来。屋里点着灯。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.竹书.rules.lines.say
+#: data/native/npcs.json
+msgid "那卷书没到他手里……也好。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.竹书.rules.lines.say
+#: data/native/npcs.json
+msgid "他二十岁那年在竹林里写过一卷书，写的是怎么等。你若读过，替我记着那几句。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry topic
+#: data/native/npcs.json
+msgid "簪子"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.簪子.rules.say
+#: data/native/npcs.json
+msgid "收着。不必戴，也不必还。"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry topic
+#. native:snow/rain_slips name
+#: data/native/npcs.json data/native/items.json
+msgid "竹简"
+msgstr ""
+
+#. native.npc.shen_shuyu inquiry.竹简.rules.say
+#: data/native/npcs.json
+msgid "字写得丑，你凑合着看。那是头一回有人把它写下来。"
 msgstr ""
 
 #. native.npc.shen_shuyu calls.steps.line
@@ -76204,6 +76514,26 @@ msgstr ""
 #. native.npc.shen_shuyu calls.steps.say
 #: data/native/npcs.json
 msgid "都一样。进了这道门，就不问是哪一宗了。"
+msgstr ""
+
+#. native.npc.shen_shuyu calls.steps.say
+#: data/native/npcs.json
+msgid "来了？剑练得怎么样，小友。"
+msgstr ""
+
+#. native.npc.shen_shuyu calls.steps.emote
+#: data/native/npcs.json
+msgid "正在檐下晾衣裳，看见你，手停了一下。"
+msgstr ""
+
+#. native.npc.shen_shuyu calls.steps.say
+#: data/native/npcs.json
+msgid "你来了。"
+msgstr ""
+
+#. native.npc.shen_shuyu calls.steps.emote
+#: data/native/npcs.json
+msgid "看了你一眼，低下头接着劈他的柴。"
 msgstr ""
 
 #. native.npc.he_shouzhuo title
@@ -76850,6 +77180,25 @@ msgstr ""
 #. native:canyon/road_passes no_drop
 #: data/native/items.json
 msgid "这叠路引不能随便丢。"
+msgstr ""
+
+#. native:snow/silver_hairpin name
+#: data/native/items.json
+msgid "旧银簪"
+msgstr ""
+
+#. native:snow/silver_hairpin long
+#: data/native/items.json
+msgid ""
+"一支旧银簪，簪头錾着几道细细的雨丝，银子磨得发白。年头久了，簪身有一点弯——像是戴它的人常常低头。\n"
+msgstr ""
+
+#. native:snow/rain_slips long
+#: data/native/items.json
+msgid ""
+"一卷竹简，用麻绳穿着，墨迹还新。字写得很慢，一笔一顿：\n"
+"「他出剑，等空子。我出剑，逼空子。逼过去，他接了，身前就空了；他不接，这一剑就落在他身上。两头都是你的。」\n"
+"末一片上只有一个字：雨。\n"
 msgstr ""
 
 #. tiers.after_hint

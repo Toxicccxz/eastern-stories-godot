@@ -272,7 +272,8 @@
 				"swordjab",
 				"fakefault",
 				"powerfocus",
-				"rainpress"
+				"rainpress",
+				"nightrain"
 			],
 			"perform_rules": {
 				"powerfocus": {
@@ -295,6 +296,11 @@
 						"damage": 6,
 						"damage_percent": 12,
 						"open_percent": 85
+					}
+				},
+				"nightrain": {
+					"when": {
+						"mark": "学了夜雨"
 					}
 				}
 			},

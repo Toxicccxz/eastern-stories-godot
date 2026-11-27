@@ -14,7 +14,11 @@ extends PerformFunction
 ## The thrust dodged or parried also wins its performer a hand this round, as a 隙 does (within
 ## earned_beat_cap); landed, it is only the blow; nothing of this once the answer to it ended the
 ## fight (the riposte that wins a spar). Only against an enemy in the fight.
+## 师娘彩蛋 B (DECISIONS「师娘彩蛋 B」): the same move learned the other way is 「夜雨」
+## (NightrainPerform): its own name, lines and colour, these numbers.
 const SKILL: StringName = &"fonxansword"
+## Whose numbers the move reads (「夜雨」 reads these too: one move, one home for its numbers).
+const NUMBERS: StringName = &"rainpress"
 const FORCE: String = "force"
 const DAMAGE: String = "damage"
 const DAMAGE_PERCENT: String = "damage_percent"
@@ -32,28 +36,49 @@ func perform(context: SpecialContext) -> bool:
 	var me: SpecialSide = context.me
 	var target: SpecialSide = context.target_or_offensive()
 	if target == null or not me.is_fighting(target.character_id):
-		return context.refuse("「听雨」只能对战斗中的对手使用。")
+		return context.refuse(_not_fighting_line())
 	var skill: SkillDefinition = context.catalog.skill(SKILL)
 	if skill == null:
 		return context.refuse("你所使用的外功中没有这种功能。")
 	var force: CharacterInternalResourceState = me.state.recovery.inner_force
-	var cost: int = skill.perform_number(id, FORCE)
+	var cost: int = skill.perform_number(NUMBERS, FORCE)
 	if force.current < cost:
-		return context.refuse("你的内力不够，使不出「听雨」。")
+		return context.refuse(_short_line())
 	force.current -= cost
 	@warning_ignore("integer_division")
 	var strike: Dictionary[StringName, int] = {
-		&"damage": skill.perform_number(id, DAMAGE) + me.query_skill(SKILL) * skill.perform_number(id, DAMAGE_PERCENT) / 100,
+		&"damage": skill.perform_number(NUMBERS, DAMAGE) + me.query_skill(SKILL) * skill.perform_number(NUMBERS, DAMAGE_PERCENT) / 100,
 	}
-	context.say("$N剑势一变，使出「听雨」，剑尖密如雨点罩向$n，逼得$p非接不可！", target.character_id, ColoredLine.CYN)
+	context.say(_strike_line(), target.character_id, _color())
 	me.state.timed_applies.hold(strike)
 	var attack: SpecialAttack = context.do_attack(me, target)
 	me.state.timed_applies.release(strike)
 	if _was_forced(attack) and me.is_fighting(target.character_id):
 		context.wins_beat = true
-		context.opened[target.character_id] = skill.perform_number(id, OPEN_PERCENT)
-		context.say("$n这一下接得仓促，身前露出了空子。", target.character_id, ColoredLine.CYN)
+		context.opened[target.character_id] = skill.perform_number(NUMBERS, OPEN_PERCENT)
+		context.say(_open_line(), target.character_id, _color())
 	return true
+
+
+## The lines and colour of this name of the move (「夜雨」 has its own).
+func _not_fighting_line() -> String:
+	return "「听雨」只能对战斗中的对手使用。"
+
+
+func _short_line() -> String:
+	return "你的内力不够，使不出「听雨」。"
+
+
+func _strike_line() -> String:
+	return "$N剑势一变，使出「听雨」，剑尖密如雨点罩向$n，逼得$p非接不可！"
+
+
+func _open_line() -> String:
+	return "$n这一下接得仓促，身前露出了空子。"
+
+
+func _color() -> StringName:
+	return ColoredLine.CYN
 
 
 ## Whether the thrust was dodged or parried (not landed, not lost to anything else).
@@ -68,5 +93,5 @@ func hint(catalog: ContentCatalog) -> String:
 	var skill: SkillDefinition = catalog.skill(SKILL)
 	if skill == null:
 		return ""
-	# TRANSLATORS: hover of 使出「听雨」: {force} the internal power one thrust takes.
-	return TranslationServer.translate("用 {force} 点内力出一剑逼对方接招：对方闪开或架住，就露出空子（下一招更难躲开、架住），你这回合多一手；打中了就只是这一剑").format({"force": skill.perform_number(id, FORCE)})
+	# TRANSLATORS: hover of 使出「听雨」 or 「夜雨」 (the same move): {force} the internal power one thrust takes.
+	return TranslationServer.translate("用 {force} 点内力出一剑逼对方接招：对方闪开或架住，就露出空子（下一招更难躲开、架住），你这回合多一手；打中了就只是这一剑").format({"force": skill.perform_number(NUMBERS, FORCE)})

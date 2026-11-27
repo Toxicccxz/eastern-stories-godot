@@ -1841,6 +1841,14 @@
         "shapes": {},
         "nodes": [
           {
+            "node": "service",
+            "name": "RainDesk",
+            "id": "snow.rain_house.desk",
+            "room": "snow.rain_house",
+            "anchor": ["rel", 0.25, 0.55],
+            "text": "书案 · 坐下"
+          },
+          {
             "generated": "captions"
           }
         ],

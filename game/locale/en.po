@@ -833,7 +833,7 @@ msgid "柳淳风"
 msgstr "Liu Chunfeng"
 
 msgid "风雨双侠"
-msgstr "the Wind-and-Rain Swordsman"
+msgstr "the Wind-and-Rain Swordsmen"
 
 msgid "柳馆主"
 msgstr "Master Liu"
@@ -41901,8 +41901,8 @@ msgstr "She gave no answer, and told you to cross swords with He Shouzhuo in the
 msgid "回去再问沈疏雨「雨」。"
 msgstr "Go back and ask Shen Shuyu about \"Rain\" again."
 
-msgid "沈疏雨把「听雨」教给了你：一剑逼过去，对方接了，身前就空了。这一招不在封山的谱上。想试，就再找何守拙过几招。"
-msgstr "Shen Shuyu taught you \"Listening to Rain\": press in with one thrust, and when the other side answers it, their front is open. This move is not in Empty Mountain's manual. To try it, cross swords with He Shouzhuo again."
+#~ msgid "沈疏雨把「听雨」教给了你：一剑逼过去，对方接了，身前就空了。这一招不在封山的谱上。想试，就再找何守拙过几招。"
+#~ msgstr "Shen Shuyu taught you \"Listening to Rain\": press in with one thrust, and when the other side answers it, their front is open. This move is not in Empty Mountain's manual. To try it, cross swords with He Shouzhuo again."
 
 msgid "从镇外的沈疏雨那里学到了封山谱上没有的「听雨」"
 msgstr "Learned \"Listening to Rain,\" a move not in Empty Mountain's manual, from Shen Shuyu outside town"
@@ -41970,8 +41970,8 @@ msgstr " hears you out and smiles a little."
 #~ msgid "老何守了三十年门，他不出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
 #~ msgstr "Old He kept the gate for thirty years; he doesn't strike, so you have no opening to wait for. The Empty Mountain sword stops here—and that book he wrote goes no further either."
 
-msgid "看好。"
-msgstr "Watch."
+#~ msgid "看好。"
+#~ msgstr "Watch."
 
 msgid "拔剑。剑尖没有刺向哪一处，只是一点一点压过来，密得像檐下的雨，由不得你不抬手去接。"
 msgstr " draws her sword. The tip thrusts at no one place; it only presses in, point by point, thick as rain off the eaves, and you cannot help raising your hand to answer it."
@@ -41979,8 +41979,8 @@ msgstr " draws her sword. The tip thrusts at no one place; it only presses in, p
 msgid "他接了，身前就空了，那一下是你的；他不接，这一剑就落在他身上。两头都是你的——这叫「听雨」。"
 msgstr "If he answers it, his front is open, and that moment is yours; if he doesn't, the thrust lands on him. Either way it's yours—this is called \"Listening to Rain.\""
 
-msgid "这一招不在封山的谱上。你学了去，用不用、说不说是谁教的，都随你。"
-msgstr "This move isn't in Empty Mountain's manual. Take it with you: whether you use it, whether you say who taught you—that's up to you."
+#~ msgid "这一招不在封山的谱上。你学了去，用不用、说不说是谁教的，都随你。"
+#~ msgstr "This move isn't in Empty Mountain's manual. Take it with you: whether you use it, whether you say who taught you—that's up to you."
 
 msgid "先去和老何过几招。回来再说。"
 msgstr "Go cross swords with Old He first. We'll talk when you're back."
@@ -42119,6 +42119,207 @@ msgstr "Old He kept the gate for thirty years; he never strikes first, so you ha
 
 msgid "师娘没发话，我不同人动手。"
 msgstr "The Master's wife hasn't said the word. I don't cross swords with anyone."
+
+msgid "书案 · 坐下"
+msgstr "Writing Desk · Sit Down"
+
+msgid "「夜雨」"
+msgstr "\"Night Rain\""
+
+msgid "「夜雨」只能对战斗中的对手使用。"
+msgstr "\"Night Rain\" only works on someone you're fighting."
+
+msgid "你的内力不够，使不出「夜雨」。"
+msgstr "Your Inner Force isn't enough to use \"Night Rain.\""
+
+msgid "$N剑势一沉，使出「夜雨」，剑尖细细密密地压向$n，像檐下落了一夜的雨，逼得$p非接不可！"
+msgstr "$N {N:settle|settles} {N:his} sword low into \"Night Rain,\" the tip pressing toward $n fine and close, like rain dripping from the eaves all night—$n {n:have|has} no choice but to answer!"
+
+msgid "$n接得一乱，身前空了一块。"
+msgstr "$n {n:answer|answers} raggedly, and an opening shows in {n:his} guard."
+
+msgid "最近总往镇外跑。练功是好事，别耽误了正事。"
+msgstr "You have been out of town a good deal lately. Training is a good thing; do not let it keep you from your proper work."
+
+msgid "沈疏雨问起柳淳风那卷竹书，要你别同他说她问过。你答应了：替她瞒了师父一回。"
+msgstr "Shen Shuyu asked about Liu Chunfeng's bamboo book and asked you not to tell him she had. You promised: for once, you kept something from your Shifu for her."
+
+msgid "天黑以后，到瓦屋的书案边坐下。留下，她在灯下把「雨」说完；告辞，她明早再教。学到的是同一招。"
+msgstr "After dark, sit down at the writing desk in the Tiled House. Stay, and she finishes \"Rain\" by lamplight; take your leave, and she teaches it tomorrow morning. What you learn is the same move."
+
+msgid "你留下了。天快亮的时候，她把「雨」教给了你，叫它「夜雨」，又给了你一支旧银簪。"
+msgstr "You stayed. Near dawn she taught you \"Rain,\" named it \"Night Rain,\" and gave you an old silver hairpin."
+
+msgid "在镇外的小院里学到了「夜雨」"
+msgstr "Learned \"Night Rain\" in the yard outside town"
+
+msgid "你告辞了。第二天一早，她把「雨」教给了你，叫它「听雨」，又给了你一卷竹简。"
+msgstr "You took your leave. Early the next morning she taught you \"Rain,\" named it \"Listening to Rain,\" and gave you a roll of bamboo slips."
+
+msgid "柳馆主前两天还问起你。说你最近总往镇外跑。"
+msgstr "Master Liu was asking after you just the other day. Said you've been out of town a lot lately."
+
+msgid "坐下"
+msgstr "Sit Down"
+
+msgid "书案擦得很干净，两只杯子都倒扣着。灯芯剪得很短。\n"
+msgstr "The writing desk is wiped very clean, both cups turned upside down. The lampwick is trimmed very short.\n"
+
+msgid "书案上压着一张纸，是她试笔的字，只写了一个：雨。\n"
+msgstr "A sheet of paper is weighted down on the desk, where she tried her brush. She wrote only one character: Rain.\n"
+
+msgid "书案擦得很干净。\n"
+msgstr "The writing desk is wiped very clean.\n"
+
+msgid "帘子一掀，沈疏雨进来了。她把灯拨亮了些，在书案对面坐下。\n"
+msgstr "The curtain lifts, and Shen Shuyu comes in. She turns the lamp up a little and sits down across the desk from you.\n"
+
+msgid "「雨」这一招，我只在夜里说。白天说，老何听得见；老何听见了，他也就知道了。"
+msgstr "I only speak of \"Rain\" at night. By day, Old He can hear; and if Old He hears, then he knows too."
+
+msgid "你替我瞒了一回。这一回，换我不瞒你。"
+msgstr "You kept one secret for me. This time, I keep none from you."
+
+msgid "给你倒了一杯茶，又给自己倒了一杯。灯芯噼啪响了一声。"
+msgstr " pours you a cup of tea, then one for herself. The lampwick gives a crackle."
+
+msgid "夜深了。你是留下听我说完，还是明早再来？"
+msgstr "It's late. Will you stay and hear me out, or come back in the morning?"
+
+msgid "沈疏雨在等你回答："
+msgstr "Shen Shuyu is waiting for your answer:"
+
+msgid "留下来，听她在灯下把「雨」说完。\n这一夜之后，有些话只有你们两个人知道；柳淳风不会知道。\n学到的是同一招，叫「夜雨」。\n要留下吗？"
+msgstr "Stay, and hear her finish \"Rain\" by lamplight.\nAfter this night, some things will be known only to the two of you; Liu Chunfeng will not know.\nIt is the same move, called \"Night Rain.\"\nStay?"
+
+msgid "没有再说话，起身把门闩上了。"
+msgstr " says nothing more, rises, and bars the door."
+
+msgid "灯芯烧到了头，屋里暗了下去。窗外起了雨，一阵密，一阵疏。\n"
+msgstr "The lampwick burns to its end, and the room goes dark. Outside the window rain begins, now thick, now sparse.\n"
+
+msgid "天快亮的时候，雨停了。\n"
+msgstr "Near dawn, the rain stops.\n"
+
+msgid "披着外衣坐在书案边，用手指蘸了茶水，在案上一点一点地画给你看。"
+msgstr " sits at the writing desk with her outer robe around her shoulders, dips a finger in the tea, and draws it for you on the desk, stroke by stroke."
+
+msgid "他接了，身前就空了，那一下是你的；他不接，这一剑就落在他身上。两头都是你的。"
+msgstr "If he answers it, his front is open, and that moment is yours; if he doesn't, this thrust lands on him. Either way it's yours."
+
+msgid "这一招，夜里学的，就叫「夜雨」吧。"
+msgstr "This move was learned at night. Let's call it \"Night Rain.\""
+
+msgid "从妆奁里取出一支旧银簪，放在你手心里。"
+msgstr " takes an old silver hairpin from her dressing case and lays it in your palm."
+
+msgid "我年轻时戴的。收着。"
+msgstr "I wore it when I was young. Keep it."
+
+msgid "告辞，明早再来"
+msgstr "Take Leave Till Morning"
+
+msgid "告辞，明早再来。\n她会在白天把「雨」教给你，叫「听雨」。\n要告辞吗？"
+msgstr "Take your leave, and come back in the morning.\nShe will teach you \"Rain\" by day, as \"Listening to Rain.\"\nTake your leave?"
+
+msgid "点了点头，像是早知道你会这么说。"
+msgstr " nods, as if she knew all along you would say so."
+
+msgid "也好。明早来。"
+msgstr "All right. Come in the morning."
+
+msgid "你回镇上歇了一夜。\n"
+msgstr "You go back to town and rest for the night.\n"
+
+msgid "第二天一早你再来时，她已经在院子里等你了。\n"
+msgstr "When you come again early the next morning, she is already waiting for you in the yard.\n"
+
+msgid "从袖子里取出一卷竹简递给你。"
+msgstr " takes a roll of bamboo slips from her sleeve and hands it to you."
+
+msgid "昨夜写的。头一回有人把它写下来。"
+msgstr "I wrote it last night. The first time anyone has written it down."
+
+msgid "要在屋里等到天黑吗？（世界的时间会过去，别的地方照旧过它们的日子。）"
+msgstr "Wait in the house until dark? (World time will pass, and other places go on with their days.)"
+
+msgid "你在书案边坐下。院里劈柴的声音一下一下，后来停了。\n"
+msgstr "You sit down at the writing desk. In the yard, the chopping goes on, one stroke after another, then stops.\n"
+
+msgid "天黑了。\n"
+msgstr "Night has fallen.\n"
+
+msgid "书案上的灯没点。\n"
+msgstr "The lamp on the writing desk is unlit.\n"
+
+msgid "那一夜的雨，你记着就好。出剑的时候，别让人看出是谁教的。"
+msgstr "That night's rain—just remember it. When you draw your sword, don't let anyone see who taught you."
+
+msgid "天黑以后，屋里说。"
+msgstr "After dark. We'll talk inside."
+
+msgid "停了一停。"
+msgstr " pauses for a moment."
+
+msgid "那卷书……你读过吗？"
+msgstr "That book... have you read it?"
+
+msgid "答应沈疏雨：她问起过那卷书，这件事不告诉柳淳风。\n答应了，就是替她瞒了师父一回。\n要答应吗？"
+msgstr "Promise Shen Shuyu you won't tell Liu Chunfeng she asked about the book.\nIf you promise, you are keeping something from your Shifu for her, once.\nPromise her?"
+
+msgid "书的事，你知我知。"
+msgstr "The book stays between you and me."
+
+msgid "听你说完书里那几句，半晌没有出声。"
+msgstr " hears out the lines you tell her from the book and says nothing for a long while."
+
+msgid "直竹贵地生……他二十岁就写得出这一句，后来倒忘了。"
+msgstr "Straight bamboo, rooted deep... He could write a line like that at twenty. Later, he forgot it."
+
+msgid "我问过这卷书，你别同他说。"
+msgstr "I asked about this book. Don't tell him."
+
+msgid "天黑以后再来。屋里点着灯。"
+msgstr "Come back after dark. The lamp will be lit in the house."
+
+msgid "那卷书没到他手里……也好。"
+msgstr "So the book never reached him... Just as well."
+
+msgid "他二十岁那年在竹林里写过一卷书，写的是怎么等。你若读过，替我记着那几句。"
+msgstr "The year he turned twenty, he wrote a book in a bamboo grove. It was about how to wait. If you've read it, keep those lines for me."
+
+msgid "簪子"
+msgstr "Hairpin"
+
+msgid "收着。不必戴，也不必还。"
+msgstr "Keep it. You needn't wear it, or give it back."
+
+msgid "竹简"
+msgstr "Bamboo Slips"
+
+msgid "字写得丑，你凑合着看。那是头一回有人把它写下来。"
+msgstr "My hand is ugly; make do with it. That's the first time anyone has written it down."
+
+msgid "来了？剑练得怎么样，小友。"
+msgstr "Here again? How's the sword coming, young friend?"
+
+msgid "正在檐下晾衣裳，看见你，手停了一下。"
+msgstr " is hanging clothes to dry under the eaves. When she sees you, her hands stop for a moment."
+
+msgid "你来了。"
+msgstr "You came."
+
+msgid "看了你一眼，低下头接着劈他的柴。"
+msgstr " glances at you, lowers his head, and goes back to chopping his wood."
+
+msgid "旧银簪"
+msgstr "Old Silver Hairpin"
+
+msgid "一支旧银簪，簪头錾着几道细细的雨丝，银子磨得发白。年头久了，簪身有一点弯——像是戴它的人常常低头。\n"
+msgstr "An old silver hairpin, its head chased with a few fine strands of rain, the silver worn pale. It is so many years old that the shaft has a slight bend—as if whoever wore it often bowed her head.\n"
+
+msgid "一卷竹简，用麻绳穿着，墨迹还新。字写得很慢，一笔一顿：\n「他出剑，等空子。我出剑，逼空子。逼过去，他接了，身前就空了；他不接，这一剑就落在他身上。两头都是你的。」\n末一片上只有一个字：雨。\n"
+msgstr "A roll of bamboo slips strung on hemp cord, the ink still fresh. The characters were written slowly, a pause at every stroke:\n\"He draws his sword and waits for an opening. I draw my sword and force one. Press in: if he answers, his front is open; if he doesn't, the thrust lands on him. Either way it's yours.\"\nOn the last slip there is only one character: Rain.\n"
 
 msgctxt "lit"
 msgid "湖底"
