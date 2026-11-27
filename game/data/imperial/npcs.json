@@ -938,7 +938,7 @@
 							"by": "native.npc.fu_an"
 						},
 						{
-							"whisper": "皇上说，今夜养心殿。冯总教头的人会领你进去。", "shot": {"two": "player"}
+							"whisper": "皇上说，今夜养心殿。冯总教头的人会领你进去。", "keys": ["今夜", "养心殿"], "shot": {"two": "player"}
 						},
 						{
 							"mark": "见了福安"
@@ -1169,7 +1169,7 @@
 							"by": "native.npc.fu_an"
 						},
 						{
-							"whisper": "皇上请相国的随员到养心殿说话。皇上说……先别出宫。", "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
+							"whisper": "皇上请相国的随员到养心殿说话。皇上说……先别出宫。", "keys": ["养心殿"], "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
 						},
 						{
 							"mark": "见了福安"
@@ -1218,7 +1218,7 @@
 							"by": "native.npc.fu_an"
 						},
 						{
-							"whisper": "皇上请相国的随员到养心殿说话。皇上说……先别出宫。", "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
+							"whisper": "皇上请相国的随员到养心殿说话。皇上说……先别出宫。", "keys": ["养心殿"], "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
 						},
 						{
 							"mark": "见了福安"
@@ -1819,7 +1819,7 @@
 							"say": "庾尚书说，皇叔勾结水烟阁谋反，朕的布告是他拟的。朕……信了一半。", "shot": {"two": "player"}
 						},
 						{
-							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。", "do": {"act": "walk", "to": "player", "stay": true}, "shot": "near"
+							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。", "keys": ["御书房"], "do": {"act": "walk", "to": "player", "stay": true}, "shot": "near"
 						}
 					]
 				},
@@ -1842,7 +1842,7 @@
 							"say": "庾尚书说，皇叔勾结水烟阁谋反，朕的布告是他拟的。朕……信了一半。", "shot": {"two": "player"}
 						},
 						{
-							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。", "do": {"act": "walk", "to": "player", "stay": true}, "shot": "near"
+							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。", "keys": ["御书房"], "do": {"act": "walk", "to": "player", "stay": true}, "shot": "near"
 						}
 					]
 				},

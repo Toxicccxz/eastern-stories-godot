@@ -42320,3 +42320,31 @@ msgstr "An old silver hairpin, its head chased with a few fine strands of rain, 
 
 msgid "一卷竹简，用麻绳穿着，墨迹还新。字写得很慢，一笔一顿：\n「他出剑，等空子。我出剑，逼空子。逼过去，他接了，身前就空了；他不接，这一剑就落在他身上。两头都是你的。」\n末一片上只有一个字：雨。\n"
 msgstr "A roll of bamboo slips strung on hemp cord, the ink still fresh. The characters were written slowly, a pause at every stroke:\n\"He draws his sword and waits for an opening. I draw my sword and force one. Press in: if he answers, his front is open; if he doesn't, the thrust lands on him. Either way it's yours.\"\nOn the last slip there is only one character: Rain.\n"
+
+msgctxt "lit"
+msgid "湖底"
+msgstr "the lake bottom"
+
+msgctxt "lit"
+msgid "子时之前"
+msgstr "before midnight"
+
+msgctxt "lit"
+msgid "顺着转一圈，逆着转三圈"
+msgstr "turn once clockwise, three times counterclockwise"
+
+msgctxt "lit"
+msgid "冷宫的井"
+msgstr "the well in the Cold Palace"
+
+msgctxt "lit"
+msgid "正月十七"
+msgstr "the seventeenth"
+
+msgctxt "lit"
+msgid "今夜"
+msgstr "tonight"
+
+msgctxt "lit"
+msgid "三器"
+msgstr "the three"

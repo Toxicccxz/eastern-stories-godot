@@ -565,8 +565,8 @@
 			"scene_mark": "正厅撞见了",
 			"calls": [
 				{ "after": 1, "scene": true, "when": { "cond": "celestial.chair" }, "not_mark": "正厅撞见了", "steps": [{ "comes": "waterfog.npc.elder7", "from": "waterfog.forehall" }, { "by": "waterfog.npc.elder7" }, { "emote": "从楼上下来，走到大厅中央那张黝黑的太师椅跟前，伸手在扶手上按了一按。" }] },
-				{ "after": 4, "scene": true, "when": { "all": [{ "cond": "celestial.chair" }, { "mark": "告发了南危水" }] }, "not_mark": "正厅撞见了", "steps": [{ "by": "waterfog.npc.elder7" }, { "say": "这个「代」字，本座顶了这些日子，也该去掉了。正月十七九派上虹台，水烟阁要有一个真正坐这把椅子的人。" }] },
-				{ "after": 4, "scene": true, "when": { "all": [{ "cond": "celestial.chair" }, { "not": { "mark": "告发了南危水" } }] }, "not_mark": "正厅撞见了", "steps": [{ "by": "waterfog.npc.elder7" }, { "say": "二十年了，这把椅子一直空着。正月十七九派上虹台，水烟阁总得拿出个说法——椅子空着，武林就没有一个能说话的人。" }] },
+				{ "after": 4, "scene": true, "when": { "all": [{ "cond": "celestial.chair" }, { "mark": "告发了南危水" }] }, "not_mark": "正厅撞见了", "steps": [{ "by": "waterfog.npc.elder7" }, { "say": "这个「代」字，本座顶了这些日子，也该去掉了。正月十七九派上虹台，水烟阁要有一个真正坐这把椅子的人。", "keys": ["正月十七"] }] },
+				{ "after": 4, "scene": true, "when": { "all": [{ "cond": "celestial.chair" }, { "not": { "mark": "告发了南危水" } }] }, "not_mark": "正厅撞见了", "steps": [{ "by": "waterfog.npc.elder7" }, { "say": "二十年了，这把椅子一直空着。正月十七九派上虹台，水烟阁总得拿出个说法——椅子空着，武林就没有一个能说话的人。", "keys": ["正月十七"] }] },
 				{ "after": 7, "scene": true, "when": { "all": [{ "cond": "celestial.chair" }, { "mark": "卫沧澜出了尚书府" }] }, "not_mark": "正厅撞见了", "present": "native.npc.wei_canglan", "steps": [{ "by": "native.npc.wei_canglan" }, { "emote": "坐在厅侧的一张矮凳上，手里还拿着那本诗集，没有抬头。" }] },
 				{ "after": 9, "scene": true, "when": { "all": [{ "cond": "celestial.chair" }, { "mark": "卫沧澜出了尚书府" }] }, "not_mark": "正厅撞见了", "steps": [{ "by": "waterfog.npc.elder7" }, { "say": "盟主回来了，本座比谁都高兴。可一个二十年没管过事的人，正月十七上了虹台，九派问他这二十年武林是什么样子——他答得上来么？" }] },
 				{ "after": 7, "scene": true, "when": { "all": [{ "cond": "celestial.chair" }, { "not": { "mark": "卫沧澜出了尚书府" } }] }, "not_mark": "正厅撞见了", "steps": [{ "by": "common.npc.fighter.executioner" }, { "say": "椅子空着，是因为盟主还没回来。" }] },
@@ -583,7 +583,7 @@
 				{ "after": 19, "scene": true, "when": { "all": [{ "cond": "celestial.chair" }, { "mark": "镖单锁进了刑堂" }] }, "not_mark": "正厅撞见了", "steps": [{ "by": "common.npc.fighter.executioner" }, { "say": "锁起来，是替振远留脸面，不是替谁结案。" }] },
 				{ "after": 22, "scene": true, "when": { "all": [{ "cond": "celestial.chair" }, { "mark": "卫沧澜出了尚书府" }] }, "not_mark": "正厅撞见了", "steps": [{ "by": "common.npc.fighter.executioner" }, { "say": "盟主回来了。他坐不坐这把椅子，正月十七由他自己说，轮不到别人替他定。" }] },
 				{ "after": 22, "scene": true, "when": { "all": [{ "cond": "celestial.chair" }, { "not": { "mark": "卫沧澜出了尚书府" } }] }, "not_mark": "正厅撞见了", "steps": [{ "by": "common.npc.fighter.executioner" }, { "say": "盟主一天没有消息，这把椅子就一天是盟主的。等他回来。" }] },
-				{ "after": 26, "scene": true, "when": { "cond": "celestial.chair" }, "not_mark": "正厅撞见了", "steps": [{ "by": "waterfog.npc.elder7" }, { "emote": "转过身来，看着你。" }, { "say": "你是天邪这一辈的大弟子。正月十七，天邪派那一票该投给谁，你说一句。跟着本座，水烟阁的执事有你一个。" }] },
+				{ "after": 26, "scene": true, "when": { "cond": "celestial.chair" }, "not_mark": "正厅撞见了", "steps": [{ "by": "waterfog.npc.elder7" }, { "emote": "转过身来，看着你。" }, { "say": "你是天邪这一辈的大弟子。正月十七，天邪派那一票该投给谁，你说一句。跟着本座，水烟阁的执事有你一个。", "keys": ["正月十七"] }] },
 				{ "after": 30, "scene": true, "when": { "cond": "celestial.chair" }, "not_mark": "正厅撞见了", "steps": [{ "by": "common.npc.fighter.executioner" }, { "say": "七长老许得出口的，我许不出口。我只问你一句：门规里哪一条，写着盟主没死，椅子就能换人？" }, { "mark": "正厅的话说完了" }] }
 			]
 		},
@@ -1228,7 +1228,7 @@
 				{ "after": 9, "scene": true, "when": { "all": [{ "cond": "latemoon.rule_day" }, { "mark": "令牌给了老妇" }] }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "latemoon.npc.room.old" }, { "emote": "把手里那块黑木令牌攥得更紧了。" }] },
 				{ "after": 12, "scene": true, "when": { "cond": "latemoon.rule_day" }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "common.npc.dancer.master" }, { "say": "人交给我。晚月庄不杀不还手的人——可她不能再待在庄里。怎么处置，是庄里的事。" }] },
 				{ "after": 15, "scene": true, "when": { "cond": "latemoon.rule_day" }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "latemoon.npc.room.old" }, { "say": "她是我女儿。" }] },
-				{ "after": 18, "scene": true, "when": { "cond": "latemoon.rule_day" }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "common.npc.dancer.master" }, { "say": "依庄规，问我「庄规」；要带她回来，去内书房问老人家「女儿」。" }] },
+				{ "after": 18, "scene": true, "when": { "cond": "latemoon.rule_day" }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "common.npc.dancer.master" }, { "say": "依庄规，问我「庄规」；要带她回来，去内书房问老人家「女儿」。", "keys": ["庄规", "女儿"] }] },
 				{ "after": 21, "scene": true, "when": { "cond": "latemoon.rule_day" }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "latemoon.npc.room.old" }, { "emote": "转身往内书房走，她女儿跟在后面。" }, { "home": "latemoon.npc.room.killer" }, { "home": "latemoon.npc.room.old" }] }
 			],
 			"inquiry": {
