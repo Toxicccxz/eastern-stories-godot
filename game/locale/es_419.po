@@ -12194,7 +12194,7 @@ msgid "饮风客栈照旧开门。店小二说，正月十七那天，镇上的�
 msgstr "La Posada Bebeviento sigue abriendo sus puertas. El mozo dice que el diecisiete del primer mes todo el pueblo estaba esperando noticias de la montaña."
 
 msgid "正厅的太师椅上，坐着颜违。山门的告示上写着：老松岭旧案，到此为止。"
-msgstr "En el sillón del salón principal se sienta Yan Wei. El aviso de la puerta de la montaña dice: el viejo caso del Cerro de los Pinos Viejos termina aquí."
+msgstr "En el sillón del salón principal se sienta Yan Wei. El aviso del Portal dice: el viejo caso del Cerro de los Pinos Viejos termina aquí."
 
 msgid "正厅的太师椅上，坐着卫沧澜。二十年的空椅子，有了人。"
 msgstr "En el sillón del salón principal se sienta Wei Canglan. La silla vacía durante veinte años tiene a alguien."
@@ -12212,7 +12212,7 @@ msgid "老松岭的旧案重新翻了出来，水烟阁的人往京城去了几�
 msgstr "El viejo caso del Cerro de los Pinos Viejos se reabrió, y la gente del Pabellón de la Neblina fue varias veces a la Capital."
 
 msgid "水烟阁同朝廷走近了。兵部来了人，在山门外喝了一回茶。"
-msgstr "El Pabellón de la Neblina se acercó a la corte. Vinieron hombres del Ministerio de Guerra y tomaron un té fuera de la puerta de la montaña."
+msgstr "El Pabellón de la Neblina se acercó a la corte. Vinieron hombres del Ministerio de Guerra y tomaron un té fuera del Portal."
 
 msgid "绮云镇 · 场院"
 msgstr "Tejenubes · Patio de recreo"
@@ -16534,7 +16534,7 @@ msgid "你把穿灵收在身边，剑身上的霜一点一点化了。你练的�
 msgstr "Guardas Traspasalmas a tu lado, y la escarcha de la hoja se va derritiendo poco a poco. Lo tuyo es el puño: sales a su encuentro con las manos vacías.\n"
 
 msgid "镖单？先把山门的事办了。"
-msgstr "¿El registro de escolta? Primero ocúpate del asunto de la puerta de la montaña."
+msgstr "¿El registro de escolta? Primero ocúpate del asunto del Portal."
 
 msgid "什么镖单？"
 msgstr "¿Qué registro de escolta?"
@@ -16573,7 +16573,7 @@ msgid "合上卷宗，看了一眼大厅中央那张黝黑的太师椅。"
 msgstr " cierra el expediente y mira el oscuro sillón del centro del salón."
 
 msgid "山门和镖单的事你都办过了。盟主的事，也该同你说了。"
-msgstr "Del asunto de la puerta de la montaña y del registro ya te has ocupado. Ahora toca hablarte del Líder de la Alianza."
+msgstr "Del asunto del Portal y del registro ya te has ocupado. Ahora toca hablarte del Líder de la Alianza."
 
 msgid "二十年前，先帝召盟主进京。盟主带着阁里藏的一份旧记载上路，五长老押着盟主印随行，振远的镖走在前头。过了老松岭，一个人也没回来。"
 msgstr "Hace veinte años, el difunto emperador convocó al Líder de la Alianza a la Capital. El Líder partió con un viejo registro guardado en el Pabellón; el Quinto Anciano lo acompañó custodiando el sello de la Alianza, y la escolta del Largo Camino iba delante. Pasado el Cerro de los Pinos Viejos, no volvió nadie."
@@ -16594,7 +16594,7 @@ msgid "这件事我出不了水烟阁：执法使一动，七长老就要问为�
 msgstr "Yo no puedo salir del Pabellón de la Neblina: si el Ejecutor se mueve, el Séptimo Anciano preguntará por qué. Llévalo tú en la memoria por mí."
 
 msgid "盟主的事……等山门和镖单的事办完了，我再同你说。"
-msgstr "Lo del Líder de la Alianza... cuando termines con el asunto de la puerta de la montaña y el del registro, te lo cuento."
+msgstr "Lo del Líder de la Alianza... cuando termines con el asunto del Portal y el del registro, te lo cuento."
 
 msgid "盟主二十年没回来了。这件事，水烟阁不同外人说。"
 msgstr "El Líder de la Alianza lleva veinte años sin volver. Esto el Pabellón de la Neblina no lo habla con forasteros."
@@ -16681,7 +16681,7 @@ msgid "信我收下了。"
 msgstr "Me quedo con la carta."
 
 msgid "信我收下了。山门的事，不劳你了。"
-msgstr "Me quedo con la carta. Del asunto de la puerta de la montaña ya no tienes que ocuparte."
+msgstr "Me quedo con la carta. Del asunto del Portal ya no tienes que ocuparte."
 
 msgid "展开信看了一遍，半晌没有说话。"
 msgstr " despliega la carta, la lee de principio a fin y pasa un buen rato sin decir nada."
@@ -16759,10 +16759,10 @@ msgid "二十年了，执法使。人要是回得来，早就回来了。"
 msgstr "Veinte años, Ejecutor. Si pudiera volver, ya habría vuelto."
 
 msgid "九派里几派会来，阁里谁跟谁走得近——本座心里有数。山门上跑掉的那一个，没有白跑。"
-msgstr "Cuántas de las nueve escuelas vendrán y quién anda con quién en el Pabellón, yo lo tengo claro. El que se escapó en la puerta de la montaña no se escapó en vano."
+msgstr "Cuántas de las nueve escuelas vendrán y quién anda con quién en el Pabellón, yo lo tengo claro. El que se escapó en el Portal no se escapó en vano."
 
 msgid "上个月山门上那个探子，听说是从执法使眼皮底下走的？椅子空着，外人就敢上山来问盟主的死活。"
-msgstr "Dicen que el espía de la puerta de la montaña, el mes pasado, se fue delante de las narices del Ejecutor. Con el sillón vacío, hasta los forasteros se atreven a subir a preguntar si el Líder vive o muere."
+msgstr "Dicen que el espía del Portal, el mes pasado, se fue delante de las narices del Ejecutor. Con el sillón vacío, hasta los forasteros se atreven a subir a preguntar si el Líder vive o muere."
 
 msgid "上个月扮成皮货商上山来数人头的，是七长老账房里的人。"
 msgstr "Quien subió el mes pasado disfrazado de peletero a contar cabezas era gente de la contaduría del Séptimo Anciano."
@@ -16771,7 +16771,7 @@ msgid "数人头不犯门规。正月十七几派来、椅子空不空，总得�
 msgstr "Contar cabezas no rompe el reglamento. Alguien tiene que contar cuántas escuelas vienen el 17 y si el sillón está vacío."
 
 msgid "上个月山门上拿下的那个，是兵部的人。京师有人替盟主的生死记着账。"
-msgstr "El que cayó el mes pasado en la puerta de la montaña era del Ministerio de Guerra. En la Capital hay quien lleva la cuenta de la vida y la muerte del Líder."
+msgstr "El que cayó el mes pasado en el Portal era del Ministerio de Guerra. En la Capital hay quien lleva la cuenta de la vida y la muerte del Líder."
 
 msgid "所以更要早定。椅子空一天，朝廷就多一天的念想。"
 msgstr "Por eso hay que decidir cuanto antes. Cada día que el sillón sigue vacío, la corte tiene un día más de esperanza."
@@ -20632,7 +20632,7 @@ msgid "水烟阁的门，一年到头有人来打听盟主。这一回跑掉的�
 msgstr "A la puerta del Pabellón de la Neblina viene gente todo el año preguntando por el Líder de la Alianza. El que se escapó esta vez volverá, y la próxima vez lo reconocerás."
 
 msgid "眼力差了一点，胆子不差。你守过一回山门了——从今日起，你是这一辈的大弟子。"
-msgstr "Te falló un poco la vista, pero no el valor. Ya has guardado una vez la puerta de la montaña: desde hoy eres el discípulo mayor de esta generación."
+msgstr "Te falló un poco la vista, pero no el valor. Ya has guardado una vez el Portal: desde hoy eres {jugador:el discípulo mayor|la discípula mayor} de esta generación."
 
 msgid "人拿下了？他身上掉出来的信，给我看看。"
 msgstr "¿Lo atrapaste? La carta que se le cayó del cuerpo, déjame verla."
@@ -20641,7 +20641,7 @@ msgid "人拿下了。身上的东西没捡着？……罢了，人押在刑堂�
 msgstr "Lo atrapaste. ¿No recogiste lo que llevaba encima? ...Da igual, el hombre está en la sala de castigos y lo interrogaré yo mismo."
 
 msgid "你守过一回山门了——从今日起，你是这一辈的大弟子。"
-msgstr "Ya has guardado una vez la puerta de la montaña: desde hoy eres el discípulo mayor de esta generación."
+msgstr "Ya has guardado una vez el Portal: desde hoy eres {jugador:el discípulo mayor|la discípula mayor} de esta generación."
 
 msgid "人认出来了，还没拿下？去，别让他下了山。"
 msgstr "¿Lo reconociste y aún no lo has atrapado? Ve, que no baje de la montaña."
@@ -20656,13 +20656,13 @@ msgid "可这一个月，阁里丢了两份名帖，山下的客栈里也有人�
 msgstr "Pero este mes el pabellón ha perdido dos tarjetas de presentación, y en la posada al pie de la montaña alguien anda preguntando si el Líder de la Alianza sigue vivo."
 
 msgid "我认得的人太多，往门口一站，探子就不开口了。你是新面孔。去山门值一班：上山的人问清来意，哪个不对，拿下。"
-msgstr "Conozco a demasiada gente: si me planto en la puerta, el espía no abre la boca. Tú eres una cara nueva. Ve a hacer una guardia en la puerta de la montaña: averigua a qué viene cada uno que sube, y el que no cuadre, apresado."
+msgstr "Conozco a demasiada gente: si me planto en la puerta, el espía no abre la boca. Tú eres una cara nueva. Ve a hacer una guardia en el Portal: averigua a qué viene cada uno que sube, y el que no cuadre, apresado."
 
 msgid "拿错了人不要紧，我去赔礼。只是真的那个，就跑了。"
 msgstr "Apresar a la persona equivocada no importa; yo iré a pedir disculpas. Lo malo es que el de verdad se escape."
 
 msgid "山门有武士守着。执法使的事，不劳外人。"
-msgstr "La puerta de la montaña tiene guardianes. Los asuntos del Ejecutor no son cosa de extraños."
+msgstr "El Portal tiene guardianes. Los asuntos del Ejecutor no son cosa de extraños."
 
 msgid "镖单"
 msgstr "Registro de escolta"
@@ -30034,7 +30034,7 @@ msgid "你已经不是封山的人了。正月十七的事，不同外人商量�
 msgstr "Ya no eres de la Montaña Vacía. Lo del diecisiete del primer mes no se comenta con gente de fuera."
 
 msgid "山门的事办完了。往后上山的人还会多。"
-msgstr "El asunto de la puerta de la montaña está resuelto. De ahora en adelante subirá más gente a la montaña."
+msgstr "El asunto del Portal está resuelto. De ahora en adelante subirá más gente a la montaña."
 
 msgid "你来得正好。这些日子上山的人多：拜师的、送信的、看热闹的。"
 msgstr "Llegas justo a tiempo. En estos días sube mucha gente a la montaña: quienes vienen a ser discípulos, a entregar cartas, a mirar el espectáculo."
@@ -30082,19 +30082,19 @@ msgid "北麓的事，虹台上定了。那座道观空了——用不着你我�
 msgstr "Lo de la falda norte se decidió en la Terraza del Arcoíris. Ese monasterio está vacío: no hace falta que tú y yo digamos nada más."
 
 msgid "宫里认出你了，那道门你进不去。劝他们下山的事，再问我一次「招安」——茅山的人替你上山去说。"
-msgstr "El palacio te ha reconocido: no puedes cruzar esa puerta. Para persuadirlos de bajar de la montaña, pregúntame otra vez por \"Amnistía\": la gente del Monte Mao subirá a decírselo por ti."
+msgstr "El palacio te ha reconocido: no puedes cruzar esa puerta. Para persuadirlos de bajar de la montaña, pregúntame otra vez por 'Amnistía': la gente del Monte Mao subirá a decírselo por ti."
 
 msgid "宫里剩下的人，交官府去剿（问我「剿」），还是劝他们下山、交茅山看着（问我「招安」）——你定。给我一个了断。"
-msgstr "Los que quedan en el palacio: entregarlos al gobierno para que los sofoque (pregúntame por \"Sofocar\"), o persuadirlos de bajar de la montaña y dejarlos al cuidado del Monte Mao (pregúntame por \"Amnistía\"). Tú decides. Dame un final para esto."
+msgstr "Los que quedan en el palacio: entregarlos al gobierno para que los sofoque (pregúntame por 'Sofocar'), o persuadirlos de bajar de la montaña y dejarlos al cuidado del Monte Mao (pregúntame por 'Amnistía'). Tú decides. Dame un final para esto."
 
 msgid "交官府去剿，问我「剿」；劝他们下山、交茅山看着，问我「招安」。你定。"
-msgstr "Para entregarlos al gobierno y que los sofoque, pregúntame por \"Sofocar\"; para persuadirlos de bajar de la montaña y dejarlos al cuidado del Monte Mao, por \"Amnistía\". Tú decides."
+msgstr "Para entregarlos al gobierno y que los sofoque, pregúntame por 'Sofocar'; para persuadirlos de bajar de la montaña y dejarlos al cuidado del Monte Mao, por 'Amnistía'. Tú decides."
 
 msgid "那道门你进不去了。可这件事是你起的头，了断还由你定。"
 msgstr "Esa puerta ya no puedes cruzarla. Pero esto lo empezaste tú, y el desenlace lo decides tú."
 
 msgid "交官府去剿，问我「剿」；劝他们下山、交茅山看着，问我「招安」——茅山的人替你上山去说。"
-msgstr "Para entregarlos al gobierno y que los sofoque, pregúntame por \"Sofocar\"; para persuadirlos de bajar de la montaña y dejarlos al cuidado del Monte Mao, por \"Amnistía\": la gente del Monte Mao subirá a decírselo por ti."
+msgstr "Para entregarlos al gobierno y que los sofoque, pregúntame por 'Sofocar'; para persuadirlos de bajar de la montaña y dejarlos al cuidado del Monte Mao, por 'Amnistía': la gente del Monte Mao subirá a decírselo por ti."
 
 msgid "北麓那座道观空了。茅山用不着眼线了。"
 msgstr "Ese monasterio de la falda norte está vacío. El Monte Mao ya no necesita espías."
@@ -30106,7 +30106,7 @@ msgid "虹台上已经定了。来不及了。"
 msgstr "Ya se decidió en la Terraza del Arcoíris. Es tarde."
 
 msgid "那道门你进不去了。劝他们下山的事，再问我一次「招安」——茅山的人替你上山去说。"
-msgstr "Esa puerta ya no puedes cruzarla. Para persuadirlos de bajar de la montaña, pregúntame otra vez por \"Amnistía\": la gente del Monte Mao subirá a decírselo por ti."
+msgstr "Esa puerta ya no puedes cruzarla. Para persuadirlos de bajar de la montaña, pregúntame otra vez por 'Amnistía': la gente del Monte Mao subirá a decírselo por ti."
 
 msgid "官兵上了北麓，宫里剩下的人一个也走不了。这件事，就算了了。"
 msgstr "Los soldados subieron a la falda norte y de los que quedaban en el palacio no se escapó ni uno. Con esto, el asunto queda cerrado."
@@ -30160,7 +30160,7 @@ msgid "有人认出过门房的脸。淳风武馆的弟子们先看的是你—�
 msgstr "Alguien reconoció la cara del portero. Los discípulos del Salón del Viento Puro te miraron primero a ti; no dijiste nada."
 
 msgid "你离了封山。「点」字诀还在你手上；掌门传人的名分和虹台上那一票，柳淳风收了回去。"
-msgstr "Dejaste la Montaña Vacía. El secreto \"Punto\" sigue en tu mano; el título de heredero del Maestro y el voto de la Terraza del Arcoíris, Liu Chunfeng los retiró."
+msgstr "Dejaste la Montaña Vacía. El secreto \"Punto\" sigue en tu mano; el título de {jugador:Heredero|Heredera} del Maestro y el voto de la Terraza del Arcoíris, Liu Chunfeng los retiró."
 
 msgid "盟主卫沧澜回了水烟阁：是你请皇叔於兰天武向庾子建要回来的。"
 msgstr "El Líder de la Alianza, Wei Canglan, volvió al Pabellón de la Neblina: fuiste tú quien pidió al tío imperial Yulan Tianwu que se lo reclamara a Yu Zijian."
@@ -30181,16 +30181,16 @@ msgid "朱鸿雪给过你三个名字，都是靠近过湖底封物的人。"
 msgstr "Zhu Hongxue te dio tres nombres, todos de gente que se acercó a lo sellado bajo el lago."
 
 msgid "潘军禅说，这些日子上山的人多；这一个月，有人在打听盟主的事。他要一个新面孔去山门值一班。"
-msgstr "Pan Junchan dijo que estos días sube mucha gente a la montaña y que este mes alguien ha estado preguntando por el Líder de la Alianza. Quiere una cara nueva para hacer guardia en la puerta de la montaña."
+msgstr "Pan Junchan dijo que estos días sube mucha gente a la montaña y que este mes alguien ha estado preguntando por el Líder de la Alianza. Quiere una cara nueva para hacer guardia en el Portal."
 
 msgid "虹台已经散了会。正厅那把椅子的事，定了。"
 msgstr "La asamblea de la Terraza del Arcoíris se disolvió. Lo del sillón del salón principal está decidido."
 
 msgid "虹台散了会，那一票用不着你站了。山门、镖单、盟主的下落都是你办的：潘军禅以执法使的名义升你做了执事。"
-msgstr "La asamblea de la Terraza del Arcoíris se disolvió y ya no hace falta que pongas ese voto. La puerta de la montaña, el registro de escolta y el paradero del Líder de la Alianza: todo lo hiciste tú; Pan Junchan, en nombre del Ejecutor, te ascendió a intendente."
+msgstr "La asamblea de la Terraza del Arcoíris se disolvió y ya no hace falta que pongas ese voto. El Portal, el registro de escolta y el paradero del Líder de la Alianza: todo lo hiciste tú; Pan Junchan, en nombre del Ejecutor, te ascendió a intendente."
 
 msgid "替水烟阁办完了山门、镖单和盟主下落三件事"
-msgstr "Resolviste para el Pabellón de la Neblina tres asuntos: la puerta de la montaña, el registro de escolta y el paradero del Líder de la Alianza"
+msgstr "Resolviste para el Pabellón de la Neblina tres asuntos: el Portal, el registro de escolta y el paradero del Líder de la Alianza"
 
 msgid "疑点满了三条。宫里认出你，只是早晚的事——下回戴着冠进前院，就是那一天：那一仗你打不过，不必打，出了前院的门就算逃过了。黑冠不会再替你遮掩；已经递出去、带出来的东西，茅山照样用得上，到手的也还在你手里。"
 msgstr "Las sospechas llegaron a tres. Que el palacio te reconozca es cuestión de tiempo: la próxima vez que entres con el gorro en el patio delantero, será ese día. Esa pelea no puedes ganarla, y no hace falta librarla: con salir por la puerta del patio delantero ya habrás escapado. El gorro negro ya no te encubrirá; lo que ya entregaste o sacaste le sigue sirviendo al Monte Mao, y lo que conseguiste sigue en tu mano."
@@ -39061,7 +39061,7 @@ msgid "它在你腰间。寒於氏的剑，不扰民——你拿着它，就照�
 msgstr "La llevas en la cintura. La espada del clan Hanyu no molesta al pueblo: si la llevas, anda según su carácter."
 
 msgid "跟於兰家的人走了。"
-msgstr "Se fue con la gente de la familia Yulan."
+msgstr "Se fue con alguien de la familia Yulan."
 
 msgid "跟萧家的孩子走了。"
 msgstr "Se fue con el niño de los Xiao."
