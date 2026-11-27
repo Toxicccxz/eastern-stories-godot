@@ -26,6 +26,8 @@ var _drifting: Array[Dictionary] = []
 var _bolts: Array[Dictionary] = []
 var _sunbeams: Array[Dictionary] = []
 var _fish: Array[Dictionary] = []
+## Fish under a water's surface, each on its own round (VoxelWaterLife).
+var _swimmers: Array[Dictionary] = []
 var _blinks: Array[Dictionary] = []
 var _spinning: Array[Dictionary] = []
 ## How far into night the view is (0 day .. 1 night), set by the view each frame:
@@ -390,6 +392,12 @@ func bubbles(parent: Node3D, at: Vector3, radius: float, color: String = "c9d8c4
 func sway(node: Node3D, phase: float, amount: float = 0.08) -> void:
 	_swaying.append({"node":node,"phase":phase,"amount":amount})
 
+## A fish swimming its round under a water's surface: about `centre` (local units) on an ellipse
+## of `radii` (x, z units), `rate` radians a second (negative: the other way round), now quicker,
+## now slower, its `tail` beating.
+func swim(node: Node3D, tail: Node3D, centre: Vector3, radii: Vector2, rate: float, phase: float) -> void:
+	_swimmers.append({"node":node,"tail":tail,"centre":centre,"radii":radii,"rate":rate,"phase":phase,"reach":maxf(radii.x,radii.y)+0.5})
+
 ## A floating thing (a moored boat) riding the swell: it rises and falls by `height` units
 ## and rolls by `roll` radians about where it was put.
 func bob(node: Node3D, phase: float, height: float = 0.08, roll: float = 0.05) -> void:
@@ -739,6 +747,20 @@ func advance(delta: float) -> void:
 		var heading: float = 1.0 if fposmod(clock*float(fish["rate"])+float(fish["u"]),2.0) < 1.0 else -1.0
 		node.rotation.y = heading*PI/2.0
 		(fish["tail"] as Node3D).rotation.y = sin(clock*8.0+float(fish["phase"]))*0.5
+	for fish: Dictionary in _swimmers:
+		var centre: Vector3 = fish["centre"]
+		if _watching and not _seen(centre, float(fish["reach"])):
+			continue
+		var rate: float = float(fish["rate"])
+		var phase: float = float(fish["phase"])
+		# Never stopping, never turning back: the speed only swells and ebbs.
+		var a: float = phase+rate*clock+signf(rate)*0.35*sin(clock*0.41+phase*1.7)
+		var radii: Vector2 = fish["radii"]
+		var node: Node3D = fish["node"]
+		node.position = centre+Vector3(cos(a)*radii.x, sin(clock*0.9+phase)*0.025, sin(a)*radii.y)
+		var heading := Vector2(-sin(a)*radii.x, cos(a)*radii.y)*signf(rate)
+		node.rotation.y = atan2(heading.x, heading.y)
+		(fish["tail"] as Node3D).rotation.y = sin(clock*(6.0+absf(rate)*8.0)+phase)*0.45
 	for entry: Dictionary in _blinks:
 		var cycle: float = fposmod(clock+float(entry["phase"]),float(entry["every"]))
 		(entry["node"] as Node3D).visible = cycle < float(entry["duty"])

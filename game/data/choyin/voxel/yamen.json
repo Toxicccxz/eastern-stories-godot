@@ -22,7 +22,7 @@
     "sun_energy": [0.7, 0.22],
     "sky": ["b4c8d4", "0e1624"]
   },
-  "water": {
+  "water": {"life": {"fish": {"kind": "koi", "per": 10, "max": 4}, "lotus": 0.3, "finds": {"kinds": ["coins"], "every": 40, "max": 1}}, 
     "kinds": {"water": {"colors": ["6a9a8e", "4e7e76", "3a6260"], "depth": 40, "flow": [0.0, 0.0], "speed": 0.1, "swell": 0.0, "sky": 0.3, "bank": ["8a8a7e", "7a7a70", "969688"], "note": "the court's little pond"}}
   },
   "flora": {

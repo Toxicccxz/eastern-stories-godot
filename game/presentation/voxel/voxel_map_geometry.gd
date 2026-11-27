@@ -450,11 +450,10 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		if cliffs != null:
 			holes = cliffs.holes()
 			cliffs.base_depth = landmass.depth
-		# Water set below the slab's top (a stream, a deep pool) is not covered by it, nor is
-		# clear water, whose stony bed lies below the slab.
+		# No water is covered by the slab: its bed lies below the slab's top, seen through it.
 		for cell: Vector2i in water.levels:
-			if water.levels[cell] < -0.1 or water.looks[cell].get("clear",false):
-				holes[cell] = true
+			holes[cell] = true
+		water.base_depth = landmass.depth
 		landmass.make_base(self,holes)
 		await breathe()
 	var sites: Dictionary = {}
@@ -561,7 +560,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		await breathe()
 		_dress_cliffs()
 		await breathe()
-	await water.build(self,cells,cliffs,shapes,rng,breathe)
+	await water.build(self,cells,cliffs,shapes,rng,breathe,ambience)
 	await breathe()
 	if foliage != null:
 		for edge_cell: Vector2i in cells:

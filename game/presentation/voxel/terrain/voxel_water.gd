@@ -3,15 +3,16 @@ extends RefCounted
 
 ## Water cells (`water`, `deep_water`, `shallow_water`, and the stream at a gorge's
 ## bottom) as a rippling surface set into the ground, with earth or stone banks, foam
-## where it meets rock and, for clear shallows, a stony bed seen through it. Layout
-## `water`: per kind {"level", "colors" (edge to deep), "depth" (px to the deepest
-## colour), "flow" [x, z], "speed", "clear", "foam", "swell" (wave height, units) and
-## "swell_speed", "sunset": {"color", "amount"}: how far it goes to that colour at dusk}, then
-## `areas` overriding by rect.
+## where it meets rock, and seen through it a bed that steps down from the bank, with what
+## lives and lies there (VoxelWaterLife). Layout `water`: per kind {"level", "colors" (edge to
+## deep), "depth" (px to the deepest colour), "flow" [x, z], "speed", "clear" (true a spring,
+## false a dark pool), "murk", "tint", "caustics", "bed" (colours), "bed_depth", "bed_slope",
+## "life" (VoxelWaterLife), "foam", "swell" (wave height, units) and "swell_speed", "sunset":
+## {"color", "amount"}: how far it goes to that colour at dusk}, then `areas` overriding by rect.
 ## Presentation only: the TileMap's water still decides what can be walked.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const SHADER = preload("res://presentation/voxel/shaders/water.gdshader")
-const CLEAR = preload("res://presentation/voxel/shaders/water_clear.gdshader")
+const WaterLife = preload("res://presentation/voxel/terrain/voxel_water_life.gd")
 const KINDS: Array[String] = ["water","deep_water","shallow_water"]
 const CHUNK: int = 256
 const NEIGHBOURS: Array[Vector2i] = [Vector2i(16,0),Vector2i(-16,0),Vector2i(0,16),Vector2i(0,-16)]
@@ -20,8 +21,17 @@ const DEFAULTS: Dictionary = {
 	"deep_water": {"level": -0.22, "colors": ["3c6a68", "264c4f", "15302f"], "depth": 80},
 	"shallow_water": {"level": 0.06, "colors": ["8fb3ab", "6d9a96", "557f7f"], "clear": true},
 }
+## How deep the bed goes at most (units under the surface), by kind: a ford can be waded.
+const BED_DEPTH: Dictionary = {"water": 1.1, "deep_water": 1.8, "shallow_water": 0.3}
+## How much of the water's colour is in a unit of it, by kind (the shader's `murk`).
+const MURK: Dictionary = {"water": 0.85, "deep_water": 0.75, "shallow_water": 0.9}
+const DEFAULT_BED: Array = ["7a7058","6b6450","857a60","6e6a52"]
 var config: Dictionary = {}
 var root: Node3D
+## Cell -> the height of the bed under it.
+var beds: Dictionary[Vector2i, float] = {}
+## How deep the landmass's slab goes (VoxelLandmass.depth): no bed lies under its foot.
+var base_depth: float = 2.2
 ## Cell -> its surface height and settings, for every water cell drawn.
 var levels: Dictionary[Vector2i, float] = {}
 var looks: Dictionary[Vector2i, Dictionary] = {}
@@ -73,19 +83,19 @@ func look_at(cell: Vector2i, kind: String) -> Dictionary:
 	return merged
 
 ## `breathe` (the geometry's frame slicer) is awaited every few hundred cells: a sea that runs on
-## past the map (番坊) is tens of thousands of them.
-func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCliffs, shapes: Shapes, rng: RandomNumberGenerator, breathe: Callable = Callable()) -> void:
+## past the map (番坊) is tens of thousands of them. `ambience` sets the fish and weed stirring.
+func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCliffs, shapes: Shapes, rng: RandomNumberGenerator, breathe: Callable = Callable(), ambience: VoxelAmbience = null) -> void:
 	root = Node3D.new()
 	root.name = "Water"
 	parent.add_child(root)
 	if levels.is_empty():
 		return
 	var depth: Dictionary[Vector2i, float] = _distances()
+	_shape_beds(depth,cliffs)
 	var surfaces: Dictionary[String, SurfaceTool] = {}
 	var keys: Dictionary[String, String] = {}
-	var banks := SurfaceTool.new()
-	banks.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var bank_count: int = 0
+	# The bed, its steps and the banks down to it, cut in chunks like the surface.
+	var grounds: Dictionary[Vector2i, SurfaceTool] = {}
 	var done: int = 0
 	for cell: Vector2i in levels:
 		done += 1
@@ -106,6 +116,10 @@ func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCli
 				if not sunset.is_empty():
 					materials[key].set_shader_parameter("sunset",Color(String(sunset.get("color","e8904a"))))
 					sunsets[key] = float(sunset.get("amount",0.4))
+		if not grounds.has(chunk):
+			grounds[chunk] = SurfaceTool.new()
+			grounds[chunk].begin(Mesh.PRIMITIVE_TRIANGLES)
+		var ground: SurfaceTool = grounds[chunk]
 		var surface: SurfaceTool = surfaces[surface_key]
 		var colors: Array = look.get("colors",["5d8a86","3f6f70","2c5559"])
 		var t: float = clampf(depth.get(cell,0.0)/float(look.get("depth",48)),0.0,1.0)*(colors.size()-1)
@@ -123,6 +137,10 @@ func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCli
 		var z1: float = z0+0.5
 		var tint := Color(base.srgb_to_linear(),foam)
 		_quad(surface,Vector3(x0,level,z0),Vector3(x1,level,z0),Vector3(x1,level,z1),Vector3(x0,level,z1),Vector3.UP,tint)
+		var bed: float = beds[cell]
+		var bed_color: Color = _bed_color(cell,look)
+		if not _in_pit(cliffs,cell):
+			_quad(ground,Vector3(x0,bed,z0),Vector3(x1,bed,z0),Vector3(x1,bed,z1),Vector3(x0,bed,z1),Vector3.UP,bed_color.srgb_to_linear())
 		for shift: Vector2i in NEIGHBOURS:
 			var next: Vector2i = cell+shift
 			var a: Vector3
@@ -139,56 +157,90 @@ func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCli
 			else:
 				a = Vector3(x1,0,z0)
 				b = Vector3(x0,0,z0)
+			var normal := Vector3(-shift.x,0,-shift.y)/16.0
 			if levels.has(next):
 				# A step between two water levels: a little spill of foaming water.
 				var other: float = levels[next]
-				if other < level-0.01:
+				if other < level-0.06:
 					_quad(surface,a+Vector3.UP*level,b+Vector3.UP*level,b+Vector3.UP*other,a+Vector3.UP*other,Vector3(shift.x,0,shift.y)/16.0,Color(base.lightened(0.2).srgb_to_linear(),1.0))
+				# A step down in the bed toward the deep: its face, a shade darker than the bed.
+				if beds[next] < bed-0.01 and not _in_pit(cliffs,next):
+					_quad(ground,a+Vector3.UP*bed,b+Vector3.UP*bed,b+Vector3.UP*beds[next],a+Vector3.UP*beds[next],-normal,bed_color.darkened(0.18).srgb_to_linear())
 				continue
 			if not cells.has(next) and not (cliffs != null and cliffs.heights.has(next)):
 				continue
-			# The bank: from below the surface up to the ground (or the rock's foot). A stream
-			# at a pit's bottom, or beside a pit, has the pit's own wall there instead.
-			var top: float = 0.0
-			if cliffs != null and (cliffs.heights.get(next,0.0)<0.0 or cliffs.heights.get(cell,0.0)<0.0) or top <= level:
+			# The bank: from the ground (or the rock's foot) down to the bed, wet and darker under
+			# the water. A stream at a pit's bottom, or beside a pit, has the pit's own wall there.
+			if cliffs != null and (cliffs.heights.get(next,0.0)<0.0 or cliffs.heights.get(cell,0.0)<0.0):
 				continue
-			var normal := Vector3(-shift.x,0,-shift.y)/16.0
 			var bank: Array = look.get("bank",config.get("bank",["5a5142","4c4539","665c4a"]))
-			var low: float = level-0.35
+			var bank_color := Color(String(bank[absi(cell.x+cell.y)/16%bank.size()]))
+			var top: float = 0.0
+			var wet: float = minf(level-0.06,top)
 			banked[cell] = true
-			_quad(banks,a+Vector3.UP*top,b+Vector3.UP*top,b+Vector3.UP*low,a+Vector3.UP*low,normal,Color(String(bank[absi(cell.x+cell.y)/16%bank.size()])).srgb_to_linear())
-			bank_count += 1
-		if look.get("clear",false):
-			# The bed under clear water: dark grit and stones, seen through the surface.
-			var bed: Array = look.get("bed",["5d5a4c","6b6756","4f4c41"])
-			shapes.box(root,Vector3(cell.x/32.0,level-0.3,cell.y/32.0),Vector3(0.5,0.06,0.5),String(bed[absi(cell.x*3+cell.y)/16%bed.size()]))
-			if rng.randf()<float(look.get("stones",0.35)):
-				var size: float = rng.randf_range(0.1,0.24)
-				shapes.shard(root,Vector3(cell.x/32.0+rng.randf_range(-0.18,0.18),level-0.24,cell.y/32.0+rng.randf_range(-0.18,0.18)),Vector3(size*1.3,size*0.6,size),String(bed[rng.randi_range(0,bed.size()-1)]),rng.randi(),rng.randf()*TAU)
+			if wet < top-0.01:
+				_quad(ground,a+Vector3.UP*top,b+Vector3.UP*top,b+Vector3.UP*wet,a+Vector3.UP*wet,normal,bank_color.srgb_to_linear())
+			_quad(ground,a+Vector3.UP*wet,b+Vector3.UP*wet,b+Vector3.UP*bed,a+Vector3.UP*bed,normal,bank_color.lerp(bed_color,0.35).darkened(0.25).srgb_to_linear())
 	for surface_key: String in surfaces:
 		var instance := MeshInstance3D.new()
 		instance.mesh = surfaces[surface_key].commit()
 		instance.material_override = materials[keys[surface_key]]
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		root.add_child(instance)
-	if bank_count>0:
-		var material := StandardMaterial3D.new()
-		material.vertex_color_use_as_albedo = true
-		material.roughness = 0.6
+	var bed_material := StandardMaterial3D.new()
+	bed_material.vertex_color_use_as_albedo = true
+	bed_material.roughness = 0.85
+	for chunk: Vector2i in grounds:
 		var instance := MeshInstance3D.new()
-		instance.mesh = banks.commit()
-		instance.material_override = material
+		instance.name = "Bed"
+		instance.mesh = grounds[chunk].commit()
+		instance.material_override = bed_material
 		root.add_child(instance)
+	await WaterLife.new(self,shapes,ambience,depth,cliffs).build(rng.seed,breathe)
+
+## How deep the bed lies under each cell: a step down from the bank toward the middle (`bed_depth`
+## units at most, `bed_slope` units a cell), in steps a voxel high, never under the landmass's
+## foot nor a pit's floor.
+func _shape_beds(depth: Dictionary[Vector2i, float], cliffs: VoxelCliffs) -> void:
+	for cell: Vector2i in levels:
+		var look: Dictionary = looks[cell]
+		var kind: String = String(look["kind"])
+		var deepest: float = float(look.get("bed_depth",BED_DEPTH.get(kind,1.1)))
+		var slope: float = float(look.get("bed_slope",0.14))
+		var wobble: float = float(absi(cell.x*7+cell.y*13)/16%3-1)*0.06
+		var down: float = snappedf(clampf(0.22+depth.get(cell,0.0)/16.0*slope+wobble,0.18,maxf(deepest,0.18)),0.08)
+		var bed: float = maxf(levels[cell]-down,-(base_depth-0.15))
+		if _in_pit(cliffs,cell):
+			bed = cliffs.heights[cell]
+		beds[cell] = bed
+
+## A cell's bed colour: its look's `bed` colours, in patches of paler sand and darker silt.
+func _bed_color(cell: Vector2i, look: Dictionary) -> Color:
+	var bed_colors: Array = look.get("bed",DEFAULT_BED)
+	var color := Color(String(bed_colors[absi(cell.x*3+cell.y*7)/16%bed_colors.size()]))
+	var patch: float = sin(cell.x*0.021+cell.y*0.013)*sin(cell.y*0.027-cell.x*0.009)
+	return color.lightened(0.12) if patch > 0.35 else color.darkened(0.14) if patch < -0.4 else color
+
+func _in_pit(cliffs: VoxelCliffs, cell: Vector2i) -> bool:
+	return cliffs != null and cliffs.heights.get(cell,0.0) < 0.0
 
 func _material(look: Dictionary) -> ShaderMaterial:
 	var material := ShaderMaterial.new()
-	material.shader = CLEAR if look.get("clear",false) else SHADER
+	material.shader = SHADER
 	var flow: Array = look.get("flow",[0,0])
 	material.set_shader_parameter("flow",Vector2(float(flow[0]),float(flow[1])))
 	material.set_shader_parameter("speed",float(look.get("speed",0.35)))
 	material.set_shader_parameter("glint",Color(String(look.get("glint","cfe3e0"))))
 	material.set_shader_parameter("foam",Color(String(look.get("foam_color","dcebe6"))))
-	material.set_shader_parameter("clarity",float(look.get("clarity",1.0)))
+	# `murk`: how much of its colour is in a unit of the water; a water whose text calls it dark
+	# (`clear`: false) keeps its bed faint, a spring (`clear`: true) shows it plainly.
+	var murk: float = float(MURK.get(String(look["kind"]),0.9))
+	if look.has("clear"):
+		murk = 0.6 if look["clear"] else 2.2
+	material.set_shader_parameter("murk",float(look.get("murk",murk)))
+	var colors: Array = look.get("colors",["5d8a86"])
+	material.set_shader_parameter("tint",Color(String(look["tint"])) if look.has("tint") else Color.WHITE.lerp(Color(String(colors[0])),0.3))
+	material.set_shader_parameter("caustics",float(look.get("caustics",0.55)))
 	material.set_shader_parameter("sky",float(look.get("sky",0.22)))
 	material.set_shader_parameter("swell",float(look.get("swell",0.0)))
 	material.set_shader_parameter("swell_speed",float(look.get("swell_speed",1.6)))

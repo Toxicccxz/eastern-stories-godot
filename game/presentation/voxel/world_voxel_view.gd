@@ -10,6 +10,7 @@ const Flyer = preload("res://presentation/voxel/actors/voxel_flyer.gd")
 const States = preload("res://presentation/voxel/actors/voxel_states.gd")
 const Town = preload("res://presentation/voxel/props/voxel_town.gd")
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
+const Remains = preload("res://presentation/voxel/actors/voxel_remains.gd")
 const VIEW_ROTATION_SECONDS: float = 0.6
 const VIEW_SIDE_ANGLE: float = PI/4.0
 const VIEW_RADIUS: float = 30.0
@@ -77,6 +78,8 @@ var objects: Dictionary[StringName, Node3D] = {}
 ## kept after it is gone: the one killed lies there in its own clothes.
 var _falls: Dictionary[StringName, float] = {}
 var _looks: Dictionary[StringName, Dictionary] = {}
+## Corpse -> the way its body fell, when it was seen to fall: it lies so while it rots.
+var _lay_facing: Dictionary[StringName, float] = {}
 ## Whose fall waits (hold_fall()): the rules fell a fighter the moment its round is worked out, the
 ## fight's show tells the blow that did it a little later, and the figure stands until then. One
 ## killed meanwhile has its body hidden (or gone): its figure stays where it stood (`_lingering`),
@@ -396,6 +399,7 @@ func release_world() -> void:
 	_lingering.clear()
 	_fell_facing.clear()
 	_looks.clear()
+	_lay_facing.clear()
 	labels.clear()
 	alert_marks.clear()
 	objects.clear()
@@ -1193,17 +1197,15 @@ func _cone_mesh(radius_px: float, degrees: int) -> MeshInstance3D:
 	return mesh
 
 
-func _make_actor(body: WorldCharacterBody2D) -> void:
-	var actor := Node3D.new()
-	world.add_child(actor)
-	actors[body.character_id] = actor
-	# The person's card (PersonLooks, DECISIONS「人物外观」) with the map's own entry for them over
-	# it; without a card that entry, else the map's default (a card does not take the default's
-	# keys); a role whose gender is drawn (旅客) by the one it drew; the player's card by their gender.
+## A character's look (PersonLooks, DECISIONS「人物外观」): the person's card with the map's own
+## entry for them over it; without a card that entry, else the map's default (a card does not take
+## the default's keys); a role whose gender is drawn (旅客) by the one it drew; the player's card by
+## their gender.
+func _person_look(character_id: StringName) -> Dictionary:
 	var actors_config: Dictionary = layout.get("actors",{})
 	var look: Dictionary = actors_config.get("default",{})
-	if body != map.player_body:
-		var npc: NpcRuntimeState = map.npcs.find_resident_npc(body.character_id)
+	if map.player_body == null or character_id != map.player_body.character_id:
+		var npc: NpcRuntimeState = map.npcs.find_resident_npc(character_id)
 		if npc != null:
 			var drawn: String = String(npc.character_state.gender) if npc.character_state != null else ""
 			look = PersonLooks.resolve(actors_config,String(NpcDefinition.unnamed_id(npc.definition().definition_id)),{},drawn)
@@ -1212,6 +1214,27 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		look = PersonLooks.resolve({},"",PersonLooks.player(gender))
 		if look.is_empty():
 			look = {"coat":"397c87"}
+	return look
+
+## The look of the one a corpse was: as its figure was drawn, else as it would be (a body found on
+## coming back, after a load), else a plain figure in a faded coat.
+func _corpse_look(corpse: CorpseState) -> Dictionary:
+	if _looks.has(corpse.victim_character_id):
+		return _looks[corpse.victim_character_id]
+	var look: Dictionary = _person_look(corpse.victim_character_id)
+	if look.is_empty():
+		look = {"coat":"7a7058"}
+	_looks[corpse.victim_character_id] = look
+	return look
+
+func _make_actor(body: WorldCharacterBody2D) -> void:
+	var actor := Node3D.new()
+	world.add_child(actor)
+	actors[body.character_id] = actor
+	# The person's card (PersonLooks, DECISIONS「人物外观」) with the map's own entry for them over
+	# it; without a card that entry, else the map's default (a card does not take the default's
+	# keys); a role whose gender is drawn (旅客) by the one it drew; the player's card by their gender.
+	var look: Dictionary = _person_look(body.character_id)
 	var model: Node3D
 	var size: float = float(look.get("scale",1.0))
 	var body_kind: String = String(look.get("body",""))
@@ -1241,15 +1264,8 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		model = Node3D.new()
 		model.scale = Vector3.ONE*size
 		actor.add_child(model)
-		var fur: Array = look.get("fur",["a88a60","846747","725638"])
 		var s := Shapes.new()
-		s.box(model,Vector3(0,0.45,0),Vector3(0.5,0.45,0.95),fur[0])
-		s.box(model,Vector3(0,0.72,0.5),Vector3(0.4,0.4,0.42),fur[1])
-		for x: float in [-0.18,0.18]:
-			for z: float in [-0.3,0.3]:
-				s.box(model,Vector3(x,0.18,z),Vector3(0.12,0.36,0.13),fur[2])
-		if look.get("tail",false):
-			s.tilted_box(model,Vector3(0,0.34,-0.82),Vector3(0.08,0.08,0.78),fur[1],Vector3(-0.35,0,0))
+		Remains.quadruped(s,model,look)
 		s.flush()
 	elif body_kind=="statue":
 		# 神像 (an NPC that is a statue: 晚月庄's 区冥, its 火神凤凰): the figure in one stone or
@@ -1310,7 +1326,7 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 	var low: bool = crawler or look.get("animal",false)
 	if low:
 		model.set_meta("pounce",POUNCE*size)
-	elif model is Person and body_kind != "statue":
+	if body_kind != "statue":
 		_looks[body.character_id] = look
 	var label_height: float = (0.55*size+0.35 if crawler else 0.4+0.9*size) if low else 2.2+float(look.get("plinth",0.5) if body_kind=="statue" else 0.0)
 	if body_kind=="flyer":
@@ -1337,15 +1353,20 @@ func _sync_objects() -> void:
 		var view: CombatSliceCorpseView = map.corpses.corpse_view_for(corpse.corpse_item_instance_id)
 		# What lies there shows once the figure that stood there has fallen.
 		if view != null and map.corpses.corpse_is_live_in_world(corpse) and not _lingering.has(corpse.victim_character_id):
-			# 战斗肢体: a person just killed lies there as it was dressed, until the corpse rots.
-			var lying: Dictionary = _looks.get(corpse.victim_character_id,{}) if corpse.decay_stage == CorpseState.Stage.FRESH else {}
+			# 战斗肢体: one just killed lies there as it was dressed; it rots, then is bones
+			# (VoxelRemains), redrawn as it goes from one to the next.
 			var shown: Node3D = objects.get(corpse.corpse_item_instance_id)
-			if shown != null and shown.has_node("Body") and lying.is_empty():
+			if shown != null and int(shown.get_meta(&"stage",-1)) != corpse.decay_stage:
 				shown.queue_free()
 				objects.erase(corpse.corpse_item_instance_id)
-			var facing: float = float(_fell_facing.get(corpse.victim_character_id,NAN))
-			_fell_facing.erase(corpse.victim_character_id)
-			_object(corpse.corpse_item_instance_id,view.global_position,map.corpses.corpse_name(corpse),true,lying,facing)
+			if not objects.has(corpse.corpse_item_instance_id):
+				# The way it fell when it was seen to fall, kept for each redrawing.
+				var facing: float = float(_fell_facing.get(corpse.victim_character_id,NAN))
+				_fell_facing.erase(corpse.victim_character_id)
+				if not is_nan(facing):
+					_lay_facing[corpse.corpse_item_instance_id] = facing
+			_object(corpse.corpse_item_instance_id,view.global_position,map.corpses.corpse_name(corpse),true,_corpse_look(corpse),
+				float(_lay_facing.get(corpse.corpse_item_instance_id,NAN)),corpse.decay_stage)
 			seen[corpse.corpse_item_instance_id] = true
 			# 战斗演出 D: one felled on a raised stage lies there until the stage comes down.
 			var place: Array = _placed.get(corpse.victim_character_id,[]) if placed_blend > 0.0 else []
@@ -1375,25 +1396,17 @@ func _sync_objects() -> void:
 		if swung:
 			opened[id].visible = open
 
-func _object(id: StringName, at: Vector2, title: String, corpse: bool, lying: Dictionary = {}, facing: float = NAN) -> void:
+func _object(id: StringName, at: Vector2, title: String, corpse: bool, lying: Dictionary = {}, facing: float = NAN, stage: int = 0) -> void:
 	if not objects.has(id):
 		var node := Node3D.new()
 		world.add_child(node)
-		if corpse and not lying.is_empty():
-			# The figure as it stood, laid on its back, slack and still, its eyes shut: the way it
-			# fell (`facing`) when it was seen to fall, else each turned its own way.
-			var body := Person.new()
-			body.name = "Body"
-			body.coat = lying.get("coat","817755")
-			body.configure(lying)
-			body.limp = 1.0
-			node.add_child(body)
-			body.rotation.y = facing if not is_nan(facing) else float(absi(String(id).hash())%360)*TAU/360.0
-			body._process(0.0)
-			body.eyes.scale.y = 0.12
-			body.set_process(false)
+		if corpse:
+			# What is left of the one who died there, as far as it has gone (VoxelRemains): the
+			# way it fell (`facing`) when it was seen to fall, else each turned its own way.
+			Remains.build(node,lying,stage,facing,String(id).hash())
+			node.set_meta(&"stage",stage)
 		else:
-			_draw_object(node,id,corpse)
+			_draw_object(node,id)
 		_label(node,title,0.7).name = "Title"
 		node.set_meta(&"corpse", corpse)
 		objects[id] = node
@@ -1405,15 +1418,14 @@ func _object(id: StringName, at: Vector2, title: String, corpse: bool, lying: Di
 	if label != null:
 		label.visible = not placing()
 
-## A thing lying on the ground, drawn into `node`: a floor item by its look, a corpse past its
-## first hours (or of one whose look is not known) as a covered shape.
-func _draw_object(node: Node3D, id: StringName, corpse: bool) -> void:
+## A thing lying on the ground, drawn into `node`: a floor item by its look.
+func _draw_object(node: Node3D, id: StringName) -> void:
 	var s := Shapes.new()
 	# A floor item may have a look of its own on this map (layout `items`: item definition
 	# -> look), drawn by the props files; it goes when the item goes (a buried skeleton).
 	# Any other thing that can be carried lies as its 背包 picture shows it, laid down
 	# and sized for the world, each turned its own way (VoxelItemLook.lay()).
-	var content: ItemContentDefinition = null if corpse else map.floor_items.floor_item_content(map.floor_items.floor_item_view(id))
+	var content: ItemContentDefinition = map.floor_items.floor_item_content(map.floor_items.floor_item_view(id))
 	var look: Dictionary = {} if content == null else layout.get("items",{}).get(String(content.item_definition_id),{})
 	var carried: Dictionary = {} if content == null or not look.is_empty() else VoxelItemLook.look(content.item_definition_id)
 	if not carried.is_empty():
@@ -1423,7 +1435,7 @@ func _draw_object(node: Node3D, id: StringName, corpse: bool) -> void:
 		VoxelItemLook.build(model,carried)
 		VoxelItemLook.lay(model,carried,float(absi(String(id).hash())%360)*TAU/360.0)
 	elif look.is_empty() or not geometry.draw_look(s,node,look,"floor item %s" % content.item_definition_id):
-		s.box(node,Vector3(0,0.15,0),Vector3(0.75,0.3,1.45) if corpse else Vector3(0.4,0.3,0.35),"6b6860" if corpse else "b5a079")
+		s.box(node,Vector3(0,0.15,0),Vector3(0.4,0.3,0.35),"b5a079")
 	s.flush()
 
 func _make_entrances() -> void:

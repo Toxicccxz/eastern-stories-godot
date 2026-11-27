@@ -44,7 +44,7 @@
     "grit": "a8987a"
   },
   "water": {
-    "kinds": {"deep_water": {"colors": ["5a8a8a", "3a6a70", "1e4450"], "depth": 260, "flow": [-1.0, 0.18], "speed": 0.7, "swell": 0.07, "swell_speed": 1.6, "foam": 0.14, "bank_foam": 0.3, "bank": ["6b6452", "5c5546", "756c58"], "sky": 0.26, "note": "泓水: wide and cold, the current pulling west"}, "water": {"colors": ["7a9a94", "5a807c", "406668"], "flow": [-0.8, 0.1], "speed": 0.4, "swell": 0.03, "bank_foam": 0.4, "bank": ["8a7e66", "7a705a", "948a70"]}, "shallow_water": {"colors": ["8aaaa2", "6a948e", "50787a"], "clear": true, "flow": [-1.0, 0.0], "speed": 0.9, "foam": 0.22, "swell": 0.03, "note": "northriver.c: 江水齐胸深, 偶尔一个湍流卷过来"}},
+    "kinds": {"deep_water": {"life": {"finds": {"kinds": ["anchor", "jar", "stele", "sword"]}}, "colors": ["5a8a8a", "3a6a70", "1e4450"], "depth": 260, "flow": [-1.0, 0.18], "speed": 0.7, "swell": 0.07, "swell_speed": 1.6, "foam": 0.14, "bank_foam": 0.3, "bank": ["6b6452", "5c5546", "756c58"], "sky": 0.26, "note": "泓水: wide and cold, the current pulling west"}, "water": {"colors": ["7a9a94", "5a807c", "406668"], "flow": [-0.8, 0.1], "speed": 0.4, "swell": 0.03, "bank_foam": 0.4, "bank": ["8a7e66", "7a705a", "948a70"]}, "shallow_water": {"colors": ["8aaaa2", "6a948e", "50787a"], "clear": true, "flow": [-1.0, 0.0], "speed": 0.9, "foam": 0.22, "swell": 0.03, "note": "northriver.c: 江水齐胸深, 偶尔一个湍流卷过来"}},
     "areas": [{"rect": [1600, 320, 1920, 576], "speed": 1.3, "foam": 0.4, "swell": 0.09, "flow": [-1.0, 0.45], "note": "midriver.c: 泓水在这里转了个弯, 所以常有暗流出现"}]
   },
   "flora": {
