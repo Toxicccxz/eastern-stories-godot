@@ -4079,7 +4079,7 @@ msgid "石床 · 翻找"
 msgstr "cama de piedra · rebuscar"
 
 msgid "碧纱橱 · 翻找"
-msgstr "biombo de gasa · rebuscar"
+msgstr "armario de gasa verde · rebuscar"
 
 msgid "八卦图 · 请人替跳"
 msgstr "diagrama de los trigramas · pedir que alguien baile"
@@ -4154,7 +4154,7 @@ msgid "箱子 · 点箱"
 msgstr "cajas · contarlas"
 
 msgid "通铺 · 睡到子时"
-msgstr "literas · dormir hasta medianoche"
+msgstr "camastro común · dormir hasta medianoche"
 
 msgid "前殿"
 msgstr "Salón delantero"
@@ -6347,7 +6347,7 @@ msgid "竹篱"
 msgstr "Cerca de bambú"
 
 msgid "书卷"
-msgstr "Rollo de escritura"
+msgstr "Pergaminos"
 
 msgid "古树"
 msgstr "Árbol antiguo"
@@ -6365,13 +6365,13 @@ msgid "字条"
 msgstr "Nota"
 
 msgid "大井"
-msgstr "Gran pozo"
+msgstr "Pozo grande"
 
 msgid "石缝"
 msgstr "Grieta en la roca"
 
 msgid "大泽"
-msgstr "Gran ciénaga"
+msgstr "Gran pantano"
 
 msgid "大皮鼓"
 msgstr "Gran tambor de cuero"
@@ -6410,13 +6410,13 @@ msgid "湖畔"
 msgstr "Orilla del lago"
 
 msgid "芦苇丛"
-msgstr "Carrizal"
+msgstr "Cañaveral"
 
 msgid "小船"
-msgstr "Barca"
+msgstr "Bote"
 
 msgid "冰柱"
-msgstr "Pilar de hielo"
+msgstr "Columna de hielo"
 
 msgid "穿灵"
 msgstr "Traspasalmas"
@@ -6461,7 +6461,7 @@ msgid "草丛"
 msgstr "Hierba alta"
 
 msgid "柴草"
-msgstr "Leña"
+msgstr "Maleza"
 
 msgid "玉帘门"
 msgstr "Puerta con cortina de jade"
@@ -6518,7 +6518,7 @@ msgid "小门"
 msgstr "Puerta pequeña"
 
 msgid "炭筐"
-msgstr "Canasta de carbón"
+msgstr "Cesto de carbón"
 
 msgid "木鱼"
 msgstr "Pez de madera"
@@ -6644,7 +6644,7 @@ msgid "枯井"
 msgstr "Pozo seco"
 
 msgid "养心门"
-msgstr "Puerta del Cultivo de la Mente"
+msgstr "Puerta del Cultivo Mental"
 
 msgid "舆图"
 msgstr "Mapa del reino"
@@ -6659,7 +6659,7 @@ msgid "朝上揭发"
 msgstr "Denunciar ante la corte"
 
 msgid "皇叔的通缉"
-msgstr "Orden de arresto del tío imperial"
+msgstr "Orden de captura del tío imperial"
 
 msgid "雾里的人影"
 msgstr "Silueta en la niebla"
