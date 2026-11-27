@@ -19,10 +19,10 @@ const FACTION_TARGETS: Dictionary[String, Variant] = {
 	"卧底 被识破 追杀的道士×3": [0.45, 1.0],
 }
 
-## 成长曲线 C (DECISIONS「成长曲线 C」): at 花紫会's 小屋 the fist build is ahead by about thirty points
-## (its bare hands' share, 120% of its level, is about 83 by the ninth chapter; the sword build's
-## 长剑 is 25, 卢卡's 大秦短剑 55), as wide as the band: the sword build keeps the band, the fist build
-## only its floor.
+## 成长曲线 C (DECISIONS「成长曲线 C」): at 花紫会's 小屋 the fist build is ahead by twenty to thirty
+## points however the courier is set (its bare hands' share, 120% of its level, is about 83 by the
+## ninth chapter; the sword build's 长剑 is 25, 卢卡's 大秦短剑 55): the sword build keeps the band,
+## the fist build only its floor.
 const AHEAD_WITH_FIST: Array[String] = ["花紫会 密信 小屋信使"]
 
 

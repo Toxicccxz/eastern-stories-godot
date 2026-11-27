@@ -14,10 +14,10 @@ const DEMON_TARGETS: Dictionary[String, Variant] = {
 	"终章 侮天鬼（没宝衣·拔过）": HARDEST,
 }
 ## 成长曲线 C (DECISIONS「成长曲线 C」): the character the growth sim plays trails with the fist by
-## about forty points here (柳家拳's 压 wants its own blow landed close in; 封山剑法's 隙 comes from
-## every blow the demon misses, and it misses often), and no number of its moves the two apart: the
-## fist build keeps the bands above, the sword build, ahead, only their floors (and a fight that
-## can be lost: CEILING).
+## about forty points here (its blows hurt as much as 旋芒's; it is hit far more: 94% of its 气 lost
+## on average against the sword's 66%), and no number of the demon's moves the two apart: the fist
+## build keeps the bands above, the sword build, ahead, only their floors (and a fight that can be
+## lost: CEILING).
 static func demon_targets(build: StringName) -> Dictionary[String, Variant]:
 	if build == MainlineFightSim.FIST:
 		return DEMON_TARGETS
