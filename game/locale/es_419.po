@@ -25750,7 +25750,7 @@ msgid "你是这一辈的大弟子。本宗的规矩，你守不守？"
 msgstr "Eres la discípula mayor de esta generación. Las reglas de la escuela principal, ¿las vas a cumplir o no?"
 
 msgid "你要是觉得我没有错，就留下来。北宗只有我一个人，我的剑也只学了个皮毛——可它是往外传的。"
-msgstr "Si cree que no me equivoco, quédese. La Rama Norte soy yo sola, y de la espada apenas aprendí lo superficial; pero es una espada que se enseña hacia fuera."
+msgstr "Si crees que no me equivoco, quédate. La Rama Norte soy yo sola, y de la espada apenas aprendí lo superficial; pero es una espada que se enseña hacia fuera."
 
 msgid "一个扎着两条小辫的女孩，竹剑比她的胳膊还长，站桩站得一丝不苟。\n"
 msgstr "Una niña con dos trencitas, con una espada de bambú más larga que su brazo, que mantiene la postura con todo cuidado.\n"
@@ -26047,7 +26047,7 @@ msgid "神教不能有两个教主。"
 msgstr "La Orden no puede tener dos líderes."
 
 msgid "你站哪一边——问我，或者问她：「教主」。"
-msgstr "¿De qué lado estás? Pregúntame a mí, o pregúntale a ella: \"Líder de la Orden\"."
+msgstr "¿De qué lado estás? Pregúntame a mí, o pregúntale a ella: 'Líder de la Orden'."
 
 msgid "一个戴黑冠的道士，道袍的下摆掖在腰里，赤脚站在湖岸的浅水中。他手里一根刻着细格的竹竿，插下去，拔出来，看一眼，在一块木板上划一道。\n"
 msgstr "Un taoísta de gorro negro, con el faldón de la túnica metido en el cinto, de pie y descalzo en el agua baja de la orilla del lago. En la mano tiene una caña de bambú marcada con rayitas finas: la hunde, la saca, la mira y hace una raya en una tabla.\n"
@@ -26341,7 +26341,7 @@ msgid "镖交了，还等什么？"
 msgstr "El cargamento ya se entregó. ¿Qué esperamos?"
 
 msgid "成，我在这儿看着车。办完了事回来，叫我一声「上路」。"
-msgstr "Está bien, yo cuido aquí el carro. Cuando termines lo tuyo, vuelve y dime \"En marcha\"."
+msgstr "Está bien, yo cuido aquí el carro. Cuando termines lo tuyo, vuelve y dime 'En marcha'."
 
 msgid "两箱红货，京师振远总局收。箱子里是什么，我们不问——走镖的规矩。"
 msgstr "Dos cofres de mercancía valiosa, que se reciben en la Sede del Largo Camino, en la Capital. Lo que llevan los cofres no lo preguntamos: es la regla del oficio."
@@ -30805,10 +30805,10 @@ msgid "官兵已经上了北麓。……晚了。"
 msgstr "Los soldados ya subieron a la falda norte. ...Es tarde."
 
 msgid "我在北麓的绞盘边等你。"
-msgstr "Lo espero en la falda norte, junto al torno."
+msgstr "{jugador:Lo|La} espero en la falda norte, junto al torno."
 
 msgid "师兄让你去劝他们了？那就去吧——同宫里当家的说「下山」。"
-msgstr "¿Mi hermano mayor lo mandó a convencerlos? Entonces vaya: al que manda allá, en el Palacio, dígale 'Bajar de la montaña'."
+msgstr "¿Mi hermano mayor {jugador:lo|la} mandó a convencerlos? Entonces vaya: al que manda allá, en el Palacio, dígale 'Bajar de la montaña'."
 
 msgid "把那函书从书架上取下来，用油布包好，背在背上。"
 msgstr " baja el estuche de la estantería, lo envuelve bien en lona y se lo carga a la espalda."
@@ -30817,7 +30817,7 @@ msgid "北麓那座道观里剩下的，大半是被拐上山的孩子。烧了�
 msgstr "Los que quedan en el monasterio de la falda norte son, casi todos, niños que se llevaron engañados a la montaña. Quemaron incienso toda la vida sin saber qué estaban quemando."
 
 msgid "我念给他们听。你上北麓来——绞盘边上等你。"
-msgstr "Yo se lo leeré. Suba usted a la falda norte: lo espero junto al torno."
+msgstr "Yo se lo leeré. Suba usted a la falda norte: {jugador:lo|la} espero junto al torno."
 
 msgid "北麓？"
 msgstr "¿La falda norte?"
@@ -31312,7 +31312,7 @@ msgid "小翠趴在阿牛背上，抽抽搭搭地哭，哭不出声。\n"
 msgstr "Xiaocui, sobre la espalda de Aniu, solloza a sacudidas, sin que le salga la voz.\n"
 
 msgid "阿牛小声说：别出声……它们会听见的……\n"
-msgstr "Aniu susurra: \"No hagas ruido... nos van a oír...\"\n"
+msgstr "Aniu susurra: \"No haga ruido... nos van a oír...\"\n"
 
 msgid "别……别打我……"
 msgstr "No... no me pegue..."
@@ -31771,7 +31771,7 @@ msgid "了尘坐在绝尘派的旗下，头是新剃的，金刚杖横在膝上�
 msgstr "Liaochen está sentado bajo la bandera de la Escuela del Desapego, con la cabeza recién afeitada y el bastón de vajra sobre las rodillas. Ocupa esta silla por su Shifu.\n"
 
 msgid "了尘摆了摆手：今天是推选的日子，不动手。"
-msgstr "Liaochen hace un gesto con la mano: \"Hoy es día de elección; no se pelea.\""
+msgstr "Liaochen hace un gesto con la mano: \"Hoy es día de elección; nada de peleas.\""
 
 msgid "一封封好的书信，信封上写着：绮云镇 振远镖局 陈剑秋 亲启。\n"
 msgstr "Una carta cerrada; en el sobre dice: Tejenubes, Escoltas del Largo Camino, a Chen Jianqiu, en sus propias manos.\n"
@@ -38818,7 +38818,7 @@ msgid "你把剑举到光里。剑脊上两个字：寒於。字下面一行小�
 msgstr "Levantas la espada a la luz. En el lomo, el nombre: Hanyu. Debajo, una línea pequeña, grabada somera: \"Donde el viento se detiene, aparece la ciudad; donde la espada se detiene, aparece el hombre.\"\n"
 
 msgid "一个黑衣黑冠的道士，蹲在黑石坛边烧符，符烧完了就看灰往哪边飞，然后在一支竹签上写一笔。他的嘴唇冻得发紫，眼睛红着，像是很多天没睡。\n"
-msgstr "Un taoísta de túnica negra y bonete negro, en cuclillas junto al altar de piedra negra, quemando talismanes; cuando se acaban, mira hacia dónde vuela la ceniza y escribe un trazo en una varilla de bambú. Tiene los labios morados de frío y los ojos rojos, como quien lleva muchos días sin dormir.\n"
+msgstr "Un taoísta de túnica negra y gorro negro, en cuclillas junto al altar de piedra negra, quemando talismanes; cuando se acaban, mira hacia dónde vuela la ceniza y escribe un trazo en una varilla de bambú. Tiene los labios morados de frío y los ojos rojos, como quien lleva muchos días sin dormir.\n"
 
 msgid "卜风道士一声不响地散成一股黑烟，被风卷着往西去了。"
 msgstr "El adivino del viento se deshace sin ruido en una voluta de humo negro, y el viento se lo lleva hacia el oeste."
@@ -38839,7 +38839,7 @@ msgid "卜风道士朝坛上喊：有人来抢剑了！\n"
 msgstr "El adivino del viento le grita al altar: \"¡Alguien viene a robar la espada!\"\n"
 
 msgid "一个瘦高的黑衣道士，黑冠上缀着一圈铜钱，坐在坛顶，手里攥着一支写满了字的竹签，一动不动地盯着坛上的灰。\n"
-msgstr "Un taoísta alto y delgado, de túnica negra, con un círculo de monedas de cobre en el bonete negro, sentado en lo alto del altar con una varilla de bambú llena de letras apretada en la mano, sin moverse, con la vista fija en la ceniza del altar.\n"
+msgstr "Un taoísta alto y delgado, de túnica negra, con un círculo de monedas de cobre en el gorro negro, sentado en lo alto del altar con una varilla de bambú llena de letras apretada en la mano, sin moverse, con la vista fija en la ceniza del altar.\n"
 
 msgid "卜风道士散成一股黑烟，那支竹签落在坛脚的符灰里。"
 msgstr "El adivino del viento se deshace en una voluta de humo negro, y la varilla de bambú cae en la ceniza de talismanes al pie del altar."
@@ -41149,7 +41149,7 @@ msgid "又是走那条道的？——不对。你不是他们的人。"
 msgstr "¿Vienes otra vez por ese camino? No, no. Tú no eres de los suyos."
 
 msgid "那口井，二十年来只有一个人走。黑衣裳，戴个黑冠，见了我连头都不点。你是第二个。"
-msgstr "Por ese pozo, en veinte años solo ha pasado una persona. Ropa negra, una corona negra, y ni me saludaba con la cabeza al verme. Tú eres la segunda persona."
+msgstr "Por ese pozo, en veinte años solo ha pasado una persona. Ropa negra, un gorro negro, y ni me saludaba con la cabeza al verme. Tú eres la segunda persona."
 
 msgid "那口井通到宫外头的祭坛底下。先帝在的时候封过，后来有人又打开了。是谁，我老婆子不说你也猜得到。"
 msgstr "Ese pozo lleva hasta debajo del altar fuera del palacio. Cuando vivía el difunto emperador lo sellaron, y luego alguien lo volvió a abrir. Quién fue, esta vieja no lo dice, pero tú lo adivinas."
@@ -41362,7 +41362,7 @@ msgid "老夫回去，水烟阁正月十七还选不选盟主，看他们的。�
 msgstr "Cuando este viejo regrese, si el Pabellón de la Neblina elige o no Líder el diecisiete del primer mes, es cosa suya. Este viejo solo quiere recorrer otra vez aquel camino, el del Cerro de los Pinos Viejos."
 
 msgid "一个黑衣黑冠的道士，坐在黑暗里，一动不动，只有眼睛亮。他冠上的丝绦断了一根。\n"
-msgstr "Un taoísta de ropa negra y corona negra, sentado en la oscuridad sin moverse, con solo los ojos brillantes. A su corona le falta un cordón, roto."
+msgstr "Un taoísta de ropa negra y gorro negro, sentado en la oscuridad sin moverse, con solo los ojos brillantes. A su gorro le falta un cordón, roto."
 
 msgid "信使一声不响地散成一股黑烟，一封信飘落在地上。"
 msgstr "El mensajero se disuelve sin ruido en una voluta de humo negro, y una carta cae flotando al suelo."
@@ -41557,7 +41557,7 @@ msgid "七层台阶上一把金漆的龙椅，椅背上盘着九条龙，扶手�
 msgstr "En lo alto de siete gradas, un trono lacado en oro, con nueve dragones enroscados en el respaldo y las cabezas de dragón de los brazos pulidas por las manos. El trono es demasiado grande: sobre el asiento hay otro grueso cojín y a los pies, un escabel; quien se sienta aquí no llega al suelo con los pies."
 
 msgid "一根黑色的丝绦，一头扯断了，另一头还打着结。是从一顶黑冠上扯下来的——逆灵宫的道士戴的那种。\n"
-msgstr "Un cordón negro, roto por un extremo, con el otro aún anudado. Lo arrancaron de una corona negra, de las que llevan los taoístas del Palacio Negro."
+msgstr "Un cordón negro, roto por un extremo, con el otro aún anudado. Lo arrancaron de un gorro negro, de las que llevan los taoístas del Palacio Negro."
 
 msgid "一口枯井，井沿是青石的，磨出几道深深的绳槽。往下看，黑得看不见底，可是井壁上嵌着一道道铁蹬，最上面那几道擦得发亮。\n"
 msgstr "Un pozo seco con el brocal de piedra azul, gastado por profundas muescas de cuerda. Al mirar abajo, la oscuridad no deja ver el fondo, pero en la pared hay empotrados peldaños de hierro, y los de más arriba están pulidos hasta brillar."
