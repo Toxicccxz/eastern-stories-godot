@@ -2461,8 +2461,8 @@
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"blade": 50,
-				"shortsong-blade": 70,
+				"blade": 55,
+				"shortsong-blade": 78,
 				"force": 50,
 				"wu-shun": 50,
 				"parry": 40,

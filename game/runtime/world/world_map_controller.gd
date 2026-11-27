@@ -30,6 +30,7 @@ var patrols: WorldMapPatrols = WorldMapPatrols.new(self)
 var watches: WorldMapWatches = WorldMapWatches.new(self)
 var winds: WorldMapWinds = WorldMapWinds.new(self)
 var npc_idle: WorldMapNpcIdle = WorldMapNpcIdle.new(self)
+var staging: WorldMapStaging = WorldMapStaging.new(self)
 var thefts: WorldMapThefts = WorldMapThefts.new(self)
 var debts: WorldMapDebts = WorldMapDebts.new(self)
 var _definition: MapDefinition
@@ -993,6 +994,10 @@ func player_waits() -> Array[WorldWait]:
 
 ## Where the camera looks (DECISIONS「剧情演出」): the body a scene looks at, else the player.
 func view_anchor() -> Vector2:
+	# 过场演出 B: a scene's shot looks at a thing, at the middle of two, at the whole room.
+	var shot: Vector2 = staging.shot_anchor()
+	if shot.is_finite():
+		return shot
 	var body: Node2D = npc_life.scene_focus_body()
 	return body.global_position if body != null else player_body.global_position
 
@@ -1002,6 +1007,10 @@ func scene_running() -> bool:
 
 
 func _process(delta: float) -> void:
+	# 过场演出 B: a scene's actions play on while a page is read (the world held), and are cut
+	# short when a fight takes the screen.
+	if _initialized:
+		staging.advance(delta)
 	if not _initialized or not gameplay_open():
 		return
 	# The 2D view's camera looks where a scene looks (the voxel view follows view_anchor()).

@@ -95,6 +95,14 @@
 		"training_auto_rest": true,
 		"exp_gates": { "juechen": 20000, "elon": 30000 },
 		"milestone_stage_headroom": 1,
+		"player_age_by_exp": [
+			{ "exp": 4000, "age": 15 },
+			{ "exp": 6500, "age": 16 },
+			{ "exp": 9000, "age": 17 },
+			{ "exp": 12000, "age": 18 },
+			{ "exp": 20000, "age": 19 },
+			{ "exp": 30000, "age": 20 }
+		],
 		"npc_idle": {
 			"enabled": true,
 			"pause_min_ms": 2500,
@@ -130,6 +138,7 @@
 			"dialogue_press_guard_ms": 250,
 			"scene_bars_ms": 300,
 			"scene_bars_percent": 9,
+			"scene_action_ms": 400,
 			"room_text_ms": 4000,
 			"room_text_char_ms": 40,
 			"menu_fade_ms": 120,

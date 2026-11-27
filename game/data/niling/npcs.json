@@ -1176,10 +1176,12 @@
 					"not_mark": "见过唤首",
 					"steps": [
 						{
-							"line": "后殿里没有神像。一座黑石坛立在正中，坛上一团黑焰无声地烧着，照不亮什么。商玦背对着你，念经的声音没有停。"
+							"line": "后殿里没有神像。一座黑石坛立在正中，坛上一团黑焰无声地烧着，照不亮什么。商玦背对着你，念经的声音没有停。",
+							"shot": "wide"
 						},
 						{
-							"say": "……以身为供，以劫为师。灵不灵，逆之则生。"
+							"say": "……以身为供，以劫为师。灵不灵，逆之则生。",
+							"shot": "near"
 						}
 					]
 				},
@@ -1193,10 +1195,14 @@
 							"by": "native.npc.xuan_mingzi"
 						},
 						{
-							"emote": "转过身来，目光在你的脸上停了一停。"
+							"emote": "转过身来，目光在你的脸上停了一停。",
+							"do": {"act": "face", "toward": "player"},
+							"shot": "near"
 						},
 						{
-							"say": "宫主，有生人。"
+							"say": "宫主，有生人。",
+							"do": {"act": "face", "toward": "native.npc.shang_jue"},
+							"shot": {"two": "native.npc.shang_jue"}
 						}
 					]
 				},
@@ -1209,13 +1215,18 @@
 							"by": "native.npc.shang_jue"
 						},
 						{
-							"say": "祭品自己走上坛来，是劫的意思。"
+							"say": "祭品自己走上坛来，是劫的意思。",
+							"shot": "near"
 						},
 						{
-							"line": "黑焰忽然向上一窜，焰心里现出一个人形——没有头。它站在坛上，两只手朝前摸索着，像在找什么。"
+							"summon": "niling.altar.shade",
+							"do": "emerge"
 						},
 						{
-							"summon": "niling.altar.shade"
+							"line": "黑焰忽然向上一窜，焰心里现出一个人形——没有头。它站在坛上，两只手朝前摸索着，像在找什么。",
+							"do": {"who": "native.npc.headless_shade", "act": "reach", "hold": true},
+							"shot": {"look": "niling.altar.shade.1"},
+							"fx": "shade_called"
 						}
 					]
 				},
@@ -1228,14 +1239,20 @@
 							"by": "native.npc.headless_shade"
 						},
 						{
-							"emote": "的手摸到了坛沿，停住了。整座后殿冷得像井底。"
+							"emote": "的手摸到了坛沿，停住了。整座后殿冷得像井底。",
+							"do": [
+								{"act": "face", "toward": "player"},
+								{"who": "player", "act": "shiver"}
+							],
+							"shot": "near"
 						},
 						{
 							"by": "native.npc.shang_jue"
 						},
 						{
 							"say": "它在找头。找了五千年。子时开坛，带祭品上来，它便安静一夜。",
-							"keys": ["子时"]
+							"keys": ["子时"],
+							"shot": {"two": "native.npc.headless_shade"}
 						}
 					]
 				},
@@ -1246,10 +1263,13 @@
 					"steps": [
 						{
 							"emote": "解下腰间一把乌黑的钥匙，看也不看，往后一抛。玄冥子接住了。",
-							"keys": ["钥匙"]
+							"keys": ["钥匙"],
+							"do": {"act": "toss", "item": "native:niling/cell_key", "to": "native.npc.xuan_mingzi"},
+							"shot": {"two": "native.npc.xuan_mingzi"}
 						},
 						{
-							"say": "去，告诉底下的人：子时。"
+							"say": "去，告诉底下的人：子时。",
+							"shot": "near"
 						}
 					]
 				},
@@ -1263,20 +1283,26 @@
 							"by": "native.npc.xuan_mingzi"
 						},
 						{
-							"leave": "native.npc.headless_shade"
+							"leave": "native.npc.headless_shade",
+							"do": "dissolve"
 						},
 						{
-							"line": "黑焰里的人形散成一股黑烟，坛上又只剩一团焰。"
+							"line": "黑焰里的人形散成一股黑烟，坛上又只剩一团焰。",
+							"shot": {"look": "niling.altar.shade.1"}
 						},
 						{
-							"emote": "看了你一眼。"
+							"emote": "看了你一眼。",
+							"do": {"act": "face", "toward": "player"},
+							"shot": "near"
 						},
 						{
 							"say": "你戴着我们的冠，却不是我们的人。等子时。",
-							"keys": ["子时"]
+							"keys": ["子时"],
+							"shot": {"two": "player"}
 						},
 						{
-							"leave": true
+							"leave": true,
+							"do": {"act": "exit", "by": "niling.altar.door"}
 						}
 					]
 				},
@@ -1289,19 +1315,26 @@
 							"by": "native.npc.shang_jue"
 						},
 						{
-							"emote": "转身走向坛后的黑门。门开了，门里比殿里更黑。"
+							"emote": "转身走向坛后的黑门。门开了，门里比殿里更黑。",
+							"do": {"act": "walk", "to": "niling.altar.master_return", "stay": true},
+							"shot": "near"
 						},
 						{
-							"say": "子时见。"
+							"say": "子时见。",
+							"do": {"act": "face", "toward": "player"},
+							"shot": "near"
 						},
 						{
-							"line": "坛底的石缝里有什么东西在爬。两个鬼卒从坛底爬了出来——灰绿的皮，手里一柄钢叉，面目狰狞。"
+							"leave": true,
+							"do": {"act": "exit", "by": "niling.master.door"}
 						},
 						{
-							"summon": "niling.altar.hell_runners"
+							"summon": "niling.altar.hell_runners",
+							"do": "emerge"
 						},
 						{
-							"leave": true
+							"line": "坛底的石缝里有什么东西在爬。两个鬼卒从坛底爬了出来——灰绿的皮，手里一柄钢叉，面目狰狞。",
+							"shot": {"look": "niling.altar.shade.1"}
 						}
 					]
 				}
@@ -1391,7 +1424,7 @@
 				"con": 28,
 				"kar": 6
 			},
-			"combat_exp": 8000,
+			"combat_exp": 9500,
 			"score": 1500,
 			"attitude": "aggressive",
 			"capabilities": [
@@ -1775,7 +1808,7 @@
 				"con": 30,
 				"kar": 2
 			},
-			"combat_exp": 5400,
+			"combat_exp": 7000,
 			"score": 300,
 			"attitude": "aggressive",
 			"capabilities": [
@@ -1825,7 +1858,7 @@
 				"con": 26,
 				"kar": 8
 			},
-			"combat_exp": 8500,
+			"combat_exp": 10000,
 			"score": 220,
 			"attitude": "aggressive",
 			"capabilities": [

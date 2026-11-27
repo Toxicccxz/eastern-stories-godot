@@ -55,7 +55,7 @@ var _player_bust: TextureRect
 ## The NPC the box speaks with now (its bust), null for none.
 var _who: NpcRuntimeState
 ## Pages still to read, the one shown first: [speaker, text, is it said, the NPC saying it, its
-## marked words (ColoredLine.keys)].
+## marked words (ColoredLine.keys), its page of a staged scene (ColoredLine.beat; null: none)].
 var _pages: Array[Array] = []
 var _hosted: Control
 var _hosted_parent: Node
@@ -182,11 +182,14 @@ func pages_left() -> int:
 
 ## `speaker_name` (the NPC `who`, whose bust shows; null for none) says `lines` (as the log
 ## shows them) of `teller`'s story: a page each, after those still unread. `keys`: each line's
-## marked words (ColoredLine.keys), line by line; none marked when left out.
-func say(speaker_name: String, lines: Array[String], teller: StringName = &"", who: NpcRuntimeState = null, keys: Array[Array] = []) -> void:
+## marked words (ColoredLine.keys), line by line; none marked when left out. `beats`: each line's
+## page of a staged scene (过场演出 B: ColoredLine.beat), told to the HUD as the page shows and goes.
+func say(speaker_name: String, lines: Array[String], teller: StringName = &"", who: NpcRuntimeState = null, keys: Array[Array] = [], beats: Array = []) -> void:
 	# Over 打听's topics a page would wait for a 下一句 that is not there.
 	if hosting():
 		answer(lines)
+		for beat: Variant in beats:
+			_ui.stage_page_left(beat)
 		return
 	_teller = teller
 	var unread: bool = not _pages.is_empty()
@@ -197,7 +200,10 @@ func say(speaker_name: String, lines: Array[String], teller: StringName = &"", w
 			var marked: Array[String] = []
 			if index < keys.size():
 				marked.assign(keys[index])
-			_pages.append([speaker_name, page, WorldSpeechBubbles.is_speech(text), who, marked])
+			_pages.append([speaker_name, page, WorldSpeechBubbles.is_speech(text), who, marked, beats[index] if index < beats.size() else null])
+		elif index < beats.size():
+			# A line with nothing to read has no page: what it shows is gone through at once.
+			_ui.stage_page_left(beats[index])
 	if not _pages.is_empty() and not unread:
 		_open()
 		_show_page()
@@ -298,6 +304,8 @@ func tell(speaker_name: String, lines: Array[String], teller: StringName = &"") 
 	var who: NpcRuntimeState = _who
 	_release_hosted()
 	_text.text = ""
+	for page: Array in _pages:
+		_ui.stage_page_left(page[5])
 	_pages.clear()
 	say(speaker_name, lines, teller, who)
 	if _pages.is_empty():
@@ -340,6 +348,9 @@ func auto_left() -> float:
 
 
 func _next_page() -> void:
+	# 过场演出 B: what this line's step showed is at its end (nobody stops half-way), and what
+	# waited for the line to be read begins.
+	_ui.stage_page_left(_pages[0][5])
 	_pages.pop_front()
 	if _pages.is_empty():
 		var teller: StringName = _teller
@@ -349,8 +360,14 @@ func _next_page() -> void:
 		_show_page()
 
 
+## Whether the box hosted something (打听, a question) when it was last closed by close(): no told
+## page was cut short by that.
+var closed_hosting: bool = false
+
+
 ## Closes it at once: what was unread stays in 消息.
 func close() -> void:
+	closed_hosting = hosting() and _pages.is_empty()
 	_shut()
 	closed_unread.emit()
 
@@ -392,6 +409,8 @@ func _show_page() -> void:
 	_show_busts(false, page[2])
 	_start_typing()
 	_place()
+	# 过场演出 B: what this line's step shows begins with its page.
+	_ui.stage_page_shown(page[5])
 
 
 ## The busts for the box now: the NPC's (its face by its attitude) and the player's, when the
@@ -463,7 +482,8 @@ func _process(delta: float) -> void:
 		_text.visible_characters = -1 if typed >= _text.text.length() else typed
 	elif not hosting() and not _pages.is_empty() and _auto():
 		_read_left -= delta
-		if _read_left <= 0.0:
+		# 过场演出 B: a line whose step shows something waits for it to be over.
+		if _read_left <= 0.0 and _ui.stage_left() <= 0.0:
 			_guard = GameContent.catalog().pacing().feel.dialogue_press_guard_seconds()
 			_next_page()
 

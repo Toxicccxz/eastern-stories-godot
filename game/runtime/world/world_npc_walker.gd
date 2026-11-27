@@ -315,9 +315,48 @@ func _strictly_off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: 
 ## passage, a door's wall), through people as a room move walks (D: one going indoors at night,
 ## coming out at dawn). False when no such cell can be reached.
 func walk_across(character_id: StringName, body: Node2D, spot: Vector2) -> bool:
-	if body == null or not spot.is_finite():
+	var path: PackedVector2Array = path_across(body, spot)
+	if path.is_empty():
 		return false
+	# A move the rules made replaces a stroll under way, and walks as such.
+	_strolls.erase(character_id)
+	_walks[character_id] = path
+	_set_walking(body, true)
+	return true
+
+
+## The way walk_across() would take from `body` to `spot` (its last point where the walk ends),
+## nothing started: a scene walks it on its own clock (WorldMapStaging; 过场演出 B). Empty when no
+## cell near the spot can be reached.
+func path_across(body: Node2D, spot: Vector2) -> PackedVector2Array:
+	if body == null or not spot.is_finite():
+		return PackedVector2Array()
 	var grid: Grid = Grid.new(_map, Rect2(body.global_position, Vector2.ZERO).expand(spot).grow(CELL * 6.0))
+	var target: Vector2i = grid.cell_of(spot)
+	for cell: Vector2i in _cells_near(grid, spot).slice(0, 6):
+		# Onto the spot itself when its own cell is free (a spawn marker), else the cell's middle.
+		var end: Vector2 = spot if cell == target else grid.center_of(cell)
+		var path: PackedVector2Array = grid.path(body.global_position, end)
+		if not path.is_empty():
+			path.append(end)
+			return path
+	return PackedVector2Array()
+
+
+## The middle of the free cell nearest `spot` (the spot itself when its own cell is free): where
+## a body may stand by a doorway whose own cell is in its wall. INF when none is near.
+func stand_near(spot: Vector2) -> Vector2:
+	if not spot.is_finite():
+		return Vector2.INF
+	var grid: Grid = Grid.new(_map, Rect2(spot, Vector2.ZERO).grow(CELL * 6.0))
+	var cells: Array[Vector2i] = _cells_near(grid, spot)
+	if cells.is_empty():
+		return Vector2.INF
+	return spot if cells[0] == grid.cell_of(spot) else grid.center_of(cells[0])
+
+
+## The free cells within three cells of `spot`, the nearest first.
+static func _cells_near(grid: Grid, spot: Vector2) -> Array[Vector2i]:
 	var target: Vector2i = grid.cell_of(spot)
 	var ends: Array[Vector2i] = []
 	for radius: int in range(0, 4):
@@ -327,11 +366,7 @@ func walk_across(character_id: StringName, body: Node2D, spot: Vector2) -> bool:
 				if grid._astar.is_in_boundsv(cell) and not grid._astar.is_point_solid(cell) and not ends.has(cell):
 					ends.append(cell)
 	ends.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return grid.center_of(a).distance_squared_to(spot) < grid.center_of(b).distance_squared_to(spot))
-	for cell: Vector2i in ends.slice(0, 6):
-		# Onto the spot itself when its own cell is free (a spawn marker), else the cell's middle.
-		if _start(grid, character_id, body, spot if cell == target else grid.center_of(cell)):
-			return true
-	return false
+	return ends
 
 
 ## The grid of `area` as Grid.new() would build it now.

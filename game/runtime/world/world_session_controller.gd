@@ -371,6 +371,15 @@ func release_world_time(owner: StringName) -> void:
 	_world_time_holds.erase(owner)
 
 
+## Whether someone other than `owners` holds world time (过场演出 B: a scene's actions play on under
+## the dialogue box's hold and their own, and stand still under any other — the menu, a card).
+func world_time_held_besides(owners: Array[StringName]) -> bool:
+	for owner: StringName in _world_time_holds:
+		if not owners.has(owner):
+			return true
+	return false
+
+
 ## While the view fades out and in around a map change (DECISIONS「手感」) world time
 ## stands still and the player does not walk: the fade takes nobody's time.
 const VIEW_TIME_HOLD: StringName = &"map_transition"
@@ -1206,11 +1215,30 @@ func player_leaving_zone(from_zone_id: StringName, to_zone_id: StringName) -> vo
 		_room_traps.player_leaving(from_zone_id, to_zone_id)
 
 
+## 成长曲线 C (DECISIONS「成长曲线 C」): the player grows up with combat_exp (pacing player_age_by_exp,
+## PlayerAging): looked at on each heart beat outside a fight, so any gain (a 历练, a fight, a quest)
+## counts within a beat. A year gained raises max 精 and 气 by race/human.c's rule (refresh, the
+## current values as they are) and is told once; NPCs' forms of address follow the age.
+func grow_player_up() -> void:
+	if _player == null or _player.state == null:
+		return
+	var age: int = PlayerAging.grown_age(_player.facts.age, _player.state.progression.combat_experience, GameContent.catalog().pacing().player_age_steps)
+	var kee: int = _player.state.vitality.maximum
+	var gin: int = _player.state.essence.maximum
+	if not _player.grow_up(age):
+		return
+	CharacterDerivedValues.refresh_human_player_maxima(_player.state, age)
+	if shared_ui() != null:
+		# TRANSLATORS: native (成长曲线 C): the player grew a year older with experience; {age} the age now (ChineseNumber: 十六, or digits), {kee} and {gin} how much max 气 and 精 grew.
+		shared_ui().append_colored_lines([ColoredLine.new(tr("【长大】你{age}岁了：气的上限多了 {kee} 点，精的上限多了 {gin} 点。").format({"age": ChineseNumber.of(age), "kee": _player.state.vitality.maximum - kee, "gin": _player.state.essence.maximum - gin}), ColoredLine.HIY)])
+
+
 func advance_player_recovery(delta: float, busy_only: bool = false) -> PlayerRecoveryCadenceResult:
 	if not player_recovery_time_allowed():
 		var frozen: PlayerRecoveryCadenceResult = PlayerRecoveryCadenceResult.new()
 		frozen.outcome = PlayerRecoveryCadenceResult.Outcome.FROZEN
 		return frozen
+	grow_player_up()
 	var result: PlayerRecoveryCadenceResult = _player_recovery_cadence.advance(delta, _player.state, _player.busy, true, busy_only)
 	if not result.lines.is_empty() and shared_ui() != null:
 		shared_ui().append_colored_lines(result.lines)

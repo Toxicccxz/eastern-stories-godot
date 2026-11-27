@@ -143,9 +143,9 @@ func _test_knobs() -> void:
 		if check.exp_gate == &"elon":
 			gate = check.requires.get(&"combat_exp", -1)
 	_check(gate == 30000, "her check of combat_exp follows the gate (%d; ES2 100000 kept in the data)" % gate)
-	_check(rule.inner_force_percent == 35 and not rule.lethal, "her lashes: 35% of her inner force, never lethal")
+	_check(rule.inner_force_percent == 74 and not rule.lethal, "her lashes: 74% of her inner force (成长曲线 C: six or seven in ten for the played character at 30000), never lethal")
 	var modifiers: CombatRoundModifiers = rule.blow_modifiers()
-	_check(modifiers != null and modifiers.inner_force_percent == 35 and modifiers.spare_life, "the blows' modifiers carry it")
+	_check(modifiers != null and modifiers.inner_force_percent == 74 and modifiers.spare_life, "the blows' modifiers carry it")
 	var ranks := NpcTeaching.ApprenticeRule.new()
 	_check(ranks.blow_modifiers() == null, "left out: champion.c's own blows")
 

@@ -41825,3 +41825,9 @@ msgstr "The ledger still lies open on the desk. The people on the list need no c
 
 msgid "北麓的事，虹台上定了。用不着我上去念了。"
 msgstr "The matter of the North Foot was settled on the Rainbow Terrace. There is no need for me to go up and recite now."
+
+msgid "【长大】你{age}岁了：气的上限多了 {kee} 点，精的上限多了 {gin} 点。"
+msgstr "[Growing Up] You are {age} now: your max Qi rose by {kee} and your max Essence by {gin}."
+
+msgid "你把穿灵收在身边，剑身上的霜一点一点化了。你练的是拳，空着手迎上去。\n"
+msgstr "You keep Spiritpiercer by you, and the frost on the blade melts away bit by bit. You fight with your fists; you meet it empty-handed.\n"

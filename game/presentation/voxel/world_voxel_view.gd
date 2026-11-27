@@ -161,6 +161,9 @@ var _ground_layer: TileMapLayer
 ## player's marks and who stands here are read again.
 var story_fx: VoxelStoryFx
 var _story_wait: float = 0.0
+## 过场动作 (DECISIONS「过场动作」): what a scene's steps do and how its shots frame, shown off the
+## map's staging (made with the first scene that shows something).
+var staging_show: VoxelStaging
 ## The map was just shown (or its rain just made): the rain is as the sky is, at once.
 var _weather_fresh: bool = true
 
@@ -211,6 +214,7 @@ func _process(delta: float) -> void:
 	_follow(delta)
 	_sync_actors(delta)
 	_sync_states(delta)
+	_sync_staging(delta)
 	_sync_objects()
 	geometry.sync_passages(map)
 	_reveal_entrances()
@@ -859,7 +863,8 @@ func _sync_actors(delta: float) -> void:
 				model.rotation.z = PI/2*fall_turn(fall,felled)
 			# One killed (its body is hidden) keeps its figure while its fall waits, while it
 			# falls and a moment after; then what lies there takes its place, lying the same way.
-			if dead and fall_seconds > 0.0 and not fresh:
+			# (One that left for good by an act's `leave` was not felled: its figure is simply gone.)
+			if dead and fall_seconds > 0.0 and not fresh and not bool(body.get_meta(WorldMapNpcs.LEFT, false)):
 				if fall_holds.has(id) or fall < 1.0:
 					_lingering[id] = LINGER_AFTER
 				elif _lingering.has(id):
@@ -947,6 +952,43 @@ func _touches() -> VoxelTouches:
 	return touches
 
 
+## 过场动作: the figures a scene poses, what flies from hand to hand, the shot's push-in and a
+## 主线场面 a step plays by name (VoxelStaging), read off the map's staging.
+func _sync_staging(delta: float) -> void:
+	if world == null:
+		return
+	if not is_instance_valid(staging_show):
+		var stage: WorldMapStaging = map.staging
+		if not stage.shows() and stage.shot_frame().is_empty() and stage.fx_claimed().is_empty():
+			return
+		staging_show = VoxelStaging.new()
+		staging_show.name = "Staging"
+		world.add_child(staging_show)
+	staging_show.sync(self, delta)
+
+
+## The point the camera looks at now (the world's space).
+func looked_at() -> Vector3:
+	return _target
+
+
+## The camera is on what the map looks at now, at once (a shot that cuts).
+func cut_to_anchor() -> void:
+	_target = VoxelMapGeometry.point(map.view_anchor(), 0.7)
+
+
+## The view's 主线场面 player, made on first use; null while the feel shows none of it.
+func story_node() -> VoxelStoryFx:
+	if GameContent.catalog().pacing().feel.world_fx_seconds <= 0.0 or world == null or map.session == null:
+		return null
+	if not is_instance_valid(story_fx):
+		story_fx = VoxelStoryFx.new()
+		story_fx.name = "StoryFx"
+		world.add_child(story_fx)
+	story_fx.camera = camera
+	return story_fx
+
+
 ## 主线场面: reads the player's marks and who stands on the map a few times a second; a scene of
 ## this map whose trigger came true since the last look is played where it happens.
 func _sync_story(delta: float) -> void:
@@ -959,11 +1001,7 @@ func _sync_story(delta: float) -> void:
 	var scenes: Dictionary = VoxelStoryFx.scenes_for(map.map_id())
 	if scenes.is_empty():
 		return
-	if not is_instance_valid(story_fx):
-		story_fx = VoxelStoryFx.new()
-		story_fx.name = "StoryFx"
-		world.add_child(story_fx)
-	story_fx.camera = camera
+	story_node()
 	var standing: Dictionary[StringName, bool] = {}
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		if npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:

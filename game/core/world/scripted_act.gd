@@ -102,6 +102,10 @@ extends RefCounted
 ##   owing that time as if the player had been away (别的地图时间补算), the player's own map and
 ##   their recovery caught up too; nothing when the day is in one of them already. Branches may
 ##   ask `marks` (every one held, as `mark` asks one) and `phase` (the day's phase is one of them).
+## - any step may carry `do`, `shot` and `fx` (native, 过场演出 B; DECISIONS「过场动作」: SceneCue): who
+##   does what as it is told, how the camera frames it, a 主线场面 played with it. They change
+##   nothing the step settles; a `leave` whose `do` is an exit or a dissolve is settled once that
+##   is shown (at once when nothing is shown: the feel off, the scene cut short).
 ## - `reincarnate`: damage.c reincarnate() and ob->move(REVIVE_ROOM) (d/death/npc/wgargoyle.c
 ##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
 ##   act's last step; the session makes the move once the act's map has had its beat
@@ -360,8 +364,12 @@ class Step:
 	var item_id: StringName = &""
 	var pick: Array[StringName] = []
 	var unless_temp: String = ""
-	## `give`'s `wield` (native; DECISIONS「穿灵在手」): the new weapon goes into the player's hand.
+	## `give`'s `wield` (native; DECISIONS「穿灵在手」): the new weapon goes into the player's hand in
+	## place of the one they hold; one who fights with trained bare hands (柳家拳 enabled, nothing in
+	## hand: CombatPowerRules.trained_bare_hands) keeps them free and it goes into the bag (成长曲线 C).
 	var wield: bool = false
+	## `give`'s `bare_lines`, said instead of `lines` when `wield` left trained bare hands free.
+	var bare_lines: Array[NpcLine] = []
 	var lines: Array[NpcLine] = []
 	## set_temp, clear_temp, unmark, mark, set_room, clear_room, npc_flag, npc_mood: the flag,
 	## mark or mood.
@@ -382,6 +390,9 @@ class Step:
 	## Native (DECISIONS「说话的人得在场」): the step runs only while an NPC of this definition stands in
 	## the act's room (judged as it is reached); &"": always.
 	var only_present: StringName = &""
+	## Native (过场演出 B; DECISIONS「过场动作」): what the step shows besides (`do`, `shot`, `fx`:
+	## SceneCue); null: nothing. Its rule is settled the same with or without.
+	var cue: SceneCue = null
 
 
 ## Whether the branch is for a player of this gender and class, with these `facts` (none:
@@ -614,6 +625,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 		step.only_when = JournalEntryDefinition.new()
 		JournalEntryDefinition.read_when(reader, step.only_when, "when")
 	step.only_present = StringName(reader.text("present"))
+	step.cue = SceneCue.read(reader, kinds[0])
 	match kinds[0]:
 		"line":
 			step.kind = Kind.LINE
@@ -712,6 +724,13 @@ static func _step(reader: ContentRecordReader) -> Step:
 				record.finish()
 				if said != null:
 					step.lines.append(said)
+			for record: ContentRecordReader in reader.children("bare_lines"):
+				var said: NpcLine = NpcLine.from_record(record, true)
+				record.finish()
+				if said != null:
+					step.bare_lines.append(said)
+			if not step.bare_lines.is_empty() and not step.wield:
+				reader.fail("bare_lines", "is said instead of lines when wield leaves trained bare hands free: it needs wield")
 		"set_temp":
 			step.kind = Kind.SET_TEMP
 			step.flag = reader.required_text("set_temp")
