@@ -5225,7 +5225,7 @@ msgid "缚仙绳"
 msgstr "Soga de atar inmortales"
 
 msgid "寒谷幽兰"
-msgstr "Orquídea del valle frío"
+msgstr "Orquídea del Valle Frío"
 
 msgid "「白杨经」"
 msgstr "«Clásico del álamo blanco»"
@@ -5558,7 +5558,7 @@ msgid "手诏"
 msgstr "Edicto manuscrito"
 
 msgid "先帝的解读"
-msgstr "Notas del difunto emperador"
+msgstr "Interpretación del difunto emperador"
 
 msgid "禁中刀谱"
 msgstr "Manual del sable de palacio"
@@ -5654,7 +5654,7 @@ msgid "翻倒的纳供车"
 msgstr "Carro de tributo volcado"
 
 msgid "芦苇丛里的尸首"
-msgstr "Cuerpo entre los juncos"
+msgstr "Cuerpo entre los carrizos"
 
 msgid "赤铜令"
 msgstr "Placa de cobre rojo"
@@ -15278,7 +15278,7 @@ msgid "既入了门，武馆的事你也该担一件。"
 msgstr "Ya que entraste en la escuela, también te toca cargar con un asunto del salón."
 
 msgid "这几日有来投师的人说，在镇西的青石官道上交过「拜师钱」——十两银子，收钱的自称封山弟子。淳风武馆收徒，从来不收这个钱。"
-msgstr "Estos días, algunos que vinieron a pedir ingreso dicen que pagaron una 'cuota de ingreso' en el Camino real de piedra azul, al oeste del pueblo: diez taels de plata, a unos que se decían discípulos de la Montaña Vacía. El Salón del Viento Puro jamás cobró ese dinero a quien acepta como discípulo."
+msgstr "Estos días, algunos que vinieron a pedir ingreso dicen que pagaron una 'cuota de ingreso' en el Camino real de piedra azul, al oeste del pueblo: diez taels de plata, a unos que se decían discípulos de la Montaña Vacía. El Salón del Viento Puro jamás cobró ese dinero a quien aceptaba como discípulo."
 
 msgid "我不便去。掌门出手打几个骗子，传出去是笑话。你是新面孔，他们不认得你——去看看他们凭的是什么。"
 msgstr "No me conviene ir. Un Maestro que sale a golpear a unos estafadores sería el hazmerreír. Tú eres una cara nueva; no te conocen. Ve a ver en qué se apoyan."
