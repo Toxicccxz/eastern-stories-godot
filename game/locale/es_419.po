@@ -38,10 +38,10 @@ msgid "於兰天武"
 msgstr "Yulan Tianwu"
 
 msgid "大天邪"
-msgstr "Gran Rebelde"
+msgstr "Gran Indómito"
 
 msgid "旋芒"
-msgstr "Filo del Remolino"
+msgstr "Filo Giratorio"
 
 msgid "卫沧澜"
 msgstr "Wei Canglan"
@@ -50,7 +50,7 @@ msgid "萧辟尘"
 msgstr "Xiao Bichen"
 
 msgid "小天邪"
-msgstr "Pequeño Rebelde"
+msgstr "Pequeño Indómito"
 
 msgid "潘军禅"
 msgstr "Pan Junchan"
@@ -338,13 +338,13 @@ msgid "张百万"
 msgstr "Zhang el Ricachón"
 
 msgid "水烟阁武士"
-msgstr "Guardia de Bruma del Agua"
+msgstr "Guardia de Pabellón de la Neblina"
 
 msgid "水烟阁司事"
-msgstr "Custodio de Bruma del Agua"
+msgstr "Custodio de Pabellón de la Neblina"
 
 msgid "天邪虎"
-msgstr "Tigre rebelde"
+msgstr "Tigre indómito"
 
 msgid "仆役"
 msgstr "Sirviente"
@@ -1937,7 +1937,7 @@ msgid "石头"
 msgstr "Shitou"
 
 msgid "关北民夫"
-msgstr "Peón de la frontera"
+msgstr "Peón del Norte del Paso"
 
 msgid "商玦"
 msgstr "Shang Jue"
@@ -2471,7 +2471,7 @@ msgid "禁中刀"
 msgstr "Sable de palacio"
 
 msgid "关北马刀"
-msgstr "Sable de la frontera"
+msgstr "Sable del Norte del Paso"
 
 msgid "铁盾剑法"
 msgstr "Espada del escudo de hierro"
@@ -2480,7 +2480,7 @@ msgid "鬼笠刀法"
 msgstr "Sable del Sombrero Fantasma"
 
 msgid "振远镖局"
-msgstr "Escoltas del Camino Lejano"
+msgstr "Escoltas del Largo Camino"
 
 msgid "东方神教"
 msgstr "Orden del Cuervo Dorado"
@@ -2637,3 +2637,4074 @@ msgstr "estuche"
 
 msgid "碗"
 msgstr "cuenco"
+
+msgid "军营入口"
+msgstr "Entrada del campamento"
+
+msgid "小兵营帐"
+msgstr "Tienda de los soldados"
+
+msgid "营火区"
+msgstr "Explanada de la hoguera"
+
+msgid "小队长营帐"
+msgstr "Tienda del jefe de escuadra"
+
+msgid "副将营帐"
+msgstr "Tienda del lugarteniente"
+
+msgid "将军营帐"
+msgstr "Tienda del general"
+
+msgid "水井 · 装水"
+msgstr "pozo · sacar agua"
+
+msgid "兵器库"
+msgstr "Armería"
+
+msgid "武"
+msgstr "Armas"
+
+msgid "竹林道"
+msgstr "Sendero del Bambú"
+
+msgid "竹林道入口"
+msgstr "Entrada del Sendero del Bambú"
+
+msgid "梦幻迷境通道"
+msgstr "Pasaje al Laberinto de los Sueños"
+
+msgid "镜子"
+msgstr "Espejo"
+
+msgid "上道"
+msgstr "Camino de arriba"
+
+msgid "碎石小路"
+msgstr "Sendero de grava"
+
+msgid "东北 · 雪亭镇"
+msgstr "noreste · Pabellón Nevado"
+
+msgid "铁索 · 爬下去"
+msgstr "cadena de hierro · bajar"
+
+msgid "黄石隘口尾"
+msgstr "Fin del Desfiladero de Piedra Amarilla"
+
+msgid "隘口小路"
+msgstr "Sendero del desfiladero"
+
+msgid "隘口中道"
+msgstr "Mitad del desfiladero"
+
+msgid "关外小路"
+msgstr "Sendero fuera del paso"
+
+msgid "天驼关谷地"
+msgstr "Valle del Camello"
+
+msgid "黄石穿林路路口"
+msgstr "Inicio del Camino de Piedra Amarilla"
+
+msgid "黄石穿林路"
+msgstr "Camino de Piedra Amarilla"
+
+msgid "梦幻迷境入口"
+msgstr "Entrada del Laberinto de los Sueños"
+
+msgid "南 · 玉螺湖村"
+msgstr "sur · Aldea Caracola de Jade"
+
+msgid "东 · 关门 · 关北"
+msgstr "este · puerta del paso · Norte del Paso"
+
+msgid "铁索 · 爬上去"
+msgstr "cadena de hierro · subir"
+
+msgid "洞内石室"
+msgstr "Cámara de la cueva"
+
+msgid "书柜 · 翻找"
+msgstr "estantería · rebuscar"
+
+msgid "火龙将军庙"
+msgstr "Templo del Dragón de Fuego"
+
+msgid "阶梯 · 下楼"
+msgstr "escalera · bajar"
+
+msgid "山洞"
+msgstr "Cueva"
+
+msgid "藤蔓 · 爬下去"
+msgstr "lianas · bajar"
+
+msgid "树冠"
+msgstr "Copa del árbol"
+
+msgid "古树 · 爬下去"
+msgstr "árbol viejo · bajar"
+
+msgid "云梦大泽"
+msgstr "Pantano de Yunmeng"
+
+msgid "荒野小径"
+msgstr "Sendero agreste"
+
+msgid "土路"
+msgstr "Camino de tierra"
+
+msgid "青石小路"
+msgstr "Sendero de piedra azul"
+
+msgid "青石峪"
+msgstr "Barranco de Piedra Azul"
+
+msgid "竹林"
+msgstr "Bosque de bambú"
+
+msgid "桐柏山"
+msgstr "Monte Tongbai"
+
+msgid "西 · 乔阴县城"
+msgstr "oeste · Sombra Alta"
+
+msgid "丹炉"
+msgstr "Horno de elixires"
+
+msgid "大泽 · 装水"
+msgstr "pantano · sacar agua"
+
+msgid "砾石路"
+msgstr "Camino de guijarros"
+
+msgid "绝壁"
+msgstr "Precipicio"
+
+msgid "北 · 乔阴县城"
+msgstr "norte · Sombra Alta"
+
+msgid "姑射山"
+msgstr "Monte Guye"
+
+msgid "福林酒楼"
+msgstr "Taberna Fulin"
+
+msgid "方梯 · 下楼"
+msgstr "escalera cuadrada · bajar"
+
+msgid "方梯 · 上楼"
+msgstr "escalera cuadrada · subir"
+
+msgid "神秘洞穴"
+msgstr "Cueva misteriosa"
+
+msgid "洞穴 · 闻忘忧草"
+msgstr "cueva · oler la hierba del olvido"
+
+msgid "云台"
+msgstr "Terraza de las Nubes"
+
+msgid "云"
+msgstr "Nubes"
+
+msgid "车马行 · 靠近坐车"
+msgstr "casa de carruajes · acércate para viajar"
+
+msgid "乔阴县城北门"
+msgstr "Puerta norte de Sombra Alta"
+
+msgid "福林大街"
+msgstr "Calle Fulin"
+
+msgid "石板空地"
+msgstr "Explanada de losas"
+
+msgid "西大街"
+msgstr "Calle Oeste"
+
+msgid "树王坟"
+msgstr "Tumba del Rey Árbol"
+
+msgid "东大街"
+msgstr "Calle Este"
+
+msgid "东城门"
+msgstr "Puerta Este"
+
+msgid "南门广场"
+msgstr "Plaza de la Puerta Sur"
+
+msgid "承安街"
+msgstr "Calle Cheng'an"
+
+msgid "十字路口"
+msgstr "Cruce"
+
+msgid "县府衙门"
+msgstr "Tribunal del magistrado"
+
+msgid "乔阴县城南门"
+msgstr "Puerta sur de Sombra Alta"
+
+msgid "街道"
+msgstr "Calle"
+
+msgid "曲桥"
+msgstr "Puente en zigzag"
+
+msgid "曼雩台"
+msgstr "Terraza de la Danza de Lluvia"
+
+msgid "桃林"
+msgstr "Arboleda de duraznos"
+
+msgid "阶梯 · 上高台"
+msgstr "escalera · subir a la terraza"
+
+msgid "大皮鼓 · 击鼓"
+msgstr "gran tambor · tocar"
+
+msgid "西 · 泓水南岸"
+msgstr "oeste · orilla sur del Río Hondo"
+
+msgid "东 · 城外"
+msgstr "este · afueras"
+
+msgid "南 · 姑射山"
+msgstr "sur · Monte Guye"
+
+msgid "翠柳湖"
+msgstr "Lago de Sauces Verdes"
+
+msgid "东 · 桃林"
+msgstr "este · arboleda de duraznos"
+
+msgid "大井 · 装水"
+msgstr "pozo grande · sacar agua"
+
+msgid "石缝 · 采"
+msgstr "grieta · recolectar"
+
+msgid "大井 · 喝水"
+msgstr "pozo grande · beber"
+
+msgid "杂货"
+msgstr "Abarrotes"
+
+msgid "米"
+msgstr "Arroz"
+
+msgid "福林楼"
+msgstr "Fulin"
+
+msgid "树王坟内部"
+msgstr "Interior de la Tumba del Rey Árbol"
+
+msgid "洞壁 · 攀上去"
+msgstr "pared de la cueva · trepar"
+
+msgid "寒谷"
+msgstr "Valle Frío"
+
+msgid "寒谷尽头"
+msgstr "Fondo del Valle Frío"
+
+msgid "内厅"
+msgstr "Sala interior"
+
+msgid "大堂"
+msgstr "Sala del tribunal"
+
+msgid "县衙内院"
+msgstr "Patio interior del tribunal"
+
+msgid "南 · 衙门口"
+msgstr "sur · puerta del tribunal"
+
+msgid "草堂"
+msgstr "Cabaña de paja"
+
+msgid "庭院"
+msgstr "Patio"
+
+msgid "书卷 · 拿书"
+msgstr "pergaminos · tomar un libro"
+
+msgid "西花园"
+msgstr "Jardín oeste"
+
+msgid "黑松阁西厅"
+msgstr "Sala oeste del Pino Negro"
+
+msgid "北花园"
+msgstr "Jardín norte"
+
+msgid "储藏室"
+msgstr "Almacén"
+
+msgid "黑松阁正厅"
+msgstr "Sala principal del Pino Negro"
+
+msgid "黑松阁东厅"
+msgstr "Sala este del Pino Negro"
+
+msgid "东花园"
+msgstr "Jardín este"
+
+msgid "南花园"
+msgstr "Jardín sur"
+
+msgid "城墙 · 爬上去"
+msgstr "muralla · trepar"
+
+msgid "绳子 · 拉"
+msgstr "cuerda · halar"
+
+msgid "楼梯 · 上楼"
+msgstr "escalera · subir"
+
+msgid "黄土大道"
+msgstr "Gran camino de tierra amarilla"
+
+msgid "路口"
+msgstr "Encrucijada"
+
+msgid "山脚乡田"
+msgstr "Campos al pie del monte"
+
+msgid "黑松山脚"
+msgstr "Faldas del Pino Negro"
+
+msgid "黑松山腰"
+msgstr "Ladera del Pino Negro"
+
+msgid "花岗石街"
+msgstr "Calle de Granito"
+
+msgid "铁索桥"
+msgstr "Puente de cadenas"
+
+msgid "黑松淳于"
+msgstr "Chunyu del Pino Negro"
+
+msgid "黑松城堡的西侧"
+msgstr "Lado oeste del castillo"
+
+msgid "黑松城堡的东侧"
+msgstr "Lado este del castillo"
+
+msgid "夹道"
+msgstr "Pasaje entre muros"
+
+msgid "东 · 玉螺湖村"
+msgstr "este · Aldea Caracola de Jade"
+
+msgid "茶馆"
+msgstr "Casa de té"
+
+msgid "万丈深渊"
+msgstr "Abismo sin fondo"
+
+msgid "黑松阁"
+msgstr "Salón del Pino Negro"
+
+msgid "铁链 · 顺着走下去"
+msgstr "cadena de hierro · bajar por ella"
+
+msgid "地牢"
+msgstr "Calabozo"
+
+msgid "刑房"
+msgstr "Cámara de tortura"
+
+msgid "阳台"
+msgstr "Balcón"
+
+msgid "卧室"
+msgstr "Dormitorio"
+
+msgid "膳房"
+msgstr "Comedor"
+
+msgid "楼梯 · 下楼"
+msgstr "escalera · bajar"
+
+msgid "大床"
+msgstr "Cama grande"
+
+msgid "旺金钱庄"
+msgstr "Banco Oro Creciente"
+
+msgid "钱庄 · 兑换"
+msgstr "banco · cambiar"
+
+msgid "振远总局"
+msgstr "Sede del Largo Camino"
+
+msgid "镖"
+msgstr "Escoltas"
+
+msgid "李记鞋店"
+msgstr "Zapatería Li"
+
+msgid "地下密室"
+msgstr "Sótano secreto"
+
+msgid "小床"
+msgstr "Cama pequeña"
+
+msgid "向上的阶梯"
+msgstr "Escalones hacia arriba"
+
+msgid "石板 · 下去"
+msgstr "losa · bajar"
+
+msgid "柴草 · 拨开"
+msgstr "ramas · apartar"
+
+msgid "北驿道"
+msgstr "Camino de postas del norte"
+
+msgid "京师北门"
+msgstr "Puerta norte de la Capital"
+
+msgid "大栅栏"
+msgstr "Dashilar"
+
+msgid "京师西一门"
+msgstr "Primera puerta oeste"
+
+msgid "京师街道"
+msgstr "Calle de la Capital"
+
+msgid "京师东一门"
+msgstr "Primera puerta este"
+
+msgid "废园"
+msgstr "Jardín en ruinas"
+
+msgid "祭坛"
+msgstr "Altar"
+
+msgid "京师西街"
+msgstr "Calle Oeste de la Capital"
+
+msgid "神武门"
+msgstr "Puerta del Poder Divino"
+
+msgid "京师东街"
+msgstr "Calle Este de la Capital"
+
+msgid "相国府大门"
+msgstr "Portón del canciller"
+
+msgid "午门"
+msgstr "Puerta Meridiana"
+
+msgid "校武场"
+msgstr "Patio de armas"
+
+msgid "京师西二门"
+msgstr "Segunda puerta oeste"
+
+msgid "天桥"
+msgstr "Tianqiao"
+
+msgid "京师东二门"
+msgstr "Segunda puerta este"
+
+msgid "京师南门"
+msgstr "Puerta sur de la Capital"
+
+msgid "尚书府大门"
+msgstr "Portón del ministro"
+
+msgid "向下的阶梯"
+msgstr "Escalones hacia abajo"
+
+msgid "北 · 玉螺湖村"
+msgstr "norte · Aldea Caracola de Jade"
+
+msgid "连绵的群山"
+msgstr "Montañas sin fin"
+
+msgid "护国寺"
+msgstr "Templo Huguo"
+
+msgid "紫禁城"
+msgstr "Ciudad Imperial"
+
+msgid "相国府"
+msgstr "Residencia del canciller"
+
+msgid "监狱"
+msgstr "Prisión"
+
+msgid "刑场"
+msgstr "Campo de ejecuciones"
+
+msgid "城门 · 出城"
+msgstr "puerta de la ciudad · salir"
+
+msgid "草丛 · 寻找"
+msgstr "hierba alta · buscar"
+
+msgid "午门 · 候旨"
+msgstr "Puerta Meridiana · aguardar órdenes"
+
+msgid "相国府大门 · 叩门"
+msgstr "portón del canciller · llamar"
+
+msgid "药"
+msgstr "Botica"
+
+msgid "饼"
+msgstr "Pasteles"
+
+msgid "笔墨"
+msgstr "Tinta"
+
+msgid "太白酒楼二楼"
+msgstr "Taberna Taibai, piso de arriba"
+
+msgid "院墙"
+msgstr "Muro del patio"
+
+msgid "北 · 京师东街"
+msgstr "norte · Calle Este de la Capital"
+
+msgid "南 · 尚书府"
+msgstr "sur · Residencia del ministro"
+
+msgid "京师东街 · 跳回去"
+msgstr "Calle Este de la Capital · saltar de vuelta"
+
+msgid "尚书府 · 跳进去"
+msgstr "Residencia del ministro · saltar adentro"
+
+msgid "相国府前院"
+msgstr "Patio delantero del canciller"
+
+msgid "相国府正厅"
+msgstr "Salón principal del canciller"
+
+msgid "相国府书房"
+msgstr "Estudio del canciller"
+
+msgid "四喜绸缎庄"
+msgstr "Sedas Cuatro Dichas"
+
+msgid "空房间"
+msgstr "Cuarto vacío"
+
+msgid "太白酒楼"
+msgstr "Taberna Taibai"
+
+msgid "尚书府庭院"
+msgstr "Patio del ministro"
+
+msgid "尚书府客厅"
+msgstr "Salón de visitas del ministro"
+
+msgid "花园小径"
+msgstr "Sendero del jardín"
+
+msgid "小径"
+msgstr "Sendero"
+
+msgid "花园"
+msgstr "Jardín"
+
+msgid "厨房"
+msgstr "Cocina"
+
+msgid "内宅"
+msgstr "Aposentos interiores"
+
+msgid "小路"
+msgstr "Vereda"
+
+msgid "小屋"
+msgstr "Cuartito"
+
+msgid "废屋"
+msgstr "Casa en ruinas"
+
+msgid "京师武器店"
+msgstr "Armería de la Capital"
+
+msgid "镖局"
+msgstr "Agencia de escoltas"
+
+msgid "书局"
+msgstr "Librería"
+
+msgid "镇北肉铺"
+msgstr "Carnicería del norte"
+
+msgid "赌场"
+msgstr "Casa de apuestas"
+
+msgid "怡红院二楼"
+msgstr "Deleite Rojo, piso de arriba"
+
+msgid "黄土路"
+msgstr "Camino de tierra amarilla"
+
+msgid "卧龙岗北坡"
+msgstr "Ladera norte del Dragón Dormido"
+
+msgid "卧龙岗"
+msgstr "Loma del Dragón Dormido"
+
+msgid "卧龙岗南坡"
+msgstr "Ladera sur del Dragón Dormido"
+
+msgid "绮云镇"
+msgstr "Tejenubes"
+
+msgid "北市场"
+msgstr "Mercado norte"
+
+msgid "西市场"
+msgstr "Mercado oeste"
+
+msgid "中市场"
+msgstr "Mercado central"
+
+msgid "东市场"
+msgstr "Mercado este"
+
+msgid "南市场"
+msgstr "Mercado sur"
+
+msgid "绮云镇街道"
+msgstr "Calle de Tejenubes"
+
+msgid "茶场"
+msgstr "Plantación de té"
+
+msgid "江北渡口"
+msgstr "Embarcadero norte"
+
+msgid "张家花园"
+msgstr "Jardín de los Zhang"
+
+msgid "西 · 晚月庄"
+msgstr "oeste · Mansión Luna Tardía"
+
+msgid "南 · 泓水"
+msgstr "sur · Río Hondo"
+
+msgid "北 · 雪亭镇"
+msgstr "norte · Pabellón Nevado"
+
+msgid "[启事] 由此入镇收取黄金一两"
+msgstr "[Aviso] Para entrar al pueblo se cobra un tael de oro"
+
+msgid "布庄"
+msgstr "Tienda de telas"
+
+msgid "斋"
+msgstr "Comidas"
+
+msgid "赌"
+msgstr "Juego"
+
+msgid "香茗坊二楼"
+msgstr "Hoja Dulce, piso de arriba"
+
+msgid "药店"
+msgstr "Botica"
+
+msgid "怡红院"
+msgstr "Casa Deleite Rojo"
+
+msgid "红娘庄"
+msgstr "Casa de la casamentera"
+
+msgid "斋院"
+msgstr "Fonda vegetariana"
+
+msgid "张百万家"
+msgstr "Casa de Zhang el Ricachón"
+
+msgid "福"
+msgstr "Fortuna"
+
+msgid "香茗坊"
+msgstr "Casa de té Hoja Dulce"
+
+msgid "香茗坊茶窖"
+msgstr "Bodega de té Hoja Dulce"
+
+msgid "兵器屋"
+msgstr "Armería"
+
+msgid "场院"
+msgstr "Patio de recreo"
+
+msgid "棺材铺"
+msgstr "Tienda de ataúdes"
+
+msgid "场院前厅"
+msgstr "Vestíbulo del patio de recreo"
+
+msgid "杂货铺"
+msgstr "Tienda de abarrotes"
+
+msgid "路的尽头"
+msgstr "Fin del camino"
+
+msgid "鬼门大道"
+msgstr "Camino de los Fantasmas"
+
+msgid "酆都城门"
+msgstr "Puerta de Fengdu"
+
+msgid "鬼门关"
+msgstr "Puerta de los Fantasmas"
+
+msgid "奈何桥"
+msgstr "Puente del Desamparo"
+
+msgid "酆都城"
+msgstr "Fengdu"
+
+msgid "黑色城楼"
+msgstr "Torre negra"
+
+msgid "大雾"
+msgstr "Niebla espesa"
+
+msgid "小店"
+msgstr "Tiendita"
+
+msgid "人影 · 打听「回家」"
+msgstr "sombra · preguntar por \"volver a casa\""
+
+msgid "黑店"
+msgstr "Posada de bandidos"
+
+msgid "市集西头"
+msgstr "Bazar, extremo oeste"
+
+msgid "市集东头"
+msgstr "Bazar, extremo este"
+
+msgid "铁盾会门前"
+msgstr "Ante el Escudo de Hierro"
+
+msgid "寺前坡道"
+msgstr "Cuesta del templo"
+
+msgid "西 · 码头"
+msgstr "oeste · muelle"
+
+msgid "拜火祠"
+msgstr "Santuario del fuego"
+
+msgid "南 · 日陀罗寺"
+msgstr "sur · Templo Ritola"
+
+msgid "市舶司"
+msgstr "Aduana marítima"
+
+msgid "客栈"
+msgstr "Posada"
+
+msgid "海崖口"
+msgstr "Cima del acantilado"
+
+msgid "海崖道"
+msgstr "Camino del Acantilado"
+
+msgid "崖脚"
+msgstr "Pie del acantilado"
+
+msgid "北 · 忘情谷外 · 玉螺湖村"
+msgstr "norte · Valle del Olvido · Aldea Caracola de Jade"
+
+msgid "南 · 番坊码头"
+msgstr "sur · Muelle del Barrio Extranjero"
+
+msgid "市舶司公事房"
+msgstr "Despacho de la aduana"
+
+msgid "市舶司后院"
+msgstr "Patio trasero de la aduana"
+
+msgid "兵部文书 · 看"
+msgstr "papeles del Ministerio de Guerra · leer"
+
+msgid "祭司的净室"
+msgstr "Cámara del sacerdote"
+
+msgid "火前 · 问话"
+msgstr "ante el fuego · interrogar"
+
+msgid "日陀罗寺"
+msgstr "Templo Ritola"
+
+msgid "日陀罗寺佛殿"
+msgstr "Salón de Buda del Templo Ritola"
+
+msgid "船工棚"
+msgstr "Cobertizo de los barqueros"
+
+msgid "番坊码头"
+msgstr "Muelle del Barrio Extranjero"
+
+msgid "北 · 崖脚 · 海崖道"
+msgstr "norte · pie del acantilado · Camino del Acantilado"
+
+msgid "东 · 市集"
+msgstr "este · bazar"
+
+msgid "鬼笠馆门庭"
+msgstr "Patio de entrada del Sombrero Fantasma"
+
+msgid "鬼笠馆板地"
+msgstr "Dojo del Sombrero Fantasma"
+
+msgid "板地 · 歇"
+msgstr "tarima · descansar"
+
+msgid "铁盾会院子"
+msgstr "Patio del Escudo de Hierro"
+
+msgid "会首的屋"
+msgstr "Cuarto del jefe de la hermandad"
+
+msgid "冯禄的文书 · 对质"
+msgstr "papeles de Feng Lu · confrontar"
+
+msgid "岩洞"
+msgstr "Caverna"
+
+msgid "岩穴"
+msgstr "Gruta"
+
+msgid "西 · 峡谷"
+msgstr "oeste · cañón"
+
+msgid "山路"
+msgstr "Camino de montaña"
+
+msgid "山路转角"
+msgstr "Recodo del camino"
+
+msgid "岩石坡"
+msgstr "Ladera rocosa"
+
+msgid "峡谷"
+msgstr "Cañón"
+
+msgid "南 · 雪亭镇"
+msgstr "sur · Pabellón Nevado"
+
+msgid "油布 · 钻进车里"
+msgstr "lona · esconderse en la carreta"
+
+msgid "绳索 · 攀绳上去"
+msgstr "cuerda · trepar"
+
+msgid "小土地庙"
+msgstr "Pequeño santuario del Dios de la Tierra"
+
+msgid "黑暗山洞"
+msgstr "Cueva oscura"
+
+msgid "迷阵"
+msgstr "Laberinto de los Trigramas"
+
+msgid "绝地"
+msgstr "Sin salida"
+
+msgid "坤——"
+msgstr "Tierra——"
+
+msgid "艮——"
+msgstr "Montaña——"
+
+msgid "坎——"
+msgstr "Agua——"
+
+msgid "巽——"
+msgstr "Viento——"
+
+msgid "震——"
+msgstr "Trueno——"
+
+msgid "离——"
+msgstr "Fuego——"
+
+msgid "兑——"
+msgstr "Lago——"
+
+msgid "乾——"
+msgstr "Cielo——"
+
+msgid "洞口"
+msgstr "Boca de la cueva"
+
+msgid "山路尽头"
+msgstr "Fin del camino de montaña"
+
+msgid "溪水边"
+msgstr "Orilla del arroyo"
+
+msgid "南 · 青石村"
+msgstr "sur · Aldea Piedra Azul"
+
+msgid "石洞"
+msgstr "Cueva de piedra"
+
+msgid "小路的尽头"
+msgstr "Fin de la vereda"
+
+msgid "三叉路口"
+msgstr "Bifurcación"
+
+msgid "石板路"
+msgstr "Camino de losas"
+
+msgid "小巷子"
+msgstr "Callejón"
+
+msgid "小广场"
+msgstr "Plazuela"
+
+msgid "采石场的空地"
+msgstr "Claro de la cantera"
+
+msgid "工作站"
+msgstr "Patio de la cantera"
+
+msgid "西 · 雪亭镇"
+msgstr "oeste · Pabellón Nevado"
+
+msgid "北 · 山洞"
+msgstr "norte · cueva"
+
+msgid "采石场"
+msgstr "Cantera"
+
+msgid "大榕树"
+msgstr "Gran baniano"
+
+msgid "马房"
+msgstr "Caballeriza"
+
+msgid "木屋"
+msgstr "Cabaña de madera"
+
+msgid "井 · 装水"
+msgstr "pozo · sacar agua"
+
+msgid "民宅"
+msgstr "Casa"
+
+msgid "工匠的家"
+msgstr "Casa del artesano"
+
+msgid "村长的家"
+msgstr "Casa del jefe de la aldea"
+
+msgid "沈记商行"
+msgstr "Comercio Shen"
+
+msgid "破木牌"
+msgstr "Letrero roto"
+
+msgid "石室"
+msgstr "Cámara de piedra"
+
+msgid "石室大厅"
+msgstr "Sala de la cámara de piedra"
+
+msgid "木剑"
+msgstr "Espada de madera"
+
+msgid "蒲团"
+msgstr "Cojín de meditación"
+
+msgid "土地庙"
+msgstr "Santuario del Dios de la Tierra"
+
+msgid "古冢口"
+msgstr "Entrada del túmulo"
+
+msgid "石门"
+msgstr "Puerta de piedra"
+
+msgid "车"
+msgstr "Carreta"
+
+msgid "西 · 土方 · 工地"
+msgstr "oeste · excavación · obras"
+
+msgid "帐篷营地"
+msgstr "Campamento de tiendas"
+
+msgid "营地东口"
+msgstr "Salida este del campamento"
+
+msgid "西 · 东门 · 马市"
+msgstr "oeste · puerta este · mercado de caballos"
+
+msgid "东 · 草原"
+msgstr "este · estepa"
+
+msgid "篝火 · 等到天黑"
+msgstr "hoguera · esperar la noche"
+
+msgid "关外山道"
+msgstr "Camino tras el Paso"
+
+msgid "风沙道"
+msgstr "Camino de Viento y Arena"
+
+msgid "关北界碑"
+msgstr "Estela fronteriza"
+
+msgid "北 · 槐阳城门"
+msgstr "norte · Puerta de Huaiyang"
+
+msgid "南 · 关门 · 天驼关谷地"
+msgstr "sur · puerta del paso · Valle del Camello"
+
+msgid "关北封国界"
+msgstr "Límite del feudo"
+
+msgid "塞外酒肆"
+msgstr "Taberna de la frontera"
+
+msgid "酒肆后屋"
+msgstr "Trastienda de la taberna"
+
+msgid "马市"
+msgstr "Mercado de caballos"
+
+msgid "西 · 王府大街"
+msgstr "oeste · Calle del Príncipe"
+
+msgid "东门 · 帐篷营地"
+msgstr "puerta este · campamento de tiendas"
+
+msgid "王府正厅"
+msgstr "Salón principal del príncipe"
+
+msgid "王府偏厅"
+msgstr "Salón lateral del príncipe"
+
+msgid "王府前院"
+msgstr "Patio delantero del príncipe"
+
+msgid "王府校场"
+msgstr "Patio de armas del príncipe"
+
+msgid "草原路"
+msgstr "Camino de la estepa"
+
+msgid "敖包"
+msgstr "Montículo de piedras"
+
+msgid "坡"
+msgstr "Loma"
+
+msgid "西 · 帐篷营地"
+msgstr "oeste · campamento de tiendas"
+
+msgid "东 · 工地"
+msgstr "este · obras"
+
+msgid "槐阳城门"
+msgstr "Puerta de Huaiyang"
+
+msgid "王府大街"
+msgstr "Calle del Príncipe"
+
+msgid "王府门前"
+msgstr "Ante la casa del príncipe"
+
+msgid "南 · 关外山道 · 天驼关"
+msgstr "sur · Camino tras el Paso · Paso del Camello"
+
+msgid "东 · 马市"
+msgstr "este · mercado de caballos"
+
+msgid "槐阳王府"
+msgstr "Casa de Huaiyang"
+
+msgid "告示 · 看"
+msgstr "aviso · leer"
+
+msgid "王府大门 · 叩门"
+msgstr "portón del príncipe · llamar"
+
+msgid "本府不奉"
+msgstr "Esta casa no acata"
+
+msgid "工地栅栏门"
+msgstr "Puerta de la empalizada"
+
+msgid "工地营帐"
+msgstr "Tiendas de las obras"
+
+msgid "民夫棚"
+msgstr "Cobertizos de los peones"
+
+msgid "土方"
+msgstr "Excavación"
+
+msgid "西 · 草原"
+msgstr "oeste · estepa"
+
+msgid "东 · 古冢口"
+msgstr "este · entrada del túmulo"
+
+msgid "枷锁 · 打开枷锁"
+msgstr "grilletes · abrir"
+
+msgid "冷宫"
+msgstr "Palacio Frío"
+
+msgid "冷宫偏屋"
+msgstr "Cuarto lateral del Palacio Frío"
+
+msgid "枯井 · 下去"
+msgstr "pozo seco · bajar"
+
+msgid "御花园"
+msgstr "Jardín Imperial"
+
+msgid "御花园西北角"
+msgstr "Rincón noroeste del jardín"
+
+msgid "大内侍卫营"
+msgstr "Cuartel de la guardia de palacio"
+
+msgid "侍卫营值房"
+msgstr "Cuerpo de guardia"
+
+msgid "西长街"
+msgstr "Calle Larga Oeste"
+
+msgid "西长街北段"
+msgstr "Calle Larga Oeste, tramo norte"
+
+msgid "养心门外"
+msgstr "Ante la Puerta del Cultivo Mental"
+
+msgid "午门内"
+msgstr "Tras la Puerta Meridiana"
+
+msgid "金水桥"
+msgstr "Puentes del Agua Dorada"
+
+msgid "太和门"
+msgstr "Puerta de la Armonía Suprema"
+
+msgid "太和殿广场"
+msgstr "Plaza de la Armonía Suprema"
+
+msgid "太和殿"
+msgstr "Salón de la Armonía Suprema"
+
+msgid "井底"
+msgstr "Fondo del pozo"
+
+msgid "密道"
+msgstr "Túnel secreto"
+
+msgid "密道北头"
+msgstr "Extremo norte del túnel"
+
+msgid "铁蹬 · 上去"
+msgstr "peldaños de hierro · subir"
+
+msgid "石阶 · 上去"
+msgstr "escalones de piedra · subir"
+
+msgid "养心殿前院"
+msgstr "Patio del Cultivo Mental"
+
+msgid "养心殿"
+msgstr "Salón del Cultivo Mental"
+
+msgid "西暖阁"
+msgstr "Cámara cálida oeste"
+
+msgid "御书房"
+msgstr "Estudio imperial"
+
+msgid "樟木匣 · 翻看"
+msgstr "caja de alcanfor · revisar"
+
+msgid "御案 · 比对"
+msgstr "escritorio imperial · comparar"
+
+msgid "朝上揭发 · 揭发"
+msgstr "ante la corte · denunciar"
+
+msgid "皇叔的通缉 · 先解"
+msgstr "orden de captura del tío imperial · anularla primero"
+
+msgid "风铃阁"
+msgstr "Pabellón de las Campanillas"
+
+msgid "静室"
+msgstr "Sala tranquila"
+
+msgid "白石门"
+msgstr "Puerta de Piedra Blanca"
+
+msgid "白石街"
+msgstr "Calle de Piedra Blanca"
+
+msgid "铃匠铺"
+msgstr "Taller del campanero"
+
+msgid "萧家旧院"
+msgstr "Vieja casa de los Xiao"
+
+msgid "街尾"
+msgstr "Final de la calle"
+
+msgid "北 · 风铃阁"
+msgstr "norte · Pabellón de las Campanillas"
+
+msgid "白石门 · 出城"
+msgstr "Puerta de Piedra Blanca · salir"
+
+msgid "台心"
+msgstr "Centro de la terraza"
+
+msgid "云边"
+msgstr "Borde de las nubes"
+
+msgid "下 · 风铃阁"
+msgstr "abajo · Pabellón de las Campanillas"
+
+msgid "旋芒 · 自己拔"
+msgstr "Filo Giratorio · sacarlo tú"
+
+msgid "旋芒 · 请皇叔"
+msgstr "Filo Giratorio · pedírselo al tío imperial"
+
+msgid "旋芒 · 让萧辟尘拔"
+msgstr "Filo Giratorio · que lo saque Xiao Bichen"
+
+msgid "云边 · 乘风"
+msgstr "borde de las nubes · montar el viento"
+
+msgid "幻影道"
+msgstr "Senda de las Ilusiones"
+
+msgid "风口"
+msgstr "Boca del viento"
+
+msgid "石林雾野"
+msgstr "Bosque de Piedra Brumoso"
+
+msgid "卜风坛"
+msgstr "Altar de los Adivinos del Viento"
+
+msgid "兵部旧营"
+msgstr "Viejo campamento del Ministerio de Guerra"
+
+msgid "西边的石坳"
+msgstr "Hondonada oeste"
+
+msgid "北边的石坳"
+msgstr "Hondonada norte"
+
+msgid "东边的石坳"
+msgstr "Hondonada este"
+
+msgid "下 · 镜子"
+msgstr "abajo · espejo"
+
+msgid "前院"
+msgstr "Patio delantero"
+
+msgid "月洞门"
+msgstr "Puerta de luna"
+
+msgid "湘园小径"
+msgstr "Sendero del Jardín Xiang"
+
+msgid "翠嶂"
+msgstr "Rocas del Biombo de Jade"
+
+msgid "长廊曲洞"
+msgstr "Galería sinuosa"
+
+msgid "桂花园"
+msgstr "Jardín de osmantos"
+
+msgid "沁芳桥"
+msgstr "Puente de la Fragancia"
+
+msgid "朱栏板桥"
+msgstr "Puente de baranda roja"
+
+msgid "紫翎小轩"
+msgstr "Cenador de la Pluma Púrpura"
+
+msgid "甬路"
+msgstr "Paseo empedrado"
+
+msgid "沁芳亭"
+msgstr "Templete de la Fragancia"
+
+msgid "暖香榭"
+msgstr "Glorieta del Aroma Cálido"
+
+msgid "稻香榭"
+msgstr "Glorieta del Aroma de Arroz"
+
+msgid "翠嫣桥"
+msgstr "Puente de la Gracia Verde"
+
+msgid "晚月庄后门"
+msgstr "Puerta trasera de Luna Tardía"
+
+msgid "北 · 前庭"
+msgstr "norte · patio de entrada"
+
+msgid "南 · 山路"
+msgstr "sur · camino de montaña"
+
+msgid "蜿蜒小径"
+msgstr "Sendero sinuoso"
+
+msgid "北 · 晚月庄后门"
+msgstr "norte · puerta trasera de Luna Tardía"
+
+msgid "东 · 山烟寺"
+msgstr "este · Templo de la Bruma"
+
+msgid "禁闭房"
+msgstr "Cuarto de encierro"
+
+msgid "后院走道"
+msgstr "Pasillo del patio trasero"
+
+msgid "傍厅"
+msgstr "Sala lateral"
+
+msgid "后院书房"
+msgstr "Estudio del patio trasero"
+
+msgid "大厅后院"
+msgstr "Tras el gran salón"
+
+msgid "晚月庄大厅"
+msgstr "Gran salón de Luna Tardía"
+
+msgid "晚月庄前庭"
+msgstr "Patio de entrada de Luna Tardía"
+
+msgid "晚月庄大门"
+msgstr "Portón de Luna Tardía"
+
+msgid "碎石小径"
+msgstr "Vereda de grava"
+
+msgid "密室"
+msgstr "Cuarto secreto"
+
+msgid "内厅穿堂"
+msgstr "Pasaje de la sala interior"
+
+msgid "仪门"
+msgstr "Puerta ceremonial"
+
+msgid "大饭厅"
+msgstr "Gran comedor"
+
+msgid "上等厢房"
+msgstr "Habitación de honor"
+
+msgid "后厅"
+msgstr "Sala trasera"
+
+msgid "后厅走道"
+msgstr "Pasillo de la sala trasera"
+
+msgid "内书房"
+msgstr "Estudio interior"
+
+msgid "西厢房走道"
+msgstr "Pasillo del ala oeste"
+
+msgid "东厢房走道"
+msgstr "Pasillo del ala este"
+
+msgid "西厢房"
+msgstr "Ala oeste"
+
+msgid "东厢房"
+msgstr "Ala este"
+
+msgid "沐浴更衣室"
+msgstr "Baño y vestidor"
+
+msgid "小花池"
+msgstr "Estanque de pétalos"
+
+msgid "东 · 绮云镇"
+msgstr "este · Tejenubes"
+
+msgid "南 · 湘园"
+msgstr "sur · Jardín Xiang"
+
+msgid "茶壶 · 装水"
+msgstr "tetera · llenar"
+
+msgid "小花池 · 装水"
+msgstr "estanque de pétalos · sacar agua"
+
+msgid "小花池 · 沐浴"
+msgstr "estanque de pétalos · bañarse"
+
+msgid "八卦图 · 跳舞"
+msgstr "diagrama de los trigramas · bailar"
+
+msgid "石床 · 翻找"
+msgstr "cama de piedra · rebuscar"
+
+msgid "碧纱橱 · 翻找"
+msgstr "biombo de gasa · rebuscar"
+
+msgid "八卦图 · 请人替跳"
+msgstr "diagrama de los trigramas · pedir que alguien baile"
+
+msgid "翠湘阁"
+msgstr "Cámara Xiang Verde"
+
+msgid "二楼走廊"
+msgstr "Pasillo de arriba"
+
+msgid "佛堂"
+msgstr "Oratorio"
+
+msgid "佛堂门前"
+msgstr "Ante el oratorio"
+
+msgid "前堂楼"
+msgstr "Salón delantero, piso de arriba"
+
+msgid "观景台"
+msgstr "Mirador"
+
+msgid "缀芳阁"
+msgstr "Cámara de las Flores"
+
+msgid "神位前 · 跳舞"
+msgstr "ante el altar · bailar"
+
+msgid "神位前 · 请人替跳"
+msgstr "ante el altar · pedir que alguien baile"
+
+msgid "缀芳阁 · 静修"
+msgstr "Cámara de las Flores · meditar"
+
+msgid "后山崖径"
+msgstr "Sendero del Risco Trasero"
+
+msgid "断崖"
+msgstr "Borde del risco"
+
+msgid "南 · 宫主居所的小门"
+msgstr "sur · puerta lateral de los aposentos del señor del palacio"
+
+msgid "地牢甬道"
+msgstr "Pasillo del calabozo"
+
+msgid "西牢房"
+msgstr "Celda oeste"
+
+msgid "北牢房"
+msgstr "Celda norte"
+
+msgid "东牢房"
+msgstr "Celda este"
+
+msgid "铁钉 · 摘钥匙"
+msgstr "clavo de hierro · tomar la llave"
+
+msgid "酒坛 · 下药"
+msgstr "tinaja de vino · drogar"
+
+msgid "石阶 · 上丹房"
+msgstr "escalones de piedra · subir al cuarto de elixires"
+
+msgid "黑砖山门"
+msgstr "Portal de Ladrillo Negro"
+
+msgid "货栈"
+msgstr "Almacén de carga"
+
+msgid "箱子 · 点箱"
+msgstr "cajas · contarlas"
+
+msgid "通铺 · 睡到子时"
+msgstr "literas · dormir hasta medianoche"
+
+msgid "前殿"
+msgstr "Salón delantero"
+
+msgid "丹房"
+msgstr "Cuarto de elixires"
+
+msgid "账房"
+msgstr "Contaduría"
+
+msgid "北门 · 听"
+msgstr "puerta norte · escuchar"
+
+msgid "木鱼 · 跟诵"
+msgstr "pez de madera · salmodiar con ellos"
+
+msgid "炭筐 · 添炭"
+msgstr "cesto de carbón · echar carbón"
+
+msgid "大案 · 抄名单"
+msgstr "mesa grande · copiar la lista"
+
+msgid "铁匣 · 开匣"
+msgstr "caja de hierro · abrirla"
+
+msgid "门缝 · 拨闩"
+msgstr "rendija · levantar la tranca"
+
+msgid "石阶 · 下地牢"
+msgstr "escalones de piedra · bajar al calabozo"
+
+msgid "宫主居所"
+msgstr "Aposentos del señor del palacio"
+
+msgid "小门 · 追出去"
+msgstr "puerta lateral · perseguir"
+
+msgid "书案 · 开暗格"
+msgstr "escritorio · abrir el cajón secreto"
+
+msgid "后殿"
+msgstr "Salón trasero"
+
+msgid "裂口顶"
+msgstr "Cima de la Grieta"
+
+msgid "北麓货道"
+msgstr "Senda de carga"
+
+msgid "货栈侧门"
+msgstr "Puerta lateral del almacén"
+
+msgid "北 · 逆灵宫山门"
+msgstr "norte · portal del Palacio Negro"
+
+msgid "南 · 裂口 · 野羊山山路"
+msgstr "sur · grieta · camino del Cerro de las Cabras"
+
+msgid "绳索 · 下到山路"
+msgstr "cuerda · bajar al camino"
+
+msgid "老松寨"
+msgstr "Fuerte de los Pinos Viejos"
+
+msgid "秘密通道入口"
+msgstr "Entrada del pasaje secreto"
+
+msgid "秘密通道"
+msgstr "Pasaje secreto"
+
+msgid "南 · 瀑布前"
+msgstr "sur · al pie de la cascada"
+
+msgid "东下 · 瀑布前"
+msgstr "este, abajo · al pie de la cascada"
+
+msgid "山壁上的窄穴"
+msgstr "Grieta estrecha"
+
+msgid "瀑布前"
+msgstr "Al pie de la cascada"
+
+msgid "山涧之中"
+msgstr "En el arroyo de montaña"
+
+msgid "水潭"
+msgstr "Poza"
+
+msgid "瀑布清水 · 靠近装水"
+msgstr "agua de la cascada · acércate para sacar agua"
+
+msgid "岸边取水"
+msgstr "Sacar agua"
+
+msgid "涧中取水"
+msgstr "Sacar agua"
+
+msgid "林间小路"
+msgstr "Sendero del bosque"
+
+msgid "林间空地"
+msgstr "Claro del bosque"
+
+msgid "小石桥"
+msgstr "Puente de piedra"
+
+msgid "林间....不....悬崖边"
+msgstr "Bosque... No... Borde del acantilado"
+
+msgid "栈道顶"
+msgstr "Cima de la pasarela"
+
+msgid "松树林"
+msgstr "Pinar"
+
+msgid "老松寨秘密入口"
+msgstr "Entrada secreta del fuerte"
+
+msgid "栈道"
+msgstr "Pasarela"
+
+msgid "官府告示：此处常有歹人出没。"
+msgstr "Aviso oficial: por aquí suelen rondar bandidos."
+
+msgid "西·雪亭镇  东·小石桥  南·下坡道"
+msgstr "Oeste·Pabellón Nevado  Este·Puente de piedra  Sur·Cuesta abajo"
+
+msgid "大青石上"
+msgstr "Sobre la gran piedra azul"
+
+msgid "大松树上"
+msgstr "Arriba del gran pino"
+
+msgid "大雄宝殿"
+msgstr "Salón de Mahavira"
+
+msgid "流云轩"
+msgstr "Cenador de las Nubes Errantes"
+
+msgid "香积厨"
+msgstr "Cocina del templo"
+
+msgid "蒸笼 · 打开"
+msgstr "vaporera · abrir"
+
+msgid "药圃 · 采"
+msgstr "huerto de hierbas · recolectar"
+
+msgid "塔林"
+msgstr "Bosque de pagodas"
+
+msgid "走廊"
+msgstr "Corredor"
+
+msgid "庭园"
+msgstr "Jardín interior"
+
+msgid "药圃"
+msgstr "Huerto de hierbas"
+
+msgid "石板大道"
+msgstr "Gran camino de losas"
+
+msgid "石板小径"
+msgstr "Sendero de losas"
+
+msgid "山烟寺寺门"
+msgstr "Puerta del templo"
+
+msgid "山烟寺前广场"
+msgstr "Plaza del templo"
+
+msgid "南 · 山门"
+msgstr "sur · pórtico del templo"
+
+msgid "明心塔"
+msgstr "Pagoda de la Mente Clara"
+
+msgid "见性塔"
+msgstr "Pagoda de la Verdadera Naturaleza"
+
+msgid "泓水北侧"
+msgstr "Orilla norte del Río Hondo"
+
+msgid "江心"
+msgstr "Mitad del río"
+
+msgid "泓水南侧"
+msgstr "Orilla sur del Río Hondo"
+
+msgid "江南渡口"
+msgstr "Embarcadero sur"
+
+msgid "山脚小路"
+msgstr "Vereda al pie del monte"
+
+msgid "盘山小径"
+msgstr "Sendero serpenteante"
+
+msgid "山烟寺山门"
+msgstr "Pórtico del Templo de la Bruma"
+
+msgid "北 · 江北渡口"
+msgstr "norte · embarcadero norte"
+
+msgid "东 · 乔阴县城"
+msgstr "este · Sombra Alta"
+
+msgid "山烟寺"
+msgstr "Templo de la Bruma"
+
+msgid "隧道"
+msgstr "Túnel"
+
+msgid "隧道口"
+msgstr "Boca del túnel"
+
+msgid "书院"
+msgstr "Academia"
+
+msgid "山水画"
+msgstr "Pintura de paisaje"
+
+msgid "安记钱庄"
+msgstr "Banco An"
+
+msgid "柜台 · 靠近兑换"
+msgstr "mostrador · acércate para cambiar"
+
+msgid "桑邻药铺"
+msgstr "Botica de la Morera"
+
+msgid "药柜"
+msgstr "Armario de medicinas"
+
+msgid "丰登当铺"
+msgstr "Casa de empeños Buena Cosecha"
+
+msgid "柜台 · 估价 / 卖断"
+msgstr "mostrador · tasar / vender"
+
+msgid "布帘"
+msgstr "Cortina de tela"
+
+msgid "红木门"
+msgstr "Puerta de caoba"
+
+msgid "柜台"
+msgstr "Mostrador"
+
+msgid "饮风客栈 · 二楼"
+msgstr "Posada Bebeviento · piso de arriba"
+
+msgid "山坳"
+msgstr "Hondonada de montaña"
+
+msgid "青石官道"
+msgstr "Camino real de piedra azul"
+
+msgid "黄土小径"
+msgstr "Sendero de tierra amarilla"
+
+msgid "打铁铺子"
+msgstr "Herrería"
+
+msgid "雪亭驿"
+msgstr "Posta de Pabellón Nevado"
+
+msgid "官府悬赏 · 靠近看榜"
+msgstr "recompensas oficiales · acércate para leer"
+
+msgid "谷物加工厂"
+msgstr "Molino"
+
+msgid "当"
+msgstr "Empeño"
+
+msgid "淳风武馆"
+msgstr "Salón del Viento Puro"
+
+msgid "城隍庙"
+msgstr "Templo del Dios de la Ciudad"
+
+msgid "木架子"
+msgstr "Estante de madera"
+
+msgid "牌坊"
+msgstr "Arco"
+
+msgid "告示牌"
+msgstr "Tablón de avisos"
+
+msgid "旗杆"
+msgstr "Asta"
+
+msgid "北 · 野羊山"
+msgstr "norte · Cerro de las Cabras"
+
+msgid "东 · 青石村"
+msgstr "este · Aldea Piedra Azul"
+
+msgid "南 · 卧龙岗"
+msgstr "sur · Loma del Dragón Dormido"
+
+msgid "南 · 老松岭"
+msgstr "sur · Cerro de los Pinos Viejos"
+
+msgid "石阶 · 茅山"
+msgstr "escalones de piedra · Monte Mao"
+
+msgid "西 · 水烟阁"
+msgstr "oeste · Pabellón de la Neblina"
+
+msgid "西南 · 黄石隘口"
+msgstr "suroeste · Desfiladero de Piedra Amarilla"
+
+msgid "淳风武馆收徒"
+msgstr "El Salón del Viento Puro acepta discípulos"
+
+msgid "[启事] 由此过路收取黄金一两"
+msgstr "[Aviso] Por pasar se cobra un tael de oro"
+
+msgid "兵器储藏室"
+msgstr "Depósito de armas"
+
+msgid "书房"
+msgstr "Estudio"
+
+msgid "石柱"
+msgstr "Pilar de piedra"
+
+msgid "仕女图"
+msgstr "Retrato de una dama"
+
+msgid "火炉"
+msgstr "Fragua"
+
+msgid "神桌"
+msgstr "Mesa del altar"
+
+msgid "磨盘 · 靠近做工"
+msgstr "muela de molino · acércate para trabajar"
+
+msgid "经楼"
+msgstr "Torre de las escrituras"
+
+msgid "木梯 · 上楼"
+msgstr "escalera de madera · subir"
+
+msgid "厢房"
+msgstr "Cuarto lateral"
+
+msgid "灵心观大殿"
+msgstr "Salón principal del Corazón Claro"
+
+msgid "青石小径"
+msgstr "Vereda de piedra azul"
+
+msgid "回廊"
+msgstr "Claustro"
+
+msgid "灵心观广场"
+msgstr "Plaza del Corazón Claro"
+
+msgid "藏经楼"
+msgstr "Biblioteca de escrituras"
+
+msgid "木梯 · 下楼"
+msgstr "escalera de madera · bajar"
+
+msgid "石英岩石阶"
+msgstr "Escalones de cuarcita"
+
+msgid "灵心观前"
+msgstr "Explanada del Corazón Claro"
+
+msgid "灵心观"
+msgstr "Monasterio del Corazón Claro"
+
+msgid "练功房"
+msgstr "Sala de entrenamiento"
+
+msgid "农舍"
+msgstr "Casa de labranza"
+
+msgid "农舍后院"
+msgstr "Patio trasero de la casa de labranza"
+
+msgid "刘家小房"
+msgstr "Casita de los Liu"
+
+msgid "财主家前院"
+msgstr "Patio delantero del hacendado"
+
+msgid "财主家南房"
+msgstr "Cuarto sur del hacendado"
+
+msgid "财主家东房"
+msgstr "Cuarto este del hacendado"
+
+msgid "瓜棚"
+msgstr "Choza de las sandías"
+
+msgid "水下岩洞"
+msgstr "Cueva bajo el agua"
+
+msgid "冰阶"
+msgstr "Escalones de hielo"
+
+msgid "水潭 · 潜下去"
+msgstr "poza · sumergirse"
+
+msgid "玉螺湖畔"
+msgstr "Orilla del lago"
+
+msgid "稻田"
+msgstr "Arrozal"
+
+msgid "瓜地"
+msgstr "Campo de sandías"
+
+msgid "忘情谷外"
+msgstr "Afueras del Valle del Olvido"
+
+msgid "北 · 天驼关"
+msgstr "norte · Paso del Camello"
+
+msgid "西 · 黑松山"
+msgstr "oeste · Montaña del Pino Negro"
+
+msgid "南 · 京师"
+msgstr "sur · Capital"
+
+msgid "南 · 海崖道 · 番坊"
+msgstr "sur · Camino del Acantilado · Barrio Extranjero"
+
+msgid "玉螺湖"
+msgstr "Lago Caracola de Jade"
+
+msgid "大沟"
+msgstr "Gran zanja"
+
+msgid "木船 · 划向湖心"
+msgstr "bote de madera · remar al centro del lago"
+
+msgid "湖畔 · 等到天黑"
+msgstr "orilla · esperar la noche"
+
+msgid "芦苇丛 · 拨开芦苇"
+msgstr "juncal · apartar los juncos"
+
+msgid "瓜地 · 摘西瓜"
+msgstr "campo de sandías · cortar una sandía"
+
+msgid "傅家坡"
+msgstr "Cuesta de los Fu"
+
+msgid "东 · 玉螺湖畔"
+msgstr "este · orilla del lago"
+
+msgid "小船 · 划回岸边"
+msgstr "bote · remar a la orilla"
+
+msgid "湖水 · 潜入湖中"
+msgstr "lago · sumergirse"
+
+msgid "冰下封坛"
+msgstr "Altar del Sello bajo el hielo"
+
+msgid "潭口 · 游上去"
+msgstr "boca de la poza · nadar hacia arriba"
+
+msgid "冰柱 · 把铜牒念给她听"
+msgstr "columna de hielo · leerle la tablilla de bronce"
+
+msgid "穿灵 · 拔出来"
+msgstr "Traspasalmas · sacarlo"
+
+msgid "封坛 · 看清了"
+msgstr "altar del sello · mirarlo bien"
+
+msgid "坛心 · 迎上去"
+msgstr "centro del altar · salir a su encuentro"
+
+msgid "那颗头 · 钉下去"
+msgstr "la cabeza · clavarla"
+
+msgid "告示 · 看告示"
+msgstr "aviso · leer"
+
+msgid "葬剑亭"
+msgstr "Templete de la Tumba de Espadas"
+
+msgid "白石阶梯"
+msgstr "Escalinata de piedra blanca"
+
+msgid "山坡小径"
+msgstr "Sendero de la ladera"
+
+msgid "水烟阁前"
+msgstr "Ante el Pabellón de la Neblina"
+
+msgid "水烟阁半山亭"
+msgstr "Templete de media ladera"
+
+msgid "东 · 雪亭镇"
+msgstr "este · Pabellón Nevado"
+
+msgid "水烟阁"
+msgstr "Pabellón de la Neblina"
+
+msgid "深谷"
+msgstr "Valle profundo"
+
+msgid "南 · 虹台"
+msgstr "sur · Terraza del Arcoíris"
+
+msgid "太师椅 · 坐一坐"
+msgstr "sillón · sentarse un rato"
+
+msgid "柴房"
+msgstr "Leñera"
+
+msgid "仆役卧室"
+msgstr "Cuarto de los criados"
+
+msgid "西侧厅"
+msgstr "Sala oeste"
+
+msgid "水烟阁正厅"
+msgstr "Salón principal de la Neblina"
+
+msgid "东侧厅"
+msgstr "Sala este"
+
+msgid "水烟阁西侧花厅"
+msgstr "Salita oeste"
+
+msgid "水烟阁正门"
+msgstr "Puerta principal de la Neblina"
+
+msgid "水烟阁东侧花厅"
+msgstr "Salita este"
+
+msgid "南 · 水烟阁前"
+msgstr "sur · ante el Pabellón de la Neblina"
+
+msgid "白石梯 · 上楼"
+msgstr "escalera de piedra blanca · subir"
+
+msgid "阶梯 · 上楼"
+msgstr "escalera · subir"
+
+msgid "虹台大会 · 入席"
+msgstr "Asamblea del Arcoíris · tomar asiento"
+
+msgid "虹台"
+msgstr "Terraza del Arcoíris"
+
+msgid "虹谷断崖"
+msgstr "Precipicio de la Garganta del Arcoíris"
+
+msgid "北 · 葬剑亭"
+msgstr "norte · Templete de la Tumba de Espadas"
+
+msgid "振远"
+msgstr "Largo Camino"
+
+msgid "步玄"
+msgstr "Paso Místico"
+
+msgid "晚月"
+msgstr "Luna Tardía"
+
+msgid "山烟"
+msgstr "Bruma"
+
+msgid "天邪"
+msgstr "Indómita"
+
+msgid "封山"
+msgstr "Montaña Vacía"
+
+msgid "茅山"
+msgstr "Monte Mao"
+
+msgid "绝尘"
+msgstr "Sin Polvo"
+
+msgid "花紫"
+msgstr "Mendigos"
+
+msgid "聆啸厅"
+msgstr "Sala del Silbido Largo"
+
+msgid "野羊山"
+msgstr "Cerro de las Cabras"
+
+msgid "青石村"
+msgstr "Aldea Piedra Azul"
+
+msgid "老松岭"
+msgstr "Cerro de los Pinos Viejos"
+
+msgid "晚月庄"
+msgstr "Mansión Luna Tardía"
+
+msgid "日照山"
+msgstr "Monte Soleado"
+
+msgid "乔阴县城"
+msgstr "Sombra Alta"
+
+msgid "乔阴东郊"
+msgstr "Campiña de Sombra Alta"
+
+msgid "天驼关"
+msgstr "Paso del Camello"
+
+msgid "岚城"
+msgstr "Ciudad del Viento"
+
+msgid "玉螺湖村"
+msgstr "Aldea Caracola de Jade"
+
+msgid "京师"
+msgstr "Capital"
+
+msgid "黑松山"
+msgstr "Montaña del Pino Negro"
+
+msgid "番坊"
+msgstr "Barrio Extranjero"
+
+msgid "雪亭镇的淳风武馆"
+msgstr "el Salón del Viento Puro de Pabellón Nevado"
+
+msgid "京师的振远总局"
+msgstr "la sede del Largo Camino en la Capital"
+
+msgid "青石村的石室"
+msgstr "la cámara de piedra de Aldea Piedra Azul"
+
+msgid "茅山的灵心观"
+msgstr "el Monasterio del Corazón Claro del Monte Mao"
+
+msgid "日照山的山烟寺"
+msgstr "el Templo de la Bruma del Monte Soleado"
+
+msgid "乔阴县城的曼雩台"
+msgstr "la Terraza de la Danza de Lluvia de Sombra Alta"
+
+msgid "乔阴县城的福林大街"
+msgstr "la calle Fulin de Sombra Alta"
+
+msgid "番坊的铁盾会"
+msgstr "la Hermandad del Escudo de Hierro del Barrio Extranjero"
+
+msgid "番坊的鬼笠馆"
+msgstr "el Salón del Sombrero Fantasma del Barrio Extranjero"
+
+msgid "番坊的日陀罗寺"
+msgstr "el Templo Ritola del Barrio Extranjero"
+
+msgid "逆灵宫"
+msgstr "Palacio Negro"
+
+msgid "入门"
+msgstr "Primeros pasos"
+
+msgid "传说"
+msgstr "Leyendas"
+
+msgid "关北"
+msgstr "Norte del Paso"
+
+msgid "野羊山北麓"
+msgstr "Falda norte del Cerro de las Cabras"
+
+msgid "乔阴 · 天驼关 · 京师"
+msgstr "Sombra Alta · Paso del Camello · Capital"
+
+msgid "乔阴"
+msgstr "Sombra Alta"
+
+msgid "下坡道"
+msgstr "Cuesta abajo"
+
+msgid "大松树顶"
+msgstr "Copa del gran pino"
+
+msgid "银子"
+msgstr "Plata"
+
+msgid "黄金"
+msgstr "Oro"
+
+msgid "布衣"
+msgstr "Túnica de tela"
+
+msgid "包子"
+msgstr "Bollo al vapor"
+
+msgid "烤鸡腿"
+msgstr "Muslo de pollo asado"
+
+msgid "牛皮酒袋"
+msgstr "Odre de cuero"
+
+msgid "旧书"
+msgstr "Libro viejo"
+
+msgid "金疮药"
+msgstr "Ungüento para heridas"
+
+msgid "长剑"
+msgstr "Espada larga"
+
+msgid "玄苏剑"
+msgstr "Xuansu"
+
+msgid "丝绸马褂"
+msgstr "Chaqueta de montar de seda"
+
+msgid "化尸粉"
+msgstr "Polvo disolvente de cadáveres"
+
+msgid "蛇药"
+msgstr "Antídoto contra serpientes"
+
+msgid "飞镖"
+msgstr "Dardo"
+
+msgid "极乐逍遥散"
+msgstr "Polvo de la dicha"
+
+msgid "单刀"
+msgstr "Sable"
+
+msgid "布袋"
+msgstr "Bolsa de tela"
+
+msgid "皮鞭"
+msgstr "Látigo de cuero"
+
+msgid "牛皮盾"
+msgstr "Escudo de cuero"
+
+msgid "八角锤"
+msgstr "Martillo octagonal"
+
+msgid "细剑"
+msgstr "Espada fina"
+
+msgid "妖刀狗屠"
+msgstr "Matacanes, el sable maldito"
+
+msgid "吹雪残云靴"
+msgstr "Botas de ventisca"
+
+msgid "吹雪残云带"
+msgstr "Faja de ventisca"
+
+msgid "吹雪残云衣"
+msgstr "Túnica de ventisca"
+
+msgid "吹雪残云巾"
+msgstr "Pañoleta de ventisca"
+
+msgid "邪剑穿灵"
+msgstr "Traspasalmas, la espada maligna"
+
+msgid "蒙汗药"
+msgstr "Polvo somnífero"
+
+msgid "金刚杖"
+msgstr "Bastón de vajra"
+
+msgid "紫金冠"
+msgstr "Corona de oro púrpura"
+
+msgid "天兵战甲"
+msgstr "Armadura del soldado celestial"
+
+msgid "金锋剑"
+msgstr "Espada de filo dorado"
+
+msgid "咒剑王禅"
+msgstr "Wang Chan, la espada del conjuro"
+
+msgid "天师道袍"
+msgstr "Túnica del Maestro Celestial"
+
+msgid "三清神冠"
+msgstr "Corona de los Tres Puros"
+
+msgid "七星翻云靴"
+msgstr "Botas pisanubes de siete estrellas"
+
+msgid "重钢战甲"
+msgstr "Armadura de acero pesado"
+
+msgid "五股钢叉"
+msgstr "Tridente de acero de cinco puntas"
+
+msgid "桃符纸"
+msgstr "Papel de talismán de durazno"
+
+msgid "魔鞭翩珑"
+msgstr "Pianlong, el látigo demoníaco"
+
+msgid "穿花蛇影鞋"
+msgstr "Zapatos de serpiente entre flores"
+
+msgid "软金束带"
+msgstr "Faja de oro suave"
+
+msgid "紫霜血蝉衣"
+msgstr "Túnica de cigarra sangrienta y escarcha púrpura"
+
+msgid "菩提禅杖"
+msgstr "Báculo de bodhi"
+
+msgid "风泉之剑"
+msgstr "Espada del manantial de viento"
+
+msgid "短剑"
+msgstr "Espada corta"
+
+msgid "皮衣"
+msgstr "Chaqueta de cuero"
+
+msgid "太阴八卦袍"
+msgstr "Túnica de los trigramas del gran yin"
+
+msgid "一具已经腐朽的骸骨"
+msgstr "Esqueleto podrido"
+
+msgid "鬼头刀"
+msgstr "Sable de cabeza de fantasma"
+
+msgid "狼皮披风"
+msgstr "Capa de piel de lobo"
+
+msgid "竹管"
+msgstr "Tubo de bambú"
+
+msgid "过招要旨"
+msgstr "Cartilla de combate"
+
+msgid "夜行衣"
+msgstr "Traje negro de sigilo"
+
+msgid "飞刀"
+msgstr "Cuchillo arrojadizo"
+
+msgid "粗布衣"
+msgstr "Túnica de tela basta"
+
+msgid "蓑衣"
+msgstr "Capa de paja"
+
+msgid "草鞋"
+msgstr "Sandalias de paja"
+
+msgid "铁斧"
+msgstr "Hacha de hierro"
+
+msgid "铁锤"
+msgstr "Martillo de hierro"
+
+msgid "功德箱"
+msgstr "Caja de ofrendas"
+
+msgid "竹剑"
+msgstr "Espada de bambú"
+
+msgid "粉红绸衫"
+msgstr "Blusa de seda rosa"
+
+msgid "绣花小鞋"
+msgstr "Zapatitos bordados"
+
+msgid "残破刀谱"
+msgstr "Manual de sable maltrecho"
+
+msgid "大金槌"
+msgstr "Gran mazo dorado"
+
+msgid "熊皮短靴"
+msgstr "Botines de piel de oso"
+
+msgid "钢刀"
+msgstr "Sable de acero"
+
+msgid "短斧"
+msgstr "Hacha corta"
+
+msgid "鹿皮小靴"
+msgstr "Botines de piel de venado"
+
+msgid "紫玉宝剑"
+msgstr "Espada de jade púrpura"
+
+msgid "布裙"
+msgstr "Falda de tela"
+
+msgid "绿罗裙"
+msgstr "Falda de gasa verde"
+
+msgid "长鞭"
+msgstr "Látigo largo"
+
+msgid "绵裙"
+msgstr "Falda de seda suave"
+
+msgid "柳玉刀"
+msgstr "Sable de sauce y jade"
+
+msgid "绣花鞋"
+msgstr "Zapatos bordados"
+
+msgid "银翅金簪"
+msgstr "Horquilla de oro con alas de plata"
+
+msgid "青绫绸裙"
+msgstr "Falda de damasco azul"
+
+msgid "玉竹剑"
+msgstr "Espada de bambú de jade"
+
+msgid "杀手令牌"
+msgstr "Placa de asesino"
+
+msgid "宫保鸡丁"
+msgstr "Pollo kung pao"
+
+msgid "水饺"
+msgstr "Empanadilla hervida"
+
+msgid "女儿红"
+msgstr "Vino rojo de la hija"
+
+msgid "脆皮烤鸭"
+msgstr "Pato asado crujiente"
+
+msgid "火摺"
+msgstr "Tubo de yesca"
+
+msgid "腰带"
+msgstr "Cinturón"
+
+msgid "耳环"
+msgstr "Arete enjoyado"
+
+msgid "钻石胸针"
+msgstr "Broche de diamantes"
+
+msgid "宝蓝缎衫"
+msgstr "Vestido de satén azul zafiro"
+
+msgid "碧玉红裎带"
+msgstr "Faja de seda roja con jade"
+
+msgid "珍珠项链"
+msgstr "Collar de perlas"
+
+msgid "丝罗巾"
+msgstr "Pañuelo de gasa de seda"
+
+msgid "冰玉戒指"
+msgstr "Anillo de jade helado"
+
+msgid "青纱裙"
+msgstr "Falda de gasa azul"
+
+msgid "护身符"
+msgstr "Amuleto"
+
+msgid "雪花糕"
+msgstr "Pastel de copo de nieve"
+
+msgid "竹子"
+msgstr "Caña de bambú"
+
+msgid "绣花针"
+msgstr "Aguja de bordar"
+
+msgid "花针"
+msgstr "Aguja de flor"
+
+msgid "红桂花"
+msgstr "Osmanto rojo"
+
+msgid "小花蕊"
+msgstr "Estambre dorado"
+
+msgid "玉瓷茶杯"
+msgstr "Taza de porcelana de jade"
+
+msgid "竹蜻蜓"
+msgstr "Libélula de bambú"
+
+msgid "玛瑙手镯"
+msgstr "Pulsera de ágata"
+
+msgid "舞曲谱"
+msgstr "Partitura de danza"
+
+msgid "黄金令牌"
+msgstr "Placa de oro"
+
+msgid "戒刀"
+msgstr "Sable de monje"
+
+msgid "灰布僧衣"
+msgstr "Hábito gris de monje"
+
+msgid "黑眼罩"
+msgstr "Parche negro"
+
+msgid "僧鞋"
+msgstr "Zapatos de monje"
+
+msgid "青布僧衣"
+msgstr "Hábito azul de monje"
+
+msgid "菜刀"
+msgstr "Cuchilla de cocina"
+
+msgid "竹扫把"
+msgstr "Escoba de bambú"
+
+msgid "馒头"
+msgstr "Bollo simple"
+
+msgid "乌檀木刀"
+msgstr "Sable de ébano"
+
+msgid "轻罗绸衫"
+msgstr "Blusa de seda ligera"
+
+msgid "银簪"
+msgstr "Horquilla de plata"
+
+msgid "平安符"
+msgstr "Talismán de paz"
+
+msgid "玉带冠"
+msgstr "Bonete engastado de jade"
+
+msgid "大饼"
+msgstr "Pan plano"
+
+msgid "糖葫芦"
+msgstr "Brocheta de espino caramelizado"
+
+msgid "红龟"
+msgstr "Pastel de tortuga roja"
+
+msgid "从寿衣撕下的布条"
+msgstr "Tira arrancada de una mortaja"
+
+msgid "仙丹"
+msgstr "Píldora de elixir"
+
+msgid "缚仙绳"
+msgstr "Soga de atar inmortales"
+
+msgid "寒谷幽兰"
+msgstr "Orquídea del valle frío"
+
+msgid "「白杨经」"
+msgstr "«Clásico del álamo blanco»"
+
+msgid "紫罗鸳鸯荷包"
+msgstr "Bolsita púrpura de patos mandarines"
+
+msgid "军刀"
+msgstr "Sable militar"
+
+msgid "青铜战盔"
+msgstr "Yelmo de bronce"
+
+msgid "ψ破 残 奇 剑ψ"
+msgstr "ψEspada prodigiosa melladaψ"
+
+msgid "火 云 战 甲"
+msgstr "Armadura de nube de fuego"
+
+msgid "铁扇剑"
+msgstr "Espada abanico de hierro"
+
+msgid "迷幻经纶"
+msgstr "Bonete de letrado del espejismo"
+
+msgid "古 剑"
+msgstr "Espada antigua"
+
+msgid "书匣"
+msgstr "Estuche de libros"
+
+msgid "悟疾风劲竹书"
+msgstr "«Bambú contra el vendaval»"
+
+msgid "紫花瓣儿"
+msgstr "Pétalo púrpura"
+
+msgid "西瓜"
+msgstr "Sandía"
+
+msgid "銮鱼衡冰"
+msgstr "Pez de Hielo"
+
+msgid "多情刀"
+msgstr "Corazón Tierno"
+
+msgid "无情剑"
+msgstr "Sin Corazón"
+
+msgid "西湖醋鱼"
+msgstr "Pescado del Lago del Oeste al vinagre"
+
+msgid "状元红"
+msgstr "Vino rojo del primer letrado"
+
+msgid "象皮战靴"
+msgstr "Botas de guerra de piel de elefante"
+
+msgid "淡青长袍"
+msgstr "Túnica larga azul pálido"
+
+msgid "艳红绸衫"
+msgstr "Blusa de seda rojo vivo"
+
+msgid "紫铜战盔"
+msgstr "Yelmo de cobre rojo"
+
+msgid "烟雨鞭"
+msgstr "Látigo de lluvia brumosa"
+
+msgid "天魔杵"
+msgstr "Maza del demonio celeste"
+
+msgid "月白色长裙"
+msgstr "Vestido largo blanco luna"
+
+msgid "八楞玄铁锤"
+msgstr "Martillo de hierro negro de ocho aristas"
+
+msgid "园工剪"
+msgstr "Tijeras de podar"
+
+msgid "鸡毛"
+msgstr "Pluma de gallina"
+
+msgid "烤山猪肉"
+msgstr "Jabalí asado"
+
+msgid "人皮酒袋"
+msgstr "Odre de piel humana"
+
+msgid "碧玉刀"
+msgstr "Sable de jade verde"
+
+msgid "紫罗兰"
+msgstr "Violeta"
+
+msgid "红枚瑰"
+msgstr "Rosa roja"
+
+msgid "黄玫瑰"
+msgstr "Rosa amarilla"
+
+msgid "蓝天鹅"
+msgstr "Flor cisne azul"
+
+msgid "白茶花"
+msgstr "Camelia blanca"
+
+msgid "黑牡丹"
+msgstr "Peonía negra"
+
+msgid "蛇鳞皮鞭"
+msgstr "Látigo de piel de serpiente"
+
+msgid "破烂的粉红布衫"
+msgstr "Blusa rosa hecha jirones"
+
+msgid "冥府战甲"
+msgstr "Armadura del inframundo"
+
+msgid "七股钢叉"
+msgstr "Tridente de acero de siete puntas"
+
+msgid "解牛刀"
+msgstr "Cuchillo de carnicero"
+
+msgid "牛皮束带"
+msgstr "Cinturón de cuero"
+
+msgid "量衣尺"
+msgstr "Regla de sastre"
+
+msgid "裁衣剪"
+msgstr "Tijeras de sastre"
+
+msgid "青布袈裟"
+msgstr "Manto budista de tela azul"
+
+msgid "舞蝶彩衫"
+msgstr "Blusa de mariposas"
+
+msgid "霜月刀"
+msgstr "Luna Helada"
+
+msgid "茶叶"
+msgstr "Hoja de té"
+
+msgid "棋子"
+msgstr "Piedra de go"
+
+msgid "说文解字"
+msgstr "Cartilla de caracteres"
+
+msgid "生牛肉"
+msgstr "Carne de res cruda"
+
+msgid "牛腿"
+msgstr "Pierna de res"
+
+msgid "牛尾"
+msgstr "Cola de res"
+
+msgid "熟杂碎"
+msgstr "Vísceras cocidas"
+
+msgid "狗肉"
+msgstr "Carne de perro"
+
+msgid "麻绳"
+msgstr "Cuerda de cáñamo"
+
+msgid "拂柳鞭"
+msgstr "Látigo de rama de sauce"
+
+msgid "僧棍"
+msgstr "Bastón de monje"
+
+msgid "信件"
+msgstr "Carta"
+
+msgid "水烟阁武士氅"
+msgstr "Capa de guerrero del Pabellón de la Neblina"
+
+msgid "牛皮靴"
+msgstr "Botas de cuero"
+
+msgid "水烟阁司事褂"
+msgstr "Chaqueta de mayordomo del Pabellón de la Neblina"
+
+msgid "水烟阁司事帽"
+msgstr "Gorro de mayordomo del Pabellón de la Neblina"
+
+msgid "鲜红锦衣"
+msgstr "Túnica de brocado escarlata"
+
+msgid "鲜红金乌冠"
+msgstr "Gorro escarlata del Cuervo Dorado"
+
+msgid "焦殇剑"
+msgstr "Fuego Doliente"
+
+msgid "黑铁杖"
+msgstr "Bastón de hierro negro"
+
+msgid "陶壶"
+msgstr "Jarra de barro"
+
+msgid "追风剑"
+msgstr "Cazavientos"
+
+msgid "绳子"
+msgstr "Cuerda"
+
+msgid "青布道袍"
+msgstr "Túnica taoísta azul"
+
+msgid "黑布鞋"
+msgstr "Zapatos de tela negra"
+
+msgid "魔法入门"
+msgstr "Cartilla de misticismo"
+
+msgid "符咒简介"
+msgstr "Cartilla de conjuros"
+
+msgid "拂尘"
+msgstr "Espantamoscas de crin"
+
+msgid "旧道袍"
+msgstr "Túnica taoísta vieja"
+
+msgid "青铜道冠"
+msgstr "Corona taoísta de bronce"
+
+msgid "八卦道袍"
+msgstr "Túnica taoísta de trigramas"
+
+msgid "碧玉冠"
+msgstr "Corona de jade verde"
+
+msgid "账册"
+msgstr "Libro de cuentas"
+
+msgid "地牢钥匙"
+msgstr "Llave del calabozo"
+
+msgid "逆灵天书残卷"
+msgstr "Fragmento de la Escritura Negra"
+
+msgid "霍铮的尸首"
+msgstr "Cuerpo de Huo Zheng"
+
+msgid "石头的尸首"
+msgstr "Cuerpo de Shitou"
+
+msgid "黑剑"
+msgstr "Espada negra"
+
+msgid "祭品名单"
+msgstr "Lista de sacrificios"
+
+msgid "祭品名册"
+msgstr "Registro de sacrificios"
+
+msgid "逆灵天书下半部"
+msgstr "Escritura Negra, segunda mitad"
+
+msgid "六阴剑谱"
+msgstr "Manual de la espada de los seis yin"
+
+msgid "印模"
+msgstr "Molde de sello"
+
+msgid "马刀"
+msgstr "Sable de caballería"
+
+msgid "大秦短剑"
+msgstr "Espada corta de Daqin"
+
+msgid "马奶酒"
+msgstr "Vino de leche de yegua"
+
+msgid "手抓羊肉"
+msgstr "Cordero a la mano"
+
+msgid "马刀谱"
+msgstr "Manual de sable de caballería"
+
+msgid "琉璃珠"
+msgstr "Sarta de cuentas de vidrio"
+
+msgid "毡毯"
+msgstr "Alfombra de fieltro"
+
+msgid "胡椒"
+msgstr "Bolsa de pimienta"
+
+msgid "胡饼"
+msgstr "Pan plano de sésamo"
+
+msgid "铜壶"
+msgstr "Tetera de cobre"
+
+msgid "铜牒"
+msgstr "Tablilla de cobre"
+
+msgid "贝叶"
+msgstr "Hoja de palma"
+
+msgid "倭刀"
+msgstr "Katana"
+
+msgid "大秦圆盾"
+msgstr "Escudo redondo de Daqin"
+
+msgid "御前侍卫腰牌"
+msgstr "Placa de guardia imperial"
+
+msgid "寻剑令原本"
+msgstr "Edicto de la Espada original"
+
+msgid "兵部抄本"
+msgstr "Copia del Ministerio de la Guerra"
+
+msgid "樵夫的旧记载"
+msgstr "Viejo relato del leñador"
+
+msgid "手诏"
+msgstr "Edicto manuscrito"
+
+msgid "先帝的解读"
+msgstr "Notas del difunto emperador"
+
+msgid "禁中刀谱"
+msgstr "Manual del sable de palacio"
+
+msgid "青铜风铃"
+msgstr "Campanilla de viento de bronce"
+
+msgid "卜风签"
+msgstr "Varilla adivinatoria del viento"
+
+msgid "雪亭驿的书信"
+msgstr "Carta de la posta del Pabellón Nevado"
+
+msgid "刻着记号的布条"
+msgstr "Tira de tela marcada"
+
+msgid "水烟阁武士腰牌"
+msgstr "Placa de guerrero del Pabellón de la Neblina"
+
+msgid "虹台请柬"
+msgstr "Invitación a la Terraza del Arcoíris"
+
+msgid "柳淳风的引荐信"
+msgstr "Carta de recomendación de Liu Chunfeng"
+
+msgid "二十年前的镖单"
+msgstr "Registro de escolta de hace veinte años"
+
+msgid "刻着风纹的石匣"
+msgstr "Cofre de piedra con grabados de viento"
+
+msgid "纳供车"
+msgstr "Carro de tributo"
+
+msgid "寒於宝衣"
+msgstr "Túnica de Hanyu"
+
+msgid "婢女的尸首"
+msgstr "Cuerpo de la criada"
+
+msgid "昭蓉的尸首"
+msgstr "Cuerpo de Zhaorong"
+
+msgid "寻剑令抄本"
+msgstr "Copia del Edicto de la Espada"
+
+msgid "程不平的信"
+msgstr "Carta de Cheng Buping"
+
+msgid "璃虹的羽"
+msgstr "Pluma de Lihong"
+
+msgid "黑焰"
+msgstr "Llama negra"
+
+msgid "渔夫的尸首"
+msgstr "Cuerpo del pescador"
+
+msgid "上清符箓"
+msgstr "Libro de talismanes de la Suprema Claridad"
+
+msgid "骆家家书"
+msgstr "Carta de la familia Luo"
+
+msgid "附子"
+msgstr "Acónito"
+
+msgid "麝香"
+msgstr "Almizcle"
+
+msgid "鬼臼"
+msgstr "Raíz de podófilo"
+
+msgid "汤药"
+msgstr "Decocción de hierbas"
+
+msgid "骆家名帖"
+msgstr "Tarjeta de la familia Luo"
+
+msgid "障眼符"
+msgstr "Talismán de velo"
+
+msgid "封山腰牌"
+msgstr "Placa de la Montaña Vacía"
+
+msgid "无名信"
+msgstr "Carta sin firma"
+
+msgid "执法使手令"
+msgstr "Orden del Ejecutor"
+
+msgid "翻倒的纳供车"
+msgstr "Carro de tributo volcado"
+
+msgid "芦苇丛里的尸首"
+msgstr "Cuerpo entre los juncos"
+
+msgid "赤铜令"
+msgstr "Placa de cobre rojo"
+
+msgid "冰凿"
+msgstr "Cincel de hielo"
+
+msgid "石匣出土图"
+msgstr "Croquis de la excavación del cofre"
+
+msgid "振远的名帖"
+msgstr "Tarjeta de los Escoltas del Largo Camino"
+
+msgid "贺长庚的家信"
+msgstr "Carta de He Changgeng a su familia"
+
+msgid "乔阴捕快腰牌"
+msgstr "Placa de alguacil de Sombra Alta"
+
+msgid "大黄石"
+msgstr "Gran roca amarilla"
+
+msgid "铁索"
+msgstr "Cadena de hierro"
+
+msgid "光滑的山壁"
+msgstr "Paredón liso"
+
+msgid "铁门"
+msgstr "Puerta de hierro"
+
+msgid "书"
+msgstr "Libro"
+
+msgid "悬崖"
+msgstr "Precipicio"
+
+msgid "尚书府"
+msgstr "Mansión del Ministro"
+
+msgid "封山剑派北宗"
+msgstr "Escuela de la Montaña Vacía, rama norte"
+
+msgid "告示"
+msgstr "Aviso"
+
+msgid "铁盾会"
+msgstr "Hermandad del Escudo de Hierro"
+
+msgid "佛像"
+msgstr "Estatua de Buda"
+
+msgid "石椅"
+msgstr "Silla de piedra"
+
+msgid "背风的石坳"
+msgstr "Hondonada resguardada"
+
+msgid "大松树"
+msgstr "Gran pino"
+
+msgid "藤蔓"
+msgstr "Enredadera"
+
+msgid "招牌"
+msgstr "Letrero"
+
+msgid "石狮"
+msgstr "León de piedra"
+
+msgid "架子"
+msgstr "Estante"
+
+msgid "太师椅"
+msgstr "Sillón"
+
+msgid "书架"
+msgstr "Estantería"
+
+msgid "茅草"
+msgstr "Paja"
+
+msgid "小牌子"
+msgstr "Letrero pequeño"
+
+msgid "潭口"
+msgstr "Boca de la poza"
+
+msgid "胆识"
+msgstr "Valor"
+
+msgid "定力"
+msgstr "Temple"
+
+msgid "灵性"
+msgstr "Espiritualidad"
+
+msgid "实战经验"
+msgstr "Experiencia de combate"
+
+msgid "精"
+msgstr "Esencia"
+
+msgid "气"
+msgstr "Qi"
+
+msgid "神"
+msgstr "Espíritu"
+
+msgid "内力"
+msgstr "Fuerza interior"
+
+msgid "法力"
+msgstr "Poder arcano"
+
+msgid "灵力"
+msgstr "Poder místico"
+
+msgid "潜能"
+msgstr "Potencial"
+
+msgid "加力"
+msgstr "Fuerza extra"
+
+msgid "守势"
+msgstr "En guardia"
+
+msgid "车马行"
+msgstr "Parada de carruajes"
+
+msgid "地图"
+msgstr "Mapa"
+
+msgid "钱"
+msgstr "Dinero"
+
+msgid "食物"
+msgstr "Comida"
+
+msgid "匕首"
+msgstr "Daga"
+
+msgid "基本拳脚"
+msgstr "Puño básico"
+
+msgid "基本剑法"
+msgstr "Espada básica"
+
+msgid "基本招架"
+msgstr "Parada básica"
+
+msgid "基本轻功"
+msgstr "Qinggong básico"
+
+msgid "基本内功"
+msgstr "Neigong básico"
+
+msgid "柳家拳"
+msgstr "Puño de la familia Liu"
+
+msgid "稳健"
+msgstr "Firme"
+
+msgid "爆发"
+msgstr "Explosivo"
+
+msgid "兽"
+msgstr "Bestia"
+
+msgid "当前 / 有效 / 最大"
+msgstr "Actual / Efectivo / Máximo"
+
+msgid "杀气"
+msgstr "Sed de sangre"
+
+msgid "饮水"
+msgstr "Agua"
+
+msgid "综合评价"
+msgstr "Reputación"
+
+msgid "杀过的人"
+msgstr "Víctimas"
+
+msgid "负重"
+msgstr "Carga"
+
+msgid "体重"
+msgstr "Peso"
+
+msgid "膂力"
+msgstr "Fuerza"
+
+msgid "悟性"
+msgstr "Ingenio"
+
+msgid "容貌"
+msgstr "Apariencia"
+
+msgid "根骨"
+msgstr "Constitución"
+
+msgid "福缘"
+msgstr "Fortuna"
+
+msgid "阴间"
+msgstr "Inframundo"
+
+msgid "乞丐"
+msgstr "Mendigo"
+
+msgid "李师师"
+msgstr "Li Shishi"
+
+msgid "宝官"
+msgstr "Crupier"
+
+msgid "知客僧"
+msgstr "Monje anfitrión"
+
+msgid "裁缝"
+msgstr "Sastre"
+
+msgid "茶工"
+msgstr "Recolector de té"
+
+msgid "疯狗"
+msgstr "Perro rabioso"
+
+msgid "野狗"
+msgstr "Perro salvaje"
+
+msgid "杜宽"
+msgstr "Du Kuan"
+
+msgid "收破烂的"
+msgstr "Chatarrero"
+
+msgid "王铁匠"
+msgstr "Herrero Wang"
+
+msgid "扫地僧"
+msgstr "Monje barrendero"
+
+msgid "进香客"
+msgstr "Peregrino"
+
+msgid "魏无极"
+msgstr "Wei Wuji"
+
+msgid "武馆弟子"
+msgstr "Discípulo del salón"
+
+msgid "卖饼大叔"
+msgstr "Don Tortas"
+
+msgid "卖糖葫芦的"
+msgstr "Vendedor de frutas acarameladas"
+
+msgid "卖包子的"
+msgstr "Vendedor de bollos al vapor"
+
+msgid "家丁"
+msgstr "Criado"
+
+msgid "岩蛭"
+msgstr "Sanguijuela de roca"
+
+msgid "蜘蛛"
+msgstr "Araña"
+
+msgid "金丝雀"
+msgstr "Canario"
+
+msgid "药僧"
+msgstr "Monje boticario"
+
+msgid "船夫"
+msgstr "Barquero"
+
+msgid "潘若秋"
+msgstr "Pan Ruoqiu"
+
+msgid "鸨母"
+msgstr "Madama"
+
+msgid "杂货贩"
+msgstr "Buhonero"
+
+msgid "李火狮"
+msgstr "Li Huoshi"
+
+msgid "贵公子"
+msgstr "Señorito"
+
+msgid "玄真"
+msgstr "Xuanzhen"
+
+msgid "蝴蝶"
+msgstr "Mariposa"
+
+msgid "芳绫"
+msgstr "Fangling"
+
+msgid "弈者"
+msgstr "Jugador de go"
+
+msgid "化缘和尚"
+msgstr "Monje mendicante"
+
+msgid "农夫"
+msgstr "Campesino"
+
+msgid "旅客"
+msgstr "Viajero"
+
+msgid "樵夫"
+msgstr "Leñador"
+
+msgid "护寺武僧"
+msgstr "Monje guardián del templo"
+
+msgid "肥岩蛭"
+msgstr "Sanguijuela de roca gorda"
+
+msgid "大岩蛭"
+msgstr "Sanguijuela de roca grande"
+
+msgid "昭仪"
+msgstr "Zhaoyi"
+
+msgid "圆春"
+msgstr "Yuanchun"
+
+msgid "惜春"
+msgstr "Xichun"
+
+msgid "跛僧人"
+msgstr "Monje cojo"
+
+msgid "明心"
+msgstr "Mingxin"
+
+msgid "郑屠夫"
+msgstr "Carnicero Zheng"
+
+msgid "清虚"
+msgstr "Qingxu"
+
+msgid "卧龙岗强盗"
+msgstr "Bandido del Dragón Dormido"
+
+msgid "彩衣少女"
+msgstr "Muchacha de colores"
+
+msgid "飞贼"
+msgstr "Ladrón de tejados"
+
+msgid "巨岩蛭"
+msgstr "Sanguijuela de roca gigante"
+
+msgid "土匪爪牙"
+msgstr "Secuaz de los bandidos"
+
+msgid "兵器贩子"
+msgstr "Vendedor de armas"
+
+msgid "袭人"
+msgstr "Xiren"
+
+msgid "土匪首领"
+msgstr "Jefe de los bandidos"
+
+msgid "趟子手"
+msgstr "Escolta"
+
+msgid "老队长"
+msgstr "Viejo capitán"
+
+msgid "柳绘心"
+msgstr "Liu Huixin"
+
+msgid "老兵"
+msgstr "Veterano"
+
+msgid "大队长"
+msgstr "Capitán"
+
+msgid "小队长"
+msgstr "Cabo"
+
+msgid "小兵"
+msgstr "Soldado raso"
+
+msgid "僵尸护法"
+msgstr "Guardián zombi"
+
+msgid "赫造基"
+msgstr "He Zaoji"
+
+msgid "清云"
+msgstr "Qingyun"
+
+msgid "清玄"
+msgstr "Qingxuan"
+
+msgid "独眼头陀"
+msgstr "Asceta tuerto"
+
+msgid "守城官兵"
+msgstr "Guardia de la ciudad"
+
+msgid "芙云"
+msgstr "Fuyun"
+
+msgid "梦玉楼"
+msgstr "Meng Yulou"
+
+msgid "安惜迩"
+msgstr "An Xi'er"
+
+msgid "武官"
+msgstr "Oficial"
+
+msgid "李信"
+msgstr "Li Xin"
+
+msgid "严廷殷"
+msgstr "Yan Tingyin"
+
+msgid "狼狗"
+msgstr "Perro lobo"
+
+msgid "常老大"
+msgstr "Jefe Chang"
+
+msgid "蓝雨梅"
+msgstr "Lan Yumei"
+
+msgid "蓝筱薇"
+msgstr "Lan Xiaowei"
+
+msgid "疯老头子"
+msgstr "Viejo loco"
+
+msgid "莫欣芳"
+msgstr "Mo Xinfang"
+
+msgid "邢千慧"
+msgstr "Xing Qianhui"
+
+msgid "玉佩"
+msgstr "Colgante de jade"
+
+msgid "忘忧草"
+msgstr "Hierba olvidapenas"
+
+msgid "无名老妇"
+msgstr "Anciana sin nombre"
+
+msgid "密函"
+msgstr "Carta secreta"
+
+msgid "山药蛋"
+msgstr "Ñame"
+
+msgid "桃木箱"
+msgstr "Cofre de madera de durazno"
+
+msgid "印鉴"
+msgstr "Sello"
+
+msgid "小娟"
+msgstr "Xiaojuan"
+
+msgid "出城令牌"
+msgstr "Salvoconducto"
+
+msgid "官府悬赏"
+msgstr "Tablero de recompensas"
+
+msgid "黑衣人"
+msgstr "Hombre de negro"
+
+msgid "官府"
+msgstr "Gobierno"
+
+msgid "短工"
+msgstr "Trabajo a jornal"
+
+msgid "钱庄"
+msgstr "Banco"
+
+msgid "红漆大门"
+msgstr "Portón lacado en rojo"
+
+msgid "木雕门"
+msgstr "Puerta de madera tallada"
+
+msgid "房门"
+msgstr "Puerta"
+
+msgid "瀑布清水"
+msgstr "Agua de la cascada"
+
+msgid "湖水"
+msgstr "Agua del lago"
+
+msgid "泉水"
+msgstr "Agua de manantial"
+
+msgid "大门"
+msgstr "Portón"
+
+msgid "灌木丛"
+msgstr "Matorral"
+
+msgid "山涧石壁"
+msgstr "Pared del barranco"
+
+msgid "向下的山壁"
+msgstr "Paredón hacia abajo"
+
+msgid "向上的山壁"
+msgstr "Paredón hacia arriba"
+
+msgid "大青石"
+msgstr "Gran piedra azul"
+
+msgid "石壁"
+msgstr "Pared de roca"
+
+msgid "路牌"
+msgstr "Poste indicador"
+
+msgid "刀痕"
+msgstr "Marca de sable"
+
+msgid "脚印"
+msgstr "Huella"
+
+msgid "瀑布"
+msgstr "Cascada"
+
+msgid "山壁"
+msgstr "Paredón"
+
+msgid "帘幕"
+msgstr "Cortina de seda"
+
+msgid "裂口"
+msgstr "Grieta"
+
+msgid "油布"
+msgstr "Lona"
+
+msgid "绳索"
+msgstr "Cuerda"
+
+msgid "木门"
+msgstr "Puerta de madera"
+
+msgid "虹台大会"
+msgstr "Asamblea del Arcoíris"
+
+msgid "樟木匾"
+msgstr "Placa de alcanfor"
+
+msgid "石碑"
+msgstr "Estela de piedra"
+
+msgid "擎天柱"
+msgstr "Pilar del cielo"
+
+msgid "虹谷"
+msgstr "Garganta del Arcoíris"
+
+msgid "大石门"
+msgstr "Gran puerta de piedra"
+
+msgid "密门"
+msgstr "Puerta secreta"
+
+msgid "井"
+msgstr "Pozo"
+
+msgid "图"
+msgstr "Cuadro"
+
+msgid "大石"
+msgstr "Piedra grande"
+
+msgid "水"
+msgstr "Agua"
+
+msgid "蜘蛛网"
+msgstr "Telaraña"
+
+msgid "红漆木门"
+msgstr "Puerta de madera lacada en rojo"
+
+msgid "镇教秘籍"
+msgstr "Manual secreto del Monte Mao"
+
+msgid "拱门"
+msgstr "Puerta en arco"
+
+msgid "铜门"
+msgstr "Puerta de bronce"
+
+msgid "后厅大门"
+msgstr "Puerta del salón trasero"
+
+msgid "雕饰厢门"
+msgstr "Puerta lateral tallada"
+
+msgid "垂花门"
+msgstr "Puerta de flores colgantes"
+
+msgid "小帘门"
+msgstr "Puerta con cortinilla"
+
+msgid "檀香木门"
+msgstr "Puerta de sándalo"
+
+msgid "楼门"
+msgstr "Puerta de la torre"
+
+msgid "茶壶"
+msgstr "Tetera"
+
+msgid "八卦图"
+msgstr "Diagrama de los trigramas"
+
+msgid "神位前"
+msgstr "Ante la tablilla ancestral"
+
+msgid "碧纱橱"
+msgstr "Armario de gasa verde"
+
+msgid "石床"
+msgstr "Cama de piedra"
+
+msgid "冰匣"
+msgstr "Cofre de hielo"
+
+msgid "灯笼"
+msgstr "Farol"
+
+msgid "墙"
+msgstr "Muro"
+
+msgid "湘绣舞曲图"
+msgstr "Bordado de la danza"
+
+msgid "西府海棠"
+msgstr "Manzano silvestre"
+
+msgid "石牌"
+msgstr "Letrero de piedra"
+
+msgid "金门"
+msgstr "Puerta Dorada"
+
+msgid "檀木扁额"
+msgstr "Placa de sándalo"
+
+msgid "大锅"
+msgstr "Gran olla"
+
+msgid "蒸笼"
+msgstr "Vaporera de bambú"
+
+msgid "衙门大门"
+msgstr "Portón del tribunal"
+
+msgid "铜钉大门"
+msgstr "Portón tachonado de bronce"
+
+msgid "柴门"
+msgstr "Puerta de ramas"
+
+msgid "大洞"
+msgstr "Gran agujero"
+
+msgid "小庙"
+msgstr "Santuario pequeño"
+
+msgid "竹篱"
+msgstr "Cerca de bambú"
+
+msgid "书卷"
+msgstr "Rollo de escritura"
+
+msgid "古树"
+msgstr "Árbol antiguo"
+
+msgid "云幡"
+msgstr "Estandarte de nubes"
+
+msgid "空穴"
+msgstr "Hueco"
+
+msgid "洞穴"
+msgstr "Cueva"
+
+msgid "字条"
+msgstr "Nota"
+
+msgid "大井"
+msgstr "Gran pozo"
+
+msgid "石缝"
+msgstr "Grieta en la roca"
+
+msgid "大泽"
+msgstr "Gran ciénaga"
+
+msgid "大皮鼓"
+msgstr "Gran tambor de cuero"
+
+msgid "机械装置"
+msgstr "Mecanismo"
+
+msgid "书柜"
+msgstr "Armario de libros"
+
+msgid "水井"
+msgstr "Pozo de agua"
+
+msgid "隙缝"
+msgstr "Rendija"
+
+msgid "田老财家大门"
+msgstr "Portón del terrateniente Tian"
+
+msgid "木船"
+msgstr "Bote de madera"
+
+msgid "玄冰"
+msgstr "Hielo negro"
+
+msgid "冰壁刻字"
+msgstr "Inscripción en el muro de hielo"
+
+msgid "封坛"
+msgstr "Altar del sello"
+
+msgid "冰壁"
+msgstr "Muro de hielo"
+
+msgid "湖畔"
+msgstr "Orilla del lago"
+
+msgid "芦苇丛"
+msgstr "Carrizal"
+
+msgid "小船"
+msgstr "Barca"
+
+msgid "冰柱"
+msgstr "Pilar de hielo"
+
+msgid "穿灵"
+msgstr "Traspasalmas"
+
+msgid "坛心"
+msgstr "Corazón del altar"
+
+msgid "那颗头"
+msgstr "Cabeza"
+
+msgid "大铁门"
+msgstr "Gran portón de hierro"
+
+msgid "小木门"
+msgstr "Puerta pequeña de madera"
+
+msgid "帘子"
+msgstr "Cortina"
+
+msgid "布告"
+msgstr "Proclama"
+
+msgid "牌子"
+msgstr "Tablilla"
+
+msgid "台子"
+msgstr "Plataforma"
+
+msgid "凸起"
+msgstr "Saliente de piedra"
+
+msgid "天花板"
+msgstr "Techo"
+
+msgid "床"
+msgstr "Cama"
+
+msgid "城门"
+msgstr "Puerta de la ciudad"
+
+msgid "草丛"
+msgstr "Hierba alta"
+
+msgid "柴草"
+msgstr "Leña"
+
+msgid "玉帘门"
+msgstr "Puerta con cortina de jade"
+
+msgid "城墙"
+msgstr "Muralla"
+
+msgid "蔓藤"
+msgstr "Liana"
+
+msgid "青石板"
+msgstr "Losa de piedra azul"
+
+msgid "巨石"
+msgstr "Peñasco"
+
+msgid "石墙"
+msgstr "Muro de piedra"
+
+msgid "圆孔"
+msgstr "Agujero redondo"
+
+msgid "声音"
+msgstr "Sonido"
+
+msgid "铁链"
+msgstr "Cadena de hierro"
+
+msgid "石板"
+msgstr "Losa"
+
+msgid "人影"
+msgstr "Silueta"
+
+msgid "殿门"
+msgstr "Puerta del salón"
+
+msgid "西牢房的铁栅门"
+msgstr "Reja de la celda oeste"
+
+msgid "北牢房的铁栅门"
+msgstr "Reja de la celda norte"
+
+msgid "东牢房的铁栅门"
+msgstr "Reja de la celda este"
+
+msgid "北门"
+msgstr "Puerta norte"
+
+msgid "黑门"
+msgstr "Puerta negra"
+
+msgid "小门"
+msgstr "Puerta pequeña"
+
+msgid "炭筐"
+msgstr "Canasta de carbón"
+
+msgid "木鱼"
+msgstr "Pez de madera"
+
+msgid "通铺"
+msgstr "Camastro común"
+
+msgid "大案"
+msgstr "Mesa larga"
+
+msgid "铁匣"
+msgstr "Caja de hierro"
+
+msgid "铁钉"
+msgstr "Clavo de hierro"
+
+msgid "酒坛"
+msgstr "Tinaja de vino"
+
+msgid "门缝"
+msgstr "Rendija de la puerta"
+
+msgid "书案"
+msgstr "Escritorio"
+
+msgid "黑幡"
+msgstr "Estandarte negro"
+
+msgid "香炉"
+msgstr "Incensario"
+
+msgid "经书"
+msgstr "Libro sagrado"
+
+msgid "药架"
+msgstr "Estante de remedios"
+
+msgid "刻痕"
+msgstr "Muesca"
+
+msgid "黑石坛"
+msgstr "Altar de piedra negra"
+
+msgid "黑匣"
+msgstr "Cofre negro"
+
+msgid "王府大门"
+msgstr "Portón del palacio del príncipe"
+
+msgid "界碑"
+msgstr "Mojón"
+
+msgid "马栏"
+msgstr "Corral"
+
+msgid "石鼓"
+msgstr "Tambor de piedra"
+
+msgid "木人"
+msgstr "Muñeco de madera"
+
+msgid "交椅"
+msgstr "Silla del jefe"
+
+msgid "火塘"
+msgstr "Fogón"
+
+msgid "毡帐"
+msgstr "Tienda de fieltro"
+
+msgid "烟尘"
+msgstr "Polvareda"
+
+msgid "工地名册"
+msgstr "Registro de la obra"
+
+msgid "辘轳"
+msgstr "Torno"
+
+msgid "枷锁"
+msgstr "Grilletes"
+
+msgid "海神龛"
+msgstr "Hornacina del dios del mar"
+
+msgid "平底船"
+msgstr "Chalana"
+
+msgid "大盾"
+msgstr "Gran escudo"
+
+msgid "火坛"
+msgstr "Altar de fuego"
+
+msgid "木牌"
+msgstr "Tablilla de madera"
+
+msgid "门规木牌"
+msgstr "Tablilla de las reglas"
+
+msgid "火前问话"
+msgstr "Preguntas ante el fuego"
+
+msgid "冯禄的文书"
+msgstr "Papeles de Feng Lu"
+
+msgid "板地"
+msgstr "Tablado"
+
+msgid "铜狮"
+msgstr "León de bronce"
+
+msgid "日晷"
+msgstr "Reloj de sol"
+
+msgid "龙椅"
+msgstr "Trono del dragón"
+
+msgid "黑丝绦"
+msgstr "Cordón de seda negra"
+
+msgid "枯井"
+msgstr "Pozo seco"
+
+msgid "养心门"
+msgstr "Puerta del Cultivo de la Mente"
+
+msgid "舆图"
+msgstr "Mapa del reino"
+
+msgid "樟木匣"
+msgstr "Caja de alcanfor"
+
+msgid "御案"
+msgstr "Escritorio imperial"
+
+msgid "朝上揭发"
+msgstr "Denunciar ante la corte"
+
+msgid "皇叔的通缉"
+msgstr "Orden de arresto del tío imperial"
+
+msgid "雾里的人影"
+msgstr "Silueta en la niebla"
+
+msgid "冻僵的探子"
+msgstr "Explorador congelado"
+
+msgid "兵部旗"
+msgstr "Estandarte del Ministerio de Guerra"
+
+msgid "门楣上的铜钩"
+msgstr "Gancho de bronce del dintel"
+
+msgid "雪亭的铃"
+msgstr "Campana de Pabellón Nevado"
+
+msgid "老松岭的铃"
+msgstr "Campana del Cerro de los Pinos Viejos"
+
+msgid "水烟阁的铃"
+msgstr "Campana del Pabellón de la Neblina"
+
+msgid "野羊山的铃"
+msgstr "Campana del Cerro de las Cabras"
+
+msgid "晚月庄的铃"
+msgstr "Campana de la Mansión Luna Tardía"
+
+msgid "乔阴的铃"
+msgstr "Campana de Sombra Alta"
+
+msgid "关北的铃"
+msgstr "Campana de Norte del Paso"
+
+msgid "番坊的铃"
+msgstr "Campana del Barrio Extranjero"
+
+msgid "玉螺湖村的铃"
+msgstr "Campana de la Aldea Caracola de Jade"
+
+msgid "京师的铃"
+msgstr "Campana de la Capital"
+
+msgid "旋风"
+msgstr "Torbellino"
+
+msgid "云海"
+msgstr "Mar de nubes"
