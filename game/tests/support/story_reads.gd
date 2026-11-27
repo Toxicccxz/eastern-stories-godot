@@ -20,8 +20,9 @@ const WRITE_KEYS: Array[String] = [
 ]
 ## Keys that name an item read where they stand (a condition, a rule, an act that takes it).
 const ITEM_KEYS: Array[String] = ["item", "items", "carries", "asker_carries", "asker_not_carries", "confirm_carries", "giver_carries", "die_carries", "wearing", "takes", "item_alias"]
-## Parents under which `item` / `items` lay or sell things rather than read them.
-const ITEM_LAYING: Array[String] = ["goods", "item_spawns", "props", "pieces", "landmarks", "looks"]
+## Parents under which `item` / `items` lay, sell or show things rather than read them (`do`: a
+## scene's action shows a thing passing from hand to hand, 过场演出 B; the step's own `give` settles it).
+const ITEM_LAYING: Array[String] = ["goods", "item_spawns", "props", "pieces", "landmarks", "looks", "do"]
 ## Script folders whose quoted words count as read.
 const SCRIPT_ROOTS: Array[String] = ["res://core", "res://runtime", "res://application", "res://presentation", "res://ui"]
 

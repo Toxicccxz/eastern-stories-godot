@@ -236,6 +236,10 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	camp = MapPlaces.enter(session, CAMP8, &"canyon.camp8.general.1")
 	await _beats(tree, session, 14)
 	_check(state.marks.get("严廷殷交了关", 0) == 1, "his farewell is a scene")
+	# 过场演出 C: the farewell is heard (the call that sends them off without a word, meant for a scene
+	# cut short, used to come before the scene's first line).
+	var heard: String = " ".join(session.shared_ui().message_log.log_lines())
+	_check(heard.contains("印是我丢的，这个罪我担") and heard.contains("天驼关交给李信") and heard.contains("披上大氅"), "and every line of it was told")
 	_check(_count_in(session, CAMP8, GENERAL) == 0 and _count_in(session, CAMP8, ADVISER) == 0, "the 帅帐 is empty: %s %s" % [_where(session, GENERAL), _where(session, ADVISER)])
 	gate = MapPlaces.enter(session, GATE, GATE_POINT)
 	await _settle(tree)
@@ -279,6 +283,8 @@ func _test_expose_cut_short(tree: SceneTree, session: WorldSessionController) ->
 	await _settle(tree)
 	MapPlaces.enter(session, CAMP8, &"canyon.camp8.general.1")
 	await _beats(tree, session, 4)
+	_check(_count_in(session, CAMP8, GENERAL) == 1, "cut short: he is there still (the call that sends them off comes after the farewell would have ended)")
+	await _beats(tree, session, 10)
 	_check(_count_in(session, CAMP8, GENERAL) == 0 and _count_in(session, CAMP8, ADVISER) == 0, "cut short: they still go: %s %s" % [_where(session, GENERAL), _where(session, ADVISER)])
 
 
