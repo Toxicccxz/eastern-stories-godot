@@ -4,12 +4,15 @@ extends RefCounted
 ## the scene they are written on. The catalog already checks that every word, person, thing, door
 ## and point a cue names exists (ContentCatalogBuilder._check_cue()); this goes through each
 ## NPC's scene as it is told, call after call, and checks what only the whole scene shows:
-## - whoever a cue names is of the scene's cast: spawned in the teller's room, or named by the
-##   scene itself (a `present`, a `by`, one who `comes`, is summoned or sent off);
-## - `rise` follows a kneel or a fall of the same one, `sheathe` a draw (alone they show nothing);
+## - whoever a cue names by `who` or as a place is of the scene's cast: spawned in a room the
+##   teller is spawned in, or named by the scene itself (a `present`, a `by`, one who `comes`, is
+##   summoned or sent off). (A step's own NPC is of the cast by what it is.)
+## - `rise` follows a kneel or a fall of the same one, `sheathe` a draw (alone they show nothing):
+##   somewhere earlier in the scene as written, whichever of its ways is played;
 ## - a scene that frames its lines frames every line (a line without a shot falls back to the
 ##   map's own distance in the middle of the scene);
-## - the scenes of the main story are staged, each with its 主线场面 where it has one.
+## - the scenes of the main story listed here are staged.
+## Steps told after a question or a choice are not gone through (they show no cue: SceneCue.NO_CUE).
 
 ## The NPCs whose scene of the main story carries actions and shots (过场演出 B's 唤首 and C's).
 const STAGED: Array[StringName] = [

@@ -412,6 +412,7 @@ func _let_go(at_once: bool) -> void:
 	_held.clear()
 	_directed.clear()
 	_hops.clear()
+	_leaving.clear()
 	_fx_claimed.clear()
 	_fx_due.clear()
 	_shot = null
@@ -726,7 +727,8 @@ func _remember_home(id: StringName, body: WorldCharacterBody2D) -> void:
 func _advance_run(run: Run, delta: float) -> void:
 	var body: WorldCharacterBody2D = _body(run.id)
 	if body == null:
-		_runs.erase(run)
+		# Nobody to move any more: the action is over, and one who was leaving by it has left.
+		_end_run(run, true)
 		return
 	run.elapsed += delta
 	if run.walks:

@@ -921,7 +921,7 @@
 							"say": "陈显祖，你留在衙门里。庾家的人进不了这道门。", "do": {"who": "choyin.npc.sergeant", "act": "rise"}, "shot": {"two": "choyin.npc.sergeant"}
 						},
 						{
-							"leave": "choyin.npc.sergeant", "do": {"act": "exit", "by": "choyin.yamen.magistra.1"}
+							"leave": "choyin.npc.sergeant", "do": {"act": "exit", "by": "choyin.yamen_iner.chen_witness.1"}
 						},
 						{
 							"line": "两名带刀侍卫领着陈显祖进了内厅。\n", "shot": {"two": "choyin.npc.sergeant"}
