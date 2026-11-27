@@ -41972,3 +41972,204 @@ msgstr "Un hombre con media armadura de hierro de la Guardia de palacio; la plac
 
 msgid "一个黑冠道士，冠上的丝绦断了一根，脸上横着一道新疤。湖底那一仗以后，逆灵宫的黑冠有的回了北麓，有的不知去向；他是不肯回去、还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n"
 msgstr "Un taoísta de los Gorros negros: a su gorro se le rompió uno de los cordones de seda y le cruza la cara una cicatriz reciente. Desde aquella batalla bajo el lago, algunos Gorros negros del Palacio Negro volvieron a las faldas del norte y otros se perdieron sin dejar rastro; él es de los que no quisieron volver y siguen matando: a orillas del Lago Caracola de Jade ya faltan dos familias de pescadores.\n"
+
+msgid "书案 · 坐下"
+msgstr "escritorio · sentarse"
+
+msgid "「夜雨」"
+msgstr "\"Lluvia de noche\""
+
+msgid "「夜雨」只能对战斗中的对手使用。"
+msgstr "\"Lluvia de noche\" solo funciona contra un rival en combate."
+
+msgid "你的内力不够，使不出「夜雨」。"
+msgstr "No tienes Fuerza interior suficiente para usar \"Lluvia de noche\"."
+
+msgid "$N剑势一沉，使出「夜雨」，剑尖细细密密地压向$n，像檐下落了一夜的雨，逼得$p非接不可！"
+msgstr "¡{N:Tu espada se hunde|La espada de $N{:el} se hunde} de golpe y, con \"Lluvia de noche\", la punta cae sobre {n:ti|$n{:el}} fina y tupida, como la lluvia que gotea del alero toda una noche: {n:no te queda|no le queda} más que responder!"
+
+msgid "$n接得一乱，身前空了一块。"
+msgstr "$n{:el} {n:respondes|responde} con apuro y {n:te queda|le queda} un hueco por delante."
+
+msgid "最近总往镇外跑。练功是好事，别耽误了正事。"
+msgstr "Últimamente andas mucho fuera del pueblo. Practicar está bien; no descuides lo importante."
+
+msgid "沈疏雨问起柳淳风那卷竹书，要你别同他说她问过。你答应了：替她瞒了师父一回。"
+msgstr "Shen Shuyu te preguntó por el libro de bambú de Liu Chunfeng y te pidió que no le dijeras que ella había preguntado. Aceptaste: por una vez, le ocultaste algo a tu Shifu por ella."
+
+msgid "天黑以后，到瓦屋的书案边坐下。留下，她在灯下把「雨」说完；告辞，她明早再教。学到的是同一招。"
+msgstr "Después del anochecer, sentarse junto al escritorio de la casa de tejas. Si te quedas, ella termina de explicarte \"Lluvia\" a la luz de la lámpara; si te despides, te lo enseña mañana temprano. Se aprende el mismo movimiento."
+
+msgid "你留下了。天快亮的时候，她把「雨」教给了你，叫它「夜雨」，又给了你一支旧银簪。"
+msgstr "Te quedaste. Poco antes del amanecer, te enseñó \"Lluvia\", lo llamó \"Lluvia de noche\" y te dio una vieja horquilla de plata."
+
+msgid "在镇外的小院里学到了「夜雨」"
+msgstr "Aprendiste \"Lluvia de noche\" en el patio de las afueras del pueblo"
+
+msgid "你告辞了。第二天一早，她把「雨」教给了你，叫它「听雨」，又给了你一卷竹简。"
+msgstr "Te despediste. A la mañana siguiente, temprano, te enseñó \"Lluvia\", lo llamó \"Escuchar la lluvia\" y te dio un rollo de tablillas de bambú."
+
+msgid "柳馆主前两天还问起你。说你最近总往镇外跑。"
+msgstr "Hace un par de días el maestro Liu preguntó por ti. Dijo que últimamente andas mucho fuera del pueblo."
+
+msgid "坐下"
+msgstr "Sentarse"
+
+msgid "书案擦得很干净，两只杯子都倒扣着。灯芯剪得很短。\n"
+msgstr "El escritorio está muy limpio, con las dos tazas boca abajo. La mecha de la lámpara está recortada muy corta.\n"
+
+msgid "书案上压着一张纸，是她试笔的字，只写了一个：雨。\n"
+msgstr "Sobre el escritorio, bajo un pisapapeles, hay una hoja donde ella probó el pincel; escribió un solo carácter: lluvia.\n"
+
+msgid "书案擦得很干净。\n"
+msgstr "El escritorio está muy limpio.\n"
+
+msgid "帘子一掀，沈疏雨进来了。她把灯拨亮了些，在书案对面坐下。\n"
+msgstr "La cortina se levanta y entra Shen Shuyu. Sube un poco la luz de la lámpara y se sienta frente a ti, al otro lado del escritorio.\n"
+
+msgid "「雨」这一招，我只在夜里说。白天说，老何听得见；老何听见了，他也就知道了。"
+msgstr "'Lluvia' solo lo explico de noche. De día lo oiría el viejo He; y si el viejo He lo oye, también lo sabrá él."
+
+msgid "你替我瞒了一回。这一回，换我不瞒你。"
+msgstr "Una vez guardaste un secreto por mí. Esta vez me toca a mí no ocultarte nada."
+
+msgid "给你倒了一杯茶，又给自己倒了一杯。灯芯噼啪响了一声。"
+msgstr " te sirve una taza de té, y otra para ella. La mecha de la lámpara chisporrotea una vez."
+
+msgid "夜深了。你是留下听我说完，还是明早再来？"
+msgstr "Ya es noche cerrada. ¿Te quedas a oírme hasta el final, o vuelves mañana temprano?"
+
+msgid "沈疏雨在等你回答："
+msgstr "Shen Shuyu espera tu respuesta:"
+
+msgid "留下来，听她在灯下把「雨」说完。\n这一夜之后，有些话只有你们两个人知道；柳淳风不会知道。\n学到的是同一招，叫「夜雨」。\n要留下吗？"
+msgstr "Quedarse y oírla terminar de explicar \"Lluvia\" a la luz de la lámpara.\nDespués de esta noche, algunas cosas solo las sabrán ustedes dos; Liu Chunfeng no las sabrá.\nSe aprende el mismo movimiento, llamado \"Lluvia de noche\".\n¿Te quedas?"
+
+msgid "没有再说话，起身把门闩上了。"
+msgstr " ya no dice nada; se levanta y atranca la puerta."
+
+msgid "灯芯烧到了头，屋里暗了下去。窗外起了雨，一阵密，一阵疏。\n"
+msgstr "La mecha se consume hasta el final y la habitación queda a oscuras. Afuera empieza a llover, a ratos tupido, a ratos ralo.\n"
+
+msgid "天快亮的时候，雨停了。\n"
+msgstr "Poco antes del amanecer, la lluvia para.\n"
+
+msgid "披着外衣坐在书案边，用手指蘸了茶水，在案上一点一点地画给你看。"
+msgstr " se sienta junto al escritorio con el abrigo echado sobre los hombros, moja un dedo en el té y te lo va dibujando en la madera, trazo a trazo."
+
+msgid "他接了，身前就空了，那一下是你的；他不接，这一剑就落在他身上。两头都是你的。"
+msgstr "Si responde, queda abierto por delante, y ese instante es tuyo; si no responde, la estocada le cae encima. De las dos maneras ganas tú."
+
+msgid "这一招，夜里学的，就叫「夜雨」吧。"
+msgstr "Este movimiento lo aprendiste de noche: que se llame 'Lluvia de noche'."
+
+msgid "从妆奁里取出一支旧银簪，放在你手心里。"
+msgstr " saca del joyero una vieja horquilla de plata y te la pone en la palma de la mano."
+
+msgid "我年轻时戴的。收着。"
+msgstr "La llevaba de joven. Guárdala."
+
+msgid "告辞，明早再来"
+msgstr "Despedirse y volver mañana"
+
+msgid "告辞，明早再来。\n她会在白天把「雨」教给你，叫「听雨」。\n要告辞吗？"
+msgstr "Despedirse y volver mañana temprano.\nElla te enseñará \"Lluvia\" de día y lo llamará \"Escuchar la lluvia\".\n¿Te despides?"
+
+msgid "点了点头，像是早知道你会这么说。"
+msgstr " asiente, como si ya supiera que dirías eso."
+
+msgid "也好。明早来。"
+msgstr "Está bien. Mañana temprano, entonces."
+
+msgid "你回镇上歇了一夜。\n"
+msgstr "Vuelves al pueblo a pasar la noche.\n"
+
+msgid "第二天一早你再来时，她已经在院子里等你了。\n"
+msgstr "A la mañana siguiente, cuando vuelves temprano, ella ya te espera en el patio.\n"
+
+msgid "从袖子里取出一卷竹简递给你。"
+msgstr " saca de la manga un rollo de tablillas de bambú y te lo tiende."
+
+msgid "昨夜写的。头一回有人把它写下来。"
+msgstr "Lo escribí anoche. Es la primera vez que alguien lo pone por escrito."
+
+msgid "要在屋里等到天黑吗？（世界的时间会过去，别的地方照旧过它们的日子。）"
+msgstr "¿Esperar en la casa hasta que anochezca? (El tiempo del mundo pasará, y los demás lugares seguirán con sus días.)"
+
+msgid "你在书案边坐下。院里劈柴的声音一下一下，后来停了。\n"
+msgstr "Te sientas junto al escritorio. En el patio, los hachazos sobre la leña suenan uno a uno, y luego paran.\n"
+
+msgid "天黑了。\n"
+msgstr "Cae la noche.\n"
+
+msgid "书案上的灯没点。\n"
+msgstr "La lámpara del escritorio está apagada.\n"
+
+msgid "那一夜的雨，你记着就好。出剑的时候，别让人看出是谁教的。"
+msgstr "La lluvia de aquella noche, basta con que la recuerdes. Cuando saques la espada, que nadie note quién te la enseñó."
+
+msgid "天黑以后，屋里说。"
+msgstr "Cuando anochezca, dentro de la casa."
+
+msgid "停了一停。"
+msgstr " se detiene un momento."
+
+msgid "那卷书……你读过吗？"
+msgstr "Ese libro... ¿lo leíste?"
+
+msgid "答应沈疏雨：她问起过那卷书，这件事不告诉柳淳风。\n答应了，就是替她瞒了师父一回。\n要答应吗？"
+msgstr "Prometerle a Shen Shuyu que no le contarás a Liu Chunfeng que ella preguntó por el libro.\nSi lo prometes, le ocultas algo a tu Shifu, por una vez, por ella.\n¿Lo prometes?"
+
+msgid "书的事，你知我知。"
+msgstr "Lo del libro queda entre tú y yo."
+
+msgid "听你说完书里那几句，半晌没有出声。"
+msgstr " te escucha decir esas líneas del libro y pasa un buen rato sin decir nada."
+
+msgid "直竹贵地生……他二十岁就写得出这一句，后来倒忘了。"
+msgstr "'El bambú recto crece en tierra rica'... A los veinte años ya era capaz de escribir esto, y después lo olvidó."
+
+msgid "我问过这卷书，你别同他说。"
+msgstr "Yo pregunté por ese libro; no se lo digas a él."
+
+msgid "天黑以后再来。屋里点着灯。"
+msgstr "Vuelve cuando anochezca. En la casa habrá una lámpara encendida."
+
+msgid "没读过？……也好。"
+msgstr "¿No lo leíste? ...También está bien."
+
+msgid "他二十岁那年在竹林里写过一卷书，写的是怎么等。哪天你读到了，告诉我写了什么。"
+msgstr "El año en que cumplió veinte escribió un libro en el bosque de bambú; trata de cómo esperar. Si algún día lo lees, cuéntame qué dice."
+
+msgid "簪子"
+msgstr "Horquilla"
+
+msgid "收着。不必戴，也不必还。"
+msgstr "Guárdala. No hace falta que la uses, ni que la devuelvas."
+
+msgid "竹简"
+msgstr "Tablillas de bambú"
+
+msgid "字写得丑，你凑合着看。那是头一回有人把它写下来。"
+msgstr "Tengo mala letra; léelo como puedas. Es la primera vez que alguien lo pone por escrito."
+
+msgid "来了？剑练得怎么样，小友。"
+msgstr "¿Ya estás aquí? ¿Cómo va esa espada, {jugador:joven amigo|joven amiga}?"
+
+msgid "正在檐下晾衣裳，看见你，手停了一下。"
+msgstr " está tendiendo ropa bajo el alero; al verte, la mano se le detiene un instante."
+
+msgid "你来了。"
+msgstr "Viniste."
+
+msgid "看了你一眼，低下头接着劈他的柴。"
+msgstr " te mira una vez, baja la cabeza y sigue partiendo su leña."
+
+msgid "旧银簪"
+msgstr "Horquilla de plata vieja"
+
+msgid "一支旧银簪，簪头錾着几道细细的雨丝，银子磨得发白。年头久了，簪身有一点弯——像是戴它的人常常低头。\n"
+msgstr "Una vieja horquilla de plata: en la cabeza lleva grabadas unas finas líneas de lluvia, y la plata está gastada hasta blanquear. Con los años, el cuerpo se le curvó un poco, como si quien la llevaba bajara a menudo la cabeza.\n"
+
+msgid "一卷竹简，用麻绳穿着，墨迹还新。字写得很慢，一笔一顿：\n「他出剑，等空子。我出剑，逼空子。逼过去，他接了，身前就空了；他不接，这一剑就落在他身上。两头都是你的。」\n末一片上只有一个字：雨。\n"
+msgstr "Un rollo de tablillas de bambú atadas con cordel de cáñamo; la tinta todavía está fresca. La letra es lenta, con una pausa a cada trazo:\n\"Él saca la espada y espera el hueco. Yo saco la espada y fuerzo el hueco. Aprieto: si responde, queda abierto por delante; si no responde, la estocada le cae encima. De las dos maneras ganas tú.\"\nEn la última tablilla hay un solo carácter: lluvia.\n"

@@ -164,6 +164,11 @@
 			"revision": "SOURCE_ENTRY_RAIN_YARD_V1",
 			"spawn_points": 896,
 			"fingerprint": "6f6a8c4a89389d72939b8e55b4383f127dd4c12c36a3392176276871c029443b"
+		},
+		{
+			"revision": "SOURCE_ENTRY_RAIN_YARD_B_V1",
+			"spawn_points": 896,
+			"fingerprint": "dd333924b7dd6c435a9a260f6d1d455b346acf6dace30022b5805533357a2342"
 		}
 	]
 }
