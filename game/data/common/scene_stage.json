@@ -1,0 +1,61 @@
+{
+	"_comment": "过场动作 (过场演出 B; DECISIONS「过场动作」): how a scene's actions and shots (SceneCue: a step's `do`, `shot`, `fx`) are timed and framed. Positions are the 2D map's (a walk moves the body); poses, the flying thing and the camera are the picture only. Off with the feel's scene_action_ms at 0 (the suites). seconds: each word's time in units of scene_action_ms (a walk takes what its way takes at walk_speed).",
+	"walk_speed": 105,
+	"step_back_px": 30,
+	"seconds": {
+		"_comment": "face: the turn; bow: down, held, up; kneel / rise / draw / sheathe / fall: into (or out of) the pose, which then stays; startle: the hop; shiver / reach: how long it lasts (with `hold`: until that person's next action); hand / toss: the reach, the flight and the catch together; step_back: the step; emerge: rising out of the ground; dissolve: thinning away.",
+		"face": 0.8,
+		"bow": 3.6,
+		"kneel": 1.6,
+		"rise": 1.6,
+		"draw": 1.2,
+		"sheathe": 1.2,
+		"startle": 1.0,
+		"shiver": 5.0,
+		"reach": 6.0,
+		"fall": 1.4,
+		"hand": 3.6,
+		"toss": 3.6,
+		"step_back": 1.0,
+		"emerge": 4.0,
+		"dissolve": 3.2
+	},
+	"flight": {
+		"_comment": "A thing handed or tossed: it leaves the giver's hand at `from` of the action and is in the other's at `to`; rise how high a toss arcs over the straight line (units), a hand none; size / colour the thing shown when its item has no look of its own; glint: a bright chip that flies with it, so a dark thing is seen in a dark room (\"\": none).",
+		"from": 0.3,
+		"to": 0.78,
+		"toss_rise": 1.25,
+		"hand_rise": 0.0,
+		"size": 0.2,
+		"colour": "2a2622",
+		"glint": "ffe9b0"
+	},
+	"emerge": {
+		"_comment": "One rising out of the ground: depth how far under it begins (units).",
+		"depth": 2.0
+	},
+	"dissolve": {
+		"_comment": "One thinning away where it stands: it sinks and narrows to nothing while a puff of `art` (BattleArts) in `colour` rises, `scale` times the fight's size.",
+		"art": "vanish",
+		"colour": "2c2430",
+		"scale": 1.5
+	},
+	"shots": {
+		"_comment": "near / look: the camera's push-in (a share of the map's own framing; 1 = as the map frames itself); two: both figures kept inside `two_fill` of the picture's width, never nearer than `two_min`; wide: the map's own framing over the room's middle. seconds: how long the push takes. move: pan (the camera travels there) or cut (it is there at once).",
+		"near": 0.36,
+		"look": 0.5,
+		"two_fill": 0.5,
+		"two_min": 0.36,
+		"wide": 1.0,
+		"seconds": 0.7,
+		"move": "pan"
+	},
+	"light": {
+		"_comment": "A soft light over what a shot looks at, so who acts is seen in a dark room: on while a shot is in force (near, two, look; not wide), eased in and out over `seconds`; energy 0: none. Not on 画质 低 without the fight's lights.",
+		"energy": 2.0,
+		"range": 7.0,
+		"height": 3.2,
+		"colour": "ffe6c4",
+		"seconds": 0.6
+	}
+}

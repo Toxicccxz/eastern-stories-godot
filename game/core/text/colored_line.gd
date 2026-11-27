@@ -26,6 +26,10 @@ var color: StringName
 ## (a place, a person, a thing, an hour), as authored (message IDs: each is found in the shown
 ## line in the shown language, KeySpans). Presentation lights them; [] for none.
 var keys: Array[String] = []
+## Native (过场演出 B; DECISIONS「过场动作」): the page of a scene this line is read on (the map's
+## WorldMapStaging.Beat): the dialogue box hands it back as the page shows and goes, so what the
+## line's step shows begins and ends with it. null outside a staged scene.
+var beat: RefCounted = null
 
 
 func _init(p_text: String = "", p_color: StringName = PLAIN) -> void:

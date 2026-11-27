@@ -230,9 +230,9 @@ func _check_scene(tree: SceneTree) -> void:
 			var at: String = box.line()
 			if not box.lit_words().is_empty():
 				lit[at] = box.lit_words()
-			# The scene's steps are done before its last line is read: the bars stay for it.
-			if not map.scene_running():
-				tail_bars = hud.scene_bars.progress
+			# The scene holds until its last line is read (过场演出 B: its steps are done before
+			# that): the bars are in for every line, the last one too.
+			tail_bars = hud.scene_bars.progress
 			# One press, one line (DECISIONS「过场读法」), typed out or not.
 			_press(hud)
 			await _frames(tree, 3)

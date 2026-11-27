@@ -17,6 +17,12 @@ static var _data: Dictionary = {}
 
 ## Each scene played here, newest last (tests, kits).
 var played: Array[String] = []
+## 过场演出 B (DECISIONS「过场动作」): the scenes a running 剧情演出 plays by name at a step of its
+## own (the view hands them over from the map's staging): their own triggers stay quiet, so the
+## moment is shown once, when the step comes.
+var claimed: Dictionary[String, bool] = {}
+## The scenes shown since the map was last shown (reset()): one is not shown twice.
+var _shown: Dictionary[String, bool] = {}
 ## The view's camera (the jolt moves its picture, not its place).
 var camera: Camera3D
 ## Whether each scene's trigger held at the last look; nothing before the first.
@@ -68,6 +74,7 @@ static func holds(scene: Dictionary, player: WorldPlayerRuntimeState, held: Dict
 ## true already happened before the player's eyes were here).
 func reset() -> void:
 	_held.clear()
+	_shown.clear()
 	_seen = false
 	clear()
 
@@ -90,11 +97,20 @@ func look(scenes: Dictionary, player: WorldPlayerRuntimeState, held: Dictionary[
 	var came: Array[String] = []
 	for name: String in scenes:
 		var now: bool = holds(scenes[name], player, held, worn, phase_id, standing)
-		if now and _seen and not _held.get(name, false):
+		# One a running scene plays at a step of its own, or has played, is not played by its trigger.
+		if now and _seen and not _held.get(name, false) and not claimed.has(name) and not _shown.has(name):
 			came.append(name)
 		_held[name] = now
 	_seen = true
 	return came
+
+
+## The scene `name` played because a 剧情演出's step names it (过场演出 B). False when it was
+## shown already since the map was last shown (its trigger played it), or there is nothing to show.
+func play_named(name: String, scene: Dictionary, view: WorldVoxelView = null) -> bool:
+	if _shown.has(name):
+		return false
+	return play(name, scene, view)
 
 
 ## The scene `name` played at its place on the map: its layers, light, jolt and sound; `view`
@@ -103,6 +119,7 @@ func play(name: String, scene: Dictionary, view: WorldVoxelView = null) -> bool:
 	var layers: Array = scene.get("layers", [])
 	if layers.is_empty() or not is_inside_tree():
 		return false
+	_shown[name] = true
 	var at: Array = scene.get("at", [0, 0])
 	var centre: Vector3 = VoxelMapGeometry.point(Vector2(float(at[0]), float(at[1])))
 	for layer: Variant in layers:

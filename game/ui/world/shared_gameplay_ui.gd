@@ -195,7 +195,8 @@ func _ready() -> void:
 	dialogue_box.configure(self)
 	add_child(dialogue_box)
 	move_child(dialogue_box, 3)
-	dialogue_box.read_out.connect(waits.hurry_teller)
+	dialogue_box.read_out.connect(_read_out)
+	dialogue_box.closed_unread.connect(_closed_unread)
 	epilogue = EpilogueOverlay.new()
 	add_child(epilogue)
 	inspect_button.pressed.connect(actions.inspect_context)
@@ -281,22 +282,93 @@ func _ready() -> void:
 func npc_says(speaker: NpcRuntimeState, lines: Array[ColoredLine], spoken: Array[String], alert: bool = false) -> void:
 	if speaker == null:
 		message_log.append_colored_lines(lines)
+		_pass_pages(lines)
 		return
 	# Each spoken line's marked words, before the log finishes the lines for the shown language.
 	var marked: Dictionary[String, Array] = {}
 	for line: ColoredLine in lines:
 		if not line.keys.is_empty():
 			marked[line.text] = line.keys
+	# 过场演出 B: each spoken line's page of the scene (ColoredLine.beat), in the order said.
+	var pages: Dictionary[String, Array] = {}
+	for line: ColoredLine in lines:
+		if line.beat != null:
+			if not pages.has(line.text):
+				pages[line.text] = []
+			pages[line.text].append(line.beat)
 	var teller: StringName = _teller()
 	# What is read in the box is lit in 消息 too; a bubble's line is not (DECISIONS「关键信息高亮」).
 	message_log.append_speech(lines, not teller.is_empty())
 	if teller.is_empty():
 		speech_bubbles.say(speaker, spoken, alert)
+		_pass_pages(lines)
 	else:
 		var keys: Array[Array] = []
+		var beats: Array = []
 		for text: String in spoken:
 			keys.append(marked.get(text, []))
-		dialogue_box.say(tr(speaker.definition().display_name), spoken, teller, speaker, keys)
+			var waiting: Array = pages.get(text, [])
+			beats.append(waiting.pop_front() if not waiting.is_empty() else null)
+		dialogue_box.say(tr(speaker.definition().display_name), spoken, teller, speaker, keys, beats)
+		# A staged line that is not spoken (it has no page) is gone through at once.
+		for waiting: Array in pages.values():
+			for beat: Variant in waiting:
+				stage_page_left(beat)
+
+
+# --- 过场演出 B (DECISIONS「过场动作」): the dialogue box's pages and the map's staging ---
+
+
+## The map's staging of the scene being told (null: no map).
+func staging() -> WorldMapStaging:
+	var map: WorldMapController = null if _session == null else _session.active_map() as WorldMapController
+	return null if map == null else map.staging
+
+
+## The page of `beat` (a scene's line; null: none) shows in the dialogue box / goes from it.
+func stage_page_shown(beat: RefCounted) -> void:
+	var stage: WorldMapStaging = staging()
+	if stage != null and beat is WorldMapStaging.Beat:
+		stage.page_shown(beat)
+
+
+func stage_page_left(beat: RefCounted) -> void:
+	var stage: WorldMapStaging = staging()
+	if stage != null and beat is WorldMapStaging.Beat:
+		stage.page_left(beat)
+
+
+## `lines` of a staged scene are not read in the dialogue box: their pages are gone through now.
+func _pass_pages(lines: Array[ColoredLine]) -> void:
+	for line: ColoredLine in lines:
+		stage_page_left(line.beat)
+
+
+## Seconds what a scene shows still takes (a page waits this long before it goes on by itself).
+func stage_left() -> float:
+	var stage: WorldMapStaging = staging()
+	return 0.0 if stage == null else stage.left_seconds()
+
+
+## The box read out `teller`'s last line: the next line of that sequence now — once what the
+## scene still shows is over (someone walking out: the world held meanwhile).
+func _read_out(teller: StringName) -> void:
+	var stage: WorldMapStaging = staging()
+	if stage == null or not stage.pages_read(waits.hurry_teller.bind(teller)):
+		waits.hurry_teller(teller)
+
+
+## The box was shut before it was read out (a fight, a fall): what the scene was showing is over.
+func _closed_unread() -> void:
+	var stage: WorldMapStaging = staging()
+	if stage != null:
+		stage.settle()
+
+
+## A scene's actions play on with no page open: E / A takes them to their end.
+func _stage_between() -> bool:
+	var stage: WorldMapStaging = staging()
+	return stage != null and stage.between()
 
 
 ## The names the player's next quest steps lead to (StoryKeyTerms), as authored: what a line in
@@ -471,10 +543,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		_dialogue_key(event)
 		return
 	# A scene (DECISIONS「剧情演出」): E / A is 继续; only the menu and the pause take another key.
-	if _session != null and _session.scene_held() and not shell_key:
+	# What a scene shows between two lines (过场演出 B: someone walking out) is taken to its end by
+	# the same press; the scene's next line follows by itself.
+	if _session != null and (_session.scene_held() or _stage_between()) and not shell_key:
 		get_viewport().set_input_as_handled()
 		if event.is_action_pressed(&"interact") or event.is_action_pressed("ui_accept"):
-			waits.hurry()
+			if _stage_between():
+				if not dialogue_box.guarded():
+					staging().finish()
+			else:
+				waits.hurry()
 		return
 	if event.is_action_pressed(&"interact") or event.is_action_pressed("ui_accept"):
 		var focused: Control = get_viewport().gui_get_focus_owner()

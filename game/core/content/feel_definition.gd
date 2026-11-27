@@ -27,6 +27,10 @@ extends RefCounted
 ## - scene_bars_ms (DECISIONS「过场黑边」): a scene's two black bars slide in and out in this long,
 ##   the status card, the toasts, the quest marker and the exit arrows away meanwhile (0: no bars,
 ##   the HUD stays); scene_bars_percent: each bar's height in percent of the screen's.
+## - scene_action_ms (过场演出 B; DECISIONS「过场动作」): the unit a scene's actions are timed in
+##   (scene_stage.json gives each word its share: a bow, a kneel, a thing tossed; a walk goes at
+##   its own speed): with 0 a scene shows no action and no shot — nobody walks in or out, the
+##   camera only follows whoever speaks, as before.
 ## - speech_reach_px: how near (and on the screen) the player must be for an NPC's
 ##   greeting and chat (DECISIONS「说话和交互」); 0: anywhere in its room, as ES2.
 ## - room_text_ms / room_text_char_ms: a room's title and description show at the top this
@@ -128,6 +132,7 @@ var _dialogue_auto_max_ms: int = 0
 var _dialogue_press_guard_ms: int = 0
 var _scene_bars_ms: int = 0
 var _scene_bars_percent: int = 0
+var _scene_action_ms: int = 0
 var _room_text_ms: int = 0
 var _room_text_char_ms: int = 0
 var _menu_fade_ms: int = 0
@@ -427,6 +432,11 @@ func scene_bars_seconds() -> float:
 	return float(_scene_bars_ms) / 1000.0
 
 
+## Seconds of one unit of a scene's action (SceneStage gives each word its share; 0: none shown).
+func scene_action_seconds() -> float:
+	return float(_scene_action_ms) / 1000.0
+
+
 ## Each bar's share of the screen's height (0: none).
 func scene_bars_share() -> float:
 	return float(_scene_bars_percent) / 100.0 if _scene_bars_ms > 0 else 0.0
@@ -464,6 +474,7 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_dialogue_press_guard_ms = int(values.get("dialogue_press_guard_ms", _dialogue_press_guard_ms))
 	_scene_bars_ms = int(values.get("scene_bars_ms", _scene_bars_ms))
 	_scene_bars_percent = int(values.get("scene_bars_percent", _scene_bars_percent))
+	_scene_action_ms = int(values.get("scene_action_ms", _scene_action_ms))
 	_room_text_ms = int(values.get("room_text_ms", _room_text_ms))
 	_room_text_char_ms = int(values.get("room_text_char_ms", _room_text_char_ms))
 	_menu_fade_ms = int(values.get("menu_fade_ms", _menu_fade_ms))
@@ -534,7 +545,7 @@ const AUTO_LANGUAGES: Array[String] = ["en", "ko", "ja"]
 
 const KEYS: Array[String] = [
 	"dialogue_auto_ms", "dialogue_auto_char_ms", "dialogue_auto_char_ms_en", "dialogue_auto_char_ms_ko", "dialogue_auto_char_ms_ja",
-	"dialogue_auto_min_ms", "dialogue_auto_max_ms", "dialogue_press_guard_ms", "scene_bars_ms", "scene_bars_percent",
+	"dialogue_auto_min_ms", "dialogue_auto_max_ms", "dialogue_press_guard_ms", "scene_bars_ms", "scene_bars_percent", "scene_action_ms",
 	"map_fade_out_ms", "map_fade_in_ms", "map_banner_ms", "door_fade_out_ms", "door_fade_in_ms", "camera_follow_speed", "move_accel_ms",
 	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "speech_reach_px", "dialogue_char_ms", "room_text_ms", "room_text_char_ms", "menu_fade_ms", "battle_slow_percent",
 	"battle_fast_percent", "battle_line_ms", "bar_tween_ms", "hit_flash_ms", "battle_end_hold_ms",

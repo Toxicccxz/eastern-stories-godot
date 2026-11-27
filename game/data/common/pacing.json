@@ -130,6 +130,7 @@
 			"dialogue_press_guard_ms": 250,
 			"scene_bars_ms": 300,
 			"scene_bars_percent": 9,
+			"scene_action_ms": 400,
 			"room_text_ms": 4000,
 			"room_text_char_ms": 40,
 			"menu_fade_ms": 120,

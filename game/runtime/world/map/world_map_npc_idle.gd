@@ -75,6 +75,9 @@ func advance(delta: float) -> void:
 			continue
 		if entry == null or body == null:
 			continue
+		# 过场演出 B: one a scene directs turns and walks as the scene says, until it is over.
+		if _map.staging.directed(npc.character_id):
+			continue
 		if tuning.night_home and entry.night_home and _night_spawn(npc) != null and _night_step(npc, body, night, selected, tuning, walker):
 			continue
 		if not npc.exists_in_map:
