@@ -170,7 +170,7 @@ class TranslationsTest(unittest.TestCase):
             "after written text": ("你给{npc}{item}。", "Le das {item}{:el} a mozo{:el}."),
             "unknown article mark": ("你给{npc}{item}。", "Le das {item}{:la} a {npc}{:el}."),
             "with no marked name": ("看见你，放下了手里的扫帚。", "Te ve y queda {~:quieto|quieta}."),
-            "bad agreement": ("你给{npc}{item}。", "{npc}{:el} toma {item}{:el}, {~:contento|contenta|contentos}."),
+            "bad agreement": ("你给{npc}{item}。", "{npc}{:el} toma {item}{:el}, {~:contento|contenta|contentos|contentas|contentes}."),
             "with no number before it": ("你打坐 {count} 次", "Meditación: {#:vez|veces} {count}"),
             "{:pl} with no number slot": ("你给{npc}{item}。", "Das {item}{:pl} a {npc}{:el}."),
             "$P/$p in Spanish": ("结果只是轻轻地划破$p的皮肉。", "Apenas roza la piel de $p."),
