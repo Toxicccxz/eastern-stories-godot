@@ -151,7 +151,7 @@ static func _named(before: String, mark: String) -> Dictionary:
 			kept += " "
 		result.gender = YOU_FORM if name.to_lower() == SpanishNouns.YOU else SpanishNouns.gender_of(name)
 		result.resolved = true
-		if name.to_lower() == SpanishNouns.YOU and mark == DEFINITE and _opens_sentence(kept + opening_marks):
+		if name.to_lower() == SpanishNouns.YOU and mark == DEFINITE and (_opens_sentence(kept + opening_marks) or (kept + opening_marks).strip_edges().ends_with("(")):
 			# Spanish leaves the subject tú out: the verb says who.
 			result.text = kept + opening_marks + tail
 			result.dropped = tail.is_empty()

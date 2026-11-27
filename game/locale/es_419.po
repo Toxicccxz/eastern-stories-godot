@@ -2930,7 +2930,7 @@ msgid "庭院"
 msgstr "Patio"
 
 msgid "书卷 · 拿书"
-msgstr "pergaminos · tomar un libro"
+msgstr "pergaminos · tomar un pergamino"
 
 msgid "西花园"
 msgstr "Jardín oeste"
@@ -2945,7 +2945,7 @@ msgid "储藏室"
 msgstr "Almacén"
 
 msgid "黑松阁正厅"
-msgstr "Sala principal del Pino Negro"
+msgstr "Salón principal del Pino Negro"
 
 msgid "黑松阁东厅"
 msgstr "Sala este del Pino Negro"
@@ -3062,7 +3062,7 @@ msgid "石板 · 下去"
 msgstr "losa · bajar"
 
 msgid "柴草 · 拨开"
-msgstr "ramas · apartar"
+msgstr "maleza · apartar"
 
 msgid "北驿道"
 msgstr "Camino de postas del norte"
@@ -3158,7 +3158,7 @@ msgid "相国府大门 · 叩门"
 msgstr "portón del canciller · llamar"
 
 msgid "药"
-msgstr "Botica"
+msgstr "Hierbas"
 
 msgid "饼"
 msgstr "Pasteles"
@@ -3227,7 +3227,7 @@ msgid "小路"
 msgstr "Vereda"
 
 msgid "小屋"
-msgstr "Cuartito"
+msgstr "Casita"
 
 msgid "废屋"
 msgstr "Casa en ruinas"
@@ -3281,7 +3281,7 @@ msgid "南市场"
 msgstr "Mercado sur"
 
 msgid "绮云镇街道"
-msgstr "Calle de Tejenubes"
+msgstr "Calle Tejenubes"
 
 msgid "茶场"
 msgstr "Plantación de té"
@@ -4937,7 +4937,7 @@ msgid "紫金冠"
 msgstr "Corona de oro púrpura"
 
 msgid "天兵战甲"
-msgstr "Armadura del soldado celestial"
+msgstr "Armadura del soldado divino"
 
 msgid "金锋剑"
 msgstr "Espada de filo dorado"
@@ -4979,7 +4979,7 @@ msgid "菩提禅杖"
 msgstr "Báculo de bodhi"
 
 msgid "风泉之剑"
-msgstr "Espada del manantial de viento"
+msgstr "Espada del Fuente del Viento"
 
 msgid "短剑"
 msgstr "Espada corta"
@@ -12533,7 +12533,7 @@ msgid "你走出了桃林，骆云舟认你做桃林的客。"
 msgstr "Saliste de la Arboleda de duraznos, y Luo Yunzhou te recibe como huésped de la arboleda."
 
 msgid "你在曼雩台上问过了剑：风泉剑灵在「剑神如意」之前收了剑。"
-msgstr "Probaste la espada en la Terraza de la Danza de Lluvia: el Alma de Fuente del Viento envainó antes de llegar a \"Dios de la espada a voluntad\"."
+msgstr "Probaste la espada en la Terraza de la Danza de Lluvia: el Alma de Fuente del Viento envainó antes de llegar a \"Espada divina a voluntad\"."
 
 msgid "骆云舟托你给他十年没说过话的大哥骆建章送一封家书。"
 msgstr "Luo Yunzhou te pidió llevar una carta de familia a su hermano mayor, Luo Jianzhang, que lleva diez años sin hablarle."
@@ -13673,16 +13673,16 @@ msgid "北麓那座道观里还剩着人。湖上的事了了（终章之后）�
 msgstr "En el monasterio de la falda norte todavía queda gente. Cuando lo del lago haya terminado (después del final), preguntar al jardinero del segundo piso de la Biblioteca de escrituras por \"Falda norte\": se lleva el libro a la falda norte para leerles su propia escritura; subir a la falda norte y verlo terminar junto al torno. Si los de la falda norte ya tienen adónde ir, este paso queda cumplido."
 
 msgid "风泉之剑里住着剑灵；见过它的人，才算步玄的人。骆云舟的大哥在兵部尚书府写了十年字，兵部抄本上多出来的三句是他落的笔——让他上堂作证，还是保住骆家。"
-msgstr "En la Espada del manantial de viento vive un espíritu de la espada; solo quien lo ha visto cuenta como del Paso Místico. El hermano mayor de Luo Yunzhou lleva diez años escribiendo en la Mansión del Ministro de Guerra, y las tres frases de más en la copia del Ministerio de Guerra las escribió él: hacerlo declarar ante el tribunal, o proteger a la familia Luo."
+msgstr "En la Espada del Fuente del Viento vive un espíritu de la espada; solo quien lo ha visto cuenta como del Paso Místico. El hermano mayor de Luo Yunzhou lleva diez años escribiendo en la Mansión del Ministro de Guerra, y las tres frases de más en la copia del Ministerio de Guerra las escribió él: hacerlo declarar ante el tribunal, o proteger a la familia Luo."
 
 msgid "你离了步玄派。曼雩台上的事，到此为止。"
 msgstr "Dejaste la Escuela del Paso Místico. Lo de la Terraza de la Danza de Lluvia termina aquí."
 
 msgid "问乔阴曼雩台的骆云舟「风泉」，再问他「问剑」：他把风泉之剑插在台边的青石上。天黑以后（夜晚、午夜）剑灵站在石前——跟它切磋，在它念到第四句「剑神如意」之前打中它。"
-msgstr "Preguntar a Luo Yunzhou, en la Terraza de la Danza de Lluvia de Sombra Alta, por \"Fuente del Viento\", y luego por \"Probar la espada\": clava la Espada del manantial de viento en la piedra azul del borde de la terraza. Después del anochecer (de noche, a medianoche) el espíritu de la espada aparece ante la piedra: entrenar con él y golpearlo antes de que llegue al cuarto verso, \"Dios de la espada a voluntad\"."
+msgstr "Preguntar a Luo Yunzhou, en la Terraza de la Danza de Lluvia de Sombra Alta, por \"Fuente del Viento\", y luego por \"Probar la espada\": clava la Espada del Fuente del Viento en la piedra azul del borde de la terraza. Después del anochecer (de noche, a medianoche) el espíritu de la espada aparece ante la piedra: entrenar con él y golpearlo antes de que llegue al cuarto verso, \"Espada divina a voluntad\"."
 
 msgid "剑灵在「剑神如意」之前收了剑。骆云舟说：步玄认你。"
-msgstr "El espíritu de la espada envainó antes de \"Dios de la espada a voluntad\". Luo Yunzhou dice: \"El Paso Místico te acepta.\""
+msgstr "El espíritu de la espada envainó antes de \"Espada divina a voluntad\". Luo Yunzhou dice: \"El Paso Místico te acepta.\""
 
 msgid "在曼雩台上问过了剑，见过了风泉剑灵"
 msgstr "Probaste la espada en la Terraza de la Danza de Lluvia y viste el Alma de Fuente del Viento"
@@ -16532,3 +16532,2082 @@ msgstr "$N{:el} {N:sacudes|sacude} $w{:el} y {N:haces|hace} saltar «Chispas de 
 
 msgid "你把穿灵收在身边，剑身上的霜一点一点化了。你练的是拳，空着手迎上去。\n"
 msgstr "Guardas Traspasalmas a tu lado, y la escarcha de la hoja se va derritiendo poco a poco. Lo tuyo es el puño: sales a su encuentro con las manos vacías.\n"
+
+msgid "镖单？先把山门的事办了。"
+msgstr "¿El registro de escolta? Primero ocúpate del asunto de la puerta de la montaña."
+
+msgid "什么镖单？"
+msgstr "¿Qué registro de escolta?"
+
+msgid "盟主"
+msgstr "Líder de la Alianza"
+
+msgid "盟主的事，七长老做主了。执事有执事的公事。"
+msgstr "Del Líder de la Alianza se ocupa el Séptimo Anciano. Un intendente tiene sus deberes de intendente."
+
+msgid "等。他回来，或者不回来，椅子都是他的。"
+msgstr "Espera. Vuelva o no vuelva, el sillón es suyo."
+
+msgid "京师的事了结了，盟主还是没有回来。七长老常下楼来看那把椅子——你出去走一走，他再下来的时候，你在厅里。"
+msgstr "Lo de la Capital está resuelto y el Líder de la Alianza sigue sin volver. El Séptimo Anciano baja a menudo a mirar ese sillón. Sal a dar una vuelta; cuando vuelva a bajar, estate en el salón."
+
+msgid "二十年前带走盟主的是兵部的白衣武官。线索在京师尚书府——我出不了水烟阁，你替我记着。"
+msgstr "Quien se llevó al Líder de la Alianza hace veinte años fue un oficial de blanco del Ministerio de Guerra. La pista está en la residencia del ministro, en la Capital. Yo no puedo salir del Pabellón de la Neblina; llévalo tú en la memoria por mí."
+
+msgid "看了一眼厅侧坐着的那个白发老人，压低了声音。"
+msgstr " lanza una mirada al anciano de pelo blanco sentado a un lado del salón y baja la voz."
+
+msgid "陈天星查清了：那趟镖是兵部点名改走老松岭的。兵部知道盟主哪一天过岭。"
+msgstr "Chen Tianxing lo ha aclarado: fue el Ministerio de Guerra el que ordenó, por su nombre, que esa escolta cambiara de ruta por el Cerro de los Pinos Viejos. El Ministerio sabía qué día cruzaría el cerro el Líder de la Alianza."
+
+msgid "人回来了，椅子还空着。七长老这几天常下楼来，站在那把椅子跟前。"
+msgstr "El hombre ha vuelto y el sillón sigue vacío. Estos días el Séptimo Anciano baja a menudo y se queda de pie ante ese sillón."
+
+msgid "你出去走一走；他再下来的时候，你在厅里。"
+msgstr "Sal a dar una vuelta; cuando él vuelva a bajar, estate en el salón."
+
+msgid "那张镖单我锁起来了，可上面那条路我看过：本该走官道，却改走了老松岭——改路的人，知道盟主哪一天过岭。"
+msgstr "Ese registro de escolta lo guardé bajo llave, pero la ruta que traía la he visto: debía ir por el camino real y la cambiaron por el Cerro de los Pinos Viejos. Quien cambió la ruta sabía qué día cruzaría el cerro el Líder de la Alianza."
+
+msgid "合上卷宗，看了一眼大厅中央那张黝黑的太师椅。"
+msgstr " cierra el expediente y mira el oscuro sillón del centro del salón."
+
+msgid "山门和镖单的事你都办过了。盟主的事，也该同你说了。"
+msgstr "Del asunto de la puerta de la montaña y del registro ya te has ocupado. Ahora toca hablarte del Líder de la Alianza."
+
+msgid "二十年前，先帝召盟主进京。盟主带着阁里藏的一份旧记载上路，五长老押着盟主印随行，振远的镖走在前头。过了老松岭，一个人也没回来。"
+msgstr "Hace veinte años, el difunto emperador convocó al Líder de la Alianza a la Capital. El Líder partió con un viejo registro guardado en el Pabellón; el Quinto Anciano lo acompañó custodiando el sello de la Alianza, y la escolta del Largo Camino iba delante. Pasado el Cerro de los Pinos Viejos, no volvió nadie."
+
+msgid "老松岭下的樵夫说，那天岭上来过一队穿白衣的武官。白衣，腰里挂的是兵部的刀。"
+msgstr "El leñador de la falda del Cerro de los Pinos Viejos contó que ese día subió al cerro una tropa de oficiales vestidos de blanco, con el sable del Ministerio de Guerra al cinto."
+
+msgid "京师的事有了结果，庾子建那边也有了说法——可盟主没有回来。椅子还空着。"
+msgstr "Lo de la Capital tiene ya resultado y Yu Zijian ha dado su versión, pero el Líder de la Alianza no ha vuelto. El sillón sigue vacío."
+
+msgid "七长老这几天常下楼来，站在那把椅子跟前。你出去走一走；他再下来的时候，你在厅里。"
+msgstr "Estos días el Séptimo Anciano baja a menudo y se queda de pie ante ese sillón. Sal a dar una vuelta; cuando él vuelva a bajar, estate en el salón."
+
+msgid "二十年来，兵部尚书一直是庾子建。盟主要是还活着，线索在京师——尚书府。"
+msgstr "En estos veinte años el ministro de Guerra ha sido siempre Yu Zijian. Si el Líder aún vive, la pista está en la Capital: en la residencia del ministro."
+
+msgid "这件事我出不了水烟阁：执法使一动，七长老就要问为什么。你替我记着。"
+msgstr "Yo no puedo salir del Pabellón de la Neblina: si el Ejecutor se mueve, el Séptimo Anciano preguntará por qué. Llévalo tú en la memoria por mí."
+
+msgid "盟主的事……等山门和镖单的事办完了，我再同你说。"
+msgstr "Lo del Líder de la Alianza... cuando termines con el asunto de la puerta de la montaña y el del registro, te lo cuento."
+
+msgid "盟主二十年没回来了。这件事，水烟阁不同外人说。"
+msgstr "El Líder de la Alianza lleva veinte años sin volver. Esto el Pabellón de la Neblina no lo habla con forasteros."
+
+msgid "椅子"
+msgstr "Sillón"
+
+msgid "站潘军禅：等盟主回来。\n正月十七，天邪派在虹台上的那一票投旧盟主——卫沧澜回来了是他本人，没回来就是那把空椅子（已经入了虹台的席的，这一票不再跟着变）。潘军禅以执法使的名义升你执事；颜违会记下你，正月十七那天，他的人会多出一件事来。\n这是天邪这条线的大分裂，选了不能改。要站潘军禅吗？"
+msgstr "Ponerte del lado de Pan Junchan: esperar a que vuelva el Líder de la Alianza.\nEl 17 del primer mes, en la Terraza del Arcoíris, el voto de la Escuela Rebelde va para el antiguo Líder de la Alianza: Wei Canglan en persona si ha vuelto, o ese sillón vacío si no (si ya has tomado asiento en la Terraza del Arcoíris, este voto ya no cambia). Pan Junchan te asciende a Intendente en nombre del Ejecutor; Yan Wei te tendrá anotado, y ese 17 su gente tendrá una tarea más.\nEs la gran división de la línea Rebelde y, una vez elegida, no se puede cambiar. ¿Ponerte del lado de Pan Junchan?"
+
+msgid "椅子是盟主的。正月十七，天邪派那一票，你我一起投。"
+msgstr "El sillón es del Líder. El 17 del primer mes, el voto de los Rebeldes lo daremos juntos, tú y yo."
+
+msgid "你站到七长老那边去了。执事的公事，照办就是。"
+msgstr "Te has puesto del lado del Séptimo Anciano. Los deberes de un intendente se cumplen como se ordenan, y punto."
+
+msgid "看了你很久，才笑了一下——这一回的笑，和平时不一样。"
+msgstr " te mira largo rato y solo entonces sonríe un poco: esta vez la sonrisa no es la de siempre."
+
+msgid "好。门规里没有哪一条，写着盟主没死、椅子能换人。"
+msgstr "Bien. En el reglamento de la escuela no hay un solo artículo que diga que, si el Líder no ha muerto, el sillón puede cambiar de dueño."
+
+msgid "从今日起，你是水烟阁的执事。正月十七，天邪派那一票，等盟主。"
+msgstr "Desde hoy eres Intendente del Pabellón de la Neblina. El 17 del primer mes, el voto de los Rebeldes espera al Líder de la Alianza."
+
+msgid "七长老那里，往后说话小心些——他记性好。"
+msgstr "Con el Séptimo Anciano, de ahora en adelante habla con cuidado: tiene buena memoria."
+
+msgid "盟主的椅子，空了二十年了。"
+msgstr "El sillón del Líder lleva veinte años vacío."
+
+msgid "票是我唱的。唱完了，就是定了。"
+msgstr "El voto lo proclamé yo. Proclamado, queda decidido."
+
+msgid "天邪这一票，正月十七照你说的。"
+msgstr "El voto de los Rebeldes, el 17 del primer mes, será como tú digas."
+
+msgid "脸上没有什么表情。"
+msgstr " no muestra ninguna expresión."
+
+msgid "你站了颜长老。天邪这一票，长老们说投他，就投他。"
+msgstr "Apoyaste al Anciano Yan. El voto de los Rebeldes: si los ancianos dicen que se le dé, se le da."
+
+msgid "……执事要是想自己坐那把椅子，天邪这一票也是执事的。公事公办。"
+msgstr "...Si el Intendente quiere sentarse él mismo en ese sillón, el voto de los Rebeldes también es suyo. Asunto de oficio, trato de oficio."
+
+msgid "等盟主回来。我说过的话不改。"
+msgstr "Esperaré al Líder de la Alianza. No cambio lo que dije."
+
+msgid "你是执事。你要这一票，你开口。"
+msgstr "Eres Intendente. Si quieres este voto, pídelo."
+
+msgid "盟主回来了，就坐在厅里。天邪这一票，投他。"
+msgstr "El Líder de la Alianza ha vuelto y está sentado en el salón. El voto de los Rebeldes es para él."
+
+msgid "二十年没管过事又怎样？那把椅子是他的。"
+msgstr "¿Y qué si lleva veinte años sin ocuparse de nada? Ese sillón es suyo."
+
+msgid "望了一眼正厅那把空着的太师椅。"
+msgstr " mira el sillón vacío del salón principal."
+
+msgid "盟主没有回来。厅里是颜长老在管事——长老们的意思，天邪这一票投他。"
+msgstr "El Líder de la Alianza no ha vuelto. En el salón manda el Anciano Yan; los ancianos quieren que el voto de los Rebeldes sea para él."
+
+msgid "我一个执法使，拦不住。"
+msgstr "Yo, un simple Ejecutor, no puedo impedirlo."
+
+msgid "正月十七……盟主的事还没有着落，说虹台早了。"
+msgstr "El 17 del primer mes... lo del Líder de la Alianza aún no está resuelto; hablar de la Terraza del Arcoíris es prematuro."
+
+msgid "请潘军禅把天邪派这一票交给你：正月十七虹台上，天邪听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Pedir a Pan Junchan que te entregue el voto de la Escuela Rebelde: el 17 del primer mes, en la Terraza del Arcoíris, los Rebeldes harán lo que digas; si te presentas, el voto es tuyo, y si no, tú dices a quién se vota.\n¿Decirlo así?"
+
+msgid "说过了。天邪听你的。"
+msgstr "Dicho está. Los Rebeldes harán lo que digas."
+
+msgid "沉默了一会儿。"
+msgstr " guarda silencio un rato."
+
+msgid "好。天邪这一票，执事说了算。"
+msgstr "Bien. El voto de los Rebeldes lo decide el Intendente."
+
+msgid "信我收下了。"
+msgstr "Me quedo con la carta."
+
+msgid "信我收下了。山门的事，不劳你了。"
+msgstr "Me quedo con la carta. Del asunto de la puerta de la montaña ya no tienes que ocuparte."
+
+msgid "展开信看了一遍，半晌没有说话。"
+msgstr " despliega la carta, la lee de principio a fin y pasa un buen rato sin decir nada."
+
+msgid "字是七长老身边账房的笔迹。……颜长老在数人头：哪几派来，椅子空不空，阁里谁跟谁走得近——数到我头上来了。"
+msgstr "La letra es del contable que sirve al Séptimo Anciano. ...El Anciano Yan está contando cabezas: qué escuelas vendrán, si el sillón está vacío, quién anda con quién en el Pabellón... y ya ha llegado a contarme a mí."
+
+msgid "数人头不犯门规。可派人扮成外人上山，数到自己阁里来——这件事，我记下了。"
+msgstr "Contar cabezas no rompe el reglamento. Pero mandar gente disfrazada de forasteros a la montaña para contar las de nuestro propio pabellón... eso lo anoto."
+
+msgid "展开信看了一遍，脸上的笑没了。"
+msgstr " despliega la carta, la lee y la sonrisa se le borra del rostro."
+
+msgid "纸是兵部的公文纸，裁去了抬头。他们想知道两件事：椅子空着没有，卫盟主还在不在。"
+msgstr "El papel es papel oficial del Ministerio de Guerra, con el encabezado recortado. Quieren saber dos cosas: si el sillón sigue vacío y si el Líder Wei sigue vivo."
+
+msgid "兵部的人扮成皮货商上水烟阁打听盟主——二十年来，这是头一回。有人在京师，替盟主的生死记着账。"
+msgstr "Gente del Ministerio de Guerra, disfrazada de peleteros, viene al Pabellón de la Neblina a preguntar por el Líder: en veinte años, es la primera vez. En la Capital hay quien lleva la cuenta de su vida y su muerte."
+
+msgid "镖单你已经给了陈总镖头。这一张存根，你自己留着。"
+msgstr "El registro de escolta ya se lo diste al Jefe Chen, el jefe general de escoltas. Este talón guárdalo tú."
+
+msgid "刑堂里已经锁着一张了。"
+msgstr "En la sala de castigos ya hay uno guardado bajo llave."
+
+msgid "把镖单交给潘军禅，锁进水烟阁的刑堂。\n振远的脸面保住了，这件事到此为止——陈天星不会再查。\n镖单只有一张。交给他吗？"
+msgstr "Entregar el registro de escolta a Pan Junchan, para que lo guarde bajo llave en la sala de castigos del Pabellón de la Neblina.\nEl buen nombre del Largo Camino queda a salvo y el asunto termina aquí: Chen Tianxing no seguirá investigando.\nSolo hay un registro. ¿Se lo entregas?"
+
+msgid "接过镖单看了一遍，折好收进了袖里。"
+msgstr " recibe el registro, lo lee de principio a fin, lo dobla y se lo guarda en la manga."
+
+msgid "锁进刑堂。振远的脸面，水烟阁替他们留着。"
+msgstr "Bajo llave en la sala de castigos. El Pabellón de la Neblina le guarda al Largo Camino su buen nombre."
+
+msgid "陈剑秋那里，我派人去说一声。二十年了，他也该睡个好觉。"
+msgstr "Enviaré a alguien a avisar a Chen Jianqiu. Veinte años... ya es hora de que duerma bien."
+
+msgid "振远的东西，你自己收好。"
+msgstr "Lo del Largo Camino, guárdalo tú."
+
+msgid "执法使"
+msgstr "Ejecutor"
+
+msgid "於兰前辈入了朝，萧师兄……没有回来。水烟阁不能没有收徒的人，我以执法使的名义代收。天邪派门规甚严，$RESPECT如果真的有心，且发个誓来。"
+msgstr "El veterano Yulan entró en la corte y el hermano mayor Xiao... no ha vuelto. El Pabellón de la Neblina no puede quedarse sin quien acepte discípulos; yo, en nombre del Ejecutor, los acepto en su lugar. Las reglas de la Escuela Rebelde son muy estrictas: si de verdad lo deseas, $RESPECT, haz primero un juramento."
+
+msgid "执法使代收，也是照门规收。不发誓，不收。"
+msgstr "Que el Ejecutor acepte en su lugar es aceptar también según el reglamento. Sin juramento, no hay admisión."
+
+msgid "好。师父不在，执法使替他们看着你。"
+msgstr "Bien. Tu maestro no está; el Ejecutor velará por ti en su lugar."
+
+msgid "冲你点了点头，没有笑。"
+msgstr " te saluda con un movimiento de cabeza, sin sonreír."
+
+msgid "从楼上下来，走到大厅中央那张黝黑的太师椅跟前，伸手在扶手上按了一按。"
+msgstr " baja de la planta alta, camina hasta el oscuro sillón del centro del salón y presiona el brazo del sillón con la mano."
+
+msgid "这个「代」字，本座顶了这些日子，也该去掉了。正月十七九派上虹台，水烟阁要有一个真正坐这把椅子的人。"
+msgstr "Este «en funciones» que llevo pegado tantos días ya es hora de quitármelo. El 17 del primer mes las nueve escuelas subirán a la Terraza del Arcoíris, y el Pabellón de la Neblina necesita a alguien que se siente de verdad en ese sillón."
+
+msgid "二十年了，这把椅子一直空着。正月十七九派上虹台，水烟阁总得拿出个说法——椅子空着，武林就没有一个能说话的人。"
+msgstr "Veinte años lleva vacío ese sillón. El 17 del primer mes, cuando las nueve escuelas suban a la Terraza del Arcoíris, el Pabellón de la Neblina tendrá que dar alguna explicación: con el sillón vacío, el wulin no tiene a nadie que hable por él."
+
+msgid "坐在厅侧的一张矮凳上，手里还拿着那本诗集，没有抬头。"
+msgstr " está sentado en un taburete bajo a un lado del salón, con el libro de poemas aún en la mano, sin levantar la cabeza."
+
+msgid "盟主回来了，本座比谁都高兴。可一个二十年没管过事的人，正月十七上了虹台，九派问他这二十年武林是什么样子——他答得上来么？"
+msgstr "Que el Líder haya vuelto me alegra más que a nadie. Pero un hombre que lleva veinte años sin ocuparse de nada, cuando suba el 17 a la Terraza del Arcoíris y las nueve escuelas le pregunten cómo ha estado el wulin estos veinte años... ¿sabrá responder?"
+
+msgid "椅子空着，是因为盟主还没回来。"
+msgstr "El sillón está vacío porque el Líder de la Alianza aún no ha vuelto."
+
+msgid "二十年了，执法使。人要是回得来，早就回来了。"
+msgstr "Veinte años, Ejecutor. Si pudiera volver, ya habría vuelto."
+
+msgid "九派里几派会来，阁里谁跟谁走得近——本座心里有数。山门上跑掉的那一个，没有白跑。"
+msgstr "Cuántas de las nueve escuelas vendrán y quién anda con quién en el Pabellón, yo lo tengo claro. El que se escapó en la puerta de la montaña no se escapó en vano."
+
+msgid "上个月山门上那个探子，听说是从执法使眼皮底下走的？椅子空着，外人就敢上山来问盟主的死活。"
+msgstr "Dicen que el espía de la puerta de la montaña, el mes pasado, se fue delante de las narices del Ejecutor. Con el sillón vacío, hasta los forasteros se atreven a subir a preguntar si el Líder vive o muere."
+
+msgid "上个月扮成皮货商上山来数人头的，是七长老账房里的人。"
+msgstr "Quien subió el mes pasado disfrazado de peletero a contar cabezas era gente de la contaduría del Séptimo Anciano."
+
+msgid "数人头不犯门规。正月十七几派来、椅子空不空，总得有人去数。"
+msgstr "Contar cabezas no rompe el reglamento. Alguien tiene que contar cuántas escuelas vienen el 17 y si el sillón está vacío."
+
+msgid "上个月山门上拿下的那个，是兵部的人。京师有人替盟主的生死记着账。"
+msgstr "El que cayó el mes pasado en la puerta de la montaña era del Ministerio de Guerra. En la Capital hay quien lleva la cuenta de la vida y la muerte del Líder."
+
+msgid "所以更要早定。椅子空一天，朝廷就多一天的念想。"
+msgstr "Por eso hay que decidir cuanto antes. Cada día que el sillón sigue vacío, la corte tiene un día más de esperanza."
+
+msgid "陈天星查清了：二十年前那趟镖，是兵部点名改走老松岭的。"
+msgstr "Chen Tianxing lo ha aclarado: la escolta de hace veinte años cambió de ruta por el Cerro de los Pinos Viejos por orden expresa del Ministerio de Guerra."
+
+msgid "查清了又如何？水烟阁不能为一趟镖跟朝廷耗二十年。正月十七之后，旧案到此为止。"
+msgstr "¿Y qué si lo ha aclarado? El Pabellón de la Neblina no puede pasar veinte años enfrentado a la corte por una escolta. Pasado el 17 del primer mes, el viejo caso termina aquí."
+
+msgid "镖单锁进了刑堂——执法使自己也知道，有些旧案，到此为止最好。"
+msgstr "El registro de escolta está bajo llave en la sala de castigos. El propio Ejecutor sabe que hay casos viejos que es mejor dejar donde terminan."
+
+msgid "锁起来，是替振远留脸面，不是替谁结案。"
+msgstr "Bajo llave es para que el Largo Camino conserve su buen nombre, no para cerrar el caso de nadie."
+
+msgid "盟主回来了。他坐不坐这把椅子，正月十七由他自己说，轮不到别人替他定。"
+msgstr "El Líder ha vuelto. Si se sienta o no en este sillón, lo dirá él mismo el 17 del primer mes; no le toca a otro decidirlo por él."
+
+msgid "盟主一天没有消息，这把椅子就一天是盟主的。等他回来。"
+msgstr "Mientras no haya noticias del Líder, el sillón es suyo. Esperémoslo."
+
+msgid "转过身来，看着你。"
+msgstr " se vuelve y te mira."
+
+msgid "你是天邪这一辈的大弟子。正月十七，天邪派那一票该投给谁，你说一句。跟着本座，水烟阁的执事有你一个。"
+msgstr "Eres {jugador:el discípulo mayor|la discípula mayor} de esta generación Rebelde. El 17 del primer mes, di a quién debe ir el voto de la Escuela Rebelde. Si me sigues, entre los intendentes del Pabellón de la Neblina habrá uno que eres tú."
+
+msgid "七长老许得出口的，我许不出口。我只问你一句：门规里哪一条，写着盟主没死，椅子就能换人？"
+msgstr "Lo que el Séptimo Anciano puede prometer, yo no puedo. Solo te hago una pregunta: ¿en qué artículo del reglamento dice que, si el Líder no ha muerto, el sillón puede cambiar de dueño?"
+
+msgid "绝尘子本为释家人，后得奇人指点，得悟道家真谛，佛道双修，\n皆入化境。后访遍名山大川，自号绝尘，创此绝尘一派。\n"
+msgstr "Juechenzi era en origen un budista; más tarde, guiado por una persona extraordinaria, alcanzó a comprender la verdad del taoísmo y cultivó a la vez ambos caminos hasta dominarlos por completo. Después recorrió las montañas y los ríos famosos, se dio a sí mismo el nombre de Juechen y fundó la Escuela del Desapego.\n"
+
+msgid "祖师"
+msgstr "Fundador"
+
+msgid "绝尘子道：你为何无故滋事，误我清修！\n"
+msgstr "Juechenzi dice: \"¿Por qué buscas pleito sin motivo y estorbas mi retiro?\"\n"
+
+msgid "绝尘子道：贫道向以遁世为乐，你何苦如此相逼？\n"
+msgstr "Juechenzi dice: \"Este humilde taoísta siempre se ha complacido en vivir apartado del mundo. ¿Por qué me acosas así?\"\n"
+
+msgid "绝尘派是我所创，你有何指教？"
+msgstr "La Escuela del Desapego la fundé yo. ¿Qué tienes que decirme?"
+
+msgid "入我派者，需有慧根。"
+msgstr "Quien entre en mi escuela necesita una buena raíz de sabiduría."
+
+msgid "我便是绝尘子。"
+msgstr "Soy Juechenzi."
+
+msgid "绝尘派不问世事。"
+msgstr "La Escuela del Desapego no se ocupa de los asuntos del mundo."
+
+msgid "洞里的事，你都知道了。"
+msgstr "Lo de la cueva ya lo sabes todo."
+
+msgid "闭着眼睛听你说完，过了很久才睁开。"
+msgstr " escucha con los ojos cerrados hasta que terminas y pasa un largo rato antes de abrirlos."
+
+msgid "洞里有东西，老道知道。"
+msgstr "En la cueva hay algo. Este viejo taoísta lo sabe."
+
+msgid "那道门拴着，阵守得住石室——老道就不管。"
+msgstr "Esa puerta tiene el cerrojo echado y la formación sostiene la cámara de piedra. Este viejo taoísta no interviene."
+
+msgid "又闭上了眼睛。"
+msgstr " vuelve a cerrar los ojos."
+
+msgid "青石村？绝尘派不问世事。"
+msgstr "¿Aldea Piedra Azul? La Escuela del Desapego no se ocupa de los asuntos del mundo."
+
+msgid "绝尘派不问世事。村里人的事，你要管，自己去管。"
+msgstr "La Escuela del Desapego no se ocupa de los asuntos del mundo. Si los de la aldea te importan, ocúpate tú."
+
+msgid "睁开眼睛，打量了你一番。"
+msgstr " abre los ojos y te examina de arriba abajo."
+
+msgid "你走得出老道的阵。"
+msgstr "Eres capaz de salir de la formación de este viejo taoísta."
+
+msgid "……村里人的事，你要管，自己去管。"
+msgstr "...Si los asuntos de la aldea te importan, ocúpate tú."
+
+msgid "正月十七的事，过去了。"
+msgstr "Lo del 17 del primer mes ya pasó."
+
+msgid "绝尘派这一票，在你手里。"
+msgstr "El voto de la Escuela del Desapego está en tus manos."
+
+msgid "了尘替老道去。虹台的事，问他。"
+msgstr "Liaochen va en lugar de este viejo taoísta. Lo de la Terraza del Arcoíris, pregúntaselo a él."
+
+msgid "说过了。阵是你陪着推出去的，这一票，你要，就是你的。"
+msgstr "Dicho está. Fuiste tú quien acompañó a empujar la formación; este voto, si lo quieres, es tuyo."
+
+msgid "阵推到了洞口，老道答应过的，下山走一趟。投旧盟主，椅子照旧。"
+msgstr "La formación llegó hasta la boca de la cueva, como este viejo taoísta prometió: bajar de la montaña una vez. Voto para el antiguo Líder; el sillón queda como estaba."
+
+msgid "眯着眼睛看了你一会儿。"
+msgstr " te mira un rato con los ojos entornados."
+
+msgid "……那个阵，是你陪着推出去的。这一票，你要，就是你的。"
+msgstr "...Esa formación la empujaste tú, acompañando. Este voto, si lo quieres, es tuyo."
+
+msgid "老道说话算话。正月十七，老道下山走一趟。"
+msgstr "Este viejo taoísta cumple su palabra. El 17 del primer mes, bajará de la montaña una vez."
+
+msgid "虹台？绝尘派不问世事，向来不去。"
+msgstr "¿La Terraza del Arcoíris? La Escuela del Desapego no se ocupa de los asuntos del mundo y nunca va."
+
+msgid "眯着眼睛打量了你一番。"
+msgstr " te examina de arriba abajo con los ojos entornados."
+
+msgid "……你走得过老道的八卦阵。好，你要老道下山，老道就下山——投旧盟主，椅子照旧。"
+msgstr "...Pasaste por la formación de los Ocho Trigramas de este viejo taoísta. Bien: si quieres que baje, bajará. Voto para el antiguo Líder; el sillón queda como estaba."
+
+msgid "虹台上那把椅子谁坐，跟老道没有关系。"
+msgstr "Quién se siente en ese sillón de la Terraza del Arcoíris no tiene nada que ver con este viejo taoísta."
+
+msgid "下山"
+msgstr "Bajar de la montaña"
+
+msgid "请绝尘子下山：正月十七绝尘派来虹台，这一票投旧盟主。\n要这么说吗？"
+msgstr "Pedir a Juechenzi que baje de la montaña: el 17 del primer mes la Escuela del Desapego irá a la Terraza del Arcoíris y su voto será para el antiguo Líder.\n¿Decirlo así?"
+
+msgid "了尘替老道去了。"
+msgstr "Liaochen fue en lugar de este viejo taoísta."
+
+msgid "说过了。老道下山。"
+msgstr "Dicho está. Este viejo taoísta bajará."
+
+msgid "拂了拂袖子。"
+msgstr " se sacude la manga."
+
+msgid "好。老道走一趟。"
+msgstr "Bien. Este viejo taoísta hará el viaje."
+
+msgid "玄尘"
+msgstr "Xuanchen"
+
+msgid "了尘走了。玄尘这个名字，也跟着他下了山。"
+msgstr "Liaochen se fue. El nombre de Xuanchen bajó de la montaña con él."
+
+msgid "那个名字，了尘叫过一回，就够了。"
+msgstr "Ese nombre, con que Liaochen lo diga una vez, basta."
+
+msgid "叫过了。……那个名字三十年没人叫了。"
+msgstr "Ya lo dijo. ...Hace treinta años que nadie pronuncia ese nombre."
+
+msgid "睁开眼睛，看了你很久。"
+msgstr " abre los ojos y te mira un largo rato."
+
+msgid "了尘跟你说的？"
+msgstr "¿Te lo dijo Liaochen?"
+
+msgid "望着佛像顶上那颗夜明珠。"
+msgstr " mira la perla luminosa en lo alto de la estatua de Buda."
+
+msgid "玄尘。……那个名字三十年没人叫了。"
+msgstr "Xuanchen. ...Hace treinta años que nadie pronuncia ese nombre."
+
+msgid "三十年前，老道是山烟寺玄字辈的和尚，玄智是老道的师兄。天竺来的法师背着经上山，师父不收。老道想看那部经，就追出了山门。"
+msgstr "Hace treinta años, este viejo taoísta era monje de la generación Xuan del Templo de la Bruma, y Xuanzhi era su hermano mayor. Un maestro llegado de la India subió a la montaña con unas escrituras y el Shifu no lo aceptó. Este viejo taoísta quiso ver aquellas escrituras y salió corriendo tras él por la puerta del templo."
+
+msgid "在番坊住了一年，法王点化了老道：佛经、道书、大秦人的书，经就是经，不拣。"
+msgstr "Pasó un año en el Barrio Extranjero y el Rey del Dharma le abrió los ojos: escrituras budistas, libros taoístas, libros de Daqin; una escritura es una escritura, no se escoge."
+
+msgid "法王跟你说，他没有点化过老道？……他向来这么说。"
+msgstr "¿El Rey del Dharma te dijo que él nunca le abrió los ojos a este viejo taoísta? ...Siempre dice eso."
+
+msgid "你说，师兄收了那部经？"
+msgstr "¿Dices que mi hermano mayor aceptó esa escritura?"
+
+msgid "闭上眼睛，很久没有说话。"
+msgstr " cierra los ojos y pasa mucho tiempo sin decir nada."
+
+msgid "三十年。"
+msgstr "Treinta años."
+
+msgid "后来走到青石村后山，摆了这个阵。阵外的事，老道不管；阵里的人，老道护着。"
+msgstr "Luego llegué a la montaña trasera de Aldea Piedra Azul y dispuse esta formación. De lo que pasa fuera de la formación, este viejo taoísta no se ocupa; a quienes están dentro, los protege."
+
+msgid "了尘是阵里的人。"
+msgstr "Liaochen está dentro de la formación."
+
+msgid "师兄还是守着本寺一脉。他守得住，老道就放心了。"
+msgstr "Mi hermano mayor sigue guardando el linaje de su templo. Si puede guardarlo, este viejo taoísta está tranquilo."
+
+msgid "老道绝尘。"
+msgstr "Este viejo taoísta es Juechen."
+
+msgid "守阵"
+msgstr "Guardar la formación"
+
+msgid "守阵：了尘留在石室。绝尘子把八卦阵往外推到青石村北边的洞口，那里从此不进鬼卒。\n绝尘子肯把奇门遁甲（连同它的根基小天魔道）教给不是绝尘派的人（只这两门）。\n绝尘子下山一回：正月十七虹台上，绝尘派来，这一票投旧盟主（已经入了虹台的席的，这一票不再跟着变）。\n下山那条路就没了。要这么说吗？"
+msgstr "Guardar la formación: Liaochen se queda en la cámara de piedra. Juechenzi empuja la formación de los Ocho Trigramas hasta la boca de la cueva, al norte de Aldea Piedra Azul, y desde entonces ningún soldado fantasma entra por allí.\nJuechenzi enseñará Qimen Dunjia (con su base, el Saber demoníaco menor) a quien no sea de la Escuela del Desapego (solo esas dos artes).\nJuechenzi baja una vez de la montaña: el 17 del primer mes, en la Terraza del Arcoíris, la Escuela del Desapego irá y su voto será para el antiguo Líder (si ya has tomado asiento en la Terraza del Arcoíris, este voto ya no cambia).\nSe pierde el camino de «Bajar de la montaña». ¿Decirlo así?"
+
+msgid "阵推到洞口了。"
+msgstr "La formación llegó a la boca de la cueva."
+
+msgid "了尘走了。阵，老道一个人守。"
+msgstr "Liaochen se fue. La formación, este viejo taoísta la guarda solo."
+
+msgid "看着跪在地上的了尘，很久没有说话。"
+msgstr " mira a Liaochen, arrodillado en el suelo, y pasa mucho rato sin decir nada."
+
+msgid "起来。"
+msgstr "Levántate."
+
+msgid "阵，老道往外推，推到洞口。青石村北边，往后什么都进不来。山下的人冻不着，阵里的人也不出去。"
+msgstr "La formación, este viejo taoísta la empuja hacia afuera, hasta la boca de la cueva. Al norte de Aldea Piedra Azul, de ahora en adelante nada podrá entrar. La gente de abajo no pasará frío y los de dentro de la formación no saldrán."
+
+msgid "了尘把金刚杖拾起来，站起身，退到了师父身后。\n"
+msgstr "Liaochen recoge su bastón de vajra, se pone en pie y retrocede hasta quedar detrás de su Shifu.\n"
+
+msgid "绝尘派不问世事——这一回，老道问一回。正月十七，老道下山走一趟。"
+msgstr "La Escuela del Desapego no se ocupa de los asuntos del mundo; esta vez, este viejo taoísta se ocupa una vez. El 17 del primer mes, este viejo taoísta bajará de la montaña."
+
+msgid "绝尘派不问世事——这一回，老道问一回。"
+msgstr "La Escuela del Desapego no se ocupa de los asuntos del mundo; esta vez, este viejo taoísta se ocupa una vez."
+
+msgid "守什么？"
+msgstr "¿Guardar qué?"
+
+msgid "请绝尘子把绝尘派这一票交给你：正月十七虹台上，绝尘派听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Pedir a Juechenzi que te entregue el voto de la Escuela del Desapego: el 17 del primer mes, en la Terraza del Arcoíris, la Escuela del Desapego hará lo que digas; si te presentas, el voto es tuyo, y si no, tú dices a quién se vota.\n¿Decirlo así?"
+
+msgid "说过了。绝尘派听你的。"
+msgstr "Dicho está. La Escuela del Desapego hará lo que digas."
+
+msgid "好。绝尘派这一票，你拿去。"
+msgstr "Bien. El voto de la Escuela del Desapego, llévatelo."
+
+msgid "他回日照山了。"
+msgstr "Ha vuelto al Monte Soleado."
+
+msgid "望着大厅南边的石门。"
+msgstr " mira la puerta de piedra al sur del gran salón."
+
+msgid "出了阵，就是世事。"
+msgstr "Fuera de la formación, empieza el mundo."
+
+msgid "{title}{nickname}{name}要叛师！！！"
+msgstr "¡¡¡{title} {name}{:0} quiere traicionar a su escuela!!!"
+
+msgid "入我派者，需有慧根。$RESPECT的资质不宜！"
+msgstr "Quien entre en mi escuela necesita una buena raíz de sabiduría. Tu aptitud no es la adecuada, $RESPECT."
+
+msgid "$RESPECT似乎尚缺江湖历练，不宜投入绝尘门下。"
+msgstr "Parece que aún te falta experiencia del jianghu, $RESPECT. No conviene que ingreses en la Escuela del Desapego."
+
+msgid "很好$RESPECT多加努力他日必定有成。"
+msgstr "Muy bien. Esfuérzate más, $RESPECT, y algún día lo lograrás."
+
+msgid "这是一位来自天界的守护神，专门担任护法之责。\n"
+msgstr "Es un guardián celestial llegado del cielo, dedicado a proteger la Ley.\n"
+
+msgid "一道金光由天而降，金光中走出一个身穿金色战袍的将官。"
+msgstr "Un rayo de luz dorada desciende del cielo y de él sale un oficial con armadura dorada."
+
+msgid "$N说道：末将奉法主召唤，特来护法！"
+msgstr "$N{:el} {N:dices|dice}: \"Este humilde general acude al llamado del señor del Dharma para protegerlo.\""
+
+msgid "$N说道：末将奉法主召唤，现在已经完成护法任务，就此告辞！"
+msgstr "$N{:el} {N:dices|dice}: \"Este humilde general, llamado por el señor del Dharma, ya ha cumplido su misión de protección. ¡Me despido!\""
+
+msgid "$N化成一道金光，冲上天际消失不见了。"
+msgstr "$N{:el} {N:te conviertes|se convierte} en un rayo de luz dorada, {N:te lanzas|se lanza} al cielo y {N:desapareces|desaparece}."
+
+msgid "林忌是一位道行十分高深的修道者，你发现他的眼珠一个是黑色的，一\n个是金色的，这正是「谷衣心法」修炼到极高境界的徵兆。\n"
+msgstr "Lin Ji es un practicante de altísimo nivel taoísta. Notas que uno de sus ojos es negro y el otro dorado: la señal de que ha cultivado el Método interno de la túnica de grano hasta un nivel supremo.\n"
+
+msgid "天师"
+msgstr "Maestro Celestial"
+
+msgid "道童"
+msgstr "Acólitos"
+
+msgid "的眉头动了一下。"
+msgstr " frunce un instante el ceño."
+
+msgid "北麓的道观收孩子，说是收道童。茅山查了二十年，查到的孩子都没有回来过。"
+msgstr "El monasterio de la falda norte recoge niños; dicen que acólitos. El Monte Mao lleva veinte años investigando y ninguno de los niños que halló ha vuelto jamás."
+
+msgid "晚月庄那个女人是逃出来的？……那她是第一个。六阴剑是逆灵宫的剑，教给孩子，是为了让他们替宫里杀人。"
+msgstr "¿La mujer de la Mansión Luna Tardía escapó? ...Entonces fue la primera. La espada de los seis yin es del Palacio Negro: se la enseñan a los niños para que maten por el palacio."
+
+msgid "道童？"
+msgstr "¿Acólitos?"
+
+msgid "茅山的家事，不劳你了。"
+msgstr "Los asuntos de familia del Monte Mao no hace falta que te preocupen."
+
+msgid "没有抬头。"
+msgstr " no levanta la cabeza."
+
+msgid "书在藏经楼，他守着。他二十年不进这道门——进来一回，就不走了。"
+msgstr "El libro está en la Biblioteca de escrituras y él lo guarda. Lleva veinte años sin cruzar esta puerta: si entra una vez, ya no se va."
+
+msgid "你们说留，就留吧。"
+msgstr "Si ustedes dicen que se quede, que se quede."
+
+msgid "书烧了。他回京城去了——那里还有他守着的人。"
+msgstr "El libro se quemó. Él volvió a la Capital: allí tiene a gente que cuidar."
+
+msgid "书在这里，人也在这里。"
+msgstr "El libro está aquí y él también."
+
+msgid "烧，问我「烧」；留，去问他「留」。你带它回来的——你说。"
+msgstr "Para quemarlo, pregúntame por 'Quemar'; para conservarlo, ve y pregúntale a él por 'Conservar'. Tú lo trajiste de vuelta: tú decides."
+
+msgid "他会来的。书在我这里，他总要来看一眼。"
+msgstr "Vendrá. El libro está conmigo y tarde o temprano vendrá a verlo."
+
+msgid "下回你进大殿，他就在门口了。"
+msgstr "La próxima vez que entres en el gran salón, él ya estará en la puerta."
+
+msgid "他在京城兵部尚书府，二十年了。书在他手里。"
+msgstr "Está en la residencia del ministro de Guerra, en la Capital, desde hace veinte años. El libro lo tiene él."
+
+msgid "把拂尘搁在香案上，半晌没有说话。"
+msgstr " deja el espantamoscas sobre la mesa del incienso y pasa un buen rato sin decir nada."
+
+msgid "少的那一函叫《上清符箓》，茅山的符都在里头。"
+msgstr "El tomo que falta se llama «Libro de talismanes de la Suprema Claridad»; ahí están todos los talismanes del Monte Mao."
+
+msgid "二十年前，京里兵部的庾大人夜夜见白衣人，派人上山，求茅山去镇宅。茅山不给官家看门——我不肯。"
+msgstr "Hace veinte años, el señor Yu, del Ministerio de Guerra, veía cada noche a gente vestida de blanco y envió a alguien al monte a pedir que el Monte Mao fuera a calmar su casa. El Monte Mao no hace de portero para los funcionarios. Yo me negué."
+
+msgid "我那师弟说，镇宅也是救人。夜里揣着那函书下了山，再没回来。"
+msgstr "Mi hermano menor dijo que calmar una casa también es salvar gente. Esa noche bajó de la montaña con ese tomo en el pecho y no volvió más."
+
+msgid "「我守人」……他守的是谁，我不知道。他在京城兵部尚书府，二十年了。你替我去看一眼。"
+msgstr "'Yo protejo a la gente'... A quién protegía, no lo sé. Lleva veinte años en la residencia del ministro de Guerra, en la Capital. Ve a verlo por mí."
+
+msgid "藏经楼二楼，红布桌上的镇教秘籍，你数过没有？"
+msgstr "En el segundo piso de la Biblioteca de escrituras, sobre la mesa de tela roja, ¿has contado los manuales secretos del Monte Mao?"
+
+msgid "上去看看。"
+msgstr "Sube a verlo."
+
+msgid "金色的那只眼睛动了一下。"
+msgstr " mueve el ojo dorado."
+
+msgid "尚书府的花匠？……你见过他。他还叫我师兄。"
+msgstr "¿El jardinero de la residencia del ministro? ...Lo has visto. Aún me llama hermano mayor."
+
+msgid "茅山的家事，本不该同外人说。你见过他，就算茅山的朋友。"
+msgstr "Los asuntos de familia del Monte Mao no deberían contarse a forasteros. Pero lo has visto, así que cuentas como amigo del Monte Mao."
+
+msgid "藏经楼你上去看看。二楼红布桌上的镇教秘籍，你数一数。"
+msgstr "Sube a la Biblioteca de escrituras. Sobre la mesa de tela roja del segundo piso, cuenta los manuales secretos del Monte Mao."
+
+msgid "你替茅山戴过那顶冠，算茅山的朋友。茅山的家事，不瞒你。"
+msgstr "Te pusiste por el Monte Mao aquel gorro: cuentas como amigo del Monte Mao. Los asuntos de familia del Monte Mao no te los oculto."
+
+msgid "我有个师弟，二十年前下了山。"
+msgstr "Tengo un hermano menor que bajó de la montaña hace veinte años."
+
+msgid "茅山的家事。"
+msgstr "Asuntos de familia del Monte Mao."
+
+msgid "烧"
+msgstr "Quemar"
+
+msgid "跟林忌：《上清符箓》投进殿前的香炉，镇教秘籍从此少一函——茅山宁可没有这本书。花匠下山回京城，守着庾清尘。\n林忌教你谷衣心法。正月十七虹台上，茅山这一票投颜违：主剿，北麓剿干净，不留根（已经入了虹台的席的，这一票不再跟着变）。\n终章之后北麓那座道观里的人还没有去处的，问林忌「剿」，官兵上山。\n要这么办吗？"
+msgstr "Seguir a Lin Ji: el «Libro de talismanes de la Suprema Claridad» se echa al incensario ante el salón y a los manuales secretos del Monte Mao desde entonces les falta un tomo: el Monte Mao prefiere no tener ese libro. El jardinero baja a la Capital y vigila a Yu Qingchen.\nLin Ji te enseña el Método interno de la túnica de grano. El 17 del primer mes, en la Terraza del Arcoíris, el voto del Monte Mao va para Yan Wei: partidario de aplastarlos, de limpiar la falda norte sin dejar raíces (si ya has tomado asiento en la Terraza del Arcoíris, este voto ya no cambia).\nSi, después del capítulo final, la gente de aquel monasterio de la falda norte aún no tiene adónde ir, pregunta a Lin Ji por 'Sofocar': los soldados subirán a la montaña.\n¿Hacerlo así?"
+
+msgid "书锁回去了。……师弟守着。"
+msgstr "El libro volvió a su cerradura. ...Mi hermano menor lo guarda."
+
+msgid "烧了。灰是青的。"
+msgstr "Quemado. Las cenizas eran azules."
+
+msgid "把《上清符箓》捧到殿前的香炉边，一页一页撕下来，投进去。"
+msgstr " lleva el «Libro de talismanes de la Suprema Claridad» junto al incensario ante el salón, arranca las páginas una a una y las echa dentro."
+
+msgid "前半本的朱砂符烧起来是红的，后半本的黑字烧起来是青的。花匠站在殿门口，一直看到最后一页。\n"
+msgstr "Los talismanes de cinabrio de la primera mitad arden rojos; los caracteres negros de la segunda mitad arden azules. El jardinero, de pie en la puerta del salón, mira hasta la última página.\n"
+
+msgid "茅山宁可没有这本书。"
+msgstr "El Monte Mao prefiere no tener ese libro."
+
+msgid "师弟，回京城去吧。那孩子还要人看着。"
+msgstr "Hermano menor, vuelve a la Capital. Aquel niño aún necesita a alguien que lo cuide."
+
+msgid "花匠朝林忌拜了一拜，什么也没说，转身下山去了。\n"
+msgstr "El jardinero se inclina ante Lin Ji, no dice nada y baja la montaña.\n"
+
+msgid "烧什么？"
+msgstr "¿Quemar qué?"
+
+msgid "谷衣心法是我茅山派为对抗邪魔外道所创的内功心法。\n"
+msgstr "El Método interno de la túnica de grano es un método interno de fuerza que nuestra Escuela del Monte Mao creó para enfrentarse a los demonios y a las sendas perversas.\n"
+
+msgid "我茅山派自张天师开山立派至今，世世代代皆以降妖伏魔为己任。\n"
+msgstr "Desde que el Maestro Celestial Zhang fundó la escuela, nuestra Escuela del Monte Mao ha tenido siempre por misión someter demonios y dominar espectros.\n"
+
+msgid "官兵上了北麓。宫里剩下的人，这一回一个也走不了。"
+msgstr "Los soldados han subido a la falda norte. De los que quedaban en el palacio, esta vez no se escapa ninguno."
+
+msgid "宫里剩下的人下了山，茅山看着。坛上的火，灭了。"
+msgstr "Los que quedaban en el palacio bajaron de la montaña y el Monte Mao los vigila. El fuego del altar se apagó."
+
+msgid "师弟已经上了北麓。他去劝，就让他劝完。"
+msgstr "Mi hermano menor ya subió a la falda norte. Si ha ido a persuadirlos, que termine de persuadirlos."
+
+msgid "回北麓去，同宫里当家的说「下山」。"
+msgstr "Vuelve a la falda norte y dile al que manda en el palacio: 'Bajar de la montaña'."
+
+msgid "把拂尘搭在臂弯里，金色的那只眼睛望着北边。"
+msgstr " se echa el espantamoscas en el pliegue del brazo y mira al norte con el ojo dorado."
+
+msgid "湖底的事了了，商玦没有回来。可北麓那座道观里还有人——坛上的火没有灭，他们管这叫续灯。"
+msgstr "Lo del lago terminó y Shang Jue no volvió. Pero en el monasterio de la falda norte aún hay gente: el fuego del altar no se ha apagado y lo llaman mantener la lámpara encendida."
+
+msgid "茅山要一个了断。交给官府去剿，还是劝他们下山，交茅山看着。"
+msgstr "El Monte Mao quiere un desenlace: o se los entrega a las autoridades para que los aplasten, o se les persuade de bajar de la montaña y el Monte Mao los vigila."
+
+msgid "看了你很久，叹了一口气。"
+msgstr " te mira largo rato y suspira."
+
+msgid "他们认出你了。冠摘了吧——戴着它，北麓上谁都认得你。"
+msgstr "Te han reconocido. Quítate el gorro: con él puesto, en la falda norte todos te reconocerán."
+
+msgid "你递出来的东西，茅山都用上了。这就够了。"
+msgstr "Todo lo que entregaste, el Monte Mao lo aprovechó. Con eso basta."
+
+msgid "你露的破绽太多了。宫里迟早认出你——别再回那座道观。"
+msgstr "Dejaste demasiados cabos sueltos. Tarde o temprano el palacio te reconocerá: no vuelvas a ese monasterio."
+
+msgid "时辰和路，茅山记下了。那一夜，北麓下湖的路上有茅山的人。"
+msgstr "El Monte Mao anotó la hora y el camino. Esa noche habrá gente del Monte Mao en el camino al lago desde la falda norte."
+
+msgid "那就去吧。冠戴好——那一剑，只有你递得出去。"
+msgstr "Pues ve. Ponte bien el gorro: esa estocada solo puedes darla tú."
+
+msgid "唤首那一夜过去了。茅山没等到你的话。"
+msgstr "Pasó la noche de la Invocación de la Cabeza. El Monte Mao no recibió tu palabra."
+
+msgid "倒戈，还是潜伏，你定。定了，来告诉我。"
+msgstr "Pasarte al otro bando o seguir oculto: decídelo tú. Cuando lo hayas decidido, ven a decírmelo."
+
+msgid "湖上的事要紧。先去湖上。"
+msgstr "Lo del lago es urgente. Ve primero al lago."
+
+msgid "放下手里的拂尘，金色的那只眼睛看着你。"
+msgstr " deja el espantamoscas y te mira con el ojo dorado."
+
+msgid "钉子拔了，头在冰下醒了。他们等的那一夜，就是唤首：宫里倾巢下湖，商玦走在最前头。"
+msgstr "Arrancaron el clavo y la cabeza despertó bajo el hielo. La noche que esperaban es la Invocación de la Cabeza: el palacio baja entero al lago, con Shang Jue en cabeza."
+
+msgid "你告诉我哪一夜、走哪条路，茅山的人就截在北麓下湖的路上——到了冰龙厅，他身边剩不下几个人。可那顶冠，从此就没用了。"
+msgstr "Si me dices qué noche y por qué camino, la gente del Monte Mao cortará el paso en el camino de la falda norte al lago: al llegar a la sala del Dragón de Hielo, a su lado no le quedarán muchos. Pero ese gorro, desde entonces, ya no servirá de nada."
+
+msgid "或者你什么都不说。戴着冠跟他们下湖，站在他身后——第一剑，只有你递得出去。宫里要是已经起了疑心，这条路就走不得。"
+msgstr "O no dices nada. Te pones el gorro, bajas al lago con ellos y te quedas detrás de él: la primera estocada solo puedes darla tú. Si en el palacio ya sospechan, este camino no se puede tomar."
+
+msgid "倒戈，还是潜伏，你定。"
+msgstr "Pasarte al otro bando o seguir oculto: decídelo tú."
+
+msgid "宫里的事快到头了。他们在等一夜——钉子拔了，湖上的事近了，那一夜才会来。"
+msgstr "Lo del palacio está por terminar. Esperan una noche: cuando arranquen el clavo y lo del lago esté cerca, vendrá esa noche."
+
+msgid "到时候我要知道：哪一夜，走哪条路。"
+msgstr "Entonces necesitaré saber qué noche y por qué camino."
+
+msgid "人放出去了。茅山的人在北麓底下接着，送他们各回各家。"
+msgstr "Ya se dejó salir a esa gente. La gente del Monte Mao los espera al pie de la falda norte y los llevará de vuelta, cada uno a su casa."
+
+msgid "宫里的事还没完——你戴着那顶冠，就还是他们的人。等我的话。"
+msgstr "Lo del palacio no ha terminado: mientras lleves ese gorro, sigues siendo de los suyos. Espera mi palabra."
+
+msgid "地牢里那三个人。钥匙在狱卒腰上——那人好酒，子时就歪在长凳上睡。开了门，人自己会走。"
+msgstr "Los tres de la mazmorra. La llave está en la cintura del carcelero: es aficionado al vino y a medianoche se queda dormido en el banco. Abre la puerta y la gente se irá sola."
+
+msgid "把名单折好，压在香炉底下。"
+msgstr " dobla la lista y la deja bajo el incensario."
+
+msgid "茅山截下了一车。可上一车已经上了山——地牢里新关了三个人。"
+msgstr "El Monte Mao interceptó un carro. Pero el anterior ya subió a la montaña: en la mazmorra hay tres personas nuevas."
+
+msgid "放他们出来。钥匙在狱卒腰上；那人好酒，子时就歪在石阶边的长凳上睡。开了门，人自己会走：货栈的侧门，夜里没人看。"
+msgstr "Déjalos salir. La llave está en la cintura del carcelero; es aficionado al vino y a medianoche se queda dormido en el banco junto a los escalones de piedra. Abierta la puerta, la gente se irá sola: la puerta lateral del almacén, de noche, no la vigila nadie."
+
+msgid "还有一样。账房案角那只铁匣，锁和牢门是一套。里头是名册的原本——人是谁送上山的，押的谁的印，都在上面。"
+msgstr "Y algo más. La caja de hierro en la esquina del escritorio del contable: su cerradura y la de la mazmorra son un juego. Dentro está el original del registro: quién llevó a quién a la montaña, con el sello de quién, todo consta."
+
+msgid "带不带出来，你定。带出来，是一样物证；宫里也就少了一样东西。"
+msgstr "Si lo sacas o no, decídelo tú. Si lo sacas, es una prueba; y al palacio le faltará una cosa."
+
+msgid "名单抄到了？给我。"
+msgstr "¿Copiaste la lista? Dámela."
+
+msgid "看了你一眼，没有说话。"
+msgstr " te mira y no dice nada."
+
+msgid "禁书回了宫里，是你送回去的。……也罢。他当你是自己人，门你进得去。"
+msgstr "El libro prohibido volvió al palacio: lo devolviste tú. ...Bueno. Te considera de los suyos y puedes entrar por la puerta."
+
+msgid "进去，干活，听。他们在等什么，要多少人，人从哪里来。"
+msgstr "Entra, trabaja, escucha. Qué esperan, cuánta gente necesitan, de dónde sale esa gente."
+
+msgid "进去，先干活。管事派什么，你干什么；他们说什么，你听什么。"
+msgstr "Entra y trabaja primero. Haz lo que el encargado te mande y escucha lo que digan."
+
+msgid "野羊山北麓那座黑砖道观，茅山盯了它两年。我要一个进得去的人，戴着他们的冠替我看、替我听。"
+msgstr "El monasterio de ladrillo negro de la falda norte del Cerro de las Cabras: el Monte Mao lo vigila desde hace dos años. Necesito a alguien que pueda entrar, que con su gorro mire y escuche por mí."
+
+msgid "可你身上有东方神教的令。一个人只藏得住一重身份——这件事，我不能托你。"
+msgstr "Pero llevas la placa de la Orden del Cuervo Dorado. Una persona solo puede esconder una identidad: esto no puedo encargártelo."
+
+msgid "野羊山北麓那座黑砖道观，茅山盯了它两年。他们拜的不是神，是劫；收的不是香火，是人。"
+msgstr "El monasterio de ladrillo negro de la falda norte del Cerro de las Cabras: el Monte Mao lo vigila desde hace dos años. No adoran a un dios, sino a la calamidad; lo que recogen no es incienso, sino gente."
+
+msgid "你进去过，还出来了。茅山的道士进不去——一身符水的味道，隔着三里地，他们就闻得出来。"
+msgstr "Entraste y saliste. Los taoístas del Monte Mao no pueden entrar: con ese olor a agua de talismán, a tres li de distancia ya los huelen."
+
+msgid "我要一个进得去的人：戴着他们的冠，替我看，替我听。他们在等什么，要多少人，人从哪里来。"
+msgstr "Necesito a alguien que pueda entrar: con su gorro, que mire y escuche por mí. Qué esperan, cuánta gente necesitan, de dónde sale esa gente."
+
+msgid "这件事做了，就脱不了身。想好了，再问我「眼线」。"
+msgstr "Una vez hecho, no podrás salir. Piénsalo bien y luego pregúntame por 'Espía'."
+
+msgid "北麓那座道观？与你无关。"
+msgstr "¿Ese monasterio de la falda norte? No es asunto tuyo."
+
+msgid "眼线"
+msgstr "Espía"
+
+msgid "答应下来，戴着黑冠回逆灵宫，做茅山的眼线。\n一个人只藏得住一重身份：接了这件事，东方神教那边的门，从此不再为你开。\n答应吗？"
+msgstr "Aceptar, volver al Palacio Negro con el gorro negro y ser el espía del Monte Mao.\nUna persona solo puede esconder una identidad: si aceptas esto, la puerta de la Orden del Cuervo Dorado ya no se te abrirá.\n¿Aceptas?"
+
+msgid "你已经答应过了。冠戴好。"
+msgstr "Ya aceptaste. Ponte bien el gorro."
+
+msgid "金色的那只眼睛看了你很久。"
+msgstr " te mira largo rato con el ojo dorado."
+
+msgid "你身上有东方神教的令。茅山不用替两家办事的眼线——不是信不过你，是信不过那块令。"
+msgstr "Llevas la placa de la Orden del Cuervo Dorado. El Monte Mao no emplea espías que sirvan a dos casas: no es que no confíe en ti, es que no confía en esa placa."
+
+msgid "好。"
+msgstr "Bien."
+
+msgid "那一夜地牢里的人是你放走的。宫里记得那一夜——他们不知道是你，只知道有人。"
+msgstr "Esa noche, los de la mazmorra los dejaste salir tú. El palacio recuerda esa noche: no saben que fuiste tú, solo que fue alguien."
+
+msgid "戴着冠回去，管事会派你活。冠丢了，问我「黑冠」。"
+msgstr "Vuelve con el gorro puesto y el encargado te asignará trabajo. Si pierdes el gorro, pregúntame por 'Gorro negro'."
+
+msgid "你身上那卷东西，是逆灵天书的残卷。拿着它的人死在后山了。它不能跟着你进去，也不能就这么留在外头。"
+msgstr "Ese rollo que llevas es un fragmento de la Escritura Negra. Murió en la montaña trasera quien lo tenía. No puede entrar contigo, ni puede quedarse así, fuera."
+
+msgid "交给我，我当面烧了它。宫里会少一卷书，迟早有人问起——这就是你要担的。"
+msgstr "Dámelo y lo quemo delante de ti. Al palacio le faltará un rollo y tarde o temprano alguien preguntará: eso es lo que tendrás que cargar."
+
+msgid "你身上那卷东西，是逆灵天书的残卷。它不能跟着你进去，也不能就这么留在外头。"
+msgstr "Ese rollo que llevas es un fragmento de la Escritura Negra. No puede entrar contigo, ni puede quedarse así, fuera."
+
+msgid "交给我，我当面烧了它——可宫里会少一卷书，迟早有人问起。还给后山那个大弟子，他会当你是他的人——禁书也就回了宫里。"
+msgstr "Dámelo y lo quemo delante de ti; pero al palacio le faltará un rollo y tarde o temprano alguien preguntará. O devuélveselo al discípulo mayor de la montaña trasera: te tendrá por uno de los suyos y el libro prohibido volverá al palacio."
+
+msgid "你定。"
+msgstr "Decídelo tú."
+
+msgid "那卷残卷不在你身上？……那就当它没回宫。宫里少了一卷书，迟早有人问起。"
+msgstr "¿Ese fragmento no está contigo? ...Entonces cuenta como si no hubiera vuelto al palacio. Al palacio le faltará un rollo y tarde o temprano alguien preguntará."
+
+msgid "……先听我把话说完。"
+msgstr "...Primero déjame terminar."
+
+msgid "从香案底下取出一顶黑冠，递给你。"
+msgstr " saca de debajo de la mesa del incienso un gorro negro y te lo entrega."
+
+msgid "上个月茅山弟子在北麓截下来的。冠是真的，戴它的人回不来了。"
+msgstr "Lo interceptaron discípulos del Monte Mao en la falda norte el mes pasado. El gorro es auténtico; quien lo llevaba ya no volverá."
+
+msgid "冠在你身上。戴好，别摘——摘了，他们下一眼就认得你。"
+msgstr "El gorro está contigo. Póntelo y no te lo quites: si te lo quitas, a la siguiente mirada te reconocerán."
+
+msgid "逆灵宫的道士戴的东西。问它做什么。"
+msgstr "Lo que llevan los taoístas del Palacio Negro. ¿Para qué lo preguntas?"
+
+msgid "倒戈"
+msgstr "Cambiar de bando"
+
+msgid "前夜倒戈：把逆灵宫下湖的时辰和路交给茅山。\n终章冰龙厅里，商玦身边只剩两个道士；点将时多一拨茅山的人，林忌在湖畔。\n可黑冠从此没用，逆灵宫的门不再为你开。\n就这样吗？"
+msgstr "Cambiar de bando la víspera: entregar al Monte Mao la hora y el camino por donde el Palacio Negro baja al lago.\nEn la sala del Dragón de Hielo del capítulo final, a Shang Jue solo le quedan dos taoístas a su lado; al reunir a los combatientes habrá un grupo más del Monte Mao, y Lin Ji estará a la orilla del lago.\nPero el gorro negro ya no servirá y la puerta del Palacio Negro dejará de abrirse para ti.\n¿Así?"
+
+msgid "时辰和路，茅山记下了。"
+msgstr "El Monte Mao anotó la hora y el camino."
+
+msgid "你已经定了潜伏。冠戴好。"
+msgstr "Ya decidiste seguir oculto. Ponte bien el gorro."
+
+msgid "他们迟早认出你。时辰和路，茅山自己去找。"
+msgstr "Tarde o temprano te reconocerán. La hora y el camino el Monte Mao tendrá que buscarlos por su cuenta."
+
+msgid "湖上的事已经开始了，来不及了。"
+msgstr "Lo del lago ya ha empezado. Es demasiado tarde."
+
+msgid "听你一字一句说完，把那条路在香案上用指头画了一遍。"
+msgstr " te escucha palabra por palabra y traza ese camino con el dedo sobre la mesa del incienso."
+
+msgid "好。那一夜，北麓下湖的路上有茅山的人。"
+msgstr "Bien. Esa noche habrá gente del Monte Mao en el camino al lago desde la falda norte."
+
+msgid "冠可以摘了。他们很快就会知道，是谁说出去的。"
+msgstr "Puedes quitarte el gorro. Pronto sabrán quién lo dijo."
+
+msgid "什么时辰？宫里还没到那一步。"
+msgstr "¿Qué hora? El palacio aún no ha llegado a ese punto."
+
+msgid "潜伏"
+msgstr "Seguir oculto"
+
+msgid "潜伏到底：什么也不交出去，戴着黑冠跟商玦的队伍下湖。\n冰龙厅里第一剑是你的，商玦带着重伤开打——可他的四个道士会先扑你，也没有人会多来帮你（没人知道你的消息）。\n宫里已经满了三条疑点的，走不了这条路。\n就这样吗？"
+msgstr "Seguir oculto hasta el final: no entregar nada, ponerte el gorro negro y bajar al lago con la comitiva de Shang Jue.\nLa primera estocada en la sala del Dragón de Hielo es tuya y Shang Jue empieza el combate con heridas graves, pero sus cuatro taoístas se lanzarán primero sobre ti y nadie acudirá a ayudarte (nadie sabe de ti).\nSi en el palacio ya se acumularon tres sospechas, no se puede tomar este camino.\n¿Así?"
+
+msgid "你已经定了。冠戴好——那一剑，只有你递得出去。"
+msgstr "Ya decidiste. Ponte bien el gorro: esa estocada solo puedes darla tú."
+
+msgid "时辰和路已经交出去了。那顶冠，没用了。"
+msgstr "La hora y el camino ya los entregaste. Ese gorro ya no sirve."
+
+msgid "宫里已经起了疑心。这条路，走不得了。"
+msgstr "En el palacio ya sospechan. Este camino ya no se puede tomar."
+
+msgid "……好。"
+msgstr "...Bien."
+
+msgid "冠戴好，什么也别说。他回头的时候，站在他身后的是你。"
+msgstr "Póntelo bien y no digas nada. Cuando él se vuelva, quien estará detrás de él serás tú."
+
+msgid "潜伏到哪一天？宫里还没到那一步。"
+msgstr "¿Seguir oculto hasta cuándo? El palacio aún no ha llegado a ese punto."
+
+msgid "名册"
+msgstr "Registro"
+
+msgid "名册就留在铁匣里？\n宫里什么也不会少，他们看不出你；你身上也就少了一样物证。\n就这样吗？"
+msgstr "¿Dejar el registro en la caja de hierro?\nEn el palacio no faltará nada y no te descubrirán; y tú te quedarás sin una prueba.\n¿Así?"
+
+msgid "名册在程不平那里。他会一个一个对出来——那是他的本事。"
+msgstr "El registro está con Cheng Buping. Los cotejará uno por uno: es su especialidad."
+
+msgid "京师的事定了。名册交给乔阴的程不平——他对得出那些押印，给那些人家里一个说法。"
+msgstr "Lo de la Capital se resolvió. El registro se entregó a Cheng Buping, de Sombra Alta: él puede descifrar esos sellos de entrega y dar a esas familias una explicación."
+
+msgid "兵部的印在上面。带它上京：朝上揭发兵部的时候，它是一样物证。"
+msgstr "El sello del Ministerio de Guerra está en él. Llévalo a la Capital: cuando se denuncie al Ministerio de Guerra ante la corte, será una prueba."
+
+msgid "名册留在匣里了。宫里什么也没少——他们看不出你。"
+msgstr "El registro se quedó en la caja. Al palacio no le falta nada: no te descubrirán."
+
+msgid "……也好。宫里什么也不会少，他们就看不出你。"
+msgstr "...Mejor así. En el palacio no faltará nada y no te descubrirán."
+
+msgid "那上面的押印，你说给我听，我记下了。"
+msgstr "Esos sellos de entrega que hay en él, cuéntamelos; los anoto."
+
+msgid "什么名册？"
+msgstr "¿Qué registro?"
+
+msgid "虹台上的事定了。茅山照旧降妖伏魔。"
+msgstr "Lo de la Terraza del Arcoíris está decidido. El Monte Mao sigue sometiendo demonios como siempre."
+
+msgid "茅山这一票，你说了算。"
+msgstr "El voto del Monte Mao lo decides tú."
+
+msgid "茅山这一票投旧盟主。北麓剩下的人交茅山看着——是师弟的主意。茅山认得他们的字了。"
+msgstr "El voto del Monte Mao va para el antiguo Líder. A los que quedan en la falda norte los vigilará el Monte Mao: fue idea de mi hermano menor. El Monte Mao ya reconoce su escritura."
+
+msgid "这一票的事，去藏经楼问他。"
+msgstr "Sobre este voto, ve a preguntarle a él a la Biblioteca de escrituras."
+
+msgid "茅山主剿。这一票原该投颜违——他和朝廷走得近，北麓那座道观，他剿得动。"
+msgstr "El Monte Mao es partidario de aplastarlos. Este voto debería ir a Yan Wei: está cerca de la corte y ese monasterio de la falda norte él podría arrasarlo."
+
+msgid "金色的那只眼睛看着你。"
+msgstr " te mira con el ojo dorado."
+
+msgid "可那函书是你带回山的，也是你看着烧的。茅山欠你一回：这一票，你要，就是你的。"
+msgstr "Pero ese tomo lo trajiste tú a la montaña y lo viste quemar. El Monte Mao te debe una: este voto, si lo quieres, es tuyo."
+
+msgid "可禁书是你交到我手里烧的。茅山欠你一回：这一票，你要，就是你的。"
+msgstr "Pero ese libro prohibido me lo entregaste tú para quemarlo. El Monte Mao te debe una: este voto, si lo quieres, es tuyo."
+
+msgid "可那张名单是你从账房抄出来的，名单上的人茅山找回了好几个。茅山欠你一回：这一票，你要，就是你的。"
+msgstr "Pero esa lista la copiaste tú en la contaduría y el Monte Mao ha recuperado a varias de las personas que figuran en ella. El Monte Mao te debe una: este voto, si lo quieres, es tuyo."
+
+msgid "茅山主剿。颜违和朝廷走得近，北麓那座道观，他剿得动。"
+msgstr "El Monte Mao es partidario de aplastarlos. Yan Wei está cerca de la corte y ese monasterio de la falda norte él podría arrasarlo."
+
+msgid "这一票投他。"
+msgstr "Este voto es para él."
+
+msgid "请林忌把茅山这一票交给你：正月十七虹台上，茅山听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Pedir a Lin Ji que te entregue el voto del Monte Mao: el 17 del primer mes, en la Terraza del Arcoíris, el Monte Mao hará lo que digas; si te presentas, el voto es tuyo, y si no, tú dices a quién se vota.\n¿Decirlo así?"
+
+msgid "说过了。茅山听你的。"
+msgstr "Dicho está. El Monte Mao hará lo que digas."
+
+msgid "这一票，去藏经楼问我师弟。"
+msgstr "Sobre este voto, ve a preguntarle a mi hermano menor a la Biblioteca de escrituras."
+
+msgid "好。茅山听你的。"
+msgstr "Bien. El Monte Mao hará lo que digas."
+
+msgid "剿"
+msgstr "Sofocar"
+
+msgid "官兵已经上了北麓。宫里剩下的人，一个也走不了。"
+msgstr "Los soldados ya subieron a la falda norte. De los que quedaban en el palacio no se escapará ninguno."
+
+msgid "人已经下山了，茅山看着。"
+msgstr "Esa gente ya bajó de la montaña; el Monte Mao los vigila."
+
+msgid "你已经答应去劝他们下山了。回北麓去，同宫里当家的说「下山」。"
+msgstr "Ya aceptaste ir a persuadirlos de que bajen de la montaña. Vuelve a la falda norte y dile al que manda en el palacio: 'Bajar de la montaña'."
+
+msgid "提笔写了一封信，把北麓那座道观的门户、上山的绳路一一画在信后。"
+msgstr " escribe una carta y dibuja al dorso la entrada del monasterio de la falda norte y el sendero de cuerdas para subir, uno por uno."
+
+msgid "这封信今晚就到乔阴，程不平会转给兵部。"
+msgstr "Esta carta llega esta noche a Sombra Alta; Cheng Buping se la pasará al Ministerio de Guerra."
+
+msgid "书烧了，他们的字茅山不认得了——那就不必认得。"
+msgstr "El libro está quemado y el Monte Mao ya no reconoce esa escritura: entonces no hace falta reconocerla."
+
+msgid "这封信今晚就到乔阴，程不平会转给兵部。官兵上了北麓，宫里剩下的人一个也走不了。"
+msgstr "Esta carta llega esta noche a Sombra Alta; Cheng Buping se la pasará al Ministerio de Guerra. Los soldados suben a la falda norte y de los que quedan en el palacio no se escapa ninguno."
+
+msgid "剿什么？"
+msgstr "¿Sofocar qué?"
+
+msgid "招安"
+msgstr "Amnistía"
+
+msgid "官兵已经上了北麓。来不及了。"
+msgstr "Los soldados ya subieron a la falda norte. Es tarde."
+
+msgid "想了很久，点了点头。"
+msgstr " lo piensa mucho rato y asiente con la cabeza."
+
+msgid "好。宫里剩下的，大半是被拐上山的孩子，烧了一辈子香，不知道自己烧的是什么。"
+msgstr "Bien. La mayoría de los que quedan en el palacio son niños engañados para subir a la montaña: han quemado incienso toda la vida sin saber qué quemaban."
+
+msgid "回北麓去，同宫里当家的说「下山」——玄冥子还在，就是他；不在了，就是那个领诵的。你戴着他们的冠，他们会听你说完。"
+msgstr "Vuelve a la falda norte y dile al que manda en el palacio: 'Bajar de la montaña'. Si Xuanmingzi sigue ahí, será él; si no, el que dirige los cantos. Llevas su gorro y te dejarán terminar."
+
+msgid "人带下山，茅山看着。"
+msgstr "Trae a esa gente montaña abajo; el Monte Mao la vigilará."
+
+msgid "招安什么？"
+msgstr "¿Amnistía para quién?"
+
+msgid "接过那函书，在香案前坐下，一页一页翻过去。"
+msgstr " recibe el tomo, se sienta ante la mesa del incienso y lo hojea página a página."
+
+msgid "翻到后半本，手停住了。"
+msgstr " llega a la segunda mitad del libro y la mano se detiene."
+
+msgid "……这是逆灵宫的字。"
+msgstr "...Esta es la escritura del Palacio Negro."
+
+msgid "他抄了两年。烧掉的东西，他一页一页抄回来。"
+msgstr "Pasó dos años copiando. Lo que se quemó, lo copió página a página."
+
+msgid "合上书，望着殿门外，很久没有说话。"
+msgstr " cierra el libro, mira más allá de la puerta del salón y pasa mucho rato sin decir nada."
+
+msgid "书留在我这里。他会来的。"
+msgstr "El libro se queda conmigo. Él vendrá."
+
+msgid "把逆灵天书的残卷交给林忌。\n他会当面烧了它，禁书不会再回逆灵宫——可宫里少了一卷书，那是一条疑点。玄冥子那边，这卷书就还不回去了。\n交给他吗？"
+msgstr "Entregar a Lin Ji el fragmento de la Escritura Negra.\nLo quemará delante de ti y el libro prohibido no volverá al Palacio Negro; pero al palacio le faltará un rollo, y eso es una sospecha. Y ya no podrás devolverle ese rollo a Xuanmingzi.\n¿Se lo entregas?"
+
+msgid "接过残卷，翻也没翻，凑到香案的烛火上。"
+msgstr " recibe el fragmento, ni lo hojea y lo acerca a la llama de la vela de la mesa del incienso."
+
+msgid "黑皮的书页卷起来，火苗是青的。"
+msgstr " mira cómo las páginas de piel negra se enroscan; la llama es azul."
+
+msgid "这东西不该回那里去。"
+msgstr "Esto no debía volver allí."
+
+msgid "这东西在你手里，在我手里，都干净不了。先想好你要做什么。"
+msgstr "Esto, en tus manos o en las mías, no se vuelve limpio. Piensa primero qué vas a hacer."
+
+msgid "接过名单，一行一行看下去，半晌没有说话。"
+msgstr " recibe la lista, la lee línea a línea y pasa un buen rato sin decir nada."
+
+msgid "三十六口。……茅山会去截下一车。"
+msgstr "Treinta y seis personas. ...El Monte Mao interceptará un carro."
+
+msgid "你回去。他们看不出来，你就还是他们的人。"
+msgstr "Vuelve. Si no te descubren, sigues siendo de los suyos."
+
+msgid "贫道是出家人，不便收女徒，得罪了。"
+msgstr "Este humilde taoísta es un renunciante y no puede aceptar discípulas. Discúlpeme."
+
+msgid "嗯... 想入我茅山派？也好...."
+msgstr "Mmm... ¿quieres entrar en la Escuela del Monte Mao? Bien..."
+
+msgid "慢著，一个一个来。"
+msgstr "Un momento, de uno en uno."
+
+msgid "这是一位来自阴界的守护神，专门担任护法之责。\n"
+msgstr "Es un guardián del inframundo, dedicado a proteger la Ley.\n"
+
+msgid "一道蓝光从地底升起，蓝光中出现一个手执钢叉、面目狰狞的鬼卒。"
+msgstr "Una luz azul sube de la tierra y en ella aparece un soldado fantasma de rostro feroz con una horca de acero en la mano."
+
+msgid "$N的身形发出幽暗的蓝光，沈入地下不见了。"
+msgstr "$N{:el} {N:emites|emite} una luz azul tenue y {N:te hundes|se hunde} bajo tierra hasta desaparecer."
+
+msgid "这是一只由修道人的杂念绮思所化的观想虫，会缠住人的魂魄。\n"
+msgstr "Es un gusano de la mente, formado por los pensamientos dispersos y fantasías de un practicante, que se enreda en el alma de las personas.\n"
+
+msgid "身体"
+msgstr "cuerpo"
+
+msgid "前脚"
+msgstr "pata delantera"
+
+msgid "後脚"
+msgstr "pata trasera"
+
+msgid "尾巴"
+msgstr "cola"
+
+msgid "你杀死了你的观想虫，并且从中悟到了一些咒术的道理。"
+msgstr "Mataste a tu gusano de la mente y de ello comprendiste algo de la lógica de los conjuros."
+
+msgid "你的观想虫被人杀死了！"
+msgstr "¡Alguien ha matado a tu gusano de la mente!"
+
+msgid "你觉得一阵天旋地转...."
+msgstr "Todo te da vueltas..."
+
+msgid "这是一只由修道人的杂念绮思所化的观想兽，会缠住人的魂魄。\n"
+msgstr "Es una bestia de la mente, formada por los pensamientos dispersos y fantasías de un practicante, que se enreda en el alma de las personas.\n"
+
+msgid "你杀死了你的观想兽，并且从中悟到了一些咒术的道理。"
+msgstr "Mataste a tu bestia de la mente y de ello comprendiste algo de la lógica de los conjuros."
+
+msgid "你的观想兽被人杀死了！"
+msgstr "¡Alguien ha matado a tu bestia de la mente!"
+
+msgid "这是一具被人用符咒控制的僵尸，从它苍白的脸上看不出任何喜怒哀乐。\n"
+msgstr "Es un zombi controlado con talismanes; en su rostro pálido no se lee ninguna emoción.\n"
+
+msgid "{name}的僵尸"
+msgstr "Zombi de {name}{:0}"
+
+msgid "$N告诉你：我...需...要...你...的...力...量..."
+msgstr "$N{:el} te dice: \"Yo... ne... ce... si... to... tu... fuer... za...\""
+
+msgid "$N缓缓地倒了下来，化为一滩血水。"
+msgstr "$N{:el} {N:te desplomas|se desploma} lentamente y {N:te conviertes|se convierte} en un charco de sangre."
+
+msgid "晚月庄主"
+msgstr "Señora de Luna Tardía"
+
+msgid "蓝止萍是一个十分出色的美女，她弹的一手琵琶更是闻名千里，许多\n王侯子弟，富商豪客都为她天下无双的美貌与琴艺倾倒。\n"
+msgstr "Lan Zhiping es una belleza excepcional, y su manera de tocar el pipa es famosa a mil li a la redonda. Muchos hijos de príncipes y de nobles, ricos mercaderes y hombres de dinero han caído rendidos ante su belleza sin igual y su arte con las cuerdas.\n"
+
+msgid "庄主"
+msgstr "Señora"
+
+msgid "蓝止萍嫣然一笑，一个转身迳自舞了起来，对眼前这场恶斗似乎全不放在心上。\n"
+msgstr "Lan Zhiping sonríe con encanto, da media vuelta y se pone a bailar por su cuenta, como si aquella feroz pelea no le importara en absoluto.\n"
+
+msgid "蓝止萍脚步轻移，翩翩地转了几个圈，回眸一笑。\n"
+msgstr "Lan Zhiping mueve los pies con ligereza, gira graciosamente varias veces y mira atrás con una sonrisa.\n"
+
+msgid "蓝止萍用手扶了扶自己的发簪，像是怕被对手碰歪似地。\n"
+msgstr "Lan Zhiping se toca la horquilla del pelo, como si temiera que el adversario se la ladeara.\n"
+
+msgid "蓝止萍笑嘻嘻地拾起地上一片从魔鞭翩珑上落下的花瓣。\n"
+msgstr "Lan Zhiping, sonriente, recoge del suelo un pétalo caído de Pianlong, el látigo demoníaco.\n"
+
+msgid "你觉得脸上似乎沾上了什麽东西，伸手一摸却什麽也没有。"
+msgstr "Sientes algo pegado en la cara, pero al llevarte la mano no hay nada."
+
+msgid "男人都不是好东西，滚开！"
+msgstr "Todos los hombres son basura. ¡Largo de aquí!"
+
+msgid "很好，只要你对本庄主忠心耿耿，好处是少不了的。"
+msgstr "Muy bien. Mientras me seas fiel en cuerpo y alma, no te faltarán recompensas."
+
+msgid "$N暧昧地抚摸著$n的脸，说道：特别是像你这样的女孩 ...."
+msgstr "$N{:el} {n:te acaricia el rostro con picardía y dice|acaricia con picardía el rostro de $n{:el} y dice}: \"Y más una muchacha como tú...\""
+
+msgid "看了你一眼，没有笑。"
+msgstr " te mira y no sonríe."
+
+msgid "从内书房那边走过来，走得很慢。"
+msgstr " viene del estudio interior, caminando muy despacio."
+
+msgid "跟在她娘后面，面巾还蒙着，剑在鞘里，手离剑柄远远的。"
+msgstr " sigue a su madre con el rostro aún cubierto, la espada en la vaina y la mano lejos de la empuñadura."
+
+msgid "那一夜，前厅死了两个丫头，内厅死了昭蓉。晚月庄有晚月庄的规矩：血债，要有人抵。"
+msgstr "Esa noche, en el salón delantero murieron dos criadas y en el salón interior murió Zhaorong. Luna Tardía tiene sus reglas: la deuda de sangre tiene que pagarla alguien."
+
+msgid "神教的杀手，在我庄里住了三年。内书房、宝衣，她都看过了。晚月庄的规矩：神教的人进了这道门，不能就这么出去。"
+msgstr "La asesina de la Orden vivió tres años en mi mansión. El estudio interior, la túnica... lo ha visto todo. La regla de Luna Tardía: quien sea de la Orden y cruce esta puerta no puede salir así como así."
+
+msgid "令牌你还给了神教——她是神教的人，你也认了。"
+msgstr "La placa se la devolviste a la Orden. Ella es de la Orden y tú lo reconociste."
+
+msgid "把手里那块黑木令牌攥得更紧了。"
+msgstr " aprieta con más fuerza la placa de madera negra que tiene en la mano."
+
+msgid "人交给我。晚月庄不杀不还手的人——可她不能再待在庄里。怎么处置，是庄里的事。"
+msgstr "Entrégamela. Luna Tardía no mata a quien no se defiende, pero ella ya no puede quedarse en la mansión. Qué se hace con ella es asunto de la mansión."
+
+msgid "她是我女儿。"
+msgstr "Es mi hija."
+
+msgid "依庄规，问我「庄规」；要带她回来，去内书房问老人家「女儿」。"
+msgstr "Si es según la regla de la mansión, pregúntame por 'Reglas de la mansión'; si quieres traerla de vuelta, ve al estudio interior y pregunta a la anciana por 'Hija'."
+
+msgid "转身往内书房走，她女儿跟在后面。"
+msgstr " se vuelve hacia el estudio interior y su hija la sigue."
+
+msgid "庄规"
+msgstr "Reglas de la mansión"
+
+msgid "依庄规：人交给蓝止萍处置——台上不杀，可她不能再待在庄里。\n晚月庄这一票投颜违（逐神教）（已经入了虹台的席的，这一票不再跟着变）；老妇从此不再开口。本庄弟子晋阶执事。\n要这么说吗？"
+msgstr "Según las reglas de la mansión: la entregas a Lan Zhiping para que decida; no la matarán en la terraza, pero ya no puede quedarse en la mansión.\nEl voto de Luna Tardía va para Yan Wei (expulsar a la Orden) (si ya has tomado asiento en la Terraza del Arcoíris, este voto ya no cambia); la anciana no volverá a hablar. Si eres discípula de la mansión, asciendes a Intendente.\n¿Decirlo así?"
+
+msgid "你不是晚月庄的人了。这是晚月庄的事。"
+msgstr "Ya no eres de Luna Tardía. Esto es asunto de Luna Tardía."
+
+msgid "庄规是庄规。"
+msgstr "Las reglas son las reglas."
+
+msgid "你替她选了。晚月庄记着。"
+msgstr "Elegiste por ella. Luna Tardía lo recordará."
+
+msgid "抬了抬手，叫两个弟子去内书房。"
+msgstr " levanta la mano y manda a dos discípulas al estudio interior."
+
+msgid "带走。"
+msgstr "Llévensela."
+
+msgid "庄规是我立的，也是为这样的夜立的。往后庄门关得早一些——神教的人，不会再进来第二回。"
+msgstr "Las reglas de la mansión las puse yo, y también para noches como esa. De ahora en adelante el portón se cerrará más temprano: la gente de la Orden no volverá a entrar una segunda vez."
+
+msgid "庄规？问这个做什么。"
+msgstr "¿Las reglas de la mansión? ¿Para qué lo preguntas?"
+
+msgid "护法"
+msgstr "Guardián"
+
+msgid "做晚月庄的护法：不是弟子，不授辈分，本门的舞和指法不传；头衔换成「晚月庄护法」（本门再晋阶时换回本门的）。晚月庄的事，从此算你一份。\n要这么说吗？"
+msgstr "Ser guardián de Luna Tardía: no eres {jugador:discípulo|discípula}, no se te concede generación y las danzas y el arte de dedos de esta escuela no se te enseñan; tu título pasa a ser «Guardián de Luna Tardía» (cuando asciendas otra vez en tu escuela, se vuelve el de tu escuela). Desde ahora, los asuntos de la mansión también son parte tuya.\n¿Decirlo así?"
+
+msgid "你是晚月庄的护法。庄里的事，问我「庄里的事」。"
+msgstr "Eres {jugador:guardián|guardiana} de Luna Tardía. De los asuntos de la mansión, pregúntame por 'Asuntos de la mansión'."
+
+msgid "你是本庄的弟子。护法，是给庄外的人做的。"
+msgstr "Eres de esta mansión. El puesto de guardián es para quienes están fuera."
+
+msgid "晚月庄护法"
+msgstr "Guardián de Luna Tardía"
+
+msgid "上上下下打量了你一眼。"
+msgstr " te mira de arriba abajo."
+
+msgid "男人都不是好东西。"
+msgstr "Todos los hombres son basura."
+
+msgid "可你接住了瑷伦三鞭——她几百年没对男人抽过鞭子。宝衣的事，你也看着它有了着落。"
+msgstr "Pero aguantaste los tres latigazos de Ailun, y ella no ha usado el látigo con un hombre en cientos de años. Y también viste cómo se resolvía lo de la túnica."
+
+msgid "晚月庄不收男徒，这规矩不改。护法不是弟子：没有辈分，本庄的舞和指法也不传你。庄里的事，算你一份。"
+msgstr "Luna Tardía no acepta discípulos varones, y esa regla no cambia. Un guardián no es discípulo: no tiene generación y las danzas y el arte de dedos de la mansión no se le enseñan. Los asuntos de la mansión, también son parte tuya."
+
+msgid "你离了晚月庄的门。护法，也就不必了。"
+msgstr "Saliste de la puerta de Luna Tardía. Ya no hace falta que seas guardián."
+
+msgid "看了你一会儿。"
+msgstr " te mira un rato."
+
+msgid "你接住了瑷伦三鞭，宝衣的事也看着它有了着落。"
+msgstr "Aguantaste los tres latigazos de Ailun y viste cómo se resolvía lo de la túnica."
+
+msgid "你不在晚月庄门下，晚月庄不抢人。做个护法吧：没有辈分，本庄的功夫不传；庄里的事，算你一份。"
+msgstr "No estás bajo Luna Tardía, y Luna Tardía no se lleva gente. Sé guardián: sin generación, las artes de la mansión no se te enseñan; los asuntos de la mansión, también son parte tuya."
+
+msgid "护法？接得住瑷伦三鞭再说。"
+msgstr "¿Guardián? Primero aguanta los tres latigazos de Ailun."
+
+msgid "庄里的事"
+msgstr "Asuntos de la mansión"
+
+msgid "你已经不是晚月庄的人了。庄里的事，不劳你。"
+msgstr "Ya no eres de Luna Tardía. Los asuntos de la mansión no son para que te molestes."
+
+msgid "内书房那位老人家……让她静一静。"
+msgstr "Esa anciana del estudio interior... déjala en paz."
+
+msgid "她在内书房。庄规你替她破了一回——晚月庄记着。"
+msgstr "Está en el estudio interior. Las reglas de la mansión las rompiste por ella una vez: Luna Tardía lo recordará."
+
+msgid "那个蒙面的女人，你见过了，令牌也有了着落。下回进大厅，我有话说。"
+msgstr "A esa mujer con el rostro cubierto ya la viste y lo de la placa también se resolvió. La próxima vez que entres en el gran salón, tengo algo que decirte."
+
+msgid "她的令牌在你手上？给谁，你自己定。"
+msgstr "¿La placa de ella la tienes tú? A quién se la das, lo decides tú."
+
+msgid "老人家的心事……去问问那个蒙面的女人。"
+msgstr "La preocupación de la anciana... ve a preguntarle a esa mujer con el rostro cubierto."
+
+msgid "沧海龙吟跳回来了。宝衣……挡在了该挡的地方。"
+msgstr "El «Canto del dragón sobre el mar azul» ha vuelto a bailarse. La túnica... se interpuso donde debía."
+
+msgid "内书房那位老人家，有一桩心事压了很多年——你去看看她。"
+msgstr "La anciana del estudio interior carga con una preocupación desde hace muchos años. Ve a verla."
+
+msgid "宝衣回来了，池边的凤凰又亮了。晚月庄记你这一回。"
+msgstr "La túnica volvió y el fénix junto al estanque brilla de nuevo. Luna Tardía te lo reconoce."
+
+msgid "宝衣你带着。晚月庄自己守。"
+msgstr "Quédate tú con la túnica. Luna Tardía se guarda sola."
+
+msgid "脸色淡了下来。"
+msgstr " enfría el semblante."
+
+msgid "沧海龙吟跳回来了，宝衣却在西厢那位手里。"
+msgstr "El «Canto del dragón sobre el mar azul» ha vuelto a bailarse, pero la túnica está en manos de la del ala oeste."
+
+msgid "你去跟她要——她不会给。可晚月庄要让她知道，这件衣是谁的。"
+msgstr "Ve a pedírsela: no te la dará. Pero Luna Tardía quiere que ella sepa de quién es esa prenda."
+
+msgid "沧海龙吟跳回来了，区冥记得你。宝衣在瑷伦身上，庄里一切如旧。"
+msgstr "El «Canto del dragón sobre el mar azul» ha vuelto a bailarse; Ouming te recuerda. La túnica está con Ailun y en la mansión todo sigue igual."
+
+msgid "沧海龙吟跳回来了，区冥记得你。宝衣还在你身上——东厢的瑷伦，等你一句话。"
+msgstr "El «Canto del dragón sobre el mar azul» ha vuelto a bailarse; Ouming te recuerda. La túnica sigue contigo: Ailun, en el ala este, espera tu palabra."
+
+msgid "沧海龙吟跳回来了，区冥记得你。宝衣的事，等它有了着落，你去东厢见瑷伦。"
+msgstr "El «Canto del dragón sobre el mar azul» ha vuelto a bailarse; Ouming te recuerda. Lo de la túnica: cuando se resuelva, ve a ver a Ailun al ala este."
+
+msgid "步子在后院书房那幅湘绣图上，曲子在舞曲谱里。两样凑齐，去二楼佛堂，在区冥的神位前跳。"
+msgstr "Los pasos están en el bordado del estudio del patio trasero; la música, en la partitura de danza. Reunidas ambas cosas, ve al oratorio del segundo piso y baila ante la tablilla de Ouming."
+
+msgid "我们晚月庄是『以舞会友，以神换技』。可庄里失传过一支舞，叫沧海龙吟——寒谷龙舞里的一支，几十年没人跳过了。"
+msgstr "Nuestra Luna Tardía 'hace amigos con la danza y cambia técnica por espíritu'. Pero en la mansión se perdió una danza, el «Canto del dragón sobre el mar azul», una de las de la Danza del dragón del Valle Frío, que lleva décadas sin bailarse."
+
+msgid "步子绣在后院书房那幅湘绣舞曲图上，昭仪天天对着它看；曲子在舞曲谱里，欣芳知道谱放在哪。"
+msgstr "Los pasos están bordados en el cuadro de danza de seda del estudio del patio trasero, que Zhaoyi mira todos los días; la música está en la partitura de danza y Xinfang sabe dónde está."
+
+msgid "两样凑齐了，到二楼佛堂，在区冥的神位前跳一回。跳成了，你就是晚月庄的大弟子。"
+msgstr "Reunidas ambas cosas, ve al oratorio del segundo piso y baila una vez ante la tablilla de Ouming. Si te sale, serás {jugador:el discípulo mayor|la discípula mayor} de Luna Tardía."
+
+msgid "两样凑齐了，到二楼佛堂，在区冥的神位前跳一回。你是护法，跳成了也没有辈分——可区冥会记得你。"
+msgstr "Reunidas ambas cosas, ve al oratorio del segundo piso y baila una vez ante la tablilla de Ouming. Siendo {jugador:guardián|guardiana}, aunque te salga no tendrás generación; pero Ouming te recordará."
+
+msgid "两样凑齐了，到二楼佛堂，在区冥的神位前跳一回。那是玄天玉女的步子，男人跳不成——请芳绫或者欣芳替你跳。"
+msgstr "Reunidas ambas cosas, ve al oratorio del segundo piso y baila una vez ante la tablilla de Ouming. Ese es el paso de la Doncella de Jade del Cielo Oscuro y un hombre no puede bailarlo: pide a Fangling o a Xinfang que baile por ti."
+
+msgid "晚月庄的事，不劳外人。"
+msgstr "Los asuntos de Luna Tardía no son cosa de forasteros."
+
+msgid "虹台上的事，晚月庄记着。"
+msgstr "Luna Tardía recuerda lo de la Terraza del Arcoíris."
+
+msgid "晚月庄这一票投颜违。神教的人进过庄门，往后庄门要关紧——颜违说了，他当了盟主就逐神教。"
+msgstr "El voto de Luna Tardía va para Yan Wei. La gente de la Orden ha cruzado nuestro portón; de ahora en adelante hay que cerrarlo bien. Yan Wei lo dijo: si es Líder, expulsará a la Orden."
+
+msgid "这条庄规，是你陪我守下来的。这一票你要，就给你。"
+msgstr "Esta regla de la mansión la sostuviste conmigo. Si quieres este voto, es tuyo."
+
+msgid "晚月庄这一票投旧盟主。庄里收着一个神教的人——官府管不到这里，颜违也别想管到这里来。"
+msgstr "El voto de Luna Tardía va para el antiguo Líder. En la mansión se acoge a alguien de la Orden: las autoridades no mandan aquí, y Yan Wei tampoco debe pensar que manda aquí."
+
+msgid "庄规你替她破了一回。……这一票你要，我也给。"
+msgstr "Rompiste por ella una vez las reglas de la mansión. ...Si quieres este voto, también te lo doy."
+
+msgid "晚月庄这一票，你说了算。"
+msgstr "El voto de Luna Tardía lo decides tú."
+
+msgid "晚月庄这一票投颜违。说定了。"
+msgstr "El voto de Luna Tardía va para Yan Wei. Decidido."
+
+msgid "寒於宝衣烧了。晚月庄守了几百年的东西，挡完那一口就没了。"
+msgstr "La Túnica de Hanyu se quemó. Lo que Luna Tardía guardó durante siglos se acabó al detener aquel golpe."
+
+msgid "晚月庄这一票原该投旧盟主：封地照旧，官府管不到这里。可神教的人还在庄外转——颜违说了，他当了盟主就逐神教。"
+msgstr "El voto de Luna Tardía debería ir al antiguo Líder: el feudo queda como está y las autoridades no mandan aquí. Pero la gente de la Orden sigue rondando fuera de la mansión. Yan Wei lo dijo: si es Líder, expulsará a la Orden."
+
+msgid "你一句话，晚月庄这一票就投他。"
+msgstr "Con una palabra tuya, el voto de Luna Tardía va para él."
+
+msgid "宝衣在西厢那位手里。神教迟早要拿它做文章。"
+msgstr "La túnica está en manos de la del ala oeste. Tarde o temprano la Orden hará algo con ella."
+
+msgid "晚月庄这一票原该投旧盟主……颜违说了，他当了盟主就逐神教。你一句话，这一票就投他。"
+msgstr "El voto de Luna Tardía debería ir al antiguo Líder... Yan Wei dijo que, si es Líder, expulsará a la Orden. Con una palabra tuya, el voto va para él."
+
+msgid "宝衣在瑷伦手里——出过一回庄，是你送回来的。"
+msgstr "La túnica está en manos de Ailun: salió una vez de la mansión y la trajiste tú de vuelta."
+
+msgid "晚月庄这一票原该投旧盟主。你要，就给你。"
+msgstr "El voto de Luna Tardía debería ir al antiguo Líder. Si lo quieres, es tuyo."
+
+msgid "宝衣还在瑷伦手里。是你替晚月庄守住的。"
+msgstr "La túnica sigue en manos de Ailun. La conservaste tú para Luna Tardía."
+
+msgid "晚月庄这一票投旧盟主。"
+msgstr "El voto de Luna Tardía va para el antiguo Líder."
+
+msgid "封地照旧，官府管不到晚月庄——这就够了。"
+msgstr "El feudo queda como está y las autoridades no mandan en Luna Tardía: con eso basta."
+
+msgid "改投"
+msgstr "Cambiar el voto"
+
+msgid "请蓝止萍改投颜违：他当了盟主就逐神教，晚月庄这一票不投旧盟主了。\n要这么说吗？"
+msgstr "Pedir a Lan Zhiping que cambie su voto a Yan Wei: si es Líder, expulsará a la Orden; el voto de Luna Tardía ya no va para el antiguo Líder.\n¿Decirlo así?"
+
+msgid "晚月庄这一票跟着庄规走，不改。"
+msgstr "El voto de Luna Tardía sigue las reglas de la mansión y no se cambia."
+
+msgid "晚月庄这一票，那天她留下来就定了，不改。"
+msgstr "El voto de Luna Tardía quedó decidido el día en que ella se quedó, y no se cambia."
+
+msgid "说过了。晚月庄投颜违。"
+msgstr "Dicho está. Luna Tardía vota por Yan Wei."
+
+msgid "好。晚月庄投颜违。"
+msgstr "Bien. Luna Tardía vota por Yan Wei."
+
+msgid "请蓝止萍把晚月庄这一票交给你：正月十七虹台上，晚月庄听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Pedir a Lan Zhiping que te entregue el voto de Luna Tardía: el 17 del primer mes, en la Terraza del Arcoíris, Luna Tardía hará lo que digas; si te presentas, el voto es tuyo, y si no, tú dices a quién se vota.\n¿Decirlo así?"
+
+msgid "说过了。晚月庄听你的。"
+msgstr "Dicho está. Luna Tardía hará lo que digas."
+
+msgid "微微一笑。"
+msgstr " sonríe levemente."
+
+msgid "好。晚月庄听你的。"
+msgstr "Bien. Luna Tardía hará lo que digas."
+
+msgid "住持"
+msgstr "Abad"
+
+msgid "阿弥陀佛！出家人戒逞强恶斗！老衲不敢违反清规。"
+msgstr "¡Amitabha! Los religiosos tienen prohibido pelear por vanidad. Este viejo monje no se atreve a violar la regla del templo."
+
+msgid "施主既然身负绝艺，老衲佩服便是，也不必较量了。"
+msgstr "Ya que usted posee un arte extraordinario, este viejo monje lo admira y no hace falta medir fuerzas."
+
+msgid "剃度"
+msgstr "Tonsura"
+
+msgid "阿弥陀佛！你我同是出家人，何故跟老衲开这等玩笑？\n"
+msgstr "¡Amitabha! Usted y yo ya somos religiosos; ¿por qué le gasta esta broma a este viejo monje?\n"
+
+msgid "阿弥陀佛！女施主，这里是寺庙，请你到尼庵去剃度吧。\n"
+msgstr "¡Amitabha! Benefactora, esto es un templo; vaya usted a un convento a recibir la tonsura.\n"
+
+msgid "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下受戒。\n"
+msgstr "¡Amitabha! ¡Bien, bien! Si de verdad se refugia usted en Buda, arrodíllese y reciba los preceptos.\n"
+
+msgid "出家"
+msgstr "Hacerse monje"
+
+msgid "看了你一眼，双手合十。"
+msgstr " te mira y junta las palmas."
+
+msgid "阿弥陀佛。施主身上有神教的血腥气。流云轩的事，不劳施主。"
+msgstr "Amitabha. Hay olor a sangre de la Orden en usted. Lo del Cenador de las Nubes Errantes no es asunto suyo."
+
+msgid "阿弥陀佛。流云轩的事，不劳施主了。"
+msgstr "Amitabha. Lo del Cenador de las Nubes Errantes ya no es asunto suyo."
+
+msgid "那樵夫的命，保住了。"
+msgstr "La vida de ese leñador se salvó."
+
+msgid "低头看着自己的手。"
+msgstr " se mira las manos."
+
+msgid "那只手……老衲尽力了。"
+msgstr "Esa mano... este viejo monje hizo lo que pudo."
+
+msgid "那樵夫好了。药僧都跟老衲说了。"
+msgstr "Ese leñador está curado. El monje boticario ya se lo contó a este viejo monje."
+
+msgid "寺规，施主破了。阿弥陀佛。"
+msgstr "La regla del templo, usted la ha roto. Amitabha."
+
+msgid "药喂下去了，寒气还在。"
+msgstr "Ya se le dio la medicina, pero el frío sigue."
+
+msgid "老衲的药是凉性的底子……赶不出这股寒。阿弥陀佛。"
+msgstr "La medicina de este viejo monje tiene una base fría... no logra sacar ese frío. Amitabha."
+
+msgid "药煎好了，拿去喂他。"
+msgstr "La medicina ya está cocida; llévesela para dársela."
+
+msgid "附子在药圃，麝香找雪亭的杨掌柜，鬼臼在乔阴树王坟边。三味齐了交给药僧煎。"
+msgstr "El acónito está en el huerto de hierbas; el almizcle, con el tendero Yang de Pabellón Nevado; la raíz de podófilo, junto a la Tumba del Rey Árbol en Sombra Alta. Reunidos los tres, entréguelos al monje boticario para que los cueza."
+
+msgid "乔阴来的樵夫，在树王坟边被鬼卒抓了一把。那不是寻常的伤——是阴间的寒气，钻进骨头里了。"
+msgstr "El leñador de Sombra Alta recibió un zarpazo de un soldado fantasma junto a la Tumba del Rey Árbol. No es una herida común: es el frío del inframundo, que le ha entrado hasta los huesos."
+
+msgid "捻了很久的念珠。"
+msgstr " cuenta las cuentas del rosario durante largo rato."
+
+msgid "老衲开个方子：附子回阳，麝香开窍，再要一味鬼臼，以毒攻毒。"
+msgstr "Este viejo monje receta: acónito para devolver el yang, almizcle para abrir los orificios y además una raíz de podófilo, para combatir veneno con veneno."
+
+msgid "附子，寺东的药圃里有；麝香，雪亭镇桑邻药铺的杨掌柜那里有——他年轻时跟老衲学过医；鬼臼，就长在乔阴树王坟边的石缝里。那里有鬼卒，小心。"
+msgstr "El acónito lo hay en el huerto de hierbas al este del templo; el almizcle, con el tendero Yang de la Botica de la Morera de Pabellón Nevado, que de joven aprendió medicina con este viejo monje; la raíz de podófilo crece en las grietas de piedra junto a la Tumba del Rey Árbol, en Sombra Alta. Allí hay soldados fantasma: cuidado."
+
+msgid "三味齐了，交给流云轩的药僧煎。"
+msgstr "Reunidos los tres, entréguelos al monje boticario del Cenador de las Nubes Errantes para que los cueza."
+
+msgid "阿弥陀佛。药僧说，施主肯帮流云轩的忙。帮手不必落发。"
+msgstr "Amitabha. El monje boticario dice que usted está dispuesto a ayudar al Cenador de las Nubes Errantes. Para ayudar no hace falta raparse."
+
+msgid "流云轩里躺着一个乔阴来的樵夫。阿弥陀佛。"
+msgstr "En el Cenador de las Nubes Errantes yace un leñador venido de Sombra Alta. Amitabha."
+
+msgid "流云轩是老衲为人看病、存放药草的地方。"
+msgstr "El Cenador de las Nubes Errantes es donde este viejo monje atiende a los enfermos y guarda las hierbas."
+
+msgid "头陀"
+msgstr "Asceta"
+
+msgid "他在流云轩。"
+msgstr "Está en el Cenador de las Nubes Errantes."
+
+msgid "捻了一颗念珠。"
+msgstr " pasa una cuenta del rosario."
+
+msgid "老衲该早十年开那道门。"
+msgstr "Este viejo monje debió abrir esa puerta diez años antes."
+
+msgid "他回番坊去了。金门外空了。……阿弥陀佛。"
+msgstr "Volvió al Barrio Extranjero. Fuera de la Puerta Dorada ya no hay nadie... Amitabha."
+
+msgid "他在殿上。老衲看见了。"
+msgstr "Está en el salón. Este viejo monje lo vio."
+
+msgid "他回金门外站着去了。十年了，他一直站在那里。"
+msgstr "Volvió a quedarse de pie fuera de la Puerta Dorada. Diez años lleva allí."
+
+msgid "他进了流云轩。……老衲知道。"
+msgstr "Entró en el Cenador de las Nubes Errantes. ...Este viejo monje lo sabe."
+
+msgid "拨了两颗念珠，没有再说。"
+msgstr " mueve dos cuentas del rosario y no dice más."
+
+msgid "他不是本寺的人。"
+msgstr "No es de este templo."
+
+msgid "十年前他到山门前来，老衲没让他进门。他也不走，就站在金门外，一站十年。"
+msgstr "Hace diez años llegó a la puerta del templo y este viejo monje no lo dejó entrar. Tampoco se fue: se quedó de pie fuera de la Puerta Dorada, diez años."
+
+msgid "本寺的规矩：外人不进流云轩。"
+msgstr "La regla de este templo: los forasteros no entran en el Cenador de las Nubes Errantes."
+
+msgid "寺规"
+msgstr "Reglas del templo"
+
+msgid "照寺规：不让独眼头陀进流云轩。\n玄智守着老葛治：命保得住，一只手保不住。头陀转身回金门外，从此不理你。\n这是山烟寺这条线上的一个选择，选了不能改。要照寺规吗？"
+msgstr "Seguir las reglas del templo: no dejar entrar al asceta tuerto en el Cenador de las Nubes Errantes.\nXuanzhi atiende en persona al Viejo Ge: la vida se salva, pero una mano no. El asceta da media vuelta, vuelve a la Puerta Dorada y desde entonces no te hace caso.\nEs una elección de la línea del Templo de la Bruma y, una vez hecha, no se puede cambiar. ¿Seguir las reglas del templo?"
+
+msgid "阿弥陀佛。"
+msgstr "Amitabha."
+
+msgid "寺规就是寺规。"
+msgstr "La regla del templo es la regla del templo."
+
+msgid "寺规，施主已经破了。"
+msgstr "La regla del templo, usted ya la ha roto."
+
+msgid "看了看你身后。"
+msgstr " mira detrás de ti."
+
+msgid "人是施主领来的，老衲不拦。"
+msgstr "Ese hombre lo trajo usted. Este viejo monje no se lo impide."
+
+msgid "双手合十。"
+msgstr " junta las palmas."
+
+msgid "阿弥陀佛。外人不进流云轩——这是本寺三百年的规矩，老衲不能在老衲手里破了它。"
+msgstr "Amitabha. Los forasteros no entran en el Cenador de las Nubes Errantes: es la regla de este templo desde hace trescientos años y este viejo monje no puede romperla en sus manos."
+
+msgid "那樵夫，老衲自己守。"
+msgstr "Al leñador, este viejo monje lo cuidará solo."
+
+msgid "玄智方丈进了流云轩，三天三夜没有出来。\n"
+msgstr "El abad Xuanzhi entró en el Cenador de las Nubes Errantes y pasó tres días y tres noches sin salir.\n"
+
+msgid "命，老衲保住了。那只手……寒气在骨头里待得太久，老衲保不住。"
+msgstr "La vida, este viejo monje la salvó. La mano... el frío estuvo demasiado tiempo en los huesos y este viejo monje no pudo salvarla."
+
+msgid "寺规？本寺的规矩，问知客僧。"
+msgstr "¿La regla del templo? Las reglas de este templo, pregúntelas al monje de recepción."
+
+msgid "阿弥陀佛。正月十七，过去了。"
+msgstr "Amitabha. El 17 del primer mes ya pasó."
+
+msgid "阿弥陀佛。山烟寺这一票，在施主手里。"
+msgstr "Amitabha. El voto del Templo de la Bruma está en sus manos."
+
+msgid "阿弥陀佛。山烟寺收了西来的经。容得下西来的经，也容得下别人——这一票投旧盟主。"
+msgstr "Amitabha. El Templo de la Bruma ha acogido la escritura venida del oeste. Quien acoge la escritura venida del oeste puede acoger también a los demás: este voto va para el antiguo Líder."
+
+msgid "朝流云轩的方向看了一眼。"
+msgstr " mira hacia el Cenador de las Nubes Errantes."
+
+msgid "那片叶子是施主带回来的。这一票，施主要，就是施主的。"
+msgstr "Esa hoja de palma la trajo usted. Este voto, si usted lo desea, es suyo."
+
+msgid "阿弥陀佛。本寺一脉，守清规。神教的杀手横行，颜施主说要逐了他们——山烟寺这一票投颜施主。"
+msgstr "Amitabha. El linaje de este templo guarda la regla pura. Los asesinos de la Orden andan sueltos y el benefactor Yan dice que los expulsará: el voto del Templo de la Bruma va para el benefactor Yan."
+
+msgid "拨了两颗念珠。"
+msgstr " mueve dos cuentas del rosario."
+
+msgid "可那片叶子，是施主陪着送回去的。这一票，施主要，就是施主的。"
+msgstr "Pero esa hoja de palma usted la llevó de vuelta, acompañándola. Este voto, si usted lo desea, es suyo."
+
+msgid "阿弥陀佛。山烟寺这一票，投旧盟主。"
+msgstr "Amitabha. El voto del Templo de la Bruma va para el antiguo Líder."
+
+msgid "阿弥陀佛。神教的杀手杀生无数，山烟寺原想借颜施主之手，逐了他们。"
+msgstr "Amitabha. Los asesinos de la Orden han matado sin cuento; el Templo de la Bruma quería valerse del benefactor Yan para expulsarlos."
+
+msgid "施主说，一代教主收回了教主令，正月十七神教不来搅局……施主若担保此事，山烟寺这一票便投旧盟主。容他们。"
+msgstr "Usted dijo que el jefe de la Orden retiró la orden de jefe y que el 17 del primer mes la Orden no vendrá a estorbar... Si usted lo garantiza, el voto del Templo de la Bruma irá para el antiguo Líder. Que se les tolere."
+
+msgid "阿弥陀佛。神教的杀手在江湖上横行，颜施主说要逐了他们。"
+msgstr "Amitabha. Los asesinos de la Orden andan sueltos por el jianghu y el benefactor Yan dice que los expulsará."
+
+msgid "山烟寺这一票，投颜施主。"
+msgstr "El voto del Templo de la Bruma va para el benefactor Yan."
+
+msgid "阿弥陀佛。湖上的事未了，虹台的事且放一放。"
+msgstr "Amitabha. Lo del lago no ha terminado; lo de la Terraza del Arcoíris puede esperar."
+
+msgid "请玄智和尚改投旧盟主：神教容得下，山烟寺这一票不投颜违了。\n要这么说吗？"
+msgstr "Pedir al monje Xuanzhi que cambie su voto al antiguo Líder: la Orden será tolerada y el voto del Templo de la Bruma ya no va para Yan Wei.\n¿Decirlo así?"
+
+msgid "阿弥陀佛。经收下了，山烟寺本来就投旧盟主。"
+msgstr "Amitabha. La escritura ya fue acogida y el Templo de la Bruma ya votaba por el antiguo Líder."
+
+msgid "阿弥陀佛。本寺一脉，说过了。这一票随守寺走。"
+msgstr "Amitabha. El linaje de este templo ya lo dijo. Este voto sigue a quien guarda el templo."
+
+msgid "阿弥陀佛。山烟寺投旧盟主，说过了。"
+msgstr "Amitabha. El Templo de la Bruma vota por el antiguo Líder; ya está dicho."
+
+msgid "阿弥陀佛。便依施主。"
+msgstr "Amitabha. Sea como usted dice."
+
+msgid "收经"
+msgstr "Aceptar el sutra"
+
+msgid "收经：独眼头陀受戒入寺，婆萝蜜多心经收进山烟寺。\n流云轩从此治得了鬼卒的寒；头陀在流云轩教婆萝蜜多心经，谁都能学（只这一门）。\n容得下西来的经，也容得下别人：正月十七虹台上，山烟寺这一票投旧盟主（已经入了虹台的席的，这一票不再跟着变）。\n守寺那条路就没了。要这么说吗？"
+msgstr "Aceptar el sutra: el asceta tuerto recibe los preceptos e ingresa en el templo y el Sutra del Corazón entra en el Templo de la Bruma.\nDesde entonces el Cenador de las Nubes Errantes puede curar el frío de los soldados fantasma; el asceta enseña el Sutra del Corazón en el Cenador y cualquiera puede aprenderlo (solo esa arte).\nQuien acoge la escritura venida del oeste puede acoger también a los demás: el 17 del primer mes, en la Terraza del Arcoíris, el voto del Templo de la Bruma va para el antiguo Líder (si ya has tomado asiento en la Terraza del Arcoíris, este voto ya no cambia).\nSe pierde el camino de «Guardar el templo». ¿Decirlo así?"
+
+msgid "阿弥陀佛。这是本寺的事。"
+msgstr "Amitabha. Es asunto del templo."
+
+msgid "经在流云轩，他也在。"
+msgstr "La escritura está en el Cenador de las Nubes Errantes y él también."
+
+msgid "本寺一脉。说过了。"
+msgstr "El linaje de este templo. Ya está dicho."
+
+msgid "看着香案上那片贝叶，捻了很久的念珠。"
+msgstr " mira la hoja de palma sobre la mesa del incienso y cuenta las cuentas del rosario durante largo rato."
+
+msgid "玄尘要是知道……他等这一天，等了三十年。"
+msgstr "Si Xuanchen lo supiera... Esperó este día treinta años."
+
+msgid "收。"
+msgstr "Se acepta."
+
+msgid "独眼头陀在佛前跪了下来。玄智伸出手掌，在他头顶轻轻地摩挲了几下。\n"
+msgstr "El asceta tuerto se arrodilla ante Buda. Xuanzhi extiende la palma y le acaricia suavemente la coronilla varias veces.\n"
+
+msgid "你是头陀，发就留着。法名，你的师父给过了，老衲不改。从今天起，你是山烟寺的人。"
+msgstr "Eres asceta, así que conservas el cabello. El nombre de religión ya te lo dio tu maestro y este viejo monje no lo cambia. Desde hoy eres del Templo de la Bruma."
+
+msgid "流云轩，你去。阴间的寒，往后山烟寺赶得出去了。"
+msgstr "Ve al Cenador de las Nubes Errantes. El frío del inframundo, de ahora en adelante el Templo de la Bruma podrá expulsarlo."
+
+msgid "头陀捧起那片贝叶，朝玄智拜了三拜，大步往流云轩去了。\n"
+msgstr "El asceta recoge la hoja de palma, se inclina tres veces ante Xuanzhi y se dirige a grandes pasos al Cenador de las Nubes Errantes.\n"
+
+msgid "收什么经？"
+msgstr "¿Aceptar qué sutra?"
+
+msgid "守寺"
+msgstr "Guardar el templo"
+
+msgid "守寺：本寺一脉，经交还龙若法王，头陀把它带回番坊，金门外从此空了。\n玄智肯把莲华心法（连同它的根基大乘佛法）教给不是本寺的人。流云轩照旧治不了鬼卒的寒。\n山烟寺守清规：正月十七虹台上，这一票投颜违（已经入了虹台的席的，这一票不再跟着变）。\n收经那条路就没了。要这么说吗？"
+msgstr "Guardar el templo: el linaje de este templo; la escritura se devuelve al Rey del Dharma Longruo, el asceta se la lleva de vuelta al Barrio Extranjero y fuera de la Puerta Dorada queda vacío desde entonces.\nXuanzhi enseñará el Método interno del loto (con su base, el Dharma mahayana) a quien no sea del templo. El Cenador de las Nubes Errantes sigue sin poder curar el frío de los soldados fantasma.\nEl Templo de la Bruma guarda la regla pura: el 17 del primer mes, en la Terraza del Arcoíris, este voto va para Yan Wei (si ya has tomado asiento en la Terraza del Arcoíris, este voto ya no cambia).\nSe pierde el camino de «Aceptar el sutra». ¿Decirlo así?"
+
+msgid "经已经收了。"
+msgstr "La escritura ya fue aceptada."
+
+msgid "把香案上那片贝叶拾起来，双手递还给头陀。"
+msgstr " recoge la hoja de palma de la mesa del incienso y se la devuelve al asceta con ambas manos."
+
+msgid "本寺一脉，三十年前不收，今天也不收。经，请带回给你的师父。替老衲谢他。"
+msgstr "El linaje de este templo no la aceptó hace treinta años y hoy tampoco. Lleva la escritura de vuelta a tu maestro. Dale las gracias de parte de este viejo monje."
+
+msgid "独眼头陀接过贝叶，看了玄智很久，一句话也没说，转身出了大殿。金门外那块他站了十年的地方，空了。\n"
+msgstr "El asceta tuerto recibe la hoja de palma, mira largo rato a Xuanzhi y, sin decir palabra, da media vuelta y sale del gran salón. El lugar fuera de la Puerta Dorada donde estuvo de pie diez años queda vacío.\n"
+
+msgid "看着殿门，忽然问你："
+msgstr " mira la puerta del salón y de pronto te pregunta:"
+
+msgid "玄尘师弟……他还好？"
+msgstr "El hermano menor Xuanchen... ¿está bien?"
+
+msgid "你说他在青石村后山，守着一个阵。玄智点了点头，没有再问。\n"
+msgstr "Dices que está en la montaña trasera de Aldea Piedra Azul, guardando una formación. Xuanzhi asiente y no pregunta más.\n"
+
+msgid "寺规就是寺规。外人不进流云轩，外来的经，也不进。……阿弥陀佛。"
+msgstr "La regla es la regla. Los forasteros no entran en el Cenador de las Nubes Errantes, ni tampoco las escrituras venidas de fuera. ...Amitabha."
+
+msgid "请玄智和尚把山烟寺这一票交给你：正月十七虹台上，山烟寺听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Pedir al monje Xuanzhi que te entregue el voto del Templo de la Bruma: el 17 del primer mes, en la Terraza del Arcoíris, el Templo de la Bruma hará lo que digas; si te presentas, el voto es tuyo, y si no, tú dices a quién se vota.\n¿Decirlo así?"
+
+msgid "阿弥陀佛。说过了，山烟寺听施主的。"
+msgstr "Amitabha. Ya está dicho: el Templo de la Bruma hará lo que usted diga."
+
+msgid "阿弥陀佛。山烟寺听施主的。"
+msgstr "Amitabha. El Templo de la Bruma hará lo que usted diga."
+
+msgid "了尘回来了。"
+msgstr "Liaochen ha vuelto."
+
+msgid "三十年前跟着玄尘师弟跑出山门的那个小沙弥，在流云轩给老衲烧过药炉。……他回来，不算外人。"
+msgstr "El pequeño novicio que hace treinta años salió del templo corriendo tras el hermano menor Xuanchen, y que en el Cenador de las Nubes Errantes atizó el horno de las medicinas para este viejo monje... Si vuelve, no es un forastero."
+
+msgid "$N双手合十，恭恭敬敬地跪了下来。"
+msgstr "$N{:el} {N:juntas|junta} las manos y {N:te arrodillas|se arrodilla} con toda reverencia."
+
+msgid "$n伸出手掌，在$N头顶轻轻地摩挲了几下，将$N的头发尽数剃去。"
+msgstr "$n{:el} {n:extiendes|extiende} la palma y {N:te acaricia|acaricia a $N{:el}} suavemente la cabeza varias veces; luego {N:te rapa|le rapa} todo el cabello."
+
+msgid "从今以後你的法名叫做{name}。"
+msgstr "A partir de hoy, tu nombre de religión es {name}{:0}."
+
+msgid "阿弥陀佛，女施主不要跟老纳开玩笑。"
+msgstr "¡Amitabha! Benefactora, no bromee con este viejo monje."
+
+msgid "阿弥陀佛，施主愿入佛门，请先到小寺剃度出家。"
+msgstr "¡Amitabha! Si usted desea entrar en la puerta de Buda, reciba primero la tonsura en este humilde templo."
+
+msgid "阿弥陀佛，善哉！善哉！"
+msgstr "¡Amitabha! ¡Bien, bien!"
+
+msgid "陆得财是一个浑身脏兮兮的老丐，一副无精打采要死不活的样子，可是\n武林中人人都识得他身上打著二十三个结的皮酒囊，这不但是「花紫会\n」龙头的信物，更是名镇漠南的「黑水伏蛟」独门兵器，只不过陆得财\n行踪诡密，据说各处随时都有七、八的他的替身在四处活动，所以你也\n很难确定眼前这个陆得财到底是不是真的。\n"
+msgstr "Lu Decai es un viejo mendigo mugriento de pies a cabeza, de aspecto abatido y medio muerto. Sin embargo, todo el wulin conoce el odre de cuero que lleva, con veintitrés nudos: no solo es la prenda de la Cabeza de Dragón de la Hermandad de los Mendigos, sino también el arma única del «Dragón del Agua Negra», célebre al sur del desierto. Pero Lu Decai va y viene en secreto y se dice que siempre hay siete u ocho dobles suyos en distintos lugares, así que es difícil saber si este Lu Decai es el verdadero.\n"
+
+msgid "龙头"
+msgstr "Cabeza de Dragón"
+
+msgid "我们花紫会只收化子，$RESPECT您还是回去享福吧。\n"
+msgstr "La Hermandad de los Mendigos solo acepta mendigos, $RESPECT. Mejor vuelva usted a disfrutar de su vida.\n"
+
+msgid "契我收过了。这一叠，烧了干净。"
+msgstr "El contrato lo recibí. Este montón, mejor quemarlo."
+
+msgid "契我收下。八户人家的事，叫花子记着；别的，不劳你。"
+msgstr "Me quedo con los contratos. Lo de las ocho familias, este mendigo lo tendrá presente; de lo demás, no te molestes."
+
+msgid "接过那叠契，一张一张数过去，数到第八张，揣进了怀里。"
+msgstr " recibe el fajo de contratos, los cuenta uno por uno y, al llegar al octavo, se los guarda en el pecho."
+
+msgid "八户。明天她们就回家。"
+msgstr "Ocho familias. Mañana mismo vuelven a casa."
+
+msgid "龙头要见见你这个人。"
+msgstr "La Cabeza de Dragón quiere verte."
+
+msgid "把腰里的皮酒囊解下来，往你面前一递。"
+msgstr " se desata el odre de cuero de la cintura y te lo tiende."
+
+msgid "数数。——二十二个。我是龙头的一个替身。"
+msgstr "Cuenta. ...Veintidós. Soy un doble de la Cabeza de Dragón."
+
+msgid "真龙头的酒囊二十三个结，替身的都少几个。龙头在哪，替身一个传一个，一个只认得下一个：雪亭镇广场上那个结最少，从他问起，问「龙头」。"
+msgstr "El odre de la verdadera Cabeza de Dragón tiene veintitrés nudos; los de los dobles tienen menos. Dónde está la Cabeza de Dragón, un doble se lo dice a otro y cada uno solo conoce al siguiente: el de la plaza de Pabellón Nevado es el de menos nudos; empieza preguntándole a él por 'Cabeza de Dragón'."
+
+msgid "陆得财守在福林大街上，手里摩挲着腰间的皮酒囊。\n"
+msgstr "Lu Decai monta guardia en la calle Fulin, frotando con la mano el odre de cuero que lleva a la cintura.\n"
+
+msgid "叫花子跟官府的人，没有正事说。"
+msgstr "Un mendigo no tiene asuntos serios que hablar con la gente del gobierno."
+
+msgid "你不是花紫会这边的人了。叫花子的事，不劳你。"
+msgstr "Ya no eres de este lado de la Hermandad de los Mendigos. Los asuntos de los mendigos, no te molestes."
+
+msgid "槐阳那八户的契，烧了。龙头那边，你从雪亭镇广场那个问起。"
+msgstr "Los contratos de las ocho familias de Huaiyang, quemados. Para dar con la Cabeza de Dragón, empieza por preguntar al de la plaza de Pabellón Nevado."
+
+msgid "契到手了？递给我。"
+msgstr "¿Tienes el contrato? Dámelo."
+
+msgid "福林酒楼二楼，那个姓胡的管事。契揣在他怀里——手要轻。"
+msgstr "En el segundo piso de la Taberna Fulin, el administrador de apellido Hu. Lleva los contratos en el pecho: mano ligera."
+
+msgid "抠了抠脚，眯着眼看你。"
+msgstr " se rasca el pie y te mira con los ojos entornados."
+
+msgid "县衙那面鼓，是你敲的？叫花子都听见了。"
+msgstr "¿Fuiste tú quien tocó el tambor del tribunal? Hasta los mendigos lo oímos."
+
+msgid "兵部有个收民夫的管事，姓胡，这几天住在福林酒楼二楼。他怀里揣着一叠卖身契——槐阳城外八户人家，男人去关北挖河没回来，就拿女人孩子抵。"
+msgstr "Hay en el Ministerio de Guerra un administrador que recluta peones, de apellido Hu, que estos días se aloja en el segundo piso de la Taberna Fulin. Lleva en el pecho un fajo de contratos de venta: ocho familias de las afueras de Huaiyang cuyos hombres fueron a cavar el canal en el Norte del Paso y no volvieron, así que se toma a mujeres y niños como pago."
+
+msgid "你去把契摸回来。不会偷？我教你两手（请教「偷窃」）。"
+msgstr "Ve a robarle los contratos. ¿No sabes robar? Te enseño un par de trucos (pídeme 'Robar')."
+
+msgid "失了手，他喊着扑上来，巡捕也记你一笔——乔阴的巡捕认得贼。"
+msgstr "Si fallas, gritará y se te echará encima, y los alguaciles también te anotarán: en Sombra Alta, los alguaciles reconocen a los ladrones."
+
+msgid "差事？……县衙门口那面鼓都没敲过的人，接不了叫花子的差事。"
+msgstr "¿Encargo?... Quien nunca ha tocado el tambor del tribunal no puede aceptar un encargo de mendigos."
+
+msgid "认这些年管事的人：真龙头把皮酒囊系到陆得财腰上，回京师的墙根接着看庾家。\n乔阴照旧——巷子里没有官差，巡捕照旧抓贼。正月十七，花紫会这一票投旧盟主（已经入了虹台的席的，票照入席时的算。）。\n要认他吗？"
+msgstr "Reconocer a quien lleva años encargándose: la verdadera Cabeza de Dragón ata el odre de cuero a la cintura de Lu Decai y vuelve a mirar a los Yu desde el pie de las murallas de la Capital.\nSombra Alta sigue como estaba: en los callejones no hay agentes y los alguaciles siguen atrapando ladrones. El 17 del primer mes, el voto de la Hermandad de los Mendigos va para el antiguo Líder (si ya has tomado asiento, el voto cuenta como estaba al tomarlo).\n¿Reconocerlo?"
+
+msgid "二十三个结了。……叫花子的巷子，还是叫花子的。"
+msgstr "Veintitrés nudos. ...Los callejones de los mendigos siguen siendo de los mendigos."
+
+msgid "你认了京城墙根下那个。……叫花子不认两个龙头，乔阴的事就不劳你了。"
+msgstr "Reconociste al de las murallas de la Capital. ...Un mendigo no reconoce a dos Cabezas del Dragón; lo de Sombra Alta ya no es asunto tuyo."
+
+msgid "把皮酒囊捧在手上，没有动。"
+msgstr " sostiene el odre de cuero en las manos y no se mueve."
+
+msgid "真龙头看了他半天，把自己腰里那只二十三个结的皮酒囊解下来，系到了陆得财腰上。\n"
+msgstr "La verdadera Cabeza de Dragón lo miró un buen rato, se desató de la cintura su odre de veintitrés nudos y se lo ató a la cintura a Lu Decai.\n"
+
+msgid "「京师的墙根，还得有人看着庾家。」他说完，头也不回地往南门去了。\n"
+msgstr "Dijo: \"En el pie de las murallas de la Capital aún tiene que haber alguien vigilando a los Yu.\" Y se marchó hacia la puerta sur sin volver la cabeza.\n"
+
+msgid "……二十年，我没让一个官差进过乔阴的巷子。往后也不让。"
+msgstr "...En veinte años no dejé entrar a un solo agente en los callejones de Sombra Alta. Y de ahora en adelante tampoco."
+
+msgid "我是龙头的一个替身。雪亭镇广场上那个结最少，从他问起。"
+msgstr "Soy un doble de la Cabeza de Dragón. El de la plaza de Pabellón Nevado es el de menos nudos; empieza por él."
+
+msgid "嘿嘿，你说呢？"
+msgstr "Je, je. ¿Tú qué dices?"
+
+msgid "嘿，正月十七？叫花子早忘了。"
+msgstr "Je, ¿el 17 del primer mes? Los mendigos ya lo olvidaron."
+
+msgid "花紫会这一票，正月十七照你说的。"
+msgstr "El voto de la Hermandad de los Mendigos, el 17 del primer mes, será como tú digas."
+
+msgid "拍了拍腰里那只二十三个结的皮酒囊。"
+msgstr " da una palmada al odre de cuero de veintitrés nudos que lleva a la cintura."
+
+msgid "花紫会这一票？投旧盟主。叫花子最怕官——颜违当了盟主，官差就要进乔阴的巷子了。"
+msgstr "¿El voto de la Hermandad de los Mendigos? Para el antiguo Líder. Los mendigos temen sobre todo a las autoridades: si Yan Wei es Líder, los agentes entrarán en los callejones de Sombra Alta."
+
+msgid "这只酒囊是你替我认下的。你要这一票，开口就是。"
+msgstr "Este odre lo reconociste tú por mí. Si quieres este voto, no tienes más que decirlo."
+
+msgid "嘿嘿一笑，抠了抠脚。"
+msgstr " suelta una risita y se rasca el pie."
+
+msgid "花紫会这一票？投旧盟主呗。"
+msgstr "¿El voto de la Hermandad de los Mendigos? Pues para el antiguo Líder."
+
+msgid "颜违跟朝廷走得近，他当了盟主，官差就要进乔阴的巷子了——叫花子最怕官。"
+msgstr "Yan Wei está muy cerca de la corte y, si es Líder, los agentes entrarán en los callejones de Sombra Alta: los mendigos temen sobre todo a las autoridades."
+
+msgid "虹台？叫花子不管那么远的事。"
+msgstr "¿La Terraza del Arcoíris? Los mendigos no se meten en cosas tan lejanas."
+
+msgid "请陆得财把花紫会这一票交给你：正月十七虹台上，花紫会听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Pedir a Lu Decai que te entregue el voto de la Hermandad de los Mendigos: el 17 del primer mes, en la Terraza del Arcoíris, la Hermandad de los Mendigos hará lo que digas; si te presentas, el voto es tuyo, y si no, tú dices a quién se vota.\n¿Decirlo así?"
+
+msgid "说过了。花紫会听你的。"
+msgstr "Dicho está. La Hermandad de los Mendigos hará lo que digas."
+
+msgid "好。花紫会这一票，你说了算。"
+msgstr "Bien. El voto de la Hermandad de los Mendigos lo decides tú."
+
+msgid "骆云舟生於京城有名的武林世家，他的本名是骆建炎，但是因为生性喜爱\n四处游荡，遂自号「云舟」，四处游山玩水，结交豪杰异人。数年前继承\n其父骆易而成为步玄派的新任掌门，但是喜爱飘泊的个性仍然不改，令门\n中耆宿头痛不已。\n"
+msgstr "Luo Yunzhou nació en una célebre familia marcial de la Capital. Su nombre de pila es Luo Jianyan, pero, como por naturaleza le gusta vagar de un lugar a otro, se dio a sí mismo el nombre de «Yunzhou» y recorre montañas y ríos haciendo amistad con héroes y gente singular. Hace unos años heredó de su padre, Luo Yi, el cargo de nuevo Maestro de la Escuela del Paso Místico, pero su carácter errante no ha cambiado y a los veteranos de la escuela les causa un dolor de cabeza sin fin.\n"
+
+msgid "你还是先走一趟东边的桃林吧。\n"
+msgstr "Mejor da primero una vuelta por la arboleda de duraznos del este.\n"
+
+msgid "很好，$RESPECT多加努力，他日必定有成。\n"
+msgstr "Muy bien. Esfuérzate más, $RESPECT, y algún día lo lograrás.\n"
+
+msgid "风泉"
+msgstr "Fuente del Viento"
+
+msgid "步玄的事，不劳你了。"
+msgstr "Los asuntos del Paso Místico no son para que te molestes."
+
+msgid "剑灵认过你了。步玄的人，见过它就算。"
+msgstr "El alma de la espada ya te reconoció. Quien la ha visto cuenta como del Paso Místico."
+
+msgid "夜里来曼雩台，问我「问剑」。"
+msgstr "Ven de noche a la Terraza de la Danza de Lluvia y pregúntame por 'Prueba de la espada'."
+
+msgid "把腰上那柄湛蓝的剑解下来，横在膝上。"
+msgstr " se desata de la cintura la espada de azul intenso y la apoya sobre las rodillas."
+
+msgid "风泉之剑。步玄历代掌门传下来的，剑里住着一个剑灵。"
+msgstr "La Espada del Fuente del Viento. Los Maestros del Paso Místico se la han ido transmitiendo, y dentro de la espada vive un alma."
+
+msgid "照规矩，它只在拿剑的人死了才出来——可步玄还有一条老规矩：见过剑灵的人，才算步玄的人。"
+msgstr "Por regla, solo sale cuando muere quien porta la espada. Pero el Paso Místico tiene otra vieja regla: quien ha visto el alma de la espada cuenta como del Paso Místico."
+
+msgid "夜里来曼雩台，问我「问剑」。我把剑插在石台上，它就出来了。"
+msgstr "Ven de noche a la Terraza de la Danza de Lluvia y pregúntame por 'Prueba de la espada'. Clavo la espada en la plataforma de piedra y sale."
+
+msgid "上下打量了你一眼，笑了。"
+msgstr " te mira de arriba abajo y sonríe."
+
+msgid "桃林里那几张字条，你一张一张走出来了？——走得出桃林的，就是桃林的客。"
+msgstr "Esas notas de la arboleda de duraznos, ¿las fuiste siguiendo una a una? Quien sale de la arboleda de duraznos es huésped de la arboleda."
+
+msgid "名帖的事办得怎样了？……有空的话，桃林走一趟，咱们说话。"
+msgstr "¿Cómo va lo de la tarjeta de visita? ...Cuando tengas tiempo, pasa por la arboleda de duraznos y hablamos."
+
+msgid "风泉之剑，步玄历代掌门的信物。剑里的事——先走一趟东边的桃林再说。"
+msgstr "La Espada del Fuente del Viento, prenda de los Maestros del Paso Místico. Lo de la espada... primero da una vuelta por la arboleda de duraznos del este."
+
+msgid "问剑"
+msgstr "Prueba de la espada"
+
+msgid "剑灵在「剑神如意」之前收了剑——它认你了。"
+msgstr "El alma de la espada guardó la espada antes de 'Espada divina a voluntad': te ha reconocido."
+
+msgid "步玄认你。"
+msgstr "El Paso Místico te reconoce."
+
+msgid "伸手把石缝里的剑拔了出来，又插了回去。"
+msgstr " saca de la grieta de la piedra la espada y la vuelve a clavar."
+
+msgid "四句念完了，剑灵回了剑。今夜到此——明晚天黑了再来。"
+msgstr "Terminadas las cuatro frases, el alma volvió a la espada. Hoy se acaba aquí; vuelve mañana cuando oscurezca."
+
+msgid "剑在石台上。天黑以后它就出来——跟它切磋，赶在「剑神如意」之前。"
+msgstr "La espada está en la plataforma de piedra. Cuando oscurezca saldrá: mídete con ella y gana antes de 'Espada divina a voluntad'."
+
+msgid "走到台边那块青石前，把风泉之剑往石缝里一插，剑身「嗡」地响了一声。"
+msgstr " va hasta la piedra azul del borde de la plataforma, clava la Espada del Fuente del Viento en la grieta y la hoja suena con un \"zumbido\"."
+
+msgid "天黑了，剑灵就站在这块石头前。跟它切磋——它念一句，强一分。"
+msgstr "Al oscurecer, el alma de la espada estará ante esta piedra. Mídete con ella: por cada frase que recita, se hace un poco más fuerte."
+
+msgid "念到第四句「剑神如意」之前打中它，就算过了。念完了，今夜就到此，明晚再来。"
+msgstr "Si la golpeas antes de la cuarta frase, 'Espada divina a voluntad', has pasado. Si termina de recitar, hoy se acaba aquí; vuelve mañana por la noche."
+
+msgid "问剑？"
+msgstr "¿Prueba de la espada?"
+
+msgid "骆家"
+msgstr "Familia Luo"
+
+msgid "骆家的事，不劳你了。"
+msgstr "Los asuntos de la familia Luo no son para que te molestes."
+
+msgid "大哥去了关北。他写信来，说那边的风比曼雩台还大。……最后一笔，没甩出格子。"
+msgstr "Mi hermano mayor se fue al Norte del Paso. Escribió que allí el viento es más fuerte que en la Terraza de la Danza de Lluvia. ...El último trazo no se salió del recuadro."
+
+msgid "大哥的供状在京城。骆家的门匾，我回去摘了——摘下来，背面是父亲的字。"
+msgstr "La confesión de mi hermano mayor está en la Capital. El letrero de la familia Luo lo descolgaré yo cuando vuelva: por detrás está la letra de mi padre."
+
+msgid "大哥在台上抄谱。你问他去——他话少，比从前多了一点。"
+msgstr "Mi hermano mayor copia partituras en la plataforma. Ve a preguntarle: habla poco, un poco más que antes."
+
+msgid "我进京一趟。西街相国府见——大哥在那里。"
+msgstr "Voy a la Capital. Nos vemos en la Residencia del canciller de la calle Oeste: mi hermano mayor está allí."
+
+msgid "听你说完，扇子停在半空，很久没有动。"
+msgstr " te escucha hasta el final, el abanico se detiene en el aire y pasa mucho rato sin moverse."
+
+msgid "那三句是他写的。……他写的时候就知道。"
+msgstr "Esas tres frases las escribió él. ...Cuando las escribió, ya lo sabía."
+
+msgid "父亲带我们练剑那年，他说剑是莽夫的东西，字才是骆家的。骆家的字，写到兵部的抄本上去了。"
+msgstr "El año en que padre nos enseñó esgrima, dijo que la espada era cosa de brutos y que la letra era lo de la familia Luo. La letra de la familia Luo acabó escrita en las copias del Ministerio de Guerra."
+
+msgid "站起来，把风泉之剑挂回腰上。"
+msgstr " se levanta y se cuelga de nuevo la Espada del Fuente del Viento a la cintura."
+
+msgid "十年没回京城了。我进京一趟——西街相国府见，大哥在韦相国那里。"
+msgstr "Hace diez años que no vuelvo a la Capital. Voy a la Capital: nos vemos en la Residencia del canciller de la calle Oeste; mi hermano mayor está con el canciller Wei."
+
+msgid "他读了？……他没回信。他从来不回。"
+msgstr "¿La leyó? ...No contestó. Nunca contesta."
+
+msgid "愣了一下，摇摇头，又写了一封。"
+msgstr " se queda un instante parado, mueve la cabeza y escribe otra carta."
+
+msgid "丢了就丢了。这一封，别再丢了。"
+msgstr "Lo perdido, perdido está. Esta carta, que no se pierda otra vez."
+
+msgid "信在你那里。他在庾子建府上的客厅——庾子建倒了，就去相国府找他。"
+msgstr "La carta la tienes tú. Está en el salón de visitas de Yu Zijian; si Yu Zijian cayó, ve a buscarlo a la Residencia del canciller."
+
+msgid "沉默了一会儿，用扇子敲了敲手心。"
+msgstr " guarda silencio un rato y se golpea la palma con el abanico."
+
+msgid "韦相国叫我「骆家的二小子」，没叫错。我上头还有一个大哥，骆建章。"
+msgstr "El canciller Wei me llama 'el segundo hijo de los Luo' y no se equivoca. Por encima de mí hay un hermano mayor, Luo Jianzhang."
+
+msgid "父亲带我们练剑，他不肯，说剑是莽夫的东西。他写得一手好字——比父亲的好，比我的好得多。"
+msgstr "Padre nos enseñaba esgrima; él no quiso: dijo que la espada era cosa de brutos. Escribe una letra preciosa, mejor que la de padre y mucho mejor que la mía."
+
+msgid "十年前他进了兵部尚书庾子建的府，做书启。我们兄弟俩，十年没说过一句话。"
+msgstr "Hace diez años entró en la residencia de Yu Zijian, ministro de Guerra, de secretario. Mi hermano y yo llevamos diez años sin dirigirnos una palabra."
+
+msgid "从袖子里抽出一张笺，提笔写了很久，写完折成一个小方块，最后一笔照旧甩出了格子。"
+msgstr " saca del puño de la manga un papel, escribe largo rato, lo dobla hasta hacerlo un cuadradito y, como siempre, el último trazo se sale del recuadro."
+
+msgid "你进京的时候，替我把这封信交给他。他在庾子建的客厅里写字——庾子建要是倒了，他多半在韦相国那里。"
+msgstr "Cuando vayas a la Capital, entrégale esta carta de mi parte. Está escribiendo en el salón de visitas de Yu Zijian; si Yu Zijian ha caído, seguramente está con el canciller Wei."
+
+msgid "骆家的事？……等你进了京，咱们再说。"
+msgstr "¿Asuntos de la familia Luo? ...Cuando llegues a la Capital, hablamos."
+
+msgid "骆家在京城住了五代。我是二小子。"
+msgstr "La familia Luo lleva cinco generaciones en la Capital. Yo soy el segundo hijo."
+
+msgid "京城"
+msgstr "Capital"
+
+msgid "名帖给过你了。韦相国那老头子脾气怪，可是不收银子，也不怕庾子建——京城里这样的人，数得过来。"
+msgstr "La tarjeta ya te la di. El canciller Wei es un viejo de carácter raro, pero no acepta plata y tampoco le teme a Yu Zijian: en la Capital hay pocos así."
+
+msgid "把扇子一收，看了你半晌。"
+msgstr " cierra el abanico y te mira un buen rato."
+
+msgid "你要进京告兵部尚书？——好。我家在京城住了五代，别的没有，认得几个不收银子的人。"
+msgstr "¿Vas a la Capital a acusar al ministro de Guerra? ...Bien. Mi familia lleva cinco generaciones en la Capital: no tengo otra cosa, pero conozco a unas cuantas personas que no aceptan plata."
+
+msgid "从袖子里抽出一张大红名帖，提笔写了一行，字写得飞快，最后一笔甩出了格子。"
+msgstr " saca de la manga una tarjeta de visita roja, escribe una línea con letra veloz y el último trazo se sale del recuadro."
+
+msgid "拿着，去西街的相国府，叩门递帖。韦相国是我父亲的老师。他那府里寒酸得很——别笑。"
+msgstr "Toma. Ve a la Residencia del canciller en la calle Oeste, llama a la puerta y entrega la tarjeta. El canciller Wei fue maestro de mi padre. Su residencia es muy modesta: no te rías."
+
+msgid "又看了你一眼。"
+msgstr " te mira otra vez."
+
+msgid "等这件事办完了，桃林走一趟，咱们说话。"
+msgstr "Cuando termines con esto, pasa por la arboleda de duraznos y hablamos."
+
+msgid "京城？我家在京城，我不爱回去。那里的人说话，十句有九句是给别人听的。"
+msgstr "¿La Capital? Mi familia está en la Capital y a mí no me gusta volver. Allí, de cada diez frases que se dicen, nueve son para que las oiga otro."
+
+msgid "虹台上的事，骆家记下了。"
+msgstr "Lo de la Terraza del Arcoíris, la familia Luo lo tiene presente."
+
+msgid "步玄这一票，听你的。"
+msgstr "El voto del Paso Místico lo decides tú."
+
+msgid "把扇子在掌心敲了两下。"
+msgstr " golpea dos veces el abanico contra la palma."
+
+msgid "骆家跟朝廷翻了脸。步玄这一票投旧盟主——兵部的旧案，查到底。"
+msgstr "La familia Luo rompió con la corte. El voto del Paso Místico va para el antiguo Líder: el viejo caso del Ministerio de Guerra se investigará hasta el fondo."
+
+msgid "大哥那张供状，是你陪着他写的。这一票，你要，就是你的。"
+msgstr "La confesión de mi hermano mayor la escribiste tú, a su lado. Si quieres este voto, es tuyo."
+
+msgid "骆家还是京城的世家，京城的意思，是颜违。步玄这一票投他。"
+msgstr "La familia Luo sigue siendo una familia noble de la Capital, y la voluntad de la Capital es Yan Wei. El voto del Paso Místico va para él."
+
+msgid "朝台上抄谱的大哥看了一眼。"
+msgstr " mira a su hermano mayor, que copia partituras en la plataforma."
+
+msgid "可大哥是你让我带回来的。骆家欠你一份情：这一票，你要，就是你的。"
+msgstr "Pero a mi hermano mayor me lo trajiste tú. La familia Luo te debe un favor: este voto, si lo quieres, es tuyo."
+
+msgid "骆家是京城的世家，这一票原该随朝廷——投颜违。"
+msgstr "La familia Luo es una familia noble de la Capital y este voto, en principio, debería seguir a la corte: ir a Yan Wei."
+
+msgid "可庾子建是你在朝上揭发的，骆家的名帖也是你拿去敲开相国府的门。骆家欠你一份情：这一票，你要，就是你的。"
+msgstr "Pero a Yu Zijian lo denunciaste tú ante la corte, y la tarjeta de la familia Luo la usaste para abrir la puerta de la Residencia del canciller. La familia Luo te debe un favor: este voto, si lo quieres, es tuyo."
+
+msgid "骆家在京城住了五代，京城的意思，是颜违。"
+msgstr "La familia Luo lleva cinco generaciones en la Capital, y la voluntad de la Capital es Yan Wei."
+
+msgid "步玄这一票投他。我不爱回去，可我姓骆。"
+msgstr "El voto del Paso Místico va para él. No me gusta volver, pero me apellido Luo."
+
+msgid "请骆云舟把步玄派这一票交给你：正月十七虹台上，步玄听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Pedir a Luo Yunzhou que te entregue el voto de la Escuela del Paso Místico: el 17 del primer mes, en la Terraza del Arcoíris, el Paso Místico hará lo que digas; si te presentas, el voto es tuyo, y si no, tú dices a quién se vota.\n¿Decirlo así?"
+
+msgid "说过了。步玄听你的。"
+msgstr "Dicho está. El Paso Místico hará lo que digas."
+
+msgid "把扇子一收，笑了。"
+msgstr " cierra el abanico y sonríe."
+
+msgid "好。步玄听你的。"
+msgstr "Bien. El Paso Místico hará lo que digas."
+
+msgid "一个高大的人形，只有轮廓发出暗蓝色的光芒，其他部份都是透明的！\n"
+msgstr "Una figura humana alta, solo cuyo contorno emite una luz azul oscura; el resto es transparente.\n"
+
+msgid "剑气指天 ..."
+msgstr "El aliento de la espada apunta al cielo..."
+
+msgid "剑心内敛 ..."
+msgstr "El corazón de la espada se repliega..."
+
+msgid "剑芒游光 ..."
+msgstr "El filo de la espada vaga en destellos..."
+
+msgid "剑神如意！"
+msgstr "¡Espada divina a voluntad!"
+
+msgid "一阵蓝光笼罩住$N，「嗡」地一声，$N的轮廓又变清晰了一些！"
+msgstr "Una luz azul envuelve a $N{:el}. Con un zumbido, el contorno de $N{:el} se vuelve un poco más nítido."

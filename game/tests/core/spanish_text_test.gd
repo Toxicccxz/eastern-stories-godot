@@ -60,6 +60,7 @@ func _test_articles() -> void:
 	_same(SpanishText.finish("Sin marcas."), "Sin marcas.", "no marks")
 	_same(SpanishText.finish("Tú{:el} golpeas a bandido{:el}."), "golpeas al bandido.", "tú as a subject is left out (MessageGrammar capitalises)")
 	_same(SpanishText.finish("Ves tijeras{:el}."), "Ves las tijeras.", "a plural noun")
+	_same(SpanishText.finish("( Tú{:el} pareces cansado )"), "( pareces cansado )", "tú left out after an opening bracket")
 	_same(SpanishText.finish("Afilas espada vieja{:los}, {~:limpio|limpia|limpios|limpias}."), "Afilas las espadas viejas, limpias.", "{:los}: the plural and its article")
 	_same(SpanishText.finish("Llegan mozo de la posada{:unos}."), "Llegan unos mozos de la posada.", "{:unos}")
 	_same(SpanishText.finish("Ves hacha{:los}."), "Ves las hachas.", "las hachas")
