@@ -27,6 +27,9 @@ var _hazards: Dictionary[StringName, RoomHazardDefinition] = {}
 var _winds: Dictionary[StringName, WindDefinition] = {}
 # The NPCs a COMES step calls over (ContentCatalog.called_over()).
 var _called_over: Dictionary[StringName, bool] = {}
+## 过场演出 B: the map of each spawn point content knows (an NPC's, an item's, a passage's arrival),
+## built on first use (_stage_points()).
+var _stage_point_maps: Dictionary[StringName, StringName] = {}
 var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
@@ -547,6 +550,16 @@ func _check_condition(origin: String, entry: JournalEntryDefinition) -> void:
 func condition_problems(origin: String, entry: JournalEntryDefinition) -> Array[String]:
 	var before: int = _errors.size()
 	_check_condition(origin, entry)
+	var found: Array[String] = _errors.slice(before)
+	_errors.resize(before)
+	return found
+
+
+## The problems _check_cue() finds in a step's cue (过场演出 B) told by the NPC `teller_id` (&"":
+## nobody's), after build(): scene_staging_test checks what a wrong name gives.
+func cue_problems(origin: String, cue: SceneCue, teller_id: StringName = &"") -> Array[String]:
+	var before: int = _errors.size()
+	_check_cue(cue, origin, _npcs.get(teller_id))
 	var found: Array[String] = _errors.slice(before)
 	_errors.resize(before)
 	return found
@@ -1361,6 +1374,8 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 		# The branch is drawn for when the command runs, after any question (ActService).
 		_errors.append("%s: a branch that rolls asks nothing of its own" % origin)
 	var acting: bool = by_npc
+	# The NPC whose act it is (a `by` changes who speaks, not where the act plays).
+	var teller: NpcDefinition = npc
 	for index: int in act.steps.size():
 		var step: ScriptedAct.Step = act.steps[index]
 		# A room's act may send off one of a definition standing in it (`leave` naming it: the
@@ -1374,6 +1389,7 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 		_check_condition("%s.steps[%d].when" % [origin, index], step.only_when)
 		if not step.only_present.is_empty() and not _npcs.has(step.only_present):
 			_errors.append("%s: step %d's present: unknown NPC '%s'" % [origin, index, step.only_present])
+		_check_cue(step.cue, "%s.steps[%d]" % [origin, index], teller)
 		if step.kind == ScriptedAct.Kind.BY:
 			acting = true
 			# The one standing by is the act's NPC from here on: a mood it puts on is one of his
@@ -1434,6 +1450,74 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 					var picked := ScriptedAct.new()
 					picked.steps = option.steps
 					_check_act(picked, at, acting, drawn, npc)
+
+
+## 过场演出 B (DECISIONS「过场动作」): what a step's cue (SceneCue: `do`, `shot`, `fx`) names exists —
+## who does it (the player or an NPC), the thing handed over, the 主线场面, and each place: the
+## player, an NPC, a door or a spawn point (an NPC's, an item's, a passage's arrival). A name that
+## is none of them fails, and one that is two of them (it could not be told which is meant); a
+## door or a point lies on a map `teller` (the NPC whose act it is) is spawned on.
+func _check_cue(cue: SceneCue, at: String, teller: NpcDefinition) -> void:
+	if cue == null:
+		return
+	for action: SceneCue.Action in cue.actions:
+		if not action.who.is_empty() and action.who != SceneCue.PLAYER and not _npcs.has(action.who):
+			_errors.append("%s.do.who: unknown NPC '%s'" % [at, action.who])
+		if not action.item.is_empty() and not _items.has(action.item):
+			_errors.append("%s.do.item: unknown item '%s'" % [at, action.item])
+	var maps: Dictionary[StringName, bool] = {}
+	if teller != null:
+		for spawn: NpcSpawnDefinition in _spawns.values():
+			if NpcDefinition.unnamed_id(spawn.npc_definition_id) == NpcDefinition.unnamed_id(teller.definition_id) and _zones.has(spawn.zone_id):
+				maps[_zones[spawn.zone_id].map_id] = true
+	for named: Array in cue.places():
+		var place: StringName = named[1]
+		var kinds: Array[String] = []
+		if place == SceneCue.PLAYER:
+			kinds.append("the player")
+		if _npcs.has(place):
+			kinds.append("an NPC")
+		if _doors.has(place):
+			kinds.append("a door")
+		if _stage_points().has(place):
+			kinds.append("a spawn point")
+		if kinds.is_empty():
+			_errors.append("%s.%s: '%s' is not the player, an NPC, a door or a spawn point" % [at, named[0], place])
+		elif kinds.size() > 1:
+			_errors.append("%s.%s: '%s' is %s at once" % [at, named[0], place, " and ".join(kinds)])
+		elif bool(named[2]) and not kinds[0] in ["the player", "an NPC"]:
+			_errors.append("%s.%s: '%s' is %s, not someone" % [at, named[0], place, kinds[0]])
+		elif not maps.is_empty():
+			var on: Array[StringName] = []
+			if kinds[0] == "a door":
+				for zone_id: StringName in _doors[place].zone_ids():
+					if _zones.has(zone_id) and not on.has(_zones[zone_id].map_id):
+						on.append(_zones[zone_id].map_id)
+			elif kinds[0] == "a spawn point":
+				on = [_stage_points()[place]]
+			if not on.is_empty() and not on.any(func(map_id: StringName) -> bool: return maps.has(map_id)):
+				_errors.append("%s.%s: '%s' is on %s, where %s is never spawned" % [at, named[0], place, on, teller.definition_id])
+	if not cue.fx.is_empty() and not SceneStage.fx_names().has(cue.fx):
+		_errors.append("%s.fx: '%s' is no scene of story_fx.json" % [at, cue.fx])
+
+
+## The map of every spawn point content knows (the map of the zone it lies in).
+func _stage_points() -> Dictionary[StringName, StringName]:
+	if _stage_point_maps.is_empty():
+		for spawn: NpcSpawnDefinition in _spawns.values():
+			for point_id: StringName in spawn.spawn_point_ids():
+				_stage_point_maps[point_id] = _map_of_zone(spawn.zone_id)
+		for spawn: ItemSpawnDefinition in _item_spawns.values():
+			for point_id: StringName in spawn.spawn_point_ids():
+				_stage_point_maps[point_id] = _map_of_zone(spawn.zone_id)
+		for portal: PortalDefinition in _portals.values():
+			if not portal.destination_spawn_point_id.is_empty():
+				_stage_point_maps[portal.destination_spawn_point_id] = _map_of_zone(portal.destination_zone_id)
+	return _stage_point_maps
+
+
+func _map_of_zone(zone_id: StringName) -> StringName:
+	return _zones[zone_id].map_id if _zones.has(zone_id) else &""
 
 
 ## A note_maze's enter portal leads into its zone, and each note names a way out of it: a

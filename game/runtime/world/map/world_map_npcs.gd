@@ -13,6 +13,8 @@ var _summon_spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
 ## How far from its caller a summoned NPC comes in: clear of both 34 px bodies first
 ## (diagonals too), nearer only where nothing else fits.
 const BESIDE: Array[int] = [48, 64, 96, 44, 28]
+## Body meta: true on one that left for good by an act's `leave` (leave_for_good()): gone, not felled.
+const LEFT: StringName = &"npc_left"
 ## Who called each summoned NPC still here (set("possessed", who)): its character ID.
 var summoners: Dictionary[StringName, StringName] = {}
 var npc_presence: Dictionary[StringName, Area2D] = {}
@@ -1063,6 +1065,11 @@ func leave_for_good(npc: NpcRuntimeState) -> void:
 	if npc == null or find_resident_npc(npc.character_id) == null:
 		return
 	npc.set_flag(NpcDefinition.FLAG_GONE, true)
+	# It walked off, it was not felled: the view shows no fall (过场演出 B; before, its figure
+	# fell on its back as one killed does, then was gone).
+	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+	if body != null:
+		body.set_meta(LEFT, true)
 	vanish(npc)
 
 

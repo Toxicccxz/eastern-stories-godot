@@ -48,6 +48,8 @@ var character_id: StringName:
 
 ## The way the body last moved, one of eight (DECISIONS「手感」): a notch on its edge.
 var facing: Vector2 = Vector2.DOWN
+## A scene moves the body without turning it (过场演出 B: a step back, eyes on what it backs from).
+var facing_held: bool = false
 var _last_position: Vector2 = Vector2.INF
 const FACING_NOTCH_COLOR: Color = Color(1.0, 1.0, 1.0, 0.85)
 ## A jump further than this in one physics step is a placement, not a step.
@@ -95,10 +97,18 @@ func _turn_to(direction: Vector2) -> void:
 		queue_redraw()
 
 
+## The body was put a little way off by a scene (a step back taken to its end, put back where it
+## stood): its next physics step sees no move, so it keeps the way it faces (过场演出 B).
+func forget_step() -> void:
+	_last_position = global_position
+
+
 ## A body the world moves (an NPC walking, the player led) turns the way it went.
 func _track_facing() -> void:
 	var moved: Vector2 = global_position - _last_position if _last_position.is_finite() else Vector2.ZERO
 	_last_position = global_position
+	if facing_held:
+		return
 	if moved.length_squared() > 0.25 and moved.length() <= FACING_MAX_STEP:
 		_turn_to(moved)
 
