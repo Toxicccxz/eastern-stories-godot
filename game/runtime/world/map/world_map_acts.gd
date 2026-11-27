@@ -178,8 +178,9 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				if not step.unless_temp.is_empty() and _player.temp_marks.get(step.unless_temp, 0) != 0:
 					continue
 				var made: StringName = step.item_id if step.pick.is_empty() else step.pick[clampi(int(draw.call(step.pick.size())), 0, step.pick.size() - 1)]
-				# 成长曲线 C: `wield` takes the place of a weapon in hand; empty hands (柳家拳) stay empty.
-				var bare: bool = step.wield and _player.state.equipment.primary_weapon() == null and _player.state.equipment.secondary_weapon() == null
+				# 成长曲线 C: `wield` puts the weapon in hand, in place of one held; trained bare hands (a fist
+				# art enabled, nothing held) stay empty. One who only put their sword away is given it.
+				var bare: bool = step.wield and CombatPowerRules.trained_bare_hands(_player.state)
 				var made_id: StringName = _map.give_new_item_to_player(made)
 				if not step.unless_temp.is_empty():
 					_player.temp_marks[step.unless_temp] = 1
@@ -477,7 +478,8 @@ func _close_door(npc: NpcRuntimeState, hears: bool) -> void:
 
 ## `give`'s `wield` (DECISIONS「穿灵在手」): the weapon `item_id` the player was just given goes into
 ## their hand; what they held goes back into the bag (unwield, as the 装备 page does). Whether it is
-## in hand now. Not called for empty hands (成长曲线 C: one who fights bare-handed keeps to it).
+## in hand now. Not called for trained bare hands (成长曲线 C: one who fights with a fist art keeps
+## to it).
 func _wield_given(item_id: StringName) -> bool:
 	var adapter := OldPineEquipmentInteractionAdapter.new()
 	for held: EquippedWeaponRef in [_player.state.equipment.primary_weapon(), _player.state.equipment.secondary_weapon()]:
