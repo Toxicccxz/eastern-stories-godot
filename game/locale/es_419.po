@@ -41699,3 +41699,15 @@ msgstr "En el muro oeste del Salón del Cultivo Mental hay una hilera de ventana
 
 msgid "御书房的门锁着，钥匙在皇上身上。"
 msgstr "La puerta del Estudio imperial está cerrada con llave, y la llave la tiene Su Majestad."
+
+msgid "朝厅上的大哥看了一眼。"
+msgstr " mira a su hermano mayor, al otro lado del salón."
+
+msgid "大哥的事还没定。定之前，步玄这一票照骆家的老规矩投他；这厅上的话说完了，你再问我一回。"
+msgstr "Lo de mi hermano mayor aún no está decidido. Hasta entonces, el voto del Paso Místico va para él, como siempre ha hecho la familia Luo. Cuando en este salón se haya dicho lo que hay que decir, pregúntame otra vez."
+
+msgid "后来方丈收了那部经，头陀在佛前受了戒，进了流云轩——你在场，你知道。三十年前没进门的经，进了门。"
+msgstr "Después el abad aceptó aquel sutra, y el asceta tomó los preceptos ante el Buda y entró al Cenador de las Nubes Errantes. Usted estuvo allí; usted lo sabe. El sutra que hace treinta años no pudo cruzar la puerta, la cruzó."
+
+msgid "后来方丈把那片贝叶还给了头陀，头陀回了番坊——你在场，你知道。那股寒，流云轩往后还是赶不出去。"
+msgstr "Después el abad le devolvió aquella hoja de palma al asceta, y el asceta regresó al Barrio Extranjero. Usted estuvo allí; usted lo sabe. Ese frío, el Cenador de las Nubes Errantes seguirá sin poder sacarlo."

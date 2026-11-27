@@ -11,6 +11,8 @@ extends RefCounted
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const FollowerWalk := preload("res://tests/support/follower_walk.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const RealFight := preload("res://tests/support/real_fight.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 const QUEST: StringName = &"faction.zhenyuan"
 const JIANQIU: StringName = &"cloud.npc.b_header"
 const TIANXING: StringName = &"city.npc.chen"
@@ -130,17 +132,23 @@ func _test_handed(tree: SceneTree, session: WorldSessionController) -> void:
 	# The road walked, 老周 behind: north to 雪亭镇, along the 青石官道 to the 碎石小路.
 	_check(await _to_road(tree, session) != null, "on the 碎石小路: %s" % FollowerWalk.failure)
 	_check(_count_in(session, ROAD, CARTER) == 1 and _count_in(session, ROAD, SON) == 1, "老周 came along; 贺平 waits")
+	# DECISIONS「势力线的仗」: the three fought with real numbers — a character who also explored, at
+	# 第三章's arrival (the 镖单 is 第二章's; the cart walked to the road after it), a sword in hand; let go where they fall, dead where the sword kills outright.
+	RealFight.ready_player(session, Arrival.exploring(&"main.chapter3"))
 	await _until_fight(tree, session)
 	_check(state.marks.get("见过劫镖", 0) == 1 and _count_in(session, ROAD, ROBBER) == 2, "his two lines, then his two men")
 	_check(session.combat_encounter_coordinator().has_active_encounter(), "and the fight: robbers %s son %s abort %s" % [_all(session, ROAD, ROBBER).map(func(n: NpcRuntimeState) -> Array: return [n.flags().keys(), n.relationship.is_fighting()]), _all(session, ROAD, SON).map(func(n: NpcRuntimeState) -> Array: return [n.flags().keys()]), session.combat_encounter_coordinator().last_abort_detail()])
-	_check(session.combat_encounter_coordinator().stop_where_it_stands(), "TEST-ONLY: the fight stopped where it stood")
-	var road: WorldMapController = session.active_map() as WorldMapController
-	for robber: NpcRuntimeState in _all(session, ROAD, ROBBER):
-		road.npcs.leave_for_good(robber) # TEST-ONLY: his men beaten
-	var son: NpcRuntimeState = _first(session, ROAD, SON)
 	_check(StoryKeeps.holds(state, SON, catalog.story_quests()) and StoryKeeps.holds(state, CARTER, catalog.story_quests()), "贺平 and 老周 can only be knocked down")
-	session.npc_spared(son) # TEST-ONLY: beaten and spared, as 放过 does
+	var steps: int = RealFight.fight_out(session)
+	await _settle(tree)
+	_check(steps < RealFight.MAX_STEPS and RealFight.player_stands(session), "the fight to its end, the player standing (%d steps; 气 %d/%d)" % [steps, state.vitality.current, state.vitality.maximum])
+	var road: WorldMapController = session.active_map() as WorldMapController
+	var son: NpcRuntimeState = _first(session, ROAD, SON)
 	_check(state.marks.get("劫镖的后生倒了", 0) == 1, "spared: 劫镖的后生倒了")
+	# Knocked down (he can only be knocked down), he comes to on his own time: a player waits by him.
+	var waited: int = RealFight.wait_until_up(session, son)
+	await _settle(tree)
+	_check(waited >= 0, "贺平 comes to (%d s)" % waited)
 	session.record_journal()
 	_check(state.quests.has("faction.zhenyuan/road") and StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"robber", "the road done; the choice next")
 	_check(road.select_npc(son.character_id) and road.ask_topics_selected().has("爹") and road.ask_topics_selected().has("交官府"), "spared, he has something to say")
