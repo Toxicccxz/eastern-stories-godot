@@ -28409,12 +28409,12 @@ msgstr ""
 
 #. region.rain_yard/spar objective
 #: data/story/region_rain_yard.json
-msgid "和何守拙切磋一场，点到为止。他只守不攻——看看封山的剑等得到几个空子。"
+msgid "和何守拙切磋一场，点到为止。他从不先出手——看看封山的剑等得到几个空子。"
 msgstr ""
 
 #. region.rain_yard/spar text
 #: data/story/region_rain_yard.json
-msgid "何守拙守了三十年门。他不出剑，你就没有空子可等。"
+msgid "何守拙守了三十年门。他不先出剑，你就没有空子可等。"
 msgstr ""
 
 #. region.rain_yard/learn objective
@@ -32959,13 +32959,13 @@ msgstr ""
 #. snow.eroad2.rain_gate act.acts.steps.line
 #: data/snow/world.json
 msgid ""
-"一个花白头发的老人把门拉开半扇，看了看你腰间的剑，又看了看你握剑的那只手。\n"
+"一个花白头发的老人把门拉开半扇，把你从头到脚看了一遍，目光在你握剑的那只手上停了停。\n"
 msgstr ""
 
 #. snow.eroad2.rain_gate act.acts.steps.line
 #: data/snow/world.json
 msgid ""
-"老人说道：封山的剑。……进来吧，她在院里。\n"
+"老人说道：是封山的人。……进来吧，她在院里。\n"
 msgstr ""
 
 #. snow.eroad2.rain_gate act.acts.steps.line
@@ -75906,7 +75906,7 @@ msgstr ""
 
 #. native.npc.shen_shuyu inquiry.雨.rules.lines.say
 #: data/native/npcs.json
-msgid "老何守了三十年门，他不出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
+msgid "老何守了三十年门，他不先出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
 msgstr ""
 
 #. native.npc.shen_shuyu inquiry.雨.rules.lines.say
@@ -75974,6 +75974,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "何守拙花白头发，两条胳膊晒得黝黑，袖口挽到肘弯。他在老北宗守了三十年门，后来牌子没了，他跟着师娘搬到了镇外，照旧每天劈柴、扫院子。他手边总靠着一把旧剑，剑刃上全是豁口——都是架别人的剑架出来的。\n"
+msgstr ""
+
+#. native.npc.he_shouzhuo accept_fight.say
+#: data/native/npcs.json
+msgid "师娘没发话，我不同人动手。"
 msgstr ""
 
 #. native.npc.he_shouzhuo inquiry topic

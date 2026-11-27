@@ -684,6 +684,14 @@ func _use_opening(actor_id: StringName) -> void:
 		_exposed.erase(target)
 
 
+## 师娘彩蛋 A: what an NPC's special left besides its blows — whom it opened, and the hand it won
+## its fighter (「听雨」 dodged or parried) — on whichever of its paths the special ran.
+func _apply_special(actor: CombatSliceCharacterBinding, report: SpecialReport, bindings: Array[CombatSliceCharacterBinding]) -> void:
+	_open_by(report)
+	if report.won_beat:
+		_earn(actor, _skeleton_of(actor), bindings)
+
+
 ## 师娘彩蛋 A: a special left these fighters open (SpecialReport.opened()): the next blow at each
 ## finds their dodge and parry that much lower, as after a 重 of theirs missed.
 func _open_by(report: SpecialReport) -> void:
@@ -1440,10 +1448,7 @@ func _take_beat(
 			var ran: CombatNpcChatResult = event.chat
 			if ran != null and ran.special() != null:
 				_hurts(_report_blows(ran.special()), bindings, random_source, boundary)
-				# 师娘彩蛋 A: the perform left someone open and won its fighter a hand (「听雨」 dodged or parried).
-				_open_by(ran.special())
-				if ran.special().won_beat:
-					_earn(actor, _skeleton_of(actor), bindings)
+				_apply_special(actor, ran.special(), bindings)
 		if boundary != null and not _inspect(boundary, bindings, event):
 			return false
 		if beats.has_beats() or beats.settled:
@@ -1567,6 +1572,7 @@ func _npc_round_end(
 		var ran: CombatNpcChatResult = pending.chat
 		if ran != null and ran.special() != null:
 			_hurts(_report_blows(ran.special()), bindings, random_source, boundary)
+			_apply_special(actor, ran.special(), bindings)
 		if boundary != null and ran != null and not ran.joins().is_empty():
 			boundary.admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(ran.joins()))
 		if boundary != null and not _inspect(boundary, bindings, pending):
@@ -1588,6 +1594,7 @@ func _npc_round_end(
 	var said: CombatNpcChatResult = chat.chat
 	if said != null and said.special() != null:
 		_hurts(_report_blows(said.special()), bindings, random_source, boundary)
+		_apply_special(actor, said.special(), bindings)
 	if boundary != null and said != null and not said.joins().is_empty():
 		boundary.admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(said.joins()))
 	# go.c: the NPC walked out of the room and out of the fight.

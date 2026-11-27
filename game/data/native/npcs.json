@@ -12796,7 +12796,7 @@
 									"emote": "听你说完，笑了一下。"
 								},
 								{
-									"say": "老何守了三十年门，他不出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
+									"say": "老何守了三十年门，他不先出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
 								},
 								{
 									"say": "看好。"
@@ -12860,7 +12860,7 @@
 		},
 		{
 			"id": "native.npc.he_shouzhuo",
-			"legacy_source": "native: 师娘彩蛋 A (计划 build/plans/师娘彩蛋_计划.md, owner 2026-11-27「都照推荐」; DECISIONS「师娘彩蛋 A」) — the old 北宗's gate-keeper, who went with 沈疏雨 when she left the 武馆: the one opponent a 封山 sword has nothing to wait for (he guards and does not strike), there to be sparred with before and after 「听雨」. 续写.",
+			"legacy_source": "native: 师娘彩蛋 A (计划 build/plans/师娘彩蛋_计划.md, owner 2026-11-27「都照推荐」; DECISIONS「师娘彩蛋 A」) — the old 北宗's gate-keeper, who went with 沈疏雨 when she left the 武馆: the one opponent a 封山 sword has nothing to wait for (he guards, never strikes first — courage 0 — and only answers a miss, with the plain sword), there to be sparred with before and after 「听雨」. 续写.",
 			"name": "何守拙",
 			"aliases": [
 				"he shouzhuo",
@@ -12873,7 +12873,7 @@
 			"long": "何守拙花白头发，两条胳膊晒得黝黑，袖口挽到肘弯。他在老北宗守了三十年门，后来牌子没了，他跟着师娘搬到了镇外，照旧每天劈柴、扫院子。他手边总靠着一把旧剑，剑刃上全是豁口——都是架别人的剑架出来的。\n",
 			"attributes": {
 				"str": 24,
-				"cor": 3,
+				"cor": 0,
 				"int": 18,
 				"spi": 18,
 				"cps": 30,
@@ -12926,7 +12926,14 @@
 			"beats": 2,
 			"accept_fight": [
 				{
+					"marks": [
+						"沈疏雨叫你试老何"
+					],
 					"accept": true
+				},
+				{
+					"say": "师娘没发话，我不同人动手。",
+					"accept": false
 				}
 			],
 			"spar_over_mark": "和何守拙过了招",

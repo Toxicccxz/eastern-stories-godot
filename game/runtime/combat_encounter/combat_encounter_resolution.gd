@@ -692,7 +692,7 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 			_session.progression_rewards().spar_won(loser)
 			_mark_spar_won(loser)
 		# 师娘彩蛋 A: a spar that a blow ended, won or lost, marks the player with the NPC's word for it.
-		if not _spar_winner.is_empty():
+		if not _spar_winner.is_empty() and not _spar_loser.is_empty():
 			_mark_spar_over(_session.resident_npc(_spar_loser if _spar_winner == player_id else _spar_winner))
 		return
 	# One fallen waits on the player's 了结 / 放过: the fight goes on until they choose.

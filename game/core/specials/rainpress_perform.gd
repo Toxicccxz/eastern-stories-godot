@@ -12,7 +12,8 @@ extends PerformFunction
 ## - `open_percent`: the thrust dodged or parried leaves its target open (露空): the next blow at
 ##   them finds their dodge and parry this much lower.
 ## The thrust dodged or parried also wins its performer a hand this round, as a 隙 does (within
-## earned_beat_cap); landed, it is only the blow. Only against an enemy in the fight.
+## earned_beat_cap); landed, it is only the blow; nothing of this once the answer to it ended the
+## fight (the riposte that wins a spar). Only against an enemy in the fight.
 const SKILL: StringName = &"fonxansword"
 const FORCE: String = "force"
 const DAMAGE: String = "damage"
@@ -48,7 +49,7 @@ func perform(context: SpecialContext) -> bool:
 	me.state.timed_applies.hold(strike)
 	var attack: SpecialAttack = context.do_attack(me, target)
 	me.state.timed_applies.release(strike)
-	if _was_forced(attack):
+	if _was_forced(attack) and me.is_fighting(target.character_id):
 		context.wins_beat = true
 		context.opened[target.character_id] = skill.perform_number(id, OPEN_PERCENT)
 		context.say("$n这一下接得仓促，身前露出了空子。", target.character_id, ColoredLine.CYN)

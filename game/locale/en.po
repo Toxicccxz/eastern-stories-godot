@@ -41892,11 +41892,11 @@ msgstr "Ask Shen Shuyu about \"Rain\"."
 msgid "她没有答，叫你先去和院里的何守拙过几招。"
 msgstr "She gave no answer, and told you to cross swords with He Shouzhuo in the yard first."
 
-msgid "和何守拙切磋一场，点到为止。他只守不攻——看看封山的剑等得到几个空子。"
-msgstr "Spar with He Shouzhuo, stopping short of harm. He only guards and never attacks—see how many openings the Empty Mountain sword gets by waiting."
+#~ msgid "和何守拙切磋一场，点到为止。他只守不攻——看看封山的剑等得到几个空子。"
+#~ msgstr "Spar with He Shouzhuo, stopping short of harm. He only guards and never attacks—see how many openings the Empty Mountain sword gets by waiting."
 
-msgid "何守拙守了三十年门。他不出剑，你就没有空子可等。"
-msgstr "He Shouzhuo kept the gate for thirty years. He doesn't strike, so you have no opening to wait for."
+#~ msgid "何守拙守了三十年门。他不出剑，你就没有空子可等。"
+#~ msgstr "He Shouzhuo kept the gate for thirty years. He doesn't strike, so you have no opening to wait for."
 
 msgid "回去再问沈疏雨「雨」。"
 msgstr "Go back and ask Shen Shuyu about \"Rain\" again."
@@ -41916,11 +41916,11 @@ msgstr "The brushwood gate is ajar. A push opens it.\n"
 msgid "你叩了叩柴门。院里劈柴的声音停了。\n"
 msgstr "You knock on the brushwood gate. The sound of wood being chopped in the yard stops.\n"
 
-msgid "一个花白头发的老人把门拉开半扇，看了看你腰间的剑，又看了看你握剑的那只手。\n"
-msgstr "A gray-haired old man pulls the gate half open, looks at the sword at your waist, then at the hand you hold it with.\n"
+#~ msgid "一个花白头发的老人把门拉开半扇，看了看你腰间的剑，又看了看你握剑的那只手。\n"
+#~ msgstr "A gray-haired old man pulls the gate half open, looks at the sword at your waist, then at the hand you hold it with.\n"
 
-msgid "老人说道：封山的剑。……进来吧，她在院里。\n"
-msgstr "The old man says, \"An Empty Mountain sword. ...Come in. She's in the yard.\"\n"
+#~ msgid "老人说道：封山的剑。……进来吧，她在院里。\n"
+#~ msgstr "The old man says, \"An Empty Mountain sword. ...Come in. She's in the yard.\"\n"
 
 msgid "你叩了叩柴门。院里有劈柴的声音，没有人应。\n"
 msgstr "You knock on the brushwood gate. There is the sound of wood being chopped in the yard, but no one answers.\n"
@@ -41967,8 +41967,8 @@ msgstr "How many openings did you get?"
 msgid "听你说完，笑了一下。"
 msgstr " hears you out and smiles a little."
 
-msgid "老何守了三十年门，他不出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
-msgstr "Old He kept the gate for thirty years; he doesn't strike, so you have no opening to wait for. The Empty Mountain sword stops here—and that book he wrote goes no further either."
+#~ msgid "老何守了三十年门，他不出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
+#~ msgstr "Old He kept the gate for thirty years; he doesn't strike, so you have no opening to wait for. The Empty Mountain sword stops here—and that book he wrote goes no further either."
 
 msgid "看好。"
 msgstr "Watch."
@@ -42050,3 +42050,21 @@ msgstr "Then the Abbot accepted that sutra, and the ascetic took the precepts be
 
 msgid "后来方丈把那片贝叶还给了头陀，头陀回了番坊——你在场，你知道。那股寒，流云轩往后还是赶不出去。"
 msgstr "Then the Abbot handed that palm-leaf page back to the ascetic, and the ascetic went back to the Foreign Quarter. You were there. You know. Drifting Cloud Lodge still won't be able to drive that cold out."
+
+msgid "和何守拙切磋一场，点到为止。他从不先出手——看看封山的剑等得到几个空子。"
+msgstr "Spar with He Shouzhuo, stopping short of harm. He never strikes first—see how many openings the Empty Mountain sword gets by waiting."
+
+msgid "何守拙守了三十年门。他不先出剑，你就没有空子可等。"
+msgstr "He Shouzhuo kept the gate for thirty years. He never strikes first, so you have no opening to wait for."
+
+msgid "一个花白头发的老人把门拉开半扇，把你从头到脚看了一遍，目光在你握剑的那只手上停了停。\n"
+msgstr "A gray-haired old man pulls the gate half open, looks you over from head to foot, and lets his eyes rest on your sword hand.\n"
+
+msgid "老人说道：是封山的人。……进来吧，她在院里。\n"
+msgstr "The old man says, \"One of Empty Mountain's. ...Come in. She's in the yard.\"\n"
+
+msgid "老何守了三十年门，他不先出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
+msgstr "Old He kept the gate for thirty years; he never strikes first, so you have no opening to wait for. The Empty Mountain sword stops here—and that book he wrote goes no further either."
+
+msgid "师娘没发话，我不同人动手。"
+msgstr "The Master's wife hasn't said the word. I don't cross swords with anyone."

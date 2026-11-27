@@ -35,6 +35,7 @@ func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
 	var pace_stance: CombatStance.Value = BattlePace.stance
 	_test_data()
 	_test_forced_wins_a_hand()
+	_test_mid_round()
 	_test_landed_is_only_the_blow()
 	_test_cap_and_refusals()
 	BattlePace.manual_turns = pace_turns
@@ -73,6 +74,27 @@ func _test_forced_wins_a_hand() -> void:
 	_check(f.scheduler.exposed(ENEMY) and f.scheduler.waiting_for_player(f.bindings), "the enemy stands open while the round waits on the next move of the player: exposed %s" % f.scheduler.exposed(ENEMY))
 	_check(f.bindings[0].state.recovery.inner_force.current == 80, "20 force spent (%d)" % f.bindings[0].state.recovery.inner_force.current)
 	_check(not f.scheduler.exposed(PLAYER), "and its striker does not stand open (露空 is a 重's)")
+	# The opening is worth the skill's open_percent on the next blow at them, and that blow uses it up.
+	f.scheduler._fill_modifiers(f.bindings)
+	var open: CombatRoundModifiers.Fighter = f.scheduler._modifiers.read(ENEMY)
+	_check(open.dodge_percent == -85 and open.parry_percent == -85, "the next blow finds their dodge and parry 85%% lower: %d / %d" % [open.dodge_percent, open.parry_percent])
+	_check(f.scheduler.choose_attack(_quick(f).action_id, f.bindings), "a quick move chosen for the hand won")
+	_advance(f, 0.0)
+	_check(not f.scheduler.exposed(ENEMY), "the blow used the opening up")
+
+
+## Mid-round, after a first move: the order comes off the round running, and the hand is won at once.
+func _test_mid_round() -> void:
+	var f: Fixtures.SchedulerFixture = _fixture(_zeros())
+	_npc_beats[ENEMY] = 2
+	_advance(f)
+	_check(f.scheduler.choose_attack(_quick(f).action_id, f.bindings), "a quick move first")
+	_advance(f)
+	_check(f.scheduler.round_running() and f.scheduler.round_beats_of(PLAYER).remaining >= 1, "the round is running, a move left")
+	_check(_order(f), "「听雨」 ordered mid-round")
+	_advance(f, 0.0)
+	var mine: CombatRoundBeats = f.scheduler.round_beats_of(PLAYER)
+	_check(mine.spent == ([CombatMoveTags.QUICK, KEY] as Array[StringName]) and mine.earned.size() == 1 and f.scheduler.exposed(ENEMY), "paid from the round running, one hand won in the round (its cap), the enemy open: spent %s earned %s left %d" % [mine.spent, mine.earned, mine.remaining])
 
 
 ## Landed: the blow, and no hand.
@@ -137,6 +159,14 @@ func _fixture(random: CombatRandomSource, cap: int = 1) -> Fixtures.SchedulerFix
 	BattlePace.manual_turns = true
 	BattlePace.stance = CombatStance.Value.ATTACK
 	return f
+
+
+## The first 快 of the player's moves.
+func _quick(f: Fixtures.SchedulerFixture) -> CombatActionDefinition:
+	for move: CombatActionDefinition in f.scheduler.player_moves(f.bindings):
+		if move.tag == CombatMoveTags.QUICK:
+			return move
+	return null
 
 
 ## Every draw 0 (TEST-ONLY): the attack's gates fail, the blow is dodged or parried.

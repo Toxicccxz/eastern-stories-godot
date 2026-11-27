@@ -98,7 +98,7 @@ func _test_line(tree: SceneTree, session: WorldSessionController) -> void:
 	state.progression.combat_experience = 12000 # TEST-ONLY
 	gate.interact()
 	await _settle(tree)
-	_check(state.marks.get(OPEN, 0) == 1 and _said(_recent(ui), "封山的剑"), "grown: 何守拙 opens the gate")
+	_check(state.marks.get(OPEN, 0) == 1 and _said(_recent(ui), "封山的人"), "grown: 何守拙 opens the gate")
 	session.record_journal()
 	_check(StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"meet", "the line begins: go in")
 	# In: she speaks first.
@@ -114,14 +114,28 @@ func _test_line(tree: SceneTree, session: WorldSessionController) -> void:
 	var he: NpcRuntimeState = _first(session, &"snow.rain_yard", HE)
 	_check(shen != null and he != null, "both stand in the yard")
 	_check(_said(_ask(yard, shen, "风雨双侠"), "风是他，雨是我"), "「风雨双侠」: the wind is he, the rain is she")
+	# Before she sends them, 何守拙 spars with nobody.
+	_check(yard.select_npc(he.character_id) and yard.spar_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED and _said(_recent(ui), "师娘没发话") and not session.combat_encounter_coordinator().has_active_encounter(), "何守拙 before her word: no spar")
 	_check(_said(_ask(yard, shen, "雨"), "老何") and state.marks.get(SENT, 0) == 1 and not state.marks.has(TAUGHT), "「雨」: first go and spar 何守拙")
 	_check(_said(_ask(yard, shen, "雨"), "回来再说") and not state.marks.has(TAUGHT), "asked again before the spar: not yet")
 	session.record_journal()
 	_check(StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"spar", "next: the spar")
 	# The spar, ended by a blow of his (TEST-ONLY: his blow written in by hand): the mark all the same.
-	_check(yard.select_npc(he.character_id) and yard.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "何守拙 takes the spar")
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var player_id: StringName = session.player_runtime().character_id
+	# A spar broken off with no blow landed (TEST-ONLY: the two parted by hand) leaves no mark.
+	_check(yard.select_npc(he.character_id) and yard.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "何守拙 takes the spar once she sent them")
+	session.player_runtime().relationship.remove_opponent(he.character_id) # TEST-ONLY
+	he.relationship.remove_opponent(player_id) # TEST-ONLY
+	for step: int in 20:
+		if not coordinator.has_active_encounter():
+			break
+		coordinator.advance_scheduler(1.0)
+		await _settle(tree)
+	_check(not coordinator.has_active_encounter() and not state.marks.has(SPARRED), "a spar no blow ended: no mark")
+	ui.dismiss_current_panel()
+	await _settle(tree)
+	_check(yard.select_npc(he.character_id) and yard.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "何守拙 takes the spar again")
 	coordinator.resolution()._spar_winner = he.character_id # TEST-ONLY
 	coordinator.resolution()._spar_loser = player_id # TEST-ONLY
 	session.player_runtime().relationship.remove_opponent(he.character_id) # TEST-ONLY
