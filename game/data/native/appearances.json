@@ -65,6 +65,34 @@
       "prop_color": "6c727b", "accent": "414755", "height": "standard", "build": "slim",
       "shoes": "dark"
     },
+    "native.npc.outlaw.6": {
+      "note": "越狱死囚：蓬头垢面，灰褐的囚衣磨破了，脚踝上一圈镣铐的血印，提着夺来的单刀（悬赏榜，成长曲线 D）",
+      "coat": "6f6a5c", "pants": "4a443a", "skin": "d4a074", "hair": "17151a",
+      "hair_style": "long", "beard": "full", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "c8ccd2", "accent": "3a352e", "height": "standard", "build": "slim",
+      "extras": ["leg_wraps"], "shoes": "straw"
+    },
+    "native.npc.outlaw.7": {
+      "note": "劫船海寇：晒得黝黑，赤脚，青蓝短褂敞着，耳上铜环，腰里一把钢刀（悬赏榜，成长曲线 D）",
+      "coat": "2f5560", "pants": "1d2c33", "skin": "a8774e", "hair": "101215",
+      "hair_style": "short", "headwear": "headscarf", "headwear_color": "8b3b2a", "beard": "moustache",
+      "waist": "sash", "prop": "blade_waist", "prop_color": "b9bec4", "accent": "c49a4a",
+      "height": "standard", "build": "standard", "shoes": "straw"
+    },
+    "native.npc.outlaw.8": {
+      "note": "禁军逃卒：半副禁军铁甲，号牌刮掉了，佩刀是营里发的，眼神戒备（悬赏榜，成长曲线 D）",
+      "coat": "7a2d2a", "pants": "2a2426", "skin": "ddb08a", "hair": "141214",
+      "hair_style": "topknot", "headwear": "helmet", "headwear_color": "6e7177", "beard": "chin_three",
+      "waist": "belt", "prop": "blade_waist", "prop_color": "c6cad0", "accent": "8f9298",
+      "height": "tall", "build": "heavy", "extras": ["armor"], "shoes": "dark"
+    },
+    "native.npc.outlaw.9": {
+      "note": "逆灵宫余孽：黑衣黑冠，冠上的丝绦断了，脸上一道新疤，腰挂长剑（悬赏榜，成长曲线 D）",
+      "coat": "1c2027", "pants": "0c0d11", "skin": "d8b79c", "hair": "1a1b20",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0d0f14", "beard": "long",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "8c9198", "accent": "2b313b",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
     "native.npc.feng_ce": {
       "note": "冯策：序章的朝廷老武官，鬓发斑白、素白武官袍、腰背笔直（主线序章）；立绘 Muse 2026-11-06",
       "coat": "f3f3f3", "pants": "dbd7d4", "skin": "dac1b3", "hair": "8a8790",
