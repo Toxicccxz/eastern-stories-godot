@@ -155,6 +155,16 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   free to use in logos; file `KouzanGyousho.zip` → TrueType font, 5,640,044 bytes, SHA-256
   `6b063cc0f9591ea2e71c97f06c8e663d04a0b0ac4bbe6c0e4c3b49a13215db99`) — **the font file is not
   shipped, only the four characters' image**.
+- `game/assets/textures/title/logo_ru.png` — the Russian title's lettering mask, Восточные /
+  истории rendered by the same tool from Mister Brush (by GGBotNet, <https://ggbot.net/fonts>,
+  <https://ggbot.itch.io/mister-brush-font>; SIL Open Font License 1.1 with Reserved Font Name
+  "Mister Brush", which allows commercial use and images made with the font; file
+  `MisterBrush.ttf` with its `License.txt` from GGBotNet's DaFont listing `mister_brush`,
+  746,240 bytes, SHA-256 `3650adbc132ae1af15e08d75ea9f33873cc8dc4c121c99b09f72bc0e18f36da0`) —
+  **the font file is not shipped, only the two lines' image**. The two other fonts on the
+  owner's shortlist, used only for samples and not in the game: Comforter Brush (Robert
+  Leuschke) and Monomakh (Aleksandr Andreev and Nikita Simmons), both SIL OFL 1.1 from
+  [Google Fonts](https://github.com/google/fonts) (`ofl/comforterbrush`, `ofl/monomakh`).
 
 ## Character portraits (AI-generated)
 
