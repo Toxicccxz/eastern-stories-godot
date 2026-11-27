@@ -243,6 +243,11 @@ def _russian_problems(where: str, msgid: str, msgstr: str) -> list[str]:
             problems.append(f"{where}: invents the slot {{{slot}}}")
     if "$P" in msgstr or re.search(r"\$p(?![a-zA-Z])", msgstr):
         problems.append(f"{where}: $P/$p in Russian: write {{N:вас|его|её}} forms")
+    for token in TOKENS:
+        # $n may stand for the source's $p (вам, ему: the one the $p was).
+        stands_in = token == "$n" and re.search(r"\$p(?![a-zA-Z])", msgid)
+        if _count(msgstr, token) and not _count(msgid, token) and not stands_in:
+            problems.append(f"{where}: invents the token {token}")
     for role, body in GRAMMAR.findall(msgstr):
         forms = body.split("|")
         if len(forms) < 2 or len(forms) > 4 or not all(forms):

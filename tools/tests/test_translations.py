@@ -146,6 +146,7 @@ class TranslationsTest(unittest.TestCase):
             "full width": ("%d 分钟前", "%d {#:минуту|минуты|минут} назад…"),
             "inside a sentence with no case mark": ("你给{npc}{item}。", "Вы даёте {item}{:вин} и {npc} кивает."),
             "bad player form": ("看见你，放下了手里的扫帚。", "видит вас: «Ты {игрок:пришёл|пришла|пришло}!»"),
+            "invents the token": ("{npc}{action}", "$N {npc}{:им} {action}"),
             "does not open with the plural": ("$N挥拳攻击$n的$l", "$N {N:ударил|ударили|ударила} $n{:вин} в $l."),
             "a Han character": ("店小二", "店小二"),
         }
