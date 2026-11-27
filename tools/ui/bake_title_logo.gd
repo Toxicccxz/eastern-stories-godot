@@ -16,6 +16,9 @@ extends SceneTree
 ## The Japanese title, 東方物語 in a Japanese brush hand (衡山毛筆フォント行書; 飞云体 has no 東
 ## or 語; the font is not shipped):
 ##   ... -- <font> ja [mask name]      writes logo_ja.png (or the name given)
+## The Russian title, Восточные / истории in two brushed lines like the English one (Mister Brush;
+## 飞云体 has no Cyrillic; the font is not shipped):
+##   ... -- <font> ru [mask name]      writes logo_ru.png (or the name given)
 
 const OUT: String = "res://assets/textures/title/"
 const PLAIN: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
@@ -45,8 +48,16 @@ const JA: Array = [
 	["物", 270, 0.84, 18, -1.0],
 	["語", 310, 0.82, -4, 1.5],
 ]
+## Восточные истории, the Russian title (ru.po's name for the game), line by line: [line, size in
+## pixels, how far it stands right of the first line's left edge and below its top (parts of the
+## size), its turn (degrees)]. Two lines like the English title, the left edge kept for the menu.
+const RU: Array = [
+	["Восточные", 150, 0.0, 0.0, -1.5],
+	["истории", 150, 0.0, 0.92, 1.0],
+]
 ## The titles baked alone, by language: -- <font> <language> [mask name].
 const OWN: Dictionary = {"ko": KO, "ja": JA}
+const OWN_LINES: Dictionary = {"ru": RU}
 ## The English title's lines: their size, and how far the second stands below the first (parts
 ## of the size).
 const EN_SIZE: int = 150
@@ -80,6 +91,10 @@ func _run() -> void:
 		_save(await _mask(_brushed(OWN[args[1]], brush)), args[2] if args.size() >= 3 else "logo_" + args[1])
 		quit(0)
 		return
+	if args.size() >= 2 and OWN_LINES.has(args[1]):
+		_save(await _mask(_lined(OWN_LINES[args[1]], brush)), args[2] if args.size() >= 3 else "logo_" + args[1])
+		quit(0)
+		return
 	_save(await _mask(_brushed(ZH, brush)), "logo_zh_CN")
 	var english: Array = []
 	for r: int in EN_LINES.size():
@@ -103,6 +118,15 @@ func _brushed(rows: Array, brush: Font) -> Array:
 		# A label's glyph sits about its own size tall from its top: middles on one line.
 		lettered.append([piece[0], brush, int(size), Vector2(x, (tallest - size) * 0.62 + float(piece[3])), float(piece[4]), 0])
 		last = size
+	return lettered
+
+
+## A title brushed in lines ([line, size, right, down, turn] rows) as _mask() pieces.
+func _lined(rows: Array, brush: Font) -> Array:
+	var lettered: Array = []
+	for row: Array in rows:
+		var size: float = float(row[1])
+		lettered.append([row[0], brush, int(size), Vector2(float(row[2]), float(row[3])) * size, float(row[4]), 0])
 	return lettered
 
 
