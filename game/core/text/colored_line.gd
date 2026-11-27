@@ -22,6 +22,10 @@ const COLORS: Array[StringName] = [HIR, HIY, HIC, HIW, HIM, HIG, HIB, CYN, RED, 
 
 var text: String
 var color: StringName
+## Native (过场演出 A; DECISIONS「关键信息高亮」): the words of the line the player acts on after
+## (a place, a person, a thing, an hour), as authored (message IDs: each is found in the shown
+## line in the shown language, KeySpans). Presentation lights them; [] for none.
+var keys: Array[String] = []
 
 
 func _init(p_text: String = "", p_color: StringName = PLAIN) -> void:

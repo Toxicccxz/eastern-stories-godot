@@ -7,6 +7,8 @@ extends RefCounted
 ## and restore() when it is done. The loading screen stays off there: a world not yet built
 ## would hold what such a suite times in seconds, and so does a journey's start in slices.
 ## map_loading_test and session_start_slices_test set their own; use_shipped() keeps them on.
+## Told lines wait for a press there too (DECISIONS「过场读法」: a line that goes on by itself after
+## its reading time would turn a suite's page under it); dialogue_box_test turns that on itself.
 
 static var production: FeelDefinition = FeelDefinition.new()
 
@@ -19,7 +21,7 @@ static func turn_off() -> void:
 
 
 static func use() -> void:
-	GameContent.catalog().pacing().feel = production.but({"map_loading_slice_ms": 0, "session_start_slice_ms": 0})
+	GameContent.catalog().pacing().feel = production.but({"map_loading_slice_ms": 0, "session_start_slice_ms": 0, "dialogue_auto_ms": 0})
 
 
 ## pacing.json's feel whole, the slices kept: New Game and Continue start over frames and each

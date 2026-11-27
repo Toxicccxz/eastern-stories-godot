@@ -50,7 +50,9 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var before: Array = _battle_settings()
+	DialogueAuto.on = false
 	_factory()
+	_check(DialogueAuto.on, "the settings as a first start has them: 对白自动继续 on")
 	_check_factory_pacing()
 	await _play(tree, false)
 	# pacing.json's feel whole: the start and each map's world built over frames.
@@ -66,7 +68,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 ## What run_suite.gd and the settings set, as they were.
 func _battle_settings() -> Array:
-	return [BattlePace.speed, BattlePace.hit_flash, BattlePace.after_knockout, BattlePace.opening, BattlePace.manual_turns, ObjectiveHints.shown, DayNightPreference.mode, AutosaveNotice.shown]
+	return [BattlePace.speed, BattlePace.hit_flash, BattlePace.after_knockout, BattlePace.opening, BattlePace.manual_turns, ObjectiveHints.shown, DayNightPreference.mode, AutosaveNotice.shown, DialogueAuto.on]
 
 
 func _factory() -> void:
@@ -93,6 +95,7 @@ func _restore(before: Array) -> void:
 	ObjectiveHints.shown = before[5]
 	DayNightPreference.mode = before[6]
 	AutosaveNotice.shown = before[7]
+	DialogueAuto.on = before[8]
 
 
 ## Every knob as pacing.json sets it, not as a suite left it. Es2Pacing.use_reactions() keeps the

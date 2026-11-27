@@ -115,6 +115,9 @@ var interaction_panel: InteractionPanel
 var speech_bubbles: WorldSpeechBubbles
 var _session: WorldSessionController
 var _bound_map: WorldResidentMapController
+## SceneBars' progress (scene_cover()), and whether the open menu hides the card and the toasts.
+var _scene_cover: float = 0.0
+var _menu_hides_hud: bool = false
 var _elapsed: float = 0.0
 
 ## Constants that moved with their components, still readable here.
@@ -152,6 +155,8 @@ var selection: SharedUiSelection = SharedUiSelection.new(self)
 var actions: SharedUiContextActions = SharedUiContextActions.new(self)
 var ask: SharedUiAskPanel = SharedUiAskPanel.new(self)
 var dialogue_box: WorldDialogueBox
+## 过场演出 A (DECISIONS「过场黑边」): a scene's black bars; the HUD steps away while they are in.
+var scene_bars: SceneBars
 ## 终章 C (DECISIONS「结局讲述」): the ending told over the 沙盘.
 var epilogue: EpilogueOverlay
 var items: SharedUiInventory = SharedUiInventory.new(self)
@@ -182,10 +187,14 @@ func _ready() -> void:
 	speech_bubbles.configure(self)
 	add_child(speech_bubbles)
 	move_child(speech_bubbles, 1)
+	scene_bars = SceneBars.new()
+	scene_bars.configure(self)
+	add_child(scene_bars)
+	move_child(scene_bars, 2)
 	dialogue_box = WorldDialogueBox.new()
 	dialogue_box.configure(self)
 	add_child(dialogue_box)
-	move_child(dialogue_box, 2)
+	move_child(dialogue_box, 3)
 	dialogue_box.read_out.connect(waits.hurry_teller)
 	epilogue = EpilogueOverlay.new()
 	add_child(epilogue)
@@ -273,12 +282,57 @@ func npc_says(speaker: NpcRuntimeState, lines: Array[ColoredLine], spoken: Array
 	if speaker == null:
 		message_log.append_colored_lines(lines)
 		return
-	message_log.append_speech(lines)
+	# Each spoken line's marked words, before the log finishes the lines for the shown language.
+	var marked: Dictionary[String, Array] = {}
+	for line: ColoredLine in lines:
+		if not line.keys.is_empty():
+			marked[line.text] = line.keys
 	var teller: StringName = _teller()
+	# What is read in the box is lit in 消息 too; a bubble's line is not (DECISIONS「关键信息高亮」).
+	message_log.append_speech(lines, not teller.is_empty())
 	if teller.is_empty():
 		speech_bubbles.say(speaker, spoken, alert)
 	else:
-		dialogue_box.say(tr(speaker.definition().display_name), spoken, teller, speaker)
+		var keys: Array[Array] = []
+		for text: String in spoken:
+			keys.append(marked.get(text, []))
+		dialogue_box.say(tr(speaker.definition().display_name), spoken, teller, speaker, keys)
+
+
+## The names the player's next quest steps lead to (StoryKeyTerms), as authored: what a line in
+## the dialogue box and in 消息 is lit for by itself. Not the place they stand in nor who stands
+## there with them.
+func key_terms() -> Array[String]:
+	var map: WorldMapController = null if _session == null else _session.active_map() as WorldMapController
+	if map == null or _player == null:
+		return []
+	var here: StringName = _player.world_location().zone_id
+	var present: Array[StringName] = []
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if npc.exists_in_map and npc.world_location().zone_id == here:
+			present.append(NpcDefinition.unnamed_id(npc.definition().definition_id))
+	return StoryKeyTerms.upcoming(GameContent.catalog(), _player.state, here, present)
+
+
+## How far a scene's black bars are in (SceneBars; 0 away, 1 whole): the status card and the
+## toasts fade away with them, the toasts keeping what comes for after the scene.
+func scene_cover(amount: float) -> void:
+	_scene_cover = clampf(amount, 0.0, 1.0)
+	_presentation_layout.toasts.held = _scene_cover > 0.0
+	_fade_hud()
+
+
+## Whether a scene's bars are in at all (the room's text at the top stays away meanwhile).
+func scene_covered() -> bool:
+	return _scene_cover > 0.0
+
+
+## The status card and the toasts as the open menu and a scene leave them.
+func _fade_hud() -> void:
+	var alpha: float = 0.0 if _menu_hides_hud else 1.0 - _scene_cover
+	for part: CanvasItem in [_presentation_layout.bar, _presentation_layout.toasts]:
+		if part != null:
+			part.modulate.a = alpha
 
 
 ## The dialogue box takes the foot of the screen: the toasts stand on it.
@@ -385,6 +439,12 @@ func configure(player: WorldPlayerRuntimeType) -> bool:
 ## take their own keys.
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible or menu.is_presented() or event.is_echo():
+		return
+	# A line of the dialogue box went by itself a moment ago (DECISIONS「过场读法」): the press
+	# that comes now was meant for it, and takes nothing else on either (the next line, an
+	# answer of the question that followed, what the place offers).
+	if dialogue_box.guarded() and event.is_pressed() and (event.is_action(&"interact") or event.is_action("ui_accept")):
+		get_viewport().set_input_as_handled()
 		return
 	# E on a card's 继续 or a row of the interaction popup presses it, as in the dialogue box
 	# (Enter / Space / A already do; 审查修补 M).
@@ -833,9 +893,8 @@ func is_menu_dialog(content: Control) -> bool:
 ## the running world the player stops walking; the shell's pause freezes things itself.
 func menu_presented() -> void:
 	# 界面重做: the status card and the toasts step back while the menu is open.
-	for part: CanvasItem in [_presentation_layout.bar, _presentation_layout.toasts]:
-		if part != null:
-			part.modulate.a = 0.0
+	_menu_hides_hud = true
+	_fade_hud()
 	_presentation_layout.close_frame()
 	_presentation_layout.lift_frame(menu.root)
 	# The world stands still while the menu is open (owner, 2026-10-15).
@@ -848,9 +907,8 @@ func menu_presented() -> void:
 
 func menu_dismissed(from_pause: bool) -> void:
 	map_page.clear_rides()
-	for part: CanvasItem in [_presentation_layout.bar, _presentation_layout.toasts]:
-		if part != null:
-			part.modulate.a = 1.0
+	_menu_hides_hud = false
+	_fade_hud()
 	_presentation_layout.close_frame()
 	_presentation_layout.lower_frame()
 	if _session != null:
@@ -973,6 +1031,10 @@ func append_log_lines(lines: Array[String], alert: bool = false) -> void:
 
 func append_colored_lines(lines: Array[ColoredLine]) -> void:
 	message_log.append_colored_lines(lines)
+
+
+func append_read_lines(lines: Array[ColoredLine]) -> void:
+	message_log.append_read_lines(lines)
 
 
 func toasts() -> MessageToasts:

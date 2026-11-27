@@ -18,8 +18,7 @@ msgstr ""
 
 #. the focus pause's only button.
 #. native (终章 C): under a card of the ending told over the 沙盘: go on.
-#. at the foot of the dialogue box: goes to the next line.
-#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/common/focus_pause_layer.gd ui/world/epilogue_overlay.gd ui/world/player_life_overlay.gd ui/world/spar_summary_panel.gd ui/world/world_dialogue_box.gd
+#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/common/focus_pause_layer.gd ui/world/epilogue_overlay.gd ui/world/player_life_overlay.gd ui/world/spar_summary_panel.gd
 msgid "继续"
 msgstr ""
 
@@ -619,6 +618,10 @@ msgstr ""
 
 #: scenes/application/application_shell.tscn
 msgid "自动存档提示"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "对白自动继续"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
@@ -9501,6 +9504,10 @@ msgid "自动存档提示已生效，但未能保存。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "对白自动继续已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "画质已生效，但未能保存。"
 msgstr ""
 
@@ -9638,6 +9645,10 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "自动存档后左下角提示一行；关掉后照样自动存档，只是不提示"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "剧情演出和大段讲述里，一句话读完的时间到了就自己到下一句；关掉后每一句都等你按键。打听、问话和选择始终等你"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -13067,6 +13078,11 @@ msgstr ""
 
 #: ui/world/work_panel.gd
 msgid "工作状态异常，请停止操作。"
+msgstr ""
+
+#. at the foot of the dialogue box, after the key's glyph (E): goes to the next line.
+#: ui/world/world_dialogue_box.gd
+msgid "下一句"
 msgstr ""
 
 #. under the animation while a map's world is being built.
@@ -57934,9 +57950,21 @@ msgstr ""
 msgid "它在找头。找了五千年。子时开坛，带祭品上来，它便安静一夜。"
 msgstr ""
 
+#. native.npc.shang_jue calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/niling/npcs.json
+msgctxt "lit"
+msgid "子时"
+msgstr ""
+
 #. native.npc.shang_jue calls.steps.emote
 #: data/niling/npcs.json
 msgid "解下腰间一把乌黑的钥匙，看也不看，往后一抛。玄冥子接住了。"
+msgstr ""
+
+#. native.npc.shang_jue calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/niling/npcs.json
+msgctxt "lit"
+msgid "钥匙"
 msgstr ""
 
 #. native.npc.shang_jue calls.steps.say
@@ -69580,6 +69608,18 @@ msgstr ""
 msgid "黑衣道士衣角一扯，一块布条飘落在地。他几个起落，已经翻上山壁，往北面的老松岭去了。"
 msgstr ""
 
+#. native.npc.bai_daozhang calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "布条"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "老松岭"
+msgstr ""
+
 #. native.npc.bai_daozhang calls.steps.say
 #: data/native/npcs.json
 msgid "追！"
@@ -69598,6 +69638,12 @@ msgstr ""
 #. native.npc.bai_daozhang calls.steps.say
 #: data/native/npcs.json
 msgid "小友，那道士往老松岭去了。官军追的是人——那种人翻山比猴子快，他们追不上。他慌忙间掉的那块布条倒会说话：你拾起来看看，那上头是老松寨的记号。"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "老松寨"
 msgstr ""
 
 #. native.npc.black_taoist_pass long

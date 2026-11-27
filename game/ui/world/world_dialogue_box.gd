@@ -11,6 +11,11 @@ extends Control
 ## 人物立绘 (DECISIONS「人物外观」): the speaking NPC's bust stands behind the box's right end,
 ## the player's behind its left (PersonPortraits), the one who speaks now lit, the other dimmed;
 ## the name plate goes beside the speaker's. Someone without a picture shows none.
+## 过场演出 A (DECISIONS「过场读法」「关键信息高亮」): a page (what is told: a scene, a story) goes on
+## by itself once typed out and read (FeelDefinition.dialogue_read_seconds(), the setting
+## 对白自动继续), and one press of E / A / a click takes it on at once, typed out or not. What the
+## box hosts (打听's answers, a question's answers) never goes on by itself. The words the player
+## acts on after are lit (DialogueText, KeySpans).
 
 ## The box closed: what `teller` was telling goes on (the HUD hurries its next line).
 signal read_out(teller: StringName)
@@ -41,7 +46,7 @@ var _panel: PanelContainer
 ## The speaker's lacquer plate over the box's top edge (shown while a name is).
 var _plate: PanelContainer
 var _name: Label
-var _text: Label
+var _text: DialogueText
 var _hint: Button
 var _mount: VBoxContainer
 ## The busts behind the box's ends (人物立绘).
@@ -49,7 +54,8 @@ var _npc_bust: TextureRect
 var _player_bust: TextureRect
 ## The NPC the box speaks with now (its bust), null for none.
 var _who: NpcRuntimeState
-## Pages still to read, the one shown first: [speaker, text, is it said, the NPC saying it].
+## Pages still to read, the one shown first: [speaker, text, is it said, the NPC saying it, its
+## marked words (ColoredLine.keys)].
 var _pages: Array[Array] = []
 var _hosted: Control
 var _hosted_parent: Node
@@ -57,6 +63,14 @@ var _hosted_parent: Node
 var _teller: StringName = &""
 ## Characters shown so far of the page.
 var _typed: float = 0.0
+## Seconds the page still stays up once typed out, before it goes on by itself (auto_left()).
+var _read_left: float = 0.0
+## Seconds a press is still not taken: the line came by itself a moment ago, and the press was
+## meant for the one that went (FeelDefinition.dialogue_press_guard_seconds()).
+var _guard: float = 0.0
+## What takes the focus once the guard is over (a question hosted the moment a line went by
+## itself: its first answer is not under the key until then).
+var _focus_later: Control
 
 
 func configure(ui: SharedGameplayUI) -> void:
@@ -97,21 +111,18 @@ func _ready() -> void:
 	# A name from the content, shown as given (the speaker's tr() was made).
 	_name.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	_plate.add_child(_name)
-	_text = Label.new()
-	_text.name = "Line"
-	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_text.add_theme_font_size_override("font_size", TEXT_SIZE)
-	_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	# Laid out whole: the box keeps its size and no word jumps as the line types out.
-	_text.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING
+	_text = DialogueText.new()
+	_text.name = "Line"
+	_text.font_size = TEXT_SIZE
 	rows.add_child(_text)
 	_mount = VBoxContainer.new()
 	_mount.name = "Choices"
 	rows.add_child(_mount)
 	_hint = Button.new()
 	_hint.name = "Continue"
-	# TRANSLATORS: at the foot of the dialogue box: goes to the next line.
-	_hint.text = "继续"
+	# TRANSLATORS: at the foot of the dialogue box, after the key's glyph (E): goes to the next line.
+	_hint.text = "下一句"
 	_hint.flat = true
 	_hint.add_theme_color_override("font_color", UiPalette.GOLD)
 	_hint.add_theme_color_override("font_hover_color", UiPalette.LANTERN)
@@ -150,24 +161,43 @@ func line() -> String:
 	return _text.text if is_open() else ""
 
 
+## The words lit in the line shown now, in reading order (DECISIONS「关键信息高亮」).
+func lit_words() -> Array[String]:
+	var words: Array[String] = []
+	if is_open():
+		for span: Vector2i in _text.spans:
+			words.append(KoreanText.without_joiners(_text.text.substr(span.x, span.y - span.x)))
+	return words
+
+
+## Whether the line shown now is still typing out.
+func typing() -> bool:
+	return is_open() and _typing()
+
+
 ## The pages after the one shown.
 func pages_left() -> int:
 	return maxi(_pages.size() - 1, 0)
 
 
 ## `speaker_name` (the NPC `who`, whose bust shows; null for none) says `lines` (as the log
-## shows them) of `teller`'s story: a page each, after those still unread.
-func say(speaker_name: String, lines: Array[String], teller: StringName = &"", who: NpcRuntimeState = null) -> void:
-	# Over 打听's topics a page would wait for a 继续 that is not there.
+## shows them) of `teller`'s story: a page each, after those still unread. `keys`: each line's
+## marked words (ColoredLine.keys), line by line; none marked when left out.
+func say(speaker_name: String, lines: Array[String], teller: StringName = &"", who: NpcRuntimeState = null, keys: Array[Array] = []) -> void:
+	# Over 打听's topics a page would wait for a 下一句 that is not there.
 	if hosting():
 		answer(lines)
 		return
 	_teller = teller
 	var unread: bool = not _pages.is_empty()
-	for text: String in lines:
+	for index: int in lines.size():
+		var text: String = lines[index]
 		var page: String = WorldSpeechBubbles.bubble_text(text)
 		if not page.is_empty():
-			_pages.append([speaker_name, page, WorldSpeechBubbles.is_speech(text), who])
+			var marked: Array[String] = []
+			if index < keys.size():
+				marked.assign(keys[index])
+			_pages.append([speaker_name, page, WorldSpeechBubbles.is_speech(text), who, marked])
 	if not _pages.is_empty() and not unread:
 		_open()
 		_show_page()
@@ -237,8 +267,20 @@ func answer_as_written(lines: Array[String]) -> void:
 
 
 func _write_answer(lines: Array[String]) -> void:
-	_text.text = KoreanText.shown("\n".join(lines))
-	_text.add_theme_color_override("font_color", TEXT_COLOR)
+	# Each line lit for itself (KeySpans.LIMIT a line), then set one under the other.
+	var found: Array[String] = _found_terms()
+	var shown: String = ""
+	var spans: Array[Vector2i] = []
+	for line: String in lines:
+		var each: String = KoreanText.shown(line)
+		if not shown.is_empty():
+			shown += "\n"
+		for span: Vector2i in KeySpans.find(each, [], found):
+			spans.append(span + Vector2i(shown.length(), shown.length()))
+		shown += each
+	_text.text = shown
+	_text.spans = spans
+	_text.color = TEXT_COLOR
 	_start_typing()
 	_text.visible = not lines.is_empty()
 
@@ -262,13 +304,42 @@ func tell(speaker_name: String, lines: Array[String], teller: StringName = &"") 
 		close()
 
 
-## 继续: the page typed out, else the next page, else the box closes. False when shut.
+## 下一句 (E / A / a click; DECISIONS「过场读法」): the next page at once, typed out or not, else
+## the box closes. A press right after a line came by itself is not taken (it was meant for the
+## line that went). False when shut, or hosting (its choices take the key).
 func advance() -> bool:
 	if not is_open() or hosting():
 		return false
-	if _typing():
-		_finish_typing()
+	if _guard > 0.0:
 		return true
+	_next_page()
+	return true
+
+
+## A line went by itself a moment ago: the press that comes now was meant for it and takes
+## nothing on — not the next line, not a question's answer, not what the place offers (the HUD
+## asks before it hands the key to anything).
+func guarded() -> bool:
+	return _guard > 0.0
+
+
+## `control` (a hosted question's first answer) takes the focus: now, or once the guard is over.
+func give_focus(control: Control) -> void:
+	if guarded():
+		_focus_later = control
+	else:
+		FocusNav.give(control)
+
+
+## Seconds until the page goes on by itself; -1 when it waits for the player (nothing told, the
+## setting off, no reading time in the feel).
+func auto_left() -> float:
+	if not is_open() or hosting() or _pages.is_empty() or not _auto():
+		return -1.0
+	return _read_left
+
+
+func _next_page() -> void:
 	_pages.pop_front()
 	if _pages.is_empty():
 		var teller: StringName = _teller
@@ -276,7 +347,6 @@ func advance() -> bool:
 		read_out.emit(teller)
 	else:
 		_show_page()
-	return true
 
 
 ## Closes it at once: what was unread stays in 消息.
@@ -311,8 +381,12 @@ func _show_page() -> void:
 	_name.text = page[0] if page[2] else ""
 	_name.visible = page[2]
 	_text.text = page[1]
+	var marked: Array[String] = []
+	marked.assign(page[4])
+	_text.spans = KeySpans.find(page[1], marked, _found_terms())
 	_text.visible = true
-	_text.add_theme_color_override("font_color", TEXT_COLOR if page[2] else DEED_COLOR)
+	_text.color = TEXT_COLOR if page[2] else DEED_COLOR
+	_read_left = GameContent.catalog().pacing().feel.dialogue_read_seconds(_read_length(page[1]), _read_language(page[1]))
 	if page[3] != null:
 		_who = page[3]
 	_show_busts(false, page[2])
@@ -365,6 +439,13 @@ func _finish_typing() -> void:
 
 
 func _process(delta: float) -> void:
+	# The guard runs down whether the box shows or not: the next box takes its first press.
+	if _guard > 0.0:
+		_guard = maxf(_guard - delta, 0.0)
+		if _guard <= 0.0 and is_instance_valid(_focus_later):
+			if hosting() and _hosted.is_ancestor_of(_focus_later) and _focus_later.is_visible_in_tree():
+				FocusNav.give(_focus_later)
+			_focus_later = null
 	if not is_open():
 		return
 	# A fight, a fall or a death takes the screen: the lines are in 消息.
@@ -372,11 +453,70 @@ func _process(delta: float) -> void:
 	if session == null or session.combat_encounter_coordinator().has_active_encounter() or session.player_runtime().life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 		close()
 		return
+	# 系统, the focus pause and a question over the box hold it as it stands.
+	if _held():
+		return
 	if _typing():
 		_typed += delta / maxf(GameContent.catalog().pacing().feel.dialogue_char_seconds(), 0.001)
 		# A Korean line's word joiners take no time (KoreanText).
 		var typed: int = KoreanText.index_after(_text.text, int(_typed))
 		_text.visible_characters = -1 if typed >= _text.text.length() else typed
+	elif not hosting() and not _pages.is_empty() and _auto():
+		_read_left -= delta
+		if _read_left <= 0.0:
+			_guard = GameContent.catalog().pacing().feel.dialogue_press_guard_seconds()
+			_next_page()
+
+
+## Whether told pages go on by themselves: the feel gives a reading time and the setting is on.
+func _auto() -> bool:
+	return DialogueAuto.on and GameContent.catalog().pacing().feel.dialogue_auto()
+
+
+## The box stands as it is: the game is paused (系统, the window left), the menu is open, a
+## question lies over it in the shared frame, or a card covers the world and has the key (the
+## opening card, 拜师, a death; the rest and the 切磋 summary).
+func _held() -> bool:
+	if get_tree().paused:
+		return true
+	if _ui == null:
+		return false
+	if _ui.menu.is_presented() or _ui.panel_open():
+		return true
+	if is_instance_valid(_ui.life_overlay) and (_ui.life_overlay.card_shown() or _ui.life_overlay.is_blocking()):
+		return true
+	return (is_instance_valid(_ui.rest_overlay) and _ui.rest_overlay.shown()) or (is_instance_valid(_ui.spar_summary) and _ui.spar_summary.shown())
+
+
+## The characters of `text` a reader reads: no spaces, no joiners.
+static func _read_length(text: String) -> int:
+	var count: int = 0
+	for index: int in text.length():
+		if not text[index] in [" ", "\n", "\t", "　", KoreanText.WORD_JOINER]:
+			count += 1
+	return count
+
+
+## The language `text` is read in: the shown language's, unless the line is still in 汉字 there
+## (a line not translated yet reads at the 汉字 speed, not at a letter's).
+static func _read_language(text: String) -> String:
+	var language: String = TranslationServer.get_locale().get_slice("_", 0)
+	if language == "ja" or not language in FeelDefinition.AUTO_LANGUAGES:
+		return language
+	var han: int = 0
+	for index: int in text.length():
+		var code: int = text.unicode_at(index)
+		if code >= 0x4E00 and code <= 0x9FFF:
+			han += 1
+	return "" if han * 2 >= _read_length(text) else language
+
+
+## The names the next quest steps lead to (StoryKeyTerms): lit wherever a line says one.
+func _found_terms() -> Array[String]:
+	var found: Array[String] = []
+	if _ui != null:
+		found = _ui.key_terms()
+	return found
 
 
 func _release_hosted() -> void:
