@@ -72,6 +72,12 @@ func _test_agreement() -> void:
 	_same(SpanishText.finish("Tijeras{:el} {~:quedó rota|quedó rota|quedaron rotos|quedaron rotas}."), "Las tijeras quedaron rotas.", "four forms: fp")
 	_same(SpanishText.finish("{~:Callado|Callada}, Lan Zhiping{:el} asiente."), "Callada, Lan Zhiping asiente.", "a name after the word")
 	_same(SpanishText.finish("Espantapájaros{:el} cae {~:herido|herida}."), "Espantapájaros cae herido.", "a name with no row: m")
+	_same(SpanishText.finish("Tú{:el} {~:sientes|siente|siente} frío."), "sientes frío.", "three forms: tú")
+	_same(SpanishText.finish("Serpiente{:el} {~:sientes|siente|sienta} frío."), "La serpiente sienta frío.", "three forms: f")
+	var before: StringName = SpanishText.player_gender
+	SpanishText.player_gender = CharacterState.GENDER_FEMALE
+	_same(SpanishText.finish("Tú{:el} {~:sientes|siente|siente} y estás {~:herido|herida}."), "sientes y estás herida.", "two forms after tú: the player's gender")
+	SpanishText.player_gender = before
 
 
 func _test_player() -> void:

@@ -602,7 +602,7 @@ msgid "京师守城兵"
 msgstr "Guardia de la Capital"
 
 msgid "黑你没商量"
-msgstr "Esquilador sin regateo"
+msgstr "Esquilmador sin regateo"
 
 msgid "万晓生"
 msgstr "Wan Xiaosheng"
@@ -2387,7 +2387,7 @@ msgid "奇门遁甲"
 msgstr "Qimen Dunjia"
 
 msgid "绝尘心法"
-msgstr "Método interno sin polvo"
+msgstr "Método interno del Desapego"
 
 msgid "金刚杖法"
 msgstr "Bastón de vajra"
@@ -2489,7 +2489,7 @@ msgid "天邪派"
 msgstr "Escuela Rebelde"
 
 msgid "绝尘派"
-msgstr "Escuela sin Polvo"
+msgstr "Escuela del Desapego"
 
 msgid "茅山派"
 msgstr "Escuela del Monte Mao"
@@ -4742,7 +4742,7 @@ msgid "茅山"
 msgstr "Monte Mao"
 
 msgid "绝尘"
-msgstr "Sin Polvo"
+msgstr "Desapego"
 
 msgid "花紫"
 msgstr "Mendigos"
@@ -6708,3 +6708,4200 @@ msgstr "Torbellino"
 
 msgid "云海"
 msgstr "Mar de nubes"
+
+msgid "尸体"
+msgstr "Cadáver"
+
+msgid "空无一物"
+msgstr "Nada de nada"
+
+msgid "背包"
+msgstr "Mochila"
+
+msgid "没有找到存档。"
+msgstr "No se encontró ninguna partida guardada."
+
+msgid "有一份存档可以继续。"
+msgstr "Hay una partida guardada que puedes continuar."
+
+msgid "主存档无法使用，但有可以恢复的存档。"
+msgstr "La partida principal no se puede usar, pero hay una que puedes recuperar."
+
+msgid "存档无法读取。"
+msgstr "No se puede leer la partida guardada."
+
+msgid "此存档来自不兼容的开发版本，请开始新游戏。"
+msgstr "Esta partida guardada viene de una versión de desarrollo incompatible. Empieza una partida nueva."
+
+msgid "这份存档来自不支持的版本。"
+msgstr "Esta partida guardada viene de una versión no compatible."
+
+msgid "现在无法检查存档。"
+msgstr "Ahora no se pueden revisar las partidas guardadas."
+
+msgid "操作完成。"
+msgstr "Listo."
+
+msgid "还有一项操作没有完成。"
+msgstr "Todavía hay otra operación en curso."
+
+msgid "无法开始这段旅程。"
+msgstr "No se pudo iniciar este viaje."
+
+msgid "存档无法恢复。"
+msgstr "No se pudo recuperar la partida guardada."
+
+msgid "这份存档之后地图改过，存档时你站的地方现在站不了人，读不进来。"
+msgstr "El mapa cambió después de guardar esta partida: el lugar donde estabas ya no se puede pisar, así que no se puede cargar."
+
+msgid "手动存档不受影响；新角色第一次自动存档时会覆盖现在的自动存档。"
+msgstr "Las partidas manuales no se ven afectadas. El primer autoguardado del personaje nuevo sobrescribirá el autoguardado actual."
+
+msgid "覆盖这一位的存档？"
+msgstr "¿Sobrescribir la partida de esta ranura?"
+
+msgid "读取这份存档？上次存档之后的进度会丢失。"
+msgstr "¿Cargar esta partida? Se perderá el progreso desde la última vez que guardaste."
+
+msgid "回到上次自动存档？这之后的进度都会丢失。"
+msgstr "¿Volver al último autoguardado? Se perderá todo el progreso posterior."
+
+msgid "已存档。"
+msgstr "Partida guardada."
+
+msgid "战斗中或动作还没完成时不能存档。"
+msgstr "No puedes guardar durante un combate ni mientras una acción sigue en curso."
+
+msgid "这段戏还没演完，看完再存档。"
+msgstr "Esta escena aún no ha terminado: guarda cuando acabe."
+
+msgid "在两个地区之间移动时不能存档。"
+msgstr "No puedes guardar mientras viajas entre dos regiones."
+
+msgid "角色的生死状态还在变化，暂时不能存档。"
+msgstr "El estado de vida o muerte del personaje aún está cambiando. Ahora no puedes guardar."
+
+msgid "身上有无法保存的临时效果，暂时不能存档。"
+msgstr "Tienes un efecto temporal que no se puede guardar. Ahora no puedes guardar."
+
+msgid "旅程还没准备好，暂时不能存档。"
+msgstr "El viaje aún no está listo. Ahora no puedes guardar."
+
+msgid "这里不能存档，挪一步再试。"
+msgstr "Aquí no se puede guardar. Da un paso e inténtalo de nuevo."
+
+msgid "有人正在替你做的事还没完，等一会儿再存档。"
+msgstr "Alguien sigue haciendo algo por ti. Espera un momento y guarda."
+
+msgid "无法整理当前旅程以便存档。"
+msgstr "No se pudo preparar el viaje actual para guardarlo."
+
+msgid "存档无法写入。"
+msgstr "No se pudo escribir la partida guardada."
+
+msgid "上次存档之后的进度可能会丢失。"
+msgstr "Puede perderse el progreso desde tu último guardado."
+
+msgid "操作无法完成。"
+msgstr "No se pudo hacer."
+
+msgid "自动存档"
+msgstr "Autoguardado"
+
+msgid "决战前"
+msgstr "Antes de la batalla final"
+
+msgid "死前存档"
+msgstr "Antes de morir"
+
+msgid "手动存档 %d"
+msgstr "Partida manual %d"
+
+msgid "{slot}（主存档丢失，可以恢复）"
+msgstr "{slot} (partida principal perdida; se puede recuperar)"
+
+msgid "{slot}（空）"
+msgstr "{slot} (vacía)"
+
+msgid "{slot}（无法读取）"
+msgstr "{slot} (no se puede leer)"
+
+msgid "{slot}（来自不兼容的版本）"
+msgstr "{slot} (de una versión incompatible)"
+
+msgid "{name}（鬼魂）"
+msgstr "{name} (fantasma)"
+
+msgid "{place}    时长 {played}    {saved}"
+msgstr "{place}    Tiempo jugado: {played}    {saved}"
+
+msgid "不到一分钟前"
+msgstr "hace menos de un minuto"
+
+msgid "%d 分钟前"
+msgstr "hace %d min"
+
+msgid "%d 小时前"
+msgstr "hace %d h"
+
+msgid "{count}{unit}{item}"
+msgstr "{count} × {item}"
+
+msgid "一{unit}{item}"
+msgstr "{item}{:un}"
+
+msgid "{npc}没有收下。"
+msgstr "{npc}{:el} no lo acepta."
+
+msgid "{item}对你而言太重了，掉在你的脚边。"
+msgstr "No puedes con {item}{:0}: cae a tus pies."
+
+msgid "这里没有这个人。"
+msgstr "Aquí no hay nadie así."
+
+msgid "这样东西不能随便给人。"
+msgstr "Esto no se puede regalar así como así."
+
+msgid "你拿出{item}给{npc}。"
+msgstr "Le tiendes {item}{:el} a {npc}{:el}."
+
+msgid "你给{npc}{item}。"
+msgstr "Le das {item}{:el} a {npc}{:el}."
+
+msgid "{item}对{holder}而言太重了。"
+msgstr "{holder}{:el} no puede con {item}{:el}."
+
+msgid "{npc}丢下{item}。"
+msgstr "{npc}{:el} deja caer {item}{:el}."
+
+msgid "这样东西不能随意丢弃。"
+msgstr "Esto no se puede tirar así como así."
+
+msgid "你丢下%s。"
+msgstr "Sueltas %s."
+
+msgid "因为这样东西并不值钱，所以人们并不会注意到它的存在。"
+msgstr "Como no tiene valor alguno, nadie repara siquiera en que está ahí."
+
+msgid "这里没有这样东西。"
+msgstr "Aquí no hay nada parecido."
+
+msgid "这个东西还是小心保管的好，不必放在别处。"
+msgstr "Mejor guárdalo bien; no hace falta ponerlo en otro sitio."
+
+msgid "你将{item}放进{container}。"
+msgstr "Metes {item}{:el} en {container}{:el}."
+
+msgid "你上一个动作还没有完成！"
+msgstr "¡Aún no has terminado lo que hacías!"
+
+msgid "这个东西拿不起来。"
+msgstr "Esto no se puede recoger."
+
+msgid "%s对你而言太重了。"
+msgstr "Esto pesa demasiado para ti: %s."
+
+msgid "你从{container}中拿出{item}。"
+msgstr "Sacas {item}{:el} de {container}{:el}."
+
+msgid "你身上没有这样东西。"
+msgstr "No llevas eso encima."
+
+msgid "你没有那麽多的%s。"
+msgstr "No tienes tantas unidades de %s."
+
+msgid "{npc}拿起{container}咕噜噜地喝了几口{liquid}。"
+msgstr "{npc}{:el} levanta {container}{:el} y bebe unos buenos tragos de {liquid}{:0}."
+
+msgid "你胸中杀气翻涌，渐渐压不住了：杀气这么重，走进有人的地方时，你可能会控制不住，向人出手。"
+msgstr "La Sed de sangre te hierve en el pecho y ya casi no puedes contenerla: con tanta, al entrar donde hay gente podrías perder el control y atacar a alguien."
+
+msgid "普通百姓"
+msgstr "Plebeyo"
+
+msgid "【 鬼  魂 】"
+msgstr "[ Fantasma ]"
+
+msgid "【 惯  窃 】"
+msgstr "[ Ladrón ]"
+
+msgid "【 尼  姑 】"
+msgstr "[ Monja ]"
+
+msgid "【 僧  人 】"
+msgstr "[ Monje ]"
+
+msgid "【 女  冠 】"
+msgstr "[ Taoísta ]"
+
+msgid "【 道  士 】"
+msgstr "[ Taoísta ]"
+
+msgid "【 女飞贼 】"
+msgstr "[ Ladrona ]"
+
+msgid "【 盗  贼 】"
+msgstr "[ Ladrón ]"
+
+msgid "【 舞  妓 】"
+msgstr "[ Bailarina ]"
+
+msgid "【 平  民 】"
+msgstr "[ Plebeyo ]"
+
+msgid "【 才  女 】"
+msgstr "[ Dama letrada ]"
+
+msgid "【 书  生 】"
+msgstr "[ Erudito ]"
+
+msgid "【 女  官 】"
+msgstr "[ Funcionaria ]"
+
+msgid "【 官  差 】"
+msgstr "[ Alguacil ]"
+
+msgid "【 女武者 】"
+msgstr "[ Guerrera ]"
+
+msgid "【 武  者 】"
+msgstr "[ Guerrero ]"
+
+msgid "【 女剑士 】"
+msgstr "[ Espadachina ]"
+
+msgid "【 剑  士 】"
+msgstr "[ Espadachín ]"
+
+msgid "【 方  士 】"
+msgstr "[ Mago ]"
+
+msgid "【 巫  医 】"
+msgstr "[ Chamán ]"
+
+msgid "【 叫化子 】"
+msgstr "[ Mendigo ]"
+
+msgid "贼尼"
+msgstr "monja ladrona"
+
+msgid "妖女"
+msgstr "bruja"
+
+msgid "小贱人"
+msgstr "pequeña miserable"
+
+msgid "死老太婆"
+msgstr "vieja bruja"
+
+msgid "死秃驴"
+msgstr "burro pelón"
+
+msgid "老秃驴"
+msgstr "viejo burro pelón"
+
+msgid "死牛鼻子"
+msgstr "nariz de buey"
+
+msgid "小王八蛋"
+msgstr "pequeño bastardo"
+
+msgid "臭贼"
+msgstr "ladrón apestoso"
+
+msgid "老匹夫"
+msgstr "viejo canalla"
+
+msgid "本姑娘"
+msgstr "esta señorita"
+
+msgid "老娘"
+msgstr "esta vieja"
+
+msgid "大和尚我"
+msgstr "este monje"
+
+msgid "老和尚我"
+msgstr "este viejo monje"
+
+msgid "本山人"
+msgstr "este ermitaño"
+
+msgid "大爷我"
+msgstr "este gran señor"
+
+msgid "老子"
+msgstr "este viejo"
+
+msgid "{pronoun}看起来远不如你。"
+msgstr "Parece mucho más débil que tú."
+
+msgid "{pronoun}看起来不如你。"
+msgstr "Parece más débil que tú."
+
+msgid "{pronoun}看起来和你不相上下。"
+msgstr "Parece estar a tu altura."
+
+msgid "{pronoun}看起来比你强。"
+msgstr "Parece más fuerte que tú."
+
+msgid "{pronoun}看起来比你强得多。"
+msgstr "Parece mucho más fuerte que tú."
+
+msgid "歇到回满"
+msgstr "Descansar del todo"
+
+msgid "找个地方坐下歇着，让时间走起来：精、气、神慢慢回满就起身。世界照常运转，有人来袭会把你惊起。"
+msgstr "Busca un lugar, siéntate y deja que el tiempo corra: te levantas cuando Esencia, Qi y Espíritu están llenos. El mundo sigue su curso y, si alguien te ataca, te pones en pie de un salto."
+
+msgid "你找个地方坐下，歇一歇。"
+msgstr "Buscas un lugar, te sientas y descansas un rato."
+
+msgid "身上的限时差事照样计时：歇得越久，剩下的时辰越少。"
+msgstr "Los encargos con límite de tiempo siguen corriendo: cuanto más descansas, menos tiempo te queda."
+
+msgid "歇息中……已歇{time}"
+msgstr "Descansando... llevas {time}"
+
+msgid "起身"
+msgstr "Levantarse"
+
+msgid "正在打斗，歇不下来。"
+msgstr "En plena pelea no puedes descansar."
+
+msgid "你精神饱满，用不着歇。"
+msgstr "Estás en plena forma. No hace falta descansar."
+
+msgid "你口干舌燥，歇着也回不过精神来：先找水喝。"
+msgstr "Tienes la boca seca y descansar no te devolverá las fuerzas: busca agua primero."
+
+msgid "现在歇不下来。"
+msgstr "Ahora no puedes descansar."
+
+msgid "你歇了{time}，精、气、神都回满了。"
+msgstr "Descansas {time}. Esencia, Qi y Espíritu están llenos otra vez."
+
+msgid "你歇了{time}，起身活动活动。精、气、神还没全回满：伤要慢慢养，金疮药和运功疗伤快得多。"
+msgstr "Descansas {time} y te levantas a estirar las piernas. Esencia, Qi y Espíritu aún no están llenos: las heridas sanan despacio, y el ungüento para heridas o curarte con tu neigong es mucho más rápido."
+
+msgid "你歇了{time}，站了起来。"
+msgstr "Descansas {time} y te pones en pie."
+
+msgid "你歇了{time}，忽然有人来袭，你一跃而起！"
+msgstr "Descansas {time}... ¡y de pronto alguien te ataca! ¡Te levantas de un salto!"
+
+msgid "你歇了{time}，身上一阵难受，歇不下去了。"
+msgstr "Descansas {time}, pero te recorre una oleada de malestar y no puedes seguir descansando."
+
+msgid "你歇了{time}，口干舌燥，再歇也回不过来：先找水喝。"
+msgstr "Descansas {time}. Tienes la boca seca y más descanso no servirá: busca agua primero."
+
+msgid "你歇了{time}，听见动静，站了起来。"
+msgstr "Descansas {time}, oyes algo y te pones en pie."
+
+msgid "你歇了{time}。"
+msgstr "Descansas {time}."
+
+msgid "快"
+msgstr "Rápido"
+
+msgid "重"
+msgstr "Pesado"
+
+msgid "虚"
+msgstr "Finta"
+
+msgid "守"
+msgstr "Guardia"
+
+msgid "平"
+msgstr "Neutro"
+
+msgid "快：命中高、伤害低；克重招。"
+msgstr "Rápido: acierta más, daña menos. Vence a Pesado."
+
+msgid "重：伤害高、命中低；克守招。"
+msgstr "Pesado: daña más, acierta menos. Vence a Guardia."
+
+msgid "虚：对方难以招架、伤害低，打中就打断对方的蓄势；克快招。"
+msgstr "Finta: difícil de parar y daña poco; si acierta, corta la preparación del rival. Vence a Rápido."
+
+msgid "守：这一回合自己更难被打中，伤害低；克虚招。"
+msgstr "Guardia: en esta ronda es más difícil que te golpeen, pero daña poco. Vence a Finta."
+
+msgid "平：没有偏向。"
+msgstr "Neutro: sin ventaja ni desventaja."
+
+msgid "隙"
+msgstr "Brecha"
+
+msgid "压"
+msgstr "Aplaste"
+
+msgid "连"
+msgstr "Cadena"
+
+msgid "对方打空得 1 手"
+msgstr "+1 turno si el rival falla"
+
+msgid "近身打中得 1 手"
+msgstr "+1 turno por un golpe cercano"
+
+msgid "换招连打得 1 手"
+msgstr "+1 turno por encadenar golpes distintos"
+
+msgid "够不着"
+msgstr "Fuera de alcance"
+
+msgid "攻"
+msgstr "Ataque"
+
+msgid "游走"
+msgstr "Esquiva"
+
+msgid "攻：伤害高，闪躲、招架低；有内功时加力到上限的一半。"
+msgstr "Ataque: daña mucho, esquiva y para poco. Con un neigong, la Fuerza extra sube hasta la mitad de su tope."
+
+msgid "守：招架高，伤害低。"
+msgstr "Guardia: para mucho, daña poco."
+
+msgid "游走：闪躲高，命中低。"
+msgstr "Esquiva: esquiva mucho, acierta poco."
+
+msgid "稳赢"
+msgstr "Victoria segura"
+
+msgid "占优"
+msgstr "Ventaja"
+
+msgid "五五开"
+msgstr "Parejo"
+
+msgid "吃亏"
+msgstr "Desventaja"
+
+msgid "必败"
+msgstr "Derrota segura"
+
+msgid "稳赢：{pronoun}远不是你的对手。"
+msgstr "Victoria segura: no es rival para ti."
+
+msgid "占优：你比{pronoun}强一些。"
+msgstr "Ventaja: eres un poco más fuerte."
+
+msgid "五五开：{pronoun}和你不相上下。"
+msgstr "Parejo: están igualados."
+
+msgid "吃亏：{pronoun}比你强，打起来要吃亏。"
+msgstr "Desventaja: es más fuerte que tú y saldrás mal parado."
+
+msgid "必败：{pronoun}远比你强，别打。"
+msgstr "Derrota segura: es mucho más fuerte que tú. No pelees."
+
+msgid "{pronoun}这边有 {count} 个人一起上。"
+msgstr "{count} de ese lado, todos a la vez."
+
+msgid "{pronoun}的闪躲比你高得多，你很难打中。"
+msgstr "Esquiva mucho mejor que tú: te costará acertar."
+
+msgid "{pronoun}有兵刃在手，你空手难以近身。"
+msgstr "Tiene un arma en la mano: con las manos vacías te costará acercarte."
+
+msgid "{pronoun}的经验比你多得多，你的拳脚落不实。"
+msgstr "Tiene mucha más experiencia: tus golpes no llegarán limpios."
+
+msgid "{pronoun}下手太重，你撑不了几回合。"
+msgstr "Golpea demasiado fuerte: no aguantarás muchas rondas."
+
+msgid "你有兵刃在手，{pronoun}空手挡不住。"
+msgstr "Vas armado: con las manos vacías no podrá pararte."
+
+msgid "切磋稳赢：{pronoun}的招式你一眼看穿。"
+msgstr "Práctica, victoria segura: ves venir cada golpe."
+
+msgid "切磋占优：你多半先打中{pronoun}。"
+msgstr "Práctica, ventaja: lo más probable es que aciertes primero."
+
+msgid "切磋五五开：谁先打中谁赢。"
+msgstr "Práctica, parejo: gana quien acierte primero."
+
+msgid "切磋吃亏：{pronoun}多半先打中你。"
+msgstr "Práctica, desventaja: lo más probable es que acierte primero."
+
+msgid "切磋必输：{pronoun}的招式你接不住。"
+msgstr "Práctica, derrota segura: no puedes con sus golpes."
+
+msgid "{name}打了个隔，不过依然烂醉如泥。"
+msgstr "{name}{:el} hipa, pero sigue {~:borracho|borracha} como una cuba."
+
+msgid "你觉得脑中昏昏沉沉，身子轻飘飘地，大概是醉了。"
+msgstr "Sientes la cabeza turbia y el cuerpo ligero. Seguramente has bebido de más."
+
+msgid "{name}摇头晃脑地站都站不稳，显然是喝醉了。"
+msgstr "{name}{:el} se tambalea y apenas se sostiene en pie. Está claro que ha bebido de más."
+
+msgid "你觉得一阵酒意上冲，眼皮有些沉重了。"
+msgstr "El vino te sube a la cabeza y se te cierran los párpados."
+
+msgid "{name}脸上已经略显酒意了。"
+msgstr "{name}{:el} ya tiene el rostro algo encendido por el vino."
+
+msgid "你中的意寒掌毒发作了！"
+msgstr "¡Se manifiesta el veneno de la Palma helada que llevas dentro!"
+
+msgid "意寒掌毒"
+msgstr "veneno de la Palma helada"
+
+msgid "你中的火玫瑰毒发作了！"
+msgstr "¡Se manifiesta el veneno de la Rosa de fuego que llevas dentro!"
+
+msgid "火玫瑰毒"
+msgstr "veneno de la Rosa de fuego"
+
+msgid "你觉得脑中昏昏沉沉，心中空荡荡的，直想躺下来睡一觉。"
+msgstr "Sientes la cabeza turbia y el corazón vacío; solo quieres tumbarte a dormir."
+
+msgid "{name}摇头晃脑地站都站不稳，显然是蒙汗药的药力发作了。"
+msgstr "{name}{:el} se tambalea y apenas se sostiene en pie: el polvo somnífero está haciendo efecto."
+
+msgid "你中的蛇毒发作了！"
+msgstr "¡Se manifiesta el veneno de serpiente que llevas dentro!"
+
+msgid "蛇毒"
+msgstr "veneno de serpiente"
+
+msgid "{name}({id})。\n"
+msgstr "{name} ({id}).\n"
+
+msgid "僵尸追魂符（{name}）"
+msgstr "talismán que persigue almas ({name})"
+
+msgid "断掉的{weapon}"
+msgstr "{weapon}{:0} {~:roto|rota}"
+
+msgid "歇到回满's pace and longest rest must not be negative"
+msgstr "El ritmo de \"Descansar del todo\" y el descanso más largo no pueden ser negativos"
+
+msgid "a run that rests by itself needs 歇到回满 (rest_world_scale)"
+msgstr "una partida que descansa sola necesita \"Descansar del todo\" (rest_world_scale)"
+
+msgid "恭喜你！你又完成了一项任务！"
+msgstr "¡Felicidades! ¡Cumpliste otra tarea!"
+
+msgid "你被奖励了：\n{exp}点实战经验\n{pot}点潜能\n{score}点综合评价"
+msgstr "Recibes una recompensa:\n{exp} {#:punto|puntos} de Experiencia de combate\n{pot} {#:punto|puntos} de Potencial\n{score} {#:punto|puntos} de Reputación"
+
+msgid "你亲手杀了自己的师父，被逐出了{family}！"
+msgstr "¡Mataste a tu propio Shifu con tus manos y te expulsaron de {family}{:el}!"
+
+msgid "弑师等同背叛师门：综合评价清零，背叛师门的次数变成 {count} 次。"
+msgstr "Matar a tu Shifu equivale a traicionar a tu escuela: tu Reputación vuelve a cero y tus traiciones ya suman {count}."
+
+msgid "「意寒睨」之术只能在战斗中使用。"
+msgstr "La Mirada helada solo puede usarse en combate."
+
+msgid "你的内力不够。"
+msgstr "Tu Fuerza interior no basta."
+
+msgid "你要对谁施展「意寒睨」之术？"
+msgstr "¿A quién quieres lanzar la Mirada helada?"
+
+msgid "$N眼神忽然发出异光，双瞳犹如两把利刃般盯著$n！"
+msgstr "Los ojos de {N:ti|$N{:el}} destellan de pronto con un brillo extraño y {N:tus pupilas|sus pupilas} se clavan en {n:ti|$n{:el}} como dos hojas afiladas."
+
+msgid "$N很快地转过头去，避开了$n的目光。"
+msgstr "$N{:el} {N:apartas|aparta} la cabeza rápidamente y {N:evitas|evita} {n:tu mirada|la mirada de $n{:el}}."
+
+msgid "但是$N对$n的注视视若无睹....。"
+msgstr "Pero $N{:el} {N:ignoras|ignora} {n:tu mirada fija|la mirada fija de $n{:el}}..."
+
+msgid "$N被$n的目光所摄，不自禁地打了个寒噤。"
+msgstr "$N{:el} {N:te estremeces|se estremece} bajo {n:tu mirada|la mirada de $n{:el}} sin poder evitarlo."
+
+msgid "$N闭目凝神，用谷衣心法的内力运转了一次「灵神诀」..."
+msgstr "$N{:el} {N:cierras|cierra} los ojos, {N:concentras|concentra} la mente y {N:haces|hace} correr una vez la \"Fórmula del espíritu\" con la Fuerza interior del Método interno de la túnica de grano..."
+
+msgid "一股青气从$N身上散出，汇聚在$P的顶心，然後缓缓淡去。"
+msgstr "Un vapor verdoso brota de {N:ti|$N{:el}}, se reúne en {N:tu coronilla|su coronilla} y luego se disipa despacio."
+
+msgid "你必须先 enable 一种内功。"
+msgstr "Primero debes activar un neigong."
+
+msgid "你只能用 none 表示不运内力，或数字表示每一击用几点内力。"
+msgstr "Escribe \"none\" para no usar Fuerza interior, o un número para los puntos de Fuerza interior que va en cada golpe."
+
+msgid "疗伤"
+msgstr "Curar heridas"
+
+msgid "疗伤他人"
+msgstr "Curar a otro"
+
+msgid "灵神诀"
+msgstr "Fórmula del espíritu"
+
+msgid "恢复气"
+msgstr "Recuperar Qi"
+
+msgid "恢复神"
+msgstr "Recuperar Espíritu"
+
+msgid "恢复精"
+msgstr "Recuperar Esencia"
+
+msgid "提升战斗力"
+msgstr "Potenciar"
+
+msgid "压制杀气"
+msgstr "Reprimir Sed de sangre"
+
+msgid "天邪虎啸"
+msgstr "Rugido del tigre rebelde"
+
+msgid "意寒睨"
+msgstr "Mirada helada"
+
+msgid "你的气已经恢复到上限了。"
+msgstr "Tu Qi ya está al máximo."
+
+msgid "$N深深吸了几口气，脸色看起来好多了。"
+msgstr "$N{:el} {N:respiras|respira} hondo unas cuantas veces y {N:recuperas|recupera} el color."
+
+msgid "你的神已经恢复到上限了。"
+msgstr "Tu Espíritu ya está al máximo."
+
+msgid "$N微一凝神，缓缓地吸了口气，看起来有精神多了。"
+msgstr "$N{:el} {N:concentras|concentra} un instante la mente, {N:tomas|toma} aire despacio y {N:pareces|parece} mucho más alerta."
+
+msgid "你的精力已经恢复到上限了。"
+msgstr "Tu Esencia ya está al máximo."
+
+msgid "$N深深地吸了口气，手脚活动了几下，看起来有活力多了。"
+msgstr "$N{:el} {N:tomas|toma} aire hondo, {N:mueves|mueve} brazos y piernas un momento y {N:rebosas|rebosa} de vitalidad."
+
+msgid "( 你上一个动作还没有完成，不能施用内功。)"
+msgstr "( Todavía no has terminado lo que hacías; aún no puedes usar tu neigong. )"
+
+msgid "你请先用 enable 指令选择你要使用的内功。"
+msgstr "Elige primero el neigong que quieres usar."
+
+msgid "你所学的内功中没有这种功能。"
+msgstr "Ninguno de los neigong que conoces hace eso."
+
+msgid "战斗中运功疗伤？找死吗？"
+msgstr "¿Curarte con tu neigong en pleno combate? ¿Buscas la muerte?"
+
+msgid "你的真气不够。"
+msgstr "Tu Qi verdadero no basta."
+
+msgid "你已经受伤过重，只怕一运真气便有生命危险！"
+msgstr "Tus heridas son demasiado graves: ¡mover tu Qi verdadero ahora podría matarte!"
+
+msgid "你全身放松，坐下来开始运功疗伤。"
+msgstr "Relajas todo el cuerpo, te sientas y empiezas a curarte con tu neigong."
+
+msgid "$N坐了下来运起内功，将手掌贴在$n背心，缓缓地将真气输入$n体内...."
+msgstr "$N{:el} {N:te sientas|se sienta}, {N:activas|activa} {N:tu|su} neigong, {N:apoyas|apoya} una palma en {n:tu espalda|la espalda de $n{:el}} y {N:vas infundiendo|va infundiendo} Qi verdadero en {n:tu cuerpo|su cuerpo}..."
+
+msgid "过了不久，$N额头上冒出豆大的汗珠，$n吐出一口瘀血，脸色看起来红润多了。"
+msgstr "Poco después, {N:te brotan|a $N{:el} le brotan} gruesas gotas de sudor en la frente; $n{:el} {n:escupes|escupe} un bocado de sangre mala y {n:te ves|se ve} mucho mejor."
+
+msgid "你要用真气为谁疗伤？"
+msgstr "¿A quién quieres curar con tu Qi verdadero?"
+
+msgid "战斗中无法运功疗伤！"
+msgstr "¡No puedes curar con tu neigong en pleno combate!"
+
+msgid "{name}已经受伤过重，经受不起你的真气震荡！"
+msgstr "¡{name}{:el} está demasiado {~:herido|herida} para resistir la sacudida de tu Qi verdadero!"
+
+msgid "你已经在运功中了。"
+msgstr "Ya estás usando tu neigong."
+
+msgid "你现在毫无杀气。"
+msgstr "Ahora mismo no tienes nada de Sed de sangre."
+
+msgid "$N微一凝神，运起天邪神功，放慢呼吸，开始收敛自己的杀气 ...."
+msgstr "$N{:el} {N:concentras|concentra} un instante la mente, {N:activas|activa} el Arte rebelde, {N:ralentizas|ralentiza} la respiración y {N:empiezas|empieza} a contener {N:tu|su} Sed de sangre..."
+
+msgid "$N微一凝神，运起天邪神功，全身骨节发出一阵爆豆般的声响！"
+msgstr "$N{:el} {N:concentras|concentra} un instante la mente y {N:activas|activa} el Arte rebelde: ¡todas las articulaciones de {N:tu|su} cuerpo crujen como granos que revientan!"
+
+msgid "天邪虎啸只能在战斗中使用。"
+msgstr "El Rugido del tigre rebelde solo puede usarse en combate."
+
+msgid "$N深深地吸一口气，开始发出有如猛虎般的啸声！"
+msgstr "$N{:el} {N:tomas|toma} aire hondo y {N:empiezas|empieza} a rugir como un tigre feroz."
+
+msgid "吃"
+msgstr "Comer"
+
+msgid "使用"
+msgstr "Usar"
+
+msgid "你没有中蛇毒。"
+msgstr "No tienes veneno de serpiente en el cuerpo."
+
+msgid "但是你中的蛇毒并没有完全清除。"
+msgstr "Pero el veneno de serpiente no se ha ido del todo."
+
+msgid "你终于清除了体内所有的蛇毒！"
+msgstr "¡Por fin has eliminado todo el veneno de serpiente de tu cuerpo!"
+
+msgid "你服下蛇药，顿时感觉好多了。{after}"
+msgstr "Tomas el antídoto contra serpientes y te sientes mucho mejor al instante.{after}"
+
+msgid "体内的蛇毒还剩 {left} 分：每服一剂解去一分，每次毒发也会消退一分。"
+msgstr "Te quedan {left} {#:punto|puntos} de veneno de serpiente: cada dosis quita uno, y cada vez que el veneno se manifiesta también se va uno."
+
+msgid "战斗中不能用药治伤!"
+msgstr "¡No puedes tratar heridas con medicina en pleno combate!"
+
+msgid "你没有受伤啊?"
+msgstr "¡Pero si no estás herido!"
+
+msgid "你敷上金疮药 ."
+msgstr "Te aplicas el ungüento para heridas."
+
+msgid "你拿出一朵小花蕊，一口给吞了下去。"
+msgstr "Sacas el cogollo de una florecilla y te lo tragas de un bocado."
+
+msgid "只见你脸上泛起一阵红晕，整个人看起来好多了!"
+msgstr "Un rubor te sube a la cara. ¡Te ves mucho mejor!"
+
+msgid "你拿出一粒仙丹，纳入口中. 吃的太急, 鼻涕眼泪流了满脸.."
+msgstr "Sacas una píldora de inmortal y te la metes en la boca. Comes con tanta prisa que te chorrean mocos y lágrimas por toda la cara..."
+
+msgid "红酒"
+msgstr "Vino tinto"
+
+msgid "清水"
+msgstr "Agua limpia"
+
+msgid "你向{npc}请教有关「{skill}」的疑问。"
+msgstr "Consultas a {npc}{:el} tus dudas sobre \"{skill}\"."
+
+msgid "临阵磨枪？来不及啦。"
+msgstr "¿Estudiar a última hora, justo antes del combate? Ya es tarde."
+
+msgid "你要向谁求教？"
+msgstr "¿De quién quieres aprender?"
+
+msgid "嗯....你得先把%s弄醒再说。"
+msgstr "Mmm... primero tendrías que despertar a %s."
+
+msgid "这项技能你恐怕必须找别人学了。"
+msgstr "Tendrás que aprender esta habilidad de otra persona."
+
+msgid "%s神色间似乎对你不是十分信任，也许是想起你从前背叛师门的事情 ...。"
+msgstr "%s no parece fiarse mucho de ti. Quizá recuerde que una vez traicionaste a tu escuela..."
+
+msgid "%s说道：嗯 .... 师父能教你的都教了，其他的你自己练吧。"
+msgstr "%s dice: \"Mmm... Ya te enseñé todo lo que un Shifu puede enseñar. Lo demás tendrás que practicarlo tú.\""
+
+msgid "%s说道：虽然你是我门下的弟子，可是并非我的嫡传弟子 ...."
+msgstr "%s dice: \"Aunque eres discípulo de mi escuela, no eres mi discípulo directo...\""
+
+msgid "%s说道：我只能教你这些粗浅的本门功夫，其他的还是去找你师父学吧。"
+msgstr "%s dice: \"Solo puedo enseñarte estas artes básicas de nuestra escuela. Para lo demás, ve con tu Shifu.\""
+
+msgid "%s不愿意教你这项技能。"
+msgstr "%s no quiere enseñarte esta habilidad."
+
+msgid "这项技能你的程度已经不输你师父了。"
+msgstr "En esta habilidad ya no eres inferior a tu Shifu."
+
+msgid "依你目前的能力，没有办法学习这种技能。"
+msgstr "Con lo que puedes hacer ahora, no hay forma de aprender esta habilidad."
+
+msgid "%s说道：%s"
+msgstr "%s dice: \"%s\""
+
+msgid "你的潜能已经发挥到极限了，没有办法再成长了。"
+msgstr "Has llegado al límite de tu potencial; ya no puedes crecer más."
+
+msgid "但是%s现在并不准备回答你的问题。"
+msgstr "Pero %s no piensa responder a tus preguntas por ahora."
+
+msgid "但是%s显然太累了，没有办法教你什麽。"
+msgstr "Pero %s no está en condiciones de enseñarte nada: el cansancio se le nota."
+
+msgid "你向%s请教，但这次请教无法进行。"
+msgstr "Acudes a %s, pero esta vez la lección no puede seguir adelante."
+
+msgid "也许是缺乏实战经验，你对%s的回答总是无法领会。"
+msgstr "Quizá por falta de Experiencia de combate, nunca logras entender las respuestas de %s."
+
+msgid "你今天太累了，结果什麽也没有学到。"
+msgstr "Hoy el cansancio te puede y no aprendes nada."
+
+msgid "你听了%s的指导，似乎有些心得。"
+msgstr "Escuchas las indicaciones de %s y parece que sacas algo en claro."
+
+msgid "还能学到 {level} 级（{why}）"
+msgstr "Puedes aprender hasta el nivel {level} ({why})"
+
+msgid "学不了：{why}"
+msgstr "No puedes aprender: {why}"
+
+msgid "{head}。"
+msgstr "{head}."
+
+msgid "{head}；{problem}。"
+msgstr "{head}; {problem}."
+
+msgid "{npc}自己是 {teacher} 级"
+msgstr "{npc}{:el} está en el nivel {teacher}{:0}"
+
+msgid "你已学到{npc}的 {teacher} 级"
+msgstr "Ya llegaste al nivel {teacher}{:0} de {npc}{:el}"
+
+msgid "背叛师门 {count} 次，{npc}只教到 {teacher} - 20×{count} = {cap} 级"
+msgstr "Traiciones: {count}; {npc}{:el} enseña solo hasta el nivel {teacher}{:0} - 20×{count} = {cap}"
+
+msgid "不是{npc}的嫡传弟子，只学得到{npc}等级（{teacher}）的三分之一左右"
+msgstr "No eres {jugador:discípulo directo|discípula directa} de {npc}{:el}: solo puedes llegar a cerca de un tercio del nivel de {npc}{:el} ({teacher}{:0})"
+
+msgid "背叛师门 {count} 次，{npc}能教你的都教了"
+msgstr "Traiciones: {count}; {npc}{:el} ya te enseñó todo lo que te va a enseñar"
+
+msgid "{level} 级要再学，须实战经验 ≥ {required}"
+msgstr "Para pasar del nivel {level} necesitas Experiencia de combate ≥ {required}"
+
+msgid "经验不足，要再学须实战经验 ≥ {required}（你 {have}）"
+msgstr "Experiencia insuficiente: para aprender más necesitas Experiencia de combate ≥ {required} (tienes {have})"
+
+msgid "学不了：{npc}不肯指点你。"
+msgstr "No puedes aprender: {npc}{:el} no quiere instruirte."
+
+msgid "潜能已经用完"
+msgstr "Sin Potencial"
+
+msgid "{npc}太累了"
+msgstr "{npc}{:el} está demasiado {~:cansado|cansada}"
+
+msgid "{npc}现在不答问题"
+msgstr "{npc}{:el} no responde preguntas ahora"
+
+msgid "精不够：每次耗精 {cost}，精须多于此数"
+msgstr "Esencia insuficiente: cada lección cuesta {cost} y necesitas tener más que eso"
+
+msgid "%s说道：您太客气了，这怎麽敢当？"
+msgstr "%s dice: \"Usted es muy amable; no podría aceptarlo.\""
+
+msgid "%s像是受宠若惊一样，说道：请教？这怎麽敢当？"
+msgstr "%s se queda sin palabras de puro halago. \"¿Aprender de mí? No me atrevería.\""
+
+msgid "%s笑著说道：您见笑了，我这点雕虫小技怎够资格「指点」您什麽？"
+msgstr "%s ríe y dice: \"Usted se burla. ¿Cómo van mis modestas habilidades a 'guiar' a alguien como usted?\""
+
+msgid "「{nickname}」{name}"
+msgstr "{name}, {nickname}"
+
+msgid "{title}{name}"
+msgstr "{title} {name}"
+
+msgid "{title} {name}"
+msgstr "{title} {name}"
+
+msgid "跪下受戒"
+msgstr "Recibir los preceptos"
+
+msgid "北"
+msgstr "el norte"
+
+msgid "南"
+msgstr "el sur"
+
+msgid "东"
+msgstr "el este"
+
+msgid "西"
+msgstr "el oeste"
+
+msgid "北边"
+msgstr "el norte"
+
+msgid "南边"
+msgstr "el sur"
+
+msgid "东边"
+msgstr "el este"
+
+msgid "西边"
+msgstr "el oeste"
+
+msgid "东北"
+msgstr "el noreste"
+
+msgid "西北"
+msgstr "el noroeste"
+
+msgid "东南"
+msgstr "el sureste"
+
+msgid "西南"
+msgstr "el suroeste"
+
+msgid "上"
+msgstr "arriba"
+
+msgid "下"
+msgstr "abajo"
+
+msgid "外"
+msgstr "afuera"
+
+msgid "里"
+msgstr "adentro"
+
+msgid "{npc}往{direction}离开。"
+msgstr "{npc}{:el} se va hacia {direction}."
+
+msgid "{npc}往{direction}落荒而逃了。"
+msgstr "{npc}{:el} huye en desbandada hacia {direction}."
+
+msgid "想倚多为胜，这不是欺人太甚吗！"
+msgstr "¿Ganar por número? ¡Eso es abusar demasiado!"
+
+msgid "哼！出招吧！"
+msgstr "¡Hmph! ¡Ataca!"
+
+msgid "$SELF怎麽可能是$RESPECT的对手？"
+msgstr "¿Cómo podría $SELF competir con usted, $RESPECT?"
+
+msgid "既然$RESPECT赐教，$SELF只好奉陪。"
+msgstr "Ya que se digna a instruirme, $RESPECT, $SELF solo puede aceptar."
+
+msgid "not a task 朱鸿雪 gives, or all default"
+msgstr "no es una tarea que da Zhu Hongxue, o todo por defecto"
+
+msgid "你第一次在切磋中胜过了{name}"
+msgstr "Ganaste por primera vez un combate de práctica contra {name}{:el}"
+
+msgid "你第一次击败了{name}"
+msgstr "Derrotaste por primera vez a {name}{:el}"
+
+msgid "你了结了「{name}」这段经历"
+msgstr "Diste por terminado \"{name}\""
+
+msgid "你读通了{name}"
+msgstr "Leíste de principio a fin {name}{:el}"
+
+msgid "你完成了官府悬赏「{name}」"
+msgstr "Completaste la recompensa oficial \"{name}\""
+
+msgid "你的内力练到了 {name}"
+msgstr "Tu Fuerza interior llegó a {name}"
+
+msgid "你办成了「{name}」"
+msgstr "Cumpliste \"{name}\""
+
+msgid "你第一次来到{name}"
+msgstr "Llegaste por primera vez a {name}{:el}"
+
+msgid "【历练】{done}：实战经验 +{exp}，潜能 +{pot}。"
+msgstr "[Hazañas] {done}: Experiencia de combate +{exp}, Potencial +{pot}."
+
+msgid "【历练】{done}：实战经验 +{exp}。"
+msgstr "[Hazañas] {done}: Experiencia de combate +{exp}."
+
+msgid "（落后补偿 +{percent}%）"
+msgstr "(bono por ponerte al día +{percent}%)"
+
+msgid "潜能已满（最多 {cap} 点未用），多出的 {cut} 点没有记下。先去请教师父或自学，用掉一些潜能吧。"
+msgstr "El Potencial está lleno (máximo {cap} sin usar); los {cut} puntos de más no se contaron. Ve a aprender con tu Shifu o estudia por tu cuenta para gastar algo de Potencial."
+
+msgid "【事迹】{did}"
+msgstr "[Hazaña] {did}"
+
+msgid "（在{place}，无人看见）"
+msgstr "(en {place}{:el}, sin que nadie lo viera)"
+
+msgid "（在{place}，{who}看见了）"
+msgstr "(en {place}{:el}, visto por {who}{:0})"
+
+msgid "门派"
+msgstr "Escuelas"
+
+msgid "交情"
+msgstr "Vínculos"
+
+msgid "秘密"
+msgstr "Secretos"
+
+msgid "杀"
+msgstr "Matar"
+
+msgid "寻"
+msgstr "Buscar"
+
+msgid "a quest needs a target, type 杀 or 寻, time above 0 and bonuses not below 0"
+msgstr "una misión necesita un objetivo, tipo Matar o Buscar, tiempo mayor que 0 y bonos no menores que 0"
+
+msgid "朱鸿雪奇怪的眼神盯着你,说:\n就凭你这种小角色也想? 还不快滚!"
+msgstr "Zhu Hongxue te clava una mirada extraña y dice:\n¿Un don nadie como tú pretende eso? ¡Largo de aquí!"
+
+msgid "朱鸿雪摆了摆手，说道：\n『{target}』那件事不必办了。"
+msgstr "Zhu Hongxue agita la mano y dice:\nOlvida el asunto de {target}{:el}."
+
+msgid "朱鸿雪向你一甩袍袖，说道：\n真没用！不过看在你还回来见我的份上，就在给你一次机会．"
+msgstr "Zhu Hongxue te lanza un manotazo de manga y dice:\n¡Qué inútil! Pero, ya que volviste a verme, te daré otra oportunidad."
+
+msgid "朱鸿雪沉思了一会儿，说道：\n请在{time}内找回『{target}』给我。"
+msgstr "Zhu Hongxue lo piensa un momento y dice:\nTráeme {target}{:el} dentro de {time}."
+
+msgid "朱鸿雪沉思了一会儿，说道：\n请在{time}内替我杀了『{target}』。"
+msgstr "Zhu Hongxue lo piensa un momento y dice:\nMata por mí a {target}{:el} dentro de {time}."
+
+msgid "你现在没有任何任务！"
+msgstr "¡No tienes ninguna tarea ahora!"
+
+msgid "你现在的任务是{type}『{target}』。"
+msgstr "Tu tarea actual ({type}): {target}{:el}."
+
+msgid "你还有{time}去完成它。"
+msgstr "Te quedan {time} para completarla."
+
+msgid "但是你已经没有足够的时间来完成它了。"
+msgstr "Pero ya no te queda tiempo suficiente para completarla."
+
+msgid "{n}天"
+msgstr "{n} d"
+
+msgid "{n}小时"
+msgstr "{n} h"
+
+msgid "{n}分"
+msgstr "{n} min"
+
+msgid "{n}秒"
+msgstr "{n} s"
+
+msgid "主线"
+msgstr "Historia principal"
+
+msgid "势力"
+msgstr "Facciones"
+
+msgid "地区"
+msgstr "Regional"
+
+msgid "差事"
+msgstr "Encargos"
+
+msgid "the 历练 is the quest's"
+msgstr "la Trayectoria es la de la misión"
+
+msgid "{what} ≥ {required}（你 {have}）"
+msgstr "{what} ≥ {required} (tienes {have})"
+
+msgid "只收男弟子"
+msgstr "Solo acepta discípulos varones"
+
+msgid "只收女弟子"
+msgstr "Solo acepta discípulas"
+
+msgid "须先剃度出家"
+msgstr "Debes recibir antes la tonsura"
+
+msgid "身份须合师门的规矩"
+msgstr "Tu condición debe ajustarse a las reglas de la escuela"
+
+msgid "另有条件"
+msgstr "Otras condiciones"
+
+msgid "另有条件（拜师时便知）"
+msgstr "Otras condiciones (las sabrás al pedirlo)"
+
+msgid "{npc}说过：{line}"
+msgstr "{npc}{:el} dijo una vez: {line}"
+
+msgid "身上的钱不到 {money}"
+msgstr "Llevas encima menos de {money}"
+
+msgid "只收没有门派的人"
+msgstr "Solo acepta a quienes no tienen escuela"
+
+msgid "须通过考验"
+msgstr "Debes pasar una prueba"
+
+msgid "拜师时另有要求"
+msgstr "Al pedir ser discípulo se te exigirá algo más"
+
+msgid "须另有机缘"
+msgstr "Hace falta la ocasión adecuada"
+
+msgid "不收徒"
+msgstr "No acepta discípulos"
+
+msgid "{npc}已经愿意收你"
+msgstr "{npc}{:el} ya está {~:dispuesto|dispuesta} a aceptarte"
+
+msgid "{n} 两黄金"
+msgstr "{n} {#:tael|taels} de oro"
+
+msgid "{n} 两银子"
+msgstr "{n} {#:tael|taels} de plata"
+
+msgid "{n} 文钱"
+msgstr "{n} wen"
+
+msgid "打法"
+msgstr "Estilo de combate"
+
+msgid "师兄"
+msgstr "Hermano mayor"
+
+msgid "师弟"
+msgstr "Hermano menor"
+
+msgid "同门师兄"
+msgstr "Hermano mayor de escuela"
+
+msgid "同门师弟"
+msgstr "Hermano menor de escuela"
+
+msgid "师姐"
+msgstr "Hermana mayor"
+
+msgid "师妹"
+msgstr "Hermana menor"
+
+msgid "同门师姐"
+msgstr "Hermana mayor de escuela"
+
+msgid "同门师妹"
+msgstr "Hermana menor de escuela"
+
+msgid "师父"
+msgstr "Shifu"
+
+msgid "同门长辈"
+msgstr "Mayor de la escuela"
+
+msgid "师伯"
+msgstr "Tío mayor de escuela"
+
+msgid "师叔"
+msgstr "Tío menor de escuela"
+
+msgid "同门晚辈"
+msgstr "Menor de la escuela"
+
+msgid "师侄"
+msgstr "Sobrino de escuela"
+
+msgid "{family}开山祖师"
+msgstr "Fundador de {family}{:el}"
+
+msgid "{family}第{generation}代{title}"
+msgstr "{title} de {family}{:el}, generación {generation}"
+
+msgid "你现在并没有拜任何人为师的意思。"
+msgstr "Ahora no tienes intención de tomar a nadie como Shifu."
+
+msgid "你改变主意不想拜%s为师了。"
+msgstr "Cambias de idea: ya no quieres a %s como Shifu."
+
+msgid "你恭恭敬敬地向%s磕头请安，叫道：「师父！」"
+msgstr "Te inclinas con todo respeto ante %s, tocas el suelo con la frente y exclamas: \"¡Shifu!\""
+
+msgid "你想拜%s为师，但是对方还没有答应。"
+msgstr "Quieres tomar a %s como Shifu, pero todavía no ha dicho que sí."
+
+msgid "你想要拜%s为师。"
+msgstr "Quieres tomar a %s como Shifu."
+
+msgid "{npc}正盯著你看，不知道打些什麽主意。"
+msgstr "{npc}{:el} te mira fijamente; quién sabe qué trama."
+
+msgid "{who}大声喝道：{line}"
+msgstr "{who}{:el} grita: \"{line}\""
+
+msgid "你发誓恪守门规。"
+msgstr "Juras cumplir las reglas de la escuela."
+
+msgid "%s拍拍你的头，说道：「好徒儿！」"
+msgstr "%s te da unas palmadas en la cabeza y dice: \"¡Buen discípulo!\""
+
+msgid "%s想要收你为弟子。"
+msgstr "%s quiere aceptarte como discípulo."
+
+msgid "如果你愿意拜%s为师父，就向她拜师。"
+msgstr "Si quieres que %s sea tu Shifu, pide ser su discípulo."
+
+msgid "如果你愿意拜%s为师父，就向他拜师。"
+msgstr "Si quieres que %s sea tu Shifu, pide ser su discípulo."
+
+msgid "你决定背叛师门，改投入%s门下！！"
+msgstr "¡Decides traicionar a tu escuela e irte con %s!"
+
+msgid "你跪了下来向%s恭恭敬敬地磕了四个响头，叫道：「师父！」"
+msgstr "Te arrodillas ante %s, golpeas el suelo con la frente cuatro veces con todo respeto y exclamas: \"¡Shifu!\""
+
+msgid "你决定拜%s为师。"
+msgstr "Decides tomar a %s como Shifu."
+
+msgid "%s决定收你为弟子。"
+msgstr "%s decide aceptarte como discípulo."
+
+msgid "弟子"
+msgstr "Discípulo"
+
+msgid "恭喜您成为{family}的第{generation}代弟子。"
+msgstr "¡Felicidades! Ahora eres {jugador:discípulo|discípula} de la generación {generation} de {family}{:el}."
+
+msgid "拳脚"
+msgstr "Puño"
+
+msgid "剑法"
+msgstr "Espada"
+
+msgid "刀法"
+msgstr "Sable"
+
+msgid "棍法"
+msgstr "Garrote"
+
+msgid "杖法"
+msgstr "Bastón"
+
+msgid "暗器"
+msgstr "Armas ocultas"
+
+msgid "内功"
+msgstr "Neigong"
+
+msgid "招架"
+msgstr "Parada"
+
+msgid "轻功"
+msgstr "Qinggong"
+
+msgid "法术"
+msgstr "Misticismo"
+
+msgid "咒文"
+msgstr "Conjuros"
+
+msgid "行动"
+msgstr "Movimiento"
+
+msgid "阵法"
+msgstr "Formaciones"
+
+msgid "鞭法"
+msgstr "Látigo"
+
+msgid "驱尸"
+msgstr "Levantar muertos"
+
+msgid "你正在战斗中！"
+msgstr "¡Estás en pleno combate!"
+
+msgid "你要驱动哪一具尸体？"
+msgstr "¿Qué cadáver quieres levantar?"
+
+msgid "你的法力不够了！"
+msgstr "¡No te queda suficiente Poder arcano!"
+
+msgid "$N对著地上的$n喃喃地念了几句咒语，$n抽搐了几下竟站了起来！"
+msgstr "$N{:el} {N:murmuras|murmura} unas palabras de conjuro sobre {n:ti|$n{:el}}, en el suelo. ¡$n{:el} {n:te agitas|se agita} un par de veces y {n:te levantas|se levanta}!"
+
+msgid "阴阳眼"
+msgstr "Vista espectral"
+
+msgid "你已经施展过阴阳眼的法术了。"
+msgstr "Ya lanzaste la Vista espectral."
+
+msgid "你的法力不够。"
+msgstr "No tienes suficiente Poder arcano."
+
+msgid "$N微一凝神，闭著眼睛念了几句咒语，施展「阴阳眼」法术。"
+msgstr "$N{:el} {N:concentras|concentra} un instante la mente, {N:cierras|cierra} los ojos, {N:murmuras|murmura} unas palabras y {N:lanzas|lanza} la Vista espectral."
+
+msgid "你的阴阳眼法术失效了。"
+msgstr "Tu Vista espectral se disipa."
+
+msgid "你失败了。"
+msgstr "Fallaste."
+
+msgid "你要对谁施展这个法术？"
+msgstr "¿Sobre quién quieres lanzar este hechizo?"
+
+msgid "你的法力不够！"
+msgstr "¡No tienes suficiente Poder arcano!"
+
+msgid "你的精神没有办法有效集中！"
+msgstr "¡No logras concentrar la mente!"
+
+msgid "但是被$n躲开了。"
+msgstr "Pero $n{:el} {n:lo esquivas|lo esquiva}."
+
+msgid "( 你上一个动作还没有完成，不能念咒文。)"
+msgstr "( Todavía no has terminado lo que hacías; aún no puedes recitar conjuros. )"
+
+msgid "这里不准念咒文。"
+msgstr "Aquí no se permite recitar conjuros."
+
+msgid "你请先用 enable 指令选择你要使用的咒文系。"
+msgstr "Elige primero la escuela de conjuros que quieres usar."
+
+msgid "你所选用的咒文系中没有这种咒文。"
+msgstr "La escuela de conjuros que elegiste no tiene ese conjuro."
+
+msgid "( 你上一个动作还没有完成，不能施展神通。)"
+msgstr "( Todavía no has terminado lo que hacías; aún no puedes usar un arte sobrenatural. )"
+
+msgid "这里无法使用神通。"
+msgstr "Aquí no funcionan las artes sobrenaturales."
+
+msgid "你请先用 enable 指令选择你要使用的神通系。"
+msgstr "Elige primero el sistema de artes sobrenaturales que quieres usar."
+
+msgid "你所选用的法术系中没有这种法术。"
+msgstr "El sistema de hechizos que elegiste no incluye ese hechizo."
+
+msgid "「封」字诀"
+msgstr "Secreto \"Sello\""
+
+msgid "牵制攻击只能对战斗中的对手使用。"
+msgstr "El ataque de contención solo funciona contra un rival en combate."
+
+msgid "$n目前正自顾不暇，放胆攻击吧！"
+msgstr "¡{n:Tienes|$n{:el} tiene} las manos ocupadas: ataca sin miedo!"
+
+msgid "$N使出封山剑法「封」字诀，连递数个虚招企图扰乱$n的攻势，结果$p被$P攻了个措手不及！"
+msgstr "$N{:el} {N:usas|usa} el secreto \"Sello\" de la Espada de la Montaña Vacía y {N:lanzas|lanza} una finta tras otra para desbaratar {n:tu ataque|el ataque de $n{:el}}, ¡y $n{:el} no {n:alcanzas|alcanza} a reaccionar a tiempo!"
+
+msgid "$N使出封山剑法「封」字诀，连递数个虚招企图扰乱$n的攻势，可是$p看破了$P的企图，并没有上当。"
+msgstr "$N{:el} {N:usas|usa} el secreto \"Sello\" de la Espada de la Montaña Vacía y {N:lanzas|lanza} una finta tras otra para desbaratar {n:tu ataque|el ataque de $n{:el}}, pero $n{:el} {n:descubres|descubre} {N:tu|su} intención y no {n:caes|cae} en la trampa."
+
+msgid "游识神通"
+msgstr "Sentido errante"
+
+msgid "你要移动到哪一个人身边？"
+msgstr "¿Junto a quién quieres ir?"
+
+msgid "你无法感受到这个人的灵力 ...."
+msgstr "No logras percibir el Poder místico de esta persona..."
+
+msgid "中止施法。"
+msgstr "Interrumpes el hechizo."
+
+msgid "$N低头闭目，开始施展游识神通 ...."
+msgstr "$N{:el} {N:bajas|baja} la cabeza, {N:cierras|cierra} los ojos y {N:empiezas|empieza} a usar el Sentido errante..."
+
+msgid "战斗中无法使用游识神通！"
+msgstr "¡No puedes usar el Sentido errante en combate!"
+
+msgid "你的灵力不够！"
+msgstr "¡No tienes suficiente Poder místico!"
+
+msgid "游识神通只能对自己使用！"
+msgstr "¡El Sentido errante solo puede usarse sobre ti mismo!"
+
+msgid "你感受到对方的灵力，但是不够强烈。"
+msgstr "Percibes su Poder místico, pero no con la fuerza suficiente."
+
+msgid "你因为不够熟练而失败了。"
+msgstr "Fallas por falta de práctica."
+
+msgid "$N口中喃喃地念著咒文，忽然大喝一声“疾！”"
+msgstr "$N{:el} {N:murmuras|murmura} un conjuro y de pronto {N:gritas|grita}: \"¡Rápido!\""
+
+msgid "只见一道黑气罩在$n身上！"
+msgstr "¡Un vapor negro {n:te envuelve|envuelve a $n{:el}}!"
+
+msgid "只见一道金光罩在$n身上！"
+msgstr "¡Una luz dorada {n:te envuelve|envuelve a $n{:el}}!"
+
+msgid "只见一团火焰罩在$n身上！"
+msgstr "¡Una bola de fuego {n:te envuelve|envuelve a $n{:el}}!"
+
+msgid "只听在一声海啸，海水将$n团团围住！"
+msgstr "¡Con el rugido de un maremoto, el mar {n:te rodea|rodea a $n{:el}} por completo!"
+
+msgid "只见空中落下无数大木，正把$n困在中央！"
+msgstr "¡Del cielo caen innumerables troncos enormes que {n:te encierran|encierran a $n{:el}} en el centro!"
+
+msgid "只见$N化作一道黑气，然后消失得无影无踪！"
+msgstr "¡$N{:el} {N:te conviertes|se convierte} en un vapor negro y {N:desapareces|desaparece} sin dejar rastro!"
+
+msgid "只见$N化作一道金光，然后消失得无影无踪！"
+msgstr "¡$N{:el} {N:te conviertes|se convierte} en un rayo de luz dorada y {N:desapareces|desaparece} sin dejar rastro!"
+
+msgid "只见$N化作一团火焰，然后消失得无影无踪！"
+msgstr "¡$N{:el} {N:te conviertes|se convierte} en una bola de fuego y {N:desapareces|desaparece} sin dejar rastro!"
+
+msgid "只见$N化作一道长虹，然后消失得无影无踪！"
+msgstr "¡$N{:el} {N:te conviertes|se convierte} en un largo arcoíris y {N:desapareces|desaparece} sin dejar rastro!"
+
+msgid "只见$N化作一团大雾，然后消失得无影无踪！"
+msgstr "¡$N{:el} {N:te conviertes|se convierte} en una gran niebla y {N:desapareces|desaparece} sin dejar rastro!"
+
+msgid "但是$n纵身一跃，脱离了围困。"
+msgstr "Pero $n{:el} {n:das|da} un salto y {n:escapas|escapa} del cerco."
+
+msgid "困"
+msgstr "Atrapar"
+
+msgid "遁"
+msgstr "Esfumarse"
+
+msgid "这个法术只能在战斗中使用！"
+msgstr "¡Este hechizo solo puede usarse en combate!"
+
+msgid "$n正自顾不暇，放胆进攻吧。"
+msgstr "{n:Tienes|$n{:el} tiene} las manos ocupadas: ataca sin miedo."
+
+msgid "「缺」字诀"
+msgstr "Secreto \"Hueco\""
+
+msgid "'缺'字诀只能在战斗中使用。"
+msgstr "El secreto \"Hueco\" solo puede usarse en combate."
+
+msgid "你要对谁使用'缺'字诀？"
+msgstr "¿Contra quién quieres usar el secreto \"Hueco\"?"
+
+msgid "你已经在运用中了。"
+msgstr "Ya lo estás usando."
+
+msgid "$N剑招陡变，空门大开，诱使$n进招，"
+msgstr "{N:Tu espada cambia|La espada de $N{:el} cambia} de pronto y deja una gran brecha abierta para {n:atraerte|atraer a $n{:el}} al ataque,"
+
+msgid "可是$n看破了$N的企图，并没有上当。"
+msgstr "pero $n{:el} {n:descubres|descubre} {N:tu intención|la intención de $N{:el}} y no {n:caes|cae} en la trampa."
+
+msgid "$N突然对$n发出奋力一击！"
+msgstr "¡$N{:el} {N:lanzas|lanza} de pronto un golpe con {N:todas tus fuerzas|todas sus fuerzas} contra {n:ti|$n{:el}}!"
+
+msgid "「玄羽乱舞」"
+msgstr "\"Danza salvaje de la pluma oscura\""
+
+msgid "「玄羽乱舞」只能在战斗中使用。"
+msgstr "\"Danza salvaje de la pluma oscura\" solo puede usarse en combate."
+
+msgid "你的气不够！"
+msgstr "¡No tienes suficiente Qi!"
+
+msgid "你的真气不够！"
+msgstr "¡No tienes suficiente Qi verdadero!"
+
+msgid "$N使出步玄七诀第一式「玄羽乱舞」，身法陡然加快！"
+msgstr "$N{:el} {N:usas|usa} \"Danza salvaje de la pluma oscura\", la primera de los Siete secretos del Paso Místico, ¡y {N:ganas|gana} velocidad de golpe!"
+
+msgid "$N的身形转了几转，倏地停住了脚步。"
+msgstr "$N{:el} {N:giras|gira} unas cuantas veces y {N:te detienes|se detiene} de golpe."
+
+msgid "$N迅捷无伦地在$n身旁绕了一圈 ..."
+msgstr "$N{:el} {N:das|da} una vuelta veloz alrededor de {n:ti|$n{:el}}..."
+
+msgid "但是$N找不到机会出手！"
+msgstr "¡Pero $N{:el} no {N:encuentras|encuentra} ninguna ocasión de atacar!"
+
+msgid "$N眼睛忽然睁开，喃喃地说道：杀....死....$n...."
+msgstr "{N:Tus ojos se abren|Los ojos de $N{:el} se abren} de golpe y {N:murmuras|murmura}: \"Matar... matar... {n:a ti|a $n{:el}}...\""
+
+msgid "你要在这张符上写谁的名字？"
+msgstr "¿Qué nombre escribes en este talismán?"
+
+msgid "心识神通"
+msgstr "Sentido del corazón"
+
+msgid "$N一手放在$n的天灵盖上，一手贴在$n的後心，闭上眼睛缓缓低吟 ..."
+msgstr "$N{:el} {N:apoyas|apoya} una mano en {n:tu coronilla|la coronilla de $n{:el}} y otra en {n:tu espalda|su espalda}, {N:cierras|cierra} los ojos y {N:entonas|entona} un canto bajo..."
+
+msgid "你要对谁使用心识神通？"
+msgstr "¿Con quién quieres usar el Sentido del corazón?"
+
+msgid "召护法"
+msgstr "Llamar guardián"
+
+msgid "只有战斗中才能召唤天将！"
+msgstr "¡Solo puedes invocar a un general celestial en combate!"
+
+msgid "你的精神无法集中！"
+msgstr "¡No logras concentrar la mente!"
+
+msgid "$N喃喃地念了几句咒语。"
+msgstr "$N{:el} {N:murmuras|murmura} unas palabras de conjuro."
+
+msgid "但是什麽也没有发生。"
+msgstr "Pero no ocurre nada."
+
+msgid "( 你上一个动作还没有完成，不能施用外功。)"
+msgstr "( Todavía no has terminado lo que hacías; aún no puedes usar una técnica externa. )"
+
+msgid "你请先用 enable 指令选择你要使用的外功。"
+msgstr "Elige primero la técnica externa que quieres usar."
+
+msgid "你所使用的外功中没有这种功能。"
+msgstr "La técnica externa que usas no puede hacer eso."
+
+msgid "「点」字诀"
+msgstr "Secreto \"Punto\""
+
+msgid "「点」字诀只能对战斗中的对手使用。"
+msgstr "El secreto \"Punto\" solo funciona contra un rival en combate."
+
+msgid "$N使出封山剑法「点」字诀，可是内力不继，剑尖一颤，手中的剑险些脱手飞出！"
+msgstr "$N{:el} {N:usas|usa} el secreto \"Punto\" de la Espada de la Montaña Vacía, ¡pero {N:tu|su} Fuerza interior se agota: la punta de la espada tiembla y el arma casi se escapa de {N:tu|su} mano!"
+
+msgid "$N使出封山剑法「点」字诀，劲力尽数聚在剑尖，一剑直刺$n！"
+msgstr "¡$N{:el} {N:usas|usa} el secreto \"Punto\" de la Espada de la Montaña Vacía, {N:reúnes|reúne} toda {N:tu|su} fuerza en la punta de la espada y {N:lanzas|lanza} una estocada directa contra {n:ti|$n{:el}}!"
+
+msgid "用 {force} 点内力把劲力聚在剑尖，这一剑伤得更重；内力不够，剑会险些脱手，白白耽误几手"
+msgstr "Con {force} de Fuerza interior reúnes la fuerza en la punta de la espada y la estocada hiere más; si no basta, la espada casi se te escapa de la mano y pierdes algunos turnos en vano"
+
+msgid "召天将"
+msgstr "Llamar general celestial"
+
+msgid "战斗时不能画符！"
+msgstr "¡No puedes dibujar talismanes en combate!"
+
+msgid "你的精神太差了，无法画符。"
+msgstr "Tu Espíritu está demasiado bajo para dibujar un talismán."
+
+msgid "你所学的法术没有这种符。"
+msgstr "Los hechizos que has aprendido no incluyen ese talismán."
+
+msgid "紫光"
+msgstr "Luz violeta"
+
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团紫光射向$n！"
+msgstr "¡$N{:el} {N:murmuras|murmura} un conjuro y {N:agitas|agita} la mano izquierda: en ella se forma una bola de luz violeta que sale disparada hacia {n:ti|$n{:el}}!"
+
+msgid "结果「嗤」地一声，紫光从$p身上透体而过，拖出一条长长的七彩光气，光气绕了回转过来又从$N顶门注入$P的体内！"
+msgstr "Con un \"tsss\", la luz violeta atraviesa {n:tu cuerpo|el cuerpo de $n{:el}} y arrastra una larga estela de aliento de siete colores que da la vuelta y entra por la coronilla de {N:ti|$N{:el}}, hasta lo hondo de {N:tu|su} cuerpo."
+
+msgid "结果「嗤」地一声，紫光从$p身上透体而过，无声无息地钻入地下！"
+msgstr "Con un \"tsss\", la luz violeta atraviesa {n:tu cuerpo|el cuerpo de $n{:el}} y se hunde en la tierra sin ruido."
+
+msgid "白光"
+msgstr "Luz blanca"
+
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团白光射向$n！"
+msgstr "¡$N{:el} {N:murmuras|murmura} un conjuro y {N:agitas|agita} la mano izquierda: en ella se forma una bola de luz blanca que sale disparada hacia {n:ti|$n{:el}}!"
+
+msgid "结果「嗤」地一声，白光从$p身上透体而过，拖出一条长长的黑气直射到两三丈外的地下！"
+msgstr "Con un \"tsss\", la luz blanca atraviesa {n:tu cuerpo|el cuerpo de $n{:el}} y arrastra una larga estela de vapor negro que se clava en el suelo a dos o tres zhang de distancia."
+
+msgid "结果「嗤」地一声，白光从$p身上透体而过，无声无息地钻入地下！"
+msgstr "Con un \"tsss\", la luz blanca atraviesa {n:tu cuerpo|el cuerpo de $n{:el}} y se hunde en la tierra sin ruido."
+
+msgid "青光"
+msgstr "Luz azul"
+
+msgid "你失败了！"
+msgstr "¡Fallaste!"
+
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团青光射向$n！"
+msgstr "¡$N{:el} {N:murmuras|murmura} un conjuro y {N:agitas|agita} la mano izquierda: en ella se forma una bola de luz azul que sale disparada hacia {n:ti|$n{:el}}!"
+
+msgid "结果「嗤」地一声，青光从$p身上透体而过，拖出一条长长的血箭直射到两三丈外的地下！"
+msgstr "Con un \"tsss\", la luz azul atraviesa {n:tu cuerpo|el cuerpo de $n{:el}} y arrastra una larga flecha de sangre que se clava en el suelo a dos o tres zhang de distancia."
+
+msgid "结果「嗤」地一声，青光从$p身上透体而过，无声无息地钻入地下！"
+msgstr "Con un \"tsss\", la luz azul atraviesa {n:tu cuerpo|el cuerpo de $n{:el}} y se hunde en la tierra sin ruido."
+
+msgid "投降？现在没有人在打你啊....？"
+msgstr "¿Rendirte? Nadie está peleando contigo..."
+
+msgid "$n向$N求饶，但是$N大声说道：{rude}废话少说，纳命来！"
+msgstr "$n{:el} {n:suplicas|suplica} piedad {N:a ti|a $N{:el}}, pero {N:rugues|$N{:el} ruge}: \"¡Basta de palabras, {rude}! ¡Entrega la vida!\""
+
+msgid "$N说道：「不打了，不打了，我投降....。」"
+msgstr "$N{:el} {N:dices|dice}: \"Basta, basta, me rindo...\""
+
+msgid "「逐」字诀"
+msgstr "Secreto \"Perseguir\""
+
+msgid "「逐」字诀只能对战斗中的对手使用。"
+msgstr "El secreto \"Perseguir\" solo funciona contra un rival en combate."
+
+msgid "$N使出封山剑法「逐」字诀，剑法一紧，剑光罩向$n，$p已显吃力。"
+msgstr "$N{:el} {N:usas|usa} el secreto \"Perseguir\" de la Espada de la Montaña Vacía: la espada se cierra y su luz cae sobre {n:ti|$n{:el}}, que {n:ya estás|ya está} en apuros."
+
+msgid "$N使出封山剑法「逐」字诀，剑法一紧，剑光罩向$n，$p从容化解"
+msgstr "$N{:el} {N:usas|usa} el secreto \"Perseguir\" de la Espada de la Montaña Vacía: la espada se cierra y su luz cae sobre {n:ti|$n{:el}}, pero {n:lo desvías|$n{:el} lo desvía} con calma"
+
+msgid "空识神通"
+msgstr "Sentido del vacío"
+
+msgid "$N盘膝而座，开始运用空识神通静思入定 ..."
+msgstr "$N{:el} {N:te sientas|se sienta} con las piernas cruzadas y {N:empiezas|empieza} a usar el Sentido del vacío, sumido en la quietud..."
+
+msgid "空识神通只能对自己使用。"
+msgstr "El Sentido del vacío solo puede usarse sobre ti mismo."
+
+msgid "你觉得脑中一片混乱，你的潜能降低了！"
+msgstr "Sientes la mente hecha un caos: ¡tu Potencial baja!"
+
+msgid "你的潜能提高了！"
+msgstr "¡Tu Potencial sube!"
+
+msgid "可是你只觉得一无所获。"
+msgstr "Pero solo sientes que no has ganado nada."
+
+msgid "零"
+msgstr "cero"
+
+msgid "十"
+msgstr "diez"
+
+msgid "百"
+msgstr "cien"
+
+msgid "千"
+msgstr "mil"
+
+msgid "万"
+msgstr "diez mil"
+
+msgid "亿"
+msgstr "cien millones"
+
+msgid "兆"
+msgstr "billón"
+
+msgid "一"
+msgstr "uno"
+
+msgid "二"
+msgstr "dos"
+
+msgid "三"
+msgstr "tres"
+
+msgid "四"
+msgstr "cuatro"
+
+msgid "五"
+msgstr "cinco"
+
+msgid "六"
+msgstr "seis"
+
+msgid "七"
+msgstr "siete"
+
+msgid "八"
+msgstr "ocho"
+
+msgid "九"
+msgstr "nueve"
+
+msgid "负"
+msgstr "menos"
+
+msgid "你的「%s」进步了！"
+msgstr "¡Tu \"%s\" mejoró!"
+
+msgid "没有这个技能种类，用 enable ? 可以查看有哪些种类。"
+msgstr "No existe ese tipo de habilidad. Usa \"enable\" y el signo de interrogación para ver cuáles hay."
+
+msgid "「{skill}」是所有{kind}的基础，不需要 enable。"
+msgstr "\"{skill}\" es la base de cualquier arte de {kind}; no necesita activarse."
+
+msgid "你不会这种技能。"
+msgstr "No conoces esa habilidad."
+
+msgid "你连「{basic}」都没学会，更别提{skill}了。"
+msgstr "Ni siquiera has aprendido \"{basic}\", mucho menos {skill}."
+
+msgid "这个技能不能当成这种用途。"
+msgstr "Esta habilidad no puede usarse así."
+
+msgid "你改用另一种法术系，灵力必须重新锻炼。"
+msgstr "Cambiaste a otra escuela de misticismo; tu Poder místico debe cultivarse de nuevo."
+
+msgid "你改用另一种内功，内力必须重新锻炼。"
+msgstr "Cambiaste a otro neigong; tu Fuerza interior debe cultivarse de nuevo."
+
+msgid "你改用另一种咒文系，法力必须重新修炼。"
+msgstr "Cambiaste a otra escuela de conjuros; tu Poder arcano debe cultivarse de nuevo."
+
+msgid "你已经在战斗中了，学一点实战经验吧。"
+msgstr "Ya estás en combate: gana algo de experiencia real."
+
+msgid "你只能练习用 enable 指定的特殊技能。"
+msgstr "Solo puedes practicar las habilidades especiales que hayas activado con enable."
+
+msgid "你好像还没「学会」这项技能吧？最好先去请教别人。"
+msgstr "Parece que aún no has \"aprendido\" esta habilidad. Mejor pide primero que alguien te enseñe."
+
+msgid "你对这方面的技能还是一窍不通，最好从先从基本学起。"
+msgstr "No sabes nada de este tipo de habilidad; es mejor empezar por lo básico."
+
+msgid "你现在不能练习这项技能。"
+msgstr "Ahora no puedes practicar esta habilidad."
+
+msgid "你试著练习%s，但是并没有任何进步。"
+msgstr "Intentas practicar %s, pero no mejoras nada."
+
+msgid "你的%s进步了！"
+msgstr "¡Tu %s mejoró!"
+
+msgid "战斗中不能练内功，会走火入魔。"
+msgstr "No puedes entrenar un neigong en combate: perderías el control de tu Qi."
+
+msgid "你必须先用 enable 选择你要用的内功心法。"
+msgstr "Primero elige con enable el método interno de neigong que quieres usar."
+
+msgid "你最少要花 10 点「气」才能练功。"
+msgstr "Necesitas gastar al menos 10 puntos de Qi para entrenar."
+
+msgid "你现在的气太少了，无法产生内息运行全身经脉。"
+msgstr "Tu Qi es demasiado poco para hacer circular el aliento interno por todos tus meridianos."
+
+msgid "你现在精神状况太差了，无法凝神专一！"
+msgstr "Tu estado de Espíritu es demasiado malo para concentrarte del todo."
+
+msgid "你现在精力不够，无法控制内息的流动！"
+msgstr "Tu Esencia es insuficiente: no puedes controlar el flujo del aliento interno."
+
+msgid "你现在无法练功。"
+msgstr "Ahora no puedes entrenar."
+
+msgid "你坐下来运气用功，一股内息开始在体内流动。"
+msgstr "Te sientas, haces circular el Qi y un aliento interno empieza a fluir por tu cuerpo."
+
+msgid "但是当你行功完毕，只觉得全身酸麻。"
+msgstr "Pero al terminar solo sientes el cuerpo entumecido y dolorido."
+
+msgid "当你的内息遍布全身经脉时却没有功力提升的迹象，似乎内力修为已经遇到了瓶颈。"
+msgstr "Tu aliento interno llena todos los meridianos, pero tu poder no muestra señal de crecer: tu Fuerza interior parece haber tocado techo."
+
+msgid "你的内力增强了！"
+msgstr "¡Tu Fuerza interior aumentó!"
+
+msgid "战斗中冥思——找死吗？"
+msgstr "Contemplar en pleno combate... ¿buscas la muerte?"
+
+msgid "你最少要花 10 点「神」才能冥思。"
+msgstr "Necesitas gastar al menos 10 puntos de Espíritu para contemplar."
+
+msgid "你现在精神太差了，进行冥思将会迷失，永远醒不过来！"
+msgstr "Tu Espíritu está demasiado bajo: si contemplas ahora te perderás y no despertarás jamás."
+
+msgid "你现在身体状况太差了，无法集中精神！"
+msgstr "Tu estado físico es demasiado malo para concentrarte."
+
+msgid "你现在身体状况太虚弱了，无法进入冥思的状态！"
+msgstr "Tu cuerpo está demasiado débil para entrar en contemplación."
+
+msgid "你现在无法冥思。"
+msgstr "Ahora no puedes contemplar."
+
+msgid "你盘膝而坐，静坐冥思了一会儿。"
+msgstr "Te sientas con las piernas cruzadas y contemplas en silencio un rato."
+
+msgid "但是当你睁开眼睛，只觉得脑中一片空白。"
+msgstr "Pero al abrir los ojos tienes la mente en blanco."
+
+msgid "当你的法力增加的瞬间你忽然觉得脑中一片混乱，似乎魔力的提升已经到了瓶颈。"
+msgstr "Justo cuando tu Poder arcano aumenta, la cabeza te da vueltas: tu magia parece haber tocado techo."
+
+msgid "你的魔力提高了！"
+msgstr "¡Tu magia aumentó!"
+
+msgid "战斗也是一种修行，但不能和灵力的修行同时进行。"
+msgstr "Combatir también es una forma de cultivo, pero no puedes hacerlo a la vez que cultivas el Poder místico."
+
+msgid "你最少要花 10 点精力才能进行修行。"
+msgstr "Necesitas gastar al menos 10 puntos de Esencia para cultivar."
+
+msgid "你现在精力不足，无法修行灵力！"
+msgstr "Tu Esencia es insuficiente: no puedes cultivar el Poder místico."
+
+msgid "你现在精神状况太差了，无法控制自己的心灵！"
+msgstr "Tu Espíritu está demasiado bajo: no puedes dominar tu propia mente."
+
+msgid "你现在无法修行。"
+msgstr "Ahora no puedes cultivar."
+
+msgid "你闭上眼睛开始打坐。"
+msgstr "Cierras los ojos y empiezas a meditar."
+
+msgid "但是你一不小心却睡著了。"
+msgstr "Pero, por un descuido, el sueño te vence."
+
+msgid "你忽然觉得一阵天旋地转，头涨得像要裂开一样，似乎灵力的修行已经遇到了瓶颈。"
+msgstr "De pronto el mundo da vueltas y sientes la cabeza a punto de partirse: tu Poder místico parece haber tocado techo."
+
+msgid "你的道行提高了！"
+msgstr "¡Tu dominio del Dao aumentó!"
+
+msgid "这项技能不能通过自学取得进步！"
+msgstr "¡Esta habilidad no puede mejorarse estudiando por tu cuenta!"
+
+msgid "你得有「%s」的入门知识才行。"
+msgstr "Necesitas conocimientos básicos de \"%s\"."
+
+msgid "你现在无法自学。"
+msgstr "Ahora no puedes estudiar por tu cuenta."
+
+msgid "你开始钻研有关「%s」的问题。"
+msgstr "Empiezas a estudiar a fondo las cuestiones de \"%s\"."
+
+msgid "也许是缺乏实战经验，结果是一无所获。"
+msgstr "Quizá por falta de Experiencia de combate, no sacas nada en limpio."
+
+msgid "你苦思冥想，似乎有些心得。"
+msgstr "Piensas y piensas, y parece que sacas algo en claro."
+
+msgid "你无法在战斗中专心下来研读新知！"
+msgstr "¡No puedes concentrarte en estudiar cosas nuevas en pleno combate!"
+
+msgid "你无法从这样东西学到任何东西。"
+msgstr "No puedes aprender nada de esto."
+
+msgid "你是个文盲，先学学读书识字吧。"
+msgstr "No sabes leer. Aprende primero a leer y escribir."
+
+msgid "你的实战经验不足，再怎麽读也没用。"
+msgstr "No tienes suficiente Experiencia de combate: por más que leas, no servirá."
+
+msgid "以你目前的能力，还没有办法学这个技能。"
+msgstr "Con lo que puedes hacer ahora, aún no puedes aprender esta habilidad."
+
+msgid "你现在过於疲倦，无法专心下来研读新知。"
+msgstr "El cansancio te impide concentrarte en estudiar."
+
+msgid "你研读了一会儿，但是发现上面所说的对你而言都太浅了，没有学到任何东西。"
+msgstr "Lees un rato, pero todo lo que dice te resulta demasiado elemental y no aprendes nada."
+
+msgid "你研读有关%s的技巧，似乎有点心得。"
+msgstr "Lees sobre las técnicas de %s y parece que sacas algo en claro."
+
+msgid "你现在无法研读。"
+msgstr "Ahora no puedes leer."
+
+msgid "你向{npc}请教「{skill}」{count} 次"
+msgstr "Consultas a {npc}{:el} sobre \"{skill}\" (×{count})"
+
+msgid "你练习{skill} {count} 次"
+msgstr "Practicas {skill} (×{count})"
+
+msgid "你打坐 {count} 次"
+msgstr "Meditas (×{count})"
+
+msgid "你冥思 {count} 次"
+msgstr "Contemplas (×{count})"
+
+msgid "你修行 {count} 次"
+msgstr "Cultivas (×{count})"
+
+msgid "（其间歇了 {rests} 回，共{time}）"
+msgstr "(descansos por el camino: {rests}; {time} en total)"
+
+msgid "{head}：{changes}。"
+msgstr "{head}: {changes}."
+
+msgid "，"
+msgstr ", "
+
+msgid "{skill} {from}→{to} 级"
+msgstr "{skill} nivel {from}→{to}"
+
+msgid "{skill}进度 {change}"
+msgstr "{skill}: progreso {change}"
+
+msgid "打坐"
+msgstr "Meditar"
+
+msgid "冥思"
+msgstr "Contemplar"
+
+msgid "修行"
+msgstr "Cultivar"
+
+msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。精要时间才回得来，窗口开着时间不走：点「歇到回满」歇一会儿再来；学了内功的，也可以在武学页运功恢复精。"
+msgstr "Se detiene: no tienes Esencia suficiente. Cada lección cuesta {cost} de Esencia y necesitas tener más que eso (tienes {have}). La Esencia tarda en volver y el tiempo no pasa con una ventana abierta: pulsa \"Descansar del todo\" y vuelve. Si has aprendido un neigong, también puedes usarlo en la página de Artes marciales para recuperar Esencia."
+
+msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。"
+msgstr "Se detiene: no tienes Esencia suficiente. Cada lección cuesta {cost} de Esencia y necesitas tener más que eso (tienes {have})."
+
+msgid "身上有限时的差事，歇着时限照走，所以没有自己歇；要歇就点「歇到回满」。"
+msgstr "Tienes un encargo con límite de tiempo y el reloj sigue corriendo mientras descansas, así que no descansaste por tu cuenta. Para descansar, pulsa \"Descansar del todo\"."
+
+msgid "停下：实战经验不足。「{skill}」{level} 级要再学，须实战经验 ≥ {required}（你 {have}）。"
+msgstr "Se detiene: no tienes suficiente Experiencia de combate. Para aprender más de \"{skill}\" después del nivel {level} necesitas Experiencia de combate ≥ {required} (tienes {have})."
+
+msgid "停下：「{skill}」这一级的进度已经攒满。先把{basic}提高到 {level} 级，再练才有长进。"
+msgstr "Se detiene: este nivel de \"{skill}\" ya está completo. Sube {basic} al nivel {level} y luego practica para mejorar."
+
+msgid "停下：每次只花 {amount} 点{source}，{action}不会有任何长进；多花一些再试。"
+msgstr "Detenido ({action}): gastar solo {amount} de {source} por vez no te hará avanzar; gasta más y vuelve a intentarlo."
+
+msgid "停下：{resource}的修为已到瓶颈（上限 {maximum}），再{action}，{resource}只会回落到 {maximum}。先提高{basic}吧。"
+msgstr "Se detiene: tu {resource} llegó a su límite (máx. {maximum}); si sigues ({action}), volverá a bajar a {maximum}. Primero sube {basic}."
+
+msgid "停下：你被打断了。"
+msgstr "Se detiene: te interrumpieron."
+
+msgid "你停了下来。"
+msgstr "Te detienes."
+
+msgid "停下：已经连续 {count} 次了，歇一歇吧。"
+msgstr "Se detiene: ya van {count} veces seguidas; descansa un poco."
+
+msgid "Ok."
+msgstr "Listo."
+
+msgid "一盏茶的工夫"
+msgstr "lo que tarda una taza de té"
+
+msgid "半个时辰"
+msgstr "una hora"
+
+msgid "两"
+msgstr "dos"
+
+msgid "{count}个半时辰"
+msgstr "{count} horas dobles y una hora"
+
+msgid "{count}个时辰"
+msgstr "{count} horas dobles"
+
+msgid "{coins}文"
+msgstr "{coins} wen"
+
+msgid "{silver}两银子"
+msgstr "{silver} {#:tael|taels} de plata"
+
+msgid "{silver}两银子{coins}文"
+msgstr "{silver} {#:tael|taels} de plata y {coins} wen"
+
+msgid "过了经验门槛:"
+msgstr "Pasado el umbral de experiencia:"
+
+msgid "运功"
+msgstr "Canalizar"
+
+msgid "收势"
+msgstr "Pasar"
+
+msgid "放弃这一回合剩下的手，让对手出招；赢来的手照样归你。"
+msgstr "Renuncias a los turnos que te quedan en esta ronda y dejas actuar al rival. Los turnos ganados siguen siendo tuyos."
+
+msgid "取消已排定的操作"
+msgstr "Cancelar la acción en cola"
+
+msgid "现在没有可用的操作。"
+msgstr "No hay acciones disponibles ahora."
+
+msgid "出手后自己要忙 {busy} 手。"
+msgstr "Quedas ocupado después de esto. Turnos: {busy}."
+
+msgid "运功：选一项内功的用法。"
+msgstr "Canalizar: elige cómo usar un neigong."
+
+msgid "{action} · 目标：{target}"
+msgstr "{action} · objetivo: {target}{:0}"
+
+msgid "%d手"
+msgstr "×%d"
+
+msgid "{action} · {cost} 手"
+msgstr "{action} · ×{cost}"
+
+msgid "等你出招"
+msgstr "Tu jugada"
+
+msgid "排定：%s"
+msgstr "En cola: %s"
+
+msgid "还剩 %d 手"
+msgstr "Turnos restantes: %d"
+
+msgid "没手了"
+msgstr "Sin turnos"
+
+msgid "多一手（{word}）"
+msgstr "Turno extra ({word})"
+
+msgid "多一手"
+msgstr "Turno extra"
+
+msgid "这一手你在忙"
+msgstr "Turno ocupado"
+
+msgid "这一手你停了"
+msgstr "Dejaste pasar este turno"
+
+msgid "你出了{action}"
+msgstr "Usaste {action}"
+
+msgid "你出{mine}"
+msgstr "Tú: {mine}"
+
+msgid "克！"
+msgstr "¡Vence!"
+
+msgid "被克"
+msgstr "Vencido"
+
+msgid "你出{mine} · {verdict}"
+msgstr "Tú: {mine} · {verdict}"
+
+msgid "你出{mine}，对上他的{theirs} · {verdict}"
+msgstr "Tú: {mine} contra {theirs} · {verdict}"
+
+msgid "？"
+msgstr "¿?"
+
+msgid "他没手了，你还有 {left} 手"
+msgstr "Al rival no le quedan turnos; a ti te quedan {left}"
+
+msgid "他起手：%s"
+msgstr "El rival abre con: %s"
+
+msgid "；出手后自己要忙 {busy} 手"
+msgstr "; luego, ocupado: {busy}"
+
+msgid "不够：{name}要 {cost} 手，你还剩 {left} 手"
+msgstr "No alcanza: {name} cuesta {cost} y te quedan {left}"
+
+msgid "{name}占 {cost} 手，出完还剩 {after} 手"
+msgstr "{name} usa {cost}; te quedan {after}"
+
+msgid "{name}占 {cost} 手，出完你这回合没手了，他连出 {theirs} 手"
+msgstr "{name} usa {cost}: después no te quedan turnos y el rival encadena {theirs}"
+
+msgid "{name}占 {cost} 手，出完你这回合没手了"
+msgstr "{name} usa {cost}: después no te quedan turnos"
+
+msgid "忙"
+msgstr "Ocupado"
+
+msgid "停"
+msgstr "Parado"
+
+msgid "绝招"
+msgstr "Técnica especial"
+
+msgid "加力 +%d"
+msgstr "Fuerza extra +%d"
+
+msgid "改为自动"
+msgstr "Pasar a automático"
+
+msgid "改为手动"
+msgstr "Pasar a manual"
+
+msgid "现在：每一手等你出招；按下后战斗自己打，手自动补满、演出加快。"
+msgstr "Ahora: cada turno espera tu jugada. Al pulsar, el combate se juega solo: los turnos se rellenan solos y la acción se acelera."
+
+msgid "现在：战斗自己打；按下后每一手等你出招。"
+msgstr "Ahora: el combate se juega solo. Al pulsar, eliges tú cada turno."
+
+msgid "{tag} · {cost} 手"
+msgstr "{tag} · ×{cost}"
+
+msgid "等你空下来"
+msgstr "Esperando a que quedes libre"
+
+msgid "就绪"
+msgstr "Listo"
+
+msgid "逃跑"
+msgstr "Huir"
+
+msgid "投降"
+msgstr "Rendirse"
+
+msgid "运功{function}"
+msgstr "Canalizar: {function}"
+
+msgid "使出{action}"
+msgstr "Usar {action}"
+
+msgid "施法「{spell}」"
+msgstr "Conjuro \"{spell}\""
+
+msgid "用 {force} 点内力恢复{track}"
+msgstr "Gasta {force} de Fuerza interior para recuperar {track}"
+
+msgid "用 {force} 点内力和 {sen} 点神恢复法力"
+msgstr "Gasta {force} de Fuerza interior y {sen} de Espíritu para recuperar Poder arcano"
+
+msgid "用 {force} 点内力，一段时间内攻击和闪避提升，杀气也随之上升"
+msgstr "Gasta {force} de Fuerza interior: el ataque y la esquiva suben un tiempo, y la Sed de sangre también"
+
+msgid "用 {force} 点内力和 {sen} 点神压下杀气，战斗中可能昏倒"
+msgstr "Gasta {force} de Fuerza interior y {sen} de Espíritu para contener la Sed de sangre; en combate puedes desmayarte"
+
+msgid "用 {force} 点内力和 {kee} 点气长啸，在场受不住的人都会受伤"
+msgstr "Gasta {force} de Fuerza interior y {kee} de Qi en un rugido que hiere a todos los presentes que no lo resistan"
+
+msgid "用 {force} 点内力和 {sen} 点神以目光摄住对手，伤其精（对手可能避开）"
+msgstr "Gasta {force} de Fuerza interior y {sen} de Espíritu para clavar al rival con la mirada y herir su Esencia (el rival puede apartar la vista)"
+
+msgid "脱离战斗，回到{region}{room}（{mana} 法力，可能失败）"
+msgstr "Sal del combate y vuelve a {room}{:el}, en {region}{:el} ({mana} de Poder arcano, puede fallar)"
+
+msgid "困住对手，让对方一段时间无法出手（{mana} 法力，可能失败）"
+msgstr "Inmoviliza al rival para que no pueda actuar un rato ({mana} de Poder arcano, puede fallar)"
+
+msgid "召来一名天将相助（{mana} 法力，可能失败）"
+msgstr "Invoca a un general celestial para que te ayude ({mana} de Poder arcano, puede fallar)"
+
+msgid "召来一名天将或阴鬼卒相助（{mana} 法力、{sen} 神，可能失败）"
+msgstr "Invoca a un general celestial o a un soldado fantasma para que te ayude ({mana} de Poder arcano, {sen} de Espíritu, puede fallar)"
+
+msgid "看得见鬼魂，持续的秒数等于你的有效咒文等级（{mana} 法力、{sen} 神）"
+msgstr "Ves a los fantasmas tantos segundos como tu nivel efectivo de Conjuros básicos ({mana} de Poder arcano, {sen} de Espíritu)"
+
+msgid "吸取对方的精"
+msgstr "Absorbe la Esencia del rival"
+
+msgid "伤对方的神"
+msgstr "Hiere el Espíritu del rival"
+
+msgid "伤对方的气"
+msgstr "Hiere el Qi del rival"
+
+msgid "{hurts}（{mana} 法力、{sen} 神，可能失败）"
+msgstr "{hurts} ({mana} de Poder arcano, {sen} de Espíritu, puede fallar)"
+
+msgid "你也上去和对手性命相搏，对手会反过来对你下杀手"
+msgstr "Te unes al combate a muerte: el rival se volverá contra ti para matarte"
+
+msgid "{action}：{what}"
+msgstr "{action}: {what}"
+
+msgid "势"
+msgstr "Postura"
+
+msgid "功"
+msgstr "Fuerza"
+
+msgid "物"
+msgstr "Objeto"
+
+msgid "逃"
+msgstr "Huida"
+
+msgid "法"
+msgstr "Hechizo"
+
+msgid "得"
+msgstr "Gana"
+
+msgid "绝"
+msgstr "Arte"
+
+msgid "倒"
+msgstr "Caído"
+
+msgid "亡"
+msgstr "Muerto"
+
+msgid "闪"
+msgstr "Esquiva"
+
+msgid "挡"
+msgstr "Bloqueo"
+
+msgid "无伤"
+msgstr "Sin daño"
+
+msgid "毒"
+msgstr "Veneno"
+
+msgid "醉"
+msgstr "Ebrio"
+
+msgid "迷药"
+msgstr "Drogado"
+
+msgid "冰"
+msgstr "Hielo"
+
+msgid "包扎"
+msgstr "Vendado"
+
+msgid "中毒：每次心跳掉气，一半成伤。"
+msgstr "Envenenado: pierdes Qi con cada latido, la mitad como herida."
+
+msgid "蛇毒：每次心跳伤气 10、掉神 10。"
+msgstr "Veneno de serpiente: cada latido hiere 10 de Qi y quita 10 de Espíritu."
+
+msgid "火玫瑰毒：每次心跳伤神 20、掉气 10。"
+msgstr "Veneno de rosa de fuego: cada latido hiere 20 de Espíritu y quita 10 de Qi."
+
+msgid "醉了：越醉越站不稳，醉过头会昏倒。"
+msgstr "Ebrio: cuanto más bebes, menos firme te sostienes; si te pasas, te desmayas."
+
+msgid "蒙汗药：药力发作，撑不住就会昏倒。"
+msgstr "Polvo somnífero: la droga hace efecto; si no resistes, te desmayas."
+
+msgid "意寒掌毒：每次心跳伤精、气、神各 25。"
+msgstr "Veneno de la Palma de la intención helada: cada latido hiere 25 de Esencia, 25 de Qi y 25 de Espíritu."
+
+msgid "包扎着：每次心跳回气 3。"
+msgstr "Vendado: recuperas 3 de Qi con cada latido."
+
+msgid "克制：快克重、重克守、守克虚、虚克快。箭头从克的一方指向被克的一方；想克他起手的那一类，就找指向它的那一印。"
+msgstr "Ventajas: Rápido vence a Pesado, Pesado a Guardia, Guardia a Finta y Finta a Rápido. Las flechas van de quien vence al vencido; para vencer la clase con que abre el rival, busca el sello cuya flecha apunta hacia ella."
+
+msgid "克制"
+msgstr "Ventajas"
+
+msgid "克"
+msgstr "Vence"
+
+msgid "怕"
+msgstr "Teme"
+
+msgid "已接受"
+msgstr "Aceptado"
+
+msgid "已取消"
+msgstr "Cancelado"
+
+msgid "请求无效"
+msgstr "Solicitud no válida"
+
+msgid "战斗已经结束"
+msgstr "El combate ya terminó"
+
+msgid "游戏暂停中"
+msgstr "El juego está en pausa"
+
+msgid "世界状态不符"
+msgstr "El estado del mundo no coincide"
+
+msgid "只能由你下令"
+msgstr "Solo tú puedes dar las órdenes"
+
+msgid "战斗状态无效"
+msgstr "Estado de combate no válido"
+
+msgid "你现在无法行动"
+msgstr "Ahora no puedes actuar"
+
+msgid "没有这个操作"
+msgstr "Esa acción no existe"
+
+msgid "操作类型不符"
+msgstr "Tipo de acción incorrecto"
+
+msgid "目标无效"
+msgstr "Objetivo no válido"
+
+msgid "条件不足"
+msgstr "Requisitos sin cumplir"
+
+msgid "重复的请求"
+msgstr "Solicitud repetida"
+
+msgid "要取消的操作已经变了"
+msgstr "La acción que querías cancelar cambió"
+
+msgid "操作次数已用尽"
+msgstr "No quedan usos"
+
+msgid "这个操作还不能用"
+msgstr "Esta acción aún no está disponible"
+
+msgid "没有进行中的战斗"
+msgstr "No hay ningún combate en curso"
+
+msgid "战斗已经变了"
+msgstr "El combate cambió"
+
+msgid "战斗状态不符"
+msgstr "El estado de combate no coincide"
+
+msgid "无法选为目标"
+msgstr "No se puede elegir como objetivo"
+
+msgid "目标未变"
+msgstr "El objetivo sigue igual"
+
+msgid "已更换目标"
+msgstr "Objetivo cambiado"
+
+msgid "你借遁术脱离了战斗。"
+msgstr "Sales del combate gracias al conjuro de fuga."
+
+msgid "战斗结束。"
+msgstr "El combate terminó."
+
+msgid "双方都停了手，战斗结束。"
+msgstr "Ambos bandos se detienen. El combate terminó."
+
+msgid "你赢了这场战斗。"
+msgstr "Ganaste el combate."
+
+msgid "你赢了这场战斗。选择倒下对手的尸体可以查看或搜刮。"
+msgstr "Ganaste el combate. Elige el cadáver del rival caído para examinarlo o saquearlo."
+
+msgid "你输了这场战斗，你死了。"
+msgstr "Perdiste el combate y moriste."
+
+msgid "你输了这场战斗，昏了过去。"
+msgstr "Perdiste el combate y te desmayaste."
+
+msgid "切磋结束。"
+msgstr "Terminó el combate amistoso."
+
+msgid "三回合拆完了。"
+msgstr "Las tres rondas terminaron."
+
+msgid "你逃离了战斗。走远一些才能摆脱危险。"
+msgstr "Huiste del combate. Aléjate más para librarte del peligro."
+
+msgid "战斗出错，已中止。"
+msgstr "Error en el combate: se detuvo."
+
+msgid "{name}脚下一个不稳，跌在地上一动也不动了。"
+msgstr "{name}{:el} pierde el equilibrio, cae y ya no se mueve."
+
+msgid "{name}死了。"
+msgstr "{name}{:el} muere."
+
+msgid "{name}慢慢睁开眼睛，清醒了过来。"
+msgstr "{name}{:el} abre los ojos poco a poco y recobra el sentido."
+
+msgid "你住了手，放了{name}一条生路。"
+msgstr "Te detienes y le perdonas la vida a {name}{:el}."
+
+msgid "你住了手：{name}还有用，留{name}一条命。"
+msgstr "Te detienes: {name}{:el} aún es útil y le dejas la vida."
+
+msgid "未知结果"
+msgstr "Resultado desconocido"
+
+msgid "你把目标转向%s。"
+msgstr "Diriges tu ataque a %s{:el}."
+
+msgid "你准备%s。"
+msgstr "Preparas: %s."
+
+msgid "你放弃了%s。"
+msgstr "Cancelas: %s."
+
+msgid "你无法%s：%s。"
+msgstr "No se pudo: %s (%s)."
+
+msgid "你脱离了战斗。"
+msgstr "Sales del combate."
+
+msgid "%s生效了。"
+msgstr "Surte efecto: %s."
+
+msgid "%s失败了。"
+msgstr "Falló: %s."
+
+msgid "%s无法执行。"
+msgstr "No se pudo ejecutar: %s."
+
+msgid "战斗记录"
+msgstr "Registro de combate"
+
+msgid "死斗"
+msgstr "Duelo a muerte"
+
+msgid "拆招"
+msgstr "Práctica"
+
+msgid "交手"
+msgstr "Enfrentamiento"
+
+msgid "点到为止"
+msgstr "Sin llegar a herir"
+
+msgid "生死各安天命"
+msgstr "Que el destino decida la vida y la muerte"
+
+msgid "三合为限"
+msgstr "Solo tres rondas"
+
+msgid "{line} [color=#8b959e]（-{damage}）[/color]"
+msgstr "{line} [color=#8b959e](-{damage})[/color]"
+
+msgid "{line}（-{damage}）"
+msgstr "{line} (-{damage})"
+
+msgid "你看不见对手，无从下手。"
+msgstr "No ves a tu rival y no sabes dónde golpear."
+
+msgid "{who} · {move} → {whom} · 闪开了"
+msgstr "{who}{:0} · {move} → {whom}{:0} · esquivó"
+
+msgid "{who} · {move} → {whom} · 挡开了"
+msgstr "{who}{:0} · {move} → {whom}{:0} · bloqueó"
+
+msgid "{who} · {move} → {whom} · 没伤到"
+msgstr "{who}{:0} · {move} → {whom}{:0} · sin daño"
+
+msgid "$N抢得一手"
+msgstr "$N{:el} {N:ganas|gana} un turno extra"
+
+msgid "$N被震得失衡"
+msgstr "$N{:el} {N:pierdes|pierde} el equilibrio por el golpe"
+
+msgid "$N一招落空"
+msgstr "$N{:el} {N:golpeas|golpea} al aire"
+
+msgid "了结"
+msgstr "Rematar"
+
+msgid "放过"
+msgstr "Perdonar"
+
+msgid "深浅未明"
+msgstr "Fuerza desconocida"
+
+msgid "参战"
+msgstr "En combate"
+
+msgid "已排定目标"
+msgstr "Objetivo fijado"
+
+msgid "忙 %d"
+msgstr "Ocupado: %d"
+
+msgid "死亡"
+msgstr "Muerto"
+
+msgid "昏迷"
+msgstr "Inconsciente"
+
+msgid "约 {n} 秒后醒来"
+msgstr "Despierta en unos {n} s"
+
+msgid "无法行动"
+msgstr "No puede actuar"
+
+msgid "剩 %d 手"
+msgstr "Turnos: %d"
+
+msgid "…+%d"
+msgstr "...+%d"
+
+msgid "还有：%s"
+msgstr "Y más: %s"
+
+msgid "起手：守势"
+msgstr "Inicio: Guardia"
+
+msgid "守势：它在等你打空，打空了就反击。"
+msgstr "Guardia: espera a que falles el golpe y entonces contraataca."
+
+msgid "起手：？"
+msgstr "Inicio: ¿?"
+
+msgid "还没看熟这一招。"
+msgstr "Aún no has visto bien este movimiento."
+
+msgid "起手：%s"
+msgstr "Inicio: %s"
+
+msgid "破绽：{tag}招可破。"
+msgstr "Punto débil: lo rompe un movimiento \"{tag}\"."
+
+msgid "要出 {move}"
+msgstr "Va a usar {move}"
+
+msgid "选为目标：%s"
+msgstr "Objetivo: %s"
+
+msgid "内力 {force}/{max_force}"
+msgstr "Fuerza interior {force}/{max_force}"
+
+msgid "加力 {factor}"
+msgstr "Fuerza extra {factor}"
+
+msgid "法力 {mana}/{max_mana}"
+msgstr "Poder arcano {mana}/{max_mana}"
+
+msgid "灵力 {atman}/{max_atman}"
+msgstr "Poder místico {atman}/{max_atman}"
+
+msgid "{name}：{hint}"
+msgstr "{name}: {hint}"
+
+msgid "{name} {current} / 有效 {effective} / 最大 {maximum}：{hint}"
+msgstr "{name} {current} / efectivo {effective} / máximo {maximum}: {hint}"
+
+msgid "任务目标"
+msgstr "Objetivo de misión"
+
+msgid "弑师"
+msgstr "Mata a tu Shifu"
+
+msgid "了结（{marks}）"
+msgstr "Rematar ({marks})"
+
+msgid "了结{name}：下一招就会要了{name}的命。"
+msgstr "Remata a {name}{:el}: el siguiente golpe le quitará la vida."
+
+msgid "放{name}一条生路：你这一方不再出手，{name}昏在原地，到时自己醒来。"
+msgstr "Perdona a {name}{:el}: tu bando no volverá a atacar y {name}{:el} se queda inconsciente en el suelo hasta que despierte por sí solo."
+
+msgid "气 %s"
+msgstr "Qi %s"
+
+msgid "精 %s · 神 %s"
+msgstr "Esencia %s · Espíritu %s"
+
+msgid "精 %d　神 %d"
+msgstr "Esencia %d  Espíritu %d"
+
+msgid "天邪虎啸要耗 {force} 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n确定要发出虎啸吗？"
+msgstr "El rugido cuesta {force} de Fuerza interior. Hiere el Espíritu de todos los presentes; quien no lo resista, sea quien sea, intentará matarte, y un combate amistoso se convertirá en una lucha a muerte.\n¿Seguro que quieres rugir?"
+
+msgid "在战斗中运功压制杀气，可能当场昏倒：以你现在的定力和内功，{odds}。昏倒以后，要杀你的人不会停手。\n确定要压制杀气吗？"
+msgstr "Contener la Sed de sangre en pleno combate puede hacerte desmayar al instante: con tu Temple y tu neigong actuales, {odds}. Si te desmayas, quien quiere matarte no se detendrá.\n¿Seguro que quieres contenerla?"
+
+msgid "召天将要耗 {mana} 点法力和 {sen} 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n确定要召唤天将吗？"
+msgstr "Invocar a un general celestial cuesta {mana} de Poder arcano y {sen} de Espíritu. En cuanto llega, ataca a tu rival para matarlo y el rival lo ataca a él; el combate amistoso se convierte en una lucha a muerte y tu rival puede morir. Todas las muertes del general cuentan como tuyas, y si mata a tu Shifu, cargas con ese crimen.\n¿Seguro que quieres invocar al general?"
+
+msgid "召护法要耗 {mana} 点法力和 {sen} 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n确定要召护法吗？"
+msgstr "Llamar a un guardián cuesta {mana} de Poder arcano y {sen} de Espíritu. El general celestial o el soldado fantasma que acude ataca a tu rival para matarlo y el rival lo ataca a él; el combate amistoso se convierte en una lucha a muerte y tu rival puede morir. Todas sus muertes cuentan como tuyas, y si mata a tu Shifu, cargas con ese crimen.\n¿Seguro que quieres llamar al guardián?"
+
+msgid "来相助的护法会替你杀{npc}。{npc}不是你亲手杀的，你会昏倒，也悟不到咒术的道理。\n确定要召唤吗？"
+msgstr "El guardián que acude a ayudarte matará a {npc}{:el}. Como {npc}{:el} no muere a tus manos, te desmayarás y no aprenderás nada de la hechicería.\n¿Seguro que quieres invocarlo?"
+
+msgid "胜"
+msgstr "Victoria"
+
+msgid "败"
+msgstr "Derrota"
+
+msgid "失衡"
+msgstr "Sin equilibrio"
+
+msgid "露空"
+msgstr "Expuesto"
+
+msgid "{name}又出{count}招 {results}"
+msgstr "{name}{:0}: otros {count} golpes {results}"
+
+msgid "战斗无法正常结束，不会自动重试。"
+msgstr "El combate no pudo terminar bien y no se reintentará solo."
+
+msgid "目标：%s"
+msgstr "Objetivo: %s"
+
+msgid "战斗描写会显示在这里。"
+msgstr "Aquí aparecerá la descripción del combate."
+
+msgid "换目标"
+msgstr "Cambiar objetivo"
+
+msgid "（-%d）"
+msgstr "(-%d)"
+
+msgid "换目标：%s"
+msgstr "Cambiar objetivo: %s"
+
+msgid "召唤天将"
+msgstr "Invocar general"
+
+msgid "确定施展"
+msgstr "Lanzar"
+
+msgid "确定攻击"
+msgstr "Atacar"
+
+msgid "发出虎啸"
+msgstr "Rugir"
+
+msgid "一定会昏倒"
+msgstr "te desmayarás seguro"
+
+msgid "昏倒的可能很小"
+msgstr "es muy poco probable que te desmayes"
+
+msgid "约有 {tenths} 成会昏倒"
+msgstr "te desmayarás en unas {tenths} de cada 10 veces"
+
+msgid "下令：%s"
+msgstr "Orden: %s"
+
+msgid "对手倒下了，先在右边的旗上选「了结」或「放过」。"
+msgstr "El rival cayó. Antes, elige \"Rematar\" o \"Perdonar\" en el estandarte de la derecha."
+
+msgid "取消：%s"
+msgstr "Cancelar: %s"
+
+msgid "无"
+msgstr "Ninguno"
+
+msgid "无碍"
+msgstr "Bien"
+
+msgid "受伤不轻"
+msgstr "Herido"
+
+msgid "伤势沉重"
+msgstr "Muy herido"
+
+msgid "濒死"
+msgstr "Moribundo"
+
+msgid "结果这一下「砰」地一声打得$n连退了好几步，差一点摔倒！"
+msgstr "¡Pum! El golpe {n:te hace retroceder|hace retroceder a $n{:el}} varios pasos y casi {n:te|lo|la} tira al suelo."
+
+msgid "结果重重地击中，$n「哇」地一声吐出一口鲜血！"
+msgstr "El golpe da de lleno y {n:escupes|$n{:el} escupe} un buche de sangre."
+
+msgid "结果只听见「砰」地一声巨响，$n像一捆稻草般飞了出去！！"
+msgstr "Con un estruendo, {n:sales|$n{:el} sale} volando como un haz de paja."
+
+msgid "结果只是勉强造成一处轻微{type}！"
+msgstr "Resultado: {type} apenas perceptible."
+
+msgid "结果造成轻微的{type}！"
+msgstr "Resultado: {type} leve."
+
+msgid "结果造成一处{type}！"
+msgstr "Resultado: {type}."
+
+msgid "结果造成一处严重{type}！"
+msgstr "Resultado: {type} grave."
+
+msgid "结果造成颇为严重的{type}！"
+msgstr "Resultado: {type} bastante grave."
+
+msgid "结果造成相当严重的{type}！"
+msgstr "Resultado: {type} muy grave."
+
+msgid "结果造成十分严重的{type}！"
+msgstr "Resultado: {type} sumamente grave."
+
+msgid "结果造成极其严重的{type}！"
+msgstr "Resultado: {type} extremadamente grave."
+
+msgid "结果造成非常可怕的严重{type}！"
+msgstr "Resultado: {type} atroz."
+
+msgid "伤害"
+msgstr "Herida"
+
+msgid "看起来气血充盈，并没有受伤。"
+msgstr "{N:rebosas|rebosa} salud y no {N:tienes|tiene} ni una herida."
+
+msgid "似乎受了点轻伤，不过光从外表看不大出来。"
+msgstr "{N:pareces|parece} tener una herida leve, aunque apenas se nota."
+
+msgid "看起来可能受了点轻伤。"
+msgstr "Tal vez {N:tengas|tenga} una herida leve."
+
+msgid "受了几处伤，不过似乎并不碍事。"
+msgstr "{N:tienes|tiene} algunas heridas, pero no parecen importar."
+
+msgid "受伤不轻，看起来状况并不太好。"
+msgstr "{N:tienes|tiene} heridas serias y {N:te ves|se ve} mal."
+
+msgid "气息粗重，动作开始散乱，看来所受的伤著实不轻。"
+msgstr "{N:respiras|respira} con fuerza y {N:pierdes|pierde} la compostura: esas heridas no son ninguna broma."
+
+msgid "已经伤痕累累，正在勉力支撑著不倒下去。"
+msgstr "{N:tienes|tiene} el cuerpo lleno de heridas y {N:apenas te sostienes|apenas se sostiene} en pie."
+
+msgid "受了相当重的伤，只怕会有生命危险。"
+msgstr "{N:tienes|tiene} heridas muy graves y {N:corres|corre} peligro de muerte."
+
+msgid "伤重之下已经难以支撑，眼看就要倒在地上。"
+msgstr "{N:no puedes|no puede} sostenerte con tantas heridas: {N:estás|está} a punto de caer."
+
+msgid "受伤过重，已经奄奄一息，命在旦夕了。"
+msgstr "{N:agonizas|agoniza}: la vida pende de un hilo."
+
+msgid "受伤过重，已经有如风中残烛，随时都可能断气。"
+msgstr "{N:eres|es} una vela al viento y {N:puedes|puede} apagarte en cualquier momento."
+
+msgid "看起来充满活力，一点也不累。"
+msgstr "{N:rebosas|rebosa} vigor, sin rastro de cansancio."
+
+msgid "似乎有些疲惫，但是仍然十分有活力。"
+msgstr "{N:muestras|muestra} algo de cansancio, pero aún {N:tienes|tiene} mucho vigor."
+
+msgid "看起来可能有些累了。"
+msgstr "Tal vez {N:empieces|empiece} a cansarte."
+
+msgid "动作似乎开始有点不太灵光，但是仍然有条不紊。"
+msgstr "{N:empiezas|empieza} a perder agilidad, pero aún {N:mantienes|mantiene} el orden."
+
+msgid "气喘嘘嘘，看起来状况并不太好。"
+msgstr "{N:jadeas|jadea} y {N:te ves|se ve} en mal estado."
+
+msgid "似乎十分疲惫，看来需要好好休息了。"
+msgstr "{N:muestras|muestra} un cansancio enorme: {N:necesitas|necesita} descansar."
+
+msgid "已经一副头重脚轻的模样，正在勉力支撑著不倒下去。"
+msgstr "{N:vas|va} con la cabeza pesada y las piernas flojas, y {N:luchas|lucha} por no caer."
+
+msgid "看起来已经力不从心了。"
+msgstr "{N:estás|está} sin fuerzas."
+
+msgid "摇头晃脑、歪歪斜斜地站都站不稳，眼看就要倒在地上。"
+msgstr "{N:te tambaleas|se tambalea} sin poder mantenerte en pie: {N:estás|está} a punto de caer."
+
+msgid "已经陷入半昏迷状态，随时都可能摔倒晕去。"
+msgstr "{N:estás|está} medio inconsciente y {N:puedes|puede} desplomarte en cualquier momento."
+
+msgid "中性神"
+msgstr "sin género"
+
+msgid "他"
+msgstr "él"
+
+msgid "她"
+msgstr "ella"
+
+msgid "它"
+msgstr "ello"
+
+msgid "江湖常识"
+msgstr "Nociones del jianghu"
+
+msgid "武学"
+msgstr "Artes marciales"
+
+msgid "物品"
+msgstr "Objetos"
+
+msgid "人物"
+msgstr "Personajes"
+
+msgid "基本功夫"
+msgstr "Artes básicas"
+
+msgid "特殊技能"
+msgstr "Habilidades especiales"
+
+msgid "知识"
+msgstr "Conocimientos"
+
+msgid "武功"
+msgstr "Artes marciales"
+
+msgid "可以激发为：{uses}"
+msgstr "Se puede aplicar como: {uses}"
+
+msgid "运功：{functions}"
+msgstr "Canalizar: {functions}"
+
+msgid "你的等级：{level}"
+msgstr "Tu nivel: {level}"
+
+msgid "禽兽"
+msgstr "Bestias"
+
+msgid "破绽：{tag}"
+msgstr "Punto débil: {tag}"
+
+msgid "见过 {n} 次"
+msgstr "Visto {n} {#:vez|veces}"
+
+msgid "见识录 · {school}"
+msgstr "Lo que has visto · {school}"
+
+msgid "看熟一招（见过 {n} 次）就认得它的快、重、虚、守和破绽；自家门派的招一学就认得。"
+msgstr "Cuando ves un movimiento las veces suficientes (visto {n} {#:vez|veces}), reconoces si es rápido, pesado, finta o guardia, y su punto débil; los movimientos de tu propia escuela los reconoces en cuanto los aprendes."
+
+msgid "这一路的招你都认得。"
+msgstr "Conoces todos los movimientos de este estilo."
+
+msgid "打法 · {word}：{line}"
+msgstr "Estilo de lucha · {word}: {line}"
+
+msgid "{npc}讲过：{line}"
+msgstr "{npc}{:el} te explicó: {line}"
+
+msgid "{npc}拆过招，说：{line}"
+msgstr "{npc}{:el} practicó contigo y dijo: {line}"
+
+msgid "{tag}招"
+msgstr "{tag}"
+
+msgid "{npc}的第 {beat} 手总是{tag}（看过 {n} 回）。"
+msgstr "El turno {beat} de {npc}{:el} siempre es \"{tag}\" (visto {n} {#:vez|veces})."
+
+msgid "{npc}的第 {beat} 手多半是{tag}（{m} 回里有 {n} 回）。"
+msgstr "El turno {beat} de {npc}{:el} suele ser \"{tag}\" ({n} de {m} veces)."
+
+msgid "没有什么特别之处。"
+msgstr "Nada especial."
+
+msgid "为首的是{head}，在{seat}。"
+msgstr "Al frente está {head}{:el}, en {seat}{:el}."
+
+msgid "你是{family}的弟子。"
+msgstr "Eres {jugador:discípulo|discípula} de {family}{:el}."
+
+msgid "你见过的门人：{names}"
+msgstr "Miembros que has conocido: {names}"
+
+msgid "你没有特别留意过此人的模样。"
+msgstr "No te fijaste mucho en el aspecto de esta persona."
+
+msgid "门派：{family}"
+msgstr "Escuela: {family}"
+
+msgid "{skill}　{level} 级"
+msgstr "{skill}  nivel {level}"
+
+msgid "习得　{skill}"
+msgstr "Aprendido  {skill}"
+
+msgid "{power}上限　{value}"
+msgstr "Límite de {power}  {value}"
+
+msgid "拜入　{family}"
+msgstr "Ingreso  {family}"
+
+msgid "拜师　{master}"
+msgstr "Nuevo Shifu  {master}{:0}"
+
+msgid "任务完成　{title}"
+msgstr "Misión cumplida  {title}"
+
+msgid "获得　{item}"
+msgstr "Obtenido  {item}{:0}"
+
+msgid "视图键"
+msgstr "Botón Vista"
+
+msgid "导航键"
+msgstr "Botón Guía"
+
+msgid "菜单键"
+msgstr "Botón Menú"
+
+msgid "十字键上"
+msgstr "Cruceta arriba"
+
+msgid "十字键下"
+msgstr "Cruceta abajo"
+
+msgid "十字键左"
+msgstr "Cruceta izquierda"
+
+msgid "十字键右"
+msgstr "Cruceta derecha"
+
+msgid "叉"
+msgstr "Cruz"
+
+msgid "圈"
+msgstr "Círculo"
+
+msgid "方"
+msgstr "Cuadrado"
+
+msgid "三角"
+msgstr "Triángulo"
+
+msgid "窗口模式由这个平台管理。"
+msgstr "La plataforma gestiona el modo de ventana."
+
+msgid "大"
+msgstr "Grande"
+
+msgid "小"
+msgstr "Pequeño"
+
+msgid "画面卡顿时，可以在「设置」里把「画质」调低；全屏时调低「分辨率」也会更流畅"
+msgstr "Si la imagen va a tirones, baja \"Gráficos\" en Ajustes; en pantalla completa, bajar \"Resolución\" también ayuda"
+
+msgid "画面仍然卡顿时，可以在「设置」里调低「分辨率」：全屏时画面会更流畅"
+msgstr "Si la imagen sigue a tirones, baja \"Resolución\" en Ajustes: en pantalla completa irá más fluida"
+
+msgid "画面卡顿时，可以在「设置」里把「画质」调低"
+msgstr "Si la imagen va a tirones, baja \"Gráficos\" en Ajustes"
+
+msgid "指路"
+msgstr "Guía"
+
+msgid "语言已切换，但这项设置未能保存。"
+msgstr "Idioma cambiado, pero no se pudo guardar el ajuste."
+
+msgid "无法切换到这种语言。"
+msgstr "No se puede cambiar a este idioma."
+
+msgid "界面缩放已生效，但未能保存。"
+msgstr "La escala de la interfaz se aplicó, pero no se pudo guardar."
+
+msgid "战斗设置已生效，但未能保存。"
+msgstr "Los ajustes de combate se aplicaron, pero no se pudieron guardar."
+
+msgid "目标提示已生效，但未能保存。"
+msgstr "Las pistas de objetivo se aplicaron, pero no se pudo guardar el ajuste."
+
+msgid "切出窗口时暂停已生效，但未能保存。"
+msgstr "La pausa al cambiar de ventana se aplicó, pero no se pudo guardar el ajuste."
+
+msgid "自动存档提示已生效，但未能保存。"
+msgstr "El aviso de autoguardado se aplicó, pero no se pudo guardar el ajuste."
+
+msgid "画质已生效，但未能保存。"
+msgstr "Los gráficos se aplicaron, pero no se pudo guardar el ajuste."
+
+msgid "昼夜设置已生效，但未能保存。"
+msgstr "Día y noche se aplicó, pero no se pudo guardar el ajuste."
+
+msgid "战斗开场已生效，但未能保存。"
+msgstr "El inicio de combate se aplicó, pero no se pudo guardar el ajuste."
+
+msgid "音量已生效，但未能保存。"
+msgstr "El volumen se aplicó, pero no se pudo guardar."
+
+msgid "窗口模式已在本次运行中生效，但这项设置未能保存。"
+msgstr "El modo de ventana se aplicó en esta sesión, pero no se pudo guardar el ajuste."
+
+msgid "无法切换窗口模式。"
+msgstr "No se puede cambiar el modo de ventana."
+
+msgid "上一份自动存档"
+msgstr "El autoguardado anterior"
+
+msgid "请输入名称（1–24个字符），并选择性别。"
+msgstr "Escribe un nombre (1–24 caracteres) y elige un género."
+
+msgid "名称限1–24个字符；支持各语言文字及附加符，可在文字间使用半角空格、-、'、’或·，分隔符不能连用；不支持数字、表情或其它符号。"
+msgstr "El nombre admite de 1 a 24 caracteres: letras de cualquier escritura y sus marcas, con un solo espacio, -, ', ’ o · entre ellas (nunca dos seguidos). Sin números, emojis ni otros símbolos."
+
+msgid "请选择性别。"
+msgstr "Elige un género."
+
+msgid "正在存档……"
+msgstr "Guardando..."
+
+msgid "正在返回主菜单……"
+msgstr "Volviendo al menú principal..."
+
+msgid "正在恢复存档……"
+msgstr "Recuperando la partida guardada..."
+
+msgid "正在读取存档……"
+msgstr "Cargando la partida guardada..."
+
+msgid "正在开始旅程……"
+msgstr "Comenzando el viaje..."
+
+msgid "覆盖"
+msgstr "Sobrescribir"
+
+msgid "读取"
+msgstr "Cargar"
+
+msgid "窗口"
+msgstr "Ventana"
+
+msgid "无边框窗口"
+msgstr "Sin bordes"
+
+msgid "全屏"
+msgstr "Pantalla completa"
+
+msgid "窗口下是窗口的大小；全屏和无边框窗口铺满显示器，这里定地图画得多清楚，界面不变。全屏时调低它，画面会更流畅"
+msgstr "En ventana es el tamaño de la ventana; en pantalla completa y sin bordes llena el monitor, y aquí se define la nitidez con que se dibuja el mapa, sin cambiar la interfaz. Bájala en pantalla completa para ir más fluido"
+
+msgid "自动"
+msgstr "Auto"
+
+msgid "跟随系统"
+msgstr "Seguir al sistema"
+
+msgid "慢"
+msgstr "Lenta"
+
+msgid "标准"
+msgstr "Normal"
+
+msgid "询问"
+msgstr "Preguntar"
+
+msgid "直接了结"
+msgstr "Rematar sin más"
+
+msgid "打倒你要杀的人时：先问你了结还是放过，或者直接下杀手"
+msgstr "Al derribar a quien querías matar: preguntar si rematar o perdonar, o rematar sin más"
+
+msgid "全程"
+msgstr "Completo"
+
+msgid "简短"
+msgstr "Breve"
+
+msgid "关"
+msgstr "Desactivado"
+
+msgid "进战斗时搭擂台、镜头拉近的那一段：全程（每次开游戏的头几场完整、之后简短）、一直简短，或者不放"
+msgstr "El escenario y el acercamiento de cámara al empezar un combate: Completo (los primeros combates de cada sesión enteros, luego breves), siempre Breve o Desactivado"
+
+msgid "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
+msgstr "La línea \"Objetivo\" de la tarjeta de estado y \"Siguiente\" en los avisos del diario; si lo desactivas, solo queda la página de misiones"
+
+msgid "切到别的窗口时游戏暂停，回来后按「继续」接着玩；关掉后照样走，但窗口在后台时手柄不起作用"
+msgstr "Pausa el juego al cambiar a otra ventana y sigue al pulsar \"Continuar\". Si está desactivado, el juego sigue corriendo, pero el mando no funciona mientras la ventana esté en segundo plano"
+
+msgid "自动存档后左下角提示一行；关掉后照样自动存档，只是不提示"
+msgstr "Muestra una línea abajo a la izquierda tras un autoguardado. Si lo desactivas, el autoguardado sigue, pero sin aviso"
+
+msgid "跟随游戏时间"
+msgstr "Hora del juego"
+
+msgid "一直白天"
+msgstr "Siempre de día"
+
+msgid "一直夜晚"
+msgstr "Siempre de noche"
+
+msgid "地图的光照：跟着游戏里的一天走（黎明、白天、黄昏、夜、深夜），或者一直是白天、一直是夜晚"
+msgstr "Iluminación del mapa: sigue el día del juego (alba, día, atardecer, noche, noche cerrada), o es siempre de día, o siempre de noche"
+
+msgid "高"
+msgstr "Alta"
+
+msgid "低"
+msgstr "Baja"
+
+msgid "高：影子边缘柔和、斜线平滑、近处的灯都投影；低：影子边缘硬、斜线有锯齿、只有最近的几盏灯投影，画面更流畅"
+msgstr "Alta: sombras de bordes suaves, diagonales lisas, y las luces cercanas proyectan sombra. Baja: sombras de bordes duros, diagonales dentadas, y solo las luces más cercanas proyectan sombra; la imagen va más fluida"
+
+msgid "游戏里所有声音的音量；拉到 0 就没有声音"
+msgstr "Volumen de todos los sonidos del juego; a 0 no se oye nada"
+
+msgid "%d%%"
+msgstr "%d%%"
+
+msgid "版本 %s"
+msgstr "Versión %s"
+
+msgid "冷却中（还要 {rounds} 回合）"
+msgstr "Enfriándose ({rounds} rondas más)"
+
+msgid "这里不准战斗。"
+msgstr "Aquí no se puede combatir."
+
+msgid "你对著{npc}喝道：「{rude}！今日不是你死就是我活！」"
+msgstr "Le gritas a {npc}{:el}: \"¡{rude}! ¡Hoy mueres tú o muero yo!\""
+
+msgid "已收势"
+msgstr "Cedido"
+
+msgid "手不够"
+msgstr "Sin turnos"
+
+msgid "$N临阵变招！"
+msgstr "$N{:el} {N:cambias|cambia} de movimiento en pleno combate."
+
+msgid "{npc}的{move}被打断了。"
+msgstr "Se interrumpe {move} de {npc}{:el}."
+
+msgid "$N说道：{line}"
+msgstr "$N{:el} {N:dices|dice}: \"{line}\""
+
+msgid "$N趁你收招，连出两手！"
+msgstr "¡$N{:el} {N:aprovechas|aprovecha} que recoges tu movimiento y {N:atacas|ataca} dos veces seguidas!"
+
+msgid "$N被震得失衡，丢了一手！"
+msgstr "¡$N{:el} {N:pierdes|pierde} el equilibrio por la sacudida y {N:pierdes|pierde} un turno!"
+
+msgid "$N一招落空，露出了破绽！"
+msgstr "¡$N{:el} {N:fallas|falla} el golpe y {N:quedas|queda} al descubierto!"
+
+msgid "$N抢得一手（{label}）！"
+msgstr "¡$N{:el} {N:ganas|gana} un turno ({label})!"
+
+msgid "看起来%s想杀死你！"
+msgstr "¡Parece que %s{:el} quiere matarte!"
+
+msgid "看起来%s（×%d）想杀死你！"
+msgstr "¡Parece que %s{:los} (×%d) quieren matarte!"
+
+msgid "{npc}蓄势待发，似乎要使出{move}！"
+msgstr "¡{npc}{:el} se prepara y parece que va a usar {move}!"
+
+msgid "头部"
+msgstr "cabeza"
+
+msgid "颈部"
+msgstr "cuello"
+
+msgid "胸口"
+msgstr "pecho"
+
+msgid "後心"
+msgstr "espalda"
+
+msgid "左肩"
+msgstr "hombro izquierdo"
+
+msgid "右肩"
+msgstr "hombro derecho"
+
+msgid "左臂"
+msgstr "brazo izquierdo"
+
+msgid "右臂"
+msgstr "brazo derecho"
+
+msgid "左手"
+msgstr "mano izquierda"
+
+msgid "右手"
+msgstr "mano derecha"
+
+msgid "腰间"
+msgstr "cintura"
+
+msgid "小腹"
+msgstr "vientre"
+
+msgid "左腿"
+msgstr "pierna izquierda"
+
+msgid "右腿"
+msgstr "pierna derecha"
+
+msgid "左脚"
+msgstr "pie izquierdo"
+
+msgid "右脚"
+msgstr "pie derecho"
+
+msgid "一具枯乾的骸骨"
+msgstr "esqueleto reseco"
+
+msgid "腐烂的尸体"
+msgstr "cadáver podrido"
+
+msgid "%s的尸体"
+msgstr "cadáver de %s{:el}"
+
+msgid "自动存档失败"
+msgstr "El autoguardado falló"
+
+msgid "已自动存档"
+msgstr "Autoguardado"
+
+msgid "已存下「决战前」存档"
+msgstr "Se guardó \"Antes del combate final\""
+
+msgid "「决战前」存档没能存下"
+msgstr "No se pudo guardar \"Antes del combate final\""
+
+msgid "「死前存档」没能存下"
+msgstr "No se pudo guardar \"Antes de morir\""
+
+msgid "{action}：{landmark}"
+msgstr "{action}: {landmark}"
+
+msgid "你答道：{answer}"
+msgstr "Respondes: {answer}"
+
+msgid "{option}（{why}）"
+msgstr "{option} ({why})"
+
+msgid "你选了：{option}"
+msgstr "Elegiste: {option}"
+
+msgid "{npc}将{door}关上。"
+msgstr "{npc}{:el} cierra {door}{:el}."
+
+msgid "你的%s用完了！"
+msgstr "¡Se te acabaron %s{:los}!"
+
+msgid "{who}只觉得手中{weapon}一震，险些脱手！"
+msgstr "{who}{:el} siente que {weapon}{:el} da una sacudida en su mano y casi se le escapa."
+
+msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
+msgstr "{who}{:el} pierde el control de {weapon}{:el}, que sale volando de su mano."
+
+msgid "只听见「啪」地一声，{who}手中的{weapon}已经断为两截！"
+msgstr "¡Crac! {weapon}{:el} de {who}{:el} se parte en dos."
+
+msgid "{me}的{weapon}和{who}的{other}相击，冒出点点的火星。"
+msgstr "{weapon}{:el} de {me}{:el} choca con {other}{:el} de {who}{:el} y saltan chispas."
+
+msgid "%s脚下一个不稳，跌在地上一动也不动了。"
+msgstr "%s{:el} pierde el equilibrio, cae y ya no se mueve."
+
+msgid "{who}用指甲挑了一点化尸粉在{corpse}上，只听见一阵「嗤嗤」声响带著一股可怕的恶臭，{corpse}只剩下一滩黄水。"
+msgstr "{who}{:el} echa con la uña una pizca de polvo disolvente sobre el {corpse}{:0}; se oye un siseo, sube un hedor terrible y del {corpse}{:0} solo queda un charco amarillo."
+
+msgid "这副骸骨已经躺在这里很久了。"
+msgstr "Estos huesos llevan aquí mucho tiempo."
+
+msgid "这具尸体显然已经躺在这里有一段时间了，正散发著一股腐尸的味道。"
+msgstr "Este cadáver lleva aquí un tiempo, es evidente, y despide olor a podredumbre."
+
+msgid "一阵风吹过，把{name}化成骨灰吹散了。"
+msgstr "Una ráfaga de viento dispersa {name} convertido en ceniza."
+
+msgid "{name}开始腐烂了，发出一股难闻的恶臭。"
+msgstr "El {name} empieza a pudrirse y despide un hedor desagradable."
+
+msgid "{name}被风吹乾了，变成一具骸骨。"
+msgstr "El viento ha secado el {name} hasta dejarlo en esqueleto."
+
+msgid "你没有足够的零钱，而对方也找不开...。"
+msgstr "No tienes monedas sueltas suficientes y el otro tampoco puede darte cambio..."
+
+msgid "你的钱不够。"
+msgstr "No tienes suficiente dinero."
+
+msgid "这笔钱凑不整：对方找不开，你也没有合适的零钱。先去钱庄换些碎银或铜钱再来。"
+msgstr "El dinero no cuadra: el otro no tiene cambio y tú no llevas monedas sueltas que sirvan. Ve primero al banco a cambiar plata menuda o monedas de cobre."
+
+msgid "交易未完成，状态异常；已发生的扣款不会退回。"
+msgstr "El trato no se completó por un estado anómalo; el dinero ya descontado no se devuelve."
+
+msgid "你拿起一根%s呜嘟嘟地吹了起来。"
+msgstr "Tomas %s{:un} y soplas: ¡tuu, tuu, tuu!"
+
+msgid "你四处看看, 实在找不到地方挂绳子说..."
+msgstr "Miras por todas partes, pero no encuentras dónde colgar la cuerda..."
+
+msgid "你把绳子一端挂好, 另一端往脖子上一套....."
+msgstr "Atas un extremo de la cuerda y te pasas el otro por el cuello..."
+
+msgid "{npc}捡起{item}。"
+msgstr "{npc}{:el} recoge {item}{:un}."
+
+msgid "你捡起%s。"
+msgstr "Recoges %s{:el}."
+
+msgid "你附近没有这样东西。"
+msgstr "No hay nada así cerca de ti."
+
+msgid "{container}里什麽也没有，先装些水酒才能溶化药粉。"
+msgstr "No hay nada en {container}{:el}. Primero échale agua o vino para disolver el polvo."
+
+msgid "你将一些{powder}倒进{container}，摇晃了几下。"
+msgstr "Viertes un poco de {powder}{:0} en {container}{:el} y lo agitas un poco."
+
+msgid "$N和$n仇人相见分外眼红，立刻打了起来！"
+msgstr "Al verse, $N{:el} y $n{:el} se reconocen como enemigos y empiezan a pelear al instante."
+
+msgid "$N对著$n大喝：「可恶，又是你！」"
+msgstr "$N{:el} {N:gritas|grita} a {n:ti|$n{:el}}: \"¡Maldición, otra vez tú!\""
+
+msgid "$N和$n一碰面，二话不说就打了起来！"
+msgstr "Al encontrarse, $N{:el} y $n{:el} se enzarzan a golpes sin decir palabra."
+
+msgid "$N一眼瞥见$n，「哼」的一声冲了过来！"
+msgstr "$N{:el} {N:ves|ve} a {n:ti|$n{:el}}, {N:resoplas|resopla} y {N:cargas|carga}."
+
+msgid "$N一见到$n，愣了一愣，大叫：「我宰了你！」"
+msgstr "$N{:el} {N:ves|ve} a {n:ti|$n{:el}}, {N:te quedas|se queda} inmóvil un instante y {N:gritas|grita}: \"¡Te voy a matar!\""
+
+msgid "$N喝道：「$n，我们的帐还没算完，看招！」"
+msgstr "$N{:el} {N:gritas|grita}: \"¡{n:Tú|$n{:0}}, aún no hemos saldado cuentas! ¡Defiéndete!\""
+
+msgid "$N喝道：「$n，看招！」"
+msgstr "$N{:el} {N:gritas|grita}: \"¡{n:Tú|$n{:0}}, defiéndete!\""
+
+msgid "{npc}发现了你！"
+msgstr "¡{npc}{:el} te descubre!"
+
+msgid "{npc}发现了你，大喝一声！"
+msgstr "¡{npc}{:el} te descubre y suelta un grito!"
+
+msgid "%s用一种异样的眼神扫视著在场的每一个人。"
+msgstr "%s{:el} recorre con una mirada extraña a todos los presentes."
+
+msgid "{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。"
+msgstr "{npc}{:el} te grita: \"Tu cara me da asco. ¡Muérete!\""
+
+msgid "{npc}对著你喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
+msgstr "{npc}{:el} te grita: \"¡Eh, {rude}! Tengo ganas de pelea: ¡ven a darme unos golpes!\""
+
+msgid "刀剑无眼，持兵刃比试可能真的受伤。"
+msgstr "Las armas no tienen ojos: combatir con ellas puede herir de verdad."
+
+msgid "你用一种异样的眼神扫视著在场的每一个人。"
+msgstr "Recorres con una mirada extraña a todos los presentes."
+
+msgid "你对著{npc}喝道：{self}看你实在很不顺眼，去死吧。"
+msgstr "Le gritas a {npc}{:el}: \"Tu cara me da asco. ¡Muérete!\""
+
+msgid "你对著{npc}喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
+msgstr "Le gritas a {npc}{:el}: \"¡Eh, {rude}! Tengo ganas de pelea: ¡ven a darme unos golpes!\""
+
+msgid "%s突然转过头来瞪你一眼。"
+msgstr "%s{:el} se vuelve de pronto y te lanza una mirada fulminante."
+
+msgid "{npc}拔刀上前，和你并肩而立！"
+msgstr "¡{npc}{:el} desenvaina y se pone a tu lado!"
+
+msgid "%s慢慢睁开眼睛，清醒了过来。"
+msgstr "%s{:el} abre los ojos poco a poco y recobra el sentido."
+
+msgid "{npc}的测试：第 {n} / {total} 招"
+msgstr "Prueba de {npc}{:el}: golpe {n} de {total}"
+
+msgid "{npc}：第 {n} / {total} 句"
+msgstr "{npc}{:0}: frase {n} de {total}"
+
+msgid "{name}走了过来。"
+msgstr "{name}{:el} se acerca."
+
+msgid "你忽然觉得身上一轻，{item}不见了！"
+msgstr "¡De pronto sientes el cuerpo más ligero: tu {item}{:0} ya no está!"
+
+msgid "你昏迷不醒的时候，身上的{item}被人拿走了！"
+msgstr "¡Mientras estabas inconsciente, alguien se llevó tu {item}{:0}!"
+
+msgid "你一回头，正好发现{npc}的手正抓著你身上的{item}！"
+msgstr "¡Al volverte, descubres justo la mano de {npc}{:el} sobre tu {item}{:0}!"
+
+msgid "你喝道：「干什麽！」"
+msgstr "Gritas: \"¡Eh! ¿Qué haces?\""
+
+msgid "{npc}穿上一{unit}{item}。"
+msgstr "{npc}{:el} se pone {item}{:un}."
+
+msgid "{npc}戴上一{unit}{item}。"
+msgstr "{npc}{:el} se coloca {item}{:un}."
+
+msgid "{npc}将一{unit}绑在腰间。"
+msgstr "{npc}{:el} se ata algo a la cintura."
+
+msgid "{npc}装备{item}。"
+msgstr "{npc}{:el} se equipa {item}{:el}."
+
+msgid "{npc}装备{item}作武器。"
+msgstr "{npc}{:el} empuña {item}{:el} como arma."
+
+msgid "{npc}收了刀，走了。"
+msgstr "{npc}{:el} envaina y se va."
+
+msgid "%s急急忙忙地离开了。"
+msgstr "%s{:el} se va a toda prisa."
+
+msgid "（{npc}要把你押到县衙受审：被押着走不开；可以向他行贿，也可以拒捕跟他动手。）"
+msgstr "({npc}{:el} va a llevarte preso al tribunal del condado para juzgarte: mientras te sujeta no puedes irte; puedes sobornarlo o resistirte y pelear.)"
+
+msgid "木人是武馆拆招用的，只能切磋，打坏了还得赔。"
+msgstr "Los muñecos de madera son para practicar en el salón: solo sirven para combate amistoso, y si los rompes tendrás que pagarlos."
+
+msgid "你身上带着伤，先养好了再来拆招。"
+msgstr "Estás herido. Cúrate primero y vuelve a practicar."
+
+msgid "你是别派的弟子，我不便指点。"
+msgstr "Eres {jugador:discípulo|discípula} de otra escuela; no me corresponde instruirte."
+
+msgid "来，拆三回合，点到为止。"
+msgstr "Vamos, tres rondas, sin llegar a herir."
+
+msgid "{npc}已经倒了。{npc}还有用，留{npc}一条命。"
+msgstr "{npc}{:el} ya cayó. {npc}{:el} aún es útil, así que le dejas la vida."
+
+msgid "这里禁止战斗。"
+msgstr "Aquí está prohibido combatir."
+
+msgid "你想攻击谁？"
+msgstr "¿A quién quieres atacar?"
+
+msgid "加油！加油！加油！"
+msgstr "¡Ánimo! ¡Ánimo! ¡Ánimo!"
+
+msgid "%s已经无法战斗了。"
+msgstr "%s{:el} ya no puede combatir."
+
+msgid "你对著{npc}说道：{self}{name}，领教{respect}的高招！"
+msgstr "Le dices a {npc}{:el}: \"Me llamo {name}. ¡Permítame conocer su técnica, {respect}!\""
+
+msgid "看起来%s并不想跟你较量。"
+msgstr "Parece que %s{:el} no quiere medirse contigo."
+
+msgid "你向{npc}讨教{skill}，请{npc}拆几招给你看。"
+msgstr "Le pides a {npc}{:el} que te muestre unos movimientos de {skill}{:el}."
+
+msgid "{npc}给你{item}。"
+msgstr "{npc}{:el} te da {item}{:un}."
+
+msgid "你可以购买下列这些东西："
+msgstr "Puedes comprar lo siguiente:"
+
+msgid "{item}：{price}"
+msgstr "{item}: {price}"
+
+msgid "两{unit}{item}"
+msgstr "{item} ×2"
+
+msgid "你说道：%s"
+msgstr "Dices: \"%s\""
+
+msgid "关闭%s"
+msgstr "Cerrar %s{:el}"
+
+msgid "打开%s"
+msgstr "Abrir %s{:el}"
+
+msgid "你咬破手指，用鲜血在{paper}上画了一道僵尸追魂符，写上了{name}的名字。"
+msgstr "Te muerdes el dedo y con tu sangre dibujas sobre {paper}{:el} un talismán persecutor de almas, y escribes en él el nombre de {name}{:el}."
+
+msgid "这里没有{name}。"
+msgstr "Aquí no está {name}{:el}."
+
+msgid "等待机会对{npc}下手"
+msgstr "Esperando una ocasión contra {npc}{:el}"
+
+msgid "这里禁止行窃。"
+msgstr "Aquí está prohibido robar."
+
+msgid "你已经在找机会下手了！"
+msgstr "¡Ya estás esperando tu ocasión!"
+
+msgid "你想行窃的对象不在这里。"
+msgstr "La persona a quien quieres robar no está aquí."
+
+msgid "{npc}身上看起来没有什麽值钱的东西好偷。"
+msgstr "{npc}{:el} no parece llevar nada que valga la pena robar."
+
+msgid "你不动声色地慢慢靠近{npc}，等待机会下手 ..."
+msgstr "Te acercas despacio y con disimulo a {npc}{:el}, esperando tu ocasión..."
+
+msgid "太可惜了，你下手的目标已经走了。"
+msgstr "Qué lástima: tu objetivo ya se fue."
+
+msgid "你摸到{item}，可是对你而言太重了，不得不放弃。"
+msgstr "Tocas {item}{:el}, pero pesa demasiado para ti y tienes que soltarlo."
+
+msgid "得手了！"
+msgstr "¡Lo lograste!"
+
+msgid "你成功地偷到{item}！"
+msgstr "¡Robaste {item}{:el} con éxito!"
+
+msgid "{npc}不经意地一转头，你急忙将手缩了回去！"
+msgstr "{npc}{:el} gira la cabeza sin querer y tú retiras la mano a toda prisa."
+
+msgid "还好，没有被发现。"
+msgstr "Menos mal: nadie te vio."
+
+msgid "糟糕！你失手了！"
+msgstr "¡Maldición! ¡Fallaste!"
+
+msgid "{npc}一回头，正好发现你的手正抓著{pronoun}身上的{item}！"
+msgstr "¡{npc}{:el} se vuelve justo cuando tu mano está sobre {item}{:el} de {pronoun}!"
+
+msgid "{npc}喝道：「干什麽！」"
+msgstr "{npc}{:el} grita: \"¡Eh! ¿Qué haces?\""
+
+msgid "！"
+msgstr "¡!"
+
+msgid "{name}喝道：{text}"
+msgstr "{name}{:el} grita: {text}"
+
+msgid "风停了。草直直地立着，雾也不动了，四下里一点声音都没有。"
+msgstr "El viento ha cesado. La hierba se mantiene erguida, la niebla no se mueve y no se oye un solo sonido a tu alrededor."
+
+msgid "一阵乱风打着旋卷过去，辨不出是从哪边来的。"
+msgstr "Una ráfaga se arremolina y pasa de largo; no se distingue de qué lado viene."
+
+msgid "风从{quarter}边吹过来，草都朝一边倒。"
+msgstr "El viento sopla del {quarter}, y toda la hierba se inclina hacia un lado."
+
+msgid "怀里的风铃轻轻响了一声，清清楚楚。"
+msgstr "La campanilla de viento que llevas contra el pecho suena una vez, suave y clara."
+
+msgid "怀里的风铃叮叮地响，声音清亮。"
+msgstr "La campanilla de viento que llevas contra el pecho tintinea, clara y brillante."
+
+msgid "怀里的风铃闷闷地响了两下。"
+msgstr "La campanilla de viento que llevas contra el pecho suena dos veces, apagada."
+
+msgid "风：停了"
+msgstr "Viento: en calma"
+
+msgid "风：乱风"
+msgstr "Viento: racheado"
+
+msgid "风：{quarter}风 {arrow}"
+msgstr "Viento: del {quarter} {arrow}"
+
+msgid "主手"
+msgstr "Mano principal"
+
+msgid "副手"
+msgstr "Mano secundaria"
+
+msgid "已穿戴"
+msgstr "Puesto"
+
+msgid "每次练习耗 {mana} 点法力、{sen} 点神。心神一乱会变出{npcs}，它会立刻攻击你，活着时不能再练。亲手杀了它，{skill}会有长进；被别人杀了，你会昏倒。"
+msgstr "Cada práctica cuesta {mana} de Poder arcano y {sen} de Espíritu. Si pierdes la calma, aparece una criatura ({npcs}) que te ataca de inmediato, y mientras viva no puedes seguir practicando. Si la matas con tus propias manos, {skill} mejora; si la mata otro, te desmayas."
+
+msgid "或"
+msgstr " o "
+
+msgid "需要先学会基本咒文，法力才能增长。"
+msgstr "Necesitas aprender primero Conjuros básicos para que tu Poder arcano pueda crecer."
+
+msgid "需要先学会基本法术，灵力才能增长。"
+msgstr "Necesitas aprender primero Misticismo básico para que tu Poder místico pueda crecer."
+
+msgid "{verb}要耗去{cost}，你现在撑不住，会当场昏过去。\n确定要{verb}吗？"
+msgstr "{verb} cuesta{cost}. En tu estado no lo resistirías y te desmayarías al instante.\n¿Seguro que quieres seguir?"
+
+msgid " {amount} 点{resource}"
+msgstr " {amount} de {resource}"
+
+msgid "确定{verb}"
+msgstr "{verb}"
+
+msgid "和"
+msgstr " y "
+
+msgid "兑换"
+msgstr "Cambiar"
+
+msgid "%s · 兑换（非存取款）"
+msgstr "%s · Cambio (sin depósitos ni retiros)"
+
+msgid "直接携带（每种选定一堆）：\n铜钱 {coins} 文 / 银子 {silver} 两 / 黄金 {gold} 两"
+msgstr "Dinero que llevas encima (un montón de cada tipo):\nCobre {coins} wen / Plata {silver} taels / Oro {gold} taels"
+
+msgid "异常"
+msgstr "Error"
+
+msgid "现在无法在此兑换。"
+msgstr "Ahora no se puede cambiar aquí."
+
+msgid "请输入范围内的正整数，不支持小数或自动取整。"
+msgstr "Escribe un número entero positivo dentro del rango; no se admiten decimales ni redondeos."
+
+msgid "看榜"
+msgstr "Leer el tablero"
+
+msgid "坐车"
+msgstr "Tomar carruaje"
+
+msgid "车夫摇摇头：「这会儿去不了。」"
+msgstr "El cochero niega con la cabeza: \"Ahora no se puede ir allí.\""
+
+msgid "你的钱不够付车钱。"
+msgstr "No tienes dinero para el pasaje."
+
+msgid "坐车去{place}？车钱{fare}，路上约{time}。"
+msgstr "¿Tomar un carruaje a {place}{:el}? Pasaje: {fare}; unas {time} de camino."
+
+msgid "车夫摇摇头：「这会儿走不了。」"
+msgstr "El cochero niega con la cabeza: \"Ahora no se puede salir.\""
+
+msgid "你付了{fare}车钱。"
+msgstr "Pagas el pasaje: {fare}."
+
+msgid "车马行的车走了{time}，把你送到了{place}。"
+msgstr "El carruaje viaja {time} y te deja en {place}{:el}."
+
+msgid "车马行的车把你送到了{place}。"
+msgstr "El carruaje te deja en {place}{:el}."
+
+msgid "这一曲要耗去 {sen} 点神，你现在撑不住，跳完就会昏过去。\n确定要跳吗？"
+msgstr "Esta pieza cuesta {sen} de Espíritu; ahora no lo resistirías y te desmayarías al terminar.\n¿Seguro que quieres bailar?"
+
+msgid "跳舞"
+msgstr "Bailar"
+
+msgid "确定起舞"
+msgstr "Bailar"
+
+msgid "交易"
+msgstr "Comerciar"
+
+msgid "%s · 估价 / 卖断"
+msgstr "%s · Tasar / vender"
+
+msgid "已持用 · 主手"
+msgstr "En mano · principal"
+
+msgid "已持用 · 副手"
+msgstr "En mano · secundaria"
+
+msgid "未装备"
+msgstr "Sin equipar"
+
+msgid "{money} ×{amount}{unit}"
+msgstr "{money} ×{amount} {unit}"
+
+msgid "直接携带的钱：%s"
+msgstr "Dinero que llevas: %s"
+
+msgid "卖断 {item}\n报价{price}文。物品将永久移除。"
+msgstr "Venta definitiva de {item}{:el}\nOferta: {price} wen. El objeto se retirará para siempre."
+
+msgid "位置或物品状态已变化，未执行卖断；请重新选择。"
+msgstr "Tu posición o el objeto cambió; no se vendió nada. Elige de nuevo."
+
+msgid "任务"
+msgstr "Misiones"
+
+msgid "看货"
+msgstr "Ver mercancía"
+
+msgid "你看到:"
+msgstr "Ves:"
+
+msgid "请教"
+msgstr "Aprender"
+
+msgid "你必须先把%s弄醒。"
+msgstr "Antes tienes que despertar a %s{:el}."
+
+msgid "{master}收下了你。\n\n你成了{family}第{generation}代弟子。往后向师父请教，就能学他会的武功；请教页写着每门能学到几级，武学页能打坐练内力。"
+msgstr "{master}{:el} te acoge.\n\nAhora eres {jugador:discípulo|discípula} de la {generation}.ª generación de {family}{:el}. Pídele enseñanza a tu Shifu para aprender las artes que domina; la página de lecciones muestra hasta qué nivel puedes aprender cada arte, y la de artes marciales te deja meditar para entrenar la Fuerza interior."
+
+msgid "购买"
+msgstr "Comprar"
+
+msgid "{liquid}{portions}份"
+msgstr "{liquid} ×{portions}"
+
+msgid "买一%s"
+msgstr "Comprar %s{:un}"
+
+msgid "%d两黄金"
+msgstr "%d {#:tael|taels} de oro"
+
+msgid "%d两银子"
+msgstr "%d {#:tael|taels} de plata"
+
+msgid "%d文钱"
+msgstr "%d wen"
+
+msgid "工作"
+msgstr "Trabajar"
+
+msgid "你揭下了雪亭驿的悬赏告示：{outlaw}，最近在{region}的{place}一带出没。"
+msgstr "Retiras el aviso de recompensa de la Posta de Pabellón Nevado: {outlaw}{:el}, que ha estado rondando por {place}{:el}, en {region}{:el}."
+
+msgid "你放弃了捉拿{outlaw}的悬赏。"
+msgstr "Renuncias a la recompensa por capturar a {outlaw}{:el}."
+
+msgid "路旁人影一晃，{outlaw}跳了出来！"
+msgstr "¡Una sombra se cruza junto al camino y {outlaw}{:el} salta al paso!"
+
+msgid "你把{outlaw}捆了个结实，托路过的官差押往雪亭驿。"
+msgstr "Atas bien a {outlaw}{:el} y le pides a un alguacil que pasa que {~:lo|la} lleve a la Posta de Pabellón Nevado."
+
+msgid "雪亭驿付给你{silver}两银子的赏银。"
+msgstr "La Posta de Pabellón Nevado te paga {silver} {#:tael|taels} de plata de recompensa."
+
+msgid "其中{silver}两你拿不动，掉在你的脚边。"
+msgstr "No puedes cargar {silver} {#:tael|taels} de esos y caen a tus pies."
+
+msgid "你的尸体"
+msgstr "Tu cadáver"
+
+msgid "你的尸体和留在上面的东西还在：{place}"
+msgstr "Tu cadáver y lo que dejaste en él siguen en: {place}"
+
+msgid "{name}倒在{place}，没能跟上你。"
+msgstr "{name}{:el} cayó en {place}{:el} y no pudo seguirte."
+
+msgid "{name}还在{place}等你。"
+msgstr "{name}{:el} te espera en {place}{:el}."
+
+msgid "你的实战经验还不够，过不去。"
+msgstr "No tienes la Experiencia de combate suficiente para pasar."
+
+msgid "你来到%s。"
+msgstr "Llegas a %s{:el}."
+
+msgid "%s锁着。"
+msgstr "%s{:el} está {~:cerrado|cerrada}."
+
+msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或自学，用掉一些潜能吧。"
+msgstr "Tu Potencial está lleno (como máximo {cap} sin usar): seguir peleando no lo hará crecer. Pídele instrucción a tu Shifu o estudia por tu cuenta para gastar algo de Potencial."
+
+msgid "{name}找了过来，又跟在你身边。"
+msgstr "{name}{:el} te alcanza y vuelve a acompañarte."
+
+msgid "{name}没有跟上来，还在{place}。"
+msgstr "{name}{:el} no te siguió y sigue en {place}{:el}."
+
+msgid "到了，指路收起。"
+msgstr "Llegaste: la guía se oculta."
+
+msgid "【晋阶】你现在是{title}。"
+msgstr "[Ascenso] Ahora eres {title}."
+
+msgid "【分宗】你现在是{title}。"
+msgstr "[Nueva rama] Ahora eres {title}."
+
+msgid "支付货币"
+msgstr "Pagar con"
+
+msgid "取得货币"
+msgstr "Recibir"
+
+msgid "支付数量（正整数）"
+msgstr "Cantidad a pagar (entero positivo)"
+
+msgid "请选择货币与数量。同币种亦可兑换。"
+msgstr "Elige la moneda y la cantidad. También puedes cambiar dentro de la misma moneda."
+
+msgid "铜钱 · 文"
+msgstr "Cobre · wen"
+
+msgid "银子 · 两"
+msgstr "Plata · taels"
+
+msgid "黄金 · 两"
+msgstr "Oro · taels"
+
+msgid "兑换成功：扣除 {paid}，取得 {received}。"
+msgstr "Cambio hecho: pagaste {paid} y recibiste {received}."
+
+msgid "换成这么多你拿不动：身上太重，这笔没有换。少换一些，或先放下些东西。"
+msgstr "No podrías cargar tanto: vas demasiado pesado y no se cambió nada. Cambia menos, o suelta algo antes."
+
+msgid "你没有直接携带这种货币。"
+msgstr "No llevas encima esa moneda."
+
+msgid "所选货币数量不足。"
+msgstr "No tienes suficiente de la moneda elegida."
+
+msgid "数量不足以兑换一单位目标货币。"
+msgstr "No alcanza para cambiar ni una unidad de la moneda de destino."
+
+msgid "请输入有效的正整数。"
+msgstr "Escribe un entero positivo válido."
+
+msgid "兑换状态异常，请停止操作。"
+msgstr "Algo falló en el cambio. Detén la operación."
+
+msgid "确定"
+msgstr "Aceptar"
+
+msgid "切到别的窗口时，游戏暂停了。"
+msgstr "El juego se pausó al cambiar a otra ventana."
+
+msgid "不想这样暂停，可以在「设置」里关掉「切出窗口时暂停」。"
+msgstr "Si no quieres que se pause así, desactiva \"Pausar al cambiar de ventana\" en Ajustes."
+
+msgid "走路"
+msgstr "Caminar"
+
+msgid "交互 · 继续"
+msgstr "Interactuar · Continuar"
+
+msgid "确认"
+msgstr "Confirmar"
+
+msgid "返回 · 取消"
+msgstr "Volver · Cancelar"
+
+msgid "观察"
+msgstr "Mirar alrededor"
+
+msgid "切换视角"
+msgstr "Cambiar vista"
+
+msgid "菜单翻页"
+msgstr "Pasar página del menú"
+
+msgid "角色"
+msgstr "Personaje"
+
+msgid "地图：移动"
+msgstr "Mapa: mover"
+
+msgid "地图：缩放"
+msgstr "Mapa: zoom"
+
+msgid "地图：回到所在"
+msgstr "Mapa: volver a tu posición"
+
+msgid "地图：全图 / 近看"
+msgstr "Mapa: completo / cerca"
+
+msgid "暂停（系统）"
+msgstr "Pausa (Sistema)"
+
+msgid "滚动长文"
+msgstr "Desplazar texto largo"
+
+msgid "战斗：换目标"
+msgstr "Combate: cambiar objetivo"
+
+msgid "战斗：记录"
+msgstr "Combate: registro"
+
+msgid "战斗：收回指令"
+msgstr "Combate: retirar orden"
+
+msgid "字母键按键盘上的位置算，这里写的是你的键盘在那个位置印的字。暂时不能改键；手柄可以在 Steam 的控制器设置里改。"
+msgstr "Las letras se cuentan por su posición en el teclado; aquí aparece la letra que tu teclado tiene impresa en esa posición. Las teclas aún no se pueden cambiar; el mando se puede reconfigurar en los ajustes del mando de Steam."
+
+msgid "动作"
+msgstr "Acción"
+
+msgid "键盘"
+msgstr "Teclado"
+
+msgid "手柄"
+msgstr "Mando"
+
+msgid "方向键"
+msgstr "Flechas"
+
+msgid "十字键"
+msgstr "Cruceta"
+
+msgid "停止"
+msgstr "Detener"
+
+msgid "{what}：已做 {count} 次"
+msgstr "{what} ×{count}"
+
+msgid "{what}：已做 {count} 次，{rest}"
+msgstr "{what} ×{count}, {rest}"
+
+msgid "，上限 {maximum} → {target}，还差 {left}"
+msgstr ", tope {maximum} → {target}{:0}, faltan {left}"
+
+msgid "你现在是{title}。改投{master}门下，就是背叛师门：\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n· 门派、师父和称号都换成{family}的；已经学会的武功保留。\n· 日后再改投别派，又算一次背叛。\n{lines}确定要改投吗？"
+msgstr "Ahora eres {title}. Pasar a la escuela de {master}{:el} es traicionar a tu escuela:\n· Tu Reputación vuelve a cero (ahora es {score}).\n· Tus traiciones pasan a ser {next}. Desde ahora, un maestro que acepta discípulos solo te enseñará hasta su propio nivel menos 20 × tus traiciones.\n· Escuela, Shifu y título pasan a ser los de {family}{:el}; las artes que ya aprendiste se conservan.\n· Si más adelante cambias de nuevo de escuela, contará como otra traición.\n{lines}¿Seguro que quieres cambiar de escuela?"
+
+msgid "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n· 综合评价清零。\n· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n{lines}确定要拜师吗？"
+msgstr "Al hacerte discípulo de {master}{:el} entras en {family}{:el}. Si más adelante pasas a otra escuela, será traicionar a tu escuela:\n· Tu Reputación vuelve a cero.\n· Tus traiciones suben en uno. Desde ahora, un maestro que acepta discípulos solo te enseñará hasta su propio nivel menos 20 × tus traiciones.\n{lines}¿Seguro que quieres hacerte discípulo?"
+
+msgid "· 「{title}」这条线就此中止，以后再也接不上。\n"
+msgstr "· La línea \"{title}\" se interrumpe aquí y ya no podrá retomarse.\n"
+
+msgid "· 「{title}」这条线从此不会再出现。\n"
+msgstr "· La línea \"{title}\" ya no volverá a aparecer.\n"
+
+msgid "你现在是{current}的嫡传弟子。改拜{master}为师，{current}就不再是你的师父：\n· 门派不变，辈分随{master}。\n{teach}确定要改拜{master}为师吗？"
+msgstr "Ahora eres {jugador:discípulo directo|discípula directa} de {current}{:el}. Si pasas a {master}{:el}, {current}{:el} dejará de ser tu Shifu:\n· La escuela sigue igual; tu generación seguirá a la de {master}{:el}.\n{teach}¿Seguro que quieres cambiar a {master}{:el} como Shifu?"
+
+msgid "· 以后{current}只教你{pronoun}的等级超过你三倍的武功。\n"
+msgstr "· En adelante, {current}{:el} solo te enseñará artes en las que su nivel supere en tres veces el tuyo.\n"
+
+msgid "· {current}只教嫡传弟子，以后不再教你。\n"
+msgstr "· Ya no te enseñará: {current}{:el} solo enseña a sus discípulos directos.\n"
+
+msgid "· 你现在是{current}的嫡传弟子；三招都接住，便改拜{master}为师，{current}就不再是你的师父。\n{teach}"
+msgstr "· Ahora eres {jugador:discípulo directo|discípula directa} de {current}{:el}; si resistes los tres golpes, pasas a {master}{:el} y {current}{:el} deja de ser tu Shifu.\n{teach}"
+
+msgid "{master}的三招是真打：\n· 每一招都实打实地落在你身上，挨中了会受伤。\n· 哪一招接不住，测试就算失败，你随后会昏倒。\n· 伤得太重会死。\n{after}\n确定接受测试吗？"
+msgstr "Los tres golpes de {master}{:el} van en serio:\n· Cada golpe cae de verdad sobre ti; si te alcanza, te hiere.\n· Si no resistes uno, fallas la prueba y después te desmayas.\n· Si te hieren demasiado, mueres.\n{after}\n¿Seguro que quieres aceptar la prueba?"
+
+msgid "· 三招都接住，便拜入{master}门下，成为{family}的弟子。"
+msgstr "· Si resistes los tres golpes, entras con {master}{:el} y te haces {jugador:discípulo|discípula} de {family}{:el}."
+
+msgid "· 这是你第一次拜师；日后再改投别派，就是背叛师门。"
+msgstr "· Es tu primer Shifu; si más adelante pasas a otra escuela, será traicionar a tu escuela."
+
+msgid "· 你现在是{title}；三招都接住，就改投{master}门下，等于背叛师门：综合评价清零（现在是 {score}），背叛师门的次数变成 {next} 次；门派、师父和称号都换成{family}的，已经学会的武功保留。"
+msgstr "· Ahora eres {title}; si resistes los tres golpes, pasas a {master}{:el}, lo que es traicionar a tu escuela: tu Reputación vuelve a cero (ahora es {score}) y tus traiciones pasan a ser {next}; escuela, Shifu y título pasan a ser los de {family}{:el}, y conservas las artes que ya aprendiste."
+
+msgid "· 三招都接住，{master}便愿意收你为徒，再向{pronoun}拜师即可。"
+msgstr "· Si resistes los tres golpes, {master}{:el} estará dispuesto a aceptarte como discípulo; después solo tienes que pedírselo."
+
+msgid "{master}只收没有门派的普通百姓为徒。你现在是{title}，向{pronoun}拜师：\n· {pronoun}会当你要背叛师门，当众大声喝破。\n· 然后当场出手要杀你，这是一场生死之战。\n确定要向{pronoun}拜师吗？"
+msgstr "{master}{:el} solo acepta como discípulos a gente común sin escuela. Ahora eres {title}; si le pides ser su discípulo:\n· Te tomará por traidor y lo gritará ante todos.\n· Luego te atacará de inmediato para matarte: será un combate a muerte.\n¿Seguro que quieres pedírselo?"
+
+msgid "拜师 / 向师父请安"
+msgstr "Discípulo / Saludar"
+
+msgid "发誓恪守门规"
+msgstr "Jurar las reglas"
+
+msgid "接受测试"
+msgstr "Hacer la prueba"
+
+msgid "取消拜师请求"
+msgstr "Retirar solicitud"
+
+msgid "离开"
+msgstr "Salir"
+
+msgid "请教%s（一次）"
+msgstr "Aprender %s (una vez)"
+
+msgid "连续请教"
+msgstr "Aprender sin parar"
+
+msgid "{skill} {level} · 学习进度 {progress} · 耗精 {cost}"
+msgstr "{skill} {level} · progreso {progress} · cuesta {cost} de Esencia"
+
+msgid "有效{skill} {level}"
+msgstr "{skill} efectivo {level}"
+
+msgid "精 {gin}（须大于消耗才可进步） · 可用潜能 {potential} · 实战经验 {exp}"
+msgstr "Esencia {gin} (debe superar el costo para progresar) · Potencial disponible {potential} · Experiencia de combate {exp}"
+
+msgid "确定拜师"
+msgstr "Hacerse discípulo"
+
+msgid "不拜了"
+msgstr "Mejor no"
+
+msgid "确定改投"
+msgstr "Cambiar de escuela"
+
+msgid "不改投了"
+msgstr "No cambiar"
+
+msgid "再想想"
+msgstr "Pensarlo más"
+
+msgid "确定发誓"
+msgstr "Jurar"
+
+msgid "不试了"
+msgstr "No hacer la prueba"
+
+msgid "连续请教「%s」"
+msgstr "Aprender sin parar: %s"
+
+msgid "无法计算"
+msgstr "No se puede calcular"
+
+msgid "官府悬赏：捉拿以下恶人者，赏银由雪亭驿代付。放过的恶人押送官府，一样领赏。"
+msgstr "Recompensas oficiales: quien capture a estos malhechores recibe una recompensa, pagada en nombre del gobierno por la Posta de Pabellón Nevado. Los malhechores perdonados y entregados a las autoridades dan la misma recompensa."
+
+msgid "榜上暂时没有与阁下相称的悬赏，过些时候再来看看吧。"
+msgstr "Por ahora no hay en el tablero ninguna recompensa a su medida, señor; vuelva a mirar más tarde."
+
+msgid "{outlaw} · 出没于{region}{place}一带 · 赏银{silver}两"
+msgstr "{outlaw}{:0} · visto por {place}, en {region} · recompensa: {silver} {#:tael|taels}"
+
+msgid "（已揭）"
+msgstr "(tomado)"
+
+msgid "放弃"
+msgstr "Renunciar"
+
+msgid "揭榜"
+msgstr "Tomar aviso"
+
+msgid "一次只能揭一张榜。"
+msgstr "Solo puedes tomar un aviso a la vez."
+
+msgid "你揭下了告示。"
+msgstr "Retiras el aviso."
+
+msgid "你放弃了这张悬赏。"
+msgstr "Renuncias a esta recompensa."
+
+msgid "你身上没有钱。"
+msgstr "No llevas dinero."
+
+msgid "算了"
+msgstr "Mejor no"
+
+msgid "拿多少钱塞给{npc}？"
+msgstr "¿Cuánto le deslizas a {npc}{:el}?"
+
+msgid "身份"
+msgstr "Identidad"
+
+msgid "历练"
+msgstr "Hazañas"
+
+msgid "精气神"
+msgstr "Esencia, Qi, Espíritu"
+
+msgid "修为"
+msgstr "Cultivo"
+
+msgid "天赋"
+msgstr "Dones"
+
+msgid "{name} · {gender} · {age}岁"
+msgstr "{name} · {gender} · {age} años"
+
+msgid "(鬼气) "
+msgstr "(espectral) "
+
+msgid "{potential}（已用 {spent}）"
+msgstr "{potential} (usado {spent})"
+
+msgid "总共杀过 {kills} 个人。"
+msgstr "Personas matadas: {kills}"
+
+msgid "可用潜能 {unspent} / {cap}"
+msgstr "Potencial disponible {unspent} / {cap}"
+
+msgid "（已满，先去请教或自学）"
+msgstr "(lleno: ve a recibir lecciones o estudia)"
+
+msgid "落后补偿：{region}推荐实战经验 {recommended}，你在这里所得的经验和潜能 +{percent}%，赶上后恢复。"
+msgstr "Bonificación por rezago: {region} recomienda {recommended} de Experiencia de combate; por debajo de eso, aquí ganas +{percent}% de experiencia y Potencial hasta alcanzarlo."
+
+msgid "还没有历练。切磋取胜、了结一段经历、第一次到一个地方，都算。"
+msgstr "Aún no tienes hazañas. Cuentan ganar un combate amistoso, cerrar una historia y llegar por primera vez a un sitio."
+
+msgid "……还有 {count} 项"
+msgstr "...y {count} más"
+
+msgid "生在{name}"
+msgstr "Nacido en {name}{:el}"
+
+msgid "切磋胜过{name}"
+msgstr "Ganaste un combate amistoso contra {name}{:el}"
+
+msgid "击败{name}"
+msgstr "Derrotaste a {name}{:el}"
+
+msgid "了结「{name}」"
+msgstr "Historia cerrada: \"{name}\""
+
+msgid "读通{name}"
+msgstr "Leíste a fondo {name}"
+
+msgid "到过{name}"
+msgstr "Llegaste a {name}{:el}"
+
+msgid "内力练到 {name}"
+msgstr "Fuerza interior llegó a {name}"
+
+msgid "办成「{name}」"
+msgstr "Cumpliste \"{name}\""
+
+msgid "你还没有学会任何武学。"
+msgstr "Aún no has aprendido ningún arte marcial."
+
+msgid "你还没有拿过任何东西。"
+msgstr "Aún no has recogido nada."
+
+msgid "你还没有遇见过任何门派的人。"
+msgstr "Aún no has conocido a nadie de ninguna escuela."
+
+msgid "你还没有遇见过任何人。"
+msgstr "Aún no has conocido a nadie."
+
+msgid "你想跳哪一曲？"
+msgstr "¿Qué pieza quieres bailar?"
+
+msgid "跳「{name}」"
+msgstr "Bailar \"{name}\""
+
+msgid "随意起舞"
+msgstr "Bailar a tu aire"
+
+msgid "你还没有见过什么人。"
+msgstr "Aún no has visto a nadie."
+
+msgid "中止施法"
+msgstr "Cancelar conjuro"
+
+msgid "声望"
+msgstr "Renombre"
+
+msgid "百科"
+msgstr "Códice"
+
+msgid "系统"
+msgstr "Sistema"
+
+msgid "战斗中只能使用系统功能。"
+msgstr "En combate solo puedes usar las funciones del sistema."
+
+msgid "确认给予"
+msgstr "Confirmar entrega"
+
+msgid "还剩 {portions} 份 · 价值 {value} 文"
+msgstr "Porciones: {portions} · valor: {value} wen"
+
+msgid "里面是空的 · 最多装 {maximum} 份"
+msgstr "Vacío · capacidad: {maximum} porciones"
+
+msgid "装着{liquid} · {portions}/{maximum} 份"
+msgstr "Contiene {liquid} · {portions}/{maximum} porciones"
+
+msgid "喝一份{liquid}"
+msgstr "Beber una porción de {liquid}"
+
+msgid "你将剩下的%s吃得乾乾净净。"
+msgstr "Te terminas lo que queda de %s{:el}."
+
+msgid "你拿起%s咬了几口。"
+msgstr "Tomas %s{:el} y le das unos mordiscos."
+
+msgid "你已经是鬼了，不能吃东西！"
+msgstr "Ya eres un fantasma: ¡no puedes comer!"
+
+msgid "你已经吃太饱了，再也塞不下任何东西了。"
+msgstr "Estás demasiado lleno y no te cabe nada más."
+
+msgid "你肚子太涨了，再也撑不下任何东东了。!"
+msgstr "Tienes la barriga tan hinchada que no aguantas nada más."
+
+msgid "只能吃自己直接携带的食物。"
+msgstr "Solo puedes comer alimentos que llevas directamente contigo."
+
+msgid "战斗中暂不能吃东西。"
+msgstr "No puedes comer en pleno combate."
+
+msgid "你上一个动作还没有完成。"
+msgstr "Aún no has terminado tu acción anterior."
+
+msgid "物品状态异常，请停止操作。"
+msgstr "Algo va mal con este objeto. Detén la operación."
+
+msgid "现在不能吃这个物品。"
+msgstr "Ahora no puedes comer esto."
+
+msgid "你将%s装满清水。"
+msgstr "Llenas %s{:el} de agua limpia."
+
+msgid "你将{container}里剩下的{liquid}倒掉。"
+msgstr "Tiras {liquid}{:el} que quedaba en {container}{:el}."
+
+msgid "你拿起{container}咕噜噜地喝了几口{liquid}。"
+msgstr "Levantas {container}{:el} y bebes unos tragos de {liquid}{:0}."
+
+msgid "你已经将{container}里的{liquid}喝得一滴也不剩了。"
+msgstr "Ya te has bebido hasta la última gota de {liquid}{:0} de {container}{:el}."
+
+msgid "你已经是鬼了，不能喝东西！"
+msgstr "Ya eres un fantasma: ¡no puedes beber!"
+
+msgid "你已经喝太多了，再也灌不下一滴水了。"
+msgstr "Ya has bebido demasiado: no te cabe ni una gota más."
+
+msgid "%s已经被喝得一滴也不剩了"
+msgstr "No queda ni una gota en %s{:el}"
+
+msgid "这里没有地方可以装水。"
+msgstr "Aquí no hay dónde llenarlo de agua."
+
+msgid "战斗中暂不能装水或饮用。"
+msgstr "No puedes llenarlo ni beber de él en pleno combate."
+
+msgid "现在不能使用这个酒袋。"
+msgstr "Ahora no puedes usar este odre."
+
+msgid "请选择随身物品。"
+msgstr "Elige algo que lleves encima."
+
+msgid "估价"
+msgstr "Tasar"
+
+msgid "卖断…"
+msgstr "Vender..."
+
+msgid "确认卖断（不可撤销）"
+msgstr "Confirmar venta (irreversible)"
+
+msgid "价值{value}文 · 卖断可得{payout}文（以实际交付为准）。"
+msgstr "Valor: {value} wen · la venta definitiva da {payout} wen (según lo que se pueda pagar)."
+
+msgid "一文不值，不能卖断。"
+msgstr "No tiene ningún valor: no se puede vender."
+
+msgid "掌柜把它推了回来：这是要紧的东西，您还用得着，小号不收。"
+msgstr "El tendero lo empuja de vuelta: \"Esto es importante, aún lo necesita usted; en este local no lo compramos.\""
+
+msgid "物品已变化或现在不可交易，请重新选择。"
+msgstr "El objeto cambió o ahora no se puede comerciar. Elige de nuevo."

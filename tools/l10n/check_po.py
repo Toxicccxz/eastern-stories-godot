@@ -352,8 +352,8 @@ def _spanish_problems(where: str, msgid: str, msgstr: str) -> list[str]:
     for mark in SPANISH_AGREE.finditer(plain):
         forms = mark.group(2).split("|")
         if mark.group(1) == "~":
-            if len(forms) not in (2, 4) or not all(forms):
-                problems.append(f"{where}: bad agreement {mark.group(0)} (m|f or m|f|mp|fp)")
+            if len(forms) not in (2, 3, 4) or not all(forms):
+                problems.append(f"{where}: bad agreement {mark.group(0)} (m|f, tú|m|f or m|f|mp|fp)")
             if not marks:
                 problems.append(f"{where}: {mark.group(0)} with no marked name to agree with")
         else:

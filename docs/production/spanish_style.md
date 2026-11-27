@@ -149,7 +149,10 @@ table `game/locale/es_nouns.json`):
   a sentence after a mark. So a name slot that does not open a sentence always carries a mark.
 * **gender**, `{~:herido|herida}` — agrees with the nearest marked name before it (else after it),
   **whole words** (hablador|habladora; never a suffix: fuerte has one form), m | f; four forms
-  `{~:herido|herida|heridos|heridas}` (m | f | mp | fp) when a plural can occur ({:los}, {:pl}). A person is the person's
+  `{~:herido|herida|heridos|heridas}` (m | f | mp | fp) when a plural can occur ({:los}, {:pl}).
+  A slot the game may fill with the player (a site that writes 你 into {who} or {name}) takes
+  three forms, tú | m | f: «{who}{:el} {~:sientes|siente|siente} frío»; two or four forms after
+  tú follow the player's gender. A person is the person's
   gender (a woman who is the head of a village: f), a beast or a thing the word's (la serpiente).
 * **$N and $n** (ES2's actor and target, always one character): `{N:golpeas|golpea}` — the player
   (tú), then anyone else; three forms for an object pronoun `{n:te|lo|la}` (the player, m, f).

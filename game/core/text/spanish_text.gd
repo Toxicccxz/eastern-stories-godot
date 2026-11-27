@@ -16,8 +16,9 @@ extends RefCounted
 ##                           viejas, unos mozos); its agreement takes the plural
 ##   {npc}{:0}               no article: a common noun in lower case inside a sentence
 ##   {count} {item}{:pl}     counted by the number before it: 1 espada, 3 espadas
-##   {~:o|a}                 agrees with the nearest marked name before it (else after it):
-##                           m | f, or m | f | mp | fp
+##   {~:herido|herida}       agrees with the nearest marked name before it (else after it):
+##                           m | f, or m | f | mp | fp (tú: the player's gender); three forms
+##                           are tú | m | f, for a verb after a slot the game may fill with tú
 ##   %d {#:día|días}          agrees with the nearest number before it: 1 | any other
 ##   {jugador:o|a}           the player's own gender (m | f), from player_gender, which the world
 ##                           session sets: «Estás cansad{jugador:o|a}»
@@ -37,6 +38,8 @@ const MARKS: PackedStringArray = [DEFINITE, INDEFINITE, DEFINITE_PLURAL, INDEFIN
 ## The agreement forms in order: m f, then the plurals mp fp.
 const AGREEMENT_ORDER: PackedStringArray = ["m", "f", "mp", "fp"]
 const PLAYER_MARK: String = "jugador"
+## The gender a slot filled with tú agrees as: the tú form of three, else the player's gender.
+const YOU_FORM: String = "tú"
 const _CLOSERS: String = "»“\"')]"  # NO_TRANSLATE: closing quotes and brackets
 const _UNFILLED: String = "\\{[a-z_]+\\}|\\$(?:RESPECT|SELF|[NnPplw])|%[sd]"
 
@@ -146,7 +149,7 @@ static func _named(before: String, mark: String) -> Dictionary:
 		var kept: String = " ".join(words.slice(0, start_word))
 		if not kept.is_empty():
 			kept += " "
-		result.gender = SpanishNouns.gender_of(name)
+		result.gender = YOU_FORM if name.to_lower() == SpanishNouns.YOU else SpanishNouns.gender_of(name)
 		result.resolved = true
 		if name.to_lower() == SpanishNouns.YOU and mark == DEFINITE and _opens_sentence(kept + opening_marks):
 			# Spanish leaves the subject tú out: the verb says who.
@@ -203,6 +206,12 @@ static func _by_gender(agreement: Dictionary, names: Array[Dictionary]) -> Strin
 	if named.is_empty() or not named.resolved:
 		return forms[0]
 	var gender: String = String(named.gender)
+	if forms.size() == 3:
+		# tú | m | f: a slot the game fills with the player's tú takes its verb («{who}{:el}
+		# {~:sientes|siente|siente}»).
+		return forms[0] if gender == YOU_FORM else (forms[2] if gender.begins_with("f") else forms[1])
+	if gender == YOU_FORM:
+		gender = "f" if player_gender == CharacterState.GENDER_FEMALE else "m"
 	if forms.size() < 4:
 		gender = gender.left(1)
 	var index: int = maxi(AGREEMENT_ORDER.find(gender), 0)
