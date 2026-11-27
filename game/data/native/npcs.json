@@ -12904,6 +12904,277 @@
 					"正月十七，九派都在这里。有话，台上说。"
 				]
 			}
+		},
+		{
+			"id": "native.npc.shen_shuyu",
+			"legacy_source": "native: 师娘彩蛋 A (计划 build/plans/师娘彩蛋_计划.md, owner 2026-11-27「都照推荐」; DECISIONS「师娘彩蛋 A」) — daemon/class/swordsman/master.c names 柳淳风「风雨双侠」 and writes nothing of the other one; d/snow/npc/girl.c's 柳绘心 is of the 封山剑派北宗 while her father heads the 封山剑派, and has no mother anywhere. 沈疏雨 is both answers: the other 侠, of the old 北宗, who left the 武馆 the day its board lost the two characters (DECISIONS「封山 B」南北宗的由来). 续写.",
+			"name": "沈疏雨",
+			"aliases": [
+				"shen shuyu",
+				"shen",
+				"shuyu"
+			],
+			"nickname": "风雨双侠",
+			"gender": "女性",
+			"age": 42,
+			"long": "沈疏雨四十出头，一身洗旧了的青布衣裙，头发用一根木簪绾着。她站着的时候两肩是松的，像是随时可以往任何一边让开半步。镇上的人只知道镇外住着一位「北宗的师娘」，没有几个人见过她出剑。\n",
+			"attributes": {
+				"str": 22,
+				"cor": 26,
+				"int": 28,
+				"spi": 24,
+				"cps": 30,
+				"per": 26,
+				"con": 22,
+				"kar": 20
+			},
+			"resources": {
+				"max_force": 1200,
+				"force": 1200
+			},
+			"combat_exp": 800000,
+			"force_factor": 3,
+			"family": {
+				"name": "封山剑派北宗",
+				"generation": 13,
+				"title": "弟子"
+			},
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 40,
+				"parry": 140,
+				"dodge": 110,
+				"sword": 140,
+				"force": 50,
+				"literate": 60,
+				"fonxanforce": 60,
+				"fonxansword": 140,
+				"chaos-steps": 110
+			},
+			"skill_map": {
+				"sword": "fonxansword",
+				"parry": "fonxansword",
+				"dodge": "chaos-steps"
+			},
+			"carry": [
+				{
+					"item": "es2:d/snow/obj/thin_sword",
+					"source": "d/snow/npc/obj/thin_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"beats": 2,
+			"fight_deferred": "沈疏雨摇了摇头：我的剑不是拿来和你比的。",
+			"inquiry": {
+				"风雨双侠": [
+					"那是二十年前别人叫的。风是他，雨是我。如今镇上只叫他柳馆主，叫我「镇外那一位」。"
+				],
+				"北宗": [
+					"雪亭这一支本来就叫北宗。他接了掌门，把牌子上那两个字去了；我没有去。就这么回事。"
+				],
+				"柳淳风": [
+					"他的剑是等。等得起的人，才配使那一套。"
+				],
+				"柳绘心": [
+					"她常来。来了就练剑，练完就走，话不多——这一点像她爹。"
+				],
+				"何守拙": [
+					"老何是北宗的看门剑，守了三十年门。他那把剑不伤人，可也没几个人碰得着他。"
+				],
+				"雨": {
+					"rules": [
+						{
+							"asker_marks": [
+								"学了听雨"
+							],
+							"say": "「听雨」是逼，不是抢。他接得住，你就多一剑；他接不住，那一剑也就够了。"
+						},
+						{
+							"asker_marks": [
+								"和何守拙过了招"
+							],
+							"mark_asker": "学了听雨",
+							"lines": [
+								{
+									"say": "等到几个空子？"
+								},
+								{
+									"emote": "听你说完，笑了一下。"
+								},
+								{
+									"say": "老何守了三十年门，他不先出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
+								},
+								{
+									"say": "看好。"
+								},
+								{
+									"emote": "拔剑。剑尖没有刺向哪一处，只是一点一点压过来，密得像檐下的雨，由不得你不抬手去接。"
+								},
+								{
+									"say": "他接了，身前就空了，那一下是你的；他不接，这一剑就落在他身上。两头都是你的——这叫「听雨」。"
+								},
+								{
+									"say": "这一招不在封山的谱上。你学了去，用不用、说不说是谁教的，都随你。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"沈疏雨叫你试老何"
+							],
+							"say": "先去和老何过几招。回来再说。"
+						},
+						{
+							"mark_asker": "沈疏雨叫你试老何",
+							"lines": [
+								{
+									"say": "封山的剑等人犯错。那个人要是不犯错呢？"
+								},
+								{
+									"say": "你先去和老何过几招——就在院里，点到为止。回来告诉我，你等到了几个空子。"
+								}
+							]
+						}
+					]
+				}
+			},
+			"calls": [
+				{
+					"after": 1,
+					"reaction": true,
+					"mark": "小院开了门",
+					"not_mark": "见过沈疏雨",
+					"steps": [
+						{
+							"line": "院子当中，一个青衣妇人正在走一套剑。剑很慢，一步一停，像是在等什么人接她的下一招。\n"
+						},
+						{
+							"emote": "收了剑，看了你一眼。"
+						},
+						{
+							"say": "封山的步子。……是他的徒弟，还是绘心的？"
+						},
+						{
+							"say": "都一样。进了这道门，就不问是哪一宗了。"
+						},
+						{
+							"mark": "见过沈疏雨"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.he_shouzhuo",
+			"legacy_source": "native: 师娘彩蛋 A (计划 build/plans/师娘彩蛋_计划.md, owner 2026-11-27「都照推荐」; DECISIONS「师娘彩蛋 A」) — the old 北宗's gate-keeper, who went with 沈疏雨 when she left the 武馆: the one opponent a 封山 sword has nothing to wait for (he guards, never strikes first — courage 0 — and only answers a miss, with the plain sword), there to be sparred with before and after 「听雨」. 续写.",
+			"name": "何守拙",
+			"aliases": [
+				"he shouzhuo",
+				"he",
+				"shouzhuo"
+			],
+			"title": "北宗的看门剑",
+			"gender": "男性",
+			"age": 58,
+			"long": "何守拙花白头发，两条胳膊晒得黝黑，袖口挽到肘弯。他在老北宗守了三十年门，后来牌子没了，他跟着师娘搬到了镇外，照旧每天劈柴、扫院子。他手边总靠着一把旧剑，剑刃上全是豁口——都是架别人的剑架出来的。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 0,
+				"int": 18,
+				"spi": 18,
+				"cps": 30,
+				"per": 16,
+				"con": 26,
+				"kar": 18
+			},
+			"resources": {
+				"max_force": 400,
+				"force": 400
+			},
+			"combat_exp": 800,
+			"apply": {
+				"dodge": 16,
+				"parry": 16
+			},
+			"family": {
+				"name": "封山剑派北宗",
+				"generation": 13,
+				"title": "弟子"
+			},
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 30,
+				"parry": 70,
+				"dodge": 60,
+				"sword": 10,
+				"force": 40,
+				"fonxanforce": 40,
+				"fonxansword": 60,
+				"chaos-steps": 60
+			},
+			"skill_map": {
+				"force": "fonxanforce",
+				"parry": "fonxansword",
+				"dodge": "chaos-steps"
+			},
+			"carry": [
+				{
+					"item": "es2:d/snow/obj/thin_sword",
+					"source": "d/snow/npc/obj/thin_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/snow/obj/linen",
+					"source": "d/snow/npc/obj/linen.c",
+					"equip": "wear"
+				}
+			],
+			"fight_style": "guarded",
+			"beats": 2,
+			"accept_fight": [
+				{
+					"marks": [
+						"沈疏雨叫你试老何"
+					],
+					"accept": true
+				},
+				{
+					"say": "师娘没发话，我不同人动手。",
+					"accept": false
+				}
+			],
+			"spar_over_mark": "和何守拙过了招",
+			"inquiry": {
+				"过招": {
+					"rules": [
+						{
+							"asker_marks": [
+								"学了听雨"
+							],
+							"say": "学了？来，再过几招。这回我看你怎么敲门。"
+						},
+						{
+							"say": "来。点到为止——我只守门，不出门。你能碰着我一下，就算你的。"
+						}
+					]
+				},
+				"沈疏雨": [
+					"师娘的剑，我守了三十年门也没看全。"
+				],
+				"看门剑": [
+					"守门的剑只有一个道理：门在，人在。别的我不会。"
+				]
+			},
+			"chat_chance": 4,
+			"chat_msg": [
+				"何守拙把一截木头立在墩子上，一斧下去，不偏不倚劈成两半。\n",
+				"何守拙拿起靠在墙边的旧剑看了看刃口，又放了回去。\n"
+			]
 		}
 	]
 }

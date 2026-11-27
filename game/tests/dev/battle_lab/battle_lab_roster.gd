@@ -5,8 +5,8 @@ extends RefCounted
 ## battle-lab fight, and how a fighter is brought to a level. Nothing here is read by the game;
 ## tests/ never reaches a release.
 ##
-## A family's way of fighting is read off its own NPCs: of the family's human NPCs with a skill map,
-## the one with the most combat_exp is its template — its skill map, its martial skills and what it
+## A family's way of fighting is read off its own NPCs: of the family's human NPCs with a skill map
+## whom the game lets be fought, the one with the most combat_exp is its template — its skill map, its martial skills and what it
 ## wields (the master, mostly). A fighter "of a family at level L" is that template with every martial
 ## skill it has at L, the combat_exp a story-grown player has at L (tests/support/grown_character.gd's
 ## curve) and half exercise.c's force cap, its gin / kee / sen from race/human.c at its age. Level 0
@@ -45,6 +45,9 @@ static func families() -> Array[Family]:
 	for npc: NpcDefinition in catalog.npcs():
 		var teaching: NpcTeaching = npc.teaching()
 		if teaching == null or teaching.family_name.is_empty() or npc.race_id != &"human" or npc.skill_map().is_empty():
+			continue
+		# One the game lets nobody fight (沈疏雨 of the 北宗) is no template of how its family fights.
+		if npc.dealings().is_fight_deferred():
 			continue
 		var known: Family = by_name.get(teaching.family_name)
 		if known == null:

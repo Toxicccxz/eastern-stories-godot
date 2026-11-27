@@ -2927,6 +2927,35 @@
 					}
 				]
 			}
+		},
+		{
+			"id": "rain.welcome",
+			"sources": [
+				"native: 师娘彩蛋 A (计划 build/plans/师娘彩蛋_计划.md, owner 2026-11-27「都照推荐」; DECISIONS「师娘彩蛋 A」) — whom 沈疏雨's gate opens to: grown (18, pacing.json's player_age_by_exp row; rain_yard_test pins the two together), of 封山 or its 北宗, with 封山剑法 at 40 (all 柳绘心 can give, and what a fighter of 12,000 exp may hold)."
+			],
+			"when": {
+				"all": [
+					{
+						"exp_at_least": 12000
+					},
+					{
+						"any": [
+							{
+								"family": "family.fonxan"
+							},
+							{
+								"family": "family.fonxan_north"
+							}
+						]
+					},
+					{
+						"skill_at_least": {
+							"skill": "fonxansword",
+							"level": 40
+						}
+					}
+				]
+			}
 		}
 	]
 }
