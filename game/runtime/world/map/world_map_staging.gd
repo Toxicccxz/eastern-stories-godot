@@ -430,6 +430,12 @@ func directed(id: StringName) -> bool:
 	return _directed.has(id)
 
 
+## Whether `id` has left by the rules and only waits for its way out to be shown: nothing of the
+## act that follows finds it any more (WorldMapNpcs.first_npc_in_zone()).
+func leaving(id: StringName) -> bool:
+	return _leaving.has(id)
+
+
 ## Summoned or come and not yet risen: not seen.
 func unseen(id: StringName) -> bool:
 	return _unseen.has(id)
@@ -588,7 +594,7 @@ func _doers(action: SceneCue.Action, bound: Bound) -> Array[StringName]:
 		if _map.player_runtime() != null:
 			doers.append(_map.player_runtime().character_id)
 	else:
-		var npc: NpcRuntimeState = _map.npcs.first_npc_in_zone(action.who, bound.room, true)
+		var npc: NpcRuntimeState = _map.npcs.first_npc_in_zone(action.who, bound.room, true, &"", true)
 		if npc != null:
 			doers.append(npc.character_id)
 	return doers
@@ -877,7 +883,7 @@ func _zone_of(id: StringName) -> StringName:
 func _person(place: StringName, room: StringName) -> StringName:
 	if place == SceneCue.PLAYER:
 		return _player_id()
-	var npc: NpcRuntimeState = null if place.is_empty() else _map.npcs.first_npc_in_zone(place, room, false)
+	var npc: NpcRuntimeState = null if place.is_empty() else _map.npcs.first_npc_in_zone(place, room, false, &"", true)
 	return &"" if npc == null else npc.character_id
 
 

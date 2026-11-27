@@ -837,10 +837,10 @@
 							"mark": "陈显祖进了大堂"
 						},
 						{
-							"emote": "拿起惊堂木，没有拍下去，放回了书案上。"
+							"emote": "拿起惊堂木，没有拍下去，放回了书案上。", "shot": "near"
 						},
 						{
-							"say": "堂下何人？"
+							"say": "堂下何人？", "shot": {"two": "choyin.npc.sergeant"}
 						}
 					]
 				},
@@ -855,10 +855,10 @@
 							"by": "choyin.npc.sergeant"
 						},
 						{
-							"emote": "跪下了。"
+							"emote": "跪下了。", "do": "kneel", "shot": "near"
 						},
 						{
-							"say": "罪人陈显祖。二十年前老松岭那队白衣武官，罪人在其中。原令只一句——寻剑，不得扰民一户。征民夫、拿人的，不是先帝的令，是后头来的。"
+							"say": "罪人陈显祖。二十年前老松岭那队白衣武官，罪人在其中。原令只一句——寻剑，不得扰民一户。征民夫、拿人的，不是先帝的令，是后头来的。", "shot": {"two": "choyin.npc.judgeman"}
 						}
 					]
 				},
@@ -873,13 +873,13 @@
 							"by": "choyin.npc.judgeman"
 						},
 						{
-							"say": "抄本呈上来。"
+							"say": "抄本呈上来。", "shot": {"two": "player"}
 						},
 						{
-							"emote": "接过抄本，对着文书上的印看了半晌，提笔录供。"
+							"emote": "接过抄本，对着文书上的印看了半晌，提笔录供。", "shot": "near"
 						},
 						{
-							"say": "印是兵部的，令不是先帝的。录了。"
+							"say": "印是兵部的，令不是先帝的。录了。", "shot": {"two": "choyin.npc.sergeant"}
 						}
 					]
 				},
@@ -894,13 +894,13 @@
 							"by": "choyin.npc.judgeman"
 						},
 						{
-							"emote": "另取一张纸，写了一封信，封好，压上县印。"
+							"emote": "另取一张纸，写了一封信，封好，压上县印。", "shot": "near"
 						},
 						{
-							"say": "这封信给家叔槐阳王。假印和失踪的人都往关北去了——拿着它去天驼关，军营的门会开。"
+							"say": "这封信给家叔槐阳王。假印和失踪的人都往关北去了——拿着它去天驼关，军营的门会开。", "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
 						},
 						{
-							"give": "native:choyin/magistrate_letter"
+							"give": "native:choyin/magistrate_letter", "do": {"act": "hand", "item": "native:choyin/magistrate_letter", "to": "player"}
 						},
 						{
 							"mark": "程不平给了信"
@@ -918,13 +918,13 @@
 							"by": "choyin.npc.judgeman"
 						},
 						{
-							"say": "陈显祖，你留在衙门里。庾家的人进不了这道门。"
+							"say": "陈显祖，你留在衙门里。庾家的人进不了这道门。", "do": {"who": "choyin.npc.sergeant", "act": "rise"}, "shot": {"two": "choyin.npc.sergeant"}
 						},
 						{
-							"leave": "choyin.npc.sergeant"
+							"leave": "choyin.npc.sergeant", "do": {"act": "exit", "by": "choyin.yamen.magistra.1"}
 						},
 						{
-							"line": "两名带刀侍卫领着陈显祖进了内厅。\n"
+							"line": "两名带刀侍卫领着陈显祖进了内厅。\n", "shot": {"two": "choyin.npc.sergeant"}
 						},
 						{
 							"mark": "陈显祖作了证"
@@ -942,10 +942,10 @@
 					"mark": "放走了陈显祖",
 					"steps": [
 						{
-							"emote": "看了看堂下——只有你一个人。"
+							"emote": "看了看堂下——只有你一个人。", "do": {"act": "face", "toward": "player"}, "shot": "near"
 						},
 						{
-							"say": "人证呢？"
+							"say": "人证呢？", "shot": {"two": "player"}
 						}
 					]
 				},
@@ -960,10 +960,10 @@
 							"by": "choyin.npc.judgeman"
 						},
 						{
-							"emote": "接过抄本，对着文书上的印看了半晌。"
+							"emote": "接过抄本，对着文书上的印看了半晌。", "shot": "near"
 						},
 						{
-							"say": "纸能证纸，不能证人。你放他走了。"
+							"say": "纸能证纸，不能证人。你放他走了。", "shot": {"two": "player"}
 						}
 					]
 				},
@@ -978,13 +978,13 @@
 							"by": "choyin.npc.judgeman"
 						},
 						{
-							"emote": "提笔，停了停，还是写了一封信，封好，压上县印。"
+							"emote": "提笔，停了停，还是写了一封信，封好，压上县印。", "shot": "near"
 						},
 						{
-							"say": "这封信给家叔槐阳王。本县只能照纸写——他信不信，本县不敢说。假印和失踪的人都往关北去了，拿着它去天驼关。"
+							"say": "这封信给家叔槐阳王。本县只能照纸写——他信不信，本县不敢说。假印和失踪的人都往关北去了，拿着它去天驼关。", "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
 						},
 						{
-							"give": "native:choyin/magistrate_letter"
+							"give": "native:choyin/magistrate_letter", "do": {"act": "hand", "item": "native:choyin/magistrate_letter", "to": "player"}
 						},
 						{
 							"mark": "程不平给了信"
@@ -1002,7 +1002,7 @@
 							"by": "choyin.npc.judgeman"
 						},
 						{
-							"say": "退堂。"
+							"say": "退堂。", "shot": "near"
 						},
 						{
 							"mark": "只留了文书"

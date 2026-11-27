@@ -2149,10 +2149,10 @@
 							"by": "native.npc.cheng_shuo"
 						},
 						{
-							"emote": "从交椅上站起来，看着弟弟。"
+							"emote": "从交椅上站起来，看着弟弟。", "do": {"act": "face", "toward": "native.npc.nan_weishui_guest"}, "shot": "near"
 						},
 						{
-							"say": "危水。二十年。"
+							"say": "危水。二十年。", "do": {"act": "walk", "to": "native.npc.nan_weishui_guest"}, "shot": {"two": "native.npc.nan_weishui_guest"}
 						}
 					]
 				},
@@ -2166,7 +2166,7 @@
 							"by": "native.npc.nan_weishui_guest"
 						},
 						{
-							"say": "大哥。山洞里替我挡刀的那个人，我还没找到他家里人。"
+							"say": "大哥。山洞里替我挡刀的那个人，我还没找到他家里人。", "do": {"act": "bow", "toward": "native.npc.cheng_shuo"}, "shot": {"two": "native.npc.cheng_shuo"}
 						}
 					]
 				},
@@ -2180,13 +2180,13 @@
 							"by": "native.npc.cheng_shuo"
 						},
 						{
-							"say": "找。关北帮你找。"
+							"say": "找。关北帮你找。", "shot": "near"
 						},
 						{
-							"emote": "转过头来看你。"
+							"emote": "转过头来看你。", "do": {"act": "face", "toward": "player"}, "shot": "near"
 						},
 						{
-							"say": "这位替你守了二十年的口。——坐下说话。"
+							"say": "这位替你守了二十年的口。——坐下说话。", "shot": {"two": "player"}
 						}
 					]
 				},
@@ -2327,10 +2327,10 @@
 					"present": "native.npc.guo_cheng",
 					"steps": [
 						{
-							"emote": "从名册上抬起头，看见你身后的人，手停了。"
+							"emote": "从名册上抬起头，看见你身后的人，手停了。", "do": {"act": "face", "toward": "native.npc.guo_cheng"}, "shot": "near"
 						},
 						{
-							"say": "兵部的工地，闲人——"
+							"say": "兵部的工地，闲人——", "shot": {"two": "native.npc.guo_cheng"}
 						}
 					]
 				},
@@ -2345,10 +2345,10 @@
 							"by": "native.npc.guo_cheng"
 						},
 						{
-							"emote": "把刀抽出半截。"
+							"emote": "把刀抽出半截。", "do": "draw", "shot": "near"
 						},
 						{
-							"say": "王府的人。"
+							"say": "王府的人。", "shot": {"two": "native.npc.lu_sun"}
 						}
 					]
 				},
@@ -2366,10 +2366,10 @@
 							"by": "native.npc.lu_sun"
 						},
 						{
-							"say": "拿下！"
+							"say": "拿下！", "do": "draw", "shot": "near"
 						},
 						{
-							"line": "六个白衣武官抽了剑围上来。栅栏外马蹄声炸响——王府的六骑冲了进来！\n",
+							"line": "六个白衣武官抽了剑围上来。栅栏外马蹄声炸响——王府的六骑冲了进来！\n", "shot": {"two": "native.npc.huaiyang_rider"},
 							"color": "HIR"
 						},
 						{
@@ -2400,7 +2400,7 @@
 							"by": "native.npc.pei_zhao"
 						},
 						{
-							"say": "二十年前就该把你们这些人都料理干净。"
+							"say": "二十年前就该把你们这些人都料理干净。", "shot": "near"
 						},
 						{
 							"npc_mood": "fighting"
@@ -3366,10 +3366,10 @@
 					"not_mark": "见过车路过",
 					"steps": [
 						{
-							"line": "一辆蒙着油布的骡车从东边过来，两个黑衣黑冠的道士一个牵骡子一个跟着走。油布底下有人咳了一声。\n"
+							"line": "一辆蒙着油布的骡车从东边过来，两个黑衣黑冠的道士一个牵骡子一个跟着走。油布底下有人咳了一声。\n", "shot": {"look": "native.npc.passing_taoist"}
 						},
 						{
-							"say": "让开。宫里的车。"
+							"say": "让开。宫里的车。", "do": {"act": "face", "toward": "player"}, "shot": "near"
 						}
 					]
 				},
@@ -3379,17 +3379,17 @@
 					"not_mark": "见过车路过",
 					"steps": [
 						{
-							"say": "工地昨夜闹贼，两个挖不动的今天就接走，省得再丢。——走。"
+							"say": "工地昨夜闹贼，两个挖不动的今天就接走，省得再丢。——走。", "shot": {"two": "player"}
 						},
 						{
-							"line": "骡车从你身边过去，往西、往南去了。油布底下的人没有再出声。\n",
+							"line": "骡车从你身边过去，往西、往南去了。油布底下的人没有再出声。\n", "shot": "near",
 							"color": "HIW"
 						},
 						{
-							"leave": "native.npc.passing_taoist"
+							"leave": "native.npc.passing_taoist", "do": {"act": "exit", "by": "guanbei.steppe_road.shepherd.1"}
 						},
 						{
-							"leave": "native.npc.passing_taoist"
+							"leave": "native.npc.passing_taoist", "do": {"act": "exit", "by": "guanbei.steppe_road.shepherd.1"}
 						}
 					]
 				}
