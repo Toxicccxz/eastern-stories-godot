@@ -1,9 +1,9 @@
 extends RefCounted
 
 ## 师娘彩蛋 A (DECISIONS「听雨」): 封山剑法's 「听雨」 (perform rainpress) — only for one taught,
-## two moves and some force for one thrust the enemy has to answer; dodged or parried, it wins
-## its performer a hand this round as a 隙 does (within the round's one), landed it is only
-## the blow. Data first, then real fights through the scheduler.
+## one move and some force for one thrust the enemy has to answer; dodged or parried, it leaves
+## them open (露空, by the skill's open_percent) and wins its performer a hand this round as a 隙
+## does (within the round's one), landed it is only the blow. Data first, then real fights through the scheduler.
 ## TEST-ONLY fixtures, each marked where used: the fighters' skills, marks and force, the
 ## scripted draws.
 const Fixtures := preload("res://tests/runtime/combat_encounter_scheduler_test.gd")
@@ -45,8 +45,8 @@ func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var sword: SkillDefinition = catalog.skill(Beats.FONXAN)
-	_check(sword.perform_functions.has(RAIN) and sword.perform_when.has(RAIN) and sword.perform_number(RAIN, "force") == 20 and sword.perform_number(RAIN, "damage") == 6 and sword.perform_number(RAIN, "damage_percent") == 12, "封山剑法 lists 「听雨」, with a condition and its numbers")
-	_check(SpecialFunctions.perform(RAIN).label == "「听雨」" and catalog.pacing().beat_rules().cost_of_action(KEY) == 2, "「听雨」 costs two moves")
+	_check(sword.perform_functions.has(RAIN) and sword.perform_when.has(RAIN) and sword.perform_number(RAIN, "force") == 20 and sword.perform_number(RAIN, "damage") == 6 and sword.perform_number(RAIN, "damage_percent") == 12 and sword.perform_number(RAIN, "open_percent") == 85, "封山剑法 lists 「听雨」, with a condition and its numbers")
+	_check(SpecialFunctions.perform(RAIN).label == "「听雨」" and catalog.pacing().beat_rules().cost_of_action(KEY) == 1, "「听雨」 costs one move")
 	var state := CharacterState.new()
 	state.skills.set_raw_level(&"sword", 40) # TEST-ONLY
 	state.skills.set_raw_level(Beats.FONXAN, 40) # TEST-ONLY
@@ -57,7 +57,7 @@ func _test_data() -> void:
 	_check(BattleActionPresentationCatalog.new().tooltip_for(ACTION).contains("用 20 点内力"), "its button says what it costs")
 
 
-## Dodged or parried: the hand comes back within the round (隙), after the two it cost.
+## Dodged or parried: the enemy stands open, and a hand is won within the round (隙).
 func _test_forced_wins_a_hand() -> void:
 	var f: Fixtures.SchedulerFixture = _fixture(_zeros())
 	_npc_beats[ENEMY] = 2
@@ -68,8 +68,9 @@ func _test_forced_wins_a_hand() -> void:
 	var round: CombatSchedulerAdvanceResult = _advance(f)
 	var mine: CombatRoundBeats = f.scheduler.round_beats_of(PLAYER)
 	_check(f.bindings[1].state.vitality.current == kee_before, "the scripted draws: the thrust did not land")
-	_check(mine.spent.has(KEY) and mine.earned == ([CombatSchoolSkeleton.EARN_OPPONENT_MISSED] as Array[StringName]), "two moves paid, one won back: spent %s earned %s" % [mine.spent, mine.earned])
+	_check(mine.spent.has(KEY) and mine.earned == ([CombatSchoolSkeleton.EARN_OPPONENT_MISSED] as Array[StringName]), "one move paid, one won: spent %s earned %s" % [mine.spent, mine.earned])
 	_check(_notes(round, "抢得一手") == 1, "the log says so, once")
+	_check(f.scheduler.exposed(ENEMY) and f.scheduler.waiting_for_player(f.bindings), "the enemy stands open while the round waits on the next move of the player: exposed %s" % f.scheduler.exposed(ENEMY))
 	_check(f.bindings[0].state.recovery.inner_force.current == 80, "20 force spent (%d)" % f.bindings[0].state.recovery.inner_force.current)
 	_check(not f.scheduler.exposed(PLAYER), "and its striker does not stand open (露空 is a 重's)")
 
@@ -85,7 +86,7 @@ func _test_landed_is_only_the_blow() -> void:
 	var round: CombatSchedulerAdvanceResult = _advance(f)
 	var mine: CombatRoundBeats = f.scheduler.round_beats_of(PLAYER)
 	_check(f.bindings[1].state.vitality.current < kee_before, "the top draws: the thrust landed")
-	_check(mine.spent.has(KEY) and mine.earned.is_empty() and mine.remaining == 0 and _notes(round, "抢得一手") == 0, "two moves paid, none won: spent %s earned %s" % [mine.spent, mine.earned])
+	_check(mine.spent.has(KEY) and mine.earned.is_empty() and _notes(round, "抢得一手") == 0 and not f.scheduler.exposed(ENEMY), "one move paid, none won, nobody open: spent %s earned %s" % [mine.spent, mine.earned])
 
 
 ## One hand a round, however it was won; untaught or short of force: refused, nothing spent.
@@ -125,7 +126,7 @@ func _fixture(random: CombatRandomSource, cap: int = 1) -> Fixtures.SchedulerFix
 	f.scheduler.configure_styles(func(_id: StringName) -> CombatStyle: return null)
 	_npc_beats = {}
 	var costs: Dictionary[StringName, int] = {
-		CombatMoveTags.QUICK: 1, CombatMoveTags.HEAVY: 2, CombatMoveTags.FEINT: 1, CombatMoveTags.GUARD: 1, CombatBeatRules.COST_PLAIN: 1, KEY: 2,
+		CombatMoveTags.QUICK: 1, CombatMoveTags.HEAVY: 2, CombatMoveTags.FEINT: 1, CombatMoveTags.GUARD: 1, CombatBeatRules.COST_PLAIN: 1, KEY: 1,
 	}
 	f.scheduler.configure_beats(CombatBeatRules.new(2, costs, cap, true, true), func(id: StringName) -> int: return _npc_beats.get(id, 1))
 	Beats._learn(f.bindings[0], Beats.FONXAN) # TEST-ONLY

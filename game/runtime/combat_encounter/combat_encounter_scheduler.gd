@@ -122,7 +122,7 @@ var _note_habit: Callable = Callable()
 var _note_wound: Callable = Callable()
 ## 战斗拍数 E (DECISIONS「战斗拍数 E · 重招」): who stands open after a 重 of theirs was dodged
 ## or parried (露空), until the next blow at them.
-var _exposed: Dictionary[StringName, bool] = {}
+var _exposed: Dictionary[StringName, int] = {}
 ## Who owes a beat to 失衡 still (until their busy beat is paid, or the fight ends).
 var _staggered: Dictionary[StringName, bool] = {}
 ## Who was said to strike twice while the player recovered from a 重 this round (said once).
@@ -673,7 +673,7 @@ func _fill_modifiers(bindings: Array[CombatSliceCharacterBinding]) -> void:
 			theirs.add(0, 0, bonus, bonus)
 	# 战斗拍数 E: one standing open (露空) dodges and parries the next blow worse.
 	for open_id: StringName in _exposed:
-		_modifiers.side(open_id).add(0, 0, -_beat_rules.exposed_percent, -_beat_rules.exposed_percent)
+		_modifiers.side(open_id).add(0, 0, -_exposed[open_id], -_exposed[open_id])
 
 
 ## 战斗拍数 E: a beat `actor_id` took at one standing open (its target) used the opening up,
@@ -682,6 +682,15 @@ func _use_opening(actor_id: StringName) -> void:
 	var target: StringName = _encounter.current_target_for(actor_id)
 	if target != actor_id and _exposed.has(target):
 		_exposed.erase(target)
+
+
+## 师娘彩蛋 A: a special left these fighters open (SpecialReport.opened()): the next blow at each
+## finds their dodge and parry that much lower, as after a 重 of theirs missed.
+func _open_by(report: SpecialReport) -> void:
+	var opened: Dictionary[StringName, int] = report.opened()
+	for open_id: StringName in opened:
+		if opened[open_id] > 0:
+			_exposed[open_id] = maxi(opened[open_id], _exposed.get(open_id, 0))
 
 
 ## 战斗拍数 E: the fight is over — a 失衡 still owed is dropped (the beat it took belonged to
@@ -1135,7 +1144,9 @@ func advance(
 		# 战斗拍数 C: a perform's own busy counts into the beats it cost.
 		if queued.request.category == CombatTacticalRequest.Category.MARTIAL_SPECIAL:
 			_absorb_special_busy(_find_binding(bindings, _player_id), _beat_rules.cost_of_action(key))
-		# 师娘彩蛋 A: the order won them a hand (「听雨」 dodged or parried), after its cost.
+		# 师娘彩蛋 A: the order left someone open and won them a hand (「听雨」 dodged or parried), after its cost.
+		if tactical_result.special != null and not _one_beat():
+			_open_by(tactical_result.special)
 		if tactical_result.special != null and tactical_result.special.won_beat and not _one_beat():
 			if _round_running:
 				_earn(_find_binding(bindings, _player_id), _skeleton_of(_find_binding(bindings, _player_id)), bindings)
@@ -1429,7 +1440,8 @@ func _take_beat(
 			var ran: CombatNpcChatResult = event.chat
 			if ran != null and ran.special() != null:
 				_hurts(_report_blows(ran.special()), bindings, random_source, boundary)
-				# 师娘彩蛋 A: the perform won its fighter a hand (「听雨」 dodged or parried).
+				# 师娘彩蛋 A: the perform left someone open and won its fighter a hand (「听雨」 dodged or parried).
+				_open_by(ran.special())
 				if ran.special().won_beat:
 					_earn(actor, _skeleton_of(actor), bindings)
 		if boundary != null and not _inspect(boundary, bindings, event):
@@ -1711,7 +1723,7 @@ func _note_heavy(attacker_id: StringName, victim_id: StringName, move: CombatAct
 	elif outcome in [CombatAttackResult.Outcome.DODGE, CombatAttackResult.Outcome.PARRY] and _beat_rules.exposed_percent > 0:
 		var attacker: CombatSliceCharacterBinding = _find_binding(bindings, attacker_id)
 		if attacker != null and attacker.life_status == CombatSliceLifeStatus.Value.ACTIVE:
-			_exposed[attacker_id] = true
+			_exposed[attacker_id] = _beat_rules.exposed_percent
 			# TRANSLATORS: a 重 move was dodged or parried and left its striker open: $N the striker; the next blow at them finds them easier to hit.
 			_emit(_note_event(attacker_id, TranslationServer.translate("$N一招落空，露出了破绽！"), ColoredLine.HIC))
 

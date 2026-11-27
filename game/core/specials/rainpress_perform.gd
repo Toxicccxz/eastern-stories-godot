@@ -9,19 +9,22 @@ extends PerformFunction
 ## - `force`: the internal power one thrust takes (short of it the file refuses, nothing spent);
 ## - `damage`, `damage_percent`: one attack at apply/damage + `damage` +
 ##   query_skill("fonxansword") * `damage_percent` / 100.
-## The thrust dodged or parried wins its performer a hand this round, as a 隙 does (within
+## - `open_percent`: the thrust dodged or parried leaves its target open (露空): the next blow at
+##   them finds their dodge and parry this much lower.
+## The thrust dodged or parried also wins its performer a hand this round, as a 隙 does (within
 ## earned_beat_cap); landed, it is only the blow. Only against an enemy in the fight.
 const SKILL: StringName = &"fonxansword"
 const FORCE: String = "force"
 const DAMAGE: String = "damage"
 const DAMAGE_PERCENT: String = "damage_percent"
+const OPEN_PERCENT: String = "open_percent"
 const FORCED: Array[CombatAttackResult.Outcome] = [CombatAttackResult.Outcome.DODGE, CombatAttackResult.Outcome.PARRY]
 
 
 func _init() -> void:
 	id = &"rainpress"
 	label = "「听雨」"
-	number_keys = [FORCE, DAMAGE, DAMAGE_PERCENT]
+	number_keys = [FORCE, DAMAGE, DAMAGE_PERCENT, OPEN_PERCENT]
 
 
 func perform(context: SpecialContext) -> bool:
@@ -47,6 +50,7 @@ func perform(context: SpecialContext) -> bool:
 	me.state.timed_applies.release(strike)
 	if _was_forced(attack):
 		context.wins_beat = true
+		context.opened[target.character_id] = skill.perform_number(id, OPEN_PERCENT)
 		context.say("$n这一下接得仓促，身前露出了空子。", target.character_id, ColoredLine.CYN)
 	return true
 
@@ -64,4 +68,4 @@ func hint(catalog: ContentCatalog) -> String:
 	if skill == null:
 		return ""
 	# TRANSLATORS: hover of 使出「听雨」: {force} the internal power one thrust takes.
-	return TranslationServer.translate("用 {force} 点内力出一剑逼对方接招：对方闪开或架住，你这回合多一手；打中了就只是这一剑").format({"force": skill.perform_number(id, FORCE)})
+	return TranslationServer.translate("用 {force} 点内力出一剑逼对方接招：对方闪开或架住，就露出空子（下一招更难躲开、架住），你这回合多一手；打中了就只是这一剑").format({"force": skill.perform_number(id, FORCE)})

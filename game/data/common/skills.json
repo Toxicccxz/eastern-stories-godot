@@ -293,7 +293,8 @@
 					"numbers": {
 						"force": 20,
 						"damage": 6,
-						"damage_percent": 12
+						"damage_percent": 12,
+						"open_percent": 85
 					}
 				}
 			},

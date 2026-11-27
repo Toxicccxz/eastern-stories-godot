@@ -12663,7 +12663,11 @@
 				"max_force": 400,
 				"force": 400
 			},
-			"combat_exp": 30000,
+			"combat_exp": 800,
+			"apply": {
+				"dodge": 16,
+				"parry": 16
+			},
 			"family": {
 				"name": "封山剑派北宗",
 				"generation": 13,
@@ -12674,14 +12678,13 @@
 				"unarmed": 30,
 				"parry": 70,
 				"dodge": 60,
-				"sword": 50,
+				"sword": 10,
 				"force": 40,
 				"fonxanforce": 40,
 				"fonxansword": 60,
 				"chaos-steps": 60
 			},
 			"skill_map": {
-				"sword": "fonxansword",
 				"parry": "fonxansword",
 				"dodge": "chaos-steps"
 			},
