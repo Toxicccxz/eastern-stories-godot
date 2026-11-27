@@ -137,8 +137,8 @@ func show_room(title: String, description: String, seconds: float) -> void:
 	if _loading:
 		_room_waiting = _room_showing
 		return
-	_room_title.text = KoreanText.shown(title)
-	_room_text.text = KoreanText.shown(description)
+	_room_title.text = ShownText.of(title)
+	_room_text.text = ShownText.of(description)
 	_kill(_room_tween)
 	_place_room()
 	var fade: float = minf(0.3, seconds * BANNER_FADE_SHARE)

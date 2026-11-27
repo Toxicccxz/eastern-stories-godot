@@ -97,7 +97,7 @@ func _append(lines: Array[ColoredLine], toast: bool, lit: bool = false) -> void:
 		found = _ui.key_terms()
 	for line: ColoredLine in lines:
 		if not line.text.is_empty():
-			line.text = KoreanText.shown(line.text)
+			line.text = ShownText.of(line.text)
 			_log_lines.append(line.text)
 			_log_colors.append(line.color)
 			_log_spans.append(KeySpans.find(line.text, line.keys, found) if lights else [])

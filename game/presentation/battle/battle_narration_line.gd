@@ -105,10 +105,10 @@ var art_landed: bool:
 
 
 func _init(p_text: String = "", p_damage: int = -1, p_color: StringName = ColoredLine.PLAIN, p_summary: String = "") -> void:
-	_text = KoreanText.shown(p_text)
+	_text = ShownText.of(p_text)
 	_damage = p_damage
 	_color = p_color
-	_summary = KoreanText.shown(p_summary)
+	_summary = ShownText.of(p_summary)
 
 
 ## The blow this line reports (the narrator, once).

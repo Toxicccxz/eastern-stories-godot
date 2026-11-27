@@ -80,7 +80,7 @@ func open_ask() -> void:
 	for topic: String in map.ask_topics_selected():
 		var button := Button.new()
 		button.name = "Topic"
-		button.text = tr(topic)
+		button.text = ShownText.label(tr(topic))
 		button.set_meta(&"topic", topic)
 		button.theme_type_variation = &"ChipButton"
 		button.custom_minimum_size = Vector2(80, 40)
@@ -134,7 +134,7 @@ func relabel() -> void:
 		return
 	for button: Node in _ask_topics.get_children():
 		if button.has_meta(&"topic"):
-			(button as Button).text = tr(String(button.get_meta(&"topic")))
+			(button as Button).text = ShownText.label(tr(String(button.get_meta(&"topic"))))
 	for say: Node in _ask_relay.get_children():
 		if say.has_meta(&"phrase"):
 			(say as Button).text = tr("接话：{line}").format({"line": tr(String(say.get_meta(&"phrase")))})

@@ -786,7 +786,7 @@ func _fill_card() -> void:
 			_row("%s  %s" % [_pin_word(mark.kind), place], _point.bind(mark.map_id, mark.zone_id, place))
 		else:
 			# TRANSLATORS: a line on the 地图 page's card: {word} the mark, {who} the person, {place} the room they are in.
-			_row(tr("{word}  {who} · {place}").format({"word": _pin_word(mark.kind), "who": tr(mark.who), "place": place}), _point.bind(mark.map_id, mark.zone_id, place))
+			_row(ShownText.of(tr("{word}  {who} · {place}").format({"word": _pin_word(mark.kind), "who": tr(mark.who), "place": place})), _point.bind(mark.map_id, mark.zone_id, place))
 	for map_id: StringName in MapAtlas.known_maps(catalog, _state, _selected):
 		if map_id != _selected and _state.visited_maps.has(String(map_id)):
 			var place: String = tr(_map_name(catalog, map_id))
@@ -835,7 +835,7 @@ func _ride(ride: CoachLines.Ride) -> void:
 		return
 	var why: String = _choose_ride.call(ride)
 	if not why.is_empty():
-		status.text = why
+		status.text = ShownText.of(why)
 
 
 func _objective_line(objective: String) -> void:
