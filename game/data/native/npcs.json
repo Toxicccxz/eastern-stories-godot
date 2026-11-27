@@ -3100,7 +3100,7 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 2700, "max_gin": 1200, "max_sen": 1200, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 2850, "max_gin": 1200, "max_sen": 1200, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
@@ -3110,10 +3110,12 @@
 			"skills": {
 				"unarmed": 60,
 				"whip": 60,
+				"black-flame-lash": 1,
 				"dodge": 130,
 				"parry": 60,
 				"force": 150
 			},
+			"skill_map": { "whip": "black-flame-lash" },
 			"summoned": {
 				"arrive": [
 					"黑焰从坛下涌上来，一团没有头的人形站了起来。"
@@ -3156,7 +3158,7 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 2900, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 3450, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
@@ -3166,10 +3168,12 @@
 			"skills": {
 				"unarmed": 60,
 				"whip": 60,
+				"black-flame-lash": 1,
 				"dodge": 130,
 				"parry": 60,
 				"force": 150
 			},
+			"skill_map": { "whip": "black-flame-lash" },
 			"summoned": {
 				"arrive": [
 					"黑焰从坛下涌上来，一团没有头的人形站了起来。"
@@ -3212,7 +3216,7 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 2900, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 3450, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
@@ -3222,10 +3226,12 @@
 			"skills": {
 				"unarmed": 60,
 				"whip": 60,
+				"black-flame-lash": 1,
 				"dodge": 130,
 				"parry": 60,
 				"force": 150
 			},
+			"skill_map": { "whip": "black-flame-lash" },
 			"summoned": {
 				"arrive": [
 					"黑焰从坛下涌上来，一团没有头的人形站了起来。"
@@ -3268,7 +3274,7 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 2700, "max_gin": 1900, "max_sen": 1900, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 3600, "max_gin": 1900, "max_sen": 1900, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
@@ -3278,10 +3284,12 @@
 			"skills": {
 				"unarmed": 60,
 				"whip": 60,
+				"black-flame-lash": 1,
 				"dodge": 130,
 				"parry": 60,
 				"force": 150
 			},
+			"skill_map": { "whip": "black-flame-lash" },
 			"summoned": {
 				"arrive": [
 					"黑焰从坛下涌上来，一团没有头的人形站了起来。"

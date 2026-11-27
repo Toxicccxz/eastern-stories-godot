@@ -63,6 +63,13 @@ func _test_data() -> void:
 	_check(kee.all(func(value: int) -> bool: return value > 0) and kee[1] == kee[2], "侮天鬼: kee for each form, the two middle ones alike %s" % [kee])
 	var damage: Array = forms.map(func(id: StringName) -> int: return catalog.npc(id).authored_combat_facts().apply_value(&"damage"))
 	_check(damage[0] < damage[1] and damage[1] == damage[2] and damage[2] < damage[3], "侮天鬼: the robe a step less, the pull a step more: %s" % [damage])
+	# DECISIONS「侮天鬼的黑焰」「成长曲线 C」: the 黑焰 stays a whip, and strikes as its own 黑焰鞭影 —
+	# quick strokes only (a whip's 抽 is 虚, which met a fist's 快 whenever it stood apart), mapped at
+	# raw 1, so its power is the whip's.
+	var lash: SkillDefinition = catalog.skill(&"black-flame-lash")
+	var strokes: Array[CombatActionDefinition] = [] if lash == null or lash.action_set() == null else lash.action_set().actions()
+	_check(not strokes.is_empty() and strokes.all(func(stroke: CombatActionDefinition) -> bool: return stroke.tag == CombatMoveTags.QUICK and stroke.damage_percent == 0), "黑焰鞭影: quick strokes only, none with a damage percent")
+	_check(forms.all(func(id: StringName) -> bool: return catalog.npc(id).skill_map().get(&"whip", &"") == &"black-flame-lash" and catalog.npc(id).skill_levels().any(func(level: NpcSkillLevelDefinition) -> bool: return level.skill_id == &"black-flame-lash" and level.raw_level == 1)), "侮天鬼: each form's whip is 黑焰鞭影, at 1")
 	_check(forms.all(func(id: StringName) -> bool: return catalog.npc(id).talk().inquiry_topics().is_empty()), "妖魔不解释: no topics")
 	# DECISIONS「侮天鬼的黑焰」: each form wields its 黑焰, a part of it that cannot leave its hand and
 	# goes when it does.
