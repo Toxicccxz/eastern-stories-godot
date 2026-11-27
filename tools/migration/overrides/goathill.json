@@ -102,10 +102,10 @@
 						"present": "native.npc.huo_zheng",
 						"steps": [
 							{
-								"emote": "手里的酒碗啪地掉在地上。"
+								"emote": "手里的酒碗啪地掉在地上。", "do": "startle", "shot": "near"
 							},
 							{
-								"say": "大哥……大哥你还活着！"
+								"say": "大哥……大哥你还活着！", "shot": {"two": "native.npc.huo_zheng"}
 							}
 						]
 					},
@@ -120,7 +120,7 @@
 								"by": "native.npc.huo_zheng"
 							},
 							{
-								"say": "活着。老三，寨子你管得不错——供也纳得不错。"
+								"say": "活着。老三，寨子你管得不错——供也纳得不错。", "do": {"act": "walk", "to": "goathill.npc.bandit_hwang"}, "shot": {"two": "goathill.npc.bandit_hwang"}
 							}
 						]
 					},
@@ -135,10 +135,10 @@
 								"by": "goathill.npc.bandit_hwang"
 							},
 							{
-								"emote": "扑通一声跪下了。"
+								"emote": "扑通一声跪下了。", "do": "kneel", "shot": "near"
 							},
 							{
-								"say": "大哥，寨子是你的。老子从今天起还是三寨主，你要打要杀，老子不还手。"
+								"say": "大哥，寨子是你的。老子从今天起还是三寨主，你要打要杀，老子不还手。", "shot": {"two": "native.npc.huo_zheng"}
 							},
 							{
 								"npc_mood": "yielded"
@@ -156,15 +156,15 @@
 								"by": "native.npc.huo_zheng"
 							},
 							{
-								"say": "起来。杀你不如杀道士。"
+								"say": "起来。杀你不如杀道士。", "do": {"who": "goathill.npc.bandit_hwang", "act": "rise"}, "shot": {"two": "goathill.npc.bandit_hwang"}
 							},
 							{
 								"present": "native.npc.shitou",
-								"say": "这娃娃是傅家坡的，派两个弟兄送他回家，少一根头发老子找你。"
+								"say": "这娃娃是傅家坡的，派两个弟兄送他回家，少一根头发老子找你。", "do": {"act": "face", "toward": "native.npc.shitou"}, "shot": {"two": "native.npc.shitou"}
 							},
 							{
 								"present": "native.npc.shitou",
-								"line": "两个寨兵领着石头出了庙门。石头回头看了你一眼，没有说话。"
+								"line": "两个寨兵领着石头出了庙门。石头回头看了你一眼，没有说话。", "do": {"who": "native.npc.shitou", "act": "face", "toward": "player"}, "shot": {"look": "native.npc.shitou"}
 							},
 							{
 								"present": "native.npc.shitou",
@@ -172,7 +172,7 @@
 							},
 							{
 								"present": "native.npc.shitou",
-								"leave": "native.npc.shitou"
+								"leave": "native.npc.shitou", "do": {"act": "exit", "by": "goathill.temple1.mroad3_entry"}
 							}
 						]
 					},
@@ -187,19 +187,19 @@
 								"by": "native.npc.huo_zheng"
 							},
 							{
-								"emote": "转过身来，看着你。"
+								"emote": "转过身来，看着你。", "do": {"act": "face", "toward": "player"}, "shot": "near"
 							},
 							{
-								"say": "兄弟，野羊寨欠你一条命。以后野羊山的路，你横着走。"
+								"say": "兄弟，野羊寨欠你一条命。以后野羊山的路，你横着走。", "shot": {"two": "player"}
 							},
 							{
 								"mark": "霍铮回了寨"
 							},
 							{
-								"line": "霍铮骂骂咧咧地进了土地庙的里屋，叫黄霸拿酒来。"
+								"line": "霍铮骂骂咧咧地进了土地庙的里屋，叫黄霸拿酒来。", "do": {"act": "walk", "to": "goathill.temple1.huo_zheng.1", "stay": true}, "shot": "near"
 							},
 							{
-								"leave": true
+								"leave": true, "do": {"act": "exit", "by": "goathill.temple1.huo_zheng.1"}
 							}
 						]
 					}

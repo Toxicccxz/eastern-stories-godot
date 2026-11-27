@@ -311,8 +311,8 @@
 					"npc_in": "fanfang.shield_yard",
 					"not_mark": "争地过了",
 					"steps": [
-						{ "emote": "站在院门里，手里举着那纸文书，身后四个戴斗笠的浪人。" },
-						{ "say": "兵部的令在此：番坊大秦人等，聚众持械，着市舶司即日清出！——安敦，出来说话。" }
+						{ "emote": "站在院门里，手里举着那纸文书，身后四个戴斗笠的浪人。", "shot": "near" },
+						{ "say": "兵部的令在此：番坊大秦人等，聚众持械，着市舶司即日清出！——安敦，出来说话。", "shot": "near" }
 					]
 				},
 				{
@@ -321,10 +321,10 @@
 					"npc_in": "fanfang.shield_yard",
 					"not_mark": "争地过了",
 					"steps": [
-						{ "comes": "native.npc.andun", "from": "fanfang.hall" },
+						{ "comes": "native.npc.andun", "from": "fanfang.hall", "do": {"act": "enter", "from": "fanfang.hall.andun.1"} },
 						{ "by": "native.npc.andun" },
-						{ "emote": "从屋里出来，左腿先，慢。" },
-						{ "say": "冯大人。三十年，税没拖过一文。令，我看过——那方镇国大将军的印，不是真印盖的。" }
+						{ "emote": "从屋里出来，左腿先，慢。", "shot": "near" },
+						{ "say": "冯大人。三十年，税没拖过一文。令，我看过——那方镇国大将军的印，不是真印盖的。", "shot": {"two": "native.npc.feng_lu"} }
 					]
 				},
 				{
@@ -334,10 +334,10 @@
 					"not_mark": "争地过了",
 					"steps": [
 						{ "by": "native.npc.feng_lu" },
-						{ "say": "印是不是，不是你一个番人说了算！" },
+						{ "say": "印是不是，不是你一个番人说了算！", "shot": {"two": "native.npc.andun"} },
 						{ "by": "native.npc.andun" },
-						{ "emote": "转过头来看你。" },
-						{ "say": "你有一块印模——卢卡说的。拿出来，对一对。拿不出来……那就看你的了。" }
+						{ "emote": "转过头来看你。", "do": {"act": "face", "toward": "player"}, "shot": "near" },
+						{ "say": "你有一块印模——卢卡说的。拿出来，对一对。拿不出来……那就看你的了。", "shot": {"two": "player"} }
 					]
 				}
 			]
@@ -962,8 +962,8 @@
 					"npc_in": "fanfang.fire_hall",
 					"not_mark": "铜牒到手",
 					"steps": [
-						{ "emote": "从火坛后头站起来，手里一片发黑的铜。" },
-						{ "line": "净室里传出一声骂，是波斯话。门没有开。\n" }
+						{ "emote": "从火坛后头站起来，手里一片发黑的铜。", "shot": "near" },
+						{ "line": "净室里传出一声骂，是波斯话。门没有开。\n", "shot": {"look": "fanfang.priest_room.fire_priest.1"} }
 					]
 				},
 				{
@@ -972,12 +972,12 @@
 					"npc_in": "fanfang.fire_hall",
 					"not_mark": "铜牒到手",
 					"steps": [
-						{ "say": "拿着。走。" },
+						{ "say": "拿着。走。", "do": [{"act": "walk", "to": "player"}, {"act": "toss", "item": "native:fanfang/bronze_tablet", "to": "player"}], "shot": {"two": "player"} },
 						{ "give": "native:fanfang/bronze_tablet" },
 						{ "mark": "铜牒到手" },
 						{ "mark": "大秦人被清走" },
-						{ "line": "黑影翻过屋顶的方洞，没了。火坛底下的暗格开着，空的。\n", "color": "HIW" },
-						{ "leave": "native.npc.shadow_thief" }
+						{ "line": "黑影翻过屋顶的方洞，没了。火坛底下的暗格开着，空的。\n", "do": {"act": "walk", "to": "fanfang.fire_hall.shadow.1", "stay": true}, "shot": {"look": "fanfang.fire_hall.shadow.1"}, "color": "HIW" },
+						{ "leave": "native.npc.shadow_thief", "do": {"act": "exit", "by": "fanfang.fire_hall.shadow.1"} }
 					]
 				}
 			]

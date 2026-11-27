@@ -4465,6 +4465,7 @@ msgstr ""
 #. native.npc.assembly_daughter inquiry topic
 #. native.npc.lu_decai_home inquiry topic
 #. native.npc.maoshan_gardener inquiry topic
+#. native.npc.luo_yunzhou_capital inquiry topic
 #. native.npc.liaochen_sanyen inquiry topic
 #. native.npc.assembly_liaochen inquiry topic
 #. native:waterfog/terrace short
@@ -17635,7 +17636,8 @@ msgstr ""
 #. common.npc.dancer.master inquiry.虹台.rules.say
 #. common.npc.scholar.master inquiry.虹台.rules.say
 #. cloud.npc.b_header inquiry.虹台.rules.say
-#: data/common/npcs.json data/cloud/npcs.json
+#. native.npc.luo_yunzhou_capital inquiry.虹台.rules.say
+#: data/common/npcs.json data/cloud/npcs.json data/native/npcs.json
 msgid "正月十七的事？湖上的事还没了，说那个早了。"
 msgstr ""
 
@@ -22642,7 +22644,8 @@ msgid "京城？我家在京城，我不爱回去。那里的人说话，十句�
 msgstr ""
 
 #. common.npc.scholar.master inquiry.虹台.rules.say
-#: data/common/npcs.json
+#. native.npc.luo_yunzhou_capital inquiry.虹台.rules.say
+#: data/common/npcs.json data/native/npcs.json
 msgid "虹台上的事，骆家记下了。"
 msgstr ""
 
@@ -22692,7 +22695,8 @@ msgid "可庾子建是你在朝上揭发的，骆家的名帖也是你拿去敲�
 msgstr ""
 
 #. common.npc.scholar.master inquiry.虹台.rules.lines.say
-#: data/common/npcs.json
+#. native.npc.luo_yunzhou_capital inquiry.虹台.rules.lines.say
+#: data/common/npcs.json data/native/npcs.json
 msgid "骆家在京城住了五代，京城的意思，是颜违。"
 msgstr ""
 
@@ -74589,6 +74593,16 @@ msgstr ""
 msgid "十年没回来了。西街还是那么窄，相国府还是这么寒酸。"
 msgstr ""
 
+#. native.npc.luo_yunzhou_capital inquiry.虹台.rules.lines.emote
+#: data/native/npcs.json
+msgid "朝厅上的大哥看了一眼。"
+msgstr ""
+
+#. native.npc.luo_yunzhou_capital inquiry.虹台.rules.lines.say
+#: data/native/npcs.json
+msgid "大哥的事还没定。定之前，步玄这一票照骆家的老规矩投他；这厅上的话说完了，你再问我一回。"
+msgstr ""
+
 #. native.npc.luo_yunzhou_capital calls.steps.emote
 #: data/native/npcs.json
 msgid "站在厅门里，扇子没有打开。十年没回京城，他在门槛外头站了很久，才跨进来。"
@@ -75266,12 +75280,22 @@ msgstr ""
 
 #. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
 #: data/native/npcs.json
+msgid "后来方丈收了那部经，头陀在佛前受了戒，进了流云轩——你在场，你知道。三十年前没进门的经，进了门。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
 msgid "我要回山烟寺去。"
 msgstr ""
 
 #. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
 #: data/native/npcs.json
 msgid "你去问师父「玄尘」。那个名字，他三十年没让人叫过了。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.师父.rules.lines.say
+#: data/native/npcs.json
+msgid "后来方丈把那片贝叶还给了头陀，头陀回了番坊——你在场，你知道。那股寒，流云轩往后还是赶不出去。"
 msgstr ""
 
 #. native.npc.juechen_liaochen inquiry.师父.rules.lines.say

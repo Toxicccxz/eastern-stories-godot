@@ -28,7 +28,7 @@
     {"rect": [432, 800, 576, 1632], "from": ["cliff"], "to": "chasm", "note": "the drop west of the road is wide: the far side of the chasm is the slope beyond"}
   ],
   "exit_trails": {"green.cave0.south": {"cells": 6, "kind": "path", "width": 4}, "note": "the gravel path runs on south to the village"},
-  "water": {
+  "water": {"life": {"fish": {"kind": "minnow"}, "finds": {"max": 0}, "note": "water.c: the flash in the water is the room's own find, nothing else glints there"}, 
     "kinds": {"water": {"colors": ["8fb9ad", "6a9c92", "4e7d76"], "depth": 40, "flow": [0.0, 1.0], "speed": 0.35, "clear": true, "rock_foam": 0.5, "note": "water.c: 溪水很清澈，缓缓地向南流去"}}
   },
   "ground": {

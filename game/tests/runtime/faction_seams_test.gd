@@ -17,6 +17,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_two_heads()
 	_test_token_given_again()
 	_test_luo_at_the_gate()
+	_test_liaochen_knows_the_temple()
 	_test_false_helpers_go()
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
@@ -85,6 +86,35 @@ func _test_luo_at_the_gate() -> void:
 		var state: CharacterState = _fresh(marks)
 		var there: bool = _holds(capital.present, state) and not (capital.until != null and _holds(capital.until, state))
 		_check(there != _holds(gate.present, state), "one 骆云舟 at a time (%s)" % [marks])
+	# 势力线复查 第 23 条: the one in the capital answers 「虹台」 too (乔阴's is away while the brothers' matter is open).
+	var catalog: ContentCatalog = GameContent.catalog()
+	var talk: NpcTalk = catalog.npc(&"native.npc.luo_yunzhou_capital").talk()
+	_check(not talk.listed_for("虹台", _fresh(["骆云舟听了抄本的事"]).marks) and talk.listed_for("虹台", _fresh(["骆云舟听了抄本的事", "终章"]).marks), "the capital's 骆云舟: 虹台 on his list once the 终章 began")
+	var asked: CharacterState = _fresh(["骆云舟听了抄本的事", "终章"])
+	var rule: NpcInquiryRule = _answer(asked, &"native.npc.luo_yunzhou_capital", "虹台")
+	_check(_says(rule, "颜违") and _says(rule, "再问我一回") and asked.marks.get("步玄表了态", 0) == 1 and not asked.marks.has("步玄肯听你的"), "he says how 步玄 votes while it is open, and counts as asked")
+	_check(_holds(catalog.conditions()["assembly.buxuan.stated"], asked) and _holds(catalog.conditions()["assembly.buxuan.yan"], asked), "the tally reads it: 步玄 stated, for 颜违")
+	asked.marks["骆建章作了证"] = 1 # TEST-ONLY: the brothers chose; he is back at 乔阴's gate
+	asked.marks["步玄的票随了作证"] = 1 # TEST-ONLY
+	rule = _answer(asked, &"common.npc.scholar.master", "虹台")
+	_check(_says(rule, "这一票，你要，就是你的") and asked.marks.get("步玄肯听你的", 0) == 1, "asked again at 乔阴 once it is settled: the vote can still be had")
+	_check(_says(_answer(_fresh(["骆云舟听了抄本的事", "终章", "大会散了"]), &"native.npc.luo_yunzhou_capital", "虹台"), "骆家记下了"), "after the 大会: no vote to speak of")
+
+
+## 势力线复查 第 12 条: 了尘's story of thirty years ago knows what 山烟寺 already chose.
+func _test_liaochen_knows_the_temple() -> void:
+	const LIAOCHEN: StringName = &"native.npc.juechen_liaochen"
+	const TOLD: Array = ["了尘说了洞里的事", "喂了樵夫药"]
+	for small: String in ["头陀进了流云轩", "守了寺规"]:
+		var open: NpcInquiryRule = _answer(_fresh(TOLD + [small]), LIAOCHEN, "师父")
+		_check(_says(open, "我要回山烟寺去") and not _says(open, "你在场，你知道"), "%s, 山烟寺 not chosen yet: the story as it was" % small)
+		var took: CharacterState = _fresh(TOLD + [small, "山烟寺收了经"])
+		var taken: NpcInquiryRule = _answer(took, LIAOCHEN, "师父")
+		_check(_says(taken, "进了门") and _says(taken, "我要回山烟寺去") and took.marks.get("了尘说了玄尘", 0) == 1, "%s, the sutra taken in: he says so, and the story still ends in 「玄尘」" % small)
+		var kept: CharacterState = _fresh(TOLD + [small, "山烟寺守了寺"])
+		var guarded: NpcInquiryRule = _answer(kept, LIAOCHEN, "师父")
+		_check(_says(guarded, "头陀回了番坊") and _says(guarded, "我要回山烟寺去") and kept.marks.get("了尘说了玄尘", 0) == 1, "%s, the temple kept to itself: he says so" % small)
+		_check(taken != null and open != null and taken.lines.size() == open.lines.size() + 1, "one line more, nothing dropped")
 
 
 func _test_false_helpers_go() -> void:

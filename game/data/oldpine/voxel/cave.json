@@ -31,7 +31,7 @@
     "areas": [{"rect": [-256, 80, 256, 460], "strata": ["4c4944", "57534d", "625d56", "6c665e", "524f49"], "tops": ["3f3d36", "48453d", "514d44"], "note": "the passage: dry grey rock, soot over the candles"}, {"rect": [-256, -200, 256, 80], "strata": ["3f4a36", "48553c", "526044", "5b6a4b", "44503a"], "tops": ["3a5230", "446036", "4f6e3e"], "grooves": 0.26, "note": "secrectpath1: 岩壁上生著厚厚的青苔"}, {"rect": [-256, -540, 256, -200], "strata": ["3a3d36", "43463e", "4c4f46", "55584e", "3f423a"], "tops": ["364430", "3e4e36", "47583c"], "note": "path3: 阴森森"}]
   },
   "water": {
-    "kinds": {"shallow_water": {"level": 0.04, "colors": ["b9d4d8", "9cbcc2", "86a8ae"], "foam": 0.6, "flow": [0.0, 1.0], "speed": 1.2, "clarity": 0.9}}
+    "kinds": {"shallow_water": {"life": {"fish": {"max": 0}, "weed": 0, "finds": {"max": 0}}, "level": 0.04, "colors": ["b9d4d8", "9cbcc2", "86a8ae"], "foam": 0.6, "flow": [0.0, 1.0], "speed": 1.2}}
   },
   "ground": {
     "cave_floor": {"style": "scree", "colors": ["443e36", "4d463d", "575045"], "gravel": 0.3, "stones": 0.05, "wet": true, "wet_chance": 0.3, "pebbles": ["4f483f", "5a5248", "463f37", "625a4e"], "sheen": "4a5a5e"},

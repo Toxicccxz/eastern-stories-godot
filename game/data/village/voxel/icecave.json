@@ -38,7 +38,7 @@
     "cave_floor": {"style": "ice", "colors": ["cfe4ee", "dcedf4", "e8f4f8", "c2dcea"], "cracks": 0.16, "frost": 0.3},
     "boundary": {"colors": ["8ab0c8", "7aa4be", "6e98b4"]}
   },
-  "water": {
+  "water": {"life": {"fish": {"max": 0}, "weed": 0, "finds": {"max": 0}}, 
     "kinds": {"water": {"colors": ["5ab0c8", "3a8cb0", "226a90"], "depth": 80, "flow": [0.05, 0.02], "speed": 0.12, "swell": 0.02, "foam": 0.1, "rock_foam": 0.5, "bank_foam": 0.4, "bank": ["b4d4e6", "c8e0ee", "a8cce0"], "sky": 0.2, "note": "lakebottom2.c: 洞里的水潭"}}
   },
   "flora": {

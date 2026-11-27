@@ -206,6 +206,9 @@ func _test_memorial(tree: SceneTree, session: WorldSessionController) -> void:
 		session.advance_npc_heartbeat(1.0)
 		await _settle(tree)
 	_check(state.marks.get("早朝过", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("槐阳王反了")), "memorial: the 早朝, 庾子建's 槐阳王反了 (the raid)")
+	# 过场演出 C: the 早朝 is held once. Its plain telling used to follow the raid's (both were true as
+	# the scene began: the plain one did not shut the raid's ledger out).
+	_check(ui.log_lines().filter(func(line: String) -> bool: return line.contains("有本早奏")).size() == 1, "memorial: the 早朝 is held once, not once for each way it is written")
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"memorial") and StoryQuestLog.current_step(state, quest).step_id == &"audience", "memorial: the way taken by the 奏本")
 	# 章与章之间的衔接: what this package played out holds what chapter9_entered(memorial) writes.

@@ -16,6 +16,9 @@ extends RefCounted
 ##                      player (вы) or a plural name, then by the gender of $N's name — the
 ##                      Russian name's own (RussianNouns: собака is ж), else the character's —
 ##                      м | ж | ср; three forms: ср takes м.
+##   {N:golpeas|golpea}  Spanish (docs/production/spanish_style.md): tú, then anyone else; three
+##                      forms tú | m | f ({n:te|lo|la}); four tú m | tú f | m | f. A form may
+##                      hold an article mark ({n:te golpea|golpea a $n{:el}}).
 ##
 ## resolve() runs on the translated template before a site fills $N/$n/$P/$p as it always
 ## has, so a Chinese line comes out exactly as before. capitalize() runs on the filled line
@@ -63,7 +66,8 @@ static func resolve(text: String, actor: Role, target: Role = null) -> String:
 	if not text.contains("{") and not text.contains("'s"):
 		return text
 	if _token == null:
-		_token = RegEx.create_from_string("\\{([Nn]):([^{}|]+)(?:\\|([^{}]*))?\\}")
+		# A form may hold an article mark of its own (Spanish: {n:te golpea|golpea a $n{:el}}).
+		_token = RegEx.create_from_string("\\{([Nn]):((?:[^{}|]|\\{:[^{}|]*\\})+)(?:\\|((?:[^{}]|\\{:[^{}|]*\\})*))?\\}")
 	var out: String = ""
 	var at: int = 0
 	for found: RegExMatch in _token.search_all(text):
@@ -117,10 +121,10 @@ static func capitalize(text: String) -> String:
 	for index: int in range(text.length()):
 		var c: String = text[index]
 		if opens:
-			if (c >= "a" and c <= "z") or (c >= "а" and c <= "я") or c == "ё":
+			if c.to_upper() != c:
 				c = c.to_upper()
 				opens = false
-			elif not (c in [" ", "\"", "“", "‘", "'", "(", "[", "—", "\n"]):
+			elif not (c in [" ", "\"", "“", "‘", "'", "(", "[", "—", "\n", "¿", "¡"]):
 				opens = false
 		elif c in [".", "!", "?"] and not (index > 0 and text[index - 1] == ".") and (index + 1 >= text.length() or text[index + 1] in [" ", "\n", "”", "\""]):
 			opens = true
@@ -140,9 +144,30 @@ static func _form(role: Role, first: String, second: String, written: String) ->
 	if second.contains("|"):
 		var forms: PackedStringArray = [first]
 		forms.append_array(second.split("|"))
-		var index: int = 0 if role.is_you else _russian_gender_index(role)
+		var index: int = _spanish_index(role, forms.size()) if _shows_spanish() else (0 if role.is_you else _russian_gender_index(role))
 		return forms[index] if index < forms.size() else forms[1]
 	return first if role.is_you else second
+
+
+static func _shows_spanish() -> bool:
+	return TranslationServer.get_locale().get_slice("_", 0) == SpanishText.LANGUAGE
+
+
+## Spanish forms (docs/production/spanish_style.md): three are tú | m | f (an object pronoun:
+## {n:te|lo|la}); four are tú m | tú f | m | f, the player's by SpanishText.player_gender. A
+## name's gender is its Spanish word's when the noun table knows it, else the character's.
+static func _spanish_index(role: Role, count: int) -> int:
+	if role.is_you:
+		return (1 if SpanishText.player_gender == CharacterState.GENDER_FEMALE else 0) if count >= 4 else 0
+	var female: bool = false
+	var gender: String = SpanishNouns.gender_of(role.name)
+	if gender.is_empty():
+		female = role.gender == CharacterState.GENDER_FEMALE or role.gender == &"雌性"  # NO_TRANSLATE: a gender value
+	else:
+		female = gender.begins_with("f")
+	if count >= 4:
+		return 3 if female else 2
+	return 2 if female else 1
 
 
 ## 0 мн, 1 м, 2 ж, 3 ср: the gender of the Russian name when it is known, else the character's.

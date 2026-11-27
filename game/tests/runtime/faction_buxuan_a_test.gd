@@ -10,6 +10,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const RealFight := preload("res://tests/support/real_fight.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 const QUEST: StringName = &"faction.buxuan"
 const LUO: StringName = &"common.npc.scholar.master"
 const SOUL: StringName = &"native.npc.sword_soul_spar"
@@ -182,13 +184,14 @@ func _test_guest(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(soul != null, "the next night it is there again")
 	if soul == null:
 		return
-	state.applies["attack"] = 2000 # TEST-ONLY: she strikes it before its lines run out
-	state.applies["defense"] = 2000
-	_check(map.select_npc(soul.character_id) and map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "she spars again")
-	_run(session)
+	# DECISIONS「势力线的仗」: the 问剑 with real numbers — a character who also explored, at 第五章's
+	# arrival (乔阴 is 第五章's), a sword in hand: she strikes it before its lines run out.
 	state.applies.erase("attack")
 	state.applies.erase("defense")
-	_check(state.marks.get("问剑过了", 0) == 1, "struck before 剑神如意: the 问剑 is passed")
+	RealFight.ready_player(session, Arrival.exploring(&"main.chapter5"))
+	_check(map.select_npc(soul.character_id) and map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "she spars again")
+	var steps: int = RealFight.fight_out(session)
+	_check(steps < RealFight.MAX_STEPS and RealFight.player_stands(session) and state.marks.get("问剑过了", 0) == 1, "struck before 剑神如意: the 问剑 is passed (%d steps)" % steps)
 	session.record_journal()
 	_check(_step(session) == &"letter" and state.affiliation.family_title != "大弟子", "on to the 家书; no rank for a guest")
 	_check(_said(_ask(map, luo, "问剑"), "步玄认你"), "骆云舟: 步玄认你")
