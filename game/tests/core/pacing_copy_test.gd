@@ -74,8 +74,15 @@ func _fill(object: Object) -> Array[String]:
 				var array: Array = (value as Array).duplicate()
 				array.clear()
 				var element: int = (value as Array).get_typed_builtin()
+				var script: Script = (value as Array).get_typed_script()
 				for _index: int in 3:
-					array.append(StringName("s%d" % _fresh()) if element == TYPE_STRING_NAME else _fresh())
+					if element == TYPE_OBJECT and script != null:
+						# A record's own rows (player_age_by_exp's PlayerAging.Step): made and filled.
+						var item: Object = script.new()
+						_fill(item)
+						array.append(item)
+					else:
+						array.append(StringName("s%d" % _fresh()) if element == TYPE_STRING_NAME else _fresh())
 				object.set(name, array)
 			TYPE_DICTIONARY:
 				var dictionary: Dictionary = (value as Dictionary).duplicate()
