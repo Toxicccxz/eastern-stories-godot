@@ -5885,7 +5885,7 @@ msgid "疯狗"
 msgstr "Perro rabioso"
 
 msgid "野狗"
-msgstr "Perro salvaje"
+msgstr "Perro callejero"
 
 msgid "杜宽"
 msgstr "Du Kuan"
@@ -15437,7 +15437,7 @@ msgid "这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖�
 msgstr "¡Pase, $RESPECT, y tómese unas copitas del vino tinto de la casa! Lo destapamos en la bodega hace apenas unos días."
 
 msgid "鸡腿骨头别扔，东街那两条野狗见了骨头就跟人走，怪得很。"
-msgstr "No tire los huesos de pollo. Esos dos perros salvajes de la calle del Este siguen a cualquiera que lleve un hueso; es de lo más raro."
+msgstr "No tire los huesos de pollo. Esos dos perros callejeros de la calle del Este siguen a cualquiera que lleve un hueso; es de lo más raro."
 
 msgid "哟，可算清净了！来，刚烤好的鸡腿，小店的一点心意。"
 msgstr "¡Uy, por fin hay paz! Tenga, un muslo de pollo recién asado: cortesía de la casa."
