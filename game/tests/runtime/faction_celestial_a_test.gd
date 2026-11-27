@@ -10,6 +10,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const RealFight := preload("res://tests/support/real_fight.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 const PAN: StringName = &"common.npc.fighter.executioner"
 const SPY: StringName = &"native.npc.waterfog_spy"
 const HOPEFUL: StringName = &"native.npc.waterfog_hopeful"
@@ -117,6 +119,9 @@ func _test_caught(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(_ask(yard, spy, "路引"), "兵部") and _said(_ask(yard, courier, "路引"), "没什么不对"), "learnt in 关北: the spy's 印色 is 兵部's; the courier's is a post's")
 	_check(yard.select_npc(spy.character_id) and yard.ask_topics_selected().has("拿下"), "拿下 is on the list of one on watch")
 	_check(spy.definition().talk().confirm_applies("拿下", state.marks), "and is asked first")
+	# DECISIONS「势力线的仗」: the spy fought with real numbers — a character who also explored, at
+	# 第三章's arrival (水烟阁 is 第二章's; its disciple stands this watch after it), a sword in hand; let go.
+	RealFight.ready_player(session, Arrival.exploring(&"main.chapter3"))
 	_check(_said(_ask(yard, spy, "拿下"), "好眼力") and state.marks.get("认出了探子", 0) == 1, "拿下: found out")
 	for second: int in 4:
 		session.advance_npc_heartbeat(1.0)
@@ -124,11 +129,10 @@ func _test_caught(tree: SceneTree, session: WorldSessionController) -> void:
 		if session.combat_encounter_coordinator().has_active_encounter():
 			break
 	_check(session.combat_encounter_coordinator().has_active_encounter(), "found out, he fights")
-	await _flee(tree, session)
-	# TEST-ONLY: beaten and spared (keeps: he cannot be killed while the watch lasts), as 放过 does.
-	session.npc_spared(spy)
-	yard.npcs.leave_for_good(spy)
-	_check(state.marks.get("拿下了探子", 0) == 1, "spared: 拿下了探子")
+	var steps: int = RealFight.fight_out(session)
+	await _settle(tree)
+	_check(steps < RealFight.MAX_STEPS and RealFight.player_stands(session), "the fight to its end, the player standing (%d steps; 气 %d/%d)" % [steps, state.vitality.current, state.vitality.maximum])
+	_check(state.marks.get("拿下了探子", 0) == 1 and _count_in(session, YARD, SPY) == 0, "let go (he cannot be killed while the watch lasts): 拿下了探子, and he is gone from the gate")
 	_check(_said(_ask(yard, boy, "拿下"), "原来是他"), "the boy sees who it was")
 	session.record_journal()
 	_check(state.quests.has("faction.celestial/watch"), "step watch done")
@@ -327,21 +331,6 @@ func _ask(map: WorldMapController, npc: NpcRuntimeState, topic: String) -> Array
 func _recent(ui: SharedGameplayUI, count: int = 12) -> Array[String]:
 	var lines: Array[String] = ui.log_lines()
 	return lines.slice(maxi(0, lines.size() - count))
-
-
-func _flee(tree: SceneTree, session: WorldSessionController) -> void:
-	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var rounds: int = 0
-	while coordinator.has_active_encounter() and rounds < 600:
-		for info: CombatTacticalActionInfo in coordinator.action_infos():
-			if info.action_id == CombatFleeTacticalPolicy.ACTION_ID:
-				coordinator.submit_player_action(CombatTacticalRequest.new(StringName("flee:%d" % rounds), coordinator.active_encounter().encounter_id, player.character_id, info.action_id, info.category))
-		coordinator.advance_scheduler(1.0)
-		rounds += 1
-	session.shared_ui().dismiss_current_panel()
-	for _frame: int in range(3):
-		await tree.physics_frame
 
 
 ## The instance id of the first of `definition_id` the player carries ("" when none).

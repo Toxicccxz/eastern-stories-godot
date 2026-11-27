@@ -8,6 +8,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const RealFight := preload("res://tests/support/real_fight.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 const MASTER: StringName = &"common.npc.swordsman.master"
 const TRAINER: StringName = &"snow.npc.fist_trainer"
 const GUARD: StringName = &"snow.npc.guard"
@@ -119,6 +121,9 @@ func _test_guarding(tree: SceneTree, session: WorldSessionController) -> void:
 		await _settle(tree)
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "they leave a passer-by alone (ignores_when)")
 	_check(_said(_ask(road, boss, "腰牌"), "假不了") and _said(_ask(road, boss, "封山剑法"), "快字"), "罗七 shows a real 腰牌 and gets the sword wrong")
+	# DECISIONS「势力线的仗」: the three fought with real numbers — a character who also explored, at
+	# 第二章's arrival (a disciple hears 柳淳风's word that early), a sword in hand; let go where they fall, dead where the sword kills outright.
+	RealFight.ready_player(session, Arrival.exploring(&"main.chapter2"))
 	_check(_said(_ask(road, boss, "冒牌"), "砸咱们的饭碗") and state.marks.get("说破了冒牌弟子", 0) == 1, "called out: 说破了冒牌弟子")
 	for second: int in 4:
 		session.advance_npc_heartbeat(1.0)
@@ -133,15 +138,19 @@ func _test_guarding(tree: SceneTree, session: WorldSessionController) -> void:
 			if npc != null and npc.definition().definition_id in [HEAD, LACKEY]:
 				against += 1
 	_check(against == 3, "all three at once (进门一起上): %d" % against)
-	await _flee(tree, session)
-	# TEST-ONLY: the three leave as if beaten (the clearing counts them gone); the 腰牌 as if picked up.
-	_clear(road, HEAD)
-	_clear(road, LACKEY)
+	var steps: int = RealFight.fight_out(session)
+	await _settle(tree)
 	session.advance_npc_heartbeat(1.0)
 	await _settle(tree)
 	session.record_journal()
+	_check(steps < RealFight.MAX_STEPS and RealFight.player_stands(session), "the fight to its end, the player standing (%d steps; 气 %d/%d)" % [steps, state.vitality.current, state.vitality.maximum])
 	_check(state.marks.get("冒牌头目倒了", 0) == 1 and state.marks.get("冒牌帮闲倒了", 0) == 1 and state.quests.has("faction.fonxan/fakes"), "beaten: both marks, step fakes done")
-	road.give_new_item_to_player(TALLY)
+	_check(_count_in(session, &"snow.sroad3", HEAD) == 0 and _count_in(session, &"snow.sroad3", LACKEY) == 0, "beaten, the three are off the road")
+	# Let go 罗七 throws the 腰牌 down; a sword's wound kills without a fall, and his corpse holds it.
+	var left: Array[StringName] = RealFight.left_behind(session, TALLY, &"snow.sroad3")
+	_check(not left[0].is_empty() or not left[1].is_empty(), "the 腰牌 is where 罗七 left it: on the road, or on his corpse")
+	_check(left[0].is_empty() == (state.marks.get("放过了罗七", 0) == 0), "on the road only when he was let go")
+	_check(await RealFight.take_left(tree, session, TALLY, &"snow.sroad3") and _carried(session, TALLY) != &"", "the 腰牌 taken")
 	var catalog: ContentCatalog = GameContent.catalog()
 	_check(catalog.npc(HEAD).hooks().spared_drop == TALLY and catalog.npc(HEAD).hooks().spared_leave and catalog.npc(HEAD).hooks().die_item_id == TALLY, "罗七 spared drops the 腰牌; killed, his corpse holds it")
 	# 柳淳风 knows the 牌 but wants 逄义 asked first.
@@ -298,28 +307,6 @@ func _ask(map: WorldMapController, npc: NpcRuntimeState, topic: String) -> Array
 func _recent(ui: SharedGameplayUI, count: int = 12) -> Array[String]:
 	var lines: Array[String] = ui.log_lines()
 	return lines.slice(maxi(0, lines.size() - count))
-
-
-func _flee(tree: SceneTree, session: WorldSessionController) -> void:
-	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var rounds: int = 0
-	while coordinator.has_active_encounter() and rounds < 600:
-		for info: CombatTacticalActionInfo in coordinator.action_infos():
-			if info.action_id == CombatFleeTacticalPolicy.ACTION_ID:
-				coordinator.submit_player_action(CombatTacticalRequest.new(StringName("flee:%d" % rounds), coordinator.active_encounter().encounter_id, player.character_id, info.action_id, info.category))
-		coordinator.advance_scheduler(1.0)
-		rounds += 1
-	session.shared_ui().dismiss_current_panel()
-	for _frame: int in range(3):
-		await tree.physics_frame
-
-
-## TEST-ONLY: every standing NPC of `definition_id` on the map leaves for good (as if beaten).
-func _clear(map: WorldMapController, definition_id: StringName) -> void:
-	for npc: NpcRuntimeState in map.npc_runtimes():
-		if npc.definition().definition_id == definition_id and npc.exists_in_map:
-			map.npcs.leave_for_good(npc)
 
 
 ## The instance id of the first of `definition_id` the player carries ("" when none).

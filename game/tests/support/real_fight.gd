@@ -4,13 +4,16 @@ extends RefCounted
 ## grown to a story arrival's combat_exp (grown_character.gd, the sword build with a sword in hand),
 ## the foe as the data makes it, the fight run through the real coordinator and scheduler until it is
 ## over, the player choosing each beat as MainlineFightSim's plain policy does (the move with the best
-## expected damage per beat, never 守; the game's turns, not 自动 — the numbers are tuned for it).
+## expected damage per beat, never 守; the game's turns, not 自动 — the numbers are tuned for it),
+## and choosing over each foe that falls (击倒后 at the game's own 询问, not the suite runner's ES2
+## 直接了结: 放过 and its `spared` hooks are what a player meets).
 ## No foe's 气 lowered, no player made unbeatable: a suite that walks a line from its first order to
 ## its end meets the fight a player meets.
 
 const Grown := preload("res://tests/support/grown_character.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const Specials := preload("res://tests/runtime/combat_specials_test.gd")
+const MapPlaces := preload("res://tests/support/map_places.gd")
 
 ## Scheduler steps (a second of the fight's clock each) before a fight is called stuck.
 const MAX_STEPS: int = 3000
@@ -38,7 +41,9 @@ static func ready_player(session: WorldSessionController, experience: int, weapo
 static func fight_out(session: WorldSessionController, finish: bool = false) -> int:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var manual: bool = BattlePace.manual_turns
+	var knockout: int = BattlePace.after_knockout
 	BattlePace.manual_turns = true
+	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
 	var steps: int = 0
 	while coordinator.has_active_encounter() and steps < MAX_STEPS:
 		for victim: StringName in coordinator.held_victims():
@@ -49,6 +54,7 @@ static func fight_out(session: WorldSessionController, finish: bool = false) -> 
 		coordinator.advance_scheduler(1.0)
 		steps += 1
 	BattlePace.manual_turns = manual
+	BattlePace.after_knockout = knockout
 	session.shared_ui().dismiss_current_panel()
 	return steps
 
@@ -67,6 +73,54 @@ static func _order(coordinator: CombatEncounterCoordinator) -> void:
 		if coordinator.choose_attack(move.action_id):
 			return
 	coordinator.yield_round()
+
+
+## Where what a foe carried lies once the fight is over: on the floor of `zone_id` (let go, its
+## `spared` drop) or in a corpse on the map (a sword's wound kills without a fall: its `die_carries`).
+## [floor item id, corpse id, item id in the corpse]; all empty when it is in neither.
+static func left_behind(session: WorldSessionController, item: StringName, zone_id: StringName) -> Array[StringName]:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map == null:
+		return [&"", &"", &""]
+	var lying: StringName = map.floor_item_of(item, zone_id)
+	if not lying.is_empty():
+		return [lying, &"", &""]
+	for corpse: CorpseState in map.corpse_states():
+		for item_id: StringName in session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)):
+			var held: ItemInstance = session.item_instance_index().resolve(item_id)
+			if held != null and held.item_definition_id == item:
+				return [&"", corpse.corpse_item_instance_id, item_id]
+	return [&"", &"", &""]
+
+
+## What a foe left behind taken as a player takes it: picked up from the floor, or out of the corpse
+## (the player beside it). True when it changed hands.
+static func take_left(tree: SceneTree, session: WorldSessionController, item: StringName, zone_id: StringName) -> bool:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var where: Array[StringName] = left_behind(session, item, zone_id)
+	session.shared_ui().dismiss_current_panel()
+	if not where[0].is_empty():
+		if not map.select_floor_item(where[0]):
+			return false
+		map.take_selected_floor_item()
+		return left_behind(session, item, zone_id)[0] != where[0]
+	if where[1].is_empty():
+		return false
+	if not map.place_player(zone_id, MapPlaces.spot(map, zone_id, map.corpses.lying_at(map.corpses.find_corpse(where[1])), 48.0)):
+		return false
+	await tree.physics_frame
+	await tree.physics_frame
+	return map.select_corpse(where[1]) and map.take_selected_loot_item(where[2]).succeeded
+
+
+## One knocked down comes to on its own time (a player waits by it): the heart beats until `npc`
+## is on its feet; the seconds waited, -1 when it never rose within `limit`.
+static func wait_until_up(session: WorldSessionController, npc: NpcRuntimeState, limit: int = 600) -> int:
+	for second: int in limit:
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+			return second
+		session.advance_npc_heartbeat(1.0)
+	return -1
 
 
 ## The player still standing (not fallen, not dead) once a fight is over.

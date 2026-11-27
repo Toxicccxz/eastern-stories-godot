@@ -11,6 +11,8 @@ extends RefCounted
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const FollowerWalk := preload("res://tests/support/follower_walk.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const RealFight := preload("res://tests/support/real_fight.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 const Es2PacingScript := preload("res://tests/support/es2_pacing.gd")
 const QUEST: StringName = &"faction.juechen"
 const FAMILY: StringName = &"family.juechen"
@@ -180,8 +182,26 @@ func _test_guest(tree: SceneTree, session: WorldSessionController) -> void:
 	var unbeaten: NpcInquiryRule = NpcInquiryRule.decide(GameContent.catalog().npc(KID).talk().inquiry_rules("回家"), state.marks)
 	_check(unbeaten != null and unbeaten.mark_asker.is_empty() and unbeaten.lines.any(func(line: NpcLine) -> bool: return line.text.contains("有鬼")), "while they stand, he will not come")
 	_check(not state.marks.has("洞口的鬼卒倒了") and not state.marks.has("洞底的鬼卒倒了"), "not beaten yet")
-	for zone_id: StringName in [CAVE1, CAVE2]:
-		_first(session, zone_id, GHOUL).set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: knocked down
+	# DECISIONS「势力线的仗」: the two fought with real numbers, one after the other — a character who
+	# also explored, at 第五章's arrival (the cave wants 「宝衣一章」), a sword in hand.
+	var before: int = state.progression.combat_experience
+	RealFight.ready_player(session, Arrival.exploring(&"main.chapter5"))
+	for place: Array in [[CAVE1, &"green.cave1.ghoul.1"], [CAVE2, &"green.cave2.ghoul.1"]]:
+		RealFight.Grown.heal(state)
+		cave = await _enter(tree, session, place[0], place[1])
+		var ghoul: NpcRuntimeState = _first(session, place[0], GHOUL)
+		for second: int in 6:
+			if session.combat_encounter_coordinator().has_active_encounter():
+				break
+			session.advance_npc_heartbeat(1.0)
+			await _settle(tree)
+			cave.hostilities.process_pending_aggression()
+		if not session.combat_encounter_coordinator().has_active_encounter() and ghoul != null and cave.select_npc(ghoul.character_id):
+			cave.attack_selected()
+		var steps: int = RealFight.fight_out(session, true)
+		await _settle(tree)
+		_check(steps > 0 and steps < RealFight.MAX_STEPS and RealFight.player_stands(session), "%s: its 鬼卒 fought to the end, the player standing (%d steps; 气 %d/%d)" % [place[0], steps, state.vitality.current, state.vitality.maximum])
+	state.progression.combat_experience = before # TEST-ONLY: at 绝尘子's gate again (the rest of the walk asks it)
 	WorldSpawnClearings.note(session)
 	_check(state.marks.get("洞口的鬼卒倒了", 0) == 1 and state.marks.get("洞底的鬼卒倒了", 0) == 1, "both knocked down: their cleared_marks")
 	await _enter(tree, session, CAVE0, CAVE0_POINT)

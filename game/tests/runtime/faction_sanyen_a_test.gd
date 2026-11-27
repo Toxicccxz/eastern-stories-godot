@@ -12,6 +12,8 @@ extends RefCounted
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const FollowerWalk := preload("res://tests/support/follower_walk.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const RealFight := preload("res://tests/support/real_fight.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 const QUEST: StringName = &"faction.sanyen"
 const XUANZHI: StringName = &"common.npc.bonze.master"
 const MONK: StringName = &"sanyen.npc.monk"
@@ -154,7 +156,24 @@ func _test_helper(tree: SceneTree, session: WorldSessionController) -> void:
 	var town: WorldMapController = await _enter(tree, session, TOMB, TOMB_POINT)
 	_check(_first(session, TOMB, GHOUL) != null, "a 鬼卒 by the 树王坟 while the 鬼臼 is wanted")
 	_check(_act(town, TOMB_ACT, TOMB) and _said(_recent(session, 2), "先得打发了它") and _carried(session, GUIJIU) == &"", "the 鬼卒 stands over the stones")
-	state.marks["树王坟的鬼卒倒了"] = 1 # TEST-ONLY: beaten (its cleared_mark)
+	# DECISIONS「势力线的仗」: fought with real numbers — a character who also explored, at 第五章's
+	# arrival (流云轩 wants 「宝衣一章」), a sword in hand.
+	var before: int = state.progression.combat_experience
+	RealFight.ready_player(session, Arrival.exploring(&"main.chapter5"))
+	var ghoul: NpcRuntimeState = _first(session, TOMB, GHOUL)
+	for second: int in 4:
+		if session.combat_encounter_coordinator().has_active_encounter():
+			break
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+		town.hostilities.process_pending_aggression()
+	if not session.combat_encounter_coordinator().has_active_encounter() and ghoul != null and town.select_npc(ghoul.character_id):
+		town.attack_selected()
+	var steps: int = RealFight.fight_out(session, true)
+	await _settle(tree)
+	WorldSpawnClearings.note(session)
+	_check(steps > 0 and steps < RealFight.MAX_STEPS and RealFight.player_stands(session) and state.marks.get("树王坟的鬼卒倒了", 0) == 1, "the 鬼卒 fought to the end, the player standing (%d steps; 气 %d/%d)" % [steps, state.vitality.current, state.vitality.maximum])
+	state.progression.combat_experience = before # TEST-ONLY: as the rest of the walk had it
 	await _enter(tree, session, N_GATE, N_GATE_POINT)
 	await _enter(tree, session, HEAL, HEAL_POINT)
 	town = await _enter(tree, session, TOMB, TOMB_POINT)
