@@ -165,6 +165,39 @@ class TranslationsTest(unittest.TestCase):
         ]
         self.assertEqual(check_po.problems_in(_po(clean, "ru")), [])
 
+    def test_spanish_rules(self) -> None:
+        cases = {
+            "after written text": ("你给{npc}{item}。", "Le das {item}{:el} a mozo{:el}."),
+            "unknown article mark": ("你给{npc}{item}。", "Le das {item}{:la} a {npc}{:el}."),
+            "with no marked name": ("看见你，放下了手里的扫帚。", "Te ve y queda {~:quieto|quieta}."),
+            "bad agreement": ("你给{npc}{item}。", "{npc}{:el} toma {item}{:el}, {~:contento|contenta|contentos|contentas|contentes}."),
+            "with no number before it": ("你打坐 {count} 次", "Meditación: {#:vez|veces} {count}"),
+            "{:pl} with no number slot": ("你给{npc}{item}。", "Das {item}{:pl} a {npc}{:el}."),
+            "$P/$p in Spanish": ("结果只是轻轻地划破$p的皮肉。", "Apenas roza la piel de $p."),
+            "full width": ("%d 分钟前", "Hace %d {#:minuto|minutos}…"),
+            "with no article mark": ("你给{npc}{item}。", "Das {item}{:el} y {npc} asiente."),
+            "bad player form": ("看见你，放下了手里的扫帚。", "Te ve: \"¡Estás {jugador:cansado|cansada|cansade}!\""),
+            "invents the token": ("{npc}{action}", "$N{:el} {npc}{:el}{action}"),
+            "bad form": ("$N挥拳攻击$n的$l", "$N{:el} {N:golpea} a $n{:el} en $l."),
+            "not paired": ("看见你，放下了手里的扫帚。", "Te ve. Qué raro?"),
+            "(spanish_style.md, Tone: never)": ("看见你，放下了手里的扫帚。", "Te ve y deja la escoba. Vale."),
+            "a Han character": ("店小二", "店小二"),
+        }
+        for label, entry in cases.items():
+            with self.subTest(label=label):
+                problems = check_po.problems_in(_po([entry], "es_419"))
+                self.assertTrue(any(label in problem for problem in problems), problems)
+        clean = [
+            ("你给{npc}{item}。", "Le das {item}{:el} a {npc}{:el}."),
+            ("你打坐 {count} 次", "Meditas {count} {#:vez|veces}."),
+            ("$N挥拳攻击$n的$l", "$N{:el} {n:te golpea|golpea a $n{:el}} en $l."),
+            ("{count}{unit}{item}", "{count} {item}{:pl}"),
+            ("看见你，放下了手里的扫帚。", "Te ve: \"¿Ya {jugador:llegado|llegada}?\""),
+            ("结果只是轻轻地划破$p的皮肉。", "El golpe apenas {n:te roza|le roza|le roza} la piel."),
+            ("{npc}{action}", "{npc}{:el}{action}"),
+        ]
+        self.assertEqual(check_po.problems_in(_po(clean, "es_419")), [])
+
     def test_a_dropped_slot_is_allowed(self) -> None:
         self.assertEqual(check_po.problems_in(_po([("{npc}对你哈哈一笑：{npc}便是{self}！", "{npc} laughs. \"That'd be me!\"")])), [])
 

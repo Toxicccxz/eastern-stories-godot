@@ -45,6 +45,13 @@
 			"translation": "res://locale/ru.po",
 			"preview": true,
 			"fonts": ["Segoe UI", "Helvetica Neue", "Noto Sans", "DejaVu Sans"]
+		},
+		{
+			"code": "es_419",
+			"name": "Español (Latinoamérica) (vista previa)",
+			"translation": "res://locale/es_419.po",
+			"preview": true,
+			"fonts": ["Segoe UI", "Helvetica Neue", "Noto Sans", "DejaVu Sans"]
 		}
 	]
 }
