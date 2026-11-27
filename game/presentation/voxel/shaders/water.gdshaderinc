@@ -1,10 +1,20 @@
 // Water drawn as voxels: blocky ripple glints drifting with the flow, foam where the
-// vertex alpha says a bank or a rock is near. Presentation only; TIME drives it.
+// vertex alpha says a bank or a rock is near. water.gdshader sees through it to the bed;
+// water_opaque.gdshader is the same surface shut (behind a fight's backdrop). Presentation only;
+// TIME drives it.
 uniform vec2 flow = vec2(0.0, 0.0);
 uniform float speed = 0.35;
 uniform vec4 glint : source_color = vec4(0.82, 0.9, 0.9, 1.0);
 uniform vec4 foam : source_color = vec4(0.86, 0.92, 0.9, 1.0);
-uniform float clarity = 1.0;
+// How much of the water's colour is in the first unit of it: 0.5 a mountain spring, 2.5 a dark
+// still pool. Everything under the surface is seen through exp(-depth * murk).
+uniform float murk = 0.9;
+// The colour the light under the surface takes on (the bed seen through a green pool is green).
+uniform vec4 tint : source_color = vec4(0.86, 0.97, 0.95, 1.0);
+// The bright net the sun throws on the bed through the ripples (0: none).
+uniform float caustics = 0.55;
+// How far what is under the surface wobbles as the ripples pass (screen part).
+uniform float refraction = 0.006;
 // The sky seen in the water: a little of its own colour even in a gorge's shade or at night.
 uniform float sky = 0.22;
 // Waves that rise with no wind (泓水's 无风亦起浪): units of height, and how quickly they run.

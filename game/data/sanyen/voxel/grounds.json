@@ -24,7 +24,7 @@
   "wall_looks": [
     {"rect": [928, 1696, 1232, 1920], "style": "boards", "colors": ["b8895a", "c49866", "aa7c50", "bc9060"], "grime": 0.2, "note": "door.c: the gate hall, all of 桧木 (temple.c: 这整座山烟寺都是由上好的桧木搭建而成)"}
   ],
-  "water": {
+  "water": {"life": {"fish": {"kind": "minnow"}, "pebbles": 0.7, "finds": {"kinds": ["coins", "turtle"], "every": 60, "max": 2}, "note": "a temple's little pool: coins thrown in, a turtle let go there"}, 
     "kinds": {"water": {"colors": ["6f9a88", "557e70", "3f6458"], "depth": 48, "flow": [1.0, 0.0], "speed": 0.35, "swell": 0.0, "bank": ["9a988a", "8a887c", "a8a698"], "note": "inner_yard.c: 小桥流水 — clear water over pebbles"}}
   },
   "flora": {
