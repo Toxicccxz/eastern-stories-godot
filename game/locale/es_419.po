@@ -24754,7 +24754,7 @@ msgid "道士冷冷道：上头没有路，有也不是给你走的。"
 msgstr "El taoísta dice con frialdad: \"Allá arriba no hay camino. Y si lo hubiera, no sería para usted.\""
 
 msgid "押车道士厉声道：野羊寨的供都敢劫，不要命了！\n"
-msgstr "El taoísta de escolta grita: \"¿Te atreves a asaltar el tributo del Fuerte de las Cabras? ¿Ya no quieres vivir?\"\n"
+msgstr "El taoísta de escolta grita: \"¿Se atreve a asaltar el tributo del Fuerte de las Cabras? ¿Ya no quiere vivir?\"\n"
 
 msgid "押车道士往裂口上头喊了一声，上面没有人应。\n"
 msgstr "El taoísta de escolta le grita algo a lo alto de la grieta. Allá arriba nadie contesta.\n"
@@ -24874,7 +24874,7 @@ msgid "在下陈显祖。如今是乔阴县衙的人证——总算是个名目�
 msgstr "Soy Chen Xianzu. Ahora, testigo del tribunal de Sombra Alta. Por lo menos es un título."
 
 msgid "我说了：原令只一句，「寻剑，不得扰民一户」。征民夫、拿人的，不是先帝的令。程大人都录下了。"
-msgstr "Ya lo dije: la orden original era una sola línea: \"Buscar la espada sin molestar a una sola familia.\" Reclutar peones y llevarse gente no fue orden del difunto emperador. El magistrado Cheng lo dejó todo por escrito."
+msgstr "Ya lo dije: la orden original era una sola línea: \"Buscar la espada sin molestar a una sola casa.\" Reclutar peones y llevarse gente no fue orden del difunto emperador. El magistrado Cheng lo dejó todo por escrito."
 
 msgid "二十年前念给全队听的那一卷，我抄了一份，藏到今天。该念给公堂听了。"
 msgstr "El rollo que se le leyó a toda la tropa hace veinte años: hice una copia y la escondí hasta hoy. Ya es hora de leerlo ante el tribunal."
@@ -40597,7 +40597,7 @@ msgid "这块腰牌不能随便丢。"
 msgstr "Esta placa no se puede tirar a la ligera."
 
 msgid "一卷黄绫裹着的诏书，只有一行字，先帝的御笔：「寻剑，不得扰民一户。」后头钤着一方御宝，朱色正红。\n"
-msgstr "Un edicto envuelto en seda amarilla, con una sola línea de puño y letra del difunto emperador: \"Buscar la espada sin molestar a una sola familia.\" Detrás lleva estampado un sello imperial, de un rojo bermellón puro."
+msgstr "Un edicto envuelto en seda amarilla, con una sola línea de puño y letra del difunto emperador: \"Buscar la espada sin molestar a una sola casa.\" Detrás lleva estampado un sello imperial, de un rojo bermellón puro."
 
 msgid "先帝的诏书不能随便丢。"
 msgstr "El edicto del difunto emperador no se puede tirar a la ligera."
@@ -40807,7 +40807,7 @@ msgid "兵部的事，问兵部去。"
 msgstr "Lo del Ministerio de Guerra, pregúntalo en el Ministerio de Guerra."
 
 msgid "先帝的寻剑令？老夫当年在场。先帝亲笔，一句话：寻剑，不得扰民一户。后来兵部颁下去的是什么，老夫就不知道了——没人给老夫看。"
-msgstr "¿El Edicto de la Espada del difunto emperador? Este viejo estaba presente. De puño y letra del emperador, una sola frase: buscar la espada sin molestar a una sola familia. Qué fue lo que el Ministerio de Guerra promulgó después, este viejo no lo sabe: nadie se lo mostró."
+msgstr "¿El Edicto de la Espada del difunto emperador? Este viejo estaba presente. De puño y letra del emperador, una sola frase: buscar la espada sin molestar a una sola casa. Qué fue lo que el Ministerio de Guerra promulgó después, este viejo no lo sabe: nadie se lo mostró."
 
 msgid "先帝的事。"
 msgstr "Cosas del difunto emperador."
@@ -40837,7 +40837,7 @@ msgid "接过那卷发黄的抄本，看了很久，手指在最后一个没有�
 msgstr " recibe la copia amarillenta, la mira largo rato y su dedo se detiene un instante sobre el último nombre al que no se puso tinta."
 
 msgid "二十年前的抄本。一句话：寻剑，不得扰民一户。——这是先帝的话，老夫认得。"
-msgstr "Una copia de hace veinte años. Una sola frase: buscar la espada sin molestar a una sola familia. Es palabra del difunto emperador; este viejo la reconoce."
+msgstr "Una copia de hace veinte años. Una sola frase: buscar la espada sin molestar a una sola casa. Es palabra del difunto emperador; este viejo la reconoce."
 
 msgid "铺开一张折子，提笔写了很久。"
 msgstr " extiende un memorial plegado y escribe largo rato con el pincel."
@@ -41170,7 +41170,7 @@ msgid "那一卷不是。字学得像，可是「寻」字最后一笔，我从�
 msgstr "Ese otro no. La letra es una buena imitación, pero el último trazo del carácter \"buscar\" yo nunca lo hago con ese gancho."
 
 msgid "寻剑令是我誊的。先帝口授，一句话：寻剑，不得扰民一户。我誊了一份，先帝用了宝。——后来外头传的那些，不是这一句。"
-msgstr "El Edicto de la Espada lo copié yo. El emperador lo dictó, una sola frase: buscar la espada sin molestar a una sola familia. Hice una copia y el emperador la selló. Lo que después corrió por ahí no es esa frase."
+msgstr "El Edicto de la Espada lo copié yo. El emperador lo dictó, una sola frase: buscar la espada sin molestar a una sola casa. Hice una copia y el emperador la selló. Lo que después corrió por ahí no es esa frase."
 
 msgid "皇上睡得晚。养心殿西暖阁的窗，窗闩是坏的，先帝在时就坏了，没人修。夜里门口有侍卫，窗下没有。"
 msgstr "Su Majestad se acuesta tarde. En la ventana de la cámara cálida oeste del Salón del Cultivo Mental, el pestillo está roto; ya lo estaba cuando vivía el difunto emperador y nadie lo arregló. De noche hay guardias en la puerta, pero bajo la ventana no."
@@ -41386,7 +41386,7 @@ msgid "你走到御案前，把先帝的原令和兵部的抄本并排摊开，�
 msgstr "Caminas hasta el escritorio imperial, extiendes lado a lado la orden original del difunto emperador y la copia del Ministerio de Guerra, y colocas uno por uno los testimonios y las pruebas."
 
 msgid "「寻剑，不得扰民一户。」朝臣们一个一个伸长了脖子。\n"
-msgstr "\"Buscar la espada sin molestar a una sola familia.\" Los cortesanos estiran el cuello uno tras otro."
+msgstr "\"Buscar la espada sin molestar a una sola casa.\" Los cortesanos estiran el cuello uno tras otro."
 
 msgid "槐阳王拒的，是父皇没下过的令。"
 msgstr "Lo que el Príncipe de Huaiyang rechazó fue una orden que nuestro padre nunca dio."
@@ -41575,7 +41575,7 @@ msgid "你揭开封条。匣子里一卷黄绫裹着的诏书，一卷兵部存�
 msgstr "Rompes el sello. En la caja hay un edicto envuelto en seda amarilla, una copia archivada del Ministerio de Guerra y, debajo, unos cuadernos de notas."
 
 msgid "诏书只有一行字，先帝的御笔：「寻剑，不得扰民一户。」后头钤着一方御宝，朱色正红。\n"
-msgstr "El edicto tiene una sola línea, de puño y letra del difunto emperador: \"Buscar la espada sin molestar a una sola familia.\" Detrás lleva estampado un sello imperial, de un rojo bermellón puro."
+msgstr "El edicto tiene una sola línea, de puño y letra del difunto emperador: \"Buscar la espada sin molestar a una sola casa.\" Detrás lleva estampado un sello imperial, de un rojo bermellón puro."
 
 msgid "兵部的复本同一个日子、同一个开头，「寻剑」之后多出三行：「征民夫，设关卡，拿人。」后头盖着兵部的印，旁边还有一方「镇国大将军」印。\n"
 msgstr "La copia del Ministerio de Guerra tiene la misma fecha y el mismo comienzo, pero tras \"Buscar la espada\" añade tres líneas: \"Reclutar peones, poner controles, detener gente.\" Detrás lleva el sello del Ministerio de Guerra y, a su lado, otro sello del \"Gran General Guardián\"."
