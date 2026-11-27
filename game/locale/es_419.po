@@ -5696,7 +5696,7 @@ msgid "尚书府"
 msgstr "Residencia del Ministro"
 
 msgid "封山剑派北宗"
-msgstr "Escuela de la Montaña Vacía, rama norte"
+msgstr "Escuela de la Montaña Vacía, Rama Norte"
 
 msgid "告示"
 msgstr "Aviso"
@@ -11615,7 +11615,7 @@ msgid "岚翁：剑在云台。他不卖，不赏，只问谁拔。"
 msgstr "El Anciano del Viento: la espada está en la Terraza de las Nubes. No la vende ni la regala; solo pregunta quién la desenvaina."
 
 msgid "云台：谁拔旋芒——你自己（十铃里要响六口，先接岚翁的接风三刃）、皇叔（要他已经入朝）、萧辟尘（要带着他的风铃）。"
-msgstr "La Terraza de las Nubes: quién desenvaina Filo Giratorio; tú (seis de las diez campanas deben sonar, y antes hay que aguantar las tres filos del viento del Anciano del Viento), el tío imperial (debe haber vuelto ya a la corte) o Xiao Bichen (debe llevar consigo su campanilla)."
+msgstr "La Terraza de las Nubes: quién desenvaina Filo Giratorio; tú (seis de las diez campanas deben sonar, y antes hay que aguantar los tres filos del viento del Anciano del Viento), el tío imperial (debe haber vuelto ya a la corte) o Xiao Bichen (debe llevar consigo su campanilla)."
 
 msgid "风散了，剑落进你手里。岚翁说：十口铃里有人信你，剑就认你。"
 msgstr "El viento se deshizo y la espada cayó en tu mano. El Anciano del Viento dijo: si entre las diez campanas hay quien confía en ti, la espada te acepta."
@@ -11723,7 +11723,7 @@ msgid "封山（柳淳风）守渡口"
 msgstr "La Montaña Vacía (Liu Chunfeng) defiende el embarcadero"
 
 msgid "北宗（柳绘心）守渡口"
-msgstr "La rama norte (Liu Huixin) defiende el embarcadero"
+msgstr "La Rama Norte (Liu Huixin) defiende el embarcadero"
 
 msgid "晚月庄（蓝止萍）守岸"
 msgstr "La Mansión Luna Tardía (Lan Zhiping) defiende la orilla"
@@ -11828,7 +11828,7 @@ msgid "淳风武馆的门房还是那张桌子。刘安禄的来历，武馆里�
 msgstr "La portería del Salón del Viento Puro sigue con la misma mesa. De dónde viene Liu Anlu, en el salón solo lo saben tres personas."
 
 msgid "淳风武馆照旧每天卯时开门，「剑不外传」四个字还挂在正厅。绮云镇口多了一块「北宗」的木牌，柳淳风从没去看过，也从没叫人摘。"
-msgstr "El Salón del Viento Puro sigue abriendo sus puertas cada día al amanecer, y el lema \"La espada no se enseña a extraños.\" sigue colgado en el salón principal. A la entrada de Tejenubes hay una tablilla de madera nueva, \"Rama norte\"; Liu Chunfeng nunca fue a verla, ni mandó nunca quitarla."
+msgstr "El Salón del Viento Puro sigue abriendo sus puertas cada día al amanecer, y el lema \"La espada no se enseña a extraños.\" sigue colgado en el salón principal. A la entrada de Tejenubes hay una tablilla de madera nueva, \"Rama Norte\"; Liu Chunfeng nunca fue a verla, ni mandó nunca quitarla."
 
 msgid "淳风武馆的内院开了一道侧门，镇上的孩子从那里进出。柳淳风书房朝着内院的那扇窗，一冬天都没有关。"
 msgstr "El Salón del Viento Puro abrió una puerta lateral a su patio interior, y los niños del pueblo entran y salen por ella. La ventana del estudio de Liu Chunfeng que da al patio interior no se cerró en todo el invierno."
@@ -12080,7 +12080,7 @@ msgid "冰下封坛的冰柱里，站着一个年轻人。没有人知道他的�
 msgstr "En el pilar de hielo del Altar del Sello bajo el hielo se alza una figura joven. Nadie sabe su nombre."
 
 msgid "店小二擦着桌子：「小哥您有所不知——前几天有个人从湖那边回来，说湖水清得能看见底。我说，那是人家的功劳，那碗茶不收钱。」"
-msgstr "El mozo de la posada limpia una mesa: \"Usted no lo sabe, joven, pero hace unos días volvió un hombre de por el lago y dijo que el agua está tan clara que se ve el fondo. Yo le dije: eso es obra de alguien. Ese té no se cobra.\""
+msgstr "El mozo de la posada limpia una mesa: \"Usted no lo sabe, joven, pero hace unos días volvió un hombre de por el lago y dijo que el agua está tan clara que se ve el fondo. Yo le dije: eso es obra de alguien; ese té no se cobra.\""
 
 msgid "店小二擦着桌子：「小哥您有所不知——前几天有个人从湖那边回来，说湖底冰里站着一个人。我说，那是替咱们守着的，逢年过节，要给他留一碗酒。」"
 msgstr "El mozo de la posada limpia una mesa: \"Usted no lo sabe, joven, pero hace unos días volvió un hombre de por el lago y dijo que en el hielo del fondo hay alguien de pie. Yo le dije: ese hace guardia por nosotros; en Año Nuevo y en las fiestas hay que guardarle un cuenco de vino.\""
@@ -12182,13 +12182,13 @@ msgid "柳淳风说，盟主回来了，封山总算等到了这一天。"
 msgstr "Liu Chunfeng dice que el Líder de la Alianza volvió, y que la Montaña Vacía por fin vio llegar este día."
 
 msgid "北宗在虹台上有了一个座。柳淳风关了武馆的门，一天没有出来。"
-msgstr "La rama norte tiene un asiento en la Terraza del Arcoíris. Liu Chunfeng cerró las puertas del salón y no salió en todo el día."
+msgstr "La Rama Norte tiene un asiento en la Terraza del Arcoíris. Liu Chunfeng cerró las puertas del salón y no salió en todo el día."
 
 msgid "封山的人那天没能上山。柳淳风回来，只说了一句：明年再去。"
 msgstr "La gente de la Montaña Vacía no llegó arriba aquel día. Cuando Liu Chunfeng volvió, solo dijo: el año que viene volveremos."
 
 msgid "北宗的人那天没能上山。柳淳风在武馆里听说了，一句话也没有说。"
-msgstr "La gente de la rama norte no llegó arriba aquel día. Liu Chunfeng se enteró en el salón, y no dijo ni una palabra."
+msgstr "La gente de la Rama Norte no llegó arriba aquel día. Liu Chunfeng se enteró en el salón, y no dijo ni una palabra."
 
 msgid "饮风客栈照旧开门。店小二说，正月十七那天，镇上的人都在等山上的消息。"
 msgstr "La Posada Bebeviento sigue abriendo sus puertas. El mozo dice que el diecisiete del primer mes todo el pueblo estaba esperando noticias de la montaña."
@@ -12254,7 +12254,7 @@ msgid "你是封山剑派的弟子，师父是柳淳风。"
 msgstr "Eres {jugador:discípulo|discípula} de la Escuela de la Montaña Vacía, y tu Shifu es Liu Chunfeng."
 
 msgid "你是封山剑派北宗的人，和柳绘心同辈。"
-msgstr "Perteneces a la rama norte de la Escuela de la Montaña Vacía, de la misma generación que Liu Huixin."
+msgstr "Perteneces a la Rama Norte de la Escuela de la Montaña Vacía, de la misma generación que Liu Huixin."
 
 msgid "柳淳风认得老岑的信：淳风武馆的门，你随时进。"
 msgstr "Liu Chunfeng reconoció la carta del viejo Cen: la puerta del Salón del Viento Puro está abierta para ti cuando quieras."
@@ -12284,10 +12284,10 @@ msgid "柳绘心读到了父亲年轻时写的书。是你给她的。"
 msgstr "Liu Huixin leyó el libro que su padre escribió de joven. Tú se lo diste."
 
 msgid "柳淳风认你是掌门传人，「点」字诀是他亲传的。北宗的牌子挂在绮云镇口。"
-msgstr "Liu Chunfeng te reconoce como {jugador:heredero|heredera} del Maestro, y él mismo te enseñó el secreto \"Punto\". El letrero de la rama norte cuelga a la entrada de Tejenubes."
+msgstr "Liu Chunfeng te reconoce como {jugador:heredero|heredera} del Maestro, y él mismo te enseñó el secreto \"Punto\". El letrero de la Rama Norte cuelga a la entrada de Tejenubes."
 
 msgid "你跟柳绘心立了北宗。柳淳风不再教你，武馆的门还开着。"
-msgstr "Fundaste la rama norte con Liu Huixin. Liu Chunfeng ya no te enseña; la puerta del salón sigue abierta."
+msgstr "Fundaste la Rama Norte con Liu Huixin. Liu Chunfeng ya no te enseña; la puerta del salón sigue abierta."
 
 msgid "正月十七，封山那一票听你的。"
 msgstr "El diecisiete del primer mes, el voto de la Montaña Vacía es tuyo."
@@ -12533,7 +12533,7 @@ msgid "你走出了桃林，骆云舟认你做桃林的客。"
 msgstr "Saliste de la Arboleda de duraznos, y Luo Yunzhou te recibe como huésped de la arboleda."
 
 msgid "你在曼雩台上问过了剑：风泉剑灵在「剑神如意」之前收了剑。"
-msgstr "Probaste la espada en la Terraza de la Danza de Lluvia: el Alma de la Fuente del Viento envainó antes de llegar a \"Dios de la espada a voluntad\"."
+msgstr "Probaste la espada en la Terraza de la Danza de Lluvia: el Alma de la Fuente del Viento envainó antes de llegar a \"Dios de la Espada a voluntad\"."
 
 msgid "骆云舟托你给他十年没说过话的大哥骆建章送一封家书。"
 msgstr "Luo Yunzhou te pidió llevar una carta de familia a su hermano mayor, Luo Jianzhang, que lleva diez años sin hablarle."
@@ -12836,10 +12836,10 @@ msgid "内院里，柳绘心在教外人学封山剑——镇上交不起拜师�
 msgstr "En el patio interior, Liu Huixin enseña la espada de la Montaña Vacía a gente de fuera: niños del pueblo que no pueden pagar la cuota de ingreso. Liu Chunfeng los sorprende."
 
 msgid "封山要分南北了。跟柳淳风守本宗（问他「本宗」）：剑不外传，他亲传「点」字诀，你是掌门传人，柳绘心离开武馆。跟柳绘心立北宗（问她「北宗」）：剑往外传，她教你「点」字诀，你转入北宗，柳淳风不再教你。"
-msgstr "La Montaña Vacía va a partirse en norte y sur. Seguir a Liu Chunfeng en la escuela original (preguntarle por \"Nuestra escuela\"): la espada no se enseña a extraños, él mismo te transmite el secreto \"Punto\", quedas como {jugador:heredero|heredera} del Maestro y Liu Huixin deja el salón. Fundar la rama norte con Liu Huixin (preguntarle por \"Rama norte\"): la espada se enseña a quien venga, ella te enseña el secreto \"Punto\", pasas a la rama norte y Liu Chunfeng ya no te enseña."
+msgstr "La Montaña Vacía va a partirse en norte y sur. Seguir a Liu Chunfeng en la escuela original (preguntarle por \"Nuestra escuela\"): la espada no se enseña a extraños, él mismo te transmite el secreto \"Punto\", quedas como {jugador:heredero|heredera} del Maestro y Liu Huixin deja el salón. Fundar la Rama Norte con Liu Huixin (preguntarle por \"Rama Norte\"): la espada se enseña a quien venga, ella te enseña el secreto \"Punto\", pasas a la Rama Norte y Liu Chunfeng ya no te enseña."
 
 msgid "你跟了柳淳风：封山只有一宗，剑不外传。他把「点」字诀传给了你。柳绘心带着「北宗」两个字去了绮云镇。"
-msgstr "Te quedaste con Liu Chunfeng: la Montaña Vacía tiene una sola rama, y la espada no se enseña a extraños. Él te transmitió el secreto \"Punto\". Liu Huixin se llevó las palabras \"rama norte\" a Tejenubes."
+msgstr "Te quedaste con Liu Chunfeng: la Montaña Vacía tiene una sola rama, y la espada no se enseña a extraños. Él te transmitió el secreto \"Punto\". Liu Huixin se llevó las palabras \"Rama Norte\" a Tejenubes."
 
 msgid "在封山的南北之争里守了本宗"
 msgstr "Te mantuviste en la escuela original cuando la Montaña Vacía se dividió en norte y sur"
@@ -12848,10 +12848,10 @@ msgid "掌门传人"
 msgstr "{jugador:Heredero del Maestro|Heredera del Maestro}"
 
 msgid "你跟了柳绘心：北宗的剑往外传。她把自己悟的「点」字诀教给了你。柳淳风不再教你。"
-msgstr "Te fuiste con Liu Huixin: la espada de la rama norte se enseña a quien venga. Ella te enseñó el secreto \"Punto\" tal como lo entendió por sí misma. Liu Chunfeng ya no te enseña."
+msgstr "Te fuiste con Liu Huixin: la espada de la Rama Norte se enseña a quien venga. Ella te enseñó el secreto \"Punto\" tal como lo entendió por sí misma. Liu Chunfeng ya no te enseña."
 
 msgid "和柳绘心立了封山剑派北宗"
-msgstr "Fundaste con Liu Huixin la rama norte de la Escuela de la Montaña Vacía"
+msgstr "Fundaste con Liu Huixin la Rama Norte de la Escuela de la Montaña Vacía"
 
 msgid "拜了天邪派，水烟阁的门就由你守一回。"
 msgstr "Únete a la Escuela Rebelde, y te tocará guardar una vez el portal del Pabellón de la Neblina."
@@ -13679,10 +13679,10 @@ msgid "你离了步玄派。曼雩台上的事，到此为止。"
 msgstr "Dejaste la Escuela del Paso Místico. Lo de la Terraza de la Danza de Lluvia termina aquí."
 
 msgid "问乔阴曼雩台的骆云舟「风泉」，再问他「问剑」：他把风泉之剑插在台边的青石上。天黑以后（夜晚、午夜）剑灵站在石前——跟它切磋，在它念到第四句「剑神如意」之前打中它。"
-msgstr "Preguntar a Luo Yunzhou, en la Terraza de la Danza de Lluvia de Sombra Alta, por \"Fuente del Viento\", y luego por \"Probar la espada\": clava la Espada de la Fuente del Viento en la piedra azul del borde de la terraza. Después del anochecer (de noche, a medianoche) el espíritu de la espada aparece ante la piedra: entrenar con él y golpearlo antes de que llegue al cuarto verso, \"Dios de la espada a voluntad\"."
+msgstr "Preguntar a Luo Yunzhou, en la Terraza de la Danza de Lluvia de Sombra Alta, por \"Fuente del Viento\", y luego por \"Probar la espada\": clava la Espada de la Fuente del Viento en la piedra azul del borde de la terraza. Después del anochecer (de noche, a medianoche) el espíritu de la espada aparece ante la piedra: entrenar con él y golpearlo antes de que llegue al cuarto verso, \"Dios de la Espada a voluntad\"."
 
 msgid "剑灵在「剑神如意」之前收了剑。骆云舟说：步玄认你。"
-msgstr "El espíritu de la espada envainó antes de \"Dios de la espada a voluntad\". Luo Yunzhou dice: \"El Paso Místico te acepta.\""
+msgstr "El espíritu de la espada envainó antes de \"Dios de la Espada a voluntad\". Luo Yunzhou dice: \"El Paso Místico te acepta.\""
 
 msgid "在曼雩台上问过了剑，见过了风泉剑灵"
 msgstr "Probaste la espada en la Terraza de la Danza de Lluvia y viste el Alma de la Fuente del Viento"
@@ -13976,7 +13976,7 @@ msgid "封山剑派：等盟主回来"
 msgstr "Escuela de la Montaña Vacía: espera a que vuelva el Líder de la Alianza"
 
 msgid "封山剑派：投颜违——颜违许了北宗一个座"
-msgstr "Escuela de la Montaña Vacía: vota por Yan Wei; él le prometió un asiento a la rama norte"
+msgstr "Escuela de la Montaña Vacía: vota por Yan Wei; él le prometió un asiento a la Rama Norte"
 
 msgid "封山剑派：听你的"
 msgstr "Escuela de la Montaña Vacía: va contigo"
@@ -14093,7 +14093,7 @@ msgid "饮风客栈的店小二递来一张请柬：正月十七，水烟阁外�
 msgstr "El mozo de la Posada Bebeviento te entrega una invitación: el diecisiete del primer mes, en la Terraza del Arcoíris, fuera del Pabellón de la Neblina."
 
 msgid "上虹台之前，九派可以各走一趟：问各派掌门「虹台」，听他们这一票投谁、为什么；话里留了余地的，还可以请他改一改（先确认）。封山剑派——雪亭镇淳风武馆的柳淳风（跟了北宗的，问内院的柳绘心）；天邪派——水烟阁正厅的潘军禅；振远镖局——绮云镇的陈剑秋；茅山派——灵心观的林忌；晚月庄——庄主蓝止萍；山烟寺——住持玄智和尚；步玄派——乔阴县城的骆云舟；花紫会——乔阴的陆得财；绝尘派——青石村的绝尘子（了尘下了山的，问日照山流云轩的了尘）。虹台在水烟阁葬剑亭往南的石阶上；人到了，在擎天柱前「入席」（先确认：入了席就不能再游说、改票）。"
-msgstr "Antes de subir a la Terraza del Arcoíris, puedes visitar a cada una de las nueve escuelas: preguntar al Maestro de cada escuela por \"Terraza del Arcoíris\" y oír por quién va su voto, y por qué; si en lo que dicen dejan margen, también puedes pedirles que lo cambien (se te preguntará antes). Escuela de la Montaña Vacía: Liu Chunfeng, en el Salón del Viento Puro de Pabellón Nevado (si te fuiste con la rama norte, Liu Huixin, en el patio interior); Escuela Rebelde: Pan Junchan, en el Salón principal de la Neblina; Escoltas del Largo Camino: Chen Jianqiu, en Tejenubes; Escuela del Monte Mao: Lin Ji, en el Monasterio del Corazón Claro; Mansión Luna Tardía: la señora de la mansión, Lan Zhiping; Templo de la Bruma: el abad, el monje Xuanzhi; Escuela del Paso Místico: Luo Yunzhou, en Sombra Alta; Hermandad de los Mendigos: Lu Decai, en Sombra Alta; Escuela del Desapego: Juechenzi, de la Aldea Piedra Azul (si Liaochen bajó de la montaña, Liaochen, en el Cenador de las Nubes Errantes del Monte Soleado). La Terraza del Arcoíris está subiendo los escalones de piedra al sur del Templete de la Tumba de Espadas del Pabellón de la Neblina; una vez allí, elegir \"tomar asiento\" ante el Pilar del cielo (se te preguntará antes: una vez en tu asiento, ya no puedes hacer campaña ni cambiar votos)."
+msgstr "Antes de subir a la Terraza del Arcoíris, puedes visitar a cada una de las nueve escuelas: preguntar al Maestro de cada escuela por \"Terraza del Arcoíris\" y oír por quién va su voto, y por qué; si en lo que dicen dejan margen, también puedes pedirles que lo cambien (se te preguntará antes). Escuela de la Montaña Vacía: Liu Chunfeng, en el Salón del Viento Puro de Pabellón Nevado (si te fuiste con la Rama Norte, Liu Huixin, en el patio interior); Escuela Rebelde: Pan Junchan, en el Salón principal de la Neblina; Escoltas del Largo Camino: Chen Jianqiu, en Tejenubes; Escuela del Monte Mao: Lin Ji, en el Monasterio del Corazón Claro; Mansión Luna Tardía: la señora de la mansión, Lan Zhiping; Templo de la Bruma: el abad, el monje Xuanzhi; Escuela del Paso Místico: Luo Yunzhou, en Sombra Alta; Hermandad de los Mendigos: Lu Decai, en Sombra Alta; Escuela del Desapego: Juechenzi, de la Aldea Piedra Azul (si Liaochen bajó de la montaña, Liaochen, en el Cenador de las Nubes Errantes del Monte Soleado). La Terraza del Arcoíris está subiendo los escalones de piedra al sur del Templete de la Tumba de Espadas del Pabellón de la Neblina; una vez allí, elegir \"tomar asiento\" ante el Pilar del cielo (se te preguntará antes: una vez en tu asiento, ya no puedes hacer campaña ni cambiar votos)."
 
 msgid "正月十七，你上了虹台。"
 msgstr "El diecisiete del primer mes, subiste a la Terraza del Arcoíris."
@@ -16067,13 +16067,13 @@ msgid "爹爹在天驼关写过一卷书，我只听李教头提过一句。他�
 msgstr "Papá escribió un libro en el Paso del Camello; solo oí al instructor Li mencionarlo una vez. Nunca me deja verlo."
 
 msgid "北宗"
-msgstr "Rama norte"
+msgstr "Rama Norte"
 
 msgid "跟柳绘心立北宗：封山的剑往外传。\n你转入封山剑派北宗，和她同辈；她把自己悟出来的「点」字诀教给你。柳淳风不再教你武功，「掌门传人」的名分没有了。这不算叛师：评价不清零，也不记背叛。封山在虹台上的那一票，会被颜违拿「给北宗一个座」来换（已经入了虹台的席的，这一票不再跟着变）。\n这是封山这条线的大分裂，选了不能改。要跟她吗？"
-msgstr "Fundar la rama norte con Liu Huixin: la espada de la Montaña Vacía se enseñará a los de fuera.\nPasas a la rama norte de la Escuela de la Montaña Vacía, como su igual, y ella te enseña la técnica del \"Punto\" que descubrió por sí misma. Liu Chunfeng ya no te enseñará artes marciales y pierdes la condición de {jugador:heredero|heredera} del Maestro. Esto no cuenta como traicionar a tu Shifu: tu reputación no se pone a cero ni queda registrada ninguna traición. Yan Wei cambiará el voto de la Montaña Vacía en la Terraza del Arcoíris por \"un asiento para la rama norte\" (si ya se ocuparon los asientos de la Terraza del Arcoíris, ese voto ya no cambia).\nEs la gran escisión de la línea de la Montaña Vacía y no se puede deshacer. ¿Irte con ella?"
+msgstr "Fundar la Rama Norte con Liu Huixin: la espada de la Montaña Vacía se enseñará a los de fuera.\nPasas a la Rama Norte de la Escuela de la Montaña Vacía, como su igual, y ella te enseña la técnica del \"Punto\" que descubrió por sí misma. Liu Chunfeng ya no te enseñará artes marciales y pierdes la condición de {jugador:heredero|heredera} del Maestro. Esto no cuenta como traicionar a tu Shifu: tu reputación no se pone a cero ni queda registrada ninguna traición. Yan Wei cambiará el voto de la Montaña Vacía en la Terraza del Arcoíris por \"un asiento para la Rama Norte\" (si ya se ocuparon los asientos de la Terraza del Arcoíris, ese voto ya no cambia).\nEs la gran escisión de la línea de la Montaña Vacía y no se puede deshacer. ¿Irte con ella?"
 
 msgid "北宗现在有两个人了。"
-msgstr "Ahora la rama norte somos dos."
+msgstr "Ahora la Rama Norte somos dos."
 
 msgid "你选了爹爹那一边。我不怪你。"
 msgstr "Elegiste el lado de papá. No te culpo."
@@ -16082,7 +16082,7 @@ msgid "的眼圈红了一下，很快又忍了回去。"
 msgstr " tiene los ojos enrojecidos un instante, pero enseguida se contiene."
 
 msgid "那北宗就有两个人了。"
-msgstr "Entonces la rama norte somos dos."
+msgstr "Entonces la Rama Norte somos dos."
 
 msgid "「点」字诀爹爹没教过我，是我自己看他练剑悟的：劲不在手臂上，在剑尖上。你看——"
 msgstr "Papá nunca me enseñó la técnica del 'Punto'; la descubrí yo sola viéndolo practicar con la espada: la fuerza no está en el brazo, está en la punta. Mira..."
@@ -16097,7 +16097,7 @@ msgid "爹爹不会再教你了。对不起。……可是阿桂他们，往后�
 msgstr "Papá ya no te va a enseñar. Lo siento. ...Pero Agui y los demás, de ahora en adelante, también son tus hermanos menores de escuela."
 
 msgid "北宗？绮云镇口的公告上还这么写呢。爹爹说那是旧名。"
-msgstr "¿La rama norte? El aviso a la entrada de Tejenubes todavía lo dice. Papá dice que es un nombre viejo."
+msgstr "¿La Rama Norte? El aviso a la entrada de Tejenubes todavía lo dice. Papá dice que es un nombre viejo."
 
 msgid "劲不在手臂上，在剑尖上。内力不够别使，剑会脱手。"
 msgstr "La fuerza no está en el brazo, está en la punta. No la uses si te falta fuerza interior, o la espada se te escapará de la mano."
@@ -16106,13 +16106,13 @@ msgid "爹爹练剑的时候，我在窗后头看过。"
 msgstr "Cuando papá practicaba con la espada, yo lo miraba desde detrás de la ventana."
 
 msgid "正月十七的事过去了。北宗的剑，照旧教人。"
-msgstr "Lo del diecisiete del primer mes ya pasó. La espada de la rama norte se sigue enseñando."
+msgstr "Lo del diecisiete del primer mes ya pasó. La espada de la Rama Norte se sigue enseñando."
 
 msgid "北宗这一票，正月十七照你说的投。"
-msgstr "El voto de la rama norte, el diecisiete del primer mes, irá como tú digas."
+msgstr "El voto de la Rama Norte, el diecisiete del primer mes, irá como tú digas."
 
 msgid "颜违许了北宗一个座。北宗能在虹台上坐下来，是你陪我走出来的——这一票投颜违，是说好了的。"
-msgstr "Yan Wei le prometió un asiento a la rama norte. Si la rama norte puede sentarse en la Terraza del Arcoíris, es porque tú saliste conmigo; este voto va para Yan Wei, así quedamos."
+msgstr "Yan Wei le prometió un asiento a la Rama Norte. Si la Rama Norte puede sentarse en la Terraza del Arcoíris, es porque tú saliste conmigo; este voto va para Yan Wei, así quedamos."
 
 msgid "把剑在膝上横过来，想了想。"
 msgstr " se pone la espada atravesada sobre las rodillas y lo piensa."
@@ -16124,19 +16124,19 @@ msgid "虹台？那是爹爹的事。"
 msgstr "¿La Terraza del Arcoíris? Eso es cosa de papá."
 
 msgid "请柳绘心把北宗这一票交给你：正月十七虹台上，封山的座听你的——颜违许的那个座还是北宗的，这一票不再投他。\n要这么说吗？"
-msgstr "Pedirle a Liu Huixin que te entregue el voto de la rama norte: el diecisiete del primer mes, en la Terraza del Arcoíris, el asiento de la Montaña Vacía irá como tú digas. El asiento que prometió Yan Wei sigue siendo de la rama norte, pero el voto ya no será para él.\n¿Decírselo?"
+msgstr "Pedirle a Liu Huixin que te entregue el voto de la Rama Norte: el diecisiete del primer mes, en la Terraza del Arcoíris, el asiento de la Montaña Vacía irá como tú digas. El asiento que prometió Yan Wei sigue siendo de la Rama Norte, pero el voto ya no será para él.\n¿Decírselo?"
 
 msgid "封山那一票在爹爹手里。你去问他。"
 msgstr "El voto de la Montaña Vacía lo tiene papá. Pregúntale a él."
 
 msgid "说过了。北宗听你的。"
-msgstr "Ya lo hablamos. La rama norte va contigo."
+msgstr "Ya lo hablamos. La Rama Norte va contigo."
 
 msgid "笑了一下。"
 msgstr " sonríe un poco."
 
 msgid "好。北宗的座，听你的。"
-msgstr "Bien. El asiento de la rama norte será como tú digas."
+msgstr "Bien. El asiento de la Rama Norte será como tú digas."
 
 msgid "这是爹爹收起来的那一卷……你从哪里拿来的？还回去吧。"
 msgstr "Este es el libro que papá guardó... ¿De dónde lo sacaste? Devuélvelo."
@@ -16163,7 +16163,7 @@ msgid "这上头是……爹爹的名字？你先去见过爹爹再说吧。"
 msgstr "Aquí arriba dice... ¿el nombre de papá? Ve primero a ver a papá."
 
 msgid "北宗就我们两个人，打坏了谁教阿桂他们？"
-msgstr "En la rama norte solo somos dos; si uno sale herido, ¿quién les enseña a Agui y los demás?"
+msgstr "En la Rama Norte solo somos dos; si uno sale herido, ¿quién les enseña a Agui y los demás?"
 
 msgid "师姐！别整天想著练功嘛，我们去花园摘花儿玩嘛？"
 msgstr "¡Hermana mayor! No pienses todo el día en entrenar. ¿Vamos al jardín a cortar flores?"
@@ -18424,7 +18424,7 @@ msgid "问剑"
 msgstr "Prueba de la espada"
 
 msgid "剑灵在「剑神如意」之前收了剑——它认你了。"
-msgstr "El alma de la espada guardó la espada antes de 'Dios de la espada a voluntad': te ha reconocido."
+msgstr "El alma de la espada guardó la espada antes de 'Dios de la Espada a voluntad': te ha reconocido."
 
 msgid "步玄认你。"
 msgstr "El Paso Místico te reconoce."
@@ -18436,7 +18436,7 @@ msgid "四句念完了，剑灵回了剑。今夜到此——明晚天黑了再�
 msgstr "Terminadas las cuatro frases, el alma volvió a la espada. Hoy se acaba aquí; vuelve mañana cuando oscurezca."
 
 msgid "剑在石台上。天黑以后它就出来——跟它切磋，赶在「剑神如意」之前。"
-msgstr "La espada está en la plataforma de piedra. Cuando oscurezca saldrá: mídete con ella y gana antes de 'Dios de la espada a voluntad'."
+msgstr "La espada está en la plataforma de piedra. Cuando oscurezca saldrá: mídete con ella y gana antes de 'Dios de la Espada a voluntad'."
 
 msgid "走到台边那块青石前，把风泉之剑往石缝里一插，剑身「嗡」地响了一声。"
 msgstr " va hasta la piedra azul del borde de la plataforma, clava la Espada de la Fuente del Viento en la grieta y la hoja suena con un \"zumbido\"."
@@ -18445,7 +18445,7 @@ msgid "天黑了，剑灵就站在这块石头前。跟它切磋——它念一�
 msgstr "Al oscurecer, el alma de la espada estará ante esta piedra. Mídete con ella: por cada frase que recita, se hace un poco más fuerte."
 
 msgid "念到第四句「剑神如意」之前打中它，就算过了。念完了，今夜就到此，明晚再来。"
-msgstr "Si la golpeas antes de la cuarta frase, 'Dios de la espada a voluntad', has pasado. Si termina de recitar, hoy se acaba aquí; vuelve mañana por la noche."
+msgstr "Si la golpeas antes de la cuarta frase, 'Dios de la Espada a voluntad', has pasado. Si termina de recitar, hoy se acaba aquí; vuelve mañana por la noche."
 
 msgid "问剑？"
 msgstr "¿Prueba de la espada?"
@@ -18607,7 +18607,7 @@ msgid "剑芒游光 ..."
 msgstr "El filo de la espada vaga en destellos..."
 
 msgid "剑神如意！"
-msgstr "¡Dios de la espada a voluntad!"
+msgstr "¡Dios de la Espada a voluntad!"
 
 msgid "一阵蓝光笼罩住$N，「嗡」地一声，$N的轮廓又变清晰了一些！"
 msgstr "Una luz azul envuelve a $N{:el}. Con un zumbido, el contorno de $N{:el} se vuelve un poco más nítido."
@@ -20101,7 +20101,7 @@ msgid "这位$RESPECT身上没什么新伤，用不着看。"
 msgstr "No tiene heridas nuevas, $RESPECT. No hace falta revisarlo."
 
 msgid "封山剑派北宗是封山剑派里的一支，剑法、拳脚和内功都与本宗同出一源。绮云镇口的公告上，至今还写着「封山剑派北宗所在的雪亭镇」。"
-msgstr "La rama norte de la Escuela de la Montaña Vacía es una rama de la escuela; su espada, sus artes de puño y su neigong comparten origen con la rama principal. En el anuncio de la entrada de Tejenubes todavía pone «Pabellón Nevado, donde se halla la Escuela de la Montaña Vacía, rama norte»."
+msgstr "La Rama Norte de la Escuela de la Montaña Vacía es una rama de la escuela; su espada, sus artes de puño y su neigong comparten origen con la rama principal. En el anuncio de la entrada de Tejenubes todavía pone «Pabellón Nevado, donde se halla la Escuela de la Montaña Vacía, Rama Norte»."
 
 msgid "振远镖局是京师第一大镖局，在京城一带几乎无人不知其名，绮云镇上也有振远的镖局。镖局里的人走镖凭的是一手春风快意刀。走镖危险，镖局收人先看胆识。"
 msgstr "Los Escoltas del Largo Camino son la mayor agencia de escoltas de la Capital; en la zona de la Capital casi nadie desconoce su nombre, y también tienen una agencia en Tejenubes. Su gente escolta con la maña del Sable despreocupado de la brisa primaveral. Escoltar es peligroso, y la agencia acepta primero a quien tiene valor."
@@ -20155,7 +20155,7 @@ msgid "本宗"
 msgstr "Rama principal"
 
 msgid "跟柳淳风守本宗：封山的剑不外传。\n他亲传你「点」字诀，你是掌门传人；柳绘心会离开武馆，带着「北宗」两个字去绮云镇。封山在虹台上的那一票跟着柳淳风——等盟主回来（已经入了虹台的席的，这一票不再跟着变）。\n这是封山这条线的大分裂，选了不能改。要跟师父吗？"
-msgstr "Quedarte con Liu Chunfeng y la rama principal: la espada de la Montaña Vacía no se enseña a extraños.\nÉl te enseña en persona el secreto de la «punta», y eres quien hereda la dirección de la escuela; Liu Huixin dejará el salón y se irá a Tejenubes con el nombre de «rama norte». El voto de la Montaña Vacía en la Terraza del Arcoíris sigue a Liu Chunfeng: a esperar al Líder de la Alianza (si ya has tomado asiento en la Terraza, ese voto ya no cambia).\nEs la gran ruptura de la línea de la Montaña Vacía, y lo que elijas no se puede cambiar. ¿Seguir al Shifu?"
+msgstr "Quedarte con Liu Chunfeng y la rama principal: la espada de la Montaña Vacía no se enseña a extraños.\nÉl te enseña en persona el secreto de la «punta», y eres quien hereda la dirección de la escuela; Liu Huixin dejará el salón y se irá a Tejenubes con el nombre de «Rama Norte». El voto de la Montaña Vacía en la Terraza del Arcoíris sigue a Liu Chunfeng: a esperar al Líder de la Alianza (si ya has tomado asiento en la Terraza, ese voto ya no cambia).\nEs la gran ruptura de la línea de la Montaña Vacía, y lo que elijas no se puede cambiar. ¿Seguir al Shifu?"
 
 msgid "虹台上的事还没完。等散了会再说。"
 msgstr "Lo de la Terraza del Arcoíris aún no ha terminado. Hablamos cuando la asamblea se disperse."
@@ -20251,7 +20251,7 @@ msgid "把手里的茶盏放下，半晌没有说话。"
 msgstr " deja la taza de té que tiene en la mano y pasa un buen rato sin decir palabra."
 
 msgid "颜违许了北宗一个座。北宗的人上得了虹台，封山这一票，就跟着颜违走了。"
-msgstr "Yan Wei le prometió un asiento a la rama norte. Si la gente de la rama norte llega a la Terraza del Arcoíris, el voto de la Montaña Vacía se va con Yan Wei."
+msgstr "Yan Wei le prometió un asiento a la Rama Norte. Si la gente de la Rama Norte llega a la Terraza del Arcoíris, el voto de la Montaña Vacía se va con Yan Wei."
 
 msgid "那一票不在我手里。你要说什么，去内院同绘心说。"
 msgstr "Ese voto no está en mis manos. Lo que tengas que decir, díselo a Huixin, en el patio interior."
@@ -20293,7 +20293,7 @@ msgid "……"
 msgstr "..."
 
 msgid "规矩是规矩。北宗的人，我不能再教了。"
-msgstr "Las reglas son las reglas. A la gente de la rama norte ya no puedo enseñarla."
+msgstr "Las reglas son las reglas. A la gente de la Rama Norte ya no puedo enseñarla."
 
 msgid "这卷书，你不是已经给了绘心么。……拿回去还她。"
 msgstr "Este libro, ¿no se lo habías dado ya a Huixin? ...Devuélveselo."
@@ -20356,7 +20356,7 @@ msgid "刘兄弟的来历，五年前我就知道。你替他担了这句话—�
 msgstr "Hace cinco años que sé de dónde viene el hermano Liu. Tú cargaste con esa palabra por él; de ahora en adelante, cárgala también por el salón."
 
 msgid "你跟了绘心，就是北宗的人。本宗的门，我不能再为你开。"
-msgstr "Te fuiste con Huixin, así que eres de la rama norte. La puerta de la rama principal ya no puedo abrírtela."
+msgstr "Te fuiste con Huixin, así que eres de la Rama Norte. La puerta de la rama principal ya no puedo abrírtela."
 
 msgid "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？"
 msgstr "Quien aprende la espada debe ser audaz y cuidadoso. A mi juicio, $RESPECT, tus dotes no parecen las adecuadas."
@@ -23725,7 +23725,7 @@ msgid "这里是雪亭镇通往绮云镇的必经之路。南面就是绮云镇�
 msgstr "Este es el camino obligado de Pabellón Nevado a Tejenubes. Al sur está Tejenubes; al norte se va a la Loma del Dragón Dormido. Hace tiempo, las autoridades quisieron abrir aquí un camino ancho que uniera los dos pueblos, pero el terreno lo impidió y, como además en la loma suele haber bandidos, tuvieron que dejarlo. Aunque es un camino de tierra, pasa mucha gente y el suelo ya está muy aplanado de tanto pisarlo."
 
 msgid "这里是绮云镇的入口。绮云镇是坐落在泓水北岸的一个大镇, 以其商业\n发达和盛产茶叶而为来往客商们所青睐。北边过了卧龙岗就是著名的\n封山剑派北宗所在的雪亭镇; 镇南有个渡口, 过了江就是少林的支脉 \n-- 山烟寺。镇上很是热闹, 在这里就能听到南边集市上传来的叫卖声。\n入口处有个官府的公告, 不知是写了些什么。 \n"
-msgstr "Esta es la entrada de Tejenubes, un pueblo grande en la orilla norte del Río Hondo, preferido por los comerciantes que van y vienen por su comercio floreciente y su abundante té. Al norte, pasada la Loma del Dragón Dormido, está Pabellón Nevado, sede de la célebre rama norte de la Escuela de la Montaña Vacía; al sur del pueblo hay un embarcadero y, al otro lado del río, una rama de Shaolin: el Templo de la Bruma. El pueblo es muy animado, y desde aquí se oyen los pregones del mercado del sur.\nEn la entrada hay un aviso del gobierno; quién sabe qué dice."
+msgstr "Esta es la entrada de Tejenubes, un pueblo grande en la orilla norte del Río Hondo, preferido por los comerciantes que van y vienen por su comercio floreciente y su abundante té. Al norte, pasada la Loma del Dragón Dormido, está Pabellón Nevado, sede de la célebre Rama Norte de la Escuela de la Montaña Vacía; al sur del pueblo hay un embarcadero y, al otro lado del río, una rama de Shaolin: el Templo de la Bruma. El pueblo es muy animado, y desde aquí se oyen los pregones del mercado del sur.\nEn la entrada hay un aviso del gobierno; quién sabe qué dice."
 
 msgid "这里是绮云镇的北市场，再向北就是镇口了。\n    一股茶香与腥膻相混合的气味扑鼻而来，西首铺子外挂着个牛头;\n东面是家二层的茶楼，金字招牌十分晃眼。\n"
 msgstr "Este es el Mercado norte de Tejenubes; más al norte queda la entrada del pueblo.\nTe llega de golpe un olor a té mezclado con el de la carne cruda. Fuera de la tienda del lado oeste cuelga una cabeza de buey; al este hay una casa de té de dos pisos, con un letrero de letras doradas que deslumbra."
@@ -25735,7 +25735,7 @@ msgid "绘心。"
 msgstr "Huixin."
 
 msgid "封山的剑不外传。雪亭这一支本来叫北宗；我接了掌门，才并回本宗，把这两个字去了——并回去的条件只有一条：剑不外传。"
-msgstr "La espada de la Montaña Vacía no se enseña a los de fuera. Esta rama de Pabellón Nevado se llamaba antes Rama norte; cuando asumí como Maestro, la reuní con la escuela principal y quité ese nombre. Para reunirla hubo una sola condición: la espada no se enseña a los de fuera."
+msgstr "La espada de la Montaña Vacía no se enseña a los de fuera. Esta rama de Pabellón Nevado se llamaba antes Rama Norte; cuando asumí como Maestro, la reuní con la escuela principal y quité ese nombre. Para reunirla hubo una sola condición: la espada no se enseña a los de fuera."
 
 msgid "去了两个字，剑就不是封山的剑了么？阿桂他爹去年死在卧龙岗的强盗手里。他要是会一招「封」，死的就不是他。"
 msgstr "¿Por quitarle un nombre, la espada deja de ser la de la Montaña Vacía? El padre de Agui murió el año pasado a manos de los bandidos de la Loma del Dragón Dormido. Si hubiera sabido un solo movimiento del \"Sello\", no habría sido él quien muriera."
@@ -25750,7 +25750,7 @@ msgid "你是这一辈的大弟子。本宗的规矩，你守不守？"
 msgstr "Eres la discípula mayor de esta generación. Las reglas de la escuela principal, ¿las vas a cumplir o no?"
 
 msgid "你要是觉得我没有错，就留下来。北宗只有我一个人，我的剑也只学了个皮毛——可它是往外传的。"
-msgstr "Si cree que no me equivoco, quédese. La rama norte soy yo sola, y de la espada apenas aprendí lo superficial; pero es una espada que se enseña hacia fuera."
+msgstr "Si cree que no me equivoco, quédese. La Rama Norte soy yo sola, y de la espada apenas aprendí lo superficial; pero es una espada que se enseña hacia fuera."
 
 msgid "一个扎着两条小辫的女孩，竹剑比她的胳膊还长，站桩站得一丝不苟。\n"
 msgstr "Una niña con dos trencitas, con una espada de bambú más larga que su brazo, que mantiene la postura con todo cuidado.\n"
@@ -25777,13 +25777,13 @@ msgid "我们的剑短，只往前。她的剑会等。"
 msgstr "Nuestras espadas son cortas, solo van hacia delante. La de ella sabe esperar."
 
 msgid "柳绘心在镇口的公告旁支了一张小桌，身后立着一根新削的旗杆：「封山剑派北宗」。字是她自己写的。\n"
-msgstr "Liu Huixin ha puesto una mesita junto al tablón de avisos de la entrada del pueblo, con un asta recién tallada detrás: \"Escuela de la Montaña Vacía, rama norte\". Las letras son de su mano.\n"
+msgstr "Liu Huixin ha puesto una mesita junto al tablón de avisos de la entrada del pueblo, con un asta recién tallada detrás: \"Escuela de la Montaña Vacía, Rama Norte\". Las letras son de su mano.\n"
 
 msgid "柳绘心摇了摇头：北宗的剑是教人的，不是拿来比的。"
-msgstr "Liu Huixin niega con la cabeza: \"La espada de la rama norte es para enseñar, no para competir.\""
+msgstr "Liu Huixin niega con la cabeza: \"La espada de la Rama Norte es para enseñar, no para competir.\""
 
 msgid "镇口的公告上写着「封山剑派北宗所在的雪亭镇」。雪亭不要这两个字了，我就把它带到还写着它的地方来。"
-msgstr "El aviso de la entrada del pueblo dice: \"Pabellón Nevado, sede de la Escuela de la Montaña Vacía, rama norte\". Si Pabellón Nevado ya no quiere ese nombre, yo lo traigo a donde todavía está escrito."
+msgstr "El aviso de la entrada del pueblo dice: \"Pabellón Nevado, sede de la Escuela de la Montaña Vacía, Rama Norte\". Si Pabellón Nevado ya no quiere ese nombre, yo lo traigo a donde todavía está escrito."
 
 msgid "爹爹没有拦我。他站在武馆门里，一直看到我过了卧龙岗。"
 msgstr "Mi padre no me detuvo. Se quedó en la puerta del salón, mirando, hasta que crucé la Loma del Dragón Dormido."
@@ -30025,7 +30025,7 @@ msgid "你已经不是封山的人了。"
 msgstr "Ya no eres de la Montaña Vacía."
 
 msgid "颜违许了北宗一个座。封山这一票，跟着颜违走了——那一票不在我手里。"
-msgstr "Yan Wei le prometió un asiento a la rama norte. El voto de la Montaña Vacía se fue con Yan Wei: ese voto ya no está en mis manos."
+msgstr "Yan Wei le prometió un asiento a la Rama Norte. El voto de la Montaña Vacía se fue con Yan Wei: ese voto ya no está en mis manos."
 
 msgid "你已经不是封山的人了。掌门传人这四个字，我收回来。"
 msgstr "Ya no eres de la Montaña Vacía. Retiro el título de {jugador:Heredero|Heredera} del Maestro."
@@ -30259,7 +30259,7 @@ msgid "几个弟子的拳架子停了一停。你没有说话，他们又一拳�
 msgstr "Los puños de unos cuantos discípulos se detuvieron un instante. No dijiste nada, y ellos siguieron golpeando, un puñetazo tras otro.\n"
 
 msgid "你已经不是北宗的人了。北宗的座，我自己去坐。"
-msgstr "Ya no eres de la rama norte. El asiento de la rama norte lo ocuparé yo."
+msgstr "Ya no eres de la Rama Norte. El asiento de la Rama Norte lo ocuparé yo."
 
 msgid "你已经不是封山的人了。虹台的事，问爹爹去。"
 msgstr "Ya no eres de la Montaña Vacía. Lo de la Terraza del Arcoíris, pregúntaselo a papá."
@@ -32422,10 +32422,10 @@ msgid "封山这一票，今天照约好的投。"
 msgstr "El voto de la Montaña Vacía, hoy, será como se acordó."
 
 msgid "北宗这个座，是颜长老给的。北宗记着。"
-msgstr "Este asiento de la rama norte lo dio el Anciano Yan. La rama norte no lo olvida."
+msgstr "Este asiento de la Rama Norte lo dio el Anciano Yan. La Rama Norte no lo olvida."
 
 msgid "北宗这一票，在你手里。"
-msgstr "El voto de la rama norte está en tus manos."
+msgstr "El voto de la Rama Norte está en tus manos."
 
 msgid "振远来了。二十年前那趟镖，到此为止吧。"
 msgstr "Largo Camino ha venido. Aquella escolta de hace veinte años: que termine aquí."
