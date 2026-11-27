@@ -7,15 +7,18 @@ extends RefCounted
 ## template keeps {pronoun} (他/她/它) and {count} for the caller's language.
 
 var template: String = ""
+## The template's sentences, each a message (the verdict, the reason); empty: the template is one.
+var parts: PackedStringArray = PackedStringArray()
 var count: int = 1
 ## The forecast behind the line, null for RelativeStrength's.
 var forecast: CombatForecast
 
 
-func _init(p_template: String = "", p_count: int = 1, p_forecast: CombatForecast = null) -> void:
+func _init(p_template: String = "", p_count: int = 1, p_forecast: CombatForecast = null, p_parts: PackedStringArray = PackedStringArray()) -> void:
 	template = p_template
 	count = p_count
 	forecast = p_forecast
+	parts = p_parts
 
 
 func is_empty() -> bool:
@@ -26,4 +29,11 @@ func is_empty() -> bool:
 func shown(pronoun: String) -> String:
 	if template.is_empty():
 		return ""
-	return TranslationServer.translate(template).format({"pronoun": pronoun, "count": count})
+	if parts.size() <= 1:
+		return TranslationServer.translate(template).format({"pronoun": pronoun, "count": count})
+	# Each sentence is its own message; a language that spaces its words puts a space between.
+	var shown_parts := PackedStringArray()
+	for part: String in parts:
+		shown_parts.append(TranslationServer.translate(part).format({"pronoun": pronoun, "count": count}))
+	var joined_tight: bool = MessageGrammar.shows_chinese() or TranslationServer.get_locale().begins_with("ja")
+	return ("" if joined_tight else " ").join(shown_parts)

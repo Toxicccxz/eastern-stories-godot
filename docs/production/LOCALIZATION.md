@@ -2,7 +2,8 @@
 
 Simplified Chinese (zh_CN) is the source language: every message's ID is its source text
 (gettext). Traditional Chinese (`game/locale/zh_Hant.po`), English (`game/locale/en.po`), Korean
-(`game/locale/ko.po`) and Japanese (`game/locale/ja.po`) are in preview; the decisions behind this setup are in
+(`game/locale/ko.po`), Japanese (`game/locale/ja.po`), Russian (`game/locale/ru.po`) and Latin
+American Spanish (`game/locale/es_419.po`) are in preview; the decisions behind this setup are in
 [DECISIONS](../migration/DECISIONS.md#localization-the-source-text-is-the-key-2026-10-03).
 
 ## Writing player text
@@ -60,7 +61,9 @@ choice and the Settings language.
 4. `python tools/l10n/check_po.py` checks every `.po` against the template (slots kept, no stale
    messages, grammar marks well formed, no full-width “ ” … in a Latin language; in Korean a
    particle pair only after a slot, no Han character, no Chinese punctuation; in Japanese every
-   kanji a Japanese form and no Chinese punctuation);
+   kanji a Japanese form and no Chinese punctuation; in Russian and Spanish the grammar marks well
+   formed and a name slot inside a sentence marked; in Spanish ¿? ¡! paired and no word from the
+   style guide's never list);
    `tools/tests/test_translations.py` runs it in the gate.
 
 ## Working on a translation
@@ -85,8 +88,8 @@ English: style, names, terms and the grammar marks ES2's templates need are in
 Korean: style, registers, names, the particle pairs after a slot (`을(를)`, resolved by
 `KoreanParticles` once a line is filled) and word-whole wrapping (`KoreanText`) are in
 [korean_style.md](korean_style.md). A place that shows filled text without the control
-translating it calls `ShownText.of()` (Korean and Russian finish a filled line; the catalog of both
-is wrapped in `FinishedTranslation`); `korean_lines_test` fills every template and fails on a pair
+translating it calls `ShownText.of()` (Korean, Russian and Spanish finish a filled line; their catalogs are
+wrapped in `FinishedTranslation`); `korean_lines_test` fills every template and fails on a pair
 left over.
 
 Russian: style, ты and вы, names (Palladius; places T/П), terms, and the grammar marks are in
@@ -97,6 +100,17 @@ once the line is filled, from the noun table `game/locale/ru_nouns.json`
 (`tools/l10n/ru_nouns.py draft|prune|check`; drafting needs `pip install pymorphy3`). Names in
 ru.po open with a capital; a name slot inside a sentence always carries a mark. `russian_lines_test`
 fills every template and fails on a mark left over.
+
+Spanish (es_419; Godot calls the locale es, so every Spanish system matches it): style, tú and
+usted, names (pinyin; places as in English), terms and the grammar marks are in
+[spanish_style.md](spanish_style.md). A common noun takes an article that agrees with it and
+adjectives agree with a name's gender and number, so the translation marks the article after a slot
+(`{npc}{:el}`, `{:un}`, `{:los}`, `{:unos}`, `{:0}`, `{count} {item}{:pl}`), the agreement
+(`{~:herido|herida}`, `{#:día|días}`, `{jugador:cansado|cansada}`) and `$N/$n` forms
+(`{N:golpeas|golpea}`, `{n:te|lo|la}`); `SpanishText` resolves them once the line is filled, from
+the noun table `game/locale/es_nouns.json` (gender, plural, and the article for el hacha or el Paso
+del Camello), contracts a el and de el and leaves out the subject tú. `spanish_lines_test` fills
+every template and fails on a mark left over or a «a tú».
 
 Japanese: style, voices, the forms of address `{self}` and `{respect}` take, names (kanji in
 Japanese forms), the words Chinese and Japanese write alike but mean differently, numbers and

@@ -343,9 +343,15 @@ static func verdict_word(verdict: int) -> String:
 ## The line, untranslated, with {pronoun} and {count} left to the caller; `spar` reads a
 ## 切磋 (who lands first, no reason).
 func line(spar: bool = false) -> String:
+	return "".join(line_parts(spar))
+
+
+## The line's sentences, untranslated, each a message of its own (the verdict, then the reason):
+## a translation has the sentences, not the two run together.
+func line_parts(spar: bool = false) -> PackedStringArray:
 	if spar:
-		return SPAR_LINES[spar_verdict]
-	var text: String = VERDICT_LINES[verdict]
+		return PackedStringArray([SPAR_LINES[spar_verdict]])
+	var parts := PackedStringArray([VERDICT_LINES[verdict]])
 	if reason != Reason.NONE:
-		text += REASON_LINES[reason]
-	return text
+		parts.append(REASON_LINES[reason])
+	return parts
