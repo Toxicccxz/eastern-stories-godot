@@ -4004,7 +4004,7 @@ msgid "大厅后院"
 msgstr "Tras el gran salón"
 
 msgid "晚月庄大厅"
-msgstr "Gran salón de Luna Tardía"
+msgstr "Gran salón de la Mansión Luna Tardía"
 
 msgid "晚月庄前庭"
 msgstr "Patio de entrada de Luna Tardía"
@@ -11345,7 +11345,7 @@ msgid "顺着军道往北，出了山就是关北。"
 msgstr "Seguir el camino militar hacia el norte; al salir de las montañas está el Norte del Paso."
 
 msgid "黄土变成了草。路边一方青石界碑：「关北封国界」。往北，一座土黄的城墙横在草地尽头——槐阳城。"
-msgstr "La tierra amarilla se vuelve hierba. Junto al camino, un mojón de piedra azul: \"Límite del feudo\". Al norte, una muralla de tierra amarilla cruza el fondo de la pradera: Huaiyang."
+msgstr "La tierra amarilla se vuelve hierba. Junto al camino, un mojón de piedra azul: \"Límite del feudo del Norte del Paso\". Al norte, una muralla de tierra amarilla cruza el fondo de la pradera: Huaiyang."
 
 msgid "进槐阳城。城门旁有一张王府的告示，看看。"
 msgstr "Entrar en Huaiyang. Junto a la puerta de la ciudad hay un aviso del palacio del príncipe: leerlo."
@@ -13067,13 +13067,13 @@ msgid "后山崖径上的玄冥子有一件事要托你——问他「天书」�
 msgstr "Xuanmingzi, en el Sendero del Risco Trasero, quiere pedirte algo: preguntarle por \"Escritura\". (A medianoche, la Puerta norte del Salón delantero está atrancada por dentro; él sabe cómo quitar la tranca. El taoísta de ronda mira hacia delante, no a su espalda)."
 
 msgid "你从宫主居所的暗格里取出《逆灵天书》的下半部，交给了玄冥子。他给了你一册六阴剑谱，说了他等的是哪一夜。"
-msgstr "Sacaste del cajón secreto de los Aposentos del señor del palacio la segunda mitad de la «Escritura Negra» y se la diste a Xuanmingzi. Él te dio un manual de la espada de los seis yin y te dijo qué noche espera."
+msgstr "Sacaste del cajón secreto de los Aposentos del señor del palacio la segunda mitad de la Escritura Negra y se la diste a Xuanmingzi. Él te dio un manual de la espada de los seis yin y te dijo qué noche espera."
 
 msgid "替玄冥子取来了《逆灵天书》的下半部"
-msgstr "Le trajiste a Xuanmingzi la segunda mitad de la «Escritura Negra»"
+msgstr "Le trajiste a Xuanmingzi la segunda mitad de la Escritura Negra"
 
 msgid "后山崖径上没有玄冥子——《逆灵天书》的下半部，没有人托你去取。"
-msgstr "En el Sendero del Risco Trasero no está Xuanmingzi: nadie te pide traer la segunda mitad de la «Escritura Negra»."
+msgstr "En el Sendero del Risco Trasero no está Xuanmingzi: nadie te pide traer la segunda mitad de la Escritura Negra."
 
 msgid "宫里等的那一夜，林忌要知道：他们哪一夜动、走哪条路。钉子拔了、湖上的事近了（第十章之后），回灵心观问林忌「逆灵宫」。湖底的事已经了了的，宫里剩下的人还在——也问他「逆灵宫」。"
 msgstr "Lin Ji quiere saber de la noche que espera el palacio: qué noche se mueven y por qué camino. Cuando hayas arrancado el clavo y lo del lago esté cerca (después del capítulo 10), volver al Monasterio del Corazón Claro y preguntar a Lin Ji por \"Palacio Negro\". Si lo del fondo del lago ya terminó, los que quedan en el palacio siguen ahí: preguntarle también por \"Palacio Negro\"."
@@ -13118,7 +13118,7 @@ msgid "劝逆灵宫的余孽下山，交茅山看管"
 msgstr "Convenciste a lo que quedaba del Palacio Negro de bajar de la montaña bajo la custodia del Monte Mao"
 
 msgid "接了朱鸿雪的令，替东方神教办事。"
-msgstr "Acepta la orden de Zhu Hongxue y trabaja para la Orden del Cuervo Dorado."
+msgstr "Acepta la placa de Zhu Hongxue y trabaja para la Orden del Cuervo Dorado."
 
 msgid "晚月庄的西厢住着一个人，住了三年——东方神教的一代教主安妮儿。朱鸿雪要知道她在等谁：去晚月庄西厢问安妮儿「等谁」。"
 msgstr "En el ala oeste de la Mansión Luna Tardía vive alguien desde hace tres años: Anni'er, la primera líder de la Orden del Cuervo Dorado. Zhu Hongxue quiere saber a quién espera: ir al ala oeste de la Mansión Luna Tardía y preguntar a Anni'er por \"A quién espera\"."
@@ -13142,13 +13142,13 @@ msgid "替安妮儿瞒下了西厢的话"
 msgstr "Encubriste a Anni'er sobre lo que se dijo en el ala oeste"
 
 msgid "神教的令不发新的，只从上一个持令人手里接。朱鸿雪派去玉螺湖的人上个月没回来，令在他身上：入夜之后去玉螺湖畔的芦苇丛找他（湖边夜里有鬼卒），拿回那块黑木令，再问朱鸿雪「令牌」。"
-msgstr "La Orden no entrega placas nuevas: cada una se recibe solo de quien la tuvo antes. El hombre que Zhu Hongxue mandó al Lago Caracola de Jade no volvió el mes pasado, y la placa la tiene él: después del anochecer, ir al carrizal de la orilla del lago a buscarlo (de noche hay soldados fantasma junto al lago), traer la placa de madera negra y luego preguntar a Zhu Hongxue por \"Placa\"."
+msgstr "La Orden no entrega placas nuevas: cada una se recibe solo de quien la tuvo antes. El hombre que Zhu Hongxue mandó al Lago Caracola de Jade no volvió el mes pasado, y la placa la tiene él: después del anochecer, ir al cañaveral de la orilla del lago a buscarlo (de noche hay soldados fantasma junto al lago), traer la placa de madera negra y luego preguntar a Zhu Hongxue por \"Placa\"."
 
 msgid "朱鸿雪把黑木令放回你手里：「现在它是你的。」带着它，神教的杀手认你是自己人。"
 msgstr "Zhu Hongxue te pone otra vez la placa de madera negra en la mano: \"Ahora es tuya.\" Con ella, los asesinos de la Orden te reconocen como de los suyos."
 
 msgid "从玉螺湖畔的芦苇丛里接回了一块黑木令"
-msgstr "Recuperaste una placa de madera negra del carrizal de la orilla del Lago Caracola de Jade"
+msgstr "Recuperaste una placa de madera negra del cañaveral de la orilla del Lago Caracola de Jade"
 
 msgid "黑木令在你身上了。朱鸿雪还有差事交给持令的人：回绮云镇的场院，问朱鸿雪「差事」。"
 msgstr "Llevas la placa de madera negra. Zhu Hongxue tiene encargos para quien la lleva: volver al Patio de recreo de Tejenubes y preguntar a Zhu Hongxue por \"Encargos\"."
@@ -13223,7 +13223,7 @@ msgid "你离了振远镖局。镖局的事，到此为止。"
 msgstr "Dejaste los Escoltas del Largo Camino. Los asuntos de la agencia terminan aquí."
 
 msgid "绮云镇的振远镖局有一趟镖要走京师总局，人手不够。去镖局见陈剑秋，问他「走镖」。"
-msgstr "Los Escoltas del Largo Camino de Tejenubes tienen un cargamento para la sede de la Capital, y les falta gente. Ir a la agencia, ver a Chen Jianqiu y preguntarle por \"Viaje de escolta\"."
+msgstr "Los Escoltas del Largo Camino de Tejenubes tienen un cargamento para la Sede del Largo Camino en la Capital, y les falta gente. Ir a la agencia, ver a Chen Jianqiu y preguntarle por \"Viaje de escolta\"."
 
 msgid "陈剑秋把一趟红货交给了你：两箱，京师振远总局收，交给总镖头陈天星。趟子手老周推车。"
 msgstr "Chen Jianqiu te confía un cargamento de mercancía valiosa: dos cofres, que se reciben en la Sede del Largo Camino en la Capital y se entregan al jefe de la agencia, Chen Tianxing. El escolta viejo Zhou empuja el carro."
@@ -13256,7 +13256,7 @@ msgid "镖交到了京师振远总局。陈天星写了一张振远的名帖给�
 msgstr "El cargamento llegó a la Sede del Largo Camino en la Capital. Chen Tianxing te escribió una tarjeta de los Escoltas del Largo Camino: en la Capital hay puertas que solo se abren con una tarjeta."
 
 msgid "替振远押了一趟镖到京师总局"
-msgstr "Escoltaste un cargamento hasta la sede de la Capital para Largo Camino"
+msgstr "Escoltaste un cargamento hasta la Sede del Largo Camino en la Capital para Largo Camino"
 
 msgid "镖头"
 msgstr "Jefe de escoltas"
@@ -13397,7 +13397,7 @@ msgid "把晚月庄那块杀手令牌还给了东方神教"
 msgstr "Le devolviste a la Orden del Cuervo Dorado la placa de asesino de la Mansión Luna Tardía"
 
 msgid "下回进晚月庄的大厅，蓝止萍有话要说——老妇和她女儿会从内书房出来。两条路：依庄规（问蓝止萍「庄规」）——人交给蓝止萍处置，晚月庄这一票投颜违，老妇从此不再开口；带她回来（问老妇「女儿」）——她留在内书房陪她娘，晚月庄这一票投旧盟主，蓝止萍从此对你冷一分。两边都先问你一声；选了不能改。"
-msgstr "La próxima vez que entres en el Gran salón de Luna Tardía, Lan Zhiping tendrá algo que decir, y la anciana y su hija saldrán del Estudio interior. Dos caminos: según las reglas de la mansión (preguntar a Lan Zhiping por \"Reglas de la mansión\"), la hija queda en manos de Lan Zhiping, el voto de la Mansión Luna Tardía es para Yan Wei, y la anciana no vuelve a hablar; traerla de vuelta (preguntar a la anciana por \"Hija\"), y ella se queda en el Estudio interior con su madre, el voto de la Mansión Luna Tardía es para el antiguo Líder de la Alianza, y Lan Zhiping se vuelve un poco más fría contigo. En los dos casos se te preguntará antes; una vez elegido, no hay vuelta atrás."
+msgstr "La próxima vez que entres en el Gran salón de la Mansión Luna Tardía, Lan Zhiping tendrá algo que decir, y la anciana y su hija saldrán del Estudio interior. Dos caminos: según las reglas de la mansión (preguntar a Lan Zhiping por \"Reglas de la mansión\"), la hija queda en manos de Lan Zhiping, el voto de la Mansión Luna Tardía es para Yan Wei, y la anciana no vuelve a hablar; traerla de vuelta (preguntar a la anciana por \"Hija\"), y ella se queda en el Estudio interior con su madre, el voto de la Mansión Luna Tardía es para el antiguo Líder de la Alianza, y Lan Zhiping se vuelve un poco más fría contigo. En los dos casos se te preguntará antes; una vez elegido, no hay vuelta atrás."
 
 msgid "你依了庄规。她跟着蓝止萍的人走了，没有回头。"
 msgstr "Seguiste las reglas de la mansión. Ella se fue con la gente de Lan Zhiping y no volvió la vista atrás."
@@ -13544,7 +13544,7 @@ msgid "拿下了官道上挂着官府告示收过路费的人，搜出了盖着�
 msgstr "Atrapaste a los que cobraban peaje en el camino real bajo un aviso oficial, y les encontraste salvoconductos con el gran sello del Paso del Camello"
 
 msgid "路引上是天驼关铁卫营的大印。带着路引去天驼关军营最里头的将军营帐（进营要大队长的名册），问镇国大将军严廷殷「路引」。程不平的信还没给他看的，先给他看信。"
-msgstr "Los salvoconductos llevan el gran sello del Campamento de la Guardia de Hierro del Paso del Camello. Llevarlos a la Tienda del general, al fondo del campamento del Paso del Camello (para entrar al campamento hay que estar en la lista del capitán), y preguntar al Gran General Guardián, Yan Tingyin, por \"Salvoconductos\". Si todavía no le mostraste la carta de Cheng Buping, mostrársela primero."
+msgstr "Los salvoconductos llevan el gran sello del Campamento de la Guardia de Hierro del Paso del Camello. Llevarlos a la Tienda del general, al fondo del campamento del Paso del Camello (para entrar al campamento hay que estar en el registro del capitán), y preguntar al Gran General Guardián, Yan Tingyin, por \"Salvoconductos\". Si todavía no le mostraste la carta de Cheng Buping, mostrársela primero."
 
 msgid "严廷殷认了路引上的印：是他的印，丢过三天的那一方。那三天的事，他叫你去问副将李信。"
 msgstr "Yan Tingyin reconoció el sello de los salvoconductos: es el suyo, el que estuvo perdido tres días. Para saber qué pasó en esos tres días, te manda a preguntar a su lugarteniente, Li Xin."
@@ -22867,7 +22867,7 @@ msgid "上个月我派了一个人去玉螺湖，他没回来。令在他身上�
 msgstr "El mes pasado mandé a un hombre al Lago Caracola de Jade y no volvió. La placa la tiene él."
 
 msgid "入了夜，去湖畔的芦苇丛找他。湖边夜里不太平——把令带回来，再问我「令牌」。"
-msgstr "Cuando anochezca, ve a buscarlo al carrizal de la orilla. De noche el lago no es seguro. Trae la placa de vuelta y luego pregúntame por \"Placa\"."
+msgstr "Cuando anochezca, ve a buscarlo al cañaveral de la orilla. De noche el lago no es seguro. Trae la placa de vuelta y luego pregúntame por \"Placa\"."
 
 msgid "西厢的话，你上回已经说过了。"
 msgstr "Lo que se dijo en el ala oeste, ya me lo contaste la vez pasada."
@@ -23359,7 +23359,7 @@ msgid "走镖"
 msgstr "Viaje de escolta"
 
 msgid "替振远押一趟镖去京师总局。\n趟子手老周推车，你一路跟着：出绮云镇往北到雪亭镇，沿青石官道往西南过碎石小路，从铁索下到天驼关，再沿黄土大道往南到京师东街的振远总局。车马行不拉镖车。\n路上要是有人劫镖，镖车只靠你。\n要接这趟镖吗？"
-msgstr "Escoltar un cargamento a la sede de la Capital por encargo de Largo Camino.\nEl escolta Viejo Zhou empuja el carro y tú lo sigues todo el camino: de Tejenubes al norte hasta Pabellón Nevado, por el Camino real de piedra azul al suroeste, cruzando el Sendero de grava, y bajando por la cadena de hierro hasta el Paso del Camello; luego por el Gran camino de tierra amarilla hacia el sur, hasta la Sede del Largo Camino, en la Calle Este de la Capital. La Parada de carruajes no lleva carros de escolta.\nSi alguien asalta el cargamento, el carro solo cuenta contigo.\n¿Aceptas este viaje?"
+msgstr "Escoltar un cargamento a la Sede del Largo Camino en la Capital por encargo de Largo Camino.\nEl escolta Viejo Zhou empuja el carro y tú lo sigues todo el camino: de Tejenubes al norte hasta Pabellón Nevado, por el Camino real de piedra azul al suroeste, cruzando el Sendero de grava, y bajando por la cadena de hierro hasta el Paso del Camello; luego por el Gran camino de tierra amarilla hacia el sur, hasta la Sede del Largo Camino, en la Calle Este de la Capital. La Parada de carruajes no lleva carros de escolta.\nSi alguien asalta el cargamento, el carro solo cuenta contigo.\n¿Aceptas este viaje?"
 
 msgid "你已经不是振远的人了。镖局的事，不劳你。"
 msgstr "Ya no eres de Largo Camino. Los asuntos de la agencia no son cosa tuya."
@@ -23521,7 +23521,7 @@ msgid "从柜台后面抬起头，上下打量了你一眼。"
 msgstr " levanta la cabeza detrás del mostrador y te mira de arriba abajo."
 
 msgid "来得正好。有一趟红货要走京师总局，镖局里的人手都派出去了。"
-msgstr "Llegas justo a tiempo. Hay un cargamento de mercancía valiosa para la sede de la Capital, y los hombres de la agencia ya salieron todos."
+msgstr "Llegas justo a tiempo. Hay un cargamento de mercancía valiosa para la Sede del Largo Camino en la Capital, y los hombres de la agencia ya salieron todos."
 
 msgid "你肯跟车走一趟吗？问我「走镖」。"
 msgstr "¿Te animas a acompañar el carro? Pregúntame por \"Viaje de escolta\"."
@@ -31942,7 +31942,7 @@ msgid "一辆翻倒在路边的双轮板车，车辕断了，油布扯成了一�
 msgstr "Una carreta de dos ruedas volcada a la orilla del camino, con el varal roto y la lona hecha jirones. Todas las cajas fueron forzadas y están vacías. En la plataforma lleva marcado a fuego el carácter \"Cabra\", y en el varal hay clavado un talismán amarillo: un talismán del Monte Mao.\n"
 
 msgid "一个穿黑衣的人脸朝下伏在芦苇丛里，泥水没过了半边脸。背上三个孔，是钢叉。右手攥成拳，压在身子底下。\n"
-msgstr "Un hombre vestido de negro yace boca abajo en el carrizal, con medio rostro hundido en el agua fangosa. En la espalda, tres agujeros: un tridente de acero. Tiene la mano derecha cerrada en un puño, aplastada bajo el cuerpo.\n"
+msgstr "Un hombre vestido de negro yace boca abajo en el cañaveral, con medio rostro hundido en el agua fangosa. En la espalda, tres agujeros: un tridente de acero. Tiene la mano derecha cerrada en un puño, aplastada bajo el cuerpo.\n"
 
 msgid "一块赤铜铸的令牌，比黑木令沉得多。正面刻着火焰的图腾，背面一个「东」字。神教里，只有替神教办成过事的人才拿得到它。\n"
 msgstr "Una placa fundida en cobre rojo, mucho más pesada que una de madera negra. En el anverso lleva grabado un tótem de llamas; en el reverso, el carácter \"Este\". En la Orden, solo la consigue quien ha llevado a cabo algún encargo para ella.\n"
@@ -33124,7 +33124,7 @@ msgid "这把钥匙还用得着，不能随便丢。"
 msgstr "Esta llave todavía hace falta; no se puede tirar así como así."
 
 msgid "半卷黑皮的经书，封皮上「逆灵天书」四个字只剩下三个。里面的字横着竖着走，看一眼就头晕。这是玄冥子的——他说过，要练六阴剑，拿着它来后山找他。\n"
-msgstr "Medio rollo de escritura en cuero negro. En la cubierta, de los cuatro caracteres del título, «Escritura Negra», solo quedan tres. Dentro, los signos corren de lado y de arriba abajo, y basta una mirada para marearte. Es de Xuanmingzi, que dijo: \"Para aprender la espada de los seis yin, ven con esto a buscarme a la montaña de atrás.\"\n"
+msgstr "Medio rollo de escritura en cuero negro. En la cubierta, de los cuatro caracteres del título, Escritura Negra, solo quedan tres. Dentro, los signos corren de lado y de arriba abajo, y basta una mirada para marearte. Es de Xuanmingzi, que dijo: \"Para aprender la espada de los seis yin, ven con esto a buscarme a la montaña de atrás.\"\n"
 
 msgid "这卷残卷不能随便丢。"
 msgstr "Este fragmento no se puede tirar así como así."
@@ -33199,7 +33199,7 @@ msgid "这本册子在谁手里，谁就知道这些年是谁把人送上了北�
 msgstr "Quien tenga este cuaderno sabrá quién, todos estos años, subió gente a la Falda norte.\n"
 
 msgid "一卷黑皮的经书，比残卷厚得多。封皮上「逆灵天书」四个字一个不少，底下一个小字：「下」。里面的字是暗红的，横着走竖着走——前殿的长案上白天摊着的就是它。\n"
-msgstr "Un rollo de escritura en cuero negro, mucho más grueso que el fragmento. En la cubierta están completos los cuatro caracteres de «Escritura Negra», y debajo uno pequeño: \"Segunda\". Los signos son de un rojo oscuro y corren de lado y de arriba abajo: es el que de día está abierto sobre la mesa larga del salón delantero.\n"
+msgstr "Un rollo de escritura en cuero negro, mucho más grueso que el fragmento. En la cubierta están completos los cuatro caracteres de Escritura Negra, y debajo uno pequeño: \"Segunda\". Los signos son de un rojo oscuro y corren de lado y de arriba abajo: es el que de día está abierto sobre la mesa larga del salón delantero.\n"
 
 msgid "这卷天书不能随便丢。"
 msgstr "Esta escritura no se puede tirar así como así."
@@ -34525,7 +34525,7 @@ msgid "书案底下有一道细缝。你摸到一个铜扣，一按，暗格弹�
 msgstr "Bajo el escritorio hay una rendija fina. Tocas un botón de cobre y, al pulsarlo, el compartimento salta hacia fuera.\n"
 
 msgid "里面一卷黑皮的经书，封皮上「逆灵天书」四个字一个不少，底下一个小字：「下」。\n"
-msgstr "Dentro, un rollo de escritura en cuero negro; en la cubierta están completos los cuatro caracteres de «Escritura Negra», y debajo uno pequeño: \"Segunda\".\n"
+msgstr "Dentro, un rollo de escritura en cuero negro; en la cubierta están completos los cuatro caracteres de Escritura Negra, y debajo uno pequeño: \"Segunda\".\n"
 
 msgid "你把它揣进怀里，把暗格推了回去。\n"
 msgstr "Te la metes en el pecho y devuelves el compartimento a su sitio.\n"
