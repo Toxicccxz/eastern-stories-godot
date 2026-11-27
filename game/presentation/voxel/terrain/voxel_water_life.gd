@@ -7,7 +7,8 @@ extends RefCounted
 ## cell's chance), "weed" (a cell's chance of a clump), "weed_colors", "lotus" (a bank cell's
 ## chance of a pad), "fish": {"kind": koi | red_koi | carp | minnow | silver, "per" (cells a fish),
 ## "max"}, "finds": {"kinds", "every" (cells a find), "max"}}, over the kind's defaults.
-## Presentation only: its own random stream, nothing saved, nothing in the way of a walker.
+## Presentation only (DECISIONS「清水见底」): its own random stream, nothing saved, nothing in the way
+## of a walker.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const DEFAULTS: Dictionary = {
 	"water": {"pebbles": 0.3, "weed": 0.05, "lotus": 0.0, "fish": {"kind": "carp", "per": 50, "max": 16},
@@ -52,6 +53,9 @@ func _init(p_water: VoxelWater, p_shapes: Shapes, p_ambience: VoxelAmbience, p_d
 static func life_of(look: Dictionary) -> Dictionary:
 	var life: Dictionary = (DEFAULTS.get(String(look.get("kind", "water")), DEFAULTS["water"]) as Dictionary).duplicate(true)
 	var own: Dictionary = look.get("life", {})
+	# The look's own `stones` (a clear pool's pebbles, before there was a `life`) is its pebbles.
+	if look.has("stones"):
+		life["pebbles"] = float(look["stones"])
 	for key: String in own:
 		if own[key] is Dictionary and life.get(key) is Dictionary:
 			(life[key] as Dictionary).merge(own[key], true)
@@ -232,6 +236,9 @@ func _finds(cells: Array, finds: Dictionary) -> void:
 		order[j] = swap
 	for n: int in count:
 		var kind: String = String(order[n % order.size()])
+		if not has_method("_find_"+kind):
+			push_error("water life: no find of kind %s" % kind)
+			continue
 		for attempt: int in 24:
 			var cell: Vector2i = cells[rng.randi_range(0, cells.size()-1)]
 			var room: float = water.levels[cell]-water.beds[cell]

@@ -4,7 +4,8 @@ extends RefCounted
 ## fresh, the figure as it fell, dressed, slack, its eyes shut (a beast on its side, a crawling
 ## thing belly up); rotten (开始腐烂了), the same gone grey-green with flies over it; bones (一具
 ## 枯乾的骸骨), a skeleton lying the way the body lay, rags of its clothes about it. Drawn from the
-## look the figure had (PersonLooks), so each keeps its own colours and kind. Presentation only.
+## look the figure had (PersonLooks), so each keeps its own colours and kind. Presentation only
+## (DECISIONS「尸体的样子」).
 const Person = preload("res://presentation/voxel/actors/voxel_person.gd")
 const Crawler = preload("res://presentation/voxel/actors/voxel_crawler.gd")
 const Snake = preload("res://presentation/voxel/actors/voxel_snake.gd")
@@ -22,14 +23,15 @@ const ROT_COLOR: String = "5e6248"
 static func build(node: Node3D, look: Dictionary, stage: int, facing: float, seed_value: int) -> Node3D:
 	var random := RandomNumberGenerator.new()
 	random.seed = seed_value
-	var holder := Node3D.new()
-	holder.name = "Remains"
-	holder.rotation.y = facing if not is_nan(facing) else random.randf()*TAU
-	node.add_child(holder)
+	var turn: float = facing if not is_nan(facing) else random.randf()*TAU
 	var kind: String = String(look.get("body", ""))
 	var size: float = float(look.get("scale", 1.0))
 	var rotten: bool = stage == CorpseState.Stage.ROTTEN
 	if stage >= CorpseState.Stage.SKELETON:
+		var holder := Node3D.new()
+		holder.name = "Remains"
+		holder.rotation.y = turn
+		node.add_child(holder)
 		var s := Shapes.new()
 		if kind == "snake":
 			_snake_bones(s, holder, size, random)
@@ -83,7 +85,8 @@ static func build(node: Node3D, look: Dictionary, stage: int, facing: float, see
 		person.limp = 1.0
 		person.rot = ROT if rotten else 0.0
 		body = person
-	holder.add_child(body)
+	node.add_child(body)
+	body.rotation.y = turn
 	if body is Person or body is Crawler or body is Snake or body is Flyer:
 		# One pose, then still: the dead do not breathe.
 		body.set("clock", random.randf()*10.0)
@@ -98,7 +101,7 @@ static func build(node: Node3D, look: Dictionary, stage: int, facing: float, see
 		flies.position = Vector3(0, 0.35, 0)
 		flies.spread = 0.45*size if kind != "" or look.get("animal", false) else 0.6
 		node.add_child(flies)
-	return holder
+	return body
 
 ## The four-legged beast of a look (`fur` colours, `tail`), facing +z, standing on y = 0.
 static func quadruped(s: Shapes, model: Node3D, look: Dictionary, rotten: bool = false) -> void:

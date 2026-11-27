@@ -1231,9 +1231,6 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 	var actor := Node3D.new()
 	world.add_child(actor)
 	actors[body.character_id] = actor
-	# The person's card (PersonLooks, DECISIONS「人物外观」) with the map's own entry for them over
-	# it; without a card that entry, else the map's default (a card does not take the default's
-	# keys); a role whose gender is drawn (旅客) by the one it drew; the player's card by their gender.
 	var look: Dictionary = _person_look(body.character_id)
 	var model: Node3D
 	var size: float = float(look.get("scale",1.0))
@@ -1377,6 +1374,7 @@ func _sync_objects() -> void:
 		if not seen.has(id):
 			var gone: Node3D = objects[id]
 			objects.erase(id)
+			_lay_facing.erase(id)
 			# 世界演出: a thing the player took from beside them flies to their hand.
 			if not _taken_by_player(gone, id):
 				gone.queue_free()
