@@ -41711,3 +41711,48 @@ msgstr "Después el abad aceptó aquel sutra, y el asceta tomó los preceptos an
 
 msgid "后来方丈把那片贝叶还给了头陀，头陀回了番坊——你在场，你知道。那股寒，流云轩往后还是赶不出去。"
 msgstr "Después el abad le devolvió aquella hoja de palma al asceta, y el asceta regresó al Barrio Extranjero. Usted estuvo allí; usted lo sabe. Ese frío, el Cenador de las Nubes Errantes seguirá sin poder sacarlo."
+
+msgid "新的告示还没贴出来，过些时候再来看看吧。"
+msgstr "Aún no han colgado avisos nuevos. Vuelve dentro de un rato."
+
+msgid "榜上贴过的恶人，你都已经强出他们一倍不止。更凶的那一个，要{when}才贴得出来。"
+msgstr "Todos los forajidos que ha colgado este tablón ya no te llegan ni a la mitad. Uno más temible no lo colgarán hasta que {when}."
+
+msgid "榜上最凶的恶人，也不到你一半的火候了。这块榜上，已经没有值得你出手的悬赏。"
+msgstr "Ni el forajido más temible de este tablón tiene ya la mitad de tu temple. Aquí no queda ninguna recompensa que valga tu esfuerzo."
+
+msgid "越狱死囚"
+msgstr "Condenado fugado"
+
+msgid "一个蓬头垢面的汉子，脚踝上磨着一圈镣铐的血印，手里提着一柄不知从哪个狱卒腰上夺来的单刀。他是从乔阴县牢里越狱出来的死囚，告示上他的名字后面跟着一个朱红的「斩」字。\n"
+msgstr "Un hombre desgreñado y sucio; en los dos tobillos le quedan marcas de sangre de los grilletes, y en la mano lleva un sable que parece haberle arrancado del cinto a algún carcelero. Es un condenado a muerte que se fugó de la cárcel del distrito de Sombra Alta; en el aviso, tras su nombre, figura en bermellón: \"Decapitar\".\n"
+
+msgid "劫船海寇"
+msgstr "Pirata saqueador"
+
+msgid "一个赤着脚的海寇，晒得黝黑，耳朵上挂着一只铜环，腰里别着一把钢刀，身上一股咸腥味。他在番坊外的海崖道一带劫过三条商船，番坊的市舶司把他的像也送到了雪亭驿。\n"
+msgstr "Un pirata descalzo, quemado por el sol, con un aro de cobre en una oreja y un sable de acero metido en la faja; huele a sal y a pescado. Ha asaltado tres barcos mercantes en el Camino del Acantilado, a las afueras del Barrio Extranjero, y la Aduana marítima envió su retrato hasta la Posta de Pabellón Nevado.\n"
+
+msgid "禁军逃卒"
+msgstr "Desertor de la guardia"
+
+msgid "一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军营里逃出来，在京师北边的官道上专劫过路的官差，使的是大内的刀法。\n"
+msgstr "Un hombre con media armadura de hierro de la Guardia de palacio; le rasparon a filo la placa con su número, y el sable del cinto es todavía el que le dieron en el cuartel. Huyó del cuartel de la guardia en la Ciudad Imperial y ahora asalta a los funcionarios que pasan por el camino al norte de la Capital, con el sable del propio palacio.\n"
+
+msgid "逆灵宫余孽"
+msgstr "Remanente del Palacio Negro"
+
+msgid "一个黑衣道士，冠上的丝绦断了，脸上横着一道新疤。湖底那一仗以后，逆灵宫的人四散，他是还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n"
+msgstr "Un taoísta de negro, con el cordón de la corona roto y una cicatriz reciente que le cruza la cara. Desde aquella batalla bajo el lago, la gente del Palacio Negro se dispersó; él es uno de los que siguen matando: junto al Lago Caracola de Jade ya faltan dos casas de pescadores.\n"
+
+msgid "等乔阴的案子了结以后"
+msgstr "se cierre el caso de Sombra Alta"
+
+msgid "等番坊的事有了着落以后"
+msgstr "se arregle lo del Barrio Extranjero"
+
+msgid "等京师那边尘埃落定以后"
+msgstr "se calmen las aguas en la Capital"
+
+msgid "等湖底的事了结以后"
+msgstr "termine lo de debajo del lago"

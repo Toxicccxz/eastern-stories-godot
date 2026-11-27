@@ -20,6 +20,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_give_up_and_save(tree, session)
 	session.free()
 	await tree.process_frame
+	var later: WorldSessionController = await _session(tree)
+	await _test_story_tiers(tree, later)
+	later.free()
+	await tree.process_frame
 	var previous: PacingDefinition = Es2Pacing.use()
 	var classic: WorldSessionController = await _session(tree)
 	_test_classic(classic)
@@ -58,7 +62,7 @@ func _test_board(tree: SceneTree, session: WorldSessionController) -> void:
 	session.record_journal()
 	session.bounties().advance(1200.0)
 	_check(state.bounty.is_default(), "the journal's beat and play time leave a board nobody has read unposted (out of a save)")
-	state.progression.combat_experience = 200 # TEST-ONLY
+	state.progression.combat_experience = 150 # TEST-ONLY: below twice the 流窜毛贼 (100; 成长曲线 D: outgrown at twice)
 	_check(session.handoff_to(&"snow.outdoor", &"snow.mstreet4", &"snow.mstreet4", &"snow.mstreet4.postoffice_return").succeeded(), "on the street by 雪亭驿")
 	await _settle(tree)
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -259,6 +263,49 @@ func _run(session: WorldSessionController) -> void:
 		coordinator.advance_scheduler(1.0)
 		rounds += 1
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "the fight runs to its end without aborting")
+
+
+## 成长曲线 D (DECISIONS「成长曲线 D」): the board as the story opens its last four tiers, and what it
+## says when it is empty: a fiercer one waits on the story; none is left; or its slots only fill.
+func _test_story_tiers(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	_check(session.handoff_to(&"snow.outdoor", &"snow.mstreet4", &"snow.mstreet4", &"snow.mstreet4.postoffice_return").succeeded(), "story tiers: by 雪亭驿")
+	await _settle(tree)
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var board: BountyService = null
+	for node: Node in map.service_nodes:
+		if node is BountyService:
+			board = node
+	if board == null:
+		_check(false, "story tiers: the board")
+		return
+	map.runtime_player_body().global_position = board.point.global_position + Vector2(40, 0)
+	await _settle(tree)
+	state.progression.combat_experience = 12000 # TEST-ONLY: twice the 杀人魔头 (5500) and more
+	board.refresh()
+	var none := board.panel.rows.find_child("None", true, false) as Label
+	_check(none != null and none.text.contains("等乔阴的案子了结以后才贴得出来"), "12000 before 乔阴 is done: a fiercer one waits on the story: %s" % ("" if none == null else none.text))
+	state.quests["main.chapter5#done"] = 1 # TEST-ONLY
+	board.refresh()
+	var first := board.panel.rows.get_child(0).get_node_or_null("Text") as Label
+	_check(first != null and first.text.begins_with("越狱死囚 · 出没于乔阴东郊") and first.text.ends_with("赏银一百五十两"), "乔阴 done: the 越狱死囚, in 乔阴东郊: %s" % ("" if first == null else first.text))
+	for key: String in ["main.chapter7#done", "main.chapter9#done", "main.finale#done"]:
+		state.quests[key] = 1 # TEST-ONLY
+	state.progression.combat_experience = 70000 # TEST-ONLY: twice the 逆灵宫余孽 (35000)
+	board.refresh()
+	none = board.panel.rows.find_child("None", true, false) as Label
+	_check(none != null and none.text.contains("已经没有值得你出手的悬赏"), "70000 after the finale: none left: %s" % ("" if none == null else none.text))
+	state.progression.combat_experience = 40000 # TEST-ONLY
+	board.refresh()
+	_check(board.take(0), "40000: the 逆灵宫余孽 taken")
+	_check(session.bounties().give_up(), "and given up")
+	for slot: int in 3:
+		state.bounty.tiers[slot] = -1 # TEST-ONLY: every slot waits for its refresh
+		state.bounty.places[slot] = -1
+		state.bounty.refill_ms[slot] = 600000
+	board.refresh()
+	none = board.panel.rows.find_child("None", true, false) as Label
+	_check(none != null and none.text == "新的告示还没贴出来，过些时候再来看看吧。", "slots waiting to fill: it says only that: %s" % ("" if none == null else none.text))
 
 
 func _session(tree: SceneTree) -> WorldSessionController:
