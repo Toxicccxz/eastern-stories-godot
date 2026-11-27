@@ -371,6 +371,15 @@ func release_world_time(owner: StringName) -> void:
 	_world_time_holds.erase(owner)
 
 
+## Whether someone other than `owners` holds world time (过场演出 B: a scene's actions play on under
+## the dialogue box's hold and their own, and stand still under any other — the menu, a card).
+func world_time_held_besides(owners: Array[StringName]) -> bool:
+	for owner: StringName in _world_time_holds:
+		if not owners.has(owner):
+			return true
+	return false
+
+
 ## While the view fades out and in around a map change (DECISIONS「手感」) world time
 ## stands still and the player does not walk: the fade takes nobody's time.
 const VIEW_TIME_HOLD: StringName = &"map_transition"

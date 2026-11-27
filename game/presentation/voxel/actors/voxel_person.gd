@@ -140,6 +140,27 @@ const SIT_ARMS: Vector2 = Vector2(-0.72, 0.34)
 const SIT_KNEES: float = 0.42
 ## person_states.json `weary`: the stoop (radians), the arms' sinking (radians), the panting.
 var _worn: Array[float] = [0.22, 0.35, 1.0]
+## 过场动作 (DECISIONS「过场动作」): the pose a scene puts the figure in (STAGED; "" none) and how
+## far into it (0 at ease .. 1); the view sets them from the map's staging (WorldMapStaging). Not
+## while it fights, lies senseless or walks. `staged_shiver`: a scene's own trembling (units).
+var staged: String = ""
+var staged_amount: float = 0.0
+var staged_shiver: float = 0.0
+## A staged pose: the right arm forward (negative: forward and up) and outward, the left arm
+## forward and outward, the body's lean forward, the legs' angle back (kneeling: they trail behind,
+## the hips sunk onto them), how much of that the hips sink, how far the arms feel about (radians).
+const STAGED: Dictionary[String, Array] = {
+	# 躬身: both hands joined before the breast, the body bent.
+	"bow": [-1.15, -0.4, -1.15, -0.4, 0.62, 0.0, 0.0, 0.0],
+	# 跪下: on both knees, the hands on the thighs, the head a little bowed.
+	"kneel": [-0.28, -0.08, -0.28, -0.08, 0.14, 1.28, 1.0, 0.0],
+	# 摸索: both hands out before it, feeling about.
+	"reach": [-1.3, 0.22, -1.3, 0.22, 0.16, 0.0, 0.0, 0.16],
+	# 递 / 抛: the right hand flung out.
+	"give": [-1.6, 0.12, 0.1, 0.0, 0.1, 0.0, 0.0, 0.0],
+	# 接: the left hand up to take it.
+	"catch": [0.1, 0.0, -1.5, 0.1, -0.06, 0.0, 0.0, 0.0],
+}
 ## One lying on its back is raised this far (half its depth would be under the ground).
 const LIE_LIFT: float = 0.2
 ## The body (torso, legs, a seat) under the figure's own node, which the view and the fight's
@@ -701,6 +722,12 @@ func _process(delta: float) -> void:
 		_tremble()
 		_blink()
 		return
+	# 过场动作: a scene's pose is the whole body's while it stands there.
+	if staged_amount > 0.0 and not walking and STAGED.has(staged):
+		_staged_pose()
+		_tremble()
+		_blink()
+		return
 	var leg_y: float = 0.57*_legs_k - sink
 	_place(legs[0], Vector3(POSE_LEGS[pose] if posed else stride, 0.0, 0.0), leg_y)
 	_place(legs[1], Vector3(POSE_LEGS[pose] if posed else -stride, 0.0, 0.0), leg_y)
@@ -760,6 +787,32 @@ func _sit_pose() -> void:
 		torso.position.y = rise
 
 
+## A scene's pose (STAGED), `staged_amount` of the way into it: the arms, the lean, the legs
+## trailing behind with the hips sunk onto them.
+func _staged_pose() -> void:
+	var pose: Array = STAGED[staged]
+	var k: float = smoothstep(0.0, 1.0, clampf(staged_amount, 0.0, 1.0))
+	var feel: float = snappedf(sin(clock*1.7)*float(pose[7])*k, 0.01)
+	_turn(arms[0], Vector3(float(pose[0])*k + feel, 0.0, -float(pose[1])*k))
+	_turn(arms[1], Vector3(float(pose[2])*k - feel, 0.0, float(pose[3])*k))
+	_turn(torso, Vector3(float(pose[4])*k, 0.0, 0.0))
+	var hip: float = 0.57*_legs_k
+	var back: float = float(pose[5])*k
+	var sink: float = hip*(1.0 - cos(back))*float(pose[6])
+	_place(legs[0], Vector3(back, 0.0, 0.0), hip - sink)
+	_place(legs[1], Vector3(back, 0.0, 0.0), hip - sink)
+	var rise: float = _breath() - sink
+	if not is_equal_approx(torso.position.y, rise):
+		torso.position.y = rise
+
+
+## Where the hand of the arm `index` (0 the figure's right) is now, in the world's space.
+func hand(index: int) -> Vector3:
+	if arms.size() < 2:
+		return global_position + Vector3.UP
+	return arms[clampi(index, 0, 1)].global_transform * Vector3(0, -0.45*_torso_k, 0.04)
+
+
 ## The breath's rise now: a hundredth of the figure's height, in steps, a few a second; one
 ## worn pants (faster and deeper).
 func _breath() -> float:
@@ -769,7 +822,8 @@ func _breath() -> float:
 
 ## One that shivers trembles from side to side, in steps.
 func _tremble() -> void:
-	var off: float = snappedf(sin(clock*41.0)*shiver, 0.004) if shiver > 0.0 else 0.0
+	var shake: float = maxf(shiver, staged_shiver)
+	var off: float = snappedf(sin(clock*41.0)*shake, 0.004) if shake > 0.0 else 0.0
 	if not is_equal_approx(torso.position.x, off):
 		torso.position.x = off
 

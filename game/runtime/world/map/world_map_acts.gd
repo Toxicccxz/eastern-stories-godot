@@ -100,6 +100,13 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 	# A mark written here may change what the picture shows (DECISIONS「舞台道具」: the black flame over
 	# the 封坛 as 侮天鬼 takes shape): the map's staged props are judged again at the end; people wait.
 	var marked: bool = false
+	# 过场演出 B (DECISIONS「过场动作」): a scene told in the dialogue box shows what its steps `do`
+	# (WorldMapStaging): each line is a page, and a cue begins with its page or once the lines
+	# before it have been read. Every step is settled here as ever; only a `leave` that walks out
+	# or dissolves waits until that has been shown.
+	var stage: WorldMapStaging = _map.staging
+	var staged: bool = hears and stage.directs()
+	var told: WorldMapStaging.Beat = null
 	for index: int in act.steps.size():
 		var step: ScriptedAct.Step = act.steps[index]
 		if moved_away:
@@ -116,6 +123,9 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 			ScriptedAct.Kind.LINE:
 				said.append(step.line.colored(npc_name, respect))
 				spoken.append(said[-1].text)
+				if staged:
+					told = stage.line(step.cue, npc, room)
+					said[-1].beat = told
 			ScriptedAct.Kind.DAMAGE:
 				for key: String in ScriptedAct.RESOURCES:
 					if step.amounts.has(key):
@@ -169,6 +179,8 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				var opening: Array[ColoredLine] = []
 				if hears:
 					opening = said.duplicate()
+				# Staged lines told as the fight's opening are read on its panel, not in the box.
+				_pass_pages(said)
 				said.clear()
 				spoken.clear()
 				var started: CombatSliceInitiationResult = _map.hostilities.npc_kills(npc, ColoredLine.texts(opening), opening)
@@ -207,6 +219,9 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				if comer != null and _map.npcs.bring_beside_player(comer):
 					npc = comer
 					npc_name = comer.definition().display_name
+					if staged:
+						var who: Array[NpcRuntimeState] = [comer]
+						stage.after(step.cue, who, comer, room, told)
 			ScriptedAct.Kind.NPC_FLAG:
 				if npc != null:
 					npc.set_flag(StringName(step.flag), true)
@@ -235,6 +250,8 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				for again: NpcRuntimeState in standing:
 					if not came.has(again):
 						_map.hostilities.call_again(again)
+				if staged:
+					stage.after(step.cue, came, npc, room, told)
 			ScriptedAct.Kind.NPC_MOOD:
 				var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
 				if hooks != null and hooks.moods.has(step.flag):
@@ -248,8 +265,14 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				if not step.npc_id.is_empty():
 					# A room's own act (no NPC acting) sends off one standing in the act's room.
 					leaving = _map.npcs.first_npc_in_zone(step.npc_id, room if npc == null else npc.world_location().zone_id, true)
-				if leaving != null:
+				if leaving != null and staged and step.cue != null and step.cue.leaving():
+					# It goes once its way out has been shown (at once if the scene is cut short).
+					stage.leave_after(leaving, step.cue, npc, room, told)
+				elif leaving != null:
 					_map.npcs.leave_for_good(leaving)
+					if staged:
+						var nobody: Array[NpcRuntimeState] = []
+						stage.after(step.cue, nobody, npc, room, told)
 			ScriptedAct.Kind.HOME:
 				# DECISIONS「演完回屋」: one called over walks back to its own spot (npc.c return_home()).
 				var going_home: NpcRuntimeState = _map.npcs.first_npc_in_zone(step.npc_id, room if npc == null else npc.world_location().zone_id, true)
@@ -279,7 +302,9 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 					continue
 				npc = speaker
 				npc_name = speaker.definition().display_name
-				_map.npc_life.scene_look_at(npc)
+				# Staged, the camera goes to each speaker as their page shows.
+				if not staged:
+					_map.npc_life.scene_look_at(npc)
 			ScriptedAct.Kind.DROP:
 				_show(said, hears, npc, spoken)
 				var feet: Vector2 = Vector2.INF
@@ -327,6 +352,12 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 			ScriptedAct.Kind.CLEAR_ROOM:
 				if _map.session != null:
 					_map.session.room_states().clear_flag(room, step.flag)
+		# What any other step shows is about the act's NPC.
+		if staged and step.cue != null and not step.kind in [ScriptedAct.Kind.LINE, ScriptedAct.Kind.COMES, ScriptedAct.Kind.SUMMON, ScriptedAct.Kind.LEAVE]:
+			var about: Array[NpcRuntimeState] = []
+			if npc != null:
+				about.append(npc)
+			stage.after(step.cue, about, npc, room, told)
 	_show(said, hears, npc, spoken)
 	if marked and not moved_away and _map.session != null:
 		WorldStoryPresence.stage_props(_map.session, _map)
@@ -439,11 +470,22 @@ func move_player(zone_id: StringName, point_id: StringName) -> bool:
 func _show(said: Array[ColoredLine], hears: bool, npc: NpcRuntimeState, spoken: Array[String]) -> void:
 	if hears and not said.is_empty() and _map.hud() != null:
 		_map.hud().npc_says(npc, said.duplicate(), spoken.duplicate())
-	# A scene's camera goes to whoever speaks (DECISIONS「剧情演出」).
-	if not said.is_empty() and npc != null:
+	else:
+		_pass_pages(said)
+	# A scene's camera goes to whoever speaks (DECISIONS「剧情演出」); staged (过场演出 B), as each
+	# line's page shows.
+	if not said.is_empty() and npc != null and not said.any(func(line: ColoredLine) -> bool: return line.beat != null):
 		_map.npc_life.scene_look_at(npc)
 	said.clear()
 	spoken.clear()
+
+
+## 过场演出 B: `lines` of a staged scene that will not be read in the dialogue box (told as a
+## fight's opening, or to nobody): their pages are gone through now, what they show with them.
+func _pass_pages(lines: Array[ColoredLine]) -> void:
+	for line: ColoredLine in lines:
+		if line.beat != null:
+			_map.staging.page_left(line.beat as WorldMapStaging.Beat)
 
 
 ## command("close door") (cmds/std/close.c): the door the player came in by, else the

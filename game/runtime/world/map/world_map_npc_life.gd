@@ -1041,12 +1041,24 @@ func _advance_scene() -> void:
 			for index: int in hooks.calls.size():
 				if hooks.calls[index].scene and ambience.has_call(npc.character_id, NpcAmbience.own_call(index)):
 					return
+	# 过场演出 B: its last lines are still being read and what they show still plays (someone
+	# walking out): the scene holds until that is over.
+	if _map.staging.busy():
+		return
 	end_scene()
+
+
+## 过场演出 B: the scene's last lines are read and what they showed is over (or a fight cut it
+## short): it ends now if none of its calls is still to come, not at the world's next beat.
+func scene_settled() -> void:
+	_advance_scene()
 
 
 func end_scene() -> void:
 	if scene_npc_id.is_empty():
 		return
+	# What the scene showed is let go: everyone back where it stood (WorldMapStaging).
+	_map.staging.close()
 	_scene_calls.clear()
 	scene_npc_id = &""
 	scene_focus_id = &""
@@ -1056,6 +1068,22 @@ func end_scene() -> void:
 
 func scene_running() -> bool:
 	return not scene_npc_id.is_empty()
+
+
+## The scene's next call comes now (过场演出 B: what the last one showed is over). False when
+## none is still to come.
+func hurry_scene() -> bool:
+	if scene_npc_id.is_empty() or ambience == null:
+		return false
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(scene_npc_id)
+	var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
+	if hooks == null:
+		return false
+	var waiting: Array[int] = []
+	for index: int in hooks.calls.size():
+		if hooks.calls[index].scene and ambience.has_call(scene_npc_id, NpcAmbience.own_call(index)):
+			waiting.append(index)
+	return not waiting.is_empty() and ambience.hurry_own_calls(scene_npc_id, waiting)
 
 
 ## The camera goes to `npc` while a scene runs (an act's lines, its `by`, its `drop`).
