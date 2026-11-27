@@ -13283,7 +13283,7 @@ msgid "陈剑秋认了：那年振远死了十一个人，兵部给钱，他拿�
 msgstr "Chen Jianqiu lo admitió: ese año Largo Camino perdió once hombres, el Ministerio de Guerra pagó y él aceptó el dinero."
 
 msgid "账本在陈天星手里，他要告；陈剑秋要瞒。到此为止（在绮云镇问陈剑秋「到此为止」）：账本烧了，抚恤银的事振远不再提，正月十七振远那一票投颜违；陈剑秋教你春风快意刀，陈天星往后见你只谈生意。查到底（在京师问陈天星「查到底」）：账本押去乔阴县衙，告兵部也告振远自己，陈剑秋关了绮云分局的门；振远那一票投旧盟主，京师的事还没定的，这本账算揭发的一样人证物证。"
-msgstr "El libro de cuentas está en manos de Chen Tianxing, que quiere denunciar; Chen Jianqiu quiere callarlo. Dejarlo ahí (preguntar a Chen Jianqiu, en Tejenubes, por \"Dejarlo ahí\"): el libro se quema, Largo Camino no vuelve a hablar de la plata de indemnización, y el diecisiete del primer mes el voto de Largo Camino es para Yan Wei; Chen Jianqiu te enseña el Sable despreocupado de la brisa primaveral, y desde entonces Chen Tianxing solo te habla de negocios. Llegar al fondo (preguntar a Chen Tianxing, en la Capital, por \"Hasta el fondo\"): el libro va al tribunal de Sombra Alta, con cargos contra el Ministerio de Guerra y contra el propio Largo Camino, y Chen Jianqiu cierra la sucursal de Tejenubes; el voto de Largo Camino es para el antiguo Líder de la Alianza, y si lo de la Capital aún no está resuelto, este libro cuenta como una prueba para la denuncia."
+msgstr "El libro de cuentas está en manos de Chen Tianxing, que quiere denunciar; Chen Jianqiu quiere callarlo. Dejarlo ahí (preguntar a Chen Jianqiu, en Tejenubes, por \"Dejarlo ahí\"): el libro se quema, Largo Camino no vuelve a hablar de la plata de indemnización, y el diecisiete del primer mes el voto de Largo Camino es para Yan Wei; Chen Jianqiu te enseña el Sable despreocupado de la brisa primaveral, y desde entonces Chen Tianxing solo te habla de negocios. Hasta el fondo (preguntar a Chen Tianxing, en la Capital, por \"Hasta el fondo\"): el libro va al tribunal de Sombra Alta, con cargos contra el Ministerio de Guerra y contra el propio Largo Camino, y Chen Jianqiu cierra la sucursal de Tejenubes; el voto de Largo Camino es para el antiguo Líder de la Alianza, y si lo de la Capital aún no está resuelto, este libro cuenta como una prueba para la denuncia."
 
 msgid "你站到了陈剑秋一边：那本总账烧了，二十年前的抚恤银，振远不再提。陈剑秋许你学春风快意刀。"
 msgstr "Te pusiste del lado de Chen Jianqiu: el libro mayor ardió, y Largo Camino ya no habla de la plata de indemnización de hace veinte años. Chen Jianqiu te permitió aprender el Sable despreocupado de la brisa primaveral."
@@ -30235,7 +30235,7 @@ msgid "请林忌把逆灵宫的余孽交给官府去剿"
 msgstr "Pediste a Lin Ji que entregara al gobierno, para que los sofocara, a los restos del Palacio Negro"
 
 msgid "花匠在绞盘边念完了他们自己的经。肯下山的，跟着他下了山，交茅山看着。"
-msgstr "El jardinero terminó de recitar junto al cabrestante su propia escritura. Los que quisieron bajar de la montaña lo siguieron y quedaron al cuidado del Monte Mao."
+msgstr "El jardinero terminó de recitar junto al torno su propia escritura. Los que quisieron bajar de la montaña lo siguieron y quedaron al cuidado del Monte Mao."
 
 msgid "请花匠上北麓，把逆灵宫剩下的人念下了山"
 msgstr "Pediste al jardinero que subiera a la falda norte y convenciera con sus recitaciones de bajar de la montaña a los que quedaban en el Palacio Negro"
@@ -30265,13 +30265,13 @@ msgid "你已经不是封山的人了。虹台的事，问爹爹去。"
 msgstr "Ya no eres de la Montaña Vacía. Lo de la Terraza del Arcoíris, pregúntaselo a papá."
 
 msgid "麻绳还垂在裂口上，底下没有人守了。你抓住它，手脚并用地攀上去——上头的绞盘没有声音。\n"
-msgstr "La soga de cáñamo sigue colgando de la grieta y ya no hay nadie guardando abajo. La agarras y trepas con manos y pies: el cabrestante de arriba no hace ruido.\n"
+msgstr "La soga de cáñamo sigue colgando de la grieta y ya no hay nadie guardando abajo. La agarras y trepas con manos y pies: el torno de arriba no hace ruido.\n"
 
 msgid "三个名字，都是靠近过湖底那件东西的人。"
 msgstr "Tres nombres, todos de gente que se acercó a aquello del fondo del lago."
 
 msgid "站朱鸿雪：神教只有一个教主，是她。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；安妮儿回西厢闭门，往后不再同你说神教的事（宝衣要是在她手里，终章还没打完的，她照样带着它来）。正月十七那天，神教的杀手会在山道上截一派的轿子（已经入了虹台的席的，那天山下的事照入席时定下的来）。\n这是东方神教这条线的大分裂，选了不能改。要站朱鸿雪吗？"
-msgstr "Ponerte del lado de Zhu Hongxue: la Orden solo tiene un Líder, y es ella.\nElla recupera tu Placa de cobre rojo, te da la placa de oro y te enseña la Espada de la sombra de nieve del Tianshan y el Método interno de la sombra de nieve; Anni'er vuelve a encerrarse en el ala oeste y ya no te hablará de la Orden (si la túnica está en manos de ella y la batalla final aún no se libró, igual la traerá consigo). El diecisiete del primer mes, los asesinos de la Orden interceptarán en el camino de montaña el palanquín de una escuela (si ya tomaste asiento en la Terraza del Arcoíris, lo que ocurra ese día al pie de la montaña seguirá lo que decidiste al sentarte).\nEsta es la gran escisión de la línea de la Orden del Cuervo Dorado; elegida, no se puede deshacer. ¿Ponerte del lado de Zhu Hongxue?"
+msgstr "Ponerte del lado de Zhu Hongxue: la Orden solo tiene un Líder, y es ella.\nElla recupera tu placa de cobre rojo, te da la placa de oro y te enseña la Espada de la sombra de nieve del Tianshan y el Método interno de la sombra de nieve; Anni'er vuelve a encerrarse en el ala oeste y ya no te hablará de la Orden (si la túnica está en manos de ella y la batalla final aún no se libró, igual la traerá consigo). El diecisiete del primer mes, los asesinos de la Orden interceptarán en el camino de montaña el palanquín de una escuela (si ya tomaste asiento en la Terraza del Arcoíris, lo que ocurra ese día al pie de la montaña seguirá lo que decidiste al sentarte).\nEsta es la gran escisión de la línea de la Orden del Cuervo Dorado; elegida, no se puede deshacer. ¿Ponerte del lado de Zhu Hongxue?"
 
 msgid "执事，虹台上的事定了。往后的公事，照旧。"
 msgstr "Intendente, lo de la Terraza del Arcoíris está decidido. Los asuntos oficiales, como siempre."
@@ -30283,7 +30283,7 @@ msgid "九面旗下的话刚说完，台口走上来一个人：旧青衫，腰�
 msgstr "Apenas se había dicho lo que se tenía que decir bajo las nueve banderas cuando alguien subió al borde de la terraza: una túnica azul vieja, con la espada en la cintura sin desenvainar. Los discípulos del Pabellón de la Neblina lo reconocieron y nadie lo detuvo.\n"
 
 msgid "南危水站在石椅前，只说了一句：「老松岭的那个人，替我死了。」他向那把空椅子一揖，转身下了台。\n"
-msgstr "Nan Weishui se detuvo ante la silla de piedra y solo dijo una frase: \"El hombre de los Pinos Viejos murió en mi lugar.\" Hizo una reverencia a la silla vacía, se dio la vuelta y bajó de la terraza.\n"
+msgstr "Nan Weishui se detuvo ante la silla de piedra y solo dijo una frase: \"El hombre del Cerro de los Pinos Viejos murió en mi lugar.\" Hizo una reverencia a la silla vacía, se dio la vuelta y bajó de la terraza.\n"
 
 msgid "颜违手里的茶盏停了一停，没有抬头。\n"
 msgstr "La taza de té en la mano de Yan Wei se detuvo un instante; no levantó la vista.\n"
@@ -30355,10 +30355,10 @@ msgid "看见你进帐，把羽扇一合，从扇骨里抽出一截细剑，退�
 msgstr " cierra el abanico de plumas al verte entrar, saca de entre las varillas un tramo de espada fina y retrocede hasta el poste de la tienda."
 
 msgid "查到底：陈天星把振远的总账押去乔阴县衙，交程知县——告兵部，也告振远自己拿过兵部的钱。\n陈剑秋会关了绮云分局的门。正月十七，振远那一票投旧盟主（已经入了虹台的席的，这一票不再跟着变）；京师的事还没定的，这本账也算揭发的一样人证物证（镖路已经查清的，这一样算过了，不再多算）。\n说了就不能再站到陈剑秋那边。要这么说吗？"
-msgstr "Llegar al fondo: Chen Tianxing lleva el libro mayor de Largo Camino al tribunal del condado de Sombra Alta, para el magistrado Cheng: una denuncia contra el Ministerio de Guerra y también contra el propio Largo Camino por haber tomado dinero del Ministerio.\nChen Jianqiu cerrará la sucursal de Tejenubes. El diecisiete del primer mes, el voto de Largo Camino va para el antiguo Líder de la Alianza (si ya tomaste asiento en la Terraza del Arcoíris, ese voto ya no cambia); si lo de la Capital aún no está resuelto, este libro también cuenta como una prueba, de testigo y de documentos, de la denuncia (si el rastro de la escolta ya se aclaró, esa prueba ya cuenta y no se cuenta de nuevo).\nUna vez que lo digas, ya no podrás ponerte del lado de Chen Jianqiu. ¿Lo dices así?"
+msgstr "Hasta el fondo: Chen Tianxing lleva el libro mayor de Largo Camino al tribunal del condado de Sombra Alta, para el magistrado Cheng: una denuncia contra el Ministerio de Guerra y también contra el propio Largo Camino por haber tomado dinero del Ministerio.\nChen Jianqiu cerrará la sucursal de Tejenubes. El diecisiete del primer mes, el voto de Largo Camino va para el antiguo Líder de la Alianza (si ya tomaste asiento en la Terraza del Arcoíris, ese voto ya no cambia); si lo de la Capital aún no está resuelto, este libro también cuenta como una prueba, de testigo y de documentos, de la denuncia (si el rastro de la escolta ya se aclaró, esa prueba ya cuenta y no se cuenta de nuevo).\nUna vez que lo digas, ya no podrás ponerte del lado de Chen Jianqiu. ¿Lo dices así?"
 
 msgid "「野羊寨，三名，甲申年秋，入丹房。」\n「关北民夫，七名，乙酉年冬，三名入丹房，四名留用。」\n「傅家坡，孩童一名，七岁，乙酉年腊月，留用，待子时。」\n"
-msgstr "\"Fuerte de las Cabras, tres, otoño del año jiashen, a la cámara de elixires.\"\n\"Peones del Norte del Paso, siete, invierno del año yiyou: tres a la cámara de elixires, cuatro retenidos.\"\n\"Cuesta de los Fu, un niño, siete años, duodécimo mes del año yiyou, retenido, a la espera de la medianoche.\"\n"
+msgstr "\"Fuerte de las Cabras, tres, otoño del año jiashen, al cuarto de elixires.\"\n\"Peones del Norte del Paso, siete, invierno del año yiyou: tres al cuarto de elixires, cuatro retenidos.\"\n\"Cuesta de los Fu, un niño, siete años, duodécimo mes del año yiyou, retenido, a la espera de la medianoche.\"\n"
 
 msgid "前些日子林真人要过一个进得去的人。用不着了——北麓那座道观，空了。"
 msgstr "Hace unos días el Sabio Lin quería a alguien que pudiera entrar. Ya no hace falta: el monasterio de la falda norte está vacío."
@@ -30421,19 +30421,19 @@ msgid "黑砖铺地的大院子，踩上去没有一点声响。院当中一只�
 msgstr "Un gran patio pavimentado de ladrillo negro, donde al pisar no se oye ni un ruido. En el centro, un incensario de hierro negro, frío. Los estandartes negros cuelgan hasta el suelo por los cuatro lados. Al norte está el salón delantero, cuya puerta se abre al empujarla; al este, una hilera de casas bajas es el almacén de carga.\n"
 
 msgid "逆灵宫的前殿。殿里没有神像，正中那张乌黑的长案被掀翻了，案上的黑皮经书不见了。蒲团东一只西一只，有一只上面留着半个带泥的靴印。西边一道门通丹房；北边还有一道门。\n"
-msgstr "El salón delantero del Palacio Negro. No hay imágenes sagradas en el salón; la larga mesa negra del centro está volcada y el libro de cubierta negra que había encima ha desaparecido. Los cojines de meditación están por todas partes, y en uno queda la mitad de una huella de bota con barro. Al oeste, una puerta lleva a la cámara de elixires; al norte hay otra puerta.\n"
+msgstr "El salón delantero del Palacio Negro. No hay imágenes sagradas en el salón; la larga mesa negra del centro está volcada y el libro de cubierta negra que había encima ha desaparecido. Los cojines de meditación están por todas partes, y en uno queda la mitad de una huella de bota con barro. Al oeste, una puerta lleva al cuarto de elixires; al norte hay otra puerta.\n"
 
 msgid "逆灵宫的前殿。殿里没有神像，正中一张乌黑的长案，案上那卷黑皮经书合上了。五只蒲团在墙根下排得整整齐齐，木鱼搁在最边上的那一只上。殿里很静。西边一道门通丹房；北边还有一道门。\n"
-msgstr "El salón delantero del Palacio Negro. No hay imágenes sagradas en el salón; en el centro, una larga mesa negra, y encima el libro de cubierta negra está cerrado. Cinco cojines de meditación están alineados al pie de la pared, y el pez de madera descansa sobre el del extremo. El salón está muy quieto. Al oeste, una puerta lleva a la cámara de elixires; al norte hay otra puerta.\n"
+msgstr "El salón delantero del Palacio Negro. No hay imágenes sagradas en el salón; en el centro, una larga mesa negra, y encima el libro de cubierta negra está cerrado. Cinco cojines de meditación están alineados al pie de la pared, y el pez de madera descansa sobre el del extremo. El salón está muy quieto. Al oeste, una puerta lleva al cuarto de elixires; al norte hay otra puerta.\n"
 
 msgid "逆灵宫的前殿。殿里没有神像，正中一张乌黑的长案，案上空了。蒲团还在，没有人跪着。殿里很静。西边一道门通丹房；北边还有一道门。\n"
-msgstr "El salón delantero del Palacio Negro. No hay imágenes sagradas en el salón; en el centro, una larga mesa negra, vacía. Los cojines siguen ahí, sin nadie arrodillado. El salón está muy quieto. Al oeste, una puerta lleva a la cámara de elixires; al norte hay otra puerta.\n"
+msgstr "El salón delantero del Palacio Negro. No hay imágenes sagradas en el salón; en el centro, una larga mesa negra, vacía. Los cojines siguen ahí, sin nadie arrodillado. El salón está muy quieto. Al oeste, una puerta lleva al cuarto de elixires; al norte hay otra puerta.\n"
 
 msgid "一间烟气熏黑的屋子。正中一座三足的铜丹炉，炉火熄了，炉膛里只剩一层青灰。四壁的药架上摆满了罐子，罐子上贴的签子写的不是药名，是地名和日子。东门回前殿，北门进账房；西南角上一道石阶往下，黑得看不见底。\n"
 msgstr "Una habitación ennegrecida por el humo. En el centro, un horno de elixires de bronce de tres patas, con el fuego apagado y solo una capa de ceniza azulada en la caldera. En las estanterías de remedios de las cuatro paredes hay tarros llenos, y las etiquetas no dicen nombres de medicinas, sino de lugares y de días. La puerta este vuelve al salón delantero y la norte da a la contaduría; en la esquina suroeste, una escalera de piedra desciende hacia una oscuridad sin fondo.\n"
 
 msgid "丹房石阶底下的甬道，低得要弯腰。墙上那盏松油灯灭了。三扇铁栅门：西、北、东各一扇，栅栏后面都空了。地上一层潮气，墙根有抓挠过的痕迹。石阶在南边，上去是丹房。\n"
-msgstr "El pasadizo al pie de la escalera de la cámara de elixires, tan bajo que hay que agacharse. La lámpara de aceite de pino de la pared está apagada. Tres puertas de rejas de hierro, una al oeste, una al norte y una al este, y tras las rejas, todo vacío. El suelo está húmedo y en la base de los muros hay marcas de arañazos. La escalera está al sur, y sube a la cámara de elixires.\n"
+msgstr "El pasadizo al pie de la escalera del cuarto de elixires, tan bajo que hay que agacharse. La lámpara de aceite de pino de la pared está apagada. Tres puertas de rejas de hierro, una al oeste, una al norte y una al este, y tras las rejas, todo vacío. El suelo está húmedo y en la base de los muros hay marcas de arañazos. La escalera está al sur, y sube al cuarto de elixires.\n"
 
 msgid "逆灵宫的后殿。殿里没有神像，正中一座黑石砌的坛，坛上的火灭了，只剩一圈烧黑的印子。四壁的黑幡比前殿的更高，幡上的字是暗红的，像血写的。南门回前殿。坛后有一道黑门，门上一个字也没有。\n"
 msgstr "El salón trasero del Palacio Negro. No hay imágenes sagradas; en el centro, un altar de piedra negra donde el fuego se ha apagado y solo queda un círculo ennegrecido. Los estandartes negros de las paredes son más altos que los del salón delantero, y las letras que llevan son de un rojo oscuro, como escritas con sangre. La puerta sur vuelve al salón delantero. Detrás del altar hay una puerta negra sin un solo carácter.\n"
@@ -30454,10 +30454,10 @@ msgid "药架上的罐子一只只封着口，签子上写的不是药名：「�
 msgstr "Los tarros de los estantes están sellados uno por uno, y las etiquetas no dicen nombres de medicinas: \"Cabras · otoño de jiashen\", \"Norte del Paso · invierno de yiyou\"... En la etiqueta de un tarro dice \"Cuesta de los Fu · en espera\"; el tarro está vacío.\n"
 
 msgid "站安妮儿：一代教主收回教主令。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章还没打完的，她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局（已经入了虹台的席的，那天山下的事照入席时定下的来）。\n这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？"
-msgstr "Ponerte del lado de Anni'er: la primera líder recupera la placa de líder.\nElla recupera la Placa de cobre rojo, te da la placa de oro y te enseña la Espada de la sombra de nieve del Tianshan y el Método interno de la sombra de nieve; Zhu Hongxue se rinde y no se va: de ahora en adelante la Orden solo dará encargos contra quienes merecen morir. Si la batalla final aún no se libró, ella viene a vigilar la boca de la poza en la orilla del lago (tenga o no la túnica); el diecisiete del primer mes, la Orden no irá a estropear la Terraza del Arcoíris (si ya tomaste asiento en la Terraza del Arcoíris, lo que ocurra ese día al pie de la montaña seguirá lo que decidiste al sentarte).\nEsta es la gran escisión de la línea de la Orden del Cuervo Dorado; elegida, no se puede deshacer. ¿Ponerte del lado de Anni'er?"
+msgstr "Ponerte del lado de Anni'er: la primera líder recupera la placa de líder.\nElla recupera la placa de cobre rojo, te da la placa de oro y te enseña la Espada de la sombra de nieve del Tianshan y el Método interno de la sombra de nieve; Zhu Hongxue se rinde y no se va: de ahora en adelante la Orden solo dará encargos contra quienes merecen morir. Si la batalla final aún no se libró, ella viene a vigilar la boca de la poza en la orilla del lago (tenga o no la túnica); el diecisiete del primer mes, la Orden no irá a estropear la Terraza del Arcoíris (si ya tomaste asiento en la Terraza del Arcoíris, lo que ocurra ese día al pie de la montaña seguirá lo que decidiste al sentarte).\nEsta es la gran escisión de la línea de la Orden del Cuervo Dorado; elegida, no se puede deshacer. ¿Ponerte del lado de Anni'er?"
 
 msgid "封法在我脑子里，是因为这世上还有人想把湖底那东西再叫出来。要我的命，自己来拿。"
-msgstr "El rito de sellado está en mi cabeza porque en este mundo aún hay quien quiere volver a llamar a eso que está en el fondo del lago. Si quieres mi vida, ven a tomarla tú."
+msgstr "El método del sello está en mi cabeza porque en este mundo aún hay quien quiere volver a llamar a eso que está en el fondo del lago. Si quieres mi vida, ven a tomarla tú."
 
 msgid "他让麻绳捆了，押着下了铁索。天驼关的官兵接了人，记下了振远的名字。\n"
 msgstr "Lo ataron con soga de cáñamo y lo bajaron bajo escolta por la cadena de hierro. Los soldados del Paso del Camello recibieron al hombre y anotaron el nombre de Largo Camino.\n"
@@ -30469,7 +30469,7 @@ msgid "这封信在一天，官面上就没人敢清乔阴的巷子。叫花子�
 msgstr "Mientras esta carta exista, nadie en el gobierno se atreverá a despejar los callejones de Sombra Alta. Eso es lo que los mendigos queremos."
 
 msgid "请花匠拿着《上清符箓》上北麓：他同道观里剩下的人念一遍他们自己的经，把肯下山的领下来，交茅山看着。\n他在北麓的绞盘边等你——你上了北麓，就看得到。\n这件事定了就不能再改。\n就这样吗？"
-msgstr "Pedir al jardinero que suba a la falda norte con el «Libro de talismanes de la Suprema Claridad»: él recitará ante los que quedan en el monasterio su propia escritura y bajará a los que acepten bajar, para dejarlos al cuidado del Monte Mao.\nÉl te espera junto al cabrestante de la falda norte: cuando subas, lo verás.\nUna vez decidido, no se puede cambiar.\n¿Lo decides así?"
+msgstr "Pedir al jardinero que suba a la falda norte con el «Libro de talismanes de la Suprema Claridad»: él recitará ante los que quedan en el monasterio su propia escritura y bajará a los que acepten bajar, para dejarlos al cuidado del Monte Mao.\nÉl te espera junto al torno de la falda norte: cuando subas, lo verás.\nUna vez decidido, no se puede cambiar.\n¿Lo decides así?"
 
 msgid "北麓的事，虹台上定了。用不着我上去念了。"
 msgstr "Lo de la falda norte se decidió en la Terraza del Arcoíris. Ya no hace falta que suba a recitar."
@@ -39142,7 +39142,7 @@ msgid "出了窄道，眼前一下子宽了：一片高处的野地，天很近�
 msgstr "Al salir del pasadizo, de golpe todo se ensancha: un campo en lo alto, con el cielo muy cerca y las nubes muy bajas. El viento llega de frente a ráfagas, y la hierba, que llega a la cintura, queda aplastada por el viento, se levanta toda junta y vuelve a caer.\nAl norte hay un bosque de piedra: columnas grises y blancas, una a una, de pie en la niebla, como mucha gente quieta.\n"
 
 msgid "石柱一根挨一根，高的有三四丈，都被风磨圆了，迎风的一面刻满一道一道的槽，背风的一面长着青苔。雾是一条一条的，跟着风在石柱之间流。\n几条踩出来的小路在石林里分开，往北、西北、东北各有一处背风的石坳；西边下风头隐约有烟，东边有几顶破帐篷。\n"
-msgstr "Las columnas de piedra se suceden una tras otra, algunas de tres o cuatro zhang de alto, todas redondeadas por el viento: en la cara que da al viento están llenas de surcos, y en la cara de sotavento crece el musgo. La niebla va en tiras, y con el viento corre entre las columnas.\nVarios senderos pisados se separan en el bosque de piedra, y hacia el norte, el noroeste y el noreste hay una hondonada resguardada; al oeste, a sotavento, se ve humo a lo lejos, y al este hay unas cuantas tiendas rotas.\n"
+msgstr "Las columnas de piedra se suceden una tras otra, algunas de tres o cuatro zhang de alto, todas redondeadas por el viento: en la cara que da al viento están llenas de surcos, y en la cara de sotavento crece el musgo. La niebla va en tiras, y con el viento corre entre las columnas.\nVarios senderos pisados se separan en el bosque de piedra: hacia el norte, el noroeste y el noreste, en cada dirección hay una hondonada resguardada; al oeste, a sotavento, se ve humo a lo lejos, y al este hay unas cuantas tiendas rotas.\n"
 
 msgid "石林西边的下风头，一座黑石垒的小坛，坛上插着几面黑幡，烧剩的符纸一层一层压在坛脚，风一吹就飞起来几张，又落回去。地上画着一圈一圈的符，圈套着圈，都是往西开口的。\n"
 msgstr "Al oeste del bosque de piedra, a sotavento, un pequeño altar de piedra negra con varios estandartes negros clavados; los talismanes quemados se apilan capa sobre capa al pie, y cuando sopla el viento unos cuantos salen volando y vuelven a caer. En el suelo hay dibujados círculos de talismanes, círculo dentro de círculo, todos con la abertura hacia el oeste.\n"
@@ -39238,13 +39238,13 @@ msgid "一个穿兵部号衣的人蜷在塌了的帐篷边，早就冻僵了，�
 msgstr "Un hombre con el uniforme del Ministerio de Guerra yace encogido junto a una tienda caída, muerto de frío hace tiempo, con la cara hacia la hondonada del norte. Lleva en el pecho media hoja de papel con la tinta corrida por el rocío, aunque aún se leen unas líneas:\n\"Tercera vez. Contra el viento hasta la hondonada, el viento cesa. Ni rastro de ciudad en ninguna dirección. Sigo.\"\n\"El viento vuelve a levantarse.\"\nEn el reverso del papel está el sello del Ministerio, de tinta rojo oscuro, casi negra.\n"
 
 msgid "一面兵部的旗倒在草里，旗杆从中间断了，断口是新的白茬——是风折的，不是人砍的。旗面上的「兵」字被风扯得只剩半边。\n"
-msgstr "Una bandera del Ministerio de Guerra yace en la hierba con el asta partida por la mitad, y el corte es astilla blanca reciente: lo rompió el viento, no un hacha. En el paño, el ideograma de «soldado» está desgarrado por el viento hasta quedar solo media letra.\n"
+msgstr "Una bandera del Ministerio de Guerra yace en la hierba con el asta partida por la mitad, y el corte es astilla blanca reciente: lo rompió el viento, no un hacha. En el paño, el ideograma de \"soldado\" está desgarrado por el viento hasta quedar solo media letra.\n"
 
 msgid "黑石垒的坛，一人多高，坛顶压着一块铜盘，盘里的灰被风吹得只剩一层。坛脚的地上画着一圈套一圈的符，每一圈都朝西开口——画符的人一直是顺着风画的。\n"
 msgstr "Un altar de piedra negra, más alto que un hombre, con un plato de cobre sobre la cima, cuya ceniza el viento ha reducido a una sola capa. En el suelo, al pie del altar, hay talismanes dibujados círculo dentro de círculo, todos abiertos hacia el oeste: quien los dibujó siempre dibujó siguiendo el viento.\n"
 
 msgid "门洞是一整块白石凿出来的，圆的，里外都被风磨亮了。往外看是雾，雾底下很远的地方有山。门洞的顶上刻着两个字，被风磨得快平了，摸得出来：寻风。\n"
-msgstr "El arco de la puerta está tallado de una sola pieza de piedra blanca, redondo, pulido por el viento por dentro y por fuera. Mirando afuera, niebla, y muy abajo, una montaña. Sobre el arco hay grabadas dos letras, casi borradas por el viento, que se notan al tacto: «buscar el viento».\n"
+msgstr "El arco de la puerta está tallado de una sola pieza de piedra blanca, redondo, pulido por el viento por dentro y por fuera. Mirando afuera, niebla, y muy abajo, una montaña. Sobre el arco hay grabadas dos letras, casi borradas por el viento, que se notan al tacto: \"buscar el viento\".\n"
 
 msgid "一只铜钩，钩尖朝上，擦得很亮。岚城家家门口都有一只，挂的是孩子的铃；这一只空了二十年。\n"
 msgstr "Un gancho de cobre, con la punta hacia arriba, muy brillante. Cada puerta de la Ciudad del Viento tiene uno, y de él cuelga la campana de un niño; este lleva veinte años vacío.\n"
