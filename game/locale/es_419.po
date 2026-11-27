@@ -41972,3 +41972,27 @@ msgstr "Un hombre con media armadura de hierro de la Guardia de palacio; la plac
 
 msgid "一个黑冠道士，冠上的丝绦断了一根，脸上横着一道新疤。湖底那一仗以后，逆灵宫的黑冠有的回了北麓，有的不知去向；他是不肯回去、还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n"
 msgstr "Un taoísta de los Gorros negros: a su gorro se le rompió uno de los cordones de seda y le cruza la cara una cicatriz reciente. Desde aquella batalla bajo el lago, algunos Gorros negros del Palacio Negro volvieron a las faldas del norte y otros se perdieron sin dejar rastro; él es de los que no quisieron volver y siguen matando: a orillas del Lago Caracola de Jade ya faltan dos familias de pescadores.\n"
+
+msgctxt "lit"
+msgid "子时之前"
+msgstr "antes de medianoche"
+
+msgctxt "lit"
+msgid "顺着转一圈，逆着转三圈"
+msgstr "una vuelta en sentido horario, tres en antihorario"
+
+msgctxt "lit"
+msgid "冷宫的井"
+msgstr "pozo del Palacio Frío"
+
+msgctxt "lit"
+msgid "正月十七"
+msgstr "17 del primer mes"
+
+msgctxt "lit"
+msgid "今夜"
+msgstr "esta noche"
+
+msgctxt "lit"
+msgid "三器"
+msgstr "las tres reliquias"

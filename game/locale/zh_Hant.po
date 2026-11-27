@@ -42119,3 +42119,15 @@ msgstr "老何守了三十年門，他不先出劍，你就沒有空子可等。
 
 msgid "师娘没发话，我不同人动手。"
 msgstr "師娘沒發話，我不同人動手。"
+
+msgctxt "lit"
+msgid "子时之前"
+msgstr "子時之前"
+
+msgctxt "lit"
+msgid "顺着转一圈，逆着转三圈"
+msgstr "順著轉一圈，逆著轉三圈"
+
+msgctxt "lit"
+msgid "冷宫的井"
+msgstr "冷宮的井"

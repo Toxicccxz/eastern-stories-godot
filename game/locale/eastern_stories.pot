@@ -19047,6 +19047,12 @@ msgstr ""
 msgid "这个「代」字，本座顶了这些日子，也该去掉了。正月十七九派上虹台，水烟阁要有一个真正坐这把椅子的人。"
 msgstr ""
 
+#. common.npc.fighter.executioner calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/common/npcs.json
+msgctxt "lit"
+msgid "正月十七"
+msgstr ""
+
 #. common.npc.fighter.executioner calls.steps.say
 #: data/common/npcs.json
 msgid "二十年了，这把椅子一直空着。正月十七九派上虹台，水烟阁总得拿出个说法——椅子空着，武林就没有一个能说话的人。"
@@ -21111,6 +21117,18 @@ msgstr ""
 #. common.npc.dancer.master inquiry.庄里的事.rules.say
 #: data/common/npcs.json
 msgid "依庄规，问我「庄规」；要带她回来，去内书房问老人家「女儿」。"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/common/npcs.json
+msgctxt "lit"
+msgid "庄规"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/common/npcs.json
+msgctxt "lit"
+msgid "女儿"
 msgstr ""
 
 #. common.npc.dancer.master calls.steps.emote
@@ -45148,6 +45166,20 @@ msgstr ""
 msgid "他练的那门经，是从番坊来的。番坊的日陀罗寺。"
 msgstr ""
 
+#. sanyen.npc.drug_bonze calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#. native.npc.sick_woodcutter calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/sanyen/npcs.json data/native/npcs.json
+msgctxt "lit"
+msgid "番坊"
+msgstr ""
+
+#. sanyen.npc.drug_bonze calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#. native.npc.sick_woodcutter calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/sanyen/npcs.json data/native/npcs.json
+msgctxt "lit"
+msgid "日陀罗寺"
+msgstr ""
+
 #. sanyen.npc.cook_bonze name
 #: data/sanyen/npcs.json
 msgid "烧饭僧"
@@ -46695,6 +46727,18 @@ msgstr ""
 #. choyin.npc.judgeman calls.steps.say
 #: data/choyin/npcs.json
 msgid "这封信给家叔槐阳王。假印和失踪的人都往关北去了——拿着它去天驼关，军营的门会开。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/choyin/npcs.json
+msgctxt "lit"
+msgid "槐阳王"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/choyin/npcs.json
+msgctxt "lit"
+msgid "天驼关"
 msgstr ""
 
 #. choyin.npc.judgeman calls.steps.say
@@ -48821,6 +48865,12 @@ msgstr ""
 #. canyon.npc.general calls.steps.say
 #: data/canyon/npcs.json
 msgid "召回令明天就到。天驼关交给李信——他比我守得住。"
+msgstr ""
+
+#. canyon.npc.general calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/canyon/npcs.json
+msgctxt "lit"
+msgid "李信"
 msgstr ""
 
 #. canyon.npc.general calls.steps.line
@@ -54853,9 +54903,33 @@ msgstr ""
 msgid "那天夜里我睡不着，走到小屋外头，听见我爹和一个黑衣人说话。黑衣人说「湖底」，我爹说「子时之前」。"
 msgstr ""
 
+#. city.npc.shangshu.qing_chen calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/city/npcs.json
+msgctxt "lit"
+msgid "湖底"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/city/npcs.json
+msgctxt "lit"
+msgid "子时之前"
+msgstr ""
+
 #. city.npc.shangshu.qing_chen calls.steps.say
 #: data/city/npcs.json
 msgid "黑衣人走的是祭坛底下的路：顺着转一圈，逆着转三圈，按下去。密室的床底下还有一条道，往南——通到宫里，冷宫的井。我跟过一次。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/city/npcs.json
+msgctxt "lit"
+msgid "顺着转一圈，逆着转三圈"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/city/npcs.json
+msgctxt "lit"
+msgid "冷宫的井"
 msgstr ""
 
 #. city.npc.shangshu.qing_chen calls.steps.say
@@ -58948,6 +59022,13 @@ msgstr ""
 #: data/niling/npcs.json
 msgid ""
 "他的剑还垂着，没有动。这一仗你打不过——守门的道士不等他开口——一动手就逃（战斗里选「逃跑」）：出了前院的门，下山去。逃得出去，就算过了这一关。\n"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#. native.npc.niling_lead_chanter_unmasking calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/niling/npcs.json
+msgctxt "lit"
+msgid "逃跑"
 msgstr ""
 
 #. native.npc.xuan_mingzi_unmasking spared.line
@@ -63966,6 +64047,12 @@ msgstr ""
 msgid "你有一块印模——卢卡说的。拿出来，对一对。拿不出来……那就看你的了。"
 msgstr ""
 
+#. native.npc.feng_lu calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/fanfang/npcs.json
+msgctxt "lit"
+msgid "印模"
+msgstr ""
+
 #. native.npc.customs_clerk name
 #: data/fanfang/npcs.json
 msgid "书办"
@@ -66492,6 +66579,19 @@ msgstr ""
 msgid "皇上说，今夜养心殿。冯总教头的人会领你进去。"
 msgstr ""
 
+#. native.npc.yulan_zhao calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/imperial/npcs.json
+msgctxt "lit"
+msgid "今夜"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#. native.npc.court_herald calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/imperial/npcs.json
+msgctxt "lit"
+msgid "养心殿"
+msgstr ""
+
 #. native.npc.yulan_zhao inquiry.寻剑令
 #: data/imperial/npcs.json
 msgid "父皇的寻剑令……你也知道？——这里说不得。"
@@ -66937,6 +67037,12 @@ msgstr ""
 #. native.npc.yulan_zhao_private calls.steps.say
 #: data/imperial/npcs.json
 msgid "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/imperial/npcs.json
+msgctxt "lit"
+msgid "御书房"
 msgstr ""
 
 #. native.npc.yulan_zhao_private calls.steps.emote
@@ -70761,6 +70867,12 @@ msgid ""
 "三器都在，来的人也够。今夜能灭它。\n"
 msgstr ""
 
+#. native.npc.woman_lakeside calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "三器"
+msgstr ""
+
 #. native.npc.woman_lakeside calls.steps.line
 #: data/native/npcs.json
 msgid ""
@@ -72459,6 +72571,12 @@ msgstr ""
 msgid "你站哪一边——问我，或者问她：「教主」。"
 msgstr ""
 
+#. native.npc.annie_yard calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "教主"
+msgstr ""
+
 #. native.npc.lake_taoist long
 #: data/native/npcs.json
 msgid ""
@@ -74010,6 +74128,12 @@ msgid ""
 "（认二十三个结，问真龙头「龙头」；认这些年管事的人，问陆得财「龙头」。）\n"
 msgstr ""
 
+#. native.npc.lu_decai_home calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "龙头"
+msgstr ""
+
 #. native.npc.maoshan_gardener long
 #: data/native/npcs.json
 msgid ""
@@ -74286,6 +74410,18 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "（烧，问林忌「烧」；留，问花匠「留」。）\n"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "烧"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "留"
 msgstr ""
 
 #. native.npc.maoshan_gardener_north long
@@ -74806,6 +74942,18 @@ msgid ""
 "（作证，问骆云舟「作证」；保住骆家，问骆建章「回家」。）\n"
 msgstr ""
 
+#. native.npc.luo_yunzhou_capital calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "作证"
+msgstr ""
+
+#. native.npc.luo_yunzhou_capital calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "回家"
+msgstr ""
+
 #. native.npc.sick_woodcutter name
 #. native.npc.woodcutter_home name
 #: data/native/npcs.json
@@ -75243,6 +75391,12 @@ msgstr ""
 msgid "求你……去问问村长，那门里头到底有什么……"
 msgstr ""
 
+#. native.npc.green_mother calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "村长"
+msgstr ""
+
 #. native.npc.green_mother inquiry.孩子.rules.say
 #: data/native/npcs.json
 msgid "阿牛！小翠！"
@@ -75540,6 +75694,18 @@ msgid ""
 "（收经，问玄智「收经」；守寺，问玄智「守寺」。）\n"
 msgstr ""
 
+#. native.npc.toutuo_hall calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "收经"
+msgstr ""
+
+#. native.npc.toutuo_hall calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "守寺"
+msgstr ""
+
 #. native.npc.toutuo_liuyun long
 #: data/native/npcs.json
 msgid ""
@@ -75761,6 +75927,18 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "（守阵，问绝尘子「守阵」；下山，问了尘「下山」。）\n"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "守阵"
+msgstr ""
+
+#. native.npc.liaochen_kneel calls.steps.keys: a word lit in the line it stands in. Leave it untranslated where that line's translation writes the word as the word's own translation does; else give the form the line uses (the strip, not Cloth Strip)
+#: data/native/npcs.json
+msgctxt "lit"
+msgid "下山"
 msgstr ""
 
 #. native.npc.liaochen_sanyen long

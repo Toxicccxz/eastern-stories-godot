@@ -42094,3 +42094,19 @@ msgstr "老何は三十年、門を守ってきた。向こうが先に仕掛け
 
 msgid "师娘没发话，我不同人动手。"
 msgstr "師母のお言葉がないうちは、俺は誰とも手合わせはしない。"
+
+msgctxt "lit"
+msgid "子时之前"
+msgstr "子の刻までに"
+
+msgctxt "lit"
+msgid "顺着转一圈，逆着转三圈"
+msgstr "時計回りに一回、反時計回りに三回"
+
+msgctxt "lit"
+msgid "冷宫的井"
+msgstr "冷宮の井戸"
+
+msgctxt "lit"
+msgid "今夜"
+msgstr "今宵"

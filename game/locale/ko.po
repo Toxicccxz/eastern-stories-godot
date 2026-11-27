@@ -42094,3 +42094,27 @@ msgstr "하 영감은 서른 해 동안 문을 지켰소. 그가 먼저 검을 �
 
 msgid "师娘没发话，我不同人动手。"
 msgstr "사모님 말씀이 없으셨네. 나는 아무하고나 손을 섞지 않네."
+
+msgctxt "lit"
+msgid "子时之前"
+msgstr "자시 전"
+
+msgctxt "lit"
+msgid "顺着转一圈，逆着转三圈"
+msgstr "시계 방향으로 한 바퀴, 반대로 세 바퀴"
+
+msgctxt "lit"
+msgid "冷宫的井"
+msgstr "냉궁의 우물"
+
+msgctxt "lit"
+msgid "正月十七"
+msgstr "정월 열이렛날"
+
+msgctxt "lit"
+msgid "今夜"
+msgstr "오늘 밤"
+
+msgctxt "lit"
+msgid "三器"
+msgstr "삼기"

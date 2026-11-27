@@ -46713,3 +46713,67 @@ msgstr "Старина Хэ тридцать лет стерёг ворота: �
 
 msgid "师娘没发话，我不同人动手。"
 msgstr "Госпожа слова не сказала. Без её слова я ни с кем не схожусь."
+
+msgctxt "lit"
+msgid "槐阳王"
+msgstr "князю Хуайян"
+
+msgctxt "lit"
+msgid "天驼关"
+msgstr "заставу Тяньто"
+
+msgctxt "lit"
+msgid "子时之前"
+msgstr "До полуночи"
+
+msgctxt "lit"
+msgid "顺着转一圈，逆着转三圈"
+msgstr "повернуть один раз по часовой стрелке, три раза против"
+
+msgctxt "lit"
+msgid "冷宫的井"
+msgstr "колодцу Холодного дворца"
+
+msgctxt "lit"
+msgid "李信"
+msgstr "Ли Синю"
+
+msgctxt "lit"
+msgid "女儿"
+msgstr "Дочь"
+
+msgctxt "lit"
+msgid "正月十七"
+msgstr "Семнадцатого числа первой луны"
+
+msgctxt "lit"
+msgid "番坊"
+msgstr "Иноземного квартала"
+
+msgctxt "lit"
+msgid "日陀罗寺"
+msgstr "храма Житоло"
+
+msgctxt "lit"
+msgid "今夜"
+msgstr "сегодня ночью"
+
+msgctxt "lit"
+msgid "养心殿"
+msgstr "Воспитания сердца"
+
+msgctxt "lit"
+msgid "御书房"
+msgstr "Императорском кабинете"
+
+msgctxt "lit"
+msgid "印模"
+msgstr "слепок печати"
+
+msgctxt "lit"
+msgid "三器"
+msgstr "Три реликвии"
+
+msgctxt "lit"
+msgid "村长"
+msgstr "старосту"

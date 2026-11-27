@@ -337,7 +337,7 @@
 						{ "say": "印是不是，不是你一个番人说了算！", "shot": {"two": "native.npc.andun"} },
 						{ "by": "native.npc.andun" },
 						{ "emote": "转过头来看你。", "do": {"act": "face", "toward": "player"}, "shot": "near" },
-						{ "say": "你有一块印模——卢卡说的。拿出来，对一对。拿不出来……那就看你的了。", "shot": {"two": "player"} }
+						{ "say": "你有一块印模——卢卡说的。拿出来，对一对。拿不出来……那就看你的了。", "keys": ["印模"], "shot": {"two": "player"} }
 					]
 				}
 			]

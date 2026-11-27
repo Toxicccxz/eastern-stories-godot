@@ -42119,3 +42119,31 @@ msgstr "Old He kept the gate for thirty years; he never strikes first, so you ha
 
 msgid "师娘没发话，我不同人动手。"
 msgstr "The Master's wife hasn't said the word. I don't cross swords with anyone."
+
+msgctxt "lit"
+msgid "湖底"
+msgstr "the lake bottom"
+
+msgctxt "lit"
+msgid "子时之前"
+msgstr "before midnight"
+
+msgctxt "lit"
+msgid "顺着转一圈，逆着转三圈"
+msgstr "turn once clockwise, three times counterclockwise"
+
+msgctxt "lit"
+msgid "冷宫的井"
+msgstr "the well in the Cold Palace"
+
+msgctxt "lit"
+msgid "正月十七"
+msgstr "the seventeenth"
+
+msgctxt "lit"
+msgid "今夜"
+msgstr "tonight"
+
+msgctxt "lit"
+msgid "三器"
+msgstr "the three"
