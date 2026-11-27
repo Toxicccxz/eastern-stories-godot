@@ -1222,6 +1222,15 @@ func _corpse_look(corpse: CorpseState) -> Dictionary:
 	if _looks.has(corpse.victim_character_id):
 		return _looks[corpse.victim_character_id]
 	var look: Dictionary = _person_look(corpse.victim_character_id)
+	if map.npcs.find_resident_npc(corpse.victim_character_id) == null:
+		# One the room has replaced since (std/room.c reset(): `<point>.character.<n>`): the look of
+		# who stands at that spawn point.
+		var point: String = String(corpse.victim_character_id)
+		point = point.left(point.find(".character")) if point.contains(".character") else ""
+		for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(map.map_id()):
+			if StringName(point) in spawn.spawn_point_ids():
+				look = PersonLooks.resolve(layout.get("actors",{}),String(NpcDefinition.unnamed_id(spawn.npc_definition_id)),{},String(corpse.victim_gender))
+				break
 	if look.is_empty():
 		look = {"coat":"7a7058"}
 	_looks[corpse.victim_character_id] = look

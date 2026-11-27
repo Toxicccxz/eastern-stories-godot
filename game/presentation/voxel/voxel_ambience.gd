@@ -754,7 +754,7 @@ func advance(delta: float) -> void:
 		var rate: float = float(fish["rate"])
 		var phase: float = float(fish["phase"])
 		# Never stopping, never turning back: the speed only swells and ebbs.
-		var a: float = phase+rate*clock+signf(rate)*0.35*sin(clock*0.41+phase*1.7)
+		var a: float = phase+rate*clock+signf(rate)*0.35*minf(1.0,absf(rate)/0.16)*sin(clock*0.41+phase*1.7)
 		var radii: Vector2 = fish["radii"]
 		var node: Node3D = fish["node"]
 		node.position = centre+Vector3(cos(a)*radii.x, sin(clock*0.9+phase)*0.025, sin(a)*radii.y)

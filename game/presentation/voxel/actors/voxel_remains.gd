@@ -82,6 +82,7 @@ static func build(node: Node3D, look: Dictionary, stage: int, facing: float, see
 		var person := Person.new()
 		person.coat = String(look.get("coat", "817755"))
 		person.configure(look)
+		person.stone = String(look.get("stone", "")) if look.get("body", "") == "statue" else ""
 		person.limp = 1.0
 		person.rot = ROT if rotten else 0.0
 		body = person
@@ -96,6 +97,9 @@ static func build(node: Node3D, look: Dictionary, stage: int, facing: float, see
 			(body as Person).eyes.scale.y = 0.12
 			if not rotten:
 				body.name = "Body"
+		if body is Flyer:
+			# Its wings spread on the ground, not hovering.
+			(body.get("_body") as Node3D).position = Vector3(0, 0.03, 0)
 	if rotten:
 		var flies := Flies.new()
 		flies.position = Vector3(0, 0.35, 0)

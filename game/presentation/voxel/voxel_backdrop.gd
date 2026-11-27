@@ -20,6 +20,12 @@ var amount: float = 0.0:
 		visible = amount > 0.001
 		if _material != null:
 			_material.set_shader_parameter("amount", amount)
+		if water != null:
+			water.set_opaque(visible)
+
+## The map's water, shut while the backdrop is up (VoxelWater.set_opaque()): see-through water is
+## not in the screen the backdrop copies.
+var water: VoxelWater
 
 var _material: ShaderMaterial
 var _look_tween: Tween
@@ -70,6 +76,11 @@ func set_look(look: Dictionary, seconds: float = 0.0) -> void:
 	for key: String in values:
 		var from: Variant = _material.get_shader_parameter(key)
 		_look_tween.tween_method(func(value: Variant) -> void: _material.set_shader_parameter(key, value), from, values[key], seconds)
+
+
+func _exit_tree() -> void:
+	if water != null:
+		water.set_opaque(false)
 
 
 ## A shader value now (tests).

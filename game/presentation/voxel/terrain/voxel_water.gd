@@ -12,6 +12,7 @@ extends RefCounted
 ## Presentation only: the TileMap's water still decides what can be walked.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const SHADER = preload("res://presentation/voxel/shaders/water.gdshader")
+const OPAQUE = preload("res://presentation/voxel/shaders/water_opaque.gdshader")
 const WaterLife = preload("res://presentation/voxel/terrain/voxel_water_life.gd")
 const KINDS: Array[String] = ["water","deep_water","shallow_water"]
 const CHUNK: int = 256
@@ -36,6 +37,10 @@ var base_depth: float = 2.2
 var levels: Dictionary[Vector2i, float] = {}
 var looks: Dictionary[Vector2i, Dictionary] = {}
 var materials: Dictionary[String, ShaderMaterial] = {}
+## The same surfaces shut (set_opaque()), by material key, and each surface's key.
+var opaque_materials: Dictionary[String, ShaderMaterial] = {}
+var _surfaces: Dictionary[MeshInstance3D, String] = {}
+var _opaque: bool = false
 ## Material key -> how far its water goes to its `sunset` colour at full dusk (those that do).
 var sunsets: Dictionary[String, float] = {}
 var _dusk: float = -1.0
@@ -161,8 +166,8 @@ func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCli
 			if levels.has(next):
 				# A step between two water levels: a little spill of foaming water.
 				var other: float = levels[next]
-				if other < level-0.06:
-					_quad(surface,a+Vector3.UP*level,b+Vector3.UP*level,b+Vector3.UP*other,a+Vector3.UP*other,Vector3(shift.x,0,shift.y)/16.0,Color(base.lightened(0.2).srgb_to_linear(),1.0))
+				if other < level-0.01:
+					_quad(surface,a+Vector3.UP*level,b+Vector3.UP*level,b+Vector3.UP*other,a+Vector3.UP*other,Vector3(shift.x,0,shift.y)/16.0,Color(base.lightened(0.2).srgb_to_linear(),0.4))
 				# A step down in the bed toward the deep: its face, a shade darker than the bed.
 				if beds[next] < bed-0.01 and not _in_pit(cliffs,next):
 					_quad(ground,a+Vector3.UP*bed,b+Vector3.UP*bed,b+Vector3.UP*beds[next],a+Vector3.UP*beds[next],-normal,bed_color.darkened(0.18).srgb_to_linear())
@@ -187,6 +192,7 @@ func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCli
 		instance.material_override = materials[keys[surface_key]]
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		root.add_child(instance)
+		_surfaces[instance] = keys[surface_key]
 	var bed_material := StandardMaterial3D.new()
 	bed_material.vertex_color_use_as_albedo = true
 	bed_material.roughness = 0.85
@@ -253,6 +259,26 @@ func set_dusk(weight: float) -> void:
 	_dusk = weight
 	for key: String in sunsets:
 		materials[key].set_shader_parameter("sunset_amount",sunsets[key]*weight)
+		if opaque_materials.has(key):
+			opaque_materials[key].set_shader_parameter("sunset_amount",sunsets[key]*weight)
+
+## Shuts every surface (`on`: in its own colour, nothing seen through) or opens it again: a fight's
+## backdrop copies the screen before anything see-through is drawn, so water shut stays in its copy.
+func set_opaque(on: bool) -> void:
+	if on == _opaque:
+		return
+	_opaque = on
+	for instance: MeshInstance3D in _surfaces:
+		if not is_instance_valid(instance):
+			continue
+		var key: String = _surfaces[instance]
+		if on and not opaque_materials.has(key):
+			var shut := ShaderMaterial.new()
+			shut.shader = OPAQUE
+			for parameter: String in ["flow","speed","glint","foam","sky","swell","swell_speed","sunset","sunset_amount"]:
+				shut.set_shader_parameter(parameter,materials[key].get_shader_parameter(parameter))
+			opaque_materials[key] = shut
+		instance.material_override = opaque_materials[key] if on else materials[key]
 
 ## Pixels from each water cell to the nearest cell that is not water (its bank).
 func _distances() -> Dictionary[Vector2i, float]:

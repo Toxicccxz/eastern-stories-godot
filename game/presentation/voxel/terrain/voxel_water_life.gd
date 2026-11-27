@@ -169,9 +169,9 @@ func _school(cells: Array, fish: Dictionary) -> void:
 				continue
 			var rx: float = rng.randf_range(0.5, minf(2.4, (room-8.0)/32.0+0.5))
 			var rz: float = rx*rng.randf_range(0.45, 1.0)
-			if not _round_in_water(centre, rx, rz):
-				continue
 			var swim: float = water.levels[centre]-clampf((water.levels[centre]-water.beds[centre])*0.45, 0.12, 0.5)
+			if not _round_in_water(centre, rx, rz, swim):
+				continue
 			var looks: Array = FISH[kind]
 			var look: Array = looks[rng.randi_range(0, looks.size()-1)]
 			var rate: float = rng.randf_range(0.18, 0.36)/maxf(rx, 0.6)
@@ -188,13 +188,14 @@ func _school(cells: Array, fish: Dictionary) -> void:
 					(node[0] as Node3D).position = Vector3(centre.x/32.0+rx, swim, centre.y/32.0)
 			break
 
-## Whether a fish's round about `centre` (rx, rz units) stays over the water's cells, clear of its banks.
-func _round_in_water(centre: Vector2i, rx: float, rz: float) -> bool:
+## Whether a fish's round about `centre` (rx, rz units), at height `swim`, stays over the water's
+## cells, clear of its banks and above its bed.
+func _round_in_water(centre: Vector2i, rx: float, rz: float, swim: float) -> bool:
 	for step: int in 16:
 		var a: float = step*TAU/16.0
 		var px := Vector2(centre)+Vector2(cos(a)*rx, sin(a)*rz)*32.0
 		var cell := Vector2i(floori(px.x/16.0)*16+8, floori(px.y/16.0)*16+8)
-		if not water.levels.has(cell) or depth.get(cell, 0.0) < 12.0 or water.looks[cell] != water.looks[centre]:
+		if not water.levels.has(cell) or depth.get(cell, 0.0) < 12.0 or water.looks[cell] != water.looks[centre] or water.beds[cell] > swim-0.18:
 			return false
 	return true
 
