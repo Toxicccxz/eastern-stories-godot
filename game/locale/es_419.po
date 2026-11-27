@@ -11615,7 +11615,7 @@ msgid "岚翁：剑在云台。他不卖，不赏，只问谁拔。"
 msgstr "El Anciano del Viento: la espada está en la Terraza de las Nubes. No la vende ni la regala; solo pregunta quién la desenvaina."
 
 msgid "云台：谁拔旋芒——你自己（十铃里要响六口，先接岚翁的接风三刃）、皇叔（要他已经入朝）、萧辟尘（要带着他的风铃）。"
-msgstr "La Terraza de las Nubes: quién desenvaina Filo Giratorio; tú (seis de las diez campanas deben sonar, y antes hay que aguantar las tres hojas de bienvenida del Anciano del Viento), el tío imperial (debe haber vuelto ya a la corte) o Xiao Bichen (debe llevar consigo su campanilla)."
+msgstr "La Terraza de las Nubes: quién desenvaina Filo Giratorio; tú (seis de las diez campanas deben sonar, y antes hay que aguantar las tres filos del viento del Anciano del Viento), el tío imperial (debe haber vuelto ya a la corte) o Xiao Bichen (debe llevar consigo su campanilla)."
 
 msgid "风散了，剑落进你手里。岚翁说：十口铃里有人信你，剑就认你。"
 msgstr "El viento se deshizo y la espada cayó en tu mano. El Anciano del Viento dijo: si entre las diez campanas hay quien confía en ti, la espada te acepta."
@@ -15116,7 +15116,7 @@ msgid "菜单"
 msgstr "Menú"
 
 msgid "草往哪边倒，风就往哪边吹。"
-msgstr "Hacia donde se inclina la hierba, hacia allá sopla el viento."
+msgstr "La hierba se inclina hacia donde sopla el viento."
 
 msgid "目标"
 msgstr "Objetivo"
@@ -15152,7 +15152,7 @@ msgid "跪下受戒就是剃度出家：{npc}会剃去你的头发，你从此�
 msgstr "Arrodillarte para recibir los preceptos es tomar la tonsura: {npc}{:el} te rapará la cabeza y desde entonces serás {jugador:monje|monja}.\nTu nombre pasará a ser un nombre del dharma: un carácter al azar de \"{prefixes}\", más el primer carácter de tu nombre, \"{first}\" (por ejemplo, \"{example}\"). Tu nombre de antes no se usará nunca más.\n¿Quieres arrodillarte para recibir los preceptos?"
 
 msgid "你可以打听这些事情："
-msgstr "Puedes preguntar por esto:"
+msgstr "Puedes preguntar por estas cosas:"
 
 msgid "告辞"
 msgstr "Despedirse"
@@ -15197,7 +15197,7 @@ msgid "风雨双侠"
 msgstr "Espadachín del Viento y la Lluvia"
 
 msgid "柳馆主"
-msgstr "maestro Liu"
+msgstr "Maestro Liu"
 
 msgid "掌门人"
 msgstr "Maestro"
@@ -15212,7 +15212,7 @@ msgid "竹林道尽头那块大黄石，照我教你的法子推。书取出来�
 msgstr "La gran roca amarilla al final del Sendero del Bambú: empújala como te enseñé. Saca el libro y tráelo."
 
 msgid "看着窗外的竹影，半晌才开口。"
-msgstr " se queda mirando las sombras del bambú tras la ventana y tarda un buen rato en hablar."
+msgstr "se queda mirando las sombras del bambú fuera de la ventana y tarda un buen rato en hablar."
 
 msgid "二十岁那年，我在天驼关的竹林里住过一冬，悟出一点架剑的道理，写成一卷，起名《悟疾风劲竹书》，留在竹林尽头的石室里。"
 msgstr "El año en que cumplí veinte pasé un invierno en el bosque de bambú del Paso del Camello; entendí un poco cómo se sostiene una espada, lo escribí en un rollo, lo llamé «Bambú contra el vendaval» y lo dejé en la cámara de piedra al fondo del bosque."
@@ -37541,3 +37541,1974 @@ msgstr "Jardín Xiang"
 
 msgid "跳下前院"
 msgstr "Saltar al patio delantero"
+
+msgid "一串琉璃珠子，有蓝的、绿的、琥珀色的，透亮，里头有一丝一丝的气泡。对着太阳一照，手心里落下一小片彩光。\n"
+msgstr "Una sarta de cuentas de vidrio, azules, verdes, color ámbar, transparentes, con hilitos de burbujas dentro. Al ponerlas al sol, sobre la palma cae un pedacito de luz de colores.\n"
+
+msgid "一张卷起来的毡毯，红底黄花，花纹一圈套一圈。摸上去又厚又密，带着羊毛的气味。\n"
+msgstr "Una alfombra de fieltro enrollada, de fondo rojo con flores amarillas y dibujos que se encierran en círculos. Al tacto es gruesa y apretada, y huele a lana.\n"
+
+msgid "一小布袋胡椒，黑黑的一粒一粒，袋口一松，那股辣味直冲鼻子。在京师，这一袋能换不少银子。\n"
+msgstr "Una bolsita de tela con pimienta, en granos negros; en cuanto se afloja la boca, el picante sube derecho a la nariz. En la Capital, esta bolsa se cambia por bastante plata.\n"
+
+msgid "一张烤得焦黄的胡饼，上头撒满芝麻，又硬又香。走远路的人带着，一个月不坏。\n"
+msgstr "Un pan plano tostado hasta quedar dorado, cubierto de sésamo, duro y aromático. Quien hace un viaje largo lo lleva consigo: un mes entero y no se echa a perder.\n"
+
+msgid "一把细嘴的铜壶，壶身上敲满了星星似的花纹。装着清水，一路晃荡也不洒。\n"
+msgstr "Una tetera de cobre de pico fino, con la panza martillada de dibujos como estrellas. Llena de agua, no derrama una gota por mucho que se bambolee en el camino.\n"
+
+msgid "巴掌大的一片铜，边角磨圆了，颜色发黑，拿在手里沉甸甸的。正面刻着几行字，笔画很深，是用剑尖一下一下刻出来的——字是中原字，刻字的人却不大会写，有几个笔画反了。背面一只展翅的鹰。铜是凉的，可刚从火坛底下取出来的时候，是温的。\n"
+msgstr "Una lámina de cobre del tamaño de la palma de una mano, con las esquinas redondeadas y el color ennegrecido; pesa en la mano. En el anverso hay varias líneas de letras de trazos muy hondos, grabadas a golpes de punta de espada: son letras de las Llanuras Centrales, pero quien las grabó apenas sabía escribir, y algunos trazos van al revés. En el reverso, un águila con las alas desplegadas. El cobre está frío, aunque cuando lo sacaron de debajo del altar de fuego estaba tibio.\n"
+
+msgid "你把铜牒举到亮处，一行一行地认那些刻反了笔画的字：\n"
+msgstr "Levantas la tablilla hacia la luz y vas leyendo, una por una, las letras de trazos invertidos:\n"
+
+msgid "「头在湖底冰下，以穿灵为钉；\n"
+msgstr "\"La cabeza yace bajo el hielo, en el fondo del lago, con Traspasalmas por clavo;\n"
+
+msgid "钉在，鬼不得全；\n"
+msgstr "mientras el clavo siga, el fantasma no estará entero;\n"
+
+msgid "钉拔，鬼成形；\n"
+msgstr "si se arranca el clavo, el fantasma toma forma;\n"
+
+msgid "要灭它，三器齐；\n"
+msgstr "para destruirlo, las tres reliquias juntas;\n"
+
+msgid "要再封，须有人留下。」\n"
+msgstr "para sellarlo otra vez, alguien tiene que quedarse.\"\n"
+
+msgid "背面那只鹰的翅膀底下还有一行小字，刻得浅，几乎磨平了：「吾见之。」\n"
+msgstr "Bajo el ala del águila del reverso hay otra línea pequeña, grabada somera, casi borrada: \"Yo lo vi.\"\n"
+
+msgid "一片狭长的贝叶，两指宽，一尺来长，叶头穿了一个小孔。叶面上用铁笔刻着一行一行天竺字，刻痕里抹了烟灰，是婆萝蜜多心经的第一页。叶边空白处，有人用中原字添了一行小字：「收不收，是山烟寺的事。」\n"
+msgstr "Una hoja de palma larga y angosta, de dos dedos de ancho y un chi de largo, con un agujerito en la punta. En la cara, grabadas con un punzón de hierro, hay líneas y líneas de letras indias, con ceniza frotada en las incisiones: es la primera página del Sutra del Corazón. En el margen, alguien añadió con letras de las Llanuras Centrales una línea pequeña: \"Aceptarla o no es cosa del Templo de la Bruma.\"\n"
+
+msgid "这是龙若法王托你带回山烟寺的经，不能随便丢。"
+msgstr "Es el sutra que el Rey del Dharma Longruo te pidió llevar al Templo de la Bruma; no puedes tirarlo sin más."
+
+msgid "一把倭国的长刀，刀身窄而弯，只开一面刃，刀背磨得发亮。刀柄长，缠着黑丝绳，两只手握得下。浪人说：一刀。\n"
+msgstr "Un sable largo de Japón, de hoja angosta y curva, con filo de un solo lado y el lomo pulido hasta brillar. La empuñadura es larga, envuelta en cordón de seda negra, para agarrarla con las dos manos. El ronin decía: un tajo.\n"
+
+msgid "一面大秦人的圆盾，木胎蒙牛皮，铁皮包边，盾心一个铁泡。盾面上漆着一只展翅的鹰，漆掉了一半，盾沿全是剑尖戳出来的白点。左臂套上去正合适。\n"
+msgstr "Un escudo redondo de Daqin, de madera forrada de cuero de vaca, con borde de chapa de hierro y un clavo de hierro en el centro. En la cara, pintada, un águila de alas desplegadas, con la pintura medio saltada; el canto está lleno de marcas blancas de puntas de espada. Calza justo en el brazo izquierdo.\n"
+
+msgid "一个背着盐包的脚夫，盐包压得他的腰弯成一张弓。他的脸上、眉毛上一层白霜，是汗干了留下的盐。\n"
+msgstr "Un cargador con un saco de sal a cuestas; el peso le dobla la cintura como un arco. En la cara y en las cejas tiene una capa blanca de escarcha: la sal que deja el sudor al secarse.\n"
+
+msgid "盐脚夫停下来喘口气，抹了一把脸上的盐霜。\n"
+msgstr "El cargador de sal se detiene a tomar aire y se pasa la mano por la escarcha de sal de la cara.\n"
+
+msgid "盐脚夫把盐包往背上颠了颠，一步一步往上挪。\n"
+msgstr "El cargador de sal se acomoda el saco de sal en la espalda y sigue subiendo, paso a paso.\n"
+
+msgid "盐"
+msgstr "Sal"
+
+msgid "码头那边晒的海盐。背上崖，送到玉螺湖村去换米，一包换一斗。"
+msgstr "Sal de mar que se seca allá en el muelle. La subimos por el acantilado hasta la Aldea Caracola de Jade y la cambiamos por arroz: un saco, un celemín."
+
+msgid "下了崖就是。码头、市集，再往里头是庙。"
+msgstr "Bajando el acantilado, ahí está. El muelle, el mercado, y más adentro el templo."
+
+msgid "路"
+msgstr "Camino"
+
+msgid "这条路是凿出来的，我爷爷那辈人凿的。下雨天别走，滑。"
+msgstr "Este camino lo picaron en la roca; lo picaron los de la época de mi abuelo. Cuando llueve no lo pises: resbala."
+
+msgid "看多了就不看了。海又不给饭吃。"
+msgstr "Uno de tanto mirar ya no mira. El mar no da de comer."
+
+msgid "一个晒得黑红的船工，光着脚，裤腿卷到膝盖，肩上搭着一条湿缆绳。他的手上全是绳子勒出来的老茧。\n"
+msgstr "Un barquero curtido por el sol, rojo oscuro, descalzo, con el pantalón arremangado hasta la rodilla y una soga mojada al hombro. En las manos tiene los callos viejos que deja la soga al tirar.\n"
+
+msgid "船工往海里啐了一口。\n"
+msgstr "El barquero escupe al mar.\n"
+
+msgid "船工哼起一支调子，词你一个字也听不懂。\n"
+msgstr "El barquero tararea una tonada; de la letra no entiendes ni una palabra.\n"
+
+msgid "船"
+msgstr "Barcos"
+
+msgid "不是我们的船。南边商人的，西边商人的。我们只管拴、只管卸，一天三十文。"
+msgstr "No son nuestros. Son de mercaderes del sur y del oeste. Nosotros solo amarramos y descargamos: treinta wen al día."
+
+msgid "海上没有路。有路，也是别人的。"
+msgstr "En el mar no hay camino. Y si lo hay, es de otros."
+
+msgid "港口小，船是别人的，人是各处来的。各过各的。"
+msgstr "El puerto es chico, los barcos son de otros y la gente viene de todas partes. Cada cual con lo suyo."
+
+msgid "大秦人"
+msgstr "Gente de Daqin"
+
+msgid "铁盾会的。市集北头，门口立着两面大盾的那家。"
+msgstr "De la Hermandad del Escudo de Hierro. Al norte del mercado, la que tiene dos grandes escudos en la puerta."
+
+msgid "税"
+msgstr "Impuestos"
+
+msgid "货上岸，十抽一。冯大人的规矩。我们不交，我们没货。"
+msgstr "La carga sube a tierra, uno de cada diez. Regla del señor Feng. Nosotros no pagamos: no tenemos carga."
+
+msgid "胡商"
+msgstr "Mercader extranjero"
+
+msgid "一个缠着头巾的胡商，正指挥船工把箱子抬上岸。他一会儿用胡话骂，一会儿用中原话骂，骂完了自己先笑。\n"
+msgstr "Un mercader de turbante dirigiendo a los barqueros para que suban las cajas a tierra. Unas veces maldice en lengua extranjera, otras en la de las Llanuras Centrales, y cuando termina es el primero en reírse.\n"
+
+msgid "胡商冲着船工嚷道：慢点！那一箱是琉璃！\n"
+msgstr "El mercader extranjero les grita a los barqueros: \"¡Despacio! ¡Esa caja es de vidrio!\"\n"
+
+msgid "胡商拿出一本小册子，在上头记了一笔。\n"
+msgstr "El mercader extranjero saca una libretita y anota algo.\n"
+
+msgid "货"
+msgstr "Mercancía"
+
+msgid "胡椒、琉璃、毡子。从西边来，走了一年。到了番坊，交了税，就剩一半。"
+msgstr "Pimienta, vidrio, fieltro. Venimos del oeste, un año de camino. Al llegar al Barrio Extranjero se paga el impuesto y queda la mitad."
+
+msgid "十抽一！冯大人还说是轻的。"
+msgstr "¡Uno de cada diez! Y el señor Feng dice que es poco."
+
+msgid "西边是沙子，再西边是山，山那边还是沙子。走一年，才到这儿。"
+msgstr "Al oeste hay arena, más al oeste hay montañas, y más allá de las montañas, otra vez arena. Un año caminando para llegar aquí."
+
+msgid "铁盾会的人？他们替商队看过货、打过强盗。现在没人雇他们了，就教人使剑。"
+msgstr "¿La gente de la Hermandad del Escudo de Hierro? Han cuidado cargas de caravanas y peleado contra bandidos. Ahora nadie los contrata, y enseñan espada."
+
+msgid "一个戴小帽的税吏，坐在码头当中的桌子后头。桌上一本账、一杆秤、一个钱匣子；他拨一下算盘，看一眼海，再拨一下。\n"
+msgstr "Un recaudador de gorrito, sentado tras la mesa del medio del muelle. Sobre la mesa, un libro de cuentas, una romana y una cajita de dinero; mueve el ábaco, mira el mar, y vuelve a mover el ábaco.\n"
+
+msgid "税吏拨了几下算盘，在账上记了一笔。\n"
+msgstr "El recaudador mueve unas cuentas del ábaco y anota algo en el libro.\n"
+
+msgid "税吏冲着卸货的胡商喊道：先过秤，再上岸！\n"
+msgstr "El recaudador les grita a los mercaderes que descargan: \"¡Primero a la romana, luego a tierra!\"\n"
+
+msgid "货上岸，十抽一，市舶司的规矩。你没货？没货就走吧。"
+msgstr "La carga sube a tierra, uno de cada diez: regla de la aduana marítima. ¿No tienes carga? Si no tienes carga, vete."
+
+msgid "市集西头，灰墙的院子。冯大人在里头。"
+msgstr "Al oeste del mercado, el patio de la pared gris. El señor Feng está dentro."
+
+msgid "冯大人是京师派来的。番坊的事，他说了算。"
+msgstr "Al señor Feng lo mandó la Capital. En el Barrio Extranjero, lo que él dice se hace."
+
+msgid "铁盾会在市集北头，门口立着两面大盾。别说是我指的路。"
+msgstr "La Hermandad del Escudo de Hierro está al norte del mercado, con dos grandes escudos en la puerta. No digas que yo te mostré el camino."
+
+msgid "船是南边商人的，番坊没有自己的船。"
+msgstr "Los barcos son de mercaderes del sur; el Barrio Extranjero no tiene barcos propios."
+
+msgid "一个高鼻子的胡商，面前的毡子上摆满了琉璃珠子和琉璃杯。太阳一照，五颜六色的光落在他的胡子上。\n"
+msgstr "Un mercader de nariz alta; sobre el fieltro, delante de él, se amontonan cuentas y copas de vidrio. Cuando les da el sol, luces de todos los colores le caen en la barba.\n"
+
+msgid "琉璃商举起一颗珠子，对着太阳眯起眼睛看。\n"
+msgstr "El mercader de vidrio levanta una cuenta y la mira al sol, con los ojos entornados.\n"
+
+msgid "琉璃商吆喝道：西边的火烧出来的琉璃——看看，不买也看看！\n"
+msgstr "El mercader de vidrio pregona: \"¡Vidrio cocido en el fuego del oeste! ¡Miren, miren, aunque no compren!\"\n"
+
+msgid "琉璃"
+msgstr "Vidrio"
+
+msgid "西边的火烧出来的，透亮。中原人喜欢，一串换一斗米。"
+msgstr "Cocido en el fuego del oeste, transparente. A la gente de las Llanuras Centrales le gusta: una sarta por un celemín de arroz."
+
+msgid "好地方。没人问你从哪来，只问你卖什么。"
+msgstr "Buen lugar. Nadie le pregunta de dónde viene; solo qué vende."
+
+msgid "冯大人？他扣过我一箱杯子，说是要验。验了三个月，箱子还在他后院。"
+msgstr "¿El señor Feng? Me retuvo una caja de copas; dijo que había que revisarlas. Llevan tres meses revisándolas, y la caja sigue en su patio trasero."
+
+msgid "一个胡子花白的胡商，盘腿坐在一堆毡毯上。身后的竹竿上挂着一张张毡毯，红底黄花，花纹是一圈套一圈的。\n"
+msgstr "Un mercader de barba entrecana, sentado con las piernas cruzadas sobre un montón de alfombras. Detrás de él, en varas de bambú, cuelgan alfombra tras alfombra, de fondo rojo con flores amarillas y dibujos que se encierran en círculos.\n"
+
+msgid "毡毯商慢慢地抚平一张毡毯上的褶子。\n"
+msgstr "El mercader de alfombras alisa despacio las arrugas de una alfombra.\n"
+
+msgid "毡毯商闭着眼睛，像是睡着了，可你一走近他就睁开了眼。\n"
+msgstr "El mercader de alfombras cierra los ojos como si durmiera, pero apenas te acercas los abre.\n"
+
+msgid "一张毡毯，一个女人织一年。你踩在上头，就是踩在她那一年上。"
+msgstr "Una alfombra, una mujer la teje en un año. Cuando usted la pisa, pisa ese año de ella."
+
+msgid "花纹"
+msgstr "Dibujos"
+
+msgid "一圈套一圈，是路。从家里走出来，走到这儿，还没走完。"
+msgstr "Círculo dentro de círculo: es el camino. Sales de casa, caminas hasta aquí y todavía no terminaste de caminar."
+
+msgid "铁盾会的人买过我一张，铺在他们会首的屋里。会首是个老实人。"
+msgstr "Alguien de la Hermandad del Escudo de Hierro me compró una; la puso en el cuarto de su jefe. El jefe es un hombre honrado."
+
+msgid "一个包着头巾的胡商妇人，守着一排敞口的麻袋。她用一只铜勺子舀香料，舀一勺，抖一抖，再倒回去一点。\n"
+msgstr "Una mujer con la cabeza cubierta, vendedora de especias, que cuida una hilera de sacos abiertos. Con una cucharita de cobre recoge especias, sacude la cuchara y devuelve un poco.\n"
+
+msgid "香料商抓了一把胡椒，凑到鼻子底下闻了闻，点点头。\n"
+msgstr "La vendedora de especias toma un puñado de pimienta, se lo acerca a la nariz, lo huele y asiente.\n"
+
+msgid "香料商冲着街上喊了一句什么，她的孩子跑过来又跑走了。\n"
+msgstr "La vendedora de especias le grita algo a la calle; su hijo viene corriendo y se va corriendo.\n"
+
+msgid "香料"
+msgstr "Especias"
+
+msgid "胡椒、姜黄、孜然。一勺胡椒，在京师换一勺银子。在番坊，换一张饼。"
+msgstr "Pimienta, cúrcuma, comino. Una cucharada de pimienta, en la Capital, se cambia por una cucharada de plata. En el Barrio Extranjero, por un pan plano."
+
+msgid "我自己烤的。芝麻多，盐少。走远路的人带着，一个月不坏。"
+msgstr "Los hago yo. Mucho sésamo, poca sal. Quien hace un viaje largo los lleva: un mes y no se echan a perder."
+
+msgid "他会说三种话，一种也说不好。"
+msgstr "Habla tres lenguas, y ninguna bien."
+
+msgid "一个胳膊粗壮的胡商，面前的木架上挂满了铜壶、铜盘和铜铃。他拿一把小锤子在一只盘子上敲花纹，叮叮当当，一刻不停。\n"
+msgstr "Un mercader de brazos gruesos; en el armazón de madera, delante de él, cuelgan teteras, platos y campanillas de cobre. Con un martillito graba dibujos en un plato, tin, tan, sin parar un momento.\n"
+
+msgid "铜器商叮叮当当地敲着一只铜盘。\n"
+msgstr "El mercader de cobre golpea un plato de cobre, tin, tan.\n"
+
+msgid "铜器商举起一只铜壶，冲你晃了晃。\n"
+msgstr "El mercader de cobre levanta una tetera de cobre y te la agita delante.\n"
+
+msgid "装水，装茶，装酒，都行。走远路，水比钱要紧。"
+msgstr "Sirve para agua, para té, para vino. En un viaje largo, el agua importa más que el dinero."
+
+msgid "铜"
+msgstr "Cobre"
+
+msgid "铜是番坊的铜，手艺是我家的手艺。花纹是我爷爷教的，他说是天上的星星。"
+msgstr "El cobre es el cobre del Barrio Extranjero, el oficio es el oficio de mi casa. Los dibujos me los enseñó mi abuelo; decía que son las estrellas del cielo."
+
+msgid "东头那座黑石头房子。火三百年没灭，祭司说火前不能说谎。我从来不进去。"
+msgstr "En el extremo este, esa casa de piedra negra. El fuego no se apaga hace trescientos años, y el sacerdote dice que ante el fuego no se miente. Yo nunca entro."
+
+msgid "一个七八岁的孩子，头发卷卷的，替他娘看着香料摊。见人就喊「看看，看看」，喊的是三种话。\n"
+msgstr "Un niño de siete u ocho años, de pelo rizado, que cuida el puesto de especias de su madre. Grita \"¡Miren, miren!\" a todo el que pasa, y lo grita en tres lenguas.\n"
+
+msgid "看摊的孩子冲你喊道：看看，看看！\n"
+msgstr "El niño del puesto te grita: \"¡Mira, mira!\"\n"
+
+msgid "看摊的孩子从麻袋里偷抓了一撮什么，塞进嘴里，脸一下子皱成一团。\n"
+msgstr "El niño del puesto roba a escondidas una pizca de algo del saco, se la mete en la boca, y la cara se le arruga de golpe.\n"
+
+msgid "我娘说，番坊就是谁都来、谁都走的地方。"
+msgstr "Mi mamá dice que el Barrio Extranjero es el lugar adonde viene todo el mundo y de donde se va todo el mundo."
+
+msgid "铁盾会的人个子好高。他们说话像唱歌，吵架也像唱歌。"
+msgstr "La gente de la Hermandad del Escudo de Hierro es muy alta. Hablan como cantando, y cuando pelean también parece que cantan."
+
+msgid "我没坐过船。船是别人的。"
+msgstr "Yo nunca subí a un barco. Los barcos son de otros."
+
+msgid "一个白胡子的老胡人，坐在街边的一块毡子上，面前一只铜碗。他讲的是中原话，讲得很慢，时不时冒出一个谁也听不懂的词，又自己把它换成中原话。\n"
+msgstr "Un viejo extranjero de barba blanca, sentado en un fieltro al borde de la calle, con un cuenco de cobre delante. Habla la lengua de las Llanuras Centrales, muy despacio, y de vez en cuando se le escapa una palabra que nadie entiende, y él mismo la cambia por otra.\n"
+
+msgid "说书的老胡人说道：……那座城有一百道门，门门都有兵守着。可兵是会老的。\n"
+msgstr "El viejo cuentacuentos extranjero dice: \"...Esa ciudad tenía cien puertas, y en cada puerta, soldados de guardia. Pero los soldados envejecen.\"\n"
+
+msgid "说书的老胡人停下来，喝了一口水，看着街上的人来来去去。\n"
+msgstr "El viejo cuentacuentos extranjero se detiene, bebe un trago de agua y mira cómo va y viene la gente por la calle.\n"
+
+msgid "故事"
+msgstr "Historia"
+
+msgid "西边，很远的西边，有一个大国。城一百座，路都是石头铺的，一直铺到海边。后来北边的蛮子来了，城一座一座地烧。剩下的人往东走，走到这里，走不动了。——这不是故事，孩子。这是铁盾会那些人的来历。"
+msgstr "Al oeste, muy al oeste, había un gran país. Cien ciudades, caminos todos empedrados, hasta la orilla del mar. Después vinieron del norte los bárbaros, y las ciudades ardieron una por una. Los que quedaron caminaron al este, y aquí ya no pudieron más. Esto no es un cuento, hijo. Es de dónde vienen los de la Hermandad del Escudo de Hierro."
+
+msgid "你们叫它大秦。他们自己叫它别的名字。它已经没有了。"
+msgstr "Ustedes lo llaman Daqin. Ellos, de otro modo. Ya no existe."
+
+msgid "他们的祖上来得早，三百年前就来过一回，替你们这边打过北方的蛮子。这回来的，是没有家可回的。"
+msgstr "Sus antepasados llegaron antes, hace trescientos años, y pelearon por ustedes contra los bárbaros del norte. Los de ahora, sin casa adonde volver."
+
+msgid "丝路走到头，就是这里。往东是你们中原，往西往南，是海。"
+msgstr "Aquí termina la Ruta de la Seda. Al este, las Llanuras Centrales, de ustedes. Al oeste y al sur, el mar."
+
+msgid "海那边？我不知道。我是走路来的，走了一年。"
+msgstr "¿Más allá del mar? No sé. Yo vine caminando. Un año caminando."
+
+msgid "市舶吏"
+msgstr "Funcionario de la aduana marítima"
+
+msgid "一个穿青袍的小官，袍子洗得发白，袖口磨出了毛。他坐在书案后头，一手按着账册，一手拈着胡子，眼睛总往门口瞟。\n"
+msgstr "Un funcionario menor de túnica azul, lavada hasta quedar blanquecina, con los puños deshilachados. Sentado tras el escritorio, una mano sobre el libro de cuentas y la otra en la barba, no deja de mirar hacia la puerta.\n"
+
+msgid "冯禄翻着账册，嘴里念念有词地算着数目。\n"
+msgstr "Feng Lu pasa las hojas del libro y murmura, sacando cuentas.\n"
+
+msgid "冯禄看了一眼门外，又低下头。\n"
+msgstr "Feng Lu mira hacia fuera de la puerta y vuelve a bajar la cabeza.\n"
+
+msgid "……本司回去查。查清了再说。"
+msgstr "...Este despacho lo revisará. Cuando esté claro, hablaremos."
+
+msgid "按住了案上的文书，手指头有点抖。"
+msgstr "Aprieta el papel sobre el escritorio; los dedos le tiemblan un poco."
+
+msgid "印……兵部的文书，镇国大将军的印，哪一样是假的？你一个外乡人，懂什么印色？"
+msgstr "El sello... un papel del Ministerio de Guerra, con el sello del Gran General Guardián: ¿cuál de las dos cosas es falsa? Tú eres un forastero, ¿qué sabes de tinta de sellos?"
+
+msgid "兵部的令，京师来的，盖着大印。大秦人聚众持械，着本司清出——我也是奉命行事。"
+msgstr "Una orden del Ministerio de Guerra, venida de la Capital, con el gran sello. Los de Daqin se juntan armados; este despacho debe echarlos... yo solo cumplo órdenes."
+
+msgid "清走了。浪人作的证，兵部的令，本司照办。——那块地？归谁，不是我说了算。"
+msgstr "Los echamos. Los ronin dieron testimonio, el Ministerio ordenó, este despacho cumplió. En cuanto a ese terreno: de quién sea, no lo decido yo."
+
+msgid "……他们留下了。本司回去查那方印。"
+msgstr "...Se quedaron. Este despacho irá a revisar ese sello."
+
+msgid "他们在番坊住了三十年，税从来没拖过。可兵部的令下来了，我有什么法子？"
+msgstr "Llevan treinta años en el Barrio Extranjero y nunca atrasaron un impuesto. Pero llegó la orden del Ministerio, ¿qué puedo hacer?"
+
+msgid "鬼笠馆的。他们想要铁盾会那块地，想了好些年了。兵部的令一下，他们比我还高兴。"
+msgstr "Los del Salón del Sombrero Fantasma. Quieren el terreno de la Hermandad del Escudo de Hierro desde hace años. Cuando bajó la orden del Ministerio, estaban más contentos que yo."
+
+msgid "京师东二门挂着的那张。各州县都要抄一份，我也抄了。皇叔怎么成了要犯？我一个小吏，不敢问。"
+msgstr "La que cuelga en la Segunda puerta este de la Capital. Cada prefectura y condado debe copiar una, y yo también copié. ¿Cómo el tío imperial acabó siendo un criminal buscado? Yo soy un funcionario menor; no me atrevo a preguntar."
+
+msgid "京师东二门的原告，番坊照抄。上头让抄，我就抄。"
+msgstr "La denuncia de la Segunda puerta este de la Capital; el Barrio Extranjero la copia tal cual. Arriba mandan copiar, y copio."
+
+msgid "收税、查货、看船。番坊的船都是外头的，税是我的。"
+msgstr "Cobrar impuestos, revisar cargas, vigilar barcos. Los barcos del Barrio Extranjero son todos de fuera, pero el impuesto es mío."
+
+msgid "南边来的，西边来的，没有一条是番坊的。番坊人不造船，只卸货。"
+msgstr "Vienen del sur, vienen del oeste, ninguno es del Barrio Extranjero. La gente del Barrio Extranjero no construye barcos: solo descarga."
+
+msgid "市集北头。去吧，去告诉他们：兵部的令是兵部的令，不是我冯禄的令。"
+msgstr "Al norte del mercado. Ve, ve y diles: una orden del Ministerio es una orden del Ministerio, no una orden de Feng Lu."
+
+msgid "站在院门里，手里举着那纸文书，身后四个戴斗笠的浪人。"
+msgstr "De pie en la puerta del patio, con el papel en alto, y detrás cuatro ronin de sombrero de paja."
+
+msgid "兵部的令在此：番坊大秦人等，聚众持械，着市舶司即日清出！——安敦，出来说话。"
+msgstr "¡Aquí, la orden del Ministerio de Guerra! ¡Los de Daqin del Barrio Extranjero, que se juntan armados, serán echados hoy mismo por la aduana marítima! ...Andun, sal a hablar."
+
+msgid "从屋里出来，左腿先，慢。"
+msgstr "Sale de la casa, primero la pierna izquierda, despacio."
+
+msgid "冯大人。三十年，税没拖过一文。令，我看过——那方镇国大将军的印，不是真印盖的。"
+msgstr "Señor Feng. Treinta años, impuesto sin atraso ni un wen. La orden, la vi: ese sello del Gran General Guardián no está estampado con sello verdadero."
+
+msgid "印是不是，不是你一个番人说了算！"
+msgstr "¡Si es sello verdadero, no lo decide un extranjero como tú!"
+
+msgid "你有一块印模——卢卡说的。拿出来，对一对。拿不出来……那就看你的了。"
+msgstr "Usted tiene un molde de sello; lo dijo Luca. Sáquelo, compare. Si no lo saca... entonces dependerá de usted."
+
+msgid "一个瘦瘦的书办，趴在书案的一角抄东西，抄一行，抬一次头，看一眼冯大人。\n"
+msgstr "Un escribano flaco, inclinado sobre una esquina del escritorio, copiando: copia una línea, levanta la cabeza, mira de reojo al señor Feng.\n"
+
+msgid "书办揉了揉手腕，又蘸了一笔墨。\n"
+msgstr "El escribano se frota la muñeca y vuelve a mojar el pincel.\n"
+
+msgid "抄了二十份了，番坊每家门口贴一份。大人说贴，我就抄。"
+msgstr "Ya copié veinte. Una en la puerta de cada casa del Barrio Extranjero. El señor dice que se pegue, y yo copio."
+
+msgid "那张也是我抄的。於兰天武四个字，我写了一百遍。"
+msgstr "Esa también la copié yo. El nombre Yulan Tianwu lo escribí cien veces."
+
+msgid "大人？大人这几天睡不着。"
+msgstr "¿El señor? Estos días no duerme."
+
+msgid "一个腰里挂着铁尺的差役，靠着墙站着，一会儿换一条腿。\n"
+msgstr "Un recadero con una regla de hierro en la cintura, apoyado contra la pared, que cada rato cambia de pierna.\n"
+
+msgid "差役打了个哈欠。\n"
+msgstr "El recadero bosteza.\n"
+
+msgid "差役看了看墙头上的碎瓷片，又看了看你。\n"
+msgstr "El recadero mira los trozos de porcelana rota en lo alto del muro, y luego te mira a ti.\n"
+
+msgid "铁盾会那些人，个个带剑，个子比我高一头。真要清……就凭我们两个？"
+msgstr "Los de la Hermandad del Escudo de Hierro, todos con espada, y una cabeza más altos que yo. Si de verdad hay que echarlos... ¿solo nosotros dos?"
+
+msgid "后院那些箱子？扣下来的。有的扣了三个月，有的扣了三年。"
+msgstr "¿Esas cajas del patio trasero? Retenidas. Algunas llevan tres meses, otras tres años."
+
+msgid "鬼笠馆的人倒是来过，问大人什么时候动手。大人说等。"
+msgstr "Los del Salón del Sombrero Fantasma sí vinieron, a preguntarle al señor cuándo se actúa. El señor dijo que esperen."
+
+msgid "铁盾会会首"
+msgstr "Jefe de la Hermandad del Escudo de Hierro"
+
+msgid "一个白头发的异族老人，眼睛是灰的，鼻梁高得像一道脊。他坐着的时候背很直，站起来却慢——左腿有旧伤，先迈左腿。一身中原的布袍，袍子底下露出一截铁片甲的边。他说中原话说得很慢，一个字一个字，省掉的字比说出来的多。\n"
+msgstr "Un anciano extranjero de pelo blanco, de ojos grises y una nariz alta como un lomo de montaña. Sentado, tiene la espalda muy recta, pero al levantarse es lento: la pierna izquierda, herida de antiguo, es la primera en dar el paso. Lleva una túnica de tela de las Llanuras Centrales, y bajo la túnica asoma el borde de una coraza de láminas de hierro. Habla la lengua de las Llanuras Centrales muy despacio, palabra por palabra, y calla más palabras de las que dice.\n"
+
+msgid "安敦把铜灯的灯芯拨亮了一点。\n"
+msgstr "Andun avanza un poco la mecha de la lámpara de cobre.\n"
+
+msgid "安敦看着墙上那面旧盾，很久没有动。\n"
+msgstr "Andun mira el viejo escudo de la pared y pasa mucho rato sin moverse.\n"
+
+msgid "祖上"
+msgstr "Antepasados"
+
+msgid "三百年前。皇叔於兰淳焉，打北方的蛮族——雇了我们。一百二十个剑手，从西边来。打完，留下三十个。我是第十二代。"
+msgstr "Trescientos años. El tío imperial Yulan Chunyan, guerra contra bárbaros del norte, nos contrató. Ciento veinte espadachines, del oeste. Terminada la guerra, quedan treinta. Yo soy la generación doce."
+
+msgid "三十个里的一个。他看见了——那个鬼的头，怎么封的。活着的时候不说。死前，刻在一片铜上。"
+msgstr "Uno de los treinta. Vio cómo sellaron la cabeza de ese fantasma. En vida, no habló. Antes de morir, lo grabó en un cobre."
+
+msgid "牒在你手里。读了，再还我们一个人情——冯禄来的时候，站在门口。"
+msgstr "La tablilla está en su mano. Léala, y después devuélvanos un favor: cuando venga Feng Lu, póngase en la puerta."
+
+msgid "巴掌大，一片铜。十二代，传到我。三十年前，我把它存进拜火祠——火前最安全，没人敢在火前拿不是自己的东西。"
+msgstr "Del tamaño de la palma, un cobre. Doce generaciones, hasta mí. Hace treinta años la dejé en el santuario del fuego: ante el fuego, lo más seguro. Nadie se atreve a tomar ante el fuego lo que no es suyo."
+
+msgid "祠规：火前不说谎。取牒，要过一场问话。三句。"
+msgstr "Regla del santuario: ante el fuego no se miente. Para sacar la tablilla, un interrogatorio. Tres preguntas."
+
+msgid "看着桌上的灯。"
+msgstr "Mira la lámpara de la mesa."
+
+msgid "我们过不了。三十年前，为了这块地，我们对祭司说过一句谎。火记得。"
+msgstr "Nosotros no pasamos. Hace treinta años, por esta tierra, le dijimos al sacerdote una mentira. El fuego recuerda."
+
+msgid "你不是我们的人。你去。——先想好，站哪边：市舶司要清走我们，浪人要我们的地。"
+msgstr "Usted no es de los nuestros. Usted vaya. Pero antes decida de qué lado: la aduana marítima quiere echarnos, los ronin quieren nuestra tierra."
+
+msgid "坐下。先说我的祖上。"
+msgstr "Siéntese. Primero oiga mis antepasados."
+
+msgid "封头"
+msgstr "Sellar la cabeza"
+
+msgid "牒上刻的。我读过，记不全——「头在湖底」，别的，你自己读。"
+msgstr "Está grabado en la tablilla. Yo la leí, no la recuerdo entera: \"la cabeza yace en el fondo del lago\". Lo demás, léalo usted."
+
+msgid "先问铜牒。"
+msgstr "Primero pregunte por \"Tablilla de cobre\"."
+
+msgid "站大秦人"
+msgstr "Del lado de Daqin"
+
+msgid "站到大秦人一边——在拜火祠过问话取铜牒，替他们挡住冯禄的文书。从此鬼笠馆不见你，浪人刀法学不到。要站大秦人吗？"
+msgstr "Ponerte del lado de la gente de Daqin: pasar el interrogatorio en el santuario del fuego para recoger la tablilla, y frenar el papel de Feng Lu por ellos. A partir de ahí el Salón del Sombrero Fantasma no te recibirá y no aprenderás el sable de los ronin. ¿Ponerte del lado de Daqin?"
+
+msgid "你站了我们这边。去祠里，火前说真话。"
+msgstr "Se puso de nuestro lado. Vaya al santuario y, ante el fuego, diga la verdad."
+
+msgid "你去了鬼笠馆。……没有话说。"
+msgstr "Usted fue al Salón del Sombrero Fantasma. ...Nada que decir."
+
+msgid "看了你很久，站了起来——慢，左腿先。"
+msgstr " lo mira mucho rato y se levanta, despacio, primero la pierna izquierda."
+
+msgid "好。那你替我们去火前。三句真话，牒是你的。"
+msgstr "Bien. Entonces vaya por nosotros ante el fuego. Tres verdades, y la tablilla es suya."
+
+msgid "读了，再还我们一个人情：冯禄来的时候，站在门口。"
+msgstr "Léala, y después devuélvanos un favor: cuando venga Feng Lu, póngase en la puerta."
+
+msgid "先听我说完铜牒的事。"
+msgstr "Primero escuche hasta el final lo de la tablilla de cobre."
+
+msgid "冯禄走了。地还是我们的。——你欠我们的人情，我们记着；我们欠你的，也记着。"
+msgstr "Feng Lu se fue. La tierra sigue siendo nuestra. El favor que usted nos debe, lo recordamos; el que le debemos, también."
+
+msgid "冯禄。兵部的文书，说我们聚众持械。三十年，税没拖过一文。文书的印——卢卡说，你看得出。"
+msgstr "Feng Lu. Papel del Ministerio de Guerra: dice que nos juntamos armados. Treinta años, impuesto sin atraso ni un wen. El sello del papel: Luca dice que usted sabe verlo."
+
+msgid "假的。你让他自己看见了。"
+msgstr "Falso. Usted hizo que él mismo lo viera."
+
+msgid "你看出来了。假印。兵部没有下这个令——有人借兵部的名字要我们的地。"
+msgstr "Usted lo vio. Sello falso. El Ministerio no dio esa orden: alguien usa el nombre del Ministerio para quitarnos la tierra."
+
+msgid "冯禄案上压着。你去看。印色——卢卡说你学过。"
+msgstr "Está bajo el peso en el escritorio de Feng Lu. Vaya a verlo. El color del sello: Luca dice que usted lo estudió."
+
+msgid "鬼笠馆。早川。他们要这块地——练刀的板地不够用。冯禄一动手，他们就来。"
+msgstr "El Salón del Sombrero Fantasma. Hayakawa. Quieren esta tierra: su tablado de práctica no alcanza. Cuando Feng Lu actúe, ellos vendrán."
+
+msgid "好孩子。走了一个月，剑没卖。"
+msgstr "Buen muchacho. Un mes de camino, y la espada no la vendió."
+
+msgid "没有了。城烧了，人散了。我们不是使臣，是剩下的人。"
+msgstr "Ya no existe. Ciudad quemada, gente dispersa. No somos enviados. Somos los que quedaron."
+
+msgid "盾在前，剑在后。盾不倒，人不倒。三百年，就这一条。"
+msgstr "Escudo delante, espada detrás. Escudo en pie, hombre en pie. Trescientos años, solo esta regla."
+
+msgid "没有头的那个。我们那边的老兵传了三百年。头在哪里，牒上有——去问铜牒。"
+msgstr "El que no tiene cabeza. Los veteranos de allá lo cuentan hace trescientos años. Dónde está la cabeza, lo dice la tablilla: pregunte por \"Tablilla de cobre\"."
+
+msgid "盾"
+msgstr "Escudo"
+
+msgid "从架上取下一面圆盾，递给你。"
+msgstr " toma un escudo redondo del estante y te lo entrega."
+
+msgid "拿着。盾在前，剑在后——盾不倒，人不倒。套在左臂上，再来学剑。"
+msgstr "Tome. Escudo delante, espada detrás; escudo en pie, hombre en pie. Póngalo en el brazo izquierdo y luego venga a aprender la espada."
+
+msgid "盾给过你了。丢了的话，市集铜器铺有卖的。"
+msgstr "El escudo ya se lo di. Si lo perdió, en el puesto de cobre del mercado venden."
+
+msgid "盾在前，剑在后。会里的规矩。"
+msgstr "Escudo delante, espada detrás. Regla de la hermandad."
+
+msgid "抬起头，灰眼睛看了你一会儿，站了起来——慢，左腿先。"
+msgstr " alza la cabeza, te mira un rato con los ojos grises y se levanta, despacio, primero la pierna izquierda."
+
+msgid "卢卡的人。他说，你在找一把剑钉着的头。"
+msgstr "Gente de Luca. Él dice: usted busca una cabeza clavada con una espada."
+
+msgid "坐。我的祖上见过它。三百年前，皇叔於兰淳焉打北方的蛮族，雇了我们一百二十个剑手。"
+msgstr "Siéntese. Mis antepasados la vieron. Hace trescientos años, el tío imperial Yulan Chunyan, guerra contra los bárbaros del norte, contrató ciento veinte espadachines nuestros."
+
+msgid "其中一个，看见那个鬼的头怎么封的。他死前，刻在一片铜上。十二代，传到我——问我「铜牒」。"
+msgstr "Uno de ellos vio cómo sellaron la cabeza del fantasma. Antes de morir, lo grabó en un cobre. Doce generaciones, hasta mí. Pregúnteme por \"Tablilla de cobre\"."
+
+msgid "被两个差役押在船边，手上一副枷。他看见你，看了很久，没有说话。"
+msgstr " está junto al barco, custodiado por dos recaderos, con grilletes en las manos. Te ve, te mira mucho rato y no dice nada."
+
+msgid "关北的事传到海边了：有人借了槐阳王的兵，踏平了兵部的工地。兵部说关北反了——说的是你吧。"
+msgstr "Lo del Norte del Paso llegó hasta la costa: alguien, con los soldados del príncipe de Huaiyang, arrasó las obras del Ministerio. El Ministerio dice que el Norte del Paso se alzó. Hablan de usted, ¿no?"
+
+msgid "关北的工地一夜里少了一半人，兵部到今天没查出是谁。……是你。"
+msgstr "En una noche, las obras del Norte del Paso quedaron sin la mitad de la gente; el Ministerio todavía no sabe quién fue. ...Fue usted."
+
+msgid "冯禄的事还没了结。了结了，再说拜师。"
+msgstr "Lo de Feng Lu no ha terminado. Cuando termine, hablamos de que sea mi discípulo."
+
+msgid "好。盾在前，剑在后——从今天起，你是铁盾会的人。"
+msgstr "Bien. Escudo delante, espada detrás. Desde hoy, usted es de la Hermandad del Escudo de Hierro."
+
+msgid "一个高鼻深目的异族汉子，头发剪得很短，左臂绑着一面圆盾，右手一把短剑。他练得满头是汗，盾面上全是剑尖戳出来的白点。\n"
+msgstr "Un extranjero de nariz alta y ojos hundidos, de pelo cortado muy corto, con un escudo redondo atado al brazo izquierdo y una espada corta en la mano derecha. Entrena empapado en sudor; la cara del escudo está llena de marcas blancas de puntas de espada.\n"
+
+msgid "大秦剑手把盾往上一抬，短剑从盾沿底下刺出去。\n"
+msgstr "El espadachín de Daqin alza el escudo y, por debajo del borde, lanza una estocada con la espada corta.\n"
+
+msgid "大秦剑手喊了一声号子，谁也听不懂。\n"
+msgstr "El espadachín de Daqin lanza un grito de ritmo que nadie entiende.\n"
+
+msgid "两面盾砰地撞在一起。\n"
+msgstr "Dos escudos chocan con un golpe seco.\n"
+
+msgid "大秦剑手喝道：盾！\n"
+msgstr "El espadachín de Daqin ruge: \"¡Escudo!\"\n"
+
+msgid "里头。安敦。我们的头——他说的话，就是会里的话。"
+msgstr "Adentro. Andun. Nuestro jefe: lo que él dice, eso dice la hermandad."
+
+msgid "盾在前，剑在后。盾不倒，人不倒。——会首教的。"
+msgstr "Escudo delante, espada detrás. Escudo en pie, hombre en pie. Lo enseña el jefe."
+
+msgid "要清我们走。走哪儿去？西边没有了。"
+msgstr "Quieren echarnos. ¿Adónde? Al oeste ya no hay."
+
+msgid "刀快。可他们没有盾。"
+msgstr "Sable rápido. Pero ellos, sin escudo."
+
+msgid "回来了。剑没卖。会首说他做得对。"
+msgstr "Volvió. Espada no vendida. El jefe dice que hizo bien."
+
+msgid "拜火祠祭司"
+msgstr "Sacerdote del santuario del fuego"
+
+msgid "一个瘦高的老人，白袍，白帽，嘴上蒙着一块白布——人说是怕他的气息污了火。他的眼睛被火光照得发亮，看人的时候一眨也不眨。\n"
+msgstr "Un anciano alto y delgado, de túnica blanca y gorro blanco, con un paño blanco sobre la boca; dicen que es para que su aliento no manche el fuego. Los ojos, iluminados por las llamas, le brillan, y cuando mira a alguien no parpadea.\n"
+
+msgid "穆护站在火坛前，一动不动，火光在他的白袍上一明一暗。\n"
+msgstr "El mago está de pie ante el altar de fuego, inmóvil, y la luz de las llamas sube y baja sobre su túnica blanca.\n"
+
+msgid "穆护往火里添了什么，火没有变。\n"
+msgstr "El mago echa algo al fuego; el fuego no cambia.\n"
+
+msgid "火"
+msgstr "Fuego"
+
+msgid "三百年没灭。不是我们在喂它——是它在看我们。"
+msgstr "Trescientos años sin apagarse. No somos nosotros quienes lo alimentamos: es él quien nos mira."
+
+msgid "祠规"
+msgstr "Reglas del santuario"
+
+msgid "一条：火前不说谎。说了，火知道。"
+msgstr "Una sola: ante el fuego no se miente. Si mientes, el fuego lo sabe."
+
+msgid "问话"
+msgstr "Interrogatorio"
+
+msgid "问过了。牒在你手里。"
+msgstr "Ya se preguntó. La tablilla está en tu mano."
+
+msgid "站到火前去。我问，你答。火听着。"
+msgstr "Ponte ante el fuego. Yo pregunto, tú respondes. El fuego escucha."
+
+msgid "火前只问站定了的人。"
+msgstr "Ante el fuego solo se pregunta a quien ya tomó su lugar."
+
+msgid "牒在你手里了。火让你拿的，不是我。"
+msgstr "La tablilla ya está en tu mano. Quien te dejó tomarla fue el fuego, no yo."
+
+msgid "大秦人存的。三十年了。他们取不了——他们在火前说过谎。你要取，火前站着，答我三句。真话，牒给你；一句假，今天火不肯。"
+msgstr "La dejó la gente de Daqin, hace treinta años. Ellos no pueden retirarla: mintieron ante el fuego. Si quieres retirarla, ponte ante el fuego y respóndeme tres preguntas. Si son verdad, la tablilla es tuya; con una sola falsa, hoy el fuego no quiere."
+
+msgid "祠里存的东西，各有各的主。你问的是谁的？"
+msgstr "Lo que se guarda en el santuario tiene cada cosa su dueño. ¿De quién preguntas?"
+
+msgid "三十年前，他们为了一块地在火前说过一句谎。火记着。他们自己也记着。"
+msgstr "Hace treinta años, por un terreno, dijeron una mentira ante el fuego. El fuego la recuerda. Ellos también."
+
+msgid "刀是刀，火是火。他们不进来。"
+msgstr "El sable es sable, el fuego es fuego. Ellos no entran."
+
+msgid "冯禄不进来。他的文书也不进来。"
+msgstr "Feng Lu no entra. Sus papeles tampoco."
+
+msgid "抬起一只手，掌心向你。"
+msgstr " levanta una mano, con la palma hacia ti."
+
+msgid "进来可以。火前，不说谎。"
+msgstr "Puedes entrar. Ante el fuego, no se miente."
+
+msgid "一个跪在火坛前的胡商，额头贴着地，嘴里低低地念着什么。他的背上还搭着赶路的毡子，鞋底的泥是黄的——刚进番坊。\n"
+msgstr "Un mercader arrodillado ante el altar de fuego, con la frente pegada al suelo, murmurando algo en voz baja. Todavía lleva a la espalda el fieltro de viaje, y el barro de las suelas es amarillo: acaba de llegar al Barrio Extranjero.\n"
+
+msgid "拜火的胡商把额头贴在地上，很久没有抬起来。\n"
+msgstr "El mercader adorador del fuego pega la frente al suelo y pasa mucho rato sin levantarla.\n"
+
+msgid "拜火的胡商低低地念着什么，一句接一句。\n"
+msgstr "El mercader adorador del fuego murmura algo en voz baja, una frase tras otra.\n"
+
+msgid "我从西边来，走了一年。到了这儿，先拜火，再做生意。"
+msgstr "Vengo del oeste, un año de camino. Al llegar aquí, primero adoro el fuego, luego hago negocios."
+
+msgid "祭司"
+msgstr "Sacerdote"
+
+msgid "穆护不骗人，也不让人骗。做生意的人，怕他。"
+msgstr "El mago ni engaña ni deja que lo engañen. A los que hacemos negocios, nos da miedo."
+
+msgid "他们不进来。三十年了。"
+msgstr "No entran. Hace treinta años."
+
+msgid "一个七十来岁的老僧，皮肤黝黑，光头，眉毛全白了，耳垂长得几乎到肩。他盘腿坐在榕树下的蒲团上，一身赭红的僧衣，手里一串黑木的念珠拨得很慢。他说中原话带着天竺的腔，可一个字也不错。\n"
+msgstr "Un monje de unos setenta años, de piel muy oscura, rapado, con las cejas totalmente blancas y los lóbulos de las orejas tan largos que casi le llegan a los hombros. Está sentado con las piernas cruzadas sobre un cojín bajo el baniano, con un hábito rojo ocre, y en la mano pasa muy despacio un rosario de madera negra. Habla la lengua de las Llanuras Centrales con acento de la India, pero sin equivocarse en una sola palabra.\n"
+
+msgid "龙若法王拨着念珠，嘴唇动着，没有声音。\n"
+msgstr "El Rey del Dharma Longruo pasa las cuentas del rosario; mueve los labios, sin voz.\n"
+
+msgid "龙若法王抬头看了看榕树，说道：阿弥陀佛。\n"
+msgstr "El Rey del Dharma Longruo levanta la vista al baniano y dice: \"Amitabha.\"\n"
+
+msgid "阿弥陀佛！你我同是出家人，何故跟老衲开这等玩笑？"
+msgstr "¡Amitabha! Usted y yo ya somos religiosos; ¿por qué le gasta esta broma a este viejo monje?"
+
+msgid "阿弥陀佛！女施主，这里是寺庙，请到尼庵去剃度吧。"
+msgstr "¡Amitabha! Benefactora, esto es un templo; vaya usted a un convento a recibir la tonsura."
+
+msgid "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下受戒。"
+msgstr "¡Amitabha! ¡Bien, bien! Si de verdad se refugia usted en Buda, arrodíllese y reciba los preceptos."
+
+msgid "寺"
+msgstr "Templo"
+
+msgid "日陀罗寺。两个天竺僧人盖的，老衲是第二代。寺小，佛不小。"
+msgstr "El Templo Ritola. Lo levantaron dos monjes de la India; este viejo monje es de la segunda generación. El templo es pequeño, pero el Buda no."
+
+msgid "山烟寺的独眼头陀？他的内功和老衲的是一个根——都是从西边的西边来的。阿弥陀佛。"
+msgstr "¿El asceta tuerto del Templo de la Bruma? Su neigong y el de este viejo monje tienen una misma raíz: ambos vienen del oeste del oeste. Amitabha."
+
+msgid "阿弥陀佛。他们拜的火，和老衲拜的佛，隔着一条街。火也好，佛也好，都不叫人撒谎。"
+msgstr "Amitabha. El fuego que ellos adoran y el Buda que este viejo monje adora están separados por una calle. Fuego o Buda, ninguno enseña a mentir."
+
+msgid "刀出鞘，火就灭。老衲说过他们，他们不听。"
+msgstr "Sable fuera de la vaina, fuego que se apaga. Este viejo monje se lo dijo a ellos; no escuchan."
+
+msgid "大秦人存在火前的那片铜？老衲听说过。三百年前的事，刻在铜上，铜不会老。"
+msgstr "¿Esa lámina de cobre que la gente de Daqin dejó ante el fuego? Este viejo monje oyó hablar de ella. Cosa de hace trescientos años, grabada en cobre; el cobre no envejece."
+
+msgid "第一代的师父从天竺带来一根枝条，插在这儿，活了。树活了七十年，老衲也活了七十年。"
+msgstr "El Shifu de la primera generación trajo de la India una rama, la plantó aquí y prendió. El árbol lleva setenta años vivo; este viejo monje, también setenta."
+
+msgid "阿弥陀佛。山烟寺的事，是山烟寺的事。"
+msgstr "Amitabha. Lo del Templo de la Bruma es cosa del Templo de la Bruma."
+
+msgid "他受了戒？"
+msgstr "¿Recibió los preceptos?"
+
+msgid "双手合十，朝东拜了一拜。"
+msgstr " junta las manos y se inclina una vez hacia el este."
+
+msgid "阿弥陀佛。十年，总算进了那道门。"
+msgstr "Amitabha. Diez años, y por fin cruzó esa puerta."
+
+msgid "经送回来了。他没进寺门，把经匣放在门槛上，往西去了。三十年前不收，今天也不收。阿弥陀佛——收不收，是山烟寺的事。"
+msgstr "El sutra volvió. No cruzó la puerta del templo: dejó la caja de los sutras en el umbral y se fue hacia el oeste. Hace treinta años no lo aceptaron, y hoy tampoco. Amitabha: aceptarlo o no es cosa del Templo de la Bruma."
+
+msgid "他上了殿？那就等玄智开口吧。"
+msgstr "¿Subió al salón? Entonces esperemos a que Xuanzhi hable."
+
+msgid "又从经匣里抽出一片贝叶，在叶边写了同样一行字。"
+msgstr " saca otra hoja de palma de la caja de los sutras y escribe en el margen la misma línea."
+
+msgid "这一片，别再丢了。"
+msgstr "Esta hoja, no la pierda otra vez."
+
+msgid "那片贝叶，拿给他看。"
+msgstr "Esa hoja de palma: llévesela y muéstresela."
+
+msgid "拨念珠的手停了。"
+msgstr " detiene la mano que pasa el rosario."
+
+msgid "他开口了？……十年，他没跟人说过一句话。"
+msgstr "¿Habló? ...Diez años sin decirle una palabra a nadie."
+
+msgid "三十年前，老衲四十一岁。师父从天竺背来两部经：一部是莲华心法的根，一部是婆萝蜜多心经。师父说，中原有一座山烟寺，医术通神，这两部经该放在那里。"
+msgstr "Hace treinta años, este viejo monje tenía cuarenta y uno. Mi Shifu trajo a cuestas desde la India dos sutras: uno, la raíz del método interno del loto; el otro, el Sutra del Corazón. Mi Shifu dijo: en las Llanuras Centrales hay un Templo de la Bruma, de medicina divina, y esos dos sutras deben quedar allí."
+
+msgid "老衲背着经走到日照山。当时的住持只认本寺一脉，经匣没有打开，就请老衲下了山。"
+msgstr "Este viejo monje cargó los sutras hasta el Monte Soleado. El abad de entonces solo reconocía el linaje de su propio templo; no abrió la caja de los sutras y me pidió que bajara de la montaña."
+
+msgid "山门外，一个年轻和尚追了出来，说他叫玄尘，是玄智的师弟。他说，经他想看。"
+msgstr "Fuera del pórtico, un monje joven salió corriendo tras mí. Dijo que se llamaba Xuanchen y que era hermano menor de Xuanzhi. Dijo que los sutras, él quería verlos."
+
+msgid "望着榕树，很久没有说话。"
+msgstr " mira el baniano y pasa mucho rato sin hablar."
+
+msgid "十年前，老衲的一个弟子说，要把婆萝蜜多心经再送回山烟寺去。这部经是火性的，性急的人练不得——他性急，练坏了一只眼。老衲没有拦他。"
+msgstr "Hace diez años, un discípulo de este viejo monje dijo que llevaría de nuevo el Sutra del Corazón al Templo de la Bruma. Es un sutra de naturaleza ígnea y los impacientes no deben practicarlo: él era impaciente y se arruinó un ojo. Este viejo monje no lo detuvo."
+
+msgid "玄智没让他进门。他就站在金门外，一站十年。"
+msgstr "Xuanzhi no lo dejó entrar. Y se quedó de pie fuera de la Puerta Dorada, diez años de pie."
+
+msgid "从经匣里抽出一片贝叶，提笔在叶边写了一行字，递给你。"
+msgstr " saca una hoja de palma de la caja de los sutras, escribe una línea en el margen y te la entrega."
+
+msgid "这是婆萝蜜多心经的第一页。拿给他看——叶边是老衲的字，他认得。他不理人，这一页他会看。"
+msgstr "Esta es la primera página del Sutra del Corazón. Muéstresela: las letras del margen son de este viejo monje, y él las reconoce. No hace caso a nadie, pero esta página la mirará."
+
+msgid "收不收，是山烟寺的事。"
+msgstr "Aceptarla o no es cosa del Templo de la Bruma."
+
+msgid "了尘？那个跟在玄尘身后的小沙弥……也老了吧。"
+msgstr "¿Liaochen? Aquel noviciecito que iba detrás de Xuanchen... ya será viejo también."
+
+msgid "老衲没有点化过玄尘。老衲只是没拦他。"
+msgstr "Este viejo monje no iluminó a Xuanchen. Solo no lo detuvo."
+
+msgid "青石村后山那个阵，你走过了。摆阵的人佛道双修——就是他。"
+msgstr "Esa formación detrás de la montaña de la Aldea Piedra Azul, usted ya la cruzó. El que la dispuso practica el Buda y el Dao: es él."
+
+msgid "他往北去了。老衲只听人说过，青石村后山有一个阵。"
+msgstr "Se fue al norte. Este viejo monje solo ha oído que detrás de la montaña de la Aldea Piedra Azul hay una formación."
+
+msgid "玄尘在番坊住了一年。佛经也看，大秦人的书也看，浪人的刀谱也看。老衲说他是佛门的人，他说他想做一个不拣经的人。"
+msgstr "Xuanchen vivió un año en el Barrio Extranjero. Leía sutras, leía los libros de Daqin, leía los manuales de sable de los ronin. Este viejo monje le dijo que era de la puerta del Buda; él dijo que quería ser alguien que no escoge sutras."
+
+msgid "二十九年前，他往北去了，身后跟着一个从山烟寺带出来的小沙弥。"
+msgstr "Hace veintinueve años se fue al norte, y detrás iba un noviciecito que sacó del Templo de la Bruma."
+
+msgid "青石村后山那个阵，你走过了？摆阵的人佛道双修，自号绝尘——就是他。"
+msgstr "Esa formación detrás de la montaña de la Aldea Piedra Azul, ¿ya la cruzó? El que la dispuso practica el Buda y el Dao y se hace llamar Desapego: es él."
+
+msgid "他还好吗？……不用说。出了阵，就是世事。"
+msgstr "¿Está bien? ...No hace falta decirlo. Fuera de la formación, es el mundo."
+
+msgid "后来的事，老衲只听人说过：青石村后山有一个阵，阵里的人出不来，阵外的人进不去。摆阵的人，佛道双修。"
+msgstr "Lo que vino después, este viejo monje solo lo ha oído: detrás de la montaña de la Aldea Piedra Azul hay una formación; quien está dentro no sale, quien está fuera no entra. Quien la dispuso practica el Buda y el Dao."
+
+msgid "一个皮肤黝黑的僧人，光头，赤脚，身上裹着一块赭红的布。他念的经没有一个字听得懂，调子却很好听。\n"
+msgstr "Un monje de piel oscura, rapado, descalzo, envuelto en una tela rojo ocre. No entiendes ni una palabra del sutra que recita, pero la melodía es muy bella.\n"
+
+msgid "天竺僧低声念着经，调子一起一伏。\n"
+msgstr "El monje indio recita el sutra en voz baja, con una melodía que sube y baja.\n"
+
+msgid "天竺僧双手合十，朝榕树的方向拜了一拜。\n"
+msgstr "El monje indio junta las manos y se inclina una vez hacia el baniano.\n"
+
+msgid "法王"
+msgstr "Rey del Dharma"
+
+msgid "法王七十一了。他说他还要收十个弟子，收满了就坐化。"
+msgstr "El Rey del Dharma tiene setenta y uno. Dice que aún aceptará diez discípulos y que, cuando los complete, se sentará a morir."
+
+msgid "贝叶经。从天竺背来的，一片叶子一页。"
+msgstr "Sutras en hojas de palma. Los trajeron a cuestas desde la India, una hoja por página."
+
+msgid "山烟寺？那边有一位独眼的头陀，他的内功和我们的是一个根。法王说的。"
+msgstr "¿El Templo de la Bruma? Allá hay un asceta tuerto; su neigong y el nuestro tienen una misma raíz. Lo dijo el Rey del Dharma."
+
+msgid "第一代师父带来的一根枝条。现在你看——一棵树像一片林子。"
+msgstr "Una rama que trajo el Shifu de la primera generación. Ahora mira: un solo árbol parece un bosque."
+
+msgid "他们的火在街那头。我们的佛在这头。中间是卖香料的。"
+msgstr "Su fuego, al otro extremo de la calle. Nuestro Buda, a este. En medio, los de las especias."
+
+msgid "鬼笠馆馆主"
+msgstr "Maestro del Salón del Sombrero Fantasma"
+
+msgid "一个五十来岁的倭人，瘦，背挺得笔直，头发在头顶挽成一个髻。他坐在板屋尽头，一把窄而弯的长刀横在膝上，两只手搭在刀鞘上，一动不动。他的中原话说得很慢，一个字一个字。\n"
+msgstr "Un japonés de unos cincuenta años, delgado, de espalda muy recta, con el pelo recogido en un moño sobre la coronilla. Sentado al fondo del tablado, tiene atravesado sobre las rodillas un sable largo, angosto y curvo, con las dos manos sobre la vaina, sin moverse. Habla la lengua de las Llanuras Centrales muy despacio, palabra por palabra.\n"
+
+msgid "早川直义坐着不动，刀横在膝上。\n"
+msgstr "Hayakawa Naoyoshi está sentado sin moverse, con el sable sobre las rodillas.\n"
+
+msgid "早川直义的拇指把刀往外推了一寸，又按了回去。\n"
+msgstr "Hayakawa Naoyoshi empuja el sable un dedo hacia fuera con el pulgar y lo vuelve a apretar.\n"
+
+msgid "你站了那边。我们没有话说。"
+msgstr "Te pusiste del otro lado. No tenemos nada que hablar."
+
+msgid "在你手里了。火前拿的也好，夜里拿的也好——铜不认人。"
+msgstr "Ya está en tu mano. Tomada ante el fuego o tomada de noche: el cobre no reconoce a nadie."
+
+msgid "夜里。拜火祠。火坛前站着，别出声。"
+msgstr "De noche. El santuario del fuego. De pie ante el altar de fuego, sin hacer ruido."
+
+msgid "要铜牒？过我一刀。"
+msgstr "¿Quieres la tablilla de cobre? Aguanta un tajo mío."
+
+msgid "大秦人存在火前的东西。你要？"
+msgstr "Lo que la gente de Daqin dejó ante el fuego. ¿La quieres?"
+
+msgid "站浪人"
+msgstr "Del lado de los ronin"
+
+msgid "站到浪人一边——过早川一刀，夜里让浪人替你从拜火祠偷出铜牒；浪人会给冯禄的文书作证，市舶司就把大秦人清出番坊。从此铁盾会不认你，大秦人的盾剑学不到。要站浪人吗？"
+msgstr "Ponerte del lado de los ronin: aguantar un tajo de Hayakawa y dejar que, de noche, los ronin roben por ti la tablilla de cobre del santuario del fuego; los ronin darán testimonio a favor del papel de Feng Lu, y la aduana marítima echará a la gente de Daqin del Barrio Extranjero. A partir de ahí la Hermandad del Escudo de Hierro no te reconocerá y no aprenderás la espada y el escudo de Daqin. ¿Ponerte del lado de los ronin?"
+
+msgid "站过了。刀在这里——过我一刀。"
+msgstr "Ya tomaste partido. El sable está aquí: aguanta un tajo mío."
+
+msgid "看了你很久，把刀从膝上拿起来，横在你面前。"
+msgstr " te mira mucho rato, toma el sable de sobre las rodillas y lo pone atravesado ante ti."
+
+msgid "好。铜牒，我们替你拿——火前拿不到的东西，夜里拿。"
+msgstr "Bien. La tablilla de cobre, la tomamos por ti: lo que no se toma ante el fuego, se toma de noche."
+
+msgid "先过我一刀。一击之内定生死。"
+msgstr "Primero aguanta mi tajo. Vida o muerte dentro de un solo golpe."
+
+msgid "大秦人的铜牒，你还没听他们说过。先去铁盾会。"
+msgstr "La tablilla de cobre de los de Daqin: aún no les oíste hablar de ella. Primero ve a la Hermandad del Escudo de Hierro."
+
+msgid "一刀"
+msgstr "Un solo tajo"
+
+msgid "一击之内定生死。刀出鞘，只出一次。"
+msgstr "Vida o muerte dentro de un solo golpe. El sable sale de la vaina una sola vez."
+
+msgid "门规"
+msgstr "Reglas del salón"
+
+msgid "门口那块牌子。一击之内定生死——刀出鞘，只出一次，出了就不收。"
+msgstr "El cartel de la puerta. Vida o muerte dentro de un solo golpe: el sable sale de la vaina una sola vez, y una vez fuera, no se guarda."
+
+msgid "鬼笠"
+msgstr "Sombrero fantasma"
+
+msgid "门上那顶斗笠。从倭国来的时候戴的，破了，挂着。馆就叫这个。"
+msgstr "El sombrero de paja de la puerta. Lo llevaba puesto cuando vine de Japón; se rompió y lo colgamos. Por eso el salón se llama así."
+
+msgid "地"
+msgstr "Terreno"
+
+msgid "铁盾会那块地，三十年前是我们的。火前，他们说了一句谎，地就成了他们的。"
+msgstr "Ese terreno de la Hermandad del Escudo de Hierro, hace treinta años era nuestro. Ante el fuego, ellos dijeron una mentira, y el terreno pasó a ser suyo."
+
+msgid "盾在前，剑在后。好。可一击之内，盾没有用。"
+msgstr "Escudo delante, espada detrás. Bien. Pero dentro de un solo golpe, el escudo no sirve."
+
+msgid "火不说谎。人说。"
+msgstr "El fuego no miente. La gente sí."
+
+msgid "三十年前，他们在火前说了一句谎。火没蹿起来——火也会看人。"
+msgstr "Hace treinta años, ante el fuego dijeron una mentira. El fuego no se alzó: el fuego también sabe mirar a la gente."
+
+msgid "……他的印是假的。我们早知道。"
+msgstr "...Su sello es falso. Lo sabíamos desde hace tiempo."
+
+msgid "市舶司的。他要人，我们借他四个。差，是他的差。"
+msgstr "De la aduana marítima. Quiere gente, le prestamos cuatro. El encargo es suyo."
+
+msgid "从架上取下一把刀，连鞘扔给你。"
+msgstr " toma un sable del estante y te lo lanza con todo y vaina."
+
+msgid "你的。出鞘，只出一次。"
+msgstr "Tuyo. Fuera de la vaina, una sola vez."
+
+msgid "刀给过你了。"
+msgstr "El sable ya te lo di."
+
+msgid "架上的刀，都是出过鞘的。"
+msgstr "Los sables del estante, todos han salido de la vaina."
+
+msgid "抬眼看了你一下，又低下头。"
+msgstr " te mira un instante y vuelve a bajar la cabeza."
+
+msgid "从板屋尽头抬起头。"
+msgstr " levanta la cabeza desde el fondo del tablado."
+
+msgid "过他一刀"
+msgstr "Aguantar su tajo"
+
+msgid "早川直义的一刀是真砍：\n· 只有一刀，实打实地落在你身上，挨中了会受伤。\n· 接不住，你随后会昏倒；他收着刀，不会要你的命。\n倒了可以歇好再来。\n确定过他一刀吗？"
+msgstr "El tajo de Hayakawa Naoyoshi es de verdad:\n· Es un solo tajo, que cae de verdad sobre ti; si te alcanza, te hiere.\n· Si no lo paras, luego te desmayas; él contiene el sable y no te quitará la vida.\nSi caes, puedes descansar y volver.\n¿Seguro que quieres aguantar su tajo?"
+
+msgid "早川直义站了起来，刀还在鞘里。「一击之内定生死。」——刀出鞘了。"
+msgstr "Hayakawa Naoyoshi se levanta, con el sable aún en la vaina. \"Vida o muerte dentro de un solo golpe.\" ...El sable sale de la vaina."
+
+msgid "早川直义把刀插回鞘里：「不够。歇好了再来。」"
+msgstr "Hayakawa Naoyoshi devuelve el sable a la vaina: \"No basta. Vuelve cuando hayas descansado.\""
+
+msgid "早川直义收刀入鞘：「过了。今夜，拜火祠——火坛前站着，别出声。」"
+msgstr "Hayakawa Naoyoshi envaina el sable: \"Pasaste. Esta noche, el santuario del fuego: de pie ante el altar de fuego, sin hacer ruido.\""
+
+msgid "在鬼笠馆接下了早川直义的一刀"
+msgstr "Aguantaste en el Salón del Sombrero Fantasma el tajo de Hayakawa Naoyoshi"
+
+msgid "宗道"
+msgstr "Maestro del Salón"
+
+msgid "一刀都没过，拜什么师。"
+msgstr "Sin haber aguantado ni un tajo, ¿qué discípulo vas a ser?"
+
+msgid "……刀出鞘，只出一次。记住。从今天起，你是鬼笠馆的人。"
+msgstr "...El sable sale una sola vez. Recuérdalo. Desde hoy, eres del Salón del Sombrero Fantasma."
+
+msgid "鬼笠馆"
+msgstr "Salón del Sombrero Fantasma"
+
+msgid "一个戴斗笠的倭人，斗笠压得很低，只看得见下巴。他腰里一把窄而弯的长刀，两只手一直离刀柄不远。\n"
+msgstr "Un japonés de sombrero de paja, calado tan bajo que solo se le ve la barbilla. En la cintura lleva un sable largo, angosto y curvo, y las dos manos nunca están lejos de la empuñadura.\n"
+
+msgid "浪人举刀，劈下，收刀——只有一刀。\n"
+msgstr "El ronin levanta el sable, corta y lo recoge: un solo tajo.\n"
+
+msgid "浪人把斗笠往下按了按。\n"
+msgstr "El ronin se baja un poco más el sombrero de paja.\n"
+
+msgid "浪人喝道：一刀！\n"
+msgstr "El ronin grita: \"¡Un tajo!\"\n"
+
+msgid "馆主"
+msgstr "Maestro del salón"
+
+msgid "板屋尽头坐着的。早川。"
+msgstr "El que está sentado al fondo del tablado. Hayakawa."
+
+msgid "一击之内定生死。"
+msgstr "Vida o muerte dentro de un solo golpe."
+
+msgid "那块地是我们的。"
+msgstr "Ese terreno es nuestro."
+
+msgid "借我们四个。差是他的，刀是我们的。"
+msgstr "Le prestamos cuatro. Los encargos son de él, los sables son nuestros."
+
+msgid "一个戴斗笠的倭人，刀已经出了鞘，窄而弯的刀身贴着小臂。\n"
+msgstr "Un japonés de sombrero de paja, con el sable ya fuera de la vaina; la hoja angosta y curva descansa pegada al antebrazo.\n"
+
+msgid "一个从头到脚裹在黑布里的人，蹲在火坛后头，只露一双眼睛。火光照不到他。\n"
+msgstr "Una figura envuelta de pies a cabeza en tela negra, en cuclillas tras el altar de fuego, de la que solo se ven los ojos. La luz del fuego no llega a ella.\n"
+
+msgid "从火坛后头站起来，手里一片发黑的铜。"
+msgstr " se levanta de detrás del altar de fuego, con una lámina de cobre ennegrecida en la mano."
+
+msgid "净室里传出一声骂，是波斯话。门没有开。\n"
+msgstr "De la cámara sale una maldición, en persa. La puerta no se abre.\n"
+
+msgid "拿着。走。"
+msgstr "Toma. Vete."
+
+msgid "黑影翻过屋顶的方洞，没了。火坛底下的暗格开着，空的。\n"
+msgstr "La sombra salta por el hueco cuadrado del techo y desaparece. El compartimento oculto bajo el altar de fuego está abierto y vacío.\n"
+
+msgid "忘情谷外的小路出了林子，地势一下子高了。眼前是一片光秃秃的崖头，风很大，草都贴着地长。往西看，崖下是一片灰蓝，一直铺到天边——那是海。路边一座小石龛，龛前摆着几个贝壳。路顺着崖往南下去。\n"
+msgstr "El sendero que sale del Valle del Olvido deja atrás el bosque y, de golpe, el terreno se alza. Delante, una cabeza de acantilado pelada y un viento fuerte, con la hierba tendida contra el suelo. Hacia el oeste, bajo el acantilado, se extiende una franja de gris azulado hasta el fin del cielo: el mar. Junto al camino, un pequeño nicho de piedra, y ante el nicho, unas caracolas. El camino baja por el acantilado hacia el sur.\n"
+
+msgid "路是从崖壁上凿出来的。东边是黑褐色的石壁，西边一道矮矮的石沿，石沿外头就是海。浪打在崖脚，轰的一声碎成白沫，风把水星子一直吹到路上。路面湿漉漉的，凿出来的台阶让背盐的脚夫踩得发亮。\n"
+msgstr "El camino está picado en la pared del acantilado. Al este, la roca pardo oscura; al oeste, un borde de piedra bajito, y más allá del borde, el mar. Las olas rompen al pie del acantilado con un estruendo y se deshacen en espuma blanca, y el viento lleva gotas de agua hasta el camino. El suelo está mojado, y los escalones picados en la roca han quedado lustrosos de tanto pisarlos los cargadores de sal.\n"
+
+msgid "崖到这里低了下来，路变成一段石阶，弯弯曲曲地通到下面的码头。从这儿看得见码头上的平底船和一垛一垛的货，再往东是一片挤在一起的屋顶——番坊。海风里有盐味、鱼腥味，还有一股说不上来的香料味。\n"
+msgstr "Aquí el acantilado se hace bajo y el camino pasa a ser una escalera de piedra que baja, retorcida, hasta el muelle. Desde aquí se ven los barcos de fondo plano y las pilas de carga del muelle, y al este, apretado, un mar de tejados: el Barrio Extranjero. En el viento hay olor a sal, a pescado y a un perfume de especias imposible de nombrar.\n"
+
+msgid "一道石砌的码头沿着海边铺开，两条木栈道伸进海里。三条平底船拴在栈道边，船身黑乎乎的，帆卷着。卸货的胡商和船工吆喝着把一箱箱货抬上岸；码头当中摆着一张桌子，一个小吏坐在那里收税。往东，一条路通进市集。\n"
+msgstr "Un muelle de piedra se extiende a lo largo de la orilla, con dos pasarelas de madera que entran al mar. Tres barcos de fondo plano están amarrados a las pasarelas, con el casco negruzco y las velas arriadas. Mercaderes extranjeros y barqueros descargan a gritos caja tras caja y las suben a tierra; en el centro del muelle hay una mesa, y un funcionario menor sentado a ella cobra el impuesto. Al este, un camino entra al mercado.\n"
+
+msgid "码头西头，崖脚下搭着一溜草棚，几根木柱撑着一面草顶，风一大就哗哗地响。棚里堆着渔网、船桨、缆绳，一口锅架在石头上煮着鱼汤。船工没活的时候就坐在这里，补网，晒太阳，骂船主。\n"
+msgstr "En el extremo oeste del muelle, al pie del acantilado, hay una hilera de cobertizos de paja: unos postes de madera sostienen un techo de paja que, cuando el viento aprieta, hace ruido. Dentro se apilan redes, remos y sogas, y sobre unas piedras hierve en una olla una sopa de pescado. Cuando no tienen trabajo, los barqueros se sientan aquí a remendar redes, tomar el sol y maldecir a los dueños de los barcos.\n"
+
+msgid "番坊的市集只有一条街，街面是黄土夯的，两边挤满了摊子和矮房子。西头的摊子卖毡毯和琉璃：毡毯挂在竹竿上，红的黄的，花纹是中原没有的；琉璃珠子一串一串，太阳一照，满摊子都是光。南边一座灰墙的院子，门上挂着一块牌子：市舶司。\n"
+msgstr "El mercado del Barrio Extranjero es una sola calle de tierra amarilla apisonada, con puestos y casas bajas apretados a ambos lados. En el extremo oeste, los puestos venden alfombras y vidrio: las alfombras cuelgan de varas de bambú, rojas y amarillas, con dibujos que no existen en las Llanuras Centrales; las cuentas de vidrio, sarta tras sarta, llenan el puesto de luz cuando les da el sol. Al sur, un patio de pared gris, con un letrero en la puerta: Aduana marítima.\n"
+
+msgid "东头的摊子卖香料和铜器。香料装在麻袋里，袋口敞着，黄的是姜黄，红的是胡椒，黑的说不上名字，一条街都是那股味。铜器摊上的壶和盘子敲得叮当响。街的尽头是一座黑石砌的矮房子，门口冒着烟——人说里面的火三百年没灭过。北边一条短巷，通到一扇立着两面大盾的门；南边屋子中间裂开一条坡道，坡底露出一截赭红的寺墙。\n"
+msgstr "En el extremo este, los puestos venden especias y objetos de cobre. Las especias están en sacos de boca abierta: lo amarillo es cúrcuma, lo rojo es pimienta, lo negro no sabrías nombrarlo, y toda la calle huele a eso. En los puestos de cobre, las teteras y los platos tintinean a golpes. Al final de la calle hay una casa baja de piedra negra con humo en la puerta: dicen que el fuego de dentro no se apaga hace trescientos años. Al norte, un callejón corto lleva a una puerta con dos grandes escudos; al sur, entre las casas, se abre una rampa, y al pie de ella asoma un trozo de muro rojo ocre de un templo.\n"
+
+msgid "巷子尽头是一扇厚木门，门两边各立着一面大盾，比人还高，铁皮包边，盾面上漆着一只展翅的鹰，漆掉了一半。门里传出铁器相碰的声音，还有人用听不懂的话喊着号子。这是大秦人的剑会，番坊人叫它铁盾会。\n"
+msgstr "Al final del callejón hay una puerta gruesa de madera, con un gran escudo a cada lado, más alto que un hombre, con borde de chapa de hierro y un águila de alas desplegadas pintada en la cara, con la pintura medio saltada. Dentro suena hierro contra hierro, y alguien grita un ritmo en una lengua que no entiendes. Es la hermandad de esgrima de la gente de Daqin; en el Barrio Extranjero la llaman la Hermandad del Escudo de Hierro.\n"
+
+msgid "一间方方正正的公事房，地上铺着青砖。靠里一张大书案，案上堆着账册，压着一杆戥子。墙上贴着几张告示，最新的一张盖着京师的大印。屋角堆着收上来的货：一卷毡子、两只铜壶、一袋胡椒，都贴着封条。\n"
+msgstr "Una oficina cuadrada y recta, con el suelo de ladrillos azules. Al fondo hay un gran escritorio con libros de cuentas amontonados y, encima, una balanza pequeña. En la pared hay pegados varios avisos, y el más reciente lleva el gran sello de la Capital. En un rincón se apilan las cargas confiscadas: un rollo de fieltro, dos teteras de cobre, un saco de pimienta, todo con tiras de sellado.\n"
+
+msgid "后院不大。靠墙码着一摞扣下来的货箱，箱上的字有中原字，也有弯弯曲曲的胡字。一辆没套牲口的车停在角落里，车辕上拴着一串锁链。墙角有一只箱子让人撬开过——夜里有人翻墙进来，想把自己的货拿回去。\n"
+msgstr "El patio trasero no es grande. Contra la pared se apila una torre de cajas retenidas, con letras de las Llanuras Centrales y otras garabateadas, extranjeras. En un rincón hay una carreta sin animal, con una cadena atada a la lanza. En la esquina, una caja ha sido forzada: de noche alguien saltó el muro para recuperar lo suyo.\n"
+
+msgid "市集东头的屋子中间裂开一条巷子，往南一路下坡。坡道是黄土夯的，两边是香料铺和胡商客栈的后墙，墙根晒着一排香料口袋，墙头爬着一丛开紫花的藤。坡底一座赭红墙的小寺，寺门口一棵大榕树，气根一根根垂到地上。寺里有时传出一声钟。\n"
+msgstr "Entre las casas del extremo este del mercado se abre un callejón que baja, cuesta abajo, hacia el sur. La rampa es de tierra amarilla apisonada, con los muros traseros de las tiendas de especias y de las posadas de mercaderes a los lados, sacos de especias puestos a secar al pie de los muros, y una enredadera de flores moradas trepando por lo alto. Al pie de la rampa hay un templo pequeño de muros rojo ocre; delante de la puerta, un gran baniano, con raíces aéreas que cuelgan hasta el suelo, una a una. A veces, del templo sale un toque de campana.\n"
+
+msgid "厚木门里是一个方方正正的大院子，地上铺着沙，踩出一个个脚印。十来个高鼻深目的汉子两两对着练，左手盾右手短剑，盾撞在一起砰砰地响。北墙下一排盾牌架，架上的圆盾一面挨一面；东墙根几根木桩让剑尖戳得坑坑洼洼。院子北头一间石屋，门敞着——那是会首的屋。\n"
+msgstr "Pasada la gruesa puerta de madera hay un gran patio cuadrado, con el suelo cubierto de arena y lleno de huellas. Una decena de hombres de nariz alta y ojos hundidos entrenan en parejas, escudo en la izquierda y espada corta en la derecha; los escudos chocan con golpes secos. Bajo el muro norte hay una hilera de estantes de escudos, con los escudos redondos uno al lado de otro; al pie del muro este, unos troncos están agujereados de tantas puntas de espada. Al fondo norte del patio hay una casa de piedra con la puerta abierta: el cuarto del jefe.\n"
+
+msgid "一间石头砌的屋子，不大，屋顶很低。地上铺着一张红底黄花的毡毯，毯子中间一张矮桌，桌上一盏铜灯。墙根靠着一面旧盾，盾面上的鹰只剩一个影子；盾旁边钉着一块木牌，刻着一行弯弯曲曲的字。靠墙一排铺盖卷，卷得整整齐齐。一个白头发的老人坐在矮桌后头。\n"
+msgstr "Una casa de piedra, pequeña, de techo muy bajo. En el suelo, una alfombra de fieltro de fondo rojo con flores amarillas; en el centro, una mesita baja con una lámpara de cobre. Contra el pie del muro, un viejo escudo cuya águila es ya solo una sombra; junto al escudo, clavada, una tablilla de madera con una línea de letras torcidas. Contra la pared, una hilera de rollos de ropa de cama, enrollados con esmero. Un anciano de pelo blanco está sentado tras la mesita.\n"
+
+msgid "殿里很黑，只有当中一团火。火坛是黑石砌的，齐胸高，坛顶的火不高不低地烧着，看不见柴，也看不见油——人说它三百年没灭过。烟从屋顶的一个方洞出去。四壁的黑石让烟熏得发亮。火坛前的地上磨出一块白印子，是跪出来的。东边一道矮门，通到祭司的净室。\n"
+msgstr "Dentro está muy oscuro, solo con un fuego en el centro. El altar de fuego es de piedra negra, a la altura del pecho, y el fuego de arriba arde ni alto ni bajo, sin que se vea leña ni aceite: dicen que no se apaga hace trescientos años. El humo sale por un hueco cuadrado del techo. Las cuatro paredes de piedra negra, ahumadas, relucen. Ante el altar, el suelo tiene una marca blanca gastada: de arrodillarse. Al este, una puerta baja da a la cámara del sacerdote.\n"
+
+msgid "一间小小的石室，干净得过分：一张窄榻，一只木箱，一盏灯，再没有别的。墙上没有神像，只有一块黑石板，板上刻着一团火的形状。地上扫得一粒灰都没有。\n"
+msgstr "Una celda de piedra, pequeña, limpia hasta el exceso: un camastro angosto, un cajón de madera, una lámpara y nada más. En la pared no hay imagen de dios, solo una losa de piedra negra con una llama grabada. El suelo está barrido sin una mota de polvo.\n"
+
+msgid "一座不大的寺院，赭红的墙，墙头长着草。院子当中一棵大榕树，树冠把半个院子罩住，气根一根根垂下来，有的已经扎进地里成了树干。树下一个蒲团，一个老僧盘腿坐在上头。院角一口铜钟挂在木架上，钟身发绿。东边一间佛殿，门开着，里头一点灯光。南墙开着一道小门，门外的坡道底下是浪人的武馆。\n"
+msgstr "Un templo no grande, de muros rojo ocre con hierba en lo alto. En el centro del patio, un gran baniano cuya copa cubre la mitad; las raíces aéreas cuelgan una a una, y algunas ya han echado raíz en la tierra y son troncos. Bajo el árbol, un cojín, y un viejo monje sentado en él con las piernas cruzadas. En un rincón, una campana de cobre colgada de un armazón de madera, verdosa. Al este, un salón de Buda con la puerta abierta y una lucecita dentro. En el muro sur hay una puertecita; al pie de la rampa que hay fuera, el salón de los ronin.\n"
+
+msgid "殿不大，供着一尊佛像，不是中原的样子：高鼻、细眼、卷发，衣褶一道一道贴在身上，是天竺来的。佛前一张供桌，桌上几盏酥油灯，灯火一跳一跳的。地上几个蒲团，一个天竺僧跪在那里念经，念的是谁也听不懂的话。殿角堆着几卷贝叶经。\n"
+msgstr "El salón no es grande, y venera una imagen de Buda que no tiene el aspecto de las Llanuras Centrales: nariz alta, ojos rasgados, pelo rizado, y los pliegues del hábito pegados al cuerpo línea tras línea, del estilo de la India. Delante del Buda, una mesa de ofrendas con varias lámparas de mantequilla cuya llama salta. En el suelo, algunos cojines, y un monje indio de rodillas recita un sutra en una lengua que nadie entiende. En un rincón del salón, unos rollos de sutras en hojas de palma.\n"
+
+msgid "一道刷黑的木门，门楣上挂着一顶破了边的斗笠——这就是「鬼笠」。门里一小片夯土的门庭，墙根立着一块白木牌，墨写着一行字：「一击之内定生死」。东边一道敞着的板门，里头是练刀的板地，刀劈在木头上的声音一下一下，不紧不慢。\n"
+msgstr "Una puerta de madera pintada de negro, con un sombrero de paja de borde roto colgado en el dintel: esto es el \"Sombrero Fantasma\". Tras la puerta, un pequeño patio de tierra apisonada, y al pie del muro, un cartel de madera blanca con una línea escrita en tinta: \"Vida o muerte dentro de un solo golpe\". Al este, una puerta de tablas abierta, y dentro el tablado de práctica de sable, con el ruido del sable cortando madera, golpe tras golpe, sin prisa.\n"
+
+msgid "一间长长的板屋，地上铺着刷黑的木板，板缝里全是刀口。墙上一排刀架，架上的刀都比中原的刀窄、弯。几个浪人在板地上练刀，一人一刀，劈下去就收，谁也不出第二刀。板屋尽头坐着一个人，刀横在膝上，不说话。\n"
+msgstr "Una casa de tablas larga, con el suelo de madera pintada de negro y las juntas llenas de cortes de sable. En la pared, una hilera de estantes de sables, y los sables son más angostos y curvos que los de las Llanuras Centrales. Varios ronin practican en el tablado, cada uno con su sable: cortan y recogen, y nadie da un segundo tajo. Al fondo de la casa hay alguien sentado, con el sable sobre las rodillas, sin hablar.\n"
+
+msgid "一座齐腰高的石龛，石头让海风蚀出了一个个小洞。龛里供的不是神像，是一块磨得溜圆的黑石头。石前摆着贝壳、一枚铜钱、半块干饼——都是出海的人放的。龛边刻着两个字：「平安」，字口里长了青苔。\n"
+msgstr "Un nicho de piedra a la altura de la cintura, con la piedra comida por el viento del mar hasta quedar llena de agujeritos. Dentro no hay imagen de dios, sino una piedra negra pulida hasta quedar redonda. Delante de la piedra, caracolas, una moneda de cobre y medio pan seco: ofrendas de quienes se hacen a la mar. En el borde está grabada una palabra: \"Paz\", y el musgo ha crecido dentro de las letras.\n"
+
+msgid "海是灰蓝的，近处发绿，远处发黑，一直铺到天边，看不见对岸。海上一条船也没有——番坊的船都拴在码头上。浪一排一排地过来，在崖脚撞碎，退下去，又来。\n"
+msgstr "El mar es azul grisáceo, verdoso cerca y negro a lo lejos, y se extiende hasta el fin del cielo, sin orilla opuesta a la vista. En el mar no hay ni un barco: los barcos del Barrio Extranjero están todos amarrados en el muelle. Las olas llegan en filas, rompen al pie del acantilado, se retiran, y vuelven.\n"
+
+msgid "三条平底船，船底平，船头方，帆是竹篾一片一片编的。船身刷的桐油黑得发亮，船头画着一只眼睛。船工说，船不是番坊的，是南边来的商人的；番坊人只管装卸、守船，拿一份工钱。\n"
+msgstr "Tres barcos de fondo plano y proa cuadrada, con las velas tejidas de tiras de bambú. El casco, pintado con aceite de tung, está negro y reluciente, y en la proa hay pintado un ojo. Un barquero dice que los barcos no son del Barrio Extranjero, sino de mercaderes que vienen del sur; la gente del Barrio Extranjero solo carga, descarga y vigila los barcos, por un salario.\n"
+
+msgid "两面大盾，比人还高一头，长方的，盾面弯成半个筒。木胎外头蒙着牛皮，边上包着铁，铆钉一圈一圈。盾面上漆着一只展翅的鹰，金漆掉了一半，露出底下的红。盾脚插在土里，插得很深，像是从来没拔出来过。\n"
+msgstr "Dos grandes escudos, más altos que un hombre, rectangulares, con la cara curvada como medio cilindro. El armazón de madera está forrado de cuero de vaca, con los bordes cubiertos de hierro y filas de remaches. En la cara está pintada un águila de alas desplegadas, con la pintura dorada medio saltada y el rojo asomando debajo. Los pies de los escudos están clavados en la tierra, muy hondo, como si nunca los hubieran sacado.\n"
+
+msgid "墙上贴着一张布告，纸是京师的纸，字是抄的：\n布告上写著：辑拿要犯----於兰天武。\n布告的一角盖着市舶司的小印，旁边一行小字：「京师东二门原告，番坊照抄」。\n"
+msgstr "En la pared hay pegado un aviso de papel de la Capital, con las letras copiadas:\nEn el aviso se lee: Búsqueda y captura del criminal Yulan Tianwu.\nEn una esquina del aviso hay un sellito de la aduana marítima y, al lado, una línea pequeña: \"Denuncia de la Segunda puerta este de la Capital, copiada en el Barrio Extranjero\".\n"
+
+msgid "一座黑石砌的火坛，齐胸高，石头让三百年的烟熏得乌黑发亮。坛顶一团火，不高不低，不红不白，烧得很静，看不见柴，也看不见油。火前的石头上磨出一块白印子，是一代一代跪出来的。坛身上刻着一行弯弯曲曲的字，没有人认得；祭司说那是祠规——火前不说谎。\n"
+msgstr "Un altar de fuego de piedra negra, a la altura del pecho, ennegrecido y reluciente por trescientos años de humo. Encima arde un fuego ni alto ni bajo, ni rojo ni blanco, muy quieto, sin leña ni aceite a la vista. Ante el altar, la piedra tiene una marca blanca gastada, hecha por generaciones de rodillas. En el cuerpo del altar hay grabada una línea de letras torcidas que nadie sabe leer; el sacerdote dice que es la regla del santuario: ante el fuego no se miente.\n"
+
+msgid "一块巴掌大的木牌钉在墙上，木头发黑，上面刻着一行弯弯曲曲的字——大秦人自己的字。安敦说，那是剑会的第一条规矩，三百年前第一代会首刻的：盾在前，剑在后。盾不倒，人不倒。\n"
+msgstr "Una tablilla de madera del tamaño de la palma de una mano, clavada en la pared, de madera ennegrecida, con una línea de letras torcidas grabadas: letras de la propia gente de Daqin. Andun dice que es la primera regla de la hermandad, que grabó hace trescientos años el primer jefe: escudo delante, espada detrás. Escudo en pie, hombre en pie.\n"
+
+msgid "一棵大榕树，树冠罩住了半个院子。气根从枝上一根根垂下来，细的像绳，粗的已经扎进地里成了树干，一棵树看着像一片林子。树下的地让人坐得光溜溜的。天竺僧说，这树是第一代僧人从天竺带来的一根枝条，插在这儿，活了。\n"
+msgstr "Un gran baniano cuya copa cubre la mitad del patio. Las raíces aéreas cuelgan de las ramas, una a una, las finas como cuerdas y las gruesas ya convertidas en troncos clavados en la tierra, de modo que un solo árbol parece un bosque. El suelo bajo el árbol está pulido de tanto sentarse. El monje indio dice que este árbol es una rama que el primer monje trajo de la India y plantó aquí, y prendió.\n"
+
+msgid "一尊天竺样子的佛像：高鼻、细眼、卷发，嘴角带一点笑，衣褶一道一道贴在身上，像是湿的。像是石头雕的，上过金，金掉了大半，露出底下的灰石。佛前几盏酥油灯，灯火一跳一跳，佛的脸也跟着一明一暗。\n"
+msgstr "Una imagen de Buda al estilo de la India: nariz alta, ojos rasgados, pelo rizado, una sonrisa en la comisura de los labios, y los pliegues del hábito pegados al cuerpo línea tras línea, como si estuvieran mojados. Parece tallada en piedra y dorada; el oro se ha caído en su mayor parte y deja ver la piedra gris de debajo. Ante el Buda, varias lámparas de mantequilla cuya llama salta, y el rostro del Buda se ilumina y se oscurece con ella.\n"
+
+msgid "一块白木牌，立在墙根，墨写着一行字：「一击之内定生死」。字写得又瘦又硬，像刀刻的。牌子底下的土让人跪过，陷下去两个坑。\n"
+msgstr "Un cartel de madera blanca, plantado al pie del muro, con una línea escrita en tinta: \"Vida o muerte dentro de un solo golpe\". Las letras son delgadas y duras, como grabadas a sable. La tierra bajo el cartel está hundida en dos hoyos, de tantas rodillas.\n"
+
+msgid "书案上压着一纸兵部文书，字写得端端正正：\n"
+msgstr "Bajo un peso, sobre el escritorio, hay un papel del Ministerio de Guerra, con las letras escritas muy derechas:\n"
+
+msgid "「番坊大秦人等，聚众持械，着市舶司即日清出，不得延误。——兵部」\n"
+msgstr "\"Los de Daqin y demás del Barrio Extranjero, que se juntan armados, serán echados hoy mismo por la aduana marítima, sin demora. Ministerio de Guerra.\"\n"
+
+msgid "底下兵部的印旁边，还压着一方「镇国大将军」印，印色暗红发黑。你见过这个颜色：逆灵宫那叠文书上的印就是这样。印模上的真印是正红的，泛黄光。\n"
+msgstr "Junto al sello del Ministerio, más abajo, hay también un sello del \"Gran General Guardián\", de tinta rojo oscuro, casi negra. Ya viste ese color: así eran los sellos de aquel legajo del Palacio Negro. El sello verdadero, en el molde, es de un rojo vivo con un reflejo amarillento.\n"
+
+msgid "这一纸文书的印是假的。\n"
+msgstr "El sello de este papel es falso.\n"
+
+msgid "落款的日子，是关北工地出事后的第三天。\n"
+msgstr "La fecha de la firma es tres días después de lo ocurrido en las obras del Norte del Paso.\n"
+
+msgid "底下兵部的大印旁边，还压着一方「镇国大将军」印，印色暗红。冯禄说这是京师来的令，谁也不敢不认。\n"
+msgstr "Junto al gran sello del Ministerio, más abajo, hay también un sello del \"Gran General Guardián\", de tinta rojo oscuro. Feng Lu dice que es una orden llegada de la Capital y que nadie se atreve a no reconocerla.\n"
+
+msgid "火坛前没有人。穆护的净室里亮着灯，门关着。\n"
+msgstr "Ante el altar de fuego no hay nadie. En la cámara del mago hay luz; la puerta está cerrada.\n"
+
+msgid "天刚亮，火还没静。今天火不肯——明天再来。"
+msgstr "Acaba de amanecer y el fuego aún no se calma. Hoy el fuego no quiere: vuelve mañana."
+
+msgid "火今天不肯。要在祠里等到明天黎明，再问一次吗？（世界的时间会过去，别的地方照旧过它们的日子。）"
+msgstr "Hoy el fuego no quiere. ¿Esperar en el santuario hasta el amanecer de mañana y preguntar otra vez? (El tiempo del mundo pasará, y los demás lugares seguirán con sus días.)"
+
+msgid "等到明天"
+msgstr "Esperar hasta mañana"
+
+msgid "等。火自己会静。"
+msgstr "Espera. El fuego solo se calma."
+
+msgid "天亮了。坛顶的火又矮了下去，不红不白，烧得很静。\n"
+msgstr "Amaneció. El fuego sobre el altar volvió a bajar, ni rojo ni blanco, y arde muy quieto.\n"
+
+msgid "火静了。——再来一次。"
+msgstr "El fuego se calmó. Otra vez."
+
+msgid "牒在你手里了。火前没有你的事了。"
+msgstr "La tablilla ya está en tu mano. Ante el fuego ya no tienes nada que hacer."
+
+msgid "走到火坛前，掌心向火。"
+msgstr " camina hasta el altar de fuego y pone la palma hacia el fuego."
+
+msgid "三句。我问，你答。火听着。"
+msgstr "Tres preguntas. Yo pregunto, tú respondes. El fuego escucha."
+
+msgid "在水烟阁，南危水装死二十年的事——你替他守了口，还是告了？"
+msgstr "En el Pabellón de la Neblina, lo de que Nan Weishui fingió su muerte veinte años: ¿le guardaste el secreto o lo delataste?"
+
+msgid "守了口。"
+msgstr "Guardé el secreto."
+
+msgid "告了。"
+msgstr "Lo delaté."
+
+msgid "在关北，兵部的工地——你借了王府的兵踏平了它，还是夜里潜进去救了一半？"
+msgstr "En el Norte del Paso, las obras del Ministerio de Guerra: ¿las arrasaste con los soldados de la Casa de Huaiyang, o te colaste de noche y salvaste a la mitad?"
+
+msgid "踏平了。"
+msgstr "Las arrasé."
+
+msgid "夜里救了一半。"
+msgstr "De noche, salvé a la mitad."
+
+msgid "晚月庄的宝衣——你带走了，留给守衣的人守着，还是给了别人？"
+msgstr "La túnica de la Mansión Luna Tardía: ¿te la llevaste, se la dejaste a quien la guarda, o se la diste a otro?"
+
+msgid "带走了。"
+msgstr "Me la llevé."
+
+msgid "留给瑷伦守着。"
+msgstr "Se la dejé a Ailun para que la guardara."
+
+msgid "给了安妮儿。"
+msgstr "Se la di a Anni'er."
+
+msgid "火矮了下去，矮得几乎看不见，只剩坛顶一圈发白的热气。\n"
+msgstr "El fuego baja, tan bajo que casi no se ve, y sobre el altar solo queda un aro de aire caliente blanquecino.\n"
+
+msgid "把手伸进火坛底下——火一点没碰着他。"
+msgstr " mete la mano bajo el altar de fuego; el fuego no lo toca en absoluto."
+
+msgid "火静了。它认你。"
+msgstr "El fuego se calmó. Te reconoce."
+
+msgid "穆护从火坛底下取出一片发黑的铜，放在你手里。还是温的。\n"
+msgstr "El mago saca de debajo del altar de fuego una lámina de cobre ennegrecida y te la pone en la mano. Todavía está tibia.\n"
+
+msgid "大秦人存了三十年的东西。你拿去。火前拿的，谁也不能说你偷。"
+msgstr "Lo que la gente de Daqin guardó treinta años. Llévatelo. Tomado ante el fuego, nadie puede decir que lo robaste."
+
+msgid "火「轰」地蹿起来，一直蹿到屋顶的方洞，整座祠亮得像白天；又落下去。\n"
+msgstr "El fuego se alza con un estruendo hasta el hueco cuadrado del techo, y todo el santuario se ilumina como de día; luego vuelve a caer.\n"
+
+msgid "退了一步，白布底下看不出脸色。"
+msgstr " retrocede un paso; bajo el paño blanco no se le ve la cara."
+
+msgid "今天火不肯。明天再来。"
+msgstr "Hoy el fuego no quiere. Vuelve mañana."
+
+msgid "你站了浪人。火前没有你的事——他们拿东西，不走火前。"
+msgstr "Te pusiste del lado de los ronin. Ante el fuego no tienes nada que hacer: ellos toman las cosas sin pasar ante el fuego."
+
+msgid "大秦人的牒？他们托了你。——那就先站定。火前只问站定了的人：你站大秦人，还是站浪人，去跟安敦说，或者去鬼笠馆。"
+msgstr "¿La tablilla de los de Daqin? Te la encargaron. Entonces primero toma tu lugar. Ante el fuego solo se pregunta a quien ya tomó el suyo: del lado de Daqin o del lado de los ronin; díselo a Andun, o ve al Salón del Sombrero Fantasma."
+
+msgid "对质"
+msgstr "Confrontar"
+
+msgid "冯禄已经退走了。地还是大秦人的。\n"
+msgstr "Feng Lu ya se retiró. La tierra sigue siendo de la gente de Daqin.\n"
+
+msgid "看了看地上的四个人，又看了看你，把文书卷起来揣进袖子。"
+msgstr " mira a los cuatro del suelo, luego a ti, enrolla el papel y se lo guarda en la manga."
+
+msgid "……兵部的令，本司回头再议。"
+msgstr "...La orden del Ministerio, este despacho la discutirá después."
+
+msgid "冯禄退出了铁盾会的门。院子里的大秦人把盾举起来，一齐喊了一声——你听不懂，可听得出是什么意思。\n"
+msgstr "Feng Lu sale por la puerta de la Hermandad del Escudo de Hierro. En el patio, la gente de Daqin alza los escudos y grita todos juntos; no entiendes lo que dicen, pero sí lo que significa.\n"
+
+msgid "番坊欠你一个人情。决战那天——不管在哪儿，铁盾会的盾到。"
+msgstr "El Barrio Extranjero le debe un favor. El día de la batalla decisiva, esté donde esté, el escudo de la Hermandad del Escudo de Hierro llega."
+
+msgid "你把印模翻过来，按在冯禄手里那纸文书的「镇国大将军」印旁边，举起来对着光。\n"
+msgstr "Das la vuelta al molde de sello, lo pones junto al sello del \"Gran General Guardián\" del papel que Feng Lu tiene en la mano y lo levantas contra la luz.\n"
+
+msgid "印色不对。模子上的朱砂正红泛黄，文书上的暗红发黑——字口一模一样，颜色差着一截。\n"
+msgstr "El color no es el mismo. El cinabrio del molde es un rojo vivo con reflejo amarillento; el del papel, un rojo oscuro casi negro. Las letras son idénticas, pero el color difiere mucho.\n"
+
+msgid "盯着那方印，嘴张了张，没有声音。"
+msgstr " clava los ojos en el sello, abre la boca y no sale ningún sonido."
+
+msgid "这……这是兵部发的文书……"
+msgstr "Es... es un papel emitido por el Ministerio..."
+
+msgid "假印的差，我们不接。"
+msgstr "Encargos con sello falso, no los aceptamos."
+
+msgid "四个浪人把刀收回鞘里，转身出了门。\n"
+msgstr "Los cuatro ronin devuelven los sables a la vaina, dan media vuelta y salen por la puerta.\n"
+
+msgid "……本司、本司回去查。"
+msgstr "...Este despacho... este despacho irá a revisar."
+
+msgid "冯禄挨过你那一顿，那纸文书再没人提。\n"
+msgstr "Después de la paliza que le diste a Feng Lu, nadie volvió a mencionar ese papel.\n"
+
+msgid "差是冯禄的差。他倒了，跟他来的人也就散了。院子里的大秦人把盾举起来，一齐喊了一声——你听不懂，可听得出是什么意思。\n"
+msgstr "Los encargos eran de Feng Lu. Cayó él, y los que vinieron con él se dispersaron. En el patio, la gente de Daqin alza los escudos y grita todos juntos; no entiendes lo que dicen, pero sí lo que significa.\n"
+
+msgid "你拿不出能和那方印对一对的东西。冯禄身后站着四个浪人——要动手把他们打退吗？（铁盾会的人会替你打。）"
+msgstr "No tienes nada que comparar con ese sello. Detrás de Feng Lu hay cuatro ronin: ¿atacar para hacerlos retroceder? (La gente de la Hermandad del Escudo de Hierro peleará por ti.)"
+
+msgid "动手"
+msgstr "Pasar a la acción"
+
+msgid "四个浪人拔了刀。会首的屋里冲出三个人，盾在前，剑在后，站到了你两边。\n"
+msgstr "Los cuatro ronin desenvainan. Del cuarto del jefe salen tres hombres, escudo delante, espada detrás, y se ponen a tus lados.\n"
+
+msgid "歇"
+msgstr "Descansar"
+
+msgid "天已经黑了。去拜火祠——火坛前站着，别出声。"
+msgstr "Ya es de noche. Ve al santuario del fuego: de pie ante el altar de fuego, sin hacer ruido."
+
+msgid "要在板地上歇到天黑吗？（世界的时间会过去，别的地方照旧过它们的日子。）"
+msgstr "¿Descansar en el tablado hasta que oscurezca? (El tiempo del mundo pasará, y los demás lugares seguirán con sus días.)"
+
+msgid "歇到天黑"
+msgstr "Descansar hasta la noche"
+
+msgid "你在板地一角坐下。浪人们一刀一刀地劈，没有人看你。\n"
+msgstr "Te sientas en un rincón del tablado. Los ronin cortan, tajo tras tajo, y nadie te mira.\n"
+
+msgid "天黑了。板屋里点起一盏灯。\n"
+msgstr "Anochece. En la casa de tablas encienden una lámpara.\n"
+
+msgid "去吧。拜火祠——火坛前站着，别出声。"
+msgstr "Ve. El santuario del fuego: de pie ante el altar de fuego, sin hacer ruido."
+
+msgid "板地是练刀的地方，不是歇脚的。\n"
+msgstr "El tablado es lugar de práctica de sable, no de descanso.\n"
+
+msgid "一只青铜小铃，比拇指大不了多少，铃身长满了绿锈，只有铃舌是亮的。铃舌上刻着一个小小的「尘」字。挂绳是一截褪成粉橘色的红绳，打着一个孩子才打得出的死结。\n在寻风地带里，它会跟着风响。\n"
+msgstr "Una campanilla de bronce, apenas más grande que un pulgar, cubierta de cardenillo verde; solo la lengüeta brilla. En la lengüeta hay grabada una letrita: \"Chen\". El cordón es un trozo de cuerda roja desteñida a rosa anaranjado, con un nudo ciego como solo lo hace un niño.\nEn la zona de búsqueda del viento, suena al ritmo del viento.\n"
+
+msgid "这只风铃不能随便丢。"
+msgstr "Esta campanilla de viento no se puede tirar sin más."
+
+msgid "一支黑竹签，上面用朱砂密密地写着小字，是卜风的记录：\n「顺风而行，一日，见坛。」\n「顺风而行，二日，又见坛。」\n「顺风而行，三日，又见此坛。」\n最后一行字歪了：「风欺人。」\n"
+msgstr "Una varilla de bambú negro, con letras pequeñas escritas apretadas en cinabrio: es el registro de la adivinación del viento:\n\"Siguiendo el viento, un día, se ve un altar.\"\n\"Siguiendo el viento, dos días, otra vez un altar.\"\n\"Siguiendo el viento, tres días, otra vez este altar.\"\nLa última línea está torcida: \"El viento engaña.\"\n"
+
+msgid "一把三尺长的剑，剑身是白的，白得发亮，转一转，就有一道光从剑身上绕下来，像风打着旋。剑柄上缠着褪成粉橘色的红绳。剑脊上刻着两个字：寒於。\n"
+msgstr "Una espada de tres chi de largo, de hoja blanca, tan blanca que brilla; al girarla, un rayo de luz da una vuelta alrededor de la hoja, como el viento en remolino. En la empuñadura hay enrollada una cuerda roja desteñida a rosa anaranjado. En el lomo de la hoja está grabado el nombre: Hanyu.\n"
+
+msgid "旋芒不能丢。它在风里转了三百年。"
+msgstr "Filo Giratorio no se puede tirar. Lleva trescientos años girando en el viento."
+
+msgid "你把剑举到光里。剑脊上两个字：寒於。字下面一行小字，刻得很浅：「风止之处，城见；剑止之处，人见。」\n"
+msgstr "Levantas la espada a la luz. En el lomo, el nombre: Hanyu. Debajo, una línea pequeña, grabada somera: \"Donde el viento se detiene, aparece la ciudad; donde la espada se detiene, aparece el hombre.\"\n"
+
+msgid "一个黑衣黑冠的道士，蹲在黑石坛边烧符，符烧完了就看灰往哪边飞，然后在一支竹签上写一笔。他的嘴唇冻得发紫，眼睛红着，像是很多天没睡。\n"
+msgstr "Un taoísta de túnica negra y bonete negro, en cuclillas junto al altar de piedra negra, quemando talismanes; cuando se acaban, mira hacia dónde vuela la ceniza y escribe un trazo en una varilla de bambú. Tiene los labios morados de frío y los ojos rojos, como quien lleva muchos días sin dormir.\n"
+
+msgid "卜风道士一声不响地散成一股黑烟，被风卷着往西去了。"
+msgstr "El adivino del viento se deshace sin ruido en una voluta de humo negro, y el viento se lo lleva hacia el oeste."
+
+msgid "卜风道士冷笑：宫主算过，剑就在风那头。跟着风走就是了。"
+msgstr "El adivino del viento sonríe con frialdad: \"El señor del palacio lo calculó: la espada está al otro lado del viento. Basta con seguir el viento.\""
+
+msgid "风"
+msgstr "Viento"
+
+msgid "卜风道士道：风往哪边吹，剑就在哪边。……三天了。三天了。"
+msgstr "El adivino del viento dice: \"Adonde sopla el viento, allí está la espada. ...Tres días. Tres días.\""
+
+msgid "卜风道士尖声道：剑是宫主的！\n"
+msgstr "El adivino del viento chilla: \"¡La espada es del señor del palacio!\"\n"
+
+msgid "卜风道士朝坛上喊：有人来抢剑了！\n"
+msgstr "El adivino del viento le grita al altar: \"¡Alguien viene a robar la espada!\"\n"
+
+msgid "一个瘦高的黑衣道士，黑冠上缀着一圈铜钱，坐在坛顶，手里攥着一支写满了字的竹签，一动不动地盯着坛上的灰。\n"
+msgstr "Un taoísta alto y delgado, de túnica negra, con un círculo de monedas de cobre en el bonete negro, sentado en lo alto del altar con una varilla de bambú llena de letras apretada en la mano, sin moverse, con la vista fija en la ceniza del altar.\n"
+
+msgid "卜风道士散成一股黑烟，那支竹签落在坛脚的符灰里。"
+msgstr "El adivino del viento se deshace en una voluta de humo negro, y la varilla de bambú cae en la ceniza de talismanes al pie del altar."
+
+msgid "卜风道士头也不抬：顺风走。宫主说顺风走。"
+msgstr "El adivino del viento, sin levantar la cabeza: \"Siguiendo el viento. El señor del palacio dice que siguiendo el viento.\""
+
+msgid "卜风道士攥紧了竹签：风欺人。"
+msgstr "El adivino del viento aprieta la varilla: \"El viento engaña.\""
+
+msgid "卜风道士冷冷地道：又一个寻剑的。\n"
+msgstr "El adivino del viento dice con frialdad: \"Otro que busca la espada.\"\n"
+
+msgid "一个白发白须的老人，坐在十铃架下的蒲团上，衣裳是白的，袖口被门口的风吹得一直在动，他的人却一动不动。看不出他有多大年纪——脸上没有几道皱纹，眼睛却老得很。\n"
+msgstr "Un anciano de pelo y barba blancos, sentado en un cojín bajo el estante de las diez campanas; su ropa es blanca, y las mangas, movidas sin cesar por el viento de la puerta, no dejan de agitarse, pero él no se mueve. No se le adivina la edad: el rostro casi no tiene arrugas, pero los ojos son muy viejos.\n"
+
+msgid "你的手还没抬起来，一阵风已经把它按了回去。岚翁连眼睛都没睁。"
+msgstr "Antes de que levantes la mano, un golpe de viento ya la ha vuelto a bajar. El Anciano del Viento ni siquiera abrió los ojos."
+
+msgid "你一进门，十铃架上的大铃有几口自己响了起来，一声接一声，不是风吹的。\n"
+msgstr "Apenas cruzas la puerta, varias de las grandes campanas del estante de las diez empiezan a sonar solas, una tras otra; no es el viento.\n"
+
+msgid "睁开眼睛，看了看铃，又看了看你。"
+msgstr " abre los ojos, mira las campanas y luego te mira a ti."
+
+msgid "响的那几口，是有人信你的地方。暗的那几口，你自己知道为什么。"
+msgstr "Las que suenan son lugares donde alguien confía en ti. Las que están oscuras, tú sabes por qué."
+
+msgid "你是来要剑的。剑在云台。我不卖，也不赏，也不问你拿去做什么。"
+msgstr "Vienes por la espada. La espada está en la Terraza de las Nubes. Yo no la vendo, ni la regalo, ni te pregunto qué harás con ella."
+
+msgid "旋芒是寒於氏的剑。寒於氏斩了那东西的头，死前把两把剑分开放——一把钉头，一把寄在风里。三百年前你们拔了钉头的那一把。这一把，在我这里，等人来拔。"
+msgstr "Filo Giratorio es la espada del clan Hanyu. Hanyu cortó la cabeza de esa cosa y, antes de morir, puso las dos espadas en lugares distintos: una, clavando la cabeza; otra, confiada al viento. Hace trescientos años ustedes sacaron la que clavaba la cabeza. Esta otra está aquí conmigo, esperando a quien la saque."
+
+msgid "寒於"
+msgstr "Hanyu"
+
+msgid "寒於氏是太阳神族的祖。他的血，一份在金乌那里，一份在於兰家——君违嫁过去的那一份。"
+msgstr "El clan Hanyu es el origen del linaje del Dios Sol. Su sangre: una parte está en el Cuervo Dorado, otra en la familia Yulan, la que Junwei llevó al casarse."
+
+msgid "烟城"
+msgstr "Ciudad de la Bruma"
+
+msgid "烟城的人二十年前来过，你们先帝派的。他们站在门口问剑，问完就走了，走的时候风还没停——他们没伏下。"
+msgstr "Hace veinte años vinieron los de la Ciudad de la Bruma, enviados por el difunto emperador de ustedes. Se quedaron en la puerta preguntando por la espada y, al terminar, se fueron; el viento aún no había parado cuando se fueron: no se tendieron en el suelo."
+
+msgid "让我看看。……「寻剑，不得扰民一户。」你们先帝要的剑，是不扰民的剑。他要对了。"
+msgstr "Déjame ver. ...\"Buscar la espada sin molestar a una sola casa.\" La espada que quería el difunto emperador de ustedes es una espada que no molesta al pueblo. Acertó."
+
+msgid "你们的先帝找了一辈子。他的人到过烟城，没到过这里。"
+msgstr "El difunto emperador de ustedes la buscó toda la vida. Sus hombres llegaron a la Ciudad de la Bruma; aquí no llegaron."
+
+msgid "铃"
+msgstr "Campanas"
+
+msgid "十口铃，十个地方。哪里有人信你，哪里的铃就响。响的是信，不是功劳——你救过的人、你守过的话、你没拿的东西。走近了看，铃身上刻着地名。"
+msgstr "Diez campanas, diez lugares. Donde alguien confía en ti, suena la campana de ese lugar. Lo que suena es la confianza, no los méritos: la gente que salvaste, la palabra que cumpliste, lo que no tomaste. Acércate y mira: en cada campana hay grabado un nombre de lugar."
+
+msgid "谁拔"
+msgstr "Quién desenvaina"
+
+msgid "你拔的。十口铃里有人信你——到了湖底，别让它们暗下去。"
+msgstr "Tú la sacaste. Entre las diez campanas hay quien confía en ti: en el fondo del lago, no dejes que se apaguen."
+
+msgid "於兰家的人拔的。三百年前他们拔错了一把，这一回，看他拔得对不对。"
+msgstr "La sacó alguien de la familia Yulan. Hace trescientos años sacaron la espada equivocada; esta vez, veremos si saca la correcta."
+
+msgid "萧家的孩子拔的。他回来了一回，又走了。风记得他。"
+msgstr "La sacó el niño de los Xiao. Volvió una vez y se fue otra vez. El viento lo recuerda."
+
+msgid "剑在云台，自己转着。谁能拔，不是我说了算。响够六口铃，你自己可以试；不够，就请一个信得过的人来——风会替你去叫。西墙那道梯子上去，就是云台。"
+msgstr "La espada está en la Terraza de las Nubes, girando sola. Quién puede sacarla no lo decido yo. Si suenan seis campanas, puedes intentarlo por tu cuenta; si no alcanzan, pide que venga alguien de confianza: el viento irá a llamarlo por ti. Sube por esa escalera de la pared oeste y estás en la Terraza de las Nubes."
+
+msgid "岚城不在哪里。风在哪里停，它就在哪里。你们叫它寻风而至，寻风而逝——说得不错。"
+msgstr "La Ciudad del Viento no está en ningún lugar. Donde el viento se detiene, allí está. Ustedes dicen que llega y se va buscando el viento: no se equivocan."
+
+msgid "风停处，替我再看一眼。——他让你看的，你看过了。"
+msgstr "Donde el viento se detiene, mira otra vez por mí. Lo que él te pidió ver, ya lo viste."
+
+msgid "接过信，只看了末一行，嘴角动了一下。"
+msgstr " recibe la carta y solo mira la última línea; la comisura de los labios se mueve."
+
+msgid "这是风纹，岚城的字。写的是：「风停处，替我再看一眼。」"
+msgstr "Esto son grabados de viento, la escritura de la Ciudad del Viento. Dice: \"Donde el viento se detiene, mira otra vez por mí.\""
+
+msgid "那个砍柴的。他在城里住了三天，走的时候问我要了这几个字，说出去以后怕忘了。——他没忘。"
+msgstr "Aquel leñador. Se quedó tres días en la ciudad y, al irse, me pidió estas palabras, porque temía olvidarlas al salir. No las olvidó."
+
+msgid "把信还给你。"
+msgstr " te devuelve la carta."
+
+msgid "萧家的孩子。那年风大，把他卷出城去了。铃在你手里——那他就还回得来。"
+msgstr "El niño de los Xiao. Ese año el viento fue fuerte y lo sacó de la ciudad. La campana está en tu mano: entonces todavía puede volver."
+
+msgid "萧家的孩子，二十年前被风卷走了。铃丢了，风就找不到他。"
+msgstr "El niño de los Xiao, que el viento se llevó hace veinte años. Con la campana perdida, el viento no puede encontrarlo."
+
+msgid "那个砍柴的？他伏在石头上睡着了，醒来就看见城。他在城里住了三天，吃不惯——我们这里没有饭。"
+msgstr "¿Aquel leñador? Se tendió sobre una piedra, se durmió, y al despertar vio la ciudad. Estuvo tres días y no se acostumbró: aquí no hay comida."
+
+msgid "一个八九岁的小姑娘，白衣裳，头发被风吹得乱蓬蓬的，脖子上挂着一只小铜铃。她蹲在门洞边上，看你看得很认真。\n"
+msgstr "Una niña de ocho o nueve años, vestida de blanco, con el pelo revuelto por el viento y una campanilla de cobre colgada del cuello. Está en cuclillas junto al arco de la puerta y te mira con mucha atención.\n"
+
+msgid "小姑娘咯咯一笑，往门洞里一闪，不见了，过一会儿又从另一边探出头来。"
+msgstr "La niña suelta una risita, se escabulle por el arco y desaparece; un rato después asoma la cabeza por el otro lado."
+
+msgid "你是谁的铃带来的？"
+msgstr "¿La campana de quién te trajo?"
+
+msgid "给我看看！……是尘哥哥的！铃舌上那个字，铃匠爷爷刻的，我认得！尘哥哥回来了吗？"
+msgstr "¡Déjame ver! ...¡Es la del hermano Chen! La letra de la lengüeta la grabó el abuelo campanero, ¡yo la conozco! ¿Volvió el hermano Chen?"
+
+msgid "城里人人一只铃。铃丢了，风就不认得你了。"
+msgstr "En la ciudad todos tienen una campana. Si pierdes la campana, el viento ya no te conoce."
+
+msgid "城"
+msgstr "Ciudad"
+
+msgid "城今天在山上头。昨天在湖上头。明天不知道。"
+msgstr "Hoy la ciudad está sobre una montaña. Ayer estaba sobre un lago. Mañana no se sabe."
+
+msgid "风是从城里出去的呀。你们外头的人老往风里走，走着走着就到了。"
+msgstr "¡El viento sale de la ciudad! Ustedes, los de afuera, siempre caminan hacia el viento, y caminando, caminando, llegan."
+
+msgid "尘哥哥"
+msgstr "Hermano Chen"
+
+msgid "尘哥哥是萧家的。他放风筝，风大，连人带风筝一起飞走了。我没见过他——我是听铃匠爷爷说的。"
+msgstr "El hermano Chen era de los Xiao. Estaba haciendo volar una cometa, el viento fue fuerte, y se fue volando con todo y cometa. Yo no lo vi: me lo contó el abuelo campanero."
+
+msgid "铃匠"
+msgstr "Campanero"
+
+msgid "一个瘦小的老人，系着一条皮围裙，手指上全是铜绿，正拿一把细锉一点一点修一只铃的口。他修一下，敲一下，侧着耳朵听一听。\n"
+msgstr "Un anciano menudo, con un delantal de cuero y los dedos llenos de cardenillo, que con una lima fina va puliendo poco a poco la boca de una campana. Lima una vez, golpea una vez, ladea la cabeza y escucha.\n"
+
+msgid "老蔺头也不抬：「我这里只有铃。打铃不响，打人更不响。」"
+msgstr "El Viejo Lin dice sin levantar la cabeza: \"Aquí solo hay campanas. Golpear una campana no suena; golpear a una persona, menos.\""
+
+msgid "放下锉，接过你那只铃，凑到眼前看了半天，手有点抖。"
+msgstr " deja la lima, toma la campana que le das, se la acerca a los ojos y la mira un buen rato, con la mano temblando un poco."
+
+msgid "是我打的。「尘」字是我刻的，那孩子非要刻在铃舌上，说这样风一吹，就是在叫他的名字。"
+msgstr "La hice yo. La letra \"Chen\" la grabé yo; el niño insistió en que fuera en la lengüeta, porque así, cuando soplara el viento, llamaría a su nombre."
+
+msgid "拿衣角把铃擦了擦，又还给你。"
+msgstr " limpia la campana con la punta de su ropa y te la devuelve."
+
+msgid "带着吧。它认得路。"
+msgstr "Llévala. Ella conoce el camino."
+
+msgid "城里的铃都是我打的。一个孩子一只，打好了挂在门楣的钩上，孩子长到能自己拿了，就拿下来随身带着。"
+msgstr "Todas las campanas de la ciudad las hice yo. Una por niño; hecha, se cuelga del gancho del dintel, y cuando el niño crece lo bastante para tomarla solo, se la lleva consigo."
+
+msgid "萧家"
+msgstr "Familia Xiao"
+
+msgid "萧家就在街那头，第二道弯。那孩子四岁那年，风大，他在院子里放风筝，连人带风筝都卷走了，铃也跟着走了。他娘天天擦那只空钩，擦了二十年，前年也走了。钩子还是亮的——现在是我去擦。"
+msgstr "La casa de los Xiao está al otro lado de la calle, en la segunda curva. El año en que el niño cumplió cuatro, hubo mucho viento y él estaba en el patio con su cometa: se lo llevó con todo y cometa, y la campana se fue con él. Su madre limpiaba todos los días ese gancho vacío; lo limpió veinte años, y hace dos años también se fue. El gancho sigue brillante: ahora lo limpio yo."
+
+msgid "岚翁守着的。不是我们的东西，是寒於氏寄在这里的。我们只是住在它旁边。"
+msgstr "La guarda el Anciano del Viento. No es cosa nuestra: el clan Hanyu la dejó aquí en depósito. Nosotros solo vivimos a su lado."
+
+msgid "我们不吃饭，不生火，不种地。风来了就听，风走了就睡。你们外头的人觉得这样过日子没意思——我们觉得你们太吵。"
+msgstr "No comemos, no encendemos fuego, no sembramos. Cuando viene el viento, escuchamos; cuando se va, dormimos. Ustedes, los de afuera, creen que vivir así no tiene gracia; nosotros creemos que ustedes hacen demasiado ruido."
+
+msgid "一个白发的老婆婆，拿着一把竹扫帚，在街边扫——扫的不是落叶，是飘上来的雾，她一扫，雾就退下去一点。\n"
+msgstr "Una anciana de pelo blanco con una escoba de bambú, que barre al borde de la calle; lo que barre no son hojas caídas, sino la niebla que sube: cada vez que barre, la niebla retrocede un poco.\n"
+
+msgid "老婆婆的扫帚一挥，一团雾扑在你脸上，等你揉开眼睛，她还在原处扫。"
+msgstr "La escoba de la anciana se agita y una bocanada de niebla te da en la cara; cuando te frotas los ojos, ella sigue barriendo en el mismo lugar."
+
+msgid "今天城停在西边，底下是天驼关的石头，黄的。"
+msgstr "Hoy la ciudad se detuvo al oeste, y debajo están las piedras del Paso del Camello, amarillas."
+
+msgid "今天城停在北边，底下是一片湖，绿的，湖上有船。"
+msgstr "Hoy la ciudad se detuvo al norte, y debajo hay un lago, verde, con barcos."
+
+msgid "今天城停在东边，底下是雪，白茫茫的。"
+msgstr "Hoy la ciudad se detuvo al este, y debajo hay nieve, un blanco inmenso."
+
+msgid "城今天停在哪儿？你自己往门外看。"
+msgstr "¿Dónde se detuvo hoy la ciudad? Asómate afuera de la puerta y mira."
+
+msgid "雾"
+msgstr "Niebla"
+
+msgid "雾往上爬，爬到街上就不好走了。我扫一扫，它就回去。扫了七十年了。"
+msgstr "La niebla va trepando, y cuando llega a la calle ya no se puede caminar. Yo barro un poco y se vuelve. Llevo setenta años barriendo."
+
+msgid "烟城？那是我们的亲戚。烟霞霓岚，四座城，各住各的。烟城的人爱说话，我们不爱。"
+msgstr "¿La Ciudad de la Bruma? Son parientes nuestros. Bruma, Resplandor, Arcoíris y Viento: cuatro ciudades, cada una por su lado. La gente de la Ciudad de la Bruma habla mucho; nosotros, no."
+
+msgid "一个穿白衣的人，在街上慢慢地走，走几步停一下，侧着头听风铃。他看见你，点一点头，没有说话。\n"
+msgstr "Una persona de blanco que camina despacio por la calle, se detiene cada pocos pasos y ladea la cabeza para escuchar las campanillas de viento. Te ve, asiente y no dice nada.\n"
+
+msgid "那人往后退了一步，衣袖一飘，你的手就落了空。他看着你，像看一阵不懂事的风。"
+msgstr "La persona retrocede un paso, la manga ondea y tu mano cae en el vacío. Te mira como se mira a un viento que no sabe comportarse."
+
+msgid "……这里就是。"
+msgstr "...Aquí es."
+
+msgid "听。"
+msgstr "Escucha."
+
+msgid "去问岚翁。"
+msgstr "Pregunta al Anciano del Viento."
+
+msgid "吃饭"
+msgstr "Comida"
+
+msgid "吃饭？……我们不吃。"
+msgstr "¿Comer? ...Nosotros no."
+
+msgid "白发白须的老人站在台心旁边，袖子被旋风扯得笔直，人却一动不动，像是长在白石上的。\n"
+msgstr "Un anciano de pelo y barba blancos está de pie junto al centro de la terraza, con las mangas estiradas rectas por el torbellino, y él inmóvil, como si hubiera crecido de la piedra blanca.\n"
+
+msgid "它在你腰间。寒於氏的剑，不扰民——你拿着它，就照它的脾气走。"
+msgstr "La llevas en la cintura. La espada del clan Hanyu no molesta al pueblo: si la llevas, anda según su carácter."
+
+msgid "跟於兰家的人走了。"
+msgstr "Se fue con la gente de la familia Yulan."
+
+msgid "跟萧家的孩子走了。"
+msgstr "Se fue con el niño de los Xiao."
+
+msgid "就在风里。谁拔，你来定。你自己，於兰家的人，萧家的孩子——三个都行，风不挑，铃挑。"
+msgstr "Está en el viento. Quién la saca lo decides tú. Tú, alguien de la familia Yulan, el niño de los Xiao: cualquiera de los tres sirve; el viento no escoge, la campana sí."
+
+msgid "风认你了。剑在台心，去拿吧。"
+msgstr "El viento te reconoce. La espada está en el centro de la terraza; ve a tomarla."
+
+msgid "你。那就先接三刃。"
+msgstr "Tú. Entonces primero recibe los tres filos."
+
+msgid "你自己拔，要十口铃里六口有人信你。请於兰家的人，要他在朝上，风才找得到他。让萧家的孩子来，要他的铃——铃在，风认人。"
+msgstr "Para sacarla tú, seis de las diez campanas deben tener a alguien que confíe en ti. Para pedírselo a la familia Yulan, él debe estar en la corte, o el viento no podrá encontrarlo. Para que venga el niño de los Xiao, hace falta su campana: con la campana, el viento reconoce a la persona."
+
+msgid "楼下十口铃，响一口，是一处有人信你。"
+msgstr "Las diez campanas de abajo: cada campana que suena es un lugar donde alguien confía en ti."
+
+msgid "接风三刃"
+msgstr "Los tres filos del viento"
+
+msgid "风里拔剑，先要风认你。我替风出三刃，你站得住，剑就落得下来。"
+msgstr "Para sacar la espada del viento, primero el viento tiene que reconocerte. Yo lanzo tres filos por el viento; si te mantienes en pie, la espada caerá."
+
+msgid "岚翁替风出三刃，是真打：\n· 每一刃都实打实地削在你身上，挨中了会受伤。\n· 哪一刃接不住，就算没接下，你随后会昏倒；风只认人，不要人的命。\n倒了可以歇好再来。\n确定接风三刃吗？"
+msgstr "El Anciano del Viento lanza por el viento tres filos, y son de verdad:\n· Cada filo corta de verdad sobre ti; si te alcanza, te hiere.\n· Si no paras alguno, no cuenta como parado y luego te desmayas; el viento solo reconoce a la gente, no quiere su vida.\nSi caes, puedes descansar y volver.\n¿Seguro que quieres recibir los tres filos del viento?"
+
+msgid "岚翁袖子一拂：第一刃，是从城外来的风。"
+msgstr "El Anciano del Viento agita la manga: \"El primer filo es el viento que viene de fuera de la ciudad.\""
+
+msgid "岚翁点点头：第二刃，是从城里出去的风。"
+msgstr "El Anciano del Viento asiente: \"El segundo filo es el viento que sale de la ciudad.\""
+
+msgid "岚翁叹了口气：风还不认得你。"
+msgstr "El Anciano del Viento suspira: \"El viento aún no te reconoce.\""
+
+msgid "岚翁的袖子停了：第三刃，是不动的风。"
+msgstr "La manga del Anciano del Viento se detiene: \"El tercer filo es el viento que no se mueve.\""
+
+msgid "岚翁摇摇头：差一点。歇好了再来。"
+msgstr "El Anciano del Viento sacude la cabeza: \"Faltó poco. Vuelve cuando hayas descansado.\""
+
+msgid "风停了一停。岚翁说道：站得住。风认你了——剑在台心，去拿吧。"
+msgstr "El viento se detiene un instante. El Anciano del Viento dice: \"Te mantienes en pie. El viento te reconoce. La espada está en el centro de la terraza; ve a tomarla.\""
+
+msgid "在岚城的云台上接下了岚翁的接风三刃"
+msgstr "Recibiste en la Terraza de las Nubes de la Ciudad del Viento los tres filos del viento del Anciano del Viento"
+
+msgid "一个须发灰白的老人，一身朝服被风吹得猎猎地响，腰间那把暗绿色的鬼头刀还在。他看着台心的风，像在看一件很久以前的事。\n"
+msgstr "Un anciano de pelo y barba grises, con una túnica de corte que el viento hace restallar y, en la cintura, el sable de cabeza de demonio verde oscuro, todavía allí. Mira el viento del centro de la terraza como se mira algo ocurrido hace mucho.\n"
+
+msgid "於兰天武看了你一眼：老夫不是来跟你打的。"
+msgstr "Yulan Tianwu te mira un instante: \"Este viejo no ha venido a pelear contigo.\""
+
+msgid "一阵大风落在台上，於兰天武站在风里。"
+msgstr "Un gran viento cae sobre la terraza, y Yulan Tianwu está de pie en medio del viento."
+
+msgid "一阵风卷过来，於兰天武不见了。"
+msgstr "Un viento pasa en remolino, y Yulan Tianwu ya no está."
+
+msgid "一个白衣的年轻人，长发和巾带被风吹得乱飞，站在台上四下看，看得很慢，像在一样一样认东西。\n"
+msgstr "Un joven de blanco, con el pelo largo y las cintas agitadas por el viento, de pie en la terraza, mirando alrededor, muy despacio, como reconociendo las cosas una por una.\n"
+
+msgid "萧辟尘没有看你：这里不打架。"
+msgstr "Xiao Bichen no te mira: \"Aquí no se pelea.\""
+
+msgid "风把萧辟尘送到了台上。"
+msgstr "El viento llevó a Xiao Bichen a la terraza."
+
+msgid "一阵风卷过来，萧辟尘不见了。"
+msgstr "Un viento pasa en remolino, y Xiao Bichen ya no está."
+
+msgid "一条往上斜的窄道，两壁是磨得发亮的黄石，亮得像镜子，人走过去，石头里也走过去一个人。道里一股迷香，甜得发腻，白雾贴着地面流，一直流到脚背上。\n往下是镜子里那间三条道的屋子；往上，雾的那头透过来一点风。\n"
+msgstr "Un pasadizo estrecho que sube en diagonal, con las dos paredes de piedra amarilla pulida hasta brillar como espejos: al pasar, otra persona pasa dentro de la piedra. Hay un incienso embriagador, dulce hasta empalagar, y una niebla blanca que corre pegada al suelo hasta mojarte los empeines.\nAbajo, la habitación de los tres caminos del otro lado del espejo; arriba, al otro lado de la niebla, se filtra un poco de viento.\n"
+
+msgid "出了窄道，眼前一下子宽了：一片高处的野地，天很近，云很低。风从前头一阵一阵地扑过来，草齐腰，被风按得倒成一片，一起来，又倒下去。\n往北是一片石林，一根一根灰白的石柱立在雾里，像许多人站着。\n"
+msgstr "Al salir del pasadizo, de golpe todo se ensancha: un campo en lo alto, con el cielo muy cerca y las nubes muy bajas. El viento llega de frente a ráfagas, y la hierba, que llega a la cintura, queda aplastada por el viento, se levanta toda junta y vuelve a caer.\nAl norte hay un bosque de piedra: columnas grises y blancas, una a una, de pie en la niebla, como mucha gente quieta.\n"
+
+msgid "石柱一根挨一根，高的有三四丈，都被风磨圆了，迎风的一面刻满一道一道的槽，背风的一面长着青苔。雾是一条一条的，跟着风在石柱之间流。\n几条踩出来的小路在石林里分开，往北、西北、东北各有一处背风的石坳；西边下风头隐约有烟，东边有几顶破帐篷。\n"
+msgstr "Las columnas de piedra se suceden una tras otra, algunas de tres o cuatro zhang de alto, todas redondeadas por el viento: en la cara que da al viento están llenas de surcos, y en la cara de sotavento crece el musgo. La niebla va en tiras, y con el viento corre entre las columnas.\nVarios senderos pisados se separan en el bosque de piedra, y hacia el norte, el noroeste y el noreste hay una hondonada resguardada; al oeste, a sotavento, se ve humo a lo lejos, y al este hay unas cuantas tiendas rotas.\n"
+
+msgid "石林西边的下风头，一座黑石垒的小坛，坛上插着几面黑幡，烧剩的符纸一层一层压在坛脚，风一吹就飞起来几张，又落回去。地上画着一圈一圈的符，圈套着圈，都是往西开口的。\n"
+msgstr "Al oeste del bosque de piedra, a sotavento, un pequeño altar de piedra negra con varios estandartes negros clavados; los talismanes quemados se apilan capa sobre capa al pie, y cuando sopla el viento unos cuantos salen volando y vuelven a caer. En el suelo hay dibujados círculos de talismanes, círculo dentro de círculo, todos con la abertura hacia el oeste.\n"
+
+msgid "三顶帐篷，两顶塌了，一顶的帆布被风撕成一条一条的，还在拍。一面兵部的旗倒在草里，旗杆断了。营里的锅是冷的，锅底结着一层黑；帐篷边上一堆石头垒的灶，灶里没有灰——这里很久没人生火了。\n"
+msgstr "Tres tiendas, dos caídas; la lona de una está desgarrada por el viento en tiras que aún aletean. Una bandera del Ministerio de Guerra yace en la hierba con el asta rota. La olla del campamento está fría y en el fondo tiene una capa negra; junto a las tiendas hay un hogar de piedras amontonadas, sin ceniza: hace mucho que aquí nadie enciende fuego.\n"
+
+msgid "西北一处背风的石坳，三面是石壁，口朝着石林。坳里的草比外头矮，一丛一丛的，石壁脚下堆着被风吹进来的枯叶。\n"
+msgstr "Una hondonada resguardada al noroeste, con tres paredes de piedra y la boca hacia el bosque de piedra. La hierba de dentro es más baja que la de fuera, en matas, y al pie de las paredes se acumulan hojas secas que el viento ha metido.\n"
+
+msgid "正北一处深些的石坳，两道石壁夹着，像一只半合的手掌。坳底一块平石，石面上有几道浅浅的印子，像是有人在这里伏过很久。\n"
+msgstr "Una hondonada más honda, justo al norte, entre dos paredes de piedra, como una mano a medio cerrar. En el fondo hay una piedra plana, con unas marcas poco profundas en la superficie, como si alguien hubiera estado tendido aquí mucho tiempo.\n"
+
+msgid "东北一处背风的石坳，口子窄，里面宽。石壁上垂着几根干枯的藤，藤上不知谁系了一根褪了色的红绳。\n"
+msgstr "Una hondonada resguardada al noreste, de boca angosta y fondo ancho. De las paredes cuelgan unas enredaderas secas, y en ellas alguien ató una cuerda roja desteñida.\n"
+
+msgid "一道白石的门，门洞是圆的，被风磨得没有一个棱角。门外是雾，雾底下很远的地方，隐约是山——城就浮在那上头。\n门里是一块小小的石坪，坪上的石板一块挨一块，中间被人走出一道浅浅的凹。往北，一条白石长街往上绕。\n"
+msgstr "Una puerta de piedra blanca, con el arco redondo y ni una arista, todo pulido por el viento. Fuera hay niebla, y muy lejos, bajo la niebla, se adivina una montaña: la ciudad flota sobre ella.\nDentro de la puerta hay una pequeña explanada de piedra, con las losas pegadas una a otra y un surco poco profundo en el medio, hecho por los pasos. Al norte, una larga calle de piedra blanca sube en espiral.\n"
+
+msgid "白石铺的长街往上绕了两折。两边的屋子都是白石砌的，墙角磨圆了，背风的一面爬着青苔；家家的檐下都挂着风铃，铜的、竹的、贝壳的，风一过，一街都响。\n屋子里静悄悄的，没有烟。没有一家的屋顶上有烟囱。\n西边第一道弯下去是一个敞着的院子，叮叮当当的；东边第二道弯过去，一个小院子的门开着，里头没有声音。\n"
+msgstr "La larga calle de piedra blanca sube dando dos vueltas. A ambos lados, las casas son de piedra blanca, con las esquinas redondeadas y el lado de sotavento cubierto de musgo; bajo los aleros de todas cuelgan campanillas de viento, de cobre, de bambú, de caracola, y cuando pasa el viento, toda la calle suena.\nDentro de las casas todo está en silencio, sin humo. Ningún tejado tiene chimenea.\nEn la primera curva del oeste, hacia abajo, hay un patio abierto del que sale un tintineo; en la segunda curva del este, la puerta de un patio pequeño está abierta, y dentro no hay ningún sonido.\n"
+
+msgid "一个敞着的院子，后头一间棚屋，棚檐下挂满了还没上绳的铃。院子当中一块铁砧，旁边一口铸了一半的铃立在木架上，铃身还是青的。墙边一排木架，架上是泥的铃模、钳子、细锉，一样一样摆得整齐。\n地上一层铜屑，被风扫到墙角，堆成一道细细的绿线。\n"
+msgstr "Un patio abierto, con un cobertizo al fondo, y bajo el alero cuelgan campanas aún sin cordón. En el centro del patio, un yunque de hierro, y a su lado, en un armazón de madera, una campana a medio fundir, todavía de color verde. Junto a la pared, una hilera de estantes de madera con moldes de barro para campanas, tenazas y limas finas, cada cosa puesta con orden.\nEn el suelo hay una capa de virutas de cobre; el viento las ha barrido a un rincón, donde forman una fina línea verde.\n"
+
+msgid "一个小院子，院里一口枯井，井沿上落着叶子。屋门关着，门楣上一只铜钩，钩上什么也没挂，钩子倒擦得很亮——像是一直有人在擦。\n门框上有一道一道刻的印子，从下往上，最高的一道齐你的腰，旁边刻着一个小小的「尘」字。\n"
+msgstr "Un patio pequeño con un pozo seco, y las hojas caídas en el brocal. La puerta de la casa está cerrada, y en el dintel hay un gancho de cobre sin nada colgado, pero el gancho está muy brillante, como si alguien lo limpiara siempre.\nEn el marco de la puerta hay marcas grabadas, de abajo arriba; la más alta llega a tu cintura, y al lado hay una letrita grabada: \"Chen\".\n"
+
+msgid "长街到这里是一块平台，平台尽头一座三层的木阁，檐角一层一层翘上去，每一层的檐下都挂满了铃，风不大，铃也一直在响，一声叠一声，像在说话。\n阁门开着。门楣上一块旧匾：风铃阁。\n"
+msgstr "Aquí la calle larga se vuelve una plataforma, y al fondo de la plataforma hay un pabellón de madera de tres pisos, con los aleros alzándose capa tras capa y campanas colgando bajo cada uno; aunque el viento no es fuerte, siempre suenan, una tras otra, como hablando.\nLa puerta del pabellón está abierta. Sobre el dintel hay un letrero antiguo: Pabellón de las Campanillas.\n"
+
+msgid "阁里很高，梁上垂下来千百只小铃，长长短短，一直垂到人头顶上。风从门口进来，它们就从门口那一头响起，一层一层响到里头去。\n北墙下一排木架，架上并排挂着十口大铃，每一口的铃身上刻着一个地名。有的铃亮，有的铃是暗的。\n东边一道小门，门帘半卷着。西墙边一道窄梯，一直通到阁顶，梯口有风灌下来。\n"
+msgstr "Dentro, el pabellón es muy alto, y de las vigas cuelgan cientos de campanillas, largas y cortas, hasta casi la cabeza. El viento entra por la puerta, y empiezan a sonar desde la puerta, capa tras capa, hacia dentro.\nBajo el muro norte hay una hilera de estantes de madera, y en ellos cuelgan, uno al lado de otro, diez grandes campanas; en el cuerpo de cada una hay grabado un nombre de lugar. Algunas campanas brillan, otras están oscuras.\nAl este hay una puertecita con la cortina a medio recoger. Junto al muro oeste, una escalera angosta llega hasta lo alto del pabellón, con el viento colándose por la boca de la escalera.\n"
+
+msgid "一间小屋，四壁是木板，一张矮几，一个蒲团。墙边一架旧书，书页被风吹得发脆，有几本摊着，压着一块白石。\n墙上一只铜钩，钩上空着。\n"
+msgstr "Un cuartito de paredes de tablas, con una mesa baja y un cojín. Junto a la pared, un estante de libros viejos, con las páginas quebradizas por el viento; algunos están abiertos, sujetos con una piedra blanca.\nEn la pared hay un gancho de cobre, vacío.\n"
+
+msgid "风铃阁顶上出去，是一片悬在云上的白石台。台子没有栏杆，四边就是云，云下面很远的地方，有山的影子在慢慢往后退——城在走。\n白石被风磨得发亮，石缝里长着一点青苔。北边是台心，白石上一圈一圈的印子。\n"
+msgstr "Al salir de lo alto del Pabellón de las Campanillas se llega a una terraza de piedra blanca suspendida sobre las nubes. La terraza no tiene barandillas: por los cuatro lados, nubes, y muy abajo, lejos, la sombra de las montañas que retroceden despacio: la ciudad se mueve.\nLa piedra blanca, pulida por el viento, brilla, con un poco de musgo en las juntas. Al norte está el centro de la terraza, con círculos y círculos grabados en la piedra blanca.\n"
+
+msgid "台子的北边，白石面上被风磨出一圈浅浅的印子，一圈套一圈，像水里的波纹。岚城的人说，这是风在这里转了三百年转出来的。\n"
+msgstr "En el lado norte de la terraza, la superficie de piedra blanca tiene círculos poco profundos gastados por el viento, uno dentro de otro, como ondas en el agua. La gente de la Ciudad del Viento dice que son lo que ha dejado el viento girando aquí trescientos años.\n"
+
+msgid "台子的东边，白石到这里就断了，往外一步就是云。云在脚下翻，风从下面往上托，托得人站不稳。\n岚城的人说，剑有了主，风就会送人回去。\n"
+msgstr "En el lado este de la terraza, la piedra blanca se corta, y un paso más allá empiezan las nubes. Las nubes se revuelven bajo los pies, y el viento sube desde abajo y sostiene, tanto que cuesta mantenerse en pie.\nLa gente de la Ciudad del Viento dice que cuando la espada tiene dueño, el viento te devuelve a casa.\n"
+
+msgid "上头一股迷香，甜得发腻，雾浓得伸手不见五指。你走了两步，脚下一空似的，又转回了原处。"
+msgstr "Arriba hay un incienso embriagador, dulce hasta empalagar, y la niebla es tan espesa que no ves la mano. Das dos pasos, el suelo parece faltarte, y vuelves al mismo lugar."
+
+msgid "雾里站着一个人影。走近了，只是磨亮的黄石上映出来的你自己，跟着你停，跟着你走。\n"
+msgstr "En la niebla hay una silueta de pie. Al acercarte, solo eres tú, reflejado en la piedra amarilla pulida, que se detiene cuando te detienes y camina cuando caminas.\n"
+
+msgid "雾里站着一个人影，背上一把剑，身形很瘦，穿的是二十年前水烟阁随从的衣裳——你埋过他的骨头。他朝你点了一下头，雾一卷，就没有了。\n"
+msgstr "En la niebla hay una silueta, con una espada a la espalda, muy delgada, vestida con la ropa de los asistentes del Pabellón de la Neblina de hace veinte años: enterraste sus huesos. Te hace una inclinación de cabeza, la niebla se enrolla y ya no está.\n"
+
+msgid "又一个人影，背对着你，看不清是谁。你一伸手，雾就从指缝里流过去了。\n"
+msgstr "Otra silueta, de espaldas a ti, de la que no se distingue quién es. Cuando extiendes la mano, la niebla se te escurre entre los dedos.\n"
+
+msgid "霍铮蹲在雾里，嘴里叼着一根草：「寨子里都好。石头那小子回家了。」他吐掉草，站起来，散了。\n"
+msgstr "Huo Zheng está en cuclillas en la niebla, con una brizna de hierba en la boca: \"En el fuerte todo va bien. Ese muchacho Shitou volvió a casa.\" Escupe la hierba, se levanta y se disipa.\n"
+
+msgid "黄霸坐在雾里一块石头上，腆着肚子：「三寨主？如今是寨主了。」他咧嘴一笑，连人带石头一起散了。\n"
+msgstr "Huang Ba está sentado en una piedra en la niebla, con la barriga por delante: \"¿Tercer jefe del fuerte? Ahora soy el jefe.\" Sonríe de oreja a oreja y se disipa, con todo y piedra.\n"
+
+msgid "雾里一个女人的影子，长发，看不清脸，一晃就不见了。\n"
+msgstr "En la niebla, la sombra de una mujer de pelo largo, de cara indistinta, que con un parpadeo ya no está.\n"
+
+msgid "安妮儿站在雾里，怀里抱着一件发着寒气的衣裳：「它在我这里。等你用得着的时候。」\n"
+msgstr "Anni'er está de pie en la niebla, con una prenda que desprende frío entre los brazos: \"La tengo yo. Para cuando la necesites.\"\n"
+
+msgid "瑷伦站在雾里，手里握着鞭子，三十七岁的脸，几百年的眼睛：「我还守着。去吧。」\n"
+msgstr "Ailun está de pie en la niebla, con un látigo en la mano, el rostro de treinta y siete años, los ojos de varios siglos: \"Sigo guardándola. Ve.\"\n"
+
+msgid "瑷伦站在雾里，手里握着鞭子，身上是那件月白的衣：「它回来了。我还守着。去吧。」\n"
+msgstr "Ailun está de pie en la niebla, con un látigo en la mano, el cuerpo envuelto en la túnica blanco luna: \"Volvió. Sigo guardándola. Ve.\"\n"
+
+msgid "雾里是瑷伦的背影。她没有回头。\n"
+msgstr "En la niebla se ve a Ailun de espaldas. No vuelve la cabeza.\n"
+
+msgid "最后一个人影离出口最近，风吹过来，它就淡一分。\n"
+msgstr "La última silueta es la más cercana a la salida; cuando sopla el viento, se desvanece un poco más.\n"
+
+msgid "冯策披着衣服站在雾里，跟那夜在侍卫营一样：「湖底的事，算老夫一个。先把剑找来。」\n"
+msgstr "Feng Ce está de pie en la niebla, con la ropa echada sobre los hombros, igual que aquella noche en el cuartel de la guardia: \"Lo del fondo del lago, cuenta con este viejo. Primero consigue la espada.\"\n"
+
+msgid "於兰天武穿着朝服站在雾里，朝服不合身：「找到城，叫我。」\n"
+msgstr "Yulan Tianwu está de pie en la niebla con la túnica de la corte, que le queda mal: \"Cuando encuentres la ciudad, llámame.\"\n"
+
+msgid "庾子建站在雾里，身边一只火盆，盆里一撮纸灰：「先帝推了二十年。你要是找到了，记得告诉我。」\n"
+msgstr "Yu Zijian está de pie en la niebla, con un brasero al lado y un puñado de ceniza de papel en él: \"El difunto emperador lo estuvo calculando veinte años. Si lo encuentras, acuérdate de decírmelo.\"\n"
+
+msgid "一个穿兵部号衣的人蜷在塌了的帐篷边，早就冻僵了，脸朝着北边的石坳。他怀里揣着半张纸，字被露水泡开了，还认得出几行：\n「第三次。逆风行至石坳，风止。四顾无城。复行。」\n「风又起。」\n纸的背面是兵部的印，印色暗红发黑。\n"
+msgstr "Un hombre con el uniforme del Ministerio de Guerra yace encogido junto a una tienda caída, muerto de frío hace tiempo, con la cara hacia la hondonada del norte. Lleva en el pecho media hoja de papel con la tinta corrida por el rocío, aunque aún se leen unas líneas:\n\"Tercera vez. Contra el viento hasta la hondonada, el viento cesa. Ni rastro de ciudad en ninguna dirección. Sigo.\"\n\"El viento vuelve a levantarse.\"\nEn el reverso del papel está el sello del Ministerio, de tinta rojo oscuro, casi negra.\n"
+
+msgid "一面兵部的旗倒在草里，旗杆从中间断了，断口是新的白茬——是风折的，不是人砍的。旗面上的「兵」字被风扯得只剩半边。\n"
+msgstr "Una bandera del Ministerio de Guerra yace en la hierba con el asta partida por la mitad, y el corte es astilla blanca reciente: lo rompió el viento, no un hacha. En el paño, el ideograma de «soldado» está desgarrado por el viento hasta quedar solo media letra.\n"
+
+msgid "黑石垒的坛，一人多高，坛顶压着一块铜盘，盘里的灰被风吹得只剩一层。坛脚的地上画着一圈套一圈的符，每一圈都朝西开口——画符的人一直是顺着风画的。\n"
+msgstr "Un altar de piedra negra, más alto que un hombre, con un plato de cobre sobre la cima, cuya ceniza el viento ha reducido a una sola capa. En el suelo, al pie del altar, hay talismanes dibujados círculo dentro de círculo, todos abiertos hacia el oeste: quien los dibujó siempre dibujó siguiendo el viento.\n"
+
+msgid "门洞是一整块白石凿出来的，圆的，里外都被风磨亮了。往外看是雾，雾底下很远的地方有山。门洞的顶上刻着两个字，被风磨得快平了，摸得出来：寻风。\n"
+msgstr "El arco de la puerta está tallado de una sola pieza de piedra blanca, redondo, pulido por el viento por dentro y por fuera. Mirando afuera, niebla, y muy abajo, una montaña. Sobre el arco hay grabadas dos letras, casi borradas por el viento, que se notan al tacto: «buscar el viento».\n"
+
+msgid "一只铜钩，钩尖朝上，擦得很亮。岚城家家门口都有一只，挂的是孩子的铃；这一只空了二十年。\n"
+msgstr "Un gancho de cobre, con la punta hacia arriba, muy brillante. Cada puerta de la Ciudad del Viento tiene uno, y de él cuelga la campana de un niño; este lleva veinte años vacío.\n"
+
+msgid "一只铜钩，钩尖朝上，擦得很亮。钩上挂着一只青铜小铃，绳结是孩子打的死结，风一过就响。萧家的铃回来了。\n"
+msgstr "Un gancho de cobre, con la punta hacia arriba, muy brillante. De él cuelga una campanilla de bronce, con el nudo hecho por un niño, que suena cuando pasa el viento. La campana de los Xiao volvió.\n"
+
+msgid "一只铜钩，钩尖朝上，擦得很亮。你怀里那只铃的绳结，和钩子上磨出来的那道印子，一样宽。\n"
+msgstr "Un gancho de cobre, con la punta hacia arriba, muy brillante. El nudo de la campana que llevas contra el pecho tiene el mismo ancho que la marca gastada en el gancho.\n"
+
+msgid "雪亭的铃。铃身发暗，刻着「雪亭」两个字，一声不响。\n"
+msgstr "La campana de Pabellón Nevado. El cuerpo está oscuro, con las palabras \"Pabellón Nevado\" grabadas, y no suena.\n"
+
+msgid "雪亭的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：雪亭。\n岚城的铃认人：雪亭有人信你。\n"
+msgstr "La campana de Pabellón Nevado. Suena: no es el viento, suena aunque el viento haya parado. Las letras del cuerpo están brillantes: Pabellón Nevado.\nLas campanas de la ciudad reconocen a la gente: en Pabellón Nevado hay quien confía en ti.\n"
+
+msgid "老松岭的铃。铃身发暗，刻着「老松岭」两个字，一声不响。\n"
+msgstr "La campana del Cerro de los Pinos Viejos. El cuerpo está oscuro, con las palabras \"Cerro de los Pinos Viejos\" grabadas, y no suena.\n"
+
+msgid "老松岭的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：老松岭。\n岚城的铃认人：老松岭有人信你。\n"
+msgstr "La campana del Cerro de los Pinos Viejos. Suena: no es el viento, suena aunque el viento haya parado. Las letras del cuerpo están brillantes: Cerro de los Pinos Viejos.\nLas campanas de la ciudad reconocen a la gente: en el Cerro de los Pinos Viejos hay quien confía en ti.\n"
+
+msgid "水烟阁的铃。铃身发暗，刻着「水烟阁」两个字，一声不响。\n"
+msgstr "La campana del Pabellón de la Neblina. El cuerpo está oscuro, con las palabras \"Pabellón de la Neblina\" grabadas, y no suena.\n"
+
+msgid "水烟阁的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：水烟阁。\n岚城的铃认人：水烟阁有人信你。\n"
+msgstr "La campana del Pabellón de la Neblina. Suena: no es el viento, suena aunque el viento haya parado. Las letras del cuerpo están brillantes: Pabellón de la Neblina.\nLas campanas de la ciudad reconocen a la gente: en el Pabellón de la Neblina hay quien confía en ti.\n"
+
+msgid "野羊山的铃。铃身发暗，刻着「野羊山」两个字，一声不响。\n"
+msgstr "La campana del Cerro de las Cabras. El cuerpo está oscuro, con las palabras \"Cerro de las Cabras\" grabadas, y no suena.\n"
+
+msgid "野羊山的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：野羊山。\n岚城的铃认人：野羊山有人信你。\n"
+msgstr "La campana del Cerro de las Cabras. Suena: no es el viento, suena aunque el viento haya parado. Las letras del cuerpo están brillantes: Cerro de las Cabras.\nLas campanas de la ciudad reconocen a la gente: en el Cerro de las Cabras hay quien confía en ti.\n"
+
+msgid "晚月庄的铃。铃身发暗，刻着「晚月庄」两个字，一声不响。\n"
+msgstr "La campana de la Mansión Luna Tardía. El cuerpo está oscuro, con las palabras \"Mansión Luna Tardía\" grabadas, y no suena.\n"
+
+msgid "晚月庄的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：晚月庄。\n岚城的铃认人：晚月庄有人信你。\n"
+msgstr "La campana de la Mansión Luna Tardía. Suena: no es el viento, suena aunque el viento haya parado. Las letras del cuerpo están brillantes: Mansión Luna Tardía.\nLas campanas de la ciudad reconocen a la gente: en la Mansión Luna Tardía hay quien confía en ti.\n"
+
+msgid "乔阴的铃。铃身发暗，刻着「乔阴」两个字，一声不响。\n"
+msgstr "La campana de Sombra Alta. El cuerpo está oscuro, con las palabras \"Sombra Alta\" grabadas, y no suena.\n"
+
+msgid "乔阴的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：乔阴。\n岚城的铃认人：乔阴有人信你。\n"
+msgstr "La campana de Sombra Alta. Suena: no es el viento, suena aunque el viento haya parado. Las letras del cuerpo están brillantes: Sombra Alta.\nLas campanas de la ciudad reconocen a la gente: en Sombra Alta hay quien confía en ti.\n"
+
+msgid "关北的铃。铃身发暗，刻着「关北」两个字，一声不响。\n"
+msgstr "La campana del Norte del Paso. El cuerpo está oscuro, con las palabras \"Norte del Paso\" grabadas, y no suena.\n"
+
+msgid "关北的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：关北。\n岚城的铃认人：关北有人信你。\n"
+msgstr "La campana del Norte del Paso. Suena: no es el viento, suena aunque el viento haya parado. Las letras del cuerpo están brillantes: Norte del Paso.\nLas campanas de la ciudad reconocen a la gente: en el Norte del Paso hay quien confía en ti.\n"
+
+msgid "番坊的铃。铃身发暗，刻着「番坊」两个字，一声不响。\n"
+msgstr "La campana del Barrio Extranjero. El cuerpo está oscuro, con las palabras \"Barrio Extranjero\" grabadas, y no suena.\n"
+
+msgid "番坊的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：番坊。\n岚城的铃认人：番坊有人信你。\n"
+msgstr "La campana del Barrio Extranjero. Suena: no es el viento, suena aunque el viento haya parado. Las letras del cuerpo están brillantes: Barrio Extranjero.\nLas campanas de la ciudad reconocen a la gente: en el Barrio Extranjero hay quien confía en ti.\n"
+
+msgid "玉螺湖村的铃。铃身发暗，刻着「玉螺湖村」两个字，一声不响。\n"
+msgstr "La campana de la Aldea Caracola de Jade. El cuerpo está oscuro, con las palabras \"Aldea Caracola de Jade\" grabadas, y no suena.\n"
+
+msgid "玉螺湖村的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：玉螺湖村。\n岚城的铃认人：玉螺湖村有人信你。\n"
+msgstr "La campana de la Aldea Caracola de Jade. Suena: no es el viento, suena aunque el viento haya parado. Las letras del cuerpo están brillantes: Aldea Caracola de Jade.\nLas campanas de la ciudad reconocen a la gente: en la Aldea Caracola de Jade hay quien confía en ti.\n"
+
+msgid "京师的铃。铃身发暗，刻着「京师」两个字，一声不响。\n"
+msgstr "La campana de la Capital. El cuerpo está oscuro, con la palabra \"Capital\" grabada, y no suena.\n"
+
+msgid "京师的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：京师。\n岚城的铃认人：京师有人信你。\n"
+msgstr "La campana de la Capital. Suena: no es el viento, suena aunque el viento haya parado. Las letras del cuerpo están brillantes: Capital.\nLas campanas de la ciudad reconocen a la gente: en la Capital hay quien confía en ti.\n"
+
+msgid "一股旋风，从台心的白石上直卷上去。风里一把剑，剑尖朝下，一圈一圈地转：剑身是白的，转起来像一圈光。\n剑柄上缠着褪了色的红绳，绳头在风里乱飞。\n"
+msgstr "Un torbellino que sube en espiral desde la piedra blanca del centro de la terraza. Dentro del viento, una espada, con la punta hacia abajo, girando círculo tras círculo: la hoja es blanca, y al girar parece un aro de luz.\nEn la empuñadura hay una cuerda roja desteñida, con el extremo agitado por el viento.\n"
+
+msgid "台心的风停了。白石上一圈浅浅的印子，是风转了三百年磨出来的。\n剑在你腰间。\n"
+msgstr "El viento del centro de la terraza se ha detenido. En la piedra blanca, círculos poco profundos: lo que dejaron trescientos años de viento girando.\nLa espada está en tu cintura.\n"
+
+msgid "台心的风停了。白石上一圈浅浅的印子，是风转了三百年磨出来的。\n剑跟着於兰天武回了京城。\n"
+msgstr "El viento del centro de la terraza se ha detenido. En la piedra blanca, círculos poco profundos: lo que dejaron trescientos años de viento girando.\nLa espada volvió a la Capital con Yulan Tianwu.\n"
+
+msgid "台心的风停了。白石上一圈浅浅的印子，是风转了三百年磨出来的。\n剑跟着萧辟尘回了水烟阁。\n"
+msgstr "El viento del centro de la terraza se ha detenido. En la piedra blanca, círculos poco profundos: lo que dejaron trescientos años de viento girando.\nLa espada volvió al Pabellón de la Neblina con Xiao Bichen.\n"
+
+msgid "云在脚下翻。云缝里偶尔露出一点地面——山、河、一片黄的石头——一眨眼又合上了。看得久了，会觉得是自己在往前走。\n"
+msgstr "Las nubes se revuelven bajo los pies. Entre las grietas de las nubes asoma a veces un trozo de suelo —una montaña, un río, un tramo de piedra amarilla—, que se cierra otra vez en un parpadeo. Si miras mucho rato, sientes que eres tú el que avanza.\n"
+
+msgid "伏地"
+msgstr "Echarse al suelo"
+
+msgid "伏下身子，等风过去？"
+msgstr "¿Echarte al suelo a esperar que pase el viento?"
+
+msgid "你伏在背风的石头上。风从头顶上过去，一阵，又一阵，越过越远。\n"
+msgstr "Te tiendes contra una piedra a sotavento. El viento pasa sobre tu cabeza, una ráfaga, otra, cada vez más lejos.\n"
+
+msgid "四下里静下来。然后是铃声——不是一只，是许许多多只，满耳都是，近得像就挂在你头顶上。\n"
+msgstr "Alrededor se hace el silencio. Luego, campanillas: no una, sino muchísimas, llenándote los oídos, tan cerca que parecen colgar sobre tu cabeza.\n"
+
+msgid "你抬起头。雾散了。一座白石的城浮在石坳外头的半空里，城门开着，城墙上挂满了风铃，一条白石长街从城门里往上绕，绕进云里。\n"
+msgstr "Levantas la cabeza. La niebla se disipó. Una ciudad de piedra blanca flota en el aire más allá de la hondonada, con la puerta abierta y la muralla cubierta de campanillas de viento; una larga calle de piedra blanca sube en espiral desde la puerta y se pierde en las nubes.\n"
+
+msgid "你站起来往前走了一步。脚下没有空——是一级白石的台阶，台阶上去，就是城门。\n"
+msgstr "Te levantas y das un paso al frente. Bajo los pies no hay vacío: es un escalón de piedra blanca, y arriba del escalón está la puerta de la ciudad.\n"
+
+msgid "你伏在地上等了好一会儿。风还在吹，草还在倒——这里不是风停的地方。\n"
+msgstr "Esperas un buen rato en el suelo. El viento sigue soplando y la hierba sigue inclinada: este no es el lugar donde el viento se detiene.\n"
+
+msgid "出白石门？城会随风走，下回再来，得重新寻风。"
+msgstr "¿Salir por la Puerta de Piedra Blanca? La ciudad se irá con el viento, y la próxima vez habrá que volver a buscar el viento."
+
+msgid "你穿过白石门。脚下一空，又不空——风托着你，雾从两边合拢过来。\n"
+msgstr "Cruzas la Puerta de Piedra Blanca. El suelo falta bajo tus pies, y no falta: el viento te sostiene y la niebla se cierra a ambos lados.\n"
+
+msgid "等你站稳，人已经在背风的石坳里了。回头看，只有雾。\n"
+msgstr "Cuando te afirmas, ya estás en una hondonada resguardada del viento. Miras atrás: solo hay niebla.\n"
+
+msgid "你穿过白石门。风托着你，雾合拢了。等你站稳，人在风口。\n"
+msgstr "Cruzas la Puerta de Piedra Blanca. El viento te sostiene y la niebla se cierra. Cuando te afirmas, estás en la Boca del viento.\n"
+
+msgid "自己拔"
+msgstr "Sacarlo tú"
+
+msgid "旋风里又转着旋芒。它回了家，风不再让人走近。\n"
+msgstr "Filo Giratorio vuelve a girar dentro del torbellino. Ha vuelto a casa, y el viento ya no deja que nadie se acerque.\n"
+
+msgid "剑已经有人了。台心的风停着。\n"
+msgstr "La espada ya tiene dueño. El viento del centro de la terraza está quieto.\n"
+
+msgid "风太大，你走不近。守剑的人在楼下风铃阁里。\n"
+msgstr "El viento es demasiado fuerte y no puedes acercarte. Quien guarda la espada está abajo, en el Pabellón de las Campanillas.\n"
+
+msgid "你走进旋风。风刃从四面八方削过来，削到身上，却不再伤人——它认得你了。\n"
+msgstr "Entras en el torbellino. Los filos del viento llegan cortando de todas partes y te rozan sin herirte: te ha reconocido.\n"
+
+msgid "你伸手。剑柄落进掌心，凉的，又是暖的。风一下子散了。\n"
+msgstr "Extiendes la mano. La empuñadura cae en tu palma, fría y a la vez tibia. De golpe, el viento se deshace.\n"
+
+msgid "看着台心的风散尽，点了点头。"
+msgstr " ve cómo el viento del centro de la terraza se deshace del todo y asiente."
+
+msgid "十口铃里有人信你，剑就认你。拿去吧——不扰民的剑，你们先帝要对了。"
+msgstr "Entre las diez campanas hay quien confía en ti, y la espada te reconoce. Tómala: una espada que no molesta al pueblo. El difunto emperador de ustedes acertó."
+
+msgid "云边有风，会送你回去。"
+msgstr "Al borde de las nubes hay viento, y te llevará de vuelta."
+
+msgid "岚翁说道：先接三刃。风认了你，剑才落得下来。\n"
+msgstr "El Anciano del Viento dice: \"Primero recibe los tres filos. Cuando el viento te reconozca, la espada podrá caer.\"\n"
+
+msgid "自己拔旋芒？十铃架上信你的铃够了。\n拔了，终章是你持剑；不拔，旋芒归皇叔或萧辟尘，湖畔和冰龙厅那两仗他会跟你并肩打。先要接岚翁的「接风三刃」——三下风刃是真的，接不住会受伤、会昏倒，歇好了可以再来。"
+msgstr "¿Sacarlo tú? En el estante de las diez campanas ya suenan las necesarias.\nSi lo sacas, en el capítulo final empuñas tú la espada; si no, Filo Giratorio pasa al tío imperial o a Xiao Bichen, que peleará a tu lado las dos batallas de la orilla del lago y de la sala del Dragón de Hielo. Primero hay que recibir los \"Tres filos del viento\" del Anciano del Viento: los tres filos son de verdad; si no los paras, te hieren y te desmayas, y puedes descansar y volver."
+
+msgid "好。剑在风里，风先要认你。我替风出三刃。"
+msgstr "Bien. La espada está en el viento, y el viento primero tiene que reconocerte. Yo lanzo tres filos por el viento."
+
+msgid "你走近旋风，风把你推了回来。\n"
+msgstr "Te acercas al torbellino, y el viento te empuja hacia atrás.\n"
+
+msgid "（十铃架上响了五口铃，还差一口：自己拔，要六处以上有人信你。）\n"
+msgstr "(En el estante de las diez, cinco campanas suenan y falta una: para sacarlo tú, hace falta que alguien confíe en ti en seis lugares o más.)\n"
+
+msgid "（十铃架上响了四口铃，还差两口：自己拔，要六处以上有人信你。）\n"
+msgstr "(En el estante de las diez, cuatro campanas suenan y faltan dos: para sacarlo tú, hace falta que alguien confíe en ti en seis lugares o más.)\n"
+
+msgid "（十铃架上响了三口铃，还差三口：自己拔，要六处以上有人信你。）\n"
+msgstr "(En el estante de las diez, tres campanas suenan y faltan tres: para sacarlo tú, hace falta que alguien confíe en ti en seis lugares o más.)\n"
+
+msgid "（十铃架上响了两口铃，还差四口：自己拔，要六处以上有人信你。）\n"
+msgstr "(En el estante de las diez, dos campanas suenan y faltan cuatro: para sacarlo tú, hace falta que alguien confíe en ti en seis lugares o más.)\n"
+
+msgid "（十铃架上响了一口铃，还差五口：自己拔，要六处以上有人信你。）\n"
+msgstr "(En el estante de las diez, una campana suena y faltan cinco: para sacarlo tú, hace falta que alguien confíe en ti en seis lugares o más.)\n"
+
+msgid "（十铃架上一口铃也没响：自己拔，要六处以上有人信你。）\n"
+msgstr "(En el estante de las diez no suena ninguna campana: para sacarlo tú, hace falta que alguien confíe en ti en seis lugares o más.)\n"
+
+msgid "请皇叔"
+msgstr "Pedírselo al tío imperial"
+
+msgid "请皇叔来拔？\n京师那口铃一响，风就去京城把於兰天武找来。剑跟他走，终章他持剑，你在旁边。"
+msgstr "¿Pedirle al tío imperial que lo saque?\nCuando suene la campana de la Capital, el viento irá a la capital a buscar a Yulan Tianwu. La espada se va con él; en el capítulo final la empuña él y tú te quedas a su lado."
+
+msgid "岚翁伸手往楼下一指。底下风铃阁里，京师那口大铃自己响了一声，又一声。\n"
+msgstr "El Anciano del Viento señala hacia abajo. En el Pabellón de las Campanillas, la gran campana de la Capital suena sola, una vez, y otra.\n"
+
+msgid "一阵大风从云里落下来，落在台上，风里站着一个人，朝服被吹得猎猎地响。\n"
+msgstr "Un gran viento cae desde las nubes sobre la terraza, y dentro del viento hay un hombre de pie, con la túnica de la corte restallando.\n"
+
+msgid "四下看了一眼，目光落在台心的风上，看了很久。"
+msgstr " mira alrededor, posa la vista en el viento del centro de la terraza y se queda mirando mucho rato."
+
+msgid "三百年前，於兰家拔错了一把剑。这一把，我来。"
+msgstr "Hace trescientos años, la familia Yulan sacó la espada equivocada. Esta, la saco yo."
+
+msgid "於兰天武走进旋风。风刃削过他的朝服，他一步也没停。他伸手，剑落进他手里，风散了。\n"
+msgstr "Yulan Tianwu entra en el torbellino. Los filos del viento cortan su túnica de la corte, y él no se detiene un solo paso. Extiende la mano, la espada cae en ella, y el viento se deshace.\n"
+
+msgid "昭儿还在殿上等我。剑我带回去——决战那日，你来叫我。"
+msgstr "Zhao'er me espera aún en el salón. Me llevo la espada; el día de la batalla decisiva, ven a llamarme."
+
+msgid "又一阵风卷过来，於兰天武不见了。\n"
+msgstr "Otro viento pasa en remolino, y Yulan Tianwu ya no está.\n"
+
+msgid "岚翁说道：京师那口铃还没响到他身上。手诏送到了，他回了朝，风才找得到他。\n"
+msgstr "El Anciano del Viento dice: \"La campana de la Capital todavía no ha sonado por él. Cuando llegue el edicto y él vuelva a la corte, el viento podrá encontrarlo.\"\n"
+
+msgid "岚翁说道：於兰家的人？他还在通缉里，躲在水烟阁，朝廷的事他不碰。风找不到不肯来的人。\n"
+msgstr "El Anciano del Viento dice: \"¿El de la familia Yulan? Sigue en la lista de buscados, escondido en el Pabellón de la Neblina; de los asuntos de la corte no toca ninguno. El viento no puede encontrar a quien no quiere venir.\"\n"
+
+msgid "（请皇叔拔：只有第九章请皇上先撤了他的通缉、把手诏送到他手里的那一边，他才在朝上。）\n"
+msgstr "(Pedírselo al tío imperial: solo en el lado en que, en el capítulo 9, le pediste a Su Majestad que levantara antes su orden de captura y le hiciste llegar el edicto, él está en la corte.)\n"
+
+msgid "让萧辟尘拔"
+msgstr "Que lo saque Xiao Bichen"
+
+msgid "让萧辟尘来拔？\n岚翁会把他的风铃挂回萧家的钩上，风认得铃上的名字，会把他送回来。剑跟他走：他会拿着它去决战，那一战，他可能回不来。铃也就还给他了。"
+msgstr "¿Que lo saque Xiao Bichen?\nEl Anciano del Viento colgará su campanilla en el gancho de los Xiao; el viento reconoce el nombre de la campana y lo traerá de vuelta. La espada se va con él: la llevará a la batalla decisiva, y en esa batalla puede que no regrese. Y la campana queda devuelta a él."
+
+msgid "岚翁接过风铃，拇指在铃舌的「尘」字上摸了一下，朝着白石街的方向摇了摇。\n"
+msgstr "El Anciano del Viento toma la campanilla, pasa el pulgar por la letra \"Chen\" de la lengüeta y la agita hacia la calle de piedra blanca.\n"
+
+msgid "底下长街上，萧家门楣那只空钩叮的一声。风从街上一路卷上来，卷到台上，风里站着一个人，白衣，长发，被风吹得乱飞。\n"
+msgstr "Abajo, en la calle larga, el gancho vacío del dintel de los Xiao hace tin. El viento sube en remolino por la calle hasta la terraza, y dentro del viento hay un hombre de blanco, de pelo largo, que el viento agita en todas direcciones.\n"
+
+msgid "四下看，看了很久。"
+msgstr " mira alrededor, y mira durante mucho tiempo."
+
+msgid "……城还是这个样子。"
+msgstr "...La ciudad sigue igual."
+
+msgid "铃在，风认人。你替我把铃带回来了。"
+msgstr "Con la campana, el viento reconoce a la persona. Me trajiste la campana de vuelta."
+
+msgid "萧辟尘走进旋风。风绕着他转，转得慢了，像是认得他。剑落进他手里，风散了。\n"
+msgstr "Xiao Bichen entra en el torbellino. El viento gira a su alrededor, cada vez más despacio, como si lo reconociera. La espada cae en su mano y el viento se deshace.\n"
+
+msgid "我回水烟阁。决战那日，剑跟我下湖。"
+msgstr "Vuelvo al Pabellón de la Neblina. El día de la batalla decisiva, la espada bajará conmigo al lago."
+
+msgid "又一阵风卷过来，萧辟尘不见了。\n"
+msgstr "Otro viento pasa en remolino, y Xiao Bichen ya no está.\n"
+
+msgid "岚翁说道：风认铃，不认人。萧家孩子的铃不在你身上，风就找不到他。\n"
+msgstr "El Anciano del Viento dice: \"El viento reconoce la campana, no a la persona. Sin la campana del niño de los Xiao sobre ti, el viento no puede encontrarlo.\"\n"
+
+msgid "（让萧辟尘拔：要带着他的青铜风铃——在老松岭石洞的石匣里，对着寻风地带的风才开。）\n"
+msgstr "(Que lo saque Xiao Bichen: hay que llevar su campanilla de viento de bronce, que está en el cofre de piedra de la cueva del Cerro de los Pinos Viejos y solo se abre cara al viento de la zona de búsqueda del viento.)\n"
+
+msgid "乘风"
+msgstr "Montar el viento"
+
+msgid "你往云边走了一步，风把你托了回来。剑还没有主，风不送人。\n"
+msgstr "Das un paso hacia el borde de las nubes, y el viento te devuelve atrás. La espada aún no tiene dueño, y el viento no lleva a nadie.\n"
+
+msgid "乘风回去？风会把你放在天驼关石林那面镜子前。岚城随风走，下回再来，得重新寻风。"
+msgstr "¿Volver montando el viento? El viento te dejará ante el espejo del bosque de piedra del Paso del Camello. La Ciudad del Viento se va con el viento, y la próxima vez habrá que volver a buscar el viento."
+
+msgid "你往云里迈了一步。风从底下托住你，像一只手。\n"
+msgstr "Das un paso hacia las nubes. El viento te sostiene desde abajo, como una mano.\n"
+
+msgid "云从身边飞快地往上退，铃声越来越远。等你站稳，眼前是石林，那面镜子里映着你自己。\n"
+msgstr "Las nubes retroceden hacia arriba a toda prisa, y las campanillas suenan cada vez más lejos. Cuando te afirmas, ante ti está el bosque de piedra, y en aquel espejo se refleja tu imagen.\n"
+
+msgid "一阵狂风迎面压过来，压得你喘不过气。你运起内力顶住了。\n"
+msgstr "Una ráfaga furiosa te cae encima de frente y te deja sin aliento. Haces circular tu fuerza interior y aguantas.\n"
+
+msgid "狂风刮得你站不住脚，一跤摔在草里！风大不能行。\n"
+msgstr "¡La ráfaga furiosa te arranca el equilibrio y caes de bruces en la hierba! Con tanto viento no se puede avanzar.\n"
