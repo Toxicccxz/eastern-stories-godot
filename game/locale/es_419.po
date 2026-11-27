@@ -10946,10 +10946,10 @@ msgid "到聚义厅找常老大，问黑衣道士的去向。"
 msgstr "Buscar al jefe Chang en el Salón de la Hermandad y preguntarle adónde fue el taoísta de negro."
 
 msgid "常老大说那道士拿一块金牌买了路，往东边的瀑布去了。"
-msgstr "El jefe Chang dijo que el taoísta compró el paso con una tablilla de oro y siguió al este, hacia la cascada."
+msgstr "El jefe Chang dijo que el taoísta compró el paso con una placa de oro y siguió al este, hacia la cascada."
 
 msgid "你打倒了常老大。他跌坐在熊皮上骂道：那道士拿金牌买的路，往东边的瀑布去了，找他去！"
-msgstr "Derribaste al jefe Chang. Se dejó caer sobre su piel de oso, maldiciendo: \"El taoísta pagó el paso con una tablilla de oro y se fue al este, a la cascada. ¡Ve a buscarlo!\""
+msgstr "Derribaste al jefe Chang. Se dejó caer sobre su piel de oso, maldiciendo: \"El taoísta pagó el paso con una placa de oro y se fue al este, a la cascada. ¡Ve a buscarlo!\""
 
 msgid "打倒了老松寨的常老大"
 msgstr "Derrotaste al jefe Chang del Fuerte de los Pinos Viejos"
@@ -12353,10 +12353,10 @@ msgid "於兰天武的通缉是你解的。他回了京。"
 msgstr "Fuiste tú quien hizo levantar la orden de captura contra Yulan Tianwu. Él volvió a la Capital."
 
 msgid "你在水烟阁的山门值过一班，拿下了一个打听盟主的探子。"
-msgstr "Hiciste una guardia en el pórtico del Pabellón de la Neblina y apresaste a un espía que preguntaba por el Líder de la Alianza."
+msgstr "Hiciste una guardia en el portal del Pabellón de la Neblina y apresaste a un espía que preguntaba por el Líder de la Alianza."
 
 msgid "你在水烟阁的山门拿错了人，真的探子趁乱下了山。"
-msgstr "En el pórtico del Pabellón de la Neblina apresaste al hombre equivocado; el verdadero espía bajó de la montaña aprovechando el desorden."
+msgstr "En el portal del Pabellón de la Neblina apresaste al hombre equivocado; el verdadero espía bajó de la montaña aprovechando el desorden."
 
 msgid "二十年前那张镖单锁在水烟阁的刑堂里。是你交给潘军禅的。"
 msgstr "El registro de escolta de hace veinte años está bajo llave en la sala de castigos del Pabellón de la Neblina. Tú se lo diste a Pan Junchan."
@@ -12395,7 +12395,7 @@ msgid "绝尘子答应了：正月十七下山走一趟。"
 msgstr "Juechenzi aceptó: el diecisiete del primer mes bajará de la montaña."
 
 msgid "了尘说起了三十年前：绝尘子就是走出山烟寺山门的玄尘。"
-msgstr "Liaochen habló de hace treinta años: Juechenzi es Xuanchen, el que salió por el pórtico del Templo de la Bruma."
+msgstr "Liaochen habló de hace treinta años: Juechenzi es Xuanchen, el que salió por el portal del Templo de la Bruma."
 
 msgid "绝尘派守了阵：八卦阵推到了青石村北边的洞口，了尘留在石室。"
 msgstr "La Escuela del Desapego sostuvo la formación: la Formación de los ocho trigramas llega ahora hasta la boca de la cueva al norte de la Aldea Piedra Azul, y Liaochen se quedó en la Cámara de piedra."
@@ -12854,28 +12854,28 @@ msgid "和柳绘心立了封山剑派北宗"
 msgstr "Fundaste con Liu Huixin la rama norte de la Escuela de la Montaña Vacía"
 
 msgid "拜了天邪派，水烟阁的门就由你守一回。"
-msgstr "Únete a la Escuela Rebelde, y te tocará guardar una vez el pórtico del Pabellón de la Neblina."
+msgstr "Únete a la Escuela Rebelde, y te tocará guardar una vez el portal del Pabellón de la Neblina."
 
 msgid "你已经不是天邪派的人了。水烟阁的事，到此为止。"
 msgstr "Ya no eres de la Escuela Rebelde. Los asuntos del Pabellón de la Neblina terminan aquí."
 
 msgid "去水烟阁正厅，问执法使潘军禅「山门」。"
-msgstr "Ir al Salón principal de la Neblina y preguntar al ejecutor Pan Junchan por \"Pórtico\"."
+msgstr "Ir al Salón principal de la Neblina y preguntar al ejecutor Pan Junchan por \"Portal\"."
 
 msgid "到水烟阁前值守：三个上山的人在门外候着。问清他们的「来意」，听他们怎么说「盟主」，看看「路引」——认出那个来打听盟主的探子，把他「拿下」。拿错了人，真的探子会趁乱走掉。"
-msgstr "Montar guardia ante el Pabellón de la Neblina: tres personas que subieron la montaña esperan fuera del pórtico. Preguntarles por \"Motivo de la visita\", oír qué dicen de \"Líder de la Alianza\", mirar sus \"Salvoconductos\": reconocer al espía que vino a preguntar por el Líder de la Alianza y elegir \"Apresar\" con él. Si apresas al equivocado, el verdadero espía escapará en el desorden."
+msgstr "Montar guardia ante el Pabellón de la Neblina: tres personas que subieron la montaña esperan fuera del portal. Preguntarles por \"Motivo de la visita\", oír qué dicen de \"Líder de la Alianza\", mirar sus \"Salvoconductos\": reconocer al espía que vino a preguntar por el Líder de la Alianza y elegir \"Apresar\" con él. Si apresas al equivocado, el verdadero espía escapará en el desorden."
 
 msgid "山门的一班值完了。"
-msgstr "La guardia en el pórtico terminó."
+msgstr "La guardia en el portal terminó."
 
 msgid "回正厅向潘军禅回话（问他「山门」；搜到了信，把信交给他）。"
-msgstr "Volver al salón principal e informar a Pan Junchan (preguntarle por \"Pórtico\"; si encontraste una carta, entregársela)."
+msgstr "Volver al salón principal e informar a Pan Junchan (preguntarle por \"Portal\"; si encontraste una carta, entregársela)."
 
 msgid "潘军禅听完了山门的事。「水烟阁的门，你守过一回了。」"
-msgstr "Pan Junchan escucha lo del pórtico. \"Ya guardaste una vez el pórtico del Pabellón de la Neblina.\""
+msgstr "Pan Junchan escucha lo del portal. \"Ya guardaste una vez el portal del Pabellón de la Neblina.\""
 
 msgid "替水烟阁在山门值过一班"
-msgstr "Hiciste una guardia en el pórtico para el Pabellón de la Neblina"
+msgstr "Hiciste una guardia en el portal para el Pabellón de la Neblina"
 
 msgid "问潘军禅「镖单」。二十年前那张镖单只有一张：交给潘军禅，锁进刑堂，振远的脸面水烟阁替他们留着，这件事到此为止；带去京师振远总局交给陈天星，他要查到底——查出来的，未必只是振远的丑事。镖单不在身上的，去绮云镇振远镖局问陈剑秋。"
 msgstr "Preguntar a Pan Junchan por \"Registro de escolta\". Del registro de escolta de hace veinte años solo hay un ejemplar: si se lo das a Pan Junchan, quedará encerrado en la sala de castigos, el Pabellón de la Neblina le guardará la cara a Largo Camino y el asunto terminará ahí; si lo llevas a la Sede del Largo Camino en la Capital y se lo das a Chen Tianxing, él llegará al fondo, y lo que salga quizá no sea solo la vergüenza de Largo Camino. Si no llevas el registro, ir a los Escoltas del Largo Camino de Tejenubes y preguntar a Chen Jianqiu."
@@ -13814,7 +13814,7 @@ msgid "独眼头陀那门火性的内功，他练的那部经，不是山烟寺�
 msgstr "El neigong ígneo del asceta tuerto, y el sutra que practica, no son cosa del Templo de la Bruma. Vienen del Barrio Extranjero: ir al Templo Ritola, en el Barrio Extranjero, y preguntar al Rey del Dharma Longruo por \"Asceta\"."
 
 msgid "龙若法王说起了三十年前：师父从天竺背来的两部经，当年不肯开经匣的住持，追出山门的玄尘，十年前派回去的头陀和他那只眼。他给了你一片贝叶：「收不收，是山烟寺的事。」"
-msgstr "El Rey del Dharma Longruo habló de hace treinta años: los dos sutras que su Shifu trajo a cuestas desde la India, el abad que entonces se negó a abrir la caja de los sutras, Xuanchen, que salió tras ellos por el pórtico del templo, y el asceta enviado de vuelta hace diez años, con su ojo. Te dio una hoja de palma: \"Aceptarla o no es cosa del Templo de la Bruma.\""
+msgstr "El Rey del Dharma Longruo habló de hace treinta años: los dos sutras que su Shifu trajo a cuestas desde la India, el abad que entonces se negó a abrir la caja de los sutras, Xuanchen, que salió tras ellos por el portal del templo, y el asceta enviado de vuelta hace diez años, con su ojo. Te dio una hoja de palma: \"Aceptarla o no es cosa del Templo de la Bruma.\""
 
 msgid "照了寺规的：先回流云轩，药僧有话要说"
 msgstr "Si respetaste las reglas del templo: volver primero al Cenador de las Nubes Errantes; el monje boticario tiene algo que decir"
@@ -13904,7 +13904,7 @@ msgid "了尘说起师父的时候，一直看着佛像下的绝尘子，话没�
 msgstr "Cuando Liaochen habla de su Shifu, no deja de mirar a Juechenzi, bajo la estatua de Buda, y no termina lo que dice. Preguntarle por \"Shifu\"."
 
 msgid "了尘说起了三十年前：他是山烟寺的小沙弥，跟着玄尘师叔走出了山门。玄尘，就是师父。他要回山烟寺去。"
-msgstr "Liaochen habló de hace treinta años: era un pequeño novicio del Templo de la Bruma que siguió a su tío menor de escuela Xuanchen al salir por el pórtico. Xuanchen es su Shifu. Quiere volver al Templo de la Bruma."
+msgstr "Liaochen habló de hace treinta años: era un pequeño novicio del Templo de la Bruma que siguió a su tío menor de escuela Xuanchen al salir por el portal. Xuanchen es su Shifu. Quiere volver al Templo de la Bruma."
 
 msgid "问绝尘子「玄尘」。"
 msgstr "Preguntar a Juechenzi por \"Xuanchen\"."
@@ -20623,7 +20623,7 @@ msgid "执刑使管的是刀，不管衣裳。"
 msgstr "El Ejecutor se ocupa de las hojas, no de la ropa."
 
 msgid "山门"
-msgstr "Puerta de la montaña"
+msgstr "Portal"
 
 msgid "人跑了。拿错的那一个，我赔过礼了。"
 msgstr "Se escapó. Al que atrapé por error, ya le pedí disculpas."
@@ -21739,10 +21739,10 @@ msgid "你正走在一道长长的石英岩阶梯上, 阶梯的两侧种植著�
 msgstr "Subes por una larga escalinata de cuarcita, bordeada a ambos lados por una hilera de pinos altos. Alzas la vista hacia el pico alto y erguido del noreste: en su cima, entre la bruma, se levanta un imponente pabellón blanco."
 
 msgid "长长的阶梯也终将到了尽头, 阶梯的尽头矗立著一座山门, 山门\n上龙飞凤舞地写了三个字, 笔力苍劲有力显得气势非凡。山风吹来带\n著丝丝的寒意, 令你有股高处不胜寒的感觉。\n"
-msgstr "La larga escalinata también llega a su fin: allí se alza un pórtico con tres caracteres escritos con trazo de dragón y de fénix, de pincelada firme y vigorosa. El viento de la montaña trae un frío leve y sientes ese vértigo de las alturas."
+msgstr "La larga escalinata también llega a su fin: allí se alza un portal con tres caracteres escritos con trazo de dragón y de fénix, de pincelada firme y vigorosa. El viento de la montaña trae un frío leve y sientes ese vértigo de las alturas."
 
 msgid "在你眼前是一座古色古香的山门, 上面以龙飞凤舞的笔迹书写著\n「灵心观」三字, 据说是当年太阳神君「杞庸」亲笔所题。往北方看\n过去是一个颇大的广场。门前则是一条石英岩铺设的阶梯沿著山腰往\n东而下。\n"
-msgstr "Ante ti, un pórtico de aire antiguo, con las palabras \"Monasterio del Corazón Claro\" escritas con trazo de dragón y de fénix; dicen que lo hizo con su propio pincel el Señor del Sol, Qi Yong. Al norte se ve una plaza bastante grande. Frente al pórtico, una escalinata de cuarcita baja hacia el este por la ladera."
+msgstr "Ante ti, un portal de aire antiguo, con las palabras \"Monasterio del Corazón Claro\" escritas con trazo de dragón y de fénix; dicen que lo hizo con su propio pincel el Señor del Sol, Qi Yong. Al norte se ve una plaza bastante grande. Frente al portal, una escalinata de cuarcita baja hacia el este por la ladera."
 
 msgid "你正站在灵心观前的广场前, 一片用石英岩铺成的广场。一对雄\n伟的石狮子站在庙门的两侧, 狮子的两侧立著两根雕著龙纹的石柱。\n广场的中央还有一个大香炉, 香炉里正冒著袅袅的香烟。\n"
 msgstr "Estás frente al Monasterio del Corazón Claro, en una plaza empedrada con cuarcita. Un par de imponentes leones de piedra flanquean la puerta, y a sus lados se alzan dos columnas de piedra con dragones tallados. En el centro de la plaza, un gran incensario despide volutas de humo."
@@ -22102,7 +22102,7 @@ msgid "你走进了一个凿穿山壁开成的隧道，隧道也不甚长，约�
 msgstr "Entras en un túnel abierto horadando la pared de roca. No es muy largo, de unos siete u ocho zhang; al oeste está la salida. En el túnel se huele a azufre: seguramente hay cerca aguas termales o un volcán."
 
 msgid "这里是山烟寺前的空地，平日僧人们就在这里练武强身，空地四周\n种了一排白杨树，靠北边的地方放了一堆用来锻链膂力的砖头，寺门就\n在你的北边, 东边则是山门。\n"
-msgstr "Esta es la explanada delante del Templo de la Bruma, donde los monjes practican artes marciales para fortalecer el cuerpo. Alrededor hay una hilera de álamos blancos, y al norte, un montón de ladrillos para ejercitar la fuerza de los brazos. La puerta del templo queda al norte, y el pórtico al este."
+msgstr "Esta es la explanada delante del Templo de la Bruma, donde los monjes practican artes marciales para fortalecer el cuerpo. Alrededor hay una hilera de álamos blancos, y al norte, un montón de ladrillos para ejercitar la fuerza de los brazos. La puerta del templo queda al norte, y el portal al este."
 
 msgid "出现在眼前的是一座宏伟壮丽的寺门, 上方覆著镶金的瓦片, 瓦\n片的下方挂著一方翡翠匾额, 上面写著『山烟寺』三个烫金大字。正\n中的大门正紧紧关闭著, 只有在迎接大人物时才会开启。现在只开著\n两旁的偏门。\n"
 msgstr "Ante tus ojos, una majestuosa puerta de templo, cubierta de tejas con filo dorado; bajo las tejas cuelga una placa de jade verde con tres grandes caracteres dorados: \"Templo de la Bruma\". La gran puerta central está firmemente cerrada y solo se abre para recibir a personajes importantes; ahora solo están abiertas las puertas laterales."
@@ -31480,7 +31480,7 @@ msgid "捻了捻腕上的佛珠。"
 msgstr " pasa las cuentas del rosario de su muñeca."
 
 msgid "我留下。三十年前跟着他出山门的时候，我就说过，他去哪里，我去哪里。"
-msgstr "Yo me quedo. Hace treinta años, cuando lo seguí fuera del pórtico, lo dije: adonde él vaya, voy yo."
+msgstr "Yo me quedo. Hace treinta años, cuando lo seguí fuera del portal, lo dije: adonde él vaya, voy yo."
 
 msgid "三十年前的事，都跟你说了。去问师父「玄尘」——他认不认，是他的事。"
 msgstr "Lo de hace treinta años ya se lo conté todo. Vaya y pregúntele a mi Shifu por 'Xuanchen': si lo reconoce o no, es cosa suya."
@@ -31492,7 +31492,7 @@ msgid "三十年前，我十二岁，是日照山山烟寺的小沙弥，在流�
 msgstr "Hace treinta años, yo tenía doce; era novicio del Templo de la Bruma del Monte Soleado y cuidaba el horno de medicinas del abad en el Cenador de las Nubes Errantes."
 
 msgid "那年一个天竺来的法师背着两部经上山，住持不收。寺里有一位玄尘师叔，追出了山门——我跟在他后面跑出去的。他回头看见我，没赶我走。"
-msgstr "Ese año, un maestro llegado de la India subió a la montaña cargando dos sutras, y el abad no los aceptó. En el templo había un tío menor de escuela, Xuanchen, que salió tras él por el pórtico; yo salí corriendo detrás de él. Se volvió, me vio, y no me mandó de vuelta."
+msgstr "Ese año, un maestro llegado de la India subió a la montaña cargando dos sutras, y el abad no los aceptó. En el templo había un tío menor de escuela, Xuanchen, que salió tras él por el portal; yo salí corriendo detrás de él. Se volvió, me vio, y no me mandó de vuelta."
 
 msgid "在番坊住了一年，又往北走，走到青石村后山，师叔摆了这个阵，改了道号，叫绝尘。"
 msgstr "Vivimos un año en el Barrio Extranjero y luego seguimos al norte, hasta los cerros de detrás de la Aldea Piedra Azul. Allí mi tío de escuela levantó esta formación y cambió su nombre taoísta: Juechen."
@@ -31663,7 +31663,7 @@ msgid "说。"
 msgstr "Habla."
 
 msgid "三十年前，是师父领我出的山门。今天，我想回去。"
-msgstr "Hace treinta años, Shifu, usted me sacó por el pórtico. Hoy quiero volver."
+msgstr "Hace treinta años, Shifu, usted me sacó por el portal. Hoy quiero volver."
 
 msgid "山洞里出来了东西，山下的人一个一个地冻死。阵守得住石室，守不住山下。"
 msgstr "De la cueva salieron cosas, y la gente al pie de la montaña muere de frío una tras otra. La formación protege la cámara de piedra, pero no lo que hay al pie de la montaña."
@@ -31717,7 +31717,7 @@ msgid "三十年前没进门的经，进了门。师父要是知道……他知�
 msgstr "El sutra que hace treinta años no pudo cruzar la puerta, la cruzó. Si mi Shifu lo supiera... Lo sabe."
 
 msgid "方丈说，我本来就是本寺的人，三十年前出的山门，今天回来，不算外人。"
-msgstr "El abad dice que siempre fui del templo: salí por el pórtico hace treinta años, y si vuelvo hoy, no soy un extraño."
+msgstr "El abad dice que siempre fui del templo: salí por el portal hace treinta años, y si vuelvo hoy, no soy un extraño."
 
 msgid "鬼卒的寒，流云轩还是赶不出去。能救一个，是一个。"
 msgstr "El frío de los soldados fantasma, el Cenador de las Nubes Errantes sigue sin poder sacarlo. Cada uno que se salva es uno más."
@@ -31726,7 +31726,7 @@ msgid "流云轩缺人手。我在这里煎药，扶病人。"
 msgstr "Al Cenador de las Nubes Errantes le faltan manos. Aquí preparo medicinas y atiendo a los enfermos."
 
 msgid "师父当年追出山门，追的就是他师父背的那部经。三十年，经进了门，我也回来了。"
-msgstr "Cuando mi Shifu salió tras ellos por el pórtico, iba detrás del sutra que cargaba el maestro de ese asceta. Treinta años después, el sutra cruzó la puerta, y yo también volví."
+msgstr "Cuando mi Shifu salió tras ellos por el portal, iba detrás del sutra que cargaba el maestro de ese asceta. Treinta años después, el sutra cruzó la puerta, y yo también volví."
 
 msgid "方丈是师父的师兄。我回来那天，他什么也没问，指了指流云轩。"
 msgstr "El abad es hermano mayor de escuela de mi Shifu. El día que volví no me preguntó nada; solo señaló el Cenador de las Nubes Errantes."
@@ -38272,7 +38272,7 @@ msgid "老衲背着经走到日照山。当时的住持只认本寺一脉，经�
 msgstr "Este viejo monje cargó los sutras hasta el Monte Soleado. El abad de entonces solo reconocía el linaje de su propio templo; no abrió la caja de los sutras y me pidió que bajara de la montaña."
 
 msgid "山门外，一个年轻和尚追了出来，说他叫玄尘，是玄智的师弟。他说，经他想看。"
-msgstr "Fuera del pórtico, un monje joven salió corriendo tras mí. Dijo que se llamaba Xuanchen y que era hermano menor de Xuanzhi. Dijo que los sutras, él quería verlos."
+msgstr "Fuera del portal, un monje joven salió corriendo tras mí. Dijo que se llamaba Xuanchen y que era hermano menor de Xuanzhi. Dijo que los sutras, él quería verlos."
 
 msgid "望着榕树，很久没有说话。"
 msgstr " mira el baniano y pasa mucho rato sin hablar."
