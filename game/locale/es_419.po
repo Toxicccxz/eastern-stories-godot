@@ -1967,7 +1967,7 @@ msgid "关门"
 msgstr "Puerta del paso"
 
 msgid "城门兵"
-msgstr "Guardia de la puerta"
+msgstr "Guardia de la puerta de la ciudad"
 
 msgid "驼夫"
 msgstr "Camellero"
@@ -3320,7 +3320,7 @@ msgid "药店"
 msgstr "Botica"
 
 msgid "怡红院"
-msgstr "Casa Deleite Rojo"
+msgstr "Deleite Rojo"
 
 msgid "红娘庄"
 msgstr "Casa de la casamentera"
@@ -3440,7 +3440,7 @@ msgid "兵部文书 · 看"
 msgstr "papeles del Ministerio de Guerra · leer"
 
 msgid "祭司的净室"
-msgstr "Cámara del sacerdote"
+msgstr "Cámara de purificación del sacerdote"
 
 msgid "火前 · 问话"
 msgstr "ante el fuego · interrogar"
@@ -3494,7 +3494,7 @@ msgid "山路"
 msgstr "Camino de montaña"
 
 msgid "山路转角"
-msgstr "Recodo del camino"
+msgstr "Recodo del camino de montaña"
 
 msgid "岩石坡"
 msgstr "Ladera rocosa"
@@ -3698,7 +3698,7 @@ msgid "王府正厅"
 msgstr "Salón principal del príncipe"
 
 msgid "王府偏厅"
-msgstr "Salón lateral del príncipe"
+msgstr "Sala lateral del príncipe"
 
 msgid "王府前院"
 msgstr "Patio delantero del príncipe"
@@ -3746,7 +3746,7 @@ msgid "王府大门 · 叩门"
 msgstr "portón del príncipe · llamar"
 
 msgid "本府不奉"
-msgstr "Esta casa no acata"
+msgstr "Esta casa no recibe"
 
 msgid "工地栅栏门"
 msgstr "Puerta de la empalizada"
@@ -18611,3 +18611,2097 @@ msgstr "¡Espada divina a voluntad!"
 
 msgid "一阵蓝光笼罩住$N，「嗡」地一声，$N的轮廓又变清晰了一些！"
 msgstr "Una luz azul envuelve a $N{:el}. Con un zumbido, el contorno de $N{:el} se vuelve un poco más nítido."
+
+msgid "天空中万里无云"
+msgstr "Ni una nube en el cielo"
+
+msgid "几朵淡淡的云彩妆点著清朗的天空"
+msgstr "Unas pocas nubes tenues salpican el cielo despejado"
+
+msgid "白云在天空中飘来飘去"
+msgstr "Nubes blancas vagan por el cielo"
+
+msgid "厚厚的云层堆积在天边"
+msgstr "Espesas nubes se amontonan en el horizonte"
+
+msgid "天空中乌云密布"
+msgstr "Nubes oscuras cubren el cielo"
+
+msgid "微曦"
+msgstr "Alba"
+
+msgid "东方的天空中开始出现一丝微曦。"
+msgstr "Un primer resplandor asoma en el cielo del este."
+
+msgid "东方的天空已逐渐发白"
+msgstr "El cielo del este va palideciendo"
+
+msgid "日出"
+msgstr "Salida del sol"
+
+msgid "太阳从东方的地平线升起了。"
+msgstr "El sol se alza sobre el horizonte del este."
+
+msgid "太阳刚从东方的地平线升起"
+msgstr "El sol acaba de alzarse sobre el horizonte del este"
+
+msgid "上午"
+msgstr "Mañana"
+
+msgid "太阳已经高高地挂在东方的天空中。"
+msgstr "El sol cuelga ya alto en el cielo del este."
+
+msgid "太阳正高挂在东方的天空中"
+msgstr "El sol cuelga alto en el cielo del este"
+
+msgid "正午"
+msgstr "Mediodía"
+
+msgid "已经是正午了，太阳从你正上方照耀著大地。"
+msgstr "Es mediodía. El sol baña la tierra desde justo encima de ti."
+
+msgid "现在是正午时分，太阳高挂在你的头顶正上方"
+msgstr "Es la hora del mediodía, y el sol está justo sobre tu cabeza"
+
+msgid "下午"
+msgstr "Tarde"
+
+msgid "太阳开始从西方的天空中慢慢西沉。"
+msgstr "El sol empieza a descender despacio por el cielo del oeste."
+
+msgid "太阳正高挂在西方的天空中"
+msgstr "El sol cuelga alto en el cielo del oeste"
+
+msgid "傍晚"
+msgstr "Atardecer"
+
+msgid "傍晚了，太阳的馀晖将西方的天空映成一片火红。"
+msgstr "Atardece, y los últimos rayos del sol tiñen de rojo fuego el cielo del oeste."
+
+msgid "一轮火红的夕阳正徘徊在西方的地平线上"
+msgstr "Un sol rojo como el fuego se demora sobre el horizonte del oeste"
+
+msgid "夜晚"
+msgstr "Noche"
+
+msgid "夜晚降临了。"
+msgstr "Ha caído la noche."
+
+msgid "夜幕笼罩著大地"
+msgstr "El manto de la noche cubre la tierra"
+
+msgid "午夜"
+msgstr "Medianoche"
+
+msgid "已经是午夜了。"
+msgstr "Es medianoche."
+
+msgid "夜幕低垂，满天繁星"
+msgstr "La noche pende baja y el cielo se llena de estrellas"
+
+msgid "这是流通中单位最小的货币，约要一百文钱才值得一两银子。\n"
+msgstr "La moneda de menor valor en circulación. Hacen falta unos cien wen para valer un tael de plata."
+
+msgid "文"
+msgstr "wen"
+
+msgid "白花花的银子，人见人爱的银子。\n"
+msgstr "Plata blanca y reluciente. Todo el mundo ama la plata."
+
+msgid "黄澄澄的金子，人见人爱的金子，啊～～金子！\n"
+msgstr "Oro amarillo y reluciente. Todo el mundo ama el oro. ¡Ah, el oro!"
+
+msgid "一件普通的粗布衣服，不值什么钱。\n"
+msgstr "Una túnica común de tela basta. Apenas tiene valor."
+
+msgid "一个香喷喷、热腾腾的大包子。\n"
+msgstr "Un bollo grande al vapor, caliente y fragante."
+
+msgid "一枝烤得香喷喷鸡腿，你还犹豫什麽？准备胃液吧。\n"
+msgstr "Un muslo de pollo asado que huele de maravilla. ¿Qué esperas? Ve preparando los jugos gástricos."
+
+msgid "啃得精光的鸡腿骨头"
+msgstr "Hueso de pollo roído"
+
+msgid "一根啃得精光的鸡腿骨头。\n"
+msgstr "Un hueso de muslo de pollo, roído hasta dejarlo limpio."
+
+msgid "一个牛皮缝的大酒袋，大概装得八、九升的酒。\n"
+msgstr "Un odre grande de cuero de buey cosido; caben unos ocho o nueve litros de vino."
+
+msgid "这本旧书的纸张都已经泛黄了，上面只有一些字迹模糊的字句，似乎\n提到一些呼吸方法什么的。\n"
+msgstr "El papel de este libro viejo hace tiempo que amarilleó. Solo hay unas líneas de letra borrosa, algo sobre maneras de respirar."
+
+msgid "一颗金疮药, 可以用来敷上治伤 。\n"
+msgstr "Una dosis de ungüento para heridas; se aplica sobre la herida para curarla."
+
+msgid "这是一把看起相当普通的长剑，份量大约有十来斤左右。\n"
+msgstr "Una espada larga de aspecto bastante corriente, de unos diez jin de peso."
+
+msgid "这是一把通体黝黑的重剑，上面生满了尖锐的倒钩，乃是乔阴柳家\n历代相传的宝剑，据说这把剑杀人不沾血，永远保持杀气。\n"
+msgstr "Una espada pesada, negra de punta a punta y cubierta de garfios afilados: el tesoro que la familia Liu de Sombra Alta se ha transmitido de generación en generación. Dicen que mata sin que la sangre la manche y que conserva siempre su aura asesina."
+
+msgid "这是一包用来毁尸灭迹的化尸粉，只要用一丁点就可以\n化去一具尸体！\n"
+msgstr "Un paquete de polvo disolvente de cadáveres, para borrar todo rastro de un cuerpo. ¡Una pizca basta para disolver un cadáver entero!"
+
+msgid "这是一包用来解蛇毒的药\n可以用来解蛇毒!\n"
+msgstr "Un paquete de medicina contra el veneno de serpiente. ¡Sirve para curar una mordedura!"
+
+msgid "飞镖是一种十分常见的暗器。\n"
+msgstr "El dardo es un arma oculta muy común."
+
+msgid "枝"
+msgstr "pieza"
+
+msgid "这是一种毒性猛烈的春药，你可以把它倒在酒水之中使用。\n"
+msgstr "Un afrodisíaco de efecto violento y venenoso. Se usa echándolo en el vino o en el agua."
+
+msgid "这是一把看起相当普通的匕首。\n"
+msgstr "Una daga de aspecto bastante corriente."
+
+msgid "这是一寻常的单刀，份量大约六、七斤重。\n"
+msgstr "Un sable de un solo filo, común, de unos seis o siete jin de peso."
+
+msgid "这是一口寻常的布袋，可以用来装一些杂物。\n"
+msgstr "Una bolsa de tela común, buena para guardar cosas sueltas."
+
+msgid "这是一把八角铜锤，沉甸甸的。\n"
+msgstr "Un martillo de bronce octogonal. Pesado."
+
+msgid "这是一把又细又长的剑，轻飘飘的像是女孩子家的玩意。\n"
+msgstr "Una espada larga y delgada, tan ligera que parece un juguete de niña."
+
+msgid "这是一把暗绿色的鬼头刀，拿在手中沈甸甸地。\n"
+msgstr "Un sable de cabeza de fantasma de color verde oscuro, pesado en la mano."
+
+msgid "这是一把血红色的的长剑，份量大约有十来斤左右。\n"
+msgstr "Una espada larga rojo sangre, de unos diez jin de peso."
+
+msgid "这是寻常的绿林盗贼用来作案的蒙汗药，你可以把它倒在\n酒水之中使用。\n"
+msgstr "El polvo somnífero corriente que los bandidos del bosque usan para sus fechorías. Se usa echándolo en el vino o en el agua."
+
+msgid "这是一条紫铜杖，杖的两端似乎封这密文。\n"
+msgstr "Un bastón de cobre rojo. Los dos extremos parecen sellados con una escritura secreta."
+
+msgid "一把闪闪发著金光的长剑。\n"
+msgstr "Una espada larga que reluce con luz dorada."
+
+msgid "这是一把桃木雕成的古剑，闻起来有一股香味，剑身刻著许多你从未见过的咒\n文，只有剑柄部份有两个依稀可以辨认的篆字：「 王 禅 」\n"
+msgstr "Una espada antigua tallada en madera de durazno. Huele a algo dulce, y la hoja está cubierta de conjuros que nunca habías visto. Solo en la empuñadura se distinguen apenas dos caracteres en escritura de sello: \"Wang Chan\"."
+
+msgid "王禅剑发出一股金色的罡气，流遍$N的全身。"
+msgstr "La espada Wang Chan despide un aura dorada que {N:te recorre de pies a cabeza|recorre de pies a cabeza a $N{:el}}."
+
+msgid "这是道士们用来画符的符纸，具有封存法力的功用。\n"
+msgstr "El papel talismánico con que los taoístas dibujan sus talismanes. Sirve para sellar poder arcano."
+
+msgid "一条又粗又长，非常沈重的黄铜禅杖，上面镶著六个铜环。\n"
+msgstr "Un bastón de monje de latón, grueso, largo y muy pesado, engastado con seis anillos de bronce."
+
+msgid "这是步玄派历代相传的掌门信物，湛蓝色的剑身跟鹅黄色剑柄，使\n得风泉之剑成为具有「剑之王者」的美誉，除此之外，这把剑也是\n削铁如泥的利器。\n"
+msgstr "El emblema de Maestro que la Escuela del Paso Místico se transmite de generación en generación. Con su hoja azul profundo y su empuñadura amarillo ganso, la Espada del Fuente del Viento tiene fama de ser «el rey de las espadas»; además, corta el hierro como si fuera barro."
+
+msgid "你看到风泉之剑掉落在地上 ..."
+msgstr "Ves caer al suelo la Espada del Fuente del Viento..."
+
+msgid "不 ... 它飘了起来！一个人形忽然浮现，手中正握著风泉之剑！"
+msgstr "No... ¡se eleva en el aire! ¡De pronto aparece una figura humana, empuñando la Espada del Fuente del Viento!"
+
+msgid "拳脚功夫的根底，出拳踢腿、闪身贴近都从这里练起。柳家拳、天邪神掌这类拳掌指爪的专门功夫都要激发在它上面，根底越厚，激发出来越有分量。勤练拳脚，膂力也会慢慢长起来。"
+msgstr "La base de todo el combate a puño: golpear, patear y deslizarte para acercarte empiezan aquí. Las artes especializadas de puño, palma, dedo y garra, como el Puño de la familia Liu o la Palma indómita, se aplican sobre ella: cuanto más firme la base, más peso tienen. Si entrenas puños y piernas con empeño, tu Fuerza irá creciendo poco a poco."
+
+msgid "由於你勤练武艺，你的膂力提高了。"
+msgstr "Gracias a tu empeño en entrenar, tu Fuerza ha aumentado."
+
+msgid "使剑的根底：握剑、出剑、收剑的规矩都在这里。封山剑法、六阴追魂剑这些剑法都激发在它上面；没学过专门剑法的人，手里有剑也只能凭它出招。"
+msgstr "La base de la espada: las reglas de empuñar, lanzar la estocada y envainar están aquí. Estilos como la Espada de la Montaña Vacía o la Espada de los seis yin se aplican sobre ella; quien no ha aprendido un estilo propio, aunque tenga una espada en la mano, solo puede atacar con esto."
+
+msgid "使刀的根底：劈、砍、撩、斩的力道与分寸都从这里练起。春风快意刀、短歌刀法这些刀法都激发在它上面。"
+msgstr "La base del sable: la fuerza y la medida de cada tajo, golpe, barrido y corte se entrenan aquí. Estilos como el Sable de la brisa primaveral o el Sable de la canción breve se aplican sobre ella."
+
+msgid "用手中兵刃或一双肉掌格开来招的功夫。不少剑法、刀法、杖法也能激发为招架，用本门的招式化解对方的攻势。"
+msgstr "El arte de desviar un ataque con el arma que llevas en la mano o con las palmas desnudas. Muchos estilos de espada, sable y bastón también pueden aplicarse como parada, y con los movimientos de su propia escuela deshacen el ataque del rival."
+
+msgid "只听见「锵」一声，被$p格开了。"
+msgstr "¡Clang! {n:Lo desvías|$n{:el} lo desvía}."
+
+msgid "结果「当」地一声被$p挡开了。"
+msgstr "¡Clonc! {n:Lo detienes|$n{:el} lo detiene}."
+
+msgid "但是被$n用手中兵刃架开。"
+msgstr "Pero {n:lo desvías|$n{:el} lo desvía} con {n:tu|su} arma."
+
+msgid "但是$n身子一侧，用手中兵刃格开。"
+msgstr "Pero {n:te echas a un lado y lo desvías|$n{:el} se echa a un lado y lo desvía} con {n:tu|su} arma."
+
+msgid "但是被$p格开了。"
+msgstr "Pero {n:lo desvías|$n{:el} lo desvía}."
+
+msgid "结果被$p挡开了。"
+msgstr "Pero {n:lo detienes|$n{:el} lo detiene}."
+
+msgid "闪身避让的功夫，对方的招式能不能落在身上，多半看它。倒乱七星步、火蝠身法、七宝天岚舞这类身法都激发在它上面。"
+msgstr "El arte de apartarte de un salto. Que los golpes del rival te alcancen o no depende sobre todo de esto. Pasos como los Pasos caóticos de las siete estrellas, los Pasos del murciélago de fuego o la Danza de la tormenta celeste se aplican sobre ella."
+
+msgid "但是和$p$l偏了几寸。"
+msgstr "Pero pasa a unos centímetros de {n:tu $l{:0}|$l{:el} de $n{:el}}."
+
+msgid "但是被$p机灵地躲开了。"
+msgstr "Pero {n:lo esquivas|$n{:el} lo esquiva} con agilidad."
+
+msgid "但是$n身子一侧，闪了开去。"
+msgstr "Pero {n:te haces a un lado y te escabulles|$n{:el} se hace a un lado y se escabulle}."
+
+msgid "但是被$p及时避开。"
+msgstr "Pero {n:lo evitas|$n{:el} lo evita} justo a tiempo."
+
+msgid "但是$n已有准备，不慌不忙的躲开。"
+msgstr "Pero {n:lo esperabas y te apartas|$n{:el} lo esperaba y se aparta} sin prisa."
+
+msgid "一切内功的根基。内力的上限看它，打坐积下的内力才有地方存，运功调息、回气提神也都靠它；封山派内功、天邪神功等各家心法都要激发在它上面。内功修炼有成，根骨也会随之改善。"
+msgstr "La raíz de todo neigong. De ella depende el tope de tu Fuerza interior; en ella se guarda la Fuerza interior que acumulas meditando, y con ella se hace circular la energía, se regula el aliento y se recuperan Qi y Espíritu. Los métodos de cada escuela, como el Neigong de la Montaña Vacía o el Arte rebelde, se aplican sobre ella. Si tu neigong madura, tu Constitución mejorará con él."
+
+msgid "由於你的内功修炼有成，你的体质改善了。"
+msgstr "Tu neigong ha madurado y tu Constitución ha mejorado."
+
+msgid "乔阴柳家的柳东芦于七十年前所创：他是封山剑派第十二代掌门，以剑术成名，却把家传拳法融进封山剑意，创出这套适合膂力不强之人习练的拳法，补上了封山剑派近战的短处，后来更凭它力压群雄，夺得第九代武林盟主之位。柳家拳分内八套、外八套，流传在外的多是外八套，不须内功根基，容易上手；内八套是柳家秘传，外形一样，内力窍门却全然不同。练时须空手。"
+msgstr "Lo creó hace setenta años Liu Donglu, de la familia Liu de Sombra Alta. Duodécimo Maestro de la Escuela de la Montaña Vacía y famoso por su esgrima, fundió el puño de su familia en el espíritu de la espada de la Montaña Vacía y creó este estilo de puño, pensado para quienes no tienen mucha fuerza. Con él cubrió el punto débil de la escuela en el cuerpo a cuerpo y, más tarde, derrotó a todos sus rivales y se convirtió en el noveno Líder de la Alianza del wulin. El Puño de la familia Liu tiene ocho formas internas y ocho externas; fuera de la familia se conocen sobre todo las externas, que no exigen base de neigong y se aprenden con facilidad. Las internas son el secreto de los Liu: las mismas formas por fuera, pero trucos de Fuerza interior del todo distintos. Se practica con las manos desnudas."
+
+msgid "你的体力不够了，休息一下再练吧。"
+msgstr "Te has quedado sin fuerzas. Descansa un poco antes de volver a entrenar."
+
+msgid "练柳家拳法必须空手。"
+msgstr "El Puño de la familia Liu se practica con las manos desnudas."
+
+msgid "逼"
+msgstr "Presionar"
+
+msgid "抢压"
+msgstr "Embestida"
+
+msgid "先打实一拳贴上去，贴着才打得出重拳，一拳比一拳沉；打空了就被拉开。"
+msgstr "Planta un puñetazo firme y pégate al rival: solo de cerca salen los golpes pesados, cada uno más hondo que el anterior. Si fallas, te apartan."
+
+msgid "$N使一招「古松挂月」，对准$n的$l「呼」地一拳"
+msgstr "$N{:el} {N:usas|usa} \"Luna sobre el pino viejo\" y {N:lanzas|lanza} con un \"¡fiuu!\" un puñetazo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N扬起拳头，一招「傲雪冬梅」便往$n的$l招呼过去"
+msgstr "$N{:el} {N:alzas|alza} el puño y {N:lanzas|lanza} \"Ciruelo desafía la nieve\" hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N左手虚晃，右拳「孤崖听涛」往$n的$l击出"
+msgstr "$N{:el} {N:finges|finge} con la izquierda y {N:descargas|descarga} el puño derecho hacia {n:tu $l{:0}|$l{:el} de $n{:el}}: \"Oleaje bajo el risco solitario\""
+
+msgid "$N步履一沉，左拳拉开，右拳使出「荒山虎吟」击向$n$l"
+msgstr "$N{:el} {N:hundes|hunde} el paso, {N:echas|echa} atrás el puño izquierdo y {N:lanzas|lanza} el derecho hacia {n:tu $l{:0}|$l{:el} de $n{:el}}: \"Rugido del tigre en el monte yermo\""
+
+msgid "封山剑派的本门内功，只能向师长学，或在运功中慢慢精熟。封山剑法必须配合它才能练；运起功来，还能为自己疗伤。"
+msgstr "El neigong propio de la Escuela de la Montaña Vacía. Solo se aprende de los mayores o se va perfeccionando poco a poco al hacerlo circular. La Espada de la Montaña Vacía solo se puede practicar con él, y al hacerlo circular también sirve para curar tus propias heridas."
+
+msgid "封山派内功只能用学的，或是从运用中增加熟练度。"
+msgstr "El Neigong de la Montaña Vacía solo se aprende, o se mejora usándolo."
+
+msgid "花紫会一脉的内功，龙头陆得财身怀此功。练功须在有水的地方，既耗气也耗内力。"
+msgstr "El neigong de la línea de la Hermandad de los Mendigos; lo posee el Cabeza de Dragón Lu Decai. Debe entrenarse donde haya agua y gasta tanto Qi como Fuerza interior."
+
+msgid "伏蛟功只能在有水的地方练。"
+msgstr "El Arte de domar serpientes solo puede practicarse donde haya agua."
+
+msgid "你的气不够。"
+msgstr "No tienes Qi suficiente."
+
+msgid "你的内力不够"
+msgstr "No tienes Fuerza interior suficiente."
+
+msgid "振远镖局的看家刀法，总镖头陈天星凭它和天邪神掌在江湖上博得「刀掌双绝」之名。招名如「春风拂人醉」「远山伴人痴」「柳叶随人笑」，刀势轻飘，撩斩之间不见锋芒。"
+msgstr "El sable de la casa de los Escoltas del Largo Camino. Con él y la Palma indómita, el Escolta Mayor Chen Tianxing se ganó en el jianghu el nombre de «Maestro doble del sable y la palma». Sus movimientos se llaman \"Ebrio de brisa\", \"Perdido en las colinas lejanas\" o \"Las hojas del sauce ríen\"; el filo flota con ligereza y entre los barridos y los tajos nunca deja ver su punta."
+
+msgid "你必须先找一把刀，才能练刀法。"
+msgstr "Primero necesitas un sable para practicar el arte del sable."
+
+msgid "你的体力不够练这门刀法，还是先休息休息吧。"
+msgstr "No tienes fuerzas para este estilo de sable. Mejor descansa primero."
+
+msgid "$N使一招「春风拂人醉」，手中$w轻飘飘地向$n的$l斩去！"
+msgstr "$N{:el} {N:usas|usa} \"Ebrio de brisa\" y {N:tu|su} $w{:0} cae ligero en un tajo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N金刃劈风，$w随著一招「远山伴人痴」由下而上撩往$n的$l"
+msgstr "$N{:el} {N:hendes|hiende} el viento con {N:tu|su} filo dorado, y con \"Perdido en las colinas lejanas\" {N:tu|su} $w{:0} sube barriendo desde abajo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N身形一转，一招「飞花逐人香」$w刀光不定，斩向$n的$l"
+msgstr "$N{:el} {N:giras|gira} el cuerpo con \"Pétalos tras el aroma\", y {N:tu|su} $w{:0} centellea de un lado a otro mientras corta hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N舞动$w，一招「柳叶随人笑」迅捷无伦地劈向$n的$l"
+msgstr "$N{:el} {N:haces|hace} girar {N:tu|su} $w{:0} y \"Las hojas del sauce ríen\" cae con rapidez sin igual hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N手中$w一晃，一招「倩影惹人怜」往$n的$l斜斜砍出一刀"
+msgstr "$N{:el} {N:agitas|agita} {N:tu|su} $w{:0}: \"Silueta que enternece\", y {N:descargas|descarga} un tajo oblicuo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N提刀过肩，蓄劲发力，一招「芦雪碎人影」直劈$n$l"
+msgstr "$N{:el} {N:levantas|levanta} el arma por encima del hombro, {N:reúnes|reúne} fuerza y con \"Nieve de juncos rompe la sombra\" {N:cortas|corta} de arriba abajo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l"
+msgstr "$N{:el} {N:mueves|mueve} los pies y {N:te pones|se pone} de lado con \"Mariposas queman la seda\"; el filo destella al cortar hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "封山剑派是当今武林最大的一支剑派，这套剑法是当年创派的三位剑术名家在封山灵狐顶相互印证、合力创出的。招式并不难学，难在剑意：自「剑气」练起，次练「剑心」「剑芒」「剑神」，四者都练到登峰造极的人少之又少，所以同是封山剑法，造诣深浅不同的人使出来，威力差之千里。剑中有「封」「点」「逐」「缺」四字诀，须以封山派内功为根基。"
+msgstr "La Escuela de la Montaña Vacía es la mayor escuela de espada del wulin de hoy. Este estilo de espada lo forjaron los tres maestros fundadores contrastando su arte en la Cumbre del Zorro Espiritual, en la Montaña Vacía. Los movimientos no son difíciles de aprender; lo difícil es el espíritu de la espada: se empieza por el «Qi de la espada», luego el «Corazón de la espada», el «Filo de la espada» y el «Espíritu de la espada»; muy pocos llegan a dominar los cuatro, y por eso la misma Espada de la Montaña Vacía, en manos de unos y otros, difiere en poder como el cielo de la tierra. La espada guarda cuatro secretos: Sellar, Punta, Perseguir y Hueco, y se apoya en el Neigong de la Montaña Vacía."
+
+msgid "你按著所学练了一遍封山剑法。"
+msgstr "Repasas la Espada de la Montaña Vacía tal como la aprendiste."
+
+msgid "你的内力或气不够，没有办法练习封山剑法。"
+msgstr "No tienes Fuerza interior o Qi suficientes para practicar la Espada de la Montaña Vacía."
+
+msgid "你的内力不够，没有办法练封山剑法。"
+msgstr "No tienes Fuerza interior suficiente para practicar la Espada de la Montaña Vacía."
+
+msgid "封山剑法必须配合封山派内功才能练。"
+msgstr "La Espada de la Montaña Vacía solo se puede practicar junto con el Neigong de la Montaña Vacía."
+
+msgid "你必须先找一把剑才能练剑法。"
+msgstr "Primero necesitas una espada para practicar esgrima."
+
+msgid "引"
+msgstr "Atraer"
+
+msgid "逐"
+msgstr "Perseguir"
+
+msgid "候隙"
+msgstr "Esperar un hueco"
+
+msgid "不抢先：对方刺空或被架开，那一下就多出一剑，可以追，也可以封。"
+msgstr "No tomes la iniciativa: cuando el rival falla la estocada o es parado, ese instante te regala una estocada extra, para perseguir o para sellar."
+
+msgid "$N使一招「峰回路转」，手中$w如一条银蛇般刺向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"Picos giran, sendas serpentean\" y {N:tu|su} $w{:0} se lanza como una serpiente de plata hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N使出封山剑法中的「空山鸟语」，剑光霍霍斩向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"Trinos en la montaña vacía\", de la Espada de la Montaña Vacía, y el filo centellea al caer hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N一招「御风而行」，身形陡然滑出数尺，手中$w斩向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"Cabalgar el viento\": {N:te deslizas|se desliza} de pronto varios pasos y {N:descargas|descarga} {N:tu|su} $w{:0} hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N手中$w中宫直进，一式「旭日东升」对准$n的$l刺出一剑"
+msgstr "$N{:el} {N:lanzas|lanza} {N:tu|su} $w{:0} recto por el centro con \"Sol naciente en el este\", en una estocada hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N纵身一跃，手中$w一招「金光泻地」对准$n的$l斜斜刺出一剑"
+msgstr "$N{:el} {N:saltas|salta}, y {N:tu|su} $w{:0} cae en diagonal hacia {n:tu $l{:0}|$l{:el} de $n{:el}} con \"Luz dorada inunda la tierra\""
+
+msgid "$N的$w凭空一指，一招「童子引路」刺向$n的$l"
+msgstr "$N{:el} {N:apuntas|apunta} con {N:tu|su} $w{:0} al vacío, y con \"El niño guía el camino\" {N:lanzas|lanza} una estocada hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N手中$w向外一分，使一招「柳暗花明」反手对准$n$l一剑刺去"
+msgstr "$N{:el} {N:abres|abre} {N:tu|su} $w{:0} hacia fuera y, con \"Sauces oscuros, flores brillantes\", {N:giras|gira} la muñeca y {N:lanzas|lanza} una estocada de revés hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N横剑上前，身形一转手中$w使一招「空谷秋虹」画出一道光弧斩向$n的$l"
+msgstr "$N{:el} {N:avanzas|avanza} con el arma en horizontal y, al girar, {N:tu|su} $w{:0} traza un arco de luz hacia {n:tu $l{:0}|$l{:el} de $n{:el}}: \"Arcoíris de otoño en el valle vacío\""
+
+msgid "封山派开山祖师锺虔在羿水之滨的石廊峡练武时，每到夜里便与出来吸血的血蛾扑击为戏，仰望北斗七星的方位变幻，发现血蛾无论如何进攻都脱不出七星的规律，苦思几日夜创成这套步法，第一次试招便杀了六只血蛾。它专门对付身法敏捷的敌人，以自然的规律料敌机先，对方一动，便已踏到正确的闪避方位。"
+msgstr "Cuando Zhong Qian, fundador de la Escuela de la Montaña Vacía, entrenaba en la Garganta del Corredor de Piedra, a orillas del río Yi, se pasaba las noches jugando a pelear con las polillas de sangre que salían a chupar sangre. Mirando cómo cambiaba la posición de las siete estrellas de la Osa Mayor, vio que, por mucho que atacaran, las polillas no se salían del orden de las siete estrellas. Tras varios días y noches de cavilar creó estos pasos, y con el primer ensayo mató a seis polillas de sangre. Están hechos contra rivales ágiles: leen al enemigo con la regla de la naturaleza, y en cuanto el rival se mueve, ya has pisado el punto justo para esquivar."
+
+msgid "你的气或内力不够，不能练倒乱七星步法。"
+msgstr "No tienes Qi o Fuerza interior suficientes para practicar los Pasos caóticos de las siete estrellas."
+
+msgid "你的内力不够，没有办法练倒乱七星步。"
+msgstr "No tienes Fuerza interior suficiente para practicar los Pasos caóticos de las siete estrellas."
+
+msgid "$n一招「天玑离枢」轻轻巧巧地避了开去。"
+msgstr "$n{:el} {n:usas|usa} \"Tianji deja el eje\" y {n:te apartas|se aparta} con soltura de un salto."
+
+msgid "只见$n身影一晃，一式「天璇乱步」早已避在七尺之外。"
+msgstr "$n{:el} {n:te desdibujas|se desdibuja} y, con \"Paso torcido de Tianxuan\", ya {n:estás|está} a más de dos metros."
+
+msgid "$n使出「倒转天权」，轻轻松松地闪过。"
+msgstr "$n{:el} {n:usas|usa} \"Tianquan invertida\" y {n:esquivas|esquiva} sin esfuerzo."
+
+msgid "$n左足一点，一招「逐影天枢」腾空而起，避了开去。"
+msgstr "$n{:el} {n:te impulsas|se impulsa} con el pie izquierdo y, con \"Tianshu persigue la sombra\", {n:te elevas|se eleva} por el aire, fuera del alcance."
+
+msgid "可是$n使一招「风动玉衡」，身子轻轻飘了开去。"
+msgstr "Pero $n{:el} {n:usas|usa} \"Viento sobre Yuheng\" y {n:te alejas|se aleja} flotando con ligereza."
+
+msgid "$n身影微动，已经藉一招「开阳薄雾」轻轻闪过。"
+msgstr "$n{:el} {n:te mueves|se mueve} apenas y, con \"Kaiyang entre la bruma\", ya {n:lo has esquivado|lo ha esquivado} con ligereza."
+
+msgid "但是$n一招「瑶光音迟」使出，早已绕到$N身後！"
+msgstr "Pero $n{:el} {n:usas|usa} \"La luz de Yaoguang se demora\" y ya {n:estás|está} detrás de {N:ti|$N{:el}}."
+
+msgid "相传是武术之神、太阳神君杞庸在西天大山中见到灵兽天邪虎后有所领悟而创的内功心法，与模拟天邪虎神态的天邪神掌相配。威力极强，消耗体力也极大：运起来能回气、提升战力、以内力强压杀气，最深的一手是「天邪虎啸」，一声长吼震伤身边所有的人。修习须有足够的杀气撑着，苦练下去，定力也会提高。"
+msgstr "Se cuenta que lo creó Qi Yong, Señor Sol y dios de las artes marciales, tras ver al Tigre rebelde, bestia espiritual, en las grandes montañas del lejano oeste; hace pareja con la Palma indómita, que imita la estampa del tigre. Es de poder inmenso y de enorme desgaste: al hacerlo circular recuperas Qi, aumentas tu fuerza de combate y aplastas la Sed de sangre con la Fuerza interior; su movimiento más hondo es el \"Rugido del Tigre rebelde\", un largo rugido que hiere a todos los que te rodean. Para practicarlo hace falta Sed de sangre suficiente que lo sostenga, y a fuerza de entrenar también sube tu Temple."
+
+msgid "天邪神功只能用学的，或是从运用中增加熟练度。"
+msgstr "El Arte rebelde solo se aprende, o se mejora usándolo."
+
+msgid "你的杀气不够，无法领悟更高深的天邪神功。"
+msgstr "No tienes Sed de sangre suficiente para comprender el Arte rebelde más profundo."
+
+msgid "由於你苦练天邪神功，你的定力提高了"
+msgstr "Gracias a tu duro entrenamiento en el Arte rebelde, tu Temple ha aumentado."
+
+msgid "茅山派的法术，以治鬼除魔为主，多是攻敌的法术，兼有符咒之法：紫幽、青冥、苍灵「幽冥三箭」各有所长，又能召唤金甲天兵下凡护法、开「阴阳眼」看见鬼魂，还能驱动尸体。须以天师正道为根基，修为不够便领悟不了更深的道术。"
+msgstr "La hechicería de la Escuela del Monte Mao, dedicada sobre todo a someter fantasmas y expulsar demonios; casi toda es magia de ataque, con talismanes y conjuros. Las «Tres flechas del inframundo», Sombra Violeta, Oscuridad Azul y Espíritu Gris, tienen cada una sus virtudes; también puede llamar del cielo a soldados celestiales de armadura dorada para que protejan, abrir el «Ojo del yin y el yang» para ver a los fantasmas e incluso mover cadáveres. Debe apoyarse en el Camino de los Maestros Celestiales; sin suficiente cultivo, no se pueden comprender las artes más profundas."
+
+msgid "你的天师正道修为不够，无法领悟更高深的茅山道术。"
+msgstr "Tu cultivo en el Camino de los Maestros Celestiales no es lo bastante profundo para comprender la Hechicería del Monte Mao más elevada."
+
+msgid "你的精神无法集中。"
+msgstr "No logras concentrar la mente."
+
+msgid "你闭目凝神，神游物外，开始修习茅山道术中的法术...."
+msgstr "Cierras los ojos y recoges la mente, dejas que tu espíritu vague más allá del mundo y empiezas a practicar los conjuros de la Hechicería del Monte Mao..."
+
+msgid "可是你心思一乱，变出了一只面目狰狞的$N！"
+msgstr "¡Pero tu mente se turba y conjuras a $N{:un} de rostro horrendo!"
+
+msgid "你的魂魄正被$N缠住，快把它除掉吧！"
+msgstr "¡Tu alma está atrapada por $N{:el}! ¡Elimínalo cuanto antes!"
+
+msgid "你的魂魄还没有全部收回，赶快杀死你的$N吧！"
+msgstr "Tu alma aún no ha vuelto del todo. ¡Acaba cuanto antes con $N{:el} que conjuraste!"
+
+msgid "道家的主要学问，茅山派大多数武功、法术都要以它为基础。天师正道修行不够就强练道家武功法术，很容易走火入魔、坠入魔道；杀气太重的人，也修不了它。"
+msgstr "El saber principal de los taoístas; la mayor parte de las artes marciales y los conjuros de la Escuela del Monte Mao se apoyan en él. Quien fuerza artes o conjuros taoístas sin suficiente cultivo en el Camino de los Maestros Celestiales corre el riesgo de perder el control del Qi y caer en el camino demoníaco; y quien lleva demasiada Sed de sangre tampoco puede cultivarlo."
+
+msgid "法术类技能必须用学的或是从实战中获取经验。"
+msgstr "Las habilidades de conjuro solo se aprenden o se ganan con experiencia en combates reales."
+
+msgid "你的杀气太重，无法修炼天师正道。"
+msgstr "Tu Sed de sangre es demasiado pesada para cultivar el Camino de los Maestros Celestiales."
+
+msgid "道家的一门内功。人食五谷，肉身都带五谷秽气，谷衣心法把秽气排出体外，修成一层护体之气，叫作「谷衣」——神仙所修称「丹衣」，妖魔所修称「血衣」「土衣」。心法共分十层，练到第五层「小成」左眼珠变成金色，第十层「大成」两眼皆金；运起来能疗伤，也能以「灵神诀」把内力化为法力。"
+msgstr "Un neigong taoísta. Quien come grano lleva en la carne la impureza del grano; el Método interno de la túnica de grano expulsa esa impureza del cuerpo y forma una capa de Qi protector llamada «túnica de grano». La que cultivan los inmortales se llama «túnica de elixir», y la que cultivan los demonios, «túnica de sangre» o «túnica de tierra». El método tiene diez niveles: al quinto, el «logro menor», el ojo izquierdo se vuelve dorado; al décimo, el «gran logro», lo son los dos. Al hacerlo circular cura heridas, y con la «Fórmula del espíritu» convierte la Fuerza interior en Poder arcano."
+
+msgid "谷衣心法只能用学的，或是从运用中增加熟练度。"
+msgstr "El Método interno de la túnica de grano solo se aprende, o se mejora usándolo."
+
+msgid "你的魔力不够，无法提升谷衣心法的造诣。"
+msgstr "Tu Poder arcano no basta para avanzar en el Método interno de la túnica de grano."
+
+msgid "茅山派的剑法，招名「三清归真」「众士护佑」「群魔辟易」「西出紫关」，取道家护法驱魔之意。练这门剑须有相当的内力。"
+msgstr "La esgrima de la Escuela del Monte Mao: sus movimientos se llaman \"Los Tres Puros\", \"Protegido por la hueste\", \"Los demonios retroceden\" y \"Salida por el paso púrpura\", y recogen el sentido taoísta de proteger la fe y exorcizar demonios. Para practicar esta espada hace falta bastante Fuerza interior."
+
+msgid "你按著所学练了一遍天师剑法。"
+msgstr "Repasas la Espada del Maestro Celestial tal como la aprendiste."
+
+msgid "你的内力或气不够，没有办法练习天师剑法。"
+msgstr "No tienes Fuerza interior o Qi suficientes para practicar la Espada del Maestro Celestial."
+
+msgid "你的内力不够，没有办法练天师剑法。"
+msgstr "No tienes Fuerza interior suficiente para practicar la Espada del Maestro Celestial."
+
+msgid "$N一招「三清归真」，手中$w挽起几个剑花，刺向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"Los Tres Puros\" y {N:tu|su} $w{:0} dibuja unas flores de espada antes de lanzarse hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N身形一变，一招「众士护佑」，$w罩向$n的$l"
+msgstr "$N{:el} {N:cambias|cambia} de postura con \"Protegido por la hueste\", y {N:tu|su} $w{:0} se cierra sobre {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N挥动$w，一招「天人合一」挟著闪闪剑光袭向$n的$l"
+msgstr "$N{:el} {N:blandes|blande} {N:tu|su} $w{:0} y, con \"Cielo y hombre en uno\", {N:embistes|embiste} hacia {n:tu $l{:0}|$l{:el} de $n{:el}} entre destellos de espada"
+
+msgid "$N手中$w一抡，使出「群魔辟易」往$n的$l恶狠狠的砍去"
+msgstr "$N{:el} {N:haces|hace} girar {N:tu|su} $w{:0} y, con \"Los demonios retroceden\", {N:descargas|descarga} un tajo feroz hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N一招「西出紫关」，$w一带，轻轻划向$n$l"
+msgstr "$N{:el} {N:usas|usa} \"Salida por el paso púrpura\" y {N:pasas|pasa} {N:tu|su} $w{:0} con suavidad sobre {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N身剑合一，幻化成一道光华，一招「乾坤一掷」扑向$n"
+msgstr "$N{:el} {N:te fundes|se funde} con {N:tu|su} espada en un único destello de luz, y con \"Todo en una jugada\" {N:te lanzas|se lanza} sobre {n:ti|$n{:el}}"
+
+msgid "认字读书的本事。不识字就读不了任何书谱；识字越深，研读书册时长进越快。勤学苦读，悟性也会慢慢提高，有些讲究文墨的心法也要它做底子。"
+msgstr "La capacidad de leer y escribir. Sin saber leer no se puede estudiar ningún libro ni manual; cuanto mejor lees, más rápido avanzas con los libros. Si estudias con empeño, tu Ingenio también irá mejorando, y algunas artes de gusto letrado la necesitan como base."
+
+msgid "由於你的勤学苦读，你的悟性提高了。"
+msgstr "Gracias a tu empeño en el estudio, tu Ingenio ha mejorado."
+
+msgid "宫商声律的学问。音律之学有成，灵性会随之提高；步玄派的步玄七诀以音律为根底，音律修为不够，便领悟不了更深的诀窍。"
+msgstr "El saber de las notas y la afinación. Si tu estudio de la música madura, tu Espiritualidad crece con él; los Siete secretos del Paso Místico se apoyan en la música, y sin suficiente música no se pueden comprender sus trucos más profundos."
+
+msgid "由於你学习音律之学有成，你的灵性提高了"
+msgstr "Tu estudio de la música ha dado fruto, y tu Espiritualidad ha mejorado."
+
+msgid "吹拉弹拨的技艺，与音律之学互为表里。步玄派掌门骆云舟也传这一门。"
+msgstr "El oficio de soplar, frotar, pulsar y tocar, anverso y reverso del estudio de la música. Luo Yunzhou, Maestro de la Escuela del Paso Místico, también lo enseña."
+
+msgid "赶路奔走的根底。脚下快的人追得上人，也甩得开追兵；倒乱七星步、步玄七诀、火蝠身法这类身法，都能激发为行动。"
+msgstr "La base del caminar y el correr. Quien tiene pies rápidos alcanza a otros y se sacude a los perseguidores; pasos como los Pasos caóticos de las siete estrellas, los Siete secretos del Paso Místico o los Pasos del murciélago de fuego pueden aplicarse como movimiento."
+
+msgid "使杖、使棍的根底。山烟寺的流云杖法、绝尘派的金刚杖法都激发在它上面。"
+msgstr "La base del bastón y el palo. El Bastón de nubes que fluyen del Templo de la Bruma y el Bastón de vajra de la Escuela del Desapego se aplican sobre ella."
+
+msgid "暗器出手的功夫，准头与劲道都看它。晚月庄、花紫会的人多精于此道。"
+msgstr "El arte de lanzar armas ocultas; de él dependen la puntería y la fuerza. La gente de la Mansión Luna Tardía y de la Hermandad de los Mendigos suele dominarlo."
+
+msgid "临敌时凭风声辨出兵刃来路的本事，专门用来对付看不见的敌人：鬼魂、隐形的妖物，或是在光线昏暗的地方交手。"
+msgstr "El arte de distinguir por el sonido del viento por dónde viene un arma, hecho para enemigos que no se ven: fantasmas, criaturas invisibles o peleas con poca luz."
+
+msgid "顺手牵羊的手上功夫，下手越熟越不易被人察觉，运气好坏也有几分关系。花紫会龙头陆得财懂这一手，街上的飞贼也靠它吃饭。"
+msgstr "Maña de manos largas: cuanto más ducha la mano, menos fácil es que te noten, y la suerte también cuenta. Lu Decai, Cabeza de Dragón de la Hermandad de los Mendigos, conoce la treta, y los ladrones de tejados de las calles viven de ella."
+
+msgid "模拟灵兽天邪虎神态的掌法，与天邪神功相配而成，招式有「大天罗式」「小天罗式」「雪阳三连月」「灵动五方鼓」「风雷七星断」。须空手练，天邪神功火候不足、内力太弱都练不成。"
+msgstr "Un estilo de palma que imita la estampa del Tigre rebelde, bestia espiritual, nacido para hacer pareja con el Arte rebelde. Sus movimientos incluyen \"Gran red celeste\", \"Pequeña red celeste\", \"Tres lunas sobre la nieve\", \"Tambor de las cinco direcciones\" y \"Truenos de las siete estrellas\". Se practica con las manos desnudas, y no se aprende con poco Arte rebelde ni con Fuerza interior débil."
+
+msgid "你的内力不够了，休息一下再练吧。"
+msgstr "Te has quedado sin Fuerza interior. Descansa un poco antes de volver a entrenar."
+
+msgid "练天邪神掌必须空手。"
+msgstr "La Palma indómita se practica con las manos desnudas."
+
+msgid "你的天邪神功火候不足，无法练天邪掌法。"
+msgstr "Tu Arte rebelde no está lo bastante maduro para practicar la Palma indómita."
+
+msgid "你的内力太弱，无法练天邪掌法。"
+msgstr "Tu Fuerza interior es demasiado débil para practicar la Palma indómita."
+
+msgid "$N使出一招「大天罗式」，右掌穿出击向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"Gran red celeste\" y {N:lanzas|lanza} la palma derecha hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N使出一招「大天罗式」，左掌化虚为实击向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"Gran red celeste\": {N:tu|su} palma izquierda pasa de finta a golpe real hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N使出天邪掌法「小天罗式」，如鬼魅般欺至$n身前，一掌拍向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"Pequeña red celeste\", de la Palma indómita, {N:te acercas|se acerca} a {n:ti|$n{:el}} como un espectro y {N:descargas|descarga} una palmada hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N双掌一错，使出「雪阳三连月」，对准$n的$l连续拍出三掌"
+msgstr "$N{:el} {N:cruzas|cruza} las palmas y, con \"Tres lunas sobre la nieve\", {N:golpeas|golpea} tres veces seguidas hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N左掌画了个圈圈，右掌推出，一招「灵动五方鼓」击向$n$l"
+msgstr "$N{:el} {N:trazas|traza} un círculo con la palma izquierda y {N:empujas|empuja} la derecha: \"Tambor de las cinco direcciones\", hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N使出「风雷七星断」，身形散作七处同时向$n的$l出掌攻击"
+msgstr "$N{:el} {N:usas|usa} \"Truenos de las siete estrellas\": {N:tu|su} cuerpo se reparte en siete a la vez, y cada uno golpea con la palma hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N吐气扬声，一招「气撼九重天」双掌并力推出"
+msgstr "$N{:el} {N:exhalas|exhala} con un grito y, con \"El Qi sacude los nueve cielos\", {N:empujas|empuja} las dos palmas a la vez"
+
+msgid "本是道家魔道的武功。三百年前一位天邪派前辈在首穷山一处废墟中得到六阴剑谱，谱分天殇、追魂、绝识三部，他年轻时练武伤了经脉，只练成追魂一部，另外两部至今下落不明。天邪派所传的追魂剑经三百多年演变，戾气消去不少而劲道更增，虽已失传了不少阴毒招式，仍是武林中赫赫有名的剑法。"
+msgstr "En origen, un arte marcial del camino demoníaco taoísta. Hace trescientos años un anciano de la Escuela Rebelde halló en unas ruinas del monte Shouqiong el Manual de la espada de los seis yin, que se dividía en tres partes: Ruina del cielo, Persecución del alma y Corte de la conciencia; de joven se dañó los meridianos al practicar y solo logró dominar la de Persecución del alma, y las otras dos siguen perdidas. En más de trescientos años de transmisión, la espada de Persecución del alma de la Escuela Rebelde ha perdido buena parte de su veneno y ganado fuerza, y aunque se hayan perdido muchos de sus movimientos más crueles, sigue siendo una espada de gran fama en el wulin."
+
+msgid "你按著所学练了一遍六阴追魂剑法。"
+msgstr "Repasas la Espada de los seis yin tal como la aprendiste."
+
+msgid "你的内力或气不够，没有办法练习六阴追魂剑。"
+msgstr "No tienes Fuerza interior o Qi suficientes para practicar la Espada de los seis yin."
+
+msgid "你的内力不够，没有办法练六阴追魂剑。"
+msgstr "No tienes Fuerza interior suficiente para practicar la Espada de los seis yin."
+
+msgid "你突然觉得一股恶气冲上心头，只觉得想杀人...."
+msgstr "De pronto un rencor malsano te sube al corazón, y lo único que quieres es matar..."
+
+msgid "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连攻数剑"
+msgstr "$N{:el} {N:usas|usa} \"Danza desatada de demonios\" y {N:tu|su} $w{:0} cae como una tormenta, tajo tras tajo, hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N身形一转，一招「厉鬼缠身」$w斩向$n的$l"
+msgstr "$N{:el} {N:giras|gira} el cuerpo con \"Fantasma furioso se aferra\", y {N:tu|su} $w{:0} corta hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N舞动$w，一招「百鬼夜行」挟著闪闪剑光刺向$n的$l"
+msgstr "$N{:el} {N:blandes|blande} {N:tu|su} $w{:0} y, con \"Desfile nocturno de cien fantasmas\", {N:atacas|ataca} hacia {n:tu $l{:0}|$l{:el} de $n{:el}} entre destellos de espada"
+
+msgid "$N手中$w一抖，使出「饿鬼拦路」往$n的$l刺出一剑"
+msgstr "$N{:el} {N:sacudes|sacude} {N:tu|su} $w{:0} y, con \"Fantasma hambriento cierra el paso\", {N:lanzas|lanza} una estocada hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N手中$w剑光暴长，一招「鬼影幢幢」往$n$l刺去"
+msgstr "La luz de {N:tu $w{:0}|$w{:el} de $N{:el}} se alarga de golpe y, con \"Sombras de fantasmas\", se lanza hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N手中$w直指$n$l，一招「秋坟鬼唱」发出逼人剑气刺去"
+msgstr "$N{:el} {N:apuntas|apunta} {N:tu|su} $w{:0} hacia {n:tu $l{:0}|$l{:el} de $n{:el}} y, con \"Canto fantasma en la tumba de otoño\", {N:atacas|ataca} con un filo de espada que oprime"
+
+msgid "仿蝙蝠夜飞的身法，招名「寒蝠掠江」「轻蝠点梢」「夜蝠旋身」「火蝠曳空」，侧身一让，便叫来招扑了个空。天邪派与振远镖局都有高手使这门身法。"
+msgstr "Pasos que imitan el vuelo nocturno de los murciélagos, con movimientos llamados \"Murciélago frío roza el río\", \"Murciélago ligero sobre la rama\", \"Murciélago nocturno gira\" y \"Murciélago de fuego surca el cielo\": un paso de lado, y el ataque se lanza contra el aire vacío. Hay maestros de estos pasos en la Escuela Rebelde y en los Escoltas del Largo Camino."
+
+msgid "你的体力太差了，不能练火蝠身法。"
+msgstr "No tienes fuerzas suficientes para practicar los Pasos del murciélago de fuego."
+
+msgid "可是$p侧身一让，使出「寒蝠掠江」，$N这一招扑了个空。"
+msgstr "Pero $n{:el} {n:te echas|se echa} a un lado con \"Murciélago frío roza el río\", y el ataque de {N:ti|$N{:el}} se lanza contra el aire vacío."
+
+msgid "$p身形微晃，使出「灵蝠轻逝」，有惊无险地避开了$N这一招。"
+msgstr "$n{:el} {n:te meces|se mece} un instante con \"El murciélago espiritual se esfuma\" y {n:evitas|evita} por un pelo el ataque de {N:ti|$N{:el}}."
+
+msgid "$p身随意转，一式「轻蝠点梢」，倏地往一旁挪开了三尺，避过了这一招。"
+msgstr "$n{:el} {n:te vuelves|se vuelve} a voluntad con \"Murciélago ligero sobre la rama\" y, en un parpadeo, {n:te apartas|se aparta} casi un metro, fuera del ataque."
+
+msgid "却见$p足不点地，一招「夜蝠旋身」，往旁窜开数尺，躲了开去。"
+msgstr "Pero $n{:el}, con los pies apenas rozando el suelo, {n:usas|usa} \"Murciélago nocturno gira\" y {n:te lanzas|se lanza} varios pasos de lado, fuera del alcance."
+
+msgid "只见$p一招「火蝠曳空」，身形向上拔起数尺高，闪了过去。"
+msgstr "$n{:el} {n:usas|usa} \"Murciélago de fuego surca el cielo\" y {n:te elevas|se eleva} varios pasos hacia arriba, fuera del golpe."
+
+msgid "晚月庄的舞步身法，招名「蕙芳下凡」「双成献舞」「织女于归」「天女散花」「嫦娥奔月」，翩然起舞之间，已飘出数尺之外。只有女子才能练，又看灵性；勤练舞技，容貌也会更添光彩。"
+msgstr "La danza de la Mansión Luna Tardía: sus movimientos se llaman \"Hada Orquídea desciende\", \"Shuangcheng baila\", \"La Tejedora se casa\", \"La doncella celeste esparce flores\" y \"Chang'e vuela a la luna\", y entre giros de baile ya te has apartado varios pasos. Solo pueden practicarla las mujeres, y depende de la Espiritualidad; si entrenas la danza, tu Apariencia también ganará brillo."
+
+msgid "你的精神太差了，不能练七宝天岚舞。"
+msgstr "Tu Espíritu está demasiado flojo para practicar la Danza de la tormenta celeste."
+
+msgid "七宝天岚舞只有女性才能练。"
+msgstr "La Danza de la tormenta celeste solo pueden practicarla las mujeres."
+
+msgid "你的灵性不够，没有办法练七宝天岚舞。"
+msgstr "Tu Espiritualidad no basta para practicar la Danza de la tormenta celeste."
+
+msgid "由於你勤练舞技，你的容貌提高了"
+msgstr "Gracias a tu empeño en la danza, tu Apariencia ha mejorado."
+
+msgid "但$n一式「蕙芳下凡」随著轻轻一叹，顺著$N的招式飘出六尺之外！"
+msgstr "Pero $n{:el}, con un leve suspiro, {n:usas|usa} \"Hada Orquídea desciende\" y {n:te alejas|se aleja} flotando casi dos metros siguiendo el ataque de {N:ti|$N{:el}}."
+
+msgid "$n双脚微动翩然起舞，一招「双成献舞」，堪堪闪过$N的这招！"
+msgstr "$n{:el} {n:mueves|mueve} los pies en un baile grácil con \"Shuangcheng baila\" y {n:esquivas|esquiva} por muy poco el ataque de {N:ti|$N{:el}}."
+
+msgid "$n使出「织女于归」，突然幻化成一双倩影，$N从其中一人透体而过！"
+msgstr "$n{:el} {n:usas|usa} \"La Tejedora se casa\" y {n:te desdoblas|se desdobla} de pronto en dos siluetas hermosas: ¡$N{:el} {N:atraviesas|atraviesa} limpiamente a una de ellas!"
+
+msgid "$n一式「天女散花」，自水袖中散出一片花雨，$N被花影迷蒙了双眼，与$n擦肩而过"
+msgstr "$n{:el} {n:usas|usa} \"La doncella celeste esparce flores\" y {n:esparces|esparce} una lluvia de pétalos desde las mangas; $N{:el} {N:quedas|queda} con los ojos nublados por la sombra de las flores y {N:pasas|pasa} rozando a {n:ti|$n{:el}}"
+
+msgid "$n一招「嫦娥奔月」，轻轻一纵优雅的自$N头顶越过！"
+msgstr "$n{:el} {n:usas|usa} \"Chang'e vuela a la luna\" y {n:saltas|salta} con ligereza y elegancia por encima de {N:tu cabeza|la cabeza de $N{:el}}"
+
+msgid "神通一类法门的根底：灵力的上限看它，施展神通要用灵力。山烟寺的八识神通便激发在它上面。"
+msgstr "La base de las artes del poder místico: de ella depende el tope del Poder místico, y usar un poder místico cuesta Poder místico. El Poder de las ocho conciencias del Templo de la Bruma se aplica sobre ella."
+
+msgid "念咒施法的根底：法力的上限看它，冥思积下的法力才有地方存。茅山道术、奇门遁甲这些法术都激发在它上面。"
+msgstr "La base de lanzar conjuros: de ella depende el tope del Poder arcano, y es donde cabe el Poder arcano que acumulas contemplando. Artes como la Hechicería del Monte Mao o el Qimen Dunjia se aplican sobre ella."
+
+msgid "道家旁门的一路学问，绝尘派的奇门遁甲以它为根基，小天魔道修为不够，便领悟不了更深的遁甲之术。它只能向师父学，或在实战中体会；每有长进，杀气也跟着重一分。"
+msgstr "Un saber de las sendas laterales del taoísmo. El Qimen Dunjia de la Escuela del Desapego se apoya en él, y sin suficiente Saber demoníaco menor no se pueden comprender sus artes más hondas. Solo se aprende de un Shifu o se capta en combates reales, y cada avance hace un poco más pesada tu Sed de sangre."
+
+msgid "绝尘派的法术。口中念咒，大喝一声「疾！」，或化作黑气、金光、火焰、长虹、大雾遁去无踪，或以黑气、金光、火焰、海水、大木把敌人困在当中；战到危急，还能召来天将相助。须以小天魔道为根基。"
+msgstr "La hechicería de la Escuela del Desapego. Se recita un conjuro y se grita \"¡Presto!\": o bien te esfumas sin dejar rastro convertido en vapor negro, luz dorada, llamas, arcoíris o niebla espesa, o bien atrapas al enemigo dentro de vapor negro, luz dorada, llamas, agua de mar o grandes árboles; cuando el combate se pone crítico, hasta puedes llamar a un general celestial en tu ayuda. Debe apoyarse en el Saber demoníaco menor."
+
+msgid "你的小天魔道修为不够，无法领悟更高深的奇门遁甲之术。"
+msgstr "Tu Saber demoníaco menor no es lo bastante profundo para comprender las artes más elevadas del Qimen Dunjia."
+
+msgid "绝尘派的本门内功。绝尘子本是释家中人，后得奇人指点，悟得道家真谛，佛道双修，自号绝尘，创下此派；这门心法只能向师父学，或在运功中慢慢精熟。"
+msgstr "El neigong propio de la Escuela del Desapego. Juechenzi fue en origen un budista; guiado después por un hombre extraordinario, comprendió el verdadero sentido del taoísmo, cultivó a la vez budismo y taoísmo, se dio el nombre de Juechen, «Desapego», y fundó esta escuela. El método solo se aprende de un Shifu o se va perfeccionando poco a poco al hacerlo circular."
+
+msgid "绝尘心法只能用学的或是从运用中增加熟练度。"
+msgstr "El Método interno del Desapego solo se aprende, o se mejora usándolo."
+
+msgid "绝尘派所传的杖法，招式与山烟寺的流云杖法相同，是「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」四式，起手一杖专扫下盘。练这门杖须有相当的膂力，膂力不足的人宜先把内力练足。"
+msgstr "El estilo de bastón que transmite la Escuela del Desapego; sus movimientos son los mismos del Bastón de nubes que fluyen del Templo de la Bruma: las cuatro formas \"Irrumpe la primera luz\", \"Claro tras la lluvia\", \"Pincelada de nubes\" y \"Dragón errante cruza las nubes\", y la primera barre bajo, contra las piernas. Para practicarlo hace falta bastante Fuerza; quien no la tenga hará bien en entrenar primero su Fuerza interior."
+
+msgid "你必须先找一根木杖或者是类似的武器，才能练杖法。"
+msgstr "Primero necesitas un bastón de madera o un arma parecida para practicar el arte del bastón."
+
+msgid "你的体力不够练这门杖法，还是先休息休息吧。"
+msgstr "No tienes fuerzas para este estilo de bastón. Mejor descansa primero."
+
+msgid "你的膂力还不够，也许该练一练内力来增强力量。"
+msgstr "Todavía no tienes Fuerza suficiente. Quizá deberías entrenar tu Fuerza interior para aumentarla."
+
+msgid "$N使一招「天光乍现」，手中$w扫向$n下盘！"
+msgstr "$N{:el} {N:usas|usa} \"Irrumpe la primera luz\" y {N:tu|su} $w{:0} barre {n:tus piernas|las piernas de $n{:el}}"
+
+msgid "挫伤"
+msgstr "contusión"
+
+msgid "$N挥起$w，一招「雨後初晴」攻向$n$l！"
+msgstr "$N{:el} {N:alzas|alza} {N:tu|su} $w{:0} y, con \"Claro tras la lluvia\", {N:atacas|ataca} hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N横过手中$w，使出「浮云写意」击向$n$l！"
+msgstr "$N{:el} {N:cruzas|cruza} {N:tu|su} $w{:0} en horizontal y, con \"Pincelada de nubes\", {N:golpeas|golpea} hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N使出一招「游龙穿云」，$w一挺撞向$n$l！"
+msgstr "$N{:el} {N:usas|usa} \"Dragón errante cruza las nubes\" y {N:tu|su} $w{:0} se proyecta hacia delante y embiste contra {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "山烟寺的杖法，招名「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」，可攻可守。番坊日陀罗寺的龙若法王也传这门杖法。练这门杖须有相当的膂力。"
+msgstr "El estilo de bastón del Templo de la Bruma, con los movimientos \"Irrumpe la primera luz\", \"Claro tras la lluvia\", \"Pincelada de nubes\" y \"Dragón errante cruza las nubes\"; sirve para atacar y para defender. El Rey del Dharma Longruo, del Templo Ritola del Barrio Extranjero, también enseña este bastón. Para practicarlo hace falta bastante Fuerza."
+
+msgid "五百多年前北冥大泽的黑妖蛇族入侵，一群佛门高僧集思广益，悟出这套心法为百姓疗伤，主要用来迅速医治战斗中所受的皮肉创伤。运起功来既能医治自己，也能替别人疗伤；须以大乘佛法为根基，佛法修为跟不上，便领会不了更深的境界。"
+msgstr "Hace más de quinientos años, cuando invadió el clan de las serpientes negras demoníacas de la Gran ciénaga de Beiming, un grupo de monjes budistas eminentes juntó su ingenio y alcanzó este método para curar al pueblo; sirve sobre todo para tratar con rapidez las heridas de la carne recibidas en combate. Al hacerlo circular cura a uno mismo o a otros; debe apoyarse en el Dharma mahayana, y si el Dharma no sigue el paso, no se pueden comprender sus niveles más hondos."
+
+msgid "莲华心法只能用学的，或是从运用中增加熟练度。"
+msgstr "El Método interno del loto solo se aprende, o se mejora usándolo."
+
+msgid "你的大乘佛法修为不够，无法领会更高深的莲华心法。"
+msgstr "Tu cultivo del Dharma mahayana no es lo bastante profundo para comprender el Método interno del loto más elevado."
+
+msgid "从天竺传来的一部内功，性子是火性的：运起来浑身发热，专克阴寒。只能用学的，没有运功的法门；中原只有日陀罗寺的人会，独眼头陀那只眼就是练它练坏的。"
+msgstr "Un neigong llegado de la India, de naturaleza ardiente: al hacerlo circular el cuerpo entero se calienta, y es el azote del frío yin. Solo se aprende, y no tiene método para hacerlo circular. En las Llanuras Centrales solo lo conoce la gente del Templo Ritola; el ojo del Asceta tuerto se arruinó precisamente entrenándolo."
+
+msgid "婆萝蜜多心经只能用学的。"
+msgstr "El Sutra del Corazón solo se aprende."
+
+msgid "佛门的根本学问，莲华心法、八识神通都以它为根基。杀气太重的人，修不了大乘佛法。"
+msgstr "El saber fundamental del budismo; el Método interno del loto y el Poder de las ocho conciencias se apoyan en él. Quien lleva demasiada Sed de sangre no puede cultivar el Dharma mahayana."
+
+msgid "你的杀气太重，无法修炼大乘佛法。"
+msgstr "Tu Sed de sangre es demasiado pesada para cultivar el Dharma mahayana."
+
+msgid "佛门弟子的日课，晨钟暮鼓之间念诵经文。山烟寺、日陀罗寺的僧人都会这一门。"
+msgstr "La tarea diaria de los discípulos budistas: recitar sutras entre la campana de la mañana y el tambor de la tarde. Los monjes del Templo de la Bruma y del Templo Ritola dominan este arte."
+
+msgid "佛家一门十分神奇的神通法术，由六百年前的高僧空正大师传下。神通分为八识，各以人的一种隐藏潜力为动力，如今传下来的有三识：心识救醒昏迷濒死之人，游识一念之间便到你见过的人身边，空识把灵力化为潜能。须与高深的佛法相辅，佛法修为不够便学不了。"
+msgstr "Un arte mística budista muy prodigiosa, transmitida hace seiscientos años por el eminente monje Maestro Kongzheng. El poder se divide en ocho conciencias, cada una movida por un potencial oculto de la persona, y hoy se conservan tres: la conciencia del corazón despierta a quien yace inconsciente y al borde de la muerte; la conciencia errante te lleva en un pensamiento junto a alguien que has visto; y la conciencia vacía convierte el Poder místico en Potencial. Debe ir de la mano de un Dharma profundo; si el Dharma no basta, no se puede aprender."
+
+msgid "你的佛法修为还不够高深，无法学习八识神通。"
+msgstr "Tu cultivo del Dharma aún no es lo bastante profundo para aprender el Poder de las ocho conciencias."
+
+msgid "使鞭的根底，软鞭出手要收得回来。晚月庄的寒雪鞭法激发在它上面。"
+msgstr "La base del látigo: un látigo blando que sale de la mano tiene que poder volver. El Látigo de nieve fría de la Mansión Luna Tardía se aplica sobre ella."
+
+msgid "使锤一类重兵器的根底，凭的是一身力气。"
+msgstr "La base de los martillos y otras armas pesadas; todo depende de la fuerza bruta."
+
+msgid "使斧的根底，大开大合，一斧下去要劈得开。"
+msgstr "La base del hacha: balanceos grandes y abiertos, y cada golpe tiene que partir lo que alcance."
+
+msgid "使匕首一类短刃的根底，贴身近打，出手要快。"
+msgstr "La base de las dagas y otras hojas cortas: pelea de cerca, y la mano tiene que ser rápida."
+
+msgid "使钢叉一类长兵的根底。阴间的鬼卒，手里多是钢叉。"
+msgstr "La base de los tridentes y otras armas largas. Los soldados fantasma del Inframundo suelen llevar tridentes."
+
+msgid "晚月庄的指法，只有女子才能练，须空手。招名「菊楼采月」「雪桥翦梅」「柳亭簪花」「桃坟扑蝶」，身影忽前忽后，一转身指尖已点到要害。"
+msgstr "El arte de dedos de la Mansión Luna Tardía, solo para mujeres, y con las manos desnudas. Sus movimientos se llaman \"Luna de crisantemo\", \"Ciruelo cortado en el puente de nieve\", \"Flor de horquilla en el pabellón del sauce\" y \"Mariposa sobre la tumba de durazno\"; la silueta va y viene, y al girar la yema del dedo ya ha tocado un punto vital."
+
+msgid "你的内力不够了。"
+msgstr "Tu Fuerza interior se ha agotado."
+
+msgid "你的精神无法集中了，休息一下再练吧。"
+msgstr "No logras mantener la mente concentrada. Descansa un poco antes de volver a entrenar."
+
+msgid "柔虹指是只有女子才能练的武功。"
+msgstr "Solo las mujeres pueden aprender el Dedo del arcoíris suave."
+
+msgid "练柔虹指必须空手。"
+msgstr "El Dedo del arcoíris suave se practica con las manos desnudas."
+
+msgid "$N左手一挥，一招「菊楼采月」右手点向$n$l"
+msgstr "$N{:el} {N:agitas|agita} la mano izquierda y, con \"Luna de crisantemo\", {N:señalas|señala} con la derecha hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "右手食指"
+msgstr "dedo índice derecho"
+
+msgid "$N使一招「雪桥翦梅」，身影忽前忽後，突然一转身左手往$n的$l点去"
+msgstr "$N{:el} {N:usas|usa} \"Ciruelo cortado en el puente de nieve\": la silueta va y viene y, de pronto, {N:giras|gira} y {N:señalas|señala} con la izquierda hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "左手中指"
+msgstr "dedo medio izquierdo"
+
+msgid "$N身法稍顿，左手一扬使出「柳亭簪花」往$n的$l点去"
+msgstr "$N{:el} {N:detienes|detiene} un instante el paso, {N:alzas|alza} la mano izquierda con \"Flor de horquilla en el pabellón del sauce\" y {N:señalas|señala} hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "只见$N纤腰一摆，陡然滑出数尺，右手顺著来势一招「桃坟扑蝶」往$n的$l点去"
+msgstr "$N{:el} {N:meces|mece} la cintura esbelta y {N:te deslizas|se desliza} de pronto varios pasos; siguiendo el impulso, con \"Mariposa sobre la tumba de durazno\" {N:señalas|señala} con la derecha hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "晚月庄的鞭法，从「寒风起兮」「漫天飞雪」到「狂风骤雪」「风雪交加」，鞭影如满天飞雪，虚虚实实地袭人。须有足够的内力才能练。"
+msgstr "El arte de látigo de la Mansión Luna Tardía, de \"Se alza el viento frío\" y \"Nieve llena el cielo\" a \"Vendaval y nevasca\" y \"Ventisca\": las sombras del látigo caen como nieve por todo el cielo, entre lo falso y lo cierto. Hace falta Fuerza interior suficiente para practicarlo."
+
+msgid "你按著所学练了一遍寒雪鞭法。"
+msgstr "Repasas el Látigo de nieve fría tal como lo aprendiste."
+
+msgid "你的内力或气不够，没有办法练习寒雪鞭法。"
+msgstr "No tienes Fuerza interior o Qi suficientes para practicar el Látigo de nieve fría."
+
+msgid "你的内力不够，没有办法练寒雪鞭法, 多练些内力再来吧。"
+msgstr "No tienes Fuerza interior suficiente para practicar el Látigo de nieve fría; vuelve cuando hayas entrenado más."
+
+msgid "你必须先找一条鞭子才能练鞭法。"
+msgstr "Primero necesitas un látigo para practicar el arte del látigo."
+
+msgid "$N使一招「寒风起兮」，手中$w抖得笔直向$n的$l连刺数鞭"
+msgstr "$N{:el} {N:usas|usa} \"Se alza el viento frío\" y {N:tu|su} $w{:0} se tensa recto y se clava una y otra vez hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N身形一转，一招「漫天飞雪」$w幻出满天鞭影，虚虚实实地袭向$n的$l"
+msgstr "$N{:el} {N:giras|gira} el cuerpo con \"Nieve llena el cielo\", y {N:tu|su} $w{:0} llena el aire de sombras de látigo, entre lo falso y lo cierto, hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N力贯$w，一招「雪花翩翩」点点鞭影飘浮不定地点向$n的$l"
+msgstr "$N{:el} {N:cargas|carga} fuerza en {N:tu|su} $w{:0} y, con \"Copos que danzan\", motas de sombra de látigo caen inciertas sobre {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N手中$w一抖，一招「积雪三尺」以一个怪异的角度往$n下盘卷去"
+msgstr "$N{:el} {N:sacudes|sacude} {N:tu|su} $w{:0} y, con \"Nieve de tres pies\", esta se enrosca en un ángulo extraño contra {n:tus piernas|las piernas de $n{:el}}"
+
+msgid "$N手中一紧，使招「狂风骤雪」，手里$w一鞭接著一鞭不停地抽向$n的$l"
+msgstr "$N{:el} {N:aprietas|aprieta} la mano y, con \"Vendaval y nevasca\", {N:azotas|azota} con {N:tu|su} $w{:0} hacia {n:tu $l{:0}|$l{:el} de $n{:el}}, golpe tras golpe y sin pausa"
+
+msgid "鞭伤"
+msgstr "verdugón"
+
+msgid "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身"
+msgstr "$N{:el} {N:usas|usa} \"Ventisca\" y {N:tu|su} $w{:0} baila en una cortina de sombras de látigo que barre todo el cuerpo de {n:ti|$n{:el}}"
+
+msgid "三十年前以一柄拂尘横扫武林的前辈异人残心师太所创的内功心法，纯走阴柔之路，发出的内劲寒冷无比；传说她曾在沙牢山一掌冻住七只雪狼，堪称当今寒冰掌一路中最凌厉的奇功。交手时阴寒之气常叫对方打个寒噤，运起「意寒睨」，更能以冰冷如刀的眼神伤敌。"
+msgstr "Un neigong creado hace treinta años por la Abadesa Canxin, extraordinaria veterana que barrió el wulin con un espantamoscas de crin. Sigue solo la vía yin y suave, y la fuerza interior que emite es de un frío extremo; cuentan que en el monte Shalao congeló con una sola palma a siete lobos de nieve, y bien puede ser el arte más implacable de los de palma helada de hoy. En combate, su frío yin hace tiritar a menudo al rival, y al hacer circular la «Mirada de la intención helada» puedes herir al enemigo con una mirada fría como una hoja."
+
+msgid "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。"
+msgstr "{N:Tu ataque trae|El ataque de $N{:el} trae} un viento de frío yin tan intenso que {n:no puedes evitar tiritar|$n{:el} no puede evitar tiritar}."
+
+msgid "意寒功只能用学的，或是从运用中增加熟练度。"
+msgstr "El Arte de la intención helada solo se aprende, o se mejora usándolo."
+
+msgid "天山一脉的独门内功，只能向师父学，或在运功中慢慢精熟；雪影剑法必须以它为根基。"
+msgstr "El neigong propio de la línea de Tianshan; solo se aprende de un Shifu o se va perfeccionando poco a poco al hacerlo circular; la Espada de la sombra de nieve debe apoyarse en él."
+
+msgid "天山雪影心法只能用学的或是从运用中增加熟练度。"
+msgstr "El Método interno de la sombra de nieve de Tianshan solo se aprende, o se mejora usándolo."
+
+msgid "天山雪影剑，招名「回光幻电」「风霜碎影」「残阳照雪」「冰谷初虹」「长空雷隐」「断石狼烟」，剑光疾如闪电，身形飘忽如雪影。必须配合天山魔教的独门雪影心法才能练，内力不足也练不成。"
+msgstr "La Espada de la sombra de nieve de Tianshan, con movimientos llamados \"Relámpago fantasma\", \"La escarcha rompe sombras\", \"Sol poniente sobre la nieve\", \"Arcoíris del valle helado\", \"Trueno en el cielo abierto\" y \"Almenara de piedra rota\": la luz de la espada es rápida como un relámpago y el cuerpo flota como una sombra sobre la nieve. Solo puede practicarse junto con el Método interno de la sombra de nieve, propio de la Orden Demoníaca de Tianshan, y no con poca Fuerza interior."
+
+msgid "你按著所学练了一遍雪影剑法。"
+msgstr "Repasas la Espada de la sombra de nieve tal como la aprendiste."
+
+msgid "你的内力或气不够，没有办法练习雪影剑法。"
+msgstr "No tienes Fuerza interior o Qi suficientes para practicar la Espada de la sombra de nieve."
+
+msgid "你的内力不够，没有办法练雪影剑法。"
+msgstr "No tienes Fuerza interior suficiente para practicar la Espada de la sombra de nieve."
+
+msgid "雪影剑法必须配合天山魔教的独门雪影心法才能练。"
+msgstr "La Espada de la sombra de nieve solo se puede practicar junto con el Método interno de la sombra de nieve, propio de la Orden Demoníaca de Tianshan."
+
+msgid "$N使一招「回光幻电」，手中$w幻一条疾光刺向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"Relámpago fantasma\" y {N:tu|su} $w{:0} se vuelve un rayo de luz veloz que se lanza hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N使出天山雪影剑中的「风霜碎影」，$w连挥剑光霍霍斩向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"La escarcha rompe sombras\", de la Espada de la sombra de nieve de Tianshan, y {N:tu|su} $w{:0} destella una y otra vez al cortar hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N一招「残阳照雪」，纵身飘开数尺，手中$w斩向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"Sol poniente sobre la nieve\": {N:te desplazas|se desplaza} flotando varios pasos y {N:tu|su} $w{:0} corta hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N手中$w中宫直进，一式「冰谷初虹」对准$n的$l刺出一剑"
+msgstr "$N{:el} {N:lanzas|lanza} {N:tu|su} $w{:0} recto por el centro con \"Arcoíris del valle helado\", en una estocada hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N纵身一跃，手中$w一招「长空雷隐」对准$n的$l斜斜刺出一剑"
+msgstr "$N{:el} {N:saltas|salta}, y {N:tu|su} $w{:0} cae en diagonal hacia {n:tu $l{:0}|$l{:el} de $n{:el}} con \"Trueno en el cielo abierto\""
+
+msgid "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l"
+msgstr "$N{:el} {N:apuntas|apunta} con {N:tu|su} $w{:0} al vacío y, con \"Almenara de piedra rota\", {N:lanzas|lanza} una estocada hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "四百年前「秃笔狂生」骆步玄的成名武功。他原是一介书生，未曾拜师学艺，十九岁起赴京应试，屡试不中，某年考完步出试场，偶一抬头望见街边书肆的一幅对子，竟悟出一套神奇的武功，从此闯荡江湖未逢敌手，五十岁回京定居，创立了步玄派。步玄七诀号称天下轻功「轻捷第一」，姿态潇洒有如书法，第一式「玄羽乱舞」能在短时间里加快身法；须配合步玄心法，又以音律之学为根底。"
+msgstr "La obra que dio fama a Luo Buxuan, «el Loco del Pincel Pelado», hace cuatrocientos años. Era un simple letrado que nunca estudió con maestro alguno. Desde los diecinueve años iba a la capital a presentarse a los exámenes y siempre suspendía; un año, al salir de la sala del examen, alzó la vista por casualidad y vio unos versos pareados en una librería de la calle, y de ellos dedujo un arte marcial prodigioso. Desde entonces recorrió el jianghu sin encontrar rival, y a los cincuenta años se estableció en la capital y fundó la Escuela del Paso Místico. Se dice que los Siete secretos del Paso Místico son el qinggong «más ligero bajo el cielo», de porte elegante como la caligrafía; la primera forma, \"Plumas oscuras en danza\", acelera los pasos por un breve tiempo. Debe usarse junto con el Método interno del Paso Místico, y se apoya en el estudio de la música."
+
+msgid "你的气或神不够，不能练步玄七诀。"
+msgstr "No tienes Qi o Espíritu suficientes para practicar los Siete secretos del Paso Místico."
+
+msgid "步玄七诀必须配合步玄心法使用。"
+msgstr "Los Siete secretos del Paso Místico deben usarse junto con el Método interno del Paso Místico."
+
+msgid "你的音律之学修为不够，无法领悟更高深的步玄七诀。"
+msgstr "Tu estudio de la música no es lo bastante profundo para comprender los Siete secretos del Paso Místico más elevados."
+
+msgid "$n身影一转，轻易地避开了这一招。"
+msgstr "$n{:el} {n:te giras|se gira} y {n:evitas|evita} el ataque sin esfuerzo."
+
+msgid "$n身法飘忽，左一点，右一顿，早已闪在一旁。"
+msgstr "$n{:el} {n:te mueves|se mueve} con ligereza: un toque a la izquierda, una pausa a la derecha, y ya {n:estás|está} a un lado."
+
+msgid "但是$n身影一侧，在间不容发之际从容地避开了这一招。"
+msgstr "Pero $n{:el} {n:te ladeas|se ladea} y, con un pelo de margen, {n:evitas|evita} el ataque con calma."
+
+msgid "$n身形陡然拔高，使$N的攻势尽数落空。"
+msgstr "$n{:el} {n:te elevas|se eleva} de golpe y el ataque de {N:ti|$N{:el}} no encuentra más que aire."
+
+msgid "$n右足一点，身影向左滑开数尺，避了开去。"
+msgstr "$n{:el} {n:te impulsas|se impulsa} con el pie derecho y {n:te deslizas|se desliza} varios pasos hacia la izquierda, fuera del camino."
+
+msgid "步玄派的本门内功，只能向师父学，或在运功中慢慢精熟；步玄七诀、小步玄剑都要以它为根基。"
+msgstr "El neigong propio de la Escuela del Paso Místico; solo se aprende de un Shifu o se va perfeccionando poco a poco al hacerlo circular. Los Siete secretos del Paso Místico y la Espada menor del Paso Místico se apoyan en él."
+
+msgid "步玄心法只能学，或是从运用中增加熟练度。"
+msgstr "El Método interno del Paso Místico solo se aprende, o se mejora usándolo."
+
+msgid "步玄派的剑法，招名「暮雪三叹」「处子弄笛」「阳谷白练」，出剑急如骤雨。须先有相当火候的步玄心法，内力不足也练不成。"
+msgstr "La esgrima de la Escuela del Paso Místico, con movimientos llamados \"Tres suspiros en la nieve del ocaso\", \"La doncella toca la flauta\" y \"Seda blanca del valle soleado\"; la espada llega rápida como un aguacero. Hace falta antes un Método interno del Paso Místico de cierto temple, y no se aprende con poca Fuerza interior."
+
+msgid "你按著所学练了一遍小步玄剑。"
+msgstr "Repasas la Espada menor del Paso Místico tal como la aprendiste."
+
+msgid "你的内力或气不够，没有办法练习小步玄剑。"
+msgstr "No tienes Fuerza interior o Qi suficientes para practicar la Espada menor del Paso Místico."
+
+msgid "你的步玄心法火候还不够。"
+msgstr "Tu Método interno del Paso Místico aún no está lo bastante maduro."
+
+msgid "你的内力不够，没有办法练小步玄剑。"
+msgstr "No tienes Fuerza interior suficiente para practicar la Espada menor del Paso Místico."
+
+msgid "$N使一招「暮雪三叹」，手中$w急如骤雨般地刺向$n$l"
+msgstr "$N{:el} {N:usas|usa} \"Tres suspiros en la nieve del ocaso\" y {N:tu|su} $w{:0} se lanza con la rapidez de un aguacero hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N身形一晃，一招「处子弄笛」向$n$l刺出一剑"
+msgstr "$N{:el} {N:te meces|se mece} con \"La doncella toca la flauta\" y {N:lanzas|lanza} una estocada hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N舞动$w，一招「阳谷白练」挟著闪闪剑光刺向$n的$l"
+msgstr "$N{:el} {N:blandes|blande} {N:tu|su} $w{:0} y, con \"Seda blanca del valle soleado\", {N:atacas|ataca} hacia {n:tu $l{:0}|$l{:el} de $n{:el}} entre destellos de espada"
+
+msgid "$N手中$w一个圈转，使出「薰容逐电」中锋直进刺向$n的$l"
+msgstr "$N{:el} {N:haces|hace} girar {N:tu|su} $w{:0} una vez y, con \"Relámpago perfumado\", {N:hundes|hunde} la punta en línea recta hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "花紫会的手上功夫，忽掌忽爪，招名多带市井气——「撺锅手」「撮灰手」「梁上君子」「随棍上身」，劲力一吐，能听见对方骨节作响。须空手练，内力太弱的人练不成。"
+msgstr "Las artes de mano de la Hermandad de los Mendigos, ya palma, ya garra, con nombres de aire callejero: \"Mano que voltea la olla\", \"Mano que recoge ceniza\", \"Caballero de la viga\", \"Trepar por el palo\". Al soltar la fuerza se oye crujir los huesos del rival. Se practica con las manos desnudas, y no se aprende con poca Fuerza interior."
+
+msgid "练油流麻香手必须空手。"
+msgstr "La Mano de aceite y pimienta se practica con las manos desnudas."
+
+msgid "你的内力太弱，无法练油流麻香手。"
+msgstr "Tu Fuerza interior es demasiado débil para practicar la Mano de aceite y pimienta."
+
+msgid "你听到「喀啦」一声轻响，竟似是骨碎的声音！"
+msgstr "Oyes un leve \"crac\" que parece el de un hueso al romperse."
+
+msgid "$N劲力一吐，$n的$l发出「喀」地一声爆响！"
+msgstr "¡$N{:el} {N:sueltas|suelta} la fuerza y {n:tu $l{:0} suena|$l{:el} de $n{:el} suena} con un \"crac\" seco!"
+
+msgid "只听见$n的$l「喀」地一声 ..."
+msgstr "Solo se oye un \"crac\" en {n:tu $l{:0}|$l{:el} de $n{:el}}..."
+
+msgid "$N左掌微分，右手一长使出一招「毒龙扑舟」，抓向$n的$l"
+msgstr "$N{:el} {N:separas|separa} un poco la palma izquierda y {N:alargas|alarga} la derecha con \"Dragón venenoso asalta el bote\", en un zarpazo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N倏地一个转身，双手一翻「撺锅手」直掼$n$l"
+msgstr "$N{:el} {N:te giras|se gira} de golpe y, con las dos manos vueltas, {N:descargas|descarga} \"Mano que voltea la olla\" contra {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N身子微斜，随即跨出一步，左手忽掌忽爪使出「撮灰手」，拍向$n的$l"
+msgstr "$N{:el} {N:ladeas|ladea} el cuerpo y de inmediato {N:das|da} un paso; con la mano izquierda, ya palma, ya garra, {N:usas|usa} \"Mano que recoge ceniza\" y {N:palmeas|palmea} hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N使出「青蛇十段锦」，双手滑溜异常对准$n的$l抓去"
+msgstr "$N{:el} {N:usas|usa} \"Brocado de la serpiente verde\", con las dos manos resbaladizas, y {N:agarras|agarra} hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N左手虚晃，右掌飘飘，一招「梁上君子」击向$n$l"
+msgstr "$N{:el} {N:finges|finge} con la izquierda, la palma derecha flota, y con \"Caballero de la viga\" {N:golpeas|golpea} hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N使出「拨草寻履」，凌空跃起，冷不防在落地前对准$n$l踢出一脚"
+msgstr "$N{:el} {N:usas|usa} \"Buscar el zapato entre la hierba\", {N:te lanzas|se lanza} por el aire y, sin aviso, antes de aterrizar, {N:das|da} una patada hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N右手在$n$l划过，随後一招「随棍上身」左爪又向同一方位抓到"
+msgstr "$N{:el} {N:pasas|pasa} la mano derecha sobre {n:tu $l{:0}|$l{:el} de $n{:el}} y luego, con \"Trepar por el palo\", {N:lanzas|lanza} la garra izquierda al mismo punto"
+
+msgid "招名全出自《短歌行》——「对酒当歌」「人生几何」「譬如朝露」「去日苦多」……弯刀似月，刀势常由下而上撩斩。官府的带刀侍卫、高门大户的护院多使这一路刀法。"
+msgstr "Todos los nombres de los movimientos salen de «Canción breve»: \"Cantar ante el vino\", \"¿Cuánto dura la vida?\", \"Como rocío de la mañana\", \"Tantos días idos\"... El sable curvo es como la luna, y sus golpes suelen subir barriendo desde abajo. Los guardias armados del gobierno y los guardias de las grandes casas suelen usar este estilo de sable."
+
+msgid "$N使一招「对酒当歌」，手中$w风似地向$n的$l斩去！"
+msgstr "$N{:el} {N:usas|usa} \"Cantar ante el vino\" y {N:tu|su} $w{:0} corta como el viento hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N弯刀似月，$w随著一招「人生几何」由下而上撩往$n的$l"
+msgstr "$N{:el} {N:tienes|tiene} un sable curvo como la luna: con \"¿Cuánto dura la vida?\", {N:tu|su} $w{:0} sube barriendo desde abajo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N身形一转，一招「譬如朝露」$w如朝露闪烁，斩向$n的$l"
+msgstr "$N{:el} {N:giras|gira} el cuerpo con \"Como rocío de la mañana\", y {N:tu|su} $w{:0} destella como el rocío al cortar hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N舞动$w，一招「去日苦多」往$n的$l斜斜砍出一刀"
+msgstr "$N{:el} {N:blandes|blande} {N:tu|su} $w{:0} y, con \"Tantos días idos\", {N:descargas|descarga} un tajo oblicuo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N手中$w一晃，一招「慨当以慷」迅捷无伦地劈向$n的$l"
+msgstr "$N{:el} {N:agitas|agita} {N:tu|su} $w{:0} y, con \"Ánimo que se agita\", {N:cortas|corta} con rapidez sin igual hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N提气丹田，身型咋展，一招「忧思难忘」直劈$n$l"
+msgstr "$N{:el} {N:reúnes|reúne} Qi en el dantian y de pronto {N:te despliegas|se despliega} con \"Pena imposible de olvidar\", en un tajo recto hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l"
+msgstr "$N{:el} {N:mueves|mueve} los pies y {N:te pones|se pone} de lado con \"¿Qué alivia la pena?\"; el filo destella al cortar hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "招名取自《秋风辞》，从「秋风起兮白云飞」到「箫鼓鸣兮发棹歌」，身影一晃，便已避在数尺之外。练这门步法须有相当的内力；官府的侍卫、衙役常与短歌刀法一同修习。"
+msgstr "Los nombres de los movimientos vienen de «El canto del viento de otoño», de \"Viento de otoño, nubes que vuelan\" a \"Flautas y tambores, canción de remos\": un balanceo, y ya estás varios pasos lejos. Para practicar estos pasos hace falta bastante Fuerza interior; los guardias y los guardias del tribunal suelen practicarlos junto con el Sable de la canción breve."
+
+msgid "$n一招「秋风起兮白云飞」轻轻巧巧地避了开去。"
+msgstr "$n{:el} {n:usas|usa} \"Viento de otoño, nubes que vuelan\" y {n:te apartas|se aparta} con soltura."
+
+msgid "只见$n身影一晃，一式「草木黄落兮雁南归」早已避在七尺之外。"
+msgstr "$n{:el} {n:te desdibujas|se desdibuja} y, con \"Hojas caídas, gansos al sur\", ya {n:estás|está} a más de dos metros."
+
+msgid "$n使出「兰有秀兮菊有芳」，轻轻松松地闪过。"
+msgstr "$n{:el} {n:usas|usa} \"Orquídea en flor, crisantemo fragante\" y {n:esquivas|esquiva} sin esfuerzo."
+
+msgid "$n左足一点，一招「怀佳人兮不能忘」腾空而起，避了开去。"
+msgstr "$n{:el} {n:te impulsas|se impulsa} con el pie izquierdo y, con \"La bella añorada, jamás olvidada\", {n:te elevas|se eleva} por el aire, fuera del alcance."
+
+msgid "可是$n使一招「泛楼船兮济汾河」，身子轻轻飘了开去。"
+msgstr "Pero $n{:el} {n:usas|usa} \"Navío de torres por el Fen\" y {n:te alejas|se aleja} flotando con ligereza."
+
+msgid "$n身影微动，已经藉一招「横中流兮扬素波」轻轻闪过。"
+msgstr "$n{:el} {n:te mueves|se mueve} apenas y, con \"Olas blancas en medio del río\", ya {n:lo has esquivado|lo ha esquivado} con ligereza."
+
+msgid "但是$n一招「箫鼓鸣兮发棹歌」使出，早已绕到$N身後！"
+msgstr "Pero $n{:el} {n:usas|usa} \"Flautas y tambores, canción de remos\" y ya {n:estás|está} detrás de {N:ti|$N{:el}}."
+
+msgid "但是$n身形飘忽，轻轻一纵，一招「欢乐极兮哀情多」，避开这一击。"
+msgstr "Pero $n{:el} {n:te meces|se mece}, {n:saltas|salta} con ligereza y, con \"Tanta alegría, tanta tristeza\", {n:evitas|evita} el golpe."
+
+msgid "$n身形往上一拔，一招「少壮几时兮奈老何」，一个转折落在数尺之外。"
+msgstr "$n{:el} {n:te elevas|se eleva} de golpe con \"¿Cuánto dura la juventud?\" y, tras un giro, {n:caes|cae} varios pasos más allá."
+
+msgid "密宗一路的掌法，招名「苦海端无涯」「地狱似有门」「天堂却无路」「万念皆是空」，虚实相生；招架时能以双掌夹住来刃，或以「粘」字诀引偏兵器。须空手练。"
+msgstr "Un estilo de palma de la línea esotérica, con movimientos llamados \"El mar de penas no tiene orilla\", \"Parece haber puerta al infierno\", \"Al cielo no hay camino\" y \"Todo pensamiento es vacío\", donde lo falso y lo cierto se engendran. Al parar, puede apresar la hoja entre las dos palmas o desviar el arma con la técnica del «pegado». Se practica con las manos desnudas."
+
+msgid "练密宗大手印必须空手。"
+msgstr "El Gran sello tántrico se practica con las manos desnudas."
+
+msgid "$N使出一招「苦海端无涯」，左掌虚幌，右掌穿出击向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"El mar de penas no tiene orilla\": {N:finges|finge} con la palma izquierda y {N:lanzas|lanza} la derecha hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N使出一招「地狱似有门」，左掌化虚为实击向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"Parece haber puerta al infierno\": {N:tu|su} palma izquierda pasa de finta a golpe real hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N使出密宗大手印中的「天堂却无路」，一掌拍向$n的$l"
+msgstr "$N{:el} {N:usas|usa} \"Al cielo no hay camino\", del Gran sello tántrico, y {N:descargas|descarga} una palmada hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N双掌一错，使出「密宗为独尊」，对准$n的$l连续拍出"
+msgstr "$N{:el} {N:cruzas|cruza} las palmas y, con \"El tantra sobre todo\", {N:golpeas|golpea} sin pausa hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N左掌立于胸前，右掌推出，一招「万念皆是空」击向$n$l"
+msgstr "$N{:el} {N:colocas|coloca} la palma izquierda ante el pecho y {N:empujas|empuja} la derecha: \"Todo pensamiento es vacío\", hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N使出「佛云以杀止杀」，身形凌空飞起，从空中当头向$n的$l出掌攻击"
+msgstr "$N{:el} {N:usas|usa} \"Matar para acabar con la matanza\", {N:te lanzas|se lanza} por el aire y {N:atacas|ataca} con la palma desde arriba hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "外门护体硬功：闭目凝神，气走全身，不躲不闪也能硬受来招。"
+msgstr "Un endurecimiento externo del cuerpo: cierras los ojos y recoges la mente, el Qi recorre todo el cuerpo, y puedes encajar un golpe de frente sin esquivar ni inmutarte."
+
+msgid "逍遥派一路的内功，讲究文墨修养：读书识字的造诣跟不上，小无相功便无法再进。只能向人学，或在运功中慢慢精熟。"
+msgstr "El neigong de la línea de la Escuela Despreocupada, que da valor a la cultura letrada: si tu lectura y escritura no alcanzan, el Arte menor sin forma no puede avanzar. Solo se aprende de alguien o se va perfeccionando poco a poco al hacerlo circular."
+
+msgid "小无相功只能用学的或是从运用中增加熟练度。"
+msgstr "El Arte menor sin forma solo se aprende, o se mejora usándolo."
+
+msgid "你的文学素养不够无法提升小无相功的造诣。"
+msgstr "Tu cultura letrada no basta para avanzar en el Arte menor sin forma."
+
+msgid "大内侍卫营的刀法，七式「值门」「出巡」「提灯」「锁宫」「拿下」「护驾」「天明」，一招一式都在宫门、长街、殿上。侍卫营总教头冯策的刀谱末页写着一句：「刀在鞘里的时候最多。」"
+msgstr "El sable del Cuartel de la guardia de palacio, siete formas: \"Guardia de puerta\", \"Ronda\", \"Alzar el farol\", \"Cerrar el palacio\", \"Prenderlo\", \"Proteger al trono\", \"Despunta el día\"; cada movimiento ocurre en una puerta de palacio, en una calle larga, en un salón. En la última página del manual de sable de Feng Ce, instructor jefe del cuartel, hay escrita una frase: \"El sable pasa casi todo el tiempo en la vaina.\""
+
+msgid "$N横刀当胸，一招「值门」$w刀背一磕，顺势削向$n的$l"
+msgstr "$N{:el} {N:cruzas|cruza} la hoja ante el pecho y, con \"Guardia de puerta\", {N:golpeas|golpea} con el lomo de {N:tu|su} $w{:0} y {N:cortas|corta} después hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N脚下一错，一招「出巡」$w贴着身子递出，直取$n的$l！"
+msgstr "$N{:el} {N:cambias|cambia} el paso y, con \"Ronda\", {N:tu|su} $w{:0} sale rozando el cuerpo en línea recta hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N刀尖一挑，一招「提灯」$w晃过$n眼前，刀锋却落向$n的$l"
+msgstr "$N{:el} {N:levantas|levanta} la punta y, con \"Alzar el farol\", {N:tu|su} $w{:0} destella ante {n:tus ojos|los ojos de $n{:el}} mientras el filo cae sobre {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N沉肩坠肘，一招「锁宫」$w自上而下劈向$n的$l"
+msgstr "$N{:el} {N:hundes|hunde} hombros y codos y, con \"Cerrar el palacio\", {N:tu|su} $w{:0} cae de arriba abajo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N欺身而上，一招「拿下」$w刀柄撞向$n的$l，刀刃跟着就到"
+msgstr "$N{:el} {N:te echas|se echa} encima y, con \"Prenderlo\", {N:estrellas|estrella} la empuñadura de {N:tu|su} $w{:0} contra {n:tu $l{:0}|$l{:el} de $n{:el}}, y el filo llega justo detrás"
+
+msgid "$N退半步护住身后，一招「护驾」$w画了个半圆，扫过$n的$l"
+msgstr "$N{:el} {N:retrocedes|retrocede} medio paso para cubrir lo que {N:tienes|tiene} detrás y, con \"Proteger al trono\", {N:tu|su} $w{:0} traza un semicírculo sobre {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N大喝一声，一招「天明」$w自下而上斜劈，刀光照亮了$n的$l"
+msgstr "$N{:el} {N:lanzas|lanza} un gran grito y, con \"Despunta el día\", {N:tu|su} $w{:0} corta en diagonal desde abajo, y su luz ilumina {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "关北槐阳王府骑兵的马上刀法，七式从「扬鞭」「回马」「斩缰」到「破阵」「归鞘」，刀自下而上撩出。刀谱每一页的边上都写着同一句话：「撩，不是砍。」"
+msgstr "El sable a caballo de los jinetes de la Casa de Huaiyang, en el Norte del Paso. Siete formas, de \"Alzar el látigo\", \"Volver el caballo\" y \"Cortar las riendas\" a \"Romper la formación\" y \"Envainar\", con la hoja barriendo siempre desde abajo. En el borde de cada página del manual está escrita la misma frase: \"Barrer, no cortar.\""
+
+msgid "$N手中$w一扬，一招「扬鞭」自下而上撩向$n的$l！"
+msgstr "$N{:el} {N:alzas|alza} {N:tu|su} $w{:0} y, con \"Alzar el látigo\", {N:barres|barre} desde abajo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N身子一拧，一招「回马」$w反手撩出，刀光从$n的$l掠过"
+msgstr "$N{:el} {N:te retuerces|se retuerce} con \"Volver el caballo\" y {N:tu|su} $w{:0} sale de revés, y su luz roza {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N矮身一刀，一招「斩缰」$w贴地撩向$n的$l"
+msgstr "$N{:el} {N:te agachas|se agacha} en un tajo con \"Cortar las riendas\" y {N:tu|su} $w{:0} barre a ras del suelo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N$w一抖，一招「卷沙」刀风卷起地上的沙土，斜斜撩往$n的$l"
+msgstr "{N:Tu $w{:0} se estremece|$w{:el} de $N{:el} se estremece}: con \"Remolino de arena\", el viento de la hoja levanta la arena del suelo y barre en diagonal hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N踏步欺进，一招「踏雪」$w由肩上撩落，直取$n的$l"
+msgstr "$N{:el} {N:avanzas|avanza} pisando fuerte y, con \"Pisar la nieve\", {N:tu|su} $w{:0} baja desde el hombro en línea recta hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N大喝一声，一招「破阵」$w连撩三刀，刀刀奔$n的$l"
+msgstr "$N{:el} {N:lanzas|lanza} un gran grito y, con \"Romper la formación\", {N:tu|su} $w{:0} barre tres veces seguidas, cada tajo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N手腕一翻，一招「归鞘」$w收势时顺手一撩，刀背扫过$n的$l"
+msgstr "$N{:el} {N:giras|gira} la muñeca y, con \"Envainar\", al recoger {N:tu|su} $w{:0} {N:lanzas|lanza} un último barrido de pasada, y el lomo roza {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "番坊铁盾会的剑法，传自流落东方的大秦剑手：盾在前，剑在后，左臂圆盾挡住来招，右手短剑从盾下刺出，七式自「盾墙」至「盾下一剑」。臂上没有盾，铁盾会不教；入了鬼笠馆的人，铁盾会也不教。"
+msgstr "El estilo de espada de la Hermandad del Escudo de Hierro del Barrio Extranjero, heredado de los espadachines de Daqin que acabaron errantes en el este: escudo delante, espada detrás. El escudo redondo del brazo izquierdo detiene el ataque y la espada corta de la mano derecha sale a estocadas por debajo, en siete formas, de \"Muro de escudos\" a \"Espada bajo el escudo\". A quien no lleva escudo en el brazo, la Hermandad no lo enseña; y a quien ha entrado en el Salón del Sombrero Fantasma, tampoco."
+
+msgid "你举着盾，把铁盾剑法练了一遍：盾在前，剑在后。"
+msgstr "Con el escudo en alto, repasas la Espada del escudo de hierro: escudo delante, espada detrás."
+
+msgid "你的内力或气不够，没有办法练习铁盾剑法。"
+msgstr "No tienes Fuerza interior o Qi suficientes para practicar la Espada del escudo de hierro."
+
+msgid "你得先拿一把剑——短剑最好。"
+msgstr "Primero necesitas una espada. Mejor una espada corta."
+
+msgid "盾呢？没盾的剑法不是我们的剑法。"
+msgstr "¿Y el escudo? Una esgrima sin escudo no es nuestra esgrima."
+
+msgid "你是鬼笠馆的人。铁盾会的剑法，不教鬼笠馆。"
+msgstr "Eres del Salón del Sombrero Fantasma. La esgrima de la Hermandad del Escudo de Hierro no se enseña al Salón del Sombrero Fantasma."
+
+msgid "$N左臂一抬，一招「盾墙」盾面迎上$n的$l，$w从盾沿底下刺出"
+msgstr "$N{:el} {N:alzas|alza} el brazo izquierdo y, con \"Muro de escudos\", el frente del escudo sale al paso de {n:tu $l{:0}|$l{:el} de $n{:el}} mientras {N:tu|su} $w{:0} se clava por debajo del borde"
+
+msgid "$N盾身一侧，一招「侧刺」$w贴着盾沿直刺$n的$l"
+msgstr "$N{:el} {N:ladeas|ladea} el escudo y, con \"Estocada lateral\", {N:tu|su} $w{:0} corre a lo largo del borde y se clava hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N踏前一步，一招「盾撞」整面盾撞向$n的$l"
+msgstr "$N{:el} {N:avanzas|avanza} un paso y, con \"Embestida de escudo\", {N:estrellas|estrella} el escudo entero contra {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N手腕一沉，一招「短锋」$w只探出半尺，点向$n的$l"
+msgstr "$N{:el} {N:dejas caer|deja caer} la muñeca y, con \"Punta corta\", {N:tu|su} $w{:0} asoma apenas un palmo y pica hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N盾面一收，一招「回盾」盾沿磕开来势，$w顺势划向$n的$l"
+msgstr "$N{:el} {N:recoges|recoge} el escudo y, con \"Escudo de vuelta\", el borde aparta el ataque y {N:tu|su} $w{:0} sigue el impulso y corta hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N盾后$w连刺三下，一招「连刺」剑剑奔$n的$l"
+msgstr "$N{:el} {N:clavas|clava} {N:tu|su} $w{:0} tres veces desde detrás del escudo con \"Triple estocada\", cada una hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N矮身藏在盾后，一招「盾下一剑」$w从盾底下猛地刺向$n的$l"
+msgstr "$N{:el} {N:te agazapas|se agazapa} tras el escudo y, con \"Espada bajo el escudo\", {N:tu|su} $w{:0} sale de golpe por debajo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "番坊倭人浪人武馆鬼笠馆的刀法，刀窄而弯，拔刀、横扫、下劈、纳刀、退步五式之外，另有一式「一刀」。门规与中原相反：一击之内定生死。铁盾会的弟子，鬼笠馆不教。"
+msgstr "El sable del Salón del Sombrero Fantasma, escuela de los ronin japoneses del Barrio Extranjero: hoja estrecha y curva; además de las cinco formas de desenvainar, barrer, tajo descendente, guardar el sable y paso atrás, hay una más, \"Un solo tajo\". Su regla es la contraria de las Llanuras Centrales: la vida y la muerte se deciden dentro de un solo golpe. El Salón del Sombrero Fantasma no enseña a los discípulos de la Hermandad del Escudo de Hierro."
+
+msgid "你出刀，收刀，把鬼笠刀法练了一遍——一刀，只出一次。"
+msgstr "Desenvainas, envainas y repasas el Sable del Sombrero Fantasma: un solo tajo, y solo una vez."
+
+msgid "你的内力或气不够，没有办法练习鬼笠刀法。"
+msgstr "No tienes Fuerza interior o Qi suficientes para practicar el Sable del Sombrero Fantasma."
+
+msgid "刀呢？没刀的刀法不是刀法。"
+msgstr "¿Y el sable? Un arte de sable sin sable no es un arte de sable."
+
+msgid "你是铁盾会的人。盾在前的，用不着刀。"
+msgstr "Eres de la Hermandad del Escudo de Hierro. Quien lleva el escudo delante no necesita sable."
+
+msgid "$N手按刀柄，一招「拔刀」$w出鞘的一瞬斜斜划向$n的$l"
+msgstr "$N{:el} {N:apoyas|apoya} la mano en la empuñadura y, con \"Desenvainar\", {N:tu|su} $w{:0} corta en diagonal hacia {n:tu $l{:0}|$l{:el} de $n{:el}} en el instante en que sale de la vaina"
+
+msgid "$N$w平举，一招「横扫」刀光齐腰扫向$n的$l"
+msgstr "$N{:el} {N:alzas|alza} {N:tu|su} $w{:0} en horizontal y, con \"Barrido\", su luz barre a la altura de la cintura hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N双手握刀举过头顶，一招「下劈」$w直劈$n的$l"
+msgstr "$N{:el} {N:levantas|levanta} el arma con las dos manos sobre la cabeza y, con \"Tajo descendente\", {N:tu|su} $w{:0} cae en línea recta sobre {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N$w收势回鞘，一招「纳刀」刀背顺势磕向$n的$l"
+msgstr "$N{:el} {N:recoges|recoge} {N:tu|su} $w{:0} hacia la vaina y, con \"Guardar el sable\", el lomo golpea de pasada contra {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N退了半步，一招「退步」$w在退势里反撩$n的$l"
+msgstr "$N{:el} {N:retrocedes|retrocede} medio paso y, con \"Paso atrás\", {N:tu|su} $w{:0} barre hacia arriba, aún en retirada, contra {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "$N双手握刀，一动不动，忽然一招「一刀」——$w从头顶直劈而下，一击之内定生死，直取$n的$l"
+msgstr "$N{:el} {N:sujetas|sujeta} el arma con las dos manos y {N:te quedas|se queda} inmóvil; de pronto, \"Un solo tajo\": {N:tu|su} $w{:0} cae en línea recta desde arriba, vida o muerte en un solo golpe, hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "挥拳"
+msgstr "Puñetazo"
+
+msgid "$N挥拳攻击$n的$l"
+msgstr "$N{:el} {N:lanzas|lanza} un puñetazo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "一抓"
+msgstr "Zarpazo"
+
+msgid "$N往$n的$l一抓"
+msgstr "$N{:el} {N:lanzas|lanza} un zarpazo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "踢腿"
+msgstr "Patada"
+
+msgid "$N往$n的$l狠狠地踢了一脚"
+msgstr "$N{:el} {N:das|da} una patada feroz hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "捶击"
+msgstr "Mazazo"
+
+msgid "$N提起拳头往$n的$l捶去"
+msgstr "$N{:el} {N:alzas|alza} el puño y {N:lo descargas|lo descarga} sobre {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "横拳"
+msgstr "Gancho"
+
+msgid "$N对准$n的$l用力挥出一拳"
+msgstr "$N{:el} {N:lanzas|lanza} con fuerza un gancho contra {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "斩"
+msgstr "Tajo"
+
+msgid "$N挥动$w，斩向$n的$l"
+msgstr "$N{:el} {N:blandes|blande} {N:tu|su} $w{:0} y {N:cortas|corta} hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "砍"
+msgstr "Corte"
+
+msgid "$N用$w往$n的$l砍去"
+msgstr "$N{:el} {N:descargas|descarga} {N:tu|su} $w{:0} en un corte hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "砍伤"
+msgstr "corte"
+
+msgid "劈"
+msgstr "Mandoble"
+
+msgid "$N的$w朝著$n的$l劈将过去"
+msgstr "{N:Tu $w{:0} se abate|$w{:el} de $N{:el} se abate} hendiendo hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "劈伤"
+msgstr "herida profunda"
+
+msgid "乱砍"
+msgstr "Lluvia de tajos"
+
+msgid "$N挥舞$w，对准$n的$l一阵乱砍"
+msgstr "$N{:el} {N:blandes|blande} {N:tu|su} $w{:0} y {N:descargas|descarga} una lluvia de tajos contra {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "刺"
+msgstr "Estocada"
+
+msgid "$N用$w往$n的$l刺去"
+msgstr "$N{:el} {N:clavas|clava} {N:tu|su} $w{:0} hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "捅"
+msgstr "Puñalada"
+
+msgid "$N的$w往$n的$l狠狠地一捅"
+msgstr "{N:Tu $w{:0} se clava|$w{:el} de $N{:el} se clava} con saña hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "抽"
+msgstr "Latigazo"
+
+msgid "$N将$w一扬，往$n的$l抽去"
+msgstr "$N{:el} {N:alzas|alza} {N:tu|su} $w{:0} y {N:azotas|azota} hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "戳"
+msgstr "Pinchazo"
+
+msgid "$N用$w往$n的$l直戳过去"
+msgstr "$N{:el} {N:empujas|empuja} {N:tu|su} $w{:0} recto hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "射"
+msgstr "Disparo"
+
+msgid "$N将$w对准$n的$l射了过去"
+msgstr "$N{:el} {N:apuntas|apunta} {N:tu|su} $w{:0} hacia {n:tu $l{:0}|$l{:el} de $n{:el}} y {N:disparas|dispara}"
+
+msgid "砸"
+msgstr "Aplastón"
+
+msgid "$N挥舞$w，往$n的$l用力一砸"
+msgstr "$N{:el} {N:blandes|blande} {N:tu|su} $w{:0} y {N:descargas|descarga} un aplastón con fuerza sobre {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "当头砸"
+msgstr "Aplastón desde arriba"
+
+msgid "$N高高举起$w，往$n的$l当头砸下"
+msgstr "$N{:el} {N:alzas|alza} {N:tu|su} $w{:0} y {N:descargas|descarga} un golpe de arriba abajo sobre {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "猛挥"
+msgstr "Golpe furioso"
+
+msgid "$N手握$w，眼露凶光，猛地对准$n的$l挥了过去"
+msgstr "$N{:el} {N:empuñas|empuña} {N:tu|su} $w{:0}, con la mirada feroz, y {N:descargas|descarga} un golpe brutal hacia {n:tu $l{:0}|$l{:el} de $n{:el}}"
+
+msgid "当前是眼下的数；有效是受伤压低的上限，歇着会慢慢长回来，疗伤更快；最大是你的本钱。"
+msgstr "Actual es lo que tienes ahora; Efectivo es el tope que te dejan las heridas: se recupera con el descanso, y más rápido si te curas; Máximo es tu capital."
+
+msgid "学武功、自学、修行都耗精，歇着慢慢回来；归零就昏倒。"
+msgstr "Aprender artes marciales, estudiar por tu cuenta y cultivarte gastan Esencia; con el reposo vuelve poco a poco. Si llega a cero, te desmayas."
+
+msgid "挨打、练功、打坐都耗气，歇着慢慢回来；归零就昏倒。"
+msgstr "Recibir golpes, entrenar y meditar gastan Qi; con el reposo vuelve poco a poco. Si llega a cero, te desmayas."
+
+msgid "研读、冥思都耗神，歇着慢慢回来；归零就昏倒。"
+msgstr "Estudiar y contemplar gastan Espíritu; con el reposo vuelve poco a poco. Si llega a cero, te desmayas."
+
+msgid "打坐得来，运功和加力都要用它；上限看基本内功。"
+msgstr "Se gana meditando; la necesitas para hacer circular la energía y para la Fuerza extra. Su tope depende del Neigong básico."
+
+msgid "每一击多灌进这么多内力，打得更重，内力也耗得更快。"
+msgstr "Cada golpe suma esta cantidad de Fuerza interior: golpeas más fuerte y la gastas más rápido."
+
+msgid "施法要用。冥思得来，上限看基本咒文。"
+msgstr "Hace falta para lanzar conjuros. Se gana contemplando; su tope depende de los Conjuros básicos."
+
+msgid "施展神通要用。修行得来，上限看基本法术。"
+msgstr "Hace falta para usar poderes místicos. Se gana con el cultivo; su tope depende del Misticismo básico."
+
+msgid "杀人会涨，胆气也跟着壮；太重学不了佛道心法，还可能失控伤人。运功或捐香火能压下去。"
+msgstr "Sube al matar, y con ella el arrojo; si es demasiada, no podrás aprender los métodos budistas ni taoístas y puede que pierdas el control y hieras a otros. Hacer circular la Fuerza interior o dar limosna en el templo la baja."
+
+msgid "随时间消耗，吃东西补；见底后内力、法力、灵力不再恢复。"
+msgstr "Se gasta con el tiempo; repón comiendo. Al tocar fondo, la Fuerza interior, el Poder arcano y el Poder místico dejan de recuperarse."
+
+msgid "随时间消耗，喝东西补；见底后什么都不再恢复。"
+msgstr "Se gasta con el tiempo; repón bebiendo. Al tocar fondo, nada vuelve a recuperarse."
+
+msgid "打架、办事得来；武功能练到多高看它。"
+msgstr "Se gana peleando y haciendo encargos; de ella depende hasta dónde puedes llevar las artes marciales."
+
+msgid "打架、办事得来，请教和自学要花它；没用掉的有上限。"
+msgstr "Se gana peleando y haciendo encargos, y se gasta al pedir enseñanza a un Shifu o al estudiar por tu cuenta; lo que no gastas tiene un tope."
+
+msgid "江湖上对你的总评：办成差事会涨，认输会掉。"
+msgstr "La opinión que el jianghu tiene de ti en conjunto: sube al cumplir encargos y baja al rendirte."
+
+msgid "你亲手杀过多少人。"
+msgstr "A cuánta gente has matado con tus propias manos."
+
+msgid "身上东西的总重和能背的上限，上限看膂力。"
+msgstr "El peso total de lo que llevas y lo máximo que puedes cargar; el tope depende de la Fuerza."
+
+msgid "你自己的分量，也决定肚子能装多少吃喝。"
+msgstr "Tu propio peso; también decide cuánta comida y bebida le cabe a tu estómago."
+
+msgid "力气：打得更重，背得更多，拿得动沉重的兵器。"
+msgstr "Músculo: golpeas más fuerte, cargas más y puedes con armas pesadas."
+
+msgid "敢不敢抢攻：自动对打时，胆识高的人出手更勤；不少师父也看它。"
+msgstr "Atrevimiento para tomar la iniciativa: en el combate automático, quien tiene más arrojo ataca con más frecuencia; muchos Shifu también lo miran."
+
+msgid "天资：学武功更快，耗精更少，打架时也更容易长进。"
+msgstr "Talento: aprendes artes marciales más rápido, gastas menos Esencia y progresas más al pelear."
+
+msgid "精神方面的体质：冥思和修行涨得更快，不少法门也看它。"
+msgstr "Disposición espiritual: la contemplación y el cultivo avanzan más rápido, y muchas disciplinas la tienen en cuenta."
+
+msgid "临危不乱：对手抢攻前要过你这一关，定力越高他们越容易转为守势；打空时也不易露破绽，还压得住杀气。"
+msgstr "Sangre fría: el rival debe superarla antes de tomar la iniciativa; cuanto más alto el Temple, más a menudo se repliega a la defensiva. Al fallar dejas menos huecos, y contienes la Sed de sangre."
+
+msgid "长相：有人看脸说话，也有师父看长相收人；容貌高，杀气重的人也不易对你翻脸。"
+msgstr "Apariencia: hay quien juzga por la cara, y algunos Shifu aceptan discípulos por su aspecto; con buena apariencia, hasta los sanguinarios tardan más en volverse contra ti."
+
+msgid "体质：精气神恢复得更快，打坐涨内力更快，昏倒后醒得更早，酒量也大。"
+msgstr "Complexión: Esencia, Qi y Espíritu se recuperan más rápido, meditar sube más la Fuerza interior, te despiertas antes de un desmayo y aguantas mejor el vino."
+
+msgid "运气：容易遇上一般人碰不到的机缘，好事坏事都有。"
+msgstr "Suerte: te topas con oportunidades que la gente común no encuentra, buenas y malas."
+
+msgid "青石山路"
+msgstr "Camino de piedra azul"
+
+msgid "铁链崖"
+msgstr "Risco de la Cadena de Hierro"
+
+msgid "晚月山路"
+msgstr "Camino de Luna Tardía"
+
+msgid "槐阳城"
+msgstr "Huaiyang"
+
+msgid "草原"
+msgstr "Estepa"
+
+msgid "工地"
+msgstr "Obras"
+
+msgid "古冢"
+msgstr "Túmulo"
+
+msgid "封山剑派是当今武林中最大的一支剑派。相传三位剑术名家在封山灵狐顶相互印证所学，创出封山剑法；招式不难学，难在剑意，讲究不抢先，等对手露出空子。七十年前一代掌门把乔阴柳家的家传拳法融进剑意，创出柳家拳，补上了剑派近身的短处。雪亭镇的淳风武馆是这一派的门户，镇上的后生多在那里学拳。"
+msgstr "La Escuela de la Montaña Vacía es la mayor escuela de espada del wulin de hoy. Se cuenta que tres maestros de la espada contrastaron lo que sabían en la Cumbre del Zorro Espiritual y crearon la Espada de la Montaña Vacía; los movimientos no son difíciles, lo difícil es el espíritu de la espada, que no toma la iniciativa y espera a que el rival deje un hueco. Hace setenta años un Maestro de la escuela fundió el puño de la familia Liu de Sombra Alta en el espíritu de la espada y creó el Puño de la familia Liu, que cubrió el punto débil de la escuela en el cuerpo a cuerpo. El Salón del Viento Puro de Pabellón Nevado es la puerta de esta escuela, y los jóvenes del pueblo suelen aprender allí a pelear a puño."
+
+msgid "柳家拳没什么花样：先打实一拳，人就贴上去了；贴上去，重拳才够得着，一拳比一拳沉。"
+msgstr "El Puño de la familia Liu no tiene adornos: primero plantas un puñetazo firme y ya estás pegado; pegado, el golpe pesado te alcanza, y cada puñetazo es más hondo que el anterior."
+
+msgid "最怕的是打空。一拳落了空，人就被拉开了，再重的拳头也只砸在风上——得重新打实一拳，才能再贴上去。"
+msgstr "Lo que más se teme es fallar. Si un puñetazo cae en el vacío, te apartan, y por pesado que sea el puño solo golpea el viento: hay que volver a plantar un puñetazo firme para pegarse otra vez."
+
+msgid "所以这拳是抢来的。对面守得稳，你就先用快的、虚的去碰，碰着了再压上去。"
+msgstr "Por eso este puño se conquista. Si el rival se guarda bien, empieza con golpes rápidos y fintas para tantearlo, y cuando lo toques, presiona."
+
+msgid "想拜馆主为师？馆主只看{requires}，哪一样不到，他都会摇头。拳脚简单，一拳就是一拳，先跟我拆几招也好。"
+msgstr "¿Quieres que el maestro del salón te acepte como discípulo? Él solo mira {requires}, y si falta una sola cosa, sacudirá la cabeza. Las artes de puño y pie son sencillas, un puñetazo es un puñetazo; empieza practicando unos intercambios conmigo."
+
+msgid "好，拆三回合，点到为止。"
+msgstr "Bien, tres asaltos, sin pasarnos."
+
+msgid "看见没有？我一拳打实了就贴上来，接着那记重的才够得着你。柳家拳的拳，是这么抢来的。"
+msgstr "¿Lo has visto? En cuanto planto un puñetazo me pego a ti, y solo entonces el golpe pesado que sigue te alcanza. Así se conquista el Puño de la familia Liu."
+
+msgid "三回合我一拳都没打实，就一直够不着你——柳家拳最怕的就是这个。你要学，先学怎么把第一拳打实。"
+msgstr "En tres asaltos no planté un solo puñetazo y no te alcancé nunca: eso es lo que más teme el Puño de la familia Liu. Si quieres aprender, primero aprende a plantar el primer puñetazo."
+
+msgid "你贴上来那一记，压得对，就是这个劲。"
+msgstr "Ese golpe en que te pegaste a mí, y apretaste bien: es justo ese empuje."
+
+msgid "你身上带着伤，拆什么招？先去桑邻药铺把伤治好。"
+msgstr "Vienes herido, ¿cómo vas a intercambiar golpes? Primero ve a la Botica de la Morera y cúrate."
+
+msgid "你是别派的弟子，馆主吩咐过，不许和外人过招。"
+msgstr "Eres de otra escuela; el maestro del salón ordenó que no se practique con gente de fuera."
+
+msgid "记住：一回合不是一招，是几手的事。你出一手，我出一手；谁手上还有余力，谁就多出一手。"
+msgstr "Recuerda: un asalto no es un movimiento, sino cosa de varios turnos. Tú haces un turno, yo hago uno; y a quien le quede fuerza, hace uno más."
+
+msgid "看我这一拳——打实了我就贴上来，紧跟着的那一记重的，你躲得开么？"
+msgstr "¡Mira este puñetazo! Si planto, me pego a ti, y el golpe pesado que sigue, ¿lo esquivarás?"
+
+msgid "最后一回合。你要是能让我一拳打空，我就得退开重来；你要是也打实了一拳，就试试压上来。"
+msgstr "Último asalto. Si logras que mi puñetazo caiga en el vacío, tendré que apartarme y empezar de nuevo; y si tú también plantas un puñetazo, prueba a presionar."
+
+msgid "爹爹的剑法，我只学了个皮毛。封山剑不抢先，先用引手逗对方出招——对方一剑刺空，或是被我架开，那一下就是空子，我这边就多出一剑来。"
+msgstr "De la espada de mi padre solo aprendí lo básico. La espada de la Montaña Vacía no toma la iniciativa: primero tienta con la mano que atrae para que el otro ataque, y si falla la estocada o lo desvío, ese instante es el hueco, y me sobra una estocada."
+
+msgid "多出来的那一剑最要紧：可以追着刺，也可以用「封」字诀把他封住，一封住，他好几手都出不来。"
+msgstr "La estocada que sobra es la más importante: puedo perseguir con la punta, o sellarlo con el secreto de «Sellar»; en cuanto lo sello, no le salen varios turnos."
+
+msgid "可是贪不得。多出来的那一剑要是只顾着攻，对方的下一手就没人守了。爹爹说，封山的剑是等出来的。"
+msgstr "Pero no hay que ser codicioso. Si con esa estocada de más solo piensas en atacar, nadie guarda tu siguiente turno. Mi padre dice que la espada de la Montaña Vacía se gana esperando."
+
+msgid "你若想拜爹爹为师，他只看{requires}——不到的，他会说学剑的人要胆大心细。"
+msgstr "Si quieres que mi padre te acepte como discípulo, solo mira {requires}; a quien no llega, le dirá que quien aprende la espada debe ser audaz y cuidadoso."
+
+msgid "那……只拆三回合，不伤人。"
+msgstr "Entonces... solo tres asaltos, sin herir a nadie."
+
+msgid "方才你那一下刺空了，我手里就多出一剑，那记「封」就是这么来的。封山的剑，是等人露空子。"
+msgstr "Hace un momento fallaste la estocada y me sobró una estocada; ese «Sellar» salió así. La espada de la Montaña Vacía espera a que el otro deje un hueco."
+
+msgid "三回合你一招都没打空，我就一直没等到空子，只好跟你慢慢磨。封山的剑是等出来的，等不到，就只能这样。"
+msgstr "En tres asaltos no fallaste ni un golpe, así que nunca encontré el hueco y tuve que ir despacio contigo. La espada de la Montaña Vacía se gana esperando; si no llega el momento, solo queda esto."
+
+msgid "你也等到了我的空子，多出来的那一剑用得对。"
+msgstr "Tú también esperaste mi hueco, y usaste bien la estocada de más."
+
+msgid "你带着伤呢，爹爹不许我跟伤者动手。"
+msgstr "Estás herido; mi padre no me deja pelear con heridos."
+
+msgid "你是别派的人，爹爹说过不能跟江湖人物比武过招。"
+msgstr "Eres de otra escuela; mi padre dijo que no se puede practicar con gente del jianghu."
+
+msgid "一回合里你出几手，我也出几手——你出完了，我才接着出。不急。"
+msgstr "En un asalto tú haces los turnos que quieras, y yo hago los míos; cuando termines, sigo yo. Sin prisa."
+
+msgid "你尽管来刺。要是刺空了，我手上就多一剑；看清楚我是怎么追上来的。"
+msgstr "Ataca cuando quieras. Si fallas la estocada, me sobrará una; fíjate cómo te persigo."
+
+msgid "最后一回合。你也可以不急着出手，等我刺空了再说。"
+msgstr "Último asalto. También puedes no tener prisa en atacar y esperar a que yo falle."
+
+msgid "封山剑法？小的不懂剑，只听来往的武师说：柳馆主的剑从不抢先，专等人家刺空了的那一下。"
+msgstr "¿La espada de la Montaña Vacía? Este servidor no entiende de espadas, solo oye decir a los maestros que pasan: la espada del maestro Liu nunca toma la iniciativa, y espera justo a que el otro falle."
+
+msgid "馆主的剑我看了五年。来踢馆的，十个有九个是自己刺空了，才挨那一下的。想拜他为师？他只看{requires}。"
+msgstr "Llevo cinco años viendo la espada del maestro del salón. De diez que vienen a desafiarlo, nueve fallan primero y por eso reciben el golpe. ¿Quieres que te acepte como discípulo? Solo mira {requires}."
+
+msgid "柳淳风是个读书人，剑法嘛……文绉绉的，依老夫看没什么杀气。"
+msgstr "Liu Chunfeng es un hombre de libros; su esgrima, en fin... muy letrada. A juicio de este viejo, no tiene nada de ímpetu asesino."
+
+msgid "绘心师妹的剑最吓人的是那记「封」字诀，被封住了好几手都出不来。不过她说剑要等——等什么，我也说不上来。"
+msgstr "Lo más aterrador de la espada de la discípula Huixin es el «Sellar»: si te sella, no te salen varios turnos. Eso sí, ella dice que la espada espera... qué espera, no sabría decirte."
+
+msgid "伤口"
+msgstr "Heridas"
+
+msgid "这是剑伤，口子又直又深——封山剑的路数，多半是这位$RESPECT自己先刺空了，人家才补的这一剑。"
+msgstr "Es una herida de espada, el corte es recto y hondo: el estilo de la Montaña Vacía. Lo más probable es que usted fallara primero, $RESPECT, y el otro le diera este tajo de remate."
+
+msgid "柳家拳？镇上后生练的都是这个。我瞧他们打架，先是一拳碰着人了，立马就贴上去，一拳比一拳重。"
+msgstr "¿El Puño de la familia Liu? Es lo que practican los jóvenes del pueblo. Los veo pelear: en cuanto un puñetazo toca a alguien, se le pegan de inmediato, y cada puñetazo es más pesado."
+
+msgid "李教头那身板，一拳打实了接着就是一记重的，叫什么虎吟。想拜柳馆主的，先去武馆找李教头拆拆招，拳脚简单，一拳就是一拳。"
+msgstr "Con el corpachón de ese instructor Li, un puñetazo bien plantado y enseguida un golpe pesado, el que llaman «Rugido del tigre». Quien quiera ser discípulo del maestro Liu, que primero intercambie golpes con el instructor Li en el salón; las artes de puño son sencillas, un puñetazo es un puñetazo."
+
+msgid "柳家拳好是好，就是练了脾气暴，李教头那些徒弟三天两头在街上跟人动手。"
+msgstr "El Puño de la familia Liu es bueno, pero al practicarlo se vuelve uno de carácter violento: los discípulos del instructor Li se pelean con la gente por la calle cada dos por tres."
+
+msgid "柳家拳最怕打空。一拳落了空，人就离远了，再重的拳也够不着——小的挨过，知道。"
+msgstr "Al Puño de la familia Liu lo que más le asusta es fallar. Si el puñetazo cae en el vacío, uno se queda lejos y por pesado que sea el puño ya no alcanza. Este servidor lo ha sufrido, lo sabe."
+
+msgid "这是拳伤，一片青紫，底下还压着一记重的——柳家拳的路数，人贴上来才打得出这么重。"
+msgstr "Es una herida de puño, una mancha morada, y debajo todavía hay un golpe pesado: el estilo del Puño de la familia Liu; solo pegado al cuerpo sale un golpe tan pesado."
+
+msgid "这位$RESPECT身上没什么新伤，用不着看。"
+msgstr "No tiene heridas nuevas, $RESPECT. No hace falta revisarlo."
+
+msgid "封山剑派北宗是封山剑派里的一支，剑法、拳脚和内功都与本宗同出一源。绮云镇口的公告上，至今还写着「封山剑派北宗所在的雪亭镇」。"
+msgstr "La rama norte de la Escuela de la Montaña Vacía es una rama de la escuela; su espada, sus artes de puño y su neigong comparten origen con la rama principal. En el anuncio de la entrada de Tejenubes todavía pone «Pabellón Nevado, donde se halla la Escuela de la Montaña Vacía, rama norte»."
+
+msgid "振远镖局是京师第一大镖局，在京城一带几乎无人不知其名，绮云镇上也有振远的镖局。镖局里的人走镖凭的是一手春风快意刀。走镖危险，镖局收人先看胆识。"
+msgstr "Los Escoltas del Largo Camino son la mayor agencia de escoltas de la Capital; en la zona de la Capital casi nadie desconoce su nombre, y también tienen una agencia en Tejenubes. Su gente escolta con la maña del Sable de la brisa primaveral. Escoltar es peligroso, y la agencia acepta primero a quien tiene valor."
+
+msgid "东方神教是一个行事隐秘的教门，不立山门，也不收寻常弟子。教中人散在各处，平日看不出身份，外人对它的宗旨所知甚少。只听说教中高手使一路雪影剑法，身法轻疾。"
+msgstr "La Orden del Cuervo Dorado es una orden de proceder secreto; no tiene sede ni acepta discípulos corrientes. Su gente está dispersa por todas partes y de ordinario no se les nota; los de fuera saben muy poco de sus fines. Solo se dice que los maestros de la orden usan un estilo de la Espada de la sombra de nieve, de pasos rápidos y ligeros."
+
+msgid "天邪派以水烟阁为大本营。水烟阁在雪亭镇西边青石官道尽头的山上，相传最早的主人是武术之神杞庸，后来成了历代武林盟主的行馆，每年正月十七在阁外虹台推选盟主。天邪神功与天邪神掌是这一派的根本，相传是杞庸见灵兽天邪虎而悟出；另有一路六阴追魂剑法，是三百年前一位前辈从废墟中得来的。门规甚严，拜师要么立誓恪守门规，要么接下三招。"
+msgstr "La Escuela Rebelde tiene su cuartel general en el Pabellón de la Neblina. El Pabellón de la Neblina está en la montaña, al final del Camino real de piedra azul, al oeste de Pabellón Nevado; se cuenta que su primer dueño fue Qi Yong, dios de las artes marciales, y que después fue la residencia de todos los Líderes de la Alianza del wulin, que cada año el diecisiete del primer mes eligen líder en la Terraza del Arcoíris, fuera del pabellón. El Arte rebelde y la Palma indómita son la raíz de esta escuela, y se dice que Qi Yong las ideó al ver al Tigre rebelde, bestia espiritual; hay además una Espada de los seis yin, que un anciano obtuvo hace trescientos años en unas ruinas. Las reglas son muy estrictas: para ser discípulo hay que jurar guardarlas o aguantar tres golpes."
+
+msgid "绝尘派是绝尘子一手所创的门派。绝尘子原是佛门中人，后得奇人指点，悟得道家真谛，佛道双修，访遍名山大川后自号绝尘。他的修行之所在青石村的石室里，门上写着「非我弟子，莫入此门」。入门看慧根，也要有相当的江湖历练。"
+msgstr "La Escuela del Desapego la fundó Juechenzi por sí solo. Juechenzi fue en origen un budista; guiado después por un hombre extraordinario, comprendió el verdadero sentido del taoísmo y cultivó a la vez budismo y taoísmo, y tras recorrer las montañas y ríos famosos se dio el nombre de Juechen. Su lugar de retiro está en la cámara de piedra de Aldea Piedra Azul, y en la puerta está escrito: \"Quien no sea mi discípulo, que no entre.\" Para entrar cuenta la aptitud, y también bastante experiencia en el jianghu."
+
+msgid "茅山派自张天师开山立派，世代以降妖伏魔为己任，门户在茅山上的灵心观。门下修谷衣心法，排去体内的五谷秽气，炼成护体之气；修到小成，左眼眼珠会变成金色。法术以治鬼除魔为主，根基是天师正道。灵心观是出家人的道观，只收男弟子。"
+msgstr "La Escuela del Monte Mao fue abierta por el Maestro Celestial Zhang, y desde entonces su deber ha sido someter demonios y domar fantasmas; su sede es el Monasterio del Corazón Claro, en el Monte Mao. Sus discípulos cultivan el Método interno de la túnica de grano, que expulsa la impureza del grano del cuerpo y forma un Qi protector; al logro menor, la pupila del ojo izquierdo se vuelve dorada. Su hechicería se dedica sobre todo a someter fantasmas y expulsar demonios, y su base es el Camino de los Maestros Celestiales. El Monasterio del Corazón Claro es un monasterio de religiosos, y solo acepta discípulos varones."
+
+msgid "晚月庄是绮云镇以西林子深处的一座大宅院，朱漆大门，门口挂着灯笼，出现在乡野之间显得有些突兀。庄里多是女子，只收女弟子，庄主的琵琶闻名千里。武功以七宝天岚舞的身法、柔虹指和寒雪鞭法见长，内功意寒功纯走阴柔一路。"
+msgstr "La Mansión Luna Tardía es una gran casona al oeste de Tejenubes, en lo profundo del bosque, de portón lacado en rojo y faroles en la entrada, que parece fuera de lugar en pleno campo. Casi todas las que viven allí son mujeres; solo acepta discípulas, y la pipa de la dueña es famoso en mil li a la redonda. Sus artes marciales destacan por los pasos de la Danza de la tormenta celeste, el Dedo del arcoíris suave y el Látigo de nieve fría; el neigong, el Arte de la intención helada, sigue solo la vía yin y suave."
+
+msgid "山烟寺在绮云镇南、泓水对岸的日照山上，整座寺由上好的桧木建成，金碧辉煌。寺中老方丈医术通神，受过恩惠的富豪出资修整，名气比京城的白象禅院还大。要入寺先得剃度出家，只收男子；武功以流云杖法和疗伤的莲华心法为主，佛法精深的还修八识神通。"
+msgstr "El Templo de la Bruma está en el Monte Soleado, al sur de Tejenubes, al otro lado del río Hong; todo el templo está construido con buen ciprés y resplandece de oro y verde. El viejo abad del templo tiene un arte de curar prodigioso, y los ricos a los que ha favorecido costean sus reparaciones; su fama supera la del Monasterio del Elefante Blanco de la Capital. Para entrar hay que tonsurarse y hacerse monje, y solo se acepta a hombres; sus artes marciales son sobre todo el Bastón de nubes que fluyen y el Método interno del loto para curar, y los de Dharma profundo cultivan además el Poder de las ocho conciencias."
+
+msgid "逍遥派的门户不在这一带，中原少见其门人。听说这一派收徒讲究人品文采，掌门是个风流倜傥的人物。"
+msgstr "La sede de la Escuela Despreocupada no está por esta zona, y en las Llanuras Centrales se ven pocos de sus discípulos. Se cuenta que esta escuela acepta discípulos por su carácter y su cultura, y que su Maestro es un hombre elegante y desenfadado."
+
+msgid "天山派的门户远在天山，中原少见其门人。晚月庄后门外的小径，据说就是通往天山的路。"
+msgstr "La sede de la Escuela de Tianshan está lejos, en Tianshan, y en las Llanuras Centrales se ven pocos de sus discípulos. El sendero que sale de la puerta trasera de la Mansión Luna Tardía, dicen, lleva a Tianshan."
+
+msgid "步玄派是四百年前「秃笔狂生」骆步玄在京城创立的门派。骆步玄原是屡试不中的书生，一日在街边书肆望见一副对子，竟悟出一套武功，从此闯荡江湖。门下的步玄七诀号称天下轻功「轻捷第一」，使起来姿态有如书法；骆家至今是京城有名的武林世家。想入门的人，要先走一趟乔阴曼雩台东边的桃林。"
+msgstr "La Escuela del Paso Místico la fundó en la Capital, hace cuatrocientos años, Luo Buxuan, «el Loco del Pincel Pelado». Luo Buxuan era un letrado que suspendía los exámenes; un día, en una librería de la calle, vio unos versos pareados y de pronto dedujo un arte marcial, y desde entonces recorrió el jianghu. Los Siete secretos del Paso Místico de su escuela son el qinggong «más ligero bajo el cielo», y se usan con un porte como de caligrafía; la familia Luo sigue siendo hasta hoy una conocida estirpe marcial de la Capital. Quien quiera ingresar debe ir primero a la Arboleda de duraznos, al este de la Terraza de la Danza de Lluvia de Sombra Alta."
+
+msgid "花紫会是乞丐们的帮会，只收身上没几个钱的化子。龙头的信物是一只打着二十三个结的皮酒囊；龙头行踪诡秘，据说各处总有七八个替身。会中的武功有油流麻香手和伏蛟功。"
+msgstr "La Hermandad de los Mendigos es la hermandad de los pordioseros, y solo acepta a mendigos con pocas monedas encima. El emblema del Cabeza de Dragón es un odre de cuero con veintitrés nudos; el Cabeza de Dragón anda con gran sigilo, y se dice que en cada lugar tiene siete u ocho dobles. Sus artes son la Mano de aceite y pimienta y el Arte de domar serpientes."
+
+msgid "铁盾会是番坊里大秦人的剑会，门前立着两面比人还高的铁包边大盾，盾面上漆着展翅的鹰。大秦人的祖上从西边来，在这片海边落了脚。会里的剑手左手盾、右手短剑，两两对练；铁盾剑法盾在前、剑在后，没有盾的人不教。"
+msgstr "La Hermandad del Escudo de Hierro es la hermandad de esgrima de los hombres de Daqin del Barrio Extranjero; ante la puerta se alzan dos grandes escudos con borde de hierro, más altos que un hombre, con un águila de alas desplegadas pintada en el frente. Los antepasados de los de Daqin vinieron del oeste y se asentaron en esta costa. Los espadachines de la hermandad, con el escudo en la izquierda y una espada corta en la derecha, practican por parejas; la Espada del escudo de hierro lleva el escudo delante y la espada detrás, y a quien no tiene escudo no se enseña."
+
+msgid "鬼笠馆是番坊里倭人浪人开的武馆，门楣上挂着一顶破了边的斗笠，馆名就是这么来的。门规只有一句：「一击之内定生死」——刀出鞘，只出一次。鬼笠刀法的刀比中原的窄而弯，劈下去就收，不出第二刀。"
+msgstr "El Salón del Sombrero Fantasma es una escuela que abrieron ronin japoneses en el Barrio Extranjero; sobre el dintel cuelga un sombrero de paja con el borde roto, y de ahí el nombre. La regla es una sola frase: \"Vida o muerte dentro de un solo golpe\": el sable sale de la vaina una sola vez. El sable del Sombrero Fantasma es más estrecho y curvo que el de las Llanuras Centrales, corta y se recoge, y no da un segundo golpe."
+
+msgid "日陀罗寺是番坊里一座不大的寺院，由两位天竺僧人所建，赭红的墙头长着草。院中一棵大榕树，是第一代师父从天竺带来的枝条插活的。入寺要先剃度出家，只收男子，所传的是莲华心法、流云杖法这些佛门功夫。"
+msgstr "El Templo Ritola es un templo no muy grande del Barrio Extranjero, levantado por dos monjes indios, con hierba que crece sobre los muros de ocre rojizo. En el patio hay un gran baniano, plantado con un esqueje que el primer Shifu trajo de la India. Para entrar hay que tonsurarse y hacerse monje, y solo se acepta a hombres; lo que se transmite son artes budistas como el Método interno del loto y el Bastón de nubes que fluyen."
+
+msgid "柳淳风是个相当高大的中年儒生，若不是从他腰间挂著的「玄苏剑」你\n大概猜不到眼前这个温文儒雅的中年人竟是家大武馆的馆主。\n"
+msgstr "Liu Chunfeng es un letrado de mediana edad, de buena estatura; si no fuera por la espada Xuansu que lleva colgada a la cintura, nadie imaginaría que este hombre afable y culto es el maestro de un gran salón de artes marciales."
+
+msgid "竹书"
+msgstr "Libro de bambú"
+
+msgid "本宗"
+msgstr "Rama principal"
+
+msgid "跟柳淳风守本宗：封山的剑不外传。\n他亲传你「点」字诀，你是掌门传人；柳绘心会离开武馆，带着「北宗」两个字去绮云镇。封山在虹台上的那一票跟着柳淳风——等盟主回来（已经入了虹台的席的，这一票不再跟着变）。\n这是封山这条线的大分裂，选了不能改。要跟师父吗？"
+msgstr "Quedarte con Liu Chunfeng y la rama principal: la espada de la Montaña Vacía no se enseña a extraños.\nÉl te enseña en persona el secreto de la «punta», y eres quien hereda la dirección de la escuela; Liu Huixin dejará el salón y se irá a Tejenubes con el nombre de «rama norte». El voto de la Montaña Vacía en la Terraza del Arcoíris sigue a Liu Chunfeng: a esperar al Líder de la Alianza (si ya has tomado asiento en la Terraza, ese voto ya no cambia).\nEs la gran ruptura de la línea de la Montaña Vacía, y lo que elijas no se puede cambiar. ¿Seguir al Shifu?"
+
+msgid "虹台上的事还没完。等散了会再说。"
+msgstr "Lo de la Terraza del Arcoíris aún no ha terminado. Hablamos cuando la asamblea se disperse."
+
+msgid "点字诀"
+msgstr "Secreto de la punta"
+
+msgid "武馆的事"
+msgstr "Asuntos del salón"
+
+msgid "腰牌"
+msgstr "Placa"
+
+msgid "先人遗志"
+msgstr "Voluntad de los antepasados"
+
+msgid "隘口"
+msgstr "Desfiladero"
+
+msgid "老松寨的常老大，人称泼风刀王，什么钱都收。要过他的寨门，带够银子；有本事的，就在寨门外叫阵——硬闯的人，没几个回来。"
+msgstr "El Jefe Chang del Fuerte de los Pinos Viejos, al que llaman el Rey del Sable Tormenta, acepta todo el dinero. Para cruzar el portón de su fuerte, lleva plata de sobra; si tienes habilidad, reta a gritos fuera del portón: de los que entran a la fuerza, pocos vuelven."
+
+msgid "黑冠黑衣的道士？这一带没有道观。你若在老松岭遇上，小心些，那种人下手没有分寸。"
+msgstr "¿Un taoísta de gorro negro y túnica negra? Por aquí no hay monasterio. Si te lo cruzas en el Cerro de los Pinos Viejos, ten cuidado: esa gente no sabe dónde parar."
+
+msgid "老岑的信，你留着。末一行我不认得——他说过他在山里见过一座城，我只当是饿昏了的话。"
+msgstr "Quédate con la carta del viejo Cen. La última línea no la entiendo: dijo una vez que había visto una ciudad en la montaña, y yo lo tomé por delirios de hambre."
+
+msgid "接过信，看了很久，又折好还给你。"
+msgstr " toma la carta, la lee largo rato, la dobla de nuevo y te la devuelve."
+
+msgid "老岑……二十多年前我在山里迷了路，三天没吃东西，是个砍柴的老人领我下的山。他不识几个字——这封信，他写了多久啊。"
+msgstr "El viejo Cen... Hace más de veinte años me perdí en la montaña, tres días sin comer, y fue un leñador viejo quien me guio montaña abajo. Apenas sabía letras: ¿cuánto le habrá costado escribir esta carta?"
+
+msgid "他托你来，武馆的门你随时进。拜不拜师，你自己定。"
+msgstr "Él te mandó: la puerta del salón está abierta para ti cuando quieras. Que te hagas mi discípulo o no, lo decides tú."
+
+msgid "末一行我不认得。他说过他在山里见过一座城，铃声满耳……我只当是饿昏了的话。你收好。"
+msgstr "La última línea no la entiendo. Dijo que había visto una ciudad en la montaña, con el sonido de las campanas por todas partes... yo lo tomé por delirio de hambre. Guárdala bien."
+
+msgid "什么信？"
+msgstr "¿Qué carta?"
+
+msgid "看了你一眼。"
+msgstr " te echa un vistazo."
+
+msgid "信没了？……罢了，我再写一封。"
+msgstr "¿Perdiste la carta? ...En fin, escribiré otra."
+
+msgid "提笔又写了一封信，封好了交给你。"
+msgstr " toma el pincel, escribe otra carta, la sella y te la entrega."
+
+msgid "这回收好。潘军禅认信不认人。"
+msgstr "Esta vez guárdala bien. Pan Junchan atiende a la carta, no a la cara."
+
+msgid "信已经给你了。去水烟阁找潘军禅，他是我的结拜义弟，见信如见我。"
+msgstr "Ya te di la carta. Ve al Pabellón de la Neblina y busca a Pan Junchan: es mi hermano jurado, y ver mi carta es como verme a mí."
+
+msgid "听你说完山洞里的事，沉默了半晌。"
+msgstr " escucha lo que pasó en la cueva y guarda silencio un buen rato."
+
+msgid "洞里那个道士，是你杀的？……头一回手上沾血，夜里睡得着就好。睡不着，来武馆找我，我陪你坐一坐。"
+msgstr "Ese taoísta de la cueva, ¿lo mataste tú? ...La primera vez que se tiene sangre en las manos, si esa noche puedes dormir, bien. Si no puedes, ven al salón; me sentaré contigo un rato."
+
+msgid "二十年前，振远镖局押一趟镖过老松岭，镖师随从一个都没回来。镖局丢了脸，陈剑秋到今天都不肯提。"
+msgstr "Hace veinte años, los Escoltas del Largo Camino llevaron una escolta por el Cerro de los Pinos Viejos, y de los escoltas y sus acompañantes no volvió ninguno. La agencia perdió la cara, y Chen Jianqiu hasta hoy no quiere hablar de ello."
+
+msgid "那具骸骨若真是水烟阁的人，这事就该问水烟阁。我写一封信，你拿去给执法使潘军禅，他是我的结拜义弟。"
+msgstr "Si ese esqueleto es de verdad de gente del Pabellón de la Neblina, el asunto es para el Pabellón de la Neblina. Escribiré una carta; llévasela al Ejecutor Pan Junchan, mi hermano jurado."
+
+msgid "提笔写了一封信，封好了交给你。"
+msgstr " toma el pincel, escribe una carta, la sella y te la entrega."
+
+msgid "先去绮云镇问问陈剑秋，把镖单要来。上了山，别带着兵刃进阁。"
+msgstr "Primero ve a Tejenubes y pregunta a Chen Jianqiu por el registro de escolta; tráelo. Cuando subas a la montaña, no entres con armas en el pabellón."
+
+msgid "还有一件：前夜老松岭上起了火，山下都看得见——是老松寨。那道士的同伙回来了，挨个问寨里的人：匣子在谁手里。夜里睡觉，把门闩上。"
+msgstr "Y otra cosa: anteanoche hubo fuego en el Cerro de los Pinos Viejos, se veía desde el pie de la montaña: fue el Fuerte de los Pinos Viejos. Los compinches de ese taoísta volvieron y fueron preguntando uno por uno a la gente del fuerte quién tiene el cofre. De noche, echa el cerrojo a la puerta."
+
+msgid "水烟阁在青石官道西头的山上，武者同盟的总坛。"
+msgstr "El Pabellón de la Neblina está en la montaña, al final oeste del Camino real de piedra azul: es la sede de la Alianza Marcial."
+
+msgid "虹台上的事定了。封山守封山的规矩。"
+msgstr "Lo de la Terraza del Arcoíris está decidido. La Montaña Vacía se atiene a las reglas de la Montaña Vacía."
+
+msgid "封山这一票，等盟主回来。"
+msgstr "El voto de la Montaña Vacía espera a que regrese el Líder de la Alianza."
+
+msgid "封山这一票，正月十七照你说的投。"
+msgstr "El diecisiete del primer mes, el voto de la Montaña Vacía irá como dijiste."
+
+msgid "把手里的茶盏放下，半晌没有说话。"
+msgstr " deja la taza de té que tiene en la mano y pasa un buen rato sin decir palabra."
+
+msgid "颜违许了北宗一个座。北宗的人上得了虹台，封山这一票，就跟着颜违走了。"
+msgstr "Yan Wei le prometió un asiento a la rama norte. Si la gente de la rama norte llega a la Terraza del Arcoíris, el voto de la Montaña Vacía se va con Yan Wei."
+
+msgid "那一票不在我手里。你要说什么，去内院同绘心说。"
+msgstr "Ese voto no está en mis manos. Lo que tengas que decir, díselo a Huixin, en el patio interior."
+
+msgid "等盟主回来。二十年了，虹台上那把石椅，封山不替任何人去坐。"
+msgstr "Esperaremos a que regrese el Líder de la Alianza. Veinte años: la silla de piedra de la Terraza del Arcoíris, la Montaña Vacía no la ocupa por nadie."
+
+msgid "……你是掌门传人。你要这一票投你自己，你开口。"
+msgstr "...Eres quien hereda la escuela. Si quieres este voto para ti, solo tienes que pedirlo."
+
+msgid "颜违要把那个「代」字去掉——他去他的。封山的剑不外传，封山的票也不跟着人走。"
+msgstr "Yan Wei quiere quitar esa palabra, «en funciones»: allá él. La espada de la Montaña Vacía no se enseña a extraños, y el voto de la Montaña Vacía no sigue a nadie."
+
+msgid "正月十七的事？湖上的事还没了，说那个早了。"
+msgstr "¿El diecisiete del primer mes? Lo del lago aún no ha terminado; es pronto para hablar de eso."
+
+msgid "这一票"
+msgstr "Este voto"
+
+msgid "请柳淳风把封山这一票交给你：正月十七虹台上，封山听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
+msgstr "Pedirle a Liu Chunfeng que te entregue el voto de la Montaña Vacía: el diecisiete del primer mes, en la Terraza del Arcoíris, la Montaña Vacía te obedece; si te presentas, el voto es tuyo; si no, tú dices a quién se vota.\n¿Quieres decirlo así?"
+
+msgid "虹台上已经入了席。票就是票了。"
+msgstr "Ya hay asientos tomados en la Terraza del Arcoíris. Un voto es un voto."
+
+msgid "那一票不在我手里。"
+msgstr "Ese voto no está en mis manos."
+
+msgid "说过了。封山听你的。"
+msgstr "Ya está dicho. La Montaña Vacía te obedece."
+
+msgid "看了你很久，点了点头。"
+msgstr " te mira largo rato y asiente."
+
+msgid "好。封山听你的。"
+msgstr "Bien. La Montaña Vacía te obedece."
+
+msgid "……"
+msgstr "..."
+
+msgid "规矩是规矩。北宗的人，我不能再教了。"
+msgstr "Las reglas son las reglas. A la gente de la rama norte ya no puedo enseñarla."
+
+msgid "这卷书，你不是已经给了绘心么。……拿回去还她。"
+msgstr "Este libro, ¿no se lo habías dado ya a Huixin? ...Devuélveselo."
+
+msgid "把《悟疾风劲竹书》交给柳淳风。\n他会把它收进匣里，不再示人。书只有这一本，给出去就读不到了；柳绘心也读不到。\n要交给他吗？"
+msgstr "Entregar «Bambú contra el vendaval» a Liu Chunfeng.\nÉl lo guardará en su cofre y no lo mostrará más. Solo hay este ejemplar: una vez entregado ya no podrás leerlo, y Liu Huixin tampoco.\n¿Quieres entregárselo?"
+
+msgid "接过书，没有翻开，用袖口把封皮上的灰擦了。"
+msgstr " toma el libro sin abrirlo y limpia con la manga el polvo de la cubierta."
+
+msgid "直竹贵地生……二十岁写的。那时候以为自己什么都懂。"
+msgstr "Bambú recto, raíz profunda... Lo escribí a los veinte años. Entonces creía que lo entendía todo."
+
+msgid "年轻时的糊涂话，收起来罢。"
+msgstr "Tonterías de juventud. Guárdalo."
+
+msgid "把书收进了案头的匣里。"
+msgstr " guarda el libro en el cofre de su mesa."
+
+msgid "绘心这些日子常往内院去，一去就是半天。你改日替我看一眼。"
+msgstr "Últimamente Huixin va mucho al patio interior y se pasa allí medio día. Échale un vistazo por mí otro día."
+
+msgid "这卷书……你从竹林里取出来的？先留着读。武馆的事办完了，再同我说。"
+msgstr "¿Este libro... lo sacaste del bosque de bambú? Quédatelo y léelo por ahora. Cuando termine lo del salón, hablaremos."
+
+msgid "把腰牌收进袖里。"
+msgstr " guarda la placa en la manga."
+
+msgid "找回来了？我替他收着。"
+msgstr "¿Lo encontraste? Yo se la guardo."
+
+msgid "牌我替他收着。他什么时候戒了赌，什么时候自己来取。"
+msgstr "Yo guardo la placa. Cuando deje el juego, que venga él mismo a buscarla."
+
+msgid "牌是逄师弟的。你先去绮云镇问他一句，牌是怎么到外人手里的。"
+msgstr "La placa es del hermano menor Pang. Primero ve a Tejenubes y pregúntale cómo fue a parar a manos de un extraño."
+
+msgid "你跟了她。……也好。她一个人，我不放心。"
+msgstr "Te fuiste con ella. ...Mejor así. No me gustaría que estuviera sola."
+
+msgid "武馆的门不拦你。剑，我不能再教了——规矩是规矩。"
+msgstr "La puerta del salón no se te cierra. La espada ya no puedo enseñártela: las reglas son las reglas."
+
+msgid "刘兄弟的事，李教头回过我了。规矩是先父立的，我不能为他破。"
+msgstr "Del hermano Liu me ha hablado el instructor Li. La regla la puso mi padre, y no puedo romperla por él."
+
+msgid "五年前我留他，是我的事；今天你说破，是你的事。都没有错。"
+msgstr "Hace cinco años lo retuve yo; eso fue cosa mía. Hoy tú lo dijiste en voz alta; eso fue cosa tuya. Ninguno se equivocó."
+
+msgid "……说到规矩。我年轻时在天驼关的竹林里留过一卷书，写的也是这两个字。改日同你说。"
+msgstr "...Hablando de reglas. De joven dejé un libro en el bosque de bambú del Paso del Camello, y trataba de estas dos palabras. Otro día te cuento."
+
+msgid "李教头说，那伙人认错了人。"
+msgstr "El instructor Li dice que esos hombres se equivocaron de persona."
+
+msgid "看了你很久。"
+msgstr " te mira largo rato."
+
+msgid "刘兄弟的来历，五年前我就知道。你替他担了这句话——往后，也替武馆担着。"
+msgstr "Hace cinco años que sé de dónde viene el hermano Liu. Tú cargaste con esa palabra por él; de ahora en adelante, cárgala también por el salón."
+
+msgid "你跟了绘心，就是北宗的人。本宗的门，我不能再为你开。"
+msgstr "Te fuiste con Huixin, así que eres de la rama norte. La puerta de la rama principal ya no puedo abrírtela."
+
+msgid "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？"
+msgstr "Quien aprende la espada debe ser audaz y cuidadoso. A mi juicio, $RESPECT, tus dotes no parecen las adecuadas."
+
+msgid "很好，$RESPECT多加努力，他日必定有成。"
+msgstr "Muy bien, $RESPECT. Esfuérzate, y algún día lo lograrás."
+
+msgid "这是个正在执行公务的县城官兵，虽然和许多武林人物比起来，官兵\n们的武功实在稀松平常，但是他们是有组织、有纪律的战士，谁也不\n轻易地招惹他们。\n"
+msgstr "Un soldado del condado en funciones oficiales. Comparados con muchos del wulin, la destreza marcial de los soldados es muy poca cosa, pero son combatientes organizados y disciplinados, y nadie los provoca a la ligera."
+
+msgid "县城官兵喝道：还不快放下武器束手就缚？\n"
+msgstr "El soldado del condado grita: \"¡Suelta el arma y entrégate ahora mismo!\"\n"
+
+msgid "县城官兵喝道：大胆刁民竟敢拒捕？反了！反了！\n"
+msgstr "El soldado del condado grita: \"¡Insolente! ¿Te atreves a resistirte al arresto? ¡Rebelión! ¡Esto es una rebelión!\"\n"
+
+msgid "水烟阁传功使"
+msgstr "Instructor del Pabellón de la Neblina"
+
+msgid "於兰天武是当今皇上的叔父，但是他毕生浸淫武学，甘愿抛弃荣华富\n以换取水烟阁传功使一职，以便阅读水烟阁中所藏的武学典籍，无论\n你有什麽武学上的疑难，他都能为你解答。\n"
+msgstr "Yulan Tianwu es tío del actual emperador, pero se ha sumergido toda la vida en las artes marciales y renunció de buen grado a riquezas y rangos a cambio del puesto de Instructor del Pabellón de la Neblina, para poder leer los clásicos marciales que guarda el pabellón; sea cual sea tu duda sobre las artes marciales, él sabe resolverla."
+
+msgid "武学之道....嗯....只可意会，不可言喻。\n"
+msgstr "El camino de las artes marciales... bueno... se entiende, pero no se puede decir.\n"
+
+msgid "水烟阁乃是历届武林盟主的行馆，你有什麽事要见武林盟主？\n"
+msgstr "El Pabellón de la Neblina es la residencia de todos los Líderes de la Alianza del wulin. ¿Qué asunto tienes con el Líder de la Alianza?\n"
+
+msgid "哦....老夫向来有个规矩，凡是想拜我为师的，得接我三招不死，你想试试？\n"
+msgstr "Oh... este viejo tiene una regla de siempre: quien quiera ser mi discípulo debe aguantar tres golpes míos sin morir. ¿Quieres intentarlo?\n"
+
+msgid "皇上"
+msgstr "Su Majestad"
+
+msgid "老夫在朝上一天，庾子建就不是一个人说了算。"
+msgstr "Mientras este viejo esté en la corte, Yu Zijian no decidirá solo."
+
+msgid "昭儿？……他还小。朝廷的事，老夫不问了。"
+msgstr "¿Zhao'er? ...Aún es un niño. Este viejo ya no pregunta por los asuntos de la corte."
+
+msgid "在老夫手里。三百年前於兰家拔错了一把——决战那日，你来叫我，看老夫这一回拔得对不对。"
+msgstr "En manos de este viejo. Hace trescientos años la familia Yulan sacó la espada equivocada: el día de la batalla decisiva, ven a llamarme y verás si esta vez este viejo la saca bien."
+
+msgid "你拔的。好——於兰家这一回，不用再错一次。"
+msgstr "La sacaste tú. Bien... La familia Yulan no tendrá que equivocarse otra vez."
+
+msgid "萧家那孩子拿去了。他回了一趟岚城，比老夫配。"
+msgstr "Se la llevó el muchacho Xiao. Fue una vez a la Ciudad del Viento; la merece más que este viejo."
+
+msgid "寒於氏的剑。於兰家的血里有寒於氏的一份——君违嫁过来的那一份。三百年前，我家的人拔错了一把剑。"
+msgstr "La espada del clan Hanyu. En la sangre de la familia Yulan hay una parte del clan Hanyu: la que trajo Junwei al casarse. Hace trescientos años, uno de los míos sacó la espada equivocada."
+
+msgid "旋芒……先帝找了一辈子。老夫不找。"
+msgstr "Filo Giratorio... El difunto emperador la buscó toda su vida. Este viejo no la busca."
+
+msgid "找到城，叫我。风会知道怎么找到於兰家的人。"
+msgstr "Cuando encuentres la ciudad, llámame. El viento sabrá cómo encontrar a un Yulan."
+
+msgid "樵夫撞进去过，先帝的人没有。老夫不信那些。"
+msgstr "Un leñador llegó a entrar alguna vez; la gente del difunto emperador, nunca. Este viejo no cree en esas cosas."
+
+msgid "人送回水烟阁了。庾子建那道门，老夫往后还会去敲。"
+msgstr "Ya lo devolvieron al Pabellón de la Neblina. A la puerta de Yu Zijian, este viejo volverá a llamar."
+
+msgid "卫沧澜出来了？好。……二十年，老夫在水烟阁等他回来，他就关在京城。"
+msgstr "¿Wei Canglan salió? Bien. ...Veinte años esperando en el Pabellón de la Neblina a que volviera, y estaba encerrado en la Capital."
+
+msgid "虹台那边已经开了席。等散了会，老夫再去庾子建那里要人——这时候把人领出来，倒像是去抢那把椅子。"
+msgstr "La Terraza del Arcoíris ya abrió los asientos. Cuando termine la asamblea, este viejo irá a casa de Yu Zijian a reclamar al hombre: sacarlo ahora parecería ir a arrebatar esa silla."
+
+msgid "放下手里的茶盏，站了起来。"
+msgstr " deja la taza de té y se pone en pie."
+
+msgid "卫沧澜？二十年前的武林盟主……庾子建府上那间客房，老夫知道。"
+msgstr "¿Wei Canglan? El Líder de la Alianza de hace veinte años... La habitación de invitados de la casa de Yu Zijian, este viejo la conoce."
+
+msgid "昭儿的手诏召老夫回朝，也叫得开兵部尚书的门。你在这里等着。"
+msgstr "El edicto manuscrito de Zhao'er llama a este viejo de vuelta a la corte, y también abre la puerta del Ministro de la Guerra. Espera aquí."
+
+msgid "於兰天武大步出了养心殿，两个侍卫捧着黄绫跟在后头。\n"
+msgstr "Yulan Tianwu sale a zancadas del Salón del Cultivo Mental, con dos guardias detrás que llevan la seda amarilla.\n"
+
+msgid "过了一个多时辰，殿外一阵脚步响。於兰天武回来了，身后跟着一个白发的老人，腋下夹着一本诗集。\n"
+msgstr "Pasadas un buen par de horas, se oyen pasos fuera del salón. Yulan Tianwu ha vuelto, y tras él viene un anciano de pelo blanco, con un libro de poemas bajo el brazo.\n"
+
+msgid "庾子建亲自开的门，一句话也没说。……老夫进门的时候，他还躬着身。"
+msgstr "Yu Zijian abrió la puerta en persona y no dijo una palabra. ...Cuando este viejo entró, él todavía estaba inclinado."
+
+msgid "卫沧澜朝你点点头：「老夫先回水烟阁。这条命是皇叔从尚书府要回来的，欠朝廷一份。」\n"
+msgstr "Wei Canglan te hace un gesto con la cabeza: \"Este viejo vuelve primero al Pabellón de la Neblina. Esta vida me la devolvió el tío imperial de la Mansión del Ministro; debo una parte a la corte.\"\n"
+
+msgid "卫沧澜……二十年没有消息了。"
+msgstr "¿Wei Canglan? ...Veinte años sin noticias."
+
+msgid "$RESPECT若真的有心，不妨让我看看你的所学"
+msgstr "Si de verdad tienes interés, $RESPECT, deja que vea lo que has aprendido"
+
+msgid "如果想拜师的话，就请接受测试"
+msgstr "Si quieres ser mi discípulo, acepta la prueba."
+
+msgid "於兰天武点了点头，说道：很好，这是第一招...."
+msgstr "Yulan Tianwu asiente y dice: \"Muy bien, este es el primer golpe...\""
+
+msgid "於兰天武叹了口气，说道：连第一招都撑不过，真是自不量力...."
+msgstr "Yulan Tianwu suspira y dice: \"Ni siquiera aguantas el primer golpe... qué atrevimiento...\""
+
+msgid "於兰天武说道：这是第二招...."
+msgstr "Yulan Tianwu dice: \"Este es el segundo golpe...\""
+
+msgid "於兰天武「哼」地一声，说道：便是有这许多不怕死的家伙...."
+msgstr "Yulan Tianwu dice con un \"¡hmm!\": \"Siempre hay tantos necios que no temen a la muerte...\""
+
+msgid "於兰天武说道：第三招来了...."
+msgstr "Yulan Tianwu dice: \"Aquí viene el tercer golpe...\""
+
+msgid "於兰天武叹道：可惜，难道老夫一身武功竟无传人...."
+msgstr "Yulan Tianwu suspira: \"Qué lástima. ¿Acaso toda la destreza de este viejo se quedará sin heredero...?\""
+
+msgid "於兰天武哈哈大笑，说道：今日老夫终於觅得一个可造之才！"
+msgstr "Yulan Tianwu ríe a carcajadas y dice: \"¡Hoy este viejo por fin ha encontrado a alguien digno de formar!\""
+
+msgid "接过黄笺，看了一遍，又看了一遍，半晌没有说话。"
+msgstr " toma el papel amarillo, lo lee una vez, lo lee otra, y pasa un buen rato sin decir palabra."
+
+msgid "昭儿的字……还是这么慢。"
+msgstr "La letra de Zhao'er... sigue siendo así de lenta."
+
+msgid "三百年了，於兰家的人又要去碰那东西。老夫不回去，这孩子一个人扛不住。"
+msgstr "Trescientos años, y un Yulan va a volver a tocar esa cosa. Si este viejo no vuelve, el muchacho no podrá cargar solo."
+
+msgid "把手诏折好，揣进怀里，站了起来。"
+msgstr " dobla el edicto, se lo guarda en el pecho y se pone en pie."
+
+msgid "传功使的事，交给萧辟尘。——老夫回京。"
+msgstr "Los asuntos del Instructor, a Xiao Bichen. —Este viejo vuelve a la Capital."
+
+msgid "萧辟尘自幼生长於岚城之中，看起来仙风道骨，不食人间烟火。\n"
+msgstr "Xiao Bichen se crió en la Ciudad del Viento; tiene un aire de inmortal, como si no comiera los alimentos de este mundo."
+
+msgid "{respect}既然使兵刃，在下空手接招未免不敬。"
+msgstr "Ya que empuñas un arma, {respect}, sería una falta de respeto que yo te recibiera con las manos desnudas."
+
+msgid "进招吧！"
+msgstr "¡Ataca!"
+
+msgid "既然{respect}不使兵刃，在下自然奉陪！"
+msgstr "Ya que no usas arma, {respect}, ¡yo también iré con las manos vacías!"
+
+msgid "嗯... 既然{count}位都是空手，在下理当奉陪！"
+msgstr "Hmm... ya que los {count} van con las manos vacías, ¡es justo que los acompañe!"
+
+msgid "我天邪派门规甚严，$RESPECT如果真的有心，且发个誓来。"
+msgstr "Las reglas de nuestra Escuela Rebelde son muy estrictas. Si de verdad tienes interés, $RESPECT, haz un juramento."
+
+msgid "多说无益，若不发誓恪守门规，便是跪著求我也没用。"
+msgstr "Hablar no sirve de nada. Si no juras guardar las reglas de la escuela, ni de rodillas conseguirás nada."
+
+msgid "守门规"
+msgstr "Guardar las reglas"
+
+msgid "这就是了。"
+msgstr "Eso es."
+
+msgid "我回去过一回了。城还是那个样子，铃挂在钩上。……风记得我。"
+msgstr "Volví una vez. La ciudad sigue como era, y la campanilla cuelga de su gancho. ...El viento me recuerda."
+
+msgid "……这是我的铃。」他把铃接过去，翻来覆去看了很久，拇指在那个「尘」字上摸了一下，又还给你：「铃在，风认人。你带着它，比我带着它有用。"
+msgstr "...Es mi campanilla.\" Toma la campanilla y la mira por todos lados un buen rato, pasa el pulgar sobre el carácter «Chen» y te la devuelve: \"Mientras la campanilla esté contigo, el viento reconoce a los suyos. Contigo sirve más que conmigo."
+
+msgid "我四岁那年起了一场大风，醒来就在山外了，身边什么也没有。铃丢了，风就不认得我，我再也回不去。……风是从城里往外吹的。小时候我放风筝，线总是往外拽。"
+msgstr "A los cuatro años se levantó un gran viento, y al despertar estaba fuera de las montañas, sin nada a mi lado. Perdí la campanilla, y el viento ya no me reconoció; nunca pude volver. ...El viento sopla desde la ciudad hacia fuera. De niño, cuando volaba cometas, el hilo siempre tiraba hacia fuera."
+
+msgid "岚城……我是在那里长大的。别的，不说了。"
+msgstr "La Ciudad del Viento... allí me crié. De lo demás, no hablo."
+
+msgid "风铃"
+msgstr "Campanilla de viento"
+
+msgid "铃舌上那个字是铃匠刻的。岚城的孩子，人人一只。"
+msgstr "La letra de la lengüeta de la campanilla la grabó el campanero. En la Ciudad del Viento, cada niño tiene una."
+
+msgid "那只匣子……对着岚城的风才开。镜子里的上道，风从那头来。"
+msgstr "Esa caja... solo se abre con el viento de la Ciudad del Viento. El camino de arriba, en el espejo: el viento viene de ese lado."
+
+msgid "黄石隘口挖出来的那只石匣，后来在哪里？……先帝的人当年从山外收走过一只铃。我一直想，那是我的。"
+msgstr "El cofre de piedra que se desenterró en el Desfiladero de Piedra Amarilla, ¿dónde acabó? ...Los hombres del difunto emperador se llevaron una vez una campanilla de fuera de las montañas. Siempre pensé que era la mía."
+
+msgid "风铃？水烟阁的檐下也挂着几只，风一大就响。"
+msgstr "¿Campanillas de viento? Bajo los aleros del Pabellón de la Neblina también cuelgan unas cuantas, y suenan cuando sopla fuerte."
+
+msgid "在我背上。决战那日，它跟我下湖。"
+msgstr "A mi espalda. El día de la batalla decisiva, bajará al lago conmigo."
+
+msgid "是你。好。"
+msgstr "Eres tú. Bien."
+
+msgid "皇叔拔的？……也好。於兰家欠这把剑一回。"
+msgstr "¿La sacó el tío imperial? ...Mejor así. La familia Yulan le debía una a esta espada."
+
+msgid "岚城有一把剑，叫旋芒。守剑的老人不卖，不赏，不问剑给谁做什么——只问谁拔。"
+msgstr "En la Ciudad del Viento hay una espada llamada Filo Giratorio. El anciano que la guarda no la vende, no la regala, no pregunta para quién ni para qué es la espada: solo pregunta quién la saca."
+
+msgid "旋芒？朝廷要找的那把剑。……小天邪不问这个。"
+msgstr "¿Filo Giratorio? La espada que busca la corte. ...El Pequeño Rebelde no pregunta por eso."
+
+msgid "湖底"
+msgstr "Fondo del lago"
+
+msgid "湖底那颗头，三百年前是穿灵钉住的。这一回，我拿旋芒去。回不来，就回不来。"
+msgstr "La cabeza del fondo del lago, hace trescientos años la clavó Traspasalmas. Esta vez llevo Filo Giratorio. Si no vuelvo, no vuelvo."
+
+msgid "湖底？玉螺湖底下的事，小天邪不问。"
+msgstr "¿El fondo del lago? Lo que hay bajo el Lago Caracola de Jade, el Pequeño Rebelde no lo pregunta."
+
+msgid "水烟阁执法使"
+msgstr "Ejecutor del Pabellón de la Neblina"
+
+msgid "潘军禅是当今武林的一位传奇性人物，以他仅仅二十八岁的年龄竟能做到\n水烟阁执法使的职位，著实是一位不简单的人物。潘军禅是封山剑派掌门\n柳淳风的结拜义弟，但是他为人其实十分风趣，又好交朋友，丝毫不会摆\n出武林执法者的架子。\n"
+msgstr "Pan Junchan es una figura legendaria del wulin de hoy: con solo veintiocho años ha llegado a ser Ejecutor del Pabellón de la Neblina, lo que lo hace un hombre nada común. Pan Junchan es hermano jurado menor de Liu Chunfeng, Maestro de la Escuela de la Montaña Vacía, pero en realidad es muy divertido y sociable, y no se da aires de ejecutor del wulin."
+
+msgid "柳大哥？他是我的结拜义兄。你有他的信？拿来我看。"
+msgstr "¿El hermano mayor Liu? Es mi hermano jurado mayor. ¿Tienes una carta suya? Trae, que la vea."
+
+msgid "阁里那把是假的，真剑不在这儿。要找去年那个道士，往野羊山北麓去。"
+msgstr "La del pabellón es falsa; la espada de verdad no está aquí. Si buscas al taoísta del año pasado, ve a la falda norte del Cerro de las Cabras."
+
+msgid "看了柳淳风的信，笑了。"
+msgstr " lee la carta de Liu Chunfeng y sonríe."
+
+msgid "柳大哥的朋友就是我的朋友。邪剑穿灵？阁里挂着的那把，是仿的。"
+msgstr "Un amigo del hermano Liu es amigo mío. ¿Traspasalmas, la espada maligna? La que cuelga en el pabellón es una imitación."
+
+msgid "真剑早就不在水烟阁了。挂一把假的，是鱼饵——钓那些冲着它来的人。"
+msgstr "La espada de verdad hace tiempo que no está en el Pabellón de la Neblina. Colgar una falsa es un cebo, para pescar a los que vienen por ella."
+
+msgid "去年就钓上来一个：黑衣黑冠的道士，夜里来试剑，发觉是假的就走了。我的人跟到野羊山北麓，跟丢了。那边没有道观，只有一片黑砖。"
+msgstr "El año pasado picó uno: un taoísta de túnica negra y gorro negro que vino de noche a probar la espada, y al ver que era falsa se fue. Mi gente lo siguió hasta la falda norte del Cerro de las Cabras y lo perdió. Allí no hay monasterio, solo un trecho de ladrillo negro."
+
+msgid "柳大哥让你来的？信呢？没有他的信，执法使的佩剑不是你问得的。信丢了，回武馆找他再写一封。"
+msgstr "¿Te mandó el hermano Liu? ¿Y la carta? Sin su carta, la espada del Ejecutor no es cosa que puedas preguntar. Si la perdiste, vuelve al salón a pedirle que escriba otra."
+
+msgid "执法使的佩剑，也是你问得的？"
+msgstr "La espada del Ejecutor, ¿y crees que puedes preguntar por ella?"
+
+msgid "宝衣"
+msgstr "Túnica de Hanyu"
+
+msgid "晚月庄。守它的人不白给——我说过了。"
+msgstr "La Mansión Luna Tardía. A quien la guarda no se le regala nada: ya te lo dije."
+
+msgid "寒於宝衣？你倒问到点子上了。"
+msgstr "¿La Túnica de Hanyu? Ahora sí preguntas lo que importa."
+
+msgid "当年三件东西各归一处，宝衣归月神族保管。月神族早没了，只剩晚月庄那些女子——自称人灵区冥的后人，庄里供着她的神像，池边立着凤凰护庄。"
+msgstr "En su día las tres cosas fueron cada una a un sitio, y la túnica quedó al cuidado del clan del Dios Luna. El clan del Dios Luna hace mucho que no existe; solo quedan las mujeres de la Mansión Luna Tardía, que se dicen descendientes del Alma humana Ouming: en la mansión veneran su imagen, y un fénix guarda la orilla del estanque."
+
+msgid "衣在不在庄里，我不知道。守它的人不白给——你去了就明白。"
+msgstr "Si la túnica está en la mansión, no lo sé. A quien la guarda no se le regala nada: ve y lo entenderás."
+
+msgid "还有——野羊山那边前夜出了事。一伙黑冠道士摸上山，抓走了寨里两个人，挨个问：那天闯道观的孩子是谁。他们在找你。"
+msgstr "Y otra cosa: anteanoche pasó algo en el Cerro de las Cabras. Una banda de taoístas de gorro negro subió a escondidas, se llevó a dos personas del fuerte y fue preguntando uno por uno quién era la persona joven que entró a la fuerza en el monasterio aquel día. Te buscan a ti."
+
+msgid "执刑使管的是刀，不管衣裳。"
+msgstr "El Ejecutor se ocupa de las hojas, no de la ropa."
+
+msgid "山门"
+msgstr "Puerta de la montaña"
+
+msgid "人跑了。拿错的那一个，我赔过礼了。"
+msgstr "Se escapó. Al que atrapé por error, ya le pedí disculpas."
+
+msgid "水烟阁的门，一年到头有人来打听盟主。这一回跑掉的，下回还会来——下回你认得他。"
+msgstr "A la puerta del Pabellón de la Neblina viene gente todo el año preguntando por el Líder de la Alianza. El que se escapó esta vez volverá, y la próxima vez lo reconocerás."
+
+msgid "眼力差了一点，胆子不差。你守过一回山门了——从今日起，你是这一辈的大弟子。"
+msgstr "Te falló un poco la vista, pero no el valor. Ya has guardado una vez la puerta de la montaña: desde hoy eres el discípulo mayor de esta generación."
+
+msgid "人拿下了？他身上掉出来的信，给我看看。"
+msgstr "¿Lo atrapaste? La carta que se le cayó del cuerpo, déjame verla."
+
+msgid "人拿下了。身上的东西没捡着？……罢了，人押在刑堂里，我自己问。"
+msgstr "Lo atrapaste. ¿No recogiste lo que llevaba encima? ...Da igual, el hombre está en la sala de castigos y lo interrogaré yo mismo."
+
+msgid "你守过一回山门了——从今日起，你是这一辈的大弟子。"
+msgstr "Ya has guardado una vez la puerta de la montaña: desde hoy eres el discípulo mayor de esta generación."
+
+msgid "人认出来了，还没拿下？去，别让他下了山。"
+msgstr "¿Lo reconociste y aún no lo has atrapado? Ve, que no baje de la montaña."
+
+msgid "三个上山的人在阁前候着。问清来意，听他们怎么说盟主，看看路引——哪个不对，拿下。"
+msgstr "Tres personas que subieron a la montaña esperan frente al pabellón. Averigua a qué vienen, escucha qué dicen del Líder de la Alianza, mira sus salvoconductos; el que no cuadre, apresado."
+
+msgid "把手里的卷宗一合，冲你招了招手。"
+msgstr " cierra el expediente que tiene en las manos y te hace una seña con la mano."
+
+msgid "可这一个月，阁里丢了两份名帖，山下的客栈里也有人在打听——盟主还活着没有。"
+msgstr "Pero este mes el pabellón ha perdido dos tarjetas de presentación, y en la posada al pie de la montaña alguien anda preguntando si el Líder de la Alianza sigue vivo."
+
+msgid "我认得的人太多，往门口一站，探子就不开口了。你是新面孔。去山门值一班：上山的人问清来意，哪个不对，拿下。"
+msgstr "Conozco a demasiada gente: si me planto en la puerta, el espía no abre la boca. Tú eres una cara nueva. Ve a hacer una guardia en la puerta de la montaña: averigua a qué viene cada uno que sube, y el que no cuadre, apresado."
+
+msgid "拿错了人不要紧，我去赔礼。只是真的那个，就跑了。"
+msgstr "Apresar a la persona equivocada no importa; yo iré a pedir disculpas. Lo malo es que el de verdad se escape."
+
+msgid "山门有武士守着。执法使的事，不劳外人。"
+msgstr "La puerta de la montaña tiene guardianes. Los asuntos del Ejecutor no son cosa de extraños."
+
+msgid "镖单"
+msgstr "Registro de escolta"
+
+msgid "镖单在刑堂里锁着。振远的脸面，水烟阁替他们留着。"
+msgstr "El registro de escolta está encerrado en la sala de castigos. El Pabellón de la Neblina les guarda a los del Largo Camino la cara."
+
+msgid "交给陈总镖头了？……也好。他要查，就让他查到底。"
+msgstr "¿Se lo diste al Escolta Mayor Chen? ...Mejor así. Si quiere investigar, que investigue hasta el fondo."
+
+msgid "手令丢了？我再写一张。"
+msgstr "¿Perdiste la orden? Te escribo otra."
+
+msgid "镖单在你手里。给我锁进刑堂，还是带去京师给陈天星——你定。"
+msgstr "El registro de escolta está en tus manos. Dámelo y lo encierro en la sala de castigos, o llévaselo a Chen Tianxing a la Capital: tú decides."
+
+msgid "拿着手令去绮云镇的振远镖局，找陈剑秋。"
+msgstr "Lleva la orden a los Escoltas del Largo Camino de Tejenubes y busca a Chen Jianqiu."
+
+msgid "镖单不在你身上？去绮云镇问陈剑秋，振远的底账里还有存根。"
+msgstr "¿El registro no lo llevas encima? Ve a Tejenubes y pregunta a Chen Jianqiu: en los libros de cuentas del Largo Camino aún queda un talón."
+
+msgid "还有一件旧事。二十年前振远镖局替水烟阁押过一趟镖：盟主印一方，密件一匣，在老松岭丢了，一个人也没回来。"
+msgstr "Hay otro asunto viejo. Hace veinte años los Escoltas del Largo Camino hicieron una escolta para el Pabellón de la Neblina: un sello de Líder de la Alianza y una caja de documentos secretos; se perdieron en el Cerro de los Pinos Viejos y no volvió ni un hombre."
+
+msgid "那张镖单还在振远手里。我写张手令，你去绮云镇找陈剑秋——他见了我的印，会拿出来。"
+msgstr "El registro de escolta sigue en manos del Largo Camino. Te escribo una orden; ve a Tejenubes y busca a Chen Jianqiu: cuando vea mi sello, lo sacará."
+
+msgid "拿到了，镖单该放在哪儿，你再定。"
+msgstr "Cuando lo tengas, decidirás tú dónde debe ir el registro."
+
+msgid "还有一件旧事。二十年前振远镖局替水烟阁押过一趟镖：盟主印一方，密件一匣，在老松岭丢了。那张镖单，陈剑秋给过你。"
+msgstr "Hay otro asunto viejo. Hace veinte años los Escoltas del Largo Camino hicieron una escolta para el Pabellón de la Neblina: un sello de Líder de la Alianza y una caja de documentos secretos, perdidos en el Cerro de los Pinos Viejos. Ese registro de escolta, Chen Jianqiu ya te lo dio."
+
+msgid "镖单给我，我锁进刑堂：振远的脸面，水烟阁替他们留着，这件事到此为止。"
+msgstr "Dame el registro y lo encierro en la sala de castigos: el Pabellón de la Neblina les guarda la cara a los del Largo Camino, y el asunto termina aquí."
+
+msgid "陈天星不会这么想。京师的振远总局是他一手创的，他要知道当年那条路是谁点的。你把镖单带去给他，他会查到底——查出来的，未必只是振远的丑事。"
+msgstr "Chen Tianxing no lo verá así. La Sede del Largo Camino de la Capital la fundó él con sus propias manos, y querrá saber quién marcó aquel camino. Si le llevas el registro, investigará hasta el fondo; y lo que saque a la luz quizá no sea solo una vergüenza del Largo Camino."
+
+msgid "镖单只有一张。你定。"
+msgstr "Solo hay un registro. Tú decides."
