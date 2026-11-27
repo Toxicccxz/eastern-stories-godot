@@ -2318,7 +2318,7 @@ msgid "伏蛟功"
 msgstr "Arte de domar serpientes"
 
 msgid "春风快意刀"
-msgstr "Sable de la brisa primaveral"
+msgstr "Sable despreocupado de la brisa primaveral"
 
 msgid "封山剑法"
 msgstr "Espada de la Montaña Vacía"
@@ -12305,7 +12305,7 @@ msgid "陈天星查清了二十年前那趟镖：是兵部点名改走的老松�
 msgstr "Chen Tianxing aclaró lo de aquella escolta de hace veinte años: el Ministerio de Guerra ordenó desviarla por el Cerro de los Pinos Viejos."
 
 msgid "你替振远押过一趟镖，从绮云镇一路押到京师总局。"
-msgstr "Escoltaste un cargamento para Largo Camino, desde Tejenubes hasta la casa central en la Capital."
+msgstr "Escoltaste un cargamento para Largo Camino, desde Tejenubes hasta la Sede del Largo Camino en la Capital."
 
 msgid "碎石小路上劫镖的后生，你交给了官府。"
 msgstr "Al joven que asaltó el cargamento en el Sendero de grava lo entregaste a las autoridades."
@@ -12326,7 +12326,7 @@ msgid "陈天星翻了振远二十年的总账：绮云分局开张的本钱，�
 msgstr "Chen Tianxing revisó veinte años del libro mayor de Largo Camino: el dinero con que abrió la sucursal de Tejenubes fue plata de indemnización del Ministerio de Guerra."
 
 msgid "你劝住了陈天星：那本总账烧了，抚恤银的事，振远不再提。陈剑秋许你学春风快意刀。"
-msgstr "Convenciste a Chen Tianxing: el libro mayor ardió, y Largo Camino ya no habla de la plata de indemnización. Chen Jianqiu te permitió aprender el Sable de la brisa primaveral."
+msgstr "Convenciste a Chen Tianxing: el libro mayor ardió, y Largo Camino ya no habla de la plata de indemnización. Chen Jianqiu te permitió aprender el Sable despreocupado de la brisa primaveral."
 
 msgid "你跟陈天星查到底：振远的总账押去了乔阴县衙。绮云分局关了门，陈剑秋还坐在柜台后面。"
 msgstr "Llegaste al fondo con Chen Tianxing: el libro mayor de Largo Camino fue a parar al tribunal de Sombra Alta. La sucursal de Tejenubes cerró sus puertas, y Chen Jianqiu sigue sentado detrás del mostrador."
@@ -13283,10 +13283,10 @@ msgid "陈剑秋认了：那年振远死了十一个人，兵部给钱，他拿�
 msgstr "Chen Jianqiu lo admitió: ese año Largo Camino perdió once hombres, el Ministerio de Guerra pagó y él aceptó el dinero."
 
 msgid "账本在陈天星手里，他要告；陈剑秋要瞒。到此为止（在绮云镇问陈剑秋「到此为止」）：账本烧了，抚恤银的事振远不再提，正月十七振远那一票投颜违；陈剑秋教你春风快意刀，陈天星往后见你只谈生意。查到底（在京师问陈天星「查到底」）：账本押去乔阴县衙，告兵部也告振远自己，陈剑秋关了绮云分局的门；振远那一票投旧盟主，京师的事还没定的，这本账算揭发的一样人证物证。"
-msgstr "El libro de cuentas está en manos de Chen Tianxing, que quiere denunciar; Chen Jianqiu quiere callarlo. Dejarlo ahí (preguntar a Chen Jianqiu, en Tejenubes, por \"Dejarlo ahí\"): el libro se quema, Largo Camino no vuelve a hablar de la plata de indemnización, y el diecisiete del primer mes el voto de Largo Camino es para Yan Wei; Chen Jianqiu te enseña el Sable de la brisa primaveral, y desde entonces Chen Tianxing solo te habla de negocios. Llegar al fondo (preguntar a Chen Tianxing, en la Capital, por \"Hasta el fondo\"): el libro va al tribunal de Sombra Alta, con cargos contra el Ministerio de Guerra y contra el propio Largo Camino, y Chen Jianqiu cierra la sucursal de Tejenubes; el voto de Largo Camino es para el antiguo Líder de la Alianza, y si lo de la Capital aún no está resuelto, este libro cuenta como una prueba para la denuncia."
+msgstr "El libro de cuentas está en manos de Chen Tianxing, que quiere denunciar; Chen Jianqiu quiere callarlo. Dejarlo ahí (preguntar a Chen Jianqiu, en Tejenubes, por \"Dejarlo ahí\"): el libro se quema, Largo Camino no vuelve a hablar de la plata de indemnización, y el diecisiete del primer mes el voto de Largo Camino es para Yan Wei; Chen Jianqiu te enseña el Sable despreocupado de la brisa primaveral, y desde entonces Chen Tianxing solo te habla de negocios. Llegar al fondo (preguntar a Chen Tianxing, en la Capital, por \"Hasta el fondo\"): el libro va al tribunal de Sombra Alta, con cargos contra el Ministerio de Guerra y contra el propio Largo Camino, y Chen Jianqiu cierra la sucursal de Tejenubes; el voto de Largo Camino es para el antiguo Líder de la Alianza, y si lo de la Capital aún no está resuelto, este libro cuenta como una prueba para la denuncia."
 
 msgid "你站到了陈剑秋一边：那本总账烧了，二十年前的抚恤银，振远不再提。陈剑秋许你学春风快意刀。"
-msgstr "Te pusiste del lado de Chen Jianqiu: el libro mayor ardió, y Largo Camino ya no habla de la plata de indemnización de hace veinte años. Chen Jianqiu te permitió aprender el Sable de la brisa primaveral."
+msgstr "Te pusiste del lado de Chen Jianqiu: el libro mayor ardió, y Largo Camino ya no habla de la plata de indemnización de hace veinte años. Chen Jianqiu te permitió aprender el Sable despreocupado de la brisa primaveral."
 
 msgid "劝陈剑秋把振远的旧账烧了：到此为止"
 msgstr "Convenciste a Chen Jianqiu de quemar las cuentas viejas de Largo Camino: lo dejaron ahí"
@@ -18817,7 +18817,7 @@ msgid "使剑的根底：握剑、出剑、收剑的规矩都在这里。封山�
 msgstr "La base de la espada: las reglas de empuñar, lanzar la estocada y envainar están aquí. Estilos como la Espada de la Montaña Vacía o la Espada de los seis yin se aplican sobre ella; quien no ha aprendido un estilo propio, aunque tenga una espada en la mano, solo puede atacar con esto."
 
 msgid "使刀的根底：劈、砍、撩、斩的力道与分寸都从这里练起。春风快意刀、短歌刀法这些刀法都激发在它上面。"
-msgstr "La base del sable: la fuerza y la medida de cada tajo, golpe, barrido y corte se entrenan aquí. Estilos como el Sable de la brisa primaveral o el Sable de la canción breve se aplican sobre ella."
+msgstr "La base del sable: la fuerza y la medida de cada tajo, golpe, barrido y corte se entrenan aquí. Estilos como el Sable despreocupado de la brisa primaveral o el Sable de la canción breve se aplican sobre ella."
 
 msgid "用手中兵刃或一双肉掌格开来招的功夫。不少剑法、刀法、杖法也能激发为招架，用本门的招式化解对方的攻势。"
 msgstr "El arte de desviar un ataque con el arma que llevas en la mano o con las palmas desnudas. Muchos estilos de espada, sable y bastón también pueden aplicarse como parada, y con los movimientos de su propia escuela deshacen el ataque del rival."
@@ -20104,7 +20104,7 @@ msgid "封山剑派北宗是封山剑派里的一支，剑法、拳脚和内功�
 msgstr "La rama norte de la Escuela de la Montaña Vacía es una rama de la escuela; su espada, sus artes de puño y su neigong comparten origen con la rama principal. En el anuncio de la entrada de Tejenubes todavía pone «Pabellón Nevado, donde se halla la Escuela de la Montaña Vacía, rama norte»."
 
 msgid "振远镖局是京师第一大镖局，在京城一带几乎无人不知其名，绮云镇上也有振远的镖局。镖局里的人走镖凭的是一手春风快意刀。走镖危险，镖局收人先看胆识。"
-msgstr "Los Escoltas del Largo Camino son la mayor agencia de escoltas de la Capital; en la zona de la Capital casi nadie desconoce su nombre, y también tienen una agencia en Tejenubes. Su gente escolta con la maña del Sable de la brisa primaveral. Escoltar es peligroso, y la agencia acepta primero a quien tiene valor."
+msgstr "Los Escoltas del Largo Camino son la mayor agencia de escoltas de la Capital; en la zona de la Capital casi nadie desconoce su nombre, y también tienen una agencia en Tejenubes. Su gente escolta con la maña del Sable despreocupado de la brisa primaveral. Escoltar es peligroso, y la agencia acepta primero a quien tiene valor."
 
 msgid "东方神教是一个行事隐秘的教门，不立山门，也不收寻常弟子。教中人散在各处，平日看不出身份，外人对它的宗旨所知甚少。只听说教中高手使一路雪影剑法，身法轻疾。"
 msgstr "La Orden del Cuervo Dorado es una orden de proceder secreto; no tiene sede ni acepta discípulos corrientes. Su gente está dispersa por todas partes y de ordinario no se les nota; los de fuera saben muy poco de sus fines. Solo se dice que los maestros de la orden usan un estilo de la Espada de la sombra de nieve, de pasos rápidos y ligeros."
@@ -23272,7 +23272,7 @@ msgid "好小子, 居然管起大爷的事来, 看招!"
 msgstr "¡Muchacho insolente, te metes en los asuntos del patrón! ¡Ahí va!"
 
 msgid "    陈剑秋在十几年前创立了振远镖局，凭着一手春风快意刀法在远近\n颇有些名头，因此镖局的生意还算可以。\n"
-msgstr "Hace más de diez años Chen Jianqiu fundó los Escoltas del Largo Camino. Con su Sable de la brisa primaveral se ha hecho de cierto nombre en la comarca, y por eso el negocio de la agencia va bastante bien."
+msgstr "Hace más de diez años Chen Jianqiu fundó los Escoltas del Largo Camino. Con su Sable despreocupado de la brisa primaveral se ha hecho de cierto nombre en la comarca, y por eso el negocio de la agencia va bastante bien."
 
 msgid "陈镖头"
 msgstr "Jefe de escoltas Chen"
@@ -23323,7 +23323,7 @@ msgid "到此为止"
 msgstr "Dejarlo ahí"
 
 msgid "到此为止：陈剑秋写信叫陈天星把那本总账烧了，抚恤银的事振远不再提。\n正月十七，振远那一票投颜违——旧案到此为止（已经入了虹台的席的，这一票不再跟着变）。陈剑秋教你春风快意刀；陈天星往后见你，只谈生意。\n说了就不能再站到陈天星那边。要这么说吗？"
-msgstr "Dejarlo ahí: Chen Jianqiu le escribe a Chen Tianxing para que queme ese libro mayor, y Largo Camino no vuelve a mencionar la plata de indemnización.\nEl diecisiete del primer mes, el voto de Largo Camino es para Yan Wei y el caso viejo termina ahí (si ya tienes asiento en la Terraza del Arcoíris, este voto ya no se mueve con él). Chen Jianqiu te enseña el Sable de la brisa primaveral; Chen Tianxing, en adelante, solo hablará de negocios contigo.\nUna vez dicho, ya no podrás ponerte del lado de Chen Tianxing. ¿Decirlo así?"
+msgstr "Dejarlo ahí: Chen Jianqiu le escribe a Chen Tianxing para que queme ese libro mayor, y Largo Camino no vuelve a mencionar la plata de indemnización.\nEl diecisiete del primer mes, el voto de Largo Camino es para Yan Wei y el caso viejo termina ahí (si ya tienes asiento en la Terraza del Arcoíris, este voto ya no se mueve con él). Chen Jianqiu te enseña el Sable despreocupado de la brisa primaveral; Chen Tianxing, en adelante, solo hablará de negocios contigo.\nUna vez dicho, ya no podrás ponerte del lado de Chen Tianxing. ¿Decirlo así?"
 
 msgid "说定了。账，天星烧了。"
 msgstr "Trato hecho. El libro, Tianxing lo quemó."
@@ -23341,7 +23341,7 @@ msgid "我这就给天星写信。他脾气倔，可这一回，他会听我的�
 msgstr "Ahora mismo le escribo a Tianxing. Es terco, pero esta vez me hará caso."
 
 msgid "振远欠你的，拿刀还。春风快意刀，你想学，随时来。"
-msgstr "Largo Camino te debe una, y la pago con el sable. El Sable de la brisa primaveral, si quieres aprenderlo, ven cuando quieras."
+msgstr "Largo Camino te debe una, y la pago con el sable. El Sable despreocupado de la brisa primaveral, si quieres aprenderlo, ven cuando quieras."
 
 msgid "请陈剑秋把振远这一票交给你：正月十七虹台上，振远听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？"
 msgstr "Pedirle a Chen Jianqiu que te entregue el voto de Largo Camino: el diecisiete del primer mes, en la Terraza del Arcoíris, Largo Camino te hará caso. Si te levantas, el voto es tuyo; si no, tú dices a quién va.\n¿Decirlo así?"
@@ -26356,7 +26356,7 @@ msgid "交了官，天驼关的人押走了。……那后生使的是振远的�
 msgstr "Lo entregaste a las autoridades, y la gente del Paso del Camello se lo llevó. ...Ese muchacho usaba el sable del Largo Camino; ¿te diste cuenta?"
 
 msgid "放了？……也好。那后生使的是振远的刀，春风快意刀。谁教的，我不问。"
-msgstr "¿Lo dejaste ir? ...Está bien. Ese muchacho usaba el sable del Largo Camino, el Sable de la brisa primaveral. Quién se lo enseñó, no lo pregunto."
+msgstr "¿Lo dejaste ir? ...Está bien. Ese muchacho usaba el sable del Largo Camino, el Sable despreocupado de la brisa primaveral. Quién se lo enseñó, no lo pregunto."
 
 msgid "那后生怎么办，你给个话：交官府，还是放他走。没个了结，这镖进不了总局的门。"
 msgstr "¿Y qué hacemos con ese muchacho? Tú decides: entregarlo a las autoridades o dejarlo ir. Mientras no se resuelva, este cargamento no entra por la puerta de la sede."
@@ -26374,7 +26374,7 @@ msgid "蒙面后生咬着牙喝道：车留下！\n"
 msgstr "El joven enmascarado grita con los dientes apretados: \"¡El carro se queda!\"\n"
 
 msgid "蒙面后生的刀一撩一抹——是振远的春风快意刀。\n"
-msgstr "El sable del joven enmascarado sube y barre de lado: es el Sable de la brisa primaveral del Largo Camino.\n"
+msgstr "El sable del joven enmascarado sube y barre de lado: es el Sable despreocupado de la brisa primaveral del Largo Camino.\n"
 
 msgid "从路边的乱石后面站起来，半截黑布蒙着脸，横刀拦在路当中。"
 msgstr " se levanta de detrás de las piedras sueltas del camino, con media cara tapada por un trapo negro, y cierra el paso con el sable atravesado."
@@ -37606,7 +37606,7 @@ msgid "盐"
 msgstr "Sal"
 
 msgid "码头那边晒的海盐。背上崖，送到玉螺湖村去换米，一包换一斗。"
-msgstr "Sal de mar que se seca allá en el muelle. La subimos por el acantilado hasta la Aldea Caracola de Jade y la cambiamos por arroz: un saco, un celemín."
+msgstr "Sal de mar que se seca allá en el muelle. La subimos por el acantilado hasta la Aldea Caracola de Jade y la cambiamos por arroz: un saco, un medida."
 
 msgid "下了崖就是。码头、市集，再往里头是庙。"
 msgstr "Bajando el acantilado, ahí está. El muelle, el mercado, y más adentro el templo."
@@ -37717,7 +37717,7 @@ msgid "琉璃"
 msgstr "Vidrio"
 
 msgid "西边的火烧出来的，透亮。中原人喜欢，一串换一斗米。"
-msgstr "Cocido en el fuego del oeste, transparente. A la gente de las Llanuras Centrales le gusta: una sarta por un celemín de arroz."
+msgstr "Cocido en el fuego del oeste, transparente. A la gente de las Llanuras Centrales le gusta: una sarta por un medida de arroz."
 
 msgid "好地方。没人问你从哪来，只问你卖什么。"
 msgstr "Buen lugar. Nadie le pregunta de dónde viene; solo qué vende."
@@ -39610,7 +39610,7 @@ msgid "振远镖局总镖头"
 msgstr "Jefe de los Escoltas del Largo Camino"
 
 msgid "陈天星从十五岁出道至今已经有近五十个年头了。二十五岁时自己\n创建了振远镖局，苦心经营三十八载，使之而今成为京师第一大镖\n局.而他凭着春风快意刀法和天邪神掌被江湖同道称为「刀掌双绝」\n。绮云镇的陈剑秋是其侄子，如今也赫赫有名。\n"
-msgstr "Chen Tianxing salió al mundo a los quince años y lleva casi cincuenta en el jianghu. A los veinticinco fundó los Escoltas del Largo Camino y los dirigió con esfuerzo durante treinta y ocho años, hasta hacer de ellos la mayor agencia de escoltas de la Capital. Por su Sable de la brisa primaveral y su Palma indómita, la gente del jianghu lo llama \"Sable y Palma sin par\". Su sobrino Chen Jianqiu, de Tejenubes, es hoy también muy famoso."
+msgstr "Chen Tianxing salió al mundo a los quince años y lleva casi cincuenta en el jianghu. A los veinticinco fundó los Escoltas del Largo Camino y los dirigió con esfuerzo durante treinta y ocho años, hasta hacer de ellos la mayor agencia de escoltas de la Capital. Por su Sable despreocupado de la brisa primaveral y su Palma indómita, la gente del jianghu lo llama \"Sable y Palma sin par\". Su sobrino Chen Jianqiu, de Tejenubes, es hoy también muy famoso."
 
 msgid "陈总镖头"
 msgstr "Jefe Chen"
@@ -41512,7 +41512,7 @@ msgid "长街到了这里宽了一些，西墙下堆着几口裂了的大缸，�
 msgstr "Aquí la calle larga se ensancha un poco; al pie del muro oeste se apilan varias cubas agrietadas con agua de lluvia estancada. Al este hay una puerta de palacio, tras la cual está el Salón del Cultivo Mental; al norte, una puerta de flores colgantes da al Jardín Imperial."
 
 msgid "一道小些的宫门，门楣上的匾写着「养心门」，金字褪成了土黄。门关着，门缝里透出一点灯光。门前两口铜缸，缸里的水结了一层薄薄的绿。\n"
-msgstr "Una puerta de palacio más pequeña, con la placa del dintel que dice \"Puerta del Cultivo de la Mente\", cuyas letras doradas han desteñido a un amarillo terroso. Está cerrada, y por la rendija se filtra un poco de luz. Ante ella hay dos cubas de bronce cuya agua se ha cubierto de una fina capa verde."
+msgstr "Una puerta de palacio más pequeña, con la placa del dintel que dice \"Puerta del Cultivo Mental\", cuyas letras doradas han desteñido a un amarillo terroso. Está cerrada, y por la rendija se filtra un poco de luz. Ante ella hay dos cubas de bronce cuya agua se ha cubierto de una fina capa verde."
 
 msgid "园子里到处是太湖石，一块叠着一块，洞眼里长着草。几株古柏，老得树皮一条一条地裂开，枝子伸得比宫墙还高。藤萝架下一条石子路，石子拼成的花纹缺了好些。北面一座小殿，殿门上的漆掉得斑斑驳驳。夜里风一过，柏树沙沙地响，什么人走过都听不见。\n"
 msgstr "Por todo el jardín hay rocas de Taihu amontonadas una sobre otra, con hierba en sus huecos. Unos cipreses antiguos, tan viejos que la corteza se les raja en tiras, extienden las ramas más alto que los muros del palacio. Bajo el emparrado corre un camino de guijarros, con el dibujo de piedrecitas al que le faltan muchas. Al norte hay un pequeño salón cuya puerta tiene la laca desconchada a manchas. De noche, cuando el viento pasa, los cipreses susurran y no se oye pasar a nadie."
@@ -41536,7 +41536,7 @@ msgid "甬道到这里到了头，几级石阶往上，顶上压着一块石板�
 msgstr "Aquí el pasadizo llega a su fin: unos escalones de piedra suben hasta una losa que cierra el techo, por cuyas rendijas cuelgan unas briznas de paja seca."
 
 msgid "养心门里一个小院，比外头的宫院都小，地上的砖扫得很干净。院里两口铜缸，一株海棠，海棠底下一张石凳，石凳上搁着一本翻开的书，书页被露水打湿了。北面就是养心殿。\n"
-msgstr "Tras la Puerta del Cultivo de la Mente hay un patiecito, más pequeño que los demás patios del palacio, con los ladrillos del suelo muy bien barridos. Hay dos cubas de bronce, un manzano de flor y, bajo él, un banco de piedra con un libro abierto cuyas páginas el rocío ha mojado. Al norte está el Salón del Cultivo Mental."
+msgstr "Tras la Puerta del Cultivo Mental hay un patiecito, más pequeño que los demás patios del palacio, con los ladrillos del suelo muy bien barridos. Hay dos cubas de bronce, un manzano de flor y, bajo él, un banco de piedra con un libro abierto cuyas páginas el rocío ha mojado. Al norte está el Salón del Cultivo Mental."
 
 msgid "殿不大，比太和殿暖和得多。正中一张御座，御座旁的小几上堆着奏折，最上面一本摊开着，朱笔搁在砚台上，笔尖的朱砂已经干了。西边一道帘子是西暖阁，东边一道门是御书房。\n"
 msgstr "El salón no es grande y es mucho más cálido que el de la Armonía Suprema. En el centro hay un asiento imperial, y en la mesita a su lado se apilan memoriales, con el de encima abierto y el pincel rojo apoyado en la piedra de tinta, con el cinabrio de la punta ya seco. Al oeste, una cortina da a la cámara cálida oeste; al este, una puerta lleva al Estudio imperial."
@@ -41563,7 +41563,7 @@ msgid "一口枯井，井沿是青石的，磨出几道深深的绳槽。往下�
 msgstr "Un pozo seco con el brocal de piedra azul, gastado por profundas muescas de cuerda. Al mirar abajo, la oscuridad no deja ver el fondo, pero en la pared hay empotrados peldaños de hierro, y los de más arriba están pulidos hasta brillar."
 
 msgid "养心门关着，门闩在里头。门缝里透出一点灯光——皇上睡得晚。（养心殿是这一章后面的事。）\n"
-msgstr "La Puerta del Cultivo de la Mente está cerrada, con el cerrojo echado por dentro. Por la rendija se filtra un poco de luz: Su Majestad se acuesta tarde. (El Salón del Cultivo Mental es cosa de más adelante en este capítulo.)"
+msgstr "La Puerta del Cultivo Mental está cerrada, con el cerrojo echado por dentro. Por la rendija se filtra un poco de luz: Su Majestad se acuesta tarde. (El Salón del Cultivo Mental es cosa de más adelante en este capítulo.)"
 
 msgid "一幅旧舆图，北到关北，南到玉螺湖，西南角用朱笔圈了一个地方，旁边两个小字：「岚城？」。圈是新描的，墨色比舆图上的字深得多——有人常常对着它看。\n"
 msgstr "Un mapa viejo, que va del Norte del Paso hasta el Lago Caracola de Jade, con un lugar marcado con un círculo de pincel rojo en la esquina suroeste y, al lado, dos caracteres pequeños: \"¿Ciudad del Viento?\". El círculo es reciente, de una tinta mucho más oscura que las letras del mapa: alguien lo mira a menudo."
@@ -41692,7 +41692,7 @@ msgid "你在密室里转了一圈。除了那张破床和乾草，什么也没�
 msgstr "Das una vuelta por el cuarto secreto. Aparte de la cama rota y la paja seca, no hay nada."
 
 msgid "养心门关着，门闩在里头。门缝里透出一点灯光。"
-msgstr "La Puerta del Cultivo de la Mente está cerrada, con el cerrojo echado por dentro. Por la rendija se filtra un poco de luz."
+msgstr "La Puerta del Cultivo Mental está cerrada, con el cerrojo echado por dentro. Por la rendija se filtra un poco de luz."
 
 msgid "养心殿的西墙上一排窗，窗纸后面透着灯光。窗都关得死死的——不知道哪一扇是坏的。"
 msgstr "En el muro oeste del Salón del Cultivo Mental hay una hilera de ventanas, con luz tras el papel. Todas están bien cerradas: no se sabe cuál tiene el pestillo roto."
