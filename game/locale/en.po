@@ -41851,7 +41851,7 @@ msgid "新的告示还没贴出来，过些时候再来看看吧。"
 msgstr "No new notices have gone up yet. Come back in a while."
 
 msgid "榜上贴过的恶人，你都已经强出他们一倍不止。更凶的那一个，要{when}才贴得出来。"
-msgstr "Every outlaw this board has posted so far is no match for you now, by twice over. A fiercer one won't go up until {when}."
+msgstr "You are now more than twice a match for every outlaw this board has posted. A fiercer one won't go up until {when}."
 
 msgid "榜上最凶的恶人，也不到你一半的火候了。这块榜上，已经没有值得你出手的悬赏。"
 msgstr "Even the fiercest outlaw on this board has not half your mettle now. There is no bounty here worth your while anymore."
@@ -41869,16 +41869,16 @@ msgid "一个赤着脚的海寇，晒得黝黑，耳朵上挂着一只铜环，�
 msgstr "A barefoot sea raider burnt dark by the sun, a copper ring in one ear and a steel blade stuck in his belt, smelling of salt and fish. He has robbed three merchant ships along the Sea Cliff Road outside the Foreign Quarter, and the Maritime Trade Office has sent his likeness on to the Snow Pavilion Post Station.\n"
 
 msgid "禁军逃卒"
-msgstr "Deserter of the Guard"
+msgstr "Palace Troops Deserter"
 
-msgid "一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军营里逃出来，在京师北边的官道上专劫过路的官差，使的是大内的刀法。\n"
-msgstr "A man in half a suit of Palace Troops' iron armour, the number plate on it scraped off with a blade; the saber at his waist is still the one the barracks issued him. He ran from the Palace Troops' barracks in the Palace City and now robs passing officials on the road north of the Capital, using the palace's own blade style.\n"
+#~ msgid "一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军营里逃出来，在京师北边的官道上专劫过路的官差，使的是大内的刀法。\n"
+#~ msgstr "A man in half a suit of Palace Troops' iron armour, the number plate on it scraped off with a blade; the saber at his waist is still the one the barracks issued him. He ran from the Palace Troops' barracks in the Palace City and now robs passing officials on the road north of the Capital, using the palace's own blade style.\n"
 
 msgid "逆灵宫余孽"
 msgstr "Black Palace Remnant"
 
-msgid "一个黑衣道士，冠上的丝绦断了，脸上横着一道新疤。湖底那一仗以后，逆灵宫的人四散，他是还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n"
-msgstr "A Taoist in black, the cord of his crown snapped, a fresh scar across his face. Since that battle under the lake, the Black Palace's people have scattered; he is one who is still killing. Two fishing households by Jade Conch Lake are already gone.\n"
+#~ msgid "一个黑衣道士，冠上的丝绦断了，脸上横着一道新疤。湖底那一仗以后，逆灵宫的人四散，他是还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n"
+#~ msgstr "A Taoist in black, the cord of his crown snapped, a fresh scar across his face. Since that battle under the lake, the Black Palace's people have scattered; he is one who is still killing. Two fishing households by Jade Conch Lake are already gone.\n"
 
 msgid "等乔阴的案子了结以后"
 msgstr "the Tallshade case is closed"
@@ -41903,3 +41903,9 @@ msgstr "Then the Abbot accepted that sutra, and the ascetic took the precepts be
 
 msgid "后来方丈把那片贝叶还给了头陀，头陀回了番坊——你在场，你知道。那股寒，流云轩往后还是赶不出去。"
 msgstr "Then the Abbot handed that palm-leaf page back to the ascetic, and the ascetic went back to the Foreign Quarter. You were there. You know. Drifting Cloud Lodge still won't be able to drive that cold out."
+
+msgid "一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军里逃了出来，如今在京师北边的官道上专劫过路的官差。\n"
+msgstr "A man in half a suit of Palace Troops iron armor; the number plate on it has been scraped off with a blade, but the saber at his waist is still the one the barracks issued. He deserted the Palace Troops in the Palace City and now preys on officials traveling the highway north of the Capital.\n"
+
+msgid "一个黑冠道士，冠上的丝绦断了一根，脸上横着一道新疤。湖底那一仗以后，逆灵宫的黑冠有的回了北麓，有的不知去向；他是不肯回去、还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n"
+msgstr "A Black Cap Daoist with one of the silk cords on his cap snapped and a fresh scar across his face. Since the fight beneath the lake, some of the Black Palace's Black Caps have gone back to the northern foothills and some have vanished; he is one who would not go back and still kills: two fishing households by Jade Conch Lake are already gone.\n"
