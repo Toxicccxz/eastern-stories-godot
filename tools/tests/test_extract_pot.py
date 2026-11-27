@@ -29,7 +29,7 @@ NOT_SHOWN = {
     "giver_mark": "a mark", "mark_giver": "a mark", "marks_giver": "marks", "unless_giver_mark": "a mark",
     "giver_marks": "marks", "giver_lacks": "marks",
     "scene_mark": "a mark", "cleared_mark": "a mark", "set_mark": "a mark", "also_mark": "a mark", "once_mark": "a mark", "found_by": "a mark",
-    "teaches": "a mark", "spar_won_mark": "a mark", "again_mark": "a mark",
+    "teaches": "a mark", "spar_won_mark": "a mark", "spar_over_mark": "a mark", "again_mark": "a mark",
     "die_marks_killer": "a mark", "die_marks": "a mark", "forbids_marks": "marks", "accept_marks": "marks",
     "attack_unless_mark": "a mark", "attack_unless_marks": "marks",
     "unless_mark": "a mark", "unless_marks": "marks",

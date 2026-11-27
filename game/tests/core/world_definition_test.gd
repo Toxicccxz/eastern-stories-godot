@@ -126,6 +126,8 @@ func _test_snow_adjacency_follows_room_exits() -> void:
 		"sroad1|sroad2", "sroad2|sroad3", "sroad3|sroad4", "sroad4|sroad5", "sroad2|school",
 		"mstreet2|smithy", "mstreet3|herbshop", "mstreet4|postoffice", "hockshop|hockshop2",
 		"school2|weapon_storage", "schoolhall|inneryard", "inneryard|innerhall", "inneryard|guestroom", "inneryard|nyard",
+		# 师娘彩蛋 A (native): 沈疏雨's yard north of the 黄土小径, and her house behind it.
+		"eroad2|rain_yard", "rain_yard|rain_house",
 	]
 	# The town and its buildings' own maps (the remap): the inn, its upper floor and the cellar apart.
 	var zones: Array[ZoneDefinition] = []
@@ -193,7 +195,7 @@ func _test_services_and_doors() -> void:
 	var outside: Array[StringName] = []
 	for service: ServiceDefinition in catalog.services_for_map(SnowWorld.OUTDOOR_MAP_ID):
 		outside.append(service.service_id)
-	_assert_eq(outside, [&"snow.mstreet4.coach", &"snow.mstreet4.bounty"], "the town's outside has no ES2 room service, only 雪亭驿's cart (车马行) and bounty board (A2), both native")
+	_assert_eq(outside, [&"snow.mstreet4.coach", &"snow.mstreet4.bounty", &"snow.eroad2.rain_gate"], "the town's outside has no ES2 room service, only 雪亭驿's cart (车马行), its bounty board (A2) and the wicker gate of 沈疏雨's yard (师娘彩蛋 A), all native")
 	# The shopkeepers sell from their bodies (4E): the vendor record is on the NPC.
 	for row: Array in [[&"snow.npc.herbalist", &"snow.vendor.herbalist"], [&"snow.npc.smith", &"snow.vendor.smith"], [&"snow.npc.waiter", &"snow.vendor.waiter"]]:
 		_assert_eq(catalog.npc(row[0]).dealings().vendor_id, row[1], "%s sells %s" % row)

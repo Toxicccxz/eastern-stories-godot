@@ -109,7 +109,8 @@ func _check_houses(layout: Dictionary) -> void:
 		if seen.has(form):
 			alike.append(form)
 		seen[form] = true
-	_check(seen.size() >= 8 and alike.is_empty(), "雪亭镇's eight houses are dressed each its own way: %s" % [alike])
+	# Seven shut houses: the eighth, north of the 黄土小径, is 沈疏雨's yard and has a way in (师娘彩蛋 A).
+	_check(seen.size() >= 7 and alike.is_empty(), "雪亭镇's seven shut houses are dressed each its own way: %s" % [alike])
 
 
 ## A board hung at a porch's front (`mount`: "porch") stands out beyond the porch's roof and under

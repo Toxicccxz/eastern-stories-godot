@@ -46,7 +46,8 @@ const LOST_STEPS: int = 100
 ## stand in the room but are not in the story's fight, taken off the map (the 冰龙厅's six guardian
 ## dragons, DECISIONS「冰龙守者」「终章 B」: they pounce on the four taoists, or lie beaten — the sim's
 ## player strikes first, and a first strike brings the whole room in; the 甬道's keyless jailers, gone
-## once 「见过唤首」, the mark the keyed pair stand on).
+## once 「见过唤首」, the mark the keyed pair stand on); `marks`: what the story has written on the player
+## by then, where the foes read it (罗七's two stand by until 「说破了冒牌弟子」).
 const FIGHTS: Array[Dictionary] = [
 	{"label": "第一章 山洞 黑衣道士", "zone": &"oldpine.caves.mouth", "point": &"oldpine.caves.mouth.cave5.black_taoist.1", "enemies": [["native.caves.black_taoist", "oldpine.caves.mouth.cave5.black_taoist.1"]], "chapter": &"main.chapter1", "weapon": &"es2:obj/longsword"},
 	{"label": "第三章 祭坛 鬼卒×2", "zone": &"niling.altar", "point": &"niling.altar.hell_runner.1", "enemies": [["niling.altar.hell_runners", "niling.altar.hell_runner.1"], ["niling.altar.hell_runners", "niling.altar.hell_runner.2"]], "chapter": &"main.chapter3", "weapon": &"es2:obj/longsword"},
@@ -94,6 +95,10 @@ const FACTION_FIGHTS: Array[Dictionary] = [
 	{"label": "卧底 账房 管事道士", "zone": &"niling.counting", "point": &"niling.counting.steward.1", "enemies": [["niling.counting.steward", "niling.counting.steward.1"]], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
 	{"label": "卧底 前殿 领诵道士", "zone": &"niling.front", "point": &"niling.front.lead_chanter.1", "enemies": [["niling.front.lead_chanter", "niling.front.lead_chanter.1"]], "away": [&"niling.front.chanters"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
 	{"label": "卧底 甬道 看牢的狱卒", "zone": &"niling.corridor", "point": &"niling.corridor.ward.1", "enemies": [["native.corridor.ward", "niling.corridor.ward.1"]], "away": [&"niling.corridor.jailers", &"niling.corridor.jailers_keyed"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	# 封山's 守馆 is there from 拜师 (the first two hours): 罗七 and his two, called out, all at once.
+	{"label": "封山 青石官道 冒牌弟子×3", "zone": &"snow.sroad3", "point": &"snow.sroad3.fake_head.1", "enemies": [["native.sroad3.fake_head", "snow.sroad3.fake_head.1"], ["native.sroad3.fake_disciples", "snow.sroad3.fake_disciple.1"], ["native.sroad3.fake_disciples", "snow.sroad3.fake_disciple.2"]], "marks": ["说破了冒牌弟子"], "chapter": &"main.prologue", "weapon": &"es2:obj/longsword"},
+	# 天邪's watch at the gate: 水烟阁 is 第二章's. Found out, the 皮货商 fights; the two who are what they say stand by.
+	{"label": "天邪 山门 探子", "zone": &"waterfog.frontyard", "point": &"waterfog.frontyard.visitor.2", "enemies": [["native.frontyard.spy", "waterfog.frontyard.visitor.2"]], "marks": ["认出了探子"], "chapter": &"main.chapter2", "weapon": &"es2:obj/longsword"},
 	# 绝尘, 山烟寺 and 东方神教 B open with 「宝衣一章」.
 	{"label": "绝尘 山洞 洞口的鬼卒", "zone": &"green.cave1", "point": &"green.cave1.ghoul.1", "enemies": [["native.cave1.ghoul", "green.cave1.ghoul.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
 	{"label": "绝尘 山洞 洞底的鬼卒", "zone": &"green.cave2", "point": &"green.cave2.ghoul.1", "enemies": [["native.cave2.ghoul", "green.cave2.ghoul.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
@@ -128,16 +133,16 @@ const OUTLAW: String = "outlaw"
 ## at the exp a player first meets it on the board (A2's five where the ceiling's gap-filling now puts
 ## the next one up: twice the last), and on to the ceiling (twice its own). The last four: from the
 ## main story's arrival after the chapter that opens them (StoryArrival.TUNED; the finale's own end
-## for the last).
+## for the last). Every one with the same 长剑 (no story blade), so the rows compare.
 const BOUNTY: Array[Dictionary] = [
 	{"label": "悬赏 剪径贼", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.2"]], "exps": [200, 790], "weapon": &"es2:obj/longsword"},
 	{"label": "悬赏 采花贼", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.3"]], "exps": [800, 1990], "weapon": &"es2:obj/longsword"},
 	{"label": "悬赏 江洋大盗", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.4"]], "exps": [2000, 4990], "weapon": &"es2:obj/longsword"},
 	{"label": "悬赏 杀人魔头", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.5"]], "exps": [5000, 10990], "weapon": &"es2:obj/longsword"},
-	{"label": "悬赏 越狱死囚", "zone": &"choyin.solidpath1", "point": &"choyin.solidpath1.gate_arrival", "enemies": [[OUTLAW, "native.npc.outlaw.6"]], "exps": [11626, 15990], "weapon": &"es2:obj/longsword"},
+	{"label": "悬赏 越狱死囚", "zone": &"choyin.tongbhill", "point": &"choyin.tongbhill.furnace_return", "enemies": [[OUTLAW, "native.npc.outlaw.6"]], "exps": [11626, 15990], "weapon": &"es2:obj/longsword"},
 	{"label": "悬赏 劫船海寇", "zone": &"fanfang.cliff_top", "point": &"fanfang.cliff_top.valley_arrival", "enemies": [[OUTLAW, "native.npc.outlaw.7"]], "exps": [21136, 25990], "weapon": &"es2:obj/longsword"},
-	{"label": "悬赏 禁军逃卒", "zone": &"city.nroad1", "point": &"city.nroad1.coach_arrival", "enemies": [[OUTLAW, "native.npc.outlaw.8"]], "exps": [31486, 43990], "weapon": &"es2:obj/longsword"},
-	{"label": "悬赏 逆灵宫余孽", "zone": &"village.valley1", "point": &"village.valley1.cave_return", "enemies": [[OUTLAW, "native.npc.outlaw.9"]], "exps": [48000, 69990], "weapon": &"native:lancheng/xuanmang"},
+	{"label": "悬赏 禁军逃卒", "zone": &"city.nroad2", "point": &"city.nroad2.village_arrival", "enemies": [[OUTLAW, "native.npc.outlaw.8"]], "exps": [31486, 43990], "weapon": &"es2:obj/longsword"},
+	{"label": "悬赏 逆灵宫余孽", "zone": &"village.valley1", "point": &"village.valley1.cave_return", "enemies": [[OUTLAW, "native.npc.outlaw.9"]], "exps": [48000, 69990], "weapon": &"es2:obj/longsword"},
 ]
 
 
@@ -223,7 +228,8 @@ class Result:
 
 ## Tuning, this run only (run_mainline_fight_sim.gd's `tune=`): NPC definition ID -> {"exp": n,
 ## "skills": {skill: raw level}, "kee": n, "force": n, "applies": {key: n}} put on each foe of that
-## definition as a duel opens.
+## definition as a duel opens. Every fact replaces the foe's own but `applies`, which adds to the
+## definition's `apply` (CombatSliceProjectionBuilder._apply sums both): write the sum into data.
 var tune: Dictionary = {}
 ## Print each duel's end (run_mainline_fight_sim.gd's `verbose`).
 var verbose: bool = false
@@ -340,6 +346,8 @@ func _open(entry: Dictionary) -> bool:
 		await tree.process_frame
 	session.set_process(false)
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
+	for mark: String in entry.get("marks", []):
+		session.player_runtime().state.marks[mark] = 1
 	map = MapPlaces.enter(session, entry["zone"], entry["point"])
 	if map == null:
 		return false

@@ -229,6 +229,8 @@
 		"native.npc.toll_man_cloud": "post",
 		"native.npc.lu_decai_home": {"mode": "still", "pose": "sit_ground"},
 		"native.npc.he_ping": "post",
+		"native.npc.he_shouzhuo": {"mode": "still", "gesture": "chop"},
+		"native.npc.shen_shuyu": {"mode": "work", "gesture": "drill", "radius": 24},
 		"native.npc.road_robber": "post",
 		"native.npc.green_cave_kid": "still",
 		"native.npc.green_mother": "post",

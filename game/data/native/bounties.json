@@ -9,9 +9,9 @@
 			{ "min_exp": 2500, "npc": "native.npc.outlaw.4", "silver": 50 },
 			{ "min_exp": 6000, "npc": "native.npc.outlaw.5", "silver": 100 },
 			{ "min_exp": 8000, "npc": "native.npc.outlaw.6", "silver": 150, "after": { "quest": "main.chapter5#done" }, "after_hint": "等乔阴的案子了结以后", "places": [
-				{ "map": "choyin.east", "zone": "choyin.solidpath1" },
 				{ "map": "choyin.east", "zone": "choyin.tongbhill" },
-				{ "map": "choyin.east", "zone": "choyin.rockpath1" }
+				{ "map": "choyin.east", "zone": "choyin.rockpath1" },
+				{ "map": "choyin.east", "zone": "choyin.solidpath2" }
 			] },
 			{ "min_exp": 13000, "npc": "native.npc.outlaw.7", "silver": 200, "after": { "quest": "main.chapter7#done" }, "after_hint": "等番坊的事有了着落以后", "places": [
 				{ "map": "fanfang.cliff_road", "zone": "fanfang.cliff_top" },
@@ -19,7 +19,6 @@
 				{ "map": "fanfang.cliff_road", "zone": "fanfang.cliff_foot" }
 			] },
 			{ "min_exp": 22000, "npc": "native.npc.outlaw.8", "silver": 300, "after": { "quest": "main.chapter9#done" }, "after_hint": "等京师那边尘埃落定以后", "places": [
-				{ "map": "city.main", "zone": "city.nroad1" },
 				{ "map": "city.main", "zone": "city.nroad2" }
 			] },
 			{ "min_exp": 35000, "npc": "native.npc.outlaw.9", "silver": 400, "after": { "quest": "main.finale#done" }, "after_hint": "等湖底的事了结以后", "places": [

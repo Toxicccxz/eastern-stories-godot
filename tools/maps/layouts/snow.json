@@ -210,8 +210,13 @@
             "rect": [784, -32, 1008, 192]
           },
           {
-            "name": "民居",
-            "rect": [784, 224, 1008, 432]
+            "name": "镇外小院",
+            "rect": [784, 224, 1008, 480],
+            "street": "snow.eroad2",
+            "side": "north",
+            "wall": "wall",
+            "doors": ["snow.eroad2.north"],
+            "door_at": [896]
           },
           {
             "name": "民居",
@@ -364,6 +369,13 @@
             "id": "snow.mstreet4.bounty",
             "at": [-56, -2088],
             "text": "官府悬赏 · 靠近看榜"
+          },
+          {
+            "node": "service",
+            "name": "RainGate",
+            "id": "snow.eroad2.rain_gate",
+            "at": [896, 520],
+            "text": "柴门 · 叩门"
           },
           {
             "node": "caption",
@@ -1784,6 +1796,68 @@
         "presentation": {
           "script": "res://presentation/voxel/world_voxel_view.gd",
           "layout": "res://data/snow/voxel/academy.json"
+        }
+      }
+    },
+    "rain_compound": {
+      "note": "师娘彩蛋 A: 沈疏雨's yard north of the 黄土小径 (native:snow/rain_yard, rain_house) — a small yard inside a low earth wall, the woodpile against the east wall with every billet one length, the middle trodden bare in a ring where someone walks the same steps every day; three tiled rooms north of it, an old desk by the window with a coarse teapot and two cups, an empty scabbard on a peg, a blue curtain to the inner room, a kettle on the stove.",
+      "file": "snow_rain_compound.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "house",
+        "larger_than": [],
+        "rooms": {
+          "snow.rain_yard": {
+            "size": "large",
+            "floor": "floor_yard",
+            "wall": "wall",
+            "life": {"use": "training_yard", "wealth": "poor", "seed": 141}
+          },
+          "snow.rain_house": {
+            "size": "room",
+            "floor": "floor_wood",
+            "wall": "wall",
+            "life": {"use": "home", "wealth": "poor", "seed": 142, "tidy": true}
+          }
+        },
+        "props": [
+          ["blocked", "snow.rain_yard", ["rel", 0.88, 0.3], 1.0, 2.0, "the woodpile against the east wall, every billet one length", {"look": {"kind": "firewood"}}],
+          ["blocked", "snow.rain_yard", ["rel", 0.74, 0.7], 0.8, 0.8, "the chopping block", {"look": {"kind": "chopping_block"}}],
+          ["blocked", "snow.rain_house", ["rel", 0.25, 0.3], 1.8, 0.9, "the old desk by the window: a coarse teapot and two cups, one upside down", {"look": {"kind": "writing_desk", "wood": "5a4634"}}],
+          ["blocked", "snow.rain_house", ["rel", 0.85, 0.75], 0.8, 0.8, "the stove with its kettle", {"look": {"kind": "tea_stove"}}]
+        ],
+        "placed": {
+          "snow.rain_yard.shen_shuyu.1": ["snow.rain_yard", ["rel", 0.45, 0.5]],
+          "snow.rain_yard.he_shouzhuo.1": ["snow.rain_yard", ["rel", 0.66, 0.78]]
+        },
+        "doors": {"snow.rain_yard.south": "south"},
+        "reach_from": "RainYardGateArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "SnowRainCompound",
+        "map": "snow.rain_compound",
+        "player_color": "Color(0.68, 0.73, 0.8, 1)",
+        "shapes": {},
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/snow/voxel/rain_compound.json"
         }
       }
     }
