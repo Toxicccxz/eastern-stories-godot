@@ -524,7 +524,7 @@ msgid "老者"
 msgstr "Anciano"
 
 msgid "黑无常"
-msgstr "Impermanencia Negra"
+msgstr "Impermanente Negro"
 
 msgid "仙鹤"
 msgstr "Grulla inmortal"
@@ -1904,7 +1904,7 @@ msgid "亥阴鬼牙将"
 msgstr "Capitán fantasma Hai"
 
 msgid "白无常"
-msgstr "Impermanencia Blanca"
+msgstr "Impermanente Blanco"
 
 msgid "绞盘道士"
 msgstr "Taoísta del torno"
@@ -16358,46 +16358,46 @@ msgid "阴鬼牙将是守关鬼卒里的精锐，你现在只是一缕鬼魂，�
 msgstr "Los capitanes fantasma son la élite de los soldados fantasma que guardan la puerta. Ahora no eres más que un alma en pena: si pierdes, morirás otra vez y sufrirás de nuevo el castigo de la muerte. ¿Seguro que quieres atacarlo?"
 
 msgid "白无常伸著长长的舌头瞪著你，死白的脸上看不出任何喜怒哀乐。\n"
-msgstr "Impermanencia Blanca te mira fijamente con su larga lengua colgando; en su cara de un blanco mortal no se adivina alegría ni enojo."
+msgstr "El Impermanente Blanco te mira fijamente con su larga lengua colgando; en su cara de un blanco mortal no se adivina alegría ni enojo."
 
 msgid "白无常发出一阵像呻吟的声音，当他发现你正注视著他的时候，瞪了你一眼。\n"
-msgstr "Impermanencia Blanca suelta un sonido parecido a un gemido; cuando se da cuenta de que lo estás mirando, te fulmina con la mirada."
+msgstr "El Impermanente Blanco suelta un sonido parecido a un gemido; cuando se da cuenta de que lo estás mirando, te fulmina con la mirada."
 
 msgid "白无常把长长的舌头伸出来，缓缓地舔了舔自己又白又长的手指。\n"
-msgstr "Impermanencia Blanca saca su larga lengua y se lame despacio los dedos, largos y blancos."
+msgstr "El Impermanente Blanco saca su larga lengua y se lame despacio los dedos, largos y blancos."
 
 msgid "白无常说道：喂！新来的，你叫什么名字？"
-msgstr "Impermanencia Blanca dice: \"¡Oye! Tú, {jugador:el nuevo|la nueva}, ¿cómo te llamas?\""
+msgstr "El Impermanente Blanco dice: \"¡Oye! Tú, {jugador:el nuevo|la nueva}, ¿cómo te llamas?\""
 
 msgid "白无常用奇异的眼光盯著你，好像要看穿你的一切似的。"
-msgstr "Impermanencia Blanca te clava una mirada extraña, como si quisiera ver a través de ti."
+msgstr "El Impermanente Blanco te clava una mirada extraña, como si quisiera ver a través de ti."
 
 msgid "白无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。"
-msgstr "Impermanencia Blanca suelta un \"¡Hmf!\", saca de la manga algo parecido a un libro de cuentas y se pone a hojearlo."
+msgstr "El Impermanente Blanco suelta un \"¡Hmf!\", saca de la manga algo parecido a un libro de cuentas y se pone a hojearlo."
 
 msgid "白无常阁上册子，说道：咦？阳寿未尽？怎么可能？"
-msgstr "Impermanencia Blanca cierra el libro: \"¿Eh? ¿Aún no se te acabaron los años de vida? ¿Cómo puede ser?\""
+msgstr "El Impermanente Blanco cierra el libro: \"¿Eh? ¿Aún no se te acabaron los años de vida? ¿Cómo puede ser?\""
 
 msgid "白无常搔了搔头，叹道：罢了罢了，你走吧。"
-msgstr "Impermanencia Blanca se rasca la cabeza y suspira: \"Bueno, bueno, vete ya.\""
+msgstr "El Impermanente Blanco se rasca la cabeza y suspira: \"Bueno, bueno, vete ya.\""
 
 msgid "黑无常伸著长长的舌头瞪著你，黝黑的脸上看不出任何喜怒哀乐。\n"
-msgstr "Impermanencia Negra te mira fijamente con su larga lengua colgando; en su cara oscura no se adivina alegría ni enojo."
+msgstr "El Impermanente Negro te mira fijamente con su larga lengua colgando; en su cara oscura no se adivina alegría ni enojo."
 
 msgid "黑无常发出一阵像呻吟的声音，当他发现你正注视著他的时候，瞪了你一眼。\n"
-msgstr "Impermanencia Negra suelta un sonido parecido a un gemido; cuando se da cuenta de que lo estás mirando, te fulmina con la mirada."
+msgstr "El Impermanente Negro suelta un sonido parecido a un gemido; cuando se da cuenta de que lo estás mirando, te fulmina con la mirada."
 
 msgid "黑无常把长长的舌头伸出来，缓缓地舔了舔自己又黑又长的手指。\n"
-msgstr "Impermanencia Negra saca su larga lengua y se lame despacio los dedos, largos y negros."
+msgstr "El Impermanente Negro saca su larga lengua y se lame despacio los dedos, largos y negros."
 
 msgid "喂！阳人来阴间做什么？"
 msgstr "¡Oye! ¿Qué haces tú, un ser vivo, en el Inframundo?"
 
 msgid "黑无常说道：喂！新来的，你叫什么名字？"
-msgstr "Impermanencia Negra dice: \"¡Oye! Tú, {jugador:el nuevo|la nueva}, ¿cómo te llamas?\""
+msgstr "El Impermanente Negro dice: \"¡Oye! Tú, {jugador:el nuevo|la nueva}, ¿cómo te llamas?\""
 
 msgid "黑无常用奇异的眼光盯著你，好像要看穿你的一切似的。"
-msgstr "Impermanencia Negra te clava una mirada extraña, como si quisiera ver a través de ti."
+msgstr "El Impermanente Negro te clava una mirada extraña, como si quisiera ver a través de ti."
 
 msgid "这里是一条漫长的石桥，往南石桥延伸进大雾之中，望不到尽头，\n往北引隐约约有一座城楼，不过你分不清是真实的影像还是幻觉，东西\n两面都是一望无际的大雾，一阵阵阴冷的微风从雾中吹过。\n"
 msgstr "Es un larguísimo puente de piedra. Al sur se pierde en una niebla espesa, sin que se le vea el final; al norte se adivina una torre de muralla, aunque no sabes si es real o una ilusión. Al este y al oeste solo hay niebla sin fin, y una brisa fría y lúgubre sopla una y otra vez entre la niebla."
@@ -21310,7 +21310,7 @@ msgid "施法驱尸要耗去 {sen} 点神，你现在撑不住，会当场昏过
 msgstr "Levantar muertos cuesta {sen} de Espíritu; ahora no lo aguantarías y te desmayarías en el acto.\n¿Seguro que quieres lanzar el conjuro?"
 
 msgid "运功「疗伤他人」：把真气输入对方体内，为他疗伤（耗 150 点内力，内力须比最大内力多 150 以上；双方都不能在战斗中）。"
-msgstr "Canalizar \"Curar a otro\": viertes tu qi verdadero en su cuerpo para curarlo (150 de Fuerza interior; tu Fuerza interior debe superar tu máximo en al menos 150; ninguno de los dos puede estar en combate)."
+msgstr "Canalizar \"Curar a otro\": viertes tu Qi verdadero en su cuerpo para curarlo (150 de Fuerza interior; tu Fuerza interior debe superar tu máximo en al menos 150; ninguno de los dos puede estar en combate)."
 
 msgid "施展「心识神通」：救醒昏迷的人（50 灵力、30 神）。最大灵力不过 101 必定失败，失败时你自己会昏倒。"
 msgstr "Usar \"Sentido del corazón\": reanima a alguien inconsciente (50 de Poder místico, 30 de Espíritu). Con un Poder místico máximo de 101 o menos siempre falla, y al fallar te desmayas tú."
@@ -21712,7 +21712,7 @@ msgid "茅山派第六代弟子"
 msgstr "Discípulo de la 6.ª generación de la Escuela del Monte Mao"
 
 msgid "一位神色和平的中年道士, 他正在教授他的徒弟如何运功导气\n"
-msgstr "Un taoísta de mediana edad y semblante sereno que enseña a su discípulo a canalizar la Fuerza interior y guiar el qi."
+msgstr "Un taoísta de mediana edad y semblante sereno que enseña a su discípulo a canalizar la Fuerza interior y guiar el Qi."
 
 msgid "茅山派第七代弟子"
 msgstr "Discípulo de la 7.ª generación de la Escuela del Monte Mao"
@@ -22195,7 +22195,7 @@ msgid "这是一捆粗麻绳. 你可以用它来上吊.\n\n"
 msgstr "Es un rollo de soga gruesa de cáñamo. Puedes usarla para ahorcarte."
 
 msgid "上面刻著一些字:\n行气, 深则蓄, 蓄则伸, 伸则下, 下则定, 定则固, 固则萌, 萌则长, 长则退,\n退则天. 天几舂在上, 地几舂在下, 顺则生, 逆则死.\n"
-msgstr "Tiene grabados unos caracteres:\nHacer circular el qi: si es profundo, se acumula; acumulado, se extiende; extendido, desciende; descendido, se asienta; asentado, se afirma; afirmado, brota; brotado, crece; crecido, retrocede; al retroceder, llega al cielo. El Cielo late arriba, la Tierra late abajo; quien sigue, vive; quien se opone, muere."
+msgstr "Tiene grabados unos caracteres:\nHacer circular el Qi: si es profundo, se acumula; acumulado, se extiende; extendido, desciende; descendido, se asienta; asentado, se afirma; afirmado, brota; brotado, crece; crecido, retrocede; al retroceder, llega al cielo. El Cielo late arriba, la Tierra late abajo; quien sigue, vive; quien se opone, muere."
 
 msgid "沈记商行掌柜"
 msgstr "Tendero del Comercio Shen"
@@ -24436,7 +24436,7 @@ msgid "来到镜内，前面呈现三面通道，各个通道皆有其不同的�
 msgstr "Dentro del espejo, tres pasajes se abren ante ti, cada uno con un ambiente distinto. El pasaje del medio tiene un fuerte aroma de bambú; en el de arriba hay un perfume embriagador que no cesa; el de abajo apesta sin parar. El cielo cambia sin descanso y el suelo es una ilusión que nunca se detiene; el aire se va deshilachando y respirar cuesta cada vez más. La escena no deja de cambiar: ¡decide pronto! Un llamado desde la oscuridad te hace estremecer el corazón y te apresuras a salir de este espacio de mal agüero."
 
 msgid "修长的竹子映满眼廉，穹空无边，风拂无形，芬芳的气味随著清\n风而漂流著，真有如如沐春风，生机充满的竹林道，让站立其中的人\n皆受其境界而霍然开朗，忘却了江湖的险恶，行止于此，一直气凝字\n之迹，显出居此主人之内力雄厚，亦使你想找点看到居此八泰之地的\n主人是何等的人物。\n"
-msgstr "Esbeltos bambúes llenan tus ojos, el cielo no tiene límites y la brisa no tiene forma; una fragancia flota en el viento claro, como si te bañaras en una brisa de primavera: un sendero de bambú lleno de vida. Quien se detiene aquí se siente de pronto despejado y olvida los peligros del jianghu; al andar, encuentra el qi condensado en huellas de escritura, señal de la gran fuerza interior del dueño del lugar, y te dan ganas de ver qué clase de persona vive en un sitio tan bendecido."
+msgstr "Esbeltos bambúes llenan tus ojos, el cielo no tiene límites y la brisa no tiene forma; una fragancia flota en el viento claro, como si te bañaras en una brisa de primavera: un sendero de bambú lleno de vida. Quien se detiene aquí se siente de pronto despejado y olvida los peligros del jianghu; al andar, encuentra el Qi condensado en huellas de escritura, señal de la gran fuerza interior del dueño del lugar, y te dan ganas de ver qué clase de persona vive en un sitio tan bendecido."
 
 msgid "此处的竹林比起入口的竹子更为高大耸直，也有些小动物在这四\n周跳来跳去，跑来跑去的，更是生气盎然，不时有也黄莺唱吟著美妙\n的诗句，清新宛然，人间仙境，只是偶尔有那怪异的强风袭卷而致，\n另人难以忍受，在往入探头，有一似人大的黄石挺立于内，而其四周\n隐隐约约有些许正气溢散而出。\n"
 msgstr "Aquí el bambú es más alto y recto que a la entrada, y algunos animalitos saltan y corren por los alrededores, llenos de vida; de vez en cuando una oropéndola canta versos hermosos, frescos y claros, un paraíso en la tierra. Solo de vez en cuando un viento fuerte y raro lo barre todo y resulta insoportable. Asomándote más adentro, ves una roca amarilla del tamaño de una persona erguida, y a su alrededor se escapa, tenue, una energía recta."
@@ -27568,7 +27568,7 @@ msgid "这里便是乔阴县驰名远近的福林酒楼，连乔阴县最热闹�
 msgstr "Esta es la famosa Taberna Fulin de Sombra Alta, tan conocida que hasta la calle más animada de Sombra Alta lleva su nombre. Es un local de casi cien años; el tabernero actual ya es la tercera generación. Si eres forastero recién llegado, no estaría mal que le cultivaras la amistad. En la planta baja se sienta la mayoría de los clientes habituales de la ciudad. Al noreste, una escalera cuadrada sube a los reservados del piso de arriba; al oeste se sale a la calle."
 
 msgid "这里便是乔阴县城最大的一处广场，往北是贯通县城南北门的福林\n大道，往东则是一个绿柳环绕的湖泊「翠柳湖」，广场上只见卖艺的，\n卖糖葫芦的，捏面人的，各色小贩穿梭来去，广场中央有一口大井，井\n旁用绳索绑著几只杯子供人取水喝，南门的牌楼因为几年前改建\n翠柳湖的曲桥，因此移到西边的县府衙门所在的昌平街，现在广场的南\n面就是一座曲桥通往湖东岸的雨桥庄，西南边一条宽敞的街道沿著湖岸\n通往城外，广场的西边则一直延伸到昌平街。\n"
-msgstr "Esta es la plaza más grande de la ciudad de Sombra Alta. Al norte está la calle Fulin, que cruza la ciudad de la puerta norte a la sur; al este, un lago rodeado de sauces verdes, el \"Lago de Sauces Verdes\". En la plaza solo se ven artistas callejeros, vendedores de frutas acarameladas, modeladores de figuras de masa: vendedores de todo tipo que van y vienen. En el centro hay un gran pozo, con unas tazas atadas con cuerdas junto a él para que la gente saque agua y beba. El arco de la puerta sur, cuando hace unos años se reformó el puente en zigzag del Lago de Sauces Verdes, se trasladó al oeste, a la calle Changping, donde está el tribunal del magistrado; ahora, al sur de la plaza, un puente en zigzag lleva a la Mansión Puente Lluvioso, en la orilla este del lago, y al suroeste una calle ancha bordea la orilla hacia las afueras. El oeste de la plaza se extiende hasta la calle Changping."
+msgstr "Esta es la plaza más grande de la ciudad de Sombra Alta. Al norte está la calle Fulin, que cruza la ciudad de la puerta norte a la sur; al este, un lago rodeado de sauces verdes, el \"Lago de Sauces Verdes\". En la plaza solo se ven artistas callejeros, vendedores de brochetas de espino, modeladores de figuras de masa: vendedores de todo tipo que van y vienen. En el centro hay un gran pozo, con unas tazas atadas con cuerdas junto a él para que la gente saque agua y beba. El arco de la puerta sur, cuando hace unos años se reformó el puente en zigzag del Lago de Sauces Verdes, se trasladó al oeste, a la calle Changping, donde está el tribunal del magistrado; ahora, al sur de la plaza, un puente en zigzag lleva a la Mansión Puente Lluvioso, en la orilla este del lago, y al suroeste una calle ancha bordea la orilla hacia las afueras. El oeste de la plaza se extiende hasta la calle Changping."
 
 msgid "这里是乔阴县城城南的承安街，街道十分宽敞，南北两边都是一些\n贩卖南北货、日用品的商店，这里虽然正当乔阴县人车来往最频繁的要\n冲，可是却没有福林大街热闹，往东走便是南门广场，往西则是和昌平\n街的交叉路口。\n"
 msgstr "Esta es la calle Cheng'an, al sur de Sombra Alta, muy ancha; al norte y al sur hay tiendas que venden productos del norte y del sur y artículos de uso diario. Aunque es un cruce donde pasa más gente y más carretas, no es tan animada como la calle Fulin. Al este se llega a la plaza de la Puerta Sur; al oeste, al cruce con la calle Changping."
@@ -27646,7 +27646,7 @@ msgid "铺路的青石采自桐柏山.因行人稀少,已快被茅草遮没.\n"
 msgstr "La piedra azul con que se pavimentó el camino viene del Monte Tongbai. Como pasa poca gente, la paja ya lo va cubriendo."
 
 msgid "此地山势平缓,山坡尽是湘妃竹.南面就是桐柏山了,西面即为隐士结庐修身之所\n.往北可见下山的青石小径.\n"
-msgstr "Aquí la montaña es suave, y las laderas están cubiertas de bambú moteado. Al sur está el Monte Tongbai, y al oeste el lugar donde un ermitaño construyó su cabaña para cultivarse. Al norte se ve el sendero de piedra azul que baja de la montaña."
+msgstr "Aquí la montaña es suave, y las laderas están cubiertas de bambú moteado. Al sur está el Monte Tongbai, y al oeste el lugar donde un ermitaño construyó su cabaña para cultivarse. Al norte se ve la vereda de piedra azul que baja de la montaña."
 
 msgid "诺大的一片竹林，密密匝匝，望不道尽头。游目四顾，没有路了。\n微风乍起，竹林深处现出一角竹篱。\n"
 msgstr "Un inmenso bosque de bambú, denso y apretado, sin fin a la vista. Miras en derredor: no hay camino.\nDe pronto sopla una leve brisa y, en lo profundo del bosque, asoma una esquina de cerca de bambú."
@@ -33187,7 +33187,7 @@ msgid "黑皮的册子，一页一口人。每个名字底下压着一方押印�
 msgstr "Un cuaderno de cuero negro, una página por persona. Bajo cada nombre hay estampado un sello de firma.\n"
 
 msgid "大半页压的是「槐阳河工所」的长戳，戳底下垫着半方朱印——「兵部之印」的「部」字。关北的河工，是兵部送上山的。\n"
-msgstr "Más de media página lleva el cuño largo de la \"Oficina fluvial de Huaiyang\", y debajo, a medias, un sello rojo: el carácter \"Ministerio\" de \"Sello del Ministerio de Guerra\". Los peones del Norte del Paso los envió a la montaña el Ministerio de Guerra.\n"
+msgstr "La mayor parte de las páginas lleva el cuño largo de la \"Oficina fluvial de Huaiyang\", y debajo, a medias, un sello rojo: el carácter \"Ministerio\" de \"Sello del Ministerio de Guerra\". Los peones del Norte del Paso los envió a la montaña el Ministerio de Guerra.\n"
 
 msgid "几页压着一个烙出来似的「羊」字：野羊寨纳的，不只是金帛。\n"
 msgstr "Unas páginas llevan un carácter \"Cabra\" como marcado a fuego: lo que paga el Fuerte de las Cabras no es solo oro y seda.\n"
