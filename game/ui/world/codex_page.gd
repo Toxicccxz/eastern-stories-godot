@@ -233,7 +233,7 @@ func _show_article(entry: CodexContent.Entry) -> void:
 	article_title.text = entry.title
 	for paragraph: CodexContent.Paragraph in entry.paragraphs:
 		var label := Label.new()
-		label.text = paragraph.text
+		label.text = ShownText.of(paragraph.text)
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		match paragraph.kind:

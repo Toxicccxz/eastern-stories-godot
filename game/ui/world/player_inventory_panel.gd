@@ -534,7 +534,7 @@ func _show_item(row: PlayerInventoryRowProjection) -> void:
 	inspect_text.text = "\n".join(_facts(row))
 	var compared: Array = _comparison(row)
 	if not compared.is_empty():
-		compare_label.text = compared[0]
+		compare_label.text = ShownText.of(compared[0])
 		compare_label.add_theme_color_override("font_color", compared[1])
 		compare_label.visible = true
 	action_rows.add_child(_actions(row))
@@ -757,7 +757,7 @@ func _chip(flow: HFlowContainer, node_name: String, text: String, pressed: Calla
 ## 吃 / 喝 / 装水 on the item read: what it said stays under it, and the rows refresh.
 func _use(how: Callable, id: StringName) -> void:
 	var line: String = how.call(id)
-	use_feedback.text = KoreanText.shown(line)
+	use_feedback.text = ShownText.of(line)
 	_feedback_for = id
 	supplies_used.emit(line)
 

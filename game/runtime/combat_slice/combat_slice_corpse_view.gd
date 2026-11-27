@@ -66,7 +66,7 @@ func _show_name() -> void:
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		add_child(label)
-	label.text = shown_name(_stage, _victim_display_name)
+	label.text = ShownText.of(shown_name(_stage, _victim_display_name))
 
 
 func _notification(what: int) -> void:

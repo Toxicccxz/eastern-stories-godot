@@ -85,8 +85,18 @@ English: style, names, terms and the grammar marks ES2's templates need are in
 Korean: style, registers, names, the particle pairs after a slot (`을(를)`, resolved by
 `KoreanParticles` once a line is filled) and word-whole wrapping (`KoreanText`) are in
 [korean_style.md](korean_style.md). A place that shows filled text without the control
-translating it calls `KoreanText.shown()`; `korean_lines_test` fills every template and fails on
-a pair left over.
+translating it calls `ShownText.of()` (Korean and Russian finish a filled line; the catalog of both
+is wrapped in `FinishedTranslation`); `korean_lines_test` fills every template and fails on a pair
+left over.
+
+Russian: style, ты and вы, names (Palladius; places T/П), terms, and the grammar marks are in
+[russian_style.md](russian_style.md). A name changes with its case and verbs agree with its gender
+and number, so the translation marks the case after a slot (`{npc}{:вин}`), the agreement
+(`{~:…}`, `{#:…}`, `{игрок:…}`) and `$N/$n` forms (`{N:бьёте|бьёт}`); `RussianText` resolves them
+once the line is filled, from the noun table `game/locale/ru_nouns.json`
+(`tools/l10n/ru_nouns.py draft|prune|check`; drafting needs `pip install pymorphy3`). Names in
+ru.po open with a capital; a name slot inside a sentence always carries a mark. `russian_lines_test`
+fills every template and fails on a mark left over.
 
 Japanese: style, voices, the forms of address `{self}` and `{respect}` take, names (kanji in
 Japanese forms), the words Chinese and Japanese write alike but mean differently, numbers and

@@ -2,7 +2,7 @@ extends RefCounted
 
 ## KoreanText: a Korean line finished for the screen (particles picked, a word joiner between
 ## the syllables of a word, none twice), only under Korean; a typed line's joiners take no
-## time; KoreanTranslation gives back its messages and the filled lines it is shown finished.
+## time; FinishedTranslation gives back its messages and the filled lines it is shown finished.
 
 const WJ: String = KoreanText.WORD_JOINER
 
@@ -48,9 +48,9 @@ func _test_index_after() -> void:
 func _test_shown_only_in_korean() -> void:
 	var before: String = TranslationServer.get_locale()
 	TranslationServer.set_locale("zh_CN")
-	_same(KoreanText.shown("산적이(가)"), "산적이(가)", "left alone outside Korean")
+	_same(ShownText.of("산적이(가)"), "산적이(가)", "left alone outside Korean")
 	TranslationServer.set_locale("ko")
-	_same(KoreanText.without_joiners(KoreanText.shown("산적이(가)")), "산적이", "finished in Korean")
+	_same(KoreanText.without_joiners(ShownText.of("산적이(가)")), "산적이", "finished in Korean")
 	TranslationServer.set_locale(before)
 
 
@@ -59,7 +59,7 @@ func _test_translation() -> void:
 	inner.locale = "ko"
 	inner.add_message("你好", "안녕하시오")
 	inner.add_message("{npc}笑了。", "{npc}이(가) 웃었다.")
-	var wrapped := KoreanTranslation.new(inner)
+	var wrapped := FinishedTranslation.new(inner)
 	_same(_plain(wrapped.get_message("你好")), "안녕하시오", "a message")
 	_check(String(wrapped.get_message("你好")).contains(WJ), "a message's words kept whole")
 	_same(_plain(wrapped.get_message("{npc}笑了。")), "{npc}이(가) 웃었다.", "a template keeps its pair")

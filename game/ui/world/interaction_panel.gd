@@ -204,7 +204,7 @@ func page_shown() -> bool:
 ## is left out.
 func set_look(text: String, name: String = "") -> void:
 	_looked = not text.is_empty()
-	_look_text.text = KoreanText.shown(without_name_line(text, name))
+	_look_text.text = ShownText.of(without_name_line(text, name))
 	if not page_shown():
 		show_look()
 
@@ -260,7 +260,7 @@ func show_thing(status: Array[String], about: Array[String], options: Array[Inte
 		if not option.available():
 			var why: Label = Label.new()
 			why.name = "Reason"
-			why.text = KoreanText.shown(option.reason)
+			why.text = ShownText.of(option.reason)
 			why.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 			why.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			why.add_theme_font_size_override("font_size", GameTheme.text_size(13))
@@ -369,7 +369,7 @@ static func without_name_line(text: String, name: String) -> String:
 func _lines(box: VBoxContainer, written: Array[String], color: Color) -> bool:
 	var lines: Array[String] = []
 	for text: String in written:
-		lines.append(KoreanText.shown(text))
+		lines.append(ShownText.of(text))
 	var shown: Array[String] = []
 	for child: Node in box.get_children():
 		shown.append((child as Label).text)

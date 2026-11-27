@@ -79,7 +79,7 @@ func refresh() -> void:
 		if not shown:
 			continue
 		var wait: WorldWait = _shown[index]
-		line.text = wait.text
+		line.text = ShownText.of(wait.text)
 		bar.visible = wait.progress >= 0.0
 		bar.value = clampf(wait.progress, 0.0, 1.0)
 		# The dialogue box has its own 下一句; a scene's bars put the card away, and a button
