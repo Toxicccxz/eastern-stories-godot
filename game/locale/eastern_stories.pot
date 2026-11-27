@@ -334,6 +334,10 @@ msgstr ""
 #. native.npc.outlaw.3 gender
 #. native.npc.outlaw.4 gender
 #. native.npc.outlaw.5 gender
+#. native.npc.outlaw.6 gender
+#. native.npc.outlaw.7 gender
+#. native.npc.outlaw.8 gender
+#. native.npc.outlaw.9 gender
 #. native.npc.feng_ce gender
 #. native.npc.song_pu gender
 #. native.npc.white_officer gender
@@ -10699,6 +10703,21 @@ msgstr ""
 #. native (DECISIONS「拿不动就不收钱」): {silver} (e.g. 二) of the bounty's silver the player could not carry lies at their feet.
 #: runtime/world/world_bounties.gd
 msgid "其中{silver}两你拿不动，掉在你的脚边。"
+msgstr ""
+
+#. native (成长曲线 D): the 雪亭驿 board's slots are empty for now; new bounties go up as play time passes.
+#: runtime/world/world_bounties.gd
+msgid "新的告示还没贴出来，过些时候再来看看吧。"
+msgstr ""
+
+#. native (成长曲线 D): every outlaw the board has posted so far is far beneath the player now; {when} says when a fiercer one goes up (a bounty tier's after_hint, e.g. 乔阴的案子了结以后).
+#: runtime/world/world_bounties.gd
+msgid "榜上贴过的恶人，你都已经强出他们一倍不止。更凶的那一个，要{when}才贴得出来。"
+msgstr ""
+
+#. native (成长曲线 D): even the fiercest outlaw the board ever posts is far beneath the player now: no bounty will go up for them again.
+#: runtime/world/world_bounties.gd
+msgid "榜上最凶的恶人，也不到你一半的火候了。这块榜上，已经没有值得你出手的悬赏。"
 msgstr ""
 
 #. a mark on the 地图 page: where the player's own corpse lies, with their things.
@@ -69523,6 +69542,50 @@ msgid ""
 "一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n"
 msgstr ""
 
+#. native.npc.outlaw.6 name
+#: data/native/npcs.json
+msgid "越狱死囚"
+msgstr ""
+
+#. native.npc.outlaw.6 long
+#: data/native/npcs.json
+msgid ""
+"一个蓬头垢面的汉子，脚踝上磨着一圈镣铐的血印，手里提着一柄不知从哪个狱卒腰上夺来的单刀。他是从乔阴县牢里越狱出来的死囚，告示上他的名字后面跟着一个朱红的「斩」字。\n"
+msgstr ""
+
+#. native.npc.outlaw.7 name
+#: data/native/npcs.json
+msgid "劫船海寇"
+msgstr ""
+
+#. native.npc.outlaw.7 long
+#: data/native/npcs.json
+msgid ""
+"一个赤着脚的海寇，晒得黝黑，耳朵上挂着一只铜环，腰里别着一把钢刀，身上一股咸腥味。他在番坊外的海崖道一带劫过三条商船，番坊的市舶司把他的像也送到了雪亭驿。\n"
+msgstr ""
+
+#. native.npc.outlaw.8 name
+#: data/native/npcs.json
+msgid "禁军逃卒"
+msgstr ""
+
+#. native.npc.outlaw.8 long
+#: data/native/npcs.json
+msgid ""
+"一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军营里逃出来，在京师北边的官道上专劫过路的官差，使的是大内的刀法。\n"
+msgstr ""
+
+#. native.npc.outlaw.9 name
+#: data/native/npcs.json
+msgid "逆灵宫余孽"
+msgstr ""
+
+#. native.npc.outlaw.9 long
+#: data/native/npcs.json
+msgid ""
+"一个黑衣道士，冠上的丝绦断了，脸上横着一道新疤。湖底那一仗以后，逆灵宫的人四散，他是还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n"
+msgstr ""
+
 #. native.npc.feng_ce calls.steps.say
 #: data/native/npcs.json
 msgid "玉螺湖那一夜烧了半个村子——是你拔的剑。……拔了就往前走，别回头。"
@@ -76609,6 +76672,26 @@ msgstr ""
 #. native:canyon/road_passes no_drop
 #: data/native/items.json
 msgid "这叠路引不能随便丢。"
+msgstr ""
+
+#. tiers.after_hint
+#: data/native/bounties.json
+msgid "等乔阴的案子了结以后"
+msgstr ""
+
+#. tiers.after_hint
+#: data/native/bounties.json
+msgid "等番坊的事有了着落以后"
+msgstr ""
+
+#. tiers.after_hint
+#: data/native/bounties.json
+msgid "等京师那边尘埃落定以后"
+msgstr ""
+
+#. tiers.after_hint
+#: data/native/bounties.json
+msgid "等湖底的事了结以后"
 msgstr ""
 
 #. native:waterfog/terrace_stair long

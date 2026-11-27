@@ -45,7 +45,7 @@ func advance(delta_seconds: float) -> void:
 	var elapsed: float = _remainder_ms + delta_seconds * 1000.0
 	var whole: int = int(elapsed)
 	_remainder_ms = elapsed - whole
-	BountyBoard.tick(state.bounty, GameContent.catalog().bounties(), state.progression.combat_experience, whole, _outlaw_exp)
+	BountyBoard.tick(state.bounty, GameContent.catalog().bounties(), state.progression.combat_experience, whole, _outlaw_exp, _opens.bind(state), _ceiling())
 
 
 ## The postings now, in slot order (the board fills them first on a look).
@@ -55,7 +55,7 @@ func postings() -> Array[Posting]:
 	if not enabled() or state == null:
 		return result
 	var rules: BountyRules = GameContent.catalog().bounties()
-	BountyBoard.tick(state.bounty, rules, state.progression.combat_experience, 0, _outlaw_exp)
+	BountyBoard.tick(state.bounty, rules, state.progression.combat_experience, 0, _outlaw_exp, _opens.bind(state), _ceiling())
 	if not BountyBoard.fits(state.bounty, rules):
 		return result
 	for slot: int in state.bounty.tiers.size():
@@ -217,6 +217,34 @@ func _standing_outlaw(posting: Posting) -> NpcRuntimeState:
 		if npc.definition().definition_id == posting.tier.npc_id and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD and npc.exists_in_map:
 			return npc
 	return null
+
+
+## What an empty board says (成长曲线 D; DECISIONS「成长曲线 D」), the truth of why: its slots
+## only wait to be filled; or every outlaw the story has put up is twice a match for the player
+## no longer, and a fiercer one waits on the story (its tier's `after_hint`); or none is left.
+func empty_line() -> String:
+	var state: CharacterState = _state()
+	var rules: BountyRules = GameContent.catalog().bounties()
+	if not enabled() or state == null:
+		return ""
+	var waiting: int = BountyBoard.waiting_tier(rules, state.progression.combat_experience, _outlaw_exp, _opens.bind(state), _ceiling())
+	if waiting == -1:
+		# TRANSLATORS: native (成长曲线 D): the 雪亭驿 board's slots are empty for now; new bounties go up as play time passes.
+		return tr("新的告示还没贴出来，过些时候再来看看吧。")
+	if waiting >= 0:
+		# TRANSLATORS: native (成长曲线 D): every outlaw the board has posted so far is far beneath the player now; {when} says when a fiercer one goes up (a bounty tier's after_hint, e.g. 乔阴的案子了结以后).
+		return tr("榜上贴过的恶人，你都已经强出他们一倍不止。更凶的那一个，要{when}才贴得出来。").format({"when": tr(rules.tiers[waiting].after_hint)})
+	# TRANSLATORS: native (成长曲线 D): even the fiercest outlaw the board ever posts is far beneath the player now: no bounty will go up for them again.
+	return tr("榜上最凶的恶人，也不到你一半的火候了。这块榜上，已经没有值得你出手的悬赏。")
+
+
+func _opens(tier: int, state: CharacterState) -> bool:
+	var rules: BountyRules = GameContent.catalog().bounties()
+	return rules != null and tier >= 0 and tier < rules.tiers.size() and rules.tiers[tier].open_for(state)
+
+
+func _ceiling() -> int:
+	return GameContent.catalog().pacing().bounty_ceiling_percent
 
 
 func _outlaw_exp(npc_id: StringName) -> int:

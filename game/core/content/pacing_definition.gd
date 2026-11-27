@@ -58,6 +58,9 @@ extends RefCounted
 ## - bounty_board: the 雪亭驿 board's bounties (BountyBoard, native/bounties.json). false (ES2):
 ##   no board.
 ## - bounty_refresh_seconds: play time a bounty's slot stays empty once it is done or given up.
+## - bounty_ceiling_percent (成长曲线 D; DECISIONS「成长曲线 D」): a tier's outlaw is no longer
+##   posted once the player's combat_exp reaches this percent of its own (200: twice). 0 (A2, no
+##   such knob): once it looks far weaker than them (RelativeStrength 远不如你: four times).
 ## - training_dummies: the 武馆 教练场's 木人 stand (native/spawns.json `pacing`). false (ES2):
 ##   none.
 ##
@@ -188,6 +191,7 @@ var _rest_limit_seconds: int = 0
 var _training_auto_rest: bool = false
 var _exp_gates: Dictionary[StringName, int] = {}
 var _milestone_stage_headroom: int = -1
+var _bounty_ceiling_percent: int = 0
 var _player_age_steps: Array[PlayerAging.Step] = []
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
@@ -380,6 +384,10 @@ var exp_gates: Dictionary[StringName, int]:
 var milestone_stage_headroom: int:
 	get:
 		return _milestone_stage_headroom
+## The board's ceiling (percent of the outlaw's combat_exp; 0: 远不如你).
+var bounty_ceiling_percent: int:
+	get:
+		return _bounty_ceiling_percent
 ## The player's age by combat_exp (`player_age_by_exp`; empty: no growing up).
 var player_age_steps: Array[PlayerAging.Step]:
 	get:
@@ -434,6 +442,7 @@ func copy() -> PacingDefinition:
 	record.with_rest(_rest_world_scale, _rest_limit_seconds, _training_auto_rest)
 	record.with_exp_gates(_exp_gates)
 	record.with_milestone_stage_headroom(_milestone_stage_headroom)
+	record.with_bounty_ceiling(_bounty_ceiling_percent)
 	record.with_player_ages(_player_age_steps)
 	record.feel = feel
 	record.npc_idle = npc_idle
@@ -500,6 +509,12 @@ func exp_gate(gate: StringName, es2_value: int) -> int:
 ## This record with the named experience gates set (tests, and from_record()); {} is ES2's.
 func with_exp_gates(gates: Dictionary[StringName, int]) -> PacingDefinition:
 	_exp_gates = gates.duplicate()
+	return self
+
+
+## This record with the bounty board's ceiling set (tests, and from_record()); 0 is 远不如你.
+func with_bounty_ceiling(percent: int) -> PacingDefinition:
+	_bounty_ceiling_percent = percent
 	return self
 
 
@@ -693,6 +708,9 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 			gates[StringName(gate)] = named[gate]
 	definition.with_exp_gates(gates)
 	definition.with_milestone_stage_headroom(reader.integer("milestone_stage_headroom", -1))
+	definition.with_bounty_ceiling(reader.integer("bounty_ceiling_percent", 0))
+	if definition._bounty_ceiling_percent != 0 and definition._bounty_ceiling_percent <= 100:
+		reader.fail("bounty_ceiling_percent", "must be 0 (no ceiling) or above 100")
 	if definition._milestone_stage_headroom < -1:
 		reader.fail("milestone_stage_headroom", "must be -1 (no cap) or more")
 	var ages: Array[PlayerAging.Step] = []

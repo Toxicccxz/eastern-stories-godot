@@ -156,9 +156,14 @@
 			"fingerprint": "98743dfc77c89dad17dceb1f0251c7d5e4b30652c1ed90c0f0a01fee53d5f30d"
 		},
 		{
+			"revision": "SOURCE_ENTRY_GROWTH_D_V1",
+			"spawn_points": 894,
+			"fingerprint": "3dfd01e1c1c00837a30685557d45decad87cae50d94af2313be220109d414c03"
+		},
+		{
 			"revision": "SOURCE_ENTRY_RAIN_YARD_V1",
 			"spawn_points": 896,
-			"fingerprint": "38118706def97d759e1c750691f4190416dea7cb788bfeb1ff006df934a5f4f7"
+			"fingerprint": "6f6a8c4a89389d72939b8e55b4383f127dd4c12c36a3392176276871c029443b"
 		}
 	]
 }

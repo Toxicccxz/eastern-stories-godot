@@ -32,7 +32,7 @@ func interact() -> void:
 
 ## The panel shows the postings now.
 func refresh() -> void:
-	panel.show_postings(map.session.bounties().postings())
+	panel.show_postings(map.session.bounties().postings(), map.session.bounties().empty_line())
 
 
 func take(slot: int) -> bool:

@@ -8,6 +8,11 @@ extends RefCounted
 ## play time, so the board cannot be worked faster than that. One whose outlaw the player
 ## has outgrown (远不如你) is put up anew for their tier; with none worth their while the
 ## board stays empty for them.
+## 成长曲线 D (DECISIONS「成长曲线 D」): a tier may wait on the story (BountyRules.Tier.after) and
+## have places of its own; with the pacing knob bounty_ceiling_percent an outlaw is outgrown once
+## the player has that percent of its combat_exp (200: twice), and a player who has outgrown the
+## highest tier they reached is offered the next one the story has opened, so the ladder has no
+## gaps; `opens` (tier -> bool) says which the story has opened, all of them when not given.
 
 ## Places are taken in this stride (coprime with any small count), so the postings differ.
 const PLACE_STRIDE: int = 3
@@ -16,12 +21,12 @@ const PLACE_STRIDE: int = 3
 ## Play time passes (`elapsed_ms`): empty slots count down and are filled once due; postings
 ## not taken that are of another tier than the player's now are put up anew.
 ## `outlaw_exp` (npc_id) -> combat_exp of that outlaw.
-static func tick(state: BountyState, rules: BountyRules, combat_exp: int, elapsed_ms: int, outlaw_exp: Callable) -> bool:
+static func tick(state: BountyState, rules: BountyRules, combat_exp: int, elapsed_ms: int, outlaw_exp: Callable, opens: Callable = Callable(), ceiling_percent: int = 0) -> bool:
 	if state == null or rules == null:
 		return false
 	state.fit(rules.postings)
 	_drop_unknown(state, rules)
-	var tier: int = worthy_tier(rules, combat_exp, outlaw_exp)
+	var tier: int = worthy_tier(rules, combat_exp, outlaw_exp, opens, ceiling_percent)
 	var changed: bool = false
 	for slot: int in rules.postings:
 		if state.tiers[slot] >= 0:
@@ -34,15 +39,48 @@ static func tick(state: BountyState, rules: BountyRules, combat_exp: int, elapse
 	return changed
 
 
-## The tier offered to a player of `combat_exp`: the highest reached, unless its outlaw is
-## far weaker than them (RelativeStrength 远不如你): then none (-1).
-static func worthy_tier(rules: BountyRules, combat_exp: int, outlaw_exp: Callable) -> int:
-	var tier: int = rules.tier_for(combat_exp)
-	if tier < 0:
+## The tier offered to a player of `combat_exp`: the highest the story has opened that they
+## reached, unless they have outgrown its outlaw (outgrown()); then, with a ceiling, the next
+## tier up the story has opened that they have not outgrown; else none (-1).
+static func worthy_tier(rules: BountyRules, combat_exp: int, outlaw_exp: Callable, opens: Callable = Callable(), ceiling_percent: int = 0) -> int:
+	var reached: int = -1
+	for index: int in rules.tiers.size():
+		if rules.tiers[index].min_exp <= combat_exp and _opened(opens, index):
+			reached = index
+	if reached >= 0 and not outgrown(rules, reached, combat_exp, outlaw_exp, ceiling_percent):
+		return reached
+	if ceiling_percent <= 0:
 		return -1
-	if RelativeStrength.band(combat_exp, int(outlaw_exp.call(rules.tiers[tier].npc_id))) == RelativeStrength.Band.MUCH_WEAKER:
+	for index: int in range(reached + 1, rules.tiers.size()):
+		if _opened(opens, index) and not outgrown(rules, index, combat_exp, outlaw_exp, ceiling_percent):
+			return index
+	return -1
+
+
+## Whether a player of `combat_exp` has outgrown `tier`'s outlaw: `ceiling_percent` of its
+## combat_exp and more; with no ceiling, once it looks far weaker (RelativeStrength 远不如你).
+static func outgrown(rules: BountyRules, tier: int, combat_exp: int, outlaw_exp: Callable, ceiling_percent: int = 0) -> bool:
+	var outlaw: int = int(outlaw_exp.call(rules.tiers[tier].npc_id))
+	if ceiling_percent > 0:
+		return combat_exp * 100 >= outlaw * ceiling_percent
+	return RelativeStrength.band(combat_exp, outlaw) == RelativeStrength.Band.MUCH_WEAKER
+
+
+## Why a player of `combat_exp` is offered no tier, for the empty board: the first tier above
+## the ones they have outgrown that waits on the story (its index), -2 when every tier the story
+## has opened is outgrown and none is left to wait for, -1 when one is offered (an empty board
+## then only waits for its slots to fill).
+static func waiting_tier(rules: BountyRules, combat_exp: int, outlaw_exp: Callable, opens: Callable = Callable(), ceiling_percent: int = 0) -> int:
+	if worthy_tier(rules, combat_exp, outlaw_exp, opens, ceiling_percent) >= 0:
 		return -1
-	return tier
+	for index: int in rules.tiers.size():
+		if not _opened(opens, index) and not outgrown(rules, index, combat_exp, outlaw_exp, ceiling_percent):
+			return index
+	return -2
+
+
+static func _opened(opens: Callable, tier: int) -> bool:
+	return not opens.is_valid() or bool(opens.call(tier))
 
 
 ## Takes the bounty in `slot`: one at a time.
@@ -92,6 +130,7 @@ static func _post(state: BountyState, rules: BountyRules, slot: int, tier: int) 
 		state.places[slot] = -1
 		return had
 	state.tiers[slot] = tier
-	state.places[slot] = (state.serial * PLACE_STRIDE) % rules.places.size()
+	var places: Array[int] = rules.tiers[tier].place_indices
+	state.places[slot] = places[(state.serial * PLACE_STRIDE) % places.size()]
 	state.serial += 1
 	return true

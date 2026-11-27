@@ -57,6 +57,8 @@ TEXT_KEYS = frozenset({
     "water_fail", "catch_say", "escape_line", "deliver_say", "refused_line", "beat_line", "warn_line",
     "sorry_line", "label", "hint", "attack_ask", "attack_choice", "time_msg", "desc_msg", "locked",
     "style_word", "style_line", "summary", "intro", "seat",
+    # A bounty tier's wait on the story, as the empty board says it (成长曲线 D).
+    "after_hint",
     # 攻击 on one the story will not let the player fight (DECISIONS「不能动手的人」).
     "fight_deferred",
     # What an NPC shouts as it notices the player and turns on them (DECISIONS「势力线的仗」).

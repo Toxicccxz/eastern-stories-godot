@@ -24,6 +24,7 @@
 		"player_exercise_gain": 6,
 		"bounty_board": true,
 		"bounty_refresh_seconds": 600,
+		"bounty_ceiling_percent": 200,
 		"training_dummies": true,
 		"day_length_minutes": 24,
 		"sky_weather": true,

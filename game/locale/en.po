@@ -42039,6 +42039,51 @@ msgstr "Inside the brushwood gate is a yard of no great size, ringed by a mud wa
 msgid "屋里收拾得很干净。靠窗一张旧书案，案上一只粗瓷茶壶、两只杯子，一只倒扣着。墙上的木钉挂着一个空剑鞘，鞘上的漆磨得露出了木头，剑穗却是新换的。里间门口垂着一幅蓝布帘子。屋角的炉子上坐着一把水壶，壶嘴冒着细细的白气。\n"
 msgstr "The room is kept very clean. By the window is an old writing desk, and on it a coarse china teapot and two cups, one turned upside down. An empty scabbard hangs from a wooden peg on the wall, its lacquer worn through to the wood, though its tassel is new. A blue cloth curtain hangs in the doorway of the inner room. On the stove in the corner sits a kettle, a thin white steam rising from its spout.\n"
 
+msgid "新的告示还没贴出来，过些时候再来看看吧。"
+msgstr "No new notices have gone up yet. Come back in a while."
+
+msgid "榜上贴过的恶人，你都已经强出他们一倍不止。更凶的那一个，要{when}才贴得出来。"
+msgstr "Every outlaw this board has posted so far is no match for you now, by twice over. A fiercer one won't go up until {when}."
+
+msgid "榜上最凶的恶人，也不到你一半的火候了。这块榜上，已经没有值得你出手的悬赏。"
+msgstr "Even the fiercest outlaw on this board has not half your mettle now. There is no bounty here worth your while anymore."
+
+msgid "越狱死囚"
+msgstr "Escaped Convict"
+
+msgid "一个蓬头垢面的汉子，脚踝上磨着一圈镣铐的血印，手里提着一柄不知从哪个狱卒腰上夺来的单刀。他是从乔阴县牢里越狱出来的死囚，告示上他的名字后面跟着一个朱红的「斩」字。\n"
+msgstr "An unkempt, filthy man with a ring of raw, bloody marks round each ankle where the shackles were, gripping a blade he seems to have wrenched from some jailer's belt. He broke out of the Tallshade county jail under sentence of death; on the notice, his name is followed by a vermilion \"Behead.\"\n"
+
+msgid "劫船海寇"
+msgstr "Ship Raider"
+
+msgid "一个赤着脚的海寇，晒得黝黑，耳朵上挂着一只铜环，腰里别着一把钢刀，身上一股咸腥味。他在番坊外的海崖道一带劫过三条商船，番坊的市舶司把他的像也送到了雪亭驿。\n"
+msgstr "A barefoot sea raider burnt dark by the sun, a copper ring in one ear and a steel blade stuck in his belt, smelling of salt and fish. He has robbed three merchant ships along the Sea Cliff Road outside the Foreign Quarter, and the Maritime Trade Office has sent his likeness on to the Snow Pavilion Post Station.\n"
+
+msgid "禁军逃卒"
+msgstr "Deserter of the Guard"
+
+msgid "一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军营里逃出来，在京师北边的官道上专劫过路的官差，使的是大内的刀法。\n"
+msgstr "A man in half a suit of Palace Troops' iron armour, the number plate on it scraped off with a blade; the saber at his waist is still the one the barracks issued him. He ran from the Palace Troops' barracks in the Palace City and now robs passing officials on the road north of the Capital, using the palace's own blade style.\n"
+
+msgid "逆灵宫余孽"
+msgstr "Black Palace Remnant"
+
+msgid "一个黑衣道士，冠上的丝绦断了，脸上横着一道新疤。湖底那一仗以后，逆灵宫的人四散，他是还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n"
+msgstr "A Taoist in black, the cord of his crown snapped, a fresh scar across his face. Since that battle under the lake, the Black Palace's people have scattered; he is one who is still killing. Two fishing households by Jade Conch Lake are already gone.\n"
+
+msgid "等乔阴的案子了结以后"
+msgstr "the Tallshade case is closed"
+
+msgid "等番坊的事有了着落以后"
+msgstr "the trouble in the Foreign Quarter is settled"
+
+msgid "等京师那边尘埃落定以后"
+msgstr "the dust has settled in the Capital"
+
+msgid "等湖底的事了结以后"
+msgstr "the business under the lake is done"
+
 msgid "朝厅上的大哥看了一眼。"
 msgstr " glances at his brother across the hall."
 
