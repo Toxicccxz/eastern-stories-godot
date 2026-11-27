@@ -65,6 +65,9 @@ const PLAYER_WORDS: Array[StringName] = [&"face", &"bow", &"kneel", &"rise", &"s
 ## The words after which the one who leaves is gone (a `leave` step waits for them).
 const LEAVING: Array[StringName] = [&"exit", &"dissolve"]
 const FRAMES: Array[StringName] = [&"near", &"wide", &"two", &"look"]
+## The kinds of step that show nothing of their own: one that waits on the player (what follows
+## their answer is told outside the scene's pages) and one that takes them elsewhere.
+const NO_CUE: Array[String] = ["questions", "choose", "move", "reincarnate", "epilogue"]
 
 var actions: Array[Action] = []
 ## null: the camera follows whoever speaks.
@@ -114,6 +117,10 @@ func places() -> Array[Array]:
 static func read(reader: ContentRecordReader, kind: String) -> SceneCue:
 	if not (reader.has("do") or reader.has("shot") or reader.has("fx")):
 		return null
+	if NO_CUE.has(kind):
+		for key: String in ["do", "shot", "fx"]:
+			if reader.has(key):
+				reader.fail(key, "a %s step shows nothing of its own: put it on the line before" % kind)
 	var cue := SceneCue.new()
 	if reader.is_text("do"):
 		var action: Action = _word(reader, reader.text("do"), kind)

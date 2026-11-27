@@ -360,8 +360,14 @@ func _next_page() -> void:
 		_show_page()
 
 
+## Whether the box hosted something (打听, a question) when it was last closed by close(): no told
+## page was cut short by that.
+var closed_hosting: bool = false
+
+
 ## Closes it at once: what was unread stays in 消息.
 func close() -> void:
+	closed_hosting = hosting() and _pages.is_empty()
 	_shut()
 	closed_unread.emit()
 

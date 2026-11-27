@@ -351,9 +351,11 @@ func finish() -> void:
 		_go_on()
 
 
-## The scene's picture is cut short: what is under way is at its end, what had not begun is not
-## shown — but whoever was to leave has left, who came stands where the rule put it, who was
-## summoned is seen.
+## The scene's picture is cut short (a fight, a fall, the map left, the box shut unread): what is
+## under way is at its end, what had not begun is not shown — but whoever was to leave has left,
+## who came stands where the rule put it, who was summoned is seen — and everyone who walked is
+## put back where it stood at once, every pose let go. The scene itself may go on later (its
+## calls still to come): what those show is staged afresh.
 func settle() -> void:
 	# Cut short, nothing goes on by it: the hold is let go first.
 	_then = Callable()
@@ -372,23 +374,32 @@ func settle() -> void:
 	_unseen.clear()
 	_shot = null
 	_fx_due.clear()
-	_then = Callable()
-	_hold(false)
+	_let_go(true)
 
 
 ## The scene is over (WorldMapNpcLife.end_scene()): every pose is let go and everyone who walked
 ## goes back where it stood — walking, or at once when the scene was cut short.
 func close() -> void:
-	var cut: bool = busy() or _cut_short()
-	settle()
+	if busy() or _holding or _cut_short():
+		settle()
+	else:
+		_let_go(false)
+
+
+## Everyone who walked goes back where it stood — put there `at_once`, else walking (the map's own
+## walker, on the world's time) — looking where it looked; every pose, start and claim is let go
+## and nobody is the scene's any more. One lying senseless is put back too (it walks nowhere).
+func _let_go(at_once: bool) -> void:
 	for id: StringName in _homes.keys():
 		var body: WorldCharacterBody2D = _body(id)
 		var home: Array = _homes[id]
 		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(id)
-		if body == null or npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		if body == null or npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			continue
-		if cut or body.global_position.distance_to(home[0]) < 2.0 or not _map.npc_life.npc_walker().walk_across(id, body, home[0]):
+		var walks: bool = not at_once and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.relationship.is_fighting()
+		if not walks or body.global_position.distance_to(home[0]) < 2.0 or not _map.npc_life.npc_walker().walk_across(id, body, home[0]):
 			body.global_position = home[0]
+			body.placed()
 			body.facing = home[1]
 			body.queue_redraw()
 	_homes.clear()
@@ -402,6 +413,8 @@ func close() -> void:
 	_directed.clear()
 	_hops.clear()
 	_fx_claimed.clear()
+	_fx_due.clear()
+	_shot = null
 
 
 # --- what the view reads ---
@@ -531,6 +544,11 @@ func fx_claimed() -> Dictionary[String, bool]:
 	return _fx_claimed
 
 
+## Whether a 主线场面 is due now.
+func has_fx() -> bool:
+	return not _fx_due.is_empty()
+
+
 ## The 主线场面 due now, taken (the view plays each once).
 func take_fx() -> Array[String]:
 	var due: Array[String] = _fx_due
@@ -585,6 +603,14 @@ func _start(action: SceneCue.Action, id: StringName, bound: Bound) -> Run:
 	# A new action lets go of what was only kept up (hands out, a shiver).
 	if _held.get(id, &"") in [POSE_REACH, POSE_SHIVER]:
 		_held.erase(id)
+	# One body moves by one action at a time: what moved it until now is at its end first.
+	if action.act in [&"walk", &"enter", &"exit", &"step_back"]:
+		for moving: Run in _runs.duplicate():
+			if moving.id == id and (moving.walks or moving.act == &"step_back") and _runs.has(moving):
+				_end_run(moving, true)
+		body = _body(id)
+		if body == null or (id != _player_id() and _map.npcs.find_resident_npc(id) != null and not _map.npcs.find_resident_npc(id).exists_in_map):
+			return null
 	var run := Run.new()
 	run.act = action.act
 	run.id = id
@@ -678,14 +704,17 @@ func _walk(run: Run, body: WorldCharacterBody2D, to: Vector2, home: bool = true)
 	_map.npc_life.npc_walker().cancel(run.id)
 	run.path = path
 	run.walks = true
+	# Through people, as any walker goes; its presence (who it notices) is left alone.
 	if body is WorldNpcBody2D:
-		(body as WorldNpcBody2D).set_walking(true)
+		(body as WorldNpcBody2D).set_passing(true)
 	return true
 
 
+## Where `id` goes back to: where it stands now, or where the walk it is on would have ended (a
+## walk home from the last scene, a room move).
 func _remember_home(id: StringName, body: WorldCharacterBody2D) -> void:
 	if not _homes.has(id):
-		_homes[id] = [body.global_position, body.facing]
+		_homes[id] = [_map.npc_life.npc_walker().rest_position(id, body), body.facing]
 
 
 func _advance_run(run: Run, delta: float) -> void:
@@ -728,11 +757,13 @@ func _end_run(run: Run, at_once: bool) -> void:
 				if at_once:
 					body.placed()
 			if body is WorldNpcBody2D:
-				(body as WorldNpcBody2D).set_walking(false)
+				(body as WorldNpcBody2D).set_passing(false)
 			if run.act == &"walk" and run.action.stay:
 				_stays(run.id, body)
 		if run.act == &"step_back" and run.to.is_finite():
 			body.global_position = run.to
+			# No walk to turn by: it still looks at what it backed from.
+			body.forget_step()
 			body.facing_held = false
 	match run.act:
 		&"kneel":
@@ -873,13 +904,12 @@ func _beside(place: StringName, room: StringName, spot: Vector2, body: WorldChar
 	if location == null:
 		return spot
 	# The side it comes from first: it stops short of them, not behind them.
-	var best: Vector2 = _map.floor_items.at_feet(location, spot, false, BESIDE)
 	var toward: Vector2 = (body.global_position - spot).normalized()
 	for distance: int in BESIDE:
 		var near: Vector2 = spot + toward * distance
 		if MapPlacementValidator.is_valid_character_position(_map, room, near):
 			return near.round()
-	return best
+	return _map.floor_items.at_feet(location, spot, false, BESIDE)
 
 
 ## The spot nearest `spot` a body may stand on (a doorway's own cell is in its wall).

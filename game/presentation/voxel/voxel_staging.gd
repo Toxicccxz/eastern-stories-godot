@@ -44,21 +44,6 @@ func sync(view: WorldVoxelView, _delta: float) -> void:
 	_fx(view, stage)
 
 
-## What the staging holds is over or cut short on a map left: everything given back at once.
-func clear(view: WorldVoxelView) -> void:
-	for id: StringName in _touched.keys():
-		var actor: Node3D = view.actors.get(id)
-		if is_instance_valid(actor) and actor.get_child_count() > 0:
-			_restore(actor.get_child(0) as Node3D, _touched[id], view)
-	_touched.clear()
-	for key: String in _flying.keys():
-		if is_instance_valid(_flying[key]):
-			_flying[key].queue_free()
-	_flying.clear()
-	_shot_zoom = 0.0
-	_shot_key = ""
-
-
 func _figures(view: WorldVoxelView, stage: WorldMapStaging) -> void:
 	var depth: float = float(SceneStage.part("emerge").get("depth", 2.0))
 	for id: StringName in view.actors:
@@ -257,16 +242,24 @@ func _shot(view: WorldVoxelView, stage: WorldMapStaging) -> void:
 		return
 	var key: String = stage.shot_key()
 	var cut: bool = String(shots.get("move", "pan")) == "cut"
-	if key != _shot_key:
+	var fresh: bool = key != _shot_key
+	if fresh:
 		_shot_key = key
 		if not key.is_empty():
 			begun["shot"] = int(begun.get("shot", 0)) + 1
+			# The shot frames the picture from here: a 主线场面's own push-in gives nothing back over it.
+			if is_instance_valid(view.story_fx):
+				view.story_fx.forget_zoom()
 		if cut:
 			view.cut_to_anchor()
-	if is_equal_approx(wanted, _shot_zoom):
+	if not fresh and is_equal_approx(wanted, _shot_zoom):
 		return
 	_shot_zoom = wanted
-	view.set_zoom(wanted if wanted > 0.0 else view.rest_zoom, 0.0 if cut else maxf(0.0, float(shots.get("seconds", 0.7))))
+	var target: float = wanted if wanted > 0.0 else view.rest_zoom
+	if is_equal_approx(view.zoom(), target):
+		return
+	# A new shot eases there (or cuts); the same one following two who move keeps up frame by frame.
+	view.set_zoom(target, maxf(0.0, float(shots.get("seconds", 0.7))) if fresh and not cut else 0.0)
 
 
 ## The soft light over what the shot looks at: up while a near, two or look shot is in force and
@@ -323,7 +316,10 @@ func _fx(view: WorldVoxelView, stage: WorldMapStaging) -> void:
 	if story == null:
 		return
 	story.claimed = claimed
+	if not stage.has_fx():
+		return
 	for name: String in stage.take_fx():
 		var scenes: Dictionary = VoxelStoryFx.data().get("scenes", {})
-		if scenes.get(name) is Dictionary and story.play_named(name, scenes[name], view):
+		# Under a shot the scene's own push-in is left out: the shot frames it.
+		if scenes.get(name) is Dictionary and story.play_named(name, scenes[name], view if stage.shot_frame().is_empty() else null):
 			begun["fx"] = int(begun.get("fx", 0)) + 1

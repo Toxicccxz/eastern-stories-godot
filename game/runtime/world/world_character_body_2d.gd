@@ -97,6 +97,12 @@ func _turn_to(direction: Vector2) -> void:
 		queue_redraw()
 
 
+## The body was put a little way off by a scene (a step back taken to its end, put back where it
+## stood): its next physics step sees no move, so it keeps the way it faces (过场演出 B).
+func forget_step() -> void:
+	_last_position = global_position
+
+
 ## A body the world moves (an NPC walking, the player led) turns the way it went.
 func _track_facing() -> void:
 	var moved: Vector2 = global_position - _last_position if _last_position.is_finite() else Vector2.ZERO

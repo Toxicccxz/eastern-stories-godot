@@ -359,9 +359,15 @@ func _read_out(teller: StringName) -> void:
 
 
 ## The box was shut before it was read out (a fight, a fall): what the scene was showing is over.
+## A box that hosted a question (answered, or walked away from) had no told page cut short: what
+## the scene still shows only goes to its end, and the scene goes on.
 func _closed_unread() -> void:
 	var stage: WorldMapStaging = staging()
-	if stage != null:
+	if stage == null:
+		return
+	if dialogue_box.closed_hosting:
+		stage.finish()
+	else:
 		stage.settle()
 
 

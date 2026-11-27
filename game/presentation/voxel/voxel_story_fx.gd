@@ -21,8 +21,11 @@ var played: Array[String] = []
 ## own (the view hands them over from the map's staging): their own triggers stay quiet, so the
 ## moment is shown once, when the step comes.
 var claimed: Dictionary[String, bool] = {}
-## The scenes shown since the map was last shown (reset()): one is not shown twice.
+## The scenes shown since the map was last shown (reset()), by a trigger or by name: one shown is
+## not played again by name. Those played by name: their trigger stays quiet until the map is
+## shown again.
 var _shown: Dictionary[String, bool] = {}
+var _named: Dictionary[String, bool] = {}
 ## The view's camera (the jolt moves its picture, not its place).
 var camera: Camera3D
 ## Whether each scene's trigger held at the last look; nothing before the first.
@@ -75,6 +78,7 @@ static func holds(scene: Dictionary, player: WorldPlayerRuntimeState, held: Dict
 func reset() -> void:
 	_held.clear()
 	_shown.clear()
+	_named.clear()
 	_seen = false
 	clear()
 
@@ -97,8 +101,12 @@ func look(scenes: Dictionary, player: WorldPlayerRuntimeState, held: Dictionary[
 	var came: Array[String] = []
 	for name: String in scenes:
 		var now: bool = holds(scenes[name], player, held, worn, phase_id, standing)
-		# One a running scene plays at a step of its own, or has played, is not played by its trigger.
-		if now and _seen and not _held.get(name, false) and not claimed.has(name) and not _shown.has(name):
+		# One a running scene will play at a step of its own is not looked at meanwhile: if the scene
+		# is cut short before that step, the trigger still plays it afterwards.
+		if claimed.has(name) and not _named.has(name):
+			continue
+		# One a scene played by name is not played again by its trigger.
+		if now and _seen and not _held.get(name, false) and not _named.has(name):
 			came.append(name)
 		_held[name] = now
 	_seen = true
@@ -110,7 +118,14 @@ func look(scenes: Dictionary, player: WorldPlayerRuntimeState, held: Dictionary[
 func play_named(name: String, scene: Dictionary, view: WorldVoxelView = null) -> bool:
 	if _shown.has(name):
 		return false
+	_named[name] = true
 	return play(name, scene, view)
+
+
+## The camera's push-in a scene set is nobody's to give back any more (a scene's shot frames the
+## picture now).
+func forget_zoom() -> void:
+	_zoomed = []
 
 
 ## The scene `name` played at its place on the map: its layers, light, jolt and sound; `view`

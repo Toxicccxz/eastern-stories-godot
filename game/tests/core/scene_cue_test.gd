@@ -101,6 +101,9 @@ func _check_steps() -> void:
 	_check(not act.steps[2].cue.leaving() and act.steps[2].cue.fx == "shade_called" and act.steps[2].spawn_id == &"t.spawn", "a summon keeps its spawn beside its cue")
 	_check(act.steps[3].zone_id == &"t.zone" and act.steps[3].cue.actions[0].place == &"t.door", "comes keeps its own `from` (the room); the door is the action's")
 	_check(act.steps[4].cue == null, "a step without one has none")
+	# A step that waits on the player or takes them away shows nothing of its own.
+	for kind: String in SceneCue.NO_CUE:
+		_check(_problems({"do": "kneel", "shot": "near"}, kind).size() == 2 and _problems({"do": "kneel"}, kind)[0].contains("a %s step shows nothing of its own" % kind), "no cue on a %s step" % kind)
 	var wrong: Array[String] = []
 	ScriptedAct.from_record(ContentRecordReader.new({"steps": [{"say": "一", "do": "bwo"}]}, "t", wrong))
 	_check(wrong.size() == 1 and wrong[0].begins_with("t.steps[0].do: 'bwo' is no action"), "a wrong word in content fails the load: %s" % [wrong])

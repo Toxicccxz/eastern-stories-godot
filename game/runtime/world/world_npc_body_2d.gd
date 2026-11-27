@@ -21,6 +21,12 @@ func presence() -> Area2D:
 ## A walking NPC goes through the player instead of shoving them aside, and
 ## notices nobody on the way: ES2 moved it in one step, and its init() met who was
 ## where it arrived. Its presence comes back on there.
+## 过场演出 B: a scene's own walk (WorldMapStaging) goes through people too, but the NPC is in the
+## same room all along: its presence stays as it is, so nothing it notices or forgets changes.
+func set_passing(value: bool) -> void:
+	(get_node("CollisionShape2D") as CollisionShape2D).set_deferred("disabled", value)
+
+
 func set_walking(value: bool) -> void:
 	(get_node("CollisionShape2D") as CollisionShape2D).set_deferred("disabled", value)
 	(get_node("AggressionPresence/CollisionShape2D") as CollisionShape2D).set_deferred("disabled", value)

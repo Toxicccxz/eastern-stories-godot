@@ -208,6 +208,21 @@ func _check_moves(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(MapPlacementValidator.is_valid_character_position(map, ALTAR, xuan_body.global_position) and MapPlacementValidator.is_valid_character_position(map, ALTAR, player.global_position), "both stand where a body may stand")
 	box.advance()
 	_end(map, box)
+	map.npc_life.npc_walker().finish_all()
+	map.place_player(ALTAR, player_stood)
+	xuan_body.global_position = stood
+	await _physics(tree, 3)
+	# Pressed half-way: the step is at its end, and the body's own next steps do not turn it.
+	_tell(map, xuan, [{"say": "一", "do": ["step_back", {"who": "player", "act": "step_back"}]}, {"say": "二"}])
+	stage.advance(SceneStage.seconds(&"step_back") * 0.3)
+	await _physics(tree, 2)
+	box.advance()
+	_check(is_equal_approx(xuan_body.global_position.distance_to(stood), SceneStage.step_back_px()), "pressed: the step is whole")
+	await _physics(tree, 3)
+	_check(xuan_body.facing.is_equal_approx(_toward(stood, player_stood)) and not xuan_body.facing_held, "he still looks at the player after his body's own steps: %s" % xuan_body.facing)
+	_check(player.facing.is_equal_approx(_toward(player_stood, stood)) and not player.facing_held, "and the player at him: %s" % player.facing)
+	box.advance()
+	_end(map, box)
 	_check(xuan_body.global_position.is_equal_approx(stood) or map.npc_life.npc_walker().is_walking(xuan.character_id), "over: 玄冥子 back where he stood (or on his way)")
 	map.npc_life.npc_walker().finish_all()
 	_check(xuan_body.global_position.distance_to(stood) < 2.0, "at his spot again: %s" % xuan_body.global_position)
@@ -223,6 +238,13 @@ func _check_moves(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(is_equal_approx(stage.left_seconds(), whole - 1.0) and shang_body.global_position.distance_to(from) > 40.0 and shang_body.global_position.distance_to(from) <= SceneStage.walk_speed() + 0.5, "a second on: %s px along" % shang_body.global_position.distance_to(from))
 	await _frames(tree, 2)
 	_check((shang_body.get_node("CollisionShape2D") as CollisionShape2D).disabled, "walking, he goes through people as any walker does")
+	_check(not (shang_body.get_node("AggressionPresence/CollisionShape2D") as CollisionShape2D).disabled, "his presence is left alone: he notices and forgets nobody by a scene's walk")
+	# Another window's hold (the menu) stops the walk where it is; the page's own does not.
+	var held_at: Vector2 = shang_body.global_position
+	session.hold_world_time(&"menu")
+	stage.advance(1.0)
+	_check(shang_body.global_position.is_equal_approx(held_at), "the menu open: he stands where he was")
+	session.release_world_time(&"menu")
 	stage.advance(whole)
 	_check(shang_body.global_position.distance_to(behind) < 1.0 and is_zero_approx(stage.left_seconds()), "there: %s" % shang_body.global_position)
 	await _frames(tree, 2)
@@ -522,6 +544,33 @@ func _check_fx(tree: SceneTree, session: WorldSessionController) -> void:
 	await _frames(tree, 30)
 	_check(story.played.count("shade_called") == 2, "its trigger plays it as before: %s" % [story.played])
 	map.npcs.vanish(_npc(map, SHADE))
+	await _frames(tree, 20)
+	# Claimed by a scene that is cut before its step: its own trigger plays it after all.
+	story.reset()
+	await _frames(tree, 20)
+	_tell(map, shang, [{"say": "一"}, {"summon": "niling.altar.shade", "do": "emerge"}, {"line": "二", "fx": "shade_called"}])
+	await _frames(tree, 30)
+	_check(story.played.count("shade_called") == 2, "claimed: quiet while the first line is read")
+	box.close()
+	_end(map, box)
+	await _frames(tree, 30)
+	_check(story.played.count("shade_called") == 3, "the scene cut before its step: the trigger plays it: %s" % [story.played])
+	map.npcs.vanish(_npc(map, SHADE))
+	await _frames(tree, 20)
+	# Under a shot the 主线场面's own push-in is left out, and nothing zooms out over the shot.
+	story.reset()
+	await _frames(tree, 20)
+	var near: float = minf(view.rest_zoom, float(SceneStage.part("shots")["near"]))
+	_tell(map, shang, [{"say": "一", "shot": "near", "fx": "shade_called"}, {"say": "二"}])
+	await _frames(tree, 60)
+	_check(story.played.count("shade_called") == 4 and is_equal_approx(view.zoom(), near), "played under a near shot: the shot's framing stands: %s" % view.zoom())
+	await _frames(tree, 200)
+	_check(is_equal_approx(view.zoom(), near), "and still stands when the 主线场面 is over: %s" % view.zoom())
+	box.advance()
+	await _frames(tree, 60)
+	_check(is_equal_approx(view.zoom(), view.rest_zoom), "the next line, without a shot: the map's own framing")
+	box.advance()
+	_end(map, box)
 	await _frames(tree, 4)
 
 
@@ -638,6 +687,21 @@ func _check_cut_short(tree: SceneTree, session: WorldSessionController) -> void:
 	shang_body = map.runtime_body_for_character(shang.character_id)
 	home = shang_body.global_position
 	facing = shang_body.facing
+	# Cut as a fight or a fall cuts it (settle()), the scene itself not over: everyone is where
+	# they belong at once — put back, standing, solid, looking where they looked.
+	_tell(map, shang, [{"emote": "走", "do": [{"act": "walk", "to": String(BEHIND)}, {"who": String(XUAN), "act": "kneel"}, {"who": "player", "act": "step_back"}]}, {"say": "二", "shot": "near"}])
+	stage.advance(1.0)
+	await _physics(tree, 2)
+	_check(shang_body.global_position.distance_to(home) > 60.0 and shang_body.global_position.distance_to(map.resolve_spawn_marker(BEHIND).global_position) > 60.0, "under way: 商玦 half-way")
+	stage.settle()
+	_check(shang_body.global_position.is_equal_approx(home) and stage.pose(xuan.character_id).is_empty() and not stage.shows() and stage.shot_frame().is_empty(), "cut: 商玦 back at his spot at once, nobody posed, no shot")
+	_check(not stage.busy() and not stage.between() and not fresh.presentation_frozen() or box.is_open(), "nothing under way, nothing held by the staging")
+	await _physics(tree, 3)
+	_check(shang_body.facing.is_equal_approx(facing) and not shang_body.facing_held and not map.player_body.facing_held, "looking where he looked, after his body's own steps: %s" % shang_body.facing)
+	_check(not (shang_body.get_node("CollisionShape2D") as CollisionShape2D).disabled, "solid again")
+	_end(map, box)
+	await _frames(tree, 2)
+	facing = shang_body.facing
 	_tell(map, shang, [{"emote": "走", "do": [{"act": "walk", "to": String(BEHIND)}, {"who": String(XUAN), "act": "kneel"}]}, {"by": String(XUAN)}, {"leave": true, "do": {"act": "exit", "by": String(SOUTH_DOOR)}}])
 	stage.advance(1.0)
 	_check(shang_body.global_position.distance_to(home) > 60.0 and xuan.exists_in_map, "under way again: 商玦 walking, 玄冥子 to leave after the line")
@@ -711,6 +775,7 @@ func _check_the_scene(tree: SceneTree) -> void:
 	var player: WorldCharacterBody2D = map.player_body
 	var shade_spot: Vector2 = map.resolve_spawn_marker(&"niling.altar.shade.1").global_position
 	var behind: Vector2 = map.resolve_spawn_marker(BEHIND).global_position
+	var xuan_stood: Vector2 = xuan_body.global_position
 	var story: VoxelStoryFx = null
 	var lines: Array[String] = []
 	var frames: Dictionary[int, StringName] = {}
@@ -725,8 +790,8 @@ func _check_the_scene(tree: SceneTree) -> void:
 			break
 		if stage.between():
 			between += 1
-			if xuan.exists_in_map and xuan_body.global_position.distance_to(map.runtime_body_for_character(xuan.character_id).global_position) < 1.0:
-				seen["xuan walks out"] = seen.get("xuan walks out", false) or xuan_body.global_position.y > player.global_position.y + 10.0
+			if xuan.exists_in_map and lines.size() == 13:
+				seen["xuan walks out"] = seen.get("xuan walks out", false) or xuan_body.global_position.distance_to(xuan_stood) > 20.0
 			continue
 		if not box.is_open():
 			continue
@@ -762,7 +827,7 @@ func _check_the_scene(tree: SceneTree) -> void:
 				16:
 					var runners: Array[NpcRuntimeState] = _npcs(map, RUNNER)
 					seen["runners rise"] = runners.size() == 2 and stage.emerged(runners[0].character_id) < 0.2
-					seen["shang leaves"] = shang.exists_in_map and stage.left_seconds() > 0.0
+					seen["shang walks out"] = shang.exists_in_map and stage.left_seconds() > 0.0 and stage.directed(shang.character_id)
 			continue
 		if lines.size() == 9 and not stage.flights().is_empty():
 			seen["key flies"] = stage.flights()[0][2] == KEY and stage.flights()[0][1] == xuan.character_id
@@ -774,15 +839,15 @@ func _check_the_scene(tree: SceneTree) -> void:
 			_press(hud)
 	_check(lines.size() == 16, "sixteen lines, as before: %d" % lines.size())
 	_check(fought, "the 鬼卒 fall on the player when it is over")
-	for beat: String in ["xuan turns", "xuan reports", "shade waits", "shade rises", "shade reaches", "shade stops", "toss begins", "key flies", "shade thins", "shade gone, xuan stays", "xuan gone", "shang sets out", "shang at the door", "runners rise", "shang leaves"]:
+	for beat: String in ["xuan turns", "xuan reports", "shade waits", "shade rises", "shade reaches", "shade stops", "toss begins", "key flies", "shade thins", "shade gone, xuan stays", "xuan gone", "shang sets out", "xuan walks out", "shang at the door", "runners rise", "shang walks out"]:
 		_check(seen.get(beat, false), "the beat is shown: %s" % beat)
 	_check(between > 3, "玄冥子's way out is walked between two lines, the world held: %d frames" % between)
 	_check(frames.get(1, &"") == &"wide" and frames.get(2, &"") == &"near" and frames.get(4, &"") == &"two" and frames.get(6, &"") == &"look" and frames.get(9, &"") == &"two" and frames.get(16, &"") == &"look", "the shots: %s" % [frames])
 	_check(story != null and story.played.count("shade_called") == 1, "the shade's 主线场面 played once, with its line")
 	_check(session.player_runtime().state.marks.has(SCENE_MARK), "the scene's mark")
 	_check(not shang.exists_in_map and shang.has_flag(NpcDefinition.FLAG_GONE) and not xuan.exists_in_map and _npc(map, SHADE) == null and _npcs(map, RUNNER).size() == 2, "商玦, 玄冥子 and the shade gone; two 鬼卒 there")
-	_check(not stage.busy() and not stage.between() and not stage.shows() or not map.scene_running(), "nothing of the scene is left when the fight begins")
 	await _frames(tree, 4)
+	_check(not map.scene_running() and not session.scene_held() and not stage.shows(), "the scene is over when the fight has begun")
 	_check(not stage.busy() and not stage.between() and stage.shot_frame().is_empty(), "the staging is done: %s %s" % [stage.busy(), stage.between()])
 	for runner: NpcRuntimeState in _npcs(map, RUNNER):
 		_check(view.actors.has(runner.character_id) and not stage.unseen(runner.character_id), "a 鬼卒 is seen in the fight")
@@ -910,6 +975,11 @@ func _press(hud: SharedGameplayUI) -> void:
 func _frames(tree: SceneTree, count: int) -> void:
 	for _i: int in count:
 		await tree.process_frame
+
+
+func _physics(tree: SceneTree, count: int) -> void:
+	for _i: int in count:
+		await tree.physics_frame
 
 
 func _check(condition: bool, label: String) -> void:
