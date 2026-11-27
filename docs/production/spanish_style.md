@@ -69,6 +69,7 @@ Higher to lower tú, lower to higher usted; equals by closeness. Keep one form p
 | junior → senior brother/sister | usted; tú once close (a story moment) |
 | peers of a school | usted on meeting, tú once close |
 | innkeeper, waiter, servant → guest | usted |
+| shopkeeper, merchant, craftsman, horse dealer → a customer | usted (a herder, a foreign swordsman, a peon: by closeness) |
 | guest → innkeeper or waiter | usted on meeting; a regular, a bandit or a spoiled young master: tú |
 | bandits ↔ anyone | tú |
 | an official → commoners · commoners → an official | tú · usted (+ señor) |
@@ -105,7 +106,7 @@ One picture, one plain word, as in English: maps, quests and the UI use the Span
   condemn them.
 * **Moves** are images, at most six words, a noun phrase unless the Chinese is a verb sentence
   (饿鬼拦路 Fantasma hambriento cierra el paso).
-* **Items, beasts, generic people** are Spanish words (野狗 perro salvaje, 牛皮酒袋 odre de cuero,
+* **Items, beasts, generic people** are Spanish words (野狗 perro callejero, 牛皮酒袋 odre de cuero,
   山贼 bandido, 掌柜 posadero, 店小二 mozo de la posada, Mozo where short); books in «».
 
 ## Terms
@@ -116,7 +117,13 @@ art) · 轻功 qinggong · 潜能 Potencial · 加力 Fuerza extra · 杀气 Sed
 acupuntura · 心法 método interno · 秘籍 manual secreto · 手 (a fight's turn) turno · 江湖 jianghu
 (the codex: el mundo marcial) · 武林 wulin · 两 tael, taels · 文 wen (never plural) · 里 li · 丈 zhang ·
 时辰: in the text the Spanish time (子时 medianoche, 午时 mediodía, 卯时 al amanecer, 酉时 al atardecer);
-hora doble only in the codex. No HP or MP: the HUD writes Esencia / Qi / Espíritu / Pot. / Niv.
+hora doble only in the codex. No HP or MP: the HUD writes Esencia / Qi / Espíritu / Pot. / Niv. Qi is capitalised in every
+sentence (el Qi verdadero).
+
+Fixed names from the region review: 黑无常 / 白无常 el Impermanente Negro / Blanco (masculine) · 先帝 el
+difunto emperador · 山门 el Portal · 黑冠 gorro negro · 笔 (a writing brush) pincel, never pluma ·
+绞盘 torno · 丹房 cuarto de elixires · 大案 mesa larga · 寻剑原令 «Buscar la espada sin molestar a una sola
+casa».
 
 **Never let two terms collide:** 内力 ≠ 内功, 师父 ≠ 掌门, 大侠 ≠ 英雄 (héroe).
 
@@ -160,7 +167,8 @@ table `game/locale/es_nouns.json`):
   as a subject is left out («Golpeas al bandido»); as an object write the clitic in the forms:
   `$N{:el} {n:te golpea|golpea a $n{:el}}`. Never $P/$p: write `{N:tu|su}`, and the name where su
   would mislead.
-* **the player's gender**, `{jugador:cansado|cansada}` (m | f), whole words.
+* **the player's gender**, `{jugador:cansado|cansada}` (m | f), whole words. A confirm prompt asks
+  «¿{jugador:Seguro|Segura} que quieres…?»; the player as usted's object is `{jugador:lo|la}`.
 * **numbers**: `%d {#:día|días}` agrees with the number before it (1 | any other). `{count}
   {item}{:pl}` counts a filled name (3 espadas viejas). A list, a reward or an inventory line writes
   the name and the number after it: «{item} × {count}».
@@ -173,7 +181,9 @@ Numbers the Chinese writes in characters come out in digits (`ChineseNumber.of`)
 
 ## Typography
 
-* Straight quotes "…" (the pixel face draws “ ” and … full width), single '…' inside. Dialogue is
+* Straight quotes "…" (the pixel face draws “ ” and … full width), single '…' inside: an NPC's said
+  line is shown inside "…", so a topic or a word it quotes takes '…' (pregúntame por 'Placa'); a
+  confirm prompt, a quest record or narration quotes with "…". Dialogue is
   quoted, not dashed: «El mozo dice: "¡Pase!"» — one line is one speaker. The full stop stays
   **inside** the closing quote (El mozo dice: "Pase."): a game convention, against the RAE on
   purpose, because a said line is filled into "{line}" with its own stop; a review does not move it.
