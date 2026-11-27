@@ -12731,7 +12731,7 @@ msgid "你把唤首前夜下湖的时辰和路交给了茅山。宫里迟早会�
 msgstr "Le diste al Monte Mao la hora y el camino de la bajada al lago en la víspera de la Invocación de la Cabeza. Tarde o temprano el palacio sabrá quién fue."
 
 msgid "唤首那一夜你戴着冠下湖——冰龙厅里那第一剑，是你从背后刺的。"
-msgstr "La noche de la Invocación de la Cabeza bajaste al lago con el gorro puesto: la primera estocada en el salón de los dragones de hielo fue tuya, por la espalda."
+msgstr "La noche de la Invocación de la Cabeza bajaste al lago con el gorro puesto: la primera estocada en la sala de los dragones de hielo fue tuya, por la espalda."
 
 msgid "黑冠还戴在你头上：唤首那一夜，你跟他们下湖。"
 msgstr "Todavía llevas el gorro negro en la cabeza: la noche de la Invocación de la Cabeza bajas al lago con ellos."
@@ -13085,7 +13085,7 @@ msgid "湖底的事了了，商玦没有回来。宫里剩下的人还在续灯�
 msgstr "Lo del fondo del lago terminó, y Shang Jue no volvió. Los que quedan en el palacio siguen manteniendo la lámpara encendida: Lin Ji quiere ponerle fin."
 
 msgid "收网，看你。前夜倒戈（问林忌「倒戈」）：把下湖的时辰和路交给茅山——终章冰龙厅里商玦身边只剩两个道士，点将时多一拨茅山的人；可黑冠从此没用，逆灵宫的门不再为你开。潜伏到底（问林忌「潜伏」，疑点不到三条才行）：你戴着冠跟商玦的队伍下湖，冰龙厅里第一剑是你的，商玦带着重伤开打——可他的四个道士会先扑你，也没有人会多来帮你（没人知道你的消息）。终章在湖畔等到天黑之前要定下来。"
-msgstr "Cerrar la red depende de ti. Cambiar de bando la víspera (preguntar a Lin Ji por \"Cambiar de bando\"): darle al Monte Mao la hora y el camino de la bajada al lago; en el final, en el salón de los dragones de hielo, a Shang Jue solo le quedan dos taoístas, y al reunir a tu gente llega un grupo más del Monte Mao; pero el gorro negro ya no sirve desde entonces, y la puerta del Palacio Negro no vuelve a abrirse para ti. Seguir oculto hasta el final (preguntar a Lin Ji por \"Seguir oculto\"; solo con menos de tres sospechas): bajas al lago con el gorro puesto en la columna de Shang Jue, la primera estocada en el salón de los dragones de hielo es tuya, y Shang Jue empieza la pelea malherido; pero sus cuatro taoístas irán primero por ti, y nadie más vendrá a ayudarte (nadie sabe de ti). En el final, hay que decidirlo antes de que caiga la noche mientras esperas en la orilla del lago."
+msgstr "Cerrar la red depende de ti. Cambiar de bando la víspera (preguntar a Lin Ji por \"Cambiar de bando\"): darle al Monte Mao la hora y el camino de la bajada al lago; en el final, en la sala de los dragones de hielo, a Shang Jue solo le quedan dos taoístas, y al reunir a tu gente llega un grupo más del Monte Mao; pero el gorro negro ya no sirve desde entonces, y la puerta del Palacio Negro no vuelve a abrirse para ti. Seguir oculto hasta el final (preguntar a Lin Ji por \"Seguir oculto\"; solo con menos de tres sospechas): bajas al lago con el gorro puesto en la columna de Shang Jue, la primera estocada en la sala de los dragones de hielo es tuya, y Shang Jue empieza la pelea malherido; pero sus cuatro taoístas irán primero por ti, y nadie más vendrá a ayudarte (nadie sabe de ti). En el final, hay que decidirlo antes de que caiga la noche mientras esperas en la orilla del lago."
 
 msgid "前夜，你把下湖的时辰和路交给了林忌。黑冠从此没用了。"
 msgstr "La víspera, le diste a Lin Ji la hora y el camino de la bajada al lago. El gorro negro ya no sirve."
@@ -13100,10 +13100,10 @@ msgid "戴着黑冠潜伏到底，跟逆灵宫下了湖"
 msgstr "Seguiste oculto con el gorro negro hasta el final y bajaste al lago con el Palacio Negro"
 
 msgid "终章：茅山的人截在北麓下湖的路上，林忌在湖畔。冰龙厅里，商玦身边只剩两个道士。"
-msgstr "Final: la gente del Monte Mao corta el camino de la falda norte hacia el lago, y Lin Ji está en la orilla del lago. En el salón de los dragones de hielo, a Shang Jue solo le quedan dos taoístas."
+msgstr "Final: la gente del Monte Mao corta el camino de la falda norte hacia el lago, y Lin Ji está en la orilla del lago. En la sala de los dragones de hielo, a Shang Jue solo le quedan dos taoístas."
 
 msgid "终章：戴着黑冠下湖。冰龙厅里你站在商玦身后——第一剑是你的。他的四个道士会先扑你。"
-msgstr "Final: bajar al lago con el gorro negro. En el salón de los dragones de hielo estás detrás de Shang Jue: la primera estocada es tuya. Sus cuatro taoístas irán primero por ti."
+msgstr "Final: bajar al lago con el gorro negro. En la sala de los dragones de hielo estás detrás de Shang Jue: la primera estocada es tuya. Sus cuatro taoístas irán primero por ti."
 
 msgid "你把北麓那座道观交给了官府。官兵上了山，宫里剩下的人一个也没走脱。"
 msgstr "Entregaste a las autoridades el monasterio de la falda norte. Los soldados subieron a la montaña, y de los que quedaban en el palacio no escapó ninguno."
@@ -17227,7 +17227,7 @@ msgid "钉子拔了，头在冰下醒了。他们等的那一夜，就是唤首�
 msgstr "Arrancaron el clavo y la cabeza despertó bajo el hielo. La noche que esperaban es la Invocación de la Cabeza: el palacio baja entero al lago, con Shang Jue en cabeza."
 
 msgid "你告诉我哪一夜、走哪条路，茅山的人就截在北麓下湖的路上——到了冰龙厅，他身边剩不下几个人。可那顶冠，从此就没用了。"
-msgstr "Si me dices qué noche y por qué camino, la gente del Monte Mao cortará el paso en el camino de la falda norte al lago: al llegar a la sala del Dragón de Hielo, a su lado no le quedarán muchos. Pero ese gorro, desde entonces, ya no servirá de nada."
+msgstr "Si me dices qué noche y por qué camino, la gente del Monte Mao cortará el paso en el camino de la falda norte al lago: al llegar a la sala de los dragones de hielo, a su lado no le quedarán muchos. Pero ese gorro, desde entonces, ya no servirá de nada."
 
 msgid "或者你什么都不说。戴着冠跟他们下湖，站在他身后——第一剑，只有你递得出去。宫里要是已经起了疑心，这条路就走不得。"
 msgstr "O no dices nada. Te pones el gorro, bajas al lago con ellos y te quedas detrás de él: la primera estocada solo puedes darla tú. Si en el palacio ya sospechan, este camino no se puede tomar."
@@ -17362,7 +17362,7 @@ msgid "倒戈"
 msgstr "Cambiar de bando"
 
 msgid "前夜倒戈：把逆灵宫下湖的时辰和路交给茅山。\n终章冰龙厅里，商玦身边只剩两个道士；点将时多一拨茅山的人，林忌在湖畔。\n可黑冠从此没用，逆灵宫的门不再为你开。\n就这样吗？"
-msgstr "Cambiar de bando la víspera: entregar al Monte Mao la hora y el camino por donde el Palacio Negro baja al lago.\nEn la sala del Dragón de Hielo del capítulo final, a Shang Jue solo le quedan dos taoístas a su lado; al reunir a los combatientes habrá un grupo más del Monte Mao, y Lin Ji estará a la orilla del lago.\nPero el gorro negro ya no servirá y la puerta del Palacio Negro dejará de abrirse para ti.\n¿Así?"
+msgstr "Cambiar de bando la víspera: entregar al Monte Mao la hora y el camino por donde el Palacio Negro baja al lago.\nEn la sala de los dragones de hielo del capítulo final, a Shang Jue solo le quedan dos taoístas a su lado; al reunir a los combatientes habrá un grupo más del Monte Mao, y Lin Ji estará a la orilla del lago.\nPero el gorro negro ya no servirá y la puerta del Palacio Negro dejará de abrirse para ti.\n¿Así?"
 
 msgid "时辰和路，茅山记下了。"
 msgstr "El Monte Mao anotó la hora y el camino."
@@ -17392,7 +17392,7 @@ msgid "潜伏"
 msgstr "Seguir oculto"
 
 msgid "潜伏到底：什么也不交出去，戴着黑冠跟商玦的队伍下湖。\n冰龙厅里第一剑是你的，商玦带着重伤开打——可他的四个道士会先扑你，也没有人会多来帮你（没人知道你的消息）。\n宫里已经满了三条疑点的，走不了这条路。\n就这样吗？"
-msgstr "Seguir oculto hasta el final: no entregar nada, ponerte el gorro negro y bajar al lago con la comitiva de Shang Jue.\nLa primera estocada en la sala del Dragón de Hielo es tuya y Shang Jue empieza el combate con heridas graves, pero sus cuatro taoístas se lanzarán primero sobre ti y nadie acudirá a ayudarte (nadie sabe de ti).\nSi en el palacio ya se acumularon tres sospechas, no se puede tomar este camino.\n¿Así?"
+msgstr "Seguir oculto hasta el final: no entregar nada, ponerte el gorro negro y bajar al lago con la comitiva de Shang Jue.\nLa primera estocada en la sala de los dragones de hielo es tuya y Shang Jue empieza el combate con heridas graves, pero sus cuatro taoístas se lanzarán primero sobre ti y nadie acudirá a ayudarte (nadie sabe de ti).\nSi en el palacio ya se acumularon tres sospechas, no se puede tomar este camino.\n¿Así?"
 
 msgid "你已经定了。冠戴好——那一剑，只有你递得出去。"
 msgstr "Ya decidiste. Ponte bien el gorro: esa estocada solo puedes darla tú."
@@ -28318,10 +28318,10 @@ msgid "坛心的冰裂成了几块。头还在冰里，眼睛睁着了，看着�
 msgstr "El hielo del centro del altar se ha partido en varios trozos. La cabeza sigue en el hielo, con los ojos abiertos, mirando la poza de arriba. La espada que la clavaba ya no está; en la piedra del altar solo queda un agujero de espada, del que sale un hilo de aire negro. Los pilares de hielo del borde están vacíos."
 
 msgid "四壁是整块的冰，冰里有金线一样的纹路，一直盘到顶上。顶是一整块半透明的冰，上面就是冰龙厅的水潭——有影子游过去，很长。壁上刻着一圈金乌的字，和岩洞冰壁上那一行是一个人的笔迹，只是刻得更密，你一个字也不认得。\n"
-msgstr "Las cuatro paredes son de hielo macizo, con vetas como hilos de oro que trepan hasta lo alto. El techo es un solo bloque de hielo semitransparente, y encima está la poza del salón de los dragones de hielo: pasan sombras largas. En las paredes hay grabada una vuelta de escritura del Cuervo Dorado, de la misma mano que la línea de la pared de hielo de la caverna, solo que más apretada; no reconoces ni un carácter."
+msgstr "Las cuatro paredes son de hielo macizo, con vetas como hilos de oro que trepan hasta lo alto. El techo es un solo bloque de hielo semitransparente, y encima está la poza de la sala de los dragones de hielo: pasan sombras largas. En las paredes hay grabada una vuelta de escritura del Cuervo Dorado, de la misma mano que la línea de la pared de hielo de la caverna, solo que más apretada; no reconoces ni un carácter."
 
 msgid "四壁是整块的冰，冰里有金线一样的纹路，一直盘到顶上。顶是一整块半透明的冰，上面就是冰龙厅的水潭——有影子游过去，很长。壁上刻着一圈金乌的字，和岩洞冰壁上那一行是一个人的笔迹，只是刻得更密。璃虹说，那是她哥哥钉剑那天刻的，刻的是她的名字，刻了三百遍。\n"
-msgstr "Las cuatro paredes son de hielo macizo, con vetas como hilos de oro que trepan hasta lo alto. El techo es un solo bloque de hielo semitransparente, y encima está la poza del salón de los dragones de hielo: pasan sombras largas. En las paredes hay grabada una vuelta de escritura del Cuervo Dorado, de la misma mano que la línea de la pared de hielo de la caverna, solo que más apretada. Lihong dice que eso lo grabó su hermano el día que clavó la espada: grabó el nombre de ella, trescientas veces."
+msgstr "Las cuatro paredes son de hielo macizo, con vetas como hilos de oro que trepan hasta lo alto. El techo es un solo bloque de hielo semitransparente, y encima está la poza de la sala de los dragones de hielo: pasan sombras largas. En las paredes hay grabada una vuelta de escritura del Cuervo Dorado, de la misma mano que la línea de la pared de hielo de la caverna, solo que más apretada. Lihong dice que eso lo grabó su hermano el día que clavó la espada: grabó el nombre de ella, trescientas veces."
 
 msgid "寒气从冰里渗上来。你运起内力顶住了。\n"
 msgstr "El frío sube desde el hielo. Haces circular tu fuerza interior y lo contienes."
@@ -28549,7 +28549,7 @@ msgid "你已经是冰了。\n"
 msgstr "Ya eres hielo."
 
 msgid "你从潭口钻上去。冰龙厅里静悄悄的，冰洞、湖底，一路往上，水是清的。\n"
-msgstr "Subes por la boca de la poza. En el salón de los dragones de hielo reina el silencio; de la cueva de hielo, del fondo del lago, todo el camino hacia arriba, el agua está clara."
+msgstr "Subes por la boca de la poza. En la sala de los dragones de hielo reina el silencio; de la cueva de hielo, del fondo del lago, todo el camino hacia arriba, el agua está clara."
 
 msgid "你从湖心冒出头来。湖上的黑冰没了。\n"
 msgstr "Sacas la cabeza en el centro del lago. El hielo negro del lago ya no está."
@@ -28558,10 +28558,10 @@ msgid "东边的天亮了。\n"
 msgstr "El cielo del este se ha iluminado."
 
 msgid "璃虹扶着坛沿站起来：「带我上去。」你扶着她钻进潭口，冰水灌进领子。头顶亮了——冰龙厅。她趴在潭边喘了半天，说：「上岸。到人家里去。」\n"
-msgstr "Lihong se levanta apoyada en el borde del altar: \"Llévame arriba.\" La ayudas a entrar en la boca de la poza y el agua helada te entra por el cuello. Arriba se hace la luz: el salón de los dragones de hielo. Ella se queda echada junto a la poza, jadeando un buen rato, y dice: \"A la orilla. A casa de alguien.\""
+msgstr "Lihong se levanta apoyada en el borde del altar: \"Llévame arriba.\" La ayudas a entrar en la boca de la poza y el agua helada te entra por el cuello. Arriba se hace la luz: la sala de los dragones de hielo. Ella se queda echada junto a la poza, jadeando un buen rato, y dice: \"A la orilla. A casa de alguien.\""
 
 msgid "你从潭口钻上去，冰水灌进领子。头顶亮了——冰龙厅。\n"
-msgstr "Subes por la boca de la poza, con el agua helada colándose por el cuello. Arriba se hace la luz: el salón de los dragones de hielo."
+msgstr "Subes por la boca de la poza, con el agua helada colándose por el cuello. Arriba se hace la luz: la sala de los dragones de hielo."
 
 msgid "把铜牒念给她听"
 msgstr "Leerle la tablilla de cobre"
@@ -39394,7 +39394,7 @@ msgid "岚翁说道：先接三刃。风认了你，剑才落得下来。\n"
 msgstr "El Anciano del Viento dice: \"Primero recibe los tres filos. Cuando el viento te reconozca, la espada podrá caer.\"\n"
 
 msgid "自己拔旋芒？十铃架上信你的铃够了。\n拔了，终章是你持剑；不拔，旋芒归皇叔或萧辟尘，湖畔和冰龙厅那两仗他会跟你并肩打。先要接岚翁的「接风三刃」——三下风刃是真的，接不住会受伤、会昏倒，歇好了可以再来。"
-msgstr "¿Sacarlo tú? En el estante de las diez campanas ya suenan las necesarias.\nSi lo sacas, en el capítulo final empuñas tú la espada; si no, Filo Giratorio pasa al tío imperial o a Xiao Bichen, que peleará a tu lado las dos batallas de la orilla del lago y de la sala del Dragón de Hielo. Primero hay que recibir los \"Tres filos del viento\" del Anciano del Viento: los tres filos son de verdad; si no los paras, te hieren y te desmayas, y puedes descansar y volver."
+msgstr "¿Sacarlo tú? En el estante de las diez campanas ya suenan las necesarias.\nSi lo sacas, en el capítulo final empuñas tú la espada; si no, Filo Giratorio pasa al tío imperial o a Xiao Bichen, que peleará a tu lado las dos batallas de la orilla del lago y de la sala de los dragones de hielo. Primero hay que recibir los \"Tres filos del viento\" del Anciano del Viento: los tres filos son de verdad; si no los paras, te hieren y te desmayas, y puedes descansar y volver."
 
 msgid "好。剑在风里，风先要认你。我替风出三刃。"
 msgstr "Bien. La espada está en el viento, y el viento primero tiene que reconocerte. Yo lanzo tres filos por el viento."
