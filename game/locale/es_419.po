@@ -14246,10 +14246,10 @@ msgid "小娟姓刘，是这里刘老农的独生女。今年十六岁，人长�
 msgstr "Xiaojuan es de apellido Liu, la única hija del viejo campesino Liu de aquí. Tiene dieciséis años, es bonita y de trato franco. A Xiaojuan la han torturado hasta cubrirla de heridas."
 
 msgid "小娟说道：唉！ 没料道你和那些坏人是一伙的！\n"
-msgstr "Xiaojuan dice: \"¡Ay! ¡Nunca pensé que usted estuviera con esos malvados!\""
+msgstr "Xiaojuan dice: \"¡Ay! ¡Nunca pensé que tú estuvieras con esos malvados!\""
 
 msgid "救我！救救我呀！"
-msgstr "¡Sálveme! ¡Por favor, sálveme!"
+msgstr "¡Sálvame! ¡Por favor, sálvame!"
 
 msgid "竭力挣扎，渐渐从绳索里摆脱出来……。"
 msgstr " forcejea con todas sus fuerzas y poco a poco se libra de las cuerdas..."
@@ -14615,7 +14615,7 @@ msgid "北边的山壁上一道黑黝黝的裂口，离地约有三四丈，站�
 msgstr "En el paredón norte se abre una grieta negra, a unos tres o cuatro zhang del suelo; desde el camino no se alcanza. La roca del borde está gastada y brillante, como si a menudo subieran y bajaran cosas por ahí."
 
 msgid "钻进车里"
-msgstr "meterse en el carro"
+msgstr "Meterse en el carro"
 
 msgid "油布底下是供品的箱子。钻进去，就只能跟着箱子一起被吊上裂口，中途下不来。"
 msgstr "Bajo la lona están las cajas de ofrendas. Si te metes, solo podrás subir con las cajas hasta la grieta, y no podrás bajarte a mitad de camino."
@@ -14633,7 +14633,7 @@ msgid "车停在那里，油布底下空空的，绳子松着——没人拉绳�
 msgstr "El carro está ahí, bajo la lona no hay nada y la cuerda está floja: si nadie tira de la cuerda, aunque te metas no subirás."
 
 msgid "攀绳上去"
-msgstr "trepar por la cuerda"
+msgstr "Trepar por la cuerda"
 
 msgid "你抓住垂下的麻绳，手脚并用地攀上裂口。岩壁磨得发亮，上头有绞盘吱吱的响声。\n"
 msgstr "Agarras la cuerda de cáñamo que cuelga y trepas con pies y manos hasta la grieta. La pared de roca está gastada y brillante, y arriba chirría un torno."
@@ -28096,7 +28096,7 @@ msgid "刘老农说道：“这位$RESPECT，可否见到小女娟儿？” \n"
 msgstr "El viejo campesino Liu dice: \"Disculpe, $RESPECT, ¿ha visto a mi pequeña Xiaojuan?\""
 
 msgid "悲愤欲绝"
-msgstr "Roto de dolor"
+msgstr "Roto de dolor y de rabia"
 
 msgid "刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！"
 msgstr "El viejo campesino Liu maldice, roto de dolor y de rabia: \"¡Tú... tú... ustedes mataron a mi hija! ¡Págalo con tu vida!\""
@@ -28312,10 +28312,10 @@ msgid "入口对面的冰壁上刻着一行字，刻得很深，三百年的冰�
 msgstr "En la pared de hielo frente a la entrada hay una línea grabada, muy profunda; ni trescientos años de hielo creciendo han logrado alisarla. Los caracteres son de la Llanura Central, de trazos duros, como cincelados uno a uno con la punta de una espada: \"Yo vi cómo lo clavaban.\"\nReconoces esa letra: es la de la tablilla de cobre, con unos trazos al revés. El que grabó es aquel veterano; estuvo aquí y vio clavar la espada. El carácter de \"clavar\" está grabado más hondo que ninguno."
 
 msgid "一座黑石砌的圆坛，齐腰高，坛面磨得发亮。坛心嵌着一块透明的冰，冰里一颗头——闭着眼，眉骨很高，嘴角像在笑。一把剑从头顶直钉下去，钉进坛心的石头里，只有剑柄露在冰外，柄上结着霜。坛边的冰柱里有人。\n"
-msgstr "Un altar redondo de piedra negra, a la altura de la cintura, con la superficie pulida hasta brillar. En el centro del altar hay incrustado un bloque de hielo transparente, y dentro del hielo, una cabeza: los ojos cerrados, las cejas muy altas, la comisura como de sonrisa. Una espada la atraviesa desde la coronilla hacia abajo y se hunde en la piedra del altar; solo asoma la empuñadura fuera del hielo, cubierta de escarcha. En el pilar de hielo del borde hay alguien."
+msgstr "Un altar redondo de piedra negra, a la altura de la cintura, con la superficie pulida hasta brillar. En el centro del altar hay incrustado un bloque de hielo transparente, y dentro del hielo, una cabeza: los ojos cerrados, las cejas muy altas, la comisura como de sonrisa. Una espada la atraviesa desde la coronilla hacia abajo y se hunde en la piedra del altar; solo asoma la empuñadura fuera del hielo, cubierta de escarcha. En los pilares de hielo del borde hay gente."
 
 msgid "坛心的冰裂成了几块。头还在冰里，眼睛睁着了，看着顶上的水潭。钉着它的剑没有了，坛心的石头上只剩一个剑孔，孔里往外冒着一丝黑气。坛边的冰柱空了。\n"
-msgstr "El hielo del centro del altar se ha partido en varios trozos. La cabeza sigue en el hielo, con los ojos abiertos, mirando la poza de arriba. La espada que la clavaba ya no está; en la piedra del altar solo queda un agujero de espada, del que sale un hilo de aire negro. El pilar de hielo del borde está vacío."
+msgstr "El hielo del centro del altar se ha partido en varios trozos. La cabeza sigue en el hielo, con los ojos abiertos, mirando la poza de arriba. La espada que la clavaba ya no está; en la piedra del altar solo queda un agujero de espada, del que sale un hilo de aire negro. Los pilares de hielo del borde están vacíos."
 
 msgid "四壁是整块的冰，冰里有金线一样的纹路，一直盘到顶上。顶是一整块半透明的冰，上面就是冰龙厅的水潭——有影子游过去，很长。壁上刻着一圈金乌的字，和岩洞冰壁上那一行是一个人的笔迹，只是刻得更密，你一个字也不认得。\n"
 msgstr "Las cuatro paredes son de hielo macizo, con vetas como hilos de oro que trepan hasta lo alto. El techo es un solo bloque de hielo semitransparente, y encima está la poza del salón de los dragones de hielo: pasan sombras largas. En las paredes hay grabada una vuelta de escritura del Cuervo Dorado, de la misma mano que la línea de la pared de hielo de la caverna, solo que más apretada; no reconoces ni un carácter."
@@ -28375,7 +28375,7 @@ msgid "渡口——柳绘心把细剑一横。她身后那几个人握的是竹�
 msgstr "Embarcadero... Liu Huixin cruza su espada fina. Los que están tras ella empuñan espadas de bambú, y ni uno retrocede."
 
 msgid "湖岸——蓝止萍的鞭子一甩，晚月庄的弟子在柳树下排成一线，鞭梢上结了一层白霜。\n"
-msgstr "Orilla del lago... Lan Zhiping chasquea el látigo; los discípulos de la Mansión Luna Tardía se alinean bajo los sauces, y en la punta de los látigos se forma una capa de escarcha."
+msgstr "Orilla del lago... Lan Zhiping chasquea el látigo; los discípulos de la Mansión Luna Tardía se alinean bajo los sauces, y en la punta del látigo se forma una capa de escarcha."
 
 msgid "湖岸——那个使六阴剑的女人站在最前，没有蒙面；她娘拄着鞭子站在她身后。冰缝里爬上来的第一个鬼卒，倒在她的剑下。\n"
 msgstr "Orilla del lago... aquella mujer de la espada de los seis yin está al frente, sin velo; su madre se apoya en un látigo tras ella. El primer soldado fantasma que trepó por las grietas cae bajo su espada."
@@ -28438,7 +28438,7 @@ msgid "拨开芦苇"
 msgstr "Apartar los juncos"
 
 msgid "你拨开半人高的芦苇。一个穿黑衣的人脸朝下伏在泥里，背上三个孔，是钢叉。他早就没了气。\n"
-msgstr "Apartas los juncos, altos como una persona. Un hombre vestido de negro yace boca abajo en el barro; tiene tres agujeros en la espalda, un tridente de acero. Ya hace tiempo que dejó de respirar."
+msgstr "Apartas los juncos, altos hasta la cintura. Un hombre vestido de negro yace boca abajo en el barro; tiene tres agujeros en la espalda, un tridente de acero. Ya hace tiempo que dejó de respirar."
 
 msgid "他的右手压在身子底下，攥得很紧。你把他翻过来，一根一根掰开他的手指——\n"
 msgstr "Su mano derecha está aplastada bajo su cuerpo y cerrada con fuerza. Lo volteas y le abres los dedos, uno por uno..."
@@ -28567,7 +28567,7 @@ msgid "把铜牒念给她听"
 msgstr "Leerle la tablilla de cobre"
 
 msgid "我说过了。要再听，问我「封法」。"
-msgstr "Ya lo dije. Si quieres oírlo otra vez, pregúntame por el \"Método del sello\"."
+msgstr "Ya lo dije. Si quieres oírlo otra vez, pregúntame por 'Método del sello'."
 
 msgid "念。"
 msgstr "Lee."
@@ -33235,7 +33235,7 @@ msgid "绞盘道士松了绞盘，尖声道：来人哪！有生人上来了！\
 msgstr "El taoísta del torno suelta el torno y grita con voz aguda: \"¡Gente! ¡Ha subido alguien de fuera!\"\n"
 
 msgid "一个黑衣黑冠的道士，坐在门房的桌后，面前摊着一本簿子，手里的笔却半天不动。他的眼睛不看簿子，看门洞——谁进来，他先看冠，再看脸。\n"
-msgstr "Un taoísta de ropa y gorro negros, sentado tras la mesa de la portería, con un cuaderno abierto delante y la pluma, que llevaba rato sin moverse, quieta en la mano. No mira el cuaderno, mira el umbral: al que entra, primero le mira el gorro y luego la cara.\n"
+msgstr "Un taoísta de ropa y gorro negros, sentado tras la mesa de la portería, con un cuaderno abierto delante y el pincel, que llevaba rato sin moverse, quieto en la mano. No mira el cuaderno, mira el umbral: al que entra, primero le mira el gorro y luego la cara.\n"
 
 msgid "抬眼看了看你头上的黑冠，又低下头去。"
 msgstr " levanta la vista, mira el gorro negro que llevas en la cabeza y vuelve a bajarla."
@@ -33250,7 +33250,7 @@ msgid "门房道士道：野羊寨的供今天到。东边货栈，搬完了再�
 msgstr "El taoísta portero dice: \"Hoy llega el tributo del Fuerte de las Cabras. Al almacén del lado este; termina de cargar y luego hablamos.\""
 
 msgid "门房道士的笔停了一下：没这个人。……谁让你问的？"
-msgstr "La pluma del taoísta portero se detiene un momento: \"Aquí no hay nadie así. ...¿Quién te mandó preguntar?\""
+msgstr "El pincel del taoísta portero se detiene un momento: \"Aquí no hay nadie así. ...¿Quién te mandó preguntar?\""
 
 msgid "门房道士道：后殿是宫主行法的地方。没有大弟子的话，谁都不许进。"
 msgstr "El taoísta portero dice: \"El salón trasero es donde el señor del palacio oficia. Sin la palabra del discípulo mayor, nadie entra.\""
@@ -33379,7 +33379,7 @@ msgid "跟诵"
 msgstr "Recitar con ellos"
 
 msgid "领诵道士的木鱼没停：前三卷的头三句，他们一天念几百遍。我念上句，你接下句——接不上，回蒲团上听熟了再来。"
-msgstr "El pez de madera del recitador principal no se detiene: \"Las tres primeras frases de los tres primeros rollos las repiten cientos de veces al día. Yo digo la primera mitad y tú sigues con la segunda. Si no puedes seguir, vuelve al cojín a oírlos hasta aprendértelo.\""
+msgstr "El pez de madera del recitador principal no se detiene: \"Las tres primeras frases de los tres primeros rollos las repiten cientos de veces al día. Yo digo la primera mitad y tú sigues con la segunda. Si no puedes seguir, vuelve al cojín a oírlos hasta aprendértelo y regresa.\""
 
 msgid "劝宫里剩下的人下山，交茅山看管。说了这一句，他就知道你戴着冠，却不是他们的人。\n就这么说吗？"
 msgstr "Persuadir a los que quedan en el palacio de que bajen de la montaña y queden bajo la custodia del Monte Mao. En cuanto lo digas, sabrá que llevas el gorro pero no eres de los suyos.\n¿Lo dices así?"
@@ -33412,7 +33412,7 @@ msgid "领诵道士喝道：殿前动手，坛上加供！\n"
 msgstr "El recitador principal grita: \"¡Violencia ante el salón! ¡Un tributo más para el altar!\"\n"
 
 msgid "一个黑衣黑冠的道士，坐在账房的大案后面，手里一支笔，面前一本账。他的手指上全是墨，指甲缝里是黑的。他抬头看了你一眼，眼睛先落在你的冠上。\n"
-msgstr "Un taoísta de ropa y gorro negros, sentado tras el gran escritorio de la contaduría, con una pluma en la mano y un libro de cuentas delante. Tiene los dedos manchados de tinta y las uñas negras. Te mira un instante, y sus ojos caen primero en tu gorro.\n"
+msgstr "Un taoísta de ropa y gorro negros, sentado tras la mesa larga de la contaduría, con un pincel en la mano y un libro de cuentas delante. Tiene los dedos manchados de tinta y las uñas negras. Te mira un instante, y sus ojos caen primero en tu gorro.\n"
 
 msgid "管事道士拨了两下算盘，皱起眉头，又拨回去。\n"
 msgstr "El taoísta mayordomo mueve dos veces las cuentas del ábaco, frunce el ceño y las vuelve a mover.\n"
@@ -33448,7 +33448,7 @@ msgid "干活"
 msgstr "Trabajo"
 
 msgid "活干完了就歇着。通铺在货栈里头。夜里别乱走——子时前殿有人巡，后殿不许近。"
-msgstr "Cuando termines, descansa. Los camastros están dentro del almacén. De noche no andes por ahí: a medianoche hay ronda en el salón delantero, y al salón trasero no te acerques."
+msgstr "Cuando termines, descansa. El camastro común está dentro del almacén. De noche no andes por ahí: a medianoche hay ronda en el salón delantero, y al salón trasero no te acerques."
 
 msgid "把账册翻过一页，在上头添了一笔。"
 msgstr " pasa una página del libro de cuentas y anota algo."
@@ -33559,7 +33559,7 @@ msgid "前些日子茅山灵心观来了个小道士，替他们的林忌真人�
 msgstr "Hace unos días llegó un jovencito taoísta del Monasterio del Corazón Claro del Monte Mao, con un recado de su Sabio, Lin Ji: el templo de la falda norte sigue ahí, y al calabozo siguen entrando personas."
 
 msgid "林真人要一个进得去的人。……可你身上有东方神教的令，这件事老子不能托你。"
-msgstr "El Sabio Lin quiere a alguien que pueda entrar. ...Pero llevas encima la orden de la Orden del Cuervo Dorado, y este asunto no te lo puedo confiar."
+msgstr "El Sabio Lin quiere a alguien que pueda entrar. ...Pero llevas encima la placa de la Orden del Cuervo Dorado, y este asunto no te lo puedo confiar."
 
 msgid "林真人要一个进得去的人。老子进不去——那张脸，他们都认得。"
 msgstr "El Sabio Lin quiere a alguien que pueda entrar. Yo no puedo: esa cara, todos la conocen."
@@ -33574,7 +33574,7 @@ msgid "名单老子送到灵心观了。下一车纳供，野羊寨的弟兄在�
 msgstr "La lista la mandé al Monasterio del Corazón Claro. En el próximo carro de tributo, los hermanos del Fuerte de las Cabras esperarán en el recodo."
 
 msgid "你接了东方神教的令？"
-msgstr "¿Aceptaste una orden de la Orden del Cuervo Dorado?"
+msgstr "¿Aceptaste una placa de la Orden del Cuervo Dorado?"
 
 msgid "那这件事老子不能托你。林真人说了，进那座道观的人，身上只能有一家的东西。"
 msgstr "Entonces no te lo puedo confiar. El Sabio Lin lo dijo: quien entre en ese templo solo puede llevar encima cosas de una sola casa."
@@ -33604,7 +33604,7 @@ msgid "接过名单，看到「傅家坡」那一行，手抖了一下。"
 msgstr " recibe la lista y, al ver la línea de la \"Cuesta de los Fu\", le tiembla la mano."
 
 msgid "补……他们还要补一个。"
-msgstr "\"Reponer\"... todavía quieren reponer uno."
+msgstr "'Reponer'... todavía quieren reponer uno."
 
 msgid "老子派人给林真人送去。下一车纳供，野羊寨的弟兄在转角等着。你回去，别让他们看出来。"
 msgstr "Mandaré a alguien a llevársela al Sabio Lin. En el próximo carro de tributo, los hermanos del Fuerte de las Cabras esperarán en el recodo. Tú vuelve allá y que no se den cuenta."
@@ -33652,7 +33652,7 @@ msgid "关北民夫道：俺们是关北挖河的。河工挖不动的，官府�
 msgstr "El peón del Norte del Paso dice: \"Somos del Norte del Paso, cavábamos el río. Los que ya no podíamos cavar, decían que nos mandaban a casa; el carro dio una vuelta y llegó aquí.\""
 
 msgid "关北民夫道：这里的道士拿人当药材。俺亲眼看见的，不骗你。"
-msgstr "El peón del Norte del Paso dice: \"Los taoístas de aquí usan a la gente como medicina. Lo vi con mis propios ojos; no le miento.\""
+msgstr "El peón del Norte del Paso dice: \"Los taoístas de aquí usan a la gente como medicina. Lo vi con mis propios ojos; no te miento.\""
 
 msgid "关北民夫道：押车的说俺们是兵部批的。兵部？俺们挖河，关兵部什么事？"
 msgstr "El peón del Norte del Paso dice: \"Los que escoltaban el carro dijeron que el Ministerio de Guerra nos había autorizado. ¿El Ministerio de Guerra? Nosotros cavábamos un río, ¿qué tiene que ver el Ministerio de Guerra?\""
@@ -33661,7 +33661,7 @@ msgid "关北民夫道：西边那位是条汉子。有他骂着，俺们还敢�
 msgstr "El peón del Norte del Paso dice: \"El del oeste es todo un hombre. Con él maldiciendo, todavía nos atrevemos a respirar.\""
 
 msgid "俺们回关北！多谢恩公！"
-msgstr "¡Volvemos al Norte del Paso! ¡Le debemos la vida!"
+msgstr "¡Volvemos al Norte del Paso! ¡Te debemos la vida!"
 
 msgid "逆灵宫宫主"
 msgstr "Señor del Palacio Negro"
@@ -33787,7 +33787,7 @@ msgid "天书"
 msgstr "Escritura"
 
 msgid "宫主不在了。坛上的火要有人添——续灯那一夜，站在坛前的是我。你记着。"
-msgstr "El señor del palacio ya no está. Alguien tiene que alimentar el fuego del altar: la noche de la lámpara, el que estuvo frente al altar fui yo. Recuérdalo."
+msgstr "El señor del palacio ya no está. Alguien tiene que alimentar el fuego del altar: la noche de mantener la lámpara encendida, el que estuvo frente al altar fui yo. Recuérdalo."
 
 msgid "唤首那一夜，他走在最前头，站在他身后的是我。你记着这个时辰。"
 msgstr "La noche de la Invocación de la Cabeza, él iba al frente, y quien estaba detrás de él era yo. Recuerda esa hora."
@@ -33802,7 +33802,7 @@ msgid "宫里的事，我自己来——可那扇门，我是进不去了。宫�
 msgstr "Lo del palacio lo arreglo yo, pero esa puerta ya no puedo cruzarla. La gente del palacio conoce mi cara: si el Shifu no me quiere, ellos tampoco."
 
 msgid "师父下崖时带走了天书的上半部。下半部留在宫里：白天摊在前殿的长案上，五个人对着它诵；子时，领诵把它锁回师父屋里，书案底下的暗格。"
-msgstr "Al bajar por el risco, el Shifu se llevó la primera mitad de la Escritura. La segunda mitad quedó en el palacio: de día está abierta sobre la mesa larga del salón delantero, y cinco hombres la recitan; a medianoche el recitador la encierra de vuelta en el cuarto del Shifu, en el compartimento bajo el escritorio."
+msgstr "Al bajar por el risco, el Shifu se llevó la primera mitad de la Escritura. La segunda mitad quedó en el palacio: de día está abierta sobre la mesa larga del salón delantero, y cinco hombres la recitan; a medianoche el recitador principal la encierra de vuelta en el cuarto del Shifu, en el compartimento bajo el escritorio."
 
 msgid "替我做一件事，我教你一样东西。子时去，把下半部拿来。"
 msgstr "Hazme un favor y te enseñaré algo. Ve a medianoche y trae la segunda mitad."
@@ -33835,7 +33835,7 @@ msgid "把手里的剑丢在崖径上。"
 msgstr " tira la espada que tiene en la mano en el sendero del risco."
 
 msgid "商玦没回来，坛上的灯也没人添了。……好，下山。茅山要关就关吧。"
-msgstr "Shang Jue no volvió, y nadie más alimentará la lámpara del altar. ...Bien, bajo. Que el Monte Mao me encierre si quiere."
+msgstr "Shang Jue no volvió, y nadie más alimentará la lámpara del altar. ...Bien, bajo. Que el Monte Mao lo cierre si quiere."
 
 msgid "下山？我在这里等的东西还没来。"
 msgstr "¿Bajar? Lo que espero aquí todavía no ha llegado."
@@ -33850,7 +33850,7 @@ msgid "……是它。"
 msgstr "...Es esta."
 
 msgid "宫主不在了，宫里那几个还在等他回来。坛上的火要有人添——续灯那一夜，站在坛前的是我。"
-msgstr "El señor del palacio ya no está, y los pocos que quedan en el palacio aún esperan su regreso. Alguien tiene que alimentar el fuego del altar: la noche de la lámpara, el que estuvo frente al altar fui yo."
+msgstr "El señor del palacio ya no está, y los pocos que quedan en el palacio aún esperan su regreso. Alguien tiene que alimentar el fuego del altar: la noche de mantener la lámpara encendida, el que estuvo frente al altar fui yo."
 
 msgid "从怀里摸出一册黑布面的手抄本，递给你。"
 msgstr " saca del pecho un cuaderno copiado a mano con cubierta de tela negra y te lo tiende."
@@ -33958,7 +33958,7 @@ msgid "一个黑衣黑冠的道士，比别的狱卒老些，脸上一层酒色�
 msgstr "Un taoísta de ropa y gorro negros, más viejo que los otros carceleros, con la cara enrojecida de vino y una llave negra colgada de la cintura. Está recostado contra la reja con los ojos pegados a las dos tinajas de vino junto a la escalera de piedra.\n"
 
 msgid "狱卒道士咂了咂嘴，又往酒坛那边瞟了一眼。\n"
-msgstr "El taoísta carcelero chasquea la lengua y vuelve a echar un vistazo a las tinajas de vino.\n"
+msgstr "El taoísta carcelero chasquea los labios y vuelve a echar un vistazo a las tinajas de vino.\n"
 
 msgid "狱卒道士用钥匙敲了敲铁栅门：老实点。\n"
 msgstr "El taoísta carcelero golpea la reja con la llave: \"Pórtate bien.\"\n"
@@ -34060,7 +34060,7 @@ msgid "从草席上跳起来，又赶紧压低了身子。"
 msgstr " salta de la estera y enseguida se agacha para no hacer ruido."
 
 msgid "门……是你开的？你放我？"
-msgstr "La puerta... ¿la abrió usted? ¿Me deja ir?"
+msgstr "La puerta... ¿la abriste tú? ¿Me dejas ir?"
 
 msgid "我不问。我从货栈的侧门走，再也不过野羊山了。"
 msgstr "No pregunto nada. Me voy por la puerta lateral del almacén y no vuelvo a cruzar el Cerro de las Cabras."
@@ -34150,7 +34150,7 @@ msgid "野羊山北麓的崖顶。脚下就是那道裂口，一根粗麻绳从�
 msgstr "La cima del risco en la falda norte del Cerro de las Cabras. A tus pies está la grieta; una gruesa cuerda de cáñamo baja del torno y se pierde en la boca oscura: el tributo del recodo del camino se iza desde aquí.\nLas cajas izadas se apilan en la plataforma a la altura de un hombre, con el carácter \"Cabra\" marcado a fuego en las tablas. Hacia el norte, una senda de carga sigue la cresta hasta la falda norte; al fondo se adivinan los tejados de ladrillo negro.\n"
 
 msgid "一条被车轮和脚印压实的货道，顺着北麓的山脊往北去。两旁是枯黄的长草和风化的黑灰色岩石，没有一棵像样的树。\n路北头立着一座全用黑砖砌成的大道观，山门敞着，门里黑幡垂地；靠东有一条岔路绕向道观的东墙根。\n"
-msgstr "Una senda de carga apisonada por ruedas y pisadas sigue la cresta de la falda norte hacia el norte. A los lados, hierba larga y amarillenta y roca gris negruzca erosionada; ni un árbol que merezca el nombre.\nAl norte de la senda se levanta un gran templo taoísta todo de ladrillo negro, con el portón abierto y estandartes negros colgando hasta el suelo; al este sale un desvío que rodea el pie del muro oriental.\n"
+msgstr "Una senda de carga apisonada por ruedas y pisadas sigue la cresta de la falda norte hacia el norte. A los lados, hierba larga y amarillenta y roca gris negruzca erosionada; ni un árbol que merezca el nombre. Al norte de la senda se levanta un gran templo taoísta todo de ladrillo negro, con el portal abierto y estandartes negros colgando hasta el suelo; al este sale un desvío que rodea el pie del muro oriental.\n"
 
 msgid "道观东墙根下的一块空地，车辙到这里为止。黑砖墙上开着一扇矮门，门楣上没有字，门槛磨得发白——供品是从这里进去的。\n"
 msgstr "Un claro al pie del muro oriental del templo; las rodadas terminan aquí. En el muro de ladrillo negro hay una puerta baja sin letras sobre el dintel y con el umbral gastado hasta quedar blanco: por aquí entran las ofrendas.\n"
@@ -34165,13 +34165,13 @@ msgid "一间堆满箱笼的矮房，箱子上都烙着「羊」字，有的开�
 msgstr "Un cuarto bajo repleto de cajas y baúles, todos marcados a fuego con el carácter \"Cabra\"; algunos están abiertos y dejan ver oro y seda, carne curada y fardos de cuerda de cáñamo. En un rincón, varias cajas están clavadas a conciencia, con talismanes dibujados en cinabrio en las tapas.\nLa puerta baja del muro sur da al exterior; la del oeste entra al patio delantero.\n"
 
 msgid "逆灵宫的前殿。殿里没有神像，正中一张乌黑的长案，案上供的是一卷摊开的黑皮经书。五个黑衣黑冠的道士面壁跪在蒲团上诵经，领诵的敲着木鱼，一下一下，谁进来都不抬头。诵的字句一个也听不懂，只觉得殿里比外头冷。\n西边一道门通丹房；北边的门紧闭着，门后隐约也有诵经声。\n"
-msgstr "El salón delantero del Palacio Negro. No hay imágenes sagradas; en el centro, una mesa larga negra con un rollo de escritura en cuero negro abierto como ofrenda. Cinco taoístas de ropa y gorro negros, de cara a la pared, recitan arrodillados en cojines; el que guía golpea el pez de madera, uno tras otro, y nadie levanta la cabeza al entrar. No se entiende ni una de las frases recitadas, solo se siente que dentro hace más frío que fuera.\nUna puerta al oeste lleva al cuarto de elixires; la del norte está cerrada y tras ella también se oye vagamente recitar.\n"
+msgstr "El salón delantero del Palacio Negro. No hay imágenes sagradas; en el centro, una mesa larga negra con un rollo de escritura en cuero negro abierto como ofrenda. Cinco taoístas de ropa y gorro negros, de cara a la pared, recitan arrodillados en cojines; el recitador principal golpea el pez de madera, uno tras otro, y nadie levanta la cabeza al entrar. No se entiende ni una de las frases recitadas, solo se siente que dentro hace más frío que fuera. Una puerta al oeste lleva al cuarto de elixires; la del norte está cerrada y tras ella también se oye vagamente recitar.\n"
 
 msgid "一间烟气熏黑的屋子。正中一座三足的铜丹炉，炉火没有熄，炉口里的火苗是青的，不是红的。四壁的药架上摆满了罐子，罐子上贴的签子写的不是药名，是地名和日子。\n东门回前殿，北门进账房；西南角上一道石阶往下，黑得看不见底。\n"
 msgstr "Un cuarto ennegrecido por el humo. En el centro, un horno de elixires de bronce de tres patas con el fuego sin apagar; las llamas de su boca son azules, no rojas. En los estantes de las cuatro paredes se alinean frascos con etiquetas que no dicen nombres de medicinas, sino nombres de lugares y fechas.\nLa puerta este vuelve al salón delantero y la norte entra a la contaduría; en la esquina suroeste, unos escalones de piedra bajan a una oscuridad sin fondo.\n"
 
 msgid "逆灵宫的账房，比丹房还小。一张乌木大案占了半间屋，案上摊着一本账册，旁边一叠盖了朱印的文书，压着一方乌黑的镇纸。墙上挂着算盘，算珠磨得发亮。\n门在南边，通丹房。\n"
-msgstr "La contaduría del Palacio Negro, más pequeña que el cuarto de elixires. Un gran escritorio de ébano ocupa la mitad del cuarto, con un libro de cuentas abierto, al lado un legajo de documentos con sellos rojos, y encima un pisapapeles negro. En la pared cuelga un ábaco con las cuentas pulidas de tanto uso.\nLa puerta está al sur y da al cuarto de elixires.\n"
+msgstr "La contaduría del Palacio Negro, más pequeña que el cuarto de elixires. Una mesa larga de ébano ocupa la mitad del cuarto, con un libro de cuentas abierto, al lado un legajo de documentos con sellos rojos, y encima un pisapapeles negro. En la pared cuelga un ábaco con las cuentas pulidas de tanto uso. La puerta está al sur y da al cuarto de elixires.\n"
 
 msgid "丹房石阶底下的甬道，低得要弯腰。墙上一盏松油灯忽明忽暗，照着三扇铁栅门：西、北、东各一扇，锁都是新的。地上一层潮气，墙根有抓挠过的痕迹。\n石阶在南边，上去是丹房。\n"
 msgstr "El pasillo bajo los escalones del cuarto de elixires, tan bajo que hay que agacharse. En la pared, una lámpara de aceite de pino parpadea e ilumina tres rejas de hierro: una al oeste, otra al norte, otra al este, todas con cerraduras nuevas. El suelo está húmedo y en la base de la pared hay marcas de arañazos.\nLos escalones están al sur; suben al cuarto de elixires.\n"
@@ -34189,7 +34189,7 @@ msgid "逆灵宫的后殿。殿里没有神像，正中一座黑石砌的坛，�
 msgstr "El salón trasero del Palacio Negro. No hay imágenes sagradas; en el centro, un altar de piedra negra sobre el que arde sin ruido una llama negra que no alumbra nada y solo alarga las sombras al pie del altar. Los estandartes negros de las paredes son más altos que los del salón delantero, y las letras, de un rojo oscuro, parecen escritas con sangre.\nLa puerta sur vuelve al salón delantero. Tras el altar hay una puerta negra sin una sola letra.\n"
 
 msgid "商玦的居所，比后殿暖，暖得不自然。一张乌木书案，案上笔墨整齐；靠墙一座书架，空了——架上的灰尘留着一排书脊的印子。案角一只黑匣，开着，里面什么也没有。\n南边的黑门回后殿；北墙一扇小门，门外是风声。\n"
-msgstr "Los aposentos de Shang Jue, más cálidos que el salón trasero, de un calor poco natural. Un escritorio de ébano con pluma y tinta en orden; junto a la pared, un estante vacío: en el polvo queda la marca de una fila de lomos. En la esquina del escritorio, una caja negra abierta, sin nada dentro.\nLa puerta negra del sur vuelve al salón trasero; en la pared norte hay una puertecita, y fuera se oye el viento.\n"
+msgstr "Los aposentos de Shang Jue, más cálidos que el salón trasero, de un calor poco natural. Un escritorio de ébano con pincel y tinta en orden; junto a la pared, un estante vacío: en el polvo queda la marca de una fila de lomos. En la esquina del escritorio, una caja negra abierta, sin nada dentro. La puerta negra del sur vuelve al salón trasero; en la pared norte hay una puertecita, y fuera se oye el viento.\n"
 
 msgid "逆灵宫后山的崖径，窄得只容一人，一边是黑砖的后墙，一边是深不见底的崖。风从崖底上来，带着雾。崖径往北走到头是断崖。\n南边的小门回宫主的居所。\n"
 msgstr "El sendero del risco de atrás del Palacio Negro, tan estrecho que solo cabe una persona; a un lado, el muro trasero de ladrillo negro; al otro, un precipicio sin fondo. El viento sube del fondo con niebla. Hacia el norte, el sendero acaba en el borde del risco.\nLa puertecita del sur vuelve a los aposentos del señor del palacio.\n"
@@ -34315,7 +34315,7 @@ msgid "的木鱼一下也没停。"
 msgstr " no deja de golpear el pez de madera."
 
 msgid "前殿的蒲团空着，木鱼搁在案角。\n"
-msgstr "El cojín del salón delantero está vacío; el pez de madera, en la esquina de la mesa.\n"
+msgstr "Los cojines del salón delantero están vacíos; el pez de madera, en la esquina de la mesa.\n"
 
 msgid "睡到子时"
 msgstr "Dormir hasta medianoche"
@@ -34360,7 +34360,7 @@ msgid "一个嗓子沙哑：「钉子拔了。湖边的村子烧了一半。」\
 msgstr "Una voz ronca: \"El clavo está arrancado. La aldea de la orilla del lago ardió a medias.\"\n"
 
 msgid "另一个声音不高，一字一顿，像在念经：「头在冰下醒了。等它自己找回来——那一夜，就是唤首。」\n"
-msgstr "Otra voz, baja, que va diciendo palabra por palabra como quien recita: \"La cabeza despertó bajo el hielo. Esperemos a que vuelva por sí misma: esa noche será la Invocación.\"\n"
+msgstr "Otra voz, baja, que va diciendo palabra por palabra como quien recita: \"La cabeza despertó bajo el hielo. Esperemos a que vuelva por sí misma: esa noche será la Invocación de la Cabeza.\"\n"
 
 msgid "沙哑的那个：「人呢？」那声音道：「名单在账房，管事那里。三十六口，一口也不能少。」\n"
 msgstr "El de la voz ronca: \"¿Y la gente?\" La otra voz: \"La lista está en la contaduría, con el mayordomo. Treinta y seis personas; ni una puede faltar.\"\n"
@@ -34534,7 +34534,7 @@ msgid "暗格空着。白天下半部摊在前殿的长案上——玄冥子说�
 msgstr "El compartimento está vacío. De día la segunda mitad está abierta sobre la mesa larga del salón delantero: Xuanmingzi dijo que a medianoche vuelve aquí.\n"
 
 msgid "乌木书案，笔墨整齐。案下有一道细缝，像是个暗格。\n"
-msgstr "Un escritorio de ébano con pluma y tinta en orden. Bajo el escritorio hay una rendija fina, como de un compartimento.\n"
+msgstr "Un escritorio de ébano con pincel y tinta en orden. Bajo el escritorio hay una rendija fina, como de un compartimento.\n"
 
 msgid "吊上来的箱子堆了一人高，每只箱板上都烙着一个「羊」字——野羊寨的记号。箱缝里露出绸缎的一角，另一只箱子底下渗出暗红的水渍，闻着是腌肉的咸味，也许不是。\n"
 msgstr "Las cajas izadas se amontonan a la altura de un hombre, y todas llevan en las tablas el carácter \"Cabra\" marcado a fuego, la señal del Fuerte de las Cabras. Entre dos tablas asoma una esquina de seda; bajo otra caja rezuma una mancha de agua rojo oscuro que huele a salmuera de carne curada, o quizá no.\n"
@@ -39610,7 +39610,7 @@ msgid "振远镖局总镖头"
 msgstr "Jefe de los Escoltas del Largo Camino"
 
 msgid "陈天星从十五岁出道至今已经有近五十个年头了。二十五岁时自己\n创建了振远镖局，苦心经营三十八载，使之而今成为京师第一大镖\n局.而他凭着春风快意刀法和天邪神掌被江湖同道称为「刀掌双绝」\n。绮云镇的陈剑秋是其侄子，如今也赫赫有名。\n"
-msgstr "Chen Tianxing salió al mundo a los quince años y lleva casi cincuenta en el jianghu. A los veinticinco fundó los Escoltas del Largo Camino y los dirigió con esfuerzo durante treinta y ocho años, hasta hacer de ellos la mayor agencia de escoltas de la Capital. Por su Sable despreocupado de la brisa primaveral y su Palma indómita, la gente del jianghu lo llama \"Sable y Palma sin par\". Su sobrino Chen Jianqiu, de Tejenubes, es hoy también muy famoso."
+msgstr "Chen Tianxing salió al mundo a los quince años y lleva casi cincuenta en el jianghu. A los veinticinco fundó los Escoltas del Largo Camino y los dirigió con esfuerzo durante treinta y ocho años, hasta hacer de ellos la mayor agencia de escoltas de la Capital. Por su Sable despreocupado de la brisa primaveral y su Palma rebelde, la gente del jianghu lo llama \"Sable y Palma sin par\". Su sobrino Chen Jianqiu, de Tejenubes, es hoy también muy famoso."
 
 msgid "陈总镖头"
 msgstr "Jefe Chen"
