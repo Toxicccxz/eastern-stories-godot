@@ -15554,19 +15554,19 @@ msgid "这是一位来雪亭镇的外地旅客.\n"
 msgstr "Viene de fuera y está de paso por Pabellón Nevado."
 
 msgid "一只浑身脏兮兮的野狗。\n"
-msgstr "Un perro salvaje todo cubierto de mugre."
+msgstr "Un perro callejero todo cubierto de mugre."
 
 msgid "野狗用鼻子闻了闻你的脚。\n"
-msgstr "El perro salvaje te olfatea los pies."
+msgstr "El perro callejero te olfatea los pies."
 
 msgid "野狗在你的脚边挨挨擦擦的，想讨东西吃。\n"
-msgstr "El perro salvaje se te restriega contra los pies, a ver si le das algo de comer."
+msgstr "El perro callejero se te restriega contra los pies, a ver si le das algo de comer."
 
 msgid "野狗对著你摇了摇尾巴。\n"
-msgstr "El perro salvaje te mueve la cola."
+msgstr "El perro callejero te mueve la cola."
 
 msgid "野狗用后腿抓了抓自己的耳朵。\n"
-msgstr "El perro salvaje se rasca la oreja con una pata trasera."
+msgstr "El perro callejero se rasca la oreja con una pata trasera."
 
 msgid "高兴地汪汪叫了起来。"
 msgstr " ladra de alegría."
@@ -15845,7 +15845,7 @@ msgid "农夫叫道：有土匪哪！光天化日下打劫哪！\n"
 msgstr "El campesino grita: \"¡Bandidos! ¡Asaltan a plena luz del día!\""
 
 msgid "一只浑身脏兮兮的野狗，一双眼睛正恶狠狠地瞪著你。\n"
-msgstr "Un perro salvaje todo cubierto de mugre, que te clava una mirada feroz."
+msgstr "Un perro callejero todo cubierto de mugre, que te clava una mirada feroz."
 
 msgid "教书先生"
 msgstr "Maestro de escuela"
@@ -15896,7 +15896,7 @@ msgid "你的诚意不够，这钱还是拿回去吧。"
 msgstr "No muestras suficiente sinceridad; mejor llévate ese dinero."
 
 msgid "咦？我不记得收过你这个学生啊...."
-msgstr "¿Eh? No recuerdo haberte aceptado como alumno..."
+msgstr "¿Eh? No recuerdo haberte aceptado como {jugador:alumno|alumna}..."
 
 msgid "你看到一个粗壮的大汉，身上穿著普通樵夫的衣服。\n"
 msgstr "Ves a un hombretón fornido con ropa de leñador corriente."
@@ -22636,7 +22636,7 @@ msgid "强盗喝道：呔！此山是我开，此树乃我栽。要想从此过�
 msgstr "El bandido ruge: \"¡Alto! Esta montaña es mía y estos árboles los planté yo. ¡Si quieres pasar, deja el peaje!\""
 
 msgid "强盗将你上上下下打量了一番，说道：识相的放下十两买路钱 走你的路。\n"
-msgstr "El bandido te mira de arriba abajo y dice: \"Sé listo: deja diez taels de peaje y sigue tu camino.\""
+msgstr "El bandido te mira de arriba abajo y dice: \"Sé {jugador:listo|lista}: deja diez taels de peaje y sigue tu camino.\""
 
 msgid "强盗显是以劫为生，刀刀冲要害而来。\n"
 msgstr "Es evidente que el bandido vive del robo: cada tajo va directo a un punto mortal."
@@ -22645,7 +22645,7 @@ msgid "强盗高喊：叫你人财两空。\n"
 msgstr "El bandido grita: \"¡Te dejo sin plata y sin vida!\""
 
 msgid "强盗眼中放出异样的光彩，忙不迭的笑道：算你识相，以后我不会难为你的。\n"
-msgstr "A los ojos del bandido asoma un brillo extraño y, muy apurado, sonríe: \"Qué listo eres. No te daré más problemas.\""
+msgstr "A los ojos del bandido asoma un brillo extraño y, muy apurado, sonríe: \"Qué {jugador:listo|lista} eres. No te daré más problemas.\""
 
 msgid "强盗接过钱，眼睛瞪得大大的，点了点头，说道：大爷今天做个善人，放你条生路。还不快滚！\n"
 msgstr "El bandido toma el dinero, abre mucho los ojos, asiente y dice: \"Hoy este señor se siente caritativo. Te dejo ir con vida. ¡Y ahora largo!\""
@@ -22663,7 +22663,7 @@ msgid "这刀可是个宝物, 据说是当年张家老祖宗退隐时皇上赐�
 msgstr "Esa arma es un tesoro. Dicen que el emperador se la dio al primer antepasado de los Zhang cuando se retiró."
 
 msgid "您也知道'碧海银针'？茶楼就在街对面，我常去的。"
-msgstr "¿Usted también conoce la \"Aguja de plata del mar de jade\"? La casa de té está justo al otro lado de la calle; voy seguido."
+msgstr "¿Usted también conoce la 'Aguja de plata del mar de jade'? La casa de té está justo al otro lado de la calle; voy seguido."
 
 msgid "屠夫边剔骨头边嘟囔着：真是好刀，剔得好舒服! \n"
 msgstr "El carnicero masculla mientras deshuesa: \"Qué buen sable, ¡qué gusto da cortar con él!\""
@@ -22777,7 +22777,7 @@ msgid "把令牌放回你手里。"
 msgstr " pone la placa de nuevo en tu mano."
 
 msgid "现在它是你的。带着它，神教的人见了你，就当见了自己人。"
-msgstr "Ahora es tuya. Llévala, y los de la Orden que te vean te tomarán por uno de los suyos."
+msgstr "Ahora es tuya. Llévala, y los de la Orden que te vean te tomarán por {jugador:uno|una} de los suyos."
 
 msgid "令呢？"
 msgstr "¿Y la placa?"
@@ -22810,7 +22810,7 @@ msgid "神教的令不发新的，一块令只从上一个持令人手里接过�
 msgstr "La Orden no entrega placas nuevas; una placa solo se recibe de quien la tuvo antes. De manos de quién llegó la tuya, no lo pregunto."
 
 msgid "想替神教办事，问我「接令」。想好了再问：神教的事，接了就放不下。"
-msgstr "Si quieres servir a la Orden, pregúntame por \"Aceptar la placa\". Piénsalo bien antes de preguntar: los asuntos de la Orden, una vez tomados, ya no se sueltan."
+msgstr "Si quieres servir a la Orden, pregúntame por 'Aceptar la placa'. Piénsalo bien antes de preguntar: los asuntos de la Orden, una vez tomados, ya no se sueltan."
 
 msgid "看了看你腰间的令牌，又看了看你。"
 msgstr " mira la placa que llevas en la cintura y luego te mira a ti."
@@ -22867,7 +22867,7 @@ msgid "上个月我派了一个人去玉螺湖，他没回来。令在他身上�
 msgstr "El mes pasado mandé a un hombre al Lago Caracola de Jade y no volvió. La placa la tiene él."
 
 msgid "入了夜，去湖畔的芦苇丛找他。湖边夜里不太平——把令带回来，再问我「令牌」。"
-msgstr "Cuando anochezca, ve a buscarlo al cañaveral de la orilla. De noche el lago no es seguro. Trae la placa de vuelta y luego pregúntame por \"Placa\"."
+msgstr "Cuando anochezca, ve a buscarlo al cañaveral de la orilla. De noche el lago no es seguro. Trae la placa de vuelta y luego pregúntame por 'Placa'."
 
 msgid "西厢的话，你上回已经说过了。"
 msgstr "Lo que se dijo en el ala oeste, ya me lo contaste la vez pasada."
@@ -22918,13 +22918,13 @@ msgid "差事照旧派——只派该死的人。她说的。"
 msgstr "Los encargos siguen como antes. Solo se manda a quienes merecen morir. Eso dijo ella."
 
 msgid "要差事，问我「任务」。"
-msgstr "Si quieres un encargo, pregúntame por \"Misiones\"."
+msgstr "Si quieres un encargo, pregúntame por 'Misiones'."
 
 msgid "神教的差事，照旧。要差事，问我「任务」。"
-msgstr "Los encargos de la Orden siguen como antes. Si quieres uno, pregúntame por \"Misiones\"."
+msgstr "Los encargos de la Orden siguen como antes. Si quieres uno, pregúntame por 'Misiones'."
 
 msgid "名单念完了。你站哪一边，问「教主」。"
-msgstr "La lista ya se leyó entera. De qué lado estás, pregúntamelo por \"Líder de la Orden\"."
+msgstr "La lista ya se leyó entera. De qué lado estás, pregúntamelo por 'Líder de la Orden'."
 
 msgid "名单上还有最后一个名字。出去走一走，再回来。"
 msgstr "En la lista queda un último nombre. Sal a dar una vuelta y regresa."
@@ -22939,7 +22939,7 @@ msgid "第三个，是玉螺湖村凿冰的老头。他年年在湖上凿冰，�
 msgstr "El tercero es el viejo que pica hielo en el lago de la Aldea Caracola de Jade. Cada año pica hielo en el lago, ha visto la luz bajo el hielo y se la cuenta a los niños de la aldea."
 
 msgid "办完了，回来问我「交差」。"
-msgstr "Cuando esté hecho, vuelve y pregúntame por \"Rendir cuentas\"."
+msgstr "Cuando esté hecho, vuelve y pregúntame por 'Rendir cuentas'."
 
 msgid "从袖子里抽出一张纸，压在茶盏底下。"
 msgstr " saca un papel de la manga y lo pone bajo la taza de té."
@@ -23017,7 +23017,7 @@ msgid "交什么差？"
 msgstr "¿Rendir cuentas de qué?"
 
 msgid "神教只有一个教主。你知道是谁。"
-msgstr "La Orden tiene un solo líder. Sabes quién es."
+msgstr "La Orden tiene una sola líder. Sabes quién es."
 
 msgid "我认输。教主令在她手里，我还坐在这里——神教总得有人倒茶。"
 msgstr "Me rindo. La placa de mando está en manos de ella, y yo sigo sentada aquí: la Orden siempre necesita a alguien que sirva el té."
@@ -23071,7 +23071,7 @@ msgid "令回来了就好。神教的令，只从上一个持令人手里接；�
 msgstr "Qué bueno que la placa volvió. La placa de la Orden solo se recibe de quien la tuvo antes; si ella no la conserva, debe volver a mí."
 
 msgid "你不是神教的人，却把神教的令送了回来。想替神教办事，问我「接令」——想好了再问。"
-msgstr "No eres de la Orden, pero trajiste de vuelta la placa de la Orden. Si quieres servirla, pregúntame por \"Aceptar la placa\". Piénsalo bien antes de preguntar."
+msgstr "No eres de la Orden, pero trajiste de vuelta la placa de la Orden. Si quieres servirla, pregúntame por 'Aceptar la placa'. Piénsalo bien antes de preguntar."
 
 msgid "你接过神教的令，又替神教收回了一块。我记你这一回。"
 msgstr "Recibiste la placa de la Orden y luego recuperaste otra para ella. Me acordaré de esta vez."
@@ -23089,7 +23089,7 @@ msgid "那件衣，你给了西厢。她说你配得上——她很少这么说�
 msgstr "Esa túnica se la diste al ala oeste. Ella dice que la mereces; rara vez dice eso."
 
 msgid "神教缺人。你要是有意，问我「接令」。神教的事，接了就放不下，想好了再问。"
-msgstr "A la Orden le falta gente. Si te interesa, pregúntame por \"Aceptar la placa\". Los asuntos de la Orden, una vez tomados, ya no se sueltan; piénsalo bien antes de preguntar."
+msgstr "A la Orden le falta gente. Si te interesa, pregúntame por 'Aceptar la placa'. Los asuntos de la Orden, una vez tomados, ya no se sueltan; piénsalo bien antes de preguntar."
 
 msgid "西厢那位，记下了一个名字。她记下的人，我也要看一看。"
 msgstr "La del ala oeste anotó un nombre. A quien ella anota, también quiero verlo yo."
@@ -23110,7 +23110,7 @@ msgid "一位看上去很和蔼的老裁缝，正在缝制衣服。\n"
 msgstr "Un sastre anciano de aspecto muy amable, cosiendo una prenda."
 
 msgid "您也知道'碧海银针'？茶楼就在斜对面，我常去的。"
-msgstr "¿Usted también conoce la \"Aguja de plata del mar de jade\"? La casa de té está justo en diagonal, enfrente; voy seguido."
+msgstr "¿Usted también conoce la 'Aguja de plata del mar de jade'? La casa de té está justo en diagonal, enfrente; voy seguido."
 
 msgid "老裁缝抬起头看了你一眼，问道：客官买布还是制衣?\n"
 msgstr "El viejo sastre levanta la cabeza, te mira y pregunta: \"¿Viene por tela o por un traje a medida?\""
@@ -23269,7 +23269,7 @@ msgid "飞贼喝道: 你要是敢惹我, 咱们以后可没完!"
 msgstr "El ladrón de tejados grita: \"¡Si te metes conmigo, esto no se acaba aquí!\""
 
 msgid "好小子, 居然管起大爷的事来, 看招!"
-msgstr "¡Muchacho insolente, te metes en los asuntos del patrón! ¡Ahí va!"
+msgstr "¡{jugador:Muchacho|Muchacha} insolente, te metes en los asuntos del patrón! ¡Ahí va!"
 
 msgid "    陈剑秋在十几年前创立了振远镖局，凭着一手春风快意刀法在远近\n颇有些名头，因此镖局的生意还算可以。\n"
 msgstr "Hace más de diez años Chen Jianqiu fundó los Escoltas del Largo Camino. Con su Sable despreocupado de la brisa primaveral se ha hecho de cierto nombre en la comarca, y por eso el negocio de la agencia va bastante bien."
@@ -23314,7 +23314,7 @@ msgid "天星要告。告兵部，就得先说振远拿过兵部的钱。振远�
 msgstr "Tianxing quiere denunciar. Para denunciar al Ministerio de Guerra, primero tendría que decir que Largo Camino tomó dinero del Ministerio. El nombre de Largo Camino caería en el jianghu."
 
 msgid "你说一句「到此为止」，我写信叫他把账烧了。你要是站他那边，去京师跟他说「查到底」。"
-msgstr "Di \"Dejarlo ahí\" y le escribo para que queme el libro. Si estás de su lado, ve a la Capital y dile \"Hasta el fondo\"."
+msgstr "Di 'Dejarlo ahí' y le escribo para que queme el libro. Si estás de su lado, ve a la Capital y dile 'Hasta el fondo'."
 
 msgid "旧账？振远的账，清清楚楚。"
 msgstr "¿Cuentas viejas? Las cuentas de Largo Camino están claras como el agua."
@@ -23371,13 +23371,13 @@ msgid "镖交到了，叔父来信夸你。振远欠你一个人情。"
 msgstr "El cargamento llegó y mi tío escribió para elogiarte. Largo Camino te debe un favor."
 
 msgid "镖交给叔父，京师东街北头的振远总局。老周推车——跟他说一声「上路」。"
-msgstr "Entrega el cargamento a mi tío, en la Sede del Largo Camino, al norte de la Calle Este de la Capital. El Viejo Zhou empuja el carro; dile \"En marcha\"."
+msgstr "Entrega el cargamento a mi tío, en la Sede del Largo Camino, al norte de la Calle Este de la Capital. El Viejo Zhou empuja el carro; dile 'En marcha'."
 
 msgid "本局的人，我就不多说了。镖交到叔父手里，回来你就是镖头。"
 msgstr "Eres de los nuestros, así que no diré mucho. Pon el cargamento en manos de mi tío y, cuando regreses, serás jefe de escoltas."
 
 msgid "老周推车，你跟着——跟他说一声「上路」。碎石小路那一段荒，当心。"
-msgstr "El Viejo Zhou empuja el carro y tú lo sigues. Dile \"En marcha\". El tramo del Sendero de grava es desolado: ten cuidado."
+msgstr "El Viejo Zhou empuja el carro y tú lo sigues. Dile 'En marcha'. El tramo del Sendero de grava es desolado: ten cuidado."
 
 msgid "好。两箱红货，京师振远总局收，交给我叔父陈天星。"
 msgstr "Bien. Dos cofres de mercancía valiosa para la Sede del Largo Camino de la Capital, que se entregan a mi tío, Chen Tianxing."
@@ -23524,7 +23524,7 @@ msgid "来得正好。有一趟红货要走京师总局，镖局里的人手都�
 msgstr "Llegas justo a tiempo. Hay un cargamento de mercancía valiosa para la Sede del Largo Camino en la Capital, y los hombres de la agencia ya salieron todos."
 
 msgid "你肯跟车走一趟吗？问我「走镖」。"
-msgstr "¿Te animas a acompañar el carro? Pregúntame por \"Viaje de escolta\"."
+msgstr "¿Te animas a acompañar el carro? Pregúntame por 'Viaje de escolta'."
 
 msgid "坐在柜台后面，门板上了一半。"
 msgstr " se sienta detrás del mostrador, con la mitad de los postigos puestos."
@@ -23893,7 +23893,7 @@ msgid "泛著黄光，上面刻著镇国大将军。\n"
 msgstr "Reluce con un brillo amarillo y lleva grabado \"Gran General Guardián\"."
 
 msgid "行云流水，如劲风之竹，气聚于锋，如晦如明，斯行于技，缓动而\n瞬攻，乃徐如林，急如风，不动如山，侵略如火。\n"
-msgstr "Fluye como las nubes y el agua, firme como el bambú ante el viento recio; el qi se reúne en el filo, oscuro como el ocaso, claro como el alba. Llevado a la técnica, se mueve despacio y ataca en un instante: sereno como el bosque, veloz como el viento, inmóvil como la montaña, arrasador como el fuego."
+msgstr "Fluye como las nubes y el agua, firme como el bambú ante el viento recio; el Qi se reúne en el filo, oscuro como el ocaso, claro como el alba. Llevado a la técnica, se mueve despacio y ataca en un instante: sereno como el bosque, veloz como el viento, inmóvil como la montaña, arrasador como el fuego."
 
 msgid "这是一个铜制的书匣，可以用来装一些书。\n"
 msgstr "Un estuche de bronce para libros, útil para guardar unos cuantos."
@@ -23980,7 +23980,7 @@ msgid "大队长说道:哦喔！还真有心啊，真是谢谢你了。\n"
 msgstr "El Capitán dice: \"¡Oh! Sí que tienes buena voluntad. Muchas gracias.\""
 
 msgid "大队长说道:我已帮你列入名册了，从今天你可自由地出入营区了。\n"
-msgstr "El Capitán dice: \"Ya te anoté en la lista. Desde hoy puedes entrar y salir del campamento como quieras.\""
+msgstr "El Capitán dice: \"Ya te anoté en el registro. Desde hoy puedes entrar y salir del campamento como quieras.\""
 
 msgid "大队长说道:你的诚意不够喔，再多缴点吧。\n"
 msgstr "El Capitán dice: \"Tu sinceridad no alcanza; paga un poco más.\""
@@ -24043,7 +24043,7 @@ msgid "盖印的是军师赫造基。印找回来的前一夜，他的帐里一�
 msgstr "Quien estampó fue el consejero He Zaoji. La noche antes de que apareciera el sello, la lámpara de su tienda no se apagó en toda la noche."
 
 msgid "我原是禁卫军的队长，先帝调我来，是要我看着这道关。……你带着路引，去将军营帐问军师「路引」。"
-msgstr "Fui capitán de la Guardia Imperial; el difunto emperador me mandó aquí para vigilar este paso... Lleva los salvoconductos a la tienda del General y pregúntale al consejero por \"Salvoconductos\"."
+msgstr "Fui capitán de la Guardia Imperial; el difunto emperador me mandó aquí para vigilar este paso... Lleva los salvoconductos a la tienda del General y pregúntale al consejero por 'Salvoconductos'."
 
 msgid "将军的印，问将军。"
 msgstr "El sello del General: pregúntale al General."
@@ -24160,7 +24160,7 @@ msgid "从你手里抽过一张路引，对着帐门的亮看了看左下角那�
 msgstr " toma un salvoconducto de tu mano y lo alza a la luz de la puerta de la tienda para mirar el sello de la esquina inferior izquierda."
 
 msgid "「天驼关铁卫营」……是我的印，一笔不差。"
-msgstr "\"Campamento de la Guardia de Hierro del Paso del Camello\"... Es mi sello, sin un trazo de diferencia."
+msgstr "'Campamento de la Guardia de Hierro del Paso del Camello'... Es mi sello, sin un trazo de diferencia."
 
 msgid "丢过三天，找回来了。那三天有人拿它盖过什么——我说过，我不想知道。"
 msgstr "Se perdió tres días y apareció. Lo que alguien estampó con él en ese tiempo: ya te lo dije, no quiero saberlo."
@@ -24208,7 +24208,7 @@ msgid "整肃，就在这座营里：军师交给你拿下，路引从此停了�
 msgstr "La depuración se hace aquí, dentro de este campamento: el consejero queda en tus manos para que lo derribes y los salvoconductos se acaban desde hoy. De lo del Norte del Paso no se informa a la corte."
 
 msgid "拿人是捕快的差事。他懂茅山的术，我的兵近不了他的身——问他「路引」，他就知道瞒不住了。"
-msgstr "Hacer arrestos es trabajo de alguacil. Conoce las artes del Monte Mao y mis soldados no pueden acercársele. Pregúntale por \"Salvoconductos\" y sabrá que ya no puede ocultarlo."
+msgstr "Hacer arrestos es trabajo de alguacil. Conoce las artes del Monte Mao y mis soldados no pueden acercársele. Pregúntale por 'Salvoconductos' y sabrá que ya no puede ocultarlo."
 
 msgid "整肃什么？我的营，我自己管。"
 msgstr "¿Depurar qué? Mi campamento lo gobierno yo."
@@ -24400,16 +24400,16 @@ msgid "此处为黄石隘口驻军的入口，东方为军队饮食的地方，�
 msgstr "Esta es la entrada de la guarnición del Desfiladero de Piedra Amarilla. Al este está el lugar donde come el ejército, y a ambos lados de la puerta dos soldados montan guardia. Al norte y al sur están las tiendas de los soldados."
 
 msgid "地上有些食物的残渣，而中央地带则有一营火，在边边则有一个水\n井，想必是官兵们用来汲水用的，南北两侧为小队长的营帐，东方则是\n副将军的营帐，如果没有事情冒然进入是会被斥责。\n"
-msgstr "Hay restos de comida en el suelo, una fogata en el centro y, a un lado, un pozo, sin duda donde los soldados sacan agua. Al norte y al sur están las tiendas de los jefes de escuadra, y al este la del lugarteniente; si entras sin motivo, te regañarán."
+msgstr "Hay restos de comida en el suelo, una fogata en el centro y, a un lado, un pozo, sin duda donde los soldados sacan agua. Al norte y al sur están las tiendas de los cabos, y al este la del lugarteniente; si entras sin motivo, te regañarán."
 
 msgid "这是个由粗略的布料所搭成的小营帐，里面只有三二个小兵，其他的\n小兵，大概在另一个小兵营帐里赌博聊天吧，而东边则是小队长的营帐。\n"
-msgstr "Una tienda pequeña armada con tela burda; dentro solo hay dos o tres soldados. Los demás probablemente estén apostando y charlando en la otra tienda de soldados. Al este está la tienda del jefe de escuadra."
+msgstr "Una tienda pequeña armada con tela burda; dentro solo hay dos o tres soldados. Los demás probablemente estén apostando y charlando en la otra tienda de soldados. Al este está la tienda del cabo."
 
 msgid "这里有一大群的小兵，不知道是在做什么，营帐中央有一张桌子，上\n面堆满了各式各样的赌具，小板凳，和茶水。\n"
 msgstr "Aquí hay un grupo grande de soldados, haciendo quién sabe qué. En el centro de la tienda hay una mesa repleta de todo tipo de utensilios de apuestas, banquitos y té."
 
 msgid "这里是小队长的营帐，四周仍旧和小兵营帐一样的空旷，但营帐的布\n料倒是比小兵营帐好多了，北侧有两把凉椅，看来定是小队长偷懒时休息\n的地方。\n"
-msgstr "Esta es la tienda del jefe de escuadra. Tan vacía como las de los soldados, pero con una tela mucho mejor. En el lado norte hay dos sillas de reposo, sin duda donde el jefe descansa cuando se hace el flojo."
+msgstr "Esta es la tienda del cabo. Tan vacía como las de los soldados, pero con una tela mucho mejor. En el lado norte hay dos sillas de reposo, sin duda donde el cabo descansa cuando se hace el flojo."
 
 msgid "类似北边的营帐，空空荡荡的，看起来一点也不像是军营，一点威武\n的感觉也没有，在这也有两把简易的凉椅，两位队长，平常小兵没有尢许\n是不能擅自进入这里的，向东北是副将营帐，但没有经过「允许」是不得\n进入的。\n"
 msgstr "Parecida a la tienda del norte: vacía y hueca, no parece en absoluto un campamento militar, sin nada de dignidad marcial. También hay aquí dos sencillas sillas de reposo y dos capitanes; los soldados comunes no pueden entrar sin permiso. Hacia el noreste está la tienda del lugarteniente, pero no se puede entrar sin \"permiso\"."
@@ -24430,7 +24430,7 @@ msgid "草压天顶的情况依旧，唯西侧亮光逐渐显明，看来西侧�
 msgstr "La hierba sigue pesando sobre el cielo, pero la luz del oeste se vuelve cada vez más clara; parece que no lejos hacia el oeste hay una salida. La piedra amarilla está moteada de puntos blancos redondos, como por efecto de un haz de luz blanca que la hubiera iluminado por mucho tiempo. El paisaje brumoso por fin se ve del todo nítido. Hacia el este sigue el camino de vuelta a la encrucijada, mientras que la luz del oeste te atrae hacia lo más hondo."
 
 msgid "天光点著，华光亮，大概就是这样的一个情形吧，穿过了黄石穿\n林路，一束极大的光注猛然照射到你的身上，犹如沐于春风，心情爽\n朗极了，但面对北侧奇特的镜子居然有种令人不可抗拒的压力，在这\n尺尺地方，镜面反射日光，强照黄石穿林路，想到这让你有种莫名的\n恐惧，在莫名中被吸引而来的恐惧，进入或离开，生死一瞬间。\n"
-msgstr "La luz del cielo se enciende, brillante y esplendorosa: debe de ser algo así. Al atravesar el Camino de Piedra Amarilla entre el bosque, un enorme haz de luz cae de golpe sobre ti, como si te bañaras en una brisa de primavera, y te sientes de un ánimo estupendo. Pero ante el extraño espejo del norte sientes una presión irresistible. En este reducido espacio el espejo refleja la luz del sol y la lanza con fuerza sobre el Camino de Piedra Amarilla. Al pensarlo te asalta un miedo sin nombre, el miedo de ser atraído sin saber por qué: entrar o irse, la vida o la muerte en un instante."
+msgstr "La luz del cielo se enciende, brillante y esplendorosa: debe de ser algo así. Al atravesar el Camino de Piedra Amarilla entre el bosque, un enorme haz de luz cae de golpe sobre ti, como si te bañaras en una brisa de primavera, y te sientes de un ánimo estupendo. Pero ante el extraño espejo del norte sientes una presión irresistible. En este reducido espacio el espejo refleja la luz del sol y la lanza con fuerza sobre el Camino de Piedra Amarilla. Al pensarlo te asalta un miedo sin nombre, el miedo de ser {jugador:atraído|atraída} sin saber por qué: entrar o irse, la vida o la muerte en un instante."
 
 msgid "来到镜内，前面呈现三面通道，各个通道皆有其不同的气氛传出\n，中道有浓厚的竹之气息，上道迷香之味不止，下道呕味不停，不定\n的上空，不停蠢地之幻地，空气被抽丝剥茧，呼吸也愈来愈困难，不\n停变动的景象，快决定吧!!暗中之招唤，心中为之一震，快步踏离此\n一不祥的空间。\n"
 msgstr "Dentro del espejo, tres pasajes se abren ante ti, cada uno con un ambiente distinto. El pasaje del medio tiene un fuerte aroma de bambú; en el de arriba hay un perfume embriagador que no cesa; el de abajo apesta sin parar. El cielo cambia sin descanso y el suelo es una ilusión que nunca se detiene; el aire se va deshilachando y respirar cuesta cada vez más. La escena no deja de cambiar: ¡decide pronto! Un llamado desde la oscuridad te hace estremecer el corazón y te apresuras a salir de este espacio de mal agüero."
@@ -24439,7 +24439,7 @@ msgid "修长的竹子映满眼廉，穹空无边，风拂无形，芬芳的气�
 msgstr "Esbeltos bambúes llenan tus ojos, el cielo no tiene límites y la brisa no tiene forma; una fragancia flota en el viento claro, como si te bañaras en una brisa de primavera: un sendero de bambú lleno de vida. Quien se detiene aquí se siente de pronto despejado y olvida los peligros del jianghu; al andar, encuentra el qi condensado en huellas de escritura, señal de la gran fuerza interior del dueño del lugar, y te dan ganas de ver qué clase de persona vive en un sitio tan bendecido."
 
 msgid "此处的竹林比起入口的竹子更为高大耸直，也有些小动物在这四\n周跳来跳去，跑来跑去的，更是生气盎然，不时有也黄莺唱吟著美妙\n的诗句，清新宛然，人间仙境，只是偶尔有那怪异的强风袭卷而致，\n另人难以忍受，在往入探头，有一似人大的黄石挺立于内，而其四周\n隐隐约约有些许正气溢散而出。\n"
-msgstr "Aquí el bambú es más alto y recto que a la entrada, y algunos animalitos saltan y corren por los alrededores, llenos de vida; de vez en cuando una oropéndola canta versos hermosos, frescos y claros, un paraíso en la tierra. Solo de vez en cuando un viento fuerte y raro lo barre todo y resulta insoportable. Asomándote más adentro, ves una roca amarilla del tamaño de una persona erguida, y a su alrededor se escapa, tenue, un aire de rectitud."
+msgstr "Aquí el bambú es más alto y recto que a la entrada, y algunos animalitos saltan y corren por los alrededores, llenos de vida; de vez en cuando una oropéndola canta versos hermosos, frescos y claros, un paraíso en la tierra. Solo de vez en cuando un viento fuerte y raro lo barre todo y resulta insoportable. Asomándote más adentro, ves una roca amarilla del tamaño de una persona erguida, y a su alrededor se escapa, tenue, una energía recta."
 
 msgid "北方有一个大黄石堵住去路，洋洋洒洒的蓝光从大黄石的四周漫\n漫而出，竹林参天，在此成一半凹型，团团围住了北方的去路，若想\n一窥究竟，看来非得推开这巨大的黄石才行，风势愈来愈强，四周的\n竹子发出了嗡嗡的鸣声，彷佛叫人不要靠近，此地之主人看似不欢迎\n别人来参观。\n"
 msgstr "Al norte, una gran roca amarilla cierra el paso, y una luz azul brota de a poco por todo su contorno. El bambú altísimo forma aquí una media concavidad que cierra el camino del norte. Si quieres ver qué hay, parece que tendrás que empujar esta roca enorme. El viento se vuelve cada vez más fuerte y los bambúes alrededor zumban, como si te pidieran que no te acerques: el dueño de este lugar parece no querer visitas."
@@ -26674,7 +26674,7 @@ msgid "你要缚何物? \n"
 msgstr "¿Qué quieres atar?"
 
 msgid "一株寒谷幽兰，散发着淡淡的香气, 你似乎在晚月庄闻到过.\n"
-msgstr "Una orquídea del valle frío que despide un aroma tenue; te parece haberlo olido en la Mansión Luna Tardía."
+msgstr "Una orquídea del Valle Frío que despide un aroma tenue; te parece haberlo olido en la Mansión Luna Tardía."
 
 msgid "这是一本讲述吐纳、养生之法的古书，现在已经不多见了。\n"
 msgstr "Un libro antiguo sobre respiración y cuidado de la salud, que hoy ya se ve poco."
@@ -26878,7 +26878,7 @@ msgid "武官跟在你身后，一只手一直按在剑柄上。\n"
 msgstr "El oficial camina tras de ti, con una mano siempre sobre la empuñadura de la espada."
 
 msgid "卖糖葫芦的吆喝道：糖葫芦！好甜好香的糖葫芦！\n"
-msgstr "El vendedor de frutas acarameladas pregona: \"¡Frutas acarameladas! ¡Dulces y aromáticas!\""
+msgstr "El vendedor de brochetas de espino pregona: \"¡Brochetas de espino! ¡Dulces y aromáticas!\""
 
 msgid "衙役精明强干, 满脸正气. \n"
 msgstr "Un guardia del tribunal listo y robusto, de rostro recto."
@@ -26902,7 +26902,7 @@ msgid "老王爷"
 msgstr "Viejo príncipe"
 
 msgid "我们都是槐阳王程老王爷麾下的人。老王爷镇关北二十年，兵部的令到了他手里，不合先帝法度的，一概不接。"
-msgstr "Todos somos gente del viejo Príncipe Cheng de Huaiyang. Guardó el Norte del Paso veinte años; las órdenes del Ministerio de Guerra que llegaban a sus manos y no cuadraban con la ley del emperador anterior, las rechazaba todas."
+msgstr "Todos somos gente del viejo Príncipe Cheng de Huaiyang. Guardó el Norte del Paso veinte años; las órdenes del Ministerio de Guerra que llegaban a sus manos y no cuadraban con la ley del difunto emperador, las rechazaba todas."
 
 msgid "兵部的令"
 msgstr "Orden del Ministerio de Guerra"
@@ -26911,7 +26911,7 @@ msgid "老王爷拒了。我说过了。"
 msgstr "El viejo príncipe la rechazó. Ya lo dije."
 
 msgid "兵部去年也给关北发过一道令：征三千民夫修官道，寻剑。老王爷拒了——先帝的令只说寻剑，没说征人。"
-msgstr "El año pasado el Ministerio de Guerra también envió al Norte del Paso una orden: reclutar a tres mil peones para arreglar el camino real y buscar la espada. El viejo príncipe la rechazó: la orden del emperador anterior decía solo buscar la espada, no reclutar gente."
+msgstr "El año pasado el Ministerio de Guerra también envió al Norte del Paso una orden: reclutar a tres mil peones para arreglar el camino real y buscar la espada. El viejo príncipe la rechazó: la orden del difunto emperador decía solo buscar la espada, no reclutar gente."
 
 msgid "拒了之后，关北的民夫还是一批一批地没了。往哪儿去的，老王爷查到今天。"
 msgstr "Tras el rechazo, los peones del Norte del Paso siguieron desapareciendo, tanda tras tanda. Adónde van, el viejo príncipe lo investiga hasta hoy."
@@ -26929,7 +26929,7 @@ msgid "这一带我可熟了。\n"
 msgstr "Conozco muy bien esta zona."
 
 msgid "老身隐隐约约地听说过什么‘草’啊，‘狮子’的，具体的也就不知了。\n"
-msgstr "Esta vieja ha oído algo vago de una \"hierba\" y de un \"león\", pero no sabe más."
+msgstr "Esta vieja ha oído algo vago de una 'hierba' y de un 'león', pero no sabe más."
 
 msgid "对不起，老婆子耳背，$RESPECT您是想买东西吧？这儿有价钱 ...."
 msgstr "Perdone, esta vieja es dura de oído. ¿Quiere comprar algo, $RESPECT? Aquí tengo los precios..."
@@ -26941,7 +26941,7 @@ msgid "这是一位来乔阴县游玩的游客。\n"
 msgstr "Es un visitante venido a pasear por el condado de Sombra Alta."
 
 msgid "我游历过大半个中国，小小的乔阴县对我能有什么秘密？\n"
-msgstr "He recorrido casi todo el país. ¿Qué secretos puede tener para mí el pequeño condado de Sombra Alta?"
+msgstr "He recorrido más de la mitad del país. ¿Qué secretos puede tener para mí el pequeño condado de Sombra Alta?"
 
 msgid "这个。。好象是给狮子衔去了。\n"
 msgstr "Eso... parece que se lo llevó el león en el hocico."
@@ -26995,10 +26995,10 @@ msgid "...退...堂...!"
 msgstr "¡...Se... levanta... la... sesión!"
 
 msgid "$N对$n说道: 再敢犯案, 定斩不饶!"
-msgstr "$N{:el} {n:te dice|le dice a $n{:el}}: \"¡Otro delito más y te mando decapitar sin piedad!\""
+msgstr "$N{:el} {n:te dice|le dice a $n{:el}}: \"¡Otro delito más y {n:te|lo|la} mando decapitar sin piedad!\""
 
 msgid "真是对不起, 下人办事不周, 让您受委屈了."
-msgstr "Lo siento mucho; mis hombres fueron descuidados y te hicieron pasar un mal rato."
+msgstr "Lo siento mucho; mis hombres fueron descuidados y le hicieron pasar un mal rato."
 
 msgid "接过名册，一页一页翻下去，翻到「槐阳河工所」的戳，停了很久。"
 msgstr " recibe el registro, lo hojea página por página y se detiene largo rato en el cuño de la \"Oficina fluvial de Huaiyang\"."
@@ -27079,7 +27079,7 @@ msgid "路引上是天驼关的印。印在严将军手里——带着路引去�
 msgstr "Los salvoconductos llevan el sello del Paso del Camello. El sello está en manos del general Yan: ve con ellos al Paso del Camello y pregúntale."
 
 msgid "两个都拿下了？路引带来本县看——问「路引」。"
-msgstr "¿Atrapaste a los dos? Trae los salvoconductos para que los vea: pregunta por \"Salvoconductos\"."
+msgstr "¿Atrapaste a los dos? Trae los salvoconductos para que los vea: pregunta por 'Salvoconductos'."
 
 msgid "雪亭镇西边青石官道的路口、绮云镇口，两个挂着官府告示收过路费的。乔阴县衙没贴过那样的告示——拿下，搜身。"
 msgstr "En la encrucijada del camino real de piedra azul, al oeste de Pabellón Nevado, y a la entrada de Tejenubes: dos individuos cobran peaje bajo un aviso oficial. El tribunal de Sombra Alta nunca fijó un aviso así. Atrápalos y regístralos."
@@ -27205,7 +27205,7 @@ msgid "接过文书，一张一张看过去，看到末尾的印，看了很久�
 msgstr " recibe los documentos, los repasa uno a uno y se queda largo rato mirando el sello del final."
 
 msgid "印是兵部的，不假。纸是新的，字也是新的——这不是先帝的令。"
-msgstr "El sello es del Ministerio de Guerra, no es falso. Pero el papel es nuevo y la letra también es nueva: esta no es una orden del emperador anterior."
+msgstr "El sello es del Ministerio de Guerra, no es falso. Pero el papel es nuevo y la letra también es nueva: esta no es una orden del difunto emperador."
 
 msgid "可要动兵部的人，须有人证：印是谁盖的，人去了哪，得有人站在这堂上说。纸能证纸，不能证人。"
 msgstr "Pero para tocar a la gente del Ministerio de Guerra hace falta un testigo: quién puso el sello, adónde fue la gente; alguien tiene que decirlo de pie en esta sala. El papel prueba el papel, no a la persona."
@@ -27238,7 +27238,7 @@ msgid "供词"
 msgstr "Declaración"
 
 msgid "陈显祖的供词有力：原令只一句，征民夫、拿人的不是先帝的令——人证、物证都在。叔父见了这封信，关北的兵不会再替人修官道。"
-msgstr "La declaración de Chen Xianzu es contundente: la orden original decía una sola cosa, y la de reclutar peones y apresar gente no era del emperador anterior. Hay testigo y hay pruebas. Cuando mi tío vea esta carta, las tropas del Norte del Paso no volverán a arreglar caminos para otros."
+msgstr "La declaración de Chen Xianzu es contundente: la orden original decía una sola cosa, y la de reclutar peones y apresar gente no era del difunto emperador. Hay testigo y hay pruebas. Cuando mi tío vea esta carta, las tropas del Norte del Paso no volverán a arreglar caminos para otros."
 
 msgid "没有供词，只有纸。本县写信时迟疑了半晌——叔父信不信纸，本县不敢说。"
 msgstr "No hay declaración, solo papel. Al escribir la carta dudé un buen rato: si mi tío creerá al papel, no me atrevo a decirlo."
@@ -27256,7 +27256,7 @@ msgid "跪下了。"
 msgstr " se arrodilla."
 
 msgid "罪人陈显祖。二十年前老松岭那队白衣武官，罪人在其中。原令只一句——寻剑，不得扰民一户。征民夫、拿人的，不是先帝的令，是后头来的。"
-msgstr "El culpable es Chen Xianzu. Hace veinte años, en el Cerro de los Pinos Viejos, el culpable estaba entre aquellos oficiales de blanco. La orden original decía una sola cosa: buscar la espada, sin molestar a una sola casa. Reclutar peones y apresar gente no era orden del emperador anterior: vino después."
+msgstr "El culpable es Chen Xianzu. Hace veinte años, en el Cerro de los Pinos Viejos, el culpable estaba entre aquellos oficiales de blanco. La orden original decía una sola cosa: buscar la espada, sin molestar a una sola casa. Reclutar peones y apresar gente no era orden del difunto emperador: vino después."
 
 msgid "抄本呈上来。"
 msgstr "Presenta la copia."
@@ -27265,7 +27265,7 @@ msgid "接过抄本，对着文书上的印看了半晌，提笔录供。"
 msgstr " recibe la copia, la compara un buen rato con el sello del documento, toma el pincel y registra la declaración."
 
 msgid "印是兵部的，令不是先帝的。录了。"
-msgstr "El sello es del Ministerio de Guerra; la orden no es del emperador anterior. Queda registrado."
+msgstr "El sello es del Ministerio de Guerra; la orden no es del difunto emperador. Queda registrado."
 
 msgid "另取一张纸，写了一封信，封好，压上县印。"
 msgstr " toma otro papel, escribe una carta, la sella y le estampa el sello del condado."
@@ -27376,13 +27376,13 @@ msgid "我给你的山药蛋好吃吗??"
 msgstr "¿Te gustó el ñame que te di?"
 
 msgid "老者抚摸着你的头，老泪纵横。\n说道：哎。。。你这可怜的孩子，饿得面黄肌瘦的。\n老者哆哆嗦嗦从怀里拿出个小布包，打开一层又一层，打开一层又一层..最后拿出个小山药蛋塞到你手里。"
-msgstr "El anciano te acaricia la cabeza, con lágrimas rodándole por el rostro viejo.\nDice: \"Ay... pobre criatura, qué pálido y flaco estás de hambre.\"\nEl anciano, temblando, saca del pecho un bultito de tela; lo abre capa tras capa, capa tras capa... y al final saca un ñame pequeño y te lo mete en la mano."
+msgstr "El anciano te acaricia la cabeza, con lágrimas rodándole por el rostro viejo.\nDice: \"Ay... pobre criatura, qué {jugador:pálido y flaco|pálida y flaca} estás de hambre.\"\nEl anciano, temblando, saca del pecho un bultito de tela; lo abre capa tras capa, capa tras capa... y al final saca un ñame pequeño y te lo mete en la mano."
 
 msgid "老者捂著受伤的地方，白发散乱，勉强稳住身行。"
 msgstr "El anciano se sujeta donde está herido; con los cabellos blancos revueltos, apenas consigue mantenerse en pie."
 
 msgid "老者从口袋摸出一粒象小山药蛋的仙豆吞了下去。"
-msgstr "El anciano saca del bolsillo un frijol inmortal parecido a un ñame pequeño y se la traga."
+msgstr "El anciano saca del bolsillo un frijol inmortal parecido a un ñame pequeño y se lo traga."
 
 msgid "采药老者眼放异光，说道：你真的不喜欢山药蛋吗??"
 msgstr "El anciano recolector de hierbas te mira con un destello extraño y dice: \"¿De verdad no te gustan los ñames?\""
@@ -27406,19 +27406,19 @@ msgid "    这里明显的出口是北边和南边。"
 msgstr "Las salidas evidentes son el norte y el sur."
 
 msgid "黑无常发出一阵像呻吟的声音，当他发现你正注视著他的时候，瞪了你一眼。"
-msgstr "La Impermanencia Negra emite un sonido como un gemido; al darse cuenta de que lo miras, te lanza una mirada feroz."
+msgstr "El Impermanente Negro emite un sonido como un gemido; al darse cuenta de que lo miras, te lanza una mirada feroz."
 
 msgid "黑无常说道：喂！新来的，你叫什么名字？ "
-msgstr "La Impermanencia Negra dice: \"¡Eh, el nuevo! ¿Cómo te llamas?\""
+msgstr "El Impermanente Negro dice: \"¡Eh, {jugador:el nuevo|la nueva}! ¿Cómo te llamas?\""
 
 msgid "黑无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。"
-msgstr "La Impermanencia Negra resopla, saca de la manga algo parecido a un libro de cuentas y lo hojea."
+msgstr "El Impermanente Negro resopla, saca de la manga algo parecido a un libro de cuentas y lo hojea."
 
 msgid "黑无常阁上册子，说道：咦？阳寿未尽？怎么可能？"
-msgstr "La Impermanencia Negra cierra el libro y dice: \"¿Eh? ¿La vida aún no se te acaba? ¿Cómo es posible?\""
+msgstr "El Impermanente Negro cierra el libro y dice: \"¿Eh? ¿La vida aún no se te acaba? ¿Cómo es posible?\""
 
 msgid "黑无常搔了搔头，叹道：罢了罢了，你走吧。"
-msgstr "La Impermanencia Negra se rasca la cabeza y suspira: \"Bah, bah, vete.\""
+msgstr "El Impermanente Negro se rasca la cabeza y suspira: \"Bah, bah, vete.\""
 
 msgid "一股阴冷的浓雾突然出现，很快地包围了你。"
 msgstr "De repente surge una densa niebla fría y oscura que muy pronto te envuelve."
@@ -33139,7 +33139,7 @@ msgid "一把通体乌黑的长剑，剑身上没有一点光，像是把照上�
 msgstr "Una espada larga negra de punta a punta. La hoja no tiene ni un destello, como si se hubiera tragado toda la luz que cae sobre ella. En la mano se siente helada, y en el lomo hay grabada una línea de letra fina que no entiendes.\n"
 
 msgid "你从逆灵宫账房的大案上抄下来的一张名单，一行一口人。字是你的，墨还没干透。\n"
-msgstr "Una lista que copiaste del gran escritorio de la contaduría del Palacio Negro: una línea, una persona. La letra es tuya, y la tinta aún no se ha secado.\n"
+msgstr "Una lista que copiaste de la mesa larga de la contaduría del Palacio Negro: una línea, una persona. La letra es tuya, y la tinta aún no se ha secado.\n"
 
 msgid "这张名单要递出去，不能随便丢。"
 msgstr "Esta lista hay que entregarla; no se puede tirar así como así."
@@ -34744,10 +34744,10 @@ msgid "皮子、盐、砖茶，从西边来，到槐阳换马。关北的矮脚�
 msgstr "Pieles, sal y té en ladrillo vienen del oeste y se cambian por caballos en Huaiyang. Los caballos de patas cortas del Norte del Paso aguantan la carrera, y la gente de dentro del paso se los disputa."
 
 msgid "关北好啊，没人查你的货。王爷只收一成，剩下的都是你的。"
-msgstr "El Norte del Paso es bueno: nadie revisa tu mercancía. El príncipe cobra solo la décima parte y el resto es tuyo."
+msgstr "El Norte del Paso es bueno: nadie revisa su mercancía. El príncipe cobra solo la décima parte y el resto es suyo."
 
 msgid "草原东边？别去。兵部的人圈了一大片地在挖什么，见了生面孔就拿去当民夫。我们的驼队都绕着走。"
-msgstr "¿El este de la estepa? No vayas. La gente del Ministerio cercó un terreno enorme y cava no sé qué; a todo rostro desconocido lo atrapan de peón. Nuestras caravanas lo rodean."
+msgstr "¿El este de la estepa? No vaya. La gente del Ministerio cercó un terreno enorme y cava no sé qué; a todo rostro desconocido lo atrapan de peón. Nuestras caravanas lo rodean."
 
 msgid "一个光着膀子的铁匠，胸口的汗混着铁屑。砧子上一把弯刀刚出炉，还红着。他打的是马刀——关北的刀都带弯，马上好使。\n"
 msgstr "Un herrero con el torso desnudo; el sudor se le mezcla con las virutas de hierro del pecho. Sobre el yunque, un sable curvo recién salido de la fragua, todavía al rojo. Forja sables de caballería: todos los del Norte del Paso son curvos, buenos para montar.\n"
@@ -34756,16 +34756,16 @@ msgid "铁匠把一把弯刀按进水槽，嗤的一声白烟。\n"
 msgstr "El herrero hunde un sable curvo en el pilón; sisea y sube una nube de vapor blanco.\n"
 
 msgid "铁匠说道：关北的刀带弯，马上一撩就是一条口子。\n"
-msgstr "El herrero dice: \"El sable del Norte del Paso es curvo: a caballo, un tajo ascendente y ya abriste una herida.\"\n"
+msgstr "El herrero dice: \"El sable del Norte del Paso es curvo: a caballo, un tajo ascendente y ya abrió una herida.\"\n"
 
 msgid "关北的马刀，弯的，马上使的。十五两一把，不还价。你要是在平地上使，也凑合。"
-msgstr "Sable del Norte del Paso: curvo, para usar a caballo. Quince taels cada uno, sin regatear. Si lo usas a pie, también sirve."
+msgstr "Sable del Norte del Paso: curvo, para usar a caballo. Quince taels cada uno, sin regatear. Si lo usa a pie, también sirve."
 
 msgid "铁"
 msgstr "Hierro"
 
 msgid "铁从关里来，炭是草原上的羊粪烧的。别笑，羊粪火稳。"
-msgstr "El hierro viene de dentro del paso, y el carbón es estiércol de oveja de la estepa. No te rías: el fuego de estiércol es parejo."
+msgstr "El hierro viene de dentro del paso, y el carbón es estiércol de oveja de la estepa. No se ría: el fuego de estiércol es parejo."
 
 msgid "兵部的人来买过铁镐，一买两百把。两百把铁镐，挖的不是官道。"
 msgstr "La gente del Ministerio vino a comprar picos de hierro: doscientos de una vez. Con doscientos picos no se abre un camino real."
@@ -34786,7 +34786,7 @@ msgid "马"
 msgstr "Caballos"
 
 msgid "关北的矮脚马，不好看，耐跑。一天二百里，不吃精料。你要买，先学会骑——不会骑的人我不卖。"
-msgstr "Los caballos de patas cortas del Norte del Paso no son bonitos, pero aguantan. Doscientos li al día sin grano fino. Si quieres comprar, primero aprende a montar: a quien no sabe montar no le vendo."
+msgstr "Los caballos de patas cortas del Norte del Paso no son bonitos, pero aguantan. Doscientos li al día sin grano fino. Si quiere comprar, primero aprenda a montar: a quien no sabe montar no le vendo."
 
 msgid "那个高鼻子？大秦来的，说是什么剑会的人。在我这儿坐了半个月，天天想卖他那把剑换路费——没人识货。他那把剑是好东西，我看得出，可关北人不使短剑。"
 msgstr "¿Ese narizón? Viene de Daqin y dice que es de no sé qué hermandad de la espada. Lleva medio mes sentado aquí, queriendo vender esa espada para pagarse el viaje, y nadie sabe apreciarla. Es una buena pieza, se ve a leguas, pero en el Norte del Paso nadie usa espada corta."
@@ -34795,7 +34795,7 @@ msgid "兵部征马也征人。草原东边挖什么古坟，我的马卖过去�
 msgstr "El Ministerio también reclutó caballos, no solo gente. Al este de la estepa cavan no sé qué tumba antigua; les vendí veinte caballos y ni uno volvió. Con la gente es igual: los peones entran y no salen."
 
 msgid "关北是王爷的。王爷不奉兵部的令，兵部就自己来人。你看吧，早晚要出事。"
-msgstr "El Norte del Paso es del príncipe. El príncipe no acata las órdenes del Ministerio, y el Ministerio manda gente por su cuenta. Ya verás: tarde o temprano pasará algo."
+msgstr "El Norte del Paso es del príncipe. El príncipe no acata las órdenes del Ministerio, y el Ministerio manda gente por su cuenta. Ya verá: tarde o temprano pasará algo."
 
 msgid "卢卡老说的那个地方？海边，很远。他说他们的人都在那儿。"
 msgstr "¿Ese lugar del que Luca habla siempre? Junto al mar, muy lejos. Dice que toda su gente está allá."
@@ -35455,7 +35455,7 @@ msgid "管家说道：又少了一村的壮丁，今年的马料谁割。\n"
 msgstr "El mayordomo dice: \"Falta otro pueblo de hombres jóvenes; ¿quién va a segar el forraje de los caballos este año?\"\n"
 
 msgid "王爷在正厅。王爷不爱排场，你有话直说。"
-msgstr "El príncipe está en el salón principal. No le gusta la pompa; habla claro."
+msgstr "El príncipe está en el salón principal. No le gusta la pompa; hable claro."
 
 msgid "账上去年少了三百四十一个壮丁。三百四十一个，我一个个记的名字。"
 msgstr "En las cuentas del año pasado faltan trescientos cuarenta y un hombres jóvenes. Trescientos cuarenta y uno: los nombres los anoté uno por uno."
@@ -35539,7 +35539,7 @@ msgid "吕隼说道：今天的土方，少一筐扣一顿饭。\n"
 msgstr "Lu Sun dice: \"La tierra de hoy: un cesto menos, una comida menos.\"\n"
 
 msgid "吕隼叫道：拿下！兵部的工地动手就是反！\n"
-msgstr "Lu Sun grita: \"¡Que no escape! ¡Levantar la mano en las obras del Ministerio es rebelión!\""
+msgstr "Lu Sun grita: \"¡Atrápenlos! ¡Levantar la mano en las obras del Ministerio es rebelión!\""
 
 msgid "兵部的工地，闲人免进。要找人，拿兵部的文书来。"
 msgstr "Obras del Ministerio, prohibido el paso a curiosos. Si buscas a alguien, trae un documento del Ministerio."
@@ -35854,7 +35854,7 @@ msgid "一辆蒙着油布的骡车从东边过来，两个黑衣黑冠的道士�
 msgstr "Un carro de mula cubierto con una lona viene del este; dos taoístas de negro con gorro negro lo acompañan, uno llevando la mula y el otro caminando detrás. Bajo la lona alguien tose.\n"
 
 msgid "让开。宫里的车。"
-msgstr "Aparta. El carro del palacio."
+msgstr "Apártese. El carro del palacio."
 
 msgid "工地昨夜闹贼，两个挖不动的今天就接走，省得再丢。——走。"
 msgstr "Anoche hubo ladrones en las obras: hoy nos llevamos a los dos que ya no pueden cavar, para no perderlos. —Vamos."
@@ -35863,7 +35863,7 @@ msgid "骡车从你身边过去，往西、往南去了。油布底下的人没�
 msgstr "El carro de mula pasa a tu lado rumbo al oeste y luego al sur. Bajo la lona, quien iba ya no vuelve a hacer ruido.\n"
 
 msgid "宫里的车。让开。"
-msgstr "El carro del palacio. Aparta."
+msgstr "El carro del palacio. Apártese."
 
 msgid "兵部交办，宫里收管。慈悲。"
 msgstr "Encargo del Ministerio, custodia del palacio. Compasión."
@@ -36433,7 +36433,7 @@ msgid "她国色天香，娇丽无伦；温柔娴静，秀绝人寰。\n她姿�
 msgstr "De belleza fascinante y gracia sin par; dulce, serena y de una hermosura que el mundo rara vez ve.\nSu rostro es de una belleza excepcional, rara en este mundo. A su lado percibes el aroma delicado del Valle Frío.\n"
 
 msgid "她是惜春的妹妹，跟姐姐从小就在晚月庄\n长大。因为与双亲失散，被庄主收留。平\n常帮忙庄内琐碎事务。\n"
-msgstr "Es la hermana menor de Xichun. Creció con su hermana en la mansión desde pequeña. Perdió a sus padres y la señora de la mansión la acogió.\nSuele ayudar en los asuntos menudos de la mansión.\n"
+msgstr "Es la hermana menor de Xichun. Creció con su hermana en la mansión desde pequeña. Quedó separada de sus padres y la señora de la mansión la acogió.\nSuele ayudar en los asuntos menudos de la mansión.\n"
 
 msgid "她看起来很有活力，两眼明亮有神。给你\n一种巾帼不让须眉的气势，但刚毅之中似\n又隐含著女孩子有的娇柔。\n"
 msgstr "Parece llena de vitalidad, con unos ojos claros y brillantes. Te da una impresión de determinación que nada tiene que envidiar a la de un hombre,\naunque en esa firmeza se adivina la ternura propia de una muchacha.\n"
@@ -36844,7 +36844,7 @@ msgid "接她三鞭"
 msgstr "Aguantar sus tres latigazos"
 
 msgid "瑷伦的三鞭是真打：\n· 每一鞭都实打实地落在你身上。\n· 哪一鞭接不住，就算没接下：你会昏倒，但不伤性命、不留伤，歇一会儿就能再来。\n· 接不接得住看气长不长：气随内力上限涨，内力上限靠打坐——先向师父学一门内功、装上，再去打坐。\n确定接她三鞭吗？"
-msgstr "Los tres latigazos de Ailun van en serio:\n· Cada latigazo cae de verdad sobre ti.\n· Si no aguantas uno, no lo has superado: te desmayarás, pero sin riesgo de muerte ni heridas, y tras descansar un rato podrás volver.\n· Aguantar depende de lo largo que sea tu aliento: el Qi crece con el límite de Fuerza interior, y este sube meditando. Aprende primero un neigong con tu Shifu, equípalo y luego medita.\n¿Seguro que quieres aguantar sus tres latigazos?"
+msgstr "Los tres latigazos de Ailun van en serio:\n· Cada latigazo cae de verdad sobre ti.\n· Si no aguantas uno, no lo has superado: te desmayarás, pero sin riesgo de muerte ni heridas, y tras descansar un rato podrás volver.\n· Aguantar depende de cuánto dure tu Qi: el Qi crece con el límite de Fuerza interior, y este sube meditando. Aprende primero un neigong con tu Shifu, equípalo y luego medita.\n¿Seguro que quieres aguantar sus tres latigazos?"
 
 msgid "瑷伦看了你很久：倒了两回，还站到我面前来。这份硬气，我认——这三鞭，我不用内力。"
 msgstr "Ailun te mira largo rato: \"Caíste dos veces y aun así vuelves a plantarte ante mí. Esa dureza la reconozco: estos tres latigazos los daré sin Fuerza interior.\""
@@ -37072,7 +37072,7 @@ msgid "筱薇对你微笑，和善的对你点点头。"
 msgstr "Xiaowei te sonríe y te saluda con un gesto amable."
 
 msgid "筱薇对你微笑，以纤细轻柔的声音 \n 说道：这位$RESPECT，你好！欢迎来到晚月庄。"
-msgstr "Xiaowei te sonríe y, con voz suave y delicada,\n dice: \"Hola, $RESPECT. Te doy la bienvenida a la Mansión Luna Tardía.\""
+msgstr "Xiaowei te sonríe y, con voz suave y delicada,\n dice: \"Buen día, $RESPECT. Le doy la bienvenida a la Mansión Luna Tardía.\""
 
 msgid "我已经帮你做一个竹蜻蜓了呀! "
 msgstr "¡Ya te hice una libélula de bambú!"
@@ -37234,7 +37234,7 @@ msgid "你走进一间装饰华丽的大饭厅，有一种说不出的气派，�
 msgstr "Entras en un gran comedor de decoración suntuosa, con una prestancia indescriptible. En el centro hay una gran mesa redonda de madera de abeto tallada, cubierta con un mantel de seda de colores; platos de jade púrpura del Lago del Sur de primera, cuencos de porcelana de Xiangling y cucharas de plata con palillos de oro: un lujo extremo. Aquí es donde Luna Tardía invita a sus huéspedes, y donde de ordinario comen la señora de la mansión y las mayores del linaje.\n"
 
 msgid "这是一间膳房，中央摆了二张大圆桌。周围三十二张雕饰木藤椅。\n平常庄内上下用膳的地方，东边是厨房，西边则是大饭厅，这虽然不\n及饭厅华丽，但所有锅盘匙碗，也都是上等珍品。有大户人家的气派\n与富贵。\n"
-msgstr "Es el comedor: en el centro hay dos grandes mesas redondas con treinta y dos sillas de mimbre talladas alrededor. Es donde come toda la gente de la mansión; al este está la cocina y al oeste el gran comedor, que no es tan suntuoso, pero cuyas ollas, platos y cucharas son todos de primera. Tiene la prestancia y la riqueza de una gran casa.\n"
+msgstr "Es el comedor: en el centro hay dos grandes mesas redondas con treinta y dos sillas de mimbre talladas alrededor. Es donde come toda la gente de la mansión; al este está la cocina y al oeste el gran comedor, que no es tan suntuoso, pero cuyas ollas, platos, cucharas y cuencos son todos de primera. Tiene la prestancia y la riqueza de una gran casa.\n"
 
 msgid "你走进厨房，看到有好多的烹饪用品与设备，小蒸笼、大锅、平  \n炊灶、烧饭炉等，五花八门，式样齐全。旁边的大仓储中，更放满各\n式各样山珍美味，各种材料，调味物品应有尽有。里头的掌厨师姐们\n忙里忙外，在为准备一道道佳肴辛苦著! 闻到那阵阵美味的菜香，你\n的肚子咕噜咕噜叫了起来!\n"
 msgstr "Entras en la cocina y ves una gran variedad de utensilios y equipos de cocina: vaporeras pequeñas, grandes ollas, fogones planos, hornillos... de todo tipo y estilo. En la gran despensa de al lado hay toda clase de manjares de la montaña, ingredientes y condimentos, no falta nada. Las hermanas mayores cocineras corren de un lado a otro, afanadas en preparar plato tras plato. ¡Al oler esa fragancia de comida, te ruge el estómago!\n"
@@ -37279,7 +37279,7 @@ msgid "这是一个小花池，清澈的池水含著淡淡的幽香。池周围�
 msgstr "Es un pequeño estanque de pétalos; el agua clara tiene un perfume tenue. Alrededor hay muchas flores y plantas raras, y es como estar en una cámara de orquídeas: el aroma te llega hasta la cabeza y te templa el alma. Los pétalos de colores flotan sobre el estanque; entre cortinas de plumas y nubes, se agrupan muchas hermanas: unas juegan y se divierten, otras bailan con vuelo. A ti también te dan ganas de bañarte y descansar en el estanque.\n"
 
 msgid "你走到前院，你看到几块山石，东面一处假山小池。其上植有藤  \n萝、青芷，异草芬芳荔薛。池中几尾小鱼自在的游来游去。假山外隔\n著围篱，有一种山怀中的小花园的感觉。.\n"
-msgstr "Llegas al patio delantero y ves unas rocas; al este, una montaña artificial con un pequeño estanque. En ella crecen enredaderas, zhi azul y hierbas raras de aroma fragante. En el estanque nadan libres unos pececillos. Más allá de la montaña, tras una cerca, tienes la sensación de un pequeño jardín en el regazo de una montaña.\n"
+msgstr "Llegas al patio delantero y ves unas rocas; al este, una montaña artificial con un pequeño estanque. En ella crecen enredaderas, angélica azul y hierbas raras de aroma fragante. En el estanque nadan libres unos pececillos. Más allá de la montaña, tras una cerca, tienes la sensación de un pequeño jardín en el regazo de una montaña.\n"
 
 msgid "走进月洞门，只见迎面一带翠嶂，挡在南面。只见白石崚嶒，  \n或如鬼怪，或如猛兽，纵横拱立，上边苔藓成斑，藤萝掩映，其\n中微露羊肠小径。往南进入翠嶂，往北是小花厅。\n"
 msgstr "Entras por la puerta de luna y ves, de frente, una cortina de verdes picos que tapa el sur. Rocas blancas abruptas, unas como espectros y otras como fieras, se alzan cruzadas; encima, manchas de musgo y enredaderas que las cubren, y entre ellas asoma un sendero estrecho y sinuoso. Hacia el sur se entra en las Rocas del Biombo de Jade; hacia el norte, en la salita de flores.\n"
@@ -37306,7 +37306,7 @@ msgid "桂花园的石子甬道是以不同颜色的细石砌成各种图案。�
 msgstr "La senda empedrada del jardín de osmantos está hecha con guijarros finos de distintos colores, formando toda clase de dibujos. Los dibujos del suelo forman un conjunto, pero cada uno tiene también su propio contenido; en el camino de piedrecitas hay unos doscientos en total. Admirarlos mientras caminas es una belleza indescriptible.\n"
 
 msgid "你一进了小轩内，只觉异香扑鼻，那些奇草仙藤，越冷越苍翠，\n都结了实，似珊瑚豆子一般，累垂可爱。房内雪洞一般，清凉舒适  \n，案上一个土定瓶，中供著数枝菊花，旁边放了两本书、茶瓯茶杯  \n而已，床上只吊著青纱帐幔被褥，也十分朴实。\n"
-msgstr "Al entrar en el pequeño cenador te asalta un aroma raro; esas hierbas extrañas y enredaderas inmortales, cuanto más frío hace más verdes se ponen, y todas dan frutos como granos de coral, colgantes y adorables. El cuarto es fresco y agradable, como una cueva de nieve; sobre la mesa hay un jarrón de barro con unas ramas de crisantemo, junto a dos libros y una taza de té, nada más; en la cama solo cuelgan un dosel de gasa verde y las mantas, también muy sobrio.\n"
+msgstr "Al entrar en el pequeño cenador te asalta un aroma raro; esas hierbas extrañas y enredaderas inmortales, cuanto más frío hace más verdes se ponen, y todas dan frutos como granos de coral, colgantes y adorables. El cuarto es fresco y agradable, como una cueva de nieve; sobre la mesa hay un jarrón de barro con unas ramas de crisantemo, junto a dos libros, un cuenco de té y una taza, nada más; en la cama solo cuelgan un dosel de gasa verde y las mantas, también muy sobrio.\n"
 
 msgid "亭子座落在园内小水池上，亭柱周围以弧形座凳式栏板，内外\n雕刻各种不同样式的梅枝，钻尖式紫琉璃瓦顶，天花板也有雕刻非\n常精细的百花图案。上下担额枋彩画题材是海墁式点金加彩琼花。\n体形别致，色彩丰富。亭边石桥飞架，通萃赏楼，轻灵精巧，为园\n中一大奇景。\n"
 msgstr "El templete se asienta sobre un pequeño estanque del jardín. Alrededor de las columnas hay bancos con barandilla en forma de arco, y por dentro y por fuera están tallados con ramas de ciruelo de distintas formas; el techo es de tejas de vidrio púrpura de punta aguzada, y el cielorraso también tiene tallados finísimos motivos de cien flores. En las vigas de arriba y abajo hay pintadas flores de viburno con dorados. Es de forma peculiar y de ricos colores. Junto al templete, un puente de piedra, ligero y fino, llega hasta la Torre del Deleite Selecto, una de las grandes maravillas del jardín.\n"
@@ -37462,7 +37462,7 @@ msgid "沐浴"
 msgstr "Bañarse"
 
 msgid "此处是禁止男性进入！男人下池沐浴会中火玫瑰毒：毒发时不断伤神，伤得重了会丧命。\n确定要下池沐浴吗？"
-msgstr "Está prohibida la entrada a los hombres. Si un hombre se baña en el estanque, se envenena con el veneno de la Rosa de fuego: mientras el veneno actúa, hiere el Espíritu sin cesar, y si la herida es grave, muere.\n¿Seguro que quieres bañarte en el estanque?"
+msgstr "Está prohibida la entrada a los hombres. Si un hombre se baña en el estanque, se envenena con el veneno de la Rosa de fuego: mientras el veneno actúa, hiere el Espíritu sin cesar, y si la herida es grave, muere.\n¿{jugador:Seguro|Segura} que quieres bañarte en el estanque?"
 
 msgid "确定沐浴"
 msgstr "Bañarse"
@@ -37480,7 +37480,7 @@ msgid "你双手合掌，安静的坐在地上。\n"
 msgstr "Juntas las manos y te sientas en silencio en el suelo.\n"
 
 msgid "你彷佛变的较为祥合慈善了! \n"
-msgstr "Sientes que te vuelves algo más apacible y bondadoso.\n"
+msgstr "Sientes que te vuelves algo más apacible y {jugador:bondadoso|bondadosa}.\n"
 
 msgid "一只玄冰雕的匣子，齐膝高，匣盖上结着不化的霜。匣面刻着一行小字：凤仪起，匣自开。几百年没人跳对过。\n"
 msgstr "Un cofre de hielo oscuro tallado, a la altura de la rodilla, con una escarcha que no se derrite sobre la tapa. En el frente hay grabada una línea de letras pequeñas: \"Si el fénix se alza, el cofre se abre solo\". Hace siglos que nadie lo baila bien.\n"
@@ -37522,7 +37522,7 @@ msgid "\n 「六神」、「四鬼」、「三灵」 \n\n         旋芒震日�
 msgstr "\n \"Seis Dioses\", \"Cuatro Espectros\", \"Tres Almas\" \n\n         El Filo Giratorio sacude sol y luna\n         La espada preciosa protege ríos y montañas\n\n"
 
 msgid "此处是禁止男性进入！闯进去的男人会被晚月庄的女弟子撒下火玫瑰毒、一脚踢出来：毒发时不断伤神，伤得重了会丧命。\n确定要进去吗？"
-msgstr "Está prohibida la entrada a los hombres. Los hombres que se cuelan son rociados por las discípulas de la mansión con veneno de la Rosa de fuego y echados a patadas: mientras el veneno actúa, hiere el Espíritu sin cesar, y si la herida es grave, mueren.\n¿Seguro que quieres entrar?"
+msgstr "Está prohibida la entrada a los hombres. Los hombres que se cuelan son rociados por las discípulas de la mansión con veneno de la Rosa de fuego y echados a patadas: mientras el veneno actúa, hiere el Espíritu sin cesar, y si la herida es grave, mueren.\n¿{jugador:Seguro|Segura} que quieres entrar?"
 
 msgid "确定进去"
 msgstr "Entrar"
