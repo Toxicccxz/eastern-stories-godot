@@ -32,7 +32,7 @@
     {"rect": [4352, 192, 4800, 576], "from": ["boundary"], "to": "water", "note": "坎: the water runs out to the mist"},
     {"rect": [288, 3936, 736, 4320], "from": ["boundary"], "to": "deep_water", "note": "兑: the lake all round"}
   ],
-  "water": {
+  "water": {"murk": 1.4, 
     "kinds": {
       "water": {"colors": ["6a8494", "4e6878", "3a5262"], "depth": 48, "flow": [0.3, 0.2], "speed": 0.2, "note": "坎: cold steel water under grey mist"},
       "deep_water": {"colors": ["3e6a5e", "2c5248", "1e3c36"], "depth": 80, "flow": [0.2, 0.1], "speed": 0.25, "swell": 0.07, "glint": "f0d8a0", "note": "兑: a deep jade lake in a golden light, waves running"}

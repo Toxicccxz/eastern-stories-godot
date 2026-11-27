@@ -99,6 +99,18 @@ func _test_spar_and_lines() -> void:
 	var outlook := CombatOutlook.new(three.line(), three.enemies, three)
 	_assert_eq(outlook.shown("他"), "必败：他远比你强，别打。他这边有 3 个人一起上。", "CombatOutlook fills pronoun and count")
 	_assert_eq(CombatOutlook.new().shown("他"), "", "an empty outlook shows nothing")
+	var parted := CombatOutlook.new(three.line(), three.enemies, three, three.line_parts())
+	_assert_eq(parted.shown("他"), "必败：他远比你强，别打。他这边有 3 个人一起上。", "the parts read as the one line in Chinese")
+	var before: String = TranslationServer.get_locale()
+	var spanish := Translation.new()
+	spanish.locale = "es"
+	spanish.add_message(three.line_parts()[0], "Derrota segura: es más fuerte.")
+	spanish.add_message(three.line_parts()[1], "Son {count}.")
+	TranslationServer.add_translation(spanish)
+	TranslationServer.set_locale("es")
+	_assert_eq(parted.shown("él"), "Derrota segura: es más fuerte. Son 3.", "each sentence is translated on its own (the two run together are no message)")
+	TranslationServer.set_locale(before)
+	TranslationServer.remove_translation(spanish)
 
 
 ## combatd.c's loop as an expectation: 0 against 600 keeps a few percent, 600 against 600 all.

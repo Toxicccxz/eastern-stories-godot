@@ -120,6 +120,9 @@ var react_amount: float = 0.0
 ## How far over it lies, fallen senseless (0 upright .. 1 flat on its back; the view moves it):
 ## the whole body turns back about its heels and its limbs go slack.
 var limp: float = 0.0
+## How far the body has rotted (0 none .. 1): every part gone toward a grey-green and darker
+## (VoxelRemains). Before it enters the tree.
+var rot: float = 0.0
 ## 状态挂在身上 (DECISIONS「战斗运功」): how worn the figure is (0 fresh .. 1 spent: 气 low, or
 ## drugged) — it stoops, its arms sink and it pants; how far it rocks from side to side (radians:
 ## drunk) and trembles (units: cold). The view sets them from the character's state.
@@ -681,7 +684,9 @@ func _hex(key: String, fallback: String) -> String:
 ## A part's colour, or for a statue the stone's shade nearest its lightness.
 func _tone(hex: String) -> String:
 	if stone.is_empty():
-		return hex
+		if rot <= 0.0 or not hex.get_slice(":", 0).is_valid_html_color():
+			return hex
+		return Color(hex.get_slice(":", 0)).lerp(Color("5e6248"), 0.6*rot).darkened(0.3*rot).to_html(false)
 	var base := Color(stone)
 	var shade: float = Color(hex).get_luminance()-0.45
 	return (base.lightened(shade*0.5) if shade>0 else base.darkened(-shade*0.6)).to_html(false)

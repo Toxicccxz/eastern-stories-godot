@@ -91,11 +91,11 @@
 				{"say": "啊，真是谢谢你了。", "accept": true}
 			],
 			"calls": [
-				{"mark": "跟李信揭发", "not_mark": "严廷殷交了关", "scene": true, "after": 1, "steps": [{"emote": "正把佩剑解下来，搁在案上。"}, {"say": "李信的账上了京？……也好。印是我丢的，这个罪我担。"}]},
-				{"mark": "跟李信揭发", "not_mark": "严廷殷交了关", "scene": true, "after": 4, "steps": [{"say": "召回令明天就到。天驼关交给李信——他比我守得住。"}]},
-				{"mark": "跟李信揭发", "not_mark": "严廷殷交了关", "scene": true, "after": 7, "steps": [{"line": "两个铁卫营的兵进帐，把军师赫造基押了出去。\n"}, {"leave": "canyon.npc.adviser"}]},
-				{"mark": "跟李信揭发", "not_mark": "严廷殷交了关", "scene": true, "after": 10, "steps": [{"emote": "披上大氅，出了帐门，再没回头。"}, {"leave": true}]},
-				{"after": 1, "reaction": true, "mark": "严廷殷交了关", "steps": [{"leave": "canyon.npc.adviser"}, {"leave": true}]}
+				{"mark": "跟李信揭发", "not_mark": "严廷殷交了关", "scene": true, "after": 1, "steps": [{"emote": "正把佩剑解下来，搁在案上。", "shot": "near"}, {"say": "李信的账上了京？……也好。印是我丢的，这个罪我担。", "do": {"act": "face", "toward": "player"}, "shot": {"two": "player"}}]},
+				{"mark": "跟李信揭发", "not_mark": "严廷殷交了关", "scene": true, "after": 4, "steps": [{"say": "召回令明天就到。天驼关交给李信——他比我守得住。", "shot": "near"}]},
+				{"mark": "跟李信揭发", "not_mark": "严廷殷交了关", "scene": true, "after": 7, "steps": [{"line": "两个铁卫营的兵进帐，把军师赫造基押了出去。\n", "shot": {"two": "canyon.npc.adviser"}}, {"leave": "canyon.npc.adviser", "do": {"act": "exit", "by": "canyon.camp8.adviser.1"}}]},
+				{"mark": "跟李信揭发", "not_mark": "严廷殷交了关", "scene": true, "after": 10, "steps": [{"emote": "披上大氅，出了帐门，再没回头。", "shot": "near"}, {"leave": true, "do": {"act": "exit", "by": "canyon.camp8.general.1"}}]},
+				{"after": 12, "mark": "严廷殷交了关", "steps": [{"leave": "canyon.npc.adviser"}, {"leave": true}]}
 			],
 			"scene_mark": "严廷殷交了关"
 		},

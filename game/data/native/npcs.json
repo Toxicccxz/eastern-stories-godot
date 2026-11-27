@@ -319,40 +319,40 @@
 			"scene_mark": "隘口的道士",
 			"calls": [
 				{ "after": 1, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.white_officer", "steps": [
-					{ "line": "一名白衣武官从山壁下的土坑里捧出一只尺许长的石匣，匣面刻着一圈风纹。" },
+					{ "line": "一名白衣武官从山壁下的土坑里捧出一只尺许长的石匣，匣面刻着一圈风纹。", "do": {"who": "native.npc.white_officer", "act": "reach", "toward": "native.npc.feng_ce", "hold": true}, "shot": {"two": "native.npc.white_officer"} },
 					{ "by": "native.npc.white_officer" },
-					{ "say": "总教头，挖出来了！" }
+					{ "say": "总教头，挖出来了！", "shot": {"two": "native.npc.feng_ce"} }
 				] },
 				{ "after": 5, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.feng_ce", "steps": [
 					{ "by": "native.npc.feng_ce" },
-					{ "say": "打开。" }
+					{ "say": "打开。", "do": {"act": "face", "toward": "native.npc.white_officer"}, "shot": "near" }
 				] },
 				{ "after": 8, "scene": true, "not_mark": "隘口的道士", "steps": [
-					{ "say": "冯总教头，匣子开不得。这是岚城的风铃，寻风的人才用得上，旁人开了，只会招祸。" }
+					{ "say": "冯总教头，匣子开不得。这是岚城的风铃，寻风的人才用得上，旁人开了，只会招祸。", "do": [{"act": "face", "toward": "native.npc.feng_ce"}, {"who": "native.npc.feng_ce", "act": "face", "toward": "native.npc.bai_daozhang"}], "shot": {"two": "native.npc.feng_ce"} }
 				] },
 				{ "after": 12, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.black_taoist_pass", "steps": [
-					{ "line": "崖上忽然一道黑影掠下，一个黑衣黑冠的道士落在土坑边，一把抢过石匣，转身便往山壁上纵去！" },
+					{ "line": "崖上忽然一道黑影掠下，一个黑衣黑冠的道士落在土坑边，一把抢过石匣，转身便往山壁上纵去！", "do": [{"who": "native.npc.black_taoist_pass", "act": "walk", "to": "native.npc.white_officer", "stay": true}, {"who": "native.npc.white_officer", "act": "hand", "item": "native:oldpine/stone_box", "to": "native.npc.black_taoist_pass"}], "shot": {"two": "native.npc.white_officer"} },
 					{ "by": "native.npc.black_taoist_pass" },
-					{ "say": "多谢诸位代劳！" },
+					{ "say": "多谢诸位代劳！", "do": [{"who": "native.npc.white_officer", "act": "startle"}, {"who": "native.npc.feng_ce", "act": "face", "toward": "native.npc.black_taoist_pass"}], "shot": "near" },
 					{ "drop": "native:oldpine/cloth_strip" },
 					{ "mark": "布条落了地" },
-					{ "line": "黑衣道士衣角一扯，一块布条飘落在地。他几个起落，已经翻上山壁，往北面的老松岭去了。", "keys": ["布条", "老松岭"] },
-					{ "leave": true }
+					{ "line": "黑衣道士衣角一扯，一块布条飘落在地。他几个起落，已经翻上山壁，往北面的老松岭去了。", "keys": ["布条", "老松岭"], "do": {"act": "walk", "to": "canyon.canyon1.black_taoist", "stay": true}, "shot": {"look": "canyon.canyon1.black_taoist"} },
+					{ "leave": true, "do": {"act": "exit", "by": "canyon.canyon1.black_taoist"} }
 				] },
 				{ "after": 16, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.white_officer", "steps": [
 					{ "by": "native.npc.white_officer" },
-					{ "say": "追！" },
-					{ "leave": true },
+					{ "say": "追！", "do": "draw", "shot": "near" },
+					{ "leave": true, "do": {"act": "exit", "by": "canyon.canyon1.black_taoist"} },
 					{ "by": "native.npc.white_officer" },
-					{ "leave": true }
+					{ "leave": true, "do": {"act": "exit", "by": "canyon.canyon1.black_taoist"} }
 				] },
 				{ "after": 19, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.feng_ce", "steps": [
 					{ "by": "native.npc.feng_ce" },
-					{ "emote": "回过头来，目光落在你身上。" },
-					{ "say": "这不是你该来的地方。" }
+					{ "emote": "回过头来，目光落在你身上。", "do": {"act": "face", "toward": "player"}, "shot": "near" },
+					{ "say": "这不是你该来的地方。", "shot": {"two": "player"} }
 				] },
 				{ "after": 23, "scene": true, "not_mark": "隘口的道士", "steps": [
-					{ "say": "小友，那道士往老松岭去了。官军追的是人——那种人翻山比猴子快，他们追不上。他慌忙间掉的那块布条倒会说话：你拾起来看看，那上头是老松寨的记号。", "keys": ["布条", "老松寨"] }
+					{ "say": "小友，那道士往老松岭去了。官军追的是人——那种人翻山比猴子快，他们追不上。他慌忙间掉的那块布条倒会说话：你拾起来看看，那上头是老松寨的记号。", "keys": ["布条", "老松寨"], "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"} }
 				] }
 			]
 		},
@@ -625,10 +625,10 @@
 					"present": "choyin.npc.sergeant",
 					"steps": [
 						{
-							"emote": "从酒楼对面的屋檐下走出来，拦在街心。身后三个便衣的汉子散开，手都按着刀柄。"
+							"emote": "从酒楼对面的屋檐下走出来，拦在街心。身后三个便衣的汉子散开，手都按着刀柄。", "do": {"act": "walk", "to": "player"}, "shot": "near"
 						},
 						{
-							"say": "陈显祖，兵部有令拿你。箱子留下，人跟我们走。"
+							"say": "陈显祖，兵部有令拿你。箱子留下，人跟我们走。", "do": {"act": "face", "toward": "choyin.npc.sergeant"}, "shot": {"two": "choyin.npc.sergeant"}
 						}
 					]
 				},
@@ -642,10 +642,10 @@
 							"by": "choyin.npc.sergeant"
 						},
 						{
-							"emote": "站住了，手慢慢按到剑柄上。"
+							"emote": "站住了，手慢慢按到剑柄上。", "do": {"act": "face", "toward": "native.npc.yu_steward"}, "shot": "near"
 						},
 						{
-							"say": "二十年了，还是找来了。"
+							"say": "二十年了，还是找来了。", "shot": {"two": "native.npc.yu_steward"}
 						}
 					]
 				},
@@ -659,10 +659,10 @@
 							"by": "native.npc.yu_steward"
 						},
 						{
-							"say": "动手。"
+							"say": "动手。", "do": "draw", "shot": "near"
 						},
 						{
-							"line": "三个汉子抽刀围了上来——冲的是你。\n",
+							"line": "三个汉子抽刀围了上来——冲的是你。\n", "shot": {"two": "player"},
 							"color": "HIR"
 						},
 						{

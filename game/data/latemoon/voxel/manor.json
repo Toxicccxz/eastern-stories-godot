@@ -32,7 +32,7 @@
     "boundary": {"colors": ["46623a", "4e6c40", "567444"]},
     "forest": {"colors": ["3a5432", "425c36", "4a643a"]}
   },
-  "water": {
+  "water": {"life": {"fish": {"max": 0}, "weed": 0, "finds": {"max": 0}, "pebbles": 0.6, "note": "the bath: clean pebbles only"}, 
     "kinds": {"water": {"colors": ["6aa8a8", "4e8e92", "3a7478"], "depth": 48, "clear": true, "flow": [0.05, 0.05], "speed": 0.1, "sky": 0.2, "bed": ["5e7a70", "6a867a", "54706a"], "stones": 0.15, "note": "bathroom.c: 清澈的池水含著淡淡的幽香"}}
   },
   "light": {"ambient": ["d6cebe", "76809a"], "ambient_energy": [0.5, 0.36], "sun": ["fff0d8", "a8bce8"], "sun_energy": [0.72, 0.22]},
