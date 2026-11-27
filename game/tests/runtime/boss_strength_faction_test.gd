@@ -19,9 +19,23 @@ const FACTION_TARGETS: Dictionary[String, Variant] = {
 	"卧底 被识破 追杀的道士×3": [0.45, 1.0],
 }
 
+## 成长曲线 C (DECISIONS「成长曲线 C」): at 花紫会's 小屋 the fist build is ahead by about thirty points
+## (its bare hands' share, 120% of its level, is about 83 by the ninth chapter; the sword build's
+## 长剑 is 25, 卢卡's 大秦短剑 55), as wide as the band: the sword build keeps the band, the fist build
+## only its floor.
+const AHEAD_WITH_FIST: Array[String] = ["花紫会 密信 小屋信使"]
+
+
+static func faction_targets(build: StringName) -> Dictionary[String, Variant]:
+	var out: Dictionary[String, Variant] = FACTION_TARGETS.duplicate()
+	if build == MainlineFightSim.FIST:
+		for label: String in AHEAD_WITH_FIST:
+			out[label] = [float(FACTION_TARGETS[label]) - SPREAD, CEILING]
+	return out
+
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
-	await _run_targets(tree, FACTION_TARGETS)
+	await _run_targets(tree, faction_targets(_build()))
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
