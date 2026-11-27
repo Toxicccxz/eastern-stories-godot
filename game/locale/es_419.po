@@ -27442,7 +27442,7 @@ msgid "白羽如雪，不似凡间之物。 \n"
 msgstr "Plumas blancas como la nieve, que no parecen de este mundo."
 
 msgid "翅"
-msgstr "Ala"
+msgstr "ala"
 
 msgid "紫衣童子是乔阴县的小孩，从小孤苦零丁。仙人怜之，带入云台。\n"
 msgstr "El niño de púrpura es un chico de Sombra Alta, huérfano desde pequeño. Un inmortal se compadeció de él y se lo llevó a la Terraza de las Nubes."
@@ -28177,10 +28177,10 @@ msgid "一只浑身长满白鳞的龙，\n"
 msgstr "Un dragón cubierto de escamas blancas,"
 
 msgid "前爪"
-msgstr "Garra delantera"
+msgstr "garra delantera"
 
 msgid "後爪"
-msgstr "Garra trasera"
+msgstr "garra trasera"
 
 msgid "抬起头看了你一眼，又盘了回去。"
 msgstr " levanta la cabeza, te mira un instante y vuelve a enroscarse."
