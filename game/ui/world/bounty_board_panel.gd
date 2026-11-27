@@ -33,7 +33,8 @@ func _init() -> void:
 
 
 ## One row per posting, in slot order; a note when there is none for the player.
-func show_postings(postings: Array[WorldBounties.Posting]) -> void:
+## `empty`: what the board says when nothing is posted (WorldBounties.empty_line()); the old line when "".
+func show_postings(postings: Array[WorldBounties.Posting], empty: String = "") -> void:
 	for child: Node in rows.get_children():
 		rows.remove_child(child)
 		child.queue_free()
@@ -41,7 +42,7 @@ func show_postings(postings: Array[WorldBounties.Posting]) -> void:
 		var none := Label.new()
 		none.name = "None"
 		# TRANSLATORS: native (A2): the bounty board has nothing for the player now.
-		none.text = tr("榜上暂时没有与阁下相称的悬赏，过些时候再来看看吧。")
+		none.text = empty if not empty.is_empty() else tr("榜上暂时没有与阁下相称的悬赏，过些时候再来看看吧。")
 		none.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		none.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		rows.add_child(none)

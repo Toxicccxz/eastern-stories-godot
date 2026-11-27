@@ -121,6 +121,26 @@ const ORDINARY: Array[Dictionary] = [
 ]
 
 
+## An `enemies` pair that names a bounty's outlaw by its NPC definition (BOUNTY).
+const OUTLAW: String = "outlaw"
+## The 雪亭驿 board's outlaws (成长曲线 D; DECISIONS「成长曲线 D」), each brought out beside the player
+## as a bounty taken brings it (`["outlaw", npc id]`: WorldMapNpcs.bring_outlaw()), not tuned here:
+## at the exp a player first meets it on the board (A2's five where the ceiling's gap-filling now puts
+## the next one up: twice the last), and on to the ceiling (twice its own). The last four: from the
+## main story's arrival after the chapter that opens them (StoryArrival.TUNED; the finale's own end
+## for the last).
+const BOUNTY: Array[Dictionary] = [
+	{"label": "悬赏 剪径贼", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.2"]], "exps": [200, 790], "weapon": &"es2:obj/longsword"},
+	{"label": "悬赏 采花贼", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.3"]], "exps": [800, 1990], "weapon": &"es2:obj/longsword"},
+	{"label": "悬赏 江洋大盗", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.4"]], "exps": [2000, 4990], "weapon": &"es2:obj/longsword"},
+	{"label": "悬赏 杀人魔头", "zone": &"oldpine.outdoor.central_clearing", "point": &"oldpine.outdoor.central_clearing.player_start", "enemies": [[OUTLAW, "native.npc.outlaw.5"]], "exps": [5000, 10990], "weapon": &"es2:obj/longsword"},
+	{"label": "悬赏 越狱死囚", "zone": &"choyin.solidpath1", "point": &"choyin.solidpath1.gate_arrival", "enemies": [[OUTLAW, "native.npc.outlaw.6"]], "exps": [11626, 15990], "weapon": &"es2:obj/longsword"},
+	{"label": "悬赏 劫船海寇", "zone": &"fanfang.cliff_top", "point": &"fanfang.cliff_top.valley_arrival", "enemies": [[OUTLAW, "native.npc.outlaw.7"]], "exps": [21136, 25990], "weapon": &"es2:obj/longsword"},
+	{"label": "悬赏 禁军逃卒", "zone": &"city.nroad1", "point": &"city.nroad1.coach_arrival", "enemies": [[OUTLAW, "native.npc.outlaw.8"]], "exps": [31486, 43990], "weapon": &"es2:obj/longsword"},
+	{"label": "悬赏 逆灵宫余孽", "zone": &"village.valley1", "point": &"village.valley1.cave_return", "enemies": [[OUTLAW, "native.npc.outlaw.9"]], "exps": [48000, 69990], "weapon": &"native:lancheng/xuanmang"},
+]
+
+
 ## The sword build coming back after one death (owner 2026-11-19; DECISIONS「减轻死亡」): the fight's
 ## exps less what a death takes (pacing.json's death_exp_percent), the sword in hand only when
 ## pacing.json's death_keeps_equipped keeps it on the player (else empty-handed, as the corpse took
@@ -131,9 +151,9 @@ const AFTER_DEATH: Array[Dictionary] = [
 ]
 
 
-## The fight with this label among FIGHTS, FACTION_FIGHTS, ORDINARY and AFTER_DEATH, or empty.
+## The fight with this label among FIGHTS, FACTION_FIGHTS, ORDINARY, AFTER_DEATH and BOUNTY, or empty.
 static func any_fight(label: String) -> Dictionary:
-	for entry: Dictionary in FIGHTS + FACTION_FIGHTS + ORDINARY + AFTER_DEATH:
+	for entry: Dictionary in FIGHTS + FACTION_FIGHTS + ORDINARY + AFTER_DEATH + BOUNTY:
 		if entry["label"] == label:
 			return entry
 	return {}
@@ -643,8 +663,12 @@ func _bring_all(pairs: Array) -> Array[NpcRuntimeState]:
 	return out
 
 
-## One [spawn, point]: summoned / appeared / made anew if dead; the NPC there, or null.
+## One [spawn, point]: summoned / appeared / made anew if dead; the NPC there, or null. A bounty's
+## outlaw ([OUTLAW, npc id]): the one standing, else brought out beside the player.
 func _bring(pair: Array) -> NpcRuntimeState:
+	if String(pair[0]) == OUTLAW:
+		var standing: NpcRuntimeState = _outlaw(StringName(pair[1]))
+		return standing if standing != null else map.npcs.bring_outlaw(StringName(pair[1]))
 	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(StringName(pair[0]))
 	var npc: NpcRuntimeState = map.npcs.npc_at_point(StringName(pair[1]))
 	if spawn != null and spawn.summoned and (npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD):
@@ -661,10 +685,18 @@ func _bring(pair: Array) -> NpcRuntimeState:
 func _refind(pairs: Array) -> Array[NpcRuntimeState]:
 	var out: Array[NpcRuntimeState] = []
 	for pair: Array in pairs:
-		var npc: NpcRuntimeState = map.npcs.npc_at_point(StringName(pair[1]))
+		var npc: NpcRuntimeState = _outlaw(StringName(pair[1])) if String(pair[0]) == OUTLAW else map.npcs.npc_at_point(StringName(pair[1]))
 		if npc != null:
 			out.append(npc)
 	return out
+
+
+## The outlaw of definition `npc_id` on the map, not dead, or null.
+func _outlaw(npc_id: StringName) -> NpcRuntimeState:
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if npc.definition().definition_id == npc_id and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD and npc.exists_in_map:
+			return npc
+	return null
 
 
 ## One who follows the player there whatever was chosen (郭承): made beside the player, following

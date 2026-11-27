@@ -1,7 +1,8 @@
 extends RefCounted
 
 ## A2 经验节奏 PR B (DECISIONS「经验节奏」): the 雪亭驿 board's rules (BountyBoard on a
-## BountyState) and the knobs; the classic knobs have no board and no 木人.
+## BountyState) and the knobs; the classic knobs have no board and no 木人. 成长曲线 D: the four tiers
+## the story opens, the ceiling at twice, no gaps, why the board is empty.
 
 var _assertion_count: int = 0
 var _failures: Array[String] = []
@@ -14,6 +15,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_one_at_a_time_and_refresh()
 	_test_retier()
 	_test_far_stronger_gets_none()
+	_test_growth_d()
 	_test_reward()
 	_test_state_validity_and_save()
 	return {
@@ -46,8 +48,8 @@ func _test_knobs() -> void:
 
 func _test_data() -> void:
 	var rules: BountyRules = GameContent.catalog().bounties()
-	_assert_true(rules != null and rules.postings == 3 and rules.tiers.size() == 5 and rules.places.size() == 7, "native/bounties.json: 3 postings, 5 tiers, 7 places")
-	_assert_eq([rules.tier_for(0), rules.tier_for(399), rules.tier_for(400), rules.tier_for(1000), rules.tier_for(100000)], [0, 0, 1, 2, 4], "tiers by combat_exp")
+	_assert_true(rules != null and rules.postings == 3 and rules.tiers.size() == 9 and rules.places.size() == 18, "native/bounties.json: 3 postings, 9 tiers, 7 places of the board's and 11 of the last four tiers'")
+	_assert_eq([rules.tier_for(0), rules.tier_for(399), rules.tier_for(400), rules.tier_for(1000), rules.tier_for(100000)], [0, 0, 1, 2, 8], "tiers by combat_exp")
 	var dummy: NpcDefinition = GameContent.catalog().npc(&"native.npc.wooden_dummy.1")
 	var outlaw: NpcDefinition = GameContent.catalog().npc(&"native.npc.outlaw.1")
 	_assert_true(dummy.spar_only() and dummy.legacy_source_path.begins_with("native:") and outlaw.native_role() == NpcDefinition.ROLE_BOUNTY_TARGET and not outlaw.spar_only(), "native NPCs say where they come from and what they are")
@@ -89,12 +91,48 @@ func _test_retier() -> void:
 	_assert_eq(state.tiers, [0, 2, 2], "grown to 1200: the postings not taken are put up anew for tier 2; the one taken stays")
 
 
+## A2's rule without the ceiling knob (远不如你, four times), on A2's five tiers.
 func _test_far_stronger_gets_none() -> void:
 	var rules: BountyRules = GameContent.catalog().bounties()
 	var state := BountyState.new()
-	BountyBoard.tick(state, rules, 100000, 0, _exp)
+	var a2: Callable = func(tier: int) -> bool: return tier < 5
+	BountyBoard.tick(state, rules, 100000, 0, _exp, a2)
 	_assert_eq(state.tiers, [-1, -1, -1], "100000 against the 杀人魔头 (5500): far weaker, nothing posted")
-	_assert_eq([BountyBoard.worthy_tier(rules, 20000, _exp), BountyBoard.worthy_tier(rules, 22000, _exp)], [4, -1], "20000: still worth the top tier; 22000 (four times and more): none")
+	_assert_eq([BountyBoard.worthy_tier(rules, 20000, _exp, a2), BountyBoard.worthy_tier(rules, 22000, _exp, a2)], [4, -1], "20000: still worth the top tier; 22000 (four times and more): none")
+
+
+## 成长曲线 D (DECISIONS「成长曲线 D」): four tiers after the fifth, seventh and ninth chapters and
+## the finale, found in those chapters' regions; an outlaw is outgrown at twice its exp; a player
+## past the highest tier they reached is offered the next one the story has opened; the empty
+## board says why.
+func _test_growth_d() -> void:
+	var rules: BountyRules = GameContent.catalog().bounties()
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	_assert_eq([pacing.bounty_ceiling_percent, PacingDefinition.new(1000).bounty_ceiling_percent, pacing.copy().bounty_ceiling_percent], [200, 0, 200], "pacing.json: the ceiling at twice; none without the knob (远不如你); copy() keeps it")
+	var chapters: Array[String] = ["main.chapter5#done", "main.chapter7#done", "main.chapter9#done", "main.finale#done"]
+	var regions: Array[StringName] = [&"choyin_east", &"fanfang", &"city", &"village"]
+	for index: int in 4:
+		var tier: BountyRules.Tier = rules.tiers[5 + index]
+		var outlaw: NpcDefinition = GameContent.catalog().npc(tier.npc_id)
+		var places: Array = tier.place_indices.map(func(place: int) -> StringName: return WorldProgressionRewards.region_of_zone(rules.places[place].zone_id).region_id)
+		_assert_true(outlaw != null and outlaw.native_role() == NpcDefinition.ROLE_BOUNTY_TARGET and outlaw.combat_experience == tier.min_exp and tier.after != null and tier.after.key == chapters[index] and not tier.after_hint.is_empty() and places.all(func(region: StringName) -> bool: return region == regions[index]), "tier %d: %s at %d exp, after %s, found in %s (%s)" % [5 + index, tier.npc_id, tier.min_exp, chapters[index], regions[index], places])
+	_assert_true(rules.tiers.slice(0, 5).all(func(tier: BountyRules.Tier) -> bool: return tier.after == null and tier.place_indices == [0, 1, 2, 3, 4, 5, 6]), "A2's five tiers: no story to wait on, the board's seven places")
+	var player := CharacterState.new()
+	var opens: Callable = func(tier: int) -> bool: return rules.tiers[tier].open_for(player)
+	var ceiling: int = pacing.bounty_ceiling_percent
+	_assert_eq([BountyBoard.worthy_tier(rules, 150, _exp, opens, ceiling), BountyBoard.worthy_tier(rules, 250, _exp, opens, ceiling)], [0, 1], "150: the 流窜毛贼 (100); 250, twice him: the 剪径贼 (400), though 400 is not reached — no gap")
+	_assert_eq([BountyBoard.worthy_tier(rules, 9000, _exp, opens, ceiling), BountyBoard.worthy_tier(rules, 12000, _exp, opens, ceiling), BountyBoard.waiting_tier(rules, 12000, _exp, opens, ceiling)], [4, -1, 5], "9000: the 杀人魔头 (5500); 12000, twice him, before 乔阴 is done: none — the 越狱死囚 waits on the story")
+	player.quests["main.chapter5#done"] = 1 # TEST-ONLY
+	var state := BountyState.new()
+	BountyBoard.tick(state, rules, 12000, 0, _exp, opens, ceiling)
+	_assert_true(state.tiers == [5, 5, 5] and state.places.all(func(place: int) -> bool: return rules.tiers[5].place_indices.has(place)), "乔阴 done: the 越狱死囚 is posted, in 乔阴东郊 (%s, %s)" % [state.tiers, state.places])
+	_assert_eq([BountyBoard.worthy_tier(rules, 16000, _exp, opens, ceiling), BountyBoard.waiting_tier(rules, 16000, _exp, opens, ceiling)], [-1, 6], "16000, twice him: none — the 劫船海寇 waits on 番坊")
+	for key: String in chapters:
+		player.quests[key] = 1 # TEST-ONLY
+	_assert_eq([BountyBoard.worthy_tier(rules, 69999, _exp, opens, ceiling), BountyBoard.worthy_tier(rules, 70000, _exp, opens, ceiling), BountyBoard.waiting_tier(rules, 70000, _exp, opens, ceiling)], [8, -1, -2], "after the finale: the 逆灵宫余孽 (35000) until twice him; then none, and none left to wait for")
+	var errors: Array[String] = []
+	BountyRules.from_record(ContentRecordReader.new({"tiers": [{"min_exp": 0, "npc": "x", "silver": 1, "after": {"quest": "q#done"}}], "places": [{"map": "m", "zone": "z"}]}, "b", errors))
+	_assert_eq(errors.size(), 1, "a tier that waits on the story says when (after_hint): %s" % [errors])
 
 
 func _test_reward() -> void:

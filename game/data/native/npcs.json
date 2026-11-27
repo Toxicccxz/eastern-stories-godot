@@ -156,6 +156,217 @@
 			"skills": { "unarmed": 22, "dodge": 22, "parry": 16 }
 		},
 		{
+			"id": "native.npc.outlaw.6",
+			"legacy_source": "native: 成长曲线 D (计划 `成长曲线_计划.md` §3 旋钮 8, owner 2026-11-19「都照推荐」Q5, 2026-11-27「接着做 D」; DECISIONS「成长曲线 D」) — 雪亭驿的官府悬赏 after 第五章 (乔阴县牢)",
+			"native": {
+				"role": "bounty_target"
+			},
+			"name": "越狱死囚",
+			"aliases": [
+				"outlaw",
+				"convict"
+			],
+			"gender": "男性",
+			"age": 35,
+			"long": "一个蓬头垢面的汉子，脚踝上磨着一圈镣铐的血印，手里提着一柄不知从哪个狱卒腰上夺来的单刀。他是从乔阴县牢里越狱出来的死囚，告示上他的名字后面跟着一个朱红的「斩」字。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 24,
+				"int": 18,
+				"spi": 16,
+				"cps": 16,
+				"per": 12,
+				"con": 26,
+				"kar": 12
+			},
+			"combat_exp": 8000,
+			"resources": {
+				"max_kee": 900
+			},
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"apply": {
+				"attack": 40,
+				"damage": 60
+			},
+			"skills": {
+				"blade": 44,
+				"parry": 42,
+				"dodge": 40,
+				"unarmed": 30
+			},
+			"carry": [
+				{
+					"item": "es2:obj/weapon/blade",
+					"source": "native: 成长曲线 D",
+					"equip": "wield"
+				}
+			]
+		},
+		{
+			"id": "native.npc.outlaw.7",
+			"legacy_source": "native: 成长曲线 D (计划 `成长曲线_计划.md` §3 旋钮 8, owner 2026-11-19「都照推荐」Q5, 2026-11-27「接着做 D」; DECISIONS「成长曲线 D」) — 雪亭驿的官府悬赏 after 第七章 (番坊海崖道)",
+			"native": {
+				"role": "bounty_target"
+			},
+			"name": "劫船海寇",
+			"aliases": [
+				"outlaw",
+				"pirate"
+			],
+			"gender": "男性",
+			"age": 32,
+			"long": "一个赤着脚的海寇，晒得黝黑，耳朵上挂着一只铜环，腰里别着一把钢刀，身上一股咸腥味。他在番坊外的海崖道一带劫过三条商船，番坊的市舶司把他的像也送到了雪亭驿。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 24,
+				"int": 18,
+				"spi": 16,
+				"cps": 16,
+				"per": 12,
+				"con": 26,
+				"kar": 12
+			},
+			"combat_exp": 13000,
+			"resources": {
+				"max_kee": 1200
+			},
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"apply": {
+				"attack": 40,
+				"damage": 100
+			},
+			"skills": {
+				"blade": 56,
+				"parry": 52,
+				"dodge": 56,
+				"unarmed": 40
+			},
+			"carry": [
+				{
+					"item": "es2:d/goathill/obj/steel_blade",
+					"source": "native: 成长曲线 D",
+					"equip": "wield"
+				}
+			]
+		},
+		{
+			"id": "native.npc.outlaw.8",
+			"legacy_source": "native: 成长曲线 D (计划 `成长曲线_计划.md` §3 旋钮 8, owner 2026-11-19「都照推荐」Q5, 2026-11-27「接着做 D」; DECISIONS「成长曲线 D」) — 雪亭驿的官府悬赏 after 第九章 (京师北官道)",
+			"native": {
+				"role": "bounty_target"
+			},
+			"name": "禁军逃卒",
+			"aliases": [
+				"outlaw",
+				"deserter"
+			],
+			"gender": "男性",
+			"age": 29,
+			"long": "一个穿着半副禁军铁甲的汉子，甲上的号牌被刀刮掉了，腰里的佩刀还是营里发的。他从皇城的禁军营里逃出来，在京师北边的官道上专劫过路的官差，使的是大内的刀法。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 24,
+				"int": 18,
+				"spi": 16,
+				"cps": 16,
+				"per": 12,
+				"con": 26,
+				"kar": 12
+			},
+			"combat_exp": 22000,
+			"resources": {
+				"max_kee": 1500
+			},
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"apply": {
+				"attack": 20,
+				"damage": 60
+			},
+			"skills": {
+				"blade": 56,
+				"palace-blade": 48,
+				"parry": 54,
+				"dodge": 50,
+				"unarmed": 40
+			},
+			"skill_map": {
+				"blade": "palace-blade",
+				"parry": "palace-blade"
+			},
+			"carry": [
+				{
+					"item": "es2:d/city/shangshu/npc/obj/blade",
+					"source": "native: 成长曲线 D",
+					"equip": "wield"
+				}
+			]
+		},
+		{
+			"id": "native.npc.outlaw.9",
+			"legacy_source": "native: 成长曲线 D (计划 `成长曲线_计划.md` §3 旋钮 8, owner 2026-11-19「都照推荐」Q5, 2026-11-27「接着做 D」; DECISIONS「成长曲线 D」) — 雪亭驿的官府悬赏 after 终章 (玉螺湖村)",
+			"native": {
+				"role": "bounty_target"
+			},
+			"name": "逆灵宫余孽",
+			"aliases": [
+				"outlaw",
+				"taoist"
+			],
+			"gender": "男性",
+			"age": 50,
+			"long": "一个黑衣道士，冠上的丝绦断了，脸上横着一道新疤。湖底那一仗以后，逆灵宫的人四散，他是还在杀人的一个：玉螺湖边的渔户，已经少了两家。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 24,
+				"int": 18,
+				"spi": 16,
+				"cps": 16,
+				"per": 12,
+				"con": 26,
+				"kar": 12
+			},
+			"combat_exp": 35000,
+			"resources": {
+				"max_kee": 1500
+			},
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"apply": {
+				"attack": 20,
+				"damage": 60
+			},
+			"skills": {
+				"sword": 66,
+				"six-chaos-sword": 60,
+				"parry": 62,
+				"dodge": 62,
+				"force": 56,
+				"unarmed": 45
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword"
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/long_sword",
+					"source": "native: 成长曲线 D",
+					"equip": "wield"
+				}
+			]
+		},
+		{
 			"id": "native.npc.feng_ce",
 			"calls": [
 				{"after": 1, "reaction": true, "mark": "拔了穿灵", "not_mark": "冯策提过穿灵", "npc_in": "imperial.duty_room", "steps": [{"say": "玉螺湖那一夜烧了半个村子——是你拔的剑。……拔了就往前走，别回头。"}, {"mark": "冯策提过穿灵"}]},
