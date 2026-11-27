@@ -40,8 +40,26 @@ SUITE_TIMEOUT_SECONDS = 10 * 60
 # Suites that are long by design get a limit of their own. The world soak walks every region
 # for hours of world time (28 stays: about 230 s alone on a desktop, more with many suites
 # beside it on a runner); it was cut from 36 stays once to fit the 600 s every suite had.
+# The strength suites fight each must-win fight about 45 times, and once more as often when the first
+# sample falls outside its band (boss_strength_test.gd, 成长曲线 A): up to twice their recorded time
+# (on PR #441's run the slowest took 466 s with some re-measures, against 600).
+BOSS_STRENGTH_TIMEOUT_SECONDS = 20 * 60
 SUITE_TIMEOUT_OVERRIDES: dict[str, float] = {
     "res://tests/runtime/world_soak_test.gd": 25 * 60,
+    "res://tests/runtime/boss_strength_bearer_fist_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_bearer_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_demon_fist_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_demon_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_faction_easy_fist_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_faction_easy_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_faction_fist_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_faction_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_finale_fist_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_finale_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_fist_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_guanbei_fist_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_guanbei_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
+    "res://tests/runtime/boss_strength_test.gd": BOSS_STRENGTH_TIMEOUT_SECONDS,
 }
 SCRIPT_ERROR_MARKER = "SCRIPT ERROR"
 SUITE_RUNNER = "res://tests/run_suite.gd"

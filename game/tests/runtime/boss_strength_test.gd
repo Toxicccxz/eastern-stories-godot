@@ -4,19 +4,24 @@ extends RefCounted
 ## story cannot be got past without, fought as the game fights them (tests/sim/mainline_fight_sim.gd:
 ## the real coordinator and scheduler, the player's 2 beats a round and each NPC's own, the whole
 ## group, the helpers the story guarantees, a fixed plain policy) by a character grown to the main
-## story's own arrival exp (tests/support/story_arrival.gd, from progression.json's 历练), in two
+## story's arrival exp the fights were tuned at (tests/support/story_arrival.gd's TUNED, which
+## growth_curve_data_test holds the 历练-derived arrival to within 1%; the exploring tier: the
+## 历练-derived arrival itself), in two
 ## builds: the sword (封山剑法, a sword in hand) and the fist (柳家拳, bare-handed: the first teacher's
 ## school, DECISIONS「空手对兵器」). The target is about six in ten without help and nine in ten with
 ## the story's own helpers; provisional until growth is set.
 ##
-## Each fight is a sample: three seeds of DUELS duels pooled (42 counted: each session's first duel
-## closes at once and is left out), the band the target ± SPREAD. As a binomial sample of 42: a fight
-## whose true rate is on target (six in ten) falls outside the band about once in 25 runs (4%; nine in
-## ten with help: about once in 70); one whose true rate is 15 points off lies on the band's edge and
-## is caught only about half the time (20 points off: about eight times in ten). The seeds are fixed,
-## so a run repeats itself: what changes a result is a change to the game or to these suites. A miss
-## by a few points can be chance: re-measure with more seeds before retuning (the failure message
-## says how).
+## Each fight is a sample in two stages: three seeds of DUELS duels pooled (42 counted: each
+## session's first duel closes at once and is left out) against the band, the target ± SPREAD; a first
+## sample outside it is measured again with as many new seeds (MORE_SEEDS) and the 84 judged pooled.
+## As a binomial sample: a fight whose true rate is on target (six in ten) fails about once in 500 runs
+## (nine in ten with help: about once in 1,000); one whose true rate is 15 points off lies on the
+## band's edge and is caught about a third of the time (20 points off: about three times in four; 15
+## points under the helped band: about a third). So the suites catch a fight gone far off, not one
+## drifting to an edge: re-measure with more seeds when a number looks near one. The seeds are fixed,
+## so a run repeats itself: what changes a result is a change to the game or to these suites (成长曲线 A:
+## even 落后补偿 on the in-fight trickle reshuffles every duel). Each fight's numbers are printed as
+## it ends, so a suite cut off by its time limit still leaves them.
 ##
 ## Split for the suites' shards: this one 第一章's cave and 第三章 to 第五章; boss_strength_guanbei_test 第六章 and
 ## 第九章's choice fight; boss_strength_finale_test the 终章's 湖畔 and 冰龙厅; boss_strength_demon_test
@@ -29,7 +34,10 @@ const SEEDS: Array[int] = [7, 11, 13]
 ## failure message asks for): a seeded sample of some 45 duels swings ±7–15 points, so a change too
 ## small to move a win rate (成长曲线 A: 落后补偿 on the in-fight trickle) can push it across an
 ## edge either way.
-const MORE_SEEDS: Array[int] = [17, 19, 23, 29]
+const MORE_SEEDS: Array[int] = [17, 19, 23, 29, 31]
+## Seeds no suite here pools: the failure message's re-measure (with MORE_SEEDS' they would only
+## repeat the pooled sample).
+const FRESH_SEEDS: String = "37,41,43,47,53,59"
 const DUELS: int = 15
 const ALONE: float = 0.60
 const HELPED: float = 0.90
@@ -109,9 +117,11 @@ func _run_targets(tree: SceneTree, targets: Dictionary[String, Variant]) -> Dict
 			result.pool(more[0])
 			seeds_used += extra.size()
 		rates[label] = result.rate()
+		# As each fight ends: a suite stopped by its time limit still leaves the numbers in the log.
+		print("boss_strength: %s (%s) at %d exp: %d of %d (%.0f%%; band %.0f–%.0f%%) over %d seeds" % [label, _build(), result.experience, result.wins, result.duels, result.rate() * 100.0, limits[0] * 100.0, limits[1] * 100.0, seeds_used])
 		# The first duel of each session closes at once (MainlineFightSim leaves it out).
 		_check(result.lineup_ok() and result.short_lineup <= seeds_used and result.stuck == 0, "%s (%s): the story's lineup fought (foes %d/%d, helpers %d/%d, nobody else: %d), every duel to its end: %s" % [label, _build(), result.enemies_in, result.expected_enemies, result.allies_in, result.expected_allies, result.others_in, result.notes])
-		_check(result.duels >= (DUELS - 1) * seeds_used and result.rate() >= limits[0] and result.rate() <= limits[1], "%s (%s build) at %d exp: won %d of %d (%.0f%%; band %.0f–%.0f%%), median %d rounds, %.0f%% of 气 lost on average. A sample (pooled with as many more seeds when the first fell outside): before retuning, re-measure with more seeds — <godot> --headless --fixed-fps 60 --path game --script res://tests/sim/run_mainline_fight_sim.gd -- only=%s build=%s %sseed=7,11,13,17,19,23 n=15 low" % [label, _build(), result.experience, result.wins, result.duels, result.rate() * 100.0, limits[0] * 100.0, limits[1] * 100.0, result.median_rounds(), result.mean_kee_lost() * 100.0, label, _build(), "faction " if MainlineFightSim.FACTION_FIGHTS.has(MainlineFightSim.fight(label)) else ""])
+		_check(result.duels >= (DUELS - 1) * seeds_used and result.rate() >= limits[0] and result.rate() <= limits[1], "%s (%s build) at %d exp: won %d of %d (%.0f%%; band %.0f–%.0f%%), median %d rounds, %.0f%% of 气 lost on average. A sample (pooled with as many more seeds when the first fell outside): before retuning, re-measure with seeds none of the suites used — <godot> --headless --fixed-fps 60 --path game --script res://tests/sim/run_mainline_fight_sim.gd -- only=%s build=%s %sseed=%s n=15 low" % [label, _build(), result.experience, result.wins, result.duels, result.rate() * 100.0, limits[0] * 100.0, limits[1] * 100.0, result.median_rounds(), result.mean_kee_lost() * 100.0, label, _build(), "faction " if MainlineFightSim.FACTION_FIGHTS.has(MainlineFightSim.fight(label)) else "", FRESH_SEEDS])
 	return rates
 
 
