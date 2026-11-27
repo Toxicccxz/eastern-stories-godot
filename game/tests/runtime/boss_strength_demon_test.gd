@@ -13,20 +13,6 @@ const DEMON_TARGETS: Dictionary[String, Variant] = {
 	"终章 侮天鬼（穿宝衣·拔过）": ALONE,
 	"终章 侮天鬼（没宝衣·拔过）": HARDEST,
 }
-## 成长曲线 C (DECISIONS「成长曲线 C」): the character the growth sim plays trails with the fist by
-## about forty points here (its blows hurt as much as 旋芒's; it is hit far more: 94% of its 气 lost
-## on average against the sword's 66%), and no number of the demon's moves the two apart: the fist
-## build keeps the bands above, the sword build, ahead, only their floors (and a fight that can be
-## lost: CEILING).
-static func demon_targets(build: StringName) -> Dictionary[String, Variant]:
-	if build == MainlineFightSim.FIST:
-		return DEMON_TARGETS
-	var out: Dictionary[String, Variant] = {}
-	for label: String in DEMON_TARGETS:
-		out[label] = [float(DEMON_TARGETS[label]) - SPREAD, CEILING]
-	return out
-
-
 ## How far the easiest form's sample may fall below the hardest's before it reads as harder (the
 ## two are tuned twenty points apart; two samples of about 45 duels each differ by chance by up to
 ## about fifteen).
@@ -34,7 +20,7 @@ const ORDER_SLACK: float = 0.05
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
-	var rates: Dictionary[String, float] = await _run_targets(tree, demon_targets(_build()))
+	var rates: Dictionary[String, float] = await _run_targets(tree, DEMON_TARGETS)
 	# The ends only: the two middle forms are meant to be alike.
 	var easy: float = rates.get("终章 侮天鬼（穿宝衣·没拔过）", -1.0)
 	var hard: float = rates.get("终章 侮天鬼（没宝衣·拔过）", -1.0)

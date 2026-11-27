@@ -149,6 +149,11 @@
 			"revision": "SOURCE_ENTRY_FACTION_RECHECK_V1",
 			"spawn_points": 894,
 			"fingerprint": "bf4ee7ac3878fa2891577ee506431f075b68b437a6a2d2dcd1c7e097422eda8e"
+		},
+		{
+			"revision": "SOURCE_ENTRY_GROWTH_C_V1",
+			"spawn_points": 894,
+			"fingerprint": "98743dfc77c89dad17dceb1f0251c7d5e4b30652c1ed90c0f0a01fee53d5f30d"
 		}
 	]
 }
