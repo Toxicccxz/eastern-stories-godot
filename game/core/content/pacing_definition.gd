@@ -101,6 +101,9 @@ extends RefCounted
 ##   combat_exp_below, a master's apprentice check of combat_exp) asks this many instead of its ES2
 ##   value, which stays in its data (entrance.c's and juechen/master.c's 100000). Left out (ES2):
 ##   each asks its own. The catalog applies them as the pacing is set (ContentCatalog.set_pacing()).
+## - player_age_by_exp (成长曲线 C; DECISIONS「成长曲线 C」): [{exp, age}] rising: from `exp` combat_exp the
+##   player is `age` (PlayerAging; human.c's 精 and 气 grow with age). Left out (ES2 has no exp for
+##   it: age follows online time): the player stays the age New Game gives.
 ## - milestone_stage_headroom (成长曲线 A; DECISIONS「成长曲线 A」): a one-time 历练 for content of its own
 ##   level (a region or 名胜 by its region's recommended_exp, a chain by its region's, a book by its
 ##   exp_required, a spar or defeat by the opponent's combat_exp) is priced at most this many stages
@@ -185,6 +188,7 @@ var _rest_limit_seconds: int = 0
 var _training_auto_rest: bool = false
 var _exp_gates: Dictionary[StringName, int] = {}
 var _milestone_stage_headroom: int = -1
+var _player_age_steps: Array[PlayerAging.Step] = []
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -376,6 +380,10 @@ var exp_gates: Dictionary[StringName, int]:
 var milestone_stage_headroom: int:
 	get:
 		return _milestone_stage_headroom
+## The player's age by combat_exp (`player_age_by_exp`; empty: no growing up).
+var player_age_steps: Array[PlayerAging.Step]:
+	get:
+		return _player_age_steps.duplicate()
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 ## How people move about inside their room (the record's `npc_idle`; NpcIdleTuning, DECISIONS
@@ -426,6 +434,7 @@ func copy() -> PacingDefinition:
 	record.with_rest(_rest_world_scale, _rest_limit_seconds, _training_auto_rest)
 	record.with_exp_gates(_exp_gates)
 	record.with_milestone_stage_headroom(_milestone_stage_headroom)
+	record.with_player_ages(_player_age_steps)
 	record.feel = feel
 	record.npc_idle = npc_idle
 	return record
@@ -497,6 +506,12 @@ func with_exp_gates(gates: Dictionary[StringName, int]) -> PacingDefinition:
 ## This record with the one-time 历练's stage headroom set (tests, and from_record()); -1 is no cap.
 func with_milestone_stage_headroom(stages: int) -> PacingDefinition:
 	_milestone_stage_headroom = stages
+	return self
+
+
+## This record with the player's age steps set (tests, and from_record()); [] is no growing up.
+func with_player_ages(steps: Array[PlayerAging.Step]) -> PacingDefinition:
+	_player_age_steps = steps.duplicate()
 	return self
 
 
@@ -680,6 +695,16 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 	definition.with_milestone_stage_headroom(reader.integer("milestone_stage_headroom", -1))
 	if definition._milestone_stage_headroom < -1:
 		reader.fail("milestone_stage_headroom", "must be -1 (no cap) or more")
+	var ages: Array[PlayerAging.Step] = []
+	for record: ContentRecordReader in reader.children("player_age_by_exp"):
+		var step := PlayerAging.Step.new(record.required_integer("exp"), record.required_integer("age"))
+		record.finish()
+		if not ages.is_empty() and (step.min_exp <= ages.back().min_exp or step.age <= ages.back().age):
+			reader.fail("player_age_by_exp", "exp and age must both rise (%d, %d)" % [step.min_exp, step.age])
+		if step.min_exp < 0 or step.age < 1:
+			reader.fail("player_age_by_exp", "exp must not be negative and age at least 1")
+		ages.append(step)
+	definition.with_player_ages(ages)
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)

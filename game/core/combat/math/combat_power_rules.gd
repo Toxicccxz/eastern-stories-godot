@@ -193,6 +193,12 @@ func bare_damage(weapon: bool, unarmed_level: int, trained: bool = true) -> int:
 	return 0 if weapon or not trained else maxi(0, unarmed_level) * bare_damage_percent / 100
 
 
+## Whether `state` fights with trained bare hands: nothing in hand and a fist art enabled on
+## unarmed (the bare share's `trained`; the 封坛's 穿灵 is kept by for such a one, 成长曲线 C).
+static func trained_bare_hands(state: CharacterState) -> bool:
+	return state != null and state.equipment.is_primary_hand_empty() and not state.skills.mapped_skill(SkillIds.UNARMED).is_empty()
+
+
 ## This record with the 重 blow's knob set (战斗拍数 E).
 func with_heavy_blow(percent: int) -> CombatPowerRules:
 	heavy_blow_percent = percent

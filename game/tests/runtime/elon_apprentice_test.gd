@@ -2,9 +2,10 @@ extends RefCounted
 
 ## 成长曲线 A (owner 2026-11-19, Q10; DECISIONS「成长曲线 A」): 瑷伦 takes a student from 30000 exp
 ## (pacing exp_gates `elon`; elon.c's 100000 kept in the data), and her accept test's lashes carry
-## 35% of her inner force and spare the student, as her story lashes do (DECISIONS「考验三招」): a
-## woman of 30000 exp who sat about half her 打坐 cap stands them six or seven times in ten; one
-## who does not faints, never dies, keeps no wound. The confirm says so, and the real test
+## 74% of her inner force and spare the student, as her story lashes do (DECISIONS「考验三招」「成长曲线
+## C」): the woman the growth sim plays, at 30000 exp (twenty) and sat to her 打坐 cap as that player
+## does, stands them six or seven times in ten, one who sat half far less often; one who does not
+## faints, never dies, keeps no wound. The confirm says so, and the real test
 ## (TeacherService.take_trial(), which hands the rule's modifiers to each blow) spares one who
 ## never sat, whom elon.c's full lashes would wound or kill.
 
@@ -65,8 +66,9 @@ func _test_gate(manor: WorldMapController, elon: NpcRuntimeState, state: Charact
 	_check(question[0].contains("不伤性命") and not question[0].contains("伤得太重会死"), "the confirm: no wound, no death (%s)" % question[0])
 
 
-## Her three lashes, struck SAMPLES times at a 30000-exp woman who sat half her cap, as take_trial()
-## strikes them: how often all three are stood, and that nobody dies of them or keeps a wound.
+## Her three lashes, struck SAMPLES times at the played 30000-exp woman (sat to her cap), as
+## take_trial() strikes them: how often all three are stood, and that nobody dies of them or keeps a
+## wound; then at one who sat half her cap.
 func _test_lashes(manor: WorldMapController, elon: NpcRuntimeState, state: CharacterState) -> void:
 	var rule: NpcTeaching.ApprenticeRule = elon.definition().teaching().apprentice
 	var elon_force: int = elon.character_state.recovery.inner_force.current
@@ -74,7 +76,7 @@ func _test_lashes(manor: WorldMapController, elon: NpcRuntimeState, state: Chara
 	var dead: int = 0
 	var wounded: int = 0
 	for sample: int in SAMPLES:
-		Grown.grow(state, 30000)
+		Grown.grow(state, 30000, 100)
 		elon.character_state.recovery.inner_force.current = elon_force
 		var stood: bool = true
 		for blow: int in rule.blows.size():
@@ -85,16 +87,21 @@ func _test_lashes(manor: WorldMapController, elon: NpcRuntimeState, state: Chara
 		wounded += 1 if state.vitality.effective < state.vitality.maximum or state.conditions.size() > 0 else 0
 		passed += 1 if stood else 0
 	var rate: float = float(passed) / SAMPLES
-	_check(rate >= PASS_LOW and rate <= PASS_HIGH, "30000 exp, half the 打坐 cap (kee %d): stood %d of %d (%.0f%%), within %.0f–%.0f%%" % [state.vitality.maximum, passed, SAMPLES, rate * 100.0, PASS_LOW * 100.0, PASS_HIGH * 100.0])
+	_check(rate >= PASS_LOW and rate <= PASS_HIGH, "30000 exp, sat to the 打坐 cap (kee %d): stood %d of %d (%.0f%%), within %.0f–%.0f%%" % [state.vitality.maximum, passed, SAMPLES, rate * 100.0, PASS_LOW * 100.0, PASS_HIGH * 100.0])
 	_check(dead == 0, "a lash not stood never kills (%d)" % dead)
 	_check(wounded == 0, "nor leaves a wound or a condition (%d)" % wounded)
-	Grown.grow(state, 30000, 100)
-	var stood_all: bool = true
-	for blow: int in rule.blows.size():
-		if manor.attack_player_outside_fight(elon, rule.blow_modifiers()) == null or state.vitality.current < 0:
-			stood_all = false
-	_check(stood_all, "one who sat to the cap stands them")
-	# The real test, through the service: a 30000 woman who never sat (气 100) cannot stand 35% lashes;
+	var half: int = 0
+	for sample: int in SAMPLES:
+		Grown.grow(state, 30000, 50)
+		elon.character_state.recovery.inner_force.current = elon_force
+		var stood: bool = true
+		for blow: int in rule.blows.size():
+			if manor.attack_player_outside_fight(elon, rule.blow_modifiers()) == null or state.vitality.current < 0:
+				stood = false
+				break
+		half += 1 if stood else 0
+	_check(float(half) / SAMPLES < PASS_LOW and half < passed, "half the cap (kee %d) stands them less often: %d of %d" % [state.vitality.maximum, half, SAMPLES])
+	# The real test, through the service: a 30000 woman who never sat (气 220 at twenty) cannot stand them;
 	# she falls alive, with no wound and no condition. Without the rule's modifiers elon.c's lashes
 	# (her full force, lethal) would wound her or kill her.
 	elon.character_state.recovery.inner_force.current = elon_force

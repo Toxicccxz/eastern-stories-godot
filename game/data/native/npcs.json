@@ -2830,10 +2830,10 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 180000,
+			"combat_exp": 250000,
 			"skills": {
-				"sword": 70,
-				"six-chaos-sword": 70,
+				"sword": 64,
+				"six-chaos-sword": 64,
 				"dodge": 150,
 				"parry": 80,
 				"force": 160
@@ -2899,7 +2899,7 @@
 				"con": 24,
 				"kar": 14
 			},
-			"combat_exp": 22000,
+			"combat_exp": 20000,
 			"skills": {
 				"sword": 80,
 				"parry": 75,
@@ -3012,7 +3012,7 @@
 				"con": 30
 			},
 			"apply": {"attack": 40, "damage": 250},
-			"combat_exp": 250000,
+			"combat_exp": 150000,
 			"skills": {"unarmed": 135, "celestrike": 135, "parry": 135, "dodge": 125, "pyrobat-steps": 125, "force": 125, "celestial": 125},
 			"skill_map": {
 				"unarmed": "celestrike",
@@ -3053,7 +3053,7 @@
 				"cps": 30
 			},
 			"apply": {"attack": 40, "damage": 250},
-			"combat_exp": 250000,
+			"combat_exp": 150000,
 			"skills": {"unarmed": 135, "celestrike": 135, "parry": 135, "dodge": 125, "pyrobat-steps": 125, "force": 125, "celestial": 125},
 			"skill_map": {
 				"unarmed": "celestrike",
@@ -3100,7 +3100,7 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 6000, "max_gin": 1200, "max_sen": 1200, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 2700, "max_gin": 1200, "max_sen": 1200, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
@@ -3156,7 +3156,7 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 6000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 2900, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
@@ -3212,7 +3212,7 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 6000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 2900, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
@@ -3268,7 +3268,7 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 6000, "max_gin": 1900, "max_sen": 1900, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 2700, "max_gin": 1900, "max_sen": 1900, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"

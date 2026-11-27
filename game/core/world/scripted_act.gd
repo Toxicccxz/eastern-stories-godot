@@ -364,8 +364,12 @@ class Step:
 	var item_id: StringName = &""
 	var pick: Array[StringName] = []
 	var unless_temp: String = ""
-	## `give`'s `wield` (native; DECISIONS「穿灵在手」): the new weapon goes into the player's hand.
+	## `give`'s `wield` (native; DECISIONS「穿灵在手」): the new weapon goes into the player's hand in
+	## place of the one they hold; one who fights with trained bare hands (柳家拳 enabled, nothing in
+	## hand: CombatPowerRules.trained_bare_hands) keeps them free and it goes into the bag (成长曲线 C).
 	var wield: bool = false
+	## `give`'s `bare_lines`, said instead of `lines` when `wield` left trained bare hands free.
+	var bare_lines: Array[NpcLine] = []
 	var lines: Array[NpcLine] = []
 	## set_temp, clear_temp, unmark, mark, set_room, clear_room, npc_flag, npc_mood: the flag,
 	## mark or mood.
@@ -720,6 +724,13 @@ static func _step(reader: ContentRecordReader) -> Step:
 				record.finish()
 				if said != null:
 					step.lines.append(said)
+			for record: ContentRecordReader in reader.children("bare_lines"):
+				var said: NpcLine = NpcLine.from_record(record, true)
+				record.finish()
+				if said != null:
+					step.bare_lines.append(said)
+			if not step.bare_lines.is_empty() and not step.wield:
+				reader.fail("bare_lines", "is said instead of lines when wield leaves trained bare hands free: it needs wield")
 		"set_temp":
 			step.kind = Kind.SET_TEMP
 			step.flag = reader.required_text("set_temp")

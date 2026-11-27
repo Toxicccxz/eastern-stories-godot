@@ -17,11 +17,12 @@ const BEARER_TARGETS: Dictionary[String, Variant] = {
 	"终章 冰龙厅 商玦（没拿旋芒·大秦短剑，皇叔并肩）": HELPED,
 	"终章 冰龙厅 商玦+四道士（没拿旋芒·大秦短剑，皇叔并肩）": DRAGONS_BEATEN,
 }
-## The pairs that must fight alike: 皇叔's copy and 萧辟尘's, at the 湖畔 and in the 冰龙厅.
+## The pairs that must fight alike: 皇叔's copy and 萧辟尘's, at the 湖畔 and in the 冰龙厅. The 冰龙厅's
+## two have less exp than the 湖畔's (成长曲线 C: 15 万, not 25 万; with them as strong, the fist build
+## beside them won every duel against 商玦, a fight that could not be lost).
 const TWINS: Array[Array] = [
 	[&"native.npc.yulan_tianwu_lake", &"native.npc.xiao_pichen_lake"],
 	[&"native.npc.yulan_tianwu_lakebottom", &"native.npc.xiao_pichen_lakebottom"],
-	[&"native.npc.yulan_tianwu_lake", &"native.npc.yulan_tianwu_lakebottom"],
 ]
 
 

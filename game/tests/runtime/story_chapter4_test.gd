@@ -19,10 +19,13 @@ extends RefCounted
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Grown := preload("res://tests/support/grown_character.gd")
-## DECISIONS「考验三招」: a character of 晚月庄's recommended_exp as it was then (10000; 成长曲线 A
-## made it the main story's arrival, 6505, and its package C retunes the lashes) who sat about an
-## hour (half its max_force cap) stands her lashes six or seven times in ten.
+const Arrival := preload("res://tests/support/story_arrival.gd")
+## DECISIONS「考验三招」「成长曲线 C」: the character the growth sim plays, at the main story's arrival
+## at 晚月庄 (StoryArrival.TUNED: 6505, sixteen), who sat to its cap as that player does, stands her
+## lashes six or seven times in ten; one who never sat cannot.
 const SAMPLES: int = 200
+## Past the story's pace (the seventh chapter's arrival, sat to the cap): stands them every time.
+const STRONG_EXP: int = 14260
 const PASS_LOW: float = 0.55
 const PASS_HIGH: float = 0.80
 ## 芳绫's room, the 禁闭房 (its reset() brings her home).
@@ -109,7 +112,7 @@ func _test_kept(tree: SceneTree, session: WorldSessionController) -> void:
 	var trials: Array[NpcTrial] = manor.npc_life.story_trials_offered(elon)
 	_check(trials.size() == 1 and trials[0].label == "接她三鞭" and trials[0].confirm.begins_with("瑷伦的三鞭是真打"), "her trial is now a row of the popup, asked first")
 	_test_pass_rate(manor, elon, trials[0], state)
-	Grown.grow(state, 10000, 100) # TEST-ONLY: 晚月庄's recommended_exp before 成长曲线 A, max_force at its cap (always stood)
+	Grown.grow(state, STRONG_EXP, 100) # TEST-ONLY: past the story's pace, sat to the cap (always stood)
 	var result: NpcApprenticeTrial.Result = manor.npc_life.take_story_trial(elon, trials[0])
 	await _told(tree, session, manor, elon)
 	_check(result.outcome == NpcApprenticeTrial.Outcome.PASSED and result.blows == 3 and state.marks.get("接下了瑷伦三鞭", 0) == 1 and DeedLog.done(state, "接下了守衣人瑷伦的三鞭"), "three lashes stood: the mark and the deed; outcome %s" % result.outcome)
@@ -199,7 +202,7 @@ func _test_taken(tree: SceneTree, session: WorldSessionController) -> void:
 	var elon: NpcRuntimeState = await _beside(tree, session, manor, &"latemoon.room.eastroom.elon.1")
 	_ask(manor, elon, "宝衣")
 	session.record_journal()
-	Grown.grow(state, 10000, 100) # TEST-ONLY: grown, max_force at its cap (always stood)
+	Grown.grow(state, STRONG_EXP, 100) # TEST-ONLY: past the story's pace, sat to the cap (always stood)
 	var trials: Array[NpcTrial] = manor.npc_life.story_trials_offered(elon)
 	_check(trials.size() == 1, "a man is offered her lashes too (her 拜师 is women's only)")
 	_check(manor.npc_life.take_story_trial(elon, trials[0]).outcome == NpcApprenticeTrial.Outcome.PASSED, "stood")
@@ -326,7 +329,7 @@ func _test_annie(tree: SceneTree, session: WorldSessionController) -> void:
 	var elon: NpcRuntimeState = await _beside(tree, session, manor, &"latemoon.room.eastroom.elon.1")
 	_ask(manor, elon, "宝衣")
 	session.record_journal()
-	Grown.grow(state, 10000, 100) # TEST-ONLY: grown, max_force at its cap (always stood)
+	Grown.grow(state, STRONG_EXP, 100) # TEST-ONLY: past the story's pace, sat to the cap (always stood)
 	manor.npc_life.take_story_trial(elon, manor.npc_life.story_trials_offered(elon)[0])
 	session.record_journal()
 	var said: Array[String] = _ask(manor, elon, "交给安妮儿")
@@ -375,18 +378,19 @@ func _test_annie(tree: SceneTree, session: WorldSessionController) -> void:
 
 
 ## TEST-ONLY: the player beside the NPC of `point_id`, a heart beat after (its reaction call).
-## Her lashes struck SAMPLES times at a grown character (Grown: 10000 exp, half the max_force cap)
+## Her lashes struck SAMPLES times at the played character at 晚月庄's arrival (Grown, sat to its cap)
 ## as take_story_trial() strikes them (attack_player_outside_fight() with the trial's modifiers),
 ## nothing written: how often all three are stood, and that nobody dies of them.
 func _test_pass_rate(manor: WorldMapController, elon: NpcRuntimeState, trial: NpcTrial, state: CharacterState) -> void:
-	_check(trial.inner_force_percent == 23 and not trial.lethal, "her lashes: about a quarter of her inner force (23: back to six or seven in ten once the tags weighed the whole blow, DECISIONS「姿态整记」), never lethal (DECISIONS「考验三招」)")
+	_check(trial.inner_force_percent == 42 and not trial.lethal, "her lashes: 42% of her inner force (成长曲线 C: six or seven in ten for the played character at 晚月庄's arrival), never lethal (DECISIONS「考验三招」)")
+	var arrival: int = Arrival.tuned(&"main.chapter4")
 	var elon_force: int = elon.character_state.recovery.inner_force.current
 	var elon_kee: Array[int] = [elon.character_state.vitality.current, elon.character_state.vitality.effective]
 	var wounded: int = 0
 	var passed: int = 0
 	var dead: int = 0
 	for sample: int in SAMPLES:
-		Grown.grow(state, 10000)
+		Grown.grow(state, arrival, 100)
 		elon.character_state.recovery.inner_force.current = elon_force
 		var stood: bool = true
 		for blow: int in trial.blows.size():
@@ -400,7 +404,7 @@ func _test_pass_rate(manor: WorldMapController, elon: NpcRuntimeState, trial: Np
 		wounded += 1 if state.vitality.effective < state.vitality.maximum or state.conditions.size() > 0 else 0
 		passed += 1 if stood else 0
 	var rate: float = float(passed) / SAMPLES
-	_check(rate >= PASS_LOW and rate <= PASS_HIGH, "10000 exp, an hour of 打坐 (kee %d): stood %d of %d (%.0f%%), within %.0f–%.0f%%" % [state.vitality.maximum, passed, SAMPLES, rate * 100.0, PASS_LOW * 100.0, PASS_HIGH * 100.0])
+	_check(rate >= PASS_LOW and rate <= PASS_HIGH, "%d exp, sat to the cap (kee %d): stood %d of %d (%.0f%%), within %.0f–%.0f%%" % [arrival, state.vitality.maximum, passed, SAMPLES, rate * 100.0, PASS_LOW * 100.0, PASS_HIGH * 100.0])
 	_check(dead == 0, "a lash that is not stood never kills (%d)" % dead)
 	_check(wounded == 0, "nor leaves a wound or a condition (iceshock): only kee is lost (%d)" % wounded)
 	elon.character_state.recovery.inner_force.current = elon_force
@@ -408,7 +412,7 @@ func _test_pass_rate(manor: WorldMapController, elon: NpcRuntimeState, trial: Np
 	elon.character_state.vitality.current = elon_kee[0]
 
 
-## One who never sat (max_force 0, kee 100) cannot stand them: the trial fails, the player falls
+## One who never sat (max_force 0, kee 140 at sixteen) cannot stand them: the trial fails, the player falls
 ## and wakes — never dies of it, no wound or condition left (lethal false) — and may come again;
 ## after two falls she relents (relents_after_falls): not before the player has their breath back,
 ## then without inner force, so the third go is stood; the count is kept by Save and Continue.
@@ -420,9 +424,9 @@ func _test_fall(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	var elon: NpcRuntimeState = await _beside(tree, session, manor, &"latemoon.room.eastroom.elon.1")
 	state.marks["瑷伦说了三鞭"] = 1 # TEST-ONLY: she asked for her lashes (the kept session walks there)
-	Grown.grow(state, 10000, 0) # TEST-ONLY: never sat
+	Grown.grow(state, Arrival.tuned(&"main.chapter4"), 0) # TEST-ONLY: never sat
 	var trials: Array[NpcTrial] = manor.npc_life.story_trials_offered(elon)
-	_check(trials.size() == 1 and state.vitality.maximum == 100, "fall: offered, kee 100")
+	_check(trials.size() == 1 and state.vitality.maximum == 140 and state.recovery.inner_force.maximum == 0, "fall: offered, kee 140 (sixteen), no inner force (%d)" % state.vitality.maximum)
 	var result: NpcApprenticeTrial.Result = manor.npc_life.take_story_trial(elon, trials[0])
 	await _settle(tree)
 	_check(result.outcome == NpcApprenticeTrial.Outcome.FAILED and state.marks.get("接下了瑷伦三鞭", 0) == 0, "fall: not stood (%d blows)" % result.blows)
@@ -450,11 +454,13 @@ func _test_fall(tree: SceneTree, session: WorldSessionController) -> void:
 	if restored.succeeded():
 		restored.candidate.free()
 		await tree.process_frame
-	# Struck without inner force, the lashes cannot fell the 100 kee every player has.
+	# Struck without inner force, the lashes cannot fell even the 100 kee of a New Game player.
 	var felled: int = 0
 	var elon_force: int = elon.character_state.recovery.inner_force.current
 	for sample: int in SAMPLES:
 		Grown.heal(state)
+		state.vitality.current = 100 # TEST-ONLY: a New Game player's kee
+		state.vitality.effective = 100
 		elon.character_state.recovery.inner_force.current = elon_force
 		for blow: int in trial.blows.size():
 			manor.attack_player_outside_fight(elon, trial.blow_modifiers(true))
