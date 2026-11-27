@@ -6917,7 +6917,7 @@ msgid "你胸中杀气翻涌，渐渐压不住了：杀气这么重，走进有�
 msgstr "La Sed de sangre te hierve en el pecho y ya casi no puedes contenerla: con tanta, al entrar donde hay gente podrías perder el control y atacar a alguien."
 
 msgid "普通百姓"
-msgstr "Plebeyo"
+msgstr "Gente común"
 
 msgid "【 鬼  魂 】"
 msgstr "[ Fantasma ]"
@@ -9464,7 +9464,7 @@ msgid "江湖常识"
 msgstr "Nociones del jianghu"
 
 msgid "武学"
-msgstr "Artes marciales"
+msgstr "Artes"
 
 msgid "物品"
 msgstr "Objetos"
@@ -10745,7 +10745,7 @@ msgid "……还有 {count} 项"
 msgstr "...y {count} más"
 
 msgid "生在{name}"
-msgstr "Nacido en {name}{:el}"
+msgstr "{jugador:Nacido|Nacida} en {name}{:el}"
 
 msgid "切磋胜过{name}"
 msgstr "Ganaste un combate amistoso contra {name}{:el}"
@@ -14675,7 +14675,7 @@ msgid "姓名"
 msgstr "Nombre"
 
 msgid "1–24 个字符，可用各语言文字"
-msgstr "De 1 a 24 caracteres, en cualquier alfabeto"
+msgstr "De 1 a 24 caracteres, en cualquier escritura"
 
 msgid "随机名字"
 msgstr "Nombre al azar"
@@ -14771,7 +14771,7 @@ msgid "上一次完整的存档"
 msgstr "La última partida guardada completa"
 
 msgid "存档中断时留下的存档"
-msgstr "La partida que dejó un guardado interrumpido"
+msgstr "La partida que quedó tras un guardado interrumpido"
 
 msgid "开始新游戏"
 msgstr "Empezar nueva partida"
@@ -14846,7 +14846,7 @@ msgid "师太"
 msgstr "hermana"
 
 msgid "小仙姑"
-msgstr "joven taoísta"
+msgstr "joven hermana taoísta"
 
 msgid "仙姑"
 msgstr "hermana taoísta"
@@ -14888,10 +14888,10 @@ msgid "老爷子"
 msgstr "abuelo"
 
 msgid "「"
-msgstr "«"
+msgstr "\""
 
 msgid "」"
-msgstr "»"
+msgstr "\""
 
 msgid "、"
 msgstr ", "
@@ -14924,7 +14924,7 @@ msgid "%s耸了耸肩，很抱歉地说：无可奉告。"
 msgstr "%s{:el} se encoge de hombros, como disculpándose: \"No hay nada que yo pueda contar.\""
 
 msgid "%s说道：嗯....这我可不清楚，你最好问问别人吧。"
-msgstr "%s{:el} dice: \"Mmm... de eso no sé nada. Mejor habría que preguntarle a otro.\""
+msgstr "%s{:el} dice: \"Mmm... de eso no sé nada. Mejor pregúntale a otro.\""
 
 msgid "%s想了一会儿，说道：对不起，你问的事我实在没有印象。"
 msgstr "%s{:el} lo piensa un momento: \"Lo siento, de eso no recuerdo nada.\""
