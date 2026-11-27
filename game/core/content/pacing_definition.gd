@@ -512,13 +512,13 @@ func with_exp_gates(gates: Dictionary[StringName, int]) -> PacingDefinition:
 	return self
 
 
-## This record with the one-time 历练's stage headroom set (tests, and from_record()); -1 is no cap.
 ## This record with the bounty board's ceiling set (tests, and from_record()); 0 is 远不如你.
 func with_bounty_ceiling(percent: int) -> PacingDefinition:
 	_bounty_ceiling_percent = percent
 	return self
 
 
+## This record with the one-time 历练's stage headroom set (tests, and from_record()); -1 is no cap.
 func with_milestone_stage_headroom(stages: int) -> PacingDefinition:
 	_milestone_stage_headroom = stages
 	return self
