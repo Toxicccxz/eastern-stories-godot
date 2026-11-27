@@ -555,6 +555,16 @@ func _mark_spar_won(loser: NpcRuntimeState) -> void:
 		map.open_found_ways(hooks.spar_won_mark)
 
 
+## NpcHooks.spar_over_mark (native, DECISIONS「师娘彩蛋 A」): the player whose spar with `other`
+## a blow ended — theirs or the NPC's — gets its mark (何守拙: 过了招, whoever touched whom).
+func _mark_spar_over(other: NpcRuntimeState) -> void:
+	var hooks: NpcHooks = null if other == null else other.definition().hooks()
+	var player := _session.player_runtime()
+	if hooks == null or hooks.spar_over_mark.is_empty() or player == null or player.state == null:
+		return
+	player.state.marks[hooks.spar_over_mark] = 1
+
+
 ## A special's attacks (the player's 逐 / 点, 缺's due blow, an NPC chat special) end a spar
 ## the same way an ordinary opportunity does: each forward blow and riposte, in order.
 func _note_spar_winner(event: CombatSchedulerEvent, special: SpecialReport) -> void:
@@ -681,6 +691,9 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 			var loser: NpcRuntimeState = _session.resident_npc(_spar_loser)
 			_session.progression_rewards().spar_won(loser)
 			_mark_spar_won(loser)
+		# 师娘彩蛋 A: a spar that a blow ended, won or lost, marks the player with the NPC's word for it.
+		if not _spar_winner.is_empty():
+			_mark_spar_over(_session.resident_npc(_spar_loser if _spar_winner == player_id else _spar_winner))
 		return
 	# One fallen waits on the player's 了结 / 放过: the fight goes on until they choose.
 	if player_active and not _held.is_empty():

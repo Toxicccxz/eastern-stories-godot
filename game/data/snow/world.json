@@ -15,7 +15,8 @@
 		{ "id": "snow.hockshop_house", "region": "snow", "scene": "res://scenes/world/snow/snow_hockshop_house.tscn", "entry": "snow.hockshop.hockshop_entry", "interior": true },
 		{ "id": "snow.school_compound", "region": "snow", "scene": "res://scenes/world/snow/snow_school_compound.tscn", "entry": "snow.school2.gate_entry", "interior": true },
 		{ "id": "snow.temple_house", "region": "snow", "scene": "res://scenes/world/snow/snow_temple_house.tscn", "entry": "snow.temple.square_entry", "interior": true },
-		{ "id": "snow.academy", "region": "snow", "scene": "res://scenes/world/snow/snow_academy.tscn", "entry": "snow.school.academy_entry", "interior": true }
+		{ "id": "snow.academy", "region": "snow", "scene": "res://scenes/world/snow/snow_academy.tscn", "entry": "snow.school.academy_entry", "interior": true },
+		{ "id": "snow.rain_compound", "region": "snow", "scene": "res://scenes/world/snow/snow_rain_compound.tscn", "entry": "snow.rain_yard.gate_arrival", "interior": true }
 	],
 	"zones": [
 		{ "id": "snow.inn.main_floor", "map": "snow.inn", "indoors": true, "rooms": ["es2:d/snow/inn"] },
@@ -41,6 +42,8 @@
 		{ "id": "snow.sroad4", "map": "snow.outdoor", "rooms": ["es2:d/snow/sroad4"] },
 		{ "id": "snow.sroad5", "map": "snow.outdoor", "rooms": ["es2:d/snow/sroad5"] },
 		{ "id": "snow.school", "map": "snow.academy", "indoors": true, "rooms": ["es2:d/snow/school"] },
+		{ "id": "snow.rain_yard", "map": "snow.rain_compound", "rooms": ["native:snow/rain_yard"] },
+		{ "id": "snow.rain_house", "map": "snow.rain_compound", "indoors": true, "rooms": ["native:snow/rain_house"] },
 		{ "id": "snow.smithy", "map": "snow.smithy_house", "indoors": true, "rooms": ["es2:d/snow/smithy"] },
 		{ "id": "snow.herbshop", "map": "snow.herbshop_house", "indoors": true, "rooms": ["es2:d/snow/herbshop"] },
 		{ "id": "snow.postoffice", "map": "snow.postoffice_house", "indoors": true, "rooms": ["es2:d/snow/postoffice"] },
@@ -89,14 +92,20 @@
 		{ "id": "snow.eroad1.north", "from_zone": "snow.eroad1", "to_zone": "snow.temple", "to_spawn": "snow.temple.path_entry", "legacy_room": "es2:d/snow/eroad1", "legacy_command": "north" },
 		{ "id": "snow.temple.south", "from_zone": "snow.temple", "to_zone": "snow.eroad1", "to_spawn": "snow.eroad1.path_return", "legacy_room": "es2:d/snow/temple", "legacy_command": "south" },
 		{ "id": "snow.sroad2.south", "from_zone": "snow.sroad2", "to_zone": "snow.school", "to_spawn": "snow.school.academy_entry", "legacy_room": "es2:d/snow/sroad2", "legacy_command": "south" },
-		{ "id": "snow.school.north", "from_zone": "snow.school", "to_zone": "snow.sroad2", "to_spawn": "snow.sroad2.academy_return", "legacy_room": "es2:d/snow/school", "legacy_command": "north" }
+		{ "id": "snow.school.north", "from_zone": "snow.school", "to_zone": "snow.sroad2", "to_spawn": "snow.sroad2.academy_return", "legacy_room": "es2:d/snow/school", "legacy_command": "north" },
+		{ "id": "snow.eroad2.north", "from_zone": "snow.eroad2", "to_zone": "snow.rain_yard", "to_spawn": "snow.rain_yard.gate_arrival", "legacy_room": "es2:d/snow/eroad2", "legacy_command": "north" },
+		{ "id": "snow.rain_yard.south", "from_zone": "snow.rain_yard", "to_zone": "snow.eroad2", "to_spawn": "snow.eroad2.yard_return", "legacy_room": "native:snow/rain_yard", "legacy_command": "south" }
 	],
 	"services": [
 		{ "id": "snow.mstreet4.coach", "kind": "coach", "zone": "snow.mstreet4", "name": "车马行", "reach": 96, "arrival": "snow.mstreet4.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" },
 		{ "id": "snow.workplace.mill", "kind": "work", "zone": "snow.workplace", "name": "短工", "reach": 96, "legacy_source": "d/snow/workplace.c" },
 		{ "id": "snow.bank.counter", "kind": "bank", "zone": "snow.bank", "name": "钱庄", "reach": 96, "legacy_source": "d/snow/bank.c" },
 		{ "id": "snow.hockshop.counter", "kind": "hockshop", "zone": "snow.hockshop", "name": "丰登当铺", "reach": 90, "legacy_source": "d/snow/hockshop.c" },
-		{ "id": "snow.mstreet4.bounty", "kind": "bounty", "zone": "snow.mstreet4", "name": "官府悬赏", "reach": 96, "legacy_source": "native: A2 经验节奏 (雪亭驿的悬赏榜, DECISIONS「经验节奏」)" }
+		{ "id": "snow.mstreet4.bounty", "kind": "bounty", "zone": "snow.mstreet4", "name": "官府悬赏", "reach": 96, "legacy_source": "native: A2 经验节奏 (雪亭驿的悬赏榜, DECISIONS「经验节奏」)" },
+		{"id": "snow.eroad2.rain_gate", "kind": "act", "zone": "snow.eroad2", "name": "小院的柴门", "reach": 96, "legacy_source": "native: 师娘彩蛋 A (计划 build/plans/师娘彩蛋_计划.md, owner 2026-11-27「都照推荐」; DECISIONS「师娘彩蛋 A」) — d/snow/eroad3.c sees 几间房屋错落在林木间 west of the 山路; one of them is 沈疏雨's yard, its wicker gate on the 黄土小径. It opens to a grown 封山 or 北宗 disciple who has learned what their teacher's sword can give (封山剑法 40).", "act": {"verb": "叩门", "acts": [{"mark": "小院开了门", "steps": [{"line": "柴门虚掩着，一推就开。\n"}]}, {"when": {"cond": "rain.welcome"}, "steps": [{"line": "你叩了叩柴门。院里劈柴的声音停了。\n"}, {"line": "一个花白头发的老人把门拉开半扇，看了看你腰间的剑，又看了看你握剑的那只手。\n"}, {"line": "老人说道：封山的剑。……进来吧，她在院里。\n"}, {"mark": "小院开了门"}]}, {"steps": [{"line": "你叩了叩柴门。院里有劈柴的声音，没有人应。\n"}]}]}}
+	],
+	"exit_rules": [
+		{"id": "snow.eroad2.rain_gate.shut", "room": "es2:d/snow/eroad2", "from_zone": "snow.eroad2", "to_zone": "snow.rain_yard", "when": "no_mark", "mark": "小院开了门", "lines": ["柴门从里面闩着。（门边可以叩门。）"], "legacy_source": "native: 师娘彩蛋 A (计划 build/plans/师娘彩蛋_计划.md, owner 2026-11-27「都照推荐」; DECISIONS「师娘彩蛋 A」) — the yard's gate stays shut until it was opened to the player (小院的柴门 · 叩门)"}
 	],
 	"doors": [
 		{ "id": "snow.school.gate", "name": "红漆大门", "zones": ["snow.school1", "snow.school2"], "reach": 90, "open": true, "closable": false, "legacy_room": "es2:d/snow/school1" },

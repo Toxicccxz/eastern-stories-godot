@@ -16,7 +16,7 @@ extends RefCounted
 ## Keys whose marks a list of steps, a rule or a reward writes, not reads.
 const WRITE_KEYS: Array[String] = [
 	"mark_asker", "marks_asker", "mark_giver", "marks_giver", "teaches", "set_mark", "also_mark", "die_marks_killer",
-	"scene_mark", "spar_won_mark", "vendetta_mark", "unmark", "unmarks", "unmark_giver", "once_mark", "mark_lapses_at",
+	"scene_mark", "spar_won_mark", "spar_over_mark", "vendetta_mark", "unmark", "unmarks", "unmark_giver", "once_mark", "mark_lapses_at",
 ]
 ## Keys that name an item read where they stand (a condition, a rule, an act that takes it).
 const ITEM_KEYS: Array[String] = ["item", "items", "carries", "asker_carries", "asker_not_carries", "confirm_carries", "giver_carries", "die_carries", "wearing", "takes", "item_alias"]

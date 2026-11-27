@@ -88,6 +88,9 @@ var die_item_master: bool = false
 var die_marks_killer: String = ""
 var die_marks: String = ""
 var spar_won_mark: String = ""
+## Native (师娘彩蛋 A; DECISIONS「师娘彩蛋 A」): the mark the player gets once a blow ended their
+## spar with this NPC, whoever landed it (何守拙's 过了招).
+var spar_over_mark: String = ""
 var calls: Array[Call] = []
 var calls_hold: bool = false
 ## Native (主线 A; DECISIONS「剧情演出」): `spared` {mood?, mark?}: 放过 as it lay puts it in
@@ -356,6 +359,9 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 	if reader.has("spar_won_mark"):
 		found = true
 		hooks.spar_won_mark = reader.required_text("spar_won_mark")
+	if reader.has("spar_over_mark"):
+		found = true
+		hooks.spar_over_mark = reader.required_text("spar_over_mark")
 	for record: ContentRecordReader in reader.children("calls"):
 		found = true
 		var call := Call.new()

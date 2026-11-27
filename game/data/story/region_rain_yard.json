@@ -1,0 +1,99 @@
+{
+	"quests": [
+		{
+			"id": "region.rain_yard",
+			"title": "镇外的小院",
+			"line": "region",
+			"region": "雪亭镇",
+			"sources": [
+				"native: 师娘彩蛋 A (计划 build/plans/师娘彩蛋_计划.md, owner 2026-11-27「都照推荐」; DECISIONS「师娘彩蛋 A」) — 包 A: the yard, 沈疏雨, 何守拙 and 「听雨」 by trust alone; the four scenes are 包 B."
+			],
+			"summary": "雪亭镇东边的黄土小径旁有一座小院，住着一位「北宗的师娘」。",
+			"starts": {
+				"mark": "小院开了门"
+			},
+			"reward": {
+				"milestone": true
+			},
+			"steps": [
+				{
+					"id": "meet",
+					"objective": "进小院看看。",
+					"done": {
+						"mark": "见过沈疏雨"
+					},
+					"text": "院里练剑的妇人叫沈疏雨。二十年前，江湖上把她和柳淳风合称「风雨双侠」。",
+					"target": {
+						"map": "snow.rain_compound",
+						"zone": "snow.rain_yard",
+						"npcs": [
+							"native.npc.shen_shuyu"
+						]
+					}
+				},
+				{
+					"id": "ask",
+					"objective": "问沈疏雨「雨」。",
+					"done": {
+						"any": [
+							{
+								"mark": "沈疏雨叫你试老何"
+							},
+							{
+								"mark": "学了听雨"
+							}
+						]
+					},
+					"text": "她没有答，叫你先去和院里的何守拙过几招。",
+					"target": {
+						"map": "snow.rain_compound",
+						"zone": "snow.rain_yard",
+						"npcs": [
+							"native.npc.shen_shuyu"
+						]
+					}
+				},
+				{
+					"id": "spar",
+					"objective": "和何守拙切磋一场，点到为止。他只守不攻——看看封山的剑等得到几个空子。",
+					"done": {
+						"any": [
+							{
+								"mark": "和何守拙过了招"
+							},
+							{
+								"mark": "学了听雨"
+							}
+						]
+					},
+					"text": "何守拙守了三十年门。他不出剑，你就没有空子可等。",
+					"target": {
+						"map": "snow.rain_compound",
+						"zone": "snow.rain_yard",
+						"npcs": [
+							"native.npc.he_shouzhuo"
+						]
+					}
+				},
+				{
+					"id": "learn",
+					"objective": "回去再问沈疏雨「雨」。",
+					"done": {
+						"mark": "学了听雨"
+					},
+					"text": "沈疏雨把「听雨」教给了你：一剑逼过去，对方接了，身前就空了。这一招不在封山的谱上。想试，就再找何守拙过几招。",
+					"reward": {
+						"deed": "从镇外的沈疏雨那里学到了封山谱上没有的「听雨」"
+					},
+					"target": {
+						"map": "snow.rain_compound",
+						"zone": "snow.rain_yard",
+						"npcs": [
+							"native.npc.shen_shuyu"
+						]
+					}
+				}
+			]
+		}
+	]
+}
