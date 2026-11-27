@@ -13118,6 +13118,7 @@
 				"chaos-steps": 60
 			},
 			"skill_map": {
+				"force": "fonxanforce",
 				"parry": "fonxansword",
 				"dodge": "chaos-steps"
 			},
