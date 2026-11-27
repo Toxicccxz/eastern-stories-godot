@@ -131,7 +131,7 @@ func push(text: String, color: Color = PLAIN_TEXT, colored: bool = false) -> voi
 	if (_suppressed and not held) or text.strip_edges().is_empty():
 		return
 	var entry := Entry.new()
-	entry.text = KoreanText.shown(text)
+	entry.text = ShownText.of(text)
 	entry.color = color
 	entry.colored = colored
 	_latest = entry

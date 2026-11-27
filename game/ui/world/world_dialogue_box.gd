@@ -272,7 +272,7 @@ func _write_answer(lines: Array[String]) -> void:
 	var shown: String = ""
 	var spans: Array[Vector2i] = []
 	for line: String in lines:
-		var each: String = KoreanText.shown(line)
+		var each: String = ShownText.of(line)
 		if not shown.is_empty():
 			shown += "\n"
 		for span: Vector2i in KeySpans.find(each, [], found):

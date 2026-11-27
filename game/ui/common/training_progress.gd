@@ -232,7 +232,7 @@ func _leave_stage() -> void:
 
 
 func _present(lines: Array[ColoredLine]) -> void:
-	status.text = KoreanText.shown("\n".join(ColoredLine.texts(lines)))
+	status.text = ShownText.of("\n".join(ColoredLine.texts(lines)))
 	bar.hide()
 	stop_button.hide()
 	var parent := get_parent() as CanvasItem
@@ -404,12 +404,12 @@ func _show() -> void:
 	var training: TrainingRun = _run.training
 	if not _run.resting():
 		# TRANSLATORS: a continuous run under way: {what} 连续请教「基本剑法」 …, {count} the times done so far.
-		status.text = tr("{what}：已做 {count} 次").format({"what": _what, "count": training.steps})
+		status.text = ShownText.of(tr("{what}：已做 {count} 次").format({"what": _what, "count": training.steps}))
 	else:
 		# TRANSLATORS: a continuous run resting by itself on the way (自动歇): {what} and {count} as above, {rest} the rest's line (歇息中……已歇一盏茶的工夫).
-		status.text = tr("{what}：已做 {count} 次，{rest}").format({
+		status.text = ShownText.of(tr("{what}：已做 {count} 次，{rest}").format({
 			"what": _what, "count": training.steps, "rest": RestLines.under_way(_run.rest_minutes()),
-		})
+		}))
 	var state: CharacterState = _run.state()
 	if state == null:
 		return
@@ -417,9 +417,9 @@ func _show() -> void:
 		var power: CharacterInternalResourceState = _internal_power(state, training.kind)
 		if training.target_maximum > 0:
 			# TRANSLATORS: a continuous 打坐 towards a maximum (前两小时 A): the maximum now {maximum}, the one aimed at {target}, and what is left {left}.
-			status.text += tr("，上限 {maximum} → {target}，还差 {left}").format({
+			status.text += ShownText.of(tr("，上限 {maximum} → {target}，还差 {left}").format({
 				"maximum": power.maximum, "target": training.target_maximum, "left": maxi(0, training.target_maximum - power.maximum),
-			})
+			}))
 		bar.max_value = maxi(1, power.maximum * 2)
 		bar.value = power.current
 	else:

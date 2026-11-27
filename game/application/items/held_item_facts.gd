@@ -37,18 +37,19 @@ static func short_name(id: StringName, content: ItemContentDefinition, stacks: C
 ## `amount` of a stack's kind, as short_name() counts it (十文钱).
 static func counted(content: ItemContentDefinition, amount: int) -> String:
 	# TRANSLATORS: a counted stack, e.g. 十文钱: {count} in words, {unit} its measure word, {item} its name.
-	return TranslationServer.translate("{count}{unit}{item}").format({
+	# Finished here (ShownText): a label shows it as it is, and a line it goes into is finished again harmlessly.
+	return ShownText.of(TranslationServer.translate("{count}{unit}{item}").format({
 		"count": ChineseNumber.of(amount),
 		"unit": TranslationServer.translate(content.base_unit),
 		"item": TranslationServer.translate(content.display_name),
-	})
+	}))
 
 
 ## "一个牛皮酒袋", "一些钱", in the shown language: the 一%s%s of give.c, drop.c,
 ## put.c and get.c.
 static func one_unit(content: ItemContentDefinition) -> String:
 	# TRANSLATORS: one of an item, e.g. 一个牛皮酒袋: {unit} is its measure word, {item} its name.
-	return TranslationServer.translate("一{unit}{item}").format({
+	return ShownText.of(TranslationServer.translate("一{unit}{item}").format({
 		"unit": TranslationServer.translate(content.unit),
 		"item": TranslationServer.translate(content.display_name),
-	})
+	}))

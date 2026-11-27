@@ -98,7 +98,8 @@ static func fare(pacing: PacingDefinition, legs: int) -> int:
 	return maxi(FARE_STEP, ceili(float(coins) / FARE_STEP) * FARE_STEP)
 
 
-## How long the road takes, as the driver would say it: by the half 时辰.
+## How long the road takes, as the driver would say it: by the half 时辰 (finished for the shown
+## language: a Russian count agrees with its number).
 static func duration_text(minutes: int) -> String:
 	var halves: int = roundi(float(minutes) / float(HALF_SHICHEN_MINUTES))
 	if halves <= 0:
@@ -115,9 +116,9 @@ static func duration_text(minutes: int) -> String:
 	var number: String = TranslationServer.translate("两") if whole == 2 and MessageGrammar.shows_chinese() else ChineseNumber.of(whole)
 	if halves % 2 == 1:
 		# TRANSLATORS: a 车马行 ride's time on the road: {count} 时辰 and a half.
-		return TranslationServer.translate("{count}个半时辰").format({"count": number})
+		return ShownText.of(TranslationServer.translate("{count}个半时辰").format({"count": number}))
 	# TRANSLATORS: a 车马行 ride's time on the road: {count} 时辰.
-	return TranslationServer.translate("{count}个时辰").format({"count": number})
+	return ShownText.of(TranslationServer.translate("{count}个时辰").format({"count": number}))
 
 
 ## A fare as the driver names it: in 文, or 两 of silver and 文 from a 两 up.

@@ -96,7 +96,7 @@ const DETAIL_COLOR: Color = UiPalette.MUTED
 ## loses something) wears the dark lacquer, any other the vermilion (GameTheme).
 func ask(text: String, choice: String, cancel: String = "取消", about: String = "", danger: bool = false) -> void:
 	confirm_button.theme_type_variation = &"DangerButton" if danger else &"PrimaryButton"
-	detail.text = KoreanText.shown(about)
+	detail.text = ShownText.of(about)
 	detail.visible = not about.is_empty()
 	_show(text)
 	confirm_button.text = choice
@@ -120,7 +120,7 @@ func tell(text: String, acknowledge: String = "确定") -> void:
 ## `cancelled` as ever). The answers are plain wood: none is the safe or the dear one.
 ## `greyed`: the indices shown greyed, not to be picked (an option not open yet, saying why).
 func ask_choices(text: String, choices: Array[String], cancel: String = "取消", about: String = "", greyed: Array[int] = []) -> void:
-	detail.text = KoreanText.shown(about)
+	detail.text = ShownText.of(about)
 	detail.visible = not about.is_empty()
 	_show(text)
 	confirm_button.hide()
@@ -141,7 +141,7 @@ func ask_choices(text: String, choices: Array[String], cancel: String = "取消"
 
 
 func _show(text: String) -> void:
-	message.text = KoreanText.shown(text)
+	message.text = ShownText.of(text)
 	message.visible = not text.is_empty()
 	confirm_button.show()
 	for button: Button in choice_buttons:

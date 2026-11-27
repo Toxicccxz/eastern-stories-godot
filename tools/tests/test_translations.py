@@ -134,6 +134,37 @@ class TranslationsTest(unittest.TestCase):
         clean = [("结果只是轻轻地划破$p的皮肉。", "だが$pの皮膚を浅く裂いただけだった。"), ("多谢啦.....", "かたじけない……"), ("颜违，两票。", "顔違、二票。")]
         self.assertEqual(check_po.problems_in(_po(clean, "ja")), [])
 
+    def test_russian_rules(self) -> None:
+        cases = {
+            "after written text": ("你给{npc}{item}。", "Вы даёте бандит{:дат} {item}{:вин}."),
+            "unknown case mark": ("你给{npc}{item}。", "Вы даёте {npc}{:д} {item}{:вин}."),
+            "no case-marked name": ("看见你，放下了手里的扫帚。", "{~:увидели|увидел|увидела} вас."),
+            "bad agreement": ("你给{npc}{item}。", "{npc}{:им} {~:взял|взяла} {item}{:вин}."),
+            "with no number before it": ("你打坐 {count} 次", "Медитация: {#:раз|раза|раз} {count}"),
+            "bad count": ("%d 分钟前", "%d {#:минуту|минут} назад"),
+            "$P/$p in Russian": ("结果只是轻轻地划破$p的皮肉。", "Лишь царапина на коже $p."),
+            "full width": ("%d 分钟前", "%d {#:минуту|минуты|минут} назад…"),
+            "inside a sentence with no case mark": ("你给{npc}{item}。", "Вы даёте {item}{:вин} и {npc} кивает."),
+            "bad player form": ("看见你，放下了手里的扫帚。", "видит вас: «Ты {игрок:пришёл|пришла|пришло}!»"),
+            "invents the token": ("{npc}{action}", "$N {npc}{:им} {action}"),
+            "does not open with the plural": ("$N挥拳攻击$n的$l", "$N {N:ударил|ударили|ударила} $n{:вин} в $l."),
+            "a Han character": ("店小二", "店小二"),
+        }
+        for label, entry in cases.items():
+            with self.subTest(label=label):
+                problems = check_po.problems_in(_po([entry], "ru"))
+                self.assertTrue(any(label in problem for problem in problems), problems)
+        clean = [
+            ("你给{npc}{item}。", "Вы даёте {npc}{:дат} {item}{:вин}."),
+            ("你打坐 {count} 次", "Медитация: {count} {#:раз|раза|раз}"),
+            ("$N挥拳攻击$n的$l", "$N {N:бьёте|бьёт} $n{:вин} кулаком в $l."),
+            ("{count}{unit}{item}", "{count} {item}{:счёт}"),
+            ("看见你，放下了手里的扫帚。", "видит вас: «Ты {игрок:пришёл|пришла}!»"),
+            ("结果只是轻轻地划破$p的皮肉。", "Удар лишь царапает {n:вам|ему|ей} кожу."),
+            ("看见你，放下了手里的扫帚。", "видит вас и опускает метлу."),
+        ]
+        self.assertEqual(check_po.problems_in(_po(clean, "ru")), [])
+
     def test_a_dropped_slot_is_allowed(self) -> None:
         self.assertEqual(check_po.problems_in(_po([("{npc}对你哈哈一笑：{npc}便是{self}！", "{npc} laughs. \"That'd be me!\"")])), [])
 
