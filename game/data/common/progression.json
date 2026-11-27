@@ -43,6 +43,11 @@
 			"faction.sanyen": 300,
 			"faction.zhenyuan": 300
 		},
+		"chain_level": {
+			"green.maze": 20000,
+			"choyin.windspring": 300000,
+			"chuenyu.xiaojuan": 10000
+		},
 		"chain_percent": {
 			"snow.newcomer": 100,
 			"snow.letter": 100,

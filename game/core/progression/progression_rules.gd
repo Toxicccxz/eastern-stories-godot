@@ -11,6 +11,8 @@ extends RefCounted
 ## - rewards: each kind's percent of the stage's unit; `potential_percent` of the exp
 ##   comes as potential too.
 ## - chain_percent: a chain whose reward is not the kind's own.
+## - chain_level: a chain whose content is of a higher level than its region's recommended_exp (the
+##   exp its last step really asks: a gate, a foe), for pacing milestone_stage_headroom (成长曲线 A).
 ## - notable_npcs: NPC definitions whose defeat is the `defeat` kind, not `spar`.
 ## - places: zones whose first visit is the `place` kind (each region's first is `region`).
 ## - force_milestones: the max_force numbers whose first reaching is the `force` kind
@@ -42,6 +44,7 @@ var stages: Array[Stage] = []
 var percents: Dictionary[Kind, int] = {}
 var potential_percent: int = 0
 var chain_percent: Dictionary[StringName, int] = {}
+var chain_levels: Dictionary[StringName, int] = {}
 var quest_percent: Dictionary[StringName, int] = {}
 var notable_npcs: Dictionary[StringName, bool] = {}
 var places: Dictionary[StringName, bool] = {}
@@ -120,6 +123,11 @@ static func from_record(reader: ContentRecordReader) -> ProgressionRules:
 			reader.fail("rewards", "'%s' must not be negative" % key)
 		else:
 			rules.percents[KIND_KEYS[key]] = percents[key]
+	var levels: Dictionary[String, int] = reader.integer_map("chain_level")
+	for chain_id: String in levels:
+		if levels[chain_id] < 0:
+			reader.fail("chain_level", "'%s' must not be negative" % chain_id)
+		rules.chain_levels[StringName(chain_id)] = levels[chain_id]
 	var chains: Dictionary[String, int] = reader.integer_map("chain_percent")
 	for chain_id: String in chains:
 		rules.chain_percent[StringName(chain_id)] = chains[chain_id]
