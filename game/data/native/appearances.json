@@ -880,6 +880,6 @@
     "native.npc.assembly_liaochen": {"same_as": "native.npc.liaochen_sanyen"},
     "native.npc.road_robber": {"note": "劫道的汉子：敞着怀，腰扎草绳，刀出了鞘；花钱叫来的（势力线 振远 A）", "coat": "6a5a44", "pants": "3a3428", "skin": "c8946a", "hair": "1c1916", "hair_style": "topknot", "headwear": "none", "beard": "full", "waist": "sash", "prop": "blade_waist", "prop_color": "7a6a4a", "accent": "b8a682", "height": "standard", "build": "heavy", "shoes": "dark"},
     "native.npc.shen_shuyu": {"note": "沈疏雨：四十出头，洗旧的青布衣裙，木簪绾发，细剑挂腰侧（师娘彩蛋 A）；立绘未画", "coat": "5f7d86", "pants": "3f5560", "skin": "f0c8ae", "hair": "2a2426", "hair_style": "topknot", "hair_tie": "8a6a48", "headwear": "none", "beard": "none", "waist": "sash", "prop": "sword_waist", "prop_color": "d8d0c4", "accent": "c8d2d0", "height": "standard", "build": "slim"},
-    "native.npc.he_shouzhuo": {"note": "何守拙：花白头发，晒黑的胳膊，粗布衣挽着袖口，一把豁口旧剑（师娘彩蛋 A）；立绘未画", "coat": "8a7a62", "pants": "4a4238", "skin": "c89468", "hair": "b8b2a8", "hair_style": "topknot", "headwear": "none", "beard": "short", "waist": "belt", "prop": "sword_waist", "prop_color": "7a7468", "accent": "5a4a38", "height": "standard", "build": "standard", "shoes": "dark"}
+    "native.npc.he_shouzhuo": {"note": "何守拙：花白头发，晒黑的胳膊，粗布衣挽着袖口，一把豁口旧剑（师娘彩蛋 A）；立绘未画", "coat": "8a7a62", "pants": "4a4238", "skin": "c89468", "hair": "b8b2a8", "hair_style": "topknot", "headwear": "none", "beard": "chin_three", "waist": "belt", "prop": "sword_waist", "prop_color": "7a7468", "accent": "5a4a38", "height": "standard", "build": "standard", "shoes": "dark"}
   }
 }
