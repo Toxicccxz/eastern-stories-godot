@@ -4328,7 +4328,7 @@ msgid "山烟寺前广场"
 msgstr "Plaza del templo"
 
 msgid "南 · 山门"
-msgstr "sur · pórtico del templo"
+msgstr "sur · portal del templo"
 
 msgid "明心塔"
 msgstr "Pagoda de la Mente Clara"
@@ -4355,7 +4355,7 @@ msgid "盘山小径"
 msgstr "Sendero serpenteante"
 
 msgid "山烟寺山门"
-msgstr "Pórtico del Templo de la Bruma"
+msgstr "Portal del Templo de la Bruma"
 
 msgid "北 · 江北渡口"
 msgstr "norte · embarcadero norte"
@@ -4382,7 +4382,7 @@ msgid "安记钱庄"
 msgstr "Banco An"
 
 msgid "柜台 · 靠近兑换"
-msgstr "mostrador · acércate para cambiar"
+msgstr "mostrador · acercarse para cambiar"
 
 msgid "桑邻药铺"
 msgstr "Botica de la Morera"
@@ -4394,7 +4394,7 @@ msgid "丰登当铺"
 msgstr "Casa de empeños Buena Cosecha"
 
 msgid "柜台 · 估价 / 卖断"
-msgstr "mostrador · tasar / vender"
+msgstr "mostrador · tasar / vender sin rescate"
 
 msgid "布帘"
 msgstr "Cortina de tela"
@@ -4424,7 +4424,7 @@ msgid "雪亭驿"
 msgstr "Posta de Pabellón Nevado"
 
 msgid "官府悬赏 · 靠近看榜"
-msgstr "recompensas oficiales · acércate para leer"
+msgstr "recompensas oficiales · acercarse para leer"
 
 msgid "谷物加工厂"
 msgstr "Molino"
@@ -4496,7 +4496,7 @@ msgid "神桌"
 msgstr "Mesa del altar"
 
 msgid "磨盘 · 靠近做工"
-msgstr "muela de molino · acércate para trabajar"
+msgstr "muela de molino · acercarse para trabajar"
 
 msgid "经楼"
 msgstr "Torre de las escrituras"
@@ -4568,7 +4568,7 @@ msgid "水潭 · 潜下去"
 msgstr "poza · sumergirse"
 
 msgid "玉螺湖畔"
-msgstr "Orilla del lago"
+msgstr "Orilla del Lago Caracola de Jade"
 
 msgid "稻田"
 msgstr "Arrozal"
@@ -4604,7 +4604,7 @@ msgid "湖畔 · 等到天黑"
 msgstr "orilla · esperar la noche"
 
 msgid "芦苇丛 · 拨开芦苇"
-msgstr "juncal · apartar los juncos"
+msgstr "cañaveral · apartar los carrizos"
 
 msgid "瓜地 · 摘西瓜"
 msgstr "campo de sandías · cortar una sandía"
@@ -4613,7 +4613,7 @@ msgid "傅家坡"
 msgstr "Cuesta de los Fu"
 
 msgid "东 · 玉螺湖畔"
-msgstr "este · orilla del lago"
+msgstr "este · orilla del Lago Caracola de Jade"
 
 msgid "小船 · 划回岸边"
 msgstr "bote · remar a la orilla"
@@ -4769,7 +4769,7 @@ msgid "乔阴县城"
 msgstr "Sombra Alta"
 
 msgid "乔阴东郊"
-msgstr "Campiña de Sombra Alta"
+msgstr "Campiña este de Sombra Alta"
 
 msgid "天驼关"
 msgstr "Paso del Camello"
@@ -15005,7 +15005,7 @@ msgid "$N注视著$n的行动，企图寻找机会出手。"
 msgstr "$N{:el} {N:vigilas|vigila} cada movimiento {n:tuyo|de $n{:el}} en busca de una ocasión para atacar."
 
 msgid "$N正盯著$n的一举一动，随时准备发动攻势。"
-msgstr "$N{:el} {N:sigues|sigue} con la mirada cada gesto {n:tuyo|de $n{:el}}, {N:listo|lista|listo|lista} para atacar en cualquier momento."
+msgstr "$N{:el} {N:sigues|sigue} con la mirada cada gesto {n:tuyo|de $n{:el}}, {~:listo|lista} para atacar en cualquier momento."
 
 msgid "$N缓缓地移动脚步，想要找出$n的破绽。"
 msgstr "$N{:el} {N:mueves|mueve} los pies despacio, buscando un hueco en la guardia {n:tuya|de $n{:el}}."
@@ -15029,7 +15029,7 @@ msgid "$n脸色微变，说道：佩服，佩服！"
 msgstr "$n{:el} {n:palideces|palidece} un poco: \"¡Admirable, de veras admirable!\""
 
 msgid "$n向後退了几步，说道：这场比试算我输了，佩服，佩服！"
-msgstr "$n{:el} {n:retrocedes|retrocede} unos pasos: \"Este combate es suyo. ¡Admirable, de veras admirable!\""
+msgstr "$n{:el} {n:retrocedes|retrocede} unos pasos: \"Este combate es {N:tuyo|suyo}. ¡Admirable, de veras admirable!\""
 
 msgid "$n向後一纵，躬身做揖说道：阁下武艺不凡，果然高明！"
 msgstr "$n{:el} {n:saltas|salta} hacia atrás y {n:haces|hace} una reverencia con los puños juntos: \"Su destreza es extraordinaria. ¡Magistral, de verdad!\""
@@ -15098,7 +15098,7 @@ msgid "结果只听见$n一声惨嚎，$w已在$p的$l对穿而出，鲜血溅�
 msgstr "¡¡$n{:el} {n:sueltas|suelta} un alarido: $w{:el} atraviesa {n:tu|su} $l{:0} de lado a lado y la sangre lo salpica todo!!"
 
 msgid "结果只是轻轻地碰到，比拍苍蝇稍微重了点。"
-msgstr "Apenas roza; un poco más fuerte que espantar una mosca."
+msgstr "Apenas roza; un poco más fuerte que aplastar una mosca."
 
 msgid "结果在$p的$l造成一处瘀青。"
 msgstr "Deja un moretón en {n:tu|su} $l{:0}."
