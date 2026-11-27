@@ -1,0 +1,48 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "note": "镇外小院 (native:snow/rain_yard, rain_house; 师娘彩蛋 A): a small yard inside a low earth wall with grass on its top, the woodpile against the east wall, the middle trodden bare in a ring; three tiled rooms north of it — an old desk by the window, an empty scabbard on a peg, a blue curtain to the inner room, a kettle on the stove, a string of dried chillies under the eaves. Poor, plain, swept, used every day.",
+  "palette": {
+    "wood": ["7a6248", "8a7054", "6a543c"],
+    "wall": "c2b596"
+  },
+  "wall_height": 2.5,
+  "wall_looks": [
+    {"rect": [-400, -40, 400, 480], "style": "earth", "wall": "a88e66", "colors": ["a88e66", "9c8460", "b09670", "94794f"], "note": "the yard's rammed-earth wall"},
+    {"rect": [-320, -480, 300, -40], "style": "plaster", "wall": "c2b596", "colors": ["c2b596", "b8ab8c", "ae9f80", "cabf9e"], "note": "the house's old plaster"}
+  ],
+  "door_looks": {},
+  "ground": {
+    "floor_yard": {"style": "scree", "colors": ["9a8c70", "a4967a", "8e8066"], "gravel": 0.15, "stones": 0.02, "pebbles": ["b0a48a", "a09478"], "note": "bare earth, trodden pale"},
+    "floor_wood": {"style": "boards", "colors": ["7a6248", "8a7054", "6a543c"], "note": "old boards, scrubbed"},
+    "boundary": {"style": "scree", "colors": ["8c866e", "969078", "827c66"], "gravel": 0.3, "stones": 0.03, "pebbles": ["a8a28c", "9a947e"]}
+  },
+  "flora": {
+    "grass_density": 0.05,
+    "density": {"floor_yard": 0.02, "floor_wood": 0.0, "boundary": 0.45},
+    "grass_colors": ["7c8c4c", "8c9c56", "6e7e42", "98a45e"],
+    "flower_threshold": 1.0,
+    "tree_kinds": [],
+    "wind": 0.35,
+    "butterflies": 0
+  },
+  "life": {
+    "snow.rain_house": {"walls": "plaster"}
+  },
+  "props": [
+    {"kind": "window", "at": [-144, -444], "size": [64, 16], "rotation": 0, "note": "the window over the desk, its paper new"},
+    {"kind": "wall_sword", "at": [112, -444], "size": [40, 8], "wall_mounted": true, "note": "the empty scabbard on its peg, the tassel new"},
+    {"kind": "curtain", "at": [-284, -200], "size": [64, 16], "rotation": 90, "note": "the blue curtain to the inner room"},
+    {"kind": "candlestick", "at": [-200, -360], "size": [12, 12], "elevation": 1.2, "height": 0.4, "note": "the lamp on the desk"},
+    {"kind": "glow", "at": [-160, -330], "color": "ffc078", "day": 0.1, "night": 0.75, "range": 5.0, "height": 1.0},
+    {"kind": "string_hang", "goods": "chili", "at": [120, -36], "size": [48, 16], "wall_mounted": true, "note": "a string of dried chillies under the eaves"},
+    {"kind": "hanging_lantern", "at": [-16, -8], "note": "a paper lantern under the eaves, over the door to the yard"}
+  ],
+  "actors": {
+    "default": {
+      "coat": "887b56"
+    }
+  }
+}

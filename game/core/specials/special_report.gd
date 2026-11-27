@@ -9,6 +9,12 @@ var me_id: StringName
 var _lines: Array[VisionLine] = []
 var _attacks: Array[SpecialAttack] = []
 var _damaged: Array[StringName] = []
+## The file won its performer a hand this round (SpecialContext.wins_beat).
+var _won_beat: bool = false
+var won_beat: bool:
+	get: return _won_beat
+## Whom the file left open, and by how many percent (SpecialContext.opened).
+var _opened: Dictionary[StringName, int] = {}
 
 
 func _init(
@@ -19,6 +25,20 @@ func _init(
 	_lines = p_lines.duplicate()
 	_attacks = p_attacks.duplicate()
 	_damaged = p_damaged.duplicate()
+
+
+func with_won_beat(won: bool) -> SpecialReport:
+	_won_beat = won
+	return self
+
+
+func with_opened(opened_by: Dictionary[StringName, int]) -> SpecialReport:
+	_opened = opened_by.duplicate()
+	return self
+
+
+func opened() -> Dictionary[StringName, int]:
+	return _opened.duplicate()
 
 
 func lines() -> Array[VisionLine]:

@@ -61,7 +61,7 @@ const ALWAYS_DOABLE: Array[int] = [
 ## Keys whose value names marks a writer sets.
 const WRITE_KEYS: Array[String] = [
 	"teaches", "mark_asker", "marks_asker", "mark_giver", "marks_giver", "cleared_mark", "scene_mark", "set_mark", "also_mark", "once_mark",
-	"die_marks_killer", "die_marks", "spar_won_mark", "again_mark", "accept_marks", "refuse_marks", "mark_on_give",
+	"die_marks_killer", "die_marks", "spar_won_mark", "spar_over_mark", "again_mark", "accept_marks", "refuse_marks", "mark_on_give",
 ]
 ## Keys whose value names marks a condition reads.
 const READ_KEYS: Array[String] = [

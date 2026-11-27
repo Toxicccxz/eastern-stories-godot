@@ -46,7 +46,8 @@ const LOST_STEPS: int = 100
 ## stand in the room but are not in the story's fight, taken off the map (the 冰龙厅's six guardian
 ## dragons, DECISIONS「冰龙守者」「终章 B」: they pounce on the four taoists, or lie beaten — the sim's
 ## player strikes first, and a first strike brings the whole room in; the 甬道's keyless jailers, gone
-## once 「见过唤首」, the mark the keyed pair stand on).
+## once 「见过唤首」, the mark the keyed pair stand on); `marks`: what the story has written on the player
+## by then, where the foes read it (罗七's two stand by until 「说破了冒牌弟子」).
 const FIGHTS: Array[Dictionary] = [
 	{"label": "第一章 山洞 黑衣道士", "zone": &"oldpine.caves.mouth", "point": &"oldpine.caves.mouth.cave5.black_taoist.1", "enemies": [["native.caves.black_taoist", "oldpine.caves.mouth.cave5.black_taoist.1"]], "chapter": &"main.chapter1", "weapon": &"es2:obj/longsword"},
 	{"label": "第三章 祭坛 鬼卒×2", "zone": &"niling.altar", "point": &"niling.altar.hell_runner.1", "enemies": [["niling.altar.hell_runners", "niling.altar.hell_runner.1"], ["niling.altar.hell_runners", "niling.altar.hell_runner.2"]], "chapter": &"main.chapter3", "weapon": &"es2:obj/longsword"},
@@ -94,6 +95,10 @@ const FACTION_FIGHTS: Array[Dictionary] = [
 	{"label": "卧底 账房 管事道士", "zone": &"niling.counting", "point": &"niling.counting.steward.1", "enemies": [["niling.counting.steward", "niling.counting.steward.1"]], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
 	{"label": "卧底 前殿 领诵道士", "zone": &"niling.front", "point": &"niling.front.lead_chanter.1", "enemies": [["niling.front.lead_chanter", "niling.front.lead_chanter.1"]], "away": [&"niling.front.chanters"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
 	{"label": "卧底 甬道 看牢的狱卒", "zone": &"niling.corridor", "point": &"niling.corridor.ward.1", "enemies": [["native.corridor.ward", "niling.corridor.ward.1"]], "away": [&"niling.corridor.jailers", &"niling.corridor.jailers_keyed"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	# 封山's 守馆 is there from 拜师 (the first two hours): 罗七 and his two, called out, all at once.
+	{"label": "封山 青石官道 冒牌弟子×3", "zone": &"snow.sroad3", "point": &"snow.sroad3.fake_head.1", "enemies": [["native.sroad3.fake_head", "snow.sroad3.fake_head.1"], ["native.sroad3.fake_disciples", "snow.sroad3.fake_disciple.1"], ["native.sroad3.fake_disciples", "snow.sroad3.fake_disciple.2"]], "marks": ["说破了冒牌弟子"], "chapter": &"main.prologue", "weapon": &"es2:obj/longsword"},
+	# 天邪's watch at the gate: 水烟阁 is 第二章's. Found out, the 皮货商 fights; the two who are what they say stand by.
+	{"label": "天邪 山门 探子", "zone": &"waterfog.frontyard", "point": &"waterfog.frontyard.visitor.2", "enemies": [["native.frontyard.spy", "waterfog.frontyard.visitor.2"]], "marks": ["认出了探子"], "chapter": &"main.chapter2", "weapon": &"es2:obj/longsword"},
 	# 绝尘, 山烟寺 and 东方神教 B open with 「宝衣一章」.
 	{"label": "绝尘 山洞 洞口的鬼卒", "zone": &"green.cave1", "point": &"green.cave1.ghoul.1", "enemies": [["native.cave1.ghoul", "green.cave1.ghoul.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
 	{"label": "绝尘 山洞 洞底的鬼卒", "zone": &"green.cave2", "point": &"green.cave2.ghoul.1", "enemies": [["native.cave2.ghoul", "green.cave2.ghoul.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
@@ -340,6 +345,8 @@ func _open(entry: Dictionary) -> bool:
 		await tree.process_frame
 	session.set_process(false)
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
+	for mark: String in entry.get("marks", []):
+		session.player_runtime().state.marks[mark] = 1
 	map = MapPlaces.enter(session, entry["zone"], entry["point"])
 	if map == null:
 		return false
