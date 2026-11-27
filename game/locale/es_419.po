@@ -12533,7 +12533,7 @@ msgid "你走出了桃林，骆云舟认你做桃林的客。"
 msgstr "Saliste de la Arboleda de duraznos, y Luo Yunzhou te recibe como huésped de la arboleda."
 
 msgid "你在曼雩台上问过了剑：风泉剑灵在「剑神如意」之前收了剑。"
-msgstr "Probaste la espada en la Terraza de la Danza de Lluvia: el Alma de la Fuente del Viento envainó antes de llegar a \"Espada divina a voluntad\"."
+msgstr "Probaste la espada en la Terraza de la Danza de Lluvia: el Alma de la Fuente del Viento envainó antes de llegar a \"Dios de la espada a voluntad\"."
 
 msgid "骆云舟托你给他十年没说过话的大哥骆建章送一封家书。"
 msgstr "Luo Yunzhou te pidió llevar una carta de familia a su hermano mayor, Luo Jianzhang, que lleva diez años sin hablarle."
@@ -12668,7 +12668,7 @@ msgid "你放过了神教的那个杀手。"
 msgstr "Le perdonaste la vida a la asesina de la Orden."
 
 msgid "你接了朱鸿雪的令。"
-msgstr "Aceptaste la orden de Zhu Hongxue."
+msgstr "Aceptaste la placa de Zhu Hongxue."
 
 msgid "你把西厢的话照实告诉了朱鸿雪：那件衣，安妮儿不打算交给神教。"
 msgstr "Le contaste a Zhu Hongxue lo que se dijo en el ala oeste, tal cual: Anni'er no piensa entregar esa túnica a la Orden."
@@ -13679,10 +13679,10 @@ msgid "你离了步玄派。曼雩台上的事，到此为止。"
 msgstr "Dejaste la Escuela del Paso Místico. Lo de la Terraza de la Danza de Lluvia termina aquí."
 
 msgid "问乔阴曼雩台的骆云舟「风泉」，再问他「问剑」：他把风泉之剑插在台边的青石上。天黑以后（夜晚、午夜）剑灵站在石前——跟它切磋，在它念到第四句「剑神如意」之前打中它。"
-msgstr "Preguntar a Luo Yunzhou, en la Terraza de la Danza de Lluvia de Sombra Alta, por \"Fuente del Viento\", y luego por \"Probar la espada\": clava la Espada de la Fuente del Viento en la piedra azul del borde de la terraza. Después del anochecer (de noche, a medianoche) el espíritu de la espada aparece ante la piedra: entrenar con él y golpearlo antes de que llegue al cuarto verso, \"Espada divina a voluntad\"."
+msgstr "Preguntar a Luo Yunzhou, en la Terraza de la Danza de Lluvia de Sombra Alta, por \"Fuente del Viento\", y luego por \"Probar la espada\": clava la Espada de la Fuente del Viento en la piedra azul del borde de la terraza. Después del anochecer (de noche, a medianoche) el espíritu de la espada aparece ante la piedra: entrenar con él y golpearlo antes de que llegue al cuarto verso, \"Dios de la espada a voluntad\"."
 
 msgid "剑灵在「剑神如意」之前收了剑。骆云舟说：步玄认你。"
-msgstr "El espíritu de la espada envainó antes de \"Espada divina a voluntad\". Luo Yunzhou dice: \"El Paso Místico te acepta.\""
+msgstr "El espíritu de la espada envainó antes de \"Dios de la espada a voluntad\". Luo Yunzhou dice: \"El Paso Místico te acepta.\""
 
 msgid "在曼雩台上问过了剑，见过了风泉剑灵"
 msgstr "Probaste la espada en la Terraza de la Danza de Lluvia y viste el Alma de la Fuente del Viento"
@@ -18424,7 +18424,7 @@ msgid "问剑"
 msgstr "Prueba de la espada"
 
 msgid "剑灵在「剑神如意」之前收了剑——它认你了。"
-msgstr "El alma de la espada guardó la espada antes de 'Espada divina a voluntad': te ha reconocido."
+msgstr "El alma de la espada guardó la espada antes de 'Dios de la espada a voluntad': te ha reconocido."
 
 msgid "步玄认你。"
 msgstr "El Paso Místico te reconoce."
@@ -18436,7 +18436,7 @@ msgid "四句念完了，剑灵回了剑。今夜到此——明晚天黑了再�
 msgstr "Terminadas las cuatro frases, el alma volvió a la espada. Hoy se acaba aquí; vuelve mañana cuando oscurezca."
 
 msgid "剑在石台上。天黑以后它就出来——跟它切磋，赶在「剑神如意」之前。"
-msgstr "La espada está en la plataforma de piedra. Cuando oscurezca saldrá: mídete con ella y gana antes de 'Espada divina a voluntad'."
+msgstr "La espada está en la plataforma de piedra. Cuando oscurezca saldrá: mídete con ella y gana antes de 'Dios de la espada a voluntad'."
 
 msgid "走到台边那块青石前，把风泉之剑往石缝里一插，剑身「嗡」地响了一声。"
 msgstr " va hasta la piedra azul del borde de la plataforma, clava la Espada de la Fuente del Viento en la grieta y la hoja suena con un \"zumbido\"."
@@ -18445,7 +18445,7 @@ msgid "天黑了，剑灵就站在这块石头前。跟它切磋——它念一�
 msgstr "Al oscurecer, el alma de la espada estará ante esta piedra. Mídete con ella: por cada frase que recita, se hace un poco más fuerte."
 
 msgid "念到第四句「剑神如意」之前打中它，就算过了。念完了，今夜就到此，明晚再来。"
-msgstr "Si la golpeas antes de la cuarta frase, 'Espada divina a voluntad', has pasado. Si termina de recitar, hoy se acaba aquí; vuelve mañana por la noche."
+msgstr "Si la golpeas antes de la cuarta frase, 'Dios de la espada a voluntad', has pasado. Si termina de recitar, hoy se acaba aquí; vuelve mañana por la noche."
 
 msgid "问剑？"
 msgstr "¿Prueba de la espada?"
@@ -18607,7 +18607,7 @@ msgid "剑芒游光 ..."
 msgstr "El filo de la espada vaga en destellos..."
 
 msgid "剑神如意！"
-msgstr "¡Espada divina a voluntad!"
+msgstr "¡Dios de la espada a voluntad!"
 
 msgid "一阵蓝光笼罩住$N，「嗡」地一声，$N的轮廓又变清晰了一些！"
 msgstr "Una luz azul envuelve a $N{:el}. Con un zumbido, el contorno de $N{:el} se vuelve un poco más nítido."
