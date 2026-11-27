@@ -12,3 +12,2628 @@ msgstr ""
 
 msgid "道："
 msgstr ": \""
+
+msgid "雄性"
+msgstr "Macho"
+
+msgid "雌性"
+msgstr "Hembra"
+
+msgid "逄义"
+msgstr "Pang Yi"
+
+msgid "刘安禄"
+msgstr "Liu Anlu"
+
+msgid "黑衣道士"
+msgstr "Taoísta de negro"
+
+msgid "荐信"
+msgstr "Carta de recomendación"
+
+msgid "县城官兵"
+msgstr "Soldado del condado"
+
+msgid "於兰天武"
+msgstr "Yulan Tianwu"
+
+msgid "大天邪"
+msgstr "Gran Rebelde"
+
+msgid "旋芒"
+msgstr "Filo del Remolino"
+
+msgid "卫沧澜"
+msgstr "Wei Canglan"
+
+msgid "萧辟尘"
+msgstr "Xiao Bichen"
+
+msgid "小天邪"
+msgstr "Pequeño Rebelde"
+
+msgid "潘军禅"
+msgstr "Pan Junchan"
+
+msgid "书 剑 侠"
+msgstr "Libro y Espada"
+
+msgid "绝尘子"
+msgstr "Juechenzi"
+
+msgid "了尘"
+msgstr "Liaochen"
+
+msgid "天甲神兵"
+msgstr "Soldado celestial Jia"
+
+msgid "天乙神兵"
+msgstr "Soldado celestial Yi"
+
+msgid "天丙神兵"
+msgstr "Soldado celestial Bing"
+
+msgid "天丁神兵"
+msgstr "Soldado celestial Ding"
+
+msgid "天戊神兵"
+msgstr "Soldado celestial Wu"
+
+msgid "天己神兵"
+msgstr "Soldado celestial Ji"
+
+msgid "天庚神兵"
+msgstr "Soldado celestial Geng"
+
+msgid "天辛神兵"
+msgstr "Soldado celestial Xin"
+
+msgid "天壬神兵"
+msgstr "Soldado celestial Ren"
+
+msgid "天癸神兵"
+msgstr "Soldado celestial Gui"
+
+msgid "林忌"
+msgstr "Lin Ji"
+
+msgid "六指真人"
+msgstr "Sabio de los Seis Dedos"
+
+msgid "黑冠"
+msgstr "Gorro negro"
+
+msgid "子阴鬼卒"
+msgstr "Soldado fantasma Zi"
+
+msgid "丑阴鬼卒"
+msgstr "Soldado fantasma Chou"
+
+msgid "寅阴鬼卒"
+msgstr "Soldado fantasma Yin"
+
+msgid "卯阴鬼卒"
+msgstr "Soldado fantasma Mao"
+
+msgid "辰阴鬼卒"
+msgstr "Soldado fantasma Chen"
+
+msgid "巳阴鬼卒"
+msgstr "Soldado fantasma Si"
+
+msgid "午阴鬼卒"
+msgstr "Soldado fantasma Wu"
+
+msgid "未阴鬼卒"
+msgstr "Soldado fantasma Wei"
+
+msgid "申阴鬼卒"
+msgstr "Soldado fantasma Shen"
+
+msgid "酉阴鬼卒"
+msgstr "Soldado fantasma You"
+
+msgid "戌阴鬼卒"
+msgstr "Soldado fantasma Xu"
+
+msgid "亥阴鬼卒"
+msgstr "Soldado fantasma Hai"
+
+msgid "观想虫"
+msgstr "Gusano de la mente"
+
+msgid "观想兽"
+msgstr "Bestia de la mente"
+
+msgid "僵尸"
+msgstr "Zombi"
+
+msgid "蓝止萍"
+msgstr "Lan Zhiping"
+
+msgid "回音仙子"
+msgstr "Hada del Eco"
+
+msgid "玄智和尚"
+msgstr "Monje Xuanzhi"
+
+msgid "陆得财"
+msgstr "Lu Decai"
+
+msgid "黑水伏蛟"
+msgstr "Dragón de las Aguas Negras"
+
+msgid "骆云舟"
+msgstr "Luo Yunzhou"
+
+msgid "风泉剑灵"
+msgstr "Alma de Fuente del Viento"
+
+msgid "桃干仙"
+msgstr "Inmortal Tronco de Durazno"
+
+msgid "桃枝仙"
+msgstr "Inmortal Rama de Durazno"
+
+msgid "桃谷仙"
+msgstr "Inmortal Valle de Durazno"
+
+msgid "桃实仙"
+msgstr "Inmortal Fruto de Durazno"
+
+msgid "桃花仙"
+msgstr "Inmortal Flor de Durazno"
+
+msgid "桃根仙"
+msgstr "Inmortal Raíz de Durazno"
+
+msgid "桃萼仙"
+msgstr "Inmortal Cáliz de Durazno"
+
+msgid "僵尸侍者"
+msgstr "Zombi sirviente"
+
+msgid "土匪探哨"
+msgstr "Explorador bandido"
+
+msgid "土匪"
+msgstr "Bandido"
+
+msgid "黑冠巨蟒"
+msgstr "Pitón de cresta negra"
+
+msgid "土匪喽罗"
+msgstr "Secuaz bandido"
+
+msgid "泼风刀王"
+msgstr "Rey del Sable Tormenta"
+
+msgid "金银花蛇"
+msgstr "Víbora madreselva"
+
+msgid "庙祝"
+msgstr "Guardián del templo"
+
+msgid "醉汉"
+msgstr "Borracho"
+
+msgid "门房"
+msgstr "Portero"
+
+msgid "老鼠"
+msgstr "Rata"
+
+msgid "杨掌柜"
+msgstr "Tendero Yang"
+
+msgid "黄霸"
+msgstr "Huang Ba"
+
+msgid "日月槌"
+msgstr "Mazos del Sol y la Luna"
+
+msgid "霍铮"
+msgstr "Huo Zheng"
+
+msgid "「嘉德文选」"
+msgstr "«Escritos selectos de Jiade»"
+
+msgid "「九韬」"
+msgstr "«Las nueve estrategias»"
+
+msgid "「太公辩」"
+msgstr "«Disputas del Gran Duque»"
+
+msgid "「梁父文集」"
+msgstr "«Obras reunidas de Liangfu»"
+
+msgid "「说律」"
+msgstr "«Sobre las leyes»"
+
+msgid "「古文志」"
+msgstr "«Crónica de la prosa antigua»"
+
+msgid "「乡书」"
+msgstr "«Cartas de la tierra natal»"
+
+msgid "「佾风斋诗集」"
+msgstr "«Poemas del Estudio Yifeng»"
+
+msgid "「寒士列传」"
+msgstr "«Vidas de letrados pobres»"
+
+msgid "「水龙图注」"
+msgstr "«Cartas del Dragón de Agua, anotadas»"
+
+msgid "「笑傲江湖」"
+msgstr "«El errante sonriente y orgulloso»"
+
+msgid "「天龙八部」"
+msgstr "«Semidioses y semidemonios»"
+
+msgid "「七剑下天山」"
+msgstr "«Siete espadas bajan del monte Tian»"
+
+msgid "「游侠郭解传」"
+msgstr "«Vida de Guo Xie, caballero errante»"
+
+msgid "「七种武器」"
+msgstr "«Siete armas»"
+
+msgid "「楚留香传奇之血海飘香」"
+msgstr "«Chu Liuxiang: fragancia en un mar de sangre»"
+
+msgid "「四大名捕」"
+msgstr "«Los cuatro alguaciles»"
+
+msgid "「洪武剑侠图」"
+msgstr "«Espadachines de la era Hongwu»"
+
+msgid "「秘传八步赶蝉」"
+msgstr "«Ocho pasos tras la cigarra»"
+
+msgid "「陆地飞行之法」"
+msgstr "«El arte de volar sobre la tierra»"
+
+msgid "「寒梅弄影之法」"
+msgstr "«El arte de la sombra del ciruelo invernal»"
+
+msgid "「穿花绕树要诀」"
+msgstr "«Entre flores, alrededor de los árboles»"
+
+msgid "「八卦步法」"
+msgstr "«Pasos de los ocho trigramas»"
+
+msgid "苍蝇"
+msgstr "Mosca"
+
+msgid "茶博士"
+msgstr "Mozo del té"
+
+msgid "林三爷"
+msgstr "Tercer señor Lin"
+
+msgid "伙计"
+msgstr "Dependiente"
+
+msgid "朱鸿雪"
+msgstr "Zhu Hongxue"
+
+msgid "媒婆"
+msgstr "Casamentera"
+
+msgid "陈剑秋"
+msgstr "Chen Jianqiu"
+
+msgid "霹雳刀"
+msgstr "Sable del Rayo"
+
+msgid "陈天星"
+msgstr "Chen Tianxing"
+
+msgid "保镖"
+msgstr "Guardaespaldas"
+
+msgid "张百万"
+msgstr "Zhang el Ricachón"
+
+msgid "水烟阁武士"
+msgstr "Guardia de Bruma del Agua"
+
+msgid "水烟阁司事"
+msgstr "Custodio de Bruma del Agua"
+
+msgid "天邪虎"
+msgstr "Tigre rebelde"
+
+msgid "仆役"
+msgstr "Sirviente"
+
+msgid "水烟阁红衣武士"
+msgstr "Guardia de túnica roja"
+
+msgid "南危水"
+msgstr "Nan Weishui"
+
+msgid "陈坚石"
+msgstr "Chen Jianshi"
+
+msgid "颜违"
+msgstr "Yan Wei"
+
+msgid "采石工"
+msgstr "Cantero"
+
+msgid "沈万年"
+msgstr "Shen Wannian"
+
+msgid "妇人"
+msgstr "Mujer"
+
+msgid "小孩"
+msgstr "Niño"
+
+msgid "工匠"
+msgstr "Artesano"
+
+msgid "老公公"
+msgstr "Abuelo"
+
+msgid "老婆婆"
+msgstr "Abuela"
+
+msgid "村长"
+msgstr "Jefe de la aldea"
+
+msgid "工匠的小孩"
+msgstr "Hijo del artesano"
+
+msgid "玄和"
+msgstr "Xuanhe"
+
+msgid "老道士"
+msgstr "Taoísta anciano"
+
+msgid "清灵"
+msgstr "Qingling"
+
+msgid "清平"
+msgstr "Qingping"
+
+msgid "清风"
+msgstr "Qingfeng"
+
+msgid "清音"
+msgstr "Qingyin"
+
+msgid "婢女"
+msgstr "Criada"
+
+msgid "昭蓉"
+msgstr "Zhaorong"
+
+msgid "曲馥琪"
+msgstr "Qu Fuqi"
+
+msgid "苗郁淑"
+msgstr "Miao Yushu"
+
+msgid "杀手"
+msgstr "Asesina"
+
+msgid "蒙面杀手"
+msgstr "Asesina enmascarada"
+
+msgid "瑷伦"
+msgstr "Ailun"
+
+msgid "安妮儿"
+msgstr "Anni'er"
+
+msgid "虞琼衣"
+msgstr "Yu Qiongyi"
+
+msgid "龙韶吟"
+msgstr "Long Shaoyin"
+
+msgid "阮欣郁"
+msgstr "Ruan Xinyu"
+
+msgid "凤凰"
+msgstr "Fénix"
+
+msgid "金仪彤"
+msgstr "Jin Yitong"
+
+msgid "采花少女"
+msgstr "Muchacha de las flores"
+
+msgid "上官钰翎"
+msgstr "Shangguan Yuling"
+
+msgid "玉涵湘"
+msgstr "Yu Hanxiang"
+
+msgid "小金鼠"
+msgstr "Ratoncito dorado"
+
+msgid "美珊"
+msgstr "Meishan"
+
+msgid "小白兔"
+msgstr "Conejito blanco"
+
+msgid "人灵「区冥」"
+msgstr "Alma humana \"Ouming\""
+
+msgid "僧人"
+msgstr "Monje"
+
+msgid "烧饭僧"
+msgstr "Monje cocinero"
+
+msgid "小沙弥"
+msgstr "Novicio"
+
+msgid "汤掌柜"
+msgstr "Tabernero Tang"
+
+msgid "箱子"
+msgstr "Cajas"
+
+msgid "陈显祖"
+msgstr "Chen Xianzu"
+
+msgid "衙役"
+msgstr "Guardia del tribunal"
+
+msgid "带刀侍卫"
+msgstr "Guardia armado"
+
+msgid "乾瘪老太婆"
+msgstr "Vieja arrugada"
+
+msgid "游客"
+msgstr "Visitante"
+
+msgid "书生"
+msgstr "Erudito"
+
+msgid "官家小姐"
+msgstr "Hija de funcionario"
+
+msgid "丫鬟"
+msgstr "Doncella"
+
+msgid "程不平"
+msgstr "Cheng Buping"
+
+msgid "路引"
+msgstr "Salvoconductos"
+
+msgid "密信"
+msgstr "Carta secreta"
+
+msgid "兵部文书"
+msgstr "Documentos del Ministerio de Guerra"
+
+msgid "酒楼守卫"
+msgstr "Guardia de la taberna"
+
+msgid "老者"
+msgstr "Anciano"
+
+msgid "黑无常"
+msgstr "Impermanencia Negra"
+
+msgid "仙鹤"
+msgstr "Grulla inmortal"
+
+msgid "紫衣童子"
+msgstr "Niño de púrpura"
+
+msgid "孤魂野鬼"
+msgstr "Fantasma errante"
+
+msgid "朦胧鬼影"
+msgstr "Espectro brumoso"
+
+msgid "护草神兽"
+msgstr "Bestia guardiana de la hierba"
+
+msgid "慕容巡捕"
+msgstr "Alguacil Murong"
+
+msgid "西门巡捕"
+msgstr "Alguacil Ximen"
+
+msgid "公孙巡捕"
+msgstr "Alguacil Gongsun"
+
+msgid "上官巡捕"
+msgstr "Alguacil Shangguan"
+
+msgid "南宫巡捕"
+msgstr "Alguacil Nangong"
+
+msgid "欧阳巡捕"
+msgstr "Alguacil Ouyang"
+
+msgid "司徒巡捕"
+msgstr "Alguacil Situ"
+
+msgid "后备兵"
+msgstr "Soldado de reserva"
+
+msgid "镇国大将军"
+msgstr "Gran General Guardián"
+
+msgid "商人"
+msgstr "Mercader"
+
+msgid "农妇"
+msgstr "Campesina"
+
+msgid "鬼卒"
+msgstr "Soldado fantasma"
+
+msgid "老冰匠"
+msgstr "Viejo picador de hielo"
+
+msgid "采花妞"
+msgstr "Niña de las flores"
+
+msgid "刘老农"
+msgstr "Viejo campesino Liu"
+
+msgid "大老鼠"
+msgstr "Rata grande"
+
+msgid "瓜农"
+msgstr "Cultivador de melones"
+
+msgid "渔夫"
+msgstr "Pescador"
+
+msgid "白鳞冰龙"
+msgstr "Dragón de hielo de escamas blancas"
+
+msgid "京师守城兵"
+msgstr "Guardia de la Capital"
+
+msgid "黑你没商量"
+msgstr "Esquilador sin regateo"
+
+msgid "万晓生"
+msgstr "Wan Xiaosheng"
+
+msgid "刀拳双绝"
+msgstr "Sable y Puño"
+
+msgid "老板娘"
+msgstr "Dueña"
+
+msgid "钱掌柜"
+msgstr "Tabernero Qian"
+
+msgid "钱千万"
+msgstr "Diez Millones"
+
+msgid "行人"
+msgstr "Transeúnte"
+
+msgid "李掌柜"
+msgstr "Tendera Li"
+
+msgid "卖艺壮汉"
+msgstr "Forzudo callejero"
+
+msgid "庾子建"
+msgstr "Yu Zijian"
+
+msgid "赵顺"
+msgstr "Zhao Shun"
+
+msgid "赵昌"
+msgstr "Zhao Chang"
+
+msgid "赵振"
+msgstr "Zhao Zhen"
+
+msgid "赵发"
+msgstr "Zhao Fa"
+
+msgid "赵财"
+msgstr "Zhao Cai"
+
+msgid "赵俊"
+msgstr "Zhao Jun"
+
+msgid "赵彦"
+msgstr "Zhao Yan"
+
+msgid "赵良"
+msgstr "Zhao Liang"
+
+msgid "赵志"
+msgstr "Zhao Zhi"
+
+msgid "赵忠"
+msgstr "Zhao Zhong"
+
+msgid "赵孝"
+msgstr "Zhao Xiao"
+
+msgid "赵雄"
+msgstr "Zhao Xiong"
+
+msgid "赵益"
+msgstr "Zhao Yi"
+
+msgid "赵添"
+msgstr "Zhao Tian"
+
+msgid "赵金"
+msgstr "Zhao Jin"
+
+msgid "赵辉"
+msgstr "Zhao Hui"
+
+msgid "赵长"
+msgstr "Zhao Chang"
+
+msgid "赵盛"
+msgstr "Zhao Sheng"
+
+msgid "赵胜"
+msgstr "Zhao Sheng"
+
+msgid "赵进"
+msgstr "Zhao Jin"
+
+msgid "赵安"
+msgstr "Zhao An"
+
+msgid "赵福"
+msgstr "Zhao Fu"
+
+msgid "赵同"
+msgstr "Zhao Tong"
+
+msgid "赵满"
+msgstr "Zhao Man"
+
+msgid "赵富"
+msgstr "Zhao Fu"
+
+msgid "赵万"
+msgstr "Zhao Wan"
+
+msgid "赵龙"
+msgstr "Zhao Long"
+
+msgid "赵隆"
+msgstr "Zhao Long"
+
+msgid "赵祥"
+msgstr "Zhao Xiang"
+
+msgid "赵栋"
+msgstr "Zhao Dong"
+
+msgid "赵国"
+msgstr "Zhao Guo"
+
+msgid "赵亿"
+msgstr "Zhao Yi"
+
+msgid "赵寿"
+msgstr "Zhao Shou"
+
+msgid "钱顺"
+msgstr "Qian Shun"
+
+msgid "钱昌"
+msgstr "Qian Chang"
+
+msgid "钱振"
+msgstr "Qian Zhen"
+
+msgid "钱发"
+msgstr "Qian Fa"
+
+msgid "钱财"
+msgstr "Qian Cai"
+
+msgid "钱俊"
+msgstr "Qian Jun"
+
+msgid "钱彦"
+msgstr "Qian Yan"
+
+msgid "钱良"
+msgstr "Qian Liang"
+
+msgid "钱志"
+msgstr "Qian Zhi"
+
+msgid "钱忠"
+msgstr "Qian Zhong"
+
+msgid "钱孝"
+msgstr "Qian Xiao"
+
+msgid "钱雄"
+msgstr "Qian Xiong"
+
+msgid "钱益"
+msgstr "Qian Yi"
+
+msgid "钱添"
+msgstr "Qian Tian"
+
+msgid "钱金"
+msgstr "Qian Jin"
+
+msgid "钱辉"
+msgstr "Qian Hui"
+
+msgid "钱长"
+msgstr "Qian Chang"
+
+msgid "钱盛"
+msgstr "Qian Sheng"
+
+msgid "钱胜"
+msgstr "Qian Sheng"
+
+msgid "钱进"
+msgstr "Qian Jin"
+
+msgid "钱安"
+msgstr "Qian An"
+
+msgid "钱福"
+msgstr "Qian Fu"
+
+msgid "钱同"
+msgstr "Qian Tong"
+
+msgid "钱满"
+msgstr "Qian Man"
+
+msgid "钱富"
+msgstr "Qian Fu"
+
+msgid "钱万"
+msgstr "Qian Wan"
+
+msgid "钱龙"
+msgstr "Qian Long"
+
+msgid "钱隆"
+msgstr "Qian Long"
+
+msgid "钱祥"
+msgstr "Qian Xiang"
+
+msgid "钱栋"
+msgstr "Qian Dong"
+
+msgid "钱国"
+msgstr "Qian Guo"
+
+msgid "钱亿"
+msgstr "Qian Yi"
+
+msgid "钱寿"
+msgstr "Qian Shou"
+
+msgid "孙顺"
+msgstr "Sun Shun"
+
+msgid "孙昌"
+msgstr "Sun Chang"
+
+msgid "孙振"
+msgstr "Sun Zhen"
+
+msgid "孙发"
+msgstr "Sun Fa"
+
+msgid "孙财"
+msgstr "Sun Cai"
+
+msgid "孙俊"
+msgstr "Sun Jun"
+
+msgid "孙彦"
+msgstr "Sun Yan"
+
+msgid "孙良"
+msgstr "Sun Liang"
+
+msgid "孙志"
+msgstr "Sun Zhi"
+
+msgid "孙忠"
+msgstr "Sun Zhong"
+
+msgid "孙孝"
+msgstr "Sun Xiao"
+
+msgid "孙雄"
+msgstr "Sun Xiong"
+
+msgid "孙益"
+msgstr "Sun Yi"
+
+msgid "孙添"
+msgstr "Sun Tian"
+
+msgid "孙金"
+msgstr "Sun Jin"
+
+msgid "孙辉"
+msgstr "Sun Hui"
+
+msgid "孙长"
+msgstr "Sun Chang"
+
+msgid "孙盛"
+msgstr "Sun Sheng"
+
+msgid "孙胜"
+msgstr "Sun Sheng"
+
+msgid "孙进"
+msgstr "Sun Jin"
+
+msgid "孙安"
+msgstr "Sun An"
+
+msgid "孙福"
+msgstr "Sun Fu"
+
+msgid "孙同"
+msgstr "Sun Tong"
+
+msgid "孙满"
+msgstr "Sun Man"
+
+msgid "孙富"
+msgstr "Sun Fu"
+
+msgid "孙万"
+msgstr "Sun Wan"
+
+msgid "孙龙"
+msgstr "Sun Long"
+
+msgid "孙隆"
+msgstr "Sun Long"
+
+msgid "孙祥"
+msgstr "Sun Xiang"
+
+msgid "孙栋"
+msgstr "Sun Dong"
+
+msgid "孙国"
+msgstr "Sun Guo"
+
+msgid "孙亿"
+msgstr "Sun Yi"
+
+msgid "孙寿"
+msgstr "Sun Shou"
+
+msgid "李顺"
+msgstr "Li Shun"
+
+msgid "李昌"
+msgstr "Li Chang"
+
+msgid "李振"
+msgstr "Li Zhen"
+
+msgid "李发"
+msgstr "Li Fa"
+
+msgid "李财"
+msgstr "Li Cai"
+
+msgid "李俊"
+msgstr "Li Jun"
+
+msgid "李彦"
+msgstr "Li Yan"
+
+msgid "李良"
+msgstr "Li Liang"
+
+msgid "李志"
+msgstr "Li Zhi"
+
+msgid "李忠"
+msgstr "Li Zhong"
+
+msgid "李孝"
+msgstr "Li Xiao"
+
+msgid "李雄"
+msgstr "Li Xiong"
+
+msgid "李益"
+msgstr "Li Yi"
+
+msgid "李添"
+msgstr "Li Tian"
+
+msgid "李金"
+msgstr "Li Jin"
+
+msgid "李辉"
+msgstr "Li Hui"
+
+msgid "李长"
+msgstr "Li Chang"
+
+msgid "李盛"
+msgstr "Li Sheng"
+
+msgid "李胜"
+msgstr "Li Sheng"
+
+msgid "李进"
+msgstr "Li Jin"
+
+msgid "李安"
+msgstr "Li An"
+
+msgid "李福"
+msgstr "Li Fu"
+
+msgid "李同"
+msgstr "Li Tong"
+
+msgid "李满"
+msgstr "Li Man"
+
+msgid "李富"
+msgstr "Li Fu"
+
+msgid "李万"
+msgstr "Li Wan"
+
+msgid "李龙"
+msgstr "Li Long"
+
+msgid "李隆"
+msgstr "Li Long"
+
+msgid "李祥"
+msgstr "Li Xiang"
+
+msgid "李栋"
+msgstr "Li Dong"
+
+msgid "李国"
+msgstr "Li Guo"
+
+msgid "李亿"
+msgstr "Li Yi"
+
+msgid "李寿"
+msgstr "Li Shou"
+
+msgid "周顺"
+msgstr "Zhou Shun"
+
+msgid "周昌"
+msgstr "Zhou Chang"
+
+msgid "周振"
+msgstr "Zhou Zhen"
+
+msgid "周发"
+msgstr "Zhou Fa"
+
+msgid "周财"
+msgstr "Zhou Cai"
+
+msgid "周俊"
+msgstr "Zhou Jun"
+
+msgid "周彦"
+msgstr "Zhou Yan"
+
+msgid "周良"
+msgstr "Zhou Liang"
+
+msgid "周志"
+msgstr "Zhou Zhi"
+
+msgid "周忠"
+msgstr "Zhou Zhong"
+
+msgid "周孝"
+msgstr "Zhou Xiao"
+
+msgid "周雄"
+msgstr "Zhou Xiong"
+
+msgid "周益"
+msgstr "Zhou Yi"
+
+msgid "周添"
+msgstr "Zhou Tian"
+
+msgid "周金"
+msgstr "Zhou Jin"
+
+msgid "周辉"
+msgstr "Zhou Hui"
+
+msgid "周长"
+msgstr "Zhou Chang"
+
+msgid "周盛"
+msgstr "Zhou Sheng"
+
+msgid "周胜"
+msgstr "Zhou Sheng"
+
+msgid "周进"
+msgstr "Zhou Jin"
+
+msgid "周安"
+msgstr "Zhou An"
+
+msgid "周福"
+msgstr "Zhou Fu"
+
+msgid "周同"
+msgstr "Zhou Tong"
+
+msgid "周满"
+msgstr "Zhou Man"
+
+msgid "周富"
+msgstr "Zhou Fu"
+
+msgid "周万"
+msgstr "Zhou Wan"
+
+msgid "周龙"
+msgstr "Zhou Long"
+
+msgid "周隆"
+msgstr "Zhou Long"
+
+msgid "周祥"
+msgstr "Zhou Xiang"
+
+msgid "周栋"
+msgstr "Zhou Dong"
+
+msgid "周国"
+msgstr "Zhou Guo"
+
+msgid "周亿"
+msgstr "Zhou Yi"
+
+msgid "周寿"
+msgstr "Zhou Shou"
+
+msgid "吴顺"
+msgstr "Wu Shun"
+
+msgid "吴昌"
+msgstr "Wu Chang"
+
+msgid "吴振"
+msgstr "Wu Zhen"
+
+msgid "吴发"
+msgstr "Wu Fa"
+
+msgid "吴财"
+msgstr "Wu Cai"
+
+msgid "吴俊"
+msgstr "Wu Jun"
+
+msgid "吴彦"
+msgstr "Wu Yan"
+
+msgid "吴良"
+msgstr "Wu Liang"
+
+msgid "吴志"
+msgstr "Wu Zhi"
+
+msgid "吴忠"
+msgstr "Wu Zhong"
+
+msgid "吴孝"
+msgstr "Wu Xiao"
+
+msgid "吴雄"
+msgstr "Wu Xiong"
+
+msgid "吴益"
+msgstr "Wu Yi"
+
+msgid "吴添"
+msgstr "Wu Tian"
+
+msgid "吴金"
+msgstr "Wu Jin"
+
+msgid "吴辉"
+msgstr "Wu Hui"
+
+msgid "吴长"
+msgstr "Wu Chang"
+
+msgid "吴盛"
+msgstr "Wu Sheng"
+
+msgid "吴胜"
+msgstr "Wu Sheng"
+
+msgid "吴进"
+msgstr "Wu Jin"
+
+msgid "吴安"
+msgstr "Wu An"
+
+msgid "吴福"
+msgstr "Wu Fu"
+
+msgid "吴同"
+msgstr "Wu Tong"
+
+msgid "吴满"
+msgstr "Wu Man"
+
+msgid "吴富"
+msgstr "Wu Fu"
+
+msgid "吴万"
+msgstr "Wu Wan"
+
+msgid "吴龙"
+msgstr "Wu Long"
+
+msgid "吴隆"
+msgstr "Wu Long"
+
+msgid "吴祥"
+msgstr "Wu Xiang"
+
+msgid "吴栋"
+msgstr "Wu Dong"
+
+msgid "吴国"
+msgstr "Wu Guo"
+
+msgid "吴亿"
+msgstr "Wu Yi"
+
+msgid "吴寿"
+msgstr "Wu Shou"
+
+msgid "郑顺"
+msgstr "Zheng Shun"
+
+msgid "郑昌"
+msgstr "Zheng Chang"
+
+msgid "郑振"
+msgstr "Zheng Zhen"
+
+msgid "郑发"
+msgstr "Zheng Fa"
+
+msgid "郑财"
+msgstr "Zheng Cai"
+
+msgid "郑俊"
+msgstr "Zheng Jun"
+
+msgid "郑彦"
+msgstr "Zheng Yan"
+
+msgid "郑良"
+msgstr "Zheng Liang"
+
+msgid "郑志"
+msgstr "Zheng Zhi"
+
+msgid "郑忠"
+msgstr "Zheng Zhong"
+
+msgid "郑孝"
+msgstr "Zheng Xiao"
+
+msgid "郑雄"
+msgstr "Zheng Xiong"
+
+msgid "郑益"
+msgstr "Zheng Yi"
+
+msgid "郑添"
+msgstr "Zheng Tian"
+
+msgid "郑金"
+msgstr "Zheng Jin"
+
+msgid "郑辉"
+msgstr "Zheng Hui"
+
+msgid "郑长"
+msgstr "Zheng Chang"
+
+msgid "郑盛"
+msgstr "Zheng Sheng"
+
+msgid "郑胜"
+msgstr "Zheng Sheng"
+
+msgid "郑进"
+msgstr "Zheng Jin"
+
+msgid "郑安"
+msgstr "Zheng An"
+
+msgid "郑福"
+msgstr "Zheng Fu"
+
+msgid "郑同"
+msgstr "Zheng Tong"
+
+msgid "郑满"
+msgstr "Zheng Man"
+
+msgid "郑富"
+msgstr "Zheng Fu"
+
+msgid "郑万"
+msgstr "Zheng Wan"
+
+msgid "郑龙"
+msgstr "Zheng Long"
+
+msgid "郑隆"
+msgstr "Zheng Long"
+
+msgid "郑祥"
+msgstr "Zheng Xiang"
+
+msgid "郑栋"
+msgstr "Zheng Dong"
+
+msgid "郑国"
+msgstr "Zheng Guo"
+
+msgid "郑亿"
+msgstr "Zheng Yi"
+
+msgid "郑寿"
+msgstr "Zheng Shou"
+
+msgid "王顺"
+msgstr "Wang Shun"
+
+msgid "王昌"
+msgstr "Wang Chang"
+
+msgid "王振"
+msgstr "Wang Zhen"
+
+msgid "王发"
+msgstr "Wang Fa"
+
+msgid "王财"
+msgstr "Wang Cai"
+
+msgid "王俊"
+msgstr "Wang Jun"
+
+msgid "王彦"
+msgstr "Wang Yan"
+
+msgid "王良"
+msgstr "Wang Liang"
+
+msgid "王志"
+msgstr "Wang Zhi"
+
+msgid "王忠"
+msgstr "Wang Zhong"
+
+msgid "王孝"
+msgstr "Wang Xiao"
+
+msgid "王雄"
+msgstr "Wang Xiong"
+
+msgid "王益"
+msgstr "Wang Yi"
+
+msgid "王添"
+msgstr "Wang Tian"
+
+msgid "王金"
+msgstr "Wang Jin"
+
+msgid "王辉"
+msgstr "Wang Hui"
+
+msgid "王长"
+msgstr "Wang Chang"
+
+msgid "王盛"
+msgstr "Wang Sheng"
+
+msgid "王胜"
+msgstr "Wang Sheng"
+
+msgid "王进"
+msgstr "Wang Jin"
+
+msgid "王安"
+msgstr "Wang An"
+
+msgid "王福"
+msgstr "Wang Fu"
+
+msgid "王同"
+msgstr "Wang Tong"
+
+msgid "王满"
+msgstr "Wang Man"
+
+msgid "王富"
+msgstr "Wang Fu"
+
+msgid "王万"
+msgstr "Wang Wan"
+
+msgid "王龙"
+msgstr "Wang Long"
+
+msgid "王隆"
+msgstr "Wang Long"
+
+msgid "王祥"
+msgstr "Wang Xiang"
+
+msgid "王栋"
+msgstr "Wang Dong"
+
+msgid "王国"
+msgstr "Wang Guo"
+
+msgid "王亿"
+msgstr "Wang Yi"
+
+msgid "王寿"
+msgstr "Wang Shou"
+
+msgid "张顺"
+msgstr "Zhang Shun"
+
+msgid "张昌"
+msgstr "Zhang Chang"
+
+msgid "张振"
+msgstr "Zhang Zhen"
+
+msgid "张发"
+msgstr "Zhang Fa"
+
+msgid "张财"
+msgstr "Zhang Cai"
+
+msgid "张俊"
+msgstr "Zhang Jun"
+
+msgid "张彦"
+msgstr "Zhang Yan"
+
+msgid "张良"
+msgstr "Zhang Liang"
+
+msgid "张志"
+msgstr "Zhang Zhi"
+
+msgid "张忠"
+msgstr "Zhang Zhong"
+
+msgid "张孝"
+msgstr "Zhang Xiao"
+
+msgid "张雄"
+msgstr "Zhang Xiong"
+
+msgid "张益"
+msgstr "Zhang Yi"
+
+msgid "张添"
+msgstr "Zhang Tian"
+
+msgid "张金"
+msgstr "Zhang Jin"
+
+msgid "张辉"
+msgstr "Zhang Hui"
+
+msgid "张长"
+msgstr "Zhang Chang"
+
+msgid "张盛"
+msgstr "Zhang Sheng"
+
+msgid "张胜"
+msgstr "Zhang Sheng"
+
+msgid "张进"
+msgstr "Zhang Jin"
+
+msgid "张安"
+msgstr "Zhang An"
+
+msgid "张福"
+msgstr "Zhang Fu"
+
+msgid "张同"
+msgstr "Zhang Tong"
+
+msgid "张满"
+msgstr "Zhang Man"
+
+msgid "张富"
+msgstr "Zhang Fu"
+
+msgid "张万"
+msgstr "Zhang Wan"
+
+msgid "张龙"
+msgstr "Zhang Long"
+
+msgid "张隆"
+msgstr "Zhang Long"
+
+msgid "张祥"
+msgstr "Zhang Xiang"
+
+msgid "张栋"
+msgstr "Zhang Dong"
+
+msgid "张国"
+msgstr "Zhang Guo"
+
+msgid "张亿"
+msgstr "Zhang Yi"
+
+msgid "张寿"
+msgstr "Zhang Shou"
+
+msgid "陈顺"
+msgstr "Chen Shun"
+
+msgid "陈昌"
+msgstr "Chen Chang"
+
+msgid "陈振"
+msgstr "Chen Zhen"
+
+msgid "陈发"
+msgstr "Chen Fa"
+
+msgid "陈财"
+msgstr "Chen Cai"
+
+msgid "陈俊"
+msgstr "Chen Jun"
+
+msgid "陈彦"
+msgstr "Chen Yan"
+
+msgid "陈良"
+msgstr "Chen Liang"
+
+msgid "陈志"
+msgstr "Chen Zhi"
+
+msgid "陈忠"
+msgstr "Chen Zhong"
+
+msgid "陈孝"
+msgstr "Chen Xiao"
+
+msgid "陈雄"
+msgstr "Chen Xiong"
+
+msgid "陈益"
+msgstr "Chen Yi"
+
+msgid "陈添"
+msgstr "Chen Tian"
+
+msgid "陈金"
+msgstr "Chen Jin"
+
+msgid "陈辉"
+msgstr "Chen Hui"
+
+msgid "陈长"
+msgstr "Chen Chang"
+
+msgid "陈盛"
+msgstr "Chen Sheng"
+
+msgid "陈胜"
+msgstr "Chen Sheng"
+
+msgid "陈进"
+msgstr "Chen Jin"
+
+msgid "陈安"
+msgstr "Chen An"
+
+msgid "陈福"
+msgstr "Chen Fu"
+
+msgid "陈同"
+msgstr "Chen Tong"
+
+msgid "陈满"
+msgstr "Chen Man"
+
+msgid "陈富"
+msgstr "Chen Fu"
+
+msgid "陈万"
+msgstr "Chen Wan"
+
+msgid "陈龙"
+msgstr "Chen Long"
+
+msgid "陈隆"
+msgstr "Chen Long"
+
+msgid "陈祥"
+msgstr "Chen Xiang"
+
+msgid "陈栋"
+msgstr "Chen Dong"
+
+msgid "陈国"
+msgstr "Chen Guo"
+
+msgid "陈亿"
+msgstr "Chen Yi"
+
+msgid "陈寿"
+msgstr "Chen Shou"
+
+msgid "刘顺"
+msgstr "Liu Shun"
+
+msgid "刘昌"
+msgstr "Liu Chang"
+
+msgid "刘振"
+msgstr "Liu Zhen"
+
+msgid "刘发"
+msgstr "Liu Fa"
+
+msgid "刘财"
+msgstr "Liu Cai"
+
+msgid "刘俊"
+msgstr "Liu Jun"
+
+msgid "刘彦"
+msgstr "Liu Yan"
+
+msgid "刘良"
+msgstr "Liu Liang"
+
+msgid "刘志"
+msgstr "Liu Zhi"
+
+msgid "刘忠"
+msgstr "Liu Zhong"
+
+msgid "刘孝"
+msgstr "Liu Xiao"
+
+msgid "刘雄"
+msgstr "Liu Xiong"
+
+msgid "刘益"
+msgstr "Liu Yi"
+
+msgid "刘添"
+msgstr "Liu Tian"
+
+msgid "刘金"
+msgstr "Liu Jin"
+
+msgid "刘辉"
+msgstr "Liu Hui"
+
+msgid "刘长"
+msgstr "Liu Chang"
+
+msgid "刘盛"
+msgstr "Liu Sheng"
+
+msgid "刘胜"
+msgstr "Liu Sheng"
+
+msgid "刘进"
+msgstr "Liu Jin"
+
+msgid "刘安"
+msgstr "Liu An"
+
+msgid "刘福"
+msgstr "Liu Fu"
+
+msgid "刘同"
+msgstr "Liu Tong"
+
+msgid "刘满"
+msgstr "Liu Man"
+
+msgid "刘富"
+msgstr "Liu Fu"
+
+msgid "刘万"
+msgstr "Liu Wan"
+
+msgid "刘龙"
+msgstr "Liu Long"
+
+msgid "刘隆"
+msgstr "Liu Long"
+
+msgid "刘祥"
+msgstr "Liu Xiang"
+
+msgid "刘栋"
+msgstr "Liu Dong"
+
+msgid "刘国"
+msgstr "Liu Guo"
+
+msgid "刘亿"
+msgstr "Liu Yi"
+
+msgid "刘寿"
+msgstr "Liu Shou"
+
+msgid "林顺"
+msgstr "Lin Shun"
+
+msgid "林昌"
+msgstr "Lin Chang"
+
+msgid "林振"
+msgstr "Lin Zhen"
+
+msgid "林发"
+msgstr "Lin Fa"
+
+msgid "林财"
+msgstr "Lin Cai"
+
+msgid "林俊"
+msgstr "Lin Jun"
+
+msgid "林彦"
+msgstr "Lin Yan"
+
+msgid "林良"
+msgstr "Lin Liang"
+
+msgid "林志"
+msgstr "Lin Zhi"
+
+msgid "林忠"
+msgstr "Lin Zhong"
+
+msgid "林孝"
+msgstr "Lin Xiao"
+
+msgid "林雄"
+msgstr "Lin Xiong"
+
+msgid "林益"
+msgstr "Lin Yi"
+
+msgid "林添"
+msgstr "Lin Tian"
+
+msgid "林金"
+msgstr "Lin Jin"
+
+msgid "林辉"
+msgstr "Lin Hui"
+
+msgid "林长"
+msgstr "Lin Chang"
+
+msgid "林盛"
+msgstr "Lin Sheng"
+
+msgid "林胜"
+msgstr "Lin Sheng"
+
+msgid "林进"
+msgstr "Lin Jin"
+
+msgid "林安"
+msgstr "Lin An"
+
+msgid "林福"
+msgstr "Lin Fu"
+
+msgid "林同"
+msgstr "Lin Tong"
+
+msgid "林满"
+msgstr "Lin Man"
+
+msgid "林富"
+msgstr "Lin Fu"
+
+msgid "林万"
+msgstr "Lin Wan"
+
+msgid "林龙"
+msgstr "Lin Long"
+
+msgid "林隆"
+msgstr "Lin Long"
+
+msgid "林祥"
+msgstr "Lin Xiang"
+
+msgid "林栋"
+msgstr "Lin Dong"
+
+msgid "林国"
+msgstr "Lin Guo"
+
+msgid "林亿"
+msgstr "Lin Yi"
+
+msgid "林寿"
+msgstr "Lin Shou"
+
+msgid "花匠"
+msgstr "Jardinero"
+
+msgid "骆建章"
+msgstr "Luo Jianzhang"
+
+msgid "庾清尘"
+msgstr "Yu Qingchen"
+
+msgid "卖花姑娘"
+msgstr "Florista"
+
+msgid "紫衣家丁"
+msgstr "Criado de púrpura"
+
+msgid "园工"
+msgstr "Mozo del jardín"
+
+msgid "黑松一剪"
+msgstr "Tijeras del Pino Negro"
+
+msgid "蜜蜂"
+msgstr "Abeja"
+
+msgid "小园工"
+msgstr "Aprendiz de jardinero"
+
+msgid "护院"
+msgstr "Guardia de la mansión"
+
+msgid "女佣人"
+msgstr "Sirvienta"
+
+msgid "淳于怀太"
+msgstr "Chunyu Huaitai"
+
+msgid "巨型犬"
+msgstr "Perro lobo"
+
+msgid "信鸽"
+msgstr "Paloma mensajera"
+
+msgid "厨子"
+msgstr "Cocinero"
+
+msgid "狱卒"
+msgstr "Carcelero"
+
+msgid "子阴鬼牙将"
+msgstr "Capitán fantasma Zi"
+
+msgid "丑阴鬼牙将"
+msgstr "Capitán fantasma Chou"
+
+msgid "寅阴鬼牙将"
+msgstr "Capitán fantasma Yin"
+
+msgid "卯阴鬼牙将"
+msgstr "Capitán fantasma Mao"
+
+msgid "辰阴鬼牙将"
+msgstr "Capitán fantasma Chen"
+
+msgid "巳阴鬼牙将"
+msgstr "Capitán fantasma Si"
+
+msgid "午阴鬼牙将"
+msgstr "Capitán fantasma Wu"
+
+msgid "未阴鬼牙将"
+msgstr "Capitán fantasma Wei"
+
+msgid "申阴鬼牙将"
+msgstr "Capitán fantasma Shen"
+
+msgid "酉阴鬼牙将"
+msgstr "Capitán fantasma You"
+
+msgid "戌阴鬼牙将"
+msgstr "Capitán fantasma Xu"
+
+msgid "亥阴鬼牙将"
+msgstr "Capitán fantasma Hai"
+
+msgid "白无常"
+msgstr "Impermanencia Blanca"
+
+msgid "绞盘道士"
+msgstr "Taoísta del torno"
+
+msgid "门房道士"
+msgstr "Taoísta portero"
+
+msgid "守门道士"
+msgstr "Taoísta centinela"
+
+msgid "货栈道士"
+msgstr "Taoísta del almacén"
+
+msgid "诵经道士"
+msgstr "Taoísta recitador"
+
+msgid "领诵道士"
+msgstr "Recitador principal"
+
+msgid "管事道士"
+msgstr "Taoísta mayordomo"
+
+msgid "狱卒道士"
+msgstr "Taoísta carcelero"
+
+msgid "民夫"
+msgstr "Peón"
+
+msgid "石头"
+msgstr "Shitou"
+
+msgid "关北民夫"
+msgstr "Peón de la frontera"
+
+msgid "商玦"
+msgstr "Shang Jue"
+
+msgid "玄冥子"
+msgstr "Xuanmingzi"
+
+msgid "无头黑影"
+msgstr "Sombra sin cabeza"
+
+msgid "巡殿道士"
+msgstr "Taoísta de ronda"
+
+msgid "货郎"
+msgstr "Buhonero"
+
+msgid "采药人"
+msgstr "Recolector de hierbas"
+
+msgid "追杀的道士"
+msgstr "Taoísta perseguidor"
+
+msgid "关门兵"
+msgstr "Guardia del paso"
+
+msgid "关门"
+msgstr "Puerta del paso"
+
+msgid "城门兵"
+msgstr "Guardia de la puerta"
+
+msgid "驼夫"
+msgstr "Camellero"
+
+msgid "铁匠"
+msgstr "Herrero"
+
+msgid "巴朗"
+msgstr "Balang"
+
+msgid "卢卡"
+msgstr "Luca"
+
+msgid "大秦剑手"
+msgstr "Espadachín de Daqin"
+
+msgid "安敦"
+msgstr "Andun"
+
+msgid "牧民"
+msgstr "Pastor nómada"
+
+msgid "胡三娘"
+msgstr "Hu Sanniang"
+
+msgid "秦婆子"
+msgstr "Abuela Qin"
+
+msgid "老秦"
+msgstr "Viejo Qin"
+
+msgid "秦小六"
+msgstr "Qin Xiaoliu"
+
+msgid "王府门军"
+msgstr "Guardia de la puerta del príncipe"
+
+msgid "程朔"
+msgstr "Cheng Shuo"
+
+msgid "郭承"
+msgstr "Guo Cheng"
+
+msgid "侍卫"
+msgstr "Guardia"
+
+msgid "管家"
+msgstr "Mayordomo"
+
+msgid "王府兵"
+msgstr "Soldado del príncipe"
+
+msgid "吕隼"
+msgstr "Lu Sun"
+
+msgid "裴照"
+msgstr "Pei Zhao"
+
+msgid "白衣武官"
+msgstr "Oficial de blanco"
+
+msgid "守夜武官"
+msgstr "Oficial de guardia nocturna"
+
+msgid "挖不动的民夫"
+msgstr "Peón agotado"
+
+msgid "押车道士"
+msgstr "Taoísta de escolta"
+
+msgid "王府骑兵"
+msgstr "Jinete del príncipe"
+
+msgid "牧羊人"
+msgstr "Pastor de ovejas"
+
+msgid "民夫家属"
+msgstr "Pariente de un peón"
+
+msgid "篝火"
+msgstr "Fogata"
+
+msgid "回来的民夫"
+msgstr "Peón de regreso"
+
+msgid "盐脚夫"
+msgstr "Cargador de sal"
+
+msgid "海"
+msgstr "Mar"
+
+msgid "船工"
+msgstr "Barquero"
+
+msgid "卸货的胡商"
+msgstr "Mercader de cargamento"
+
+msgid "税吏"
+msgstr "Recaudador"
+
+msgid "冯禄"
+msgstr "Feng Lu"
+
+msgid "琉璃商"
+msgstr "Mercader de vidrio"
+
+msgid "毡毯商"
+msgstr "Mercader de alfombras"
+
+msgid "香料商"
+msgstr "Vendedora de especias"
+
+msgid "铜器商"
+msgstr "Mercader de cobre"
+
+msgid "看摊的孩子"
+msgstr "Niño del puesto"
+
+msgid "说书的老胡人"
+msgstr "Viejo cuentacuentos extranjero"
+
+msgid "浪人"
+msgstr "Ronin"
+
+msgid "书办"
+msgstr "Escribano"
+
+msgid "差役"
+msgstr "Recadero del tribunal"
+
+msgid "穆护"
+msgstr "Mago"
+
+msgid "拜火的胡商"
+msgstr "Mercader adorador del fuego"
+
+msgid "龙若法王"
+msgstr "Rey del Dharma Longruo"
+
+msgid "榕树"
+msgstr "Baniano"
+
+msgid "天竺僧"
+msgstr "Monje indio"
+
+msgid "早川直义"
+msgstr "Hayakawa Naoyoshi"
+
+msgid "黑影"
+msgstr "Sombra"
+
+msgid "葛升"
+msgstr "Ge Sheng"
+
+msgid "赵勇"
+msgstr "Zhao Yong"
+
+msgid "孙锐"
+msgstr "Sun Rui"
+
+msgid "邓骁"
+msgstr "Deng Xiao"
+
+msgid "守门禁军"
+msgstr "Centinela de palacio"
+
+msgid "皇城"
+msgstr "Ciudad Imperial"
+
+msgid "韦执中"
+msgstr "Wei Zhizhong"
+
+msgid "老仆"
+msgstr "Viejo criado"
+
+msgid "於兰昭"
+msgstr "Yulan Zhao"
+
+msgid "朝臣"
+msgstr "Cortesano"
+
+msgid "福安"
+msgstr "Fu'an"
+
+msgid "司礼太监"
+msgstr "Eunuco de los ritos"
+
+msgid "巡夜禁军"
+msgstr "Guardia de ronda nocturna"
+
+msgid "小太监"
+msgstr "Eunuco joven"
+
+msgid "宫女"
+msgstr "Doncella de palacio"
+
+msgid "钟嬷嬷"
+msgstr "Nana Zhong"
+
+msgid "大内侍卫"
+msgstr "Guardia imperial"
+
+msgid "逆灵宫信使"
+msgstr "Correo del Palacio Negro"
+
+msgid "冯策"
+msgstr "Feng Ce"
+
+msgid "宋朴"
+msgstr "Song Pu"
+
+msgid "卜风道士"
+msgstr "Adivino del viento"
+
+msgid "岚翁"
+msgstr "Anciano del Viento"
+
+msgid "岚童"
+msgstr "Niña del Viento"
+
+msgid "老蔺"
+msgstr "Viejo Lin"
+
+msgid "扫云的老妪"
+msgstr "Anciana que barre las nubes"
+
+msgid "岚城人"
+msgstr "Vecino de la Ciudad del Viento"
+
+msgid "木人（初阶）"
+msgstr "Muñeco de madera I"
+
+msgid "木人（二阶）"
+msgstr "Muñeco de madera II"
+
+msgid "木人（三阶）"
+msgstr "Muñeco de madera III"
+
+msgid "木人（四阶）"
+msgstr "Muñeco de madera IV"
+
+msgid "木人（五阶）"
+msgstr "Muñeco de madera V"
+
+msgid "流窜毛贼"
+msgstr "Ladronzuelo"
+
+msgid "剪径贼"
+msgstr "Salteador"
+
+msgid "采花贼"
+msgstr "Sátiro"
+
+msgid "江洋大盗"
+msgstr "Gran bandolero"
+
+msgid "杀人魔头"
+msgstr "Demonio asesino"
+
+msgid "信使"
+msgstr "Mensajero"
+
+msgid "白道长"
+msgstr "Taoísta Bai"
+
+msgid "江湖客"
+msgstr "Andariego"
+
+msgid "庾家管事"
+msgstr "Mayordomo de los Yu"
+
+msgid "庾家打手"
+msgstr "Matón de los Yu"
+
+msgid "璃虹"
+msgstr "Lihong"
+
+msgid "侮天鬼"
+msgstr "Desafiacielos"
+
+msgid "黑冠道士"
+msgstr "Taoísta del gorro negro"
+
+msgid "罗七"
+msgstr "Luo Qi"
+
+msgid "帮闲"
+msgstr "Vividor"
+
+msgid "阿桂"
+msgstr "Agui"
+
+msgid "小满"
+msgstr "Xiaoman"
+
+msgid "铁盾会少年"
+msgstr "Joven del Escudo de Hierro"
+
+msgid "皮货商"
+msgstr "Peletero"
+
+msgid "投师的少年"
+msgstr "Aspirante a discípulo"
+
+msgid "驿卒"
+msgstr "Correo de posta"
+
+msgid "兵部画吏"
+msgstr "Dibujante del Ministerio de Guerra"
+
+msgid "老周"
+msgstr "Viejo Zhou"
+
+msgid "蒙面后生"
+msgstr "Joven enmascarado"
+
+msgid "劫道的汉子"
+msgstr "Asaltante de caminos"
+
+msgid "无名女子"
+msgstr "Mujer sin nombre"
+
+msgid "胡管事"
+msgstr "Mayordomo Hu"
+
+msgid "卖身契"
+msgstr "Contratos de servidumbre"
+
+msgid "钱贵"
+msgstr "Qian Gui"
+
+msgid "牛四"
+msgstr "Niu Si"
+
+msgid "老葛"
+msgstr "Viejo Ge"
+
+msgid "阿牛"
+msgstr "Aniu"
+
+msgid "基本刀法"
+msgstr "Sable básico"
+
+msgid "封山派内功"
+msgstr "Neigong de la Montaña Vacía"
+
+msgid "伏蛟功"
+msgstr "Arte de domar serpientes"
+
+msgid "春风快意刀"
+msgstr "Sable de la brisa primaveral"
+
+msgid "封山剑法"
+msgstr "Espada de la Montaña Vacía"
+
+msgid "倒乱七星步法"
+msgstr "Pasos caóticos de las siete estrellas"
+
+msgid "天邪神功"
+msgstr "Arte indómito"
+
+msgid "茅山道术"
+msgstr "Hechicería del Monte Mao"
+
+msgid "天师正道"
+msgstr "Camino de los Maestros Celestiales"
+
+msgid "谷衣心法"
+msgstr "Método interno de la túnica de grano"
+
+msgid "天师剑法"
+msgstr "Espada del Maestro Celestial"
+
+msgid "读书识字"
+msgstr "Lectura y escritura"
+
+msgid "音律"
+msgstr "Música"
+
+msgid "乐器"
+msgstr "Instrumentos"
+
+msgid "基本行动"
+msgstr "Movimiento básico"
+
+msgid "基本杖法"
+msgstr "Bastón básico"
+
+msgid "基本暗器"
+msgstr "Lanzamiento básico"
+
+msgid "听风辨器之术"
+msgstr "Escuchar el viento"
+
+msgid "天邪神掌"
+msgstr "Palma indómita"
+
+msgid "六阴追魂剑法"
+msgstr "Espada de los seis yin"
+
+msgid "火蝠身法"
+msgstr "Pasos del murciélago de fuego"
+
+msgid "七宝天岚舞"
+msgstr "Danza de la tormenta celeste"
+
+msgid "基本法术"
+msgstr "Misticismo básico"
+
+msgid "基本咒文"
+msgstr "Conjuros básicos"
+
+msgid "小天魔道"
+msgstr "Saber demoníaco menor"
+
+msgid "奇门遁甲"
+msgstr "Qimen Dunjia"
+
+msgid "绝尘心法"
+msgstr "Método interno sin polvo"
+
+msgid "金刚杖法"
+msgstr "Bastón de vajra"
+
+msgid "流云杖法"
+msgstr "Bastón de nubes que fluyen"
+
+msgid "莲华心法"
+msgstr "Método interno del loto"
+
+msgid "婆萝蜜多心经"
+msgstr "Sutra del Corazón"
+
+msgid "大乘佛法"
+msgstr "Dharma mahayana"
+
+msgid "诵经"
+msgstr "Recitación de sutras"
+
+msgid "八识神通"
+msgstr "Poder de las ocho conciencias"
+
+msgid "基本鞭法"
+msgstr "Látigo básico"
+
+msgid "基本锤法"
+msgstr "Martillo básico"
+
+msgid "基本斧法"
+msgstr "Hacha básica"
+
+msgid "基本匕法"
+msgstr "Daga básica"
+
+msgid "基本叉法"
+msgstr "Tridente básico"
+
+msgid "柔虹指"
+msgstr "Dedo del arcoíris suave"
+
+msgid "寒雪鞭法"
+msgstr "Látigo de nieve fría"
+
+msgid "意寒功"
+msgstr "Arte de la intención helada"
+
+msgid "雪影心法"
+msgstr "Método interno de la sombra de nieve"
+
+msgid "雪影剑法"
+msgstr "Espada de la sombra de nieve"
+
+msgid "步玄七诀"
+msgstr "Siete secretos del Paso Místico"
+
+msgid "步玄心法"
+msgstr "Método interno del Paso Místico"
+
+msgid "小步玄剑"
+msgstr "Espada menor del Paso Místico"
+
+msgid "油流麻香手"
+msgstr "Mano de aceite y pimienta"
+
+msgid "短歌刀法"
+msgstr "Sable de la canción breve"
+
+msgid "秋风步"
+msgstr "Pasos del viento de otoño"
+
+msgid "密宗大手印"
+msgstr "Gran sello tántrico"
+
+msgid "铁布衫"
+msgstr "Camisa de hierro"
+
+msgid "小无相功"
+msgstr "Arte menor sin forma"
+
+msgid "禁中刀"
+msgstr "Sable de palacio"
+
+msgid "关北马刀"
+msgstr "Sable de la frontera"
+
+msgid "铁盾剑法"
+msgstr "Espada del escudo de hierro"
+
+msgid "鬼笠刀法"
+msgstr "Sable del Sombrero Fantasma"
+
+msgid "振远镖局"
+msgstr "Escoltas del Camino Lejano"
+
+msgid "东方神教"
+msgstr "Orden del Cuervo Dorado"
+
+msgid "天邪派"
+msgstr "Escuela Indómita"
+
+msgid "绝尘派"
+msgstr "Escuela sin Polvo"
+
+msgid "茅山派"
+msgstr "Escuela del Monte Mao"
+
+msgid "逍遥派"
+msgstr "Escuela Despreocupada"
+
+msgid "天山派"
+msgstr "Escuela de Tianshan"
+
+msgid "步玄派"
+msgstr "Escuela del Paso Místico"
+
+msgid "花紫会"
+msgstr "Hermandad de los Mendigos"
+
+msgid "鬼笠馆浪人"
+msgstr "Ronin del Salón del Sombrero Fantasma"
+
+msgid "面"
+msgstr "pieza"
+
+msgid "些"
+msgstr "puñado"
+
+msgid "件"
+msgstr "prenda"
+
+msgid "个"
+msgstr "pieza"
+
+msgid "根"
+msgstr "pieza"
+
+msgid "本"
+msgstr "ejemplar"
+
+msgid "颗"
+msgstr "pieza"
+
+msgid "把"
+msgstr "pieza"
+
+msgid "包"
+msgstr "paquete"
+
+msgid "份"
+msgstr "porción"
+
+msgid "柄"
+msgstr "pieza"
+
+msgid "口"
+msgstr "pieza"
+
+msgid "条"
+msgstr "pieza"
+
+msgid "顶"
+msgstr "prenda"
+
+msgid "双"
+msgstr "par"
+
+msgid "叠"
+msgstr "fajo"
+
+msgid "张"
+msgstr "hoja"
+
+msgid "具"
+msgstr "cuerpo"
+
+msgid "支"
+msgstr "pieza"
+
+msgid "封"
+msgstr "sobre"
+
+msgid "只"
+msgstr "pieza"
+
+msgid "坛"
+msgstr "tinaja"
+
+msgid "串"
+msgstr "sarta"
+
+msgid "卷"
+msgstr "rollo"
+
+msgid "块"
+msgstr "pieza"
+
+msgid "粒"
+msgstr "grano"
+
+msgid "朵"
+msgstr "flor"
+
+msgid "株"
+msgstr "planta"
+
+msgid "杯"
+msgstr "taza"
+
+msgid "副"
+msgstr "pieza"
+
+msgid "棵"
+msgstr "mata"
+
+msgid "片"
+msgstr "hoja"
+
+msgid "盘"
+msgstr "plato"
+
+msgid "斤"
+msgstr "jin"
+
+msgid "挂"
+msgstr "pieza"
+
+msgid "捆"
+msgstr "atado"
+
+msgid "册"
+msgstr "volumen"
+
+msgid "囊"
+msgstr "odre"
+
+msgid "袋"
+msgstr "bolsa"
+
+msgid "页"
+msgstr "página"
+
+msgid "辆"
+msgstr "carro"
+
+msgid "函"
+msgstr "estuche"
+
+msgid "碗"
+msgstr "cuenco"
