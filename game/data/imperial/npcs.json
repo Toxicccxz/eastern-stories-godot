@@ -876,49 +876,49 @@
 					"present": ["native.npc.yu_zijian_court", "native.npc.feng_ce", "native.npc.fu_an"],
 					"steps": [
 						{
-							"line": "太监尖着嗓子喊：「武状元上殿——」百官分成两列，你从当中走过去，跪下。\n"
+							"line": "太监尖着嗓子喊：「武状元上殿——」百官分成两列，你从当中走过去，跪下。\n", "do": {"who": "player", "act": "kneel"}, "shot": "wide"
 						},
 						{
-							"say": "你……你就是今年的武状元？抬起头来。"
+							"say": "你……你就是今年的武状元？抬起头来。", "shot": "near"
 						},
 						{
-							"emote": "看了你一会儿，又看了一眼百官最前头那个人。"
+							"emote": "看了你一会儿，又看了一眼百官最前头那个人。", "do": {"act": "face", "toward": "native.npc.yu_zijian_court"}, "shot": "near"
 						},
 						{
 							"by": "native.npc.yu_zijian_court"
 						},
 						{
-							"say": "陛下，校武场三场，臣的武选司亲眼看着打的。此人武艺尚可，出身不明。"
+							"say": "陛下，校武场三场，臣的武选司亲眼看着打的。此人武艺尚可，出身不明。", "do": {"act": "bow", "toward": "native.npc.yulan_zhao"}, "shot": "near"
 						},
 						{
 							"by": "native.npc.yulan_zhao"
 						},
 						{
-							"say": "出身……朕也不知道朕的武状元该是什么出身。"
+							"say": "出身……朕也不知道朕的武状元该是什么出身。", "do": {"act": "face", "toward": "player"}, "shot": "near"
 						},
 						{
 							"by": "native.npc.yu_zijian_court"
 						},
 						{
-							"say": "臣请陛下赐他一个侍卫的差事——兵部正缺人手，臣可以替陛下看着他。"
+							"say": "臣请陛下赐他一个侍卫的差事——兵部正缺人手，臣可以替陛下看着他。", "shot": {"two": "player"}
 						},
 						{
 							"by": "native.npc.feng_ce"
 						},
 						{
-							"say": "陛下，大内侍卫营归臣管。人，臣来看。"
+							"say": "陛下，大内侍卫营归臣管。人，臣来看。", "do": {"act": "bow", "toward": "native.npc.yulan_zhao"}, "shot": "near"
 						},
 						{
 							"by": "native.npc.yulan_zhao"
 						},
 						{
-							"emote": "像是松了一口气。"
+							"emote": "像是松了一口气。", "shot": "near"
 						},
 						{
-							"say": "准。赐御前侍卫腰牌——冯总教头，人归你。"
+							"say": "准。赐御前侍卫腰牌——冯总教头，人归你。", "do": {"act": "face", "toward": "native.npc.feng_ce"}, "shot": "near"
 						},
 						{
-							"give": "native:imperial/guard_token",
+							"give": "native:imperial/guard_token", "do": [{"who": "native.npc.fu_an", "act": "walk", "to": "player"}, {"who": "native.npc.fu_an", "act": "hand", "item": "native:imperial/guard_token", "to": "player"}], "shot": {"look": "native.npc.fu_an"},
 							"lines": [
 								{
 									"line": "一个太监捧着托盘走下台阶，托盘里一块铜腰牌，刻着「御前侍卫」四个字。\n"
@@ -929,16 +929,16 @@
 							"by": "native.npc.yu_zijian_court"
 						},
 						{
-							"emote": "笑了笑，没有再说话。"
+							"emote": "笑了笑，没有再说话。", "shot": "near"
 						},
 						{
-							"line": "太监喊：「退朝——」百官鱼贯而出。\n"
+							"line": "太监喊：「退朝——」百官鱼贯而出。\n", "do": {"who": "player", "act": "rise"}, "shot": "wide"
 						},
 						{
 							"by": "native.npc.fu_an"
 						},
 						{
-							"whisper": "皇上说，今夜养心殿。冯总教头的人会领你进去。"
+							"whisper": "皇上说，今夜养心殿。冯总教头的人会领你进去。", "shot": {"two": "player"}
 						},
 						{
 							"mark": "见了福安"
@@ -1129,47 +1129,47 @@
 					"present": ["native.npc.wei_zhizhong", "native.npc.yu_zijian_court", "native.npc.yulan_zhao", "native.npc.fu_an"],
 					"steps": [
 						{
-							"say": "有本早奏，无本退朝——"
+							"say": "有本早奏，无本退朝——", "shot": "wide"
 						},
 						{
 							"by": "native.npc.wei_zhizhong"
 						},
 						{
-							"say": "臣韦执中有本。乔阴县令程不平录供，槐阳王拒令：兵部奉先帝寻剑之旨，征民夫、设关卡、拿人——先帝的旨意里没有这一句。"
+							"say": "臣韦执中有本。乔阴县令程不平录供，槐阳王拒令：兵部奉先帝寻剑之旨，征民夫、设关卡、拿人——先帝的旨意里没有这一句。", "do": {"act": "bow", "toward": "native.npc.yulan_zhao"}, "shot": "near"
 						},
 						{
 							"by": "native.npc.yu_zijian_court"
 						},
 						{
-							"emote": "冷笑了一声，出班。"
+							"emote": "冷笑了一声，出班。", "do": {"act": "walk", "to": "native.npc.wei_zhizhong"}, "shot": "near"
 						},
 						{
-							"say": "兵部的事，相国也要管？"
+							"say": "兵部的事，相国也要管？", "shot": {"two": "native.npc.wei_zhizhong"}
 						},
 						{
-							"say": "臣也有本：槐阳王程朔，兴兵踏平兵部工地，杀朝廷命官，劫民夫——槐阳王反了。"
+							"say": "臣也有本：槐阳王程朔，兴兵踏平兵部工地，杀朝廷命官，劫民夫——槐阳王反了。", "do": {"act": "face", "toward": "native.npc.yulan_zhao"}, "shot": "near"
 						},
 						{
-							"line": "满殿哗然。\n",
+							"line": "满殿哗然。\n", "shot": "wide",
 							"color": "HIR"
 						},
 						{
 							"by": "native.npc.yulan_zhao"
 						},
 						{
-							"emote": "手按在龙椅的扶手上，看看相国，又看看尚书。"
+							"emote": "手按在龙椅的扶手上，看看相国，又看看尚书。", "shot": "near"
 						},
 						{
-							"say": "……容朕想想。退、退朝。"
+							"say": "……容朕想想。退、退朝。", "shot": "near"
 						},
 						{
-							"line": "太监喊：「退朝——」百官鱼贯而出。\n"
+							"line": "太监喊：「退朝——」百官鱼贯而出。\n", "shot": "wide"
 						},
 						{
 							"by": "native.npc.fu_an"
 						},
 						{
-							"whisper": "皇上请相国的随员到养心殿说话。皇上说……先别出宫。"
+							"whisper": "皇上请相国的随员到养心殿说话。皇上说……先别出宫。", "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
 						},
 						{
 							"mark": "见了福安"
@@ -1181,43 +1181,44 @@
 					"scene": true,
 					"mark": "随相国上朝",
 					"not_mark": "早朝过",
+					"when": {"not": {"mark": "踏平了工地"}},
 					"present": ["native.npc.wei_zhizhong", "native.npc.yu_zijian_court", "native.npc.yulan_zhao", "native.npc.fu_an"],
 					"steps": [
 						{
-							"say": "有本早奏，无本退朝——"
+							"say": "有本早奏，无本退朝——", "shot": "wide"
 						},
 						{
 							"by": "native.npc.wei_zhizhong"
 						},
 						{
-							"say": "臣韦执中有本。乔阴县令程不平录供，槐阳王拒令：兵部奉先帝寻剑之旨，征民夫、设关卡、拿人——先帝的旨意里没有这一句。"
+							"say": "臣韦执中有本。乔阴县令程不平录供，槐阳王拒令：兵部奉先帝寻剑之旨，征民夫、设关卡、拿人——先帝的旨意里没有这一句。", "do": {"act": "bow", "toward": "native.npc.yulan_zhao"}, "shot": "near"
 						},
 						{
 							"by": "native.npc.yu_zijian_court"
 						},
 						{
-							"emote": "冷笑了一声，出班。"
+							"emote": "冷笑了一声，出班。", "do": {"act": "walk", "to": "native.npc.wei_zhizhong"}, "shot": "near"
 						},
 						{
-							"say": "兵部的事，相国也要管？先帝的旨意是寻剑，兵部办的是寻剑。一个县令、一个藩王，说兵部办错了，凭据呢？"
+							"say": "兵部的事，相国也要管？先帝的旨意是寻剑，兵部办的是寻剑。一个县令、一个藩王，说兵部办错了，凭据呢？", "shot": {"two": "native.npc.wei_zhizhong"}
 						},
 						{
 							"by": "native.npc.yulan_zhao"
 						},
 						{
-							"emote": "手按在龙椅的扶手上，看看相国，又看看尚书。"
+							"emote": "手按在龙椅的扶手上，看看相国，又看看尚书。", "shot": "near"
 						},
 						{
-							"say": "……容朕想想。退朝。"
+							"say": "……容朕想想。退朝。", "shot": "near"
 						},
 						{
-							"line": "太监喊：「退朝——」百官鱼贯而出。\n"
+							"line": "太监喊：「退朝——」百官鱼贯而出。\n", "shot": "wide"
 						},
 						{
 							"by": "native.npc.fu_an"
 						},
 						{
-							"whisper": "皇上请相国的随员到养心殿说话。皇上说……先别出宫。"
+							"whisper": "皇上请相国的随员到养心殿说话。皇上说……先别出宫。", "do": {"act": "walk", "to": "player"}, "shot": {"two": "player"}
 						},
 						{
 							"mark": "见了福安"
@@ -1802,22 +1803,22 @@
 					"not_mark": "见了皇帝",
 					"steps": [
 						{
-							"emote": "听见响动，抬起头，往后缩了一下，又坐直了。"
+							"emote": "听见响动，抬起头，往后缩了一下，又坐直了。", "do": "startle", "shot": "near"
 						},
 						{
-							"say": "你……你不是来杀朕的。杀朕的人不翻窗。"
+							"say": "你……你不是来杀朕的。杀朕的人不翻窗。", "do": {"act": "face", "toward": "player"}, "shot": {"two": "player"}
 						},
 						{
-							"say": "你从哪儿来的？冷宫的井？——那条路，原来真有人走。"
+							"say": "你从哪儿来的？冷宫的井？——那条路，原来真有人走。", "shot": "near"
 						},
 						{
-							"say": "父皇的寻剑令，你也在找？……朕只知道父皇找了一辈子岚城，临走还念着。兵部说征民夫是父皇的意思——朕不知道。"
+							"say": "父皇的寻剑令，你也在找？……朕只知道父皇找了一辈子岚城，临走还念着。兵部说征民夫是父皇的意思——朕不知道。", "shot": "near"
 						},
 						{
-							"say": "庾尚书说，皇叔勾结水烟阁谋反，朕的布告是他拟的。朕……信了一半。"
+							"say": "庾尚书说，皇叔勾结水烟阁谋反，朕的布告是他拟的。朕……信了一半。", "shot": {"two": "player"}
 						},
 						{
-							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。"
+							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。", "do": {"act": "walk", "to": "player"}, "shot": "near"
 						}
 					]
 				},
@@ -1826,21 +1827,22 @@
 					"scene": true,
 					"mark": "见了福安",
 					"not_mark": "见了皇帝",
+					"when": {"not": {"mark": "从冷宫井上来"}},
 					"steps": [
 						{
-							"emote": "把手札合上，示意福安退到门外。"
+							"emote": "把手札合上，示意福安退到门外。", "shot": "near"
 						},
 						{
-							"say": "坐。……白天殿上，朕不敢说话。你也看见了。"
+							"say": "坐。……白天殿上，朕不敢说话。你也看见了。", "do": {"act": "face", "toward": "player"}, "shot": {"two": "player"}
 						},
 						{
-							"say": "父皇的寻剑令，朕只知道一句：寻剑。兵部说征民夫是父皇的意思——朕不知道是不是。"
+							"say": "父皇的寻剑令，朕只知道一句：寻剑。兵部说征民夫是父皇的意思——朕不知道是不是。", "shot": "near"
 						},
 						{
-							"say": "庾尚书说，皇叔勾结水烟阁谋反，朕的布告是他拟的。朕……信了一半。"
+							"say": "庾尚书说，皇叔勾结水烟阁谋反，朕的布告是他拟的。朕……信了一半。", "shot": {"two": "player"}
 						},
 						{
-							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。"
+							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。", "do": {"act": "walk", "to": "player"}, "shot": "near"
 						}
 					]
 				},
@@ -2263,68 +2265,68 @@
 					"present": ["native.npc.yulan_zhao", "native.npc.feng_ce"],
 					"steps": [
 						{
-							"line": "太和殿上，百官分列。皇帝坐在龙椅上，脸色发白，手按着扶手。\n"
+							"line": "太和殿上，百官分列。皇帝坐在龙椅上，脸色发白，手按着扶手。\n", "shot": "wide"
 						},
 						{
 							"by": "native.npc.yulan_zhao"
 						},
 						{
-							"say": "朕……朕有话说。"
+							"say": "朕……朕有话说。", "shot": "near"
 						},
 						{
 							"by": "native.npc.yu_zijian_accused"
 						},
 						{
-							"emote": "抢先出班。"
+							"emote": "抢先出班。", "do": {"who": "native.npc.yu_zijian_drawn", "act": "walk", "to": "native.npc.yulan_zhao"}, "shot": {"look": "native.npc.yu_zijian_drawn"}
 						},
 						{
-							"say": "陛下，臣先有本：槐阳王程朔兴兵踏平兵部工地，杀朝廷命官——槐阳王反了。"
+							"say": "陛下，臣先有本：槐阳王程朔兴兵踏平兵部工地，杀朝廷命官——槐阳王反了。", "do": {"who": "native.npc.yu_zijian_drawn", "act": "face", "toward": "native.npc.yulan_zhao"}, "shot": {"look": "native.npc.yu_zijian_drawn"}
 						},
 						{
 							"by": "native.npc.yulan_zhao"
 						},
 						{
-							"say": "……先听他说。"
+							"say": "……先听他说。", "do": {"act": "face", "toward": "player"}, "shot": "near"
 						},
 						{
-							"line": "你走到御案前，把先帝的原令和兵部的抄本并排摊开，又把人证物证一样一样摆上去。\n"
+							"line": "你走到御案前，把先帝的原令和兵部的抄本并排摊开，又把人证物证一样一样摆上去。\n", "shot": {"two": "player"}
 						},
 						{
-							"line": "「寻剑，不得扰民一户。」朝臣们一个一个伸长了脖子。\n",
+							"line": "「寻剑，不得扰民一户。」朝臣们一个一个伸长了脖子。\n", "shot": "wide",
 							"color": "HIY"
 						},
 						{
 							"by": "native.npc.yulan_zhao"
 						},
 						{
-							"say": "槐阳王拒的，是父皇没下过的令。"
+							"say": "槐阳王拒的，是父皇没下过的令。", "shot": "near"
 						},
 						{
-							"say": "庾子建，这三行……是谁加的？"
+							"say": "庾子建，这三行……是谁加的？", "do": {"act": "face", "toward": "native.npc.yu_zijian_drawn"}, "shot": "near"
 						},
 						{
 							"by": "native.npc.yu_zijian_accused"
 						},
 						{
-							"emote": "脸色变了，半晌没有出声。"
+							"emote": "脸色变了，半晌没有出声。", "shot": {"look": "native.npc.yu_zijian_drawn"}
 						},
 						{
-							"say": "陛下年幼，被人蒙蔽——"
+							"say": "陛下年幼，被人蒙蔽——", "do": {"who": "native.npc.yu_zijian_drawn", "act": "face", "toward": "native.npc.yulan_zhao"}, "shot": {"look": "native.npc.yu_zijian_drawn"}
 						},
 						{
 							"by": "native.npc.yulan_zhao"
 						},
 						{
-							"emote": "站了起来。"
+							"emote": "站了起来。", "do": "startle", "shot": "near"
 						},
 						{
-							"say": "拿下！"
+							"say": "拿下！", "shot": "near"
 						},
 						{
 							"by": "native.npc.feng_ce"
 						},
 						{
-							"say": "大内侍卫营听令——"
+							"say": "大内侍卫营听令——", "do": {"who": "native.npc.feng_ce_beside", "act": "draw"}, "shot": {"look": "native.npc.feng_ce_beside"}
 						},
 						{
 							"mark": "冯策随你下湖"
@@ -2333,10 +2335,10 @@
 							"by": "native.npc.yu_zijian_accused"
 						},
 						{
-							"emote": "退后一步，刀已经出了鞘。"
+							"emote": "退后一步，刀已经出了鞘。", "do": [{"who": "native.npc.yu_zijian_drawn", "act": "draw"}, {"who": "native.npc.yu_zijian_drawn", "act": "step_back", "from": "native.npc.feng_ce_beside"}], "shot": {"look": "native.npc.yu_zijian_drawn"}
 						},
 						{
-							"say": "老夫替先帝打了半辈子仗！"
+							"say": "老夫替先帝打了半辈子仗！", "shot": {"look": "native.npc.yu_zijian_drawn"}
 						},
 						{
 							"leave": "native.npc.feng_ce"
@@ -2357,53 +2359,54 @@
 					"scene": true,
 					"mark": "要在朝上揭发",
 					"not_mark": "揭发过",
+					"when": {"not": {"mark": "踏平了工地"}},
 					"present": ["native.npc.yulan_zhao", "native.npc.feng_ce"],
 					"steps": [
 						{
-							"line": "太和殿上，百官分列。皇帝坐在龙椅上，脸色发白，手按着扶手。\n"
+							"line": "太和殿上，百官分列。皇帝坐在龙椅上，脸色发白，手按着扶手。\n", "shot": "wide"
 						},
 						{
 							"by": "native.npc.yulan_zhao"
 						},
 						{
-							"say": "朕……朕有话说。"
+							"say": "朕……朕有话说。", "shot": "near"
 						},
 						{
-							"line": "你走到御案前，把先帝的原令和兵部的抄本并排摊开，又把人证物证一样一样摆上去。\n"
+							"line": "你走到御案前，把先帝的原令和兵部的抄本并排摊开，又把人证物证一样一样摆上去。\n", "shot": {"two": "player"}
 						},
 						{
-							"line": "「寻剑，不得扰民一户。」朝臣们一个一个伸长了脖子。\n",
+							"line": "「寻剑，不得扰民一户。」朝臣们一个一个伸长了脖子。\n", "shot": "wide",
 							"color": "HIY"
 						},
 						{
 							"by": "native.npc.yulan_zhao"
 						},
 						{
-							"say": "庾子建，这三行……是谁加的？"
+							"say": "庾子建，这三行……是谁加的？", "do": {"act": "face", "toward": "native.npc.yu_zijian_drawn"}, "shot": "near"
 						},
 						{
 							"by": "native.npc.yu_zijian_accused"
 						},
 						{
-							"emote": "脸色变了，半晌没有出声。"
+							"emote": "脸色变了，半晌没有出声。", "shot": {"look": "native.npc.yu_zijian_drawn"}
 						},
 						{
-							"say": "陛下年幼，被人蒙蔽——"
+							"say": "陛下年幼，被人蒙蔽——", "do": {"who": "native.npc.yu_zijian_drawn", "act": "face", "toward": "native.npc.yulan_zhao"}, "shot": {"look": "native.npc.yu_zijian_drawn"}
 						},
 						{
 							"by": "native.npc.yulan_zhao"
 						},
 						{
-							"emote": "站了起来。"
+							"emote": "站了起来。", "do": "startle", "shot": "near"
 						},
 						{
-							"say": "拿下！"
+							"say": "拿下！", "shot": "near"
 						},
 						{
 							"by": "native.npc.feng_ce"
 						},
 						{
-							"say": "大内侍卫营听令——"
+							"say": "大内侍卫营听令——", "do": {"who": "native.npc.feng_ce_beside", "act": "draw"}, "shot": {"look": "native.npc.feng_ce_beside"}
 						},
 						{
 							"mark": "冯策随你下湖"
@@ -2412,10 +2415,10 @@
 							"by": "native.npc.yu_zijian_accused"
 						},
 						{
-							"emote": "退后一步，刀已经出了鞘。"
+							"emote": "退后一步，刀已经出了鞘。", "do": [{"who": "native.npc.yu_zijian_drawn", "act": "draw"}, {"who": "native.npc.yu_zijian_drawn", "act": "step_back", "from": "native.npc.feng_ce_beside"}], "shot": {"look": "native.npc.yu_zijian_drawn"}
 						},
 						{
-							"say": "老夫替先帝打了半辈子仗！"
+							"say": "老夫替先帝打了半辈子仗！", "shot": {"look": "native.npc.yu_zijian_drawn"}
 						},
 						{
 							"leave": "native.npc.feng_ce"
