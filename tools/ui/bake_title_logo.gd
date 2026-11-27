@@ -16,8 +16,8 @@ extends SceneTree
 ## The Japanese title, 東方物語 in a Japanese brush hand (衡山毛筆フォント行書; 飞云体 has no 東
 ## or 語; the font is not shipped):
 ##   ... -- <font> ja [mask name]      writes logo_ja.png (or the name given)
-## The Russian title, Восточные / истории in two brushed lines like the English one (飞云体 has no
-## Cyrillic; the font is not shipped):
+## The Russian title, Восточные / истории in two brushed lines like the English one (Mister Brush;
+## 飞云体 has no Cyrillic; the font is not shipped):
 ##   ... -- <font> ru [mask name]      writes logo_ru.png (or the name given)
 
 const OUT: String = "res://assets/textures/title/"
