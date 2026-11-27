@@ -15,6 +15,11 @@ const RAIN: StringName = &"rainpress"
 const ACTION: StringName = &"perform.rainpress"
 const KEY: StringName = &"perform/rainpress"
 const MARK: String = "学了听雨"
+## 师娘彩蛋 B: the same move by its other name.
+const NIGHT: StringName = &"nightrain"
+const NIGHT_ACTION: StringName = &"perform.nightrain"
+const NIGHT_KEY: StringName = &"perform/nightrain"
+const NIGHT_MARK: String = "学了夜雨"
 
 ## The fixture's fight is a SCRIPTED one (TEST-ONLY): the perform's own policy, taking it.
 class AnyMode:
@@ -38,6 +43,7 @@ func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_mid_round()
 	_test_landed_is_only_the_blow()
 	_test_cap_and_refusals()
+	_test_night_name()
 	BattlePace.manual_turns = pace_turns
 	BattlePace.stance = pace_stance
 	return {"assertions": _count, "failures": _failures.duplicate()}
@@ -138,21 +144,62 @@ func _test_cap_and_refusals() -> void:
 	_check(untaught.bindings[0].state.recovery.inner_force.current == 100 and not untaught.scheduler.round_beats_of(PLAYER).spent.has(KEY), "untaught: refused, nothing spent")
 
 
-## 封山's sword in the player's hand, taught 「听雨」, 100 force; the enemy two moves a round.
-func _fixture(random: CombatRandomSource, cap: int = 1) -> Fixtures.SchedulerFixture:
+## 「夜雨」 (师娘彩蛋 B): its own mark, its own name and lines, the same numbers, cost, opening and hand.
+func _test_night_name() -> void:
+	var f: Fixtures.SchedulerFixture = _fixture(_zeros(), 1, true)
+	_npc_beats[ENEMY] = 2
+	_advance(f)
+	var kee_before: int = f.bindings[1].state.vitality.current
+	_check(_order(f, NIGHT_ACTION), "taught 「夜雨」: the order is taken")
+	f.scheduler.open_round()
+	var round: CombatSchedulerAdvanceResult = _advance(f)
+	var mine: CombatRoundBeats = f.scheduler.round_beats_of(PLAYER)
+	_check(f.bindings[1].state.vitality.current == kee_before and mine.spent.has(NIGHT_KEY) and mine.earned == ([CombatSchoolSkeleton.EARN_OPPONENT_MISSED] as Array[StringName]) and f.scheduler.exposed(ENEMY), "dodged or parried: one move paid, one won, the enemy open — as 「听雨」")
+	_check(f.bindings[0].state.recovery.inner_force.current == 80, "20 force, 「听雨」's number (%d)" % f.bindings[0].state.recovery.inner_force.current)
+	f.scheduler._fill_modifiers(f.bindings)
+	_check(f.scheduler._modifiers.read(ENEMY).dodge_percent == -85, "the opening 「听雨」's 85%")
+	var line: VisionLine = _special_line(f, "「夜雨」")
+	_check(line != null and line.color == ColoredLine.HIB, "its own line, its own colour")
+	_check(_special_line(f, "「听雨」") == null, "nothing of 「听雨」 in it")
+	# One taught 「听雨」 only: 「夜雨」 refused, nothing spent.
+	var other: Fixtures.SchedulerFixture = _fixture(_zeros(), 1, true)
+	_npc_beats[ENEMY] = 2
+	other.bindings[0].state.marks.erase(NIGHT_MARK)
+	other.bindings[0].state.marks[MARK] = 1 # TEST-ONLY
+	_advance(other)
+	_order(other, NIGHT_ACTION)
+	other.scheduler.open_round()
+	_advance(other)
+	_check(other.bindings[0].state.recovery.inner_force.current == 100 and not other.scheduler.round_beats_of(PLAYER).spent.has(NIGHT_KEY), "taught 「听雨」, not 「夜雨」: refused, nothing spent")
+
+
+## The first line a player's special said this fight that holds `part`, or null.
+func _special_line(f: Fixtures.SchedulerFixture, part: String) -> VisionLine:
+	for event: CombatTacticalEvent in f.scheduler.player_tactics().events():
+		if event.kind != CombatTacticalEvent.Kind.RESOLVED or event.execution == null or event.execution.special == null:
+			continue
+		for line: VisionLine in event.execution.special.lines():
+			if line.template.contains(part):
+				return line
+	return null
+
+
+## 封山's sword in the player's hand, taught 「听雨」 (or 「夜雨」: `night`), 100 force; the enemy two moves a round.
+func _fixture(random: CombatRandomSource, cap: int = 1, night: bool = false) -> Fixtures.SchedulerFixture:
 	var f: Fixtures.SchedulerFixture = Fixtures.new()._fixture(false)
 	var registry := CombatTacticalActionRegistry.new()
 	registry.register_policy(AnyMode.new(RAIN))
+	registry.register_policy(AnyMode.new(NIGHT))
 	f.scheduler.configure_decisions(Beats._rules())
 	f.scheduler.configure_player_tactics(PLAYER, registry)
 	f.scheduler.configure_styles(func(_id: StringName) -> CombatStyle: return null)
 	_npc_beats = {}
 	var costs: Dictionary[StringName, int] = {
-		CombatMoveTags.QUICK: 1, CombatMoveTags.HEAVY: 2, CombatMoveTags.FEINT: 1, CombatMoveTags.GUARD: 1, CombatBeatRules.COST_PLAIN: 1, KEY: 1,
+		CombatMoveTags.QUICK: 1, CombatMoveTags.HEAVY: 2, CombatMoveTags.FEINT: 1, CombatMoveTags.GUARD: 1, CombatBeatRules.COST_PLAIN: 1, KEY: 1, NIGHT_KEY: 1,
 	}
 	f.scheduler.configure_beats(CombatBeatRules.new(2, costs, cap, true, true), func(id: StringName) -> int: return _npc_beats.get(id, 1))
 	Beats._learn(f.bindings[0], Beats.FONXAN) # TEST-ONLY
-	f.bindings[0].state.marks[MARK] = 1 # TEST-ONLY
+	f.bindings[0].state.marks[NIGHT_MARK if night else MARK] = 1 # TEST-ONLY
 	f.bindings[0].state.recovery.inner_force = CharacterInternalResourceState.new(100, 100) # TEST-ONLY
 	f.encounter.set_current_target(PLAYER, ENEMY)
 	f.random = random
@@ -181,9 +228,9 @@ func _advance(f: Fixtures.SchedulerFixture, seconds: float = 1.0) -> CombatSched
 	return f.scheduler.advance(seconds, true, ID, f.bindings, f.random, f.effects)
 
 
-func _order(f: Fixtures.SchedulerFixture) -> bool:
+func _order(f: Fixtures.SchedulerFixture, action: StringName = ACTION) -> bool:
 	_requests += 1
-	return f.scheduler.player_tactics().submit(CombatTacticalRequest.new(StringName("rain-%d" % _requests), ID, PLAYER, ACTION, CombatTacticalRequest.Category.MARTIAL_SPECIAL), true, ID, f.bindings).accepted()
+	return f.scheduler.player_tactics().submit(CombatTacticalRequest.new(StringName("rain-%d" % _requests), ID, PLAYER, action, CombatTacticalRequest.Category.MARTIAL_SPECIAL), true, ID, f.bindings).accepted()
 
 
 func _notes(result: CombatSchedulerAdvanceResult, text: String) -> int:

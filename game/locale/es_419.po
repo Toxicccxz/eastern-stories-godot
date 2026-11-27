@@ -41766,8 +41766,8 @@ msgstr "No respondió, y te mandó primero a cruzar espadas con He Shouzhuo, en 
 msgid "回去再问沈疏雨「雨」。"
 msgstr "Volver a preguntar a Shen Shuyu por \"Lluvia\"."
 
-msgid "沈疏雨把「听雨」教给了你：一剑逼过去，对方接了，身前就空了。这一招不在封山的谱上。想试，就再找何守拙过几招。"
-msgstr "Shen Shuyu te enseñó \"Escuchar la lluvia\": una estocada que aprieta y, cuando el otro la responde, queda abierto por delante. Este movimiento no está en el manual de la Montaña Vacía. Si quieres probarlo, cruza espadas otra vez con He Shouzhuo."
+#~ msgid "沈疏雨把「听雨」教给了你：一剑逼过去，对方接了，身前就空了。这一招不在封山的谱上。想试，就再找何守拙过几招。"
+#~ msgstr "Shen Shuyu te enseñó \"Escuchar la lluvia\": una estocada que aprieta y, cuando el otro la responde, queda abierto por delante. Este movimiento no está en el manual de la Montaña Vacía. Si quieres probarlo, cruza espadas otra vez con He Shouzhuo."
 
 msgid "从镇外的沈疏雨那里学到了封山谱上没有的「听雨」"
 msgstr "Aprendiste de Shen Shuyu, en las afueras del pueblo, \"Escuchar la lluvia\", que no está en el manual de la Montaña Vacía"
@@ -41835,8 +41835,8 @@ msgstr " te escucha hasta el final y sonríe un poco."
 #~ msgid "老何守了三十年门，他不出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
 #~ msgstr "El viejo He guardó la puerta treinta años; él no lanza la espada, y a ti no te queda hueco que esperar. La espada de la Montaña Vacía se detiene aquí; y el libro que él escribió tampoco pasa de aquí."
 
-msgid "看好。"
-msgstr "Mira bien."
+#~ msgid "看好。"
+#~ msgstr "Mira bien."
 
 msgid "拔剑。剑尖没有刺向哪一处，只是一点一点压过来，密得像檐下的雨，由不得你不抬手去接。"
 msgstr " desenvaina. La punta no busca ningún lugar; solo se te viene encima, toque a toque, tupida como la lluvia que cae del alero, y no puedes sino alzar la mano para responder."
@@ -41844,8 +41844,8 @@ msgstr " desenvaina. La punta no busca ningún lugar; solo se te viene encima, t
 msgid "他接了，身前就空了，那一下是你的；他不接，这一剑就落在他身上。两头都是你的——这叫「听雨」。"
 msgstr "Si responde, queda abierto por delante, y ese instante es tuyo; si no responde, la estocada le cae encima. De las dos maneras ganas tú: esto se llama 'Escuchar la lluvia'."
 
-msgid "这一招不在封山的谱上。你学了去，用不用、说不说是谁教的，都随你。"
-msgstr "Este movimiento no está en el manual de la Montaña Vacía. Llévatelo: si lo usas o no, si dices o no quién te lo enseñó, es cosa tuya."
+#~ msgid "这一招不在封山的谱上。你学了去，用不用、说不说是谁教的，都随你。"
+#~ msgstr "Este movimiento no está en el manual de la Montaña Vacía. Llévatelo: si lo usas o no, si dices o no quién te lo enseñó, es cosa tuya."
 
 msgid "先去和老何过几招。回来再说。"
 msgstr "Primero ve a cruzar espadas con el viejo He. Hablamos cuando vuelvas."

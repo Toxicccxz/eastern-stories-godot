@@ -3,7 +3,9 @@ extends RefCounted
 ## 师娘彩蛋 A (计划 build/plans/师娘彩蛋_计划.md, owner 2026-11-27; DECISIONS「师娘彩蛋 A」): the yard
 ## north of the 黄土小径 — its gate shut to one not grown or not of 封山, opened by a knock to one
 ## who is; 沈疏雨 (the other of 柳淳风's 风雨双侠) and 何守拙 (who guards and does not strike); the
-## line 镇外的小院: meet her, ask of the 雨, spar 何守拙 (won or lost), learn 「听雨」.
+## line 镇外的小院: meet her, ask of the 雨, spar 何守拙 (won or lost), keep her asking of the 竹书 from
+## 柳淳风 (师娘彩蛋 B), and the night at her desk — 留下: 「夜雨」 and an old silver hairpin; 告辞: 「听雨」
+## the next morning and her slips. The same move either way; 柳淳风's one flat line after.
 ## TEST-ONLY fixtures, each marked where used: the player's family, skills and experience,
 ## the ambience source, the spar ended by hand.
 
@@ -18,6 +20,11 @@ const MET: String = "见过沈疏雨"
 const SENT: String = "沈疏雨叫你试老何"
 const SPARRED: String = "和何守拙过了招"
 const TAUGHT: String = "学了听雨"
+const TAUGHT_NIGHT: String = "学了夜雨"
+const PROMISED: String = "答应了沈疏雨"
+const DESK: StringName = &"snow.rain_house.desk"
+const HAIRPIN: StringName = &"native:snow/silver_hairpin"
+const SLIPS: StringName = &"native:snow/rain_slips"
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -27,6 +34,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	var session: WorldSessionController = await _session(tree)
 	await _test_line(tree, session)
+	session.free()
+	await tree.process_frame
+	session = await _session(tree)
+	await _test_stay(tree, session)
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures.duplicate()}
@@ -56,7 +67,9 @@ func _test_data() -> void:
 	var shen: NpcDefinition = catalog.npc(SHEN)
 	var he: NpcDefinition = catalog.npc(HE)
 	_check(shen != null and shen.dealings().is_fight_deferred() and shen.nickname == catalog.npc(&"common.npc.swordsman.master").nickname and shen.nickname == "风雨双侠", "沈疏雨 wears 柳淳风's own nickname, and is not to be fought")
-	_check(shen.talk().inquiry_rules("雨").size() == 4 and shen.talk().listed_for("雨", {}), "her 「雨」: four answers, listed to whoever came in")
+	_check(shen.talk().inquiry_rules("雨").size() == 6 and shen.talk().listed_for("雨", {}), "her 「雨」: six answers, listed to whoever came in")
+	_check(not shen.talk().listed_for("竹书", {}) and shen.talk().listed_for("竹书", {"沈疏雨问起竹书": 1}) and shen.talk().confirm_applies("竹书", {"沈疏雨问起竹书": 1}) and not shen.talk().confirm_applies("竹书", {"沈疏雨问起竹书": 1, PROMISED: 1}), "「竹书」: listed once she asked, the promise asked first, once")
+	_check(shen.talk().ask_confirm("竹书").contains("不告诉柳淳风"), "the confirm says what is kept from whom")
 	_check(he != null and he.hooks().spar_over_mark == SPARRED and not he.dealings().is_fight_deferred(), "何守拙 can be sparred, and a spar a blow ended leaves its mark")
 	_check(he.skill_map().get(&"parry", &"") == &"fonxansword" and not he.skill_map().has(&"sword"), "he parries with 封山剑法 and strikes with the plain sword")
 	# Where they stand.
@@ -65,11 +78,20 @@ func _test_data() -> void:
 		_check(spawn != null and spawn.zone_id == &"snow.rain_yard" and spawn.map_id == &"snow.rain_compound", "%s in the yard" % spawn_id)
 	# The line.
 	var quest: StoryQuestDefinition = catalog.story_quest(QUEST)
-	_check(quest != null and quest.line == StoryQuestDefinition.LINE_REGION and quest.steps.size() == 4, "镇外的小院: a 地区 line of four steps")
+	_check(quest != null and quest.line == StoryQuestDefinition.LINE_REGION and quest.steps.size() == 5, "镇外的小院: a 地区 line of five steps")
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
-	_check(ids == [&"meet", &"ask", &"spar", &"learn"], "meet, ask, spar, learn: %s" % [ids])
-	# 「听雨」 is hers to give: the mark the perform asks is the one her answer leaves.
-	_check(catalog.skill(&"fonxansword").perform_when.get(&"rainpress").key == TAUGHT, "「听雨」 asks the mark her teaching leaves")
+	_check(ids == [&"meet", &"ask", &"spar", &"secret", &"night"], "meet, ask, spar, secret, night: %s" % [ids])
+	_check(quest.step(&"night").is_branch() and quest.step(&"night").options.size() == 2, "the night is a choice of two")
+	# 「听雨」 and 「夜雨」 are hers to give: one move, two names, one mark each.
+	var sword: SkillDefinition = catalog.skill(&"fonxansword")
+	_check(sword.perform_when.get(&"rainpress").key == TAUGHT and sword.perform_when.get(&"nightrain").key == TAUGHT_NIGHT, "each name asks its own mark")
+	_check(not sword.perform_numbers.has(&"nightrain") and catalog.pacing().beat_rules().cost_of_action(&"perform/nightrain") == catalog.pacing().beat_rules().cost_of_action(&"perform/rainpress"), "「夜雨」 reads 「听雨」's numbers and costs the same")
+	_check(SpecialFunctions.perform(&"nightrain").hint(catalog) == SpecialFunctions.perform(&"rainpress").hint(catalog), "and its button says the same")
+	# The desk: done, or the night, or wait for it, else nothing.
+	var desk: RoomActDefinition = catalog.service(DESK).act
+	_check(desk.acts.size() == 6 and desk.acts[3].phase == ([&"night", &"midnight"] as Array[StringName]) and not desk.acts[4].ask.is_empty(), "the desk: three afterwards, the night, waiting for it, nothing")
+	# Their master's one line: to his own (封山), and through 李火狮 to the 北宗.
+	_check(_says(catalog.npc(&"common.npc.swordsman.master"), "最近总往镇外跑") and _says(catalog.npc(&"snow.npc.fist_trainer"), "最近总往镇外跑"), "「最近总往镇外跑」: 柳淳风 to his own, 李火狮 to the 北宗")
 
 
 func _test_line(tree: SceneTree, session: WorldSessionController) -> void:
@@ -148,15 +170,160 @@ func _test_line(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not coordinator.has_active_encounter() and state.marks.get(SPARRED, 0) == 1, "a spar his blow ended: 「%s」 all the same" % SPARRED)
 	ui.dismiss_current_panel()
 	await _settle(tree)
-	# Taught.
-	_check(not catalog.skill(&"fonxansword").performs(&"rainpress", state), "before her teaching 「听雨」 is not theirs")
-	_check(_said(_ask(yard, shen, "雨"), "听雨") and state.marks.get(TAUGHT, 0) == 1, "「雨」 after the spar: she teaches 「听雨」")
-	_check(catalog.skill(&"fonxansword").performs(&"rainpress", state), "and 封山剑法 gives it to them from then on")
-	_check(_said(_ask(yard, shen, "雨"), "是逼，不是抢"), "asked again: a word on how it is used")
-	_check(_said(_ask(yard, he, "过招"), "怎么敲门"), "何守拙 asks for another spar")
+	# Not taught yet: the 雨 asks of the 竹书 now.
+	_check(not catalog.skill(&"fonxansword").performs(&"rainpress", state), "after the spar 「听雨」 is not theirs yet")
+	_check(_said(_ask(yard, shen, "雨"), "你读过吗") and state.marks.has("沈疏雨问起竹书") and yard.ask_topics_selected().has("竹书"), "「雨」 after the spar: she asks of the 竹书")
+	_check(_said(_ask(yard, shen, "竹书"), "你别同他说") and state.marks.get(PROMISED, 0) == 1, "「竹书」: the promise kept from 柳淳风")
+	_check(_said(_ask(yard, shen, "雨"), "天黑以后"), "「雨」 now: after dark, in the house")
 	session.record_journal()
-	_check(state.quests.has("%s#done" % QUEST), "the line is done")
+	_check(StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"night", "next: the night")
+	# The desk by day: wait for the dark (asked first), then she comes in and asks.
+	var house: WorldMapController = await _at_desk(tree, session)
+	var desk: ActService = house.service(DESK) as ActService
+	_set_phase(session, &"morning") # TEST-ONLY: day
+	desk.interact()
+	await _settle(tree)
+	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("等到天黑"), "by day: wait for the dark? (asked first)")
+	ui.confirm_prompt.confirm_button.pressed.emit()
+	await _settle(tree)
+	_close_box(ui)
+	await _settle(tree)
+	_check(session.day_clock().phase().phase_id == &"night", "the clock went on to the night (%s)" % session.day_clock().phase().phase_id)
+	_check(ui.is_asking() and _index(ui, "留下") >= 0 and _index(ui, "告辞") >= 0, "she asks: stay, or come back in the morning")
+	ui.confirm_prompt.choice_buttons[_index(ui, "告辞")].pressed.emit()
+	await _settle(tree)
+	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("「听雨」"), "告辞 asked first, naming the move it teaches")
+	ui.confirm_prompt.confirm_button.pressed.emit()
+	await _settle(tree)
+	_close_box(ui)
+	await _settle(tree)
+	_check(state.marks.get(TAUGHT, 0) == 1 and state.marks.get("告辞了", 0) == 1 and not state.marks.has(TAUGHT_NIGHT) and not state.marks.has("留下了"), "告辞: 「听雨」, and nothing of the night")
+	_check(_carries(session, SLIPS) and not _carries(session, HAIRPIN), "her slips, not the hairpin")
+	_check(session.day_clock().phase().phase_id == &"morning", "taught in the morning (%s)" % session.day_clock().phase().phase_id)
+	_check(catalog.skill(&"fonxansword").performs(&"rainpress", state) and not catalog.skill(&"fonxansword").performs(&"nightrain", state), "「听雨」 is theirs, 「夜雨」 is not")
+	session.record_journal()
+	_check(state.quests.has("%s/night/leave" % QUEST) and state.quests.has("%s#done" % QUEST), "the line is done, the 告辞 way")
+	yard = MapPlaces.enter(session, &"snow.rain_yard", &"snow.rain_yard.gate_arrival")
+	await _settle(tree)
+	_close_box(ui)
+	_check(_said(_ask(yard, _first(session, &"snow.rain_yard", SHEN), "竹简"), "头一回"), "「竹简」: the first time it was written")
+	# 柳淳风, back at the 武馆: his one flat line, once.
+	var hall: WorldMapController = MapPlaces.enter(session, &"snow.schoolhall", &"snow.schoolhall.master.1")
+	await _settle(tree)
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	_check(state.marks.get("柳淳风说过镇外", 0) == 1 and _said(_recent(ui, 12), "最近总往镇外跑"), "柳淳风: 「最近总往镇外跑」")
 
+
+## The 留下 way, from the promise on (TEST-ONLY: the earlier marks given by hand): the night at once,
+## 「夜雨」 at dawn and the hairpin; she greets one who came back, and 何守拙 looks up.
+func _test_stay(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var ui: SharedGameplayUI = session.shared_ui()
+	var catalog: ContentCatalog = GameContent.catalog()
+	StoryFixtures.fonxan_gated(session)
+	state.progression.combat_experience = 12000 # TEST-ONLY
+	for mark: String in [OPEN, MET, SENT, SPARRED, "沈疏雨问起竹书", PROMISED]:
+		state.marks[mark] = 1 # TEST-ONLY
+	var house: WorldMapController = await _at_desk(tree, session)
+	var desk: ActService = house.service(DESK) as ActService
+	_set_phase(session, &"night") # TEST-ONLY: already dark
+	desk.interact()
+	await _settle(tree)
+	_close_box(ui)
+	await _settle(tree)
+	_check(ui.is_asking() and _index(ui, "留下") >= 0, "after dark: no waiting, she asks at once")
+	ui.confirm_prompt.choice_buttons[_index(ui, "留下")].pressed.emit()
+	await _settle(tree)
+	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("「夜雨」") and ui.confirm_prompt.message.text.contains("柳淳风不会知道"), "留下 asked first: the move's name, and who will not know")
+	ui.confirm_prompt.confirm_button.pressed.emit()
+	await _settle(tree)
+	_close_box(ui)
+	await _settle(tree)
+	_check(state.marks.get(TAUGHT_NIGHT, 0) == 1 and state.marks.get("留下了", 0) == 1 and not state.marks.has(TAUGHT), "留下: 「夜雨」, not 「听雨」")
+	_check(_carries(session, HAIRPIN) and not _carries(session, SLIPS), "the hairpin, not the slips")
+	_check(session.day_clock().phase().phase_id == &"dawn", "taught at dawn (%s)" % session.day_clock().phase().phase_id)
+	_check(catalog.skill(&"fonxansword").performs(&"nightrain", state) and not catalog.skill(&"fonxansword").performs(&"rainpress", state), "「夜雨」 is theirs, 「听雨」 is not")
+	session.record_journal()
+	_check(state.quests.has("%s/night/stay" % QUEST) and state.quests.has("%s#done" % QUEST), "the line is done, the 留下 way")
+	_check(_line_with(desk_lines(catalog), "倒扣着"), "the desk afterwards: the cups turned down")
+	# Back in the yard another day: her greeting, and 何守拙's look.
+	var yard: WorldMapController = MapPlaces.enter(session, &"snow.rain_yard", &"snow.rain_yard.gate_arrival")
+	await _settle(tree)
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	_check(state.marks.get("小院又来过", 0) == 1 and _said(_recent(ui, 12), "你来了") and _said(_recent(ui, 12), "劈他的柴"), "she greets one who came back; 何守拙 looks up")
+	var shen: NpcRuntimeState = _first(session, &"snow.rain_yard", SHEN)
+	_check(yard.select_npc(shen.character_id) and yard.ask_topics_selected().has("簪子") and not yard.ask_topics_selected().has("竹简"), "「簪子」 to ask of, not 「竹简」")
+
+
+## TEST-ONLY: the clock put a minute into `phase_id`.
+func _set_phase(session: WorldSessionController, phase_id: StringName) -> void:
+	var clock: DayClock = session.day_clock()
+	var phases: Array[StringName] = [phase_id]
+	clock.set_day_seconds(clock.day_seconds() + clock.seconds_until_phase(phases) + 60)
+
+
+## The house, at its desk (TEST-ONLY: placed there).
+func _at_desk(tree: SceneTree, session: WorldSessionController) -> WorldMapController:
+	var house: WorldMapController = MapPlaces.enter(session, &"snow.rain_yard", &"snow.rain_yard.gate_arrival")
+	await _settle(tree)
+	house.place_player(&"snow.rain_house", MapPlaces.service_spot(house, DESK))
+	await _settle(tree)
+	return house
+
+
+func desk_lines(catalog: ContentCatalog) -> Array:
+	var lines: Array = []
+	for step: ScriptedAct.Step in catalog.service(DESK).act.acts[0].steps:
+		if step.line != null:
+			lines.append(step.line.text)
+	return lines
+
+
+func _line_with(lines: Array, part: String) -> bool:
+	return lines.any(func(line: String) -> bool: return line.contains(part))
+
+
+## Whether one of the NPC's calls says `part`.
+func _says(npc: NpcDefinition, part: String) -> bool:
+	for call: NpcHooks.Call in npc.hooks().calls:
+		for step: ScriptedAct.Step in call.act.steps:
+			if step.line != null and step.line.text.contains(part):
+				return true
+	return false
+
+
+func _carries(session: WorldSessionController, item_id: StringName) -> bool:
+	var inventory: InventoryState = session.inventory_state()
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, session.player_runtime().character_id)
+	for instance_id: StringName in inventory.direct_children(carried):
+		var item: ItemInstance = session.item_instance_index().resolve(instance_id)
+		if item != null and item.item_definition_id == item_id:
+			return true
+	return false
+
+
+func _index(ui: SharedGameplayUI, prefix: String) -> int:
+	if not ui.is_asking():
+		return -1
+	for index: int in ui.confirm_prompt.choice_buttons.size():
+		var button: Button = ui.confirm_prompt.choice_buttons[index]
+		if button.visible and button.text.begins_with(prefix):
+			return index
+	return -1
+
+
+## The dialogue box read to its end and shut (the scene's lines).
+func _close_box(ui: SharedGameplayUI) -> void:
+	for page: int in 40:
+		if not ui.dialogue_box.is_open():
+			return
+		ui.dialogue_box.finish_typing()
+		if not ui.dialogue_box.advance():
+			ui.dialogue_box.close()
 
 func _ask(map: WorldMapController, npc: NpcRuntimeState, topic: String) -> Array[String]:
 	if map == null or npc == null or not map.select_npc(npc.character_id):
