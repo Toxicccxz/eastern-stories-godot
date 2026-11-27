@@ -41711,3 +41711,195 @@ msgstr "Después el abad aceptó aquel sutra, y el asceta tomó los preceptos an
 
 msgid "后来方丈把那片贝叶还给了头陀，头陀回了番坊——你在场，你知道。那股寒，流云轩往后还是赶不出去。"
 msgstr "Después el abad le devolvió aquella hoja de palma al asceta, y el asceta regresó al Barrio Extranjero. Usted estuvo allí; usted lo sabe. Ese frío, el Cenador de las Nubes Errantes seguirá sin poder sacarlo."
+
+msgid "柴门 · 叩门"
+msgstr "puerta de ramas · llamar"
+
+msgid "镇外小院"
+msgstr "Patio de las afueras"
+
+msgid "瓦屋"
+msgstr "Casa de tejas"
+
+msgid "「听雨」"
+msgstr "\"Escuchar la lluvia\""
+
+msgid "「听雨」只能对战斗中的对手使用。"
+msgstr "\"Escuchar la lluvia\" solo funciona contra un rival en combate."
+
+msgid "你的内力不够，使不出「听雨」。"
+msgstr "No tienes Fuerza interior suficiente para usar \"Escuchar la lluvia\"."
+
+msgid "$N剑势一变，使出「听雨」，剑尖密如雨点罩向$n，逼得$p非接不可！"
+msgstr "¡{N:Tu espada cambia|La espada de $N{:el} cambia} de pronto y, con \"Escuchar la lluvia\", la punta cae sobre {n:ti|$n{:el}} tupida como gotas de lluvia: {n:no te queda|no le queda} más que responder!"
+
+msgid "$n这一下接得仓促，身前露出了空子。"
+msgstr "$n{:el} {n:respondes|responde} con apuro y {n:dejas|deja} un hueco en la guardia."
+
+msgid "用 {force} 点内力出一剑逼对方接招：对方闪开或架住，就露出空子（下一招更难躲开、架住），你这回合多一手；打中了就只是这一剑"
+msgstr "Con {force} de Fuerza interior lanzas una estocada que el rival debe responder: si la esquiva o la para, deja un hueco (le cuesta más esquivar o parar el siguiente movimiento) y ganas un turno extra en esta ronda; si acierta, es solo esa estocada"
+
+msgid "镇外的小院"
+msgstr "El patio de las afueras"
+
+msgid "雪亭镇东边的黄土小径旁有一座小院，住着一位「北宗的师娘」。"
+msgstr "Junto al Sendero de tierra amarilla, al este de Pabellón Nevado, hay una casa con patio donde vive \"la esposa del Maestro, la de la Rama Norte\"."
+
+msgid "进小院看看。"
+msgstr "Entrar al patio y echar un vistazo."
+
+msgid "院里练剑的妇人叫沈疏雨。二十年前，江湖上把她和柳淳风合称「风雨双侠」。"
+msgstr "La mujer que practicaba la espada en el patio se llama Shen Shuyu. Hace veinte años, el jianghu los llamaba a ella y a Liu Chunfeng \"los Espadachines del Viento y la Lluvia\"."
+
+msgid "问沈疏雨「雨」。"
+msgstr "Preguntar a Shen Shuyu por \"Lluvia\"."
+
+msgid "她没有答，叫你先去和院里的何守拙过几招。"
+msgstr "No respondió, y te mandó primero a cruzar espadas con He Shouzhuo, en el patio."
+
+msgid "和何守拙切磋一场，点到为止。他只守不攻——看看封山的剑等得到几个空子。"
+msgstr "Tener un combate amistoso con He Shouzhuo, sin llegar a herir. Él solo guarda y no ataca: ver cuántos huecos encuentra la espada de la Montaña Vacía a fuerza de esperar."
+
+msgid "何守拙守了三十年门。他不出剑，你就没有空子可等。"
+msgstr "He Shouzhuo guardó la puerta treinta años. Él no lanza la espada, y a ti no te queda hueco que esperar."
+
+msgid "回去再问沈疏雨「雨」。"
+msgstr "Volver a preguntar a Shen Shuyu por \"Lluvia\"."
+
+msgid "沈疏雨把「听雨」教给了你：一剑逼过去，对方接了，身前就空了。这一招不在封山的谱上。想试，就再找何守拙过几招。"
+msgstr "Shen Shuyu te enseñó \"Escuchar la lluvia\": una estocada que aprieta y, cuando el otro la responde, queda abierto por delante. Este movimiento no está en el manual de la Montaña Vacía. Si quieres probarlo, cruza espadas otra vez con He Shouzhuo."
+
+msgid "从镇外的沈疏雨那里学到了封山谱上没有的「听雨」"
+msgstr "Aprendiste de Shen Shuyu, en las afueras del pueblo, \"Escuchar la lluvia\", que no está en el manual de la Montaña Vacía"
+
+msgid "小院的柴门"
+msgstr "Puerta de ramas del patio"
+
+msgid "柴门虚掩着，一推就开。\n"
+msgstr "La puerta de ramas está entornada; con un empujón se abre.\n"
+
+msgid "你叩了叩柴门。院里劈柴的声音停了。\n"
+msgstr "Llamas a la puerta de ramas. En el patio, el ruido de partir leña se detiene.\n"
+
+msgid "一个花白头发的老人把门拉开半扇，看了看你腰间的剑，又看了看你握剑的那只手。\n"
+msgstr "Un anciano de pelo entrecano abre media hoja de la puerta, mira la espada que llevas al cinto y luego la mano con que la empuñas.\n"
+
+msgid "老人说道：封山的剑。……进来吧，她在院里。\n"
+msgstr "El anciano dice: \"La espada de la Montaña Vacía. ...Entra. Ella está en el patio.\"\n"
+
+msgid "你叩了叩柴门。院里有劈柴的声音，没有人应。\n"
+msgstr "Llamas a la puerta de ramas. En el patio se oye partir leña, y nadie responde.\n"
+
+msgid "柴门从里面闩着。（门边可以叩门。）"
+msgstr "La puerta de ramas está atrancada por dentro. (Se puede llamar junto a la puerta.)"
+
+msgid "沈疏雨"
+msgstr "Shen Shuyu"
+
+msgid "沈疏雨四十出头，一身洗旧了的青布衣裙，头发用一根木簪绾着。她站着的时候两肩是松的，像是随时可以往任何一边让开半步。镇上的人只知道镇外住着一位「北宗的师娘」，没有几个人见过她出剑。\n"
+msgstr "Shen Shuyu pasa apenas de los cuarenta; viste blusa y falda de tela azul, gastadas de tanto lavarlas, y lleva el pelo recogido con una horquilla de madera. Cuando está de pie tiene los hombros sueltos, como si en cualquier momento pudiera ceder medio paso hacia cualquier lado. La gente del pueblo solo sabe que en las afueras vive \"la esposa del Maestro, la de la Rama Norte\"; pocos la han visto sacar la espada.\n"
+
+msgid "沈疏雨摇了摇头：我的剑不是拿来和你比的。"
+msgstr "Shen Shuyu niega con la cabeza: \"Mi espada no es para medirla con la tuya.\""
+
+msgid "那是二十年前别人叫的。风是他，雨是我。如今镇上只叫他柳馆主，叫我「镇外那一位」。"
+msgstr "Así nos llamaban otros hace veinte años. El viento era él; la lluvia, yo. Ahora en el pueblo a él solo lo llaman maestro Liu, y a mí, 'la de las afueras'."
+
+msgid "雪亭这一支本来就叫北宗。他接了掌门，把牌子上那两个字去了；我没有去。就这么回事。"
+msgstr "Esta rama de Pabellón Nevado siempre se llamó Rama Norte. Cuando él asumió como Maestro, quitó esas dos palabras del letrero; yo no las quité. Eso es todo."
+
+msgid "他的剑是等。等得起的人，才配使那一套。"
+msgstr "Su espada es esperar. Solo quien puede permitirse esperar merece usarla."
+
+msgid "她常来。来了就练剑，练完就走，话不多——这一点像她爹。"
+msgstr "Viene a menudo. Llega, practica la espada y, cuando termina, se va; habla poco: en eso salió a su padre."
+
+msgid "何守拙"
+msgstr "He Shouzhuo"
+
+msgid "老何是北宗的看门剑，守了三十年门。他那把剑不伤人，可也没几个人碰得着他。"
+msgstr "El viejo He es la espada de la puerta de la Rama Norte; guardó la puerta treinta años. Esa espada suya no hiere a nadie, pero tampoco son muchos los que logran tocarlo."
+
+msgid "雨"
+msgstr "Lluvia"
+
+msgid "「听雨」是逼，不是抢。他接得住，你就多一剑；他接不住，那一剑也就够了。"
+msgstr "'Escuchar la lluvia' es apretar, no arrebatar. Si él logra responder, tienes una estocada de más; si no lo logra, con esa estocada basta."
+
+msgid "等到几个空子？"
+msgstr "¿Cuántos huecos encontraste?"
+
+msgid "听你说完，笑了一下。"
+msgstr " te escucha hasta el final y sonríe un poco."
+
+msgid "老何守了三十年门，他不出剑，你就没有空子可等。封山的剑到这里就停了——他写的那卷书，也只写到这里。"
+msgstr "El viejo He guardó la puerta treinta años; él no lanza la espada, y a ti no te queda hueco que esperar. La espada de la Montaña Vacía se detiene aquí; y el libro que él escribió tampoco pasa de aquí."
+
+msgid "看好。"
+msgstr "Mira bien."
+
+msgid "拔剑。剑尖没有刺向哪一处，只是一点一点压过来，密得像檐下的雨，由不得你不抬手去接。"
+msgstr " desenvaina. La punta no busca ningún lugar; solo se te viene encima, toque a toque, tupida como la lluvia que cae del alero, y no puedes sino alzar la mano para responder."
+
+msgid "他接了，身前就空了，那一下是你的；他不接，这一剑就落在他身上。两头都是你的——这叫「听雨」。"
+msgstr "Si responde, queda abierto por delante, y ese instante es tuyo; si no responde, la estocada le cae encima. De las dos maneras ganas tú: esto se llama 'Escuchar la lluvia'."
+
+msgid "这一招不在封山的谱上。你学了去，用不用、说不说是谁教的，都随你。"
+msgstr "Este movimiento no está en el manual de la Montaña Vacía. Llévatelo: si lo usas o no, si dices o no quién te lo enseñó, es cosa tuya."
+
+msgid "先去和老何过几招。回来再说。"
+msgstr "Primero ve a cruzar espadas con el viejo He. Hablamos cuando vuelvas."
+
+msgid "封山的剑等人犯错。那个人要是不犯错呢？"
+msgstr "La espada de la Montaña Vacía espera a que el otro se equivoque. ¿Y si el otro no se equivoca?"
+
+msgid "你先去和老何过几招——就在院里，点到为止。回来告诉我，你等到了几个空子。"
+msgstr "Primero ve a cruzar espadas con el viejo He: aquí en el patio, sin llegar a herir. Vuelve y dime cuántos huecos encontraste."
+
+msgid "院子当中，一个青衣妇人正在走一套剑。剑很慢，一步一停，像是在等什么人接她的下一招。\n"
+msgstr "En medio del patio, una mujer vestida de azul repasa una forma de espada. La espada va lenta, una pausa a cada paso, como si esperara a que alguien respondiera a su siguiente movimiento.\n"
+
+msgid "收了剑，看了你一眼。"
+msgstr " envaina la espada y te echa un vistazo."
+
+msgid "封山的步子。……是他的徒弟，还是绘心的？"
+msgstr "Pasos de la Montaña Vacía. ...¿Aprendiste con él, o con Huixin?"
+
+msgid "都一样。进了这道门，就不问是哪一宗了。"
+msgstr "Da lo mismo. Pasada esta puerta, no se pregunta de qué rama."
+
+msgid "北宗的看门剑"
+msgstr "Espada de la puerta de la Rama Norte"
+
+msgid "何守拙花白头发，两条胳膊晒得黝黑，袖口挽到肘弯。他在老北宗守了三十年门，后来牌子没了，他跟着师娘搬到了镇外，照旧每天劈柴、扫院子。他手边总靠着一把旧剑，剑刃上全是豁口——都是架别人的剑架出来的。\n"
+msgstr "He Shouzhuo tiene el pelo entrecano, los brazos curtidos por el sol y las mangas remangadas hasta el codo. Guardó treinta años la puerta de la vieja Rama Norte; después el letrero desapareció y él siguió a la esposa del Maestro a las afueras del pueblo, donde, como siempre, parte leña y barre el patio cada día. Siempre tiene a mano, apoyada, una espada vieja con el filo lleno de mellas: todas de parar espadas ajenas.\n"
+
+msgid "过招"
+msgstr "Cruzar espadas"
+
+msgid "学了？来，再过几招。这回我看你怎么敲门。"
+msgstr "¿Ya lo aprendiste? Ven, crucemos espadas otra vez. Esta vez quiero ver cómo llamas a la puerta."
+
+msgid "来。点到为止——我只守门，不出门。你能碰着我一下，就算你的。"
+msgstr "Ven. Sin llegar a herir: yo solo guardo la puerta, no salgo de ella. Si logras tocarme una vez, el combate es tuyo."
+
+msgid "师娘的剑，我守了三十年门也没看全。"
+msgstr "La espada de la esposa del Maestro: treinta años guardé la puerta y nunca la vi entera."
+
+msgid "看门剑"
+msgstr "Espada de la puerta"
+
+msgid "守门的剑只有一个道理：门在，人在。别的我不会。"
+msgstr "La espada que guarda una puerta tiene una sola regla: donde está la puerta, está el hombre. No sé hacer otra cosa."
+
+msgid "何守拙把一截木头立在墩子上，一斧下去，不偏不倚劈成两半。\n"
+msgstr "He Shouzhuo planta un leño sobre el tocón y, de un hachazo, lo parte justo por la mitad.\n"
+
+msgid "何守拙拿起靠在墙边的旧剑看了看刃口，又放了回去。\n"
+msgstr "He Shouzhuo toma la espada vieja apoyada en la pared, le mira el filo y la vuelve a dejar.\n"
+
+msgid "柴门里是一个不大的院子，四面围着半人高的土墙，墙头长了草。靠东墙码着一垛劈好的柴，根根一般长短。院子当中的地被人踩得发白，光溜溜的一圈，一根草也没有——有人天天在这里走同一套步子。北面三间瓦屋，檐下挂着一串干辣椒，窗纸是新糊的。往南出了柴门就是黄土小径。\n"
+msgstr "Tras la puerta de ramas hay un patio no muy grande, cercado por los cuatro lados con un muro de barro que llega a la cintura, con hierba en lo alto. Contra el muro este se apila la leña partida, todos los leños del mismo largo. En medio del patio, la tierra está blanqueada de tanto pisarla, un círculo liso sin una sola brizna: alguien recorre aquí los mismos pasos todos los días. Al norte, una casa de tejas de tres cuartos; bajo el alero cuelga una ristra de pimientos secos, y el papel de las ventanas está recién pegado. Al sur, saliendo por la puerta de ramas, está el Sendero de tierra amarilla.\n"
+
+msgid "屋里收拾得很干净。靠窗一张旧书案，案上一只粗瓷茶壶、两只杯子，一只倒扣着。墙上的木钉挂着一个空剑鞘，鞘上的漆磨得露出了木头，剑穗却是新换的。里间门口垂着一幅蓝布帘子。屋角的炉子上坐着一把水壶，壶嘴冒着细细的白气。\n"
+msgstr "La casa está muy ordenada. Junto a la ventana, un escritorio viejo, y sobre él una tetera de loza basta y dos tazas, una boca abajo. De una clavija de madera en la pared cuelga una vaina vacía, con la laca gastada hasta la madera, pero con la borla recién cambiada. En la puerta del cuarto interior cae una cortina de tela azul. Sobre el hornillo del rincón hay una tetera con agua; del pico sale un hilo fino de vapor blanco.\n"

@@ -12836,6 +12836,7 @@
 				{
 					"after": 1,
 					"reaction": true,
+					"mark": "小院开了门",
 					"not_mark": "见过沈疏雨",
 					"steps": [
 						{
