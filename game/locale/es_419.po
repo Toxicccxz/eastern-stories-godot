@@ -2801,7 +2801,7 @@ msgid "神秘洞穴"
 msgstr "Cueva misteriosa"
 
 msgid "洞穴 · 闻忘忧草"
-msgstr "cueva · oler la hierba del olvido"
+msgstr "cueva · oler la hierba olvidapenas"
 
 msgid "云台"
 msgstr "Terraza de las Nubes"
@@ -3176,13 +3176,13 @@ msgid "北 · 京师东街"
 msgstr "norte · Calle Este de la Capital"
 
 msgid "南 · 尚书府"
-msgstr "sur · Residencia del ministro"
+msgstr "sur · Residencia del Ministro"
 
 msgid "京师东街 · 跳回去"
 msgstr "Calle Este de la Capital · saltar de vuelta"
 
 msgid "尚书府 · 跳进去"
-msgstr "Residencia del ministro · saltar adentro"
+msgstr "Residencia del Ministro · saltar adentro"
 
 msgid "相国府前院"
 msgstr "Patio delantero del canciller"
@@ -5693,7 +5693,7 @@ msgid "悬崖"
 msgstr "Precipicio"
 
 msgid "尚书府"
-msgstr "Mansión del Ministro"
+msgstr "Residencia del Ministro"
 
 msgid "封山剑派北宗"
 msgstr "Escuela de la Montaña Vacía, rama norte"
@@ -5912,7 +5912,7 @@ msgid "卖饼大叔"
 msgstr "Don Tortas"
 
 msgid "卖糖葫芦的"
-msgstr "Vendedor de frutas acarameladas"
+msgstr "Vendedor de brochetas de espino"
 
 msgid "卖包子的"
 msgstr "Vendedor de bollos al vapor"
@@ -6143,7 +6143,7 @@ msgid "官府"
 msgstr "Gobierno"
 
 msgid "短工"
-msgstr "Trabajo a jornal"
+msgstr "Jornalero"
 
 msgid "钱庄"
 msgstr "Banco"
@@ -11531,7 +11531,7 @@ msgid "拿到了寻剑令的原本"
 msgstr "Conseguiste el original del Edicto de la Espada"
 
 msgid "进皇城。三条路：校武场的武举、相国府的公文，或者尚书府里有人知道的一条暗路。"
-msgstr "Entrar en la Ciudad Imperial. Tres caminos: el examen militar del patio de armas, los papeles de la Residencia del canciller o un camino secreto que alguien de la Mansión del Ministro conoce."
+msgstr "Entrar en la Ciudad Imperial. Tres caminos: el examen militar del patio de armas, los papeles de la Residencia del canciller o un camino secreto que alguien de la Residencia del Ministro conoce."
 
 msgid "校武场三场全胜，殿试授了御前侍卫腰牌。退朝时福安凑过来：皇上说，今夜养心殿。"
 msgstr "Ganaste los tres combates del patio de armas, y en el examen de palacio te dieron una placa de guardia imperial. Al terminar la audiencia, Fu'an se te acercó: Su Majestad dice que esta noche, en el Salón del Cultivo Mental."
@@ -11564,7 +11564,7 @@ msgid "原令只一句：寻剑，不得扰民一户。抄本上多出来的三�
 msgstr "La orden original tiene una sola línea: buscar la espada sin molestar a una sola casa. Las tres líneas de más en la copia las añadió quien tenía el sello falso. El emperador te dio una hoja del viejo relato de un leñador: donde el viento se detiene, allí está la ciudad."
 
 msgid "怎么办：在养心殿朝上揭发（要原令加两样人证物证，关北踏平了工地的要三样）、去尚书府私了，或请皇上先解皇叔的通缉。"
-msgstr "Qué hacer: denunciarlo ante la corte desde el Salón del Cultivo Mental (hace falta la orden original y otras dos pruebas o testigos; tres si arrasaste las obras del Norte del Paso), arreglarlo en privado en la Mansión del Ministro, o pedirle primero a Su Majestad que levante la orden de arresto del tío imperial."
+msgstr "Qué hacer: denunciarlo ante la corte desde el Salón del Cultivo Mental (hace falta la orden original y otras dos pruebas o testigos; tres si arrasaste las obras del Norte del Paso), arreglarlo en privado en la Residencia del Ministro, o pedirle primero a Su Majestad que levante la orden de arresto del tío imperial."
 
 msgid "太和殿上，原令和抄本并排摊开。庾子建拔了刀，冯策站在你身边。他下了狱。"
 msgstr "En el Salón de la Armonía Suprema, la orden original y la copia quedaron extendidas una junto a otra. Yu Zijian desenvainó un sable, y Feng Ce se puso a tu lado. Yu Zijian acabó en prisión."
@@ -11921,7 +11921,7 @@ msgid "灵心观藏经楼的二楼，镇教秘籍还是六函，第七函的位�
 msgstr "En el segundo piso de la biblioteca de escrituras del Monasterio del Corazón Claro, los manuales secretos del Monte Mao siguen siendo seis estuches; el lugar del séptimo está vacío. Lin Ji dice que el Monte Mao prefiere quedarse sin ese estuche."
 
 msgid "京师尚书府的花园里，那个老花匠又在浇他的花。庾清尘去哪里，他就跟到哪里。"
-msgstr "En el jardín de la Mansión del Ministro, en la Capital, el viejo jardinero vuelve a regar sus flores. Adonde va Yu Qingchen, él va tras ella."
+msgstr "En el jardín de la Residencia del Ministro, en la Capital, el viejo jardinero vuelve a regar sus flores. Adonde va Yu Qingchen, él va tras ella."
 
 msgid "藏经楼二楼的第七函回来了。花匠在书架边搭了一张竹床，夜里点着灯，教山上的小道士认北麓的字。"
 msgstr "El séptimo estuche volvió al segundo piso de la biblioteca de escrituras. El jardinero armó una cama de bambú junto a los estantes, y de noche, a la luz de la lámpara, les enseña a los jóvenes taoístas de la montaña a leer la escritura de la Falda norte."
@@ -12347,7 +12347,7 @@ msgid "颜违记得，五长老的事是你告诉他的。他从那天起代行�
 msgstr "Yan Wei recuerda que fuiste tú quien le contó lo del Quinto Anciano. Desde ese día hace las veces de Líder de la Alianza."
 
 msgid "盟主卫沧澜是你从尚书府带出来的。"
-msgstr "Fuiste tú quien sacó al Líder de la Alianza, Wei Canglan, de la Mansión del Ministro."
+msgstr "Fuiste tú quien sacó al Líder de la Alianza, Wei Canglan, de la Residencia del Ministro."
 
 msgid "於兰天武的通缉是你解的。他回了京。"
 msgstr "Fuiste tú quien hizo levantar la orden de captura contra Yulan Tianwu. Él volvió a la Capital."
@@ -12413,7 +12413,7 @@ msgid "林忌认你做茅山的朋友，许你上了藏经楼。"
 msgstr "Lin Ji te considera {jugador:amigo|amiga} del Monte Mao y te dejó subir a la Biblioteca de escrituras."
 
 msgid "林忌的师弟在京师兵部尚书府种了二十年花；你找到了他。"
-msgstr "El hermano menor de escuela de Lin Ji lleva veinte años cultivando flores en la Mansión del Ministro de Guerra, en la Capital; tú lo encontraste."
+msgstr "El hermano menor de escuela de Lin Ji lleva veinte años cultivando flores en la Residencia del Ministro de Guerra, en la Capital; tú lo encontraste."
 
 msgid "《上清符箓》在你手里：前半是茅山的符，后半是逆灵宫的字。"
 msgstr "El «Libro de talismanes de la Suprema Claridad» está en tus manos: la primera mitad son talismanes del Monte Mao; la segunda, escritura del Palacio Negro."
@@ -12572,13 +12572,13 @@ msgid "乔阴的陆得财是龙头的替身。你数着皮酒囊上的结，一�
 msgstr "Lu Decai, de Sombra Alta, es el doble del Cabeza de Dragón. Contaste los nudos de los odres de cuero y fuiste preguntando, uno por uno."
 
 msgid "你在京师尚书府的后墙根下见到了真龙头：二十三个结。"
-msgstr "Al pie del muro trasero de la Mansión del Ministro, en la Capital, encontraste al verdadero Cabeza de Dragón: veintitrés nudos."
+msgstr "Al pie del muro trasero de la Residencia del Ministro, en la Capital, encontraste al verdadero Cabeza de Dragón: veintitrés nudos."
 
 msgid "密信你交给了官府。叫花子不再跟你说正事。"
 msgstr "La carta secreta se la diste a las autoridades. Los mendigos ya no te hablan de cosas serias."
 
 msgid "你照真龙头的话，夜里从尚书府的狗洞把卫沧澜领了出来。"
-msgstr "Como te dijo el verdadero Cabeza de Dragón, sacaste de noche a Wei Canglan de la Mansión del Ministro por el agujero de los perros."
+msgstr "Como te dijo el verdadero Cabeza de Dragón, sacaste de noche a Wei Canglan de la Residencia del Ministro por el agujero de los perros."
 
 msgid "你在福林大街认了二十三个结：真龙头坐回了乔阴，花紫会吃上了官饭，巡捕不再抓花紫会的人。陆得财出了北门。"
 msgstr "En la Calle Fulin reconociste los veintitrés nudos: el verdadero Cabeza de Dragón volvió a sentarse en Sombra Alta, la Hermandad de los Mendigos come del erario, y los alguaciles ya no detienen a su gente. Lu Decai salió por la Puerta norte."
@@ -12617,7 +12617,7 @@ msgid "振远的总账是陈天星押进乔阴县衙的。程不平收下了，�
 msgstr "Fue Chen Tianxing quien llevó el libro mayor de Largo Camino al tribunal de Sombra Alta. Cheng Buping lo recibió, y la plata de indemnización del Ministerio de Guerra quedó en el expediente."
 
 msgid "尚书府小屋那封密信，是你交到程不平手上的。"
-msgstr "La carta secreta del cuartito de la Mansión del Ministro, fuiste tú quien la puso en manos de Cheng Buping."
+msgstr "La carta secreta del cuartito de la Residencia del Ministro, fuiste tú quien la puso en manos de Cheng Buping."
 
 msgid "你是乔阴县的捕快，腰里挂着程不平给的黑漆腰牌。"
 msgstr "Eres alguacil del condado de Sombra Alta, con la placa de laca negra que te dio Cheng Buping colgada a la cintura."
@@ -12632,7 +12632,7 @@ msgid "武举的第一场，程不平的荐书替你免了。"
 msgstr "La carta de recomendación de Cheng Buping te libró de la primera prueba del examen militar."
 
 msgid "尚书府小屋那封密信，你给了花紫会。程不平不再跟你说案子。"
-msgstr "La carta secreta del cuartito de la Mansión del Ministro se la diste a la Hermandad de los Mendigos. Cheng Buping ya no te habla de sus casos."
+msgstr "La carta secreta del cuartito de la Residencia del Ministro se la diste a la Hermandad de los Mendigos. Cheng Buping ya no te habla de sus casos."
 
 msgid "严廷殷认了路引上的印。印丢的那三天，副将李信记了一本账：盖印的是军师赫造基，兵部还拓了个模子去盖民夫令。"
 msgstr "Yan Tingyin reconoció el sello de los salvoconductos. Durante los tres días en que estuvo perdido, su lugarteniente Li Xin llevó un libro de cuentas: quien lo usó fue el consejero He Zaoji, y el Ministerio de Guerra hasta sacó un molde para sellar órdenes de leva."
@@ -12650,7 +12650,7 @@ msgid "小屋那封信和天驼关那本账放在一起，程不平又开了一�
 msgstr "Con la carta del cuartito y el libro de cuentas del Paso del Camello juntos, Cheng Buping volvió a abrir audiencia contra Yu Zijian."
 
 msgid "卫沧澜是皇叔拿着手诏从尚书府要回来的。"
-msgstr "Fue el tío imperial quien, con un edicto manuscrito, sacó a Wei Canglan de la Mansión del Ministro."
+msgstr "Fue el tío imperial quien, con un edicto manuscrito, sacó a Wei Canglan de la Residencia del Ministro."
 
 msgid "安妮儿说，她在等一个配得上宝衣的人。"
 msgstr "Anni'er dijo que espera a alguien digno de la túnica."
@@ -12905,7 +12905,7 @@ msgid "潘军禅说，二十年前带走盟主的是一队白衣武官——腰�
 msgstr "Pan Junchan dice que al Líder de la Alianza se lo llevó hace veinte años una tropa de oficiales de blanco, con sables del Ministerio de Guerra al cinto."
 
 msgid "二十年前带走盟主的是白衣武官。线索在京师尚书府。"
-msgstr "Al Líder de la Alianza se lo llevaron hace veinte años unos oficiales de blanco. La pista lleva a la Mansión del Ministro, en la Capital."
+msgstr "Al Líder de la Alianza se lo llevaron hace veinte años unos oficiales de blanco. La pista lleva a la Residencia del Ministro, en la Capital."
 
 msgid "京师那边的事有了结果。"
 msgstr "El asunto de la Capital quedó resuelto."
@@ -13412,7 +13412,7 @@ msgid "把老妇的女儿带回了晚月庄"
 msgstr "Trajiste de vuelta a la Mansión Luna Tardía a la hija de la anciana"
 
 msgid "替花紫会摸回槐阳八户的卖身契；数着皮酒囊上的结，找到真龙头；尚书府小屋那封密信，给花紫会还是给官府；夜里从狗洞偷出卫沧澜；认二十三个结，还是认这些年管事的人。"
-msgstr "Sacarle a escondidas los contratos de servidumbre de ocho familias de Huaiyang, para la Hermandad de los Mendigos; contar los nudos de los odres de cuero hasta dar con el verdadero Cabeza de Dragón; la carta secreta del cuartito de la Mansión del Ministro, dársela a la Hermandad de los Mendigos o a las autoridades; sacar de noche a Wei Canglan por el agujero de los perros; reconocer los veintitrés nudos, o al que llevó las cosas todos estos años."
+msgstr "Sacarle a escondidas los contratos de servidumbre de ocho familias de Huaiyang, para la Hermandad de los Mendigos; contar los nudos de los odres de cuero hasta dar con el verdadero Cabeza de Dragón; la carta secreta del cuartito de la Residencia del Ministro, dársela a la Hermandad de los Mendigos o a las autoridades; sacar de noche a Wei Canglan por el agujero de los perros; reconocer los veintitrés nudos, o al que llevó las cosas todos estos años."
 
 msgid "叫花子不再跟你说正事。花紫会的事，到此为止。"
 msgstr "Los mendigos ya no te hablan de cosas serias. Los asuntos de la Hermandad de los Mendigos terminan aquí."
@@ -13451,37 +13451,37 @@ msgid "下一个在绮云镇的渡口，坐在船帮上钓鱼，比雪亭那个�
 msgstr "El siguiente está en el embarcadero de Tejenubes, sentado en la borda de una barca, pescando, con un nudo más que el de Pabellón Nevado. Preguntarle por \"Cabeza de Dragón\"."
 
 msgid "绮云的陆得财，二十一个结。他说下一个就是龙头：京师东街，尚书府的后墙根底下。"
-msgstr "El Lu Decai de Tejenubes: veintiún nudos. Dice que el siguiente es el Cabeza de Dragón en persona: en la Calle Este de la Capital, al pie del muro trasero de la Mansión del Ministro."
+msgstr "El Lu Decai de Tejenubes: veintiún nudos. Dice que el siguiente es el Cabeza de Dragón en persona: en la Calle Este de la Capital, al pie del muro trasero de la Residencia del Ministro."
 
 msgid "京师东街，尚书府的后墙根底下，坐着一个打二十三个结的叫花子。问他「龙头」。"
-msgstr "En la Calle Este de la Capital, al pie del muro trasero de la Mansión del Ministro, está sentado un mendigo con veintitrés nudos. Preguntarle por \"Cabeza de Dragón\"."
+msgstr "En la Calle Este de la Capital, al pie del muro trasero de la Residencia del Ministro, está sentado un mendigo con veintitrés nudos. Preguntarle por \"Cabeza de Dragón\"."
 
 msgid "墙根下的陆得财，二十三个结。他是真龙头，在这堵墙底下看了庾家二十年；乔阴那个替他管着花紫会。"
 msgstr "El Lu Decai al pie del muro: veintitrés nudos. Es el verdadero Cabeza de Dragón, y lleva veinte años vigilando a la familia Yu desde debajo de este muro; el de Sombra Alta le lleva la Hermandad de los Mendigos."
 
 msgid "真龙头要尚书府后院小屋里那封庾子建亲笔的密信（问他「密信」）；乔阴的程不平也要它，拿去当物证。玉螺湖底那件事之后，逆灵宫的信使才坐进小屋，信在他身上：进了小屋就是一场仗，他见人就动手，打不过就退出屋外。交给花紫会（问真龙头「密信」）：真龙头拿它压着庾家，官府那条线就断了；京师的事还没定的，这封信也不能拿去朝上揭发了。交给官府（问乔阴县衙的程不平「密信」）：揭发时照样算一样，花紫会这条线就断了。"
-msgstr "El verdadero Cabeza de Dragón quiere la carta secreta escrita de puño y letra de Yu Zijian que está en el cuartito del patio trasero de la Mansión del Ministro (preguntarle por \"Carta secreta\"); Cheng Buping, de Sombra Alta, también la quiere, como prueba. Solo después de lo del fondo del Lago Caracola de Jade se sienta el mensajero del Palacio Negro en el cuartito, y la carta la lleva él: entrar en el cuartito es pelear, ataca a todo el que ve, y si no puedes con él, sal del cuarto. Dársela a la Hermandad de los Mendigos (preguntar al verdadero Cabeza de Dragón por \"Carta secreta\"): el verdadero Cabeza de Dragón la usa para tener a raya a la familia Yu, y el hilo de las autoridades se corta; si lo de la Capital aún no está resuelto, la carta tampoco servirá ya para la denuncia ante la corte. Dársela a las autoridades (preguntar a Cheng Buping, en el tribunal de Sombra Alta, por \"Carta secreta\"): igual cuenta como una prueba para la denuncia, y el hilo de la Hermandad de los Mendigos se corta."
+msgstr "El verdadero Cabeza de Dragón quiere la carta secreta escrita de puño y letra de Yu Zijian que está en el cuartito del patio trasero de la Residencia del Ministro (preguntarle por \"Carta secreta\"); Cheng Buping, de Sombra Alta, también la quiere, como prueba. Solo después de lo del fondo del Lago Caracola de Jade se sienta el mensajero del Palacio Negro en el cuartito, y la carta la lleva él: entrar en el cuartito es pelear, ataca a todo el que ve, y si no puedes con él, sal del cuarto. Dársela a la Hermandad de los Mendigos (preguntar al verdadero Cabeza de Dragón por \"Carta secreta\"): el verdadero Cabeza de Dragón la usa para tener a raya a la familia Yu, y el hilo de las autoridades se corta; si lo de la Capital aún no está resuelto, la carta tampoco servirá ya para la denuncia ante la corte. Dársela a las autoridades (preguntar a Cheng Buping, en el tribunal de Sombra Alta, por \"Carta secreta\"): igual cuenta como una prueba para la denuncia, y el hilo de la Hermandad de los Mendigos se corta."
 
 msgid "把尚书府小屋里的密信交给了花紫会的真龙头"
-msgstr "Le diste la carta secreta del cuartito de la Mansión del Ministro al verdadero Cabeza de Dragón de la Hermandad de los Mendigos"
+msgstr "Le diste la carta secreta del cuartito de la Residencia del Ministro al verdadero Cabeza de Dragón de la Hermandad de los Mendigos"
 
 msgid "你把密信交给了乔阴知县程不平。叫花子从此不跟你说正事。"
 msgstr "Le diste la carta secreta a Cheng Buping, magistrado de Sombra Alta. Desde entonces los mendigos no te hablan de cosas serias."
 
 msgid "把尚书府小屋里的密信交给了乔阴知县程不平"
-msgstr "Le diste la carta secreta del cuartito de la Mansión del Ministro a Cheng Buping, magistrado de Sombra Alta"
+msgstr "Le diste la carta secreta del cuartito de la Residencia del Ministro a Cheng Buping, magistrado de Sombra Alta"
 
 msgid "真龙头还有一件事要托你：尚书府客房里关着的那个老人。到京师东街尚书府的后墙根，问他「盟主」。他说了狗洞的：夜里（入夜到子时）拨开墙根东头那捆柴草，从狗洞钻进后院；护院挑着灯在院子里绕圈，别跟他们照面——撞见了就被推出大门，下回再来。进了客房，跟那老人说「走」。卫沧澜已经出了尚书府的，问真龙头一句「盟主」就是。"
-msgstr "El verdadero Cabeza de Dragón quiere pedirte una cosa más: el anciano encerrado en la habitación de huéspedes de la Mansión del Ministro. Ir al pie del muro trasero de la Mansión del Ministro, en la Calle Este de la Capital, y preguntarle por \"Líder de la Alianza\". Cuando te haya hablado del agujero de los perros: de noche (desde el anochecer hasta medianoche), apartar el haz de leña del extremo este del muro y entrar al patio trasero por el agujero de los perros; los guardias de la mansión dan vueltas por el patio con faroles, así que no te cruces con ellos: si te ven, te echan por el portón y tendrás que volver otro día. Ya en la habitación de huéspedes, decirle al anciano \"Vámonos\". Si Wei Canglan ya salió de la Mansión del Ministro, basta con preguntar al verdadero Cabeza de Dragón por \"Líder de la Alianza\"."
+msgstr "El verdadero Cabeza de Dragón quiere pedirte una cosa más: el anciano encerrado en la habitación de huéspedes de la Residencia del Ministro. Ir al pie del muro trasero de la Residencia del Ministro, en la Calle Este de la Capital, y preguntarle por \"Líder de la Alianza\". Cuando te haya hablado del agujero de los perros: de noche (desde el anochecer hasta medianoche), apartar el haz de leña del extremo este del muro y entrar al patio trasero por el agujero de los perros; los guardias de la mansión dan vueltas por el patio con faroles, así que no te cruces con ellos: si te ven, te echan por el portón y tendrás que volver otro día. Ya en la habitación de huéspedes, decirle al anciano \"Vámonos\". Si Wei Canglan ya salió de la Residencia del Ministro, basta con preguntar al verdadero Cabeza de Dragón por \"Líder de la Alianza\"."
 
 msgid "卫沧澜照叫花子指的路，从后院的狗洞出了尚书府。真龙头说：人出来了，他也该回乔阴了——福林大街见。"
-msgstr "Wei Canglan siguió el camino que le indicaron los mendigos y salió de la Mansión del Ministro por el agujero de los perros del patio trasero. El verdadero Cabeza de Dragón dice: \"El hombre ya salió, y también es hora de que yo vuelva a Sombra Alta. Nos vemos en la Calle Fulin.\""
+msgstr "Wei Canglan siguió el camino que le indicaron los mendigos y salió de la Residencia del Ministro por el agujero de los perros del patio trasero. El verdadero Cabeza de Dragón dice: \"El hombre ya salió, y también es hora de que yo vuelva a Sombra Alta. Nos vemos en la Calle Fulin.\""
 
 msgid "夜里从尚书府的狗洞偷出了卫沧澜"
-msgstr "Sacaste de noche a Wei Canglan de la Mansión del Ministro por el agujero de los perros"
+msgstr "Sacaste de noche a Wei Canglan de la Residencia del Ministro por el agujero de los perros"
 
 msgid "卫沧澜已经出了尚书府。真龙头说：人出来了，他也该回乔阴了——福林大街见。"
-msgstr "Wei Canglan ya salió de la Mansión del Ministro. El verdadero Cabeza de Dragón dice: \"El hombre ya salió, y también es hora de que yo vuelva a Sombra Alta. Nos vemos en la Calle Fulin.\""
+msgstr "Wei Canglan ya salió de la Residencia del Ministro. El verdadero Cabeza de Dragón dice: \"El hombre ya salió, y también es hora de que yo vuelva a Sombra Alta. Nos vemos en la Calle Fulin.\""
 
 msgid "真龙头回了乔阴，坐在福林大街当中。去福林大街——陆得财在街上的时候，两个人要碰面。真龙头要带花紫会吃官饭：给官府做眼线，换叫花子不再被巡捕抓；陆得财二十年没让一个官差进过乔阴的巷子。认二十三个结，问真龙头「龙头」：花紫会投颜违，巡捕不再抓花紫会的人，你的偷窃案底勾销，陆得财走了就不回来。认这些年管事的人，问陆得财「龙头」：真龙头回京师的墙根，乔阴照旧，花紫会投旧盟主。已经入了虹台的席的，票照入席时的算。"
 msgstr "El verdadero Cabeza de Dragón volvió a Sombra Alta y está sentado en medio de la Calle Fulin. Ir a la Calle Fulin: mientras Lu Decai esté en la calle, los dos se encontrarán. El verdadero Cabeza de Dragón quiere que la Hermandad de los Mendigos coma del erario: ser los ojos de las autoridades a cambio de que los alguaciles ya no detengan a los mendigos; Lu Decai lleva veinte años sin dejar entrar a un solo alguacil en los callejones de Sombra Alta. Reconocer los veintitrés nudos, preguntando al verdadero Cabeza de Dragón por \"Cabeza de Dragón\": la Hermandad de los Mendigos vota por Yan Wei, los alguaciles ya no detienen a su gente, tus antecedentes por robo se borran, y Lu Decai se va y no vuelve. Reconocer al que llevó las cosas todos estos años, preguntando a Lu Decai por \"Cabeza de Dragón\": el verdadero Cabeza de Dragón vuelve al pie del muro en la Capital, Sombra Alta sigue igual, y la Hermandad de los Mendigos vota por el antiguo Líder de la Alianza. Si ya tomaste asiento en la Terraza del Arcoíris, los votos cuentan como estaban al tomarlo."
@@ -13514,7 +13514,7 @@ msgid "小屋的密信"
 msgstr "La carta secreta del cuartito"
 
 msgid "在尚书府后院小屋里逆灵宫的信使身上；交给程不平（问他「密信」），给了花紫会，官府这条线就断了"
-msgstr "La lleva el mensajero del Palacio Negro, en el cuartito del patio trasero de la Mansión del Ministro; dársela a Cheng Buping (preguntarle por \"Carta secreta\"), porque si va a la Hermandad de los Mendigos, el hilo de las autoridades se corta"
+msgstr "La lleva el mensajero del Palacio Negro, en el cuartito del patio trasero de la Residencia del Ministro; dársela a Cheng Buping (preguntarle por \"Carta secreta\"), porque si va a la Hermandad de los Mendigos, el hilo de las autoridades se corta"
 
 msgid "乔阴知县程不平还缺一个捕快。去县衙大堂问他「捕快」。花紫会的人、惯窃，他不收。"
 msgstr "A Cheng Buping, magistrado de Sombra Alta, todavía le falta un alguacil. Ir a la Sala del tribunal y preguntarle por \"Alguacil\". No acepta a nadie de la Hermandad de los Mendigos, ni a ladrones de costumbre."
@@ -13583,16 +13583,16 @@ msgid "赫造基倒在将军营帐里，两个铁卫营的兵把他捆了，关�
 msgstr "He Zaoji cae en la Tienda del general, y dos soldados del Campamento de la Guardia de Hierro lo atan y lo encierran en el campamento de atrás. Los salvoconductos del camino real se acabaron. Yan Tingyin dice: \"El Campamento de la Guardia de Hierro te debe una.\""
 
 msgid "尚书府的客房里还关着卫沧澜。皇叔入了朝的，去皇城养心殿问於兰天武「卫沧澜」：他拿着手诏去尚书府要人。卫沧澜已经出了尚书府的，这一步就过了；第九章没有请皇叔回朝的，官府插不上手。"
-msgstr "Wei Canglan sigue encerrado en la habitación de huéspedes de la Mansión del Ministro. Si el tío imperial ya volvió a la corte, ir al Salón del Cultivo Mental, en la Ciudad Imperial, y preguntar a Yulan Tianwu por \"Wei Canglan\": él lleva un edicto manuscrito a la Mansión del Ministro para reclamarlo. Si Wei Canglan ya salió de la Mansión del Ministro, este paso queda cumplido; si en el capítulo 9 no hiciste volver al tío imperial a la corte, las autoridades no pueden intervenir."
+msgstr "Wei Canglan sigue encerrado en la habitación de huéspedes de la Residencia del Ministro. Si el tío imperial ya volvió a la corte, ir al Salón del Cultivo Mental, en la Ciudad Imperial, y preguntar a Yulan Tianwu por \"Wei Canglan\": él lleva un edicto manuscrito a la Residencia del Ministro para reclamarlo. Si Wei Canglan ya salió de la Residencia del Ministro, este paso queda cumplido; si en el capítulo 9 no hiciste volver al tío imperial a la corte, las autoridades no pueden intervenir."
 
 msgid "於兰天武拿着手诏去了尚书府，庾子建亲自开的门。卫沧澜回了水烟阁——他说，这条命欠朝廷一份。"
-msgstr "Yulan Tianwu llevó el edicto manuscrito a la Mansión del Ministro, y Yu Zijian en persona abrió la puerta. Wei Canglan volvió al Pabellón de la Neblina; dijo que esta vida le debe una parte a la corte."
+msgstr "Yulan Tianwu llevó el edicto manuscrito a la Residencia del Ministro, y Yu Zijian en persona abrió la puerta. Wei Canglan volvió al Pabellón de la Neblina; dijo que esta vida le debe una parte a la corte."
 
 msgid "请皇叔拿手诏从尚书府要回了卫沧澜"
-msgstr "Hiciste que el tío imperial llevara un edicto manuscrito a la Mansión del Ministro para recuperar a Wei Canglan"
+msgstr "Hiciste que el tío imperial llevara un edicto manuscrito a la Residencia del Ministro para recuperar a Wei Canglan"
 
 msgid "卫沧澜已经出了尚书府。"
-msgstr "Wei Canglan ya salió de la Mansión del Ministro."
+msgstr "Wei Canglan ya salió de la Residencia del Ministro."
 
 msgid "皇叔没有回朝。卫沧澜的事，官府插不上手。"
 msgstr "El tío imperial no volvió a la corte. En lo de Wei Canglan, las autoridades no pueden intervenir."
@@ -13613,7 +13613,7 @@ msgid "回灵心观的大殿，再问林忌「师弟」。"
 msgstr "Volver al salón principal del Monasterio del Corazón Claro y preguntar otra vez a Lin Ji por \"Hermano menor\"."
 
 msgid "林忌说：少的那一函叫《上清符箓》。二十年前兵部的庾大人求茅山镇宅，他不肯，他的师弟揣着书下了山，进了京城的兵部尚书府，再没回来。"
-msgstr "Lin Ji dice que el volumen que falta es el «Libro de talismanes de la Suprema Claridad». Hace veinte años, el señor Yu, del Ministerio de Guerra, le pidió al Monte Mao que protegiera su casa, y él se negó; su hermano menor de escuela se llevó el libro montaña abajo, entró en la Mansión del Ministro de Guerra, en la Capital, y nunca volvió."
+msgstr "Lin Ji dice que el volumen que falta es el «Libro de talismanes de la Suprema Claridad». Hace veinte años, el señor Yu, del Ministerio de Guerra, le pidió al Monte Mao que protegiera su casa, y él se negó; su hermano menor de escuela se llevó el libro montaña abajo, entró en la Residencia del Ministro de Guerra, en la Capital, y nunca volvió."
 
 msgid "数出藏经楼的镇教秘籍少了一函"
 msgstr "Descubriste que al manual secreto del Monte Mao de la Biblioteca de escrituras le falta un volumen"
@@ -13622,19 +13622,19 @@ msgid "侍者"
 msgstr "{jugador:Acólito|Acólita}"
 
 msgid "林忌的师弟二十年前进了京师的兵部尚书府。尚书府的花园里有个花匠（进府要先打点大门的门房）——问他「师兄」。"
-msgstr "El hermano menor de escuela de Lin Ji entró hace veinte años en la Mansión del Ministro de Guerra, en la Capital. En el jardín de la mansión hay un jardinero (para entrar, primero hay que arreglarse con el portero del portón): preguntarle por \"Hermano mayor\"."
+msgstr "El hermano menor de escuela de Lin Ji entró hace veinte años en la Residencia del Ministro de Guerra, en la Capital. En el jardín de la mansión hay un jardinero (para entrar, primero hay que arreglarse con el portero del portón): preguntarle por \"Hermano mayor\"."
 
 msgid "尚书府的花匠就是林忌的师弟。他镇了二十年宅，教过庾清尘；这两年小屋里来了逆灵宫的人，他们烧掉的东西，他一页页抄在了《上清符箓》的空白处。"
-msgstr "El jardinero de la Mansión del Ministro es el hermano menor de escuela de Lin Ji. Lleva veinte años protegiendo la casa y fue maestro de Yu Qingchen; estos dos años ha venido gente del Palacio Negro al cuartito, y lo que quemaban él lo copió, página por página, en los espacios en blanco del «Libro de talismanes de la Suprema Claridad»."
+msgstr "El jardinero de la Residencia del Ministro es el hermano menor de escuela de Lin Ji. Lleva veinte años protegiendo la casa y fue maestro de Yu Qingchen; estos dos años ha venido gente del Palacio Negro al cuartito, y lo que quemaban él lo copió, página por página, en los espacios en blanco del «Libro de talismanes de la Suprema Claridad»."
 
 msgid "问尚书府的花匠「符箓」。"
-msgstr "Preguntar al jardinero de la Mansión del Ministro por \"Talismanes\"."
+msgstr "Preguntar al jardinero de la Residencia del Ministro por \"Talismanes\"."
 
 msgid "花匠把《上清符箓》交给了你：前半是茅山的符，后半是逆灵宫的字。"
 msgstr "El jardinero te da el «Libro de talismanes de la Suprema Claridad»: la primera mitad son talismanes del Monte Mao; la segunda, escritura del Palacio Negro."
 
 msgid "从尚书府的花匠手里接过了《上清符箓》"
-msgstr "Recibiste del jardinero de la Mansión del Ministro el «Libro de talismanes de la Suprema Claridad»"
+msgstr "Recibiste del jardinero de la Residencia del Ministro el «Libro de talismanes de la Suprema Claridad»"
 
 msgid "把《上清符箓》带回灵心观的大殿，交给林忌（「给」他）。"
 msgstr "Llevar el «Libro de talismanes de la Suprema Claridad» al salón principal del Monasterio del Corazón Claro y dárselo a Lin Ji (elegir \"Dar\" con él)."
@@ -13673,7 +13673,7 @@ msgid "北麓那座道观里还剩着人。湖上的事了了（终章之后）�
 msgstr "En el monasterio de la falda norte todavía queda gente. Cuando lo del lago haya terminado (después del final), preguntar al jardinero del segundo piso de la Biblioteca de escrituras por \"Falda norte\": se lleva el libro a la falda norte para leerles su propia escritura; subir a la falda norte y verlo terminar junto al torno. Si los de la falda norte ya tienen adónde ir, este paso queda cumplido."
 
 msgid "风泉之剑里住着剑灵；见过它的人，才算步玄的人。骆云舟的大哥在兵部尚书府写了十年字，兵部抄本上多出来的三句是他落的笔——让他上堂作证，还是保住骆家。"
-msgstr "En la Espada de la Fuente del Viento vive un espíritu de la espada; solo quien lo ha visto cuenta como del Paso Místico. El hermano mayor de Luo Yunzhou lleva diez años escribiendo en la Mansión del Ministro de Guerra, y las tres frases de más en la copia del Ministerio de Guerra las escribió él: hacerlo declarar ante el tribunal, o proteger a la familia Luo."
+msgstr "En la Espada de la Fuente del Viento vive un espíritu de la espada; solo quien lo ha visto cuenta como del Paso Místico. El hermano mayor de Luo Yunzhou lleva diez años escribiendo en la Residencia del Ministro de Guerra, y las tres frases de más en la copia del Ministerio de Guerra las escribió él: hacerlo declarar ante el tribunal, o proteger a la familia Luo."
 
 msgid "你离了步玄派。曼雩台上的事，到此为止。"
 msgstr "Dejaste la Escuela del Paso Místico. Lo de la Terraza de la Danza de Lluvia termina aquí."
@@ -20446,7 +20446,7 @@ msgid "庾子建亲自开的门，一句话也没说。……老夫进门的时�
 msgstr "Yu Zijian abrió la puerta en persona y no dijo una palabra. ...Cuando este viejo entró, él todavía estaba inclinado."
 
 msgid "卫沧澜朝你点点头：「老夫先回水烟阁。这条命是皇叔从尚书府要回来的，欠朝廷一份。」\n"
-msgstr "Wei Canglan te hace un gesto con la cabeza: \"Este viejo vuelve primero al Pabellón de la Neblina. Esta vida me la devolvió el tío imperial de la Mansión del Ministro; debo una parte a la corte.\"\n"
+msgstr "Wei Canglan te hace un gesto con la cabeza: \"Este viejo vuelve primero al Pabellón de la Neblina. Esta vida me la devolvió el tío imperial de la Residencia del Ministro; debo una parte a la corte.\"\n"
 
 msgid "卫沧澜……二十年没有消息了。"
 msgstr "¿Wei Canglan? ...Veinte años sin noticias."
@@ -25258,7 +25258,7 @@ msgid "盟主不在，阁里总要有人来。水烟阁的红衣武士，今夜�
 msgstr "El Líder de la Alianza no está, y alguien del Pabellón tenía que venir. Los guardias de túnica roja del Pabellón de la Neblina están todos aquí esta noche."
 
 msgid "卫沧澜拄着一根竹杖站在岸边，背比在尚书府的时候直了一些。水烟阁的弟子围在他身边。\n"
-msgstr "Wei Canglan está en la orilla, apoyado en un bastón de bambú, con la espalda un poco más derecha que en la Mansión del Ministro. Los discípulos del Pabellón de la Neblina lo rodean.\n"
+msgstr "Wei Canglan está en la orilla, apoyado en un bastón de bambú, con la espalda un poco más derecha que en la Residencia del Ministro. Los discípulos del Pabellón de la Neblina lo rodean.\n"
 
 msgid "卫沧澜摆了摆手：老夫这把骨头，留着下湖。"
 msgstr "Wei Canglan hace un gesto con la mano: \"Estos huesos viejos los guardo para el lago.\""
@@ -26581,7 +26581,7 @@ msgid "老叫花子头也不回：鱼要咬钩了，别闹。"
 msgstr "El viejo mendigo ni voltea la cabeza: \"Ya va a picar un pez; no hagas ruido.\""
 
 msgid "京师东街，尚书府的后墙根底下。"
-msgstr "En la Calle Este de la Capital, al pie del muro trasero de la Mansión del Ministro."
+msgstr "En la Calle Este de la Capital, al pie del muro trasero de la Residencia del Ministro."
 
 msgid "把竹枝往船帮上一搁，解下皮酒囊。"
 msgstr " deja la rama de bambú sobre la borda y se desata el odre de cuero."
@@ -26590,7 +26590,7 @@ msgid "二十一个。"
 msgstr "Veintiuno."
 
 msgid "我也只知道下一个。下一个就是龙头：京师东街，尚书府的后墙根底下。"
-msgstr "Yo también solo conozco al siguiente. El siguiente es el Cabeza de Dragón: en la Calle Este de la Capital, al pie del muro trasero de la Mansión del Ministro."
+msgstr "Yo también solo conozco al siguiente. El siguiente es el Cabeza de Dragón: en la Calle Este de la Capital, al pie del muro trasero de la Residencia del Ministro."
 
 msgid "他在那里坐了二十年。叫花子都知道，没几个见过。"
 msgstr "Lleva veinte años sentado ahí. Todos los mendigos lo saben, y pocos lo han visto."
@@ -26602,7 +26602,7 @@ msgid "渡口的水拍着船帮，陆得财的钓竿一动不动。\n"
 msgstr "El agua del embarcadero golpea la borda, y la caña de Lu Decai no se mueve.\n"
 
 msgid "一个老叫花子背靠着尚书府的后墙坐着，眼睛半睁半闭，像是睡着了。他腰里挂着一只大皮酒囊，网绳上密密地打着结——你数了数，二十三个。\n"
-msgstr "Un viejo mendigo está sentado con la espalda contra el muro trasero de la Mansión del Ministro, con los ojos entrecerrados, como dormido. Lleva colgado a la cintura un gran odre de cuero con la red de cuerda llena de nudos apretados: los cuentas, y son veintitrés.\n"
+msgstr "Un viejo mendigo está sentado con la espalda contra el muro trasero de la Residencia del Ministro, con los ojos entrecerrados, como dormido. Lleva colgado a la cintura un gran odre de cuero con la red de cuerda llena de nudos apretados: los cuentas, y son veintitrés.\n"
 
 msgid "老叫花子眼皮都没抬：二十年没跟人动过手，不差今天。"
 msgstr "El viejo mendigo ni levanta los párpados: \"Veinte años sin levantarle la mano a nadie; hoy no voy a empezar.\""
@@ -27016,7 +27016,7 @@ msgid "捕快"
 msgstr "Alguacil"
 
 msgid "做乔阴县的捕快：程不平给你一块腰牌，头一件案子是官道上挂着官府告示收过路费的人。\n尚书府小屋里那封密信，官府和花紫会都要——信给了花紫会，官府这条线就断了。\n花紫会的人、惯窃，程不平不收。\n要做吗？"
-msgstr "Ser alguacil de Sombra Alta: Cheng Buping te da una placa, y el primer caso es el de quienes cobran peaje en el camino real con un aviso oficial.\nLa carta secreta del cuartito de la Mansión del Ministro la quieren tanto el gobierno como la Hermandad de los Mendigos: si se la das a la Hermandad, esta línea con el gobierno se corta.\nCheng Buping no acepta a gente de la Hermandad de los Mendigos ni a ladrones reincidentes.\n¿Aceptas?"
+msgstr "Ser alguacil de Sombra Alta: Cheng Buping te da una placa, y el primer caso es el de quienes cobran peaje en el camino real con un aviso oficial.\nLa carta secreta del cuartito de la Residencia del Ministro la quieren tanto el gobierno como la Hermandad de los Mendigos: si se la das a la Hermandad, esta línea con el gobierno se corta.\nCheng Buping no acepta a gente de la Hermandad de los Mendigos ni a ladrones reincidentes.\n¿Aceptas?"
 
 msgid "上下打量了你一眼。"
 msgstr " te recorre con la mirada de arriba abajo."
@@ -29176,7 +29176,7 @@ msgid "你向京师的行人问起买官。"
 msgstr "Le preguntaste a un transeúnte de la Capital por la compra de cargos."
 
 msgid "你塞给尚书府的门房三两黄金，他说：这位大人，里面请！"
-msgstr "Le metiste tres taels de oro al portero de la Mansión del Ministro; dijo: \"¡Adelante, excelencia, pase usted!\""
+msgstr "Le metiste tres taels de oro al portero de la Residencia del Ministro; dijo: \"¡Adelante, excelencia, pase usted!\""
 
 msgid "你向京师守城兵问起出城。"
 msgstr "Le preguntaste al guardia de la Capital por salir de la ciudad."
@@ -30172,7 +30172,7 @@ msgid "绝尘子答应过的那一趟，是了尘替他上的虹台。"
 msgstr "El viaje que Juechenzi prometió lo hizo Liaochen por él, hasta la Terraza del Arcoíris."
 
 msgid "尚书府小屋那封密信，你交给了真龙头。有它在，官面上没人敢清乔阴的巷子。"
-msgstr "La carta secreta del cuartito de la Mansión del Ministro se la diste al verdadero Cabeza de Dragón. Mientras exista, nadie en el gobierno se atreverá a despejar los callejones de Sombra Alta."
+msgstr "La carta secreta del cuartito de la Residencia del Ministro se la diste al verdadero Cabeza de Dragón. Mientras exista, nadie en el gobierno se atreverá a despejar los callejones de Sombra Alta."
 
 msgid "你替安妮儿瞒下了西厢的话。她还了你一句：朱鸿雪的名单上，最后一个名字是她。"
 msgstr "Le encubriste a Anni'er lo dicho en el ala oeste. Ella te respondió con otra cosa: en la lista de Zhu Hongxue, el último nombre es el suyo."
@@ -30241,7 +30241,7 @@ msgid "请花匠上北麓，把逆灵宫剩下的人念下了山"
 msgstr "Pediste al jardinero que subiera a la falda norte y convenciera con sus recitaciones de bajar de la montaña a los que quedaban en el Palacio Negro"
 
 msgid "把家书送进京（「给」骆建章）：他在兵部尚书府的客厅里写字——进府先打点大门的门房；见过韦相国的，问相国「骆建章」，他写个条子给门房。庾子建下了狱，骆建章就在西街的相国府。相国府的门房认骆云舟的名帖：还没有的，先问乔阴城门口的骆云舟「京城」。"
-msgstr "Llevar la carta a casa, a la Capital (dársela a Luo Jianzhang): escribe en la sala de la Mansión del Ministro; al entrar, primero hay que sobornar al portero del portón. Quien haya visto al canciller Wei puede preguntarle por \"Luo Jianzhang\", y él escribirá una nota para el portero. Si Yu Zijian está en la cárcel, Luo Jianzhang está en la Residencia del canciller de la Calle Oeste. El portero de la Residencia del canciller reconoce la tarjeta de Luo Yunzhou: quien aún no la tiene, primero debe preguntar a Luo Yunzhou, a la puerta de Sombra Alta, por \"Capital\"."
+msgstr "Llevar la carta a casa, a la Capital (dársela a Luo Jianzhang): escribe en la sala de la Residencia del Ministro; al entrar, primero hay que sobornar al portero del portón. Quien haya visto al canciller Wei puede preguntarle por \"Luo Jianzhang\", y él escribirá una nota para el portero. Si Yu Zijian está en la cárcel, Luo Jianzhang está en la Residencia del canciller de la Calle Oeste. El portero de la Residencia del canciller reconoce la tarjeta de Luo Yunzhou: quien aún no la tiene, primero debe preguntar a Luo Yunzhou, a la puerta de Sombra Alta, por \"Capital\"."
 
 msgid "正月十七，九派在水烟阁外的虹台推选武林盟主：颜违、旧盟主（卫沧澜回来了就是他，没回来就是那把空椅子），或者你。湖底的事了了，才会开会。九派的票跟着你做过的事走：每一派那条线走到哪一边，它的票就在哪一边。"
 msgstr "El diecisiete del primer mes, las nueve escuelas eligen al Líder de la Alianza en la Terraza del Arcoíris, fuera del Pabellón de la Neblina: Yan Wei, el antiguo Líder (si Wei Canglan volvió, él; si no, el sillón vacío) o tú. La asamblea solo se celebra cuando se resuelva lo del fondo del lago. El voto de las nueve escuelas sigue lo que hayas hecho: según el lado en que haya terminado la línea de cada escuela, su voto va a ese lado."
@@ -30925,7 +30925,7 @@ msgid "一阵蓝光笼罩住$N，「嗡」地一声，$N的轮廓又变清晰了
 msgstr "Una luz azul {N:te envuelve|envuelve a $N{:el}} con un zumbido, ¡y {N:tu|su} contorno se vuelve un poco más nítido! $N{:el} {N:bajas|baja} la espada y {N:te quedas|se queda} inmóvil."
 
 msgid "尚书府书启"
-msgstr "Secretario de la Mansión del Ministro"
+msgstr "Secretario de la Residencia del Ministro"
 
 msgid "一个清瘦的中年书生，穿一件半旧的青布长衫，右手中指上有一道磨出来的老茧，袖口沾着墨。眉眼和曼雩台上那位掌门有几分像，只是不笑。\n"
 msgstr "Un erudito de mediana edad, delgado, con una túnica larga de algodón azul a medio gastar; tiene un callo viejo en el dedo medio de la mano derecha y tinta en los puños. Sus rasgos se parecen un poco a los del Maestro de la Terraza de la Danza de Lluvia, solo que él no sonríe.\n"
@@ -32872,7 +32872,7 @@ msgid "老夫回来了，就坐回来。老松岭的旧案，查到底；北麓�
 msgstr "Este viejo ha vuelto, y se vuelve a sentar. El viejo caso del Cerro de los Pinos Viejos, hasta el fondo; los niños de la falda norte, que los vigile el Monte Mao; si la Orden no se mete con las nueve escuelas, se la tolera."
 
 msgid "老夫回来了，就坐回来。老松岭的旧案，查到底；神教不犯九派，就容它。北麓的孩子——老夫这条命是皇叔拿手诏从尚书府要回来的，欠朝廷一份——交官府看着。"
-msgstr "Este viejo ha vuelto, y se vuelve a sentar. El viejo caso del Cerro de los Pinos Viejos, hasta el fondo; si la Orden no se mete con las nueve escuelas, se la tolera. Los niños de la falda norte, que los vigile la autoridad: esta vida me la sacó de la Mansión del Ministro el tío imperial con su edicto, y le debo una a la corte."
+msgstr "Este viejo ha vuelto, y se vuelve a sentar. El viejo caso del Cerro de los Pinos Viejos, hasta el fondo; si la Orden no se mete con las nueve escuelas, se la tolera. Los niños de la falda norte, que los vigile la autoridad: esta vida me la sacó de la Residencia del Ministro el tío imperial con su edicto, y le debo una a la corte."
 
 msgid "还有一句：老夫是叫花子从狗洞里领出来的。乔阴的巷子，往后不许官差进。"
 msgstr "Una cosa más: a este viejo lo sacaron por el agujero de los perros unos mendigos. Los callejones de Sombra Alta, de ahora en adelante, no los pisan los alguaciles."
@@ -39973,7 +39973,7 @@ msgid "卖艺壮汉低声对你说道：在下刚路过八舍！\n"
 msgstr "El forzudo callejero te dice en voz baja: \"¡Acabo de pasar por la residencia ocho!\""
 
 msgid "尚书府的门房虽然没什么官衔，但所有想晋见\n尚书的白衣无不对他毕恭毕敬的\n"
-msgstr "Aunque el portero de la Mansión del Ministro no tiene rango oficial, todos los plebeyos que quieren ser recibidos por el ministro lo tratan con el mayor respeto."
+msgstr "Aunque el portero de la Residencia del Ministro no tiene rango oficial, todos los plebeyos que quieren ser recibidos por el ministro lo tratan con el mayor respeto."
 
 msgid "门房慢吞吞地说：是。。想见尚书大人的吗？。。\n"
 msgstr "El portero dice con calma: \"Sí... ¿Quiere ver al señor ministro?...\""
@@ -40039,7 +40039,7 @@ msgid "先帝的东西，你自己留着吧。"
 msgstr "Lo del difunto emperador, quédatelo."
 
 msgid "尚书府护院"
-msgstr "Guardia de la Mansión del Ministro"
+msgstr "Guardia de la Residencia del Ministro"
 
 msgid "什么人！"
 msgstr "¡Quién anda ahí!"
@@ -40063,7 +40063,7 @@ msgid "我也不知道，主人吩咐我守着的。\n"
 msgstr "Yo tampoco lo sé; el amo me mandó montar guardia."
 
 msgid "她是尚书府的司职厨务的丫鬟，一年四季呆在厨房中。但粗重的\n杂活也掩不住其天生丽质。\n"
-msgstr "Es la doncella de la Mansión del Ministro a cargo de la cocina, y pasa en ella todo el año. Pero ni las tareas pesadas y toscas logran ocultar su belleza natural."
+msgstr "Es la doncella de la Residencia del Ministro a cargo de la cocina, y pasa en ella todo el año. Pero ni las tareas pesadas y toscas logran ocultar su belleza natural."
 
 msgid "一个老老实实、本本分分的庄园花匠，多年的风霜刻满\n了他的额头。多年以来从来没有人认真注意过他，他也\n总是默默地在花园里工作。\n"
 msgstr "Un jardinero de la finca, honrado y cumplidor, con la frente marcada por los años de viento y escarcha. En todo este tiempo nadie se ha fijado en él en serio, y él trabaja siempre en silencio en el jardín."
@@ -40150,7 +40150,7 @@ msgid "……她撞见了不该见的。老爷把她关在内宅，帘子外头�
 msgstr "... Se topó con algo que no debía ver. El amo la encerró en los aposentos interiores, y hay quien vigila fuera de la cortina. Si logras verla, pregúntale de mi parte cómo está."
 
 msgid "尚书府小姐"
-msgstr "Señorita de la Mansión del Ministro"
+msgstr "Señorita de la Residencia del Ministro"
 
 msgid "她是尚书府的千金。平时一直呆在自己的绣房里，所以虽然外界\n如何盛传她是如何如何的文雅、娴淑，却极少有能见过她的人。\n不知从何时起，她竺信起道教来，所以一切讲究素雅。\n"
 msgstr "Es la hija del ministro. Se queda siempre en su cuarto de bordado, así que, aunque fuera se cuenta a todas horas lo refinada y virtuosa que es, muy pocos la han visto. No se sabe desde cuándo se volvió devota del taoísmo, y por eso en ella todo es sencillo y elegante."
@@ -40255,7 +40255,7 @@ msgid "你来到紫禁城的北门--神武门。南向的大门通向紫禁城�
 msgstr "Llegas a la puerta norte de la Ciudad Imperial, la Puerta del Poder Divino. El portón del sur da a la Ciudad Imperial, pero casi nunca se abre: lo envuelven grandes cadenas de hierro y hay soldados de guardia. Al norte está el altar imperial, siempre desierto salvo en el sacrificio anual al cielo. Los caminos del este y del oeste llevan a las calles este y oeste de la Capital."
 
 msgid "这里是京师东街的北段。往北走有一个大院子，院里立着根老高\n老高的旗杆，上书一个斗大的「镖」字，隔很远就可以看见。镖局的\n生意似乎很好，人络绎不绝。西向是庄严的神武门。向南则去向尚书\n府和午门。\n"
-msgstr "Es el tramo norte de la Calle Este de la Capital. Al norte hay un gran patio con un asta altísima, en la que un enorme carácter, \"Escolta\", se ve desde muy lejos. La agencia parece hacer buen negocio: la gente no deja de llegar. Al oeste está la solemne Puerta del Poder Divino. Al sur se va a la Mansión del Ministro y a la Puerta Meridiana."
+msgstr "Es el tramo norte de la Calle Este de la Capital. Al norte hay un gran patio con un asta altísima, en la que un enorme carácter, \"Escolta\", se ve desde muy lejos. La agencia parece hacer buen negocio: la gente no deja de llegar. Al oeste está la solemne Puerta del Poder Divino. Al sur se va a la Residencia del Ministro y a la Puerta Meridiana."
 
 msgid "你走到了一家大酒楼里。四周的装饰金壁辉煌，令人眼花缭乱，连餐\n具的做工也极讲究，不愧是京城的第一大酒楼。酒楼的菜肴是远近闻名的\n，在这经常可以看到一些达官贵族，据连当今皇上也曾微服来此以一饱口\n福。\n"
 msgstr "Entras en una gran taberna. La decoración, dorada y resplandeciente, marea la vista, y hasta la vajilla está primorosamente trabajada: bien merece ser la mayor taberna de la Capital. Sus platos son famosos en todas partes; aquí se ve a menudo a altos funcionarios y nobles, y se dice que incluso Su Majestad vino una vez de incógnito a darse el gusto."
@@ -40264,10 +40264,10 @@ msgid "你现在正走在京师的街道上，西边是京师最有名的“太�
 msgstr "Caminas por una calle de la Capital. Al oeste está la Taberna Taibai, la más famosa de la Capital, donde hay gente de toda laya y el ruido no cesa. Al este queda pegada la muralla de la Ciudad Imperial. La calle se extiende hacia el norte y el sur."
 
 msgid "你走在京师东街的中段。这里夹在紫禁城城墙与尚书府院墙之间\n，南向的道路通向午门和尚书府的大门，而北方不远处振远总局的旗\n杆依稀可见，令人隐隐约约地感到一种杀气。\n"
-msgstr "Caminas por el tramo medio de la Calle Este de la Capital. Aquí queda encajonada entre la muralla de la Ciudad Imperial y el muro de la Mansión del Ministro. El camino del sur lleva a la Puerta Meridiana y al portón de la Mansión del Ministro, y no muy lejos al norte se distingue el asta de la Sede del Largo Camino, lo que deja una vaga sensación de peligro."
+msgstr "Caminas por el tramo medio de la Calle Este de la Capital. Aquí queda encajonada entre la muralla de la Ciudad Imperial y el muro de la Residencia del Ministro. El camino del sur lleva a la Puerta Meridiana y al portón de la Residencia del Ministro, y no muy lejos al norte se distingue el asta de la Sede del Largo Camino, lo que deja una vaga sensación de peligro."
 
 msgid "你来到相国府的大门处。虽然相国在朝中也是地位显赫，但与对\n面尚书府比起来，相国的府第显的寒酸得多。一切都十分简单，只有\n牌匾上的「相国府」还提醒着人们主人的地位。\n"
-msgstr "Llegas al portón de la Residencia del canciller. Aunque el canciller también ocupa un puesto eminente en la corte, comparada con la Mansión del Ministro de enfrente su residencia parece mucho más humilde. Todo es muy sencillo; solo las letras \"Residencia del canciller\" de la placa recuerdan el rango de su dueño."
+msgstr "Llegas al portón de la Residencia del canciller. Aunque el canciller también ocupa un puesto eminente en la corte, comparada con la Residencia del Ministro de enfrente su residencia parece mucho más humilde. Todo es muy sencillo; solo las letras \"Residencia del canciller\" de la placa recuerdan el rango de su dueño."
 
 msgid "你现在正走在京师的街道上。东边是进出紫禁城的午门，西边则\n是当朝地位显赫的相国的府宅，而北边不远处“太白酒楼”的喧哗声\n依稀可闻。\n"
 msgstr "Caminas por una calle de la Capital. Al este está la Puerta Meridiana, por donde se entra y se sale de la Ciudad Imperial; al oeste, la residencia del canciller, de tan alto rango en la corte, y no lejos al norte se oye a lo lejos el ruido de la Taberna Taibai."
@@ -40276,7 +40276,7 @@ msgid "这里是京师的午门。午门进出紫禁城的要道，北面那庄�
 msgstr "Es la Puerta Meridiana de la Capital, paso principal de la Ciudad Imperial. Tras el solemne portón del norte se halla la misteriosa Ciudad Imperial. A ambos lados de la puerta hay un par de leones de piedra que vigilan como fieras a la gente que pasa. Al sur está el patio de armas donde cada año se elige al campeón marcial, y quién sabe si ahora hay alguien. Las calles de este a oeste rodean la Ciudad Imperial."
 
 msgid "这是京师东街的南段。整个东街都被掌管天下兵马印的尚书府占\n据了，东边便是尚书府的大门，南边则是尚书府高耸的围墙，\n北去的道路一直通向振远总局。\n"
-msgstr "Es el tramo sur de la Calle Este de la Capital. Toda la calle está ocupada por la Mansión del Ministro, que guarda el sello de los ejércitos del reino. Al este está el portón de la mansión; al sur, su alto muro, y el camino que va al norte lleva hasta la Sede del Largo Camino."
+msgstr "Es el tramo sur de la Calle Este de la Capital. Toda la calle está ocupada por la Residencia del Ministro, que guarda el sello de los ejércitos del reino. Al este está el portón de la mansión; al sur, su alto muro, y el camino que va al norte lleva hasta la Sede del Largo Camino."
 
 msgid "这里是京师的校武场。一些御林军正在这里日夜操练，喊杀声\n此起彼伏。几个骑着高头大马的将领，在场上来回地巡视。每年武\n考也是在此举行的，当年淤兰天武、萧避尘、蓝芷萍就是在此出尽\n了风头，一时间声名传遍长城内外、大江南北。\n    北边是午门，南边是热闹的天桥了。\n"
 msgstr "Es el patio de armas de la Capital. Unos soldados de la Guardia Imperial se entrenan aquí día y noche, entre gritos de guerra que se suceden sin parar. Unos generales en altos caballos patrullan de un lado a otro del campo. Aquí se celebra también cada año el examen militar, y en su día Yulan Tianwu, Xiao Bichen y Lan Zhiping se lucieron en este lugar y su fama se extendió por dentro y fuera de la Gran Muralla y a ambos lados del gran río. Al norte está la Puerta Meridiana; al sur, el bullicioso Tianqiao."
@@ -40315,46 +40315,46 @@ msgid "你走上了太白酒楼的二楼，酒楼的雅座便设于此。大凡�
 msgstr "Subes al piso de arriba de la Taberna Taibai, donde están los reservados. Casi todos los clientes de peso vienen a beber y divertirse aquí. A menudo te topas con altos funcionarios y nobles, y con hijos de familias ricas que, por querer un cargo, vienen a enterarse de las novedades sobre ascensos. Junto a la pared, una escalera baja a las mesas de té de la planta baja."
 
 msgid "你来到尚书府大门。门上悬挂着一块很大的黑色牌匾，上面用隶\n书写着三个金字「尚书府」。牌匾上的一行小字表明这是当今皇上所\n题，可以看出其官势显赫。\n"
-msgstr "Llegas al portón de la Mansión del Ministro. Sobre él cuelga una gran placa negra con tres caracteres dorados en escritura oficial: \"Mansión del Ministro\". Una línea de letra pequeña en la placa indica que la escribió el propio emperador actual, lo que da idea del poder del ministro."
+msgstr "Llegas al portón de la Residencia del Ministro. Sobre él cuelga una gran placa negra con tres caracteres dorados en escritura oficial: \"Residencia del Ministro\". Una línea de letra pequeña en la placa indica que la escribió el propio emperador actual, lo que da idea del poder del ministro."
 
 msgid "你走到了尚书府的庭院。院子很大，地面规规整整地用清一色的\n大青石铺就，显示出主人的气派。东边的府门时常关着，不是高官可\n甭想进来。西向是主人会客的客厅。北行的石路通向客房，而向南则\n是去往内院。\n"
-msgstr "Llegas al patio de la Mansión del Ministro. Es muy grande, y su suelo, pavimentado con regularidad solo con grandes losas de piedra azul, muestra la grandeza del amo. El portón del este suele estar cerrado: sin ser alto funcionario ni sueñes con entrar. Al oeste está el salón donde el amo recibe a las visitas. El camino de piedra del norte lleva a la habitación de huéspedes, y hacia el sur se va al patio interior."
+msgstr "Llegas al patio de la Residencia del Ministro. Es muy grande, y su suelo, pavimentado con regularidad solo con grandes losas de piedra azul, muestra la grandeza del amo. El portón del este suele estar cerrado: sin ser alto funcionario ni sueñes con entrar. Al oeste está el salón donde el amo recibe a las visitas. El camino de piedra del norte lleva a la habitación de huéspedes, y hacia el sur se va al patio interior."
 
 msgid "这里是尚书府的会客厅，平常主人就在此接待客人。客厅的装饰\n倒并不多，但都极其讲究。所有的家具都是用沉香木做的，时时发出\n一股淡淡的香味。家具被擦得一尘不染的，整齐地排列在两旁。当中\n的椅子尤其大，并铺以少见的白虎皮。\n"
-msgstr "Es el salón de visitas de la Mansión del Ministro, donde el amo suele recibir a sus invitados. Tiene pocos adornos, pero todos de gran refinamiento. Todos los muebles son de madera de áloe y de cuando en cuando sueltan un leve perfume. Los muebles, lustrados sin una mota de polvo, se alinean con orden a ambos lados. La silla del centro es especialmente grande y está cubierta con una rara piel de tigre blanco."
+msgstr "Es el salón de visitas de la Residencia del Ministro, donde el amo suele recibir a sus invitados. Tiene pocos adornos, pero todos de gran refinamiento. Todos los muebles son de madera de áloe y de cuando en cuando sueltan un leve perfume. Los muebles, lustrados sin una mota de polvo, se alinean con orden a ambos lados. La silla del centro es especialmente grande y está cubierta con una rara piel de tigre blanco."
 
 msgid "这里是尚书府的小径。小径继续向北延伸着，透过树丛隐隐约约\n地看到那儿似乎有一间小屋。从这儿向东走就是一间客房，据说客房\n里住的是一位贵客。不过一般人不允许进。\n"
-msgstr "Es un sendero de la Mansión del Ministro. Sigue hacia el norte, y entre los árboles se entrevé al fondo una casita. Al este hay una habitación de huéspedes donde dicen que se aloja un invitado de honor, pero a la gente común no se le permite entrar."
+msgstr "Es un sendero de la Residencia del Ministro. Sigue hacia el norte, y entre los árboles se entrevé al fondo una casita. Al este hay una habitación de huéspedes donde dicen que se aloja un invitado de honor, pero a la gente común no se le permite entrar."
 
 msgid "尚书府的小径走到这似乎到了尽头。小径的东边是一间小屋，平\n时房门总是关的，每天按时由一名又聋又哑的仆役送饭进去，其他人\n一概不让入内。南边不远处就是尚书府庭院了。\n"
-msgstr "Aquí el sendero de la Mansión del Ministro parece llegar a su fin. Al este hay una casita cuya puerta está siempre cerrada; a su hora cada día, un criado sordomudo lleva la comida, y a nadie más se le deja entrar. No lejos al sur está el patio de la mansión."
+msgstr "Aquí el sendero de la Residencia del Ministro parece llegar a su fin. Al este hay una casita cuya puerta está siempre cerrada; a su hora cada día, un criado sordomudo lleva la comida, y a nadie más se le deja entrar. No lejos al sur está el patio de la mansión."
 
 msgid "你走进了尚书府的客房。客房不大，但布置得比较整洁。靠窗的\n小桌上摞放着几本书，另一侧的墙上则挂了把宝剑，似乎告诉\n来人此地主人竞是文武双全。\n"
-msgstr "Entras en la habitación de huéspedes de la Mansión del Ministro. No es grande, pero está bastante ordenada. En la mesita junto a la ventana hay unos libros apilados, y en la pared opuesta cuelga una espada preciosa, como diciendo a quien llega que el dueño de este lugar domina tanto las letras como las armas."
+msgstr "Entras en la habitación de huéspedes de la Residencia del Ministro. No es grande, pero está bastante ordenada. En la mesita junto a la ventana hay unos libros apilados, y en la pared opuesta cuelga una espada preciosa, como diciendo a quien llega que el dueño de este lugar domina tanto las letras como las armas."
 
 msgid "你步入尚书府内的一间小屋。小屋内很黑，什么也看不见，但莫\n名地感到一股杀气，让人有转身就跑的念头。\n"
-msgstr "Entras en una casita dentro de la Mansión del Ministro. Está muy oscuro y no se ve nada, pero sientes sin saber por qué un aire asesino que te da ganas de dar media vuelta y huir."
+msgstr "Entras en una casita dentro de la Residencia del Ministro. Está muy oscuro y no se ve nada, pero sientes sin saber por qué un aire asesino que te da ganas de dar media vuelta y huir."
 
 msgid "这里是尚书府的花园小径。小径的南方就是花园，阵阵花香随风\n飘过来，使人精神大振。厨房在小径的东面，而往南则去往尚书府的\n庭院。\n"
-msgstr "Es el sendero del jardín de la Mansión del Ministro. Al sur está el jardín, y el viento trae oleadas de perfume de flores que reaniman el ánimo. La cocina queda al este del sendero; hacia el sur se va al patio de la mansión."
+msgstr "Es el sendero del jardín de la Residencia del Ministro. Al sur está el jardín, y el viento trae oleadas de perfume de flores que reaniman el ánimo. La cocina queda al este del sendero; hacia el sur se va al patio de la mansión."
 
 msgid "你来到了尚书府的厨房。厨房里各种烹饪用品与设备应有尽有，\n而且用品的做工也都很精细，一眼便知是官家的用品。厨房里的炉火\n烧得旺旺的，一个烧火丫鬟正忙着即将出锅的「西湖醋鱼」。\n"
-msgstr "Llegas a la cocina de la Mansión del Ministro. Hay utensilios y equipos de cocina de todo tipo, de factura muy fina, que a primera vista se ve que son de casa oficial. El fuego arde con fuerza, y una doncella encargada del hogar se afana con el \"Pescado del Lago del Oeste al vinagre\" que está a punto de salir de la olla."
+msgstr "Llegas a la cocina de la Residencia del Ministro. Hay utensilios y equipos de cocina de todo tipo, de factura muy fina, que a primera vista se ve que son de casa oficial. El fuego arde con fuerza, y una doncella encargada del hogar se afana con el \"Pescado del Lago del Oeste al vinagre\" que está a punto de salir de la olla."
 
 msgid "尚书府的花园里搜集了许多名贵花卉。从洛阳的牡丹到扬州的琼\n花，你不能不惊诧于这里的全来。四时的花卉竞相开放着，发出沁人\n的香味。从花园东行就是内宅，而西边似乎有一间破屋。\n"
-msgstr "En el jardín de la Mansión del Ministro se han reunido muchas flores preciosas. De las peonías de Luoyang a las flores de jade de Yangzhou, no puedes dejar de asombrarte de lo completo que es. Flores de las cuatro estaciones compiten por abrirse y exhalan un aroma que penetra hasta el alma. Al este del jardín están los aposentos interiores, y al oeste parece haber una casa destartalada."
+msgstr "En el jardín de la Residencia del Ministro se han reunido muchas flores preciosas. De las peonías de Luoyang a las flores de jade de Yangzhou, no puedes dejar de asombrarte de lo completo que es. Flores de las cuatro estaciones compiten por abrirse y exhalan un aroma que penetra hasta el alma. Al este del jardín están los aposentos interiores, y al oeste parece haber una casa destartalada."
 
 msgid "你轻轻地走进尚书府的内宅，男客一般是不让来此的。内宅的布\n置很素雅，一切的摆设都显得很自然，有「天然去雕饰，清水出芙蓉\n」的意味。西边就是你来时经过的花园。\n"
-msgstr "Entras con sigilo en los aposentos interiores de la Mansión del Ministro, adonde normalmente no se deja pasar a los huéspedes varones. La decoración es sobria y elegante, y cada adorno parece natural, con aire de \"lo natural, sin cincel, como el loto que brota del agua clara\". Al oeste está el jardín por el que viniste."
+msgstr "Entras con sigilo en los aposentos interiores de la Residencia del Ministro, adonde normalmente no se deja pasar a los huéspedes varones. La decoración es sobria y elegante, y cada adorno parece natural, con aire de \"lo natural, sin cincel, como el loto que brota del agua clara\". Al oeste está el jardín por el que viniste."
 
 msgid "你走在尚书府的一条僻静的小路上。这条小路连接着花园和一间\n废弃的杂货屋，平常很少有人来此。东面的花园渐渐地远了，西面的\n门都已经脱落的废屋已历历在目。北面是高耸的院墙。\n"
-msgstr "Caminas por una vereda apartada de la Mansión del Ministro, que une el jardín con un cobertizo de trastos abandonado; casi nadie viene por aquí. El jardín del este se va alejando, y al oeste ya se distingue con nitidez la casa en ruinas, con la puerta desprendida. Al norte se alza el alto muro del patio."
+msgstr "Caminas por una vereda apartada de la Residencia del Ministro, que une el jardín con un cobertizo de trastos abandonado; casi nadie viene por aquí. El jardín del este se va alejando, y al oeste ya se distingue con nitidez la casa en ruinas, con la puerta desprendida. Al norte se alza el alto muro del patio."
 
 msgid "这是一间已被废弃的小屋。小屋很阴暗，也很潮湿。就着微弱的光线\n，隐约看见小屋里胡乱地堆放着一些杂物。小屋里到处挂着蜘蛛网，显然\n很久没有人来过了。\n"
 msgstr "Es una casita abandonada, oscura y húmeda. A la débil luz se alcanza a ver, amontonados sin orden, unos trastos. Hay telarañas por todas partes: es evidente que hace mucho que nadie viene."
 
 msgid "你爬上了尚书府的院墙，墙里面人来人往的，很是\n热闹。你是跳进去，还是回去呢？\n"
-msgstr "Trepas al muro de la Mansión del Ministro. Dentro hay un ir y venir de gente y mucho bullicio. ¿Saltas adentro o te vuelves?"
+msgstr "Trepas al muro de la Residencia del Ministro. Dentro hay un ir y venir de gente y mucho bullicio. ¿Saltas adentro o te vuelves?"
 
 msgid "店小二对你一白眼:你是谁呀，闯什么闯！"
 msgstr "El mozo de la posada te lanza una mirada de desdén: \"¿Y usted quién es? ¿Qué es eso de entrar así?\""
@@ -40891,7 +40891,7 @@ msgid "撕下一角纸，写了两行，按上一方小印，递给你。"
 msgstr " rasga una esquina de papel, escribe dos líneas, estampa un sellito y te lo entrega."
 
 msgid "拿去给尚书府的门房。相国府的条子，他不敢拦。"
-msgstr "Llévaselo al portero de la Mansión del Ministro. Una nota de la Residencia del canciller, él no se atreve a detenerla."
+msgstr "Llévaselo al portero de la Residencia del Ministro. Una nota de la Residencia del canciller, él no se atreve a detenerla."
 
 msgid "信送到了？……他回信没有？骆家的人，一个比一个嘴硬。"
 msgstr "¿Llegó la carta? ... ¿Respondió? Los Luo, a cual más terco."
