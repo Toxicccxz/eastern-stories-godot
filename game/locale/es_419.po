@@ -38,7 +38,7 @@ msgid "於兰天武"
 msgstr "Yulan Tianwu"
 
 msgid "大天邪"
-msgstr "Gran Indómito"
+msgstr "Gran Rebelde"
 
 msgid "旋芒"
 msgstr "Filo Giratorio"
@@ -50,7 +50,7 @@ msgid "萧辟尘"
 msgstr "Xiao Bichen"
 
 msgid "小天邪"
-msgstr "Pequeño Indómito"
+msgstr "Pequeño Rebelde"
 
 msgid "潘军禅"
 msgstr "Pan Junchan"
@@ -65,34 +65,34 @@ msgid "了尘"
 msgstr "Liaochen"
 
 msgid "天甲神兵"
-msgstr "Soldado celestial Jia"
+msgstr "Soldado divino Jia"
 
 msgid "天乙神兵"
-msgstr "Soldado celestial Yi"
+msgstr "Soldado divino Yi"
 
 msgid "天丙神兵"
-msgstr "Soldado celestial Bing"
+msgstr "Soldado divino Bing"
 
 msgid "天丁神兵"
-msgstr "Soldado celestial Ding"
+msgstr "Soldado divino Ding"
 
 msgid "天戊神兵"
-msgstr "Soldado celestial Wu"
+msgstr "Soldado divino Wu"
 
 msgid "天己神兵"
-msgstr "Soldado celestial Ji"
+msgstr "Soldado divino Ji"
 
 msgid "天庚神兵"
-msgstr "Soldado celestial Geng"
+msgstr "Soldado divino Geng"
 
 msgid "天辛神兵"
-msgstr "Soldado celestial Xin"
+msgstr "Soldado divino Xin"
 
 msgid "天壬神兵"
-msgstr "Soldado celestial Ren"
+msgstr "Soldado divino Ren"
 
 msgid "天癸神兵"
-msgstr "Soldado celestial Gui"
+msgstr "Soldado divino Gui"
 
 msgid "林忌"
 msgstr "Lin Ji"
@@ -161,7 +161,7 @@ msgid "陆得财"
 msgstr "Lu Decai"
 
 msgid "黑水伏蛟"
-msgstr "Dragón de las Aguas Negras"
+msgstr "Dragón del Agua Negra"
 
 msgid "骆云舟"
 msgstr "Luo Yunzhou"
@@ -191,7 +191,7 @@ msgid "桃萼仙"
 msgstr "Inmortal Cáliz de Durazno"
 
 msgid "僵尸侍者"
-msgstr "Zombi sirviente"
+msgstr "Sirviente zombi"
 
 msgid "土匪探哨"
 msgstr "Explorador bandido"
@@ -221,7 +221,7 @@ msgid "门房"
 msgstr "Portero"
 
 msgid "老鼠"
-msgstr "Rata"
+msgstr "Ratas"
 
 msgid "杨掌柜"
 msgstr "Tendero Yang"
@@ -344,7 +344,7 @@ msgid "水烟阁司事"
 msgstr "Custodio de Pabellón de la Neblina"
 
 msgid "天邪虎"
-msgstr "Tigre indómito"
+msgstr "Tigre rebelde"
 
 msgid "仆役"
 msgstr "Sirviente"
@@ -473,7 +473,7 @@ msgid "烧饭僧"
 msgstr "Monje cocinero"
 
 msgid "小沙弥"
-msgstr "Novicio"
+msgstr "Pequeño novicio"
 
 msgid "汤掌柜"
 msgstr "Tabernero Tang"
@@ -2486,7 +2486,7 @@ msgid "东方神教"
 msgstr "Orden del Cuervo Dorado"
 
 msgid "天邪派"
-msgstr "Escuela Indómita"
+msgstr "Escuela Rebelde"
 
 msgid "绝尘派"
 msgstr "Escuela sin Polvo"
@@ -2597,7 +2597,7 @@ msgid "杯"
 msgstr "taza"
 
 msgid "副"
-msgstr "pieza"
+msgstr "juego"
 
 msgid "棵"
 msgstr "mata"
@@ -4733,7 +4733,7 @@ msgid "山烟"
 msgstr "Bruma"
 
 msgid "天邪"
-msgstr "Indómita"
+msgstr "Rebelde"
 
 msgid "封山"
 msgstr "Montaña Vacía"
