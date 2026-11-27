@@ -392,6 +392,7 @@
     "res://tests/runtime/story_softlocks_test.gd": 60.7,
     "res://tests/runtime/story_through_test.gd": 93.6,
     "res://tests/runtime/sword_decree_test.gd": 37.2,
+    "res://tests/runtime/sword_soul_strength_test.gd": 40.0,
     "res://tests/runtime/temple_family_test.gd": 33.6,
     "res://tests/runtime/temple_necromancy_test.gd": 33.8,
     "res://tests/runtime/temple_npcs_test.gd": 29.0,
