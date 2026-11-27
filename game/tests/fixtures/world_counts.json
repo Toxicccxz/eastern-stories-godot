@@ -13,6 +13,7 @@
 		"snow.school_compound",
 		"snow.temple_house",
 		"snow.academy",
+		"snow.rain_compound",
 		"oldpine.outdoor",
 		"oldpine.cave",
 		"oldpine.gorge",
@@ -169,7 +170,7 @@
 		"lancheng.pavilion",
 		"lancheng.terrace"
 	],
-	"rooms": 645,
+	"rooms": 647,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -188,7 +189,8 @@
 		"snow.school1.east",
 		"snow.square.east",
 		"snow.eroad1.north",
-		"snow.sroad2.south"
+		"snow.sroad2.south",
+		"snow.eroad2.north"
 	],
 	"spawn_order": [
 		"oldpine.outdoor.spath1.bandits",
@@ -776,12 +778,14 @@
 		"native.cavehall.liaochen_stay",
 		"native.heal_room.liaochen",
 		"native.heal_room.liaochen_toutuo",
-		"native.terrace.liaochen"
+		"native.terrace.liaochen",
+		"native.rain_yard.shen_shuyu",
+		"native.rain_yard.he_shouzhuo"
 	],
-	"world_npcs": 894,
-	"resident_maps": 168,
-	"new_game_items": 1333,
-	"snow_outdoor_passages": 18,
+	"world_npcs": 896,
+	"resident_maps": 169,
+	"new_game_items": 1337,
+	"snow_outdoor_passages": 19,
 	"map_zones": {
 		"snow.inn": 1,
 		"snow.outdoor": 15,
@@ -796,6 +800,7 @@
 		"snow.school_compound": 7,
 		"snow.temple_house": 1,
 		"snow.academy": 1,
+		"snow.rain_compound": 2,
 		"oldpine.outdoor": 10,
 		"oldpine.cave": 3,
 		"oldpine.gorge": 3,
@@ -966,6 +971,7 @@
 		"snow.school_compound": 18,
 		"snow.temple_house": 1,
 		"snow.academy": 1,
+		"snow.rain_compound": 2,
 		"oldpine.outdoor": 19,
 		"oldpine.cave": 0,
 		"oldpine.gorge": 5,

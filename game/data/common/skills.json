@@ -271,7 +271,8 @@
 				"counterattack",
 				"swordjab",
 				"fakefault",
-				"powerfocus"
+				"powerfocus",
+				"rainpress"
 			],
 			"perform_rules": {
 				"powerfocus": {
@@ -283,6 +284,17 @@
 						"damage": 12,
 						"damage_percent": 25,
 						"slip_busy": 2
+					}
+				},
+				"rainpress": {
+					"when": {
+						"mark": "学了听雨"
+					},
+					"numbers": {
+						"force": 20,
+						"damage": 6,
+						"damage_percent": 12,
+						"open_percent": 85
 					}
 				}
 			},

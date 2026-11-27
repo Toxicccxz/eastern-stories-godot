@@ -66,6 +66,24 @@
 			"exits": {
 				"east": "native:city/xiangguo_hall"
 			}
+		},
+		{
+			"id": "native:snow/rain_yard",
+			"short": "镇外小院",
+			"long": "柴门里是一个不大的院子，四面围着半人高的土墙，墙头长了草。靠东墙码着一垛劈好的柴，根根一般长短。院子当中的地被人踩得发白，光溜溜的一圈，一根草也没有——有人天天在这里走同一套步子。北面三间瓦屋，檐下挂着一串干辣椒，窗纸是新糊的。往南出了柴门就是黄土小径。\n",
+			"outdoors": true,
+			"exits": {
+				"south": "es2:d/snow/eroad2",
+				"north": "native:snow/rain_house"
+			}
+		},
+		{
+			"id": "native:snow/rain_house",
+			"short": "瓦屋",
+			"long": "屋里收拾得很干净。靠窗一张旧书案，案上一只粗瓷茶壶、两只杯子，一只倒扣着。墙上的木钉挂着一个空剑鞘，鞘上的漆磨得露出了木头，剑穗却是新换的。里间门口垂着一幅蓝布帘子。屋角的炉子上坐着一把水壶，壶嘴冒着细细的白气。\n",
+			"exits": {
+				"south": "native:snow/rain_yard"
+			}
 		}
 	]
 }
