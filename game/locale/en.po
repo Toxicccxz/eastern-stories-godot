@@ -21287,7 +21287,7 @@ msgid "诺大的一片竹林，密密匝匝，望不道尽头。游目四顾，�
 msgstr "A vast bamboo grove, dense and thick, with no end in sight. You look all around, and there is no path. A breeze stirs, and deep in the bamboo a corner of a bamboo fence shows."
 
 msgid "一间由白茅草搭成的草堂，室内仅有一竹榻，一矮几，四把竹椅．堂前一幅拓片装裱精\n致，上书:\n      书有未曾经我读\n      事无不可对人言\n矮几上摊有书卷放着一支朱砂笔，一房歙砚竟题有岳武穆藏，另几张上好生宣． \n"
-msgstr "A hall built of white thatch grass. Inside are only a bamboo couch, a low table and four bamboo chairs. In front of the hall hangs a finely mounted rubbing, inscribed:\n      No book there is that I have not read\n      No deed there is that I could not tell\nOn the low table lie open scrolls and a vermilion brush, and an inkstone from Shezhou even bears the inscription \"Yue Wumu's collection\", beside several sheets of fine raw rice paper."
+msgstr "A hall built of white thatch grass. Inside are only a bamboo couch, a low table and four bamboo chairs. In front of the hall hangs a finely mounted rubbing, inscribed:\n      There are books I have yet to read\n      There is nothing I could not tell anyone\nOn the low table lie open scrolls and a vermilion brush, and an inkstone from Shezhou even bears the inscription \"Yue Wumu's collection\", beside several sheets of fine raw rice paper."
 
 msgid "这是一间什麽也没有的空房间。\n"
 msgstr "An empty room with nothing at all in it."
@@ -21533,7 +21533,7 @@ msgid "你乘人不备，抓起一本书藏入怀中。\n"
 msgstr "While nobody is looking, you snatch a book and tuck it inside your robe."
 
 msgid "书有未曾经我读 事无不可对人言"
-msgstr "No book there is that I have not read; no deed there is that I could not tell"
+msgstr "There are books I have yet to read; there is nothing I could not tell anyone"
 
 msgid "南门"
 msgstr "South Gate"
