@@ -48,7 +48,7 @@ func _test_knobs() -> void:
 
 func _test_data() -> void:
 	var rules: BountyRules = GameContent.catalog().bounties()
-	_assert_true(rules != null and rules.postings == 3 and rules.tiers.size() == 9 and rules.places.size() == 18, "native/bounties.json: 3 postings, 9 tiers, 7 places of the board's and 11 of the last four tiers'")
+	_assert_true(rules != null and rules.postings == 3 and rules.tiers.size() == 9 and rules.places.size() == 17, "native/bounties.json: 3 postings, 9 tiers, 7 places of the board's and 10 of the last four tiers'")
 	_assert_eq([rules.tier_for(0), rules.tier_for(399), rules.tier_for(400), rules.tier_for(1000), rules.tier_for(100000)], [0, 0, 1, 2, 8], "tiers by combat_exp")
 	var dummy: NpcDefinition = GameContent.catalog().npc(&"native.npc.wooden_dummy.1")
 	var outlaw: NpcDefinition = GameContent.catalog().npc(&"native.npc.outlaw.1")
@@ -126,13 +126,20 @@ func _test_growth_d() -> void:
 	var state := BountyState.new()
 	BountyBoard.tick(state, rules, 12000, 0, _exp, opens, ceiling)
 	_assert_true(state.tiers == [5, 5, 5] and state.places.all(func(place: int) -> bool: return rules.tiers[5].place_indices.has(place)), "乔阴 done: the 越狱死囚 is posted, in 乔阴东郊 (%s, %s)" % [state.tiers, state.places])
+	_assert_eq([state.places[0] != state.places[1], state.places[1] != state.places[2], state.places[0] != state.places[2]], [true, true, true], "its three postings in three places (one at a time through a tier's own three): %s" % [state.places])
+	_assert_eq([BountyBoard.place_stride(7), BountyBoard.place_stride(3), BountyBoard.place_stride(1)], [3, 1, 3], "the stride: 3 through the board's seven, 1 through a tier's three")
 	_assert_eq([BountyBoard.worthy_tier(rules, 16000, _exp, opens, ceiling), BountyBoard.waiting_tier(rules, 16000, _exp, opens, ceiling)], [-1, 6], "16000, twice him: none — the 劫船海寇 waits on 番坊")
 	for key: String in chapters:
 		player.quests[key] = 1 # TEST-ONLY
 	_assert_eq([BountyBoard.worthy_tier(rules, 69999, _exp, opens, ceiling), BountyBoard.worthy_tier(rules, 70000, _exp, opens, ceiling), BountyBoard.waiting_tier(rules, 70000, _exp, opens, ceiling)], [8, -1, -2], "after the finale: the 逆灵宫余孽 (35000) until twice him; then none, and none left to wait for")
 	var errors: Array[String] = []
 	BountyRules.from_record(ContentRecordReader.new({"tiers": [{"min_exp": 0, "npc": "x", "silver": 1, "after": {"quest": "q#done"}}], "places": [{"map": "m", "zone": "z"}]}, "b", errors))
-	_assert_eq(errors.size(), 1, "a tier that waits on the story says when (after_hint): %s" % [errors])
+	_assert_true(errors.size() == 1 and errors[0].contains("after_hint"), "a tier that waits on the story says when (after_hint): %s" % [errors])
+	for percent: int in [0, 101, 200, 100, 50, -5]:
+		var read: Array[String] = []
+		PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000, "bounty_ceiling_percent": percent}, "p", read))
+		var refused: bool = read.size() == 1 and read[0].contains("bounty_ceiling_percent")
+		_assert_true(refused == (percent != 0 and percent <= 100) and (refused or read.is_empty()), "bounty_ceiling_percent %d: %s" % [percent, "refused" if refused else "read"] + (" %s" % [read] if not read.is_empty() else ""))
 
 
 func _test_reward() -> void:

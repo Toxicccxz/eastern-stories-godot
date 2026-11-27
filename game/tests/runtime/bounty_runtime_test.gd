@@ -13,16 +13,13 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var session: WorldSessionController = await _session(tree)
+	await _test_story_tiers(tree, session)
 	await _test_dummies(tree, session)
 	await _test_board(tree, session)
 	await _test_kill(tree, session)
 	await _test_spare(tree, session)
 	await _test_give_up_and_save(tree, session)
 	session.free()
-	await tree.process_frame
-	var later: WorldSessionController = await _session(tree)
-	await _test_story_tiers(tree, later)
-	later.free()
 	await tree.process_frame
 	var previous: PacingDefinition = Es2Pacing.use()
 	var classic: WorldSessionController = await _session(tree)
@@ -267,8 +264,19 @@ func _run(session: WorldSessionController) -> void:
 
 ## 成长曲线 D (DECISIONS「成长曲线 D」): the board as the story opens its last four tiers, and what it
 ## says when it is empty: a fiercer one waits on the story; none is left; or its slots only fill.
+## Run first on the session the other tests use, then put back as a new game has it.
 func _test_story_tiers(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
+	var exp_before: int = state.progression.combat_experience
+	await _story_tiers(tree, session, state)
+	state.progression.combat_experience = exp_before # TEST-ONLY: back as it was
+	for key: String in ["main.chapter5#done", "main.chapter7#done", "main.chapter9#done", "main.finale#done"]:
+		state.quests.erase(key)
+	state.marks.erase(WorldBounties.MARK_TAKEN)
+	state.bounty = BountyState.new()
+
+
+func _story_tiers(tree: SceneTree, session: WorldSessionController, state: CharacterState) -> void:
 	_check(session.handoff_to(&"snow.outdoor", &"snow.mstreet4", &"snow.mstreet4", &"snow.mstreet4.postoffice_return").succeeded(), "story tiers: by 雪亭驿")
 	await _settle(tree)
 	var map: WorldMapController = session.active_map() as WorldMapController

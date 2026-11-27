@@ -14,7 +14,9 @@ extends RefCounted
 ## highest tier they reached is offered the next one the story has opened, so the ladder has no
 ## gaps; `opens` (tier -> bool) says which the story has opened, all of them when not given.
 
-## Places are taken in this stride (coprime with any small count), so the postings differ.
+## Places are taken in this stride where it is coprime with the count of a tier's places (the
+## board's seven: 0, 3, 6, 2 …), so postings in turn differ; one place at a time otherwise (a
+## tier's own three). place_stride().
 const PLACE_STRIDE: int = 3
 
 
@@ -131,6 +133,17 @@ static func _post(state: BountyState, rules: BountyRules, slot: int, tier: int) 
 		return had
 	state.tiers[slot] = tier
 	var places: Array[int] = rules.tiers[tier].place_indices
-	state.places[slot] = places[(state.serial * PLACE_STRIDE) % places.size()]
+	state.places[slot] = places[(state.serial * place_stride(places.size())) % places.size()]
 	state.serial += 1
 	return true
+
+
+## The stride postings in turn take through `count` places: PLACE_STRIDE when coprime with it, else 1.
+static func place_stride(count: int) -> int:
+	var a: int = PLACE_STRIDE
+	var b: int = maxi(count, 1)
+	while b != 0:
+		var rest: int = a % b
+		a = b
+		b = rest
+	return PLACE_STRIDE if a == 1 else 1
