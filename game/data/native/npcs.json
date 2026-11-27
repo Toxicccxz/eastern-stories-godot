@@ -13106,10 +13106,10 @@
 							"mark_asker": "答应了沈疏雨",
 							"lines": [
 								{
-									"say": "没读过？……也好。"
+									"say": "那卷书没到他手里……也好。"
 								},
 								{
-									"say": "他二十岁那年在竹林里写过一卷书，写的是怎么等。哪天你读到了，告诉我写了什么。"
+									"say": "他二十岁那年在竹林里写过一卷书，写的是怎么等。你若读过，替我记着那几句。"
 								},
 								{
 									"say": "我问过这卷书，你别同他说。"
@@ -13171,6 +13171,7 @@
 					"reaction": true,
 					"mark": "告辞了",
 					"not_mark": "小院又来过",
+					"not_came_from": ["snow.rain_house"],
 					"steps": [
 						{
 							"emote": "看见你，点了点头。"
@@ -13187,8 +13188,8 @@
 					"after": 1,
 					"reaction": true,
 					"mark": "留下了",
-					"present": "native.npc.he_shouzhuo",
 					"not_mark": "小院又来过",
+					"not_came_from": ["snow.rain_house"],
 					"steps": [
 						{
 							"emote": "正在檐下晾衣裳，看见你，手停了一下。"
@@ -13197,15 +13198,26 @@
 							"say": "你来了。"
 						},
 						{
-							"by": "native.npc.he_shouzhuo",
-							"present": "native.npc.he_shouzhuo"
-						},
-						{
-							"emote": "看了你一眼，低下头接着劈他的柴。",
-							"present": "native.npc.he_shouzhuo"
-						},
-						{
 							"mark": "小院又来过"
+						}
+					]
+				},
+				{
+					"after": 2,
+					"reaction": true,
+					"mark": "留下了",
+					"not_mark": "何守拙看过你",
+					"present": "native.npc.he_shouzhuo",
+					"not_came_from": ["snow.rain_house"],
+					"steps": [
+						{
+							"by": "native.npc.he_shouzhuo"
+						},
+						{
+							"emote": "看了你一眼，低下头接着劈他的柴。"
+						},
+						{
+							"mark": "何守拙看过你"
 						}
 					]
 				}

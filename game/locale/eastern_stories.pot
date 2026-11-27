@@ -76288,12 +76288,12 @@ msgstr ""
 
 #. native.npc.shen_shuyu inquiry.竹书.rules.lines.say
 #: data/native/npcs.json
-msgid "没读过？……也好。"
+msgid "那卷书没到他手里……也好。"
 msgstr ""
 
 #. native.npc.shen_shuyu inquiry.竹书.rules.lines.say
 #: data/native/npcs.json
-msgid "他二十岁那年在竹林里写过一卷书，写的是怎么等。哪天你读到了，告诉我写了什么。"
+msgid "他二十岁那年在竹林里写过一卷书，写的是怎么等。你若读过，替我记着那几句。"
 msgstr ""
 
 #. native.npc.shen_shuyu inquiry topic

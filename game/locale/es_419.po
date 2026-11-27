@@ -15194,7 +15194,7 @@ msgid "柳淳风"
 msgstr "Liu Chunfeng"
 
 msgid "风雨双侠"
-msgstr "Espadachín del Viento y la Lluvia"
+msgstr "los Espadachines del Viento y la Lluvia"
 
 msgid "柳馆主"
 msgstr "Maestro Liu"
@@ -42135,11 +42135,11 @@ msgstr "Yo pregunté por ese libro; no se lo digas a él."
 msgid "天黑以后再来。屋里点着灯。"
 msgstr "Vuelve cuando anochezca. En la casa habrá una lámpara encendida."
 
-msgid "没读过？……也好。"
-msgstr "¿No lo leíste? ...También está bien."
+msgid "那卷书没到他手里……也好。"
+msgstr "Así que el libro nunca llegó a sus manos... También está bien."
 
-msgid "他二十岁那年在竹林里写过一卷书，写的是怎么等。哪天你读到了，告诉我写了什么。"
-msgstr "El año en que cumplió veinte escribió un libro en el bosque de bambú; trata de cómo esperar. Si algún día lo lees, cuéntame qué dice."
+msgid "他二十岁那年在竹林里写过一卷书，写的是怎么等。你若读过，替我记着那几句。"
+msgstr "El año en que cumplió veinte escribió un libro en el bosque de bambú; trata de cómo esperar. Si lo leíste, guárdame esas líneas."
 
 msgid "簪子"
 msgstr "Horquilla"

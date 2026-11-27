@@ -833,7 +833,7 @@ msgid "柳淳风"
 msgstr "Liu Chunfeng"
 
 msgid "风雨双侠"
-msgstr "the Wind-and-Rain Swordsman"
+msgstr "the Wind-and-Rain Swordsmen"
 
 msgid "柳馆主"
 msgstr "Master Liu"
@@ -42282,11 +42282,11 @@ msgstr "I asked about this book. Don't tell him."
 msgid "天黑以后再来。屋里点着灯。"
 msgstr "Come back after dark. The lamp will be lit in the house."
 
-msgid "没读过？……也好。"
-msgstr "You haven't? ...Just as well."
+msgid "那卷书没到他手里……也好。"
+msgstr "So the book never reached him... Just as well."
 
-msgid "他二十岁那年在竹林里写过一卷书，写的是怎么等。哪天你读到了，告诉我写了什么。"
-msgstr "The year he turned twenty, he wrote a book in a bamboo grove. It was about how to wait. If you ever read it, tell me what it says."
+msgid "他二十岁那年在竹林里写过一卷书，写的是怎么等。你若读过，替我记着那几句。"
+msgstr "The year he turned twenty, he wrote a book in a bamboo grove. It was about how to wait. If you've read it, keep those lines for me."
 
 msgid "簪子"
 msgstr "Hairpin"

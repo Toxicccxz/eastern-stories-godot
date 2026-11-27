@@ -200,6 +200,12 @@ func _test_line(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(state.marks.get(TAUGHT, 0) == 1 and state.marks.get("告辞了", 0) == 1 and not state.marks.has(TAUGHT_NIGHT) and not state.marks.has("留下了"), "告辞: 「听雨」, and nothing of the night")
 	_check(_carries(session, SLIPS) and not _carries(session, HAIRPIN), "her slips, not the hairpin")
 	_check(session.day_clock().phase().phase_id == &"morning", "taught in the morning (%s)" % session.day_clock().phase().phase_id)
+	var shen_after: NpcRuntimeState = _first(session, &"snow.rain_yard", SHEN)
+	_check(session.player_runtime().world_location().zone_id == &"snow.rain_yard" and shen_after != null, "taught in the yard, as the lines say: both of them out there")
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	_check(not state.marks.has("小院又来过") and not _said(_recent(ui, 12), "剑练得怎么样"), "no 'next visit' greeting the morning she taught")
 	_check(catalog.skill(&"fonxansword").performs(&"rainpress", state) and not catalog.skill(&"fonxansword").performs(&"nightrain", state), "「听雨」 is theirs, 「夜雨」 is not")
 	session.record_journal()
 	_check(state.quests.has("%s/night/leave" % QUEST) and state.quests.has("%s#done" % QUEST), "the line is done, the 告辞 way")
@@ -248,7 +254,16 @@ func _test_stay(tree: SceneTree, session: WorldSessionController) -> void:
 	session.record_journal()
 	_check(state.quests.has("%s/night/stay" % QUEST) and state.quests.has("%s#done" % QUEST), "the line is done, the 留下 way")
 	_check(_line_with(desk_lines(catalog), "倒扣着"), "the desk afterwards: the cups turned down")
-	# Back in the yard another day: her greeting, and 何守拙's look.
+	# Out of the house into the yard, the same dawn: no greeting yet.
+	house.place_player(&"snow.rain_yard", MapPlaces.zone_spot(house, &"snow.rain_yard"))
+	await _settle(tree)
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	_check(not state.marks.has("小院又来过") and not _said(_recent(ui, 12), "你来了"), "stepping out of the house after the night: no 'next visit' greeting")
+	# Back in the yard another day, by the gate: her greeting, and 何守拙's look.
+	MapPlaces.enter(session, &"snow.eroad2", &"snow.eroad2.yard_return")
+	await _settle(tree)
 	var yard: WorldMapController = MapPlaces.enter(session, &"snow.rain_yard", &"snow.rain_yard.gate_arrival")
 	await _settle(tree)
 	for second: int in 3:
@@ -271,6 +286,9 @@ func _at_desk(tree: SceneTree, session: WorldSessionController) -> WorldMapContr
 	var house: WorldMapController = MapPlaces.enter(session, &"snow.rain_yard", &"snow.rain_yard.gate_arrival")
 	await _settle(tree)
 	house.place_player(&"snow.rain_house", MapPlaces.service_spot(house, DESK))
+	await _settle(tree)
+	# The NPCs see the player come into the house (on their heartbeat, as in play).
+	session.advance_npc_heartbeat(1.0)
 	await _settle(tree)
 	return house
 

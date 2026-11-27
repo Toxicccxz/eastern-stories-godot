@@ -1368,6 +1368,9 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 			_errors.append("%s.present: unknown NPC '%s'" % [origin, npc_id])
 	if not act.npc_in.is_empty() and (not by_npc or not _zones.has(act.npc_in)):
 		_errors.append("%s.npc_in: an NPC's own act, in a known zone ('%s')" % [origin, act.npc_in])
+	for zone_id: StringName in act.not_came_from:
+		if not _zones.has(zone_id):
+			_errors.append("%s.not_came_from: unknown zone '%s'" % [origin, zone_id])
 	if not act.present_in_npc.is_empty() and (not _npcs.has(act.present_in_npc) or not _zones.has(act.present_in_zone)):
 		_errors.append("%s.present_in: unknown NPC '%s' or zone '%s'" % [origin, act.present_in_npc, act.present_in_zone])
 	if act.draws() and not act.ask.is_empty():
