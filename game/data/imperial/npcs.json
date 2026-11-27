@@ -915,10 +915,10 @@
 							"emote": "像是松了一口气。", "shot": "near"
 						},
 						{
-							"say": "准。赐御前侍卫腰牌——冯总教头，人归你。", "do": {"act": "face", "toward": "native.npc.feng_ce"}, "shot": "near"
+							"say": "准。赐御前侍卫腰牌——冯总教头，人归你。", "do": [{"act": "face", "toward": "native.npc.feng_ce"}, {"who": "native.npc.fu_an", "act": "walk", "to": "player"}], "shot": "near"
 						},
 						{
-							"give": "native:imperial/guard_token", "do": [{"who": "native.npc.fu_an", "act": "walk", "to": "player"}, {"who": "native.npc.fu_an", "act": "hand", "item": "native:imperial/guard_token", "to": "player"}], "shot": {"look": "native.npc.fu_an"},
+							"give": "native:imperial/guard_token", "do": {"who": "native.npc.fu_an", "act": "hand", "item": "native:imperial/guard_token", "to": "player"},
 							"lines": [
 								{
 									"line": "一个太监捧着托盘走下台阶，托盘里一块铜腰牌，刻着「御前侍卫」四个字。\n"
@@ -929,7 +929,7 @@
 							"by": "native.npc.yu_zijian_court"
 						},
 						{
-							"emote": "笑了笑，没有再说话。", "shot": "near"
+							"emote": "笑了笑，没有再说话。", "shot": {"two": "player"}
 						},
 						{
 							"line": "太监喊：「退朝——」百官鱼贯而出。\n", "do": {"who": "player", "act": "rise"}, "shot": "wide"
@@ -1801,6 +1801,7 @@
 					"scene": true,
 					"mark": "从冷宫井上来",
 					"not_mark": "见了皇帝",
+					"when": {"not": {"mark": "见了福安"}},
 					"steps": [
 						{
 							"emote": "听见响动，抬起头，往后缩了一下，又坐直了。", "do": "startle", "shot": "near"
@@ -1818,7 +1819,7 @@
 							"say": "庾尚书说，皇叔勾结水烟阁谋反，朕的布告是他拟的。朕……信了一半。", "shot": {"two": "player"}
 						},
 						{
-							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。", "do": {"act": "walk", "to": "player"}, "shot": "near"
+							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。", "do": {"act": "walk", "to": "player", "stay": true}, "shot": "near"
 						}
 					]
 				},
@@ -1827,7 +1828,6 @@
 					"scene": true,
 					"mark": "见了福安",
 					"not_mark": "见了皇帝",
-					"when": {"not": {"mark": "从冷宫井上来"}},
 					"steps": [
 						{
 							"emote": "把手札合上，示意福安退到门外。", "shot": "near"
@@ -1842,7 +1842,7 @@
 							"say": "庾尚书说，皇叔勾结水烟阁谋反，朕的布告是他拟的。朕……信了一半。", "shot": {"two": "player"}
 						},
 						{
-							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。", "do": {"act": "walk", "to": "player"}, "shot": "near"
+							"say": "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。", "do": {"act": "walk", "to": "player", "stay": true}, "shot": "near"
 						}
 					]
 				},

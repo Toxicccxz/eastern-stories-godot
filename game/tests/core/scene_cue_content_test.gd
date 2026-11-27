@@ -75,9 +75,13 @@ func _check_scene(catalog: ContentCatalog, teller: NpcDefinition, calls: Array[N
 	for spawn: NpcSpawnDefinition in catalog.spawns():
 		if NpcDefinition.unnamed_id(spawn.npc_definition_id) == NpcDefinition.unnamed_id(teller.definition_id):
 			rooms[spawn.zone_id] = true
+	# How many of each kind stand in the teller's rooms (their spawn points).
+	var standing: Dictionary[StringName, int] = {}
 	for spawn: NpcSpawnDefinition in catalog.spawns():
 		if rooms.has(spawn.zone_id):
-			cast[NpcDefinition.unnamed_id(spawn.npc_definition_id)] = true
+			var kind: StringName = NpcDefinition.unnamed_id(spawn.npc_definition_id)
+			cast[kind] = true
+			standing[kind] = int(standing.get(kind, 0)) + spawn.spawn_point_ids().size()
 	var cued: int = 0
 	var shots: int = 0
 	var lines: int = 0
@@ -111,13 +115,28 @@ func _check_scene(catalog: ContentCatalog, teller: NpcDefinition, calls: Array[N
 		# Whoever this call sends off with no way out of its own (a plain `leave`: one swapped for a
 		# fighting self the same call summons) is gone as the call begins, before any of its pages
 		# shows: nothing can be shown of him, and a shot on him finds nobody.
+		# (One of several of a kind sent off leaves the others; one who comes or is summoned again in
+		# the same call is there. The first page of a call may show before the call's last steps are
+		# settled: it is checked like the rest, which errs on the strict side.)
 		var gone: Dictionary[StringName, bool] = {}
+		var left: Dictionary[StringName, int] = {}
+		var back: Dictionary[StringName, bool] = {}
 		var leaver: StringName = teller.definition_id
 		for step: ScriptedAct.Step in steps:
 			if step.kind in [ScriptedAct.Kind.BY, ScriptedAct.Kind.COMES]:
 				leaver = step.npc_id
+			if step.kind == ScriptedAct.Kind.COMES:
+				back[step.npc_id] = true
+			if step.kind == ScriptedAct.Kind.SUMMON:
+				for spawn: NpcSpawnDefinition in catalog.spawns():
+					if spawn.spawn_id == step.spawn_id:
+						back[NpcDefinition.unnamed_id(spawn.npc_definition_id)] = true
 			if step.kind == ScriptedAct.Kind.LEAVE and (step.cue == null or not step.cue.leaving()):
-				gone[leaver if step.npc_id.is_empty() else step.npc_id] = true
+				var id: StringName = leaver if step.npc_id.is_empty() else step.npc_id
+				left[id] = int(left.get(id, 0)) + 1
+		for id: StringName in left:
+			if not back.has(id) and left[id] >= maxi(1, int(standing.get(id, 0))):
+				gone[id] = true
 		for number: int in steps.size():
 			var step: ScriptedAct.Step = steps[number]
 			var where: String = "%s call %d step %d" % [at, index, number]
