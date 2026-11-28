@@ -26059,7 +26059,7 @@ msgid "一把细嘴的铜壶，壶身上敲满了星星似的花纹。装着清�
 msgstr "Uma chaleira de cobre de bico fino, o bojo martelado com desenhos de estrelas. Cheia de água, não derrama nem com todo o balanço da estrada.\n"
 
 msgid "巴掌大的一片铜，边角磨圆了，颜色发黑，拿在手里沉甸甸的。正面刻着几行字，笔画很深，是用剑尖一下一下刻出来的——字是中原字，刻字的人却不大会写，有几个笔画反了。背面一只展翅的鹰。铜是凉的，可刚从火坛底下取出来的时候，是温的。\n"
-msgstr "Uma lâmina de cobre do tamanho de uma palma, os cantos arredondados pelo uso, escura, pesada na mão. Na frente, várias linhas de letras de traços fundos, gravadas a golpes de ponta de espada: são letras das Planície Central, mas quem as gravou mal sabia escrever, e alguns traços saíram ao contrário. No verso, uma águia de asas abertas. O cobre é frio, mas quando foi tirado de baixo do altar de fogo estava morno.\n"
+msgstr "Uma lâmina de cobre do tamanho de uma palma, os cantos arredondados pelo uso, escura, pesada na mão. Na frente, várias linhas de letras de traços fundos, gravadas a golpes de ponta de espada: são letras da Planície Central, mas quem as gravou mal sabia escrever, e alguns traços saíram ao contrário. No verso, uma águia de asas abertas. O cobre é frio, mas quando foi tirado de baixo do altar de fogo estava morno."
 
 msgid "你把铜牒举到亮处，一行一行地认那些刻反了笔画的字：\n"
 msgstr "Você ergue a tabuleta contra a luz e vai lendo, linha por linha, as letras de traços invertidos:\n"
@@ -26083,7 +26083,7 @@ msgid "背面那只鹰的翅膀底下还有一行小字，刻得浅，几乎磨�
 msgstr "Sob a asa da águia, no verso, há ainda uma linha de letras pequenas, rasa, quase apagada: \"Eu vi.\"\n"
 
 msgid "一片狭长的贝叶，两指宽，一尺来长，叶头穿了一个小孔。叶面上用铁笔刻着一行一行天竺字，刻痕里抹了烟灰，是婆萝蜜多心经的第一页。叶边空白处，有人用中原字添了一行小字：「收不收，是山烟寺的事。」\n"
-msgstr "Uma folha de palmeira longa e estreita, de dois dedos de largura e um chi de comprimento, com um furinho na ponta. Na face, gravadas com um estilete de ferro, linhas e mais linhas de letras indianas, com cinza esfregada nos sulcos: é a primeira página do Sutra do Coração. Na margem em branco, alguém acrescentou em letras das Planície Central uma linha pequena: \"Aceitar ou não é assunto do Templo da Bruma.\"\n"
+msgstr "Uma folha de palmeira longa e estreita, de dois dedos de largura e um chi de comprimento, com um furinho na ponta. Na face, gravadas com um estilete de ferro, linhas e mais linhas de letras indianas, com cinza esfregada nos sulcos: é a primeira página do Sutra do Coração. Na margem em branco, alguém acrescentou em letras da Planície Central uma linha pequena: \"Aceitar ou não é assunto do Templo da Bruma.\""
 
 msgid "这是龙若法王托你带回山烟寺的经，不能随便丢。"
 msgstr "É o sutra que o Rei do Dharma Longruo pediu que você levasse de volta ao Templo da Bruma. Não se pode jogar fora assim."
@@ -26107,7 +26107,7 @@ msgid "盐"
 msgstr "Sal"
 
 msgid "码头那边晒的海盐。背上崖，送到玉螺湖村去换米，一包换一斗。"
-msgstr "Sal-gema do mar, seco lá no cais. Subimos o saco pela falésia até a Aldeia Búzio de Jade e trocamos por arroz: um saco por uma medida."
+msgstr "Sal marinho, seco lá no cais. Subimos o saco pela falésia até a Aldeia Búzio de Jade e trocamos por arroz: um saco por uma medida."
 
 msgid "下了崖就是。码头、市集，再往里头是庙。"
 msgstr "É só descer a falésia. O cais, o mercado e, mais para dentro, o templo."
@@ -26158,7 +26158,7 @@ msgid "胡商"
 msgstr "Mercador estrangeiro"
 
 msgid "一个缠着头巾的胡商，正指挥船工把箱子抬上岸。他一会儿用胡话骂，一会儿用中原话骂，骂完了自己先笑。\n"
-msgstr "Um mercador de turbante, dirigindo os barqueiros que sobem as caixas para terra. Ora xinga na língua dele, ora na língua das Planície Central, e quando termina é o primeiro a rir.\n"
+msgstr "Um mercador de turbante, dirigindo os barqueiros que sobem as caixas para terra. Ora xinga na língua dele, ora na língua da Planície Central, e quando termina é o primeiro a rir."
 
 msgid "胡商冲着船工嚷道：慢点！那一箱是琉璃！\n"
 msgstr "O mercador estrangeiro grita para os barqueiros: \"Devagar! Essa caixa é de vidro!\"\n"
@@ -26218,7 +26218,7 @@ msgid "琉璃"
 msgstr "Vidro"
 
 msgid "西边的火烧出来的，透亮。中原人喜欢，一串换一斗米。"
-msgstr "Cozido no fogo do oeste, transparente. O povo das Planície Central gosta: uma fieira por uma medida de arroz."
+msgstr "Cozido no fogo do oeste, transparente. O povo da Planície Central gosta: uma fieira por uma medida de arroz."
 
 msgid "好地方。没人问你从哪来，只问你卖什么。"
 msgstr "Bom lugar. Ninguém pergunta de onde você vem; só o que vende."
@@ -26308,7 +26308,7 @@ msgid "我没坐过船。船是别人的。"
 msgstr "Eu nunca subi num navio. Os navios são de outros."
 
 msgid "一个白胡子的老胡人，坐在街边的一块毡子上，面前一只铜碗。他讲的是中原话，讲得很慢，时不时冒出一个谁也听不懂的词，又自己把它换成中原话。\n"
-msgstr "Um velho estrangeiro de barba branca, sentado num feltro à beira da rua, com uma tigela de cobre à frente. Fala a língua das Planície Central, bem devagar, e de vez em quando escapa uma palavra que ninguém entende, e ele mesmo a troca por outra.\n"
+msgstr "Um velho estrangeiro de barba branca, sentado num feltro à beira da rua, com uma tigela de cobre à frente. Fala a língua da Planície Central, bem devagar, e de vez em quando escapa uma palavra que ninguém entende, e ele mesmo a troca por outra."
 
 msgid "说书的老胡人说道：……那座城有一百道门，门门都有兵守着。可兵是会老的。\n"
 msgstr "O velho contador de histórias estrangeiro diz: \"...Aquela cidade tinha cem portas, e em cada porta, soldados de guarda. Mas os soldados envelhecem.\"\n"
@@ -26329,7 +26329,7 @@ msgid "他们的祖上来得早，三百年前就来过一回，替你们这边�
 msgstr "Os antepassados deles chegaram antes, há trezentos anos, e lutaram por vocês contra os bárbaros do norte. Os de agora não têm casa para onde voltar."
 
 msgid "丝路走到头，就是这里。往东是你们中原，往西往南，是海。"
-msgstr "Aqui termina a Rota da Seda. A leste, as Planície Central, de vocês. A oeste e ao sul, o mar."
+msgstr "Aqui termina a Rota da Seda. A leste, a Planície Central, de vocês. A oeste e ao sul, o mar."
 
 msgid "海那边？我不知道。我是走路来的，走了一年。"
 msgstr "Além do mar? Não sei. Vim a pé. Um ano a pé."
@@ -26440,7 +26440,7 @@ msgid "铁盾会会首"
 msgstr "Líder do Escudo de Ferro"
 
 msgid "一个白头发的异族老人，眼睛是灰的，鼻梁高得像一道脊。他坐着的时候背很直，站起来却慢——左腿有旧伤，先迈左腿。一身中原的布袍，袍子底下露出一截铁片甲的边。他说中原话说得很慢，一个字一个字，省掉的字比说出来的多。\n"
-msgstr "Um velho estrangeiro de cabelos brancos, olhos cinzentos e um nariz alto como uma crista de montanha. Sentado, as costas ficam muito retas, mas ao se levantar é lento: a perna esquerda, ferida de longa data, é a primeira a dar o passo. Veste uma túnica de pano das Planície Central, e sob a túnica aparece a borda de uma couraça de lâminas de ferro. Fala a língua das Planície Central bem devagar, palavra por palavra, e cala mais palavras do que diz.\n"
+msgstr "Um velho estrangeiro de cabelos brancos, olhos cinzentos e um nariz alto como uma crista de montanha. Sentado, as costas ficam muito retas, mas ao se levantar é lento: a perna esquerda, ferida de longa data, é a primeira a dar o passo. Veste uma túnica de pano da Planície Central, e sob a túnica aparece a borda de uma couraça de lâminas de ferro. Fala a língua da Planície Central bem devagar, palavra por palavra, e cala mais palavras do que diz."
 
 msgid "安敦把铜灯的灯芯拨亮了一点。\n"
 msgstr "Andun avança um pouco o pavio da lamparina de cobre.\n"
@@ -29968,7 +29968,7 @@ msgid "一件大红色的女子衣衫，看起来有点鲜艳得过火。\n"
 msgstr "Uma blusa feminina vermelho-vivo, um pouco chamativa demais."
 
 msgid "一把暗红色、两丈多长的巨杵。\n"
-msgstr "Um pilão enorme, vermelho-escuro, com mais de seis metros de comprimento."
+msgstr "Um pilão enorme, vermelho-escuro, com mais de dois zhang de comprimento."
 
 msgid "简简单单的一套月白色长裙，上面并没有什么装饰，但总给人一种天外仙子的感觉。\n"
 msgstr "Uma saia longa branco-lua, simples, sem nenhum enfeite, mas que ainda assim lembra uma fada vinda do céu."
@@ -30037,7 +30037,7 @@ msgid "万晓生道：这位$RESPECT，自个儿挑一件称手的兵器吧。\n
 msgstr "Wan Xiaosheng diz: \"Escolha por conta própria uma arma que lhe assente bem na mão, $RESPECT.\""
 
 msgid "万晓生冷冷地说：客官请付现钞。\n"
-msgstr "Wan Xiaosheng diz com frieza: \"Só dinheiro vivo, por favor.\""
+msgstr "Wan Xiaosheng diz com frieza: \"{jogador:Senhor|Senhora}, só dinheiro vivo, por favor.\""
 
 msgid "万晓生忽然间似乎想起了远在美国的朋友和当年同闯江湖的情形。\n"
 msgstr "De repente, Wan Xiaosheng parece se lembrar de um amigo que vive longe, na América, e dos tempos em que percorriam o jianghu juntos."
@@ -30046,7 +30046,7 @@ msgid "振远镖局总镖头"
 msgstr "Chefe das Escoltas do Longo Caminho"
 
 msgid "陈天星从十五岁出道至今已经有近五十个年头了。二十五岁时自己\n创建了振远镖局，苦心经营三十八载，使之而今成为京师第一大镖\n局.而他凭着春风快意刀法和天邪神掌被江湖同道称为「刀掌双绝」\n。绮云镇的陈剑秋是其侄子，如今也赫赫有名。\n"
-msgstr "Chen Tianxing saiu pelo mundo aos quinze anos e já faz quase cinquenta. Aos vinte e cinco, fundou ele mesmo as Escoltas do Longo Caminho e, depois de trinta e oito anos de esforço, fez delas a maior agência de escolta da Capital. Com a técnica do Sabre alegre da brisa primaveral e a Palma indômita, é chamado pelos colegas do jianghu de \"Mestre Duplo do Sabre e da Palma\". Chen Jianqiu, de Tece-Nuvens, é seu sobrinho e hoje também é muito famoso."
+msgstr "Chen Tianxing saiu pelo mundo aos quinze anos e já faz quase cinquenta. Aos vinte e cinco, fundou ele mesmo as Escoltas do Longo Caminho e, depois de trinta e oito anos de esforço, fez delas a maior agência de escolta da Capital. Com a técnica do Sabre alegre da brisa primaveral e a Palma rebelde, é chamado pelos colegas do jianghu de \"Mestre Duplo do Sabre e da Palma\". Chen Jianqiu, de Tece-Nuvens, é seu sobrinho e hoje também é muito famoso."
 
 msgid "陈总镖头"
 msgstr "Chefe Chen"
@@ -30283,7 +30283,7 @@ msgid "这封信，我收着。用得着的时候，来找我。"
 msgstr "Esta carta eu guardo. Quando precisar, venha me procurar."
 
 msgid "潘执法使那里锁着一张？……那这一张存根，你留着吧。"
-msgstr "O Executor Pan tem uma trancada a sete chaves? ... Então fique você com este talão."
+msgstr "O Executor Pan tem uma trancada a sete chaves? ... Então fique você com este canhoto."
 
 msgid "我手里有一张了。"
 msgstr "Eu já tenho uma em mãos."
@@ -30334,7 +30334,7 @@ msgid "这点钱，还不够买酒喝。"
 msgstr "Esse pouco dinheiro não dá nem para comprar vinho."
 
 msgid "谢谢这位客官了。"
-msgstr "Muito obrigado."
+msgstr "Muito obrigado, {jogador:senhor|senhora}."
 
 msgid "钱掌柜长得如一个大面团般，白白胖胖的，虽说早已步入知天命\n的年龄，可保养得很好。一双小眼睛如俩枣核嵌在脸上，不时滴\n溜溜地乱转。他开的「太白酒楼」可是京城最大的。\n"
 msgstr "O taberneiro Qian é redondo como uma grande bola de massa, branco e gorducho, e, embora já tenha passado havia muito da idade de conhecer o destino, se conservou muito bem. Seus olhinhos, como dois caroços de tâmara metidos no rosto, giram sem parar. A Taverna Taibai que ele abriu é a maior da capital."
@@ -30724,7 +30724,7 @@ msgid "你来到京师的西二门，西二门虽不如京师的其他几个城�
 msgstr "Você chega ao Segundo Portão Oeste da Capital. O Segundo Portão Oeste não é tão alto quanto os outros portões da Capital, mas a muralha alta ainda assim não é coisa que gente comum consiga escalar, e nela há alguns avisos colados. A oeste fica fora da cidade, e dizem que, seguindo sempre para o oeste, chega-se a um reino dos imortais. A leste ficam as ruas da Capital."
 
 msgid "你来到京师的大街上。西边是京师的西二门，西去的人不时经\n过这里。南边是京师的监狱，关押着一些重要的犯人。站在这里可\n以清楚地听到狱卒拷打犯人的皮鞭声和犯人的惨叫声。\n"
-msgstr "Você chega a uma rua da Capital. A oeste fica o Segundo Portão Oeste da Capital. Ao sul fica a prisão da Capital, onde estão presos alguns detentos importantes. Parado aqui, ouve-se com clareza o estalo do chicote dos carcereiros e os gritos dos presos."
+msgstr "Você chega a uma rua da Capital. A oeste fica o Segundo Portão Oeste da Capital, por onde passa de vez em quando quem vai para o oeste. Ao sul fica a prisão da Capital, onde estão presos alguns detentos importantes. Parado aqui, ouve-se com clareza o estalo do chicote dos carcereiros e os gritos dos presos."
 
 msgid "这里是京师的大街，青石铺道，街面很干净。东边是京师的热\n闹场所天桥，来到京师可不能不去哦。南边是京师的刑场，逢上处\n决一些重要的犯人的时候，那里肯定是人山人海，不过平时人就少\n得多了。\n"
 msgstr "Esta é uma rua da Capital, calçada de pedra azul e bem limpa. A leste fica a Tianqiao, o lugar mais animado da Capital, que quem vem à Capital não pode deixar de visitar. Ao sul fica o campo de execuções da Capital; quando algum detento importante é executado, lá certamente fica lotado, mas, fora disso, há muito menos gente."
