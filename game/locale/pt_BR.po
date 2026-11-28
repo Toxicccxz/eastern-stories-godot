@@ -13483,7 +13483,7 @@ msgid "{npc}没有收下。"
 msgstr "{npc}{:o} não aceita."
 
 msgid "{item}对你而言太重了，掉在你的脚边。"
-msgstr "Você não consegue carregar {item}{:0} e deixa tudo cair a seus pés."
+msgstr "Você não consegue carregar {item}{:0} e deixa cair a seus pés."
 
 msgid "这里没有这个人。"
 msgstr "Não há ninguém assim aqui."
@@ -13648,7 +13648,7 @@ msgid "老娘"
 msgstr "esta velha"
 
 msgid "大和尚我"
-msgstr "este monge"
+msgstr "este grande monge"
 
 msgid "老和尚我"
 msgstr "este velho monge"
@@ -14125,7 +14125,7 @@ msgid "%s神色间似乎对你不是十分信任，也许是想起你从前背�
 msgstr "%s não parece confiar muito em você. Talvez se lembre de que você traiu sua escola no passado..."
 
 msgid "%s说道：嗯 .... 师父能教你的都教了，其他的你自己练吧。"
-msgstr "%s diz: \"Hum... Já ensinei tudo o que um Shifu pode ensinar. O resto você mesmo vai ter que praticar.\""
+msgstr "%s diz: \"Hum... Já ensinei tudo o que um Shifu pode ensinar. O resto {jogador:você mesmo|você mesma} vai ter que praticar.\""
 
 msgid "%s说道：虽然你是我门下的弟子，可是并非我的嫡传弟子 ...."
 msgstr "%s diz: \"Embora você seja {jogador:discípulo|discípula} da minha escola, não é {jogador:meu discípulo direto|minha discípula direta}...\""
@@ -14419,7 +14419,7 @@ msgid "差事"
 msgstr "Encargos"
 
 msgid "the 历练 is the quest's"
-msgstr "os Feitos são os da missão"
+msgstr "as Façanhas são as da missão"
 
 msgid "{what} ≥ {required}（你 {have}）"
 msgstr "{what} ≥ {required} (você tem {have})"
@@ -14455,7 +14455,7 @@ msgid "须通过考验"
 msgstr "É preciso passar numa prova"
 
 msgid "拜师时另有要求"
-msgstr "Ao pedir para ser discípulo, algo mais será exigido"
+msgstr "Ao pedir para ser {jogador:discípulo|discípula}, algo mais será exigido"
 
 msgid "须另有机缘"
 msgstr "É preciso uma ocasião propícia"
@@ -14647,7 +14647,7 @@ msgid "你的法力不够。"
 msgstr "Você não tem Poder arcano suficiente."
 
 msgid "$N微一凝神，闭著眼睛念了几句咒语，施展「阴阳眼」法术。"
-msgstr "$N{:o} concentra a mente por um instante, fecha os olhos, murmura algumas palavras e lança a Visão espectral."
+msgstr "$N{:o} concentra a mente por um instante, fecha os olhos, murmura algumas palavras e lança a \"Visão espectral\"."
 
 msgid "你的阴阳眼法术失效了。"
 msgstr "Sua Visão espectral se dissipa."
@@ -14713,7 +14713,7 @@ msgid "你要移动到哪一个人身边？"
 msgstr "Ao lado de quem você quer ir?"
 
 msgid "你无法感受到这个人的灵力 ...."
-msgstr "Você não consegue sentir o Energia espiritual desta pessoa..."
+msgstr "Você não consegue sentir a Energia espiritual desta pessoa..."
 
 msgid "中止施法。"
 msgstr "Você interrompe o feitiço."
@@ -14728,10 +14728,10 @@ msgid "你的灵力不够！"
 msgstr "Você não tem Energia espiritual suficiente!"
 
 msgid "游识神通只能对自己使用！"
-msgstr "O Sentido errante só pode ser usado em si mesmo!"
+msgstr "O Sentido errante só pode ser usado {jogador:em si mesmo|em si mesma}!"
 
 msgid "你感受到对方的灵力，但是不够强烈。"
-msgstr "Você sente o Energia espiritual da pessoa, mas não com força suficiente."
+msgstr "Você sente a Energia espiritual da pessoa, mas não com força suficiente."
 
 msgid "你因为不够熟练而失败了。"
 msgstr "Você falha por falta de prática."
@@ -14962,7 +14962,7 @@ msgid "$N盘膝而座，开始运用空识神通静思入定 ..."
 msgstr "$N{:o} se senta de pernas cruzadas e começa a usar o Sentido do vazio, mergulhando na quietude..."
 
 msgid "空识神通只能对自己使用。"
-msgstr "O Sentido do vazio só pode ser usado em si mesmo."
+msgstr "O Sentido do vazio só pode ser usado {jogador:em si mesmo|em si mesma}."
 
 msgid "你觉得脑中一片混乱，你的潜能降低了！"
 msgstr "Sua mente cai em confusão total: seu Potencial diminuiu!"
