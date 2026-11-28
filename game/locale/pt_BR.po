@@ -17068,7 +17068,7 @@ msgid "$N身法稍顿，左手一扬使出「柳亭簪花」往$n的$l点去"
 msgstr "$N{:o} detém um instante o passo, ergue a mão esquerda com \"Flor de grampo no pavilhão do salgueiro\" e aponta rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "只见$N纤腰一摆，陡然滑出数尺，右手顺著来势一招「桃坟扑蝶」往$n的$l点去"
-msgstr "$N{:o} balança a cintura esbelta e desliza de repente vários passos; seguindo o impulso, com \"Borboleta sobre a tumba de pessegueiro\", aponta com a direita rumo a $l{:o} {n:de você|de $n{:o}}"
+msgstr "$N{:o} balança a cintura esbelta e desliza de repente vários chi; seguindo o impulso, com \"Borboleta sobre a tumba de pessegueiro\", aponta com a direita rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "晚月庄的鞭法，从「寒风起兮」「漫天飞雪」到「狂风骤雪」「风雪交加」，鞭影如满天飞雪，虚虚实实地袭人。须有足够的内力才能练。"
 msgstr "A arte do chicote do Solar da Lua Tardia, de \"O vento frio se levanta\" e \"Neve cobre o céu\" a \"Vendaval e nevasca\" e \"Ventisca\": as sombras do chicote caem como neve por todo o céu, entre o falso e o verdadeiro. É preciso Força interior suficiente para praticá-la."
@@ -17095,7 +17095,7 @@ msgid "$N力贯$w，一招「雪花翩翩」点点鞭影飘浮不定地点向$n�
 msgstr "$N{:o} carrega força em $w{:o} e, com \"Flocos que dançam\", pontos de sombra de chicote caem incertos sobre $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N手中$w一抖，一招「积雪三尺」以一个怪异的角度往$n下盘卷去"
-msgstr "$N{:o} sacode $w{:o} e, com \"Neve acumulada\", ele se enrosca em um ângulo estranho contra {n:suas pernas|as pernas de $n{:o}}"
+msgstr "$N{:o} sacode $w{:o} e, com \"Neve acumulada de três chi\", ele se enrosca em um ângulo estranho contra {n:suas pernas|as pernas de $n{:o}}"
 
 msgid "$N手中一紧，使招「狂风骤雪」，手里$w一鞭接著一鞭不停地抽向$n的$l"
 msgstr "$N{:o} aperta a mão e, com \"Vendaval e nevasca\", açoita com $w{:o} rumo a $l{:o} {n:de você|de $n{:o}}, golpe após golpe sem pausa"
@@ -17107,7 +17107,7 @@ msgid "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身"
 msgstr "$N{:o} usa \"Ventisca\", e $w{:o} dança em uma cortina de sombras de chicote que varre todo o corpo de $n{:o}"
 
 msgid "三十年前以一柄拂尘横扫武林的前辈异人残心师太所创的内功心法，纯走阴柔之路，发出的内劲寒冷无比；传说她曾在沙牢山一掌冻住七只雪狼，堪称当今寒冰掌一路中最凌厉的奇功。交手时阴寒之气常叫对方打个寒噤，运起「意寒睨」，更能以冰冷如刀的眼神伤敌。"
-msgstr "Um neigong criado há trinta anos pela Abadessa Canxin, veterana extraordinária que varreu o wulin com um espanador de crina. Segue apenas a via yin e suave, e a força interior que emite é de um frio extremo; contam que no monte Shalao ela congelou com uma só palma sete lobos da neve, e talvez seja a mais implacável das artes de palma gelada de hoje. Em combate, seu frio yin costuma fazer o rival estremecer, e, ao circular o \"Olhar da intenção gelada\", é possível ferir o inimigo com um olhar frio como uma lâmina."
+msgstr "Um neigong criado há trinta anos pela Abadessa Canxin, veterana extraordinária que varreu o wulin com um espanador de crina. Segue apenas a via yin e suave, e a força interior que emite é de um frio extremo; contam que no monte Shalao ela congelou com uma só palma sete lobos da neve, e talvez seja a mais implacável das artes de palma gelada de hoje. Em combate, seu frio yin costuma fazer o rival estremecer, e, ao circular o \"Olhar gelado\", é possível ferir o inimigo com um olhar frio como uma lâmina."
 
 msgid "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。"
 msgstr "{N:Seu golpe traz|O golpe de $N{:o} traz} um vento de frio yin tão intenso que $n{:o} não consegue evitar um arrepio."
@@ -17116,34 +17116,34 @@ msgid "意寒功只能用学的，或是从运用中增加熟练度。"
 msgstr "A Arte da intenção gelada só se aprende ou se melhora pelo uso."
 
 msgid "天山一脉的独门内功，只能向师父学，或在运功中慢慢精熟；雪影剑法必须以它为根基。"
-msgstr "O neigong exclusivo da linhagem de Tianshan; só se aprende com um Shifu ou vai se aperfeiçoando aos poucos ao ser posto em circulação; a Espada da sombra de neve deve se apoiar nele."
+msgstr "O neigong exclusivo da linhagem de Tianshan; só se aprende com um Shifu ou vai se aperfeiçoando aos poucos ao ser posto em circulação; a Espada da Sombra de Neve deve se apoiar nele."
 
 msgid "天山雪影心法只能用学的或是从运用中增加熟练度。"
 msgstr "O Método interno da Sombra de Neve de Tianshan só se aprende ou se melhora pelo uso."
 
 msgid "天山雪影剑，招名「回光幻电」「风霜碎影」「残阳照雪」「冰谷初虹」「长空雷隐」「断石狼烟」，剑光疾如闪电，身形飘忽如雪影。必须配合天山魔教的独门雪影心法才能练，内力不足也练不成。"
-msgstr "A Espada da sombra de neve de Tianshan, com movimentos chamados \"Relâmpago fantasma\", \"A geada quebra sombras\", \"Sol poente sobre a neve\", \"Arco-íris do vale gelado\", \"Trovão no céu aberto\" e \"Fumaça de sinal na pedra partida\": a luz da espada é rápida como um relâmpago e o corpo flutua como uma sombra sobre a neve. Só pode ser praticada junto com o Método interno da Sombra de Neve, exclusivo da Ordem Demoníaca de Tianshan, e não com pouca Força interior."
+msgstr "A Espada da Sombra de Neve de Tianshan, com movimentos chamados \"Relâmpago fantasma\", \"A geada quebra sombras\", \"Sol poente sobre a neve\", \"Arco-íris do vale gelado\", \"Trovão no céu aberto\" e \"Fumaça de sinal na pedra partida\": a luz da espada é rápida como um relâmpago e o corpo flutua como uma sombra sobre a neve. Só pode ser praticada junto com o Método interno da Sombra de Neve, exclusivo da Ordem Demoníaca de Tianshan, e não com pouca Força interior."
 
 msgid "你按著所学练了一遍雪影剑法。"
-msgstr "Você repassa a Espada da sombra de neve como a aprendeu."
+msgstr "Você repassa a Espada da Sombra de Neve como a aprendeu."
 
 msgid "你的内力或气不够，没有办法练习雪影剑法。"
-msgstr "Você não tem Força interior ou Qi suficiente para praticar a Espada da sombra de neve."
+msgstr "Você não tem Força interior ou Qi suficiente para praticar a Espada da Sombra de Neve."
 
 msgid "你的内力不够，没有办法练雪影剑法。"
-msgstr "Você não tem Força interior suficiente para praticar a Espada da sombra de neve."
+msgstr "Você não tem Força interior suficiente para praticar a Espada da Sombra de Neve."
 
 msgid "雪影剑法必须配合天山魔教的独门雪影心法才能练。"
-msgstr "A Espada da sombra de neve só pode ser praticada junto com o Método interno da Sombra de Neve, exclusivo da Ordem Demoníaca de Tianshan."
+msgstr "A Espada da Sombra de Neve só pode ser praticada junto com o Método interno da Sombra de Neve, exclusivo da Ordem Demoníaca de Tianshan."
 
 msgid "$N使一招「回光幻电」，手中$w幻一条疾光刺向$n的$l"
 msgstr "$N{:o} usa \"Relâmpago fantasma\", e $w{:o} se torna um raio de luz veloz que se lança rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N使出天山雪影剑中的「风霜碎影」，$w连挥剑光霍霍斩向$n的$l"
-msgstr "$N{:o} usa \"A geada quebra sombras\", da Espada da sombra de neve de Tianshan, e $w{:o} cintila uma e outra vez ao cortar rumo a $l{:o} {n:de você|de $n{:o}}"
+msgstr "$N{:o} usa \"A geada quebra sombras\", da Espada da Sombra de Neve de Tianshan, e $w{:o} cintila uma e outra vez ao cortar rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N一招「残阳照雪」，纵身飘开数尺，手中$w斩向$n的$l"
-msgstr "$N{:o} usa \"Sol poente sobre a neve\": se desloca flutuando vários passos e $w{:o} corta rumo a $l{:o} {n:de você|de $n{:o}}"
+msgstr "$N{:o} usa \"Sol poente sobre a neve\": se desloca flutuando vários chi e $w{:o} corta rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N手中$w中宫直进，一式「冰谷初虹」对准$n的$l刺出一剑"
 msgstr "$N{:o} lança $w{:o} reto pelo centro com \"Arco-íris do vale gelado\", em uma estocada rumo a $l{:o} {n:de você|de $n{:o}}"
@@ -17179,7 +17179,7 @@ msgid "$n身形陡然拔高，使$N的攻势尽数落空。"
 msgstr "$n{:o} se ergue de repente, e {N:seu ataque não encontra|o ataque de $N{:o} não encontra} mais que ar."
 
 msgid "$n右足一点，身影向左滑开数尺，避了开去。"
-msgstr "$n{:o} se impulsiona com o pé direito e desliza vários passos para a esquerda, fora do caminho."
+msgstr "$n{:o} se impulsiona com o pé direito e desliza vários chi para a esquerda, fora do caminho."
 
 msgid "步玄派的本门内功，只能向师父学，或在运功中慢慢精熟；步玄七诀、小步玄剑都要以它为根基。"
 msgstr "O neigong da própria Escola do Passo Místico; só se aprende com um Shifu ou vai se aperfeiçoando aos poucos ao ser posto em circulação. Os Sete segredos do Passo Místico e a Espada menor do Passo Místico se apoiam nele."
@@ -17278,13 +17278,13 @@ msgid "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l"
 msgstr "$N{:o} muda de passo e fica de lado com \"O que alivia a pena?\"; o fio faísca ao cortar rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "招名取自《秋风辞》，从「秋风起兮白云飞」到「箫鼓鸣兮发棹歌」，身影一晃，便已避在数尺之外。练这门步法须有相当的内力；官府的侍卫、衙役常与短歌刀法一同修习。"
-msgstr "Os nomes dos movimentos vêm de \"O canto do vento de outono\", de \"Vento de outono, nuvens que voam\" a \"Flautas e tambores, canção de remos\": um balanço, e já se está a vários passos de distância. Para praticar estes passos é preciso bastante Força interior; os guardas e os oficiais do tribunal costumam praticá-los junto com o Sabre da canção breve."
+msgstr "Os nomes dos movimentos vêm de \"O canto do vento de outono\", de \"Vento de outono, nuvens que voam\" a \"Flautas e tambores, canção de remos\": um balanço, e já se está a vários chi de distância. Para praticar estes passos é preciso bastante Força interior; os guardas e os oficiais do tribunal costumam praticá-los junto com o Sabre da canção breve."
 
 msgid "$n一招「秋风起兮白云飞」轻轻巧巧地避了开去。"
 msgstr "$n{:o} usa \"Vento de outono, nuvens que voam\" e se afasta com desenvoltura."
 
 msgid "只见$n身影一晃，一式「草木黄落兮雁南归」早已避在七尺之外。"
-msgstr "$n{:o} oscila e, com \"Folhas caídas, gansos ao sul\", já está a mais de dois metros de distância."
+msgstr "$n{:o} oscila e, com \"Folhas caídas, gansos ao sul\", já está a sete chi de distância."
 
 msgid "$n使出「兰有秀兮菊有芳」，轻轻松松地闪过。"
 msgstr "$n{:o} usa \"Orquídea em flor, crisântemo perfumado\" e se esquiva sem esforço."
@@ -17305,7 +17305,7 @@ msgid "但是$n身形飘忽，轻轻一纵，一招「欢乐极兮哀情多」�
 msgstr "Mas $n{:o} oscila, salta com leveza e, com \"Tanta alegria, tanta tristeza\", evita o golpe."
 
 msgid "$n身形往上一拔，一招「少壮几时兮奈老何」，一个转折落在数尺之外。"
-msgstr "$n{:o} se ergue de repente com \"Quanto dura a juventude?\" e, depois de um giro, cai vários passos além."
+msgstr "$n{:o} se ergue de repente com \"Quanto dura a juventude?\" e, depois de um giro, cai vários chi além."
 
 msgid "密宗一路的掌法，招名「苦海端无涯」「地狱似有门」「天堂却无路」「万念皆是空」，虚实相生；招架时能以双掌夹住来刃，或以「粘」字诀引偏兵器。须空手练。"
 msgstr "Um estilo de palma da linha esotérica, com movimentos chamados \"O mar de dores não tem margem\", \"Parece haver porta para o inferno\", \"Ao céu não há caminho\" e \"Todo pensamento é vazio\", em que o falso e o verdadeiro se geram um ao outro. Ao defender, pode prender a lâmina entre as duas palmas ou desviar a arma com a técnica do \"grudar\". Só se pratica de mãos nuas."
@@ -24181,7 +24181,7 @@ msgid "你的文学素养不够无法提升小无相功的造诣。"
 msgstr "Sua formação nas letras não basta para avançar na Arte menor sem forma."
 
 msgid "大内侍卫营的刀法，七式「值门」「出巡」「提灯」「锁宫」「拿下」「护驾」「天明」，一招一式都在宫门、长街、殿上。侍卫营总教头冯策的刀谱末页写着一句：「刀在鞘里的时候最多。」"
-msgstr "O sabre do Quartel da guarda do palácio, em sete formas: \"Vigia do portão\", \"Ronda\", \"Erguer a lanterna\", \"Trancar o palácio\", \"Voz de prisão\", \"Proteger o trono\" e \"Alvorecer\"; cada movimento acontece num portão do palácio, numa rua longa, num salão. Na última página do manual de sabre de Feng Ce, instrutor-chefe do quartel, está escrita uma frase: \"O sabre passa a maior parte do tempo na bainha.\""
+msgstr "O sabre do Quartel da guarda do palácio, em sete formas: \"Vigia do portão\", \"Ronda\", \"Erguer a lanterna\", \"Trancar o palácio\", \"Prender\", \"Proteger o trono\" e \"Alvorecer\"; cada movimento acontece num portão do palácio, numa rua longa, num salão. Na última página do manual de sabre de Feng Ce, instrutor-chefe do quartel, está escrita uma frase: \"O sabre passa a maior parte do tempo na bainha.\""
 
 msgid "$N横刀当胸，一招「值门」$w刀背一磕，顺势削向$n的$l"
 msgstr "$N{:o} cruza a lâmina diante do peito e, com \"Vigia do portão\", bate com o dorso de $w{:o}, cortando em seguida {n:contra você|contra $n{:o}}, mirando $l{:o}"
@@ -24256,7 +24256,7 @@ msgid "$N踏前一步，一招「盾撞」整面盾撞向$n的$l"
 msgstr "$N{:o} dá um passo à frente e, com \"Golpe de escudo\", lança o escudo inteiro {n:contra você|contra $n{:o}}, mirando $l{:o}"
 
 msgid "$N手腕一沉，一招「短锋」$w只探出半尺，点向$n的$l"
-msgstr "$N{:o} baixa o pulso e, com \"Ponta curta\", $w{:o} se estende apenas meio palmo e espeta {n:você|$n{:o}} em $l{:o}"
+msgstr "$N{:o} baixa o pulso e, com \"Ponta curta\", $w{:o} se estende apenas meio chi e espeta {n:você|$n{:o}} em $l{:o}"
 
 msgid "$N盾面一收，一招「回盾」盾沿磕开来势，$w顺势划向$n的$l"
 msgstr "$N{:o} recolhe o escudo e, com \"Escudo de volta\", a borda desvia o golpe e $w{:o} segue o impulso e corta {n:contra você|contra $n{:o}}, mirando $l{:o}"
@@ -24268,7 +24268,7 @@ msgid "$N矮身藏在盾后，一招「盾下一剑」$w从盾底下猛地刺向
 msgstr "$N{:o} se agacha atrás do escudo e, com \"Espada sob o escudo\", $w{:o} sai de repente por baixo e se crava {n:em você|em $n{:o}}, mirando $l{:o}"
 
 msgid "番坊倭人浪人武馆鬼笠馆的刀法，刀窄而弯，拔刀、横扫、下劈、纳刀、退步五式之外，另有一式「一刀」。门规与中原相反：一击之内定生死。铁盾会的弟子，鬼笠馆不教。"
-msgstr "O sabre do Salão do Chapéu Fantasma, escola dos ronins japoneses do Bairro Estrangeiro. A lâmina é estreita e curva; além das cinco formas, Sacar, Varredura, Corte descendente, Guardar o sabre e Passo atrás, há mais uma: \"Um só golpe\". A regra é oposta à das Planícies Centrais: vida ou morte num único golpe. O Salão do Chapéu Fantasma não ensina os discípulos da Irmandade do Escudo de Ferro."
+msgstr "O sabre do Salão do Chapéu Fantasma, escola dos ronins japoneses do Bairro Estrangeiro. A lâmina é estreita e curva; além das cinco formas, Sacar, Varredura, Corte descendente, Guardar o sabre e Passo atrás, há mais uma: \"Um só golpe\". A regra é oposta à da Planície Central: vida ou morte num único golpe. O Salão do Chapéu Fantasma não ensina os discípulos da Irmandade do Escudo de Ferro."
 
 msgid "你出刀，收刀，把鬼笠刀法练了一遍——一刀，只出一次。"
 msgstr "Você saca, embainha e passa uma vez pelo Sabre do Chapéu Fantasma: um só golpe, dado uma única vez."
@@ -24550,7 +24550,7 @@ msgid "爹爹的剑法，我只学了个皮毛。封山剑不抢先，先用引�
 msgstr "Da esgrima de meu pai, só aprendi o básico. A espada da Montanha Vazia não toma a iniciativa: primeiro tenta com a mão-isca para que o outro ataque, e se a estocada falha ou eu a desvio, esse instante é a brecha, e me sobra uma estocada."
 
 msgid "多出来的那一剑最要紧：可以追着刺，也可以用「封」字诀把他封住，一封住，他好几手都出不来。"
-msgstr "A estocada que sobra é a mais importante: posso persegui-lo com ela, ou usar o segredo do 'Selar' para selá-lo; selado, ele não consegue fazer vários turnos."
+msgstr "A estocada que sobra é a mais importante: posso persegui-lo com ela, ou usar o segredo do 'Selo' para selá-lo; selado, ele não consegue fazer vários turnos."
 
 msgid "可是贪不得。多出来的那一剑要是只顾着攻，对方的下一手就没人守了。爹爹说，封山的剑是等出来的。"
 msgstr "Mas não se deve ser ganancioso. Se você gasta essa estocada extra só atacando, ninguém guarda contra o próximo turno do adversário. Meu pai diz que a espada da Montanha Vazia se ganha na espera."
@@ -24562,7 +24562,7 @@ msgid "那……只拆三回合，不伤人。"
 msgstr "Então... só três rodadas, sem ferir ninguém."
 
 msgid "方才你那一下刺空了，我手里就多出一剑，那记「封」就是这么来的。封山的剑，是等人露空子。"
-msgstr "Agora há pouco você errou a estocada, e me sobrou uma estocada; foi assim que saiu aquele 'Selar'. A espada da Montanha Vazia espera que o outro deixe uma brecha."
+msgstr "Agora há pouco você errou a estocada, e me sobrou uma estocada; foi assim que saiu aquele 'Selo'. A espada da Montanha Vazia espera que o outro deixe uma brecha."
 
 msgid "三回合你一招都没打空，我就一直没等到空子，只好跟你慢慢磨。封山的剑是等出来的，等不到，就只能这样。"
 msgstr "Em três rodadas você não errou nenhum golpe, e eu nunca encontrei a brecha, só pude ir devagar com você. A espada da Montanha Vazia se ganha na espera; se a espera não vem, é só isso que resta."
@@ -24595,7 +24595,7 @@ msgid "柳淳风是个读书人，剑法嘛……文绉绉的，依老夫看没�
 msgstr "Liu Chunfeng é um homem das letras; a espada dele, bem... é muito literata, e a meu ver este velho não encontra nela nenhuma aura assassina."
 
 msgid "绘心师妹的剑最吓人的是那记「封」字诀，被封住了好几手都出不来。不过她说剑要等——等什么，我也说不上来。"
-msgstr "O mais assustador na espada da irmã mais nova Huixin é aquele segredo do 'Selar': quem é selado fica vários turnos sem conseguir agir. Mas ela diz que a espada tem que esperar... esperar o quê, eu não sei dizer."
+msgstr "O mais assustador na espada da irmã mais nova Huixin é aquele segredo do 'Selo': quem é selado fica vários turnos sem conseguir agir. Mas ela diz que a espada tem que esperar... esperar o quê, eu não sei dizer."
 
 msgid "伤口"
 msgstr "Ferimentos"
