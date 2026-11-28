@@ -12187,7 +12187,7 @@ msgid "顺着货道往北，进黑砖山门，看看这座道观。戴着黑冠�
 msgstr "Seguir para o norte pelo caminho da carga, passar pelo Portal de Tijolo Negro e dar uma olhada no templo. De gorro negro, os taoístas te tomam por um deles."
 
 msgid "黑砖的前院：黑幡垂地，香炉里烧的不是香。前殿的门关着，东边的矮房是货栈。"
-msgstr "O pátio da frente, de tijolo negro: estandartes negros arrastam no chão, e o que queima no incensário não é incenso. A porta do salão da frente está fechada; a casa baixa a leste é o depósito de carga."
+msgstr "O pátio da frente, de tijolo negro: estandartes negros arrastam no chão, e o que queima no incensário não é incenso. A porta do salão da frente está fechada; a casa baixa a leste é o armazém."
 
 msgid "前殿的门关着。推开殿门进前殿，找到霍铮。"
 msgstr "A porta do salão da frente está fechada. Empurrar a porta, entrar no salão da frente e encontrar Huo Zheng."
@@ -12433,7 +12433,7 @@ msgid "顺着军道往北，出了山就是关北。"
 msgstr "Seguir a estrada militar para o norte; saindo das montanhas, é o Norte do Passo."
 
 msgid "黄土变成了草。路边一方青石界碑：「关北封国界」。往北，一座土黄的城墙横在草地尽头——槐阳城。"
-msgstr "A terra amarela vira capim. À beira da estrada, um marco de fronteira de pedra azulada: \"Limite do feudo\". Ao norte, uma muralha de terra amarela atravessa o fim da pradaria: Huaiyang."
+msgstr "A terra amarela vira capim. À beira da estrada, um marco de fronteira de pedra azulada: \"Limite do feudo do Norte do Passo\". Ao norte, uma muralha de terra amarela atravessa o fim da pradaria: Huaiyang."
 
 msgid "进槐阳城。城门旁有一张王府的告示，看看。"
 msgstr "Entrar em Huaiyang. Junto ao portão da cidade há um aviso da casa do príncipe: ler o aviso."
@@ -22795,7 +22795,7 @@ msgid "这里是雪亭镇镇前广场的空地，地上整齐地铺著大石板�
 msgstr "Esta é a área aberta da praça na entrada do Pavilhão da Neve, calçada com grandes lajes de pedra bem alinhadas. No centro da praça há uma armação de madeira que, depois de muitos anos de vento, sol e chuva, parece muito gasta. Ao redor, os edifícios se amontoam. A oeste você vê uma estalagem que parece ter muito movimento."
 
 msgid "你现在正走在雪亭镇的街道上，东边不远处有一间高大的院子，门\n口立著一根粗大的旗杆，旗子上写著「淳风武馆」，往南只听得人声鼎\n沸，是个五十尺见方的广场，人来人往相当热闹。往北可望见一座牌坊\n，年代久远，上面的字迹早已看不出是什么字，出了牌坊就是镇外。\n"
-msgstr "Você caminha por uma rua do Pavilhão da Neve. Não muito longe, a leste, há um grande pátio murado; diante do portão se ergue um mastro grosso, e na bandeira se lê \"Salão do Vento Puro\". Do sul vem o burburinho da multidão: é uma praça de cinquenta pés de lado, muito animada com o vaivém das pessoas. Ao norte se avista um pórtico tão antigo que já não dá para ler o que dizem as letras; passado o pórtico, começa o campo fora da vila."
+msgstr "Você caminha por uma rua do Pavilhão da Neve. Não muito longe, a leste, há um grande pátio murado; diante do portão se ergue um mastro grosso, e na bandeira se lê \"Salão do Vento Puro\". Do sul vem o burburinho da multidão: é uma praça de cinquenta chi de lado, muito animada com o vaivém das pessoas. Ao norte se avista um pórtico tão antigo que já não dá para ler o que dizem as letras; passado o pórtico, começa o campo fora da vila."
 
 msgid "你现在正站在一间大宅院的入口，两只巨大的石狮镇守在大门的两\n侧，一阵阵吆喝与刀剑碰撞的声音从院子中传来。通过红漆大门\n往东可以望见许多身穿灰衣的汉子正在操练。\n"
 msgstr "Você está na entrada de uma grande residência. Dois enormes leões de pedra guardam os lados do portão, e do pátio vêm gritos e o choque de sabres e espadas. Pelo portão laqueado de vermelho, a leste, você vê muitos homens vestidos de cinza treinando."
