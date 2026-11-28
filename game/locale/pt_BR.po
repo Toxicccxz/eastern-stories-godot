@@ -19408,13 +19408,13 @@ msgid "把《上清符箓》收回了藏经楼"
 msgstr "Você devolveu o \"Livro de talismãs da Suprema Clareza\" à Biblioteca das escrituras"
 
 msgid "北麓那座道观里还剩着人。湖上的事了了（终章之后），问林忌「剿」：官兵上山，一个也走不了。北麓的人已经有了去处的，这一步就过了。"
-msgstr "No mosteiro do sopé norte ainda resta gente. Quando o caso do lago tiver acabado (depois do final), perguntar a Lin Ji sobre \"Aniquilar\": os soldados sobem a montanha, e ninguém escapa. Se o pessoal do sopé norte já tem para onde ir, esta etapa está cumprida."
+msgstr "No templo do sopé norte ainda resta gente. Quando o caso do lago tiver acabado (depois do final), perguntar a Lin Ji sobre \"Aniquilar\": os soldados sobem a montanha, e ninguém escapa. Se o pessoal do sopé norte já tem para onde ir, esta etapa está cumprida."
 
 msgid "北麓那座道观里剩下的人，有了去处。"
-msgstr "Os que restavam no mosteiro do sopé norte têm para onde ir."
+msgstr "Os que restavam no templo do sopé norte têm para onde ir."
 
 msgid "北麓那座道观里还剩着人。湖上的事了了（终章之后），问藏经楼二楼的花匠「北麓」：他拿着书上北麓去念他们自己的经——你上北麓，在绞盘边看他念完。北麓的人已经有了去处的，这一步就过了。"
-msgstr "No mosteiro do sopé norte ainda resta gente. Quando o caso do lago tiver acabado (depois do final), perguntar ao jardineiro do andar de cima da Biblioteca das escrituras sobre \"Sopé norte\": ele leva o livro ao sopé norte para ler para eles a escritura deles mesmos; subir ao sopé norte e vê-lo terminar junto ao guincho. Se o pessoal do sopé norte já tem para onde ir, esta etapa está cumprida."
+msgstr "No templo do sopé norte ainda resta gente. Quando o caso do lago tiver acabado (depois do final), perguntar ao jardineiro do andar de cima da Biblioteca das escrituras sobre \"Sopé norte\": ele leva o livro ao sopé norte para ler para eles a escritura deles mesmos; subir ao sopé norte e vê-lo terminar junto ao guincho. Se o pessoal do sopé norte já tem para onde ir, esta etapa está cumprida."
 
 msgid "风泉之剑里住着剑灵；见过它的人，才算步玄的人。骆云舟的大哥在兵部尚书府写了十年字，兵部抄本上多出来的三句是他落的笔——让他上堂作证，还是保住骆家。"
 msgstr "Na Espada da Fonte do Vento mora um espírito da espada; só quem o viu conta como gente do Passo Místico. O irmão mais velho de Luo Yunzhou escreve há dez anos na Mansão do Ministro, e as três frases a mais na cópia do Ministério da Guerra saíram do pincel dele: levá-lo a depor no tribunal, ou proteger a família Luo."
@@ -19429,7 +19429,7 @@ msgid "剑灵在「剑神如意」之前收了剑。骆云舟说：步玄认你�
 msgstr "O espírito da espada embainhou a lâmina antes de \"Deus da Espada, à vontade\". Luo Yunzhou diz: \"O Passo Místico te aceita.\""
 
 msgid "在曼雩台上问过了剑，见过了风泉剑灵"
-msgstr "Você provou a espada no Terraço da Dança da Chuva e viu a Alma da Fonte do Vento"
+msgstr "Você provou a espada no Terraço da Dança da Chuva e viu o espírito da Espada da Fonte do Vento."
 
 msgid "今夜的四句念完了，剑灵回了剑——明晚天黑再来"
 msgstr "Os quatro versos desta noite já foram ditos, e o espírito voltou à espada: voltar amanhã depois de escurecer"
