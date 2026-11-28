@@ -68,8 +68,9 @@ static func resolve(text: String, actor: Role, target: Role = null) -> String:
 	if not text.contains("{") and not text.contains("'s"):
 		return text
 	if _token == null:
-		# A form may hold an article mark of its own (Spanish: {n:te golpea|golpea a $n{:el}}).
-		_token = RegEx.create_from_string("\\{([Nn]):((?:[^{}|]|\\{:[^{}|]*\\})+)(?:\\|((?:[^{}]|\\{:[^{}|]*\\})*))?\\}")
+		# A form may hold an article mark of its own (Spanish: {n:te golpea|golpea a $n{:el}}), and
+		# the player's form may be empty (Portuguese: no $l{:o}{n:| de $n{:o}}).
+		_token = RegEx.create_from_string("\\{([Nn]):((?:[^{}|]|\\{:[^{}|]*\\})*)(?:\\|((?:[^{}]|\\{:[^{}|]*\\})*))?\\}")
 	var out: String = ""
 	var at: int = 0
 	for found: RegExMatch in _token.search_all(text):

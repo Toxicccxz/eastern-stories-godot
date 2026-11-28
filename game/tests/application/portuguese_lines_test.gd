@@ -39,7 +39,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_lines(translation: Translation) -> void:
 	var slot := RegEx.create_from_string("\\{[a-z_]+\\}|%s")
 	var mark := RegEx.create_from_string("\\{(?::[^{}]*|[~#]:[^{}]*|[Nn]:[^{}]*|jogador:[^{}]*|jugador:[^{}]*)\\}")
-	var doubled := RegEx.create_from_string("(?i)\\b(?:a (?:ao|à|aos|às)|(?:de|em|por) (?:ao|à|aos|às|do|da|dos|das|no|na|nos|nas|pelo|pela|pelos|pelas)) bandidos?\\b")
+	var doubled := RegEx.create_from_string("(?i)\\b(?:a (?:ao|à|aos|às)|(?:de|em|por) (?:ao|à|aos|às|do|da|dos|das|no|na|nos|nas|pelo|pela|pelos|pelas)|(?:do|da|dos|das|no|na|nos|nas|ao|aos|à|às|pelo|pela|pelos|pelas) (?:o|a|os|as)) bandidos?\\b")
 	var left: Array[String] = []
 	var stray: Array[String] = []
 	var lines: int = 0

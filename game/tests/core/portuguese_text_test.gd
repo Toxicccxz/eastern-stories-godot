@@ -141,6 +141,10 @@ func _test_message_grammar() -> void:
 		"O bandido te golpeia.", "a common noun as $N")
 	_same(MessageGrammar.fill("O golpe de $N{:o} acerta $n{:o}.", MessageGrammar.other(), "Bandido", MessageGrammar.other(CharacterState.GENDER_FEMALE), "Serpente"),
 		"O golpe do bandido acerta a serpente.", "de + o inside a filled line")
+	_same(MessageGrammar.resolve("O golpe abre um corte em $l{:o}{n:| de $n{:o}}.", MessageGrammar.other(), MessageGrammar.you()),
+		"O golpe abre um corte em $l{:o}.", "the player's form may be empty")
+	_same(MessageGrammar.resolve("O golpe abre um corte em $l{:o}{n:| de $n{:o}}.", MessageGrammar.you(), MessageGrammar.other()),
+		"O golpe abre um corte em $l{:o} de $n{:o}.", "and another's holds the name")
 	_same(MessageGrammar.capitalize("ela se vai. água fria."), "Ela se vai. Água fria.", "an accented capital")
 	TranslationServer.set_locale("zh_CN")
 	TranslationServer.remove_translation(portuguese)
