@@ -34342,7 +34342,7 @@ msgid "晚了。宫里已经当它丢了——你拿回来，倒要有人问它�
 msgstr "Tarde demais. O palácio já o dá por perdido — se você o trouxe de volta, vai ter gente querendo saber em mãos de quem ele ficou todo este tempo."
 
 msgid "把逆灵天书的残卷还给玄冥子。\n他会当你是他的人，宫里没人会问起那一夜——可禁书就回了逆灵宫，林忌不会高兴。\n还给他吗？"
-msgstr "Devolver o fragmento da Escritura Negra a Xuanmingzi?\nEle vai tomar você por um dos seus, e ninguém no palácio vai perguntar sobre aquela noite — mas o livro proibido volta ao Palácio Negro, e Lin Ji não vai gostar.\nDevolver a ele?"
+msgstr "Devolver o fragmento da Escritura Negra a Xuanmingzi.\nEle vai tomar você por um dos seus, e ninguém no palácio vai perguntar sobre aquela noite — mas o livro proibido volta ao Palácio Negro, e Lin Ji não vai gostar.\nDevolver a ele?"
 
 msgid "接过残卷，在手里掂了掂，收进怀里。"
 msgstr " pega o fragmento, avalia o peso na mão e o guarda dentro da roupa."
@@ -34417,13 +34417,13 @@ msgid "巡殿道士的脚步声在殿里一下一下地响。\n"
 msgstr "Os passos do taoísta de ronda ressoam no salão, um depois do outro.\n"
 
 msgid "巡殿道士道：子时，谁也不许近北门。回你的铺上去。"
-msgstr "O taoísta de ronda diz: \"À meia-noite ninguém se aproxima da porta norte. Volte para o seu catre.\""
+msgstr "O taoísta de ronda diz: \"À meia-noite ninguém se aproxima da porta norte. Volte para o seu camastro.\""
 
 msgid "巡殿道士道：回你的铺上去。"
-msgstr "O taoísta de ronda diz: \"Volte para o seu catre.\""
+msgstr "O taoísta de ronda diz: \"Volte para o seu camastro.\""
 
 msgid "巡殿道士厉声道：后殿重地，拿下！\n"
-msgstr "O taoísta de ronda grita: \"Zona proibida do salão dos fundos! Peguem!\"\n"
+msgstr "O taoísta de ronda grita: \"Zona proibida do salão dos fundos! {jogador:Peguem-no!|Peguem-na!}\"\n"
 
 msgid "一个黑衣黑冠的道士，比别的狱卒老些，脸上一层酒色，腰上挂着一把乌黑的钥匙。他背靠着铁栅门站着，眼睛一直往石阶边那两只酒坛上瞟。\n"
 msgstr "Um taoísta de preto, de gorro negro, mais velho que os outros carcereiros, de rosto vermelho de vinho e uma chave escura pendurada na cintura. Está de costas para a grade de ferro, e seus olhos não largam as duas jarras junto aos degraus de pedra.\n"
@@ -34513,7 +34513,7 @@ msgid "我男人在关北挖河。他们说他欠了役，拿着册子来，拿�
 msgstr "Meu marido cava o canal no Norte do Passo. Disseram que ele devia corveia, vieram com o registro e me levaram no lugar dele."
 
 msgid "我走。货栈那边有个侧门，门槛低，他们夜里不看。"
-msgstr "Eu vou. Perto do depósito tem uma porta lateral de soleira baixa, e de noite eles não olham para ela."
+msgstr "Eu vou. Perto do armazém tem uma porta lateral de soleira baixa, e de noite eles não olham para ela."
 
 msgid "一个精瘦的货郎，鞋跑丢了一只，额角一块青紫。他的货担不见了，只剩腰上一只拨浪鼓，他一直用手捂着，不让它出声。\n"
 msgstr "Um mascate magro como um osso, com um pé de sapato perdido e uma mancha roxa na testa. A carga sumiu; resta só o tamborzinho de mão na cintura, que ele cobre com a mão o tempo todo para não deixá-lo soar.\n"
@@ -34534,7 +34534,7 @@ msgid "门……是你开的？你放我？"
 msgstr "A porta... foi você que abriu? Vai me deixar ir?"
 
 msgid "我不问。我从货栈的侧门走，再也不过野羊山了。"
-msgstr "Não pergunto nada. Saio pela porta lateral do depósito e nunca mais cruzo o Morro das Cabras."
+msgstr "Não pergunto nada. Saio pela porta lateral do armazém e nunca mais cruzo o Morro das Cabras."
 
 msgid "一个上了年纪的采药人，背上的竹篓被收走了，腰里还别着一把小药锄的空套子。他的手上全是草汁染的绿，指甲缝里塞着泥。\n"
 msgstr "Um coletor de ervas já entrado em anos; o cesto de bambu das costas foi levado, e na cintura resta só a bainha vazia de uma pequena enxada. As mãos estão verdes de seiva e há terra entre as unhas.\n"
@@ -34558,7 +34558,7 @@ msgid "老汉在山里走了四十年，没想到栽在一座道观里。"
 msgstr "Quarenta anos andando pelas montanhas, e este velho nunca imaginou que ia tropeçar num mosteiro taoísta."
 
 msgid "货栈那边的侧门我来时看见了。你别送，送了你也走不脱。"
-msgstr "A porta lateral do depósito eu vi quando cheguei. Não me acompanhe: se acompanhar, você também não escapa."
+msgstr "A porta lateral do armazém eu vi quando cheguei. Não me acompanhe: se acompanhar, você também não escapa."
 
 msgid "玄冥子站在前院当中的铁香炉边，长剑已经出鞘。他像是等了很久。\n"
 msgstr "Xuanmingzi está de pé junto ao incensário de ferro no meio do pátio da frente, a espada longa já fora da bainha. Parece esperar há muito tempo.\n"
@@ -34630,7 +34630,7 @@ msgid "逆灵宫的山门。黑砖砌的门楼有两丈高，门扇敞着，门�
 msgstr "O portal do Palácio Negro. A torre de tijolo negro tem dois zhang de altura, as folhas da porta estão abertas, e o vão é frio como o fundo de um poço. Dos dois lados pende uma lanterna vermelho-escura, acesa mesmo de dia.\nSobre a mesa da portaria há um livro aberto, e atrás dela se senta um taoísta de preto, de gorro negro.\n"
 
 msgid "黑砖铺地的大院子，踩上去没有一点声响。院当中一只黑铁香炉，烧的不是香，是一股子苦味。四面黑幡垂地，风过时幡上的字一闪一闪，看不清写的什么。\n北边是前殿，殿门关着，推一推就开；东侧一排矮房是货栈。\n"
-msgstr "Um grande pátio calçado de tijolo negro, onde os passos não fazem barulho. No meio, um incensário de ferro negro; o que queima nele não é incenso, mas algo de cheiro amargo. Em volta, estandartes negros arrastam no chão, e quando o vento passa os caracteres neles piscam, sem que se leia o que dizem.\nAo norte fica o salão da frente, com a porta fechada, que cede se empurrada; a leste, uma fileira de casas baixas é o depósito de carga.\n"
+msgstr "Um grande pátio calçado de tijolo negro, onde os passos não fazem barulho. No meio, um incensário de ferro negro; o que queima nele não é incenso, mas algo de cheiro amargo. Em volta, estandartes negros arrastam no chão, e quando o vento passa os caracteres neles piscam, sem que se leia o que dizem.\nAo norte fica o salão da frente, com a porta fechada, que cede se empurrada; a leste, uma fileira de casas baixas é o armazém.\n"
 
 msgid "一间堆满箱笼的矮房，箱子上都烙着「羊」字，有的开着，露出金帛、腌肉和成捆的麻绳。角落里几只箱子钉得死紧，箱盖上用朱砂画着符。\n南墙的矮门通向墙外，西边的门进前院。\n"
 msgstr "Uma casa baixa atulhada de caixotes e baús, todos marcados a ferro com a palavra \"cabra\"; alguns estão abertos e mostram ouro e seda, carne salgada e rolos de corda de cânhamo. Num canto, vários caixotes estão pregados com firmeza, e nas tampas há talismãs desenhados em cinábrio.\nA porta baixa da parede sul dá para fora do muro, e a porta do oeste entra no pátio da frente.\n"
@@ -34729,7 +34729,7 @@ msgid "还有四只画着符，封条是黑的，没有字。货栈道士瞪了�
 msgstr "Há ainda 4 com talismãs desenhados, de lacre negro, sem nenhum caractere. O taoísta do armazém lança um olhar duro para você: \"Isso é sacrifício. Não toque.\"\n"
 
 msgid "货栈里的箱子堆了半屋。货栈道士在数，没你的事。\n"
-msgstr "Os caixotes enchem metade do depósito. O taoísta do armazém está contando; não é assunto seu.\n"
+msgstr "Os caixotes enchem metade do armazém. O taoísta do armazém está contando; não é assunto seu.\n"
 
 msgid "你已经会了。回蒲团上去。"
 msgstr "Você já sabe. Volte para a almofada."
@@ -34792,19 +34792,19 @@ msgid "睡到子时"
 msgstr "Dormir até meia-noite"
 
 msgid "已经是子时了。货栈里鼾声一片。\n"
-msgstr "Já é meia-noite. No depósito, só se ouvem roncos.\n"
+msgstr "Já é meia-noite. No armazém, só se ouvem roncos.\n"
 
 msgid "在货栈的通铺上睡到子时？\n（世界的时间会过去，别的地方照旧过它们的日子。）"
-msgstr "Dormir na tarimba coletiva do depósito até a meia-noite?\n(O tempo do mundo vai passar, e os outros lugares seguem seus dias como de costume.)"
+msgstr "Dormir no camastro comum do armazém até a meia-noite?\n(O tempo do mundo vai passar, e os outros lugares seguem seus dias como de costume.)"
 
 msgid "你在通铺最靠门的一头躺下，黑冠压在枕边。\n"
-msgstr "Você se deita na ponta da tarimba coletiva mais perto da porta, o gorro negro apoiado junto ao travesseiro.\n"
+msgstr "Você se deita na ponta do camastro comum mais perto da porta, o gorro negro apoiado junto ao travesseiro.\n"
 
 msgid "你醒的时候，货栈里只有鼾声。前殿那边，有一盏灯在一步一步地走。\n"
-msgstr "Quando você acorda, só há roncos no depósito. Do lado do salão da frente, uma lanterna anda, passo a passo.\n"
+msgstr "Quando você acorda, só há roncos no armazém. Do lado do salão da frente, uma lanterna anda, passo a passo.\n"
 
 msgid "通铺上睡着几个道士，没有你的铺位。\n"
-msgstr "Alguns taoístas dormem na tarimba coletiva; não há lugar para você.\n"
+msgstr "Alguns taoístas dormem no camastro comum; não há lugar para você.\n"
 
 msgid "听"
 msgstr "Escutar"
@@ -34990,7 +34990,7 @@ msgid "暗格空着。\n"
 msgstr "O nicho está vazio.\n"
 
 msgid "天书在你身上。\n"
-msgstr "A Escritura Negra está com você.\n"
+msgstr "A Escritura está com você.\n"
 
 msgid "书案底下有一道细缝。你摸到一个铜扣，一按，暗格弹了出来。\n"
 msgstr "Sob a escrivaninha há uma fresta fina. Você toca num botão de cobre, aperta, e o nicho salta para fora.\n"
