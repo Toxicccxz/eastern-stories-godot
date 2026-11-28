@@ -2423,7 +2423,7 @@ msgid "土路"
 msgstr "Estrada de terra"
 
 msgid "青石小路"
-msgstr "Vereda de pedra azul"
+msgstr "Trilha de pedra azul"
 
 msgid "青石峪"
 msgstr "Grota da Pedra Azul"
@@ -2468,7 +2468,7 @@ msgid "神秘洞穴"
 msgstr "Caverna misteriosa"
 
 msgid "洞穴 · 闻忘忧草"
-msgstr "caverna · cheirar os lírios"
+msgstr "caverna · cheirar a erva esquece-penas"
 
 msgid "云台"
 msgstr "Terraço das Nuvens"
@@ -2477,7 +2477,7 @@ msgid "云"
 msgstr "Nuvens"
 
 msgid "车马行 · 靠近坐车"
-msgstr "posto de carruagens · chegar perto para viajar"
+msgstr "parada de carruagens · aproximar-se para viajar"
 
 msgid "乔阴县城北门"
 msgstr "Portão Norte de Sombra Alta"
@@ -2597,7 +2597,7 @@ msgid "庭院"
 msgstr "Pátio"
 
 msgid "书卷 · 拿书"
-msgstr "pergaminhos · pegar um livro"
+msgstr "pergaminhos · pegar um pergaminho"
 
 msgid "西花园"
 msgstr "Jardim oeste"
@@ -2915,7 +2915,7 @@ msgid "赌场"
 msgstr "Casa de jogo"
 
 msgid "怡红院二楼"
-msgstr "Deleite Rubro, andar de cima"
+msgstr "Deleite Vermelho, andar de cima"
 
 msgid "黄土路"
 msgstr "Estrada de terra amarela"
@@ -2948,7 +2948,7 @@ msgid "南市场"
 msgstr "Mercado sul"
 
 msgid "绮云镇街道"
-msgstr "Rua de Tece-Nuvens"
+msgstr "Rua Tece-Nuvens"
 
 msgid "茶场"
 msgstr "Plantação de chá"
@@ -2987,7 +2987,7 @@ msgid "药店"
 msgstr "Botica"
 
 msgid "怡红院"
-msgstr "Deleite Rubro"
+msgstr "Deleite Vermelho"
 
 msgid "红娘庄"
 msgstr "Casa da casamenteira"
@@ -2996,7 +2996,7 @@ msgid "斋院"
 msgstr "Casa vegetariana"
 
 msgid "张百万家"
-msgstr "Casa de Zhang Ricaço"
+msgstr "Casa de Zhang, o Ricaço"
 
 msgid "福"
 msgstr "Fortuna"
@@ -5651,7 +5651,7 @@ msgid "守势"
 msgstr "Em guarda"
 
 msgid "车马行"
-msgstr "Posto de carruagens"
+msgstr "Parada de carruagens"
 
 msgid "地图"
 msgstr "Mapa"
@@ -5978,7 +5978,7 @@ msgid "玉佩"
 msgstr "Pingente de jade"
 
 msgid "忘忧草"
-msgstr "Erva do esquecimento"
+msgstr "Erva esquece-penas"
 
 msgid "无名老妇"
 msgstr "Velha sem nome"
@@ -18973,7 +18973,7 @@ msgid "陈剑秋把一趟红货交给了你：两箱，京师振远总局收，�
 msgstr "Chen Jianqiu te confia uma carga de mercadoria valiosa: dois baús, a receber na Sede do Longo Caminho, na Capital, e a entregar ao chefe da agência, Chen Tianxing. O velho Zhou, batedor, empurra o carro."
 
 msgid "老周推着镖车跟你走（在镖局里问他「上路」）。出绮云镇往北到雪亭镇，沿青石官道往西南，过碎石小路，从铁索下到天驼关，再沿黄土大道往南到京师。车马行不拉镖车。镖车落在后头的，回去叫老周「上路」。"
-msgstr "O velho Zhou empurra o carro de escolta e te segue (perguntar a ele sobre \"Partir\" na agência). Sair de Tece-Nuvens para o norte até Pavilhão da Neve, seguir para o sudoeste pela Estrada real de pedra azul, atravessar a Trilha de cascalho, descer pela corrente de ferro até o Passo do Camelo e depois ir para o sul pela Grande estrada de terra amarela até a Capital. O Posto de carruagens não leva carros de escolta. Se o carro ficar para trás, voltar e dizer ao velho Zhou \"Partir\"."
+msgstr "O velho Zhou empurra o carro de escolta e te segue (perguntar a ele sobre \"Partir\" na agência). Sair de Tece-Nuvens para o norte até Pavilhão da Neve, seguir para o sudoeste pela Estrada real de pedra azul, atravessar a Trilha de cascalho, descer pela corrente de ferro até o Passo do Camelo e depois ir para o sul pela Grande estrada de terra amarela até a Capital. O Parada de carruagens não leva carros de escolta. Se o carro ficar para trás, voltar e dizer ao velho Zhou \"Partir\"."
 
 msgid "碎石小路上有人劫镖。领头的蒙面后生倒在路边，刀扔在一旁。"
 msgstr "Alguém assalta a carga na Trilha de cascalho. O jovem mascarado que os liderava está caído à beira da estrada, com o sabre jogado ao lado."
@@ -20653,7 +20653,7 @@ msgid "往手心里啐了一口，握住车把。"
 msgstr " cospe nas palmas e agarra os varais do carrinho."
 
 msgid "走！车马行不拉镖车，咱们一步一步走到京师。"
-msgstr "Vamos! O posto de carruagens não leva carrinho de escolta, então vamos a pé até a Capital, passo a passo."
+msgstr "Vamos! O parada de carruagens não leva carrinho de escolta, então vamos a pé até a Capital, passo a passo."
 
 msgid "镖局的车，镖头不发话不动。"
 msgstr "Carrinho da agência não sai do lugar sem a ordem do chefe."
@@ -22846,7 +22846,7 @@ msgid "一个高大的身影，看起来像是个人，不过 ....\n"
 msgstr "Um vulto alto, com jeito de gente, mas..."
 
 msgid "看守忘忧草的护草神兽。\n"
-msgstr "A fera sagrada que guarda a erva do esquecimento."
+msgstr "A fera sagrada que guarda a erva esquece-penas."
 
 msgid "     巡捕个个身手矫健，强盗、山贼无不闻风丧胆。\n"
 msgstr "Os guardas são todos ágeis e fortes; bandidos e salteadores perdem a coragem só de ouvir falar deles."
@@ -23230,13 +23230,13 @@ msgid "你已经再也喝不下一滴水了。\n"
 msgstr "Você não consegue beber mais nem uma gota."
 
 msgid "闻忘忧草"
-msgstr "Cheirar a erva do esquecimento"
+msgstr "Cheirar a erva esquece-penas"
 
 msgid "一阵怪风骤然刮起，你仿佛腾云驾雾般。\n"
 msgstr "Um vento estranho se levanta de repente, e você sente como se cavalgasse nuvens e névoa."
 
 msgid "你身上没有忘忧草啊。\n"
-msgstr "Você não tem nenhuma erva do esquecimento."
+msgstr "Você não tem nenhuma erva esquece-penas."
 
 msgid "击鼓"
 msgstr "Bater o tambor"
@@ -28099,7 +28099,7 @@ msgid "走镖"
 msgstr "Fazer escolta"
 
 msgid "替振远押一趟镖去京师总局。\n趟子手老周推车，你一路跟着：出绮云镇往北到雪亭镇，沿青石官道往西南过碎石小路，从铁索下到天驼关，再沿黄土大道往南到京师东街的振远总局。车马行不拉镖车。\n路上要是有人劫镖，镖车只靠你。\n要接这趟镖吗？"
-msgstr "Escoltar uma carga da agência até a Sede na Capital.\nO batedor Velho Zhou empurra o carrinho, e você o acompanha por todo o caminho: de Tece-Nuvens, para o norte, até o Pavilhão da Neve; pela Estrada real de pedra azul, para sudoeste, passando a Trilha de cascalho; descendo pela corrente de ferro até o Passo do Camelo; e depois, pela Grande estrada de terra amarela, para o sul, até a Sede do Longo Caminho, na Rua Leste da Capital. O posto de carruagens não leva carros de escolta.\nSe alguém atacar a carga no caminho, só você poderá defendê-la.\nAceitar esta escolta?"
+msgstr "Escoltar uma carga da agência até a Sede na Capital.\nO batedor Velho Zhou empurra o carrinho, e você o acompanha por todo o caminho: de Tece-Nuvens, para o norte, até o Pavilhão da Neve; pela Estrada real de pedra azul, para sudoeste, passando a Trilha de cascalho; descendo pela corrente de ferro até o Passo do Camelo; e depois, pela Grande estrada de terra amarela, para o sul, até a Sede do Longo Caminho, na Rua Leste da Capital. O parada de carruagens não leva carros de escolta.\nSe alguém atacar a carga no caminho, só você poderá defendê-la.\nAceitar esta escolta?"
 
 msgid "你已经不是振远的人了。镖局的事，不劳你。"
 msgstr "Você não é mais do Longo Caminho. Os assuntos da agência não são da sua conta."
@@ -28132,7 +28132,7 @@ msgid "江湖上的弟兄看得起在下就这么叫开了，实在是惭愧。"
 msgstr "Os irmãos do jianghu me estimam e o apelido pegou. Na verdade, tenho vergonha."
 
 msgid "他是我师叔，如果你帮我找到忘忧草并交给我，我就介绍你去那学艺。"
-msgstr "Ele é meu tio de escola. Se você me ajudar a achar a erva do esquecimento e a trouxer para mim, eu recomendo você a ele para aprender."
+msgstr "Ele é meu tio de escola. Se você me ajudar a achar a erva esquece-penas e a trouxer para mim, eu recomendo você a ele para aprender."
 
 msgid "我在乔阴县城游玩时丢的，据说被藏在一个隐蔽的地方了。"
 msgstr "Perdi quando passeava por Sombra Alta. Dizem que a esconderam em algum lugar discreto."
@@ -28306,7 +28306,7 @@ msgid "笑了笑说：“这不是你得到的吧？”。"
 msgstr " sorri e diz: \"Isto você não conseguiu sozinho, não é?\""
 
 msgid "你是何人？为什么有我的忘忧草？"
-msgstr "Quem é você? Por que tem a minha erva do esquecimento?"
+msgstr "Quem é você? Por que tem a minha erva esquece-penas?"
 
 msgid "你拿什么东西唬我？"
 msgstr "Com que coisa você quer me enganar?"
@@ -28381,7 +28381,7 @@ msgid "名妓"
 msgstr "Cortesã famosa"
 
 msgid "    李师师是怡红院的名妓，精通琴棋书画，周围的纨绔子弟们常往这\n里钻。\n"
-msgstr "    Li Shishi é a cortesã famosa do Deleite Rubro, versada em cítara, go, caligrafia e pintura; os filhos de famílias abastadas vivem rondando por aqui."
+msgstr "    Li Shishi é a cortesã famosa do Deleite Vermelho, versada em cítara, go, caligrafia e pintura; os filhos de famílias abastadas vivem rondando por aqui."
 
 msgid "李师师秀眉微蹙，说道：喂！我哪里得罪您了？干嘛这样跟我拼死拼活？\n"
 msgstr "Li Shishi franze as sobrancelhas delicadas e diz: \"Ei! O que foi que eu fiz para ofender? Por que me ataca com tanta fúria?\""
@@ -28510,7 +28510,7 @@ msgid "你现在正站在兵器屋里\n    靠近门口的地方有一块乌木�
 msgstr "Você está na loja de armas.\nPerto da porta há um letreiro talhado em ébano."
 
 msgid "这里是绮云镇的南市场，西面是杂货铺，向东可看到 怡红院 的二楼。\n"
-msgstr "Este é o mercado sul de Tece-Nuvens; a oeste fica o armazém, e para o leste vê-se o andar de cima do Deleite Rubro."
+msgstr "Este é o mercado sul de Tece-Nuvens; a oeste fica o armazém, e para o leste vê-se o andar de cima do Deleite Vermelho."
 
 msgid "绮云镇的两条青石路在这里交叉，路旁栽着棵古槐，有两个汉子合\n抱那么粗。槐树下有个告示，象是官府立的。\n"
 msgstr "As duas estradas de pedra azul de Tece-Nuvens se cruzam aqui; à beira do caminho foi plantada uma velha sófora, tão grossa que dois homens mal a abraçariam. Sob a sófora há um aviso, que parece ter sido posto pelo governo."
@@ -28543,7 +28543,7 @@ msgid "这里是十字路口的东侧，两边房子里都颇为吵闹。北面�
 msgstr "Este é o lado leste do cruzamento; as casas dos dois lados são muito barulhentas. Ao norte parece haver uma casa de prazeres, de onde às vezes se ouvem as risadas fingidas das mulheres da vida; ao sul, gente de toda espécie grita e joga, como numa casa de jogo."
 
 msgid "你现在正站在怡红院里\n    靠近门口的地方有一块乌木雕成的招牌。\n"
-msgstr "Você está no Deleite Rubro.\nPerto da porta há um letreiro talhado em ébano."
+msgstr "Você está no Deleite Vermelho.\nPerto da porta há um letreiro talhado em ébano."
 
 msgid "你现在正站在赌场里。靠近门口的地方有一块乌木雕成的招牌。\n"
 msgstr "Você está na casa de jogo. Perto da porta há um letreiro talhado em ébano."
@@ -28573,7 +28573,7 @@ msgid "这是茶楼的二层，附近的文人墨客常喜欢在此品茗作赋�
 msgstr "Este é o andar de cima da casa de chá; os letrados e poetas da vizinhança gostam de saborear chá aqui e compor versos.\nNo fundo há um tabuleiro de go."
 
 msgid "这是怡红院的姑娘们陪客人们饮酒品茗，吟诗作赋的地方，甚是幽\n雅。\n"
-msgstr "Aqui as moças do Deleite Rubro acompanham os convidados em vinho, chá e versos; é um lugar muito sereno."
+msgstr "Aqui as moças do Deleite Vermelho acompanham os convidados em vinho, chá e versos; é um lugar muito sereno."
 
 msgid "这里是赌场的二楼，很多人在围着几张桌子高声叫嚷，煞是热闹。\n靠近门口的地方有一块乌木雕成的招牌。\n"
 msgstr "Este é o andar de cima da casa de jogo; muita gente se aglomera em volta de algumas mesas, gritando alto, e a animação é grande.\nPerto da porta há um letreiro talhado em ébano."
@@ -38473,7 +38473,7 @@ msgid "你交给卧龙岗的强盗十两金子，他收下钱，说今天做个�
 msgstr "Você deu dez taéis de ouro ao bandido da Colina do Dragão Adormecido; ele ficou com o dinheiro e disse que hoje faria o papel de homem bom e deixaria você ir com vida."
 
 msgid "你在怡红院二楼向李师师请教学艺。"
-msgstr "No andar de cima do Deleite Rubro, você pediu a Li Shishi que lhe ensinasse a arte dela."
+msgstr "No andar de cima do Deleite Vermelho, você pediu a Li Shishi que lhe ensinasse a arte dela."
 
 msgid "你留给李师师一件信物，她说：能做相公的老师，真是三生有幸。"
 msgstr "Você deixou uma lembrança com Li Shishi, e ela disse: \"Ser sua mestra, meu senhor, é uma bênção de três vidas.\""
@@ -38488,19 +38488,19 @@ msgid "你向振远镖局的陈剑秋问起陈天星。"
 msgstr "Você perguntou a Chen Jianqiu, das Escoltas do Longo Caminho, sobre Chen Tianxing."
 
 msgid "你向陈剑秋问起忘忧草。"
-msgstr "Você perguntou a Chen Jianqiu sobre a erva do esquecimento."
+msgstr "Você perguntou a Chen Jianqiu sobre a erva esquece-penas."
 
 msgid "你向乔阴县城的乾瘪老太婆打听忘忧草。"
-msgstr "Você perguntou à velha encarquilhada de Sombra Alta sobre a erva do esquecimento."
+msgstr "Você perguntou à velha encarquilhada de Sombra Alta sobre a erva esquece-penas."
 
 msgid "你向乔阴县城的游客打听忘忧草。"
-msgstr "Você perguntou ao visitante de Sombra Alta sobre a erva do esquecimento."
+msgstr "Você perguntou ao visitante de Sombra Alta sobre a erva esquece-penas."
 
 msgid "护草神兽倒下后，你在神秘洞穴里得到一棵发着晶莹光芒的忘忧草。"
-msgstr "Com a fera guardiã das ervas derrubada, você achou na caverna misteriosa uma erva do esquecimento de brilho cristalino."
+msgstr "Com a fera guardiã das ervas derrubada, você achou na caverna misteriosa uma erva esquece-penas de brilho cristalino."
 
 msgid "你把忘忧草交给陈剑秋，他大喜过望，提笔写好一封信交给你，嘱咐你路上小心，把信直接交给陈师叔。"
-msgstr "Você entregou a erva do esquecimento a Chen Jianqiu; radiante, ele escreveu uma carta e a deu a você, recomendando cuidado na estrada e que a entregasse diretamente ao Tio Chen."
+msgstr "Você entregou a erva esquece-penas a Chen Jianqiu; radiante, ele escreveu uma carta e a deu a você, recomendando cuidado na estrada e que a entregasse diretamente ao Tio Chen."
 
 msgid "你在京师振远总局向陈天星请教拜师。"
 msgstr "Na Sede do Longo Caminho, na Capital, você pediu a Chen Tianxing que aceitasse você como discípulo."
