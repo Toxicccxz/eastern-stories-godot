@@ -17554,10 +17554,10 @@ msgid "老衲守了三十年寺规。守到今天，流云轩里一个樵夫的�
 msgstr "Este velho monge guardou as regras do templo por trinta anos. Guardou até hoje — e o frio de um lenhador, no Recanto das Nuvens Errantes, não saía."
 
 msgid "施主破过一回寺规，领他进了流云轩。今天又是施主把他领上了殿。"
-msgstr "{jogador:O senhor|A senhora} quebrou uma vez as regras do templo, {jogador:benfeitor|benfeitora}, e o levou ao Recanto das Nuvens Errantes. Hoje, de novo, foi {jogador:o senhor|a senhora} quem o trouxe ao salão."
+msgstr "{jogador:Benfeitor|Benfeitora} quebrou uma vez as regras do templo e o levou ao Recanto das Nuvens Errantes. Hoje, de novo, foi {jogador:o benfeitor|a benfeitora} quem o trouxe ao salão."
 
 msgid "番坊是施主去的，这片叶子也是施主带回来的。施主说吧。"
-msgstr "Foi {jogador:o senhor|a senhora} quem foi ao Bairro Estrangeiro, e quem trouxe esta folha. Fale, {jogador:benfeitor|benfeitora}."
+msgstr "Foi {jogador:o benfeitor|a benfeitora} quem foi ao Bairro Estrangeiro, e quem trouxe esta folha. Fale, {jogador:benfeitor|benfeitora}."
 
 msgid "（收经，问玄智「收经」；守寺，问玄智「守寺」。）\n"
 msgstr "(Para aceitar o sutra, pergunte a Xuanzhi sobre \"Aceitar o sutra\"; para guardar o templo, pergunte a Xuanzhi sobre \"Guardar o templo\".)\n"
@@ -17719,7 +17719,7 @@ msgid "流云轩缺人手。我在这里煎药，扶病人。"
 msgstr "Faltam braços no Recanto das Nuvens Errantes. Aqui eu preparo remédios e amparo os doentes."
 
 msgid "师父当年追出山门，追的就是他师父背的那部经。三十年，经进了门，我也回来了。"
-msgstr "Quando meu Shifu saiu correndo pelo portão da montanha, ia atrás do sutra que o mestre do asceta carregava. Trinta anos depois, o sutra passou do portão, e eu também voltei."
+msgstr "Quando meu Shifu saiu correndo pelo portão da montanha, ia atrás do sutra que o mestre dele carregava. Trinta anos depois, o sutra passou do portão, e eu também voltei."
 
 msgid "方丈是师父的师兄。我回来那天，他什么也没问，指了指流云轩。"
 msgstr "O abade é irmão mais velho de escola do meu Shifu. No dia em que voltei, ele não perguntou nada; só apontou para o Recanto das Nuvens Errantes."
@@ -17806,7 +17806,7 @@ msgid "这张镖单不能随便丢。"
 msgstr "Você não pode simplesmente jogar fora este registro de escolta."
 
 msgid "一只尺许长的青石匣子，匣面刻着一圈风纹，匣口严丝合缝，看不出锁眼在哪里。摇一摇，里面有极轻的一声响。\n"
-msgstr "Um cofre de pedra azul de um pé de comprimento, com um círculo de padrões de vento entalhado na tampa; a boca é tão justa que não se vê onde fica a fechadura. Sacudindo, algo lá dentro faz um som levíssimo, uma única vez.\n"
+msgstr "Um cofre de pedra azul de cerca de um chi de comprimento, com um círculo de padrões de vento entalhado na tampa; a boca é tão justa que não se vê onde fica a fechadura. Sacudindo, algo lá dentro faz um som levíssimo, uma única vez.\n"
 
 msgid "这只石匣不能随便丢。"
 msgstr "Você não pode simplesmente jogar fora este cofre de pedra."
@@ -17851,7 +17851,7 @@ msgid "一封封好的信，火漆上压着乔阴县印，封皮写着「叔父�
 msgstr "Uma carta lacrada, com o selo do condado de Sombra Alta no lacre; no envelope: \"Ao respeitável tio, em mãos\". Cheng Buping disse: o selo do Ministério da Guerra é verdadeiro, mas a ordem não é do falecido imperador; os selos falsos e os desaparecidos foram todos para o Norte do Passo — esta carta vai te abrir o portão do acampamento do Passo do Camelo.\n"
 
 msgid "一把三尺长的剑，剑身是透青的，像一条冻住的水。剑脊上刻着两个字：寒於。剑锋上没有血——三百年，它钉的是一颗头，不是人。握在手里，整条胳膊都是凉的。\n"
-msgstr "Uma espada de três pés, de lâmina verde translúcida, como um riacho congelado. No dorso, dois caracteres gravados: Hanyu. No fio não há sangue — por trezentos anos ela cravou uma cabeça, não um homem. Empunhada, gela o braço inteiro.\n"
+msgstr "Uma espada de três chi, de lâmina verde translúcida, como um riacho congelado. No dorso, dois caracteres gravados: Hanyu. No fio não há sangue — por trezentos anos ela cravou uma cabeça, não um homem. Empunhada, gela o braço inteiro.\n"
 
 msgid "穿灵不能丢。它钉过三百年。"
 msgstr "Você não pode largar Trespassa-Almas. Ela ficou cravada trezentos anos."
