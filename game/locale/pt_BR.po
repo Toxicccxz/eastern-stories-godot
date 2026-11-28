@@ -20230,7 +20230,7 @@ msgid "卫盟主！我爹说，那年正月十七，他一个人在虹台上打�
 msgstr "O Líder da Aliança Wei! Meu pai diz que naquele ano, no dia dezessete do primeiro mês, ele sozinho derrotou as nove escolas no Terraço do Arco-Íris... Mas meu pai também diz que faz vinte anos que ele não desce da montanha."
 
 msgid "路引？我从雪亭镇一路走上来的，要什么路引。"
-msgstr "Salvo-conduto? Subi a pé desdo Pavilhão da Neve; para que eu ia precisar de salvo-conduto?"
+msgstr "Salvo-conduto? Subi a pé desde o Pavilhão da Neve; para que eu ia precisar de salvo-conduto?"
 
 msgid "我……我什么也没干。我就是来拜师的。"
 msgstr "Eu... eu não fiz nada. Só vim procurar um mestre."
@@ -20653,7 +20653,7 @@ msgid "往手心里啐了一口，握住车把。"
 msgstr " cospe nas palmas e agarra os varais do carrinho."
 
 msgid "走！车马行不拉镖车，咱们一步一步走到京师。"
-msgstr "Vamos! O parada de carruagens não leva carrinho de escolta, então vamos a pé até a Capital, passo a passo."
+msgstr "Vamos! A Parada de carruagens não leva carrinho de escolta, então vamos a pé até a Capital, passo a passo."
 
 msgid "镖局的车，镖头不发话不动。"
 msgstr "Carrinho da agência não sai do lugar sem a ordem do chefe."
