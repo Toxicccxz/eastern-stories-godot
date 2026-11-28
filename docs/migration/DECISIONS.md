@@ -513,9 +513,10 @@
 - **专名：** 人名拼音，绰号意译；地名照英文版意译画面、用巴西的 X da Y 结构（雪亭镇 Pavilhão da Neve、乔阴 Sombra Alta、京师 a Capital、水烟阁 Pavilhão da Neblina、晚月庄 Solar da Lua Tardia）；派 Escola、教 Ordem、帮会 Irmandade、宫 Palácio、庄 Solar（mansão 在巴西是现代豪宅）、武馆 Salão（academia 在巴西是健身房），seita 只在骂人时；东方神教 Ordem do Corvo Dourado、花紫会 Irmandade dos Mendigos、天邪派 Escola Rebelde；精气神 Essência／Qi／Espírito，内力 Força interior，内功 neigong，杀气 Aura assassina，灵力 Energia espiritual，回合 rodada／手 turno，师父 Shifu，掌门 Mestre，店小二 moço da estalagem，捕快 guarda（meirinho 在巴西是送传票的法庭差役）。
 - **冠词、缩合和一致：** 和西语同一层（`RomanceText`／`RomanceNouns`，西语的 `SpanishText` 成了薄外壳，行为不变）：译文在名字槽后写 `{:o}`、`{:um}`、`{:os}`、`{:uns}`、`{:0}`、`{count} {item}{:pl}`，槽前写原形介词，游戏填完名字后查 `game/locale/pt_BR_nouns.json`（性、整个复数形、地名带不带冠词）加冠词并缩合（de o→do、em a→na、a a→à、por o→pelo 及复数，共 16 种；不定冠词不缩），随名字的性写 `{~:ferido|ferida}`，随数字写 `{#:dia|dias}`；`$N/$n` 的动词对 você 和别人同形，宾语 `{n:te golpeia|golpeia $n{:o}}`，玩家那一形可以为空（`em $l{:o}{n:| de $n{:o}}`，MessageGrammar 为此放开）；ES2 的 $p 写成三形 `{n:sua pele|a pele dele|a pele dela}`。`check_po.py` 查记号、禁词、不许 ¿¡ 和 « »；`portuguese_lines_test` 把每条模板填一遍，不许剩记号、不许重复缩合（de do、no o）。
 - **标点和字体：** 直引号 "…"，内层 '…'，书名也用直引号（巴西不用 « »）；对话用引号不用巴西小说的破折号（游戏惯例，说的话填进 "{line}"）；句号在闭引号内；省略号 ...；数字千分点、小数逗号。主题像素字自带 ã õ ç â ê ô à á é í ó ú，不另换字体。
+- **审校里定下的：** 切磋 treino／treinar（战斗标题 Treino），拆招 prática de golpes；锁住鬼头的那根钉 cravo／cravar，普通钉子 prego；雪亭镇带冠词（o Pavilhão da Neve：no／do Pavilhão da Neve），乔阴、绮云镇不带；车马行 parada de carruagens；忘忧草 erva esquece-penas；历练 Façanhas；按钮写全（Salvar jogo、Carregar jogo、Retomar jogo）；结果行用过去时（O golpe abriu uma ferida）。没采纳的 Muse 意见：短工 jornaleiro（巴西首先是报贩）、监狱墙上别人写的涂鸦改成随玩家性别。
 - **彩蛋：** 魏阮 Mike Rosoft，华工 a Poli（圣保罗大学工学院），八舍 o bloco oito。★
 - **标题：** 暂时同没有自己主标的语言：英文主标加「东方故事」。葡语名 Histórias do Oriente，要不要做毛笔主标由 owner 定。★
-- **怎么做的：** 照英文版的规矩：Muse 新开侧聊定基调写 [portuguese_style](../production/portuguese_style.md)，专名 2,232 条由代理分桶出稿、统一各桶写法后 Muse 逐批审；正文由代理分区出稿（以审过的西语为最近的样板），Muse 另开第二个侧聊按区逐批对照原文审完；窗口截图查溢出。
+- **怎么做的：** 照英文版的规矩：Muse 新开侧聊定基调写 [portuguese_style](../production/portuguese_style.md)，专名 2,232 条由代理分桶出稿、统一各桶写法后 Muse 逐批审；正文由代理分区出稿（以审过的西语为最近的样板），Muse 侧聊逐批对照原文审完全部 271 批（开场、主线、势力线、native、各区、界面、通用，#466 之后的续审在后续 PR）；窗口截图查溢出。
 - **为什么：** 西语之后，剩下的 Steam 玩家里巴西葡语最多，巴西玩家少懂英语，语法离西语最近、能复用冠词层；owner 要求每门新语言都和 Muse 新开对话交流和审核。
 
 ## Español (preview) (2026-11-27 西语接在俄语之后：Steam 上已做语言之外最大的一块玩家；基调与 Muse 两轮讨论定，★项等 owner)

@@ -4307,7 +4307,7 @@ msgid "坛心 · 迎上去"
 msgstr "centro do altar · ir ao encontro"
 
 msgid "那颗头 · 钉下去"
-msgstr "a cabeça · pregar"
+msgstr "a cabeça · cravar"
 
 msgid "告示 · 看告示"
 msgstr "aviso · ler"
@@ -4415,7 +4415,7 @@ msgid "花紫"
 msgstr "Mendigos"
 
 msgid "聆啸厅"
-msgstr "Sala do Assobio Longo"
+msgstr "Salão do Assobio Longo"
 
 msgid "野羊山"
 msgstr "Morro das Cabras"
@@ -5285,7 +5285,7 @@ msgid "渔夫的尸首"
 msgstr "Corpo do pescador"
 
 msgid "上清符箓"
-msgstr "Livro de talismãs da Suprema Clareza"
+msgstr "\"Livro de talismãs da Suprema Clareza\""
 
 msgid "骆家家书"
 msgstr "Carta da família Luo"
@@ -5396,7 +5396,7 @@ msgid "听风辨器之术"
 msgstr "Ouvir o vento"
 
 msgid "天邪神掌"
-msgstr "Palma indômita"
+msgstr "Palma rebelde"
 
 msgid "六阴追魂剑法"
 msgstr "Espada dos seis yin"
@@ -5471,7 +5471,7 @@ msgid "雪影心法"
 msgstr "Método interno da Sombra de Neve"
 
 msgid "雪影剑法"
-msgstr "Espada da sombra de neve"
+msgstr "Espada da Sombra de Neve"
 
 msgid "步玄七诀"
 msgstr "Sete segredos do Passo Místico"
@@ -5780,7 +5780,7 @@ msgid "卖饼大叔"
 msgstr "Tio das panquecas"
 
 msgid "卖糖葫芦的"
-msgstr "Vendedor de espetinhos doces"
+msgstr "Vendedor de espetinhos de espinheiro"
 
 msgid "卖包子的"
 msgstr "Vendedor de pães no vapor"
@@ -6179,7 +6179,7 @@ msgid "墙"
 msgstr "Muro"
 
 msgid "湘绣舞曲图"
-msgstr "Bordado da dança"
+msgstr "Bordado Xiang da dança"
 
 msgid "西府海棠"
 msgstr "Macieira silvestre"
@@ -6266,7 +6266,7 @@ msgid "木船"
 msgstr "Barco de madeira"
 
 msgid "玄冰"
-msgstr "Gelo negro"
+msgstr "Gelo escuro"
 
 msgid "冰壁刻字"
 msgstr "Inscrição na parede de gelo"
@@ -6395,10 +6395,10 @@ msgid "木鱼"
 msgstr "Peixe de madeira"
 
 msgid "通铺"
-msgstr "Tarimba coletiva"
+msgstr "Camastro comum"
 
 msgid "大案"
-msgstr "Mesa comprida"
+msgstr "Grande mesa"
 
 msgid "铁匣"
 msgstr "Caixa de ferro"
@@ -6767,7 +6767,7 @@ msgid "缩放"
 msgstr "Zoom"
 
 msgid "回到所在"
-msgstr "Sua posição"
+msgstr "Voltar a você"
 
 msgid "全图"
 msgstr "Mapa todo"
@@ -6788,7 +6788,7 @@ msgid "{word}  {who} · {place}"
 msgstr "{word}  {who} · {place}"
 
 msgid "取消指路"
-msgstr "Cancelar guia"
+msgstr "Cancelar rota"
 
 msgid "还有 {count} 处没进去过"
 msgstr "Lugares ainda não visitados: {count}"
@@ -6815,10 +6815,10 @@ msgid "从这里认不得路。"
 msgstr "Daqui você não conhece o caminho."
 
 msgid "已指路：{place}"
-msgstr "Guia ativado: {place}{:0}"
+msgstr "Rota ativada: {place}{:0}"
 
 msgid "已取消指路。"
-msgstr "Guia cancelado."
+msgstr "Rota cancelada."
 
 msgid "标"
 msgstr "O"
@@ -6911,7 +6911,7 @@ msgid "施展「游识神通」：去到一个你见过的人身边，可以跨�
 msgstr "Usar \"Sentido errante\": você vai até alguém que já conheceu, mesmo em outro mapa (75 de Energia espiritual, 30 de Essência). Quanto mais forte a Energia espiritual da pessoa, mais difícil senti-la."
 
 msgid "施展「阴阳眼」：看得见鬼魂，持续的秒数等于你的有效咒文等级（30 法力、5 神）。"
-msgstr "Usar \"Visão espectral\": você vê fantasmas por tantos segundos quanto o seu nível efetivo de Feitiços (30 de Poder arcano, 5 de Espírito)."
+msgstr "Usar \"Visão espectral\": você vê fantasmas por tantos segundos quanto o seu nível efetivo de Encantamentos (30 de Poder arcano, 5 de Espírito)."
 
 msgid "技能"
 msgstr "Habilidades"
@@ -7166,7 +7166,7 @@ msgid "化去{corpse}"
 msgstr "Dissolver {corpse}{:o}"
 
 msgid "画追魂符：{name}"
-msgstr "Desenhar talismã: {name}{:0}"
+msgstr "Desenhar talismã caça-almas: {name}{:0}"
 
 msgid "贴到{zombie}身上"
 msgstr "Colar em {zombie}{:o}"
@@ -7289,7 +7289,7 @@ msgid "  · {row}"
 msgstr "  · {row}"
 
 msgid "{master}是你的师父。攻击就是生死相搏；若你亲手杀了{master}，便是弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要攻击吗？"
-msgstr "{master}{:o} é seu Shifu. Atacar é uma luta até a morte; se você matar {master}{:o} com as próprias mãos, será o assassinato do seu Shifu, e isso conta como trair a sua escola:\n· Expulsão de {family}{:o}: você perde escola, Shifu e título.\n· Sua reputação volta a zero (agora é {score}).\n· Suas traições à escola passam a ser {next}.\nTem certeza de que quer atacar?"
+msgstr "{master}{:o} é seu Shifu. Atacar é uma luta até a morte; se você matar {master}{:o} com as próprias mãos, será o assassinato do seu Shifu, e isso conta como trair a sua escola:\n· Expulsão de {family}{:o}: você perde escola, Shifu e título.\n· Sua Reputação volta a zero (agora é {score}).\n· Suas traições à escola passam a ser {next}.\nTem certeza de que quer atacar?"
 
 msgid "消息记录"
 msgstr "Registro de mensagens"
@@ -7313,7 +7313,7 @@ msgid "运功「疗伤他人」：把真气输入对方体内，为他疗伤（�
 msgstr "Canalizar \"Curar alguém\": você derrama seu Qi verdadeiro no corpo do outro para curá-lo (150 de Força interior; sua Força interior deve superar o máximo em pelo menos 150; nenhum dos dois pode estar em combate)."
 
 msgid "施展「心识神通」：救醒昏迷的人（50 灵力、30 神）。最大灵力不过 101 必定失败，失败时你自己会昏倒。"
-msgstr "Usar \"Sentido do coração\": desperta quem está inconsciente (50 de Energia espiritual, 30 de Espírito). Com Energia espiritual máxima de 101 ou menos, sempre falha, e ao falhar você mesmo desmaia."
+msgstr "Usar \"Sentido do coração\": desperta quem está inconsciente (50 de Energia espiritual, 30 de Espírito). Com Energia espiritual máxima de 101 ou menos, sempre falha, e ao falhar {jogador:você mesmo|você mesma} desmaia."
 
 msgid "心识神通要耗去 {atman} 点灵力和 {sen} 点神。能否救醒{npc}，全看你的灵力修为（最大灵力 {max_atman}）：{odds}\n确定要施展吗？"
 msgstr "O Sentido do coração custa {atman} de Energia espiritual e {sen} de Espírito. Conseguir reanimar {npc}{:o} depende por inteiro da sua Energia espiritual (máxima {max_atman}): {odds}\nTem certeza de que quer usá-lo?"
@@ -7328,7 +7328,7 @@ msgid "你现在的神撑不住这一下，无论成败都会当场昏过去。"
 msgstr "Seu Espírito atual não aguenta isso: dê certo ou não, você desmaia na hora."
 
 msgid "偷窃：从对方身上偷一样东西（三秒后见分晓）。失手被发现，对方会和你拼命，城里的巡捕也会把你当贼抓。"
-msgstr "Roubar: tira uma coisa do outro (você saberá em três segundos). Se te descobrirem, a vítima luta com você até a morte, e os guardas da cidade te tratam como ladrão."
+msgstr "Roubar: tira uma coisa do outro (você saberá em três segundos). Se te descobrirem, a vítima luta com você até a morte, e os guardas da cidade te tratam como {jogador:ladrão|ladra}."
 
 msgid "行贿：塞钱给押着你的巡捕，钱给够了他就放你走；给少了反倒罪加一等。"
 msgstr "Subornar: passa dinheiro ao guarda que te leva preso. Se for o bastante, ele te solta; se for pouco, só piora a sua situação."
@@ -7391,7 +7391,7 @@ msgid "你伤得太重了：画符要咬破手指流血，这一点血就会要�
 msgstr "Seus ferimentos são graves demais: para desenhar o talismã é preciso morder o dedo e sangrar, e essa gota de sangue te mataria.\nTem certeza de que quer desenhar?"
 
 msgid "{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要贴上这道符吗？"
-msgstr "{master}{:o} é seu Shifu. {zombie}{:o} vai caçar {master}{:o}; se conseguir, a morte conta como obra sua: é matar o seu Shifu e trair a sua escola:\n· Expulsão de {family}{:o}: você perde escola, Shifu e título.\n· Sua reputação volta a zero (agora é {score}).\n· Suas traições à escola passam a ser {next}.\nTem certeza de que quer colar este talismã?"
+msgstr "{master}{:o} é seu Shifu. {zombie}{:o} vai caçar {master}{:o}; se conseguir, a morte conta como obra sua: é matar o seu Shifu e trair a sua escola:\n· Expulsão de {family}{:o}: você perde escola, Shifu e título.\n· Sua Reputação volta a zero (agora é {score}).\n· Suas traições à escola passam a ser {next}.\nTem certeza de que quer colar este talismã?"
 
 msgid "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
 msgstr "{item}{:o} está equipado. Tem certeza de que quer dar isso a {npc}{:o}? O que se dá, em geral, não volta."
@@ -7400,7 +7400,7 @@ msgid "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了�
 msgstr "Tem certeza de que quer dar {money} a {npc}{:o}? O dinheiro dado, em geral, não volta."
 
 msgid "{npc}收下{item}，就会当场收你为徒。\n{warning}"
-msgstr "Assim que {npc}{:o} aceitar {item}{:o}, você passa a ser discípulo, na hora.\n{warning}"
+msgstr "Assim que {npc}{:o} aceitar {item}{:o}, você passa a ser {jogador:discípulo|discípula}, na hora.\n{warning}"
 
 msgid "{item}不值钱，丢在地上就没人会注意它——丢下就再也找不回来了。\n确定要丢下吗？"
 msgstr "{item}{:o} não vale nada. Se você largar isso no chão, ninguém vai reparar, e não há como recuperar.\nTem certeza de que quer largar?"
@@ -7472,7 +7472,7 @@ msgid "请安"
 msgstr "Prestar respeitos"
 
 msgid "拜师"
-msgstr "Ser discípulo"
+msgstr "Ser {jogador:discípulo|discípula}"
 
 msgid "给予"
 msgstr "Dar"
@@ -7484,7 +7484,7 @@ msgid "确定{action}吗？"
 msgstr "{action}: tem certeza?"
 
 msgid "确定要拜{npc}为师吗？"
-msgstr "Tem certeza de que quer ser discípulo de {npc}{:o}?"
+msgstr "Tem certeza de que quer ser {jogador:discípulo|discípula} de {npc}{:o}?"
 
 msgid "收徒条件："
 msgstr "Requisitos:"
@@ -7505,16 +7505,16 @@ msgid "不收徒。"
 msgstr "Não aceita discípulos."
 
 msgid "拜师条件都已满足（详见拜师）。"
-msgstr "Você cumpre todos os requisitos (veja Ser discípulo)."
+msgstr "Você cumpre todos os requisitos (veja Ser {jogador:discípulo|discípula})."
 
 msgid "拜师条件还差 {missing} 项（详见拜师）。"
-msgstr "Requisitos não cumpridos: {missing} (veja Ser discípulo)."
+msgstr "Requisitos não cumpridos: {missing} (veja Ser {jogador:discípulo|discípula})."
 
 msgid "确定向{npc}发誓恪守门规吗？"
 msgstr "Tem certeza de que quer jurar a {npc}{:o} que seguirá as regras da escola?"
 
 msgid "确定取消拜师请求吗？"
-msgstr "Tem certeza de que quer retirar o seu pedido para ser discípulo?"
+msgstr "Tem certeza de que quer retirar o seu pedido para ser {jogador:discípulo|discípula}?"
 
 msgid "确定取消"
 msgstr "Retirar"
@@ -8338,7 +8338,7 @@ msgid "的眉头动了一下。"
 msgstr " franze o cenho por um instante."
 
 msgid "北麓的道观收孩子，说是收道童。茅山查了二十年，查到的孩子都没有回来过。"
-msgstr "O mosteiro do sopé norte recolhe crianças; diz que são acólitos. O Monte Mao investiga há vinte anos e nenhuma das crianças que encontrou voltou jamais."
+msgstr "O templo do sopé norte recolhe crianças; diz que são acólitos. O Monte Mao investiga há vinte anos e nenhuma das crianças que encontrou voltou jamais."
 
 msgid "晚月庄那个女人是逃出来的？……那她是第一个。六阴剑是逆灵宫的剑，教给孩子，是为了让他们替宫里杀人。"
 msgstr "A mulher do Solar da Lua Tardia escapou? ...Então foi a primeira. A espada dos seis yin é do Palácio Negro: eles a ensinam às crianças para que matem pelo palácio."
@@ -8422,7 +8422,7 @@ msgid "烧"
 msgstr "Queimar"
 
 msgid "跟林忌：《上清符箓》投进殿前的香炉，镇教秘籍从此少一函——茅山宁可没有这本书。花匠下山回京城，守着庾清尘。\n林忌教你谷衣心法。正月十七虹台上，茅山这一票投颜违：主剿，北麓剿干净，不留根（已经入了虹台的席的，这一票不再跟着变）。\n终章之后北麓那座道观里的人还没有去处的，问林忌「剿」，官兵上山。\n要这么办吗？"
-msgstr "Ficar ao lado de Lin Ji: o 'Livro de talismãs da Suprema Clareza' é jogado no incensário diante do salão, e aos manuais secretos do Monte Mao passa a faltar um estojo: o Monte Mao prefere não ter este livro. O jardineiro desce à Capital, para velar por Yu Qingchen.\nLin Ji te ensina o Método interno da Túnica de Grão. No dia 17 do primeiro mês, no Terraço do Arco-Íris, o voto do Monte Mao vai para Yan Wei: pela aniquilação, para limpar o sopé norte sem deixar raízes (para quem já tomou assento no Terraço do Arco-Íris, este voto não muda mais).\nSe, depois do capítulo final, a gente daquele mosteiro do sopé norte ainda não tiver para onde ir, pergunte a Lin Ji sobre 'Aniquilar': os soldados subirão a montanha.\nFazer assim?"
+msgstr "Ficar ao lado de Lin Ji: o 'Livro de talismãs da Suprema Clareza' é jogado no incensário diante do salão, e aos manuais secretos do Monte Mao passa a faltar um estojo: o Monte Mao prefere não ter este livro. O jardineiro desce à Capital, para velar por Yu Qingchen.\nLin Ji te ensina o Método interno da Túnica de Grão. No dia 17 do primeiro mês, no Terraço do Arco-Íris, o voto do Monte Mao vai para Yan Wei: pela aniquilação, para limpar o sopé norte sem deixar raízes (para quem já tomou assento no Terraço do Arco-Íris, este voto não muda mais).\nSe, depois do capítulo final, a gente daquele templo do sopé norte ainda não tiver para onde ir, pergunte a Lin Ji sobre 'Aniquilar': os soldados subirão a montanha.\nFazer assim?"
 
 msgid "书锁回去了。……师弟守着。"
 msgstr "O livro foi trancado de novo. ...Meu irmão mais novo o guarda."
@@ -8470,7 +8470,7 @@ msgid "把拂尘搭在臂弯里，金色的那只眼睛望着北边。"
 msgstr " apoia o espanador de crina na dobra do braço, o olho dourado voltado para o norte."
 
 msgid "湖底的事了了，商玦没有回来。可北麓那座道观里还有人——坛上的火没有灭，他们管这叫续灯。"
-msgstr "O caso do lago acabou, e Shang Jue não voltou. Mas ainda há gente naquele mosteiro do sopé norte: o fogo do altar não se apagou, e eles chamam isso de manter a lâmpada acesa."
+msgstr "O caso do lago acabou, e Shang Jue não voltou. Mas ainda há gente naquele templo do sopé norte: o fogo do altar não se apagou, e eles chamam isso de manter a lâmpada acesa."
 
 msgid "茅山要一个了断。交给官府去剿，还是劝他们下山，交茅山看着。"
 msgstr "O Monte Mao quer um desfecho. Entregá-los às autoridades, para serem aniquilados, ou persuadi-los a descer a montanha, sob a vigilância do Monte Mao."
@@ -8485,7 +8485,7 @@ msgid "你递出来的东西，茅山都用上了。这就够了。"
 msgstr "Tudo o que você passou adiante, o Monte Mao aproveitou. Isso basta."
 
 msgid "你露的破绽太多了。宫里迟早认出你——别再回那座道观。"
-msgstr "Você deixou rastros demais. Cedo ou tarde o palácio vai te descobrir: não volte àquele mosteiro."
+msgstr "Você deixou rastros demais. Cedo ou tarde o palácio vai te descobrir: não volte àquele templo."
 
 msgid "时辰和路，茅山记下了。那一夜，北麓下湖的路上有茅山的人。"
 msgstr "A hora e o caminho, o Monte Mao anotou. Naquela noite, haverá gente do Monte Mao na estrada que desce do sopé norte ao lago."
@@ -8506,7 +8506,7 @@ msgid "放下手里的拂尘，金色的那只眼睛看着你。"
 msgstr " larga o espanador de crina e te olha com o olho dourado."
 
 msgid "钉子拔了，头在冰下醒了。他们等的那一夜，就是唤首：宫里倾巢下湖，商玦走在最前头。"
-msgstr "O prego foi arrancado e a cabeça despertou sob o gelo. A noite que eles esperavam é a Invocação da Cabeça: o palácio inteiro desce ao lago, com Shang Jue à frente."
+msgstr "O cravo foi arrancado e a cabeça despertou sob o gelo. A noite que eles esperavam é a Invocação da Cabeça: o palácio inteiro desce ao lago, com Shang Jue à frente."
 
 msgid "你告诉我哪一夜、走哪条路，茅山的人就截在北麓下湖的路上——到了冰龙厅，他身边剩不下几个人。可那顶冠，从此就没用了。"
 msgstr "Me diga que noite e por que caminho, e a gente do Monte Mao vai cortar o passo deles na estrada do sopé norte ao lago: quando ele chegar ao salão dos dragões de gelo, terá poucos ao seu lado. Mas aquele gorro, daí em diante, não servirá mais de nada."
@@ -8518,7 +8518,7 @@ msgid "倒戈，还是潜伏，你定。"
 msgstr "Mudar de lado ou ficar infiltrado: você decide."
 
 msgid "宫里的事快到头了。他们在等一夜——钉子拔了，湖上的事近了，那一夜才会来。"
-msgstr "O assunto do palácio está para terminar. Eles esperam por uma noite: quando o prego for arrancado e o assunto do lago estiver perto, essa noite virá."
+msgstr "O assunto do palácio está para terminar. Eles esperam por uma noite: quando o cravo for arrancado e o assunto do lago estiver perto, essa noite virá."
 
 msgid "到时候我要知道：哪一夜，走哪条路。"
 msgstr "Quando vier, preciso saber: que noite e por que caminho."
@@ -8563,13 +8563,13 @@ msgid "进去，先干活。管事派什么，你干什么；他们说什么，�
 msgstr "Entre e trabalhe primeiro. Faça o que o intendente mandar; escute o que disserem."
 
 msgid "野羊山北麓那座黑砖道观，茅山盯了它两年。我要一个进得去的人，戴着他们的冠替我看、替我听。"
-msgstr "O mosteiro de tijolo negro no sopé norte do Morro das Cabras: o Monte Mao o vigia há dois anos. Preciso de alguém que consiga entrar e, com o gorro deles, ver e ouvir por mim."
+msgstr "O templo de tijolo negro no sopé norte do Morro das Cabras: o Monte Mao o vigia há dois anos. Preciso de alguém que consiga entrar e, com o gorro deles, ver e ouvir por mim."
 
 msgid "可你身上有东方神教的令。一个人只藏得住一重身份——这件事，我不能托你。"
 msgstr "Mas você carrega a placa da Ordem do Corvo Dourado. Uma pessoa só consegue esconder uma identidade: isto eu não posso confiar a você."
 
 msgid "野羊山北麓那座黑砖道观，茅山盯了它两年。他们拜的不是神，是劫；收的不是香火，是人。"
-msgstr "O Monte Mao vigia há dois anos aquele mosteiro de tijolo negro no sopé norte do Morro das Cabras. O que eles adoram não é um deus, é a calamidade; o que recolhem não é incenso, é gente."
+msgstr "O Monte Mao vigia há dois anos aquele templo de tijolo negro no sopé norte do Morro das Cabras. O que eles adoram não é um deus, é a calamidade; o que recolhem não é incenso, é gente."
 
 msgid "你进去过，还出来了。茅山的道士进不去——一身符水的味道，隔着三里地，他们就闻得出来。"
 msgstr "Você entrou e saiu. Os taoístas do Monte Mao não conseguem entrar: com aquele cheiro de água de talismã, a três li de distância eles já são farejados."
@@ -8581,7 +8581,7 @@ msgid "这件事做了，就脱不了身。想好了，再问我「眼线」。"
 msgstr "Uma vez feito, não há como sair. Pense bem e depois me pergunte sobre 'Espião'."
 
 msgid "北麓那座道观？与你无关。"
-msgstr "Aquele mosteiro do sopé norte? Não é da sua conta."
+msgstr "Aquele templo do sopé norte? Não é da sua conta."
 
 msgid "眼线"
 msgstr "Espião"
@@ -8734,7 +8734,7 @@ msgid "这一票的事，去藏经楼问他。"
 msgstr "Quanto a este voto, vá perguntar a ele na Biblioteca das escrituras."
 
 msgid "茅山主剿。这一票原该投颜违——他和朝廷走得近，北麓那座道观，他剿得动。"
-msgstr "O Monte Mao é pela aniquilação. Este voto deveria ir para Yan Wei: ele é próximo da corte, e aquele mosteiro do sopé norte, ele consegue arrasar."
+msgstr "O Monte Mao é pela aniquilação. Este voto deveria ir para Yan Wei: ele é próximo da corte, e aquele templo do sopé norte, ele consegue arrasar."
 
 msgid "金色的那只眼睛看着你。"
 msgstr " te olha com aquele olho dourado."
@@ -8749,7 +8749,7 @@ msgid "可那张名单是你从账房抄出来的，名单上的人茅山找回�
 msgstr "Mas aquela lista foi você quem a copiou na contadoria, e o Monte Mao recuperou várias das pessoas que constam nela. O Monte Mao deve uma a você: este voto, se o quiser, é seu."
 
 msgid "茅山主剿。颜违和朝廷走得近，北麓那座道观，他剿得动。"
-msgstr "O Monte Mao é pela aniquilação. Yan Wei é próximo da corte, e aquele mosteiro do sopé norte, ele consegue arrasar."
+msgstr "O Monte Mao é pela aniquilação. Yan Wei é próximo da corte, e aquele templo do sopé norte, ele consegue arrasar."
 
 msgid "这一票投他。"
 msgstr "Este voto vai para ele."
@@ -8779,7 +8779,7 @@ msgid "你已经答应去劝他们下山了。回北麓去，同宫里当家的�
 msgstr "Você já aceitou ir persuadi-los a descer a montanha. Volte ao sopé norte e diga a quem manda no palácio: 'Descer a montanha'."
 
 msgid "提笔写了一封信，把北麓那座道观的门户、上山的绳路一一画在信后。"
-msgstr " escreve uma carta e desenha no verso, um a um, os portões do mosteiro do sopé norte e os caminhos de corda montanha acima."
+msgstr " escreve uma carta e desenha no verso, um a um, os portões do templo do sopé norte e os caminhos de corda montanha acima."
 
 msgid "这封信今晚就到乔阴，程不平会转给兵部。"
 msgstr "Esta carta chega a Sombra Alta hoje à noite; Cheng Buping a passará ao Ministério da Guerra."
@@ -8881,7 +8881,7 @@ msgid "召来一名天将或阴鬼卒相助（{mana} 法力、{sen} 神，可能
 msgstr "Invoque um general celestial ou um soldado fantasma para ajudar ({mana} de Poder arcano, {sen} de Espírito, pode falhar)"
 
 msgid "看得见鬼魂，持续的秒数等于你的有效咒文等级（{mana} 法力、{sen} 神）"
-msgstr "Veja os fantasmas por tantos segundos quanto seu nível efetivo de Encantamentos básicos ({mana} de Poder arcano, {sen} de Espírito)"
+msgstr "Veja os fantasmas por tantos segundos quanto seu nível efetivo de Encantamentos ({mana} de Poder arcano, {sen} de Espírito)."
 
 msgid "吸取对方的精"
 msgstr "Absorva a Essência do oponente"
@@ -8968,7 +8968,7 @@ msgid "蒙汗药：药力发作，撑不住就会昏倒。"
 msgstr "Pó sonífero: a droga faz efeito; se você não aguentar, desmaia."
 
 msgid "意寒掌毒：每次心跳伤精、气、神各 25。"
-msgstr "Veneno da Palma da Intenção Gelada: a cada batimento, 25 de Essência, de Qi e de Espírito feridos."
+msgstr "Veneno da Palma gelada: a cada batimento, 25 de Essência, de Qi e de Espírito feridos."
 
 msgid "包扎着：每次心跳回气 3。"
 msgstr "Atadura: recupera 3 de Qi a cada batimento."
@@ -9076,7 +9076,7 @@ msgid "你输了这场战斗，昏了过去。"
 msgstr "Você perdeu o combate e desmaiou."
 
 msgid "切磋结束。"
-msgstr "O duelo amistoso terminou."
+msgstr "O treino terminou."
 
 msgid "三回合拆完了。"
 msgstr "As três rodadas terminaram."
@@ -9136,7 +9136,7 @@ msgid "死斗"
 msgstr "Duelo mortal"
 
 msgid "拆招"
-msgstr "Treino"
+msgstr "Prática de golpes"
 
 msgid "交手"
 msgstr "Confronto"
@@ -9283,16 +9283,16 @@ msgid "精 %d　神 %d"
 msgstr "Essência %d  Espírito %d"
 
 msgid "天邪虎啸要耗 {force} 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n确定要发出虎啸吗？"
-msgstr "O rugido custa {force} de Força interior. Ele fere o Espírito de todos os presentes; quem não resistir, seja quem for, vai tentar matar você, e até um duelo amistoso vira luta de vida ou morte.\nQuer mesmo rugir?"
+msgstr "O rugido custa {force} de Força interior. Ele fere o Espírito de todos os presentes; quem não resistir, seja quem for, vai tentar matar você, e até um treino vira luta de vida ou morte.\nQuer mesmo rugir?"
 
 msgid "在战斗中运功压制杀气，可能当场昏倒：以你现在的定力和内功，{odds}。昏倒以后，要杀你的人不会停手。\n确定要压制杀气吗？"
 msgstr "Conter a Aura assassina em pleno combate pode fazer você desmaiar na hora: com a sua Serenidade e o seu neigong atuais, {odds}. Se você desmaiar, quem quer te matar não vai parar.\nQuer mesmo conter a Aura assassina?"
 
 msgid "召天将要耗 {mana} 点法力和 {sen} 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n确定要召唤天将吗？"
-msgstr "Invocar o general celestial custa {mana} de Poder arcano e {sen} de Espírito. Assim que chega, ele tenta matar seu oponente, e o oponente o ataca de volta: o duelo amistoso vira luta de vida ou morte, e o oponente pode morrer. Todas as mortes que o general causar contam como suas; se ele matar seu Shifu, você terá matado seu próprio mestre.\nQuer mesmo invocar o general?"
+msgstr "Invocar o general celestial custa {mana} de Poder arcano e {sen} de Espírito. Assim que chega, ele tenta matar seu oponente, e o oponente o ataca de volta: o treino vira luta de vida ou morte, e o oponente pode morrer. Todas as mortes que o general causar contam como suas; se ele matar seu Shifu, você terá matado seu próprio mestre.\nQuer mesmo invocar o general?"
 
 msgid "召护法要耗 {mana} 点法力和 {sen} 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n确定要召护法吗？"
-msgstr "Chamar o guardião custa {mana} de Poder arcano e {sen} de Espírito. O general celestial ou o soldado fantasma que vier tenta matar seu oponente, e o oponente o ataca de volta: o duelo amistoso vira luta de vida ou morte, e o oponente pode morrer. Todas as mortes que ele causar contam como suas; se ele matar seu Shifu, você terá matado seu próprio mestre.\nQuer mesmo chamar o guardião?"
+msgstr "Chamar o guardião custa {mana} de Poder arcano e {sen} de Espírito. O general celestial ou o soldado fantasma que vier tenta matar seu oponente, e o oponente o ataca de volta: o treino vira luta de vida ou morte, e o oponente pode morrer. Todas as mortes que ele causar contam como suas; se ele matar seu Shifu, você terá matado seu próprio mestre.\nQuer mesmo chamar o guardião?"
 
 msgid "来相助的护法会替你杀{npc}。{npc}不是你亲手杀的，你会昏倒，也悟不到咒术的道理。\n确定要召唤吗？"
 msgstr "O guardião que vier em seu auxílio vai matar {npc}{:o} por você. Como {npc}{:o} não morre por suas mãos, você desmaia e não compreende o segredo do feitiço.\nQuer mesmo invocar?"
@@ -10117,10 +10117,10 @@ msgid "（{npc}要把你押到县衙受审：被押着走不开；可以向他�
 msgstr "({npc}{:o} vai levar você ao tribunal do condado para julgamento: enquanto estiver sob custódia, você não pode sair; dá para oferecer suborno ou resistir à prisão e lutar.)"
 
 msgid "木人是武馆拆招用的，只能切磋，打坏了还得赔。"
-msgstr "Os bonecos de madeira são para treino no salão: só servem para duelos amistosos, e quem os quebra tem de pagar."
+msgstr "Os bonecos de madeira são para a prática de golpes no salão: só servem para treinos, e quem os quebra tem de pagar."
 
 msgid "你身上带着伤，先养好了再来拆招。"
-msgstr "Você está com ferimentos: cure-se primeiro e volte para o treino."
+msgstr "Você está com ferimentos: cure-se primeiro e volte para a prática de golpes."
 
 msgid "你是别派的弟子，我不便指点。"
 msgstr "Você é de outra escola; não me cabe te instruir."
@@ -10276,7 +10276,7 @@ msgid "需要先学会基本咒文，法力才能增长。"
 msgstr "Você precisa aprender primeiro Encantamentos básicos para que o Poder arcano possa crescer."
 
 msgid "需要先学会基本法术，灵力才能增长。"
-msgstr "Você precisa aprender primeiro Misticismo básico para que o Energia espiritual possa crescer."
+msgstr "Você precisa aprender primeiro Misticismo básico para que a Energia espiritual possa crescer."
 
 msgid "{verb}要耗去{cost}，你现在撑不住，会当场昏过去。\n确定要{verb}吗？"
 msgstr "{verb} custa{cost}. No estado em que você está, não aguentaria e desmaiaria na hora.\nQuer mesmo continuar?"
@@ -10348,7 +10348,7 @@ msgid "交易"
 msgstr "Negociar"
 
 msgid "%s · 估价 / 卖断"
-msgstr "%s · Avaliar / Vender"
+msgstr "%s · Avaliar / Venda definitiva"
 
 msgid "已持用 · 主手"
 msgstr "Na mão · principal"
@@ -10639,7 +10639,7 @@ msgid "· 三招都接住，{master}便愿意收你为徒，再向{pronoun}拜�
 msgstr "· Se você resistir aos três golpes, {master}{:o} aceitará ser seu Shifu; depois é só pedir a {pronoun}."
 
 msgid "{master}只收没有门派的普通百姓为徒。你现在是{title}，向{pronoun}拜师：\n· {pronoun}会当你要背叛师门，当众大声喝破。\n· 然后当场出手要杀你，这是一场生死之战。\n确定要向{pronoun}拜师吗？"
-msgstr "{master}{:o} só aceita como discípulos gente comum, sem escola. Você é {title}; se pedir a {pronoun} o discipulado:\n· {master}{:o} vai tomar você por traidor da sua escola e gritar isso diante de todos.\n· Depois ataca para matar você na hora: um combate até a morte.\nQuer mesmo pedir a {pronoun} que te aceite?"
+msgstr "{master}{:o} só aceita como discípulos gente comum, sem escola. Você é {title}; se pedir a {pronoun} o discipulado:\n· {master}{:o} vai tomar você por {jogador:traidor|traidora} da sua escola e gritar isso diante de todos.\n· Depois ataca para matar você na hora: um combate até a morte.\nQuer mesmo pedir a {pronoun} que te aceite?"
 
 msgid "拜师 / 向师父请安"
 msgstr "Discipulado / Saudar"
@@ -10738,7 +10738,7 @@ msgid "身份"
 msgstr "Identidade"
 
 msgid "历练"
-msgstr "Feitos"
+msgstr "Façanhas"
 
 msgid "精气神"
 msgstr "Essência, Qi, Espírito"
@@ -10771,7 +10771,7 @@ msgid "落后补偿：{region}推荐实战经验 {recommended}，你在这里所
 msgstr "Bônus de recuperação: em {region}{:o}, a Experiência de combate recomendada é {recommended}; abaixo disso você ganha +{percent}% de experiência e de Potencial, até alcançar esse nível."
 
 msgid "还没有历练。切磋取胜、了结一段经历、第一次到一个地方，都算。"
-msgstr "Ainda não há feitos. Contam vencer um duelo amistoso, encerrar uma história e chegar pela primeira vez a um lugar."
+msgstr "Ainda não há façanhas. Contam vencer um treino, encerrar uma história e chegar pela primeira vez a um lugar."
 
 msgid "……还有 {count} 项"
 msgstr "...e mais {count}"
@@ -10780,7 +10780,7 @@ msgid "生在{name}"
 msgstr "Nasceu em {name}{:o}"
 
 msgid "切磋胜过{name}"
-msgstr "Venceu {name}{:o} em um duelo amistoso"
+msgstr "Venceu {name}{:o} em um treino"
 
 msgid "击败{name}"
 msgstr "Derrotou {name}{:o}"
@@ -10921,7 +10921,7 @@ msgid "估价"
 msgstr "Avaliar"
 
 msgid "卖断…"
-msgstr "Vender..."
+msgstr "Venda definitiva..."
 
 msgid "确认卖断（不可撤销）"
 msgstr "Confirmar venda (irreversível)"
@@ -11209,7 +11209,7 @@ msgid "步子在后院书房那幅湘绣图上，曲子在舞曲谱里。两样�
 msgstr "Os passos estão no bordado do escritório do quintal; a música, na partitura de dança. Reunidas as duas coisas, vá ao oratório do segundo andar e dance diante da tabuleta de Ouming."
 
 msgid "我们晚月庄是『以舞会友，以神换技』。可庄里失传过一支舞，叫沧海龙吟——寒谷龙舞里的一支，几十年没人跳过了。"
-msgstr "Aqui no Solar da Lua Tardia, 'fazemos amigos pela dança e trocamos Espírito por técnica'. Mas uma dança se perdeu no Solar, o Canto do Dragão sobre o Mar Azul, uma das Dança do Dragão do Vale Frio, que ninguém dança há décadas."
+msgstr "Aqui no Solar da Lua Tardia, 'fazemos amigos pela dança e trocamos Espírito por técnica'. Mas uma dança se perdeu no Solar, o Canto do Dragão sobre o Mar Azul, uma das Danças do Dragão do Vale Frio, que ninguém dança há décadas."
 
 msgid "步子绣在后院书房那幅湘绣舞曲图上，昭仪天天对着它看；曲子在舞曲谱里，欣芳知道谱放在哪。"
 msgstr "Os passos estão bordados no quadro de dança do escritório do quintal, que Zhaoyi contempla todos os dias; a música está na partitura de dança, e Xinfang sabe onde ela fica guardada."
@@ -12187,7 +12187,7 @@ msgid "顺着货道往北，进黑砖山门，看看这座道观。戴着黑冠�
 msgstr "Seguir para o norte pelo caminho da carga, passar pelo Portal de Tijolo Negro e dar uma olhada no templo. De gorro negro, os taoístas te tomam por um deles."
 
 msgid "黑砖的前院：黑幡垂地，香炉里烧的不是香。前殿的门关着，东边的矮房是货栈。"
-msgstr "O pátio da frente, de tijolo negro: estandartes negros arrastam no chão, e o que queima no incensário não é incenso. A porta do salão da frente está fechada; a casa baixa a leste é o depósito de carga."
+msgstr "O pátio da frente, de tijolo negro: estandartes negros arrastam no chão, e o que queima no incensário não é incenso. A porta do salão da frente está fechada; a casa baixa a leste é o armazém."
 
 msgid "前殿的门关着。推开殿门进前殿，找到霍铮。"
 msgstr "A porta do salão da frente está fechada. Empurrar a porta, entrar no salão da frente e encontrar Huo Zheng."
@@ -12433,7 +12433,7 @@ msgid "顺着军道往北，出了山就是关北。"
 msgstr "Seguir a estrada militar para o norte; saindo das montanhas, é o Norte do Passo."
 
 msgid "黄土变成了草。路边一方青石界碑：「关北封国界」。往北，一座土黄的城墙横在草地尽头——槐阳城。"
-msgstr "A terra amarela vira capim. À beira da estrada, um marco de fronteira de pedra azulada: \"Limite do feudo\". Ao norte, uma muralha de terra amarela atravessa o fim da pradaria: Huaiyang."
+msgstr "A terra amarela vira capim. À beira da estrada, um marco de fronteira de pedra azulada: \"Limite do feudo do Norte do Passo\". Ao norte, uma muralha de terra amarela atravessa o fim da pradaria: Huaiyang."
 
 msgid "进槐阳城。城门旁有一张王府的告示，看看。"
 msgstr "Entrar em Huaiyang. Junto ao portão da cidade há um aviso da casa do príncipe: ler o aviso."
@@ -12448,7 +12448,7 @@ msgid "程朔读了信：兵部的印是真的，令不是先帝的——他早�
 msgstr "Cheng Shuo leu a carta: o selo do Ministério é verdadeiro, a ordem não é do falecido imperador; ele disse isso há muito tempo. A gente desaparecida está escavando um túmulo antigo nas obras do Ministério da Guerra, a leste da pradaria, e quem não aguenta mais cavar é levado pelo carro dos taoístas. Dois caminhos: pedir as tropas dele e arrasar tudo, ou deixar que Guo Cheng te leve lá dentro de noite."
 
 msgid "借槐阳王的兵踏平工地（问程朔「借兵」：救下所有人，但兵部会说关北反了），或带骁将郭承夜里潜入（在校场问郭承「潜入」：救一半，王府干净）。"
-msgstr "Pedir as tropas do Príncipe de Huaiyang e arrasar as obras (perguntar a Cheng Shuo sobre \"Pedir tropas\": todos se salvam, mas o Ministério dirá que o Norte do Passo se rebelou), ou entrar às escondidas de noite com o capitão Guo Cheng (perguntar a Guo Cheng, no pátio de armas, sobre \"Infiltrar-se\": metade se salva, e a casa do príncipe fica de mãos limpas)."
+msgstr "Pedir as tropas do Príncipe de Huaiyang e arrasar as obras (perguntar a Cheng Shuo sobre \"Pedir tropas\": todos se salvam, mas o Ministério dirá que o Norte do Passo se rebelou), ou entrar às escondidas de noite com o campeão Guo Cheng (perguntar a Guo Cheng, no pátio de armas, sobre \"Infiltrar-se\": metade se salva, e a casa do príncipe fica de mãos limpas)."
 
 msgid "你借了槐阳王的兵。程朔：「踏平了，兵部的文书第二天就到京师：槐阳王反了。」郭承领六骑听你的。"
 msgstr "Você conseguiu as tropas do Príncipe de Huaiyang. Cheng Shuo: \"Arrasado aquilo, no dia seguinte os papéis do Ministério chegam à Capital: o Príncipe de Huaiyang se rebelou.\" Guo Cheng e seis cavaleiros ficaram às suas ordens."
@@ -12460,7 +12460,7 @@ msgid "你和郭承约好了夜里潜入工地。「救得几个算几个，救�
 msgstr "Você combinou com Guo Cheng de entrar às escondidas nas obras de noite. \"Salvamos quantos der; pelos que ficarem, não olhe para trás. A casa do príncipe não sabe de nada disso.\""
 
 msgid "和王府骁将郭承约好夜里潜入工地"
-msgstr "Combinou com Guo Cheng, capitão do príncipe, de entrar às escondidas nas obras de noite"
+msgstr "Combinou com Guo Cheng, campeão do príncipe, de entrar às escondidas nas obras de noite"
 
 msgid "去草原东边兵部的工地（出马市东门，过帐篷营地和草原）。借了兵的，郭承跟着你，白天就去；约好潜入的，先在营地的篝火边等到天黑。"
 msgstr "Ir às obras do Ministério da Guerra, a leste da pradaria (pela porta leste do Mercado de Cavalos, passando o acampamento de tendas e a pradaria). Se pediu as tropas, Guo Cheng vai com você, e é de dia; se combinou de entrar às escondidas, espere primeiro junto à fogueira do acampamento até escurecer."
@@ -12544,7 +12544,7 @@ msgid "早川收刀入鞘：「过了。今夜，拜火祠——火坛前站着�
 msgstr "Hayakawa embainhou a espada: \"Passou. Esta noite, no Santuário do fogo, fique diante do altar de fogo e não faça barulho.\""
 
 msgid "等到天黑（鬼笠馆的板地能歇到天黑），去拜火祠的火坛前站着，别出声。浪人替你偷牒。"
-msgstr "Esperar escurecer (no Dojo do Chapéu Fantasma dá para descansar até a noite), ir ao altar de fogo do Santuário do fogo e ficar ali, sem fazer barulho. Os ronin roubam a tabuleta para você."
+msgstr "Esperar escurecer (no Salão do Chapéu Fantasma dá para descansar até a noite), ir ao altar de fogo do Santuário do fogo e ficar ali, sem fazer barulho. Os ronin roubam a tabuleta para você."
 
 msgid "黑影把铜牒塞进你手里，走了。祠里传出祭司的骂声。第二天，冯禄的文书有了浪人作证——铁盾会空了，安敦被押上了船，卢卡剩在码头上。"
 msgstr "Uma sombra enfiou a tabuleta de cobre nas suas mãos e se foi. De dentro do santuário vieram as pragas do sacerdote. No dia seguinte, os papéis de Feng Lu tinham o testemunho dos ronin: a Irmandade do Escudo de Ferro ficou vazia, Andun foi levado preso para um navio, e Luca ficou sozinho no cais."
@@ -12559,7 +12559,7 @@ msgid "湖底封物"
 msgstr "Selado sob o lago"
 
 msgid "铜牒说：头在湖底冰下，以穿灵为钉。那把剑钉着鬼的头——在玉螺湖底。渔夫说湖里不太平，别碰那把剑。"
-msgstr "A tabuleta de cobre diz: a cabeça jaz sob o gelo, no fundo do lago, com Trespassa-Almas por cravo. Aquela espada crava a cabeça do fantasma no fundo do Lago Búzio de Jade. O pescador diz que o lago não anda em paz e que não se deve tocar naquela espada."
+msgstr "A tabuleta de cobre diz: a cabeça jaz sob o gelo, no fundo do lago, com Trespassa-Almas por prego. Aquela espada crava a cabeça do fantasma no fundo do Lago Búzio de Jade. O pescador diz que o lago não anda em paz e que não se deve tocar naquela espada."
 
 msgid "下到玉螺湖底，看清了三百年的封物"
 msgstr "Desceu ao fundo do Lago Búzio de Jade e viu o que está selado ali há trezentos anos"
@@ -12607,7 +12607,7 @@ msgid "天黑了。鬼卒从湖里上来——守住村子：湖畔、村口、�
 msgstr "Anoiteceu. Os soldados fantasmas sobem do lago: defender a aldeia na margem do lago, na entrada da aldeia e na beira do arrozal. (Na margem do lago, junto ao barco de madeira, dá para esperar escurecer.)"
 
 msgid "天亮了。村子烧了一半，渔夫死在岸边，璃虹在田老财家的东房里躺着。钉没了，它每一夜都在长。"
-msgstr "Amanheceu. Metade da aldeia queimou, o pescador está morto na beira d'água, e Lihong está deitada no quarto leste da casa do fazendeiro Tian. O prego sumiu, e aquilo cresce a cada noite."
+msgstr "Amanheceu. Metade da aldeia queimou, o pescador está morto na beira d'água, e Lihong está deitada no quarto leste da casa do fazendeiro Tian. O cravo sumiu, e aquilo cresce a cada noite."
 
 msgid "原令"
 msgstr "Édito original"
@@ -12727,13 +12727,13 @@ msgid "回到湖底"
 msgstr "De volta ao fundo do lago"
 
 msgid "穿灵、旋芒、宝衣。三器凑没凑齐，湖底那颗头都在等。拔钉，斩鬼，或者再封它。"
-msgstr "Trespassa-Almas, Gume Giratório, a túnica. Com as três relíquias juntas ou não, a cabeça no fundo do lago está esperando. Arrancar o prego e matar o fantasma, ou selá-lo de novo."
+msgstr "Trespassa-Almas, Gume Giratório, a túnica. Com as três relíquias juntas ou não, a cabeça no fundo do lago está esperando. Arrancar o cravo e matar o fantasma, ou selá-lo de novo."
 
 msgid "从玉螺湖底回到了雪亭镇，听了宣诏"
 msgstr "Voltou do fundo do Lago Búzio de Jade ao Pavilhão da Neve e ouviu a leitura do édito"
 
 msgid "回到湖底。拔钉，斩鬼，或者再封它。"
-msgstr "Voltar ao fundo do lago. Arrancar o prego e matar o fantasma, ou selá-lo de novo."
+msgstr "Voltar ao fundo do lago. Arrancar o cravo e matar o fantasma, ou selá-lo de novo."
 
 msgid "湖面平得像一块铁，结着一层黑冰。冰底下的光一下一下地暗下去。"
 msgstr "O lago está liso como uma chapa de ferro, coberto por uma camada de gelo negro. A luz sob o gelo vai se apagando, pulso a pulso."
@@ -12853,7 +12853,7 @@ msgid "你回到了湖底。坛心的冰里，那颗头睁着眼。"
 msgstr "Você voltou ao fundo do lago. No gelo do coração do altar, a cabeça está de olhos abertos."
 
 msgid "封坛：侮天鬼。（钉还钉着的，先拔出穿灵；拔过了的，到坛心「迎上去」。）"
-msgstr "Altar do selo: Desafia-Céus. (Se o prego ainda está cravado, arranque primeiro Trespassa-Almas; se já o arrancou, vá ao coração do altar e \"Enfrentá-lo\".)"
+msgstr "Altar do selo: Desafia-Céus. (Se o prego ainda está pregado, arranque primeiro Trespassa-Almas; se já o arrancou, vá ao coração do altar e \"Enfrentá-lo\".)"
 
 msgid "侮天鬼散成一团黑焰，退回了那颗头底下。"
 msgstr "Desafia-Céus se desfez em uma massa de chama negra e recuou para baixo da cabeça."
@@ -12862,7 +12862,7 @@ msgid "最后一下：三器齐、人够，可以钉下去灭了它——宝衣�
 msgstr "O último golpe: com as três relíquias e gente suficiente, você pode cravá-lo até o fim e destruí-lo (a túnica vai queimar); ou pode entregar Trespassa-Almas a alguém disposto a ficar, e selá-lo de novo."
 
 msgid "旋芒斩它，宝衣挡它的黑焰，穿灵钉它的头。侮天鬼灭了，宝衣烧成了灰。"
-msgstr "Gume Giratório o cortou, a túnica deteve a chama negra dele e Trespassa-Almas pregou a cabeça dele. Desafia-Céus foi destruído, e a túnica virou cinzas."
+msgstr "Gume Giratório o cortou, a túnica deteve a chama negra dele e Trespassa-Almas cravou a cabeça dele. Desafia-Céus foi destruído, e a túnica virou cinzas."
 
 msgid "在玉螺湖底灭了侮天鬼"
 msgstr "Destruiu Desafia-Céus no fundo do Lago Búzio de Jade"
@@ -12988,7 +12988,7 @@ msgid "宝衣出过一回庄，又被人送了回来。池边的人说，护庄�
 msgstr "A túnica saiu do Solar uma vez, e alguém a trouxe de volta. A gente junto ao tanque de pétalas diz que a luz que protege o Solar enfraqueceu um pouco naquele ano, e depois voltou a brilhar."
 
 msgid "后院书房那幅湘绣图前，又有人在学沧海龙吟了。"
-msgstr "No escritório do quintal, diante do bordado da dança, alguém voltou a aprender o Canto do Dragão sobre o Mar Azul."
+msgstr "No escritório do quintal, diante do bordado Xiang, alguém voltou a aprender o Canto do Dragão sobre o Mar Azul."
 
 msgid "内书房的老妇再没有开过口。蓝止萍说，庄规是庄规；那一年起，晚月庄的门关得比从前早。"
 msgstr "A anciã do escritório interno nunca mais abriu a boca. Lan Zhiping diz que as regras do Solar são as regras do Solar; desde aquele ano, o Solar da Lua Tardia fecha as portas mais cedo que antes."
@@ -13000,7 +13000,7 @@ msgid "野羊寨的旗子又插回了山顶。霍铮说，逆灵宫的黑砖，�
 msgstr "A bandeira do Forte das Cabras voltou a tremular no alto do morro. Huo Zheng diz que os tijolos negros do Palácio Negro, desmontados, servem na medida para o muro do forte."
 
 msgid "黄霸还在土地庙里收他的供。北麓的黑砖道观，没人敢上去看一眼。"
-msgstr "Huang Ba continua cobrando seus tributos no Santuário do Deus da Terra. Ninguém se atreve a subir para dar uma olhada no mosteiro de tijolo negro do Sopé norte."
+msgstr "Huang Ba continua cobrando seus tributos no Santuário do Deus da Terra. Ninguém se atreve a subir para dar uma olhada no templo de tijolo negro do Sopé norte."
 
 msgid "有人说在北边的雪里见过商玦：一身黑衣结着霜，说话还像念经。"
 msgstr "Alguém diz que viu Shang Jue na neve do norte: a roupa negra coberta de geada, e ainda falando como quem recita escrituras."
@@ -13048,7 +13048,7 @@ msgid "日照山的流云轩里多了一个拿金刚杖的和尚，抬上山的�
 msgstr "No Recanto das Nuvens Errantes, no Monte Ensolarado, agora há um monge com um bastão de vajra; quem é trazido montanha acima, ele ajuda a passar pela porta. Na câmara de pedra atrás da Aldeia Pedra Azul, só resta Juechenzi, sentado sozinho sob a estátua de Buda."
 
 msgid "那一夜，茅山的人截在北麓下湖的路上。黑砖道观里再没人提起那个新来的道士——只有门房记得，他戴冠的样子不太像。"
-msgstr "Naquela noite, a gente do Monte Mao bloqueou o caminho que desce do Sopé norte ao lago. No mosteiro de tijolo negro, ninguém nunca mais falou daquele taoísta novato; só o porteiro se lembra de que ele não usava o gorro muito direito."
+msgstr "Naquela noite, a gente do Monte Mao bloqueou o caminho que desce do Sopé norte ao lago. No templo de tijolo negro, ninguém nunca mais falou daquele taoísta novato; só o porteiro se lembra de que ele não usava o gorro muito direito."
 
 msgid "冰龙厅里那第一剑，是从商玦背后来的。活着回到北麓的道士说，刺他的人戴着宫里的冠。"
 msgstr "Aquela primeira estocada no salão dos dragões de gelo veio pelas costas de Shang Jue. Os taoístas que voltaram vivos ao Sopé norte dizem que quem o apunhalou usava um gorro do palácio."
@@ -13108,7 +13108,7 @@ msgid "铁盾会的院子空了。鬼笠馆的浪人占了那块地，早川直�
 msgstr "O pátio da Irmandade do Escudo de Ferro está vazio. Os ronin do Salão do Chapéu Fantasma tomaram aquele terreno, e Hayakawa Naoyoshi nunca mais desembainhou."
 
 msgid "拜火祠的火，一年到头没有灭过。"
-msgstr "O fogo do santuário do fogo não se apaga o ano inteiro."
+msgstr "O fogo do Santuário do fogo não se apaga o ano inteiro."
 
 msgid "傅家坡的草顶重新铺过了。渔夫的网挂在他家门口，没有人去收。"
 msgstr "Os telhados de palha da Ladeira dos Fu foram refeitos. A rede do pescador está pendurada na porta dele, e ninguém a recolhe."
@@ -13318,22 +13318,22 @@ msgid "朱鸿雪记住了，那天山道上截住她的人的，是你。"
 msgstr "Zhu Hongxue não esqueceu: quem a barrou no caminho da montanha naquele dia foi você."
 
 msgid "北麓的道观空了，官兵封了山门。"
-msgstr "O mosteiro do Sopé norte está vazio, e os soldados lacraram o portal."
+msgstr "O templo do Sopé norte está vazio, e os soldados lacraram o portal."
 
 msgid "下了山的道士在茅山的田里种地，坛上的火灭了。"
 msgstr "Os taoístas que desceram a montanha cultivam os campos do Monte Mao, e o fogo do altar se apagou."
 
 msgid "九派的人上了北麓。道观里剩下的人，一个也没走脱。"
-msgstr "As nove escolas subiram o Sopé norte. Dos que restavam no mosteiro, nenhum escapou."
+msgstr "As nove escolas subiram o Sopé norte. Dos que restavam no templo, nenhum escapou."
 
 msgid "茅山的人上了北麓，把肯下山的领了回去。"
 msgstr "A gente do Monte Mao subiu o Sopé norte e levou de volta os que aceitaram descer."
 
 msgid "官兵上了北麓，把道观里剩下的人领下了山。卫沧澜说，这一回欠朝廷的。"
-msgstr "Os soldados subiram o Sopé norte e trouxeram montanha abaixo os que restavam no mosteiro. Wei Canglan diz que, desta vez, estamos devendo à corte."
+msgstr "Os soldados subiram o Sopé norte e trouxeram montanha abaixo os que restavam no templo. Wei Canglan diz que, desta vez, estamos devendo à corte."
 
 msgid "北麓的道观里，续灯的火一直没灭。"
-msgstr "No mosteiro do Sopé norte, o fogo da lamparina sempre reabastecida nunca se apagou."
+msgstr "No templo do Sopé norte, o fogo da lamparina sempre reabastecida nunca se apagou."
 
 msgid "林忌那天一路追到北麓，追回了两个放火的孩子。"
 msgstr "Naquele dia, Lin Ji foi atrás deles até o Sopé norte e trouxe de volta duas crianças que tinham posto o fogo."
@@ -13483,7 +13483,7 @@ msgid "{npc}没有收下。"
 msgstr "{npc}{:o} não aceita."
 
 msgid "{item}对你而言太重了，掉在你的脚边。"
-msgstr "Você não consegue carregar {item}{:0} e deixa tudo cair a seus pés."
+msgstr "Você não consegue carregar {item}{:0} e deixa cair a seus pés."
 
 msgid "这里没有这个人。"
 msgstr "Não há ninguém assim aqui."
@@ -13648,7 +13648,7 @@ msgid "老娘"
 msgstr "esta velha"
 
 msgid "大和尚我"
-msgstr "este monge"
+msgstr "este grande monge"
 
 msgid "老和尚我"
 msgstr "este velho monge"
@@ -14125,7 +14125,7 @@ msgid "%s神色间似乎对你不是十分信任，也许是想起你从前背�
 msgstr "%s não parece confiar muito em você. Talvez se lembre de que você traiu sua escola no passado..."
 
 msgid "%s说道：嗯 .... 师父能教你的都教了，其他的你自己练吧。"
-msgstr "%s diz: \"Hum... Já ensinei tudo o que um Shifu pode ensinar. O resto você mesmo vai ter que praticar.\""
+msgstr "%s diz: \"Hum... Já ensinei tudo o que um Shifu pode ensinar. O resto {jogador:você mesmo|você mesma} vai ter que praticar.\""
 
 msgid "%s说道：虽然你是我门下的弟子，可是并非我的嫡传弟子 ...."
 msgstr "%s diz: \"Embora você seja {jogador:discípulo|discípula} da minha escola, não é {jogador:meu discípulo direto|minha discípula direta}...\""
@@ -14419,7 +14419,7 @@ msgid "差事"
 msgstr "Encargos"
 
 msgid "the 历练 is the quest's"
-msgstr "os Feitos são os da missão"
+msgstr "as Façanhas são as da missão"
 
 msgid "{what} ≥ {required}（你 {have}）"
 msgstr "{what} ≥ {required} (você tem {have})"
@@ -14455,7 +14455,7 @@ msgid "须通过考验"
 msgstr "É preciso passar numa prova"
 
 msgid "拜师时另有要求"
-msgstr "Ao pedir para ser discípulo, algo mais será exigido"
+msgstr "Ao pedir para ser {jogador:discípulo|discípula}, algo mais será exigido"
 
 msgid "须另有机缘"
 msgstr "É preciso uma ocasião propícia"
@@ -14647,7 +14647,7 @@ msgid "你的法力不够。"
 msgstr "Você não tem Poder arcano suficiente."
 
 msgid "$N微一凝神，闭著眼睛念了几句咒语，施展「阴阳眼」法术。"
-msgstr "$N{:o} concentra a mente por um instante, fecha os olhos, murmura algumas palavras e lança a Visão espectral."
+msgstr "$N{:o} concentra a mente por um instante, fecha os olhos, murmura algumas palavras e lança a \"Visão espectral\"."
 
 msgid "你的阴阳眼法术失效了。"
 msgstr "Sua Visão espectral se dissipa."
@@ -14713,7 +14713,7 @@ msgid "你要移动到哪一个人身边？"
 msgstr "Ao lado de quem você quer ir?"
 
 msgid "你无法感受到这个人的灵力 ...."
-msgstr "Você não consegue sentir o Energia espiritual desta pessoa..."
+msgstr "Você não consegue sentir a Energia espiritual desta pessoa..."
 
 msgid "中止施法。"
 msgstr "Você interrompe o feitiço."
@@ -14728,10 +14728,10 @@ msgid "你的灵力不够！"
 msgstr "Você não tem Energia espiritual suficiente!"
 
 msgid "游识神通只能对自己使用！"
-msgstr "O Sentido errante só pode ser usado em si mesmo!"
+msgstr "O Sentido errante só pode ser usado {jogador:em si mesmo|em si mesma}!"
 
 msgid "你感受到对方的灵力，但是不够强烈。"
-msgstr "Você sente o Energia espiritual da pessoa, mas não com força suficiente."
+msgstr "Você sente a Energia espiritual da pessoa, mas não com força suficiente."
 
 msgid "你因为不够熟练而失败了。"
 msgstr "Você falha por falta de prática."
@@ -14962,7 +14962,7 @@ msgid "$N盘膝而座，开始运用空识神通静思入定 ..."
 msgstr "$N{:o} se senta de pernas cruzadas e começa a usar o Sentido do vazio, mergulhando na quietude..."
 
 msgid "空识神通只能对自己使用。"
-msgstr "O Sentido do vazio só pode ser usado em si mesmo."
+msgstr "O Sentido do vazio só pode ser usado {jogador:em si mesmo|em si mesma}."
 
 msgid "你觉得脑中一片混乱，你的潜能降低了！"
 msgstr "Sua mente cai em confusão total: seu Potencial diminuiu!"
@@ -15043,7 +15043,7 @@ msgid "这个技能不能当成这种用途。"
 msgstr "Esta habilidade não pode ser usada assim."
 
 msgid "你改用另一种法术系，灵力必须重新锻炼。"
-msgstr "Você passou para outra escola de misticismo; seu Energia espiritual precisa ser cultivado de novo."
+msgstr "Você passou para outra escola de misticismo; sua Energia espiritual precisa ser cultivada de novo."
 
 msgid "你改用另一种内功，内力必须重新锻炼。"
 msgstr "Você passou para outro neigong; sua Força interior precisa ser cultivada de novo."
@@ -15136,13 +15136,13 @@ msgid "你的魔力提高了！"
 msgstr "Sua magia aumentou!"
 
 msgid "战斗也是一种修行，但不能和灵力的修行同时进行。"
-msgstr "Lutar também é uma forma de cultivo, mas não dá para fazer isso enquanto você cultiva o Energia espiritual."
+msgstr "Lutar também é uma forma de cultivo, mas não dá para fazer isso enquanto você cultiva a Energia espiritual."
 
 msgid "你最少要花 10 点精力才能进行修行。"
 msgstr "Você precisa gastar pelo menos 10 pontos de Essência para cultivar."
 
 msgid "你现在精力不足，无法修行灵力！"
-msgstr "Sua Essência está baixa demais: você não consegue cultivar o Energia espiritual!"
+msgstr "Sua Essência está baixa demais: você não consegue cultivar a Energia espiritual!"
 
 msgid "你现在精神状况太差了，无法控制自己的心灵！"
 msgstr "Seu Espírito está baixo demais: você não consegue controlar a própria mente!"
@@ -15157,7 +15157,7 @@ msgid "但是你一不小心却睡著了。"
 msgstr "Mas, por descuido, você pega no sono."
 
 msgid "你忽然觉得一阵天旋地转，头涨得像要裂开一样，似乎灵力的修行已经遇到了瓶颈。"
-msgstr "De repente o mundo gira e a cabeça parece prestes a rachar: o cultivo do seu Energia espiritual parece ter chegado a um limite."
+msgstr "De repente o mundo gira e a cabeça parece prestes a rachar: o cultivo da sua Energia espiritual parece ter chegado a um limite."
 
 msgid "你的道行提高了！"
 msgstr "Seu domínio do Dao aumentou!"
@@ -15451,7 +15451,7 @@ msgid "我在这堵墙底下坐了二十年。墙那边是庾家。二十年前�
 msgstr "Fiquei vinte anos sentado ao pé deste muro. Do outro lado estão os Yu. Vinte anos atrás, Yu Zijian quis limpar os becos de Sombra Alta, e os mendigos foram para a cadeia um por um; então me mudei para cá, para ficar de olho nele."
 
 msgid "乔阴那个，是我的替身里管事的那一个。花紫会这二十年，是他管的。"
-msgstr "O de Sombra Alta é, dos meus sósias, o que mandava. Nestes vinte anos, quem tocou a Irmandade dos Mendigos foi ele."
+msgstr "O de Sombra Alta é, dos meus substitutos, o que mandava. Nestes vinte anos, quem tocou a Irmandade dos Mendigos foi ele."
 
 msgid "墙那边有一样东西，叫花子拿不到。你问我「密信」。"
 msgstr "Do outro lado do muro há uma coisa que mendigo nenhum alcança. Me pergunte sobre 'Carta secreta'."
@@ -16411,7 +16411,7 @@ msgid "一根啃得精光的鸡腿骨头。\n"
 msgstr "Um osso de coxa de frango roído até ficar limpo.\n"
 
 msgid "一个牛皮缝的大酒袋，大概装得八、九升的酒。\n"
-msgstr "Um grande odre de couro de boi costurado, que deve levar uns oito ou nove litros de vinho.\n"
+msgstr "Um grande odre de couro de boi costurado, que deve levar uns oito ou nove sheng de vinho.\n"
 
 msgid "这本旧书的纸张都已经泛黄了，上面只有一些字迹模糊的字句，似乎\n提到一些呼吸方法什么的。\n"
 msgstr "O papel deste livro velho já amareleceu, e nele há só umas frases de letra borrada, que parecem\ntratar de métodos de respiração.\n"
@@ -16492,7 +16492,7 @@ msgid "不 ... 它飘了起来！一个人形忽然浮现，手中正握著风�
 msgstr "Não ... ela se ergue no ar! Um vulto humano surge de repente, empunhando a Espada da Fonte do Vento!"
 
 msgid "拳脚功夫的根底，出拳踢腿、闪身贴近都从这里练起。柳家拳、天邪神掌这类拳掌指爪的专门功夫都要激发在它上面，根底越厚，激发出来越有分量。勤练拳脚，膂力也会慢慢长起来。"
-msgstr "A base do combate com punhos e pés: socar, chutar e se esgueirar para perto começam aqui. As artes especializadas de punho, palma, dedo e garra, como o Punho da família Liu e a Palma indômita, são aplicadas sobre ela: quanto mais firme a base, mais peso elas têm. Treine punhos e pés com afinco, e sua Força também crescerá aos poucos."
+msgstr "A base do combate com punhos e pés: socar, chutar e se esgueirar para perto começam aqui. As artes especializadas de punho, palma, dedo e garra, como o Punho da família Liu e a Palma rebelde, são aplicadas sobre ela: quanto mais firme a base, mais peso elas têm. Treine punhos e pés com afinco, e sua Força também crescerá aos poucos."
 
 msgid "由於你勤练武艺，你的膂力提高了。"
 msgstr "Graças ao seu treino constante, sua Força aumentou."
@@ -16528,7 +16528,7 @@ msgid "闪身避让的功夫，对方的招式能不能落在身上，多半看�
 msgstr "A arte de sair do caminho com um passo de lado. Se os golpes do adversário acertam você ou não depende sobretudo dela. Passos como os Passos caóticos das sete estrelas, os Passos do morcego de fogo e a Dança da tempestade celeste são aplicados sobre ela."
 
 msgid "但是和$p$l偏了几寸。"
-msgstr "Mas passa a poucos centímetros de $l{:o} {n:de você|de $n{:o}}"
+msgstr "Mas passa a poucos cun de $l{:o} {n:de você|de $n{:o}}"
 
 msgid "但是被$p机灵地躲开了。"
 msgstr "Mas $n{:o} se esquiva com agilidade."
@@ -16597,7 +16597,7 @@ msgid "你的内力不够"
 msgstr "Você não tem Força interior suficiente."
 
 msgid "振远镖局的看家刀法，总镖头陈天星凭它和天邪神掌在江湖上博得「刀掌双绝」之名。招名如「春风拂人醉」「远山伴人痴」「柳叶随人笑」，刀势轻飘，撩斩之间不见锋芒。"
-msgstr "O sabre da casa dos Escoltas do Longo Caminho. Com ele e a Palma indômita, o Chefe de escolta Chen Tianxing ganhou no jianghu o nome de \"Mestre duplo do sabre e da palma\". Seus movimentos têm nomes como \"Embriagado pela brisa\", \"Perdido nas colinas distantes\" e \"As folhas do salgueiro riem\"; a lâmina flutua leve, e entre os golpes ascendentes e os talhos nunca mostra o fio."
+msgstr "O sabre da casa dos Escoltas do Longo Caminho. Com ele e a Palma rebelde, o Chefe de escolta Chen Tianxing ganhou no jianghu o nome de \"Mestre duplo do sabre e da palma\". Seus movimentos têm nomes como \"Embriagado pela brisa\", \"Perdido nas colinas distantes\" e \"As folhas do salgueiro riem\"; a lâmina flutua leve, e entre os golpes ascendentes e os talhos nunca mostra o fio."
 
 msgid "你必须先找一把刀，才能练刀法。"
 msgstr "Você precisa primeiro de um sabre para praticar a arte do sabre."
@@ -16627,7 +16627,7 @@ msgid "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l"
 msgstr "$N{:o} muda de passo e fica de lado com \"Borboletas queimam a seda\"; o fio faísca ao cortar rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "封山剑派是当今武林最大的一支剑派，这套剑法是当年创派的三位剑术名家在封山灵狐顶相互印证、合力创出的。招式并不难学，难在剑意：自「剑气」练起，次练「剑心」「剑芒」「剑神」，四者都练到登峰造极的人少之又少，所以同是封山剑法，造诣深浅不同的人使出来，威力差之千里。剑中有「封」「点」「逐」「缺」四字诀，须以封山派内功为根基。"
-msgstr "A Escola da Montanha Vazia é a maior escola de espada do wulin de hoje. Este estilo foi forjado pelos três mestres fundadores, que se testaram uns aos outros e o criaram juntos no Pico da Raposa Espiritual. Os movimentos não são difíceis de aprender; difícil é o espírito da espada: começa-se pelo \"Qi da espada\", depois o \"Coração da espada\", o \"Fulgor da espada\" e o \"Espírito da espada\"; pouquíssimos chegam ao auge nos quatro, e por isso a mesma Espada da Montanha Vazia, na mão de uns e de outros, difere em poder como o céu da terra. A espada guarda quatro segredos: \"Selar\", \"Ponta\", \"Perseguir\" e \"Falha\", e se apoia no Neigong da Montanha Vazia."
+msgstr "A Escola da Montanha Vazia é a maior escola de espada do wulin de hoje. Este estilo foi forjado pelos três mestres fundadores, que se testaram uns aos outros e o criaram juntos no Pico da Raposa Espiritual. Os movimentos não são difíceis de aprender; difícil é o espírito da espada: começa-se pelo \"Qi da espada\", depois o \"Coração da espada\", o \"Fulgor da espada\" e o \"Espírito da espada\"; pouquíssimos chegam ao auge nos quatro, e por isso a mesma Espada da Montanha Vazia, na mão de uns e de outros, difere em poder como o céu da terra. A espada guarda quatro segredos: \"Selo\", \"Ponto\", \"Perseguir\" e \"Brecha\", e se apoia no Neigong da Montanha Vazia."
 
 msgid "你按著所学练了一遍封山剑法。"
 msgstr "Você repassa a Espada da Montanha Vazia como a aprendeu."
@@ -16663,7 +16663,7 @@ msgid "$N使出封山剑法中的「空山鸟语」，剑光霍霍斩向$n的$l"
 msgstr "$N{:o} usa \"Trinados na montanha vazia\", da Espada da Montanha Vazia, e o fio cintila ao cair rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N一招「御风而行」，身形陡然滑出数尺，手中$w斩向$n的$l"
-msgstr "$N{:o} usa \"Cavalgar o vento\": desliza de repente vários passos e desfere $w{:o} rumo a $l{:o} {n:de você|de $n{:o}}"
+msgstr "$N{:o} usa \"Cavalgar o vento\": desliza de repente vários chi e desfere $w{:o} rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N手中$w中宫直进，一式「旭日东升」对准$n的$l刺出一剑"
 msgstr "$N{:o} lança $w{:o} reto pelo centro com \"Sol nascente no leste\", em uma estocada rumo a $l{:o} {n:de você|de $n{:o}}"
@@ -16693,7 +16693,7 @@ msgid "$n一招「天玑离枢」轻轻巧巧地避了开去。"
 msgstr "$n{:o} usa \"Tianji deixa o eixo\" e se afasta com desenvoltura."
 
 msgid "只见$n身影一晃，一式「天璇乱步」早已避在七尺之外。"
-msgstr "$n{:o} oscila e, com \"Passo torto de Tianxuan\", já está a mais de dois metros de distância."
+msgstr "$n{:o} oscila e, com \"Passo torto de Tianxuan\", já está a sete chi de distância."
 
 msgid "$n使出「倒转天权」，轻轻松松地闪过。"
 msgstr "$n{:o} usa \"Tianquan invertida\" e se esquiva sem esforço."
@@ -16711,7 +16711,7 @@ msgid "但是$n一招「瑶光音迟」使出，早已绕到$N身後！"
 msgstr "Mas $n{:o} usa \"A luz de Yaoguang demora\" e já está atrás de $N{:o}!"
 
 msgid "相传是武术之神、太阳神君杞庸在西天大山中见到灵兽天邪虎后有所领悟而创的内功心法，与模拟天邪虎神态的天邪神掌相配。威力极强，消耗体力也极大：运起来能回气、提升战力、以内力强压杀气，最深的一手是「天邪虎啸」，一声长吼震伤身边所有的人。修习须有足够的杀气撑着，苦练下去，定力也会提高。"
-msgstr "Dizem que foi criado por Qi Yong, Senhor Sol e deus das artes marciais, depois de ver o Tigre rebelde, fera espiritual, nas grandes montanhas do distante oeste; faz par com a Palma indômita, que imita a postura do tigre. De poder imenso e enorme desgaste: ao circular, recupera Qi, aumenta a força de combate e esmaga a Aura assassina com a Força interior; seu movimento mais profundo é o \"Rugido do Tigre rebelde\", um longo bramido que fere todos ao redor. Para praticá-lo é preciso Aura assassina suficiente que o sustente, e, à força de treinar, a Serenidade também sobe."
+msgstr "Dizem que foi criado por Qi Yong, Senhor Sol e deus das artes marciais, depois de ver o Tigre rebelde, fera espiritual, nas grandes montanhas do distante oeste; faz par com a Palma rebelde, que imita a postura do tigre. De poder imenso e enorme desgaste: ao circular, recupera Qi, aumenta a força de combate e esmaga a Aura assassina com a Força interior; seu movimento mais profundo é o \"Rugido do Tigre rebelde\", um longo bramido que fere todos ao redor. Para praticá-lo é preciso Aura assassina suficiente que o sustente, e, à força de treinar, a Serenidade também sobe."
 
 msgid "天邪神功只能用学的，或是从运用中增加熟练度。"
 msgstr "A Arte rebelde só se aprende ou se melhora pelo uso."
@@ -16723,7 +16723,7 @@ msgid "由於你苦练天邪神功，你的定力提高了"
 msgstr "Graças ao seu treino duro na Arte rebelde, sua Serenidade aumentou."
 
 msgid "茅山派的法术，以治鬼除魔为主，多是攻敌的法术，兼有符咒之法：紫幽、青冥、苍灵「幽冥三箭」各有所长，又能召唤金甲天兵下凡护法、开「阴阳眼」看见鬼魂，还能驱动尸体。须以天师正道为根基，修为不够便领悟不了更深的道术。"
-msgstr "As magias da Escola do Monte Mao, voltadas sobretudo a subjugar fantasmas e expulsar demônios; quase todas são de ataque, com talismãs e encantamentos. As \"Três flechas do Submundo\", Sombra Violeta, Escuridão Azul e Espírito Cinza, têm cada uma suas virtudes; também é possível chamar do céu soldados celestiais de armadura dourada para proteger, abrir o \"Olho do yin e do yang\" para ver os fantasmas e até mover cadáveres. Devem se apoiar no Caminho dos Mestres Celestiais; sem cultivo suficiente, não se compreendem as artes mais profundas."
+msgstr "As magias da Escola do Monte Mao, voltadas sobretudo a subjugar fantasmas e expulsar demônios; quase todas são de ataque, com talismãs e encantamentos. As \"Três flechas do Submundo\", Sombra Violeta, Escuridão Azul e Espírito Cinza, têm cada uma suas virtudes; também é possível chamar do céu soldados celestiais de armadura dourada para proteger, abrir a \"Visão espectral\" para ver os fantasmas e até mover cadáveres. Devem se apoiar no Caminho dos Mestres Celestiais; sem cultivo suficiente, não se compreendem as artes mais profundas."
 
 msgid "你的天师正道修为不够，无法领悟更高深的茅山道术。"
 msgstr "Seu cultivo do Caminho dos Mestres Celestiais não é profundo o bastante para compreender a Feitiçaria do Monte Mao mais elevada."
@@ -16828,13 +16828,13 @@ msgid "你的内力不够了，休息一下再练吧。"
 msgstr "Você ficou sem Força interior. Descanse um pouco antes de treinar de novo."
 
 msgid "练天邪神掌必须空手。"
-msgstr "A Palma indômita se pratica com as mãos nuas."
+msgstr "A Palma rebelde se pratica com as mãos nuas."
 
 msgid "你的天邪神功火候不足，无法练天邪掌法。"
-msgstr "Sua Arte rebelde não está madura o bastante para praticar a Palma indômita."
+msgstr "Sua Arte rebelde não está madura o bastante para praticar a Palma rebelde."
 
 msgid "你的内力太弱，无法练天邪掌法。"
-msgstr "Sua Força interior é fraca demais para praticar a Palma indômita."
+msgstr "Sua Força interior é fraca demais para praticar a Palma rebelde."
 
 msgid "$N使出一招「大天罗式」，右掌穿出击向$n的$l"
 msgstr "$N{:o} usa \"Grande rede celeste\" e lança a palma direita rumo a $l{:o} {n:de você|de $n{:o}}"
@@ -16843,7 +16843,7 @@ msgid "$N使出一招「大天罗式」，左掌化虚为实击向$n的$l"
 msgstr "$N{:o} usa \"Grande rede celeste\": a palma esquerda passa de finta a golpe real rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N使出天邪掌法「小天罗式」，如鬼魅般欺至$n身前，一掌拍向$n的$l"
-msgstr "$N{:o} usa \"Pequena rede celeste\", da Palma indômita, se aproxima de $n{:o} como um espectro e desfere uma palmada em $l{:o}"
+msgstr "$N{:o} usa \"Pequena rede celeste\", da Palma rebelde, se aproxima de $n{:o} como um espectro e desfere uma palmada em $l{:o}"
 
 msgid "$N双掌一错，使出「雪阳三连月」，对准$n的$l连续拍出三掌"
 msgstr "$N{:o} cruza as palmas e, com \"Três luas sobre a neve\", golpeia três vezes seguidas rumo a $l{:o} {n:de você|de $n{:o}}"
@@ -16903,16 +16903,16 @@ msgid "$p身形微晃，使出「灵蝠轻逝」，有惊无险地避开了$N这
 msgstr "$n{:o} oscila um instante com \"O morcego espiritual se esvai\" e evita por pouco {N:seu ataque|o ataque de $N{:o}}."
 
 msgid "$p身随意转，一式「轻蝠点梢」，倏地往一旁挪开了三尺，避过了这一招。"
-msgstr "$n{:o} gira a seu gosto com \"Morcego leve sobre o galho\" e, num piscar de olhos, se afasta quase um metro, fora do ataque."
+msgstr "$n{:o} gira a seu gosto com \"Morcego leve sobre o galho\" e, num piscar de olhos, se afasta três chi, fora do ataque."
 
 msgid "却见$p足不点地，一招「夜蝠旋身」，往旁窜开数尺，躲了开去。"
-msgstr "Mas $n{:o}, com os pés mal roçando o chão, usa \"Morcego noturno gira\" e se lança alguns passos para o lado, fora de alcance."
+msgstr "Mas $n{:o}, com os pés mal roçando o chão, usa \"Morcego noturno gira\" e se lança vários chi para o lado, fora de alcance."
 
 msgid "只见$p一招「火蝠曳空」，身形向上拔起数尺高，闪了过去。"
-msgstr "$n{:o} usa \"Morcego de fogo risca o céu\" e se eleva alguns passos, fora do golpe."
+msgstr "$n{:o} usa \"Morcego de fogo risca o céu\" e se eleva vários chi, fora do golpe."
 
 msgid "晚月庄的舞步身法，招名「蕙芳下凡」「双成献舞」「织女于归」「天女散花」「嫦娥奔月」，翩然起舞之间，已飘出数尺之外。只有女子才能练，又看灵性；勤练舞技，容貌也会更添光彩。"
-msgstr "A dança do Solar da Lua Tardia: seus movimentos se chamam \"A Fada Orquídea desce à terra\", \"Shuangcheng dança\", \"A Tecelã se casa\", \"A donzela celeste espalha flores\" e \"Chang'e voa para a lua\", e entre giros de dança o corpo já flutuou alguns passos adiante. Só mulheres podem praticá-la, e depende da Espiritualidade; quem treina a dança também ganha brilho na Aparência."
+msgstr "A dança do Solar da Lua Tardia: seus movimentos se chamam \"A Fada Orquídea desce à terra\", \"Shuangcheng dança\", \"A Tecelã se casa\", \"A donzela celeste espalha flores\" e \"Chang'e voa para a lua\", e entre giros de dança o corpo já flutuou vários chi adiante. Só mulheres podem praticá-la, e depende da Espiritualidade; quem treina a dança também ganha brilho na Aparência."
 
 msgid "你的精神太差了，不能练七宝天岚舞。"
 msgstr "Seu Espírito está fraco demais para praticar a Dança da tempestade celeste."
@@ -16927,7 +16927,7 @@ msgid "由於你勤练舞技，你的容貌提高了"
 msgstr "Graças ao seu empenho na dança, sua Aparência melhorou."
 
 msgid "但$n一式「蕙芳下凡」随著轻轻一叹，顺著$N的招式飘出六尺之外！"
-msgstr "Mas $n{:o}, com um leve suspiro, usa \"A Fada Orquídea desce à terra\" e flutua quase dois metros seguindo {N:seu ataque|o ataque de $N{:o}}."
+msgstr "Mas $n{:o}, com um leve suspiro, usa \"A Fada Orquídea desce à terra\" e flutua seis chi seguindo {N:seu ataque|o ataque de $N{:o}}."
 
 msgid "$n双脚微动翩然起舞，一招「双成献舞」，堪堪闪过$N的这招！"
 msgstr "$n{:o} move os pés em uma dança graciosa com \"Shuangcheng dança\" e esquiva por pouco {N:seu ataque|o ataque de $N{:o}}"
@@ -16942,7 +16942,7 @@ msgid "$n一招「嫦娥奔月」，轻轻一纵优雅的自$N头顶越过！"
 msgstr "$n{:o} usa \"Chang'e voa para a lua\" e salta com leveza e elegância por cima {N:da sua cabeça|da cabeça de $N{:o}}!"
 
 msgid "神通一类法门的根底：灵力的上限看它，施展神通要用灵力。山烟寺的八识神通便激发在它上面。"
-msgstr "A base das artes de poderes místicos: dela depende o limite da Energia espiritual, e exercer um energia espiritual gasta Energia espiritual. O Poder das oito consciências do Templo da Bruma se aplica sobre ela."
+msgstr "A base das artes de poderes místicos: dela depende o limite da Energia espiritual, e exercer um poder místico gasta Energia espiritual. O Poder das oito consciências do Templo da Bruma se aplica sobre ela."
 
 msgid "念咒施法的根底：法力的上限看它，冥思积下的法力才有地方存。茅山道术、奇门遁甲这些法术都激发在它上面。"
 msgstr "A base de recitar encantamentos: dela depende o limite do Poder arcano, e é onde cabe o Poder arcano acumulado na contemplação. Artes como a Feitiçaria do Monte Mao e o Qimen Dunjia são aplicadas sobre ela."
@@ -17068,7 +17068,7 @@ msgid "$N身法稍顿，左手一扬使出「柳亭簪花」往$n的$l点去"
 msgstr "$N{:o} detém um instante o passo, ergue a mão esquerda com \"Flor de grampo no pavilhão do salgueiro\" e aponta rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "只见$N纤腰一摆，陡然滑出数尺，右手顺著来势一招「桃坟扑蝶」往$n的$l点去"
-msgstr "$N{:o} balança a cintura esbelta e desliza de repente vários passos; seguindo o impulso, com \"Borboleta sobre a tumba de pessegueiro\", aponta com a direita rumo a $l{:o} {n:de você|de $n{:o}}"
+msgstr "$N{:o} balança a cintura esbelta e desliza de repente vários chi; seguindo o impulso, com \"Borboleta sobre a tumba de pessegueiro\", aponta com a direita rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "晚月庄的鞭法，从「寒风起兮」「漫天飞雪」到「狂风骤雪」「风雪交加」，鞭影如满天飞雪，虚虚实实地袭人。须有足够的内力才能练。"
 msgstr "A arte do chicote do Solar da Lua Tardia, de \"O vento frio se levanta\" e \"Neve cobre o céu\" a \"Vendaval e nevasca\" e \"Ventisca\": as sombras do chicote caem como neve por todo o céu, entre o falso e o verdadeiro. É preciso Força interior suficiente para praticá-la."
@@ -17095,7 +17095,7 @@ msgid "$N力贯$w，一招「雪花翩翩」点点鞭影飘浮不定地点向$n�
 msgstr "$N{:o} carrega força em $w{:o} e, com \"Flocos que dançam\", pontos de sombra de chicote caem incertos sobre $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N手中$w一抖，一招「积雪三尺」以一个怪异的角度往$n下盘卷去"
-msgstr "$N{:o} sacode $w{:o} e, com \"Neve acumulada\", ele se enrosca em um ângulo estranho contra {n:suas pernas|as pernas de $n{:o}}"
+msgstr "$N{:o} sacode $w{:o} e, com \"Neve acumulada de três chi\", ele se enrosca em um ângulo estranho contra {n:suas pernas|as pernas de $n{:o}}"
 
 msgid "$N手中一紧，使招「狂风骤雪」，手里$w一鞭接著一鞭不停地抽向$n的$l"
 msgstr "$N{:o} aperta a mão e, com \"Vendaval e nevasca\", açoita com $w{:o} rumo a $l{:o} {n:de você|de $n{:o}}, golpe após golpe sem pausa"
@@ -17107,7 +17107,7 @@ msgid "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身"
 msgstr "$N{:o} usa \"Ventisca\", e $w{:o} dança em uma cortina de sombras de chicote que varre todo o corpo de $n{:o}"
 
 msgid "三十年前以一柄拂尘横扫武林的前辈异人残心师太所创的内功心法，纯走阴柔之路，发出的内劲寒冷无比；传说她曾在沙牢山一掌冻住七只雪狼，堪称当今寒冰掌一路中最凌厉的奇功。交手时阴寒之气常叫对方打个寒噤，运起「意寒睨」，更能以冰冷如刀的眼神伤敌。"
-msgstr "Um neigong criado há trinta anos pela Abadessa Canxin, veterana extraordinária que varreu o wulin com um espanador de crina. Segue apenas a via yin e suave, e a força interior que emite é de um frio extremo; contam que no monte Shalao ela congelou com uma só palma sete lobos da neve, e talvez seja a mais implacável das artes de palma gelada de hoje. Em combate, seu frio yin costuma fazer o rival estremecer, e, ao circular o \"Olhar da intenção gelada\", é possível ferir o inimigo com um olhar frio como uma lâmina."
+msgstr "Um neigong criado há trinta anos pela Abadessa Canxin, veterana extraordinária que varreu o wulin com um espanador de crina. Segue apenas a via yin e suave, e a força interior que emite é de um frio extremo; contam que no monte Shalao ela congelou com uma só palma sete lobos da neve, e talvez seja a mais implacável das artes de palma gelada de hoje. Em combate, seu frio yin costuma fazer o rival estremecer, e, ao circular o \"Olhar gelado\", é possível ferir o inimigo com um olhar frio como uma lâmina."
 
 msgid "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。"
 msgstr "{N:Seu golpe traz|O golpe de $N{:o} traz} um vento de frio yin tão intenso que $n{:o} não consegue evitar um arrepio."
@@ -17116,34 +17116,34 @@ msgid "意寒功只能用学的，或是从运用中增加熟练度。"
 msgstr "A Arte da intenção gelada só se aprende ou se melhora pelo uso."
 
 msgid "天山一脉的独门内功，只能向师父学，或在运功中慢慢精熟；雪影剑法必须以它为根基。"
-msgstr "O neigong exclusivo da linhagem de Tianshan; só se aprende com um Shifu ou vai se aperfeiçoando aos poucos ao ser posto em circulação; a Espada da sombra de neve deve se apoiar nele."
+msgstr "O neigong exclusivo da linhagem de Tianshan; só se aprende com um Shifu ou vai se aperfeiçoando aos poucos ao ser posto em circulação; a Espada da Sombra de Neve deve se apoiar nele."
 
 msgid "天山雪影心法只能用学的或是从运用中增加熟练度。"
 msgstr "O Método interno da Sombra de Neve de Tianshan só se aprende ou se melhora pelo uso."
 
 msgid "天山雪影剑，招名「回光幻电」「风霜碎影」「残阳照雪」「冰谷初虹」「长空雷隐」「断石狼烟」，剑光疾如闪电，身形飘忽如雪影。必须配合天山魔教的独门雪影心法才能练，内力不足也练不成。"
-msgstr "A Espada da sombra de neve de Tianshan, com movimentos chamados \"Relâmpago fantasma\", \"A geada quebra sombras\", \"Sol poente sobre a neve\", \"Arco-íris do vale gelado\", \"Trovão no céu aberto\" e \"Fumaça de sinal na pedra partida\": a luz da espada é rápida como um relâmpago e o corpo flutua como uma sombra sobre a neve. Só pode ser praticada junto com o Método interno da Sombra de Neve, exclusivo da Ordem Demoníaca de Tianshan, e não com pouca Força interior."
+msgstr "A Espada da Sombra de Neve de Tianshan, com movimentos chamados \"Relâmpago fantasma\", \"A geada quebra sombras\", \"Sol poente sobre a neve\", \"Arco-íris do vale gelado\", \"Trovão no céu aberto\" e \"Fumaça de sinal na pedra partida\": a luz da espada é rápida como um relâmpago e o corpo flutua como uma sombra sobre a neve. Só pode ser praticada junto com o Método interno da Sombra de Neve, exclusivo da Ordem Demoníaca de Tianshan, e não com pouca Força interior."
 
 msgid "你按著所学练了一遍雪影剑法。"
-msgstr "Você repassa a Espada da sombra de neve como a aprendeu."
+msgstr "Você repassa a Espada da Sombra de Neve como a aprendeu."
 
 msgid "你的内力或气不够，没有办法练习雪影剑法。"
-msgstr "Você não tem Força interior ou Qi suficiente para praticar a Espada da sombra de neve."
+msgstr "Você não tem Força interior ou Qi suficiente para praticar a Espada da Sombra de Neve."
 
 msgid "你的内力不够，没有办法练雪影剑法。"
-msgstr "Você não tem Força interior suficiente para praticar a Espada da sombra de neve."
+msgstr "Você não tem Força interior suficiente para praticar a Espada da Sombra de Neve."
 
 msgid "雪影剑法必须配合天山魔教的独门雪影心法才能练。"
-msgstr "A Espada da sombra de neve só pode ser praticada junto com o Método interno da Sombra de Neve, exclusivo da Ordem Demoníaca de Tianshan."
+msgstr "A Espada da Sombra de Neve só pode ser praticada junto com o Método interno da Sombra de Neve, exclusivo da Ordem Demoníaca de Tianshan."
 
 msgid "$N使一招「回光幻电」，手中$w幻一条疾光刺向$n的$l"
 msgstr "$N{:o} usa \"Relâmpago fantasma\", e $w{:o} se torna um raio de luz veloz que se lança rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N使出天山雪影剑中的「风霜碎影」，$w连挥剑光霍霍斩向$n的$l"
-msgstr "$N{:o} usa \"A geada quebra sombras\", da Espada da sombra de neve de Tianshan, e $w{:o} cintila uma e outra vez ao cortar rumo a $l{:o} {n:de você|de $n{:o}}"
+msgstr "$N{:o} usa \"A geada quebra sombras\", da Espada da Sombra de Neve de Tianshan, e $w{:o} cintila uma e outra vez ao cortar rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N一招「残阳照雪」，纵身飘开数尺，手中$w斩向$n的$l"
-msgstr "$N{:o} usa \"Sol poente sobre a neve\": se desloca flutuando vários passos e $w{:o} corta rumo a $l{:o} {n:de você|de $n{:o}}"
+msgstr "$N{:o} usa \"Sol poente sobre a neve\": se desloca flutuando vários chi e $w{:o} corta rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N手中$w中宫直进，一式「冰谷初虹」对准$n的$l刺出一剑"
 msgstr "$N{:o} lança $w{:o} reto pelo centro com \"Arco-íris do vale gelado\", em uma estocada rumo a $l{:o} {n:de você|de $n{:o}}"
@@ -17179,7 +17179,7 @@ msgid "$n身形陡然拔高，使$N的攻势尽数落空。"
 msgstr "$n{:o} se ergue de repente, e {N:seu ataque não encontra|o ataque de $N{:o} não encontra} mais que ar."
 
 msgid "$n右足一点，身影向左滑开数尺，避了开去。"
-msgstr "$n{:o} se impulsiona com o pé direito e desliza vários passos para a esquerda, fora do caminho."
+msgstr "$n{:o} se impulsiona com o pé direito e desliza vários chi para a esquerda, fora do caminho."
 
 msgid "步玄派的本门内功，只能向师父学，或在运功中慢慢精熟；步玄七诀、小步玄剑都要以它为根基。"
 msgstr "O neigong da própria Escola do Passo Místico; só se aprende com um Shifu ou vai se aperfeiçoando aos poucos ao ser posto em circulação. Os Sete segredos do Passo Místico e a Espada menor do Passo Místico se apoiam nele."
@@ -17278,13 +17278,13 @@ msgid "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l"
 msgstr "$N{:o} muda de passo e fica de lado com \"O que alivia a pena?\"; o fio faísca ao cortar rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "招名取自《秋风辞》，从「秋风起兮白云飞」到「箫鼓鸣兮发棹歌」，身影一晃，便已避在数尺之外。练这门步法须有相当的内力；官府的侍卫、衙役常与短歌刀法一同修习。"
-msgstr "Os nomes dos movimentos vêm de \"O canto do vento de outono\", de \"Vento de outono, nuvens que voam\" a \"Flautas e tambores, canção de remos\": um balanço, e já se está a vários passos de distância. Para praticar estes passos é preciso bastante Força interior; os guardas e os oficiais do tribunal costumam praticá-los junto com o Sabre da canção breve."
+msgstr "Os nomes dos movimentos vêm de \"O canto do vento de outono\", de \"Vento de outono, nuvens que voam\" a \"Flautas e tambores, canção de remos\": um balanço, e já se está a vários chi de distância. Para praticar estes passos é preciso bastante Força interior; os guardas e os oficiais do tribunal costumam praticá-los junto com o Sabre da canção breve."
 
 msgid "$n一招「秋风起兮白云飞」轻轻巧巧地避了开去。"
 msgstr "$n{:o} usa \"Vento de outono, nuvens que voam\" e se afasta com desenvoltura."
 
 msgid "只见$n身影一晃，一式「草木黄落兮雁南归」早已避在七尺之外。"
-msgstr "$n{:o} oscila e, com \"Folhas caídas, gansos ao sul\", já está a mais de dois metros de distância."
+msgstr "$n{:o} oscila e, com \"Folhas caídas, gansos ao sul\", já está a sete chi de distância."
 
 msgid "$n使出「兰有秀兮菊有芳」，轻轻松松地闪过。"
 msgstr "$n{:o} usa \"Orquídea em flor, crisântemo perfumado\" e se esquiva sem esforço."
@@ -17305,7 +17305,7 @@ msgid "但是$n身形飘忽，轻轻一纵，一招「欢乐极兮哀情多」�
 msgstr "Mas $n{:o} oscila, salta com leveza e, com \"Tanta alegria, tanta tristeza\", evita o golpe."
 
 msgid "$n身形往上一拔，一招「少壮几时兮奈老何」，一个转折落在数尺之外。"
-msgstr "$n{:o} se ergue de repente com \"Quanto dura a juventude?\" e, depois de um giro, cai vários passos além."
+msgstr "$n{:o} se ergue de repente com \"Quanto dura a juventude?\" e, depois de um giro, cai vários chi além."
 
 msgid "密宗一路的掌法，招名「苦海端无涯」「地狱似有门」「天堂却无路」「万念皆是空」，虚实相生；招架时能以双掌夹住来刃，或以「粘」字诀引偏兵器。须空手练。"
 msgstr "Um estilo de palma da linha esotérica, com movimentos chamados \"O mar de dores não tem margem\", \"Parece haver porta para o inferno\", \"Ao céu não há caminho\" e \"Todo pensamento é vazio\", em que o falso e o verdadeiro se geram um ao outro. Ao defender, pode prender a lâmina entre as duas palmas ou desviar a arma com a técnica do \"grudar\". Só se pratica de mãos nuas."
@@ -17554,10 +17554,10 @@ msgid "老衲守了三十年寺规。守到今天，流云轩里一个樵夫的�
 msgstr "Este velho monge guardou as regras do templo por trinta anos. Guardou até hoje — e o frio de um lenhador, no Recanto das Nuvens Errantes, não saía."
 
 msgid "施主破过一回寺规，领他进了流云轩。今天又是施主把他领上了殿。"
-msgstr "{jogador:O senhor|A senhora} quebrou uma vez as regras do templo, {jogador:benfeitor|benfeitora}, e o levou ao Recanto das Nuvens Errantes. Hoje, de novo, foi {jogador:o senhor|a senhora} quem o trouxe ao salão."
+msgstr "{jogador:Benfeitor|Benfeitora} quebrou uma vez as regras do templo e o levou ao Recanto das Nuvens Errantes. Hoje, de novo, foi {jogador:o benfeitor|a benfeitora} quem o trouxe ao salão."
 
 msgid "番坊是施主去的，这片叶子也是施主带回来的。施主说吧。"
-msgstr "Foi {jogador:o senhor|a senhora} quem foi ao Bairro Estrangeiro, e quem trouxe esta folha. Fale, {jogador:benfeitor|benfeitora}."
+msgstr "Foi {jogador:o benfeitor|a benfeitora} quem foi ao Bairro Estrangeiro, e quem trouxe esta folha. Fale, {jogador:benfeitor|benfeitora}."
 
 msgid "（收经，问玄智「收经」；守寺，问玄智「守寺」。）\n"
 msgstr "(Para aceitar o sutra, pergunte a Xuanzhi sobre \"Aceitar o sutra\"; para guardar o templo, pergunte a Xuanzhi sobre \"Guardar o templo\".)\n"
@@ -17719,7 +17719,7 @@ msgid "流云轩缺人手。我在这里煎药，扶病人。"
 msgstr "Faltam braços no Recanto das Nuvens Errantes. Aqui eu preparo remédios e amparo os doentes."
 
 msgid "师父当年追出山门，追的就是他师父背的那部经。三十年，经进了门，我也回来了。"
-msgstr "Quando meu Shifu saiu correndo pelo portão da montanha, ia atrás do sutra que o mestre do asceta carregava. Trinta anos depois, o sutra passou do portão, e eu também voltei."
+msgstr "Quando meu Shifu saiu correndo pelo portão da montanha, ia atrás do sutra que o mestre dele carregava. Trinta anos depois, o sutra passou do portão, e eu também voltei."
 
 msgid "方丈是师父的师兄。我回来那天，他什么也没问，指了指流云轩。"
 msgstr "O abade é irmão mais velho de escola do meu Shifu. No dia em que voltei, ele não perguntou nada; só apontou para o Recanto das Nuvens Errantes."
@@ -17806,7 +17806,7 @@ msgid "这张镖单不能随便丢。"
 msgstr "Você não pode simplesmente jogar fora este registro de escolta."
 
 msgid "一只尺许长的青石匣子，匣面刻着一圈风纹，匣口严丝合缝，看不出锁眼在哪里。摇一摇，里面有极轻的一声响。\n"
-msgstr "Um cofre de pedra azul de um pé de comprimento, com um círculo de padrões de vento entalhado na tampa; a boca é tão justa que não se vê onde fica a fechadura. Sacudindo, algo lá dentro faz um som levíssimo, uma única vez.\n"
+msgstr "Um cofre de pedra azul de cerca de um chi de comprimento, com um círculo de padrões de vento entalhado na tampa; a boca é tão justa que não se vê onde fica a fechadura. Sacudindo, algo lá dentro faz um som levíssimo, uma única vez.\n"
 
 msgid "这只石匣不能随便丢。"
 msgstr "Você não pode simplesmente jogar fora este cofre de pedra."
@@ -17851,7 +17851,7 @@ msgid "一封封好的信，火漆上压着乔阴县印，封皮写着「叔父�
 msgstr "Uma carta lacrada, com o selo do condado de Sombra Alta no lacre; no envelope: \"Ao respeitável tio, em mãos\". Cheng Buping disse: o selo do Ministério da Guerra é verdadeiro, mas a ordem não é do falecido imperador; os selos falsos e os desaparecidos foram todos para o Norte do Passo — esta carta vai te abrir o portão do acampamento do Passo do Camelo.\n"
 
 msgid "一把三尺长的剑，剑身是透青的，像一条冻住的水。剑脊上刻着两个字：寒於。剑锋上没有血——三百年，它钉的是一颗头，不是人。握在手里，整条胳膊都是凉的。\n"
-msgstr "Uma espada de três pés, de lâmina verde translúcida, como um riacho congelado. No dorso, dois caracteres gravados: Hanyu. No fio não há sangue — por trezentos anos ela pregou uma cabeça, não um homem. Empunhada, gela o braço inteiro.\n"
+msgstr "Uma espada de três chi, de lâmina verde translúcida, como um riacho congelado. No dorso, dois caracteres gravados: Hanyu. No fio não há sangue — por trezentos anos ela cravou uma cabeça, não um homem. Empunhada, gela o braço inteiro.\n"
 
 msgid "穿灵不能丢。它钉过三百年。"
 msgstr "Você não pode largar Trespassa-Almas. Ela ficou cravada trezentos anos."
@@ -18067,13 +18067,13 @@ msgid "陈剑秋说：查到底。正月十七，振远那一票投旧盟主。"
 msgstr "Chen Jianqiu disse: até o fundo. No dia dezessete do primeiro mês, o voto do Longo Caminho vai para o antigo Líder da Aliança."
 
 msgid "陈天星翻了振远二十年的总账：绮云分局开张的本钱，是兵部给的抚恤银。"
-msgstr "Chen Tianxing revirou vinte anos do livro-razão do Longo Caminho: o dinheiro que abriu a filial de Tece-Nuvens foi prata de indenização do Ministério da Guerra."
+msgstr "Chen Tianxing revirou vinte anos do livro-mestre do Longo Caminho: o dinheiro que abriu a filial de Tece-Nuvens foi prata de indenização do Ministério da Guerra."
 
 msgid "你劝住了陈天星：那本总账烧了，抚恤银的事，振远不再提。陈剑秋许你学春风快意刀。"
-msgstr "Você convenceu Chen Tianxing: o livro-razão foi queimado, e o Longo Caminho não fala mais da prata de indenização. Chen Jianqiu te permitiu aprender o Sabre alegre da brisa primaveral."
+msgstr "Você convenceu Chen Tianxing: o livro-mestre foi queimado, e o Longo Caminho não fala mais da prata de indenização. Chen Jianqiu te permitiu aprender o Sabre alegre da brisa primaveral."
 
 msgid "你跟陈天星查到底：振远的总账押去了乔阴县衙。绮云分局关了门，陈剑秋还坐在柜台后面。"
-msgstr "Você foi até o fundo com Chen Tianxing: o livro-razão do Longo Caminho foi parar no tribunal de Sombra Alta. A filial de Tece-Nuvens fechou as portas, e Chen Jianqiu continua sentado atrás do balcão."
+msgstr "Você foi até o fundo com Chen Tianxing: o livro-mestre do Longo Caminho foi parar no tribunal de Sombra Alta. A filial de Tece-Nuvens fechou as portas, e Chen Jianqiu continua sentado atrás do balcão."
 
 msgid "正月十七，振远那一票听你的。"
 msgstr "No dia dezessete do primeiro mês, o voto do Longo Caminho é seu."
@@ -18196,7 +18196,7 @@ msgid "正月十七，茅山那一票听你的。"
 msgstr "No dia dezessete do primeiro mês, o voto do Monte Mao é seu."
 
 msgid "北麓那座道观，你交给了官府去剿。"
-msgstr "Você entregou às autoridades o mosteiro do sopé norte, para que o arrasassem."
+msgstr "Você entregou às autoridades o templo do sopé norte, para que o arrasassem."
 
 msgid "逆灵宫剩下的人下了山，茅山看着。是你去劝的。"
 msgstr "Os que restavam do Palácio Negro desceram a montanha, e o Monte Mao os vigia. Foi você quem os convenceu."
@@ -18358,7 +18358,7 @@ msgid "逆灵宫的余孽，是你交给官府的。"
 msgstr "Foi você quem entregou às autoridades o que restava do Palácio Negro."
 
 msgid "振远的总账是陈天星押进乔阴县衙的。程不平收下了，兵部的抚恤银记在了案上。"
-msgstr "Foi Chen Tianxing quem levou o livro-razão do Longo Caminho ao tribunal de Sombra Alta. Cheng Buping o recebeu, e a prata de indenização do Ministério da Guerra entrou nos autos."
+msgstr "Foi Chen Tianxing quem levou o livro-mestre do Longo Caminho ao tribunal de Sombra Alta. Cheng Buping o recebeu, e a prata de indenização do Ministério da Guerra entrou nos autos."
 
 msgid "尚书府小屋那封密信，是你交到程不平手上的。"
 msgstr "Foi você quem pôs nas mãos de Cheng Buping a carta secreta da casinha da Mansão do Ministro."
@@ -18445,13 +18445,13 @@ msgid "你站到了朱鸿雪一边。她给了你一块黄金令牌；西厢的�
 msgstr "Você ficou do lado de Zhu Hongxue. Ela te deu uma placa de ouro; a porta da ala oeste está fechada para você daqui em diante."
 
 msgid "你进过那座黑砖道观。"
-msgstr "Você esteve dentro daquele mosteiro de tijolos negros."
+msgstr "Você esteve dentro daquele templo de tijolos negros."
 
 msgid "你见过「唤首」。他们知道有生人进过后殿。"
 msgstr "Você viu a \"Invocação da Cabeça\". Eles sabem que um estranho entrou no Salão dos fundos."
 
 msgid "地牢里的人是你放走的。逆灵宫在找那天闯道观的孩子。"
-msgstr "Foi você quem libertou a gente da masmorra. O Palácio Negro procura {jogador:o rapaz|a moça} que invadiu o mosteiro naquele dia."
+msgstr "Foi você quem libertou a gente da masmorra. O Palácio Negro procura {jogador:o rapaz|a moça} que invadiu o templo naquele dia."
 
 msgid "玄冥子欠你一条命。他说过：带着残卷来后山找他。"
 msgstr "Xuanmingzi te deve a vida. Ele disse: leve o fragmento e vá procurá-lo na montanha dos fundos."
@@ -18460,7 +18460,7 @@ msgid "玄冥子说你是他的人。"
 msgstr "Xuanmingzi diz que você é dos dele."
 
 msgid "管事道士许你在货栈的通铺上睡——他们当你是新来的道士。"
-msgstr "O taoísta intendente te deixa dormir na tarimba coletiva do Depósito de carga: eles pensam que você é {jogador:um taoísta recém-chegado|uma taoísta recém-chegada}."
+msgstr "O taoísta intendente te deixa dormir no camastro comum do armazém: eles pensam que você é {jogador:um taoísta recém-chegado|uma taoísta recém-chegada}."
 
 msgid "子时在后殿外，巡殿的道士撞见过你。"
 msgstr "À meia-noite, fora do Salão dos fundos, o taoísta de ronda te viu."
@@ -18469,7 +18469,7 @@ msgid "宫里在找一本不见了的名册。"
 msgstr "No palácio, procuram um registro que sumiu."
 
 msgid "玄冥子托你从宫主的书案底下取出天书的下半部；他教你的，是六阴剑。"
-msgstr "Xuanmingzi te pediu para tirar de debaixo da escrivaninha do senhor do palácio a segunda metade da Escritura Negra; o que ele te ensinou foi a Espada dos seis yin."
+msgstr "Xuanmingzi te pediu para tirar de debaixo da escrivaninha do senhor do palácio a segunda metade da Escritura; o que ele te ensinou foi a Espada dos seis yin."
 
 msgid "你把唤首前夜下湖的时辰和路交给了茅山。宫里迟早会知道是谁。"
 msgstr "Você deu ao Monte Mao a hora e o caminho da descida ao lago na véspera da Invocação da Cabeça. Cedo ou tarde o palácio vai saber quem foi."
@@ -18484,7 +18484,7 @@ msgid "你被识破了。黑冠不再管用，北麓有人在找你。"
 msgstr "Descobriram você. O gorro negro não serve mais, e alguém no sopé norte está à sua procura."
 
 msgid "北麓那座道观，官兵上去了。宫里剩下的人一个也没走脱。"
-msgstr "Os soldados subiram ao mosteiro do sopé norte. Dos que restavam no palácio, nenhum escapou."
+msgstr "Os soldados subiram ao templo do sopé norte. Dos que restavam no palácio, nenhum escapou."
 
 msgid "宫里剩下的人跟你下了山。坛上的火灭了。"
 msgstr "Os que restavam no palácio desceram a montanha com você. O fogo do altar se apagou."
@@ -18724,13 +18724,13 @@ msgid "戴着黑冠回逆灵宫。白天到账房（前殿往西，丹房再往�
 msgstr "Voltar ao Palácio Negro com o gorro negro. De dia, ir à Contadoria (a oeste do Salão da frente, depois ao norte, além da Sala dos elixires) e perguntar ao taoísta intendente sobre \"Trabalho\"."
 
 msgid "管事道士派了三样活：丹房添炭、货栈点箱、前殿跟诵。"
-msgstr "O taoísta intendente te dá três tarefas: pôr carvão na Sala dos elixires, contar os caixotes no Depósito de carga, acompanhar o canto no Salão da frente."
+msgstr "O taoísta intendente te dá três tarefas: pôr carvão na Sala dos elixires, contar os caixotes no armazém, acompanhar o canto no Salão da frente."
 
 msgid "干完管事派的三样活，回账房问他「干活」。跟诵是领诵念上句、你接下句：前殿的道士诵的就是这几句，听熟了再去。"
 msgstr "Terminar as três tarefas do intendente e voltar à Contadoria para perguntar a ele sobre \"Trabalho\". Para acompanhar o canto, o recitador principal diz o primeiro verso e você responde com o seguinte: são os versos que os taoístas do Salão da frente cantam, então escute até saber de cor antes de ir."
 
 msgid "三样活干完了。管事许你在货栈的通铺上留宿。"
-msgstr "As três tarefas estão feitas. O intendente te deixa dormir na tarimba coletiva do Depósito de carga."
+msgstr "As três tarefas estão feitas. O intendente te deixa dormir no camastro comum do armazém."
 
 msgid "在逆灵宫干了三样杂活，管事许你留宿"
 msgstr "Fez três tarefas no Palácio Negro, e o intendente te deixou pernoitar"
@@ -18739,7 +18739,7 @@ msgid "丹房添炭"
 msgstr "Pôr carvão na Sala dos elixires"
 
 msgid "货栈点箱"
-msgstr "Contar os caixotes no Depósito de carga"
+msgstr "Contar os caixotes no armazém."
 
 msgid "前殿跟诵"
 msgstr "Acompanhar o canto no Salão da frente"
@@ -18748,16 +18748,16 @@ msgid "领诵念上句，你接下句"
 msgstr "O recitador principal diz o primeiro verso; você responde com o seguinte"
 
 msgid "子时，前殿北门后的后殿有人说话。货栈的通铺可以睡到子时。前殿有巡殿的道士来回走——躲开他的眼睛（他看前面，不看身后；香炉和经案挡得住他），摸到北门边「听」。被他撞见了，会被押回前院站到天亮，那是一条疑点。"
-msgstr "À meia-noite, há vozes no Salão dos fundos, atrás da porta norte do Salão da frente. Você pode dormir na tarimba do Depósito de carga até a meia-noite. Um taoísta de ronda anda de um lado para o outro no Salão da frente: ficar fora da vista dele (ele olha para a frente, não para trás; o incensário e a mesa dos sutras te escondem), chegar de mansinho à porta norte e escolher \"Escutar\". Se ele te flagrar, vão te levar de volta ao Pátio da frente para ficar de pé até o amanhecer, e isso é uma suspeita."
+msgstr "À meia-noite, há vozes no Salão dos fundos, atrás da porta norte do Salão da frente. Você pode dormir no camastro comum do armazém até a meia-noite. Um taoísta de ronda anda de um lado para o outro no Salão da frente: ficar fora da vista dele (ele olha para a frente, não para trás; o incensário e a mesa dos sutras te escondem), chegar de mansinho à porta norte e escolher \"Escutar\". Se ele te flagrar, vão te levar de volta ao Pátio da frente para ficar de pé até o amanhecer, e isso é uma suspeita."
 
 msgid "你在北门外听见了他们等的那一夜，和「名单在账房」。"
 msgstr "Do lado de fora da porta norte você ouviu qual noite eles esperam, e \"a lista está na Contadoria\"."
 
 msgid "名单在账房。夜里管事伏在案头睡觉，到账房的大案上「抄名单」，别吵醒他。"
-msgstr "A lista está na Contadoria. À noite o intendente dorme debruçado na escrivaninha: na mesa comprida da Contadoria, escolher \"Copiar a lista\", sem acordá-lo."
+msgstr "A lista está na Contadoria. À noite o intendente dorme debruçado na escrivaninha: na grande mesa da Contadoria, escolher \"Copiar a lista\", sem acordá-lo."
 
 msgid "你在账房的大案上抄下了那张名单。"
-msgstr "Na mesa comprida da Contadoria, você copiou aquela lista."
+msgstr "Na grande mesa da Contadoria, você copiou aquela lista."
 
 msgid "把抄来的名单递出去：交给灵心观的林忌（救过霍铮的，也可以交给土地庙的霍铮）。"
 msgstr "Fazer chegar a lista copiada: entregá-la a Lin Ji, no Mosteiro do Coração Claro (se salvou Huo Zheng, também pode entregá-la a Huo Zheng, no Santuário do Deus da Terra)."
@@ -18775,10 +18775,10 @@ msgid "林忌说了地牢里新关的三个人，和账房铁匣里那本名册�
 msgstr "Lin Ji falou de três pessoas recém-presas na masmorra, e do original do registro na caixa de ferro da Contadoria."
 
 msgid "地牢里新关了三个人。牢门的钥匙在狱卒腰上：给他一袋酒（或者往石阶边他那只酒坛里下蒙汗药），他醉倒了，钥匙就是你的；子时他歪在长凳上打盹，钥匙挂在头顶的铁钉上；第三章那把钥匙还在身上的，也开得了。狱卒醒着的时候，谁也近不了牢门。开了门，他们自己从货栈的侧门走。"
-msgstr "Três pessoas foram presas há pouco na masmorra. A chave das celas fica na cintura do carcereiro: dar a ele um odre de vinho (ou pôr pó sonífero na jarra de vinho dele, junto aos degraus de pedra), e quando ele cair bêbado a chave é sua; à meia-noite ele cochila largado no banco, com a chave pendurada no prego de ferro acima da cabeça; se você ainda tiver a chave do capítulo 3, ela também abre. Enquanto o carcereiro estiver acordado, ninguém chega perto das celas. Abertas as portas, eles saem sozinhos pela porta lateral do Depósito de carga."
+msgstr "Três pessoas foram presas há pouco na masmorra. A chave das celas fica na cintura do carcereiro: dar a ele um odre de vinho (ou pôr pó sonífero na jarra de vinho dele, junto aos degraus de pedra), e quando ele cair bêbado a chave é sua; à meia-noite ele cochila largado no banco, com a chave pendurada no prego de ferro acima da cabeça; se você ainda tiver a chave do capítulo 3, ela também abre. Enquanto o carcereiro estiver acordado, ninguém chega perto das celas. Abertas as portas, eles saem sozinhos pela porta lateral do armazém."
 
 msgid "地牢里新关的三个人，从货栈的侧门走了。"
-msgstr "Os três recém-presos na masmorra saíram pela porta lateral do Depósito de carga."
+msgstr "Os três recém-presos na masmorra saíram pela porta lateral do armazém."
 
 msgid "放走了逆灵宫地牢里新关的三个人"
 msgstr "Libertou os três recém-presos na masmorra do Palácio Negro"
@@ -18820,7 +18820,7 @@ msgid "后山崖径上没有玄冥子——《逆灵天书》的下半部，没�
 msgstr "Não há Xuanmingzi na Trilha do Penhasco dos Fundos: ninguém te pede para buscar a segunda metade da \"Escritura Negra\"."
 
 msgid "宫里等的那一夜，林忌要知道：他们哪一夜动、走哪条路。钉子拔了、湖上的事近了（第十章之后），回灵心观问林忌「逆灵宫」。湖底的事已经了了的，宫里剩下的人还在——也问他「逆灵宫」。"
-msgstr "Lin Ji quer saber da noite que o palácio espera: em que noite eles se movem e por qual caminho. Quando o prego for arrancado e o assunto do lago estiver perto (depois do capítulo 10), voltar ao Mosteiro do Coração Claro e perguntar a Lin Ji sobre \"Palácio Negro\". Se o assunto do fundo do lago já acabou, os que restam no palácio continuam lá: perguntar a ele também sobre \"Palácio Negro\"."
+msgstr "Lin Ji quer saber da noite que o palácio espera: em que noite eles se movem e por qual caminho. Quando o cravo for arrancado e o assunto do lago estiver perto (depois do capítulo 10), voltar ao Mosteiro do Coração Claro e perguntar a Lin Ji sobre \"Palácio Negro\". Se o assunto do fundo do lago já acabou, os que restam no palácio continuam lá: perguntar a ele também sobre \"Palácio Negro\"."
 
 msgid "林忌问你宫里哪一夜动、走哪条路：唤首那一夜，逆灵宫倾巢下湖。"
 msgstr "Lin Ji te pergunta em que noite o palácio se move e por qual caminho: na noite da Invocação da Cabeça, o Palácio Negro inteiro desce ao lago."
@@ -18850,7 +18850,7 @@ msgid "终章：戴着黑冠下湖。冰龙厅里你站在商玦身后——第�
 msgstr "Final: descer ao lago com o gorro negro. No salão dos dragões de gelo você fica atrás de Shang Jue: o primeiro golpe é seu. Os quatro taoístas dele vão te atacar primeiro."
 
 msgid "你把北麓那座道观交给了官府。官兵上了山，宫里剩下的人一个也没走脱。"
-msgstr "Você entregou às autoridades o mosteiro do sopé norte. Os soldados subiram a montanha, e dos que restavam no palácio nenhum escapou."
+msgstr "Você entregou às autoridades o templo do sopé norte. Os soldados subiram a montanha, e dos que restavam no palácio nenhum escapou."
 
 msgid "把逆灵宫的余孽交给官府去剿"
 msgstr "Entregou às autoridades o que restava do Palácio Negro, para ser arrasado"
@@ -18973,7 +18973,7 @@ msgid "陈剑秋把一趟红货交给了你：两箱，京师振远总局收，�
 msgstr "Chen Jianqiu te confia uma carga de mercadoria valiosa: dois baús, a receber na Sede do Longo Caminho, na Capital, e a entregar ao chefe da agência, Chen Tianxing. O velho Zhou, batedor, empurra o carro."
 
 msgid "老周推着镖车跟你走（在镖局里问他「上路」）。出绮云镇往北到雪亭镇，沿青石官道往西南，过碎石小路，从铁索下到天驼关，再沿黄土大道往南到京师。车马行不拉镖车。镖车落在后头的，回去叫老周「上路」。"
-msgstr "O velho Zhou empurra o carro de escolta e te segue (perguntar a ele sobre \"Partir\" na agência). Sair de Tece-Nuvens para o norte até Pavilhão da Neve, seguir para o sudoeste pela Estrada real de pedra azul, atravessar a Trilha de cascalho, descer pela corrente de ferro até o Passo do Camelo e depois ir para o sul pela Grande estrada de terra amarela até a Capital. O Parada de carruagens não leva carros de escolta. Se o carro ficar para trás, voltar e dizer ao velho Zhou \"Partir\"."
+msgstr "O velho Zhou empurra o carro de escolta e te segue (perguntar a ele sobre \"Partir\" na agência). Sair de Tece-Nuvens para o norte até o Pavilhão da Neve, seguir para o sudoeste pela Estrada real de pedra azul, atravessar a Trilha de cascalho, descer pela corrente de ferro até o Passo do Camelo e depois ir para o sul pela Grande estrada de terra amarela até a Capital. A Parada de carruagens não leva carros de escolta. Se o carro ficar para trás, voltar e dizer ao velho Zhou \"Partir\"."
 
 msgid "碎石小路上有人劫镖。领头的蒙面后生倒在路边，刀扔在一旁。"
 msgstr "Alguém assalta a carga na Trilha de cascalho. O jovem mascarado que os liderava está caído à beira da estrada, com o sabre jogado ao lado."
@@ -19015,10 +19015,10 @@ msgid "把贺长庚的家信交给了陈天星"
 msgstr "Entregou a Chen Tianxing a carta de He Changgeng à família"
 
 msgid "二十年前那趟镖，振远的总账里还有一笔没对上。去京师东街北头的振远总局，问陈天星「旧账」。"
-msgstr "Daquela escolta de vinte anos atrás, ainda há uma soma que não bate no livro-razão do Longo Caminho. Ir à Sede do Longo Caminho, no extremo norte da Rua Leste da Capital, e perguntar a Chen Tianxing sobre \"Contas antigas\"."
+msgstr "Daquela escolta de vinte anos atrás, ainda há uma soma que não bate no livro-mestre do Longo Caminho. Ir à Sede do Longo Caminho, no extremo norte da Rua Leste da Capital, e perguntar a Chen Tianxing sobre \"Contas antigas\"."
 
 msgid "陈天星翻完了振远二十年的总账：绮云分局开张的本钱，是那趟镖之后兵部送来的「抚恤银」。"
-msgstr "Chen Tianxing terminou de revirar vinte anos do livro-razão do Longo Caminho: o dinheiro que abriu a filial de Tece-Nuvens foi a \"prata de indenização\" que o Ministério da Guerra mandou depois daquela escolta."
+msgstr "Chen Tianxing terminou de revirar vinte anos do livro-mestre do Longo Caminho: o dinheiro que abriu a filial de Tece-Nuvens foi a \"prata de indenização\" que o Ministério da Guerra mandou depois daquela escolta."
 
 msgid "绮云分局开张的本钱是兵部的抚恤银，陈剑秋知道。回绮云镇的振远镖局，问陈剑秋「旧账」。"
 msgstr "O dinheiro que abriu a filial de Tece-Nuvens foi prata de indenização do Ministério da Guerra, e Chen Jianqiu sabe disso. Voltar às Escoltas do Longo Caminho de Tece-Nuvens e perguntar a Chen Jianqiu sobre \"Contas antigas\"."
@@ -19027,16 +19027,16 @@ msgid "陈剑秋认了：那年振远死了十一个人，兵部给钱，他拿�
 msgstr "Chen Jianqiu admitiu: naquele ano o Longo Caminho perdeu onze homens, o Ministério da Guerra pagou, e ele aceitou o dinheiro."
 
 msgid "账本在陈天星手里，他要告；陈剑秋要瞒。到此为止（在绮云镇问陈剑秋「到此为止」）：账本烧了，抚恤银的事振远不再提，正月十七振远那一票投颜违；陈剑秋教你春风快意刀，陈天星往后见你只谈生意。查到底（在京师问陈天星「查到底」）：账本押去乔阴县衙，告兵部也告振远自己，陈剑秋关了绮云分局的门；振远那一票投旧盟主，京师的事还没定的，这本账算揭发的一样人证物证。"
-msgstr "O livro-razão está nas mãos de Chen Tianxing, que quer denunciar; Chen Jianqiu quer abafar. Parar por aqui (perguntar a Chen Jianqiu, em Tece-Nuvens, sobre \"Parar por aqui\"): o livro-razão é queimado, o Longo Caminho não fala mais da prata de indenização, e no dia dezessete do primeiro mês o voto do Longo Caminho vai para Yan Wei; Chen Jianqiu te ensina o Sabre alegre da brisa primaveral, e Chen Tianxing passa a falar com você só de negócios. Ir até o fundo (perguntar a Chen Tianxing, na Capital, sobre \"Ir até o fundo\"): o livro-razão vai para o tribunal de Sombra Alta, com acusações contra o Ministério da Guerra e contra o próprio Longo Caminho, e Chen Jianqiu fecha a filial de Tece-Nuvens; o voto do Longo Caminho vai para o antigo Líder da Aliança, e, se o assunto da Capital ainda não estiver resolvido, este livro-razão conta como uma prova para a denúncia."
+msgstr "O livro-mestre está nas mãos de Chen Tianxing, que quer denunciar; Chen Jianqiu quer abafar. Parar por aqui (perguntar a Chen Jianqiu, em Tece-Nuvens, sobre \"Parar por aqui\"): o livro-mestre é queimado, o Longo Caminho não fala mais da prata de indenização, e no dia dezessete do primeiro mês o voto do Longo Caminho vai para Yan Wei; Chen Jianqiu te ensina o Sabre alegre da brisa primaveral, e Chen Tianxing passa a falar com você só de negócios. Ir até o fundo (perguntar a Chen Tianxing, na Capital, sobre \"Ir até o fundo\"): o livro-mestre vai para o tribunal de Sombra Alta, com acusações contra o Ministério da Guerra e contra o próprio Longo Caminho, e Chen Jianqiu fecha a filial de Tece-Nuvens; o voto do Longo Caminho vai para o antigo Líder da Aliança, e, se o assunto da Capital ainda não estiver resolvido, este livro-mestre conta como uma prova para a denúncia."
 
 msgid "你站到了陈剑秋一边：那本总账烧了，二十年前的抚恤银，振远不再提。陈剑秋许你学春风快意刀。"
-msgstr "Você ficou do lado de Chen Jianqiu: o livro-razão foi queimado, e da prata de indenização de vinte anos atrás o Longo Caminho não fala mais. Chen Jianqiu te permitiu aprender o Sabre alegre da brisa primaveral."
+msgstr "Você ficou do lado de Chen Jianqiu: o livro-mestre foi queimado, e da prata de indenização de vinte anos atrás o Longo Caminho não fala mais. Chen Jianqiu te permitiu aprender o Sabre alegre da brisa primaveral."
 
 msgid "劝陈剑秋把振远的旧账烧了：到此为止"
 msgstr "Você convenceu Chen Jianqiu a queimar as contas antigas do Longo Caminho: fica por aqui"
 
 msgid "你站到了陈天星一边：振远的总账押去了乔阴县衙。绮云分局关了门。"
-msgstr "Você ficou do lado de Chen Tianxing: o livro-razão do Longo Caminho foi levado ao tribunal de Sombra Alta. A filial de Tece-Nuvens fechou as portas."
+msgstr "Você ficou do lado de Chen Tianxing: o livro-mestre do Longo Caminho foi levado ao tribunal de Sombra Alta. A filial de Tece-Nuvens fechou as portas."
 
 msgid "跟陈天星把振远的旧账送进了乔阴县衙：查到底"
 msgstr "Você levou com Chen Tianxing as contas antigas do Longo Caminho ao tribunal de Sombra Alta: até o fim"
@@ -19051,7 +19051,7 @@ msgid "庄主蓝止萍在晚月庄的前厅。问她「庄里的事」。"
 msgstr "A senhora do solar, Lan Zhiping, está na sala da frente do Solar da Lua Tardia. Perguntar a ela sobre \"Assuntos do solar\"."
 
 msgid "蓝止萍说：晚月庄失传过一支舞，叫沧海龙吟。步子绣在后院书房的湘绣舞曲图上，曲子在舞曲谱里；两样凑齐，到二楼佛堂，在区冥的神位前跳一回。"
-msgstr "Lan Zhiping diz: o Solar da Lua Tardia perdeu uma dança, o Canto do Dragão sobre o Mar Azul. Os passos estão bordados no Bordado da dança do Escritório do quintal, e a música está na Partitura de dança; com as duas coisas juntas, subir ao Oratório do andar de cima e dançá-la uma vez diante da tabuleta ancestral de Ouming."
+msgstr "Lan Zhiping diz: o Solar da Lua Tardia perdeu uma dança, o Canto do Dragão sobre o Mar Azul. Os passos estão bordados no Bordado Xiang da dança do Escritório do quintal, e a música está na Partitura de dança; com as duas coisas juntas, subir ao Oratório do andar de cima e dançá-la uma vez diante da tabuleta ancestral de Ouming."
 
 msgid "图上的姿势，谱上的曲子，你都记下了：沧海龙吟。"
 msgstr "As posturas do bordado e a música da partitura, você guardou as duas na memória: o Canto do Dragão sobre o Mar Azul."
@@ -19117,13 +19117,13 @@ msgid "老妇的女儿就是内书房里那个蒙面的杀手。问她「娘」�
 msgstr "A filha da velha é a assassina mascarada do Escritório interno. Perguntar a ela sobre \"Mãe\". Lutar também serve: nesta etapa ela só cai, não morre."
 
 msgid "她说了来历：北麓的道观、六阴剑、东方神教，和朱鸿雪派她回晚月庄的缘故。"
-msgstr "Ela contou sua história: o mosteiro do sopé norte, a Espada dos seis yin, a Ordem do Corvo Dourado e por que Zhu Hongxue a mandou de volta ao Solar da Lua Tardia."
+msgstr "Ela contou sua história: o templo do sopé norte, a Espada dos seis yin, a Ordem do Corvo Dourado e por que Zhu Hongxue a mandou de volta ao Solar da Lua Tardia."
 
 msgid "那一夜之后，她藏在庄后山路尽头的竹林里，入夜才在（白天去，竹林里没有人）。走进竹林找到她，问她「娘」。动手也行——这一步她只会倒下，不会死。"
 msgstr "Depois daquela noite, ela se esconde no bambuzal do Fim da estrada da montanha, atrás do solar, e só está lá depois de escurecer (de dia, não há ninguém no bambuzal). Entrar no bambuzal, encontrá-la e perguntar a ela sobre \"Mãe\". Lutar também serve: nesta etapa ela só cai, não morre."
 
 msgid "她说了来历：北麓的道观、六阴剑、东方神教，和朱鸿雪派她回晚月庄的缘故。她回了内书房，在她娘身边。"
-msgstr "Ela contou sua história: o mosteiro do sopé norte, a Espada dos seis yin, a Ordem do Corvo Dourado e por que Zhu Hongxue a mandou de volta ao Solar da Lua Tardia. Ela voltou ao Escritório interno, para junto da mãe."
+msgstr "Ela contou sua história: o templo do sopé norte, a Espada dos seis yin, a Ordem do Corvo Dourado e por que Zhu Hongxue a mandou de volta ao Solar da Lua Tardia. Ela voltou ao Escritório interno, para junto da mãe."
 
 msgid "她的杀手令牌在你手上。两个人要它：内书房的老妇要它为证——递给她，她知道女儿还活着，给你一份谢礼（只给一次）；绮云镇的朱鸿雪要它回神教——问她「还令」，神教的令只从上一个持令人手里接。给了一边，另一边就没有了。"
 msgstr "A placa de assassino dela está nas suas mãos. Duas pessoas a querem: a velha do Escritório interno, como prova (entregá-la a ela: ela fica sabendo que a filha está viva e te dá um presente de agradecimento, uma só vez); e Zhu Hongxue, em Tece-Nuvens, para a Ordem (perguntar a ela sobre \"Devolver a placa\": a placa da Ordem só se recebe das mãos de quem a teve por último). Dada a uma, a outra fica sem."
@@ -19177,7 +19177,7 @@ msgid "卖身契在你身上。回福林大街，递给陆得财。"
 msgstr "Os contratos de servidão estão com você. Voltar à Rua Fulin e entregá-los a Lu Decai."
 
 msgid "陆得财数完了八张契：明天她们就回家。他把皮酒囊递给你数——二十二个结。他是龙头的一个替身。"
-msgstr "Lu Decai termina de contar os oito contratos: amanhã elas voltam para casa. Ele te passa o odre de couro para contar: 22 nós. Ele é um dos testas de ferro do Cabeça do Dragão."
+msgstr "Lu Decai termina de contar os oito contratos: amanhã elas voltam para casa. Ele te passa o odre de couro para contar: 22 nós. Ele é um dos substitutos do Cabeça do Dragão."
 
 msgid "从兵部的管事身上摸回了槐阳八户的卖身契"
 msgstr "Você tirou do intendente do Ministério da Guerra os contratos de servidão de oito famílias de Huaiyang"
@@ -19186,7 +19186,7 @@ msgid "五结弟子"
 msgstr "{jogador:Discípulo de cinco nós|Discípula de cinco nós}"
 
 msgid "真龙头的皮酒囊上二十三个结，替身的都少几个；替身一个只认得下一个。雪亭镇广场墙根下那个老乞丐也叫陆得财，结最少——问他「龙头」。"
-msgstr "O odre de couro do verdadeiro Cabeça do Dragão tem 23 nós, e o de cada testa de ferro tem menos; cada testa de ferro só conhece o seguinte. O velho mendigo ao pé do muro da praça do Pavilhão da Neve também se chama Lu Decai e é o que tem menos nós: perguntar a ele sobre \"Cabeça do Dragão\"."
+msgstr "O odre de couro do verdadeiro Cabeça do Dragão tem 23 nós, e o de cada substituto tem menos; cada substituto só conhece o seguinte. O velho mendigo ao pé do muro da praça do Pavilhão da Neve também se chama Lu Decai e é o que tem menos nós: perguntar a ele sobre \"Cabeça do Dragão\"."
 
 msgid "雪亭的陆得财，二十个结。他指了下一个：绮云镇的渡口。"
 msgstr "O Lu Decai do Pavilhão da Neve: 20 nós. Ele aponta o seguinte: o embarcadouro de Tece-Nuvens."
@@ -19408,13 +19408,13 @@ msgid "把《上清符箓》收回了藏经楼"
 msgstr "Você devolveu o \"Livro de talismãs da Suprema Clareza\" à Biblioteca das escrituras"
 
 msgid "北麓那座道观里还剩着人。湖上的事了了（终章之后），问林忌「剿」：官兵上山，一个也走不了。北麓的人已经有了去处的，这一步就过了。"
-msgstr "No mosteiro do sopé norte ainda resta gente. Quando o caso do lago tiver acabado (depois do final), perguntar a Lin Ji sobre \"Aniquilar\": os soldados sobem a montanha, e ninguém escapa. Se o pessoal do sopé norte já tem para onde ir, esta etapa está cumprida."
+msgstr "No templo do sopé norte ainda resta gente. Quando o caso do lago tiver acabado (depois do final), perguntar a Lin Ji sobre \"Aniquilar\": os soldados sobem a montanha, e ninguém escapa. Se o pessoal do sopé norte já tem para onde ir, esta etapa está cumprida."
 
 msgid "北麓那座道观里剩下的人，有了去处。"
-msgstr "Os que restavam no mosteiro do sopé norte têm para onde ir."
+msgstr "Os que restavam no templo do sopé norte têm para onde ir."
 
 msgid "北麓那座道观里还剩着人。湖上的事了了（终章之后），问藏经楼二楼的花匠「北麓」：他拿着书上北麓去念他们自己的经——你上北麓，在绞盘边看他念完。北麓的人已经有了去处的，这一步就过了。"
-msgstr "No mosteiro do sopé norte ainda resta gente. Quando o caso do lago tiver acabado (depois do final), perguntar ao jardineiro do andar de cima da Biblioteca das escrituras sobre \"Sopé norte\": ele leva o livro ao sopé norte para ler para eles a escritura deles mesmos; subir ao sopé norte e vê-lo terminar junto ao guincho. Se o pessoal do sopé norte já tem para onde ir, esta etapa está cumprida."
+msgstr "No templo do sopé norte ainda resta gente. Quando o caso do lago tiver acabado (depois do final), perguntar ao jardineiro do andar de cima da Biblioteca das escrituras sobre \"Sopé norte\": ele leva o livro ao sopé norte para ler para eles a escritura deles mesmos; subir ao sopé norte e vê-lo terminar junto ao guincho. Se o pessoal do sopé norte já tem para onde ir, esta etapa está cumprida."
 
 msgid "风泉之剑里住着剑灵；见过它的人，才算步玄的人。骆云舟的大哥在兵部尚书府写了十年字，兵部抄本上多出来的三句是他落的笔——让他上堂作证，还是保住骆家。"
 msgstr "Na Espada da Fonte do Vento mora um espírito da espada; só quem o viu conta como gente do Passo Místico. O irmão mais velho de Luo Yunzhou escreve há dez anos na Mansão do Ministro, e as três frases a mais na cópia do Ministério da Guerra saíram do pincel dele: levá-lo a depor no tribunal, ou proteger a família Luo."
@@ -19429,7 +19429,7 @@ msgid "剑灵在「剑神如意」之前收了剑。骆云舟说：步玄认你�
 msgstr "O espírito da espada embainhou a lâmina antes de \"Deus da Espada, à vontade\". Luo Yunzhou diz: \"O Passo Místico te aceita.\""
 
 msgid "在曼雩台上问过了剑，见过了风泉剑灵"
-msgstr "Você provou a espada no Terraço da Dança da Chuva e viu a Alma da Fonte do Vento"
+msgstr "Você provou a espada no Terraço da Dança da Chuva e viu o espírito da Espada da Fonte do Vento."
 
 msgid "今夜的四句念完了，剑灵回了剑——明晚天黑再来"
 msgstr "Os quatro versos desta noite já foram ditos, e o espírito voltou à espada: voltar amanhã depois de escurecer"
@@ -20230,7 +20230,7 @@ msgid "卫盟主！我爹说，那年正月十七，他一个人在虹台上打�
 msgstr "O Líder da Aliança Wei! Meu pai diz que naquele ano, no dia dezessete do primeiro mês, ele sozinho derrotou as nove escolas no Terraço do Arco-Íris... Mas meu pai também diz que faz vinte anos que ele não desce da montanha."
 
 msgid "路引？我从雪亭镇一路走上来的，要什么路引。"
-msgstr "Salvo-conduto? Subi a pé desdo Pavilhão da Neve; para que eu ia precisar de salvo-conduto?"
+msgstr "Salvo-conduto? Subi a pé desde o Pavilhão da Neve; para que eu ia precisar de salvo-conduto?"
 
 msgid "我……我什么也没干。我就是来拜师的。"
 msgstr "Eu... eu não fiz nada. Só vim procurar um mestre."
@@ -20653,7 +20653,7 @@ msgid "往手心里啐了一口，握住车把。"
 msgstr " cospe nas palmas e agarra os varais do carrinho."
 
 msgid "走！车马行不拉镖车，咱们一步一步走到京师。"
-msgstr "Vamos! O parada de carruagens não leva carrinho de escolta, então vamos a pé até a Capital, passo a passo."
+msgstr "Vamos! A Parada de carruagens não leva carrinho de escolta, então vamos a pé até a Capital, passo a passo."
 
 msgid "镖局的车，镖头不发话不动。"
 msgstr "Carrinho da agência não sai do lugar sem a ordem do chefe."
@@ -21067,7 +21067,7 @@ msgid "二十年前一阵怪风过隘口，风停的地方落下这只铃。先�
 msgstr "Há vinte anos, um vento estranho passou pelo desfiladeiro, e onde o vento parou caiu este sino. Os homens que o falecido imperador mandou buscar a Cidade do Vento o recolheram e vieram perguntar a este velho taoísta; não me atrevi a ficar com ele, nem a deixar que o levassem para a Capital. Coisa que busca o vento se lacra em um cofre de pedra e se enterra de volta onde o vento parou."
 
 msgid "黑冠黑衣，一身邪气，这一带没有这样的道观。他往老松岭去了——拾起他掉的那块布条看看。"
-msgstr "Gorro negro, túnica negra, um ar maligno. Por estas bandas não há mosteiro assim. Ele foi para a Serra dos Pinheiros Velhos: pegue a tira de pano que ele deixou cair e dê uma olhada."
+msgstr "Gorro negro, túnica negra, um ar maligno. Por estas bandas não há templo assim. Ele foi para a Serra dos Pinheiros Velhos: pegue a tira de pano que ele deixou cair e dê uma olhada."
 
 msgid "冯总教头奉旨寻的是旋芒宝剑。皇上要寻岚城，满朝只有老道知道岚城的东西埋在哪儿——老道不说，他们挖遍西南也要挖；说了，老道还能在旁边看着。"
 msgstr "O que o instrutor-chefe Feng busca por decreto é a espada Gume Giratório. O que Sua Majestade quer é a Cidade do Vento, e em toda a corte só este velho taoísta sabe onde está enterrado o que veio da Cidade do Vento. Se eu não disser, eles cavam o sudoeste inteiro de qualquer jeito; se eu disser, pelo menos posso ficar ao lado olhando."
@@ -21097,7 +21097,7 @@ msgid "什么布条？"
 msgstr "Que tira de pano?"
 
 msgid "一名白衣武官从山壁下的土坑里捧出一只尺许长的石匣，匣面刻着一圈风纹。"
-msgstr "Um oficial de branco tira do buraco, ao pé do paredão, um cofre de pedra de um pé de comprimento, com um círculo de padrões de vento gravado na tampa."
+msgstr "Um oficial de branco tira do buraco, ao pé do paredão, um cofre de pedra de cerca de um chi de comprimento, com um círculo de padrões de vento gravado na tampa."
 
 msgid "总教头，挖出来了！"
 msgstr "Instrutor-chefe, desenterramos!"
@@ -21313,7 +21313,7 @@ msgid "封法"
 msgstr "Rito do selo"
 
 msgid "钉拔，它成形，先回这附近的村子。要灭它，三器齐：穿灵、旋芒、宝衣。要再封，须有人留下。——铜上刻了三句，我补了三句，都是实话。"
-msgstr "Arrancado o prego, ele toma forma e volta primeiro à aldeia aqui perto. Para destruí-lo, as três relíquias juntas: Trespassa-Almas, Gume Giratório e a túnica. Para selá-lo de novo, alguém tem que ficar. O cobre traz três frases gravadas; eu acrescentei três. Todas são verdade."
+msgstr "Arrancado o cravo, ele toma forma e volta primeiro à aldeia aqui perto. Para destruí-lo, as três relíquias juntas: Trespassa-Almas, Gume Giratório e a túnica. Para selá-lo de novo, alguém tem que ficar. O cobre traz três frases gravadas; eu acrescentei três. Todas são verdade."
 
 msgid "先把铜上的话念给我听。"
 msgstr "Primeiro leia para mim o que diz o cobre."
@@ -21322,13 +21322,13 @@ msgid "它在你手里了。三百年钉着一颗头，钉的是它的名，不�
 msgstr "Já está na sua mão. Por trezentos anos ela pregou uma cabeça, e o que pregava era o nome, não a carne. No dia de destruí-lo, ainda tem que ser ela."
 
 msgid "寒於的剑。三百年前我哥哥借了它来钉这颗头——剑是皇叔的，皇叔是人，人活不过三百年，剑能。"
-msgstr "A espada de Hanyu. Há trezentos anos, meu irmão a tomou emprestada para pregar esta cabeça. A espada era do tio imperial; o tio imperial era um homem, e um homem não vive trezentos anos. Uma espada vive."
+msgstr "A espada de Hanyu. Há trezentos anos, meu irmão a tomou emprestada para cravar esta cabeça. A espada era do tio imperial; o tio imperial era um homem, e um homem não vive trezentos anos. Uma espada vive."
 
 msgid "杞庸"
 msgstr "Qi Yong"
 
 msgid "我哥哥。金乌的长子。它捉了我，他追到这里，钉了它——然后他走了。金乌不能留在地上，留下来的只能是我。"
-msgstr "Meu irmão. O primogênito do Corvo Dourado. Aquilo me capturou, ele o perseguiu até aqui e o pregou; depois foi embora. O Corvo Dourado não pode ficar na terra; quem ficou só podia ser eu."
+msgstr "Meu irmão. O primogênito do Corvo Dourado. Aquilo me capturou, ele o perseguiu até aqui e o cravou; depois foi embora. O Corvo Dourado não pode ficar na terra; quem ficou só podia ser eu."
 
 msgid "它没有头的时候，是一团焰。有了头，就有了名，有了名，就能把人当柴烧。这颗头在冰里睡了三百年，它在底下长了三百年。"
 msgstr "Sem cabeça, ele é uma massa de chamas. Com cabeça, tem nome; com nome, pode queimar gente como lenha. Esta cabeça dormiu trezentos anos no gelo, e lá embaixo ele cresceu trezentos anos."
@@ -21403,7 +21403,7 @@ msgid "你带着铜来的。三百年了，第一个带着铜来的人。"
 msgstr "Você veio com o cobre. Em trezentos anos, {jogador:o primeiro|a primeira} a vir com o cobre."
 
 msgid "我是璃虹，杞庸的妹妹。它捉了我，我哥哥钉了它——我就留在这里，照着这块冰。"
-msgstr "Eu sou Lihong, irmã de Qi Yong. Aquilo me capturou, e meu irmão o pregou; eu fiquei aqui, iluminando este gelo."
+msgstr "Eu sou Lihong, irmã de Qi Yong. Aquilo me capturou, e meu irmão o cravou; eu fiquei aqui, iluminando este gelo."
 
 msgid "你念过那片铜。念给我听。念对了，我再说下面的。"
 msgstr "Você leu aquela tabuleta de cobre. Leia para mim. Se ler certo, eu digo o resto."
@@ -21415,7 +21415,7 @@ msgid "她连抬手的力气都没有。你下不去手。"
 msgstr "Ela não tem força nem para levantar a mão. Você não tem coragem de golpear."
 
 msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差旋芒和宝衣。"
-msgstr "O prego já não está lá, e ele cresce. Para destruí-lo, as três relíquias juntas: Trespassa-Almas já está na sua mão; faltam Gume Giratório e a túnica."
+msgstr "O cravo já não está lá, e ele cresce. Para destruí-lo, as três relíquias juntas: Trespassa-Almas já está na sua mão; faltam Gume Giratório e a túnica."
 
 msgid "上岸"
 msgstr "Para a margem"
@@ -21466,7 +21466,7 @@ msgid "璃虹躺在东房的榻上，盖着田老财家的一床旧被。她身�
 msgstr "Lihong está deitada no catre do quarto leste, sob uma velha colcha da casa do fazendeiro Tian. Só lhe resta um fio de luz, como a última chama em um pavio. Os olhos estão abertos, fixos na viga do teto.\n"
 
 msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差旋芒和宝衣。旋芒在岚城，宝衣在晚月庄。岚城寻风而至——你们的先帝找了它一辈子，他的档案在皇城。"
-msgstr "O prego já não está lá, e ele cresce. Para destruí-lo, as três relíquias juntas: Trespassa-Almas já está na sua mão; faltam Gume Giratório e a túnica. Gume Giratório está na Cidade do Vento; a túnica, no Solar da Lua Tardia. À Cidade do Vento se chega seguindo o vento: o falecido imperador de vocês a procurou a vida inteira, e os arquivos dele estão na Cidade Imperial."
+msgstr "O cravo já não está lá, e ele cresce. Para destruí-lo, as três relíquias juntas: Trespassa-Almas já está na sua mão; faltam Gume Giratório e a túnica. Gume Giratório está na Cidade do Vento; a túnica, no Solar da Lua Tardia. À Cidade do Vento se chega seguindo o vento: o falecido imperador de vocês a procurou a vida inteira, e os arquivos dele estão na Cidade Imperial."
 
 msgid "它在长"
 msgstr "Está crescendo"
@@ -21490,7 +21490,7 @@ msgid "你来了。村子……我听见了。它回了家，先烧了一把。"
 msgstr "Você veio. A aldeia... eu ouvi. Ele voltou para casa e, primeiro, queimou um pouco."
 
 msgid "钉没了。它每一夜都在长。去京师，去岚城，把三器凑齐——别回头看我。"
-msgstr "O prego já não está lá. Ele cresce toda noite. Vá à Capital, vá à Cidade do Vento, junte as três relíquias. Não olhe para trás para me ver."
+msgstr "O cravo já não está lá. Ele cresce toda noite. Vá à Capital, vá à Cidade do Vento, junte as três relíquias. Não olhe para trás para me ver."
 
 msgid "傅家坡的农妇，围裙没解，站在岸边的柳树底下，一手攥着衣角，眼睛一直盯着湖面。\n"
 msgstr "Uma camponesa da Ladeira dos Fu, ainda de avental, está de pé sob o salgueiro da margem, uma mão apertando a barra da roupa e os olhos fixos no lago.\n"
@@ -22285,7 +22285,7 @@ msgid "攻击"
 msgstr "Atacar"
 
 msgid "切磋"
-msgstr "Duelo amistoso"
+msgstr "Treino"
 
 msgid "( $N{status} )"
 msgstr "( $N{:o}{status} )"
@@ -22795,7 +22795,7 @@ msgid "这里是雪亭镇镇前广场的空地，地上整齐地铺著大石板�
 msgstr "Esta é a área aberta da praça na entrada do Pavilhão da Neve, calçada com grandes lajes de pedra bem alinhadas. No centro da praça há uma armação de madeira que, depois de muitos anos de vento, sol e chuva, parece muito gasta. Ao redor, os edifícios se amontoam. A oeste você vê uma estalagem que parece ter muito movimento."
 
 msgid "你现在正走在雪亭镇的街道上，东边不远处有一间高大的院子，门\n口立著一根粗大的旗杆，旗子上写著「淳风武馆」，往南只听得人声鼎\n沸，是个五十尺见方的广场，人来人往相当热闹。往北可望见一座牌坊\n，年代久远，上面的字迹早已看不出是什么字，出了牌坊就是镇外。\n"
-msgstr "Você caminha por uma rua do Pavilhão da Neve. Não muito longe, a leste, há um grande pátio murado; diante do portão se ergue um mastro grosso, e na bandeira se lê \"Salão do Vento Puro\". Do sul vem o burburinho da multidão: é uma praça de cinquenta pés de lado, muito animada com o vaivém das pessoas. Ao norte se avista um pórtico tão antigo que já não dá para ler o que dizem as letras; passado o pórtico, começa o campo fora da vila."
+msgstr "Você caminha por uma rua do Pavilhão da Neve. Não muito longe, a leste, há um grande pátio murado; diante do portão se ergue um mastro grosso, e na bandeira se lê \"Salão do Vento Puro\". Do sul vem o burburinho da multidão: é uma praça de cinquenta chi de lado, muito animada com o vaivém das pessoas. Ao norte se avista um pórtico tão antigo que já não dá para ler o que dizem as letras; passado o pórtico, começa o campo fora da vila."
 
 msgid "你现在正站在一间大宅院的入口，两只巨大的石狮镇守在大门的两\n侧，一阵阵吆喝与刀剑碰撞的声音从院子中传来。通过红漆大门\n往东可以望见许多身穿灰衣的汉子正在操练。\n"
 msgstr "Você está na entrada de uma grande residência. Dois enormes leões de pedra guardam os lados do portão, e do pátio vêm gritos e o choque de sabres e espadas. Pelo portão laqueado de vermelho, a leste, você vê muitos homens vestidos de cinza treinando."
@@ -24181,7 +24181,7 @@ msgid "你的文学素养不够无法提升小无相功的造诣。"
 msgstr "Sua formação nas letras não basta para avançar na Arte menor sem forma."
 
 msgid "大内侍卫营的刀法，七式「值门」「出巡」「提灯」「锁宫」「拿下」「护驾」「天明」，一招一式都在宫门、长街、殿上。侍卫营总教头冯策的刀谱末页写着一句：「刀在鞘里的时候最多。」"
-msgstr "O sabre do Quartel da guarda do palácio, em sete formas: \"Vigia do portão\", \"Ronda\", \"Erguer a lanterna\", \"Trancar o palácio\", \"Voz de prisão\", \"Proteger o trono\" e \"Alvorecer\"; cada movimento acontece num portão do palácio, numa rua longa, num salão. Na última página do manual de sabre de Feng Ce, instrutor-chefe do quartel, está escrita uma frase: \"O sabre passa a maior parte do tempo na bainha.\""
+msgstr "O sabre do Quartel da guarda do palácio, em sete formas: \"Vigia do portão\", \"Ronda\", \"Erguer a lanterna\", \"Trancar o palácio\", \"Prender\", \"Proteger o trono\" e \"Alvorecer\"; cada movimento acontece num portão do palácio, numa rua longa, num salão. Na última página do manual de sabre de Feng Ce, instrutor-chefe do quartel, está escrita uma frase: \"O sabre passa a maior parte do tempo na bainha.\""
 
 msgid "$N横刀当胸，一招「值门」$w刀背一磕，顺势削向$n的$l"
 msgstr "$N{:o} cruza a lâmina diante do peito e, com \"Vigia do portão\", bate com o dorso de $w{:o}, cortando em seguida {n:contra você|contra $n{:o}}, mirando $l{:o}"
@@ -24256,7 +24256,7 @@ msgid "$N踏前一步，一招「盾撞」整面盾撞向$n的$l"
 msgstr "$N{:o} dá um passo à frente e, com \"Golpe de escudo\", lança o escudo inteiro {n:contra você|contra $n{:o}}, mirando $l{:o}"
 
 msgid "$N手腕一沉，一招「短锋」$w只探出半尺，点向$n的$l"
-msgstr "$N{:o} baixa o pulso e, com \"Ponta curta\", $w{:o} se estende apenas meio palmo e espeta {n:você|$n{:o}} em $l{:o}"
+msgstr "$N{:o} baixa o pulso e, com \"Ponta curta\", $w{:o} se estende apenas meio chi e espeta {n:você|$n{:o}} em $l{:o}"
 
 msgid "$N盾面一收，一招「回盾」盾沿磕开来势，$w顺势划向$n的$l"
 msgstr "$N{:o} recolhe o escudo e, com \"Escudo de volta\", a borda desvia o golpe e $w{:o} segue o impulso e corta {n:contra você|contra $n{:o}}, mirando $l{:o}"
@@ -24268,7 +24268,7 @@ msgid "$N矮身藏在盾后，一招「盾下一剑」$w从盾底下猛地刺向
 msgstr "$N{:o} se agacha atrás do escudo e, com \"Espada sob o escudo\", $w{:o} sai de repente por baixo e se crava {n:em você|em $n{:o}}, mirando $l{:o}"
 
 msgid "番坊倭人浪人武馆鬼笠馆的刀法，刀窄而弯，拔刀、横扫、下劈、纳刀、退步五式之外，另有一式「一刀」。门规与中原相反：一击之内定生死。铁盾会的弟子，鬼笠馆不教。"
-msgstr "O sabre do Salão do Chapéu Fantasma, escola dos ronins japoneses do Bairro Estrangeiro. A lâmina é estreita e curva; além das cinco formas, Sacar, Varredura, Corte descendente, Guardar o sabre e Passo atrás, há mais uma: \"Um só golpe\". A regra é oposta à das Planícies Centrais: vida ou morte num único golpe. O Salão do Chapéu Fantasma não ensina os discípulos da Irmandade do Escudo de Ferro."
+msgstr "O sabre do Salão do Chapéu Fantasma, escola dos ronins japoneses do Bairro Estrangeiro. A lâmina é estreita e curva; além das cinco formas, Sacar, Varredura, Corte descendente, Guardar o sabre e Passo atrás, há mais uma: \"Um só golpe\". A regra é oposta à da Planície Central: vida ou morte num único golpe. O Salão do Chapéu Fantasma não ensina os discípulos da Irmandade do Escudo de Ferro."
 
 msgid "你出刀，收刀，把鬼笠刀法练了一遍——一刀，只出一次。"
 msgstr "Você saca, embainha e passa uma vez pelo Sabre do Chapéu Fantasma: um só golpe, dado uma única vez."
@@ -24550,7 +24550,7 @@ msgid "爹爹的剑法，我只学了个皮毛。封山剑不抢先，先用引�
 msgstr "Da esgrima de meu pai, só aprendi o básico. A espada da Montanha Vazia não toma a iniciativa: primeiro tenta com a mão-isca para que o outro ataque, e se a estocada falha ou eu a desvio, esse instante é a brecha, e me sobra uma estocada."
 
 msgid "多出来的那一剑最要紧：可以追着刺，也可以用「封」字诀把他封住，一封住，他好几手都出不来。"
-msgstr "A estocada que sobra é a mais importante: posso persegui-lo com ela, ou usar o segredo do 'Selar' para selá-lo; selado, ele não consegue fazer vários turnos."
+msgstr "A estocada que sobra é a mais importante: posso persegui-lo com ela, ou usar o segredo do 'Selo' para selá-lo; selado, ele não consegue fazer vários turnos."
 
 msgid "可是贪不得。多出来的那一剑要是只顾着攻，对方的下一手就没人守了。爹爹说，封山的剑是等出来的。"
 msgstr "Mas não se deve ser ganancioso. Se você gasta essa estocada extra só atacando, ninguém guarda contra o próximo turno do adversário. Meu pai diz que a espada da Montanha Vazia se ganha na espera."
@@ -24562,7 +24562,7 @@ msgid "那……只拆三回合，不伤人。"
 msgstr "Então... só três rodadas, sem ferir ninguém."
 
 msgid "方才你那一下刺空了，我手里就多出一剑，那记「封」就是这么来的。封山的剑，是等人露空子。"
-msgstr "Agora há pouco você errou a estocada, e me sobrou uma estocada; foi assim que saiu aquele 'Selar'. A espada da Montanha Vazia espera que o outro deixe uma brecha."
+msgstr "Agora há pouco você errou a estocada, e me sobrou uma estocada; foi assim que saiu aquele 'Selo'. A espada da Montanha Vazia espera que o outro deixe uma brecha."
 
 msgid "三回合你一招都没打空，我就一直没等到空子，只好跟你慢慢磨。封山的剑是等出来的，等不到，就只能这样。"
 msgstr "Em três rodadas você não errou nenhum golpe, e eu nunca encontrei a brecha, só pude ir devagar com você. A espada da Montanha Vazia se ganha na espera; se a espera não vem, é só isso que resta."
@@ -24595,7 +24595,7 @@ msgid "柳淳风是个读书人，剑法嘛……文绉绉的，依老夫看没�
 msgstr "Liu Chunfeng é um homem das letras; a espada dele, bem... é muito literata, e a meu ver este velho não encontra nela nenhuma aura assassina."
 
 msgid "绘心师妹的剑最吓人的是那记「封」字诀，被封住了好几手都出不来。不过她说剑要等——等什么，我也说不上来。"
-msgstr "O mais assustador na espada da irmã mais nova Huixin é aquele segredo do 'Selar': quem é selado fica vários turnos sem conseguir agir. Mas ela diz que a espada tem que esperar... esperar o quê, eu não sei dizer."
+msgstr "O mais assustador na espada da irmã mais nova Huixin é aquele segredo do 'Selo': quem é selado fica vários turnos sem conseguir agir. Mas ela diz que a espada tem que esperar... esperar o quê, eu não sei dizer."
 
 msgid "伤口"
 msgstr "Ferimentos"
@@ -24628,10 +24628,10 @@ msgid "振远镖局是京师第一大镖局，在京城一带几乎无人不知�
 msgstr "As Escoltas do Longo Caminho são a maior agência de escolta da Capital, conhecida por quase todos nos arredores da Capital, e há também uma agência em Tece-Nuvens. Seus homens escoltam com o Sabre alegre da brisa primaveral. Escoltar é perigoso, por isso a agência escolhe primeiro quem tem Coragem."
 
 msgid "东方神教是一个行事隐秘的教门，不立山门，也不收寻常弟子。教中人散在各处，平日看不出身份，外人对它的宗旨所知甚少。只听说教中高手使一路雪影剑法，身法轻疾。"
-msgstr "A Ordem do Corvo Dourado é uma ordem de proceder secreto: não mantém portão de montanha e não aceita discípulos comuns. Seu povo vive disperso por toda parte e, no dia a dia, ninguém o reconhece; os de fora sabem muito pouco de seus fins. Só se ouve dizer que os mestres da ordem usam a Espada da sombra de neve, de passos leves e rápidos."
+msgstr "A Ordem do Corvo Dourado é uma ordem de proceder secreto: não mantém portão de montanha e não aceita discípulos comuns. Seu povo vive disperso por toda parte e, no dia a dia, ninguém o reconhece; os de fora sabem muito pouco de seus fins. Só se ouve dizer que os mestres da ordem usam a Espada da Sombra de Neve, de passos leves e rápidos."
 
 msgid "天邪派以水烟阁为大本营。水烟阁在雪亭镇西边青石官道尽头的山上，相传最早的主人是武术之神杞庸，后来成了历代武林盟主的行馆，每年正月十七在阁外虹台推选盟主。天邪神功与天邪神掌是这一派的根本，相传是杞庸见灵兽天邪虎而悟出；另有一路六阴追魂剑法，是三百年前一位前辈从废墟中得来的。门规甚严，拜师要么立誓恪守门规，要么接下三招。"
-msgstr "A sede da Escola Rebelde é o Pavilhão da Neblina. O Pavilhão da Neblina fica na montanha, no fim da Estrada real de pedra azul, a oeste do Pavilhão da Neve. Dizem que seu primeiro dono foi Qi Yong, o deus das artes marciais, e que depois se tornou a residência de todos os Líderes da Aliança do wulin, que a cada ano, no dia dezessete do primeiro mês, elegem o líder no Terraço do Arco-Íris, fora do pavilhão. A Arte rebelde e a Palma indômita são a raiz da escola; dizem que Qi Yong as concebeu ao ver o Tigre rebelde, uma besta espiritual. Há ainda a Espada dos seis yin, que um ancião recuperou de umas ruínas há trezentos anos. As regras são muito severas: para ser discípulo é preciso jurar guardá-las ou aguentar três golpes."
+msgstr "A sede da Escola Rebelde é o Pavilhão da Neblina. O Pavilhão da Neblina fica na montanha, no fim da Estrada real de pedra azul, a oeste do Pavilhão da Neve. Dizem que seu primeiro dono foi Qi Yong, o deus das artes marciais, e que depois se tornou a residência de todos os Líderes da Aliança do wulin, que a cada ano, no dia dezessete do primeiro mês, elegem o líder no Terraço do Arco-Íris, fora do pavilhão. A Arte rebelde e a Palma rebelde são a raiz da escola; dizem que Qi Yong as concebeu ao ver o Tigre rebelde, uma besta espiritual. Há ainda a Espada dos seis yin, que um ancião recuperou de umas ruínas há trezentos anos. As regras são muito severas: para ser discípulo é preciso jurar guardá-las ou aguentar três golpes."
 
 msgid "绝尘派是绝尘子一手所创的门派。绝尘子原是佛门中人，后得奇人指点，悟得道家真谛，佛道双修，访遍名山大川后自号绝尘。他的修行之所在青石村的石室里，门上写着「非我弟子，莫入此门」。入门看慧根，也要有相当的江湖历练。"
 msgstr "A Escola do Desapego foi fundada por Juechenzi, sozinho. Juechenzi era originalmente um budista; depois, guiado por um homem extraordinário, compreendeu o verdadeiro sentido do taoísmo e cultivou budismo e taoísmo juntos, e, depois de percorrer as montanhas e os rios famosos, deu a si mesmo o nome de Juechen. Seu retiro fica na câmara de pedra da Aldeia Pedra Azul, e na porta está escrito: \"Quem não for meu discípulo, não entre.\" Para entrar conta a aptidão espiritual, e também bastante experiência no jianghu."
@@ -24646,22 +24646,22 @@ msgid "山烟寺在绮云镇南、泓水对岸的日照山上，整座寺由上�
 msgstr "O Templo da Bruma fica no Monte Ensolarado, ao sul de Tece-Nuvens, na outra margem do rio Hong. O templo inteiro é construído com cipreste da melhor qualidade e resplandece em ouro e verde. O velho abade tem uma arte de curar prodigiosa, e os ricos que ele favoreceu pagaram a restauração; sua fama é maior que a do Mosteiro do Elefante Branco da Capital. Para entrar é preciso primeiro raspar a cabeça e tornar-se monge, e só se aceitam homens; suas artes são sobretudo o Bastão das nuvens que fluem e o Método interno do lótus, que cura, e quem é profundo no Dharma cultiva ainda o Poder das oito consciências."
 
 msgid "逍遥派的门户不在这一带，中原少见其门人。听说这一派收徒讲究人品文采，掌门是个风流倜傥的人物。"
-msgstr "A sede da Escola Despreocupada não fica por aqui, e nas Planícies Centrais se veem poucos de seus discípulos. Dizem que a escola escolhe os discípulos pelo caráter e pela cultura, e que seu Mestre é um homem elegante e desenvolto."
+msgstr "A sede da Escola Despreocupada não fica por aqui, e na Planície Central se veem poucos de seus discípulos. Dizem que a escola escolhe os discípulos pelo caráter e pela cultura, e que seu Mestre é um homem elegante e desenvolto."
 
 msgid "天山派的门户远在天山，中原少见其门人。晚月庄后门外的小径，据说就是通往天山的路。"
-msgstr "A sede da Escola de Tianshan fica longe, em Tianshan, e nas Planícies Centrais se veem poucos de seus discípulos. A trilha que sai do portão dos fundos do Solar da Lua Tardia, dizem, leva a Tianshan."
+msgstr "A sede da Escola de Tianshan fica longe, em Tianshan, e na Planície Central se veem poucos de seus discípulos. A trilha que sai do portão dos fundos do Solar da Lua Tardia, dizem, leva a Tianshan."
 
 msgid "步玄派是四百年前「秃笔狂生」骆步玄在京城创立的门派。骆步玄原是屡试不中的书生，一日在街边书肆望见一副对子，竟悟出一套武功，从此闯荡江湖。门下的步玄七诀号称天下轻功「轻捷第一」，使起来姿态有如书法；骆家至今是京城有名的武林世家。想入门的人，要先走一趟乔阴曼雩台东边的桃林。"
-msgstr "A Escola do Passo Místico foi fundada na Capital, há quatrocentos anos, por Luo Buxuan, \"o Louco do Pincel Calvo\". Luo Buxuan era um letrado reprovado vezes sem conta nos exames; um dia, numa livraria da rua, viu um dístico e de repente deduziu uma arte marcial, e desde então percorreu o jianghu. Os Sete segredos do Passo Místico da escola são chamados de qinggong \"mais ágil debaixo do céu\", e se usam com um porte de caligrafia; a família Luo continua sendo, até hoje, uma conhecida estirpe marcial da Capital. Quem quiser entrar deve primeiro ir ao Pomar de pessegueiros, a leste do Terraço da Dança da Chuva de Sombra Alta."
+msgstr "A Escola do Passo Místico foi fundada na Capital, há quatrocentos anos, por Luo Buxuan, \"o Louco do Pincel Careca\". Luo Buxuan era um letrado reprovado vezes sem conta nos exames; um dia, numa livraria da rua, viu um dístico e de repente deduziu uma arte marcial, e desde então percorreu o jianghu. Os Sete segredos do Passo Místico da escola são chamados de qinggong \"mais ágil debaixo do céu\", e se usam com um porte de caligrafia; a família Luo continua sendo, até hoje, uma conhecida estirpe marcial da Capital. Quem quiser entrar deve primeiro ir ao Pomar de pessegueiros, a leste do Terraço da Dança da Chuva de Sombra Alta."
 
 msgid "花紫会是乞丐们的帮会，只收身上没几个钱的化子。龙头的信物是一只打着二十三个结的皮酒囊；龙头行踪诡秘，据说各处总有七八个替身。会中的武功有油流麻香手和伏蛟功。"
-msgstr "A Irmandade dos Mendigos é a irmandade dos pedintes, e só aceita mendigos com pouco dinheiro no bolso. O emblema do Cabeça do Dragão é um odre de couro com vinte e três nós; o Cabeça do Dragão é de paradeiro misterioso, e dizem que tem sete ou oito sósias em cada lugar. Suas artes são a Mão de óleo e pimenta e a Arte de domar serpentes."
+msgstr "A Irmandade dos Mendigos é a irmandade dos pedintes, e só aceita mendigos com pouco dinheiro no bolso. O emblema do Cabeça do Dragão é um odre de couro com vinte e três nós; o Cabeça do Dragão é de paradeiro misterioso, e dizem que tem sete ou oito substitutos em cada lugar. Suas artes são a Mão de óleo e pimenta e a Arte de domar serpentes."
 
 msgid "铁盾会是番坊里大秦人的剑会，门前立着两面比人还高的铁包边大盾，盾面上漆着展翅的鹰。大秦人的祖上从西边来，在这片海边落了脚。会里的剑手左手盾、右手短剑，两两对练；铁盾剑法盾在前、剑在后，没有盾的人不教。"
 msgstr "A Irmandade do Escudo de Ferro é a irmandade de esgrima do povo de Daqin no Bairro Estrangeiro; diante da porta erguem-se dois grandes escudos com borda de ferro, mais altos que um homem, com uma águia de asas abertas pintada na face. Os antepassados dos de Daqin vieram do oeste e se instalaram nesta costa. Os espadachins da irmandade levam o escudo na mão esquerda e uma espada curta na direita, e treinam em duplas; a Espada do escudo de ferro leva o escudo à frente e a espada atrás, e a quem não tem escudo não se ensina."
 
 msgid "鬼笠馆是番坊里倭人浪人开的武馆，门楣上挂着一顶破了边的斗笠，馆名就是这么来的。门规只有一句：「一击之内定生死」——刀出鞘，只出一次。鬼笠刀法的刀比中原的窄而弯，劈下去就收，不出第二刀。"
-msgstr "O Salão do Chapéu Fantasma é uma escola de artes marciais aberta por ronins japoneses no Bairro Estrangeiro; sobre a verga da porta pende um chapéu de palha de aba rasgada, e daí vem o nome. A regra é uma única frase: \"Vida ou morte num único golpe\": o sabre sai da bainha uma só vez. O Sabre do Chapéu Fantasma é mais estreito e curvo que o das Planícies Centrais; corta e se recolhe, e nunca dá um segundo golpe."
+msgstr "O Salão do Chapéu Fantasma é uma escola de artes marciais aberta por ronins japoneses no Bairro Estrangeiro; sobre a verga da porta pende um chapéu de palha de aba rasgada, e daí vem o nome. A regra é uma única frase: \"Vida ou morte num único golpe\": o sabre sai da bainha uma só vez. O Sabre do Chapéu Fantasma é mais estreito e curvo que o da Planície Central; corta e se recolhe, e nunca dá um segundo golpe."
 
 msgid "日陀罗寺是番坊里一座不大的寺院，由两位天竺僧人所建，赭红的墙头长着草。院中一棵大榕树，是第一代师父从天竺带来的枝条插活的。入寺要先剃度出家，只收男子，所传的是莲华心法、流云杖法这些佛门功夫。"
 msgstr "O Templo Ritola é um templo modesto do Bairro Estrangeiro, construído por dois monges indianos, com capim crescendo sobre os muros de ocre avermelhado. No pátio há uma grande figueira-de-bengala, nascida de uma estaca que o primeiro Shifu trouxe da Índia. Para entrar é preciso primeiro raspar a cabeça e tornar-se monge, e só se aceitam homens; o que se transmite são artes budistas como o Método interno do lótus e o Bastão das nuvens que fluem."
@@ -24682,7 +24682,7 @@ msgid "虹台上的事还没完。等散了会再说。"
 msgstr "O assunto do Terraço do Arco-Íris ainda não acabou. Falamos quando a assembleia se dispersar."
 
 msgid "点字诀"
-msgstr "Segredo do Ponto"
+msgstr "Segredo \"Ponto\""
 
 msgid "武馆的事"
 msgstr "Assuntos do Salão"
@@ -24700,7 +24700,7 @@ msgid "老松寨的常老大，人称泼风刀王，什么钱都收。要过他�
 msgstr "O Chefe Chang do Forte dos Pinheiros Velhos, a quem chamam de Rei do Sabre da Tempestade, aceita qualquer dinheiro. Para passar pelo portão do forte dele, leve prata de sobra; se você tem habilidade, desafie-o aos gritos fora do portão: dos que entram à força, poucos voltam."
 
 msgid "黑冠黑衣的道士？这一带没有道观。你若在老松岭遇上，小心些，那种人下手没有分寸。"
-msgstr "Um taoísta de gorro e túnica pretos? Por aqui não há mosteiro. Se você o encontrar na Serra dos Pinheiros Velhos, tome cuidado: gente assim não conhece limite."
+msgstr "Um taoísta de gorro e túnica pretos? Por aqui não há templo. Se você o encontrar na Serra dos Pinheiros Velhos, tome cuidado: gente assim não conhece limite."
 
 msgid "老岑的信，你留着。末一行我不认得——他说过他在山里见过一座城，我只当是饿昏了的话。"
 msgstr "Fique com a carta do velho Cen. A última linha eu não entendo: ele disse uma vez que tinha visto uma cidade na montanha, e eu tomei por delírio de fome."
@@ -25114,7 +25114,7 @@ msgid "真剑早就不在水烟阁了。挂一把假的，是鱼饵——钓那�
 msgstr "A espada de verdade faz tempo que não está no Pavilhão da Neblina. Pendurar uma falsa é isca, para pescar os que vêm atrás dela."
 
 msgid "去年就钓上来一个：黑衣黑冠的道士，夜里来试剑，发觉是假的就走了。我的人跟到野羊山北麓，跟丢了。那边没有道观，只有一片黑砖。"
-msgstr "No ano passado um mordeu a isca: um taoísta de túnica e gorro negros, que veio de noite testar a espada e, ao ver que era falsa, foi embora. Meus homens o seguiram até o sopé norte do Morro das Cabras e o perderam. Ali não há mosteiro, só um trecho de tijolo negro."
+msgstr "No ano passado um mordeu a isca: um taoísta de túnica e gorro negros, que veio de noite testar a espada e, ao ver que era falsa, foi embora. Meus homens o seguiram até o sopé norte do Morro das Cabras e o perderam. Ali não há templo, só um trecho de tijolo negro."
 
 msgid "柳大哥让你来的？信呢？没有他的信，执法使的佩剑不是你问得的。信丢了，回武馆找他再写一封。"
 msgstr "O Irmão Liu mandou você? E a carta? Sem a carta dele, a espada do Executor não é coisa que você possa perguntar. Se a perdeu, volte ao salão e peça que ele escreva outra."
@@ -25138,7 +25138,7 @@ msgid "衣在不在庄里，我不知道。守它的人不白给——你去了�
 msgstr "Se a túnica está no solar, eu não sei. Quem o guarda não dá nada de graça: vá e você entenderá."
 
 msgid "还有——野羊山那边前夜出了事。一伙黑冠道士摸上山，抓走了寨里两个人，挨个问：那天闯道观的孩子是谁。他们在找你。"
-msgstr "Mais uma coisa: anteontem à noite houve problemas no Morro das Cabras. Um bando de taoístas de gorro negro subiu escondido, levou duas pessoas do forte e foi perguntando, uma por uma, quem era a criança que invadiu o mosteiro aquele dia. Estão procurando você."
+msgstr "Mais uma coisa: anteontem à noite houve problemas no Morro das Cabras. Um bando de taoístas de gorro negro subiu escondido, levou duas pessoas do forte e foi perguntando, uma por uma, quem era a criança que invadiu o templo aquele dia. Estão procurando você."
 
 msgid "执刑使管的是刀，不管衣裳。"
 msgstr "O Executor cuida de lâminas, não de roupas."
@@ -26065,13 +26065,13 @@ msgid "你把铜牒举到亮处，一行一行地认那些刻反了笔画的字�
 msgstr "Você ergue a tabuleta contra a luz e vai lendo, linha por linha, as letras de traços invertidos:\n"
 
 msgid "「头在湖底冰下，以穿灵为钉；\n"
-msgstr "\"A cabeça jaz sob o gelo, no fundo do lago, com Trespassa-Almas por prego;\n"
+msgstr "\"A cabeça jaz sob o gelo, no fundo do lago, com Trespassa-Almas por cravo;\n"
 
 msgid "钉在，鬼不得全；\n"
-msgstr "enquanto o prego ficar, o fantasma não estará inteiro;\n"
+msgstr "enquanto o cravo ficar, o fantasma não estará inteiro;\n"
 
 msgid "钉拔，鬼成形；\n"
-msgstr "se o prego for arrancado, o fantasma toma forma;\n"
+msgstr "se o cravo for arrancado, o fantasma toma forma;\n"
 
 msgid "要灭它，三器齐；\n"
 msgstr "para destruí-lo, os três artefatos juntos;\n"
@@ -28687,7 +28687,7 @@ msgid "你是来要剑的。剑在云台。我不卖，也不赏，也不问你�
 msgstr "Você veio buscar a espada. A espada está no Terraço das Nuvens. Eu não a vendo, nem a dou de prêmio, nem pergunto o que você fará com ela."
 
 msgid "旋芒是寒於氏的剑。寒於氏斩了那东西的头，死前把两把剑分开放——一把钉头，一把寄在风里。三百年前你们拔了钉头的那一把。这一把，在我这里，等人来拔。"
-msgstr "Gume Giratório é a espada do clã Hanyu. O clã Hanyu cortou a cabeça daquela coisa e, antes de morrer, separou as duas espadas: uma pregou a cabeça, a outra foi deixada em depósito no vento. Há trezentos anos vocês sacaram a que pregava a cabeça. Esta ficou comigo, esperando quem a saque."
+msgstr "Gume Giratório é a espada do clã Hanyu. O clã Hanyu cortou a cabeça daquela coisa e, antes de morrer, separou as duas espadas: uma cravou a cabeça, a outra foi deixada em depósito no vento. Há trezentos anos vocês sacaram a que pregava a cabeça. Esta ficou comigo, esperando quem a saque."
 
 msgid "寒於"
 msgstr "Hanyu"
@@ -32584,7 +32584,7 @@ msgid "看见你腰间那把剑，脸一下子白了。"
 msgstr "vê a espada em sua cintura e fica pálido de repente."
 
 msgid "那是……你拔了它？父皇说过，那把剑钉着的东西，不能放出来。"
-msgstr "Essa é... você a sacou? Nosso pai dizia que o que aquela espada mantém cravado não pode ser solto."
+msgstr "Essa é... você a sacou? Nosso pai dizia que o que aquela espada mantém pregado não pode ser solto."
 
 msgid "原令只一句。多出来的三句……是兵部的。朕现在知道了，可朕不知道该拿它怎么办。"
 msgstr "A ordem original tinha só uma frase. As três a mais... são do Ministério. Agora sabemos, mas não sabemos o que fazer com isso."
@@ -33229,7 +33229,7 @@ msgid "这是一个小花池，清澈的池水含著淡淡的幽香。池周围�
 msgstr "Este é um pequeno tanque de pétalas. A água límpida guarda um leve perfume recôndito. Em volta do tanque há muitas flores e plantas raras, como se você tivesse entrado num aposento de orquídeas: o perfume sobe à cabeça e aquece a alma. Pétalas coloridas flutuam na água, e entre cortinas de plumas e nuvens se aglomeram muitas irmãs, umas brincando e rindo, outras dançando com leveza. Você também gostaria de se banhar e descansar no tanque.\n"
 
 msgid "你走到前院，你看到几块山石，东面一处假山小池。其上植有藤  \n萝、青芷，异草芬芳荔薛。池中几尾小鱼自在的游来游去。假山外隔\n著围篱，有一种山怀中的小花园的感觉。.\n"
-msgstr "Você chega ao pátio da frente e vê algumas rochas; a leste, uma montanha artificial com um pequeno tanque. Nela crescem trepadeiras, angélica e ervas raras de aroma fragrante. No tanque, alguns peixinhos nadam à vontade. Além da montanha há uma cerca, o que dá a sensação de um pequeno jardim no colo da montanha.\n"
+msgstr "Você chega ao pátio da frente e vê algumas rochas; a leste, uma montanha artificial com um pequeno tanque. Nela crescem trepadeiras, angélica azul e ervas raras de aroma fragrante. No tanque, alguns peixinhos nadam à vontade. Além da montanha há uma cerca, o que dá a sensação de um pequeno jardim no colo da montanha.\n"
 
 msgid "走进月洞门，只见迎面一带翠嶂，挡在南面。只见白石崚嶒，  \n或如鬼怪，或如猛兽，纵横拱立，上边苔藓成斑，藤萝掩映，其\n中微露羊肠小径。往南进入翠嶂，往北是小花厅。\n"
 msgstr "Ao passar pelo portão da lua, você vê de frente uma cortina de picos verdes que bloqueia o sul. Rochas brancas e escarpadas, algumas como espectros, outras como feras, se erguem em fileiras cruzadas, manchadas de musgo e cobertas de trepadeiras; por entre elas assoma uma trilha estreita e tortuosa. Ao sul se entra nas Rochas do Biombo de Jade; ao norte fica a pequena sala das flores.\n"
@@ -33259,7 +33259,7 @@ msgid "你一进了小轩内，只觉异香扑鼻，那些奇草仙藤，越冷�
 msgstr "Ao entrar no pequeno pavilhão, você sente um perfume estranho invadir o nariz. As ervas raras e as videiras imortais ficam mais verdes quanto mais frio faz, e todas deram frutos como grãos de coral, pendentes e encantadores. O quarto é como uma gruta de neve, fresco e agradável; sobre a mesa, um vaso de barro com alguns ramos de crisântemo, ao lado de dois livros, uma tigela de chá e uma xícara, e nada mais; na cama, só pendem um dossel de gaze verde e as cobertas, também muito simples.\n"
 
 msgid "亭子座落在园内小水池上，亭柱周围以弧形座凳式栏板，内外\n雕刻各种不同样式的梅枝，钻尖式紫琉璃瓦顶，天花板也有雕刻非\n常精细的百花图案。上下担额枋彩画题材是海墁式点金加彩琼花。\n体形别致，色彩丰富。亭边石桥飞架，通萃赏楼，轻灵精巧，为园\n中一大奇景。\n"
-msgstr "O pavilhão se assenta sobre o pequeno tanque do jardim. Em volta das colunas há bancos com balaustrada em arco, entalhados por dentro e por fora com ramos de ameixeira de vários feitios, e o telhado é de telhas de vidrado roxo de ponta aguçada. O forro do teto também tem entalhes finíssimos de cem flores. Nas vigas de cima e de baixo estão pintadas flores de viburno douradas e coloridas, ao estilo do mar de rolos. Tem forma singular e cores ricas. Ao lado do pavilhão, uma ponte de pedra se lança até a Torre Cuishang, leve e delicada, uma das grandes maravilhas do jardim.\n"
+msgstr "O pavilhão se assenta sobre o pequeno tanque do jardim. Em volta das colunas há bancos com balaustrada em arco, entalhados por dentro e por fora com ramos de ameixeira de vários feitios, e o telhado é de telhas de vidrado roxo de ponta aguçada. O forro do teto também tem entalhes finíssimos de cem flores. Nas vigas de cima e de baixo estão pintadas flores de viburno douradas e coloridas, ao estilo do mar de rolos. Tem forma singular e cores ricas. Ao lado do pavilhão, uma ponte de pedra se lança até a Torre do Deleite Seleto, leve e delicada, uma das grandes maravilhas do jardim.\n"
 
 msgid "暖香榭位于水池东岸，秋水山房之西，依岩为屋，结构曲折，\n极幽致，室小而精，尚朴去华，渊然静修，古香袭人。走进这里\n你有一种心源湛澈，天地虚灵，彷佛置身于仙境的感觉。往西面\n望去，水底亭台，历历可鉴。\n"
 msgstr "O Caramanchão do Aroma Morno fica na margem leste do tanque, a oeste da Casa da Montanha de Águas de Outono; foi construído encostado à rocha, de estrutura sinuosa, muito recluso, pequeno mas fino, que prefere a simplicidade ao enfeite, para o recolhimento sereno, com um ar de antiguidade que impregna tudo. Ao entrar aqui, você sente o coração límpido e o céu e a terra vazios e espirituais, como se estivesse num reino de imortais. Olhando para o oeste, vê sob a água os pavilhões e terraços, nítidos um a um.\n"
@@ -33454,7 +33454,7 @@ msgid "这是一个上等木材作成的小橱子，里面放了一些物品。\
 msgstr "Este é um pequeno armário de madeira de primeira, com algumas coisas dentro.\nVocê vê belas roupas e enfeites, um após o outro, e tem vontade de pegá-los para olhar.\n"
 
 msgid "这是一幅湘绣的彩图，上有几名貌美的女子，以不同的姿态\n舞著，其漫妙之处让你著迷。图旁另绣有一曲名『西出阳关』\n与『有凤来仪 』\n"
-msgstr "Este é um quadro colorido de bordado de Xiang, com várias mulheres belas dançando em poses diversas, cuja graça fascina você. Ao lado do quadro estão bordados os nomes de duas peças: 'Saindo de Yangguan' e 'A fênix vem à corte'.\n"
+msgstr "Este é um quadro colorido de bordado de Xiang, com várias mulheres belas dançando em poses diversas, cuja graça fascina você. Ao lado do quadro estão bordados os nomes de duas peças: \"Saindo de Yangguan\" e \"A fênix vem à corte\".\n"
 
 msgid "摘花蕊"
 msgstr "Colher o estame"
@@ -33658,7 +33658,7 @@ msgid "这位$RESPECT要不要买个西瓜解解渴？\n"
 msgstr "Quer comprar uma melancia para matar a sede, $RESPECT?\n"
 
 msgid "你要不还我瓜钱，咱俩就没完！\n"
-msgstr "Se não me pagar as melancias, a gente não termina por aqui!\n"
+msgstr "Se não me pagar a melancia, a gente não termina por aqui!\n"
 
 msgid "还瓜钱"
 msgstr "Pagar pelo melão"
@@ -34267,7 +34267,7 @@ msgid "你走上封坛。坛心的剑孔里，黑气一股一股往上冒。\n"
 msgstr "Você sobe ao altar do selo. Do buraco da espada no centro, a fumaça negra jorra, jato após jato.\n"
 
 msgid "钉还钉着。先拔出穿灵，它才成形。\n"
-msgstr "O cravo ainda está cravado. Primeiro é preciso arrancar Trespassa-Almas; só então ele toma forma.\n"
+msgstr "O prego ainda está pregado. Primeiro é preciso arrancar Trespassa-Almas; só então ele toma forma.\n"
 
 msgid "坛心的冰里，那颗头闭着眼。\n"
 msgstr "No gelo do centro do altar, a cabeça está de olhos fechados.\n"
@@ -34342,7 +34342,7 @@ msgid "晚了。宫里已经当它丢了——你拿回来，倒要有人问它�
 msgstr "Tarde demais. O palácio já o dá por perdido — se você o trouxe de volta, vai ter gente querendo saber em mãos de quem ele ficou todo este tempo."
 
 msgid "把逆灵天书的残卷还给玄冥子。\n他会当你是他的人，宫里没人会问起那一夜——可禁书就回了逆灵宫，林忌不会高兴。\n还给他吗？"
-msgstr "Devolver o fragmento da Escritura Negra a Xuanmingzi?\nEle vai tomar você por um dos seus, e ninguém no palácio vai perguntar sobre aquela noite — mas o livro proibido volta ao Palácio Negro, e Lin Ji não vai gostar.\nDevolver a ele?"
+msgstr "Devolver o fragmento da Escritura Negra a Xuanmingzi.\nEle vai tomar você por um dos seus, e ninguém no palácio vai perguntar sobre aquela noite — mas o livro proibido volta ao Palácio Negro, e Lin Ji não vai gostar.\nDevolver a ele?"
 
 msgid "接过残卷，在手里掂了掂，收进怀里。"
 msgstr " pega o fragmento, avalia o peso na mão e o guarda dentro da roupa."
@@ -34417,13 +34417,13 @@ msgid "巡殿道士的脚步声在殿里一下一下地响。\n"
 msgstr "Os passos do taoísta de ronda ressoam no salão, um depois do outro.\n"
 
 msgid "巡殿道士道：子时，谁也不许近北门。回你的铺上去。"
-msgstr "O taoísta de ronda diz: \"À meia-noite ninguém se aproxima da porta norte. Volte para o seu catre.\""
+msgstr "O taoísta de ronda diz: \"À meia-noite ninguém se aproxima da porta norte. Volte para o seu camastro.\""
 
 msgid "巡殿道士道：回你的铺上去。"
-msgstr "O taoísta de ronda diz: \"Volte para o seu catre.\""
+msgstr "O taoísta de ronda diz: \"Volte para o seu camastro.\""
 
 msgid "巡殿道士厉声道：后殿重地，拿下！\n"
-msgstr "O taoísta de ronda grita: \"Zona proibida do salão dos fundos! Peguem!\"\n"
+msgstr "O taoísta de ronda grita: \"Zona proibida do salão dos fundos! {jogador:Peguem-no!|Peguem-na!}\"\n"
 
 msgid "一个黑衣黑冠的道士，比别的狱卒老些，脸上一层酒色，腰上挂着一把乌黑的钥匙。他背靠着铁栅门站着，眼睛一直往石阶边那两只酒坛上瞟。\n"
 msgstr "Um taoísta de preto, de gorro negro, mais velho que os outros carcereiros, de rosto vermelho de vinho e uma chave escura pendurada na cintura. Está de costas para a grade de ferro, e seus olhos não largam as duas jarras junto aos degraus de pedra.\n"
@@ -34513,7 +34513,7 @@ msgid "我男人在关北挖河。他们说他欠了役，拿着册子来，拿�
 msgstr "Meu marido cava o canal no Norte do Passo. Disseram que ele devia corveia, vieram com o registro e me levaram no lugar dele."
 
 msgid "我走。货栈那边有个侧门，门槛低，他们夜里不看。"
-msgstr "Eu vou. Perto do depósito tem uma porta lateral de soleira baixa, e de noite eles não olham para ela."
+msgstr "Eu vou. Perto do armazém tem uma porta lateral de soleira baixa, e de noite eles não olham para ela."
 
 msgid "一个精瘦的货郎，鞋跑丢了一只，额角一块青紫。他的货担不见了，只剩腰上一只拨浪鼓，他一直用手捂着，不让它出声。\n"
 msgstr "Um mascate magro como um osso, com um pé de sapato perdido e uma mancha roxa na testa. A carga sumiu; resta só o tamborzinho de mão na cintura, que ele cobre com a mão o tempo todo para não deixá-lo soar.\n"
@@ -34534,7 +34534,7 @@ msgid "门……是你开的？你放我？"
 msgstr "A porta... foi você que abriu? Vai me deixar ir?"
 
 msgid "我不问。我从货栈的侧门走，再也不过野羊山了。"
-msgstr "Não pergunto nada. Saio pela porta lateral do depósito e nunca mais cruzo o Morro das Cabras."
+msgstr "Não pergunto nada. Saio pela porta lateral do armazém e nunca mais cruzo o Morro das Cabras."
 
 msgid "一个上了年纪的采药人，背上的竹篓被收走了，腰里还别着一把小药锄的空套子。他的手上全是草汁染的绿，指甲缝里塞着泥。\n"
 msgstr "Um coletor de ervas já entrado em anos; o cesto de bambu das costas foi levado, e na cintura resta só a bainha vazia de uma pequena enxada. As mãos estão verdes de seiva e há terra entre as unhas.\n"
@@ -34558,7 +34558,7 @@ msgid "老汉在山里走了四十年，没想到栽在一座道观里。"
 msgstr "Quarenta anos andando pelas montanhas, e este velho nunca imaginou que ia tropeçar num mosteiro taoísta."
 
 msgid "货栈那边的侧门我来时看见了。你别送，送了你也走不脱。"
-msgstr "A porta lateral do depósito eu vi quando cheguei. Não me acompanhe: se acompanhar, você também não escapa."
+msgstr "A porta lateral do armazém eu vi quando cheguei. Não me acompanhe: se acompanhar, você também não escapa."
 
 msgid "玄冥子站在前院当中的铁香炉边，长剑已经出鞘。他像是等了很久。\n"
 msgstr "Xuanmingzi está de pé junto ao incensário de ferro no meio do pátio da frente, a espada longa já fora da bainha. Parece esperar há muito tempo.\n"
@@ -34630,7 +34630,7 @@ msgid "逆灵宫的山门。黑砖砌的门楼有两丈高，门扇敞着，门�
 msgstr "O portal do Palácio Negro. A torre de tijolo negro tem dois zhang de altura, as folhas da porta estão abertas, e o vão é frio como o fundo de um poço. Dos dois lados pende uma lanterna vermelho-escura, acesa mesmo de dia.\nSobre a mesa da portaria há um livro aberto, e atrás dela se senta um taoísta de preto, de gorro negro.\n"
 
 msgid "黑砖铺地的大院子，踩上去没有一点声响。院当中一只黑铁香炉，烧的不是香，是一股子苦味。四面黑幡垂地，风过时幡上的字一闪一闪，看不清写的什么。\n北边是前殿，殿门关着，推一推就开；东侧一排矮房是货栈。\n"
-msgstr "Um grande pátio calçado de tijolo negro, onde os passos não fazem barulho. No meio, um incensário de ferro negro; o que queima nele não é incenso, mas algo de cheiro amargo. Em volta, estandartes negros arrastam no chão, e quando o vento passa os caracteres neles piscam, sem que se leia o que dizem.\nAo norte fica o salão da frente, com a porta fechada, que cede se empurrada; a leste, uma fileira de casas baixas é o depósito de carga.\n"
+msgstr "Um grande pátio calçado de tijolo negro, onde os passos não fazem barulho. No meio, um incensário de ferro negro; o que queima nele não é incenso, mas algo de cheiro amargo. Em volta, estandartes negros arrastam no chão, e quando o vento passa os caracteres neles piscam, sem que se leia o que dizem.\nAo norte fica o salão da frente, com a porta fechada, que cede se empurrada; a leste, uma fileira de casas baixas é o armazém.\n"
 
 msgid "一间堆满箱笼的矮房，箱子上都烙着「羊」字，有的开着，露出金帛、腌肉和成捆的麻绳。角落里几只箱子钉得死紧，箱盖上用朱砂画着符。\n南墙的矮门通向墙外，西边的门进前院。\n"
 msgstr "Uma casa baixa atulhada de caixotes e baús, todos marcados a ferro com a palavra \"cabra\"; alguns estão abertos e mostram ouro e seda, carne salgada e rolos de corda de cânhamo. Num canto, vários caixotes estão pregados com firmeza, e nas tampas há talismãs desenhados em cinábrio.\nA porta baixa da parede sul dá para fora do muro, e a porta do oeste entra no pátio da frente.\n"
@@ -34729,7 +34729,7 @@ msgid "还有四只画着符，封条是黑的，没有字。货栈道士瞪了�
 msgstr "Há ainda 4 com talismãs desenhados, de lacre negro, sem nenhum caractere. O taoísta do armazém lança um olhar duro para você: \"Isso é sacrifício. Não toque.\"\n"
 
 msgid "货栈里的箱子堆了半屋。货栈道士在数，没你的事。\n"
-msgstr "Os caixotes enchem metade do depósito. O taoísta do armazém está contando; não é assunto seu.\n"
+msgstr "Os caixotes enchem metade do armazém. O taoísta do armazém está contando; não é assunto seu.\n"
 
 msgid "你已经会了。回蒲团上去。"
 msgstr "Você já sabe. Volte para a almofada."
@@ -34792,19 +34792,19 @@ msgid "睡到子时"
 msgstr "Dormir até meia-noite"
 
 msgid "已经是子时了。货栈里鼾声一片。\n"
-msgstr "Já é meia-noite. No depósito, só se ouvem roncos.\n"
+msgstr "Já é meia-noite. No armazém, só se ouvem roncos.\n"
 
 msgid "在货栈的通铺上睡到子时？\n（世界的时间会过去，别的地方照旧过它们的日子。）"
-msgstr "Dormir na tarimba coletiva do depósito até a meia-noite?\n(O tempo do mundo vai passar, e os outros lugares seguem seus dias como de costume.)"
+msgstr "Dormir no camastro comum do armazém até a meia-noite?\n(O tempo do mundo vai passar, e os outros lugares seguem seus dias como de costume.)"
 
 msgid "你在通铺最靠门的一头躺下，黑冠压在枕边。\n"
-msgstr "Você se deita na ponta da tarimba coletiva mais perto da porta, o gorro negro apoiado junto ao travesseiro.\n"
+msgstr "Você se deita na ponta do camastro comum mais perto da porta, o gorro negro apoiado junto ao travesseiro.\n"
 
 msgid "你醒的时候，货栈里只有鼾声。前殿那边，有一盏灯在一步一步地走。\n"
-msgstr "Quando você acorda, só há roncos no depósito. Do lado do salão da frente, uma lanterna anda, passo a passo.\n"
+msgstr "Quando você acorda, só há roncos no armazém. Do lado do salão da frente, uma lanterna anda, passo a passo.\n"
 
 msgid "通铺上睡着几个道士，没有你的铺位。\n"
-msgstr "Alguns taoístas dormem na tarimba coletiva; não há lugar para você.\n"
+msgstr "Alguns taoístas dormem no camastro comum; não há lugar para você.\n"
 
 msgid "听"
 msgstr "Escutar"
@@ -34816,19 +34816,19 @@ msgid "你贴着北门，屏住气。门缝里漏出一线青光，有两个人�
 msgstr "Você se cola à porta norte e prende a respiração. Pela fresta vaza um fio de luz azul, e duas pessoas conversam.\n"
 
 msgid "一个嗓子沙哑：「……湖底的钉子，还没有人动。」\n"
-msgstr "Uma voz rouca: \"...O prego do fundo do lago, ainda ninguém mexeu.\"\n"
+msgstr "Uma voz rouca: \"...O cravo do fundo do lago, ainda ninguém mexeu.\"\n"
 
 msgid "另一个声音不高，一字一顿，像在念经：「会有人去拔的。钉子一拔，就是唤首的时辰。」\n"
-msgstr "Outra voz, baixa, que pausa a cada palavra como numa recitação: \"Alguém vai arrancá-lo. Quando o prego for arrancado, será a hora da Invocação da Cabeça.\"\n"
+msgstr "Outra voz, baixa, que pausa a cada palavra como numa recitação: \"Alguém vai arrancá-lo. Quando o cravo for arrancado, será a hora da Invocação da Cabeça.\"\n"
 
 msgid "一个嗓子沙哑：「看过钉子的那个人走了。钉子还在。」\n"
-msgstr "Uma voz rouca: \"Quem viu o prego foi embora. O prego continua lá.\"\n"
+msgstr "Uma voz rouca: \"Quem viu o cravo foi embora. O cravo continua lá.\"\n"
 
 msgid "另一个声音不高，一字一顿，像在念经：「他会回来拔的。他拔的那一夜，就是唤首的时辰。」\n"
 msgstr "Outra voz, baixa, que pausa a cada palavra como numa recitação: \"Ele vai voltar para arrancá-lo. A noite em que o arrancar será a hora da Invocação da Cabeça.\"\n"
 
 msgid "一个嗓子沙哑：「钉子拔了。湖边的村子烧了一半。」\n"
-msgstr "Uma voz rouca: \"O prego foi arrancado. A aldeia à beira do lago queimou pela metade.\"\n"
+msgstr "Uma voz rouca: \"O cravo foi arrancado. A aldeia à beira do lago queimou pela metade.\"\n"
 
 msgid "另一个声音不高，一字一顿，像在念经：「头在冰下醒了。等它自己找回来——那一夜，就是唤首。」\n"
 msgstr "Outra voz, baixa, que pausa a cada palavra como numa recitação: \"A cabeça despertou sob o gelo. Esperem que ela volte por si — essa noite será a Invocação da Cabeça.\"\n"
@@ -34939,7 +34939,7 @@ msgid "钥匙在我这儿。你管好你自己。"
 msgstr "A chave está comigo. Cuide da sua vida."
 
 msgid "长凳上头的石壁里钉着一枚铁钉，空着。\n"
-msgstr "Na parede de pedra acima do banco comprido está cravado um prego de ferro, vazio.\n"
+msgstr "Na parede de pedra acima do banco comprido está pregado um prego de ferro, vazio.\n"
 
 msgid "下药"
 msgstr "Drogar o vinho"
@@ -34990,7 +34990,7 @@ msgid "暗格空着。\n"
 msgstr "O nicho está vazio.\n"
 
 msgid "天书在你身上。\n"
-msgstr "A Escritura Negra está com você.\n"
+msgstr "A Escritura está com você.\n"
 
 msgid "书案底下有一道细缝。你摸到一个铜扣，一按，暗格弹了出来。\n"
 msgstr "Sob a escrivaninha há uma fresta fina. Você toca num botão de cobre, aperta, e o nicho salta para fora.\n"
@@ -35029,7 +35029,7 @@ msgid "黑石砌成的坛，齐胸高，坛面磨得发亮。坛上烧着一团�
 msgstr "Um altar de pedra negra, na altura do peito, com o tampo polido até brilhar. Sobre ele queima uma chama negra, sem calor e sem som; de perto, parece haver algo se mexendo no coração dela. Nas frestas da base do altar estão enfiados pedaços de osso.\n"
 
 msgid "空书架。灰尘上留着一排书脊的印子，最宽的那一道在正中。架子最底下掉着一页烧了一半的纸，只剩「逆灵」两个字。\n"
-msgstr "Uma estante vazia. Na poeira ficou a marca de uma fileira de lombadas, e a mais larga está bem no meio. Na prateleira mais baixa caiu uma folha queimada pela metade, onde só restam as duas primeiras palavras do título da Escritura Negra.\n"
+msgstr "Uma estante vazia. Na poeira ficou a marca de uma fileira de lombadas, e a mais larga está bem no meio. Na prateleira mais baixa caiu uma folha queimada pela metade, onde só restam os dois caracteres \"Desafiar o espírito\".\n"
 
 msgid "一只黑漆木匣，开着。匣里垫着黑绒，绒上压出一个长条形的印子，像是放过一卷书——或者一把剑。\n"
 msgstr "Uma caixa de madeira laqueada de negro, aberta. Dentro, um forro de veludo negro, com uma marca alongada impressa nele, como se ali tivesse estado um rolo de livro — ou uma espada.\n"
@@ -35041,7 +35041,7 @@ msgid "门后还落着一道门闩，从里面闩上了。门缝里漏出一线�
 msgstr "Atrás da porta ainda há uma tranca posta, passada por dentro. Pela fresta vaza um fio de luz azul, e alguém está falando."
 
 msgid "狱卒道士一步跨过来，拦在铁栅门前：「新关的，管事吩咐过，谁也不许近。」"
-msgstr "O taoísta carcereiro dá um passo largo e se planta diante da grade de ferro: \"Os recém-chegados. O intendente mandou: ninguém chega perto.\""
+msgstr "O taoísta carcereiro dá um passo largo e se planta diante da grade de ferro: \"Os recém-encerrados. O intendente mandou: ninguém chega perto.\""
 
 msgid "一顶黑绢裹的道冠，冠前镶一枚乌黑的铁片，铁片上錾着一个看不懂的字。逆灵宫的道士人人戴它——戴上它，他们也把你当自己人。\n"
 msgstr "Um gorro de seda negra de taoísta, com uma placa de ferro escuro engastada na frente; na placa está cinzelado um caractere que você não consegue ler. Todos os taoístas do Palácio Negro o usam: com ele na cabeça, eles também te tomam por um dos seus.\n"
@@ -35332,7 +35332,7 @@ msgid "领诵道士道：宫主姓商。别的，不是你该问的。"
 msgstr "O recitador principal diz: \"O senhor do palácio tem o sobrenome Shang. O resto não é para você perguntar.\""
 
 msgid "跟诵"
-msgstr "Recitar junto"
+msgstr "Recitar com eles"
 
 msgid "领诵道士的木鱼没停：前三卷的头三句，他们一天念几百遍。我念上句，你接下句——接不上，回蒲团上听熟了再来。"
 msgstr "O peixe de madeira do recitador principal não para: \"As três primeiras frases dos três primeiros rolos, eles repetem centenas de vezes por dia. Eu digo a primeira metade e você segue com a segunda. Se não conseguir, volte para a almofada e escute até aprender de cor, e então venha de novo.\""
@@ -35404,7 +35404,7 @@ msgid "干活"
 msgstr "Trabalho"
 
 msgid "活干完了就歇着。通铺在货栈里头。夜里别乱走——子时前殿有人巡，后殿不许近。"
-msgstr "Terminado o serviço, descanse. O dormitório comum fica dentro do armazém. De noite não circule por aí: à meia-noite há ronda no salão da frente, e do salão dos fundos não se aproxime."
+msgstr "Terminado o serviço, descanse. O camastro comum fica dentro do armazém. De noite não circule por aí: à meia-noite há ronda no salão da frente, e do salão dos fundos não se aproxime."
 
 msgid "把账册翻过一页，在上头添了一笔。"
 msgstr " vira o livro de contas para a página seguinte e acrescenta uma anotação."
@@ -35521,7 +35521,7 @@ msgid "林真人要一个进得去的人。老子进不去——那张脸，他�
 msgstr "O Sábio Lin quer alguém que consiga entrar. Este velho não consegue: aquele rosto, todos eles conhecem."
 
 msgid "你要是肯，跟老子说一声「眼线」；或者自己去灵心观见他。"
-msgstr "Se você topa, diga a este velho a palavra \"Espião\"; ou vá vê-lo você mesmo no Mosteiro do Coração Claro."
+msgstr "Se você topa, diga a este velho a palavra 'Espião'; ou vá vê-lo você mesmo no Mosteiro do Coração Claro."
 
 msgid "茅山？牛鼻子道士，跟野羊寨没来往。"
 msgstr "Monte Mao? Taoístas narigudos; o Forte das Cabras não tem trato com eles."
@@ -37639,7 +37639,7 @@ msgid "衣回了瑷伦身上。守衣人守着它，我也就不急了。"
 msgstr "A túnica voltou para Ailun. Se a guardiã a guarda, não tenho pressa."
 
 msgid "我在等湖上出事的那一天。那一天，衣该在一个配得上它的人身上——瑷伦，你，都行。只是不该在神教手里。"
-msgstr "Espero o dia em que algo acontecer no lago. Nesse dia, a túnica deve estar com alguém digno dela: Ailun, você, qualquer uma de vocês. Só não nas mãos da Ordem."
+msgstr "Espero o dia em que algo acontecer no lago. Nesse dia, a túnica deve estar com alguém digno dela: Ailun, você, qualquer um dos dois. Só não nas mãos da Ordem."
 
 msgid "看了你一眼，像在数你的名字有几个字。"
 msgstr " olha para você como se contasse quantos caracteres tem o seu nome."
@@ -37669,7 +37669,7 @@ msgid "教主令在我这里。神教往后只派该死的人的差事——鸿�
 msgstr "A placa de Líder está comigo. De agora em diante a Ordem só aceitará encargos contra quem merece morrer: Hongxue concordou."
 
 msgid "天山雪影剑、雪影心法，你来学（「请教」）。"
-msgstr "A Espada da sombra de neve de Tianshan e o Método interno da Sombra de Neve: venha aprendê-los (com 'Aprender')."
+msgstr "A Espada da Sombra de Neve de Tianshan e o Método interno da Sombra de Neve: venha aprendê-los (com 'Aprender')."
 
 msgid "门关着。"
 msgstr "A porta está fechada."
@@ -38110,7 +38110,7 @@ msgid "突然房间里好像传来梦忆柔的声音说拿太多小心吃到噎�
 msgstr "De repente, parece que se ouve na sala a voz de Mengyi Rou, dizendo: \"Cuidado para não pegar demais, senão você engasga!\""
 
 msgid "烧饭僧说:阿弥陀佛 !! 施主偷东西是不好的行为哦!!!"
-msgstr "O monge cozinheiro diz: \"Amitabha! {jogador:Benefactor|Benefactora}, roubar é muito feio.\""
+msgstr "O monge cozinheiro diz: \"Amitabha! {jogador:Benfeitor|Benfeitora}, roubar é muito feio.\""
 
 msgid "一个竹藤编成的蒸笼, 阵阵的香味使你想打开来瞧一瞧。\n"
 msgstr "Um cesto de vapor trançado de bambu e vime; o aroma que sai dele dá vontade de abri-lo e espiar."
@@ -38128,7 +38128,7 @@ msgid "药圃一块一块的，哪边种当归，哪边种枸杞，绝不会混�
 msgstr "A horta é dividida em canteiros: aqui se planta angélica, ali goji, e nunca se misturam. Mas, por mais que você olhe, são só ervas comuns, e, sem receita, você não sabe qual colher."
 
 msgid "烧饭僧说:阿弥陀佛 !! 施主请勿动手动脚, 妨碍贫僧煮饭。\n"
-msgstr "O monge cozinheiro diz: \"Amitabha! {jogador:Benefactor|Benefactora}, não mexa em tudo, que atrapalha este humilde monge que cozinha.\""
+msgstr "O monge cozinheiro diz: \"Amitabha! {jogador:Benfeitor|Benfeitora}, não mexa em tudo, que atrapalha este humilde monge que cozinha.\""
 
 msgid "你打开蒸笼的盖子, 一股热气冒向你的脸上。\n你仔细一看, 只见蒸笼里排著一粒粒又白又Ｑ的大馒头。\n"
 msgstr "Você abre a tampa do cesto de vapor, e uma baforada quente bate no seu rosto.\nOlhando bem, vê fileiras de grandes pães brancos e macios dentro do cesto."
@@ -39160,7 +39160,7 @@ msgid "这个人看起来十分和蔼可亲，一双眼睛炯炯有神。\n"
 msgstr "Este homem parece afável e bondoso, de olhos vivos e brilhantes.\n"
 
 msgid "这是一只天邪派的灵兽「天邪虎」，火红的毛皮上有著如白银般的\n白纹，湛蓝色的眼珠中散发出妖异的光芒。\n"
-msgstr "Um Tigre rebelde, fera espiritual da Escola Rebelde. O pelo vermelho-fogo é riscado de listras brancas como prata, e nos olhos de um azul profundo brilha uma luz sinistra.\n"
+msgstr "Um Tigre Rebelde, fera espiritual da Escola Rebelde. O pelo vermelho-fogo é riscado de listras brancas como prata, e nos olhos de um azul profundo brilha uma luz sinistra.\n"
 
 msgid "后腿"
 msgstr "pata traseira"
@@ -39295,7 +39295,7 @@ msgid "水烟阁七长老"
 msgstr "Sétimo Ancião do Pavilhão da Neblina"
 
 msgid "颜违是水烟阁七位长老中最年轻的，虽然他的武功跟其他六位长老\n相比仍略逊一筹，但是他办事十分精明干练，因此七长老每年都派\n他出外办理武林大会事宜。\n"
-msgstr "Yan Wei é o mais jovem dos sete Anciãos do Pavilhão da Neblina. Embora sua arte marcial fique um pouco abaixo da dos outros seis, ele é muito perspicaz e eficiente, e por isso, todo ano, o Sétimo Ancião o envia para fora para cuidar dos assuntos da Assembleia do Wulin.\n"
+msgstr "Yan Wei é o mais jovem dos sete Anciãos do Pavilhão da Neblina. Embora sua arte marcial fique um pouco abaixo da dos outros seis, ele é muito perspicaz e eficiente, e por isso, todo ano, os sete Anciãos o enviam para fora para cuidar dos assuntos da Assembleia do Wulin.\n"
 
 msgid "正把案上的文书一件件收进匣子里，见你进来，点了点头。"
 msgstr " guarda numa caixa, um a um, os papéis que estavam sobre a mesa; quando você entra, ele assente com a cabeça."
@@ -39382,7 +39382,7 @@ msgid "你现在正走在一条山坡上的小径，往南望去只见山下一�
 msgstr "Você caminha por uma trilha na encosta. Olhando para o sul, vê-se uma escada de pedra branca serpentear montanha acima, rumo a uma plataforma não muito longe a leste; ao norte da plataforma fica o célebre lugar sagrado dos guerreiros, o \"Pavilhão da Neblina\". Ao norte da trilha há uma fileira de bordos bem alinhados; subindo a encosta para o oeste, chega-se ao \"Terraço do Arco-Íris\", no cume.\n"
 
 msgid "你现在正走在一条山坡小径上，东边不远处可以望见水烟阁琉璃色\n的屋瓦，小径东北是一道白石阶梯通往山巅的虹台，往西则是「水烟十\n景」之中最有名的虹谷断崖，小径旁立著一个七、八尺高的石碑。\n"
-msgstr "Você caminha por uma trilha na encosta. Não muito longe a leste, avistam-se as telhas vitrificadas do Pavilhão da Neblina; a nordeste da trilha, uma escada de pedra branca leva ao Terraço do Arco-Íris, no cume; a oeste fica o precipício do Desfiladeiro do Arco-Íris, o mais famoso das \"Dez Paisagens da Neblina\". Ao lado da trilha ergue-se uma estela de pedra de uns dois metros de altura.\n"
+msgstr "Você caminha por uma trilha na encosta. Não muito longe a leste, avistam-se as telhas vitrificadas do Pavilhão da Neblina; a nordeste da trilha, uma escada de pedra branca leva ao Terraço do Arco-Íris, no cume; a oeste fica o precipício do Desfiladeiro do Arco-Íris, o mais famoso das \"Dez Paisagens da Neblina\". Ao lado da trilha ergue-se uma estela de pedra de sete ou oito chi de altura.\n"
 
 msgid "你正走在一道白石阶梯上，这道阶梯依著山壁而建，东边隔著一个\n深不见底的山谷可以望见对面傲立在山巅之上的水烟阁，每当清晨山谷\n中的晨雾慢慢飘起，从这里可以看见水烟阁彷佛飘在云间，这就是水烟\n十景中的「飞天楼阁」，石阶沿著山壁从这里转往北方。\n"
 msgstr "Você sobe uma escada de pedra branca construída rente à parede da montanha. A leste, do outro lado de um vale sem fundo, avista-se o Pavilhão da Neblina, altivo no cume. Quando a névoa da manhã se levanta no vale, vê-se daqui o Pavilhão da Neblina como que flutuando entre as nuvens: é o \"Pavilhão Voador\" das Dez Paisagens da Neblina. Os degraus viram daqui para o norte, rente à parede.\n"
@@ -39418,19 +39418,19 @@ msgid "这里是一间柴房，一捆一捆劈好的柴薪都整齐地堆放在�
 msgstr "Um galpão de lenha. Feixes de lenha rachada estão empilhados com capricho no lado norte, deixando uma passagem que leva ao leste, ao quarto dos criados. Ao sul, volta-se à sala oeste do Pavilhão.\n"
 
 msgid "这里是在水烟阁从事杂役的仆佣所住的卧室，房间相当宽敞，东西\n向一张大通铺最少可以睡二、三十人，东首一张大炕是冬天才用\n的，因为有不少仆役回家过冬，所以比床铺稍小，北边开了几扇窗子，\n南边则是摆放仆役私物的橱柜。\n"
-msgstr "Este é o dormitório dos criados que fazem os serviços gerais do Pavilhão da Neblina. O quarto é bastante amplo: um grande leito comum no sentido leste-oeste acomoda no mínimo vinte ou trinta pessoas; a leste há um grande kang, usado só no inverno, um pouco menor que as camas, porque muitos criados voltam para casa durante o inverno. Ao norte abrem-se várias janelas; ao sul ficam os armários onde se guardam os pertences dos criados.\n"
+msgstr "Este é o dormitório dos criados que fazem os serviços gerais do Pavilhão da Neblina. O quarto é bastante amplo: um grande camastro comum no sentido leste-oeste acomoda no mínimo vinte ou trinta pessoas; a leste há um grande kang, usado só no inverno, um pouco menor que as camas, porque muitos criados voltam para casa durante o inverno. Ao norte abrem-se várias janelas; ao sul ficam os armários onde se guardam os pertences dos criados.\n"
 
 msgid "这里是水烟阁的厨房，东首一座大灶，灶边堆著许多瓦瓮，北边是\n一张方桌，桌上锅碗瓢盆一应俱全，西边则是一个橱柜，往南可以回到\n厅中。\n"
 msgstr "Esta é a cozinha do Pavilhão da Neblina. No lado leste, um grande fogão, e perto dele muitas talhas de barro empilhadas; ao norte, uma mesa quadrada, sobre a qual há panelas, tigelas e colheres de tudo o que se precisa; a oeste fica um armário. Ao sul, volta-se ao salão.\n"
 
 msgid "这里是水烟阁西侧厅的二楼，由于侧厅是挑高建筑，因此这里只有\n一条约七、八尺宽的走道连接楼梯与往东的门。\n"
-msgstr "Este é o segundo andar da sala oeste do Pavilhão da Neblina. Como a sala lateral tem pé-direito alto, aqui só há um corredor de uns dois metros de largura ligando a escada à porta a leste.\n"
+msgstr "Este é o segundo andar da sala oeste do Pavilhão da Neblina. Como a sala lateral tem pé-direito alto, aqui só há um corredor de sete ou oito chi de largura ligando a escada à porta a leste.\n"
 
 msgid "这里是水烟阁二楼的聆啸厅，南面是一个大露台，按著西、西南、\n南、东南、东等方向立著五块灰绿色的怪石，东西各有一个出\n口通往侧厅，往北则是水烟阁主所居的春秋水色斋。\n"
 msgstr "Este é o Salão do Assobio Longo, no segundo andar do Pavilhão da Neblina. Ao sul há um grande terraço, com cinco estranhas pedras verde-acinzentadas postas nas direções oeste, sudoeste, sul, sudeste e leste; a leste e a oeste há uma saída para cada sala lateral, e ao norte fica o Estúdio das Águas da Primavera e do Outono, onde mora o senhor do Pavilhão.\n"
 
 msgid "这里是水烟阁东侧厅的二楼，由于侧厅是挑高建筑，因此这里只有\n一条约七、八尺宽的走道连接楼梯与往西的门。\n"
-msgstr "Este é o segundo andar da sala leste do Pavilhão da Neblina. Como a sala lateral tem pé-direito alto, aqui só há um corredor de uns dois metros de largura ligando a escada à porta a oeste.\n"
+msgstr "Este é o segundo andar da sala leste do Pavilhão da Neblina. Como a sala lateral tem pé-direito alto, aqui só há um corredor de sete ou oito chi de largura ligando a escada à porta a oeste.\n"
 
 msgid "入席"
 msgstr "Tomar assento"
@@ -40192,7 +40192,7 @@ msgid "石碑上面几个苍劲古朴的字写道：虹谷石台，乙丑年水�
 msgstr "Na estela, alguns caracteres vigorosos e arcaicos dizem: Terraço de Pedra do Desfiladeiro do Arco-Íris, erguido no ano yichou por Guan Yulou, sexto senhor do Pavilhão da Neblina.\nExaminando, você não vê o menor sinal de cinzel nas letras: parece que quem as escreveu o fez diretamente na rocha, com o dedo.\n"
 
 msgid "石碑上龙飞凤武地刻著几个大字：\n\n    风波剑神黎红药前辈葬剑于此，水烟阁第四代七长老比武\n    不胜，以奸计害人而自取其辱，武者皆不齿其小人行径，\n    合力击杀于此，甲辰年立此亭书铭其事以为后人殷鉴。\n\n                        第三代水烟阁主 于兰玫音\n                        第四代水烟阁主 聂    言   合立\n                        第五代水烟阁主 段 柏 山\n"
-msgstr "Na estela, em caracteres que parecem dragões voando, está gravado:\n\n    Aqui o veterano Li Hongyao, Deus da Espada do Vento e das Ondas, enterrou sua espada. O Sétimo Ancião do Pavilhão da Neblina, da quarta geração, não o venceu em duelo, feriu os outros por artimanhas e atraiu a própria humilhação; todos os guerreiros desprezaram sua conduta mesquinha e, unidos, o mataram aqui. No ano jiachen foi erguido este pavilhão e inscrita esta lápide, como advertência aos que vierem depois.\n\n                        Erguido em conjunto por:\n                        Terceiro senhor do Pavilhão da Neblina, Yulan Meiyin\n                        Quarto senhor do Pavilhão da Neblina, Nie Yan\n                        Quinto senhor do Pavilhão da Neblina, Duan Boshan\n"
+msgstr "Na estela, em caracteres de dragões voando e fênix dançando, está gravado:\n\n    Aqui o veterano Li Hongyao, Deus da Espada do Vento e das Ondas, enterrou sua espada. O Sétimo Ancião do Pavilhão da Neblina, da quarta geração, não o venceu em duelo, feriu os outros por artimanhas e atraiu a própria humilhação; todos os guerreiros desprezaram sua conduta mesquinha e, unidos, o mataram aqui. No ano jiachen foi erguido este pavilhão e inscrita esta lápide, como advertência aos que vierem depois.\n\n    Erguido em conjunto por:\n    Terceiro senhor do Pavilhão da Neblina, Yulan Meiyin\n    Quarto senhor do Pavilhão da Neblina, Nie Yan\n    Quinto senhor do Pavilhão da Neblina, Duan Boshan\n"
 
 msgid "一根两丈多高的白石柱子，四四方方，上头一道一道刻着箍纹，柱身让几百年的风雨磨圆了角。\n柱脚的石座上刻着历代盟主的名字，一行一行，最早的几行已经看不清了；最后一行是「卫沧澜」三个字，后面空着。\n"
 msgstr "Um pilar de pedra branca, com mais de dois zhang de altura e quatro faces, com aros gravados em fileiras na parte de cima; os cantos do fuste foram arredondados por centenas de anos de vento e chuva.\nNa base de pedra estão gravados os nomes dos sucessivos Líderes, linha a linha; as primeiras já não se leem; a última linha é \"Wei Canglan\", com espaço em branco depois.\n"
@@ -40240,7 +40240,7 @@ msgid "这是一捆粗麻绳. 你可以用它来上吊.\n\n"
 msgstr "Um rolo de corda grossa de cânhamo. Você pode usá-la para se enforcar.\n\n"
 
 msgid "上面刻著一些字:\n行气, 深则蓄, 蓄则伸, 伸则下, 下则定, 定则固, 固则萌, 萌则长, 长则退,\n退则天. 天几舂在上, 地几舂在下, 顺则生, 逆则死.\n"
-msgstr "Há algumas letras gravadas nele:\nFazer circular o Qi: fundo, então se acumula; acumulado, então se estende; estendido, então desce; descido, então se firma; firmado, então brota; brotado, então cresce; crescido, então recua;\nrecuado, então alcança o Céu. O Céu pulsa em cima, a Terra pulsa embaixo; quem segue, vive; quem contraria, morre.\n"
+msgstr "Há algumas letras gravadas nele:\nFazer circular o Qi: fundo, então se acumula; acumulado, então se estende; estendido, então desce; descido, então se firma; firmado, então se endurece; endurecido, então brota; brotado, então cresce; crescido, então recua;\nrecuado, então alcança o Céu. O Céu pulsa em cima, a Terra pulsa embaixo; quem segue, vive; quem contraria, morre.\n"
 
 msgid "沈记商行掌柜"
 msgstr "Lojista do Comércio Shen"
@@ -41488,7 +41488,7 @@ msgid "她没有答，叫你先去和院里的何守拙过几招。"
 msgstr "Ela não respondeu; mandou você primeiro trocar uns golpes com He Shouzhuo, no pátio."
 
 msgid "和何守拙切磋一场，点到为止。他从不先出手——看看封山的剑等得到几个空子。"
-msgstr "Ter um duelo amistoso com He Shouzhuo, parando no toque. Ele nunca ataca primeiro: ver quantas brechas a espada da Montanha Vazia consegue esperando."
+msgstr "Treinar com He Shouzhuo, parando no toque. Ele nunca ataca primeiro: ver quantas brechas a espada da Montanha Vazia consegue esperando."
 
 msgid "何守拙守了三十年门。他不先出剑，你就没有空子可等。"
 msgstr "He Shouzhuo guardou o portão por trinta anos. Se ele não ataca primeiro, você não tem brecha para esperar."
@@ -41554,7 +41554,7 @@ msgid "朱鸿雪的三个名字，都是靠近过湖底封物的人。玉螺湖�
 msgstr "Os três nomes de Zhu Hongxue são todos de gente que chegou perto do que está selado sob o lago. Na margem do lago, no extremo oeste do arrozal da Aldeia Búzio de Jade, um taoísta do gorro negro mede a água durante o dia: é do Palácio Negro; derrubá-lo. Ao pé do paredão do Desfiladeiro da Pedra Amarela, no Passo do Camelo, o desenhista do Ministério da Guerra desenha o lugar onde o cofre de pedra foi desenterrado: basta derrubá-lo e deixá-lo ir. O terceiro é o velho cortador de gelo que todo ano corta o gelo na Aldeia Búzio de Jade, na margem sob o salgueiro: o que fazer, você decide."
 
 msgid "神教只能有一个教主。站安妮儿（问她「教主」）：她收回教主令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走，往后只派该死的人的差事；终章还没打完的，她来湖畔守潭口；正月十七神教不去虹台搅局（入席之前定下才算）。站朱鸿雪（问她「教主」）：她给你黄金令牌，教同一套武功；安妮儿回西厢闭门，不再同你说神教的事；正月十七那天，神教的杀手会在山道上截一派的轿子（入席之前定下才算）。"
-msgstr "A Ordem só pode ter um líder. Ficar do lado de Anni'er (perguntar a ela sobre \"Líder da Ordem\"): ela recupera a insígnia de líder da Ordem, te dá a placa de ouro e te ensina a Espada da sombra de neve de Tianshan e o Método interno da Sombra de Neve; Zhu Hongxue se rende e não vai embora, e daí em diante só dá encargos contra quem merece morrer; se a batalha final ainda não aconteceu, Anni'er vem à margem do lago guardar a boca da lagoa; no dia 17 do primeiro mês, a Ordem não vai tumultuar o Terraço do Arco-Íris (só vale se decidido antes de você tomar assento). Ficar do lado de Zhu Hongxue (perguntar a ela sobre \"Líder da Ordem\"): ela te dá a placa de ouro e ensina as mesmas artes; Anni'er volta para a ala oeste e fecha a porta, e não fala mais com você sobre a Ordem; no dia 17 do primeiro mês, os assassinos da Ordem vão interceptar na estrada da montanha a liteira de uma escola (só vale se decidido antes de você tomar assento)."
+msgstr "A Ordem só pode ter um líder. Ficar do lado de Anni'er (perguntar a ela sobre \"Líder da Ordem\"): ela recupera a insígnia de líder da Ordem, te dá a placa de ouro e te ensina a Espada da Sombra de Neve de Tianshan e o Método interno da Sombra de Neve; Zhu Hongxue se rende e não vai embora, e daí em diante só dá encargos contra quem merece morrer; se a batalha final ainda não aconteceu, Anni'er vem à margem do lago guardar a boca da lagoa; no dia 17 do primeiro mês, a Ordem não vai tumultuar o Terraço do Arco-Íris (só vale se decidido antes de você tomar assento). Ficar do lado de Zhu Hongxue (perguntar a ela sobre \"Líder da Ordem\"): ela te dá a placa de ouro e ensina as mesmas artes; Anni'er volta para a ala oeste e fecha a porta, e não fala mais com você sobre a Ordem; no dia 17 do primeiro mês, os assassinos da Ordem vão interceptar na estrada da montanha a liteira de uma escola (só vale se decidido antes de você tomar assento)."
 
 msgid "沧海龙吟的步子在后院书房墙上的湘绣舞曲图里（昭仪天天对着它看），曲子在舞曲谱里（先问翠湘阁的莫欣芳「舞曲谱」，再到密室的石床后面找：问过她，石床后面才找得到）。看过那幅图，把舞曲谱拿到手。"
 msgstr "Os passos do Canto do Dragão sobre o Mar Azul estão no bordado da dança, na parede do escritório do quintal (Zhaoyi olha para ele todos os dias), e a música está na partitura de dança (primeiro perguntar a Mo Xinfang, da Câmara Xiang Verde, sobre \"Partitura de dança\", e depois procurar atrás da cama de pedra do quarto secreto: só depois de perguntar a ela é que se encontra ali). Ver o bordado e conseguir a partitura."
@@ -41728,7 +41728,7 @@ msgid "三个名字，都是靠近过湖底那件东西的人。"
 msgstr "Três nomes, todos de gente que chegou perto daquela coisa do fundo do lago."
 
 msgid "站朱鸿雪：神教只有一个教主，是她。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；安妮儿回西厢闭门，往后不再同你说神教的事（宝衣要是在她手里，终章还没打完的，她照样带着它来）。正月十七那天，神教的杀手会在山道上截一派的轿子（已经入了虹台的席的，那天山下的事照入席时定下的来）。\n这是东方神教这条线的大分裂，选了不能改。要站朱鸿雪吗？"
-msgstr "Ficar do lado de Zhu Hongxue: a Ordem só tem uma líder, e é ela.\nEla recolhe a sua placa de cobre vermelho, te dá a placa de ouro e te ensina a Espada da sombra de neve de Tianshan e o Método interno da Sombra de Neve; Anni'er volta para a ala oeste e fecha a porta, e daqui em diante não fala mais com você sobre a Ordem (se a túnica estiver com ela e a batalha final ainda não tiver acontecido, ela a traz assim mesmo). No dia 17 do primeiro mês, os assassinos da Ordem vão interceptar na estrada da montanha a liteira de uma escola (se você já tomou assento no Terraço do Arco-Íris, o que acontece ao pé da montanha naquele dia segue o que estava decidido quando você se sentou).\nEsta é a grande cisão da linha da Ordem do Corvo Dourado; escolhida, não se pode mudar. Ficar do lado de Zhu Hongxue?"
+msgstr "Ficar do lado de Zhu Hongxue: a Ordem só tem uma líder, e é ela.\nEla recolhe a sua placa de cobre vermelho, te dá a placa de ouro e te ensina a Espada da Sombra de Neve de Tianshan e o Método interno da Sombra de Neve; Anni'er volta para a ala oeste e fecha a porta, e daqui em diante não fala mais com você sobre a Ordem (se a túnica estiver com ela e a batalha final ainda não tiver acontecido, ela a traz assim mesmo). No dia 17 do primeiro mês, os assassinos da Ordem vão interceptar na estrada da montanha a liteira de uma escola (se você já tomou assento no Terraço do Arco-Íris, o que acontece ao pé da montanha naquele dia segue o que estava decidido quando você se sentou).\nEsta é a grande cisão da linha da Ordem do Corvo Dourado; escolhida, não se pode mudar. Ficar do lado de Zhu Hongxue?"
 
 msgid "执事，虹台上的事定了。往后的公事，照旧。"
 msgstr "{jogador:Encarregado|Encarregada}, o assunto do Terraço do Arco-Íris está decidido. Os deveres oficiais seguem como sempre."
@@ -41912,13 +41912,13 @@ msgid "逆灵宫的山门。黑砖砌的门楼有两丈高，门扇敞着，门�
 msgstr "O portal do Palácio Negro. A torre do portão, de tijolo negro, tem dois zhang de altura; as folhas estão escancaradas, e a passagem é fria como o fundo de um poço. As lanternas dos dois lados estão apagadas. Atrás da mesa do porteiro não há ninguém.\n"
 
 msgid "黑砖铺地的大院子。院当中那只黑铁香炉翻倒了，炉灰洒了一地，上头踩着乱七八糟的靴印。四面的黑幡被扯下来，堆在墙角。北边是前殿，殿门推一推就开；东侧一排矮房是货栈。\n"
-msgstr "Um grande pátio pavimentado de tijolo negro. O incensário de ferro negro do centro foi derrubado, a cinza espalhada pelo chão e pisoteada por uma confusão de marcas de botas. Os estandartes negros dos quatro lados foram arrancados e amontoados em um canto. Ao norte fica o salão da frente, cuja porta se abre com um empurrão; a leste, uma fileira de casas baixas é o depósito de carga.\n"
+msgstr "Um grande pátio pavimentado de tijolo negro. O incensário de ferro negro do centro foi derrubado, a cinza espalhada pelo chão e pisoteada por uma confusão de marcas de botas. Os estandartes negros dos quatro lados foram arrancados e amontoados em um canto. Ao norte fica o salão da frente, cuja porta se abre com um empurrão; a leste, uma fileira de casas baixas é o armazém.\n"
 
 msgid "黑砖铺地的大院子，踩上去没有一点声响。院当中一只黑铁香炉，炉是冷的。四面黑幡垂地，没有人收。北边是前殿，殿门关着，推一推就开；东侧一排矮房是货栈。\n"
-msgstr "Um grande pátio pavimentado de tijolo negro, onde os passos não fazem nenhum ruído. No centro, um incensário de ferro negro, e o incensário está frio. Os estandartes negros pendem até o chão nos quatro lados, e ninguém os recolhe. Ao norte fica o salão da frente, de porta fechada, mas um empurrão a abre; a leste, uma fileira de casas baixas é o depósito de carga.\n"
+msgstr "Um grande pátio pavimentado de tijolo negro, onde os passos não fazem nenhum ruído. No centro, um incensário de ferro negro, e o incensário está frio. Os estandartes negros pendem até o chão nos quatro lados, e ninguém os recolhe. Ao norte fica o salão da frente, de porta fechada, mas um empurrão a abre; a leste, uma fileira de casas baixas é o armazém.\n"
 
 msgid "黑砖铺地的大院子，踩上去没有一点声响。院当中一只黑铁香炉，炉是冷的。四面黑幡垂地。北边是前殿，殿门推一推就开；东侧一排矮房是货栈。\n"
-msgstr "Um grande pátio pavimentado de tijolo negro, onde os passos não fazem nenhum ruído. No centro, um incensário de ferro negro, e o incensário está frio. Os estandartes negros pendem até o chão nos quatro lados. Ao norte fica o salão da frente, cuja porta se abre com um empurrão; a leste, uma fileira de casas baixas é o depósito de carga.\n"
+msgstr "Um grande pátio pavimentado de tijolo negro, onde os passos não fazem nenhum ruído. No centro, um incensário de ferro negro, e o incensário está frio. Os estandartes negros pendem até o chão nos quatro lados. Ao norte fica o salão da frente, cuja porta se abre com um empurrão; a leste, uma fileira de casas baixas é o armazém.\n"
 
 msgid "逆灵宫的前殿。殿里没有神像，正中那张乌黑的长案被掀翻了，案上的黑皮经书不见了。蒲团东一只西一只，有一只上面留着半个带泥的靴印。西边一道门通丹房；北边还有一道门。\n"
 msgstr "O salão da frente do Palácio Negro. Não há imagem sagrada no salão; a longa mesa negra do centro foi virada, e a escritura de capa de couro negro que estava sobre ela sumiu. As almofadas de meditação estão espalhadas por todo lado, e em uma delas ficou meia marca de bota com barro. Uma porta a oeste leva à sala dos elixires; ao norte há outra porta.\n"
@@ -41942,7 +41942,7 @@ msgid "箱子还堆在那里，箱板上烙着「羊」字。没有人数了。\
 msgstr "Os caixotes continuam empilhados ali, com o caractere \"Cabra\" marcado a ferro nas tábuas. Ninguém mais os conta.\n"
 
 msgid "通铺上的被褥卷着，落了一层灰。没有人睡在这里了。\n"
-msgstr "As cobertas da tarimba coletiva estão enroladas, sob uma camada de poeira. Ninguém mais dorme aqui.\n"
+msgstr "As cobertas do camastro comum estão enroladas, sob uma camada de poeira. Ninguém mais dorme aqui.\n"
 
 msgid "北门那边没有光，也没有人声。\n"
 msgstr "Do lado da porta norte não há luz, nem som de vozes.\n"
@@ -41998,7 +41998,7 @@ msgid "三器"
 msgstr "três relíquias"
 
 msgid "站安妮儿：一代教主收回教主令。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章还没打完的，她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局（已经入了虹台的席的，那天山下的事照入席时定下的来）。\n这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？"
-msgstr "Ficar do lado de Anni'er: a primeira líder da Ordem recupera a insígnia de líder da Ordem.\nEla recolhe a sua placa de cobre vermelho, te dá a placa de ouro e te ensina a Espada da sombra de neve de Tianshan e o Método interno da Sombra de Neve; Zhu Hongxue se rende e não vai embora: daqui em diante a Ordem só dá encargos contra quem merece morrer. Se a batalha final ainda não aconteceu, ela vem à margem do lago guardar a boca da lagoa (com ou sem a túnica); no dia 17 do primeiro mês, a Ordem não vai tumultuar o Terraço do Arco-Íris (se você já tomou assento no Terraço do Arco-Íris, o que acontece ao pé da montanha naquele dia segue o que estava decidido quando você se sentou).\nEsta é a grande cisão da linha da Ordem do Corvo Dourado; escolhida, não se pode mudar. Ficar do lado de Anni'er?"
+msgstr "Ficar do lado de Anni'er: a primeira líder da Ordem recupera a insígnia de líder da Ordem.\nEla recolhe a sua placa de cobre vermelho, te dá a placa de ouro e te ensina a Espada da Sombra de Neve de Tianshan e o Método interno da Sombra de Neve; Zhu Hongxue se rende e não vai embora: daqui em diante a Ordem só dá encargos contra quem merece morrer. Se a batalha final ainda não aconteceu, ela vem à margem do lago guardar a boca da lagoa (com ou sem a túnica); no dia 17 do primeiro mês, a Ordem não vai tumultuar o Terraço do Arco-Íris (se você já tomou assento no Terraço do Arco-Íris, o que acontece ao pé da montanha naquele dia segue o que estava decidido quando você se sentou).\nEsta é a grande cisão da linha da Ordem do Corvo Dourado; escolhida, não se pode mudar. Ficar do lado de Anni'er?"
 
 msgid "封法在我脑子里，是因为这世上还有人想把湖底那东西再叫出来。要我的命，自己来拿。"
 msgstr "O rito do selo está na minha cabeça porque ainda há gente neste mundo que quer chamar de volta aquela coisa do fundo do lago. Se quer a minha vida, venha tomá-la pessoalmente."
@@ -42259,3 +42259,18 @@ msgstr "Atrás da porta de gravetos há um pátio não muito grande, cercado nos
 
 msgid "屋里收拾得很干净。靠窗一张旧书案，案上一只粗瓷茶壶、两只杯子，一只倒扣着。墙上的木钉挂着一个空剑鞘，鞘上的漆磨得露出了木头，剑穗却是新换的。里间门口垂着一幅蓝布帘子。屋角的炉子上坐着一把水壶，壶嘴冒着细细的白气。\n"
 msgstr "A casa é muito bem arrumada. Junto à janela, uma escrivaninha velha, e sobre ela um bule de louça grosseira e duas xícaras, uma emborcada. De uma cavilha de madeira na parede pende uma bainha vazia, com a laca gasta até a madeira, mas a borla é nova. Na porta do cômodo interno cai uma cortina de pano azul. Sobre o fogareiro do canto, uma chaleira solta pelo bico um fio fino de vapor branco.\n"
+
+msgid "风雨双侠？那是柳馆主年轻时候的名号。双侠嘛，自然是两个人——另一位是北宗的师娘，听说就住在镇外黄土小径那边，柴门成天闩着。镇上的人都知道，没人多嘴。"
+msgstr "Os Cavaleiros do Vento e da Chuva? Era o nome do Mestre Liu quando jovem. Cavaleiros, no plural: eram dois. A outra é a esposa do Mestre do Ramo Norte; dizem que mora fora da vila, lá pela Trilha de terra amarela, com a porta de gravetos sempre trancada. Na vila todo mundo sabe, e ninguém fala."
+
+msgid "「听雨」是她的剑：逼人接，接了就空。他接得越稳，空得越大。那天早上我在院里劈柴，看着你学的。"
+msgstr "'Ouvir a chuva' é a espada dela: obriga o outro a aparar, e quem apara fica no vazio. Quanto mais firme ele apara, maior o vazio. Naquela manhã eu estava rachando lenha no pátio e vi você aprender."
+
+msgid "「夜雨」就是她那一剑，换了个名字：逼人接，接了就空。……那一夜雨大，我睡在柴房，什么也没听见。"
+msgstr "'Chuva da noite' é aquele golpe dela, com outro nome: obriga o outro a aparar, e quem apara fica no vazio. ... Naquela noite chovia forte; eu dormi no depósito de lenha e não ouvi nada."
+
+msgid "镇外的小院里，沈疏雨还在走她那套剑。何守拙说，她如今走剑，不再一步一停了。"
+msgstr "No pátio fora da vila, Shen Shuyu ainda percorre a sua sequência de espada. He Shouzhuo diz que agora, quando ela anda a espada, já não para a cada passo."
+
+msgid "镇外小院的书案上，两只杯子一直倒扣着。下雨的夜里，瓦屋的灯总要点到很晚。"
+msgstr "Na mesa de estudos do pátio fora da vila, as duas xícaras continuam emborcadas. Nas noites de chuva, a lâmpada da casa de telhas fica acesa até tarde."

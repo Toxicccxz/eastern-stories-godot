@@ -130,7 +130,7 @@ One picture, one plain word, as in English: maps, quests and the UI use the Port
 neigong (the art) · 轻功 qinggong · 潜能 Potencial · 加力 Força extra · 杀气 Aura assassina · 法力
 Poder arcano · 灵力 Energia espiritual · 定力 Serenidade · 实战经验 Experiência de combate · 经脉
 meridianos · 穴道 pontos de acupuntura (pontos where short) · 心法 método interno · 秘籍 manual secreto
-(an old classic: tratado secreto) · 回合 (a fight's round) rodada · 手 (a fight's turn: two in a
+(an old classic: tratado secreto) · 切磋 treino / treinar (a spar; the fight's banner Treino) · 拆招 prática de golpes · 回合 (a fight's round) rodada · 手 (a fight's turn: two in a
 round) turno · 江湖 jianghu · 武林 wulin · 两 tael, plural taéis · 文 wen · 里 li · 丈 zhang (wen, li,
 zhang never take an s) · 时辰: in the text the Portuguese time (子时 meia-noite, 午时 meio-dia); hora
 dupla only in the codex. No HP or MP: the HUD writes Essência / Qi / Espírito / Pot. / Nív. Qi is
