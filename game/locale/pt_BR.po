@@ -18196,7 +18196,7 @@ msgid "正月十七，茅山那一票听你的。"
 msgstr "No dia dezessete do primeiro mês, o voto do Monte Mao é seu."
 
 msgid "北麓那座道观，你交给了官府去剿。"
-msgstr "Você entregou às autoridades o mosteiro do sopé norte, para que o arrasassem."
+msgstr "Você entregou às autoridades o templo do sopé norte, para que o arrasassem."
 
 msgid "逆灵宫剩下的人下了山，茅山看着。是你去劝的。"
 msgstr "Os que restavam do Palácio Negro desceram a montanha, e o Monte Mao os vigia. Foi você quem os convenceu."
@@ -18358,7 +18358,7 @@ msgid "逆灵宫的余孽，是你交给官府的。"
 msgstr "Foi você quem entregou às autoridades o que restava do Palácio Negro."
 
 msgid "振远的总账是陈天星押进乔阴县衙的。程不平收下了，兵部的抚恤银记在了案上。"
-msgstr "Foi Chen Tianxing quem levou o livro-razão do Longo Caminho ao tribunal de Sombra Alta. Cheng Buping o recebeu, e a prata de indenização do Ministério da Guerra entrou nos autos."
+msgstr "Foi Chen Tianxing quem levou o livro-mestre do Longo Caminho ao tribunal de Sombra Alta. Cheng Buping o recebeu, e a prata de indenização do Ministério da Guerra entrou nos autos."
 
 msgid "尚书府小屋那封密信，是你交到程不平手上的。"
 msgstr "Foi você quem pôs nas mãos de Cheng Buping a carta secreta da casinha da Mansão do Ministro."
@@ -18445,13 +18445,13 @@ msgid "你站到了朱鸿雪一边。她给了你一块黄金令牌；西厢的�
 msgstr "Você ficou do lado de Zhu Hongxue. Ela te deu uma placa de ouro; a porta da ala oeste está fechada para você daqui em diante."
 
 msgid "你进过那座黑砖道观。"
-msgstr "Você esteve dentro daquele mosteiro de tijolos negros."
+msgstr "Você esteve dentro daquele templo de tijolos negros."
 
 msgid "你见过「唤首」。他们知道有生人进过后殿。"
 msgstr "Você viu a \"Invocação da Cabeça\". Eles sabem que um estranho entrou no Salão dos fundos."
 
 msgid "地牢里的人是你放走的。逆灵宫在找那天闯道观的孩子。"
-msgstr "Foi você quem libertou a gente da masmorra. O Palácio Negro procura {jogador:o rapaz|a moça} que invadiu o mosteiro naquele dia."
+msgstr "Foi você quem libertou a gente da masmorra. O Palácio Negro procura {jogador:o rapaz|a moça} que invadiu o templo naquele dia."
 
 msgid "玄冥子欠你一条命。他说过：带着残卷来后山找他。"
 msgstr "Xuanmingzi te deve a vida. Ele disse: leve o fragmento e vá procurá-lo na montanha dos fundos."
@@ -18460,7 +18460,7 @@ msgid "玄冥子说你是他的人。"
 msgstr "Xuanmingzi diz que você é dos dele."
 
 msgid "管事道士许你在货栈的通铺上睡——他们当你是新来的道士。"
-msgstr "O taoísta intendente te deixa dormir na tarimba coletiva do Depósito de carga: eles pensam que você é {jogador:um taoísta recém-chegado|uma taoísta recém-chegada}."
+msgstr "O taoísta intendente te deixa dormir no camastro comum do armazém: eles pensam que você é {jogador:um taoísta recém-chegado|uma taoísta recém-chegada}."
 
 msgid "子时在后殿外，巡殿的道士撞见过你。"
 msgstr "À meia-noite, fora do Salão dos fundos, o taoísta de ronda te viu."
@@ -18469,7 +18469,7 @@ msgid "宫里在找一本不见了的名册。"
 msgstr "No palácio, procuram um registro que sumiu."
 
 msgid "玄冥子托你从宫主的书案底下取出天书的下半部；他教你的，是六阴剑。"
-msgstr "Xuanmingzi te pediu para tirar de debaixo da escrivaninha do senhor do palácio a segunda metade da Escritura Negra; o que ele te ensinou foi a Espada dos seis yin."
+msgstr "Xuanmingzi te pediu para tirar de debaixo da escrivaninha do senhor do palácio a segunda metade da Escritura; o que ele te ensinou foi a Espada dos seis yin."
 
 msgid "你把唤首前夜下湖的时辰和路交给了茅山。宫里迟早会知道是谁。"
 msgstr "Você deu ao Monte Mao a hora e o caminho da descida ao lago na véspera da Invocação da Cabeça. Cedo ou tarde o palácio vai saber quem foi."
@@ -18484,7 +18484,7 @@ msgid "你被识破了。黑冠不再管用，北麓有人在找你。"
 msgstr "Descobriram você. O gorro negro não serve mais, e alguém no sopé norte está à sua procura."
 
 msgid "北麓那座道观，官兵上去了。宫里剩下的人一个也没走脱。"
-msgstr "Os soldados subiram ao mosteiro do sopé norte. Dos que restavam no palácio, nenhum escapou."
+msgstr "Os soldados subiram ao templo do sopé norte. Dos que restavam no palácio, nenhum escapou."
 
 msgid "宫里剩下的人跟你下了山。坛上的火灭了。"
 msgstr "Os que restavam no palácio desceram a montanha com você. O fogo do altar se apagou."
@@ -18724,13 +18724,13 @@ msgid "戴着黑冠回逆灵宫。白天到账房（前殿往西，丹房再往�
 msgstr "Voltar ao Palácio Negro com o gorro negro. De dia, ir à Contadoria (a oeste do Salão da frente, depois ao norte, além da Sala dos elixires) e perguntar ao taoísta intendente sobre \"Trabalho\"."
 
 msgid "管事道士派了三样活：丹房添炭、货栈点箱、前殿跟诵。"
-msgstr "O taoísta intendente te dá três tarefas: pôr carvão na Sala dos elixires, contar os caixotes no Depósito de carga, acompanhar o canto no Salão da frente."
+msgstr "O taoísta intendente te dá três tarefas: pôr carvão na Sala dos elixires, contar os caixotes no armazém, acompanhar o canto no Salão da frente."
 
 msgid "干完管事派的三样活，回账房问他「干活」。跟诵是领诵念上句、你接下句：前殿的道士诵的就是这几句，听熟了再去。"
 msgstr "Terminar as três tarefas do intendente e voltar à Contadoria para perguntar a ele sobre \"Trabalho\". Para acompanhar o canto, o recitador principal diz o primeiro verso e você responde com o seguinte: são os versos que os taoístas do Salão da frente cantam, então escute até saber de cor antes de ir."
 
 msgid "三样活干完了。管事许你在货栈的通铺上留宿。"
-msgstr "As três tarefas estão feitas. O intendente te deixa dormir na tarimba coletiva do Depósito de carga."
+msgstr "As três tarefas estão feitas. O intendente te deixa dormir no camastro comum do armazém."
 
 msgid "在逆灵宫干了三样杂活，管事许你留宿"
 msgstr "Fez três tarefas no Palácio Negro, e o intendente te deixou pernoitar"
@@ -18739,7 +18739,7 @@ msgid "丹房添炭"
 msgstr "Pôr carvão na Sala dos elixires"
 
 msgid "货栈点箱"
-msgstr "Contar os caixotes no Depósito de carga"
+msgstr "Contar os caixotes no armazém."
 
 msgid "前殿跟诵"
 msgstr "Acompanhar o canto no Salão da frente"
@@ -18748,16 +18748,16 @@ msgid "领诵念上句，你接下句"
 msgstr "O recitador principal diz o primeiro verso; você responde com o seguinte"
 
 msgid "子时，前殿北门后的后殿有人说话。货栈的通铺可以睡到子时。前殿有巡殿的道士来回走——躲开他的眼睛（他看前面，不看身后；香炉和经案挡得住他），摸到北门边「听」。被他撞见了，会被押回前院站到天亮，那是一条疑点。"
-msgstr "À meia-noite, há vozes no Salão dos fundos, atrás da porta norte do Salão da frente. Você pode dormir na tarimba do Depósito de carga até a meia-noite. Um taoísta de ronda anda de um lado para o outro no Salão da frente: ficar fora da vista dele (ele olha para a frente, não para trás; o incensário e a mesa dos sutras te escondem), chegar de mansinho à porta norte e escolher \"Escutar\". Se ele te flagrar, vão te levar de volta ao Pátio da frente para ficar de pé até o amanhecer, e isso é uma suspeita."
+msgstr "À meia-noite, há vozes no Salão dos fundos, atrás da porta norte do Salão da frente. Você pode dormir no camastro comum do armazém até a meia-noite. Um taoísta de ronda anda de um lado para o outro no Salão da frente: ficar fora da vista dele (ele olha para a frente, não para trás; o incensário e a mesa dos sutras te escondem), chegar de mansinho à porta norte e escolher \"Escutar\". Se ele te flagrar, vão te levar de volta ao Pátio da frente para ficar de pé até o amanhecer, e isso é uma suspeita."
 
 msgid "你在北门外听见了他们等的那一夜，和「名单在账房」。"
 msgstr "Do lado de fora da porta norte você ouviu qual noite eles esperam, e \"a lista está na Contadoria\"."
 
 msgid "名单在账房。夜里管事伏在案头睡觉，到账房的大案上「抄名单」，别吵醒他。"
-msgstr "A lista está na Contadoria. À noite o intendente dorme debruçado na escrivaninha: na mesa comprida da Contadoria, escolher \"Copiar a lista\", sem acordá-lo."
+msgstr "A lista está na Contadoria. À noite o intendente dorme debruçado na escrivaninha: na grande mesa da Contadoria, escolher \"Copiar a lista\", sem acordá-lo."
 
 msgid "你在账房的大案上抄下了那张名单。"
-msgstr "Na mesa comprida da Contadoria, você copiou aquela lista."
+msgstr "Na grande mesa da Contadoria, você copiou aquela lista."
 
 msgid "把抄来的名单递出去：交给灵心观的林忌（救过霍铮的，也可以交给土地庙的霍铮）。"
 msgstr "Fazer chegar a lista copiada: entregá-la a Lin Ji, no Mosteiro do Coração Claro (se salvou Huo Zheng, também pode entregá-la a Huo Zheng, no Santuário do Deus da Terra)."
@@ -18775,10 +18775,10 @@ msgid "林忌说了地牢里新关的三个人，和账房铁匣里那本名册�
 msgstr "Lin Ji falou de três pessoas recém-presas na masmorra, e do original do registro na caixa de ferro da Contadoria."
 
 msgid "地牢里新关了三个人。牢门的钥匙在狱卒腰上：给他一袋酒（或者往石阶边他那只酒坛里下蒙汗药），他醉倒了，钥匙就是你的；子时他歪在长凳上打盹，钥匙挂在头顶的铁钉上；第三章那把钥匙还在身上的，也开得了。狱卒醒着的时候，谁也近不了牢门。开了门，他们自己从货栈的侧门走。"
-msgstr "Três pessoas foram presas há pouco na masmorra. A chave das celas fica na cintura do carcereiro: dar a ele um odre de vinho (ou pôr pó sonífero na jarra de vinho dele, junto aos degraus de pedra), e quando ele cair bêbado a chave é sua; à meia-noite ele cochila largado no banco, com a chave pendurada no prego de ferro acima da cabeça; se você ainda tiver a chave do capítulo 3, ela também abre. Enquanto o carcereiro estiver acordado, ninguém chega perto das celas. Abertas as portas, eles saem sozinhos pela porta lateral do Depósito de carga."
+msgstr "Três pessoas foram presas há pouco na masmorra. A chave das celas fica na cintura do carcereiro: dar a ele um odre de vinho (ou pôr pó sonífero na jarra de vinho dele, junto aos degraus de pedra), e quando ele cair bêbado a chave é sua; à meia-noite ele cochila largado no banco, com a chave pendurada no prego de ferro acima da cabeça; se você ainda tiver a chave do capítulo 3, ela também abre. Enquanto o carcereiro estiver acordado, ninguém chega perto das celas. Abertas as portas, eles saem sozinhos pela porta lateral do armazém."
 
 msgid "地牢里新关的三个人，从货栈的侧门走了。"
-msgstr "Os três recém-presos na masmorra saíram pela porta lateral do Depósito de carga."
+msgstr "Os três recém-presos na masmorra saíram pela porta lateral do armazém."
 
 msgid "放走了逆灵宫地牢里新关的三个人"
 msgstr "Libertou os três recém-presos na masmorra do Palácio Negro"
