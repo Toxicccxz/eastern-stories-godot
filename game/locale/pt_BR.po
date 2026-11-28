@@ -8881,7 +8881,7 @@ msgid "召来一名天将或阴鬼卒相助（{mana} 法力、{sen} 神，可能
 msgstr "Invoque um general celestial ou um soldado fantasma para ajudar ({mana} de Poder arcano, {sen} de Espírito, pode falhar)"
 
 msgid "看得见鬼魂，持续的秒数等于你的有效咒文等级（{mana} 法力、{sen} 神）"
-msgstr "Veja os fantasmas por tantos segundos quanto seu nível efetivo de Encantamentos básicos ({mana} de Poder arcano, {sen} de Espírito)"
+msgstr "Veja os fantasmas por tantos segundos quanto seu nível efetivo de Encantamentos ({mana} de Poder arcano, {sen} de Espírito)."
 
 msgid "吸取对方的精"
 msgstr "Absorva a Essência do oponente"
@@ -8968,7 +8968,7 @@ msgid "蒙汗药：药力发作，撑不住就会昏倒。"
 msgstr "Pó sonífero: a droga faz efeito; se você não aguentar, desmaia."
 
 msgid "意寒掌毒：每次心跳伤精、气、神各 25。"
-msgstr "Veneno da Palma da Intenção Gelada: a cada batimento, 25 de Essência, de Qi e de Espírito feridos."
+msgstr "Veneno da Palma gelada: a cada batimento, 25 de Essência, de Qi e de Espírito feridos."
 
 msgid "包扎着：每次心跳回气 3。"
 msgstr "Atadura: recupera 3 de Qi a cada batimento."
@@ -9076,7 +9076,7 @@ msgid "你输了这场战斗，昏了过去。"
 msgstr "Você perdeu o combate e desmaiou."
 
 msgid "切磋结束。"
-msgstr "O duelo amistoso terminou."
+msgstr "O treino terminou."
 
 msgid "三回合拆完了。"
 msgstr "As três rodadas terminaram."
@@ -9283,16 +9283,16 @@ msgid "精 %d　神 %d"
 msgstr "Essência %d  Espírito %d"
 
 msgid "天邪虎啸要耗 {force} 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n确定要发出虎啸吗？"
-msgstr "O rugido custa {force} de Força interior. Ele fere o Espírito de todos os presentes; quem não resistir, seja quem for, vai tentar matar você, e até um duelo amistoso vira luta de vida ou morte.\nQuer mesmo rugir?"
+msgstr "O rugido custa {force} de Força interior. Ele fere o Espírito de todos os presentes; quem não resistir, seja quem for, vai tentar matar você, e até um treino vira luta de vida ou morte.\nQuer mesmo rugir?"
 
 msgid "在战斗中运功压制杀气，可能当场昏倒：以你现在的定力和内功，{odds}。昏倒以后，要杀你的人不会停手。\n确定要压制杀气吗？"
 msgstr "Conter a Aura assassina em pleno combate pode fazer você desmaiar na hora: com a sua Serenidade e o seu neigong atuais, {odds}. Se você desmaiar, quem quer te matar não vai parar.\nQuer mesmo conter a Aura assassina?"
 
 msgid "召天将要耗 {mana} 点法力和 {sen} 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n确定要召唤天将吗？"
-msgstr "Invocar o general celestial custa {mana} de Poder arcano e {sen} de Espírito. Assim que chega, ele tenta matar seu oponente, e o oponente o ataca de volta: o duelo amistoso vira luta de vida ou morte, e o oponente pode morrer. Todas as mortes que o general causar contam como suas; se ele matar seu Shifu, você terá matado seu próprio mestre.\nQuer mesmo invocar o general?"
+msgstr "Invocar o general celestial custa {mana} de Poder arcano e {sen} de Espírito. Assim que chega, ele tenta matar seu oponente, e o oponente o ataca de volta: o treino vira luta de vida ou morte, e o oponente pode morrer. Todas as mortes que o general causar contam como suas; se ele matar seu Shifu, você terá matado seu próprio mestre.\nQuer mesmo invocar o general?"
 
 msgid "召护法要耗 {mana} 点法力和 {sen} 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n确定要召护法吗？"
-msgstr "Chamar o guardião custa {mana} de Poder arcano e {sen} de Espírito. O general celestial ou o soldado fantasma que vier tenta matar seu oponente, e o oponente o ataca de volta: o duelo amistoso vira luta de vida ou morte, e o oponente pode morrer. Todas as mortes que ele causar contam como suas; se ele matar seu Shifu, você terá matado seu próprio mestre.\nQuer mesmo chamar o guardião?"
+msgstr "Chamar o guardião custa {mana} de Poder arcano e {sen} de Espírito. O general celestial ou o soldado fantasma que vier tenta matar seu oponente, e o oponente o ataca de volta: o treino vira luta de vida ou morte, e o oponente pode morrer. Todas as mortes que ele causar contam como suas; se ele matar seu Shifu, você terá matado seu próprio mestre.\nQuer mesmo chamar o guardião?"
 
 msgid "来相助的护法会替你杀{npc}。{npc}不是你亲手杀的，你会昏倒，也悟不到咒术的道理。\n确定要召唤吗？"
 msgstr "O guardião que vier em seu auxílio vai matar {npc}{:o} por você. Como {npc}{:o} não morre por suas mãos, você desmaia e não compreende o segredo do feitiço.\nQuer mesmo invocar?"
@@ -10117,7 +10117,7 @@ msgid "（{npc}要把你押到县衙受审：被押着走不开；可以向他�
 msgstr "({npc}{:o} vai levar você ao tribunal do condado para julgamento: enquanto estiver sob custódia, você não pode sair; dá para oferecer suborno ou resistir à prisão e lutar.)"
 
 msgid "木人是武馆拆招用的，只能切磋，打坏了还得赔。"
-msgstr "Os bonecos de madeira são para treino no salão: só servem para duelos amistosos, e quem os quebra tem de pagar."
+msgstr "Os bonecos de madeira são para a prática de golpes no salão: só servem para treinos, e quem os quebra tem de pagar."
 
 msgid "你身上带着伤，先养好了再来拆招。"
 msgstr "Você está com ferimentos: cure-se primeiro e volte para o treino."
@@ -10771,7 +10771,7 @@ msgid "落后补偿：{region}推荐实战经验 {recommended}，你在这里所
 msgstr "Bônus de recuperação: em {region}{:o}, a Experiência de combate recomendada é {recommended}; abaixo disso você ganha +{percent}% de experiência e de Potencial, até alcançar esse nível."
 
 msgid "还没有历练。切磋取胜、了结一段经历、第一次到一个地方，都算。"
-msgstr "Ainda não há feitos. Contam vencer um duelo amistoso, encerrar uma história e chegar pela primeira vez a um lugar."
+msgstr "Ainda não há feitos. Contam vencer um treino, encerrar uma história e chegar pela primeira vez a um lugar."
 
 msgid "……还有 {count} 项"
 msgstr "...e mais {count}"
@@ -10780,7 +10780,7 @@ msgid "生在{name}"
 msgstr "Nasceu em {name}{:o}"
 
 msgid "切磋胜过{name}"
-msgstr "Venceu {name}{:o} em um duelo amistoso"
+msgstr "Venceu {name}{:o} em um treino"
 
 msgid "击败{name}"
 msgstr "Derrotou {name}{:o}"
@@ -15043,7 +15043,7 @@ msgid "这个技能不能当成这种用途。"
 msgstr "Esta habilidade não pode ser usada assim."
 
 msgid "你改用另一种法术系，灵力必须重新锻炼。"
-msgstr "Você passou para outra escola de misticismo; seu Energia espiritual precisa ser cultivado de novo."
+msgstr "Você passou para outra escola de misticismo; sua Energia espiritual precisa ser cultivada de novo."
 
 msgid "你改用另一种内功，内力必须重新锻炼。"
 msgstr "Você passou para outro neigong; sua Força interior precisa ser cultivada de novo."
@@ -15136,13 +15136,13 @@ msgid "你的魔力提高了！"
 msgstr "Sua magia aumentou!"
 
 msgid "战斗也是一种修行，但不能和灵力的修行同时进行。"
-msgstr "Lutar também é uma forma de cultivo, mas não dá para fazer isso enquanto você cultiva o Energia espiritual."
+msgstr "Lutar também é uma forma de cultivo, mas não dá para fazer isso enquanto você cultiva a Energia espiritual."
 
 msgid "你最少要花 10 点精力才能进行修行。"
 msgstr "Você precisa gastar pelo menos 10 pontos de Essência para cultivar."
 
 msgid "你现在精力不足，无法修行灵力！"
-msgstr "Sua Essência está baixa demais: você não consegue cultivar o Energia espiritual!"
+msgstr "Sua Essência está baixa demais: você não consegue cultivar a Energia espiritual!"
 
 msgid "你现在精神状况太差了，无法控制自己的心灵！"
 msgstr "Seu Espírito está baixo demais: você não consegue controlar a própria mente!"
@@ -15157,7 +15157,7 @@ msgid "但是你一不小心却睡著了。"
 msgstr "Mas, por descuido, você pega no sono."
 
 msgid "你忽然觉得一阵天旋地转，头涨得像要裂开一样，似乎灵力的修行已经遇到了瓶颈。"
-msgstr "De repente o mundo gira e a cabeça parece prestes a rachar: o cultivo do seu Energia espiritual parece ter chegado a um limite."
+msgstr "De repente o mundo gira e a cabeça parece prestes a rachar: o cultivo da sua Energia espiritual parece ter chegado a um limite."
 
 msgid "你的道行提高了！"
 msgstr "Seu domínio do Dao aumentou!"
@@ -22285,7 +22285,7 @@ msgid "攻击"
 msgstr "Atacar"
 
 msgid "切磋"
-msgstr "Duelo amistoso"
+msgstr "Treino"
 
 msgid "( $N{status} )"
 msgstr "( $N{:o}{status} )"
@@ -41488,7 +41488,7 @@ msgid "她没有答，叫你先去和院里的何守拙过几招。"
 msgstr "Ela não respondeu; mandou você primeiro trocar uns golpes com He Shouzhuo, no pátio."
 
 msgid "和何守拙切磋一场，点到为止。他从不先出手——看看封山的剑等得到几个空子。"
-msgstr "Ter um duelo amistoso com He Shouzhuo, parando no toque. Ele nunca ataca primeiro: ver quantas brechas a espada da Montanha Vazia consegue esperando."
+msgstr "Treinar com He Shouzhuo, parando no toque. Ele nunca ataca primeiro: ver quantas brechas a espada da Montanha Vazia consegue esperando."
 
 msgid "何守拙守了三十年门。他不先出剑，你就没有空子可等。"
 msgstr "He Shouzhuo guardou o portão por trinta anos. Se ele não ataca primeiro, você não tem brecha para esperar."
