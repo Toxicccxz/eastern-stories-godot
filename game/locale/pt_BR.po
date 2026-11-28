@@ -6767,7 +6767,7 @@ msgid "缩放"
 msgstr "Zoom"
 
 msgid "回到所在"
-msgstr "Sua posição"
+msgstr "Voltar a você"
 
 msgid "全图"
 msgstr "Mapa todo"
@@ -6788,7 +6788,7 @@ msgid "{word}  {who} · {place}"
 msgstr "{word}  {who} · {place}"
 
 msgid "取消指路"
-msgstr "Cancelar guia"
+msgstr "Cancelar rota"
 
 msgid "还有 {count} 处没进去过"
 msgstr "Lugares ainda não visitados: {count}"
@@ -6815,10 +6815,10 @@ msgid "从这里认不得路。"
 msgstr "Daqui você não conhece o caminho."
 
 msgid "已指路：{place}"
-msgstr "Guia ativado: {place}{:0}"
+msgstr "Rota ativada: {place}{:0}"
 
 msgid "已取消指路。"
-msgstr "Guia cancelado."
+msgstr "Rota cancelada."
 
 msgid "标"
 msgstr "O"
@@ -6911,7 +6911,7 @@ msgid "施展「游识神通」：去到一个你见过的人身边，可以跨�
 msgstr "Usar \"Sentido errante\": você vai até alguém que já conheceu, mesmo em outro mapa (75 de Energia espiritual, 30 de Essência). Quanto mais forte a Energia espiritual da pessoa, mais difícil senti-la."
 
 msgid "施展「阴阳眼」：看得见鬼魂，持续的秒数等于你的有效咒文等级（30 法力、5 神）。"
-msgstr "Usar \"Visão espectral\": você vê fantasmas por tantos segundos quanto o seu nível efetivo de Feitiços (30 de Poder arcano, 5 de Espírito)."
+msgstr "Usar \"Visão espectral\": você vê fantasmas por tantos segundos quanto o seu nível efetivo de Encantamentos (30 de Poder arcano, 5 de Espírito)."
 
 msgid "技能"
 msgstr "Habilidades"
@@ -7166,7 +7166,7 @@ msgid "化去{corpse}"
 msgstr "Dissolver {corpse}{:o}"
 
 msgid "画追魂符：{name}"
-msgstr "Desenhar talismã: {name}{:0}"
+msgstr "Desenhar talismã caça-almas: {name}{:0}"
 
 msgid "贴到{zombie}身上"
 msgstr "Colar em {zombie}{:o}"
@@ -7289,7 +7289,7 @@ msgid "  · {row}"
 msgstr "  · {row}"
 
 msgid "{master}是你的师父。攻击就是生死相搏；若你亲手杀了{master}，便是弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要攻击吗？"
-msgstr "{master}{:o} é seu Shifu. Atacar é uma luta até a morte; se você matar {master}{:o} com as próprias mãos, será o assassinato do seu Shifu, e isso conta como trair a sua escola:\n· Expulsão de {family}{:o}: você perde escola, Shifu e título.\n· Sua reputação volta a zero (agora é {score}).\n· Suas traições à escola passam a ser {next}.\nTem certeza de que quer atacar?"
+msgstr "{master}{:o} é seu Shifu. Atacar é uma luta até a morte; se você matar {master}{:o} com as próprias mãos, será o assassinato do seu Shifu, e isso conta como trair a sua escola:\n· Expulsão de {family}{:o}: você perde escola, Shifu e título.\n· Sua Reputação volta a zero (agora é {score}).\n· Suas traições à escola passam a ser {next}.\nTem certeza de que quer atacar?"
 
 msgid "消息记录"
 msgstr "Registro de mensagens"
@@ -7313,7 +7313,7 @@ msgid "运功「疗伤他人」：把真气输入对方体内，为他疗伤（�
 msgstr "Canalizar \"Curar alguém\": você derrama seu Qi verdadeiro no corpo do outro para curá-lo (150 de Força interior; sua Força interior deve superar o máximo em pelo menos 150; nenhum dos dois pode estar em combate)."
 
 msgid "施展「心识神通」：救醒昏迷的人（50 灵力、30 神）。最大灵力不过 101 必定失败，失败时你自己会昏倒。"
-msgstr "Usar \"Sentido do coração\": desperta quem está inconsciente (50 de Energia espiritual, 30 de Espírito). Com Energia espiritual máxima de 101 ou menos, sempre falha, e ao falhar você mesmo desmaia."
+msgstr "Usar \"Sentido do coração\": desperta quem está inconsciente (50 de Energia espiritual, 30 de Espírito). Com Energia espiritual máxima de 101 ou menos, sempre falha, e ao falhar {jogador:você mesmo|você mesma} desmaia."
 
 msgid "心识神通要耗去 {atman} 点灵力和 {sen} 点神。能否救醒{npc}，全看你的灵力修为（最大灵力 {max_atman}）：{odds}\n确定要施展吗？"
 msgstr "O Sentido do coração custa {atman} de Energia espiritual e {sen} de Espírito. Conseguir reanimar {npc}{:o} depende por inteiro da sua Energia espiritual (máxima {max_atman}): {odds}\nTem certeza de que quer usá-lo?"
@@ -7328,7 +7328,7 @@ msgid "你现在的神撑不住这一下，无论成败都会当场昏过去。"
 msgstr "Seu Espírito atual não aguenta isso: dê certo ou não, você desmaia na hora."
 
 msgid "偷窃：从对方身上偷一样东西（三秒后见分晓）。失手被发现，对方会和你拼命，城里的巡捕也会把你当贼抓。"
-msgstr "Roubar: tira uma coisa do outro (você saberá em três segundos). Se te descobrirem, a vítima luta com você até a morte, e os guardas da cidade te tratam como ladrão."
+msgstr "Roubar: tira uma coisa do outro (você saberá em três segundos). Se te descobrirem, a vítima luta com você até a morte, e os guardas da cidade te tratam como {jogador:ladrão|ladra}."
 
 msgid "行贿：塞钱给押着你的巡捕，钱给够了他就放你走；给少了反倒罪加一等。"
 msgstr "Subornar: passa dinheiro ao guarda que te leva preso. Se for o bastante, ele te solta; se for pouco, só piora a sua situação."
@@ -7391,7 +7391,7 @@ msgid "你伤得太重了：画符要咬破手指流血，这一点血就会要�
 msgstr "Seus ferimentos são graves demais: para desenhar o talismã é preciso morder o dedo e sangrar, e essa gota de sangue te mataria.\nTem certeza de que quer desenhar?"
 
 msgid "{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要贴上这道符吗？"
-msgstr "{master}{:o} é seu Shifu. {zombie}{:o} vai caçar {master}{:o}; se conseguir, a morte conta como obra sua: é matar o seu Shifu e trair a sua escola:\n· Expulsão de {family}{:o}: você perde escola, Shifu e título.\n· Sua reputação volta a zero (agora é {score}).\n· Suas traições à escola passam a ser {next}.\nTem certeza de que quer colar este talismã?"
+msgstr "{master}{:o} é seu Shifu. {zombie}{:o} vai caçar {master}{:o}; se conseguir, a morte conta como obra sua: é matar o seu Shifu e trair a sua escola:\n· Expulsão de {family}{:o}: você perde escola, Shifu e título.\n· Sua Reputação volta a zero (agora é {score}).\n· Suas traições à escola passam a ser {next}.\nTem certeza de que quer colar este talismã?"
 
 msgid "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
 msgstr "{item}{:o} está equipado. Tem certeza de que quer dar isso a {npc}{:o}? O que se dá, em geral, não volta."
@@ -7400,7 +7400,7 @@ msgid "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了�
 msgstr "Tem certeza de que quer dar {money} a {npc}{:o}? O dinheiro dado, em geral, não volta."
 
 msgid "{npc}收下{item}，就会当场收你为徒。\n{warning}"
-msgstr "Assim que {npc}{:o} aceitar {item}{:o}, você passa a ser discípulo, na hora.\n{warning}"
+msgstr "Assim que {npc}{:o} aceitar {item}{:o}, você passa a ser {jogador:discípulo|discípula}, na hora.\n{warning}"
 
 msgid "{item}不值钱，丢在地上就没人会注意它——丢下就再也找不回来了。\n确定要丢下吗？"
 msgstr "{item}{:o} não vale nada. Se você largar isso no chão, ninguém vai reparar, e não há como recuperar.\nTem certeza de que quer largar?"
@@ -7472,7 +7472,7 @@ msgid "请安"
 msgstr "Prestar respeitos"
 
 msgid "拜师"
-msgstr "Ser discípulo"
+msgstr "Ser {jogador:discípulo|discípula}"
 
 msgid "给予"
 msgstr "Dar"
@@ -7484,7 +7484,7 @@ msgid "确定{action}吗？"
 msgstr "{action}: tem certeza?"
 
 msgid "确定要拜{npc}为师吗？"
-msgstr "Tem certeza de que quer ser discípulo de {npc}{:o}?"
+msgstr "Tem certeza de que quer ser {jogador:discípulo|discípula} de {npc}{:o}?"
 
 msgid "收徒条件："
 msgstr "Requisitos:"
@@ -7505,16 +7505,16 @@ msgid "不收徒。"
 msgstr "Não aceita discípulos."
 
 msgid "拜师条件都已满足（详见拜师）。"
-msgstr "Você cumpre todos os requisitos (veja Ser discípulo)."
+msgstr "Você cumpre todos os requisitos (veja Ser {jogador:discípulo|discípula})."
 
 msgid "拜师条件还差 {missing} 项（详见拜师）。"
-msgstr "Requisitos não cumpridos: {missing} (veja Ser discípulo)."
+msgstr "Requisitos não cumpridos: {missing} (veja Ser {jogador:discípulo|discípula})."
 
 msgid "确定向{npc}发誓恪守门规吗？"
 msgstr "Tem certeza de que quer jurar a {npc}{:o} que seguirá as regras da escola?"
 
 msgid "确定取消拜师请求吗？"
-msgstr "Tem certeza de que quer retirar o seu pedido para ser discípulo?"
+msgstr "Tem certeza de que quer retirar o seu pedido para ser {jogador:discípulo|discípula}?"
 
 msgid "确定取消"
 msgstr "Retirar"
