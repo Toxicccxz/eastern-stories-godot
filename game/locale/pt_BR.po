@@ -33658,7 +33658,7 @@ msgid "这位$RESPECT要不要买个西瓜解解渴？\n"
 msgstr "Quer comprar uma melancia para matar a sede, $RESPECT?\n"
 
 msgid "你要不还我瓜钱，咱俩就没完！\n"
-msgstr "Se não me pagar as melancias, a gente não termina por aqui!\n"
+msgstr "Se não me pagar a melancia, a gente não termina por aqui!\n"
 
 msgid "还瓜钱"
 msgstr "Pagar pelo melão"
@@ -35029,7 +35029,7 @@ msgid "黑石砌成的坛，齐胸高，坛面磨得发亮。坛上烧着一团�
 msgstr "Um altar de pedra negra, na altura do peito, com o tampo polido até brilhar. Sobre ele queima uma chama negra, sem calor e sem som; de perto, parece haver algo se mexendo no coração dela. Nas frestas da base do altar estão enfiados pedaços de osso.\n"
 
 msgid "空书架。灰尘上留着一排书脊的印子，最宽的那一道在正中。架子最底下掉着一页烧了一半的纸，只剩「逆灵」两个字。\n"
-msgstr "Uma estante vazia. Na poeira ficou a marca de uma fileira de lombadas, e a mais larga está bem no meio. Na prateleira mais baixa caiu uma folha queimada pela metade, onde só restam as duas primeiras palavras do título da Escritura Negra.\n"
+msgstr "Uma estante vazia. Na poeira ficou a marca de uma fileira de lombadas, e a mais larga está bem no meio. Na prateleira mais baixa caiu uma folha queimada pela metade, onde só restam os dois caracteres \"Desafiar o espírito\".\n"
 
 msgid "一只黑漆木匣，开着。匣里垫着黑绒，绒上压出一个长条形的印子，像是放过一卷书——或者一把剑。\n"
 msgstr "Uma caixa de madeira laqueada de negro, aberta. Dentro, um forro de veludo negro, com uma marca alongada impressa nele, como se ali tivesse estado um rolo de livro — ou uma espada.\n"
@@ -35041,7 +35041,7 @@ msgid "门后还落着一道门闩，从里面闩上了。门缝里漏出一线�
 msgstr "Atrás da porta ainda há uma tranca posta, passada por dentro. Pela fresta vaza um fio de luz azul, e alguém está falando."
 
 msgid "狱卒道士一步跨过来，拦在铁栅门前：「新关的，管事吩咐过，谁也不许近。」"
-msgstr "O taoísta carcereiro dá um passo largo e se planta diante da grade de ferro: \"Os recém-chegados. O intendente mandou: ninguém chega perto.\""
+msgstr "O taoísta carcereiro dá um passo largo e se planta diante da grade de ferro: \"Os recém-encerrados. O intendente mandou: ninguém chega perto.\""
 
 msgid "一顶黑绢裹的道冠，冠前镶一枚乌黑的铁片，铁片上錾着一个看不懂的字。逆灵宫的道士人人戴它——戴上它，他们也把你当自己人。\n"
 msgstr "Um gorro de seda negra de taoísta, com uma placa de ferro escuro engastada na frente; na placa está cinzelado um caractere que você não consegue ler. Todos os taoístas do Palácio Negro o usam: com ele na cabeça, eles também te tomam por um dos seus.\n"
@@ -39160,7 +39160,7 @@ msgid "这个人看起来十分和蔼可亲，一双眼睛炯炯有神。\n"
 msgstr "Este homem parece afável e bondoso, de olhos vivos e brilhantes.\n"
 
 msgid "这是一只天邪派的灵兽「天邪虎」，火红的毛皮上有著如白银般的\n白纹，湛蓝色的眼珠中散发出妖异的光芒。\n"
-msgstr "Um Tigre rebelde, fera espiritual da Escola Rebelde. O pelo vermelho-fogo é riscado de listras brancas como prata, e nos olhos de um azul profundo brilha uma luz sinistra.\n"
+msgstr "Um Tigre Rebelde, fera espiritual da Escola Rebelde. O pelo vermelho-fogo é riscado de listras brancas como prata, e nos olhos de um azul profundo brilha uma luz sinistra.\n"
 
 msgid "后腿"
 msgstr "pata traseira"
