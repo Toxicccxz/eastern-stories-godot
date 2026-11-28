@@ -9136,7 +9136,7 @@ msgid "死斗"
 msgstr "Duelo mortal"
 
 msgid "拆招"
-msgstr "Treino"
+msgstr "Prática de golpes"
 
 msgid "交手"
 msgstr "Confronto"
@@ -10120,7 +10120,7 @@ msgid "木人是武馆拆招用的，只能切磋，打坏了还得赔。"
 msgstr "Os bonecos de madeira são para a prática de golpes no salão: só servem para treinos, e quem os quebra tem de pagar."
 
 msgid "你身上带着伤，先养好了再来拆招。"
-msgstr "Você está com ferimentos: cure-se primeiro e volte para o treino."
+msgstr "Você está com ferimentos: cure-se primeiro e volte para a prática de golpes."
 
 msgid "你是别派的弟子，我不便指点。"
 msgstr "Você é de outra escola; não me cabe te instruir."
