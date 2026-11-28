@@ -40226,3 +40226,987 @@ msgstr "Aliança Marcial"
 
 msgid "春秋水色斋"
 msgstr "Estúdio das Águas da Primavera e do Outono"
+
+msgid "一个手工制造的陶壶, 看起来年代久远.\n"
+msgstr "Um jarro de barro feito à mão, de aparência muito antiga.\n"
+
+msgid "米酒"
+msgstr "Vinho de arroz"
+
+msgid "这是一把淡青色的的长剑，看上去锋利异常。\n"
+msgstr "Uma espada longa de um azul-esverdeado claro, de aspecto extraordinariamente afiado.\n"
+
+msgid "这是一捆粗麻绳. 你可以用它来上吊.\n\n"
+msgstr "Um rolo de corda grossa de cânhamo. Você pode usá-la para se enforcar.\n\n"
+
+msgid "上面刻著一些字:\n行气, 深则蓄, 蓄则伸, 伸则下, 下则定, 定则固, 固则萌, 萌则长, 长则退,\n退则天. 天几舂在上, 地几舂在下, 顺则生, 逆则死.\n"
+msgstr "Há algumas letras gravadas nele:\nFazer circular o Qi: fundo, então se acumula; acumulado, então se estende; estendido, então desce; descido, então se firma; firmado, então brota; brotado, então cresce; crescido, então recua;\nrecuado, então alcança o Céu. O Céu pulsa em cima, a Terra pulsa embaixo; quem segue, vive; quem contraria, morre.\n"
+
+msgid "沈记商行掌柜"
+msgstr "Lojista do Comércio Shen"
+
+msgid "你真贪心耶... "
+msgstr "Que ganância a sua..."
+
+msgid "这样东西... 刚刚有人来要过了."
+msgstr "Esse artigo... alguém acabou de vir pedir."
+
+msgid "一份只要 10 两银子, 保证有效喔.\n"
+msgstr "Um pacote custa só 10 taéis de prata, e garanto que funciona!\n"
+
+msgid "老板塞了一包蒙汗药给你。\n"
+msgstr "O dono da loja enfia um pacote de pó sonífero na sua mão.\n"
+
+msgid "想骗我啊?\n"
+msgstr "Está querendo me enganar?\n"
+
+msgid "我不知道你给我钱干嘛, 不过谢啦!"
+msgstr "Não sei por que está me dando dinheiro, mas obrigado!"
+
+msgid "柜子上一堆冥纸和香烛等, 标价 10 文钱. 墙上挂著几把竹扫帚,\n每把 50 文钱. 柜台上摆著一块木牌, 上面写著:\n棺材: 时价. 没看到的东西问一下掌柜的, 我们应该都有.\n"
+msgstr "Sobre o armário há uma pilha de papel-moeda para os mortos, incenso e velas, a 10 wen. Na parede, algumas vassouras de bambu, a 50 wen cada uma. Sobre o balcão, uma tabuleta de madeira onde está escrito:\nCaixões: preço do dia. O que não vir, pergunte ao dono da loja: devemos ter.\n"
+
+msgid "我不卖东西给陌生人!"
+msgstr "Não vendo para estranhos!"
+
+msgid "没见识过我的菜刀神功是吧, 接招!"
+msgstr "Nunca viu a minha Arte Divina do Cutelo de Cozinha, é? Tome!"
+
+msgid "死小孩, 专们欺负老人家!"
+msgstr "Pirralho, só sabe abusar de uma velha!"
+
+msgid "以大欺小啊你..."
+msgstr "Abusar de quem é menor, é? Que vergonha..."
+
+msgid "妇人说道：我说啊, 管管你们家那小鬼啊.\n"
+msgstr "A mulher diz: \"Escute, vá cuidar do pirralho da sua casa.\"\n"
+
+msgid "妇人说道：明知山洞那边闹鬼, 没事带著我们家那两个跑过去.\n"
+msgstr "A mulher diz: \"Todo mundo sabe que aquela caverna é assombrada, e você vai levando correndo esses dois nossos sem mais nem menos.\"\n"
+
+msgid "妇人打开锅盖闻了一下.\n"
+msgstr "A mulher levanta a tampa da panela e cheira.\n"
+
+msgid "妇人朝门外看了看.\n"
+msgstr "A mulher olha para fora da porta.\n"
+
+msgid "喊道: 老公我来帮你了!"
+msgstr " grita: \"Meu velho, estou indo te ajudar!\""
+
+msgid "叫道: 好啊,敢砍我老婆, 去死吧!"
+msgstr " grita: \"Ora, tem coragem de golpear a minha mulher? Morra!\""
+
+msgid "嗯...... 你是说那个从古墓盗出来的玉佩?\n"
+msgstr "Hum... Está falando daquele pingente de jade que saquearam de um túmulo antigo?\n"
+
+msgid "应该蛮珍贵的, 可是有点来路不明...\n"
+msgstr "Deve valer bastante, mas a procedência é duvidosa...\n"
+
+msgid "我送给一个年轻人了, 不过听说他得此玉佩后性情大变.\n"
+msgstr "Eu o dei a um rapaz, mas dizem que, depois que o recebeu, o temperamento dele mudou por completo.\n"
+
+msgid "看来此物不祥... \n"
+msgstr "Parece que essa coisa é de mau agouro...\n"
+
+msgid "你要找他吗? 有人说他现在以酒度日, 我也不知他的下落.\n"
+msgstr "Está procurando por ele? Dizem que agora passa os dias bebendo; também não sei onde anda.\n"
+
+msgid "造孽啊........\n"
+msgstr "Que pecado...\n"
+
+msgid "北边那个山洞，寒气没了。洞口不知谁摆了一圈石头，阿牛钻进去转了一圈，又从原路转出来了。"
+msgstr "Aquela caverna ao norte: o frio sumiu. Alguém pôs um círculo de pedras na entrada, e Aniu entrou, deu uma volta e saiu pelo mesmo caminho."
+
+msgid "望着北边的山。"
+msgstr " contempla as montanhas ao norte."
+
+msgid "村北的狗，夜里也不叫了。"
+msgstr "E os cães do norte da aldeia também já não latem à noite."
+
+msgid "后山下来过一个拿杖的……和尚。在洞口念了一夜的经，第二天一早往南去了。"
+msgstr "Desceu da montanha dos fundos um homem com um cajado... um monge. Passou a noite recitando sutras na boca da caverna e, de manhã cedo, seguiu para o sul."
+
+msgid "国之将亡，必有妖孽。……有妖孽，也有念经的人。"
+msgstr "Quando um reino está para cair, hão de surgir monstros. ...Há monstros, e há também quem recite sutras."
+
+msgid "国之将亡，必有妖孽。"
+msgstr "Quando um reino está para cair, hão de surgir monstros."
+
+msgid "望着北边的山，摇了摇头。"
+msgstr " balança a cabeça, olhando as montanhas ao norte."
+
+msgid "……这回，是真的出来了。"
+msgstr "...Desta vez, saiu de verdade."
+
+msgid "听你说孩子回来了，长长地出了一口气。"
+msgstr " ouve que as crianças voltaram e solta um longo suspiro."
+
+msgid "回来了就好，回来了就好……"
+msgstr "Que bom que voltaram, que bom que voltaram..."
+
+msgid "拄着拐杖站起来，望着北边的山。"
+msgstr " se levanta apoiado na bengala e olha as montanhas ao norte."
+
+msgid "那洞里的冷，不是人间的冷。我拴那道门的时候就知道。"
+msgstr "O frio daquela caverna não é frio deste mundo. Eu soube quando acorrentei aquela porta."
+
+msgid "国之将亡……"
+msgstr "Quando um reino está para cair..."
+
+msgid "顿了很久。"
+msgstr " faz uma longa pausa."
+
+msgid "……必有妖孽。"
+msgstr "...hão de surgir monstros."
+
+msgid "我活了九十五年，这句话从来不敢说完。"
+msgstr "Vivi noventa e cinco anos e nunca tive coragem de terminar essa frase."
+
+msgid "看见你身后的阿牛，拐杖在地上顿了一下。"
+msgstr " vê Aniu atrás de você, e a bengala bate uma vez no chão."
+
+msgid "快，快带他去北边路口，他娘在那儿喊了一天了。"
+msgstr "Rápido, rápido, leve-o ao cruzamento do norte; a mãe dele está gritando por ele lá há um dia inteiro."
+
+msgid "阿牛和小翠还在洞里。开了那道木门往里走——洞里有东西，小心。"
+msgstr "Aniu e Xiaocui ainda estão na caverna. Abra aquela porta de madeira e entre... lá dentro tem alguma coisa, cuidado."
+
+msgid "叹了一口气。"
+msgstr " suspira."
+
+msgid "北边那个山洞？那道门是我拴的，拴了好些年了。洞里冷，冷到骨头缝里——绝对不可以打开。"
+msgstr "Aquela caverna ao norte? Aquela porta fui eu que acorrentei, há muitos anos. Lá dentro faz frio, um frio que cala fundo nos ossos. Jamais deve ser aberta."
+
+msgid "可妇人家的阿牛，背着他妹妹，又钻进去了。门上那条铁链……早就锈断了。"
+msgstr "Mas Aniu, o filho daquela mulher, levando a irmãzinha nas costas, entrou de novo. A corrente de ferro da porta... enferrujou e partiu faz tempo."
+
+msgid "这阵子夜里，洞口那边有声音。不是风。"
+msgstr "Nestas noites há sons na boca da caverna. Não é o vento."
+
+msgid "你要是去，就开了那道木门往里走。把孩子带出来。"
+msgstr "Se for lá, abra a porta de madeira e entre. Traga as crianças para fora."
+
+msgid "北边那个山洞？那道门是我拴的。洞里冷，绝对不可以打开。"
+msgstr "Aquela caverna ao norte? Aquela porta fui eu que acorrentei. Lá dentro faz frio. Jamais deve ser aberta."
+
+msgid "村长说道：国之将亡.....\n"
+msgstr "O chefe da aldeia diz: \"Quando um reino está para cair...\"\n"
+
+msgid "必有妖孽"
+msgstr "hão de surgir monstros"
+
+msgid "对呀.. 你就是妖孽... "
+msgstr "Isso mesmo... o monstro é você..."
+
+msgid "小孩很好奇地往门缝里看去。\n"
+msgstr "A criança espia curiosa pela fresta da porta.\n"
+
+msgid "小孩说道：村长说这道门绝对不可以打开喔!\n"
+msgstr "A criança diz: \"O chefe da aldeia disse que essa porta jamais deve ser aberta!\"\n"
+
+msgid "小孩说道：不知道里面是什么...\n"
+msgstr "A criança diz: \"Queria saber o que tem lá dentro...\"\n"
+
+msgid "这是一只体型相当大的蜘蛛, 看来有点吓人.\n\n"
+msgstr "Uma aranha de tamanho considerável, de aspecto um tanto assustador.\n\n"
+
+msgid "这是一条平整的石板路, 上面隐约可以看见两道很深的车轮, 看来\n是用来作运输用途的道路. 往西是通往山下的路, 往东你可以看到一些\n建筑物, 像是村庄之类的. 南边看去是一片矮树丛.\n"
+msgstr "Uma estrada lisa de lajes de pedra, onde se distinguem dois sulcos fundos de rodas; deve ser uma via de transporte. Para o oeste, ela desce a montanha; a leste se veem algumas construções, algo como uma aldeia. Ao sul, uma faixa de mato baixo.\n"
+
+msgid "这是一条平整的石板路, 上面隐约可以看见两道很深的车轮, 看来\n是用来作运输用途的道路. 往北是一条较小的碎石路通往村内. 东边有\n一栋石屋, 旁边的空地堆了一些石料. 南边看去是一片矮树丛. 石板路\n往西边延伸.\n"
+msgstr "Uma estrada lisa de lajes de pedra, onde se distinguem dois sulcos fundos de rodas; deve ser uma via de transporte. Ao norte, uma estrada mais estreita, de cascalho, leva para dentro da aldeia. A leste há uma casa de pedra, e no terreno vazio ao lado, uma pilha de blocos de pedra. Ao sul, uma faixa de mato baixo. A estrada de lajes segue para o oeste.\n"
+
+msgid "这里是采石场在村口的工作站，一栋小小的木屋立在东边，旁边是一\n条上山的斜坡。路旁有一口井。空地上停著几辆载满石料的车。往西是一\n条铺著大石板的路，一路往山下延伸过去。\n"
+msgstr "Este é o posto de trabalho da pedreira, na entrada da aldeia. Uma pequena cabana de madeira fica a leste, e ao lado dela uma ladeira sobe a montanha. Junto à estrada há um poço. No terreno vazio estão paradas algumas carroças carregadas de pedra. Para o oeste, uma estrada pavimentada de lajes grandes desce toda a montanha.\n"
+
+msgid "你走在一条不算宽的碎石路上, 往北是一个交叉路口. 东边有一栋\n木造建筑, 看来相当的破旧, 一片快要散掉似的木牌悬挂在门口, 上面\n的字迹已经不是很清楚了. 往南过去是一条铺著石板的大路.\n"
+msgstr "Você caminha por uma estrada de cascalho, não muito larga; ao norte há um cruzamento. A leste fica uma construção de madeira bastante decrépita, com uma tabuleta prestes a se desfazer pendurada na porta, os caracteres já quase apagados. Ao sul, uma estrada larga pavimentada de lajes.\n"
+
+msgid "这里是青石村唯一的商店 -- 沈记商行, 在这里村民可以购买\n日常生活用品, 工具, 甚至于棺材. 真可以说是一间「杂」货店.\n屋内相当的拥挤, 到处都是箱子和杂物.\n"
+msgstr "Esta é a única loja da Aldeia Pedra Azul, o Comércio Shen, onde os aldeões compram artigos do dia a dia, ferramentas e até caixões. Pode-se dizer que é, em todos os sentidos, uma loja de \"variedades\". Lá dentro é bem apertado, com caixas e tralhas por toda parte.\n"
+
+msgid "你来到一条三叉路口, 往东看去是另一条更小更窄的黄土路, 主要\n道路是南北向的, 西边有一栋民宅.\n"
+msgstr "Você chega a um entroncamento de três caminhos. Para o leste, outra estrada de terra amarela, menor e mais estreita; a via principal vai de norte a sul, e a oeste há uma casa.\n"
+
+msgid "这是一间简陋的民宅，阴暗窄小的屋内散著一地的柴火和各式工具。\n屋角的石炉上闪著微弱的火光，一锅不知是什么的东西正冒出阵阵香味。\n另一角放著一张简陋的木床和几张椅子。\n"
+msgstr "Uma casa humilde, escura e apertada, com lenha e ferramentas de todo tipo espalhadas pelo chão. Num canto, sobre um fogão de pedra, brilha uma chama fraca, e uma panela de algo que você não sabe o que é solta um cheiro bom. No outro canto, uma cama de madeira tosca e algumas cadeiras.\n"
+
+msgid "这是一条小小的巷子，地上铺著碎石和黄土。南北各有一栋建筑，不\n过南方的屋子出口不在这边。往东可以看到一个小小的广场，往西则是一\n个三岔路口。\n"
+msgstr "Um beco estreito, com o chão coberto de cascalho e terra amarela. Ao norte e ao sul há uma construção, embora a porta da casa do sul não dê para este lado. A leste se vê uma pequena praça; a oeste fica um entroncamento de três caminhos.\n"
+
+msgid "这是一间普通的民宅，矮小的屋内整齐地堆著一排排的石板，墙上则\n挂著各式各样的雕刻，切割的工具。屋角放著各式的成品及半成品如石桌\n、石椅、墓碑等。\n"
+msgstr "Uma casa comum. Dentro, no cômodo baixo, lajes de pedra estão empilhadas em fileiras bem ordenadas, e nas paredes pendem entalhes e ferramentas de corte de todo tipo. Num canto estão peças prontas e inacabadas, como mesas de pedra, cadeiras de pedra, lápides e outras.\n"
+
+msgid "这是一个小小的广场，地上铺著切割整齐的大石块。广场周围有几间\n屋子，其中以正南边那栋木屋最为特别。往西是一条窄窄的小巷子，往东\n则是连接著采石场的空地。中央有一棵大榕树，像一座凉亭般地立在广场\n上。\n"
+msgstr "Uma pequena praça, com o chão pavimentado de grandes blocos de pedra bem cortados. Em volta há algumas casas, e a mais singular é a de madeira bem ao sul. A oeste fica um beco estreito; a leste, o terreno vazio que dá para a pedreira. No centro, uma grande figueira-de-bengala se ergue sobre a praça como um pavilhão.\n"
+
+msgid "这是一间简陋的民宅, 屋顶隐约还可以看到一些破洞. 墙角堆\n著些柴火, 墙壁上还可以看到烟熏的痕迹. 除了一些简陋的家具外\n屋内空空荡荡的.\n"
+msgstr "Uma casa humilde. No telhado se veem alguns buracos. Há lenha empilhada num canto, e as paredes têm marcas de fumaça. Além de uns poucos móveis rústicos, o interior está vazio e desolado.\n"
+
+msgid "这是一间看起来有点不一样的民宅，屋子的中央有一个石制的炉子，\n上面生著一堆火，熊熊的火光把屋内照得像白天似的光亮。墙上挂著几幅\n字画，一边还放了一个木制的书架，上面整齐地排著一些旧得不能再旧的\n书。炉子的旁边摆了一张手工精美的石椅，看来像个很重要的位置。\n"
+msgstr "Uma casa que parece um pouco diferente. No centro do cômodo há um fogão de pedra com o fogo aceso, cujas chamas rugentes iluminam tudo como se fosse dia. Nas paredes pendem algumas pinturas e caligrafias, e de um lado há uma estante de madeira com livros velhíssimos, bem arrumados. Ao lado do fogão há uma cadeira de pedra de fino acabamento, que parece um lugar importante.\n"
+
+msgid "这是一片黄土空地，四周堆著一些切割整齐的大石块和碎石。往东看\n去就是采石场，高耸的石璧经过多年的采挖已经看不出原来的模样了。往\n南看去是一些矮小的房舍和储存工具的地方，往西是村内的广场，往北靠\n近广场的地方有一栋简陋的民宅。\n"
+msgstr "Um terreno vazio de terra amarela, com grandes blocos de pedra bem cortados e cascalho empilhados em volta. A leste fica a pedreira, cujos paredões altos, depois de tantos anos de extração, já não parecem o que eram. Ao sul há algumas casinhas baixas e um lugar onde se guardam ferramentas; a oeste fica a praça da aldeia, e ao norte, perto da praça, há uma casa humilde.\n"
+
+msgid "这是一间民宅, 屋内除了一张石床外其他一无所有. 昏暗的屋\n内看来死气沉沉的, 似乎这屋子的主人很久没回来了. 屋角有一个\n形状很奇怪的蜘蛛网.\n"
+msgstr "Uma casa onde, além de uma cama de pedra, não há nada. O interior na penumbra parece sem vida, como se o dono estivesse fora há muito tempo. Num canto pende uma teia de aranha de forma muito estranha.\n"
+
+msgid "这里是采石场的工作站，几间矮小的房舍延著山壁建造。靠南的山边\n有一间马房，旁边还堆著山一般的乾草饲料，几辆运输用的车子停在旁边\n。往北看去是采石场的空地往南是一条由石板铺成的小斜坡，通往村前的\n工作站。西边不远处有一栋看来相当特别的房舍。\n"
+msgstr "Este é o posto de trabalho da pedreira, com algumas casinhas baixas construídas ao longo da parede da montanha. Ao sul, junto à montanha, há uma cocheira, e ao lado dela um monte de feno do tamanho de um morro; algumas carroças de transporte estão paradas por perto. Ao norte se vê o terreno vazio da pedreira; ao sul, uma pequena ladeira de lajes leva ao posto da frente da aldeia. Não longe, a oeste, há uma casa de aspecto bastante peculiar.\n"
+
+msgid "小路到了这里往北就算是出了村子. 西边有一间小小的土地庙, 东\n边是一栋民宅似的建筑, 不过入口不在这边. 往南是一个交叉路口.\n"
+msgstr "Daqui para o norte, a trilha já sai da aldeia. A oeste há um pequeno santuário do Deus da Terra; a leste, uma construção que parece uma casa, embora a entrada não dê para este lado. Ao sul há um cruzamento.\n"
+
+msgid "这是一间小小的土地庙, 庙内相当的暗, 一股湿气混上焚烧冥\n纸的味道使得屋内的的气味显得很奇特. 供桌上零星地放个一些水\n果, 一尊木刻的土地公像孤独地立在前面. 庙外的小空地边有一个\n简陋的金纸亭.\n"
+msgstr "Um pequeno santuário do Deus da Terra, bem escuro lá dentro. A umidade misturada ao cheiro de papel-moeda queimado dá ao ar um odor estranho. Sobre a mesa de oferendas há algumas frutas esparsas, e uma imagem de madeira do Deus da Terra se ergue solitária diante dela. Na pequena clareira fora do santuário há um modesto queimador de papel dourado.\n"
+
+msgid "一条看来相当荒凉的小路, 两旁杂草丛生, 好像很久都没有人来过\n的样子. 往南很远的地方可以看到村子的入口, 往北的路似乎不是很明\n显.\n"
+msgstr "Uma trilha de aspecto bastante desolado, com mato crescido dos dois lados, como se há muito tempo ninguém passasse por ali. Bem ao longe, para o sul, se vê a entrada da aldeia; o caminho para o norte não é muito claro.\n"
+
+msgid "小路到了这里以后往北变得很不明显, 往南还可以依稀看到村子的\n入口, 路的四周长满了杂草和小树之类的, 看来相当的荒凉. \n"
+msgstr "Daqui em diante a trilha fica pouco nítida para o norte; ao sul ainda se vislumbra a entrada da aldeia. Em volta do caminho cresce mato e arbustos; o lugar parece bastante desolado.\n"
+
+msgid "这里是山洞的入口, 往南看去是一条小小的碎石路, 两旁长满\n杂草, 看来很不明显. 往北是一道厚厚的木门, 上面用一条手臂粗\n的铁链拴著. 虽然如此, 你仍可以感到一股寒气从里面透出来.\n"
+msgstr "Esta é a entrada da caverna. Ao sul se vê uma pequena estrada de cascalho, com mato crescido dos dois lados, quase imperceptível. Ao norte há uma grossa porta de madeira, presa por uma corrente de ferro grossa como um braço. Mesmo assim, você sente um frio que escapa lá de dentro.\n"
+
+msgid "山洞很矮，几乎站不直身子，脚下偶尔踩到石头或是些莫名其妙的东西，\n洞内奇寒澈骨，南面是一扇木门，北面隐隐地有些亮光。\n"
+msgstr "A caverna é baixa; mal dá para ficar de pé. Sob os pés, às vezes você pisa em pedras ou em coisas que não sabe o que são. Lá dentro faz um frio que penetra até os ossos; ao sul há uma porta de madeira e, ao norte, vê-se vagamente uma luz.\n"
+
+msgid "山洞很矮，几乎站不直身子，脚下偶尔踩到石头或是些莫名其妙的东西，\n洞内奇寒澈骨，南面似乎可以前行，北面是一出口。\n"
+msgstr "A caverna é baixa; mal dá para ficar de pé. Sob os pés, às vezes você pisa em pedras ou em coisas que não sabe o que são. Lá dentro faz um frio que penetra até os ossos; ao sul parece haver passagem, e ao norte fica uma saída.\n"
+
+msgid "这是一段荒芜的山路，显然很少有人走过，东面是陡峭的\n山壁，山壁上零星的长着几棵小树，西面是深不见底的悬崖，\n仔细一听，仿佛下面有潺潺的流水声。山路的南边有一个山洞\n黑乎乎的看不清里面的景色，山路一直向北蜿蜒。\n"
+msgstr "Um trecho desolado de estrada de montanha, onde evidentemente passa pouca gente. A leste há um paredão íngreme, com algumas árvores pequenas espalhadas; a oeste, um precipício sem fundo, e, se você escutar com atenção, parece ouvir lá embaixo o murmúrio de um riacho. Ao sul da estrada há uma caverna escura, onde não se enxerga nada do interior; a estrada continua serpenteando para o norte.\n"
+
+msgid "这是一段荒芜的山路，显然很少有人走过，东面是陡峭的\n山壁，山壁上零星的长着几棵小树，西面是深不见底的悬崖，\n仔细一听，仿佛下面有潺潺的流水声。山路一直向北蜿蜒。\n"
+msgstr "Um trecho desolado de estrada de montanha, onde evidentemente passa pouca gente. A leste há um paredão íngreme, com algumas árvores pequenas espalhadas; a oeste, um precipício sem fundo, e, se você escutar com atenção, parece ouvir lá embaixo o murmúrio de um riacho. A estrada continua serpenteando para o norte.\n"
+
+msgid "这是一段荒芜的山路，显然很少有人走过，东面是陡峭的\n山壁，山壁上零星的长着几棵小树，西面是深不见底的悬崖，\n仔细一听，仿佛下面有潺潺的流水声。山路的北边似乎到了\n尽头。\n"
+msgstr "Um trecho desolado de estrada de montanha, onde evidentemente passa pouca gente. A leste há um paredão íngreme, com algumas árvores pequenas espalhadas; a oeste, um precipício sem fundo, e, se você escutar com atenção, parece ouvir lá embaixo o murmúrio de um riacho. Ao norte, a estrada parece chegar ao fim.\n"
+
+msgid "你走到了山路的尽头，发现三面都是石壁，东面石壁上有一个洞口，洞内隐隐\n发出风雷之声，洞口上方似乎刻着一副图，北面是一扇大石门，\n门上苔迹斑斑，显然已经很久没人打开过了。\n"
+msgstr "Você chega ao fim da estrada de montanha e vê paredes de pedra em três lados. Na parede leste há uma abertura, de onde sai um leve som de vento e trovão; acima da abertura parece haver um desenho gravado. Ao norte há uma grande porta de pedra, manchada de musgo: é evidente que há muito tempo ninguém a abre.\n"
+
+msgid "这是一间石室，室内透着一种说不清的神秘力量，西边有两张石椅\n东首墙上挂这一把木剑。北边通往大厅，但墙上写了两行字，走近仔细\n辨认，是：非我弟子，莫入此门。\n"
+msgstr "Uma câmara de pedra, com uma força misteriosa que não se sabe explicar. A oeste há duas cadeiras de pedra, e na parede leste pende uma espada de madeira. Ao norte se chega ao grande salão, mas na parede há duas linhas escritas; ao chegar perto e ler com atenção, dizem: \"Quem não for meu discípulo, não entre por esta porta.\"\n"
+
+msgid "这就是传说中的绝尘子的修行之所，北面是一座佛像，佛像顶部\n有一颗夜明珠发出莹莹的光芒。室内设施古朴，但却一尘不染。\n"
+msgstr "Esta é, segundo a lenda, a morada de retiro de Juechenzi. Ao norte há uma estátua de Buda, e no alto dela uma pérola luminosa irradia um brilho suave. A mobília é simples e antiga, mas sem um grão de poeira.\n"
+
+msgid "这是一间石室，西边有一个大厅，大厅中有光线透出来，因此可以看清\n石室中的东西，南边有两个蒲团，似是用来打坐的，此外别无他物。\n"
+msgstr "Uma câmara de pedra. A oeste fica um grande salão de onde vem luz, de modo que se distingue o que há na câmara. Ao sul há duas almofadas de meditação, ao que parece para meditar; fora isso, não há mais nada.\n"
+
+msgid "你来到了一条小溪的旁边，溪水很清澈，缓缓地向南流去，西面\n灌木丛中隐隐的有条小路。\n忽然水中有一道亮光闪过，不过看不清是什么，你是否要下去\n找一找?\n"
+msgstr "Você chega à beira de um pequeno riacho de água muito clara, que corre devagar para o sul; a oeste, entre os arbustos, se adivinha uma trilha.\nDe repente, um clarão cruza a água, mas você não distingue o que é. Quer descer para procurar?\n"
+
+msgid "从这里向四周望去，只见一片无垠的绿野，然而地面上似乎\n罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n自己正深处一个飘忽的所在。你一回身，看见有一个路牌\n树在那里。\n"
+msgstr "Daqui, olhando em volta, você vê apenas uma planície verde sem fim, mas sobre o chão parece haver uma bruma fina e misteriosa, e aos poucos a paisagem distante vai ficando turva; você sente que está num lugar flutuante e incerto. Ao se virar, vê ali uma placa de sinalização.\n"
+
+msgid "从这里向四周望去，只见群山环绕，不知所处，地面上似乎\n罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n自己正深处一个飘忽的所在。你一回身，看见有一个路牌树\n在那里。\n"
+msgstr "Daqui, olhando em volta, você vê apenas montanhas que cercam tudo e não sabe onde está; sobre o chão parece haver uma bruma fina e misteriosa, e aos poucos a paisagem distante vai ficando turva; você sente que está num lugar flutuante e incerto. Ao se virar, vê ali uma placa de sinalização.\n"
+
+msgid "从这里向四周望去，只见四面环水，只有脚下一点陆地，水面上\n似乎罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n自己正深处一个飘忽的所在。你一回身，看见有一个路牌树\n在那里。\n"
+msgstr "Daqui, olhando em volta, você vê apenas água por todos os lados e um pedaço de terra sob os pés; sobre a água parece haver uma bruma fina e misteriosa, e aos poucos a paisagem distante vai ficando turva; você sente que está num lugar flutuante e incerto. Ao se virar, vê ali uma placa de sinalização.\n"
+
+msgid "从这里向四周望去，只见寒风阵阵，奇寒澈骨，如入北极风洞，四周\n似乎罩着一层神密的薄雾，风吹不散，渐渐地远处的景色模糊起来，你\n觉得自己正深处一个飘忽的所在。你一回身，看见有一个路牌树\n在那里。\n"
+msgstr "Daqui, olhando em volta, você sente apenas rajadas de vento de um frio que penetra até os ossos, como se tivesse entrado na caverna dos ventos do polo norte; em volta parece haver uma bruma fina e misteriosa, que o vento não dissipa, e aos poucos a paisagem distante vai ficando turva; você sente que está num lugar flutuante e incerto. Ao se virar, vê ali uma placa de sinalização.\n"
+
+msgid "从这里向四周望去，只见铅云低沉，忽然一道闪电，跟着一阵巨雷，\n远山为之回响，身旁似乎罩着一层神密的薄雾，渐渐地远处的景色\n模糊起来，你觉得自己正深处一个飘忽的所在。你一回身，看见有\n一个路牌树在那里。\n"
+msgstr "Daqui, olhando em volta, você vê apenas nuvens de chumbo baixas; de repente, um relâmpago e logo um trovão enorme, que faz as montanhas distantes ecoarem; ao seu lado parece haver uma bruma fina e misteriosa, e aos poucos a paisagem distante vai ficando turva; você sente que está num lugar flutuante e incerto. Ao se virar, vê ali uma placa de sinalização.\n"
+
+msgid "从这里向四周望去，只见火光冲天，炽热难当，身旁似乎罩着一层\n神密的薄雾，渐渐地远处的景色模糊起来，你觉得自己正深处一个\n飘忽的所在。你一回身，看见有一个路牌树在那里。\n"
+msgstr "Daqui, olhando em volta, você vê apenas chamas que sobem ao céu, um calor insuportável; ao seu lado parece haver uma bruma fina e misteriosa, e aos poucos a paisagem distante vai ficando turva; você sente que está num lugar flutuante e incerto. Ao se virar, vê ali uma placa de sinalização.\n"
+
+msgid "从这里向四周望去，只见身处一个大湖泊之中，脚下只有四尺见方的\n一块陆地，湖上似乎罩着一层神密的薄雾，渐渐地远处的景色模糊起来，\n你觉得自己正深处一个飘忽的所在。你一回身，看见有一个路牌\n树在那里。\n"
+msgstr "Daqui, olhando em volta, você se vê no meio de um grande lago, com apenas um pedaço de terra de quatro chi de lado sob os pés; sobre o lago parece haver uma bruma fina e misteriosa, e aos poucos a paisagem distante vai ficando turva; você sente que está num lugar flutuante e incerto. Ao se virar, vê ali uma placa de sinalização.\n"
+
+msgid "从这里向四周望去，只见长天一碧，沃野千里，正自心旷神怡，\n那层神密的薄雾又起，渐渐地远处的景色模糊起来，你觉得自\n己正深处一个飘忽的所在。你一回身，看见有一个路牌\n树在那里。\n"
+msgstr "Daqui, olhando em volta, você vê apenas um céu azul sem fim e mil li de campos férteis; o coração está leve e contente quando aquela bruma fina e misteriosa volta a subir, e aos poucos a paisagem distante vai ficando turva; você sente que está num lugar flutuante e incerto. Ao se virar, vê ali uma placa de sinalização.\n"
+
+msgid "这是一块绝地,四周没有任何出口,你不禁急得要哭了出来,忽然,你发现\n远方有一块大石动了一下,走近一看,似乎可以推一下。\n"
+msgstr "Um beco sem saída, sem nenhuma passagem em volta; você fica tão aflito que quase chora. De repente, nota que, ao longe, uma grande pedra se moveu um pouco; ao chegar perto, parece que dá para empurrá-la.\n"
+
+msgid "这是一副八卦阵图,图下面有一行模糊的小字：八卦古阵\n"
+msgstr "Este é um diagrama dos oito trigramas, e embaixo há uma linha de letras pequenas e borradas: \"Antiga formação dos oito trigramas\".\n"
+
+msgid "路牌上写着：  坤--坤为地，遇青龙而生，遇玄武而死，遇白虎而困，遇朱雀而涉。\n"
+msgstr "A placa diz:  Terra (Kun): com o Dragão Azul, vida; com a Tartaruga Negra, morte; com o Tigre Branco, cerco; com o Pássaro Vermelhão, travessia.\n"
+
+msgid "路牌上写着：  艮--艮为山，遇青龙而涉，遇玄武而生，遇白虎而死，遇朱雀而困。\n"
+msgstr "A placa diz:  Montanha (Gen): com o Dragão Azul, travessia; com a Tartaruga Negra, vida; com o Tigre Branco, morte; com o Pássaro Vermelhão, cerco.\n"
+
+msgid "路牌上写着：  坎--坎为水，遇青龙而死，遇玄武而涉，遇白虎而生，遇朱雀而困。\n"
+msgstr "A placa diz:  Água (Kan): com o Dragão Azul, morte; com a Tartaruga Negra, travessia; com o Tigre Branco, vida; com o Pássaro Vermelhão, cerco.\n"
+
+msgid "路牌上写着：  巽--巽为风，遇青龙而生，遇玄武而死，遇白虎而涉，遇朱雀而困。\n"
+msgstr "A placa diz:  Vento (Xun): com o Dragão Azul, vida; com a Tartaruga Negra, morte; com o Tigre Branco, travessia; com o Pássaro Vermelhão, cerco.\n"
+
+msgid "路牌上写着：  震--震为雷，遇青龙而涉，遇玄武而生，遇白虎而困，遇朱雀而死。\n"
+msgstr "A placa diz:  Trovão (Zhen): com o Dragão Azul, travessia; com a Tartaruga Negra, vida; com o Tigre Branco, cerco; com o Pássaro Vermelhão, morte.\n"
+
+msgid "路牌上写着：  离--离为火，遇青龙而死，遇玄武而涉，遇白虎而生，遇朱雀而困。\n"
+msgstr "A placa diz:  Fogo (Li): com o Dragão Azul, morte; com a Tartaruga Negra, travessia; com o Tigre Branco, vida; com o Pássaro Vermelhão, cerco.\n"
+
+msgid "路牌上写着：  兑--兑为泽，遇青龙而困，遇玄武而生，遇白虎而死，遇朱雀而涉。\n"
+msgstr "A placa diz:  Lago (Dui): com o Dragão Azul, cerco; com a Tartaruga Negra, vida; com o Tigre Branco, morte; com o Pássaro Vermelhão, travessia.\n"
+
+msgid "路牌上写着：  乾--乾为天，遇青龙而死，遇玄武而困，遇白虎而涉，遇朱雀而生。\n"
+msgstr "A placa diz:  Céu (Qian): com o Dragão Azul, morte; com a Tartaruga Negra, cerco; com o Tigre Branco, travessia; com o Pássaro Vermelhão, vida.\n"
+
+msgid "推"
+msgstr "Empurrar"
+
+msgid "远方有一块大石动了一下,走近一看,似乎可以推一下。\n"
+msgstr "Ao longe, uma grande pedra se moveu um pouco; ao chegar perto, parece que dá para empurrá-la.\n"
+
+msgid "你出力不太够喔！"
+msgstr "Você não tem força suficiente!"
+
+msgid "你用力推活动的大岩石,大岩石动了一下"
+msgstr "Você empurra com força a rocha grande e solta, e ela se move um pouco."
+
+msgid "大岩石滚开了,你从大岩石后面的小洞钻了出去"
+msgstr "A rocha grande rola para o lado, e você sai pelo buraco pequeno que havia atrás dela."
+
+msgid "四周没有任何出口。推不动那块大石的话，就只能在这里等下去了。\n"
+msgstr "Não há saída em volta. Se você não conseguir mover aquela rocha grande, só lhe resta esperar aqui.\n"
+
+msgid "你在绝地里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"
+msgstr "Depois de esperar muito tempo no beco sem saída, você enfim cai num sono pesado... Ao acordar, se vê na Estalagem Bebe-Vento, em Pavilhão da Neve."
+
+msgid "下水寻找"
+msgstr "Descer para procurar"
+
+msgid "溪水很清澈，水中忽然有一道亮光闪过，不过看不清是什么。\n"
+msgstr "A água do riacho é muito clara; de repente um clarão cruza a água, mas você não distingue o que é.\n"
+
+msgid "你跳入溪水之中，开始仔细寻找...."
+msgstr "Você mergulha no riacho e começa a procurar com cuidado..."
+
+msgid "你竟从水中找出一把追风剑!"
+msgstr "Você tira da água a espada Caça-Ventos!"
+
+msgid "你在水中忙了半天，结果一无所获。"
+msgstr "Você passa um bom tempo se afanando na água e não encontra nada."
+
+msgid "一个很大的蜘蛛网.\n"
+msgstr "Uma teia de aranha enorme.\n"
+
+msgid "突然你觉得头上有个阴影, 不自觉的抬起头来一看 ............好大的 ..... 蜘蛛..... \n"
+msgstr "De repente você sente uma sombra sobre a cabeça e ergue os olhos sem querer... que aranha enorme...\n"
+
+msgid "你向石洞走去，忽然一阵狂风涌至，你抵受不住，只好退了回来"
+msgstr "Você caminha em direção à caverna de pedra, mas uma rajada de vento forte te alcança de repente; sem aguentar, você recua."
+
+msgid "入口被魔法封住了！"
+msgstr "A entrada está selada por magia!"
+
+msgid "非我弟子  莫入此门"
+msgstr "Quem não for meu discípulo, não entre por esta porta"
+
+msgid "一把粗制滥造的长剑，把手部份用布缠绕了好几圈以防止武器脱手。\n"
+msgstr "Uma espada longa de fabricação tosca, com o cabo enrolado várias voltas em pano para que a arma não escape da mão.\n"
+
+msgid "一把粗制滥造的短剑，把手部份用布缠绕了好几圈以防止武器脱手。\n"
+msgstr "Uma espada curta de fabricação tosca, com o cabo enrolado várias voltas em pano para que a arma não escape da mão.\n"
+
+msgid "一具已经腐朽的骸骨，靠着石壁坐着，骨头上还挂着几片烂成灰褐色的衣料。身量矮小，牙齿齐全，骨龄不过三十；手边没有剑，也没有刀。石壁上的字自称南危水，说埋骨于此——可水烟阁的五长老南危水，是个高大的老人。\n"
+msgstr "Um esqueleto apodrecido, sentado contra a parede de pedra, com alguns trapos de roupa cinza-amarronzados de podridão ainda pendurados nos ossos. É de baixa estatura, tem todos os dentes, e os ossos não são de alguém com mais de trinta anos; junto à mão não há espada nem sabre. As letras da parede dizem que se chamava Nan Weishui e que o enterraram aqui; mas Nan Weishui, o Quinto Ancião do Pavilhão da Neblina, era um ancião alto.\n"
+
+msgid "这是一把沈重的鬼头刀，刀柄上雕著 一个丑陋可怖的鬼头正裂开了嘴大笑。\n"
+msgstr "Um pesado sabre de cabeça de fantasma. No cabo está esculpida uma cabeça de fantasma feia e horrenda, de boca escancarada numa gargalhada.\n"
+
+msgid "一根约两寸多长的竹管，上面戳了三个小孔，也许可以用来吹奏？\n"
+msgstr "Um tubo de bambu de pouco mais de duas polegadas de comprimento, com três furinhos. Quem sabe dá para soprar, como uma flauta?\n"
+
+msgid "这是一本介绍过招时如何拆招卸力的书籍。\n对练武人来说是本不可多得的珍宝。\n"
+msgstr "Um livro que explica como desfazer golpes e desviar a força quando se trocam golpes.\nPara quem pratica artes marciais, é um tesouro raro.\n"
+
+msgid "这是一件夜行人用来掩藏行踪的黑色紧身衣。\n"
+msgstr "Uma roupa preta justa que os que andam à noite usam para esconder o rastro.\n"
+
+msgid "飞刀是一种十分轻、锐利的匕首，用来当作暗器使用。\n"
+msgstr "A faca de arremesso é uma adaga muito leve e afiada, usada como arma oculta.\n"
+
+msgid "这人满脸匪气，一付百无聊赖的模样，令人望而生厌。\n"
+msgstr "Este homem tem cara de bandido e um ar de total tédio; só de olhar dá aversão.\n"
+
+msgid "这家伙长得高高瘦瘦，脸色苍白，一付无精打采的样子。\n"
+msgstr "Um sujeito alto e magro, de rosto pálido e ar abatido.\n"
+
+msgid "这家伙又矮又胖，圆滚滚的眼珠子在满脸肥肉中骨碌碌地转来转去。\n"
+msgstr "Um sujeito baixo e gordo, cujos olhos redondos giram de um lado para o outro no meio de tanta carne no rosto.\n"
+
+msgid "一只乌黑油亮的巨蟒，头上生著一个大肉瘤。\n"
+msgstr "Uma píton enorme, negra e lustrosa, com um grande caroço de carne na cabeça.\n"
+
+msgid "躯干"
+msgstr "tronco"
+
+msgid "这个老头子正对著你龇牙裂嘴，他看起来已经完全疯了。\n"
+msgstr "Este velho mostra os dentes para você numa careta; parece completamente louco.\n"
+
+msgid "一只凶猛的狼狗，一只独眼正恶狠狠地瞪著你。\n"
+msgstr "Um cão-lobo feroz, que te encara com ódio com seu único olho.\n"
+
+msgid "后脚"
+msgstr "pata traseira"
+
+msgid "狼狗用一只独眼恶狠狠地瞪著你。\n"
+msgstr "O cão-lobo te encara com ódio com seu único olho.\n"
+
+msgid "一只翩翩起舞的小蝴蝶哦! \n"
+msgstr "Uma borboletinha que esvoaça e dança!\n"
+
+msgid "翅膀"
+msgstr "asas"
+
+msgid "蝴蝶拍动著翅膀! \n"
+msgstr "A borboleta bate as asas!\n"
+
+msgid "蝴蝶停在花上吸花蜜。 \n"
+msgstr "A borboleta pousa numa flor para sugar o néctar.\n"
+
+msgid "这家伙满脸横肉，一付凶神恶煞的模样，令人望而生畏。\n"
+msgstr "Este sujeito tem o rosto cheio de carne dura e um ar de demônio saído do inferno; só de olhar dá medo.\n"
+
+msgid "土匪喽罗横刀拦住去路，喝道：站住！要过老松寨，留下十两银子买路钱！\n"
+msgstr "O lacaio bandido barra o caminho com o sabre em riste e brada: \"Alto! Para passar pelo Forte dos Pinheiros Velhos, deixe dez taéis de prata de pedágio!\"\n"
+
+msgid "十两银子，一个子儿不能少。拿来！"
+msgstr "Dez taéis de prata, nem uma moeda a menos. Passe o dinheiro!"
+
+msgid "老松寨是常老大的寨子，泼风刀王常老大，听过没有？想进去，先留下买路钱。"
+msgstr "O Forte dos Pinheiros Velhos é o forte do Chefe Chang. O Chefe Chang, o Rei do Sabre da Tempestade, nunca ouviu falar? Quer entrar? Primeiro deixe o pedágio."
+
+msgid "前些天是来过一个黑衣黑冠的道士，拿一块金牌买了路，往里头去了。你要问，问寨主去——先留下买路钱。"
+msgstr "Dias atrás passou por aqui um taoísta de preto, de gorro preto, que pagou a passagem com uma placa de ouro e foi para dentro. Se quer saber dele, pergunte ao chefe do forte: primeiro deixe o pedágio."
+
+msgid "叫阵"
+msgstr "Desafio"
+
+msgid "叫阵是跟常老大单打独斗——寨里的人不插手，但常老大的泼风刀下，没几个人站得住。要叫阵吗？"
+msgstr "Gritar um desafio é um duelo a sós com o Chefe Chang: o pessoal do forte não se mete, mas poucos se mantêm de pé sob o Sabre da Tempestade do Chefe Chang. Quer gritar o desafio?"
+
+msgid "叫过了还叫？聚义厅在东头，常老大等着你。"
+msgstr "Já gritou o desafio e vai gritar de novo? O Salão da Irmandade fica no extremo leste; o Chefe Chang está esperando você."
+
+msgid "好大的口气！"
+msgstr "Que bravata!"
+
+msgid "朝寨子里扯着嗓子喊：有人叫阵——！"
+msgstr " grita para dentro do forte com toda a força: \"Há um desafiante...!\""
+
+msgid "进去吧，聚义厅在东头。常老大一个人等你，寨里的弟兄不插手。"
+msgstr "Entre. O Salão da Irmandade fica no extremo leste. O Chefe Chang espera você sozinho, e os irmãos do forte não se metem."
+
+msgid "钱已经交过了，进去吧。"
+msgstr "O pedágio já foi pago. Entre."
+
+msgid "土匪喽罗掂了掂银子，咧嘴一笑：算你识相。进去吧，寨里的弟兄不会难为你。\n"
+msgstr "O lacaio bandido sopesa a prata na mão e sorri de orelha a orelha: \"Até que tem juízo. Entre; os irmãos do forte não vão lhe criar problemas.\"\n"
+
+msgid "土匪喽罗往地上啐了一口：打发叫花子呢？十两银子，少一个子儿都不行！\n"
+msgstr "O lacaio bandido cospe no chão: \"Está me dando esmola, é? Dez taéis de prata, nem uma moeda a menos!\"\n"
+
+msgid "这家伙眼神凶恶，一双精光四射的眼珠正盯著你的脖子。\n"
+msgstr "Este sujeito tem o olhar cruel, e os olhos faiscantes estão cravados no seu pescoço.\n"
+
+msgid "\n土匪首领阴恻恻地说道：这种三脚猫的功夫也敢上老松寨来撒野？！\n"
+msgstr "\nO chefe dos bandidos diz com voz sinistra: \"Com truques de aprendiz desses, você ainda se atreve a vir fazer arruaça no Forte dos Pinheiros Velhos?!\"\n"
+
+msgid "\n土匪首领说道：去你的，老子今天要剁下你的头来练练毒爪！\n"
+msgstr "\nO chefe dos bandidos diz: \"Vá para o inferno! Hoje este velho vai cortar a sua cabeça para estrear as minhas garras venenosas!\"\n"
+
+msgid "\n土匪首领虎吼一声，欺身上前。\n"
+msgstr "\nO chefe dos bandidos ruge como um tigre e avança sobre você.\n"
+
+msgid "那道士的事，寨主自己会说。聚义厅在东头。"
+msgstr "Desse assunto do taoísta, o chefe do forte fala em pessoa. O Salão da Irmandade fica no extremo leste."
+
+msgid "老松寨寨主"
+msgstr "Chefe do Forte dos Pinheiros Velhos"
+
+msgid "黑衣黑冠的道士？来过。拿一块金牌子买的路——金子打的，比你那十两银子值钱多了。"
+msgstr "Um taoísta de preto, de gorro preto? Veio, sim. Pagou o caminho com uma plaquinha de ouro: de ouro maciço, vale muito mais que os seus dez taéis de prata."
+
+msgid "他问我瀑布后头的山洞怎么走。老子这寨子什么钱都收，收了钱就指路：往东过石桥，瀑布旁边有藤蔓，荡过去就是。"
+msgstr "Ele perguntou como chegar à caverna atrás da cachoeira. Este forte aceita qualquer dinheiro, e quem paga, ganha o caminho: para o leste, cruzando a ponte de pedra; ao lado da cachoeira há cipós, e é só se balançar até lá."
+
+msgid "他抱着个石匣子，宝贝得很。你要找他，也往瀑布去吧，老子不拦你。"
+msgstr "Ele levava um cofre de pedra nos braços, todo cheio de zelo. Se quer encontrá-lo, vá também à cachoeira; este velho não vai impedir."
+
+msgid "你是什么东西，也敢问老子的事？"
+msgstr "Quem você pensa que é para perguntar dos assuntos deste velho?"
+
+msgid "石匣"
+msgstr "Cofre de pedra"
+
+msgid "石匣？那道士抱着的那个？老子没兴趣，老子只收钱。"
+msgstr "O cofre de pedra? Aquele que o taoísta carregava? Este velho não tem interesse; só cobra dinheiro."
+
+msgid "老松寨是老子的寨子。进寨的规矩只有一条：什么钱都收。"
+msgstr "O Forte dos Pinheiros Velhos é deste velho aqui. Para entrar, só há uma regra: aceito qualquer dinheiro."
+
+msgid "这个男人看起来鬼鬼祟祟的，想必不是什么好东西。\n"
+msgstr "Este homem tem um jeito furtivo e dissimulado; com certeza não é boa coisa.\n"
+
+msgid "哈哈哈哈哈哈。"
+msgstr "Ha, ha, ha, ha, ha, ha."
+
+msgid "一支昂首吐信的毒蛇正虎视眈眈地盯著你。\n"
+msgstr "Uma cobra venenosa, de cabeça erguida e língua vibrando, te encara como um tigre à espreita da presa.\n"
+
+msgid "你觉得被咬中的地方一阵麻痒！"
+msgstr "Você sente uma formigação e um entorpecimento no lugar da mordida!"
+
+msgid "你现在正走在一条林间的小路，往北不远处走出这座林子就是雪亭\n镇，小路两旁长满了许多高耸的松树，雪亭镇的居民都把这里叫做「老\n松林」，据说林子里有株树龄上千的老松树，颇有灵验。\n"
+msgstr "Você caminha por uma trilha entre as árvores. Não muito longe, ao norte, ao sair deste bosque, fica Pavilhão da Neve. Dos dois lados da trilha crescem muitos pinheiros altos. O povo de Pavilhão da Neve chama este lugar de \"Bosque dos Pinheiros Velhos\", e dizem que no bosque há um pinheiro de mais de mil anos, bastante milagroso.\n"
+
+msgid "你现在正走在一条林间的小路上，小路两旁长满了高耸的松树，从\n林间传来阵阵鸟叫声，小路往南北两个方向延伸出去。\n"
+msgstr "Você caminha por uma trilha do bosque, com pinheiros altos dos dois lados; entre as árvores chega o canto de pássaros. A trilha segue para o norte e para o sul.\n"
+
+msgid "你现在正走在一条林间的小路上，小路往东似乎通往一处空地，林\n子到了这里变得静悄悄的，小路两旁的松树也比西边的矮小，看起来有\n点营养不良的样子。\n"
+msgstr "Você caminha por uma trilha do bosque. Para o leste, ela parece levar a uma clareira; o bosque ficou muito silencioso, e os pinheiros dos lados são mais baixos que os do oeste e têm um ar um pouco desnutrido.\n"
+
+msgid "这是一块林间空地，四周的树木花草像是被人修剪过一般，环绕著\n空地围成一个整齐的圆形，空地中央一株巨大的松树像平地上撑\n起一把大伞，树上针叶茂密得遮去了大半的阳光，空地四周有三条小路\n分别通往东、西、南三个方向，往南的小路旁竖著一个牌子。\n"
+msgstr "Uma clareira no bosque: as árvores e flores em volta parecem podadas e formam um círculo bem ordenado ao redor do terreno aberto; no centro, um pinheiro enorme se abre como um grande guarda-chuva sobre o chão plano, com tantas agulhas que escondem quase todo o sol. Da clareira saem três trilhas, para o leste, o oeste e o sul; ao lado da do sul há uma placa fincada.\n"
+
+msgid "你现在正走在一片松树林中的小路上，小路往北通往一处空地，一\n株巨大无朋的松树矗立在空地中央，小路往南是一条长长的下坡道，这\n条路上足迹很多，显然常有人经过。\n"
+msgstr "Você caminha por uma trilha num pinheiral; para o norte ela leva a uma clareira em cujo centro se ergue um pinheiro gigantesco, e para o sul é uma longa descida. Há muitas pegadas neste caminho: vê-se que passa gente com frequência.\n"
+
+msgid "这是一条笔直的坡道，北高南低，道路两旁长满了许多松树，从松\n林间隐约可以听到东边传来流水的声音。\n"
+msgstr "Uma ladeira reta, alta ao norte e baixa ao sul, com muitos pinheiros dos dois lados; entre o pinheiral se ouve vagamente, a leste, o barulho de água.\n"
+
+msgid "你现在正走在一条松树林中的小路，这里的松树树干上都有著一些\n奇怪的记号，像是被人用刀子划过，小路的西边是一块空地，往东不远\n可以看到一条山涧，上面横跨著一座小石桥。\n"
+msgstr "Você caminha por uma trilha entre pinheiros; os troncos têm marcas estranhas, como cortes de faca. A oeste da trilha há uma clareira e, não muito longe, a leste, se vê um riacho de montanha cruzado por uma pequena ponte de pedra.\n"
+
+msgid "你现在正站在一座长满青苔的古桥上，桥下是一条山涧，几股清泉\n在乱石之中向山下奔流，桥北边不远处有一个瀑布 ，从山\n壁上犹如一条白练般垂了下来，瀑布两旁的石壁十分陡峭，高度和山涧\n旁的松林相差了近三、四十丈。\n"
+msgstr "Você está sobre uma ponte antiga coberta de musgo. Embaixo corre um riacho de montanha, e alguns fios de água clara se precipitam montanha abaixo entre as rochas. Não longe, ao norte da ponte, uma cachoeira cai da parede como uma fita branca; os paredões de rocha dos dois lados da cachoeira são muito íngremes, com uma diferença de altura de quase trinta ou quarenta zhang em relação ao pinheiral junto ao riacho.\n"
+
+msgid "你现在正走在一条松树林间的小路，西边有一座小石桥横跨在一条\n山涧上，往东不远处似乎是林子的出口，一条破旧的栈道沿著山壁通往\n山上，你发现地上有一些湿漉漉的脚印，但是因为脚印太\n多，分不出是往哪里去。\n"
+msgstr "Você caminha por uma trilha entre pinheiros; a oeste, uma pequena ponte de pedra cruza o riacho, e a leste, não longe, parece ficar a saída do bosque; uma passarela velha e desconjuntada sobe pela parede da montanha. Há pegadas molhadas no chão, mas são tantas que não se distingue para onde vão.\n"
+
+msgid "你现在正站在瀑布前的一个小水潭里，水潭大约深可及胸，淹不死\n人，一条白练般的瀑布从数百丈高的悬崖上冲激而下，溅\n得你全身湿透，水潭三面都被高耸的山壁所包围，只有南面沿\n著一条山涧可以出去。\n"
+msgstr "Você está num pequeno poço diante da cachoeira; a água chega mais ou menos ao peito, e não é o bastante para afogar ninguém. Uma cachoeira, como uma fita branca, despenca com estrondo de um penhasco de centenas de zhang e encharca você por inteiro. O poço é cercado em três lados por paredões altos de rocha; só pelo sul, seguindo o riacho, se pode sair.\n"
+
+msgid "你现在正站在一个深不见底的水潭边上，从潭底不时有气泡冒上来\n，散发著一股诡异的香味，水潭边长满了黄色叶子的怪草，四周陡峭的\n山壁近乎直立，抬头只见一个半圆形的天空，唯一的出路大概只有往北\n山泉流入水潭的缺口。\n"
+msgstr "Você está à beira de um poço aparentemente sem fundo; do fundo sobem bolhas de vez em quando e soltam um perfume estranho. A margem está coberta de uma erva esquisita de folhas amarelas, e os paredões em volta, quase verticais, deixam ver só um céu em forma de semicírculo; a única saída parece ser a abertura ao norte, por onde a água da nascente entra no poço.\n"
+
+msgid "你现在正站在一条山涧中的岩石上，几股泉水正从你脚边流过，水\n花溅得四处飞散，南边是一个深不见底的水潭，两边的山壁看起\n来又高又陡，看来要爬上岸边实在很不容易，你的北方有一座小石桥高\n高地跨过两边的山壁，可是桥的高度太高，即使是轻功绝顶的高手也跃\n不上去。\n"
+msgstr "Você está sobre uma rocha no riacho de montanha; alguns fios de água passam junto aos seus pés e os respingos voam por toda parte. Ao sul há um poço aparentemente sem fundo, e os paredões dos dois lados parecem altos e íngremes: subir até a margem não será nada fácil. Ao norte, uma pequena ponte de pedra cruza muito no alto entre os paredões, mas é tão alta que nem um mestre do qinggong conseguiria saltar até ela.\n"
+
+msgid "你现在正站在一条山涧中的岩石上，一座小石桥正高高地从你的头\n顶横跨过山涧两边的石壁，一个瀑布就在你的北方不远处，从一\n处更高的悬崖上垂了下来。\n"
+msgstr "Você está sobre uma rocha no riacho de montanha; uma pequena ponte de pedra cruza muito alto sobre a sua cabeça, de paredão a paredão, e não longe ao norte uma cachoeira cai de um penhasco ainda mais alto.\n"
+
+msgid "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n"
+msgstr "Você está num pinheiral... hum... é um pinheiral... e é só o que você sabe. Os pinheiros densos tapam o céu inteiro e você nem distingue as direções; o melhor é achar uma saída antes que escureça.\n"
+
+msgid "你现在正站在一个松树林间的小空地上，你的北边、东边、南边都\n是茂密的松树，唯独西边是个悬崖，当你探头一看，立刻不由\n自主地倒抽一口凉气，在这里可得千万小心，一不小心跌了下去肯定是\n粉身碎骨。\n"
+msgstr "Você está numa pequena clareira entre os pinheiros do bosque; ao norte, ao leste e ao sul há pinheiros densos, e só a oeste há um precipício. Ao se debruçar para olhar, você sente sem querer um calafrio; aqui é preciso muitíssimo cuidado: um descuido e a queda certamente o faria em pedaços.\n"
+
+msgid "你现在正栖身在一个山壁上勉强足以容纳一个人休息的岩穴中，从\n这里无论是要往上爬或往下爬都有一段不算短的距离，最好先歇一歇，\n喘口气再走。\n"
+msgstr "Você se abriga numa gruta da parede de rocha, mal grande o bastante para uma pessoa descansar; daqui, tanto para subir quanto para descer, a distância não é pequena. É melhor descansar um pouco e retomar o fôlego antes de seguir.\n"
+
+msgid "你现在正攀附在一株大松树的树干上，从这里可以很清楚地望见树\n下的一切动静，而不被人发觉，似乎是个干偷鸡摸狗勾当的好地方。\n"
+msgstr "Você se agarra ao tronco de um grande pinheiro; daqui vê com clareza tudo o que acontece embaixo sem que ninguém perceba, e parece um bom lugar para coisas de ladrão.\n"
+
+msgid "你现在正攀附在一株大松树的树干上，这里离地面已经有七、八丈\n高，如果不小心跌了下去，不断条腿也得去半条命，松树上结了许多球\n果，不过大部分都离树干很远，你构不到。\n"
+msgstr "Você se agarra ao tronco de um grande pinheiro, a uns sete ou oito zhang do chão; se caísse por descuido, mesmo sem perder uma perna, perderia metade da vida. O pinheiro tem muitas pinhas, mas quase todas ficam longe do tronco e você não as alcança.\n"
+
+msgid "哇....你终于爬上这株松树的树顶了，一阵阵凉风从四面八方吹来\n，使你觉得心旷神怡，虽然你的经验告诉你在这种地方往下看是十分不\n智的，但是你还是忍不住看了一眼，这里离地面至少也有十五、六丈高\n，一阵晕眩警告你最好在跌下去以前离开这个地方。\n"
+msgstr "Uau... você finalmente chegou ao topo deste pinheiro! Uma brisa fresca sopra de todos os lados e você se sente leve e desanuviado; embora a experiência diga que olhar para baixo num lugar assim é muito imprudente, você não resiste a dar uma olhada: está a pelo menos quinze ou dezesseis zhang do chão, e uma tontura avisa que é melhor sair daqui antes de cair.\n"
+
+msgid "你现在正站在一个岩石的通道之中，在你南边有一片亮晶晶的帘幕\n，从帘幕后面传来阵阵轰隆隆的水声，通道两边的石壁上安置\n著许多铜铸的烛台，照亮了这个岩穴，往北似乎有亮光。\n"
+msgstr "Você está num corredor de rocha; ao sul há uma cortina reluzente e, de trás dela, vem um estrondo de água. Nas paredes do corredor há muitos castiçais de bronze que iluminam a gruta, e ao norte parece haver luz.\n"
+
+msgid "    你现在正站在一个阴森森的山洞之中, 一条昂首吐信的金银花蛇,\n爬伏在一块突出的大青石上, 令人望而生畏, 也许你该回头逃跑了。\n"
+msgstr "    Você está numa caverna sombria; uma víbora madressilva, de cabeça erguida e língua vibrando, está enroscada sobre uma grande pedra azul que se projeta, e só de vê-la dá medo. Talvez seja melhor dar meia-volta e fugir.\n"
+
+msgid "你现在正站在一块突出的大青石上, 虽然有点滑, 你还是能站稳,\n往四周看, 除了长满了青苔的石壁, 好象无路可走了。\n"
+msgstr "Você está sobre uma grande pedra azul que se projeta; é um pouco escorregadia, mas dá para se manter firme. Olhando em volta, só se veem paredes de rocha cobertas de musgo; parece que não há por onde seguir.\n"
+
+msgid "你现在正站在一个岩石通道之中，从南边隐隐传来哗哗的水声，岩\n壁上生著厚厚的青苔，一股恶臭从北边传来，像是什么野兽，也许你该\n回头出去了。\n"
+msgstr "Você está num corredor de rocha; do sul chega o leve som de água correndo, as paredes estão cobertas de musgo espesso e do norte vem um fedor, como de alguma fera. Talvez seja melhor voltar e sair.\n"
+
+msgid "你现在已经到达山洞的深处了, 四面八方都是些黑漆漆的小石洞,\n简直不知道该往那里走, 要不是北面还有一点光线, 你都要彻底绝望了。\n"
+msgstr "Você chegou ao fundo da caverna; por todos os lados há pequenas cavernas de pedra escuras como breu, e você não sabe para onde ir; se não fosse por um pouco de luz ao norte, teria perdido toda a esperança.\n"
+
+msgid "你现在已经到达山洞的深处了, 耶...东面就是洞口了, 还可以听\n见外面瀑布的水声, 仔细的观察石壁, 可以发现上面有一些用利\n剑雕刻的字....\n"
+msgstr "Você chegou ao fundo da caverna. Ah... a entrada fica a leste, e ainda se ouve o barulho da cachoeira lá fora. Se observar a parede de rocha com atenção, verá nela letras gravadas com uma espada afiada...\n"
+
+msgid "这里只见一个木头搭成的大门，门框上挂著四、五的不知道是什么\n动物的头骨跟一些铁链，外面再铺上一层乾枯的松枝，在这样一个森林\n里还真不容易发觉。\n"
+msgstr "Aqui só há um grande portão feito de toras; do batente pendem quatro ou cinco crânios de animais que não se sabe quais são e algumas correntes de ferro, tudo coberto por uma camada de ramos secos de pinheiro; numa floresta assim não é fácil notá-lo.\n"
+
+msgid "这里应该是老松寨了，虽然围绕著你的墙都是木头搭成的，但是仔\n细一看，在许多险要的位置都放了不少沙包石堆，后面显然是埋伏人手\n的好地方，如果有人贸然从大门口攻进来，肯定会吃大亏的，大寨的门\n在你的西边，东边越过一排木桩之后就是大厅。\n"
+msgstr "Este deve ser o Forte dos Pinheiros Velhos. Embora as paredes que te cercam sejam todas de madeira, olhando bem, em muitos pontos estratégicos há sacos de areia e pilhas de pedras, claramente bons lugares para emboscar homens; quem invadir pelo portão sairá muito mal. O portão do forte fica a oeste, e a leste, depois de uma fileira de estacas, está o grande salão.\n"
+
+msgid "这里就是老松寨的大厅了，靠北边的地面上铺了一张巨大的熊皮，\n上面摆了三张椅子，大厅四周散落著几个取暖用的火盆，几个上了锁的\n木箱子，比较奇特的是中央掘了一个大坑，坑里是许多头骨浸在\n一种发著恶臭的黄水之中。\n"
+msgstr "Este é o grande salão do Forte dos Pinheiros Velhos. Junto à parede norte há estendida uma enorme pele de urso, com três cadeiras sobre ela; pelo salão estão espalhados vários braseiros para esquentar e alguns baús de madeira trancados; o mais estranho é um grande buraco cavado no centro, e dentro dele muitos crânios mergulhados numa água amarela de cheiro nauseabundo.\n"
+
+msgid "你听到你身后有几个声音大叫：把门关上！把门关上！一个也不许让他们溜走！"
+msgstr "Você ouve atrás de si várias vozes gritarem: \"Fechem o portão! Fechem o portão! Não deixem nenhum deles escapar!\""
+
+msgid "接著「轰」地一声，通往外面的大门已经被一块大石堵死了。"
+msgstr "Então, com um \"bum\", o portão que dá para fora é bloqueado por uma grande pedra."
+
+msgid "你听到一阵轧轧的轮盘绞动声，堵住门口的大石慢慢地被移开了。"
+msgstr "Você ouve o chiado de uma roda de guincho girando, e a grande pedra que bloqueia o portão vai sendo afastada devagar."
+
+msgid "爬树"
+msgstr "Subir na árvore"
+
+msgid "一株又高又大的松树，当你抬头往上看的时候似乎有个人影\n在树梢之间移动，不过也许是风吹动所造成的错觉。\n"
+msgstr "Um pinheiro alto e grande; ao olhar para cima, parece haver uma silhueta se movendo entre as copas, embora talvez seja só uma ilusão causada pelo vento.\n"
+
+msgid "你手脚并用，敏捷地爬上了空地中央的大松树。"
+msgstr "Com mãos e pés, você sobe com agilidade no grande pinheiro no centro da clareira."
+
+msgid "往下爬"
+msgstr "Descer"
+
+msgid "你顺著粗大的树干，慢慢地爬了下来。"
+msgstr "Você desce devagar pelo tronco grosso."
+
+msgid "抓住藤蔓"
+msgstr "Agarrar o cipó"
+
+msgid "其中有一根藤蔓距离你比较近，你可以试著抓住藤蔓，看看\n能不能像泰山一样荡过去，看看瀑布后面有什么？\n对了，提醒你一点，这座石桥下面是高约百丈的山涧深谷....。\n"
+msgstr "Um dos cipós está bem perto de você; pode tentar agarrá-lo e se balançar até o outro lado, como o Tarzan, para ver o que há atrás da cachoeira.\nAh, e um aviso: debaixo desta ponte de pedra há um desfiladeiro de uns cem zhang de profundidade...\n"
+
+msgid "你爬上石桥的护栏，伸手往不远处的一根藤蔓抓去...."
+msgstr "Você sobe no parapeito da ponte de pedra e estica a mão para um cipó não muito distante..."
+
+msgid "只听见一声杀猪般的惨叫，你已经往山涧中坠了下去。"
+msgstr "Ouve-se um berro de porco no abate, e você já está despencando no riacho da montanha."
+
+msgid "你听到有人高声惊叫，一条人影从上方掉了下来，「扑通」一声跌进潭中。"
+msgstr "Você ouve alguém gritar assustado; um vulto cai de cima e mergulha no poço com um \"tchibum\"."
+
+msgid "你手脚俐落地攀附著藤蔓，慢慢地爬下山涧....。"
+msgstr "Com mãos e pés ágeis, você se agarra ao cipó e desce devagar ao riacho da montanha..."
+
+msgid "忽然一条人影从南边的帘幕穿了出来。"
+msgstr "De repente um vulto sai pela cortina do sul."
+
+msgid "攀爬石壁"
+msgstr "Escalar a parede de rocha"
+
+msgid "两边的山壁看起来又高又陡，看来要爬上岸边实在很不容易。\n"
+msgstr "Os paredões dos dois lados parecem altos e íngremes; subir até a margem não será nada fácil.\n"
+
+msgid "你一付不信邪的表情，开始小心翼翼地攀著石壁爬了上去。"
+msgstr "Com ar de quem não se deixa intimidar, você começa a escalar com cuidado a parede de rocha."
+
+msgid "从这个勉强容身的岩穴往下爬，还有一段不算短的距离。\n"
+msgstr "Desta gruta apertada, ainda é um bom trecho para descer.\n"
+
+msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往山涧中攀了下去。"
+msgstr "Você testa se a rocha junto aos pés está firme e começa a descer com cuidado para o riacho."
+
+msgid "往上爬"
+msgstr "Subir"
+
+msgid "从这个勉强容身的岩穴往上爬，还有一段不算短的距离。\n"
+msgstr "Desta gruta apertada, ainda é um bom trecho para subir.\n"
+
+msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往上攀爬。"
+msgstr "Você testa se a rocha junto aos pés está firme e começa a escalar com cuidado."
+
+msgid "一块比人还高的钟乳石, 虽然长满了青苔, 但爬上去\n应该不会太困难。\n"
+msgstr "Uma estalagmite mais alta que uma pessoa; embora coberta de musgo, subir nela não deve ser muito difícil.\n"
+
+msgid "你慢慢地攀上大青石。"
+msgstr "Você sobe devagar na grande pedra azul."
+
+msgid "你迅速地爬下大青石。"
+msgstr "Você desce rápido da grande pedra azul."
+
+msgid "埋葬骸骨"
+msgstr "Enterrar o esqueleto"
+
+msgid "老夫南危水, 乃是昔年水烟阁五长老中第一高手,\n一生醉心武学, 集天邪、封山两派之所长, 为营救盟主遭小人暗算,\n埋骨于此。男子汉大丈夫死不足惜, 只可恨一身武学尚无传人!\n葬我遗骨者老夫将赠以过招要旨, 唉......\n"
+msgstr "Eu, Nan Weishui, fui outrora o melhor lutador entre os cinco anciãos do Pavilhão da Neblina.\nDediquei a vida às artes marciais, reunindo o melhor das escolas Rebelde e da Montanha Vazia.\nPara salvar o Líder da Aliança, caí na armadilha de um canalha, e aqui ficaram enterrados meus ossos.\nUm homem não teme a morte, mas lamento que a minha arte não tenha herdeiro!\nA quem enterrar meus restos, este velho dará a \"Cartilha de combate\". Ai...\n"
+
+msgid "你小心翼翼地埋好了那具骸骨。"
+msgstr "Você enterra com cuidado aquele esqueleto."
+
+msgid "你听见山洞顶部的石壁「喀喇」地一声响，一本书坠落下来。"
+msgstr "Você ouve um \"crac\" na pedra do teto da caverna, e um livro cai."
+
+msgid "你只看见山洞顶部纷纷扬扬飘下几张纸片来。"
+msgstr "Você só vê alguns pedaços de papel caírem flutuando do teto da caverna, em todas as direções."
+
+msgid "你听得「轰」的一声响，已经从这摔了下去"
+msgstr "Você ouve um \"bum\" e já despencou daqui."
+
+msgid "你定下心神一看，其实这个悬崖没有想像中那么恐怖，也许还\n可以从这里爬下山涧，只是这世界上大概没有这种白痴愿意干\n这种傻事吧。\n"
+msgstr "Você se acalma e olha de novo: na verdade o precipício não é tão aterrorizante quanto imaginava; talvez dê até para descer por aqui ao riacho, mas provavelmente não há idiota no mundo disposto a fazer uma tolice dessas.\n"
+
+msgid "你一付认真的表情，开始小心翼翼地攀著石壁爬了上去。"
+msgstr "Com ar sério, você começa a escalar com cuidado a parede de rocha."
+
+msgid "「官府告示：此处常有歹人出没。」\n"
+msgstr "\"Aviso oficial: por aqui costumam rondar bandidos.\"\n"
+
+msgid "一块旧木牌，刻着三行字：\n「往西，雪亭镇。」\n「往东，小石桥。」\n「往南，下坡道。」\n"
+msgstr "Uma velha placa de madeira, com três linhas gravadas:\n\"Para o oeste, Pavilhão da Neve.\"\n\"Para o leste, a pontezinha de pedra.\"\n\"Para o sul, a ladeira abaixo.\"\n"
+
+msgid "顺着刀痕找"
+msgstr "Seguir as marcas de sabre"
+
+msgid "这几株松树的树干上都有刀划的记号，一道一道，深浅不一，像是有人怕走错了路，沿途留下的。记号一路往东，到那丛灌木跟前就断了。\n"
+msgstr "No tronco destes pinheiros há marcas de sabre, uma após a outra, umas fundas, outras rasas, como se alguém com medo de se perder as tivesse deixado ao longo do caminho. As marcas seguem para o leste e cessam diante daquela moita.\n"
+
+msgid "你顺着树上的刀痕往东找去，拨开那丛灌木，后面果然有一条踩得结实的小径，通往林子深处。"
+msgstr "Você segue para o leste as marcas de sabre nas árvores e afasta a moita; atrás dela, de fato, há uma trilha bem pisada que leva ao interior do bosque."
+
+msgid "刀痕指的就是灌木后面那条小径。"
+msgstr "As marcas de sabre apontam para a trilha que fica atrás da moita."
+
+msgid "一些杂乱的脚印，不但有人的脚印，看起来还有不少马蹄印。\n"
+msgstr "Algumas pegadas confusas; não só de pessoas, mas também muitas de cascos de cavalo.\n"
+
+msgid "这个瀑布从数百丈高的山壁上冲激而下，流入一个山涧底的小水潭\n，水潭两边的石壁垂下许多的藤蔓，你注意到瀑布后面似乎\n有什么东西在发著光。\n"
+msgstr "Esta cachoeira despenca de uma parede de centenas de zhang e cai num pequeno poço no fundo do riacho; das paredes de rocha dos dois lados do poço pendem muitos cipós, e você nota que atrás da cachoeira parece brilhar alguma coisa.\n"
+
+msgid "这个瀑布水势并不是很大，但是高度却极高，水珠溅在你的脸上\n打得隐隐生疼。你注意到瀑布后面似乎有什么东西在发著光。\n"
+msgstr "O volume de água desta cachoeira não é muito grande, mas a altura é enorme; as gotas que respingam no seu rosto batem e quase doem. Você nota que atrás da cachoeira parece brilhar alguma coisa.\n"
+
+msgid "水潭四周的山壁都有数百丈高，想要爬上去「肯定」是休想。\n"
+msgstr "As paredes em volta do poço têm centenas de zhang de altura; escalá-las, \"com certeza\", nem pensar.\n"
+
+msgid "这里的山壁比北边高度稍低了点，但是对凡人而言想要爬上去仍然\n还有一段差距。\n"
+msgstr "Aqui o paredão é um pouco mais baixo que ao norte, mas, para um simples mortal, subir ainda está longe.\n"
+
+msgid "这片帘幕似乎是用一种极薄的丝绸织成的，后面还传来阵阵水声。\n"
+msgstr "Esta cortina parece tecida com uma seda finíssima, e atrás dela se ouvem rumores de água.\n"
+
+msgid "一把极其沈重的大槌，要挥动这样的武器非得有过人的膂力不可。\n"
+msgstr "Uma marreta enorme e pesadíssima; para brandir uma arma assim é preciso uma força de braços fora do comum.\n"
+
+msgid "一把沈重的钢刀，磨得又利又快，看起来相当具杀伤力。\n"
+msgstr "Um pesado sabre de aço, afiado e cortante, que evidentemente é muito mortífero.\n"
+
+msgid "这种斧头的刃长柄短，是专门用来做兵器的斧头，近战具有相当强的\n杀伤力。\n"
+msgstr "Um machado de lâmina longa e cabo curto, feito de propósito como arma; no combate corpo a corpo é bastante mortífero.\n"
+
+msgid "野羊山三寨主（代寨主）"
+msgstr "Terceiro chefe do Morro das Cabras (chefe interino)"
+
+msgid "黄霸原是关外一个山寨的寨主，后来因为逃避官府追捕而到也羊山\n避祸，他的成名武器是一对各重四十斤的大金槌，内功跟横练功夫\n也都有不错的造诣。\n大寨主、二寨主先后没了下落，如今野羊寨的事都是他说了算——只是每年得往北麓的道观纳供。\n"
+msgstr "Huang Ba era o chefe de um forte de montanha além da fronteira; fugindo da perseguição das autoridades, veio se esconder no Morro das Cabras. Suas armas famosas são um par de grandes marretas de ouro, de quarenta jin cada uma, e ele também tem boa mestria em neigong e no treino do corpo de ferro.\nO grande chefe e o segundo chefe desapareceram um depois do outro, e agora todos os assuntos do Forte das Cabras são decididos por ele; só que, todo ano, precisa pagar tributo ao mosteiro do Sopé norte.\n"
+
+msgid "纳供"
+msgstr "Tributo"
+
+msgid "说过的话老子不说第二遍。车在山路转角，去不去随你。"
+msgstr "O que este velho diz, não diz duas vezes. O carro está na curva da estrada de montanha. Ir ou não, é com você."
+
+msgid "哼了一声。"
+msgstr " bufa."
+
+msgid "你倒打听得清楚。两年前北麓来了那群黑衣黑冠的道士，一座黑砖道观说起就起，自称逆灵宫。寨里折了一半弟兄。"
+msgstr "Você andou se informando bem. Faz dois anos, chegou ao Sopé norte aquele bando de taoístas de roupa preta e gorro negro, e um mosteiro de tijolo negro foi erguido do nada; chama a si mesmo de Palácio Negro. O forte perdeu metade dos irmãos."
+
+msgid "半年前大寨主霍铮、二寨主一前一后没了下落，寨子就落到老子手里。老子打不过他们——每年纳供，金帛、牲口，他们要什么给什么，换这山上还有野羊寨。"
+msgstr "Meio ano atrás, o grande chefe Huo Zheng e o segundo chefe sumiram um atrás do outro, e o forte caiu nas mãos deste velho. Não dou conta deles: todo ano pago tributo, ouro, seda, gado, o que pedirem eu dou, e em troca ainda existe um Forte das Cabras nesta montanha."
+
+msgid "把酒碗往桌上一顿。"
+msgstr " bate a tigela de vinho na mesa."
+
+msgid "今年的车今天就上去了，这会儿该到了山路转角。你要去，别说是老子说的。"
+msgstr "O carro deste ano subiu hoje; a esta hora deve estar na curva da estrada de montanha. Se for lá, não diga que fui eu que falei."
+
+msgid "寨里的事，外人少打听。"
+msgstr "Os de fora é bom que perguntem menos dos assuntos do forte."
+
+msgid "前些日子茅山灵心观来了个小道士，说是替他们的林忌真人打听北麓那座道观——问寨里有没有人进去过，还出得来。"
+msgstr "Uns dias atrás veio do Mosteiro do Coração Claro, do Monte Mao, um taoístazinho, dizendo que perguntava em nome do Sábio Lin Ji sobre aquele mosteiro do Sopé norte: se alguém do forte tinha entrado lá e voltado a sair."
+
+msgid "老子说有一个。……你要是不想再跟那群牛鼻子打交道，就当老子没说。"
+msgstr "Este velho disse que havia um. ...Se não quer mais lidar com aquele bando de narizes de boi, faça de conta que este velho não disse nada."
+
+msgid "茅山？牛鼻子道士，老子不认得。"
+msgstr "O Monte Mao? Taoístas narizes de boi, este velho não conhece."
+
+msgid "黄霸脸色一沉：北麓那座黑砖道观？少打听。要问，问纳供。"
+msgstr "Huang Ba fecha a cara: \"Aquele mosteiro de tijolo negro do Sopé norte? Pergunte menos. Se tem que perguntar, pergunte pelo tributo.\""
+
+msgid "大哥在里屋。要见他，自己进去。"
+msgstr "O irmão mais velho está no quarto dos fundos. Se quer vê-lo, entre você mesmo."
+
+msgid "没了。野羊山现在姓黄。"
+msgstr "Sumiu. O Morro das Cabras agora se chama Huang."
+
+msgid "霍铮？半年前让道观的人带走了。你问这个做什么。"
+msgstr "Huo Zheng? Faz meio ano que o pessoal do mosteiro o levou. Para que você pergunta isso?"
+
+msgid "黑衣"
+msgstr "Roupa preta"
+
+msgid "就那一顶，老子又不开成衣铺。"
+msgstr "Só havia aquele. Este velho não tem loja de roupas."
+
+msgid "从墙角的箱子里翻出一顶黑冠，往你怀里一扔。"
+msgstr " tira um gorro negro do baú do canto e joga nos seus braços."
+
+msgid "去年抓过一个落单的道士，衣冠都在这儿，人早喂了岩蛭。黑衣你自己有，戴上这顶冠，那群牛鼻子分不出你是谁。"
+msgstr "No ano passado pegamos um taoísta que andava sozinho; a roupa e o gorro dele estão aqui, e o homem, faz tempo que o demos de comida às sanguessugas de pedra. Roupa preta você já tem; ponha este gorro e aquele bando de narizes de boi não vai saber quem você é."
+
+msgid "见了霍铮——要是他还活着——说一声，黄霸没忘了他。"
+msgstr "Se encontrar Huo Zheng (se ainda estiver vivo), diga a ele que Huang Ba não o esqueceu."
+
+msgid "眯眼看了你一会儿，从墙角的箱子里翻出一顶黑冠，往你怀里一扔。"
+msgstr " olha você um tempo de olhos semicerrados, tira um gorro negro do baú do canto e joga nos seus braços."
+
+msgid "刘老三让你来的？去年抓过一个落单的道士，衣冠都在这儿。黑衣你自己有，戴上这顶冠，那群牛鼻子分不出你是谁。"
+msgstr "Liu, o Terceiro, mandou você? No ano passado pegamos um taoísta que andava sozinho, e a roupa e o gorro dele estão aqui. Roupa preta você já tem; ponha este gorro e aquele bando de narizes de boi não vai saber quem você é."
+
+msgid "黑衣？老子穿的是布衣。少打听。"
+msgstr "Roupa preta? Este velho veste pano grosso. Pergunte menos."
+
+msgid "野羊山寨主"
+msgstr "Chefe do Forte do Morro das Cabras"
+
+msgid "黄霸把酒碗往桌上一顿：野羊山，老子说了算。\n"
+msgstr "Huang Ba bate a tigela de vinho na mesa: \"No Morro das Cabras, quem manda é este velho.\"\n"
+
+msgid "黄霸嘟囔道：大寨主没了。没了就没了。\n"
+msgstr "Huang Ba murmura: \"O grande chefe sumiu. Sumiu, e pronto.\"\n"
+
+msgid "野羊山三寨主"
+msgstr "Terceiro chefe do Forte do Morro das Cabras"
+
+msgid "黄霸给里屋送了一碗酒进去，出来时抹了把脸。\n"
+msgstr "Huang Ba leva uma tigela de vinho ao quarto dos fundos e, ao sair, passa a mão no rosto.\n"
+
+msgid "黄霸嘟囔道：大哥回来了。好，好。\n"
+msgstr "Huang Ba murmura: \"O irmão mais velho voltou. Bom, bom.\"\n"
+
+msgid "看了你一眼，又低头喝酒。"
+msgstr " olha para você e volta a beber de cabeça baixa."
+
+msgid "逆灵宫的事老子听说了。大寨主没了，寨子是老子的——你也别想拿这个压老子。"
+msgstr "Fiquei sabendo do assunto do Palácio Negro. O grande chefe sumiu, o forte é deste velho; e nem pense em me pressionar com isso."
+
+msgid "手里的酒碗啪地掉在地上。"
+msgstr " deixa cair a tigela de vinho, que se espatifa no chão."
+
+msgid "大哥……大哥你还活着！"
+msgstr "Irmão mais velho... Irmão mais velho, você está vivo!"
+
+msgid "活着。老三，寨子你管得不错——供也纳得不错。"
+msgstr "Vivo. Terceiro, você cuidou bem do forte. E pagou bem o tributo."
+
+msgid "扑通一声跪下了。"
+msgstr " se ajoelha com um baque."
+
+msgid "大哥，寨子是你的。老子从今天起还是三寨主，你要打要杀，老子不还手。"
+msgstr "Irmão mais velho, o forte é seu. A partir de hoje sou de novo o terceiro chefe, e se quiser me bater ou me matar, não revido."
+
+msgid "起来。杀你不如杀道士。"
+msgstr "Levante-se. Antes matar taoístas do que você."
+
+msgid "这娃娃是傅家坡的，派两个弟兄送他回家，少一根头发老子找你。"
+msgstr "Este menino é da Ladeira dos Fu. Mande dois irmãos levarem ele para casa; se faltar um fio de cabelo, vou atrás de você."
+
+msgid "两个寨兵领着石头出了庙门。石头回头看了你一眼，没有说话。"
+msgstr "Dois homens do forte levam Shitou para fora do portão do santuário. Shitou olha para você uma vez e não diz nada."
+
+msgid "兄弟，野羊寨欠你一条命。以后野羊山的路，你横着走。"
+msgstr "{jogador:Irmão|Irmã}, o Forte das Cabras te deve uma vida. De agora em diante, pelos caminhos do Morro das Cabras você anda como dono."
+
+msgid "霍铮骂骂咧咧地进了土地庙的里屋，叫黄霸拿酒来。"
+msgstr "Huo Zheng entra xingando no quarto dos fundos do Santuário do Deus da Terra e manda Huang Ba trazer vinho."
+
+msgid "一个眼神凶恶的土匪，脸上好几条长长的刀疤，看起来就知道不好惹。\n"
+msgstr "Um bandido de olhar feroz, com várias cicatrizes longas de faca no rosto; só de olhar já se sabe que não é gente de se provocar.\n"
+
+msgid "这个土匪看起来相当强悍，至少你从他的动作就可以看得出来他显然\n是练过武功的硬手，并不是泛泛之辈。\n"
+msgstr "Este bandido parece bem durão; ao menos pelos movimentos dá para ver que é um lutador calejado que treinou artes marciais, nada comum.\n"
+
+msgid "一条色作浅灰，带著白色斑点的水蛭模样怪虫，口中露出六对白森森\n的牙齿，看起来恶心极了。\n"
+msgstr "Um verme estranho, parecido com uma sanguessuga, cinza-claro com manchas brancas; da boca saem seis pares de dentes brancos e reluzentes. É de dar muito nojo.\n"
+
+msgid "你现在正走在一条崎岖的山路上，凹凹凸凸的山石刺得你的脚底隐\n隐生疼，山路往南不远处通往一个山腰的台地，这一带最大的镇甸就位\n在台地上，东边跟西边都是陡峭的山壁，山路往北通往层层叠叠的群山\n之中。\n"
+msgstr "Você caminha por uma estrada de montanha acidentada; as pedras irregulares picam a planta dos seus pés. Não muito longe, ao sul, a estrada leva a um terraço a meia encosta, onde fica o maior povoado da região. A leste e a oeste há paredões íngremes; ao norte, a estrada se interna entre camadas e mais camadas de montanhas.\n"
+
+msgid "你现在正走在一条崎岖的山路上，路面到处生满了及膝的杂草丛，\n显示这里已经有一段时间没有车马经过了，从这里往北就是野羊山的地\n界，野羊山有一座山寨，住著许多凶恶的盗匪，你最好绕道而行。\n"
+msgstr "Você caminha por uma estrada de montanha acidentada; por toda parte cresce mato até os joelhos, sinal de que há tempo não passam carros nem cavalos. Daqui para o norte começa o território do Morro das Cabras, onde há um forte cheio de bandidos ferozes; o melhor é dar a volta.\n"
+
+msgid "你现在正走在一条崎岖的山路上，东边的路旁一个山壁的裂缝里有\n一间小庙，从这里看过去黑漆漆的似乎没有人照顾，山路往北是一段陡\n峭的上坡，往西南的山路就平缓得多。\n"
+msgstr "Você caminha por uma estrada de montanha acidentada; a leste, numa fenda do paredão junto à estrada, há um pequeno santuário que daqui se vê escuro como breu, como se ninguém cuidasse dele. Ao norte, a estrada é uma subida íngreme; para o sudoeste é bem mais suave.\n"
+
+msgid "你现在正站在一间小土地庙中，这座庙的南北两面都是利用了山壁\n而建的，只有东面一面土墙，墙上嵌著一个小小的神龛，里面供著一尊\n残破不堪的土地爷爷，庙门在你的西边。\n"
+msgstr "Você está num pequeno santuário do Deus da Terra. Os lados norte e sul do santuário aproveitam o paredão; só o lado leste é uma parede de barro, com um pequeno nicho onde se venera uma imagem muito deteriorada do vovô Deus da Terra. A porta do santuário fica a oeste.\n"
+
+msgid "你现在正走在一条崎岖山路的转角处，山路望东通往野羊山上，从\n这里可以望见东边不远处有一个石屋立在岩壁边上，看起来像是冈哨或\n什么的，北边的山壁有一个裂口，不过离地约有三到四丈， 往\n南的山路是段陡峭的下坡，如果你要下山，大概就是这条路了。\n"
+msgstr "Você está numa curva de uma estrada de montanha acidentada. A estrada sobe para o leste, rumo ao Morro das Cabras, e não muito longe a leste se vê uma casa de pedra junto à parede de rocha, que parece um posto de vigia ou algo assim. No paredão norte há uma fenda, mas fica a uns três ou quatro zhang do chão. Ao sul, a estrada é uma descida íngreme; se quer descer a montanha, provavelmente é por aqui.\n"
+
+msgid "这里是一段狭窄的山路，往东不远处的岩壁边上有一座石屋，路旁\n生满了及腰的长草，山风吹过一起一伏的有如波浪一般，南北两边有许\n多大石，看起来倒是个埋伏的好地点，往西是一个山路的转角。\n"
+msgstr "Um trecho estreito de estrada de montanha. Não longe, a leste, junto à parede de rocha, há uma casa de pedra. Junto à estrada cresce capim até a cintura, que sobe e desce como ondas quando o vento passa. Ao norte e ao sul há muitas pedras grandes: parece um bom lugar para uma emboscada. A oeste fica a curva da estrada.\n"
+
+msgid "这里是一处岩石斜坡，斜坡上到处布满乱石及杂草，东边的岩壁边\n有一间石屋，往西跟往北则可以回到铺满碎石的山路。\n"
+msgstr "Uma encosta de rocha cheia de pedras soltas e mato. Na parede de rocha do leste há uma casa de pedra; para o oeste e o norte se volta à estrada de montanha coberta de cascalho.\n"
+
+msgid "你现在正走在一条崎岖的山路上，往北是一个峡谷，通过「飞火崖\n」的正下方，从这里可以看到一条五、六丈宽的石梁魏颤颤地跨过峡谷\n，山路往西南转过，南边则是一片岩石斜坡。\n"
+msgstr "Você caminha por uma estrada de montanha acidentada. Ao norte há um desfiladeiro que passa bem sob o \"Penhasco do Fogo Voador\"; daqui se vê uma viga de pedra de cinco ou seis zhang de largura cruzando o desfiladeiro, trêmula. A estrada dobra para o sudoeste, e ao sul há uma encosta de rocha.\n"
+
+msgid "你现在正走在一条狭长的峡谷之中，东西两边都是高不可攀的峭壁\n，一根五、六丈宽的石梁正横跨在你头顶的谷口，看起来摇摇欲坠，万\n一掉下来只怕当场就会被压成一个肉饼，往南就是峡谷的出口，峡谷谷\n底的地面看起来像是乾涸的山涧，弯弯曲曲往北通入峡谷深处。\n"
+msgstr "Você caminha por um desfiladeiro longo e estreito, com penhascos inacessíveis a leste e a oeste. Sobre a sua cabeça, na boca do desfiladeiro, cruza uma viga de pedra de cinco ou seis zhang de largura que parece prestes a cair; se desabasse, você provavelmente seria achatado ali mesmo. Ao sul fica a saída do desfiladeiro. O fundo parece o leito seco de um riacho, que serpenteia para o norte, rumo ao fundo do desfiladeiro.\n"
+
+msgid "你现在正走在一条狭长的深谷之中，东西两面都是高不可攀的峭壁\n，往南沿著谷底一条乾涸的山涧可以通往峡谷的出口，北边的峭壁从这\n里斜斜向上宛如从天上掉下来倒插进地面，形势更是危峻，连天空都被\n北边的峭壁遮去了七、八分。\n"
+msgstr "Você caminha por um vale profundo, longo e estreito, com penhascos inacessíveis a leste e a oeste. Ao sul, seguindo o leito seco de um riacho pelo fundo, chega-se à saída do desfiladeiro. O penhasco do norte se inclina daqui para cima como se tivesse caído do céu e se cravado de cabeça na terra; a passagem é ainda mais perigosa, e o penhasco esconde sete ou oito décimos do céu.\n"
+
+msgid "你现在正走在一条峡谷的谷底，这里的峭壁斜度之大让你胆颤心惊\n，只消有人在这里一声大喝将上面的土石震了下来，只怕立刻就得被活\n埋，东边的峭壁上有一个黑漆漆的洞穴，里面似乎有什么东西蠕蠕而动\n，峡谷往西南和西北两边各有狭窄的出口。\n"
+msgstr "Você caminha pelo fundo de um desfiladeiro. Os penhascos aqui são tão inclinados que dá calafrio: bastaria alguém dar um grito para que a terra e as pedras de cima desabassem e soterrassem você de uma vez. No penhasco do leste há uma caverna escura como breu, e lá dentro parece que algo se contorce. O desfiladeiro tem saídas estreitas a sudoeste e a noroeste.\n"
+
+msgid "这个岩洞的内部似乎远比你想像得大，岩壁上有一条条的深沟彷佛\n是被什么蛀虫给蛀出来的，可是有什么虫会去啃咬这又硬又厚的岩壁呢\n？洞穴的出口在你的西边透著微光，东北边跟西北边各有一个洞穴，黑\n暗中似乎有什么东西在蠕蠕而动。\n"
+msgstr "O interior desta caverna parece muito maior do que você imaginava. Nas paredes de rocha há sulcos profundos, como se algum verme os tivesse roído; mas que verme roeria uma rocha tão dura e grossa? A saída da caverna, a oeste, deixa passar uma luz tênue. A nordeste e a noroeste há outras duas cavernas, e na escuridão algo parece se contorcer.\n"
+
+msgid "你现在正在一个黑漆漆的岩洞中摸索前进，西南边隐隐有些光亮，\n想必是洞穴的出口，东边似乎有些滴水的声音，不过你得走过去才能听\n得仔细，你感觉脚边有一些东西在蠕蠕而动，举脚又有些黏黏的，一阵\n恶心的感觉压迫著你的胃。\n"
+msgstr "Você avança às apalpadelas por uma caverna escura como breu. A sudoeste se vê um leve clarão: deve ser a saída da caverna. Do leste vem algo como um gotejar de água, embora você precise chegar mais perto para ouvi-lo bem. Você sente algo se contorcer junto aos seus pés, e ao levantar o pé ele fica meio pegajoso; uma náusea oprime o seu estômago.\n"
+
+msgid "这里一片黑漆漆，你必须全靠摸索才能不至于撞到岩壁，你听到东\n边传来阵阵滴水的声音，可是伸手一摸却仍是冷冰冰、又乾又硬的岩石\n，地上布满了许多又黏又稠的不知名东西，使你每一步都走得异常艰辛\n。\n"
+msgstr "Aqui está tudo escuro como breu, e você tem de avançar às apalpadelas para não bater nas paredes. Você ouve um gotejar de água vindo do leste, mas ao tocar só encontra rocha fria, seca e dura. O chão está coberto de uma substância pegajosa e grossa que você não sabe o que é, e cada passo custa muitíssimo.\n"
+
+msgid "这里是一处阴暗的岩洞，等你走近这个岩洞才发现原来是死路，东\n北边隐隐透出几道微光，想必是洞穴的出口，地上一滩滩暗黄色的黏稠\n物不知道士什么东西，闻起来竟一点味道也没有。\n"
+msgstr "Uma caverna escura; só ao chegar perto você descobre que é um beco sem saída. A nordeste se filtram alguns raios de luz tênue: deve ser a saída da caverna. No chão há poças de uma substância pegajosa amarelo-escura que você não sabe o que é, e que não tem cheiro nenhum.\n"
+
+msgid "北边的山壁上一道黑黝黝的裂口，离地约有三四丈，站在路上够不着。裂口边缘的岩石磨得发亮，像是常有东西从那里吊上吊下。\n"
+msgstr "Na parede norte se abre uma fenda negra, a uns três ou quatro zhang do chão; da estrada não se alcança. A rocha da borda está gasta e brilhante, como se com frequência subissem e descessem coisas por ali.\n"
+
+msgid "钻进车里"
+msgstr "Esconder-se na carroça"
+
+msgid "油布底下是供品的箱子。钻进去，就只能跟着箱子一起被吊上裂口，中途下不来。"
+msgstr "Sob a lona estão as caixas de oferendas. Se entrar, você só poderá subir à fenda junto com as caixas e não conseguirá descer no meio do caminho."
+
+msgid "钻进去"
+msgstr "Entrar"
+
+msgid "你掀开油布一角，缩进两只箱子中间。油布落下来，眼前一黑。\n"
+msgstr "Você levanta um canto da lona e se encolhe entre duas caixas. A lona cai de volta, e tudo escurece.\n"
+
+msgid "过了一会儿，车板一震，绳子绷紧了——你和箱子一起离了地，在半空里晃了半天，咚的一声落在硬地上。\n"
+msgstr "Passado um tempo, a plataforma do carro dá um solavanco e a corda se estica: você e as caixas deixam o chão, balançam um bom tempo no ar e caem com um baque sobre chão duro.\n"
+
+msgid "车停在那里，油布底下空空的，绳子松着——没人拉绳，钻进去也上不去。\n"
+msgstr "A carroça está ali parada, sob a lona não há nada e a corda está frouxa: sem ninguém puxando a corda, mesmo entrando você não sobe.\n"
+
+msgid "攀绳上去"
+msgstr "Subir pela corda"
+
+msgid "你抓住垂下的麻绳，手脚并用地攀上裂口。岩壁磨得发亮，上头有绞盘吱吱的响声。\n"
+msgstr "Você agarra a corda de cânhamo que pende e sobe com mãos e pés até a fenda. A parede de rocha está gasta e brilhante, e lá em cima um guincho range.\n"
+
+msgid "你戴着黑冠，押车的道士只当你是宫里的人，没人拦你。你抓住麻绳，手脚并用地攀上裂口。\n"
+msgstr "Você veste o gorro negro, e o taoísta que escolta o carro te toma por gente do palácio; ninguém te detém. Você agarra a corda e sobe com mãos e pés até a fenda.\n"
+
+msgid "押车道士盯着你，手按在剑柄上：「此处无路，施主请回。」\n"
+msgstr "O taoísta de escolta te encara, com a mão no cabo da espada: \"Aqui não há caminho. Volte, {jogador:benfeitor|benfeitora}.\"\n"
+
+msgid "裂口离地三四丈，壁上光溜溜的，没有绳子上不去。\n"
+msgstr "A fenda fica a três ou quatro zhang do chão e a parede é lisa; sem corda, não se sobe.\n"
