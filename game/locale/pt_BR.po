@@ -16411,7 +16411,7 @@ msgid "一根啃得精光的鸡腿骨头。\n"
 msgstr "Um osso de coxa de frango roído até ficar limpo.\n"
 
 msgid "一个牛皮缝的大酒袋，大概装得八、九升的酒。\n"
-msgstr "Um grande odre de couro de boi costurado, que deve levar uns oito ou nove litros de vinho.\n"
+msgstr "Um grande odre de couro de boi costurado, que deve levar uns oito ou nove sheng de vinho.\n"
 
 msgid "这本旧书的纸张都已经泛黄了，上面只有一些字迹模糊的字句，似乎\n提到一些呼吸方法什么的。\n"
 msgstr "O papel deste livro velho já amareleceu, e nele há só umas frases de letra borrada, que parecem\ntratar de métodos de respiração.\n"
@@ -16492,7 +16492,7 @@ msgid "不 ... 它飘了起来！一个人形忽然浮现，手中正握著风�
 msgstr "Não ... ela se ergue no ar! Um vulto humano surge de repente, empunhando a Espada da Fonte do Vento!"
 
 msgid "拳脚功夫的根底，出拳踢腿、闪身贴近都从这里练起。柳家拳、天邪神掌这类拳掌指爪的专门功夫都要激发在它上面，根底越厚，激发出来越有分量。勤练拳脚，膂力也会慢慢长起来。"
-msgstr "A base do combate com punhos e pés: socar, chutar e se esgueirar para perto começam aqui. As artes especializadas de punho, palma, dedo e garra, como o Punho da família Liu e a Palma indômita, são aplicadas sobre ela: quanto mais firme a base, mais peso elas têm. Treine punhos e pés com afinco, e sua Força também crescerá aos poucos."
+msgstr "A base do combate com punhos e pés: socar, chutar e se esgueirar para perto começam aqui. As artes especializadas de punho, palma, dedo e garra, como o Punho da família Liu e a Palma rebelde, são aplicadas sobre ela: quanto mais firme a base, mais peso elas têm. Treine punhos e pés com afinco, e sua Força também crescerá aos poucos."
 
 msgid "由於你勤练武艺，你的膂力提高了。"
 msgstr "Graças ao seu treino constante, sua Força aumentou."
@@ -16528,7 +16528,7 @@ msgid "闪身避让的功夫，对方的招式能不能落在身上，多半看�
 msgstr "A arte de sair do caminho com um passo de lado. Se os golpes do adversário acertam você ou não depende sobretudo dela. Passos como os Passos caóticos das sete estrelas, os Passos do morcego de fogo e a Dança da tempestade celeste são aplicados sobre ela."
 
 msgid "但是和$p$l偏了几寸。"
-msgstr "Mas passa a poucos centímetros de $l{:o} {n:de você|de $n{:o}}"
+msgstr "Mas passa a poucos cun de $l{:o} {n:de você|de $n{:o}}"
 
 msgid "但是被$p机灵地躲开了。"
 msgstr "Mas $n{:o} se esquiva com agilidade."
@@ -16597,7 +16597,7 @@ msgid "你的内力不够"
 msgstr "Você não tem Força interior suficiente."
 
 msgid "振远镖局的看家刀法，总镖头陈天星凭它和天邪神掌在江湖上博得「刀掌双绝」之名。招名如「春风拂人醉」「远山伴人痴」「柳叶随人笑」，刀势轻飘，撩斩之间不见锋芒。"
-msgstr "O sabre da casa dos Escoltas do Longo Caminho. Com ele e a Palma indômita, o Chefe de escolta Chen Tianxing ganhou no jianghu o nome de \"Mestre duplo do sabre e da palma\". Seus movimentos têm nomes como \"Embriagado pela brisa\", \"Perdido nas colinas distantes\" e \"As folhas do salgueiro riem\"; a lâmina flutua leve, e entre os golpes ascendentes e os talhos nunca mostra o fio."
+msgstr "O sabre da casa dos Escoltas do Longo Caminho. Com ele e a Palma rebelde, o Chefe de escolta Chen Tianxing ganhou no jianghu o nome de \"Mestre duplo do sabre e da palma\". Seus movimentos têm nomes como \"Embriagado pela brisa\", \"Perdido nas colinas distantes\" e \"As folhas do salgueiro riem\"; a lâmina flutua leve, e entre os golpes ascendentes e os talhos nunca mostra o fio."
 
 msgid "你必须先找一把刀，才能练刀法。"
 msgstr "Você precisa primeiro de um sabre para praticar a arte do sabre."
@@ -16627,7 +16627,7 @@ msgid "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l"
 msgstr "$N{:o} muda de passo e fica de lado com \"Borboletas queimam a seda\"; o fio faísca ao cortar rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "封山剑派是当今武林最大的一支剑派，这套剑法是当年创派的三位剑术名家在封山灵狐顶相互印证、合力创出的。招式并不难学，难在剑意：自「剑气」练起，次练「剑心」「剑芒」「剑神」，四者都练到登峰造极的人少之又少，所以同是封山剑法，造诣深浅不同的人使出来，威力差之千里。剑中有「封」「点」「逐」「缺」四字诀，须以封山派内功为根基。"
-msgstr "A Escola da Montanha Vazia é a maior escola de espada do wulin de hoje. Este estilo foi forjado pelos três mestres fundadores, que se testaram uns aos outros e o criaram juntos no Pico da Raposa Espiritual. Os movimentos não são difíceis de aprender; difícil é o espírito da espada: começa-se pelo \"Qi da espada\", depois o \"Coração da espada\", o \"Fulgor da espada\" e o \"Espírito da espada\"; pouquíssimos chegam ao auge nos quatro, e por isso a mesma Espada da Montanha Vazia, na mão de uns e de outros, difere em poder como o céu da terra. A espada guarda quatro segredos: \"Selar\", \"Ponta\", \"Perseguir\" e \"Falha\", e se apoia no Neigong da Montanha Vazia."
+msgstr "A Escola da Montanha Vazia é a maior escola de espada do wulin de hoje. Este estilo foi forjado pelos três mestres fundadores, que se testaram uns aos outros e o criaram juntos no Pico da Raposa Espiritual. Os movimentos não são difíceis de aprender; difícil é o espírito da espada: começa-se pelo \"Qi da espada\", depois o \"Coração da espada\", o \"Fulgor da espada\" e o \"Espírito da espada\"; pouquíssimos chegam ao auge nos quatro, e por isso a mesma Espada da Montanha Vazia, na mão de uns e de outros, difere em poder como o céu da terra. A espada guarda quatro segredos: \"Selo\", \"Ponto\", \"Perseguir\" e \"Brecha\", e se apoia no Neigong da Montanha Vazia."
 
 msgid "你按著所学练了一遍封山剑法。"
 msgstr "Você repassa a Espada da Montanha Vazia como a aprendeu."
@@ -16663,7 +16663,7 @@ msgid "$N使出封山剑法中的「空山鸟语」，剑光霍霍斩向$n的$l"
 msgstr "$N{:o} usa \"Trinados na montanha vazia\", da Espada da Montanha Vazia, e o fio cintila ao cair rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N一招「御风而行」，身形陡然滑出数尺，手中$w斩向$n的$l"
-msgstr "$N{:o} usa \"Cavalgar o vento\": desliza de repente vários passos e desfere $w{:o} rumo a $l{:o} {n:de você|de $n{:o}}"
+msgstr "$N{:o} usa \"Cavalgar o vento\": desliza de repente vários chi e desfere $w{:o} rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N手中$w中宫直进，一式「旭日东升」对准$n的$l刺出一剑"
 msgstr "$N{:o} lança $w{:o} reto pelo centro com \"Sol nascente no leste\", em uma estocada rumo a $l{:o} {n:de você|de $n{:o}}"
@@ -16693,7 +16693,7 @@ msgid "$n一招「天玑离枢」轻轻巧巧地避了开去。"
 msgstr "$n{:o} usa \"Tianji deixa o eixo\" e se afasta com desenvoltura."
 
 msgid "只见$n身影一晃，一式「天璇乱步」早已避在七尺之外。"
-msgstr "$n{:o} oscila e, com \"Passo torto de Tianxuan\", já está a mais de dois metros de distância."
+msgstr "$n{:o} oscila e, com \"Passo torto de Tianxuan\", já está a sete chi de distância."
 
 msgid "$n使出「倒转天权」，轻轻松松地闪过。"
 msgstr "$n{:o} usa \"Tianquan invertida\" e se esquiva sem esforço."
@@ -16711,7 +16711,7 @@ msgid "但是$n一招「瑶光音迟」使出，早已绕到$N身後！"
 msgstr "Mas $n{:o} usa \"A luz de Yaoguang demora\" e já está atrás de $N{:o}!"
 
 msgid "相传是武术之神、太阳神君杞庸在西天大山中见到灵兽天邪虎后有所领悟而创的内功心法，与模拟天邪虎神态的天邪神掌相配。威力极强，消耗体力也极大：运起来能回气、提升战力、以内力强压杀气，最深的一手是「天邪虎啸」，一声长吼震伤身边所有的人。修习须有足够的杀气撑着，苦练下去，定力也会提高。"
-msgstr "Dizem que foi criado por Qi Yong, Senhor Sol e deus das artes marciais, depois de ver o Tigre rebelde, fera espiritual, nas grandes montanhas do distante oeste; faz par com a Palma indômita, que imita a postura do tigre. De poder imenso e enorme desgaste: ao circular, recupera Qi, aumenta a força de combate e esmaga a Aura assassina com a Força interior; seu movimento mais profundo é o \"Rugido do Tigre rebelde\", um longo bramido que fere todos ao redor. Para praticá-lo é preciso Aura assassina suficiente que o sustente, e, à força de treinar, a Serenidade também sobe."
+msgstr "Dizem que foi criado por Qi Yong, Senhor Sol e deus das artes marciais, depois de ver o Tigre rebelde, fera espiritual, nas grandes montanhas do distante oeste; faz par com a Palma rebelde, que imita a postura do tigre. De poder imenso e enorme desgaste: ao circular, recupera Qi, aumenta a força de combate e esmaga a Aura assassina com a Força interior; seu movimento mais profundo é o \"Rugido do Tigre rebelde\", um longo bramido que fere todos ao redor. Para praticá-lo é preciso Aura assassina suficiente que o sustente, e, à força de treinar, a Serenidade também sobe."
 
 msgid "天邪神功只能用学的，或是从运用中增加熟练度。"
 msgstr "A Arte rebelde só se aprende ou se melhora pelo uso."
@@ -16723,7 +16723,7 @@ msgid "由於你苦练天邪神功，你的定力提高了"
 msgstr "Graças ao seu treino duro na Arte rebelde, sua Serenidade aumentou."
 
 msgid "茅山派的法术，以治鬼除魔为主，多是攻敌的法术，兼有符咒之法：紫幽、青冥、苍灵「幽冥三箭」各有所长，又能召唤金甲天兵下凡护法、开「阴阳眼」看见鬼魂，还能驱动尸体。须以天师正道为根基，修为不够便领悟不了更深的道术。"
-msgstr "As magias da Escola do Monte Mao, voltadas sobretudo a subjugar fantasmas e expulsar demônios; quase todas são de ataque, com talismãs e encantamentos. As \"Três flechas do Submundo\", Sombra Violeta, Escuridão Azul e Espírito Cinza, têm cada uma suas virtudes; também é possível chamar do céu soldados celestiais de armadura dourada para proteger, abrir o \"Olho do yin e do yang\" para ver os fantasmas e até mover cadáveres. Devem se apoiar no Caminho dos Mestres Celestiais; sem cultivo suficiente, não se compreendem as artes mais profundas."
+msgstr "As magias da Escola do Monte Mao, voltadas sobretudo a subjugar fantasmas e expulsar demônios; quase todas são de ataque, com talismãs e encantamentos. As \"Três flechas do Submundo\", Sombra Violeta, Escuridão Azul e Espírito Cinza, têm cada uma suas virtudes; também é possível chamar do céu soldados celestiais de armadura dourada para proteger, abrir a \"Visão espectral\" para ver os fantasmas e até mover cadáveres. Devem se apoiar no Caminho dos Mestres Celestiais; sem cultivo suficiente, não se compreendem as artes mais profundas."
 
 msgid "你的天师正道修为不够，无法领悟更高深的茅山道术。"
 msgstr "Seu cultivo do Caminho dos Mestres Celestiais não é profundo o bastante para compreender a Feitiçaria do Monte Mao mais elevada."
@@ -16828,13 +16828,13 @@ msgid "你的内力不够了，休息一下再练吧。"
 msgstr "Você ficou sem Força interior. Descanse um pouco antes de treinar de novo."
 
 msgid "练天邪神掌必须空手。"
-msgstr "A Palma indômita se pratica com as mãos nuas."
+msgstr "A Palma rebelde se pratica com as mãos nuas."
 
 msgid "你的天邪神功火候不足，无法练天邪掌法。"
-msgstr "Sua Arte rebelde não está madura o bastante para praticar a Palma indômita."
+msgstr "Sua Arte rebelde não está madura o bastante para praticar a Palma rebelde."
 
 msgid "你的内力太弱，无法练天邪掌法。"
-msgstr "Sua Força interior é fraca demais para praticar a Palma indômita."
+msgstr "Sua Força interior é fraca demais para praticar a Palma rebelde."
 
 msgid "$N使出一招「大天罗式」，右掌穿出击向$n的$l"
 msgstr "$N{:o} usa \"Grande rede celeste\" e lança a palma direita rumo a $l{:o} {n:de você|de $n{:o}}"
@@ -16843,7 +16843,7 @@ msgid "$N使出一招「大天罗式」，左掌化虚为实击向$n的$l"
 msgstr "$N{:o} usa \"Grande rede celeste\": a palma esquerda passa de finta a golpe real rumo a $l{:o} {n:de você|de $n{:o}}"
 
 msgid "$N使出天邪掌法「小天罗式」，如鬼魅般欺至$n身前，一掌拍向$n的$l"
-msgstr "$N{:o} usa \"Pequena rede celeste\", da Palma indômita, se aproxima de $n{:o} como um espectro e desfere uma palmada em $l{:o}"
+msgstr "$N{:o} usa \"Pequena rede celeste\", da Palma rebelde, se aproxima de $n{:o} como um espectro e desfere uma palmada em $l{:o}"
 
 msgid "$N双掌一错，使出「雪阳三连月」，对准$n的$l连续拍出三掌"
 msgstr "$N{:o} cruza as palmas e, com \"Três luas sobre a neve\", golpeia três vezes seguidas rumo a $l{:o} {n:de você|de $n{:o}}"
@@ -16903,16 +16903,16 @@ msgid "$p身形微晃，使出「灵蝠轻逝」，有惊无险地避开了$N这
 msgstr "$n{:o} oscila um instante com \"O morcego espiritual se esvai\" e evita por pouco {N:seu ataque|o ataque de $N{:o}}."
 
 msgid "$p身随意转，一式「轻蝠点梢」，倏地往一旁挪开了三尺，避过了这一招。"
-msgstr "$n{:o} gira a seu gosto com \"Morcego leve sobre o galho\" e, num piscar de olhos, se afasta quase um metro, fora do ataque."
+msgstr "$n{:o} gira a seu gosto com \"Morcego leve sobre o galho\" e, num piscar de olhos, se afasta três chi, fora do ataque."
 
 msgid "却见$p足不点地，一招「夜蝠旋身」，往旁窜开数尺，躲了开去。"
-msgstr "Mas $n{:o}, com os pés mal roçando o chão, usa \"Morcego noturno gira\" e se lança alguns passos para o lado, fora de alcance."
+msgstr "Mas $n{:o}, com os pés mal roçando o chão, usa \"Morcego noturno gira\" e se lança vários chi para o lado, fora de alcance."
 
 msgid "只见$p一招「火蝠曳空」，身形向上拔起数尺高，闪了过去。"
-msgstr "$n{:o} usa \"Morcego de fogo risca o céu\" e se eleva alguns passos, fora do golpe."
+msgstr "$n{:o} usa \"Morcego de fogo risca o céu\" e se eleva vários chi, fora do golpe."
 
 msgid "晚月庄的舞步身法，招名「蕙芳下凡」「双成献舞」「织女于归」「天女散花」「嫦娥奔月」，翩然起舞之间，已飘出数尺之外。只有女子才能练，又看灵性；勤练舞技，容貌也会更添光彩。"
-msgstr "A dança do Solar da Lua Tardia: seus movimentos se chamam \"A Fada Orquídea desce à terra\", \"Shuangcheng dança\", \"A Tecelã se casa\", \"A donzela celeste espalha flores\" e \"Chang'e voa para a lua\", e entre giros de dança o corpo já flutuou alguns passos adiante. Só mulheres podem praticá-la, e depende da Espiritualidade; quem treina a dança também ganha brilho na Aparência."
+msgstr "A dança do Solar da Lua Tardia: seus movimentos se chamam \"A Fada Orquídea desce à terra\", \"Shuangcheng dança\", \"A Tecelã se casa\", \"A donzela celeste espalha flores\" e \"Chang'e voa para a lua\", e entre giros de dança o corpo já flutuou vários chi adiante. Só mulheres podem praticá-la, e depende da Espiritualidade; quem treina a dança também ganha brilho na Aparência."
 
 msgid "你的精神太差了，不能练七宝天岚舞。"
 msgstr "Seu Espírito está fraco demais para praticar a Dança da tempestade celeste."
@@ -16927,7 +16927,7 @@ msgid "由於你勤练舞技，你的容貌提高了"
 msgstr "Graças ao seu empenho na dança, sua Aparência melhorou."
 
 msgid "但$n一式「蕙芳下凡」随著轻轻一叹，顺著$N的招式飘出六尺之外！"
-msgstr "Mas $n{:o}, com um leve suspiro, usa \"A Fada Orquídea desce à terra\" e flutua quase dois metros seguindo {N:seu ataque|o ataque de $N{:o}}."
+msgstr "Mas $n{:o}, com um leve suspiro, usa \"A Fada Orquídea desce à terra\" e flutua seis chi seguindo {N:seu ataque|o ataque de $N{:o}}."
 
 msgid "$n双脚微动翩然起舞，一招「双成献舞」，堪堪闪过$N的这招！"
 msgstr "$n{:o} move os pés em uma dança graciosa com \"Shuangcheng dança\" e esquiva por pouco {N:seu ataque|o ataque de $N{:o}}"
@@ -16942,7 +16942,7 @@ msgid "$n一招「嫦娥奔月」，轻轻一纵优雅的自$N头顶越过！"
 msgstr "$n{:o} usa \"Chang'e voa para a lua\" e salta com leveza e elegância por cima {N:da sua cabeça|da cabeça de $N{:o}}!"
 
 msgid "神通一类法门的根底：灵力的上限看它，施展神通要用灵力。山烟寺的八识神通便激发在它上面。"
-msgstr "A base das artes de poderes místicos: dela depende o limite da Energia espiritual, e exercer uma energia espiritual gasta Energia espiritual. O Poder das oito consciências do Templo da Bruma se aplica sobre ela."
+msgstr "A base das artes de poderes místicos: dela depende o limite da Energia espiritual, e exercer um poder místico gasta Energia espiritual. O Poder das oito consciências do Templo da Bruma se aplica sobre ela."
 
 msgid "念咒施法的根底：法力的上限看它，冥思积下的法力才有地方存。茅山道术、奇门遁甲这些法术都激发在它上面。"
 msgstr "A base de recitar encantamentos: dela depende o limite do Poder arcano, e é onde cabe o Poder arcano acumulado na contemplação. Artes como a Feitiçaria do Monte Mao e o Qimen Dunjia são aplicadas sobre ela."
