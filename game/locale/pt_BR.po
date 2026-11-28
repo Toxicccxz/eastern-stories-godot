@@ -25249,7 +25249,7 @@ msgid "这是一位来雪亭镇的外地旅客.\n"
 msgstr "Um viajante de fora, de passagem pelo Pavilhão da Neve."
 
 msgid "一只浑身脏兮兮的野狗。\n"
-msgstr "Um cão selvagem sujo de dar pena."
+msgstr "Um cão selvagem imundo."
 
 msgid "野狗用鼻子闻了闻你的脚。\n"
 msgstr "O cão selvagem fareja seus pés."
@@ -25270,13 +25270,13 @@ msgid "这个老人看起来七十多岁了，看著他佝偻的身影，你忽�
 msgstr "Este velho parece ter mais de setenta anos. Ao ver seu vulto encurvado, você sente de repente o coração pesado."
 
 msgid "这位$RESPECT，捐点香火钱积点阴德吧。"
-msgstr "Uma esmola para o incenso, $RESPECT, e junte um pouco de mérito para a outra vida."
+msgstr "Doe uma esmola para o incenso, $RESPECT, e junte um pouco de mérito oculto."
 
 msgid "多谢这位$RESPECT，神明一定会保佑你的。"
-msgstr "Muito obrigado, $RESPECT. Os deuses com certeza vão te proteger."
+msgstr "Muito obrigado, $RESPECT. Os deuses com certeza vão proteger {jogador:o senhor|a senhora}."
 
 msgid "一个喝得醉醺醺的年轻人.....\n"
-msgstr "Um jovem bêbado como um gambá..."
+msgstr "Um jovem completamente bêbado..."
 
 msgid "酒..... 给我酒...."
 msgstr "Vinho... me dá vinho..."
@@ -25348,7 +25348,7 @@ msgid "话是你说的。我不怨你——五年前我就该走。"
 msgstr "Foi você quem disse. Eu não te culpo; cinco anos atrás eu já devia ter ido embora."
 
 msgid "馆主留我到今天，是他的情分；武馆的规矩，是老馆主的。两样都没错。"
-msgstr "Que o mestre me mantivesse aqui até hoje foi bondade dele; as regras do salão são do velho mestre. Nenhuma das duas coisas estava errada."
+msgstr "O mestre do salão ter me mantido aqui até hoje foi bondade dele; as regras do salão são do velho mestre do salão. Nenhuma das duas coisas estava errada."
 
 msgid "刘老三"
 msgstr "Liu, o Terceiro"
@@ -25372,7 +25372,7 @@ msgid "刘安禄大喝一声，叫道：既然如此，老子今天豁出去了�
 msgstr "Liu Anlu dá um brado: \"Se é assim, hoje eu jogo tudo! Venha morrer!\""
 
 msgid "刘安禄使开单刀，招数精奇，沈猛狠辣，和刚才简直判若两人！"
-msgstr "Liu Anlu saca o sabre numa técnica sutil, de golpes ferozes e cruéis: parece outro homem!"
+msgstr "Liu Anlu saca o sabre numa técnica sutil, de golpes pesados, ferozes e cruéis: parece outro homem, diferente de há pouco!"
 
 msgid "血手刘三"
 msgstr "Liu Mão Sangrenta"
@@ -25435,7 +25435,7 @@ msgid "话是你说的，馆主也认了。武馆的规矩，谁也不能例外�
 msgstr "Foi você quem disse, e o mestre aceitou. As regras do salão não abrem exceção para ninguém. ...Quando o velho Liu foi embora, deixou a chave da portaria limpa, sem uma mancha."
 
 msgid "你说认错了人，我就当是认错了人。弟子们那边，我去压。"
-msgstr "Você disse que erraram de homem; então erraram de homem. Os discípulos, eu cuido deles."
+msgstr "Você disse que erraram de homem; então erraram de homem. Os discípulos, eu vou contê-los."
 
 msgid "老刘前些日子不辞而别，门房的桌子空着。偏偏那几个骗子又在镇上嚷，说他是野羊山的二寨主。"
 msgstr "O velho Liu foi embora há uns dias sem se despedir, e a mesa da portaria está vazia. E justo agora aqueles vigaristas andam gritando pela vila que ele é o segundo chefe do Morro das Cabras."
@@ -25447,7 +25447,7 @@ msgid "馆主不开口。骗子是你打发的——老刘到底是什么人，�
 msgstr "O mestre não abre a boca. Foi você quem despachou os vigaristas; então diga a todos o que o velho Liu é de verdade: desmascará-lo ou acobertá-lo."
 
 msgid "那天你和老刘在门口动了刀，弟子们都看见了——那套刀法，不是一个门房使得出来的。"
-msgstr "Naquele dia, quando você e o velho Liu sacaram as lâminas na porta, os discípulos todos viram: aquele sabre não é de porteiro."
+msgstr "Naquele dia, quando você e o velho Liu sacaram as lâminas na porta, os discípulos todos viram: aquela técnica de sabre não é coisa de porteiro."
 
 msgid "偏偏那几个骗子又在镇上嚷，说他是野羊山的血手刘三。"
 msgstr "E justo agora aqueles vigaristas andam gritando pela vila que ele é Liu Mão Sangrenta, do Morro das Cabras."
@@ -25525,28 +25525,28 @@ msgid "馆主吩咐过，不许和来这里的客人过招。"
 msgstr "O mestre ordenou: nada de lutas com os visitantes."
 
 msgid "对不起，这位$RESPECT，您不是我们武馆的弟子。"
-msgstr "Sinto muito, $RESPECT, mas não pertence ao nosso salão."
+msgstr "Sinto muito, $RESPECT, mas não é {jogador:discípulo|discípula} do nosso salão."
 
 msgid "李火狮不愿意教你拳法。"
-msgstr "Li Huoshi não quer te ensinar o punho dele."
+msgstr "Li Huoshi não quer te ensinar o Punho da família Liu."
 
 msgid "你看到一位面色黝黑的农夫。\n"
 msgstr "Você vê um lavrador de rosto curtido pelo sol."
 
 msgid "农夫叫道：杀人哪！杀人哪！\n"
-msgstr "O lavrador grita: \"Assassino! Assassino!\""
+msgstr "O lavrador grita: \"Assassinato! Assassinato!\""
 
 msgid "农夫叫道：有土匪哪！光天化日下打劫哪！\n"
 msgstr "O lavrador grita: \"Bandidos! Assalto em plena luz do dia!\""
 
 msgid "一只浑身脏兮兮的野狗，一双眼睛正恶狠狠地瞪著你。\n"
-msgstr "Um cão selvagem sujo de dar pena, que te lança um olhar feroz."
+msgstr "Um cão selvagem imundo, que te lança um olhar feroz."
 
 msgid "教书先生"
 msgstr "Professor"
 
 msgid "魏无极是个博学多闻的教书先生，他年轻时曾经中过举人，但是\n因为生性喜爱自由而不愿做官，魏无极以教书为业，如果你付他\n一笔学费，就可以成为他的弟子学习读书识字。\n"
-msgstr "Wei Wuji é um professor erudito. Na juventude passou nos exames provinciais, mas, amante da liberdade, não quis ser funcionário público e vive de ensinar. Se você lhe pagar uma taxa, pode se tornar discípulo dele e aprender a ler e escrever."
+msgstr "Wei Wuji é um professor erudito. Na juventude passou nos exames provinciais, mas, amante da liberdade, não quis ser funcionário público e vive de ensinar. Se você lhe pagar uma taxa, pode se tornar {jogador:discípulo|discípula} dele e aprender a ler e escrever."
 
 msgid "学费"
 msgstr "Matrícula"
@@ -25852,7 +25852,7 @@ msgid "把书抱在怀里。"
 msgstr " abraça o livro contra o peito."
 
 msgid "你……过两日到内院来。我给你看一样东西。别告诉爹爹。"
-msgstr "Você... venha ao pátio interno daqui a uns dias. Quero mostrar uma coisa. Não conte ao papai."
+msgstr "Você... venha ao pátio interno daqui a dois dias. Quero mostrar uma coisa. Não conte ao papai."
 
 msgid "这上头是……爹爹的名字？你先去见过爹爹再说吧。"
 msgstr "Aqui em cima está... o nome do papai? Vá primeiro ver o papai."
@@ -25918,7 +25918,7 @@ msgid "……是我的牌。"
 msgstr "...É a minha placa."
 
 msgid "上个月手气背，欠了场子里一个姓罗的十二两。他不要银子，只要这块牌，说是拿去「挂两天」。我当他要个彩头。"
-msgstr "No mês passado a sorte foi ruim e fiquei devendo doze taéis a um tal Luo, na casa de jogo. Ele não quis a prata, só esta placa, para 'pendurá-la por uns dias', disse. Pensei que a quisesse como amuleto."
+msgstr "No mês passado a sorte foi ruim e fiquei devendo doze taéis a um tal Luo, na casa de jogo. Ele não quis a prata, só esta placa, para 'pendurá-la por dois dias', disse. Pensei que a quisesse como amuleto."
 
 msgid "他拿去雪亭收拜师钱？打的是师兄的旗号？"
 msgstr "Ele a levou ao Pavilhão da Neve para cobrar taxas de ingresso? Sob a bandeira do meu irmão mais velho?"
