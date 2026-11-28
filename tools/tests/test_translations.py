@@ -198,6 +198,36 @@ class TranslationsTest(unittest.TestCase):
         ]
         self.assertEqual(check_po.problems_in(_po(clean, "es_419")), [])
 
+    def test_portuguese_rules(self) -> None:
+        cases = {
+            "after written text": ("你给{npc}{item}。", "Você dá {item}{:o} a garçom{:o}."),
+            "unknown article mark": ("你给{npc}{item}。", "Você dá {item}{:el} a {npc}{:o}."),
+            "with no marked name": ("看见你，放下了手里的扫帚。", "Vê você e fica {~:quieto|quieta}."),
+            "with no number before it": ("你打坐 {count} 次", "Meditação: {#:vez|vezes} {count}"),
+            "$P/$p in Portuguese": ("结果只是轻轻地划破$p的皮肉。", "Só arranha a pele de $p."),
+            "full width": ("%d 分钟前", "Há %d {#:minuto|minutos}…"),
+            "with no article mark": ("你给{npc}{item}。", "Você dá {item}{:o} e {npc} assente."),
+            "bad player form": ("看见你，放下了手里的扫帚。", "Vê você: \"Está {jogador:cansado}!\""),
+            "bad form": ("$N挥拳攻击$n的$l", "$N{:o} {N:golpeia} $n{:o} no $l."),
+            "¿ or ¡ in Portuguese": ("看见你，放下了手里的扫帚。", "Vê você. ¿Que estranho?"),
+            "(portuguese_style.md, Tone: never)": ("看见你，放下了手里的扫帚。", "Vê você e larga a vassoura. Vós ides."),
+            "a Han character": ("店小二", "店小二"),
+        }
+        for label, entry in cases.items():
+            with self.subTest(label=label):
+                problems = check_po.problems_in(_po([entry], "pt_BR"))
+                self.assertTrue(any(label in problem for problem in problems), problems)
+        clean = [
+            ("你给{npc}{item}。", "Você dá {item}{:o} a {npc}{:o}."),
+            ("你打坐 {count} 次", "Você medita {count} {#:vez|vezes}."),
+            ("$N挥拳攻击$n的$l", "$N{:o} {n:te golpeia|golpeia $n{:o}} no $l."),
+            ("{count}{unit}{item}", "{count} {item}{:pl}"),
+            ("看见你，放下了手里的扫帚。", "Vê você: \"Já {jogador:chegou cansado|chegou cansada}?\""),
+            ("结果只是轻轻地划破$p的皮肉。", "O golpe só {n:te arranha|o arranha|a arranha} a pele."),
+            ("{npc}{action}", "{npc}{:o}{action}"),
+        ]
+        self.assertEqual(check_po.problems_in(_po(clean, "pt_BR")), [])
+
     def test_a_dropped_slot_is_allowed(self) -> None:
         self.assertEqual(check_po.problems_in(_po([("{npc}对你哈哈一笑：{npc}便是{self}！", "{npc} laughs. \"That'd be me!\"")])), [])
 

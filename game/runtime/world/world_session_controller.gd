@@ -1468,10 +1468,11 @@ func player_runtime() -> WorldPlayerRuntimeType:
 
 
 ## Russian speech to the player as ты agrees with the player's gender ({игрок:пришёл|пришла}), and so
-## does Spanish said of the player ({jugador:cansado|cansada}).
+## does Spanish and Portuguese said of the player ({jugador:cansado|cansada}, {jogador:cansado|cansada}).
 func _tell_text_the_player() -> void:
 	RussianText.player_gender = _player.state.gender if _player != null and _player.state != null else &""
 	SpanishText.player_gender = RussianText.player_gender
+	PortugueseText.player_gender = RussianText.player_gender
 
 
 func inventory_state() -> InventoryState:
