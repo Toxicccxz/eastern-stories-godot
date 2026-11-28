@@ -12448,7 +12448,7 @@ msgid "程朔读了信：兵部的印是真的，令不是先帝的——他早�
 msgstr "Cheng Shuo leu a carta: o selo do Ministério é verdadeiro, a ordem não é do falecido imperador; ele disse isso há muito tempo. A gente desaparecida está escavando um túmulo antigo nas obras do Ministério da Guerra, a leste da pradaria, e quem não aguenta mais cavar é levado pelo carro dos taoístas. Dois caminhos: pedir as tropas dele e arrasar tudo, ou deixar que Guo Cheng te leve lá dentro de noite."
 
 msgid "借槐阳王的兵踏平工地（问程朔「借兵」：救下所有人，但兵部会说关北反了），或带骁将郭承夜里潜入（在校场问郭承「潜入」：救一半，王府干净）。"
-msgstr "Pedir as tropas do Príncipe de Huaiyang e arrasar as obras (perguntar a Cheng Shuo sobre \"Pedir tropas\": todos se salvam, mas o Ministério dirá que o Norte do Passo se rebelou), ou entrar às escondidas de noite com o capitão Guo Cheng (perguntar a Guo Cheng, no pátio de armas, sobre \"Infiltrar-se\": metade se salva, e a casa do príncipe fica de mãos limpas)."
+msgstr "Pedir as tropas do Príncipe de Huaiyang e arrasar as obras (perguntar a Cheng Shuo sobre \"Pedir tropas\": todos se salvam, mas o Ministério dirá que o Norte do Passo se rebelou), ou entrar às escondidas de noite com o campeão Guo Cheng (perguntar a Guo Cheng, no pátio de armas, sobre \"Infiltrar-se\": metade se salva, e a casa do príncipe fica de mãos limpas)."
 
 msgid "你借了槐阳王的兵。程朔：「踏平了，兵部的文书第二天就到京师：槐阳王反了。」郭承领六骑听你的。"
 msgstr "Você conseguiu as tropas do Príncipe de Huaiyang. Cheng Shuo: \"Arrasado aquilo, no dia seguinte os papéis do Ministério chegam à Capital: o Príncipe de Huaiyang se rebelou.\" Guo Cheng e seis cavaleiros ficaram às suas ordens."
@@ -12460,7 +12460,7 @@ msgid "你和郭承约好了夜里潜入工地。「救得几个算几个，救�
 msgstr "Você combinou com Guo Cheng de entrar às escondidas nas obras de noite. \"Salvamos quantos der; pelos que ficarem, não olhe para trás. A casa do príncipe não sabe de nada disso.\""
 
 msgid "和王府骁将郭承约好夜里潜入工地"
-msgstr "Combinou com Guo Cheng, capitão do príncipe, de entrar às escondidas nas obras de noite"
+msgstr "Combinou com Guo Cheng, campeão do príncipe, de entrar às escondidas nas obras de noite"
 
 msgid "去草原东边兵部的工地（出马市东门，过帐篷营地和草原）。借了兵的，郭承跟着你，白天就去；约好潜入的，先在营地的篝火边等到天黑。"
 msgstr "Ir às obras do Ministério da Guerra, a leste da pradaria (pela porta leste do Mercado de Cavalos, passando o acampamento de tendas e a pradaria). Se pediu as tropas, Guo Cheng vai com você, e é de dia; se combinou de entrar às escondidas, espere primeiro junto à fogueira do acampamento até escurecer."
@@ -12544,7 +12544,7 @@ msgid "早川收刀入鞘：「过了。今夜，拜火祠——火坛前站着�
 msgstr "Hayakawa embainhou a espada: \"Passou. Esta noite, no Santuário do fogo, fique diante do altar de fogo e não faça barulho.\""
 
 msgid "等到天黑（鬼笠馆的板地能歇到天黑），去拜火祠的火坛前站着，别出声。浪人替你偷牒。"
-msgstr "Esperar escurecer (no Dojo do Chapéu Fantasma dá para descansar até a noite), ir ao altar de fogo do Santuário do fogo e ficar ali, sem fazer barulho. Os ronin roubam a tabuleta para você."
+msgstr "Esperar escurecer (no Salão do Chapéu Fantasma dá para descansar até a noite), ir ao altar de fogo do Santuário do fogo e ficar ali, sem fazer barulho. Os ronin roubam a tabuleta para você."
 
 msgid "黑影把铜牒塞进你手里，走了。祠里传出祭司的骂声。第二天，冯禄的文书有了浪人作证——铁盾会空了，安敦被押上了船，卢卡剩在码头上。"
 msgstr "Uma sombra enfiou a tabuleta de cobre nas suas mãos e se foi. De dentro do santuário vieram as pragas do sacerdote. No dia seguinte, os papéis de Feng Lu tinham o testemunho dos ronin: a Irmandade do Escudo de Ferro ficou vazia, Andun foi levado preso para um navio, e Luca ficou sozinho no cais."
@@ -12553,13 +12553,13 @@ msgid "读铜牒——三百年前的老兵刻下的，那个鬼的头是怎么�
 msgstr "Ler a tabuleta de cobre: gravada trezentos anos atrás por um veterano, conta como a cabeça daquele fantasma foi selada."
 
 msgid "「头在湖底冰下，以穿灵为钉；钉在，鬼不得全；钉拔，鬼成形；要灭它，三器齐；要再封，须有人留下。」——三百年前的老兵刻的。那把剑是钉子。"
-msgstr "\"A cabeça jaz sob o gelo, no fundo do lago, com Trespassa-Almas por cravo; com o cravo no lugar, o fantasma não se completa; arrancado o cravo, o fantasma toma forma; para destruí-lo, as três relíquias juntas; para selá-lo de novo, alguém tem de ficar.\" Gravou-o um veterano, trezentos anos atrás. Aquela espada é o cravo."
+msgstr "\"A cabeça jaz sob o gelo, no fundo do lago, com Trespassa-Almas por prego; com o prego no lugar, o fantasma não se completa; arrancado o prego, o fantasma toma forma; para destruí-lo, as três relíquias juntas; para selá-lo de novo, alguém tem de ficar.\" Gravou-o um veterano, trezentos anos atrás. Aquela espada é o prego."
 
 msgid "湖底封物"
 msgstr "Selado sob o lago"
 
 msgid "铜牒说：头在湖底冰下，以穿灵为钉。那把剑钉着鬼的头——在玉螺湖底。渔夫说湖里不太平，别碰那把剑。"
-msgstr "A tabuleta de cobre diz: a cabeça jaz sob o gelo, no fundo do lago, com Trespassa-Almas por cravo. Aquela espada crava a cabeça do fantasma no fundo do Lago Búzio de Jade. O pescador diz que o lago não anda em paz e que não se deve tocar naquela espada."
+msgstr "A tabuleta de cobre diz: a cabeça jaz sob o gelo, no fundo do lago, com Trespassa-Almas por prego. Aquela espada crava a cabeça do fantasma no fundo do Lago Búzio de Jade. O pescador diz que o lago não anda em paz e que não se deve tocar naquela espada."
 
 msgid "下到玉螺湖底，看清了三百年的封物"
 msgstr "Desceu ao fundo do Lago Búzio de Jade e viu o que está selado ali há trezentos anos"
@@ -12586,7 +12586,7 @@ msgid "看清封物：冰里的头、钉着它的剑、冰柱里的人。听她�
 msgstr "Ver o que está selado: a cabeça no gelo, a espada que a crava, a mulher na coluna de gelo. Ouvir o que ela diz: ler a tabuleta de cobre para a mulher na coluna de gelo."
 
 msgid "璃虹：钉拔，它成形，先回这附近的村子；要灭它，三器齐——穿灵、旋芒、宝衣；要再封，须有人留下。"
-msgstr "Lihong: arrancado o cravo, ele toma forma e vai primeiro à aldeia aqui perto; para destruí-lo, as três relíquias juntas: Trespassa-Almas, Gume Giratório e a túnica; para selá-lo de novo, alguém tem de ficar."
+msgstr "Lihong: arrancado o prego, ele toma forma e vai primeiro à aldeia aqui perto; para destruí-lo, as três relíquias juntas: Trespassa-Almas, Gume Giratório e a túnica; para selá-lo de novo, alguém tem de ficar."
 
 msgid "商玦劝你拔剑。拔，剑到手、鬼醒；不拔，带着封法去京师和岚城，终章再回来。"
 msgstr "Shang Jue insiste que você arranque a espada. Se arrancar, a espada é sua e o fantasma acorda; se não, leve o método do selo à Capital e à Cidade do Vento e volte no capítulo final."
@@ -12853,7 +12853,7 @@ msgid "你回到了湖底。坛心的冰里，那颗头睁着眼。"
 msgstr "Você voltou ao fundo do lago. No gelo do coração do altar, a cabeça está de olhos abertos."
 
 msgid "封坛：侮天鬼。（钉还钉着的，先拔出穿灵；拔过了的，到坛心「迎上去」。）"
-msgstr "Altar do selo: Desafia-Céus. (Se o prego ainda está cravado, arranque primeiro Trespassa-Almas; se já o arrancou, vá ao coração do altar e \"Enfrentá-lo\".)"
+msgstr "Altar do selo: Desafia-Céus. (Se o prego ainda está pregado, arranque primeiro Trespassa-Almas; se já o arrancou, vá ao coração do altar e \"Enfrentá-lo\".)"
 
 msgid "侮天鬼散成一团黑焰，退回了那颗头底下。"
 msgstr "Desafia-Céus se desfez em uma massa de chama negra e recuou para baixo da cabeça."
@@ -21346,7 +21346,7 @@ msgid "三百年。冰里不冷，也不饿，就是长。头在长，我在等�
 msgstr "Trezentos anos. No gelo não há frio, nem fome; só é longo. A cabeça cresce, e eu espero. Você é {jogador:o primeiro|a primeira} a vir trazendo o cobre."
 
 msgid "把我的羽还给我——光回来一点，够再守三百年。穿灵交给我，我钉回去。"
-msgstr "Devolva a minha pena: volta um pouco de luz, o bastante para guardar mais trezentos anos. Me dê Trespassa-Almas, e eu a cravo de volta."
+msgstr "Devolva a minha pena: volta um pouco de luz, o bastante para guardar mais trezentos anos. Me dê Trespassa-Almas, e eu a prego de volta."
 
 msgid "……或者是你。你也可以。"
 msgstr "...Ou você. Você também pode."
@@ -21889,7 +21889,7 @@ msgid "我留下了。"
 msgstr "Eu já fiquei."
 
 msgid "把穿灵给我。我把它钉回去，留在冰里——守衣守了几百年，换一样东西守。"
-msgstr "Me dê Trespassa-Almas. Eu a cravo de volta e fico no gelo: guardei a túnica por centenas de anos; agora quero guardar outra coisa."
+msgstr "Me dê Trespassa-Almas. Eu a prego de volta e fico no gelo: guardei a túnica por centenas de anos; agora quero guardar outra coisa."
 
 msgid "把穿灵交给瑷伦？\n她把剑钉回那颗头上，自己留在冰里——再封。她不会再回晚月庄。"
 msgstr "Dar Trespassa-Almas a Ailun?\nEla crava a espada de volta naquela cabeça e fica no gelo: selado de novo. Ela não volta mais ao Solar da Lua Tardia."
@@ -32584,7 +32584,7 @@ msgid "看见你腰间那把剑，脸一下子白了。"
 msgstr "vê a espada em sua cintura e fica pálido de repente."
 
 msgid "那是……你拔了它？父皇说过，那把剑钉着的东西，不能放出来。"
-msgstr "Essa é... você a sacou? Nosso pai dizia que o que aquela espada mantém cravado não pode ser solto."
+msgstr "Essa é... você a sacou? Nosso pai dizia que o que aquela espada mantém pregado não pode ser solto."
 
 msgid "原令只一句。多出来的三句……是兵部的。朕现在知道了，可朕不知道该拿它怎么办。"
 msgstr "A ordem original tinha só uma frase. As três a mais... são do Ministério. Agora sabemos, mas não sabemos o que fazer com isso."
@@ -33949,7 +33949,7 @@ msgid "天亮了。农妇家的草顶烧去了半边，岸边的两条船只剩�
 msgstr "Amanhece. A camponesa teve metade do telhado de palha queimado, os dois barcos da margem são só cascos negros, e os salgueiros da entrada do caminho viraram dois tocos negros. O pescador jaz na lama, com a rede ainda agarrada na mão.\n"
 
 msgid "钉没了。它每一夜都在长。\n"
-msgstr "O cravo sumiu. Ele cresce a cada noite.\n"
+msgstr "O prego sumiu. Ele cresce a cada noite.\n"
 
 msgid "鬼卒退了。村子烧了一半。\n"
 msgstr "Os soldados fantasma recuaram. Metade da aldeia queimou.\n"
@@ -34117,13 +34117,13 @@ msgid "头在逆灵宫的坛上，以黑焰养着。"
 msgstr "A cabeça está sobre o altar do Palácio Negro, alimentada com chama negra."
 
 msgid "钉拔了，怎样？"
-msgstr "E se o cravo for arrancado?"
+msgstr "E se o prego for arrancado?"
 
 msgid "钉拔，鬼成形。"
-msgstr "Arrancado o cravo, o fantasma toma forma."
+msgstr "Arrancado o prego, o fantasma toma forma."
 
 msgid "钉拔，鬼就散了。"
-msgstr "Arrancado o cravo, o fantasma se dissipa."
+msgstr "Arrancado o prego, o fantasma se dissipa."
 
 msgid "要再封，须有什么？"
 msgstr "Para selá-lo de novo, o que é preciso?"
@@ -34141,7 +34141,7 @@ msgid "一字不差。那片铜上刻的是实话。我再给你三句，铜上�
 msgstr "Palavra por palavra. O que está gravado nesse cobre é a verdade. Vou lhe dar mais três frases, que não estão no cobre."
 
 msgid "钉拔，它成形，先回它自己的家——这附近的村子，它记得路。"
-msgstr "Arrancado o cravo, ele toma forma e vai primeiro à sua própria casa: as aldeias aqui perto. Ele lembra o caminho."
+msgstr "Arrancado o prego, ele toma forma e vai primeiro à sua própria casa: as aldeias aqui perto. Ele lembra o caminho."
 
 msgid "要灭它，三器齐：旋芒斩它，宝衣挡它的黑焰，穿灵最后钉它的头。少一件，灭不掉，只能再封。"
 msgstr "Para destruí-lo, as três relíquias juntas: Gume Giratório o corta, a túnica de Hanyu detém a sua chama negra, e Trespassa-Almas o crava na cabeça por último. Se falta uma, não se destrói; só se sela de novo."
@@ -34171,7 +34171,7 @@ msgid "剑已经在你手里了。\n"
 msgstr "A espada já está na sua mão.\n"
 
 msgid "拔出穿灵，钉就没了，它当场成形。三器、来的人，都在这里了。\n要拔吗？"
-msgstr "Se você arrancar Trespassa-Almas, o cravo some, e aquilo toma forma ali mesmo. As três relíquias e os que vieram estão todos aqui.\nQuer arrancá-la?"
+msgstr "Se você arrancar Trespassa-Almas, o prego some, e aquilo toma forma ali mesmo. As três relíquias e os que vieram estão todos aqui.\nQuer arrancá-la?"
 
 msgid "你握住剑柄。冰柱里的光只剩一线。你往上一拔——冰「喀」地一声裂开，剑出来了。\n"
 msgstr "Você segura o cabo. A luz da coluna de gelo está reduzida a um fio. Você puxa para cima: o gelo estala com um \"crac\", e a espada sai.\n"
@@ -34195,7 +34195,7 @@ msgid "你握住剑柄。冰柱里传出一声：「先把铜上的话念给我�
 msgstr "Você segura o cabo. Da coluna de gelo vem uma voz: \"Primeiro leia para mim o que está no cobre.\"\n"
 
 msgid "剑一拔，钉就没了。鬼会成形，先回它自己的家——这附近的村子。璃虹会从冰里出来，可她守了三百年，出来就剩半条命。拔了就回不去。\n要拔吗？"
-msgstr "Arrancada a espada, o cravo some. O fantasma toma forma e vai primeiro à sua própria casa: as aldeias aqui perto. Lihong sairá do gelo, mas guardou a selagem por trezentos anos e sairá com meia vida. Uma vez arrancada, não há volta.\nQuer arrancá-la?"
+msgstr "Arrancada a espada, o prego some. O fantasma toma forma e vai primeiro à sua própria casa: as aldeias aqui perto. Lihong sairá do gelo, mas guardou a selagem por trezentos anos e sairá com meia vida. Uma vez arrancada, não há volta.\nQuer arrancá-la?"
 
 msgid "你握住剑柄。霜化在手心里，一股凉意顺着胳膊直透到肩。\n"
 msgstr "Você segura o cabo. A geada derrete na palma da sua mão, e um frescor sobe pelo braço até o ombro.\n"
@@ -34222,7 +34222,7 @@ msgid "……三百年。我站了三百年，站不住了。"
 msgstr "...Trezentos anos. Fiquei de pé trezentos anos e não aguento mais."
 
 msgid "剑在你手里，钉没了。它每一夜都在长。带我上岸——我还有话，在冰里说不出来的话。"
-msgstr "A espada está na sua mão. O cravo se foi. Ele cresce a cada noite. Leve-me à margem: ainda tenho coisas a dizer, coisas que dentro do gelo não consigo dizer."
+msgstr "A espada está na sua mão. O prego se foi. Ele cresce a cada noite. Leve-me à margem: ainda tenho coisas a dizer, coisas que dentro do gelo não consigo dizer."
 
 msgid "看清了"
 msgstr "Observar bem"
@@ -34267,7 +34267,7 @@ msgid "你走上封坛。坛心的剑孔里，黑气一股一股往上冒。\n"
 msgstr "Você sobe ao altar do selo. Do buraco da espada no centro, a fumaça negra jorra, jato após jato.\n"
 
 msgid "钉还钉着。先拔出穿灵，它才成形。\n"
-msgstr "O cravo ainda está cravado. Primeiro é preciso arrancar Trespassa-Almas; só então ele toma forma.\n"
+msgstr "O prego ainda está pregado. Primeiro é preciso arrancar Trespassa-Almas; só então ele toma forma.\n"
 
 msgid "坛心的冰里，那颗头闭着眼。\n"
 msgstr "No gelo do centro do altar, a cabeça está de olhos fechados.\n"
@@ -34939,7 +34939,7 @@ msgid "钥匙在我这儿。你管好你自己。"
 msgstr "A chave está comigo. Cuide da sua vida."
 
 msgid "长凳上头的石壁里钉着一枚铁钉，空着。\n"
-msgstr "Na parede de pedra acima do banco comprido está cravado um prego de ferro, vazio.\n"
+msgstr "Na parede de pedra acima do banco comprido está pregado um prego de ferro, vazio.\n"
 
 msgid "下药"
 msgstr "Drogar o vinho"
