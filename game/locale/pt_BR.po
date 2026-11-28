@@ -15268,7 +15268,7 @@ msgid "停下：{resource}的修为已到瓶颈（上限 {maximum}），再{acti
 msgstr "Parou: o treino chegou ao limite de {resource} (máx. {maximum}); se continuar ({action}), o valor só voltará a cair para {maximum}. Primeiro eleve {basic}."
 
 msgid "停下：你被打断了。"
-msgstr "Parou: você foi interrompido."
+msgstr "Parou: você foi {jogador:interrompido|interrompida}."
 
 msgid "你停了下来。"
 msgstr "Você parou."
@@ -22822,19 +22822,19 @@ msgid "这里是淳风武馆的内院，平常武馆弟子没有馆主的允许�
 msgstr "Este é o pátio interno do Salão do Vento Puro. Normalmente os discípulos do Salão não se atrevem a vir aqui sem a permissão do Mestre. A leste fica o templo ancestral da família Liu; os quartos do Mestre e da família dele ficam dos dois lados de um corredor ao norte, e a cozinha, o depósito de lenha e os quartos dos criados, dos dois lados do corredor ao sul. A oeste fica o pátio."
 
 msgid "紫衣童子躬身一揖。 \n"
-msgstr "O menino de roxo faz uma reverência, de mãos postas."
+msgstr "O Menino de roxo faz uma reverência, de mãos postas."
 
 msgid "童子说道：仙人 ，只在此山中，云深不知处。\n"
 msgstr "O menino diz: \"O imortal... só está nesta montanha, mas as nuvens são tão densas que não se sabe onde.\""
 
 msgid "紫衣童子拧眉说道：你欺负我年纪小是吗？\n"
-msgstr "O menino de roxo franze a testa e diz: \"Você está abusando porque eu sou pequeno, é?\""
+msgstr "O Menino de roxo franze a testa e diz: \"Você está abusando porque eu sou pequeno, é?\""
 
 msgid "紫衣童子笑道：你杀不死我的。\n"
-msgstr "O menino de roxo ri e diz: \"Você não consegue me matar.\""
+msgstr "O Menino de roxo ri e diz: \"Você não consegue me matar.\""
 
 msgid "紫衣童子冲你一龇牙, 说道: 您盗过古墓吗?\n"
-msgstr "O menino de roxo mostra os dentes para você e diz: \"Você já saqueou algum túmulo antigo?\""
+msgstr "O Menino de roxo mostra os dentes para você e diz: \"Você já saqueou algum túmulo antigo?\""
 
 msgid "仙人"
 msgstr "Imortal"
@@ -22978,7 +22978,7 @@ msgid "院内草木繁茂,亭榭错落有致,可见这位县太爷也是位雅�
 msgstr "O pátio é cheio de plantas e árvores, e os pavilhões e quiosques se distribuem com harmonia: vê-se que este magistrado também é um homem refinado."
 
 msgid "正中高悬一匾,匾下的书案上放着笔,墨,纸,砚,惊堂木等物.两旁各置屏风.堂下摆着各式刑具,你从未见过.\n"
-msgstr "No centro, no alto, pende uma placa; sobre a mesa embaixo dela há pincel, tinta, papel, pedra de tinta, o bloco de madeira do magistrado e outros objetos. De cada lado há um biombo. No pé do salão estão dispostos instrumentos de tortura de todas as espécies, que você nunca viu."
+msgstr "No centro, no alto, pende uma placa; sobre a mesa embaixo dela há pincel, tinta, papel, pedra de tinta, o martelo da sala e outros objetos. De cada lado há um biombo. No pé do salão estão dispostos instrumentos de tortura de todas as espécies, que você nunca viu."
 
 msgid "内厅是老爷与好友叙话, 品茶, 吟诗, 作画之所; 格外幽静......\n"
 msgstr "O salão interno é onde o magistrado conversa com os amigos, toma chá, recita poemas e pinta; é especialmente tranquilo..."
@@ -23086,10 +23086,10 @@ msgid "你努力地抬着石狮子，试图抬起一点点。"
 msgstr "Você se esforça para levantar o leão de pedra, tentando erguê-lo ao menos um pouquinho."
 
 msgid "石狮子竟然向左移动了尺许，漏出向下的洞穴。\n你从洞口掉了下去。"
-msgstr "O leão de pedra desliza para a esquerda cerca de um palmo, revelando uma caverna que desce.\nVocê cai pela abertura."
+msgstr "O leão de pedra desliza para a esquerda cerca de um chi, revelando uma caverna que desce.\nVocê cai pela abertura."
 
 msgid "石狮子又缓缓地向右移动了尺许，正好盖住洞口。"
-msgstr "O leão de pedra volta a deslizar devagar para a direita, cerca de um palmo, cobrindo exatamente a abertura."
+msgstr "O leão de pedra volta a deslizar devagar para a direita, cerca de um chi, cobrindo exatamente a abertura."
 
 msgid "这尊石狮跟一般寻常人家放在门口镇宅避邪的石狮颇有不同，姿势是立\n著的，而且大小要大得多，只怕有几万斤重，从来没见过谁能举起它。\n你注意到石狮的额头上刻著一个「举」字，不知是何用意？\n"
 msgstr "Este leão de pedra é bem diferente dos que as famílias comuns põem à porta para proteger a casa contra o mal: está de pé, e é muito maior; talvez pese algumas dezenas de milhares de jin, e nunca se viu ninguém capaz de levantá-lo.\nVocê nota que na testa do leão está gravado o caractere \"Erguer\". Qual será o propósito?"
@@ -23152,7 +23152,7 @@ msgid "石穴呈瓶状,想是用来插什么东东的.\n"
 msgstr "O oco na pedra tem forma de vaso, e deve servir para pôr alguma coisa."
 
 msgid "你在洞里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"
-msgstr "Você espera muito tempo na caverna e por fim o sono te vence... Ao despertar, você está numa cama da Estalagem Bebe-Vento, no Pavilhão da Neve."
+msgstr "Você espera muito tempo na caverna e por fim o sono te vence... Ao despertar, você está {jogador:deitado|deitada} na Estalagem Bebe-Vento, no Pavilhão da Neve."
 
 msgid "洞内黑漆漆的，四下摸索，却摸不到任何出口。\n"
 msgstr "A caverna é escura como breu; você tateia por toda parte, mas não encontra nenhuma saída."
@@ -23167,7 +23167,7 @@ msgid "问君能有几多愁,恰似一江春水向--流"
 msgstr "Quanta tristeza você pode ter? É como um rio de águas de primavera que corre para o --"
 
 msgid "自笑堂堂汉使,得似洋洋河水,依旧只流--"
-msgstr "Eu rio de mim, o nobre enviado de Han: como o largo rio, ainda só corro só para o --"
+msgstr "Eu rio de mim, o nobre enviado de Han: como o largo rio, ainda só corro para o --"
 
 msgid "--朝四百八十寺,多少楼台烟雨中"
 msgstr "As dinastias do --: quatrocentos e oitenta templos, e quantas torres na bruma e na chuva"
@@ -23176,7 +23176,7 @@ msgid "孔雀--飞,五里一徘徊"
 msgstr "O pavão voa para o --, e a cada cinco li hesita"
 
 msgid "帘卷--风,人比黄花叟"
-msgstr "A cortina se ergue ao vento do --, e a dama é mais frágil que o crisântemo"
+msgstr "A cortina se ergue ao vento do --, e a dama é mais frágil que o crisântemo amarelo."
 
 msgid "醉别--楼醒不记,春梦秋云,聚散真容易"
 msgstr "Bêbados, nos despedimos na torre do --, e ao acordar não me lembro; sonho de primavera, nuvem de outono, como é fácil se juntar e se separar"
@@ -23203,7 +23203,7 @@ msgid "这是一张指示路径的字条.似乎可以读它.\n"
 msgstr "Um bilhete que indica o caminho. Parece que dá para lê-lo."
 
 msgid "你在桃林里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"
-msgstr "Você espera muito tempo no pomar de pessegueiros e por fim o sono te vence... Ao despertar, você está numa cama da Estalagem Bebe-Vento, no Pavilhão da Neve."
+msgstr "Você espera muito tempo no pomar de pessegueiros e por fim o sono te vence... Ao despertar, você está {jogador:deitado|deitada} na Estalagem Bebe-Vento, no Pavilhão da Neve."
 
 msgid "桃树一株挨着一株，阡陌纵横，每条小路看来都差不多。找不到出路的话，就只能在这里等下去了。\n"
 msgstr "Os pessegueiros se sucedem um ao lado do outro, as trilhas se cruzam em todas as direções, e todas parecem quase iguais. Se não achar a saída, só resta esperar aqui."
@@ -23974,7 +23974,7 @@ msgid "跪下了。"
 msgstr " se ajoelha."
 
 msgid "罪人陈显祖。二十年前老松岭那队白衣武官，罪人在其中。原令只一句——寻剑，不得扰民一户。征民夫、拿人的，不是先帝的令，是后头来的。"
-msgstr "O culpado é Chen Xianzu. Há vinte anos, naquela tropa de oficiais de branco da Serra dos Pinheiros Velhos, o culpado estava entre eles. A ordem original dizia uma só coisa: procurar a espada, sem incomodar nenhuma família. Recrutar peões e prender gente não era ordem do falecido imperador: veio depois."
+msgstr "O culpado é Chen Xianzu. Há vinte anos, naquela tropa de oficiais de branco da Serra dos Pinheiros Velhos, o culpado estava entre eles. A ordem original dizia uma só coisa: procurar a espada, sem incomodar uma única casa. Recrutar peões e prender gente não era ordem do falecido imperador: veio depois."
 
 msgid "抄本呈上来。"
 msgstr "Apresente a cópia."
@@ -24532,7 +24532,7 @@ msgid "你贴上来那一记，压得对，就是这个劲。"
 msgstr "Aquele golpe em que você se colou em mim e pressionou certo: é essa mesma a força."
 
 msgid "你身上带着伤，拆什么招？先去桑邻药铺把伤治好。"
-msgstr "Você está ferido, que troca de golpes é essa? Vá primeiro à Botica da Amoreira e trate os ferimentos."
+msgstr "Você está {jogador:ferido|ferida}, que troca de golpes é essa? Vá primeiro à Botica da Amoreira e trate os ferimentos."
 
 msgid "你是别派的弟子，馆主吩咐过，不许和外人过招。"
 msgstr "Você é de outra escola; o Mestre do Salão deu ordem de não treinar com gente de fora."
@@ -24571,7 +24571,7 @@ msgid "你也等到了我的空子，多出来的那一剑用得对。"
 msgstr "Você também esperou a minha brecha, e usou bem a estocada extra."
 
 msgid "你带着伤呢，爹爹不许我跟伤者动手。"
-msgstr "Você está ferido. Meu pai não me deixa lutar com feridos."
+msgstr "Você está {jogador:ferido|ferida}. Meu pai não me deixa lutar com feridos."
 
 msgid "你是别派的人，爹爹说过不能跟江湖人物比武过招。"
 msgstr "Você é de outra escola. Meu pai disse que não posso treinar com gente do jianghu."
@@ -36361,7 +36361,7 @@ msgid "在这里你可以看到墙上挂满了各式各样的武器，不难明�
 msgstr "Aqui você vê paredes cobertas de armas de toda espécie; não é difícil entender que este é o lugar onde elas são guardadas. Na parede está escrito um enorme caractere: \"Marcial\".\n"
 
 msgid "四周是一大遍的林地，草高于三四十尺，再加上雾盲盲的景象，\n使你不得不沿著黄石铺成的小路快步行走，深恐林草压顶，界时将不\n知所措，向东深入似乎有一奇特的光亮，但距离太远，你看不清楚到\n底是怎么著一回事。\n"
-msgstr "Ao redor se estende um grande bosque, com capim de três ou quatro zhang de altura; e com a névoa, você não tem como não andar depressa pela trilha de pedra amarela, com medo de que o capim do bosque caia sobre você e você fique sem saber o que fazer. Mais ao leste, ao fundo, parece haver uma luz estranha, mas está longe demais e você não distingue o que é.\n"
+msgstr "Ao redor se estende um grande bosque, com capim de trinta ou quarenta chi de altura; e com a névoa, você não tem como não andar depressa pela trilha de pedra amarela, com medo de que o capim do bosque caia sobre você e você fique sem saber o que fazer. Mais ao leste, ao fundo, parece haver uma luz estranha, mas está longe demais e você não distingue o que é."
 
 msgid "草压天顶的情况依旧，唯西侧亮光逐渐显明，看来西侧的不远处\n有一出口，黄石斑斑，挟杂著白色的圆点，像是白色光束长期照射的\n结果，蒙胧的景色在此总算完全的清淅了，向东侧仍是回到路口的路\n，而西侧的亮光直直吸引你往深处探索。\n"
 msgstr "O capim ainda pesa sobre o céu, mas a luz do oeste vai ficando mais clara; parece haver uma saída não longe, a oeste. A pedra amarela está salpicada de pontos brancos redondos, como se um feixe de luz branca a tivesse iluminado por muito tempo. A paisagem enevoada enfim se mostra de todo nítida. A leste continua o caminho de volta ao entroncamento, enquanto a luz do oeste atrai você direto para as profundezas.\n"
