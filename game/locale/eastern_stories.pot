@@ -16915,6 +16915,38 @@ msgstr ""
 msgid "这是剑伤，口子又直又深——封山剑的路数，多半是这位$RESPECT自己先刺空了，人家才补的这一剑。"
 msgstr ""
 
+#. family.fonxan hearsay snow.npc.waiter topic
+#. common.npc.swordsman.master nickname
+#. native.npc.liu_chunfeng_lake nickname
+#. native.npc.assembly_liu_chunfeng nickname
+#. native.npc.shen_shuyu nickname
+#. native.npc.shen_shuyu inquiry topic
+#: data/common/families.json data/common/npcs.json data/native/npcs.json
+msgid "风雨双侠"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.waiter say
+#: data/common/families.json
+msgid "风雨双侠？那是柳馆主年轻时候的名号。双侠嘛，自然是两个人——另一位是北宗的师娘，听说就住在镇外黄土小径那边，柴门成天闩着。镇上的人都知道，没人多嘴。"
+msgstr ""
+
+#. family.fonxan hearsay native.npc.he_shouzhuo topic
+#. native.npc.shen_shuyu inquiry topic
+#. native.npc.he_shouzhuo inquiry topic
+#: data/common/families.json data/native/npcs.json
+msgid "雨"
+msgstr ""
+
+#. family.fonxan hearsay native.npc.he_shouzhuo say
+#: data/common/families.json
+msgid "「听雨」是她的剑：逼人接，接了就空。他接得越稳，空得越大。那天早上我在院里劈柴，看着你学的。"
+msgstr ""
+
+#. family.fonxan hearsay native.npc.he_shouzhuo say
+#: data/common/families.json
+msgid "「夜雨」就是她那一剑，换了个名字：逼人接，接了就空。……那一夜雨大，我睡在柴房，什么也没听见。"
+msgstr ""
+
 #. family.fonxan hearsay snow.npc.woodcutter say
 #: data/common/families.json
 msgid "柳家拳？镇上后生练的都是这个。我瞧他们打架，先是一拳碰着人了，立马就贴上去，一拳比一拳重。"
@@ -17168,15 +17200,6 @@ msgstr ""
 #. native.npc.shen_shuyu inquiry topic
 #: data/common/npcs.json data/snow/npcs.json data/native/npcs.json
 msgid "柳淳风"
-msgstr ""
-
-#. common.npc.swordsman.master nickname
-#. native.npc.liu_chunfeng_lake nickname
-#. native.npc.assembly_liu_chunfeng nickname
-#. native.npc.shen_shuyu nickname
-#. native.npc.shen_shuyu inquiry topic
-#: data/common/npcs.json data/native/npcs.json
-msgid "风雨双侠"
 msgstr ""
 
 #. common.npc.swordsman.master long
@@ -26653,6 +26676,16 @@ msgstr ""
 #. ending cards.lines.text
 #: data/story/epilogue.json
 msgid "开春，你回了一趟山里，在老岑的坟前把信末那一行念给他听：风停处，替我再看一眼。——看过了。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "镇外的小院里，沈疏雨还在走她那套剑。何守拙说，她如今走剑，不再一步一停了。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "镇外小院的书案上，两只杯子一直倒扣着。下雨的夜里，瓦屋的灯总要点到很晚。"
 msgstr ""
 
 #. ending cards.lines.text
@@ -76371,11 +76404,6 @@ msgstr ""
 msgid "老何是北宗的看门剑，守了三十年门。他那把剑不伤人，可也没几个人碰得着他。"
 msgstr ""
 
-#. native.npc.shen_shuyu inquiry topic
-#: data/native/npcs.json
-msgid "雨"
-msgstr ""
-
 #. native.npc.shen_shuyu inquiry.雨.rules.say
 #: data/native/npcs.json
 msgid "那一夜的雨，你记着就好。出剑的时候，别让人看出是谁教的。"
@@ -76532,6 +76560,7 @@ msgid "你来了。"
 msgstr ""
 
 #. native.npc.shen_shuyu calls.steps.emote
+#. native.npc.he_shouzhuo inquiry.雨.rules.lines.emote
 #: data/native/npcs.json
 msgid "看了你一眼，低下头接着劈他的柴。"
 msgstr ""

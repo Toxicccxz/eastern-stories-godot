@@ -92,6 +92,30 @@
 					"say": "这是剑伤，口子又直又深——封山剑的路数，多半是这位$RESPECT自己先刺空了，人家才补的这一剑。"
 				},
 				{
+					"skill": "fonxansword",
+					"npc": "snow.npc.waiter",
+					"topic": "风雨双侠",
+					"say": "风雨双侠？那是柳馆主年轻时候的名号。双侠嘛，自然是两个人——另一位是北宗的师娘，听说就住在镇外黄土小径那边，柴门成天闩着。镇上的人都知道，没人多嘴。"
+				},
+				{
+					"skill": "fonxansword",
+					"npc": "native.npc.he_shouzhuo",
+					"topic": "雨",
+					"asker_marks": [
+						"学了听雨"
+					],
+					"say": "「听雨」是她的剑：逼人接，接了就空。他接得越稳，空得越大。那天早上我在院里劈柴，看着你学的。"
+				},
+				{
+					"skill": "fonxansword",
+					"npc": "native.npc.he_shouzhuo",
+					"topic": "雨",
+					"asker_marks": [
+						"学了夜雨"
+					],
+					"say": "「夜雨」就是她那一剑，换了个名字：逼人接，接了就空。……那一夜雨大，我睡在柴房，什么也没听见。"
+				},
+				{
 					"skill": "liuh-ken",
 					"npc": "snow.npc.woodcutter",
 					"topic": "柳家拳",

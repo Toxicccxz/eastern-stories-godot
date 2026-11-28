@@ -42348,3 +42348,18 @@ msgstr "tonight"
 msgctxt "lit"
 msgid "三器"
 msgstr "the three"
+
+msgid "风雨双侠？那是柳馆主年轻时候的名号。双侠嘛，自然是两个人——另一位是北宗的师娘，听说就住在镇外黄土小径那边，柴门成天闩着。镇上的人都知道，没人多嘴。"
+msgstr "The Wind-and-Rain Swordsmen? That's what they called Master Liu when he was young. Two swordsmen, naturally—the other is the North Branch's Master's wife. They say she lives outside town, off the Yellow Earth Path, with her wicker gate barred all day. Everyone in town knows. Nobody talks about it."
+
+msgid "「听雨」是她的剑：逼人接，接了就空。他接得越稳，空得越大。那天早上我在院里劈柴，看着你学的。"
+msgstr "\"Listening to Rain\" is her sword: make him take it, and once he does, he's open. The steadier he takes it, the wider he opens. That morning I was splitting wood in the yard. I watched you learn it."
+
+msgid "「夜雨」就是她那一剑，换了个名字：逼人接，接了就空。……那一夜雨大，我睡在柴房，什么也没听见。"
+msgstr "\"Night Rain\" is that same sword of hers under another name: make him take it, and once he does, he's open. ...That night the rain was heavy. I slept in the woodshed and heard nothing."
+
+msgid "镇外的小院里，沈疏雨还在走她那套剑。何守拙说，她如今走剑，不再一步一停了。"
+msgstr "In the yard outside town, Shen Shuyu still walks her sword form. He Shouzhuo says she no longer stops after every step."
+
+msgid "镇外小院的书案上，两只杯子一直倒扣着。下雨的夜里，瓦屋的灯总要点到很晚。"
+msgstr "On the writing desk in the yard outside town, the two cups stay turned down. On rainy nights the lamp in the tiled house burns late."

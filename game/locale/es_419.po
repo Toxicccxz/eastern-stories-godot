@@ -42197,3 +42197,18 @@ msgstr "esta noche"
 msgctxt "lit"
 msgid "三器"
 msgstr "las tres reliquias"
+
+msgid "风雨双侠？那是柳馆主年轻时候的名号。双侠嘛，自然是两个人——另一位是北宗的师娘，听说就住在镇外黄土小径那边，柴门成天闩着。镇上的人都知道，没人多嘴。"
+msgstr "¿Los Espadachines del Viento y la Lluvia? Así llamaban al maestro Liu de joven. Espadachines, dos, claro: la otra es la esposa del Maestro, de la Rama Norte. Dicen que vive fuera del pueblo, por el Sendero de tierra amarilla, con el portón de ramas atrancado todo el día. En el pueblo todos lo saben. Nadie habla de eso."
+
+msgid "「听雨」是她的剑：逼人接，接了就空。他接得越稳，空得越大。那天早上我在院里劈柴，看着你学的。"
+msgstr "\"Escuchar la lluvia\" es la espada de ella: haz que la reciba, y si la recibe, queda abierto. Cuanto más firme la recibe, más se abre. Esa mañana yo partía leña en el patio y te vi aprenderla."
+
+msgid "「夜雨」就是她那一剑，换了个名字：逼人接，接了就空。……那一夜雨大，我睡在柴房，什么也没听见。"
+msgstr "\"Lluvia de noche\" es esa misma espada de ella con otro nombre: haz que la reciba, y si la recibe, queda abierto. ...Esa noche llovió fuerte. Dormí en la leñera y no oí nada."
+
+msgid "镇外的小院里，沈疏雨还在走她那套剑。何守拙说，她如今走剑，不再一步一停了。"
+msgstr "En el patio de las afueras, Shen Shuyu sigue recorriendo su forma de espada. He Shouzhuo dice que ya no se detiene a cada paso."
+
+msgid "镇外小院的书案上，两只杯子一直倒扣着。下雨的夜里，瓦屋的灯总要点到很晚。"
+msgstr "Sobre el escritorio del patio de las afueras, las dos tazas siguen boca abajo. Las noches de lluvia, la lámpara de la casa de tejas arde hasta tarde."
