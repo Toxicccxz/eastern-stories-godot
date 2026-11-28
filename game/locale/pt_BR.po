@@ -10276,7 +10276,7 @@ msgid "需要先学会基本咒文，法力才能增长。"
 msgstr "Você precisa aprender primeiro Encantamentos básicos para que o Poder arcano possa crescer."
 
 msgid "需要先学会基本法术，灵力才能增长。"
-msgstr "Você precisa aprender primeiro Misticismo básico para que o Energia espiritual possa crescer."
+msgstr "Você precisa aprender primeiro Misticismo básico para que a Energia espiritual possa crescer."
 
 msgid "{verb}要耗去{cost}，你现在撑不住，会当场昏过去。\n确定要{verb}吗？"
 msgstr "{verb} custa{cost}. No estado em que você está, não aguentaria e desmaiaria na hora.\nQuer mesmo continuar?"
@@ -10348,7 +10348,7 @@ msgid "交易"
 msgstr "Negociar"
 
 msgid "%s · 估价 / 卖断"
-msgstr "%s · Avaliar / Vender"
+msgstr "%s · Avaliar / Venda definitiva"
 
 msgid "已持用 · 主手"
 msgstr "Na mão · principal"
@@ -10639,7 +10639,7 @@ msgid "· 三招都接住，{master}便愿意收你为徒，再向{pronoun}拜�
 msgstr "· Se você resistir aos três golpes, {master}{:o} aceitará ser seu Shifu; depois é só pedir a {pronoun}."
 
 msgid "{master}只收没有门派的普通百姓为徒。你现在是{title}，向{pronoun}拜师：\n· {pronoun}会当你要背叛师门，当众大声喝破。\n· 然后当场出手要杀你，这是一场生死之战。\n确定要向{pronoun}拜师吗？"
-msgstr "{master}{:o} só aceita como discípulos gente comum, sem escola. Você é {title}; se pedir a {pronoun} o discipulado:\n· {master}{:o} vai tomar você por traidor da sua escola e gritar isso diante de todos.\n· Depois ataca para matar você na hora: um combate até a morte.\nQuer mesmo pedir a {pronoun} que te aceite?"
+msgstr "{master}{:o} só aceita como discípulos gente comum, sem escola. Você é {title}; se pedir a {pronoun} o discipulado:\n· {master}{:o} vai tomar você por {jogador:traidor|traidora} da sua escola e gritar isso diante de todos.\n· Depois ataca para matar você na hora: um combate até a morte.\nQuer mesmo pedir a {pronoun} que te aceite?"
 
 msgid "拜师 / 向师父请安"
 msgstr "Discipulado / Saudar"
@@ -10738,7 +10738,7 @@ msgid "身份"
 msgstr "Identidade"
 
 msgid "历练"
-msgstr "Feitos"
+msgstr "Façanhas"
 
 msgid "精气神"
 msgstr "Essência, Qi, Espírito"
@@ -10771,7 +10771,7 @@ msgid "落后补偿：{region}推荐实战经验 {recommended}，你在这里所
 msgstr "Bônus de recuperação: em {region}{:o}, a Experiência de combate recomendada é {recommended}; abaixo disso você ganha +{percent}% de experiência e de Potencial, até alcançar esse nível."
 
 msgid "还没有历练。切磋取胜、了结一段经历、第一次到一个地方，都算。"
-msgstr "Ainda não há feitos. Contam vencer um treino, encerrar uma história e chegar pela primeira vez a um lugar."
+msgstr "Ainda não há façanhas. Contam vencer um treino, encerrar uma história e chegar pela primeira vez a um lugar."
 
 msgid "……还有 {count} 项"
 msgstr "...e mais {count}"
@@ -10921,7 +10921,7 @@ msgid "估价"
 msgstr "Avaliar"
 
 msgid "卖断…"
-msgstr "Vender..."
+msgstr "Venda definitiva..."
 
 msgid "确认卖断（不可撤销）"
 msgstr "Confirmar venda (irreversível)"
@@ -16942,7 +16942,7 @@ msgid "$n一招「嫦娥奔月」，轻轻一纵优雅的自$N头顶越过！"
 msgstr "$n{:o} usa \"Chang'e voa para a lua\" e salta com leveza e elegância por cima {N:da sua cabeça|da cabeça de $N{:o}}!"
 
 msgid "神通一类法门的根底：灵力的上限看它，施展神通要用灵力。山烟寺的八识神通便激发在它上面。"
-msgstr "A base das artes de poderes místicos: dela depende o limite da Energia espiritual, e exercer um energia espiritual gasta Energia espiritual. O Poder das oito consciências do Templo da Bruma se aplica sobre ela."
+msgstr "A base das artes de poderes místicos: dela depende o limite da Energia espiritual, e exercer uma energia espiritual gasta Energia espiritual. O Poder das oito consciências do Templo da Bruma se aplica sobre ela."
 
 msgid "念咒施法的根底：法力的上限看它，冥思积下的法力才有地方存。茅山道术、奇门遁甲这些法术都激发在它上面。"
 msgstr "A base de recitar encantamentos: dela depende o limite do Poder arcano, e é onde cabe o Poder arcano acumulado na contemplação. Artes como a Feitiçaria do Monte Mao e o Qimen Dunjia são aplicadas sobre ela."
