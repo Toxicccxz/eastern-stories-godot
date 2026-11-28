@@ -5285,7 +5285,7 @@ msgid "渔夫的尸首"
 msgstr "Corpo do pescador"
 
 msgid "上清符箓"
-msgstr "Livro de talismãs da Suprema Clareza"
+msgstr "\"Livro de talismãs da Suprema Clareza\""
 
 msgid "骆家家书"
 msgstr "Carta da família Luo"
@@ -5396,7 +5396,7 @@ msgid "听风辨器之术"
 msgstr "Ouvir o vento"
 
 msgid "天邪神掌"
-msgstr "Palma indômita"
+msgstr "Palma rebelde"
 
 msgid "六阴追魂剑法"
 msgstr "Espada dos seis yin"
@@ -5471,7 +5471,7 @@ msgid "雪影心法"
 msgstr "Método interno da Sombra de Neve"
 
 msgid "雪影剑法"
-msgstr "Espada da sombra de neve"
+msgstr "Espada da Sombra de Neve"
 
 msgid "步玄七诀"
 msgstr "Sete segredos do Passo Místico"
@@ -5780,7 +5780,7 @@ msgid "卖饼大叔"
 msgstr "Tio das panquecas"
 
 msgid "卖糖葫芦的"
-msgstr "Vendedor de espetinhos doces"
+msgstr "Vendedor de espetinhos de espinheiro"
 
 msgid "卖包子的"
 msgstr "Vendedor de pães no vapor"
@@ -6179,7 +6179,7 @@ msgid "墙"
 msgstr "Muro"
 
 msgid "湘绣舞曲图"
-msgstr "Bordado da dança"
+msgstr "Bordado Xiang da dança"
 
 msgid "西府海棠"
 msgstr "Macieira silvestre"
@@ -6266,7 +6266,7 @@ msgid "木船"
 msgstr "Barco de madeira"
 
 msgid "玄冰"
-msgstr "Gelo negro"
+msgstr "Gelo escuro"
 
 msgid "冰壁刻字"
 msgstr "Inscrição na parede de gelo"
@@ -6395,10 +6395,10 @@ msgid "木鱼"
 msgstr "Peixe de madeira"
 
 msgid "通铺"
-msgstr "Tarimba coletiva"
+msgstr "Camastro comum"
 
 msgid "大案"
-msgstr "Mesa comprida"
+msgstr "Grande mesa"
 
 msgid "铁匣"
 msgstr "Caixa de ferro"
