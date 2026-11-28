@@ -24628,10 +24628,10 @@ msgid "振远镖局是京师第一大镖局，在京城一带几乎无人不知�
 msgstr "As Escoltas do Longo Caminho são a maior agência de escolta da Capital, conhecida por quase todos nos arredores da Capital, e há também uma agência em Tece-Nuvens. Seus homens escoltam com o Sabre alegre da brisa primaveral. Escoltar é perigoso, por isso a agência escolhe primeiro quem tem Coragem."
 
 msgid "东方神教是一个行事隐秘的教门，不立山门，也不收寻常弟子。教中人散在各处，平日看不出身份，外人对它的宗旨所知甚少。只听说教中高手使一路雪影剑法，身法轻疾。"
-msgstr "A Ordem do Corvo Dourado é uma ordem de proceder secreto: não mantém portão de montanha e não aceita discípulos comuns. Seu povo vive disperso por toda parte e, no dia a dia, ninguém o reconhece; os de fora sabem muito pouco de seus fins. Só se ouve dizer que os mestres da ordem usam a Espada da sombra de neve, de passos leves e rápidos."
+msgstr "A Ordem do Corvo Dourado é uma ordem de proceder secreto: não mantém portão de montanha e não aceita discípulos comuns. Seu povo vive disperso por toda parte e, no dia a dia, ninguém o reconhece; os de fora sabem muito pouco de seus fins. Só se ouve dizer que os mestres da ordem usam a Espada da Sombra de Neve, de passos leves e rápidos."
 
 msgid "天邪派以水烟阁为大本营。水烟阁在雪亭镇西边青石官道尽头的山上，相传最早的主人是武术之神杞庸，后来成了历代武林盟主的行馆，每年正月十七在阁外虹台推选盟主。天邪神功与天邪神掌是这一派的根本，相传是杞庸见灵兽天邪虎而悟出；另有一路六阴追魂剑法，是三百年前一位前辈从废墟中得来的。门规甚严，拜师要么立誓恪守门规，要么接下三招。"
-msgstr "A sede da Escola Rebelde é o Pavilhão da Neblina. O Pavilhão da Neblina fica na montanha, no fim da Estrada real de pedra azul, a oeste do Pavilhão da Neve. Dizem que seu primeiro dono foi Qi Yong, o deus das artes marciais, e que depois se tornou a residência de todos os Líderes da Aliança do wulin, que a cada ano, no dia dezessete do primeiro mês, elegem o líder no Terraço do Arco-Íris, fora do pavilhão. A Arte rebelde e a Palma indômita são a raiz da escola; dizem que Qi Yong as concebeu ao ver o Tigre rebelde, uma besta espiritual. Há ainda a Espada dos seis yin, que um ancião recuperou de umas ruínas há trezentos anos. As regras são muito severas: para ser discípulo é preciso jurar guardá-las ou aguentar três golpes."
+msgstr "A sede da Escola Rebelde é o Pavilhão da Neblina. O Pavilhão da Neblina fica na montanha, no fim da Estrada real de pedra azul, a oeste do Pavilhão da Neve. Dizem que seu primeiro dono foi Qi Yong, o deus das artes marciais, e que depois se tornou a residência de todos os Líderes da Aliança do wulin, que a cada ano, no dia dezessete do primeiro mês, elegem o líder no Terraço do Arco-Íris, fora do pavilhão. A Arte rebelde e a Palma rebelde são a raiz da escola; dizem que Qi Yong as concebeu ao ver o Tigre rebelde, uma besta espiritual. Há ainda a Espada dos seis yin, que um ancião recuperou de umas ruínas há trezentos anos. As regras são muito severas: para ser discípulo é preciso jurar guardá-las ou aguentar três golpes."
 
 msgid "绝尘派是绝尘子一手所创的门派。绝尘子原是佛门中人，后得奇人指点，悟得道家真谛，佛道双修，访遍名山大川后自号绝尘。他的修行之所在青石村的石室里，门上写着「非我弟子，莫入此门」。入门看慧根，也要有相当的江湖历练。"
 msgstr "A Escola do Desapego foi fundada por Juechenzi, sozinho. Juechenzi era originalmente um budista; depois, guiado por um homem extraordinário, compreendeu o verdadeiro sentido do taoísmo e cultivou budismo e taoísmo juntos, e, depois de percorrer as montanhas e os rios famosos, deu a si mesmo o nome de Juechen. Seu retiro fica na câmara de pedra da Aldeia Pedra Azul, e na porta está escrito: \"Quem não for meu discípulo, não entre.\" Para entrar conta a aptidão espiritual, e também bastante experiência no jianghu."
@@ -24646,22 +24646,22 @@ msgid "山烟寺在绮云镇南、泓水对岸的日照山上，整座寺由上�
 msgstr "O Templo da Bruma fica no Monte Ensolarado, ao sul de Tece-Nuvens, na outra margem do rio Hong. O templo inteiro é construído com cipreste da melhor qualidade e resplandece em ouro e verde. O velho abade tem uma arte de curar prodigiosa, e os ricos que ele favoreceu pagaram a restauração; sua fama é maior que a do Mosteiro do Elefante Branco da Capital. Para entrar é preciso primeiro raspar a cabeça e tornar-se monge, e só se aceitam homens; suas artes são sobretudo o Bastão das nuvens que fluem e o Método interno do lótus, que cura, e quem é profundo no Dharma cultiva ainda o Poder das oito consciências."
 
 msgid "逍遥派的门户不在这一带，中原少见其门人。听说这一派收徒讲究人品文采，掌门是个风流倜傥的人物。"
-msgstr "A sede da Escola Despreocupada não fica por aqui, e nas Planícies Centrais se veem poucos de seus discípulos. Dizem que a escola escolhe os discípulos pelo caráter e pela cultura, e que seu Mestre é um homem elegante e desenvolto."
+msgstr "A sede da Escola Despreocupada não fica por aqui, e na Planície Central se veem poucos de seus discípulos. Dizem que a escola escolhe os discípulos pelo caráter e pela cultura, e que seu Mestre é um homem elegante e desenvolto."
 
 msgid "天山派的门户远在天山，中原少见其门人。晚月庄后门外的小径，据说就是通往天山的路。"
-msgstr "A sede da Escola de Tianshan fica longe, em Tianshan, e nas Planícies Centrais se veem poucos de seus discípulos. A trilha que sai do portão dos fundos do Solar da Lua Tardia, dizem, leva a Tianshan."
+msgstr "A sede da Escola de Tianshan fica longe, em Tianshan, e na Planície Central se veem poucos de seus discípulos. A trilha que sai do portão dos fundos do Solar da Lua Tardia, dizem, leva a Tianshan."
 
 msgid "步玄派是四百年前「秃笔狂生」骆步玄在京城创立的门派。骆步玄原是屡试不中的书生，一日在街边书肆望见一副对子，竟悟出一套武功，从此闯荡江湖。门下的步玄七诀号称天下轻功「轻捷第一」，使起来姿态有如书法；骆家至今是京城有名的武林世家。想入门的人，要先走一趟乔阴曼雩台东边的桃林。"
-msgstr "A Escola do Passo Místico foi fundada na Capital, há quatrocentos anos, por Luo Buxuan, \"o Louco do Pincel Calvo\". Luo Buxuan era um letrado reprovado vezes sem conta nos exames; um dia, numa livraria da rua, viu um dístico e de repente deduziu uma arte marcial, e desde então percorreu o jianghu. Os Sete segredos do Passo Místico da escola são chamados de qinggong \"mais ágil debaixo do céu\", e se usam com um porte de caligrafia; a família Luo continua sendo, até hoje, uma conhecida estirpe marcial da Capital. Quem quiser entrar deve primeiro ir ao Pomar de pessegueiros, a leste do Terraço da Dança da Chuva de Sombra Alta."
+msgstr "A Escola do Passo Místico foi fundada na Capital, há quatrocentos anos, por Luo Buxuan, \"o Louco do Pincel Careca\". Luo Buxuan era um letrado reprovado vezes sem conta nos exames; um dia, numa livraria da rua, viu um dístico e de repente deduziu uma arte marcial, e desde então percorreu o jianghu. Os Sete segredos do Passo Místico da escola são chamados de qinggong \"mais ágil debaixo do céu\", e se usam com um porte de caligrafia; a família Luo continua sendo, até hoje, uma conhecida estirpe marcial da Capital. Quem quiser entrar deve primeiro ir ao Pomar de pessegueiros, a leste do Terraço da Dança da Chuva de Sombra Alta."
 
 msgid "花紫会是乞丐们的帮会，只收身上没几个钱的化子。龙头的信物是一只打着二十三个结的皮酒囊；龙头行踪诡秘，据说各处总有七八个替身。会中的武功有油流麻香手和伏蛟功。"
-msgstr "A Irmandade dos Mendigos é a irmandade dos pedintes, e só aceita mendigos com pouco dinheiro no bolso. O emblema do Cabeça do Dragão é um odre de couro com vinte e três nós; o Cabeça do Dragão é de paradeiro misterioso, e dizem que tem sete ou oito sósias em cada lugar. Suas artes são a Mão de óleo e pimenta e a Arte de domar serpentes."
+msgstr "A Irmandade dos Mendigos é a irmandade dos pedintes, e só aceita mendigos com pouco dinheiro no bolso. O emblema do Cabeça do Dragão é um odre de couro com vinte e três nós; o Cabeça do Dragão é de paradeiro misterioso, e dizem que tem sete ou oito substitutos em cada lugar. Suas artes são a Mão de óleo e pimenta e a Arte de domar serpentes."
 
 msgid "铁盾会是番坊里大秦人的剑会，门前立着两面比人还高的铁包边大盾，盾面上漆着展翅的鹰。大秦人的祖上从西边来，在这片海边落了脚。会里的剑手左手盾、右手短剑，两两对练；铁盾剑法盾在前、剑在后，没有盾的人不教。"
 msgstr "A Irmandade do Escudo de Ferro é a irmandade de esgrima do povo de Daqin no Bairro Estrangeiro; diante da porta erguem-se dois grandes escudos com borda de ferro, mais altos que um homem, com uma águia de asas abertas pintada na face. Os antepassados dos de Daqin vieram do oeste e se instalaram nesta costa. Os espadachins da irmandade levam o escudo na mão esquerda e uma espada curta na direita, e treinam em duplas; a Espada do escudo de ferro leva o escudo à frente e a espada atrás, e a quem não tem escudo não se ensina."
 
 msgid "鬼笠馆是番坊里倭人浪人开的武馆，门楣上挂着一顶破了边的斗笠，馆名就是这么来的。门规只有一句：「一击之内定生死」——刀出鞘，只出一次。鬼笠刀法的刀比中原的窄而弯，劈下去就收，不出第二刀。"
-msgstr "O Salão do Chapéu Fantasma é uma escola de artes marciais aberta por ronins japoneses no Bairro Estrangeiro; sobre a verga da porta pende um chapéu de palha de aba rasgada, e daí vem o nome. A regra é uma única frase: \"Vida ou morte num único golpe\": o sabre sai da bainha uma só vez. O Sabre do Chapéu Fantasma é mais estreito e curvo que o das Planícies Centrais; corta e se recolhe, e nunca dá um segundo golpe."
+msgstr "O Salão do Chapéu Fantasma é uma escola de artes marciais aberta por ronins japoneses no Bairro Estrangeiro; sobre a verga da porta pende um chapéu de palha de aba rasgada, e daí vem o nome. A regra é uma única frase: \"Vida ou morte num único golpe\": o sabre sai da bainha uma só vez. O Sabre do Chapéu Fantasma é mais estreito e curvo que o da Planície Central; corta e se recolhe, e nunca dá um segundo golpe."
 
 msgid "日陀罗寺是番坊里一座不大的寺院，由两位天竺僧人所建，赭红的墙头长着草。院中一棵大榕树，是第一代师父从天竺带来的枝条插活的。入寺要先剃度出家，只收男子，所传的是莲华心法、流云杖法这些佛门功夫。"
 msgstr "O Templo Ritola é um templo modesto do Bairro Estrangeiro, construído por dois monges indianos, com capim crescendo sobre os muros de ocre avermelhado. No pátio há uma grande figueira-de-bengala, nascida de uma estaca que o primeiro Shifu trouxe da Índia. Para entrar é preciso primeiro raspar a cabeça e tornar-se monge, e só se aceitam homens; o que se transmite são artes budistas como o Método interno do lótus e o Bastão das nuvens que fluem."
@@ -24682,7 +24682,7 @@ msgid "虹台上的事还没完。等散了会再说。"
 msgstr "O assunto do Terraço do Arco-Íris ainda não acabou. Falamos quando a assembleia se dispersar."
 
 msgid "点字诀"
-msgstr "Segredo do Ponto"
+msgstr "Segredo \"Ponto\""
 
 msgid "武馆的事"
 msgstr "Assuntos do Salão"
@@ -24700,7 +24700,7 @@ msgid "老松寨的常老大，人称泼风刀王，什么钱都收。要过他�
 msgstr "O Chefe Chang do Forte dos Pinheiros Velhos, a quem chamam de Rei do Sabre da Tempestade, aceita qualquer dinheiro. Para passar pelo portão do forte dele, leve prata de sobra; se você tem habilidade, desafie-o aos gritos fora do portão: dos que entram à força, poucos voltam."
 
 msgid "黑冠黑衣的道士？这一带没有道观。你若在老松岭遇上，小心些，那种人下手没有分寸。"
-msgstr "Um taoísta de gorro e túnica pretos? Por aqui não há mosteiro. Se você o encontrar na Serra dos Pinheiros Velhos, tome cuidado: gente assim não conhece limite."
+msgstr "Um taoísta de gorro e túnica pretos? Por aqui não há templo. Se você o encontrar na Serra dos Pinheiros Velhos, tome cuidado: gente assim não conhece limite."
 
 msgid "老岑的信，你留着。末一行我不认得——他说过他在山里见过一座城，我只当是饿昏了的话。"
 msgstr "Fique com a carta do velho Cen. A última linha eu não entendo: ele disse uma vez que tinha visto uma cidade na montanha, e eu tomei por delírio de fome."
@@ -25114,7 +25114,7 @@ msgid "真剑早就不在水烟阁了。挂一把假的，是鱼饵——钓那�
 msgstr "A espada de verdade faz tempo que não está no Pavilhão da Neblina. Pendurar uma falsa é isca, para pescar os que vêm atrás dela."
 
 msgid "去年就钓上来一个：黑衣黑冠的道士，夜里来试剑，发觉是假的就走了。我的人跟到野羊山北麓，跟丢了。那边没有道观，只有一片黑砖。"
-msgstr "No ano passado um mordeu a isca: um taoísta de túnica e gorro negros, que veio de noite testar a espada e, ao ver que era falsa, foi embora. Meus homens o seguiram até o sopé norte do Morro das Cabras e o perderam. Ali não há mosteiro, só um trecho de tijolo negro."
+msgstr "No ano passado um mordeu a isca: um taoísta de túnica e gorro negros, que veio de noite testar a espada e, ao ver que era falsa, foi embora. Meus homens o seguiram até o sopé norte do Morro das Cabras e o perderam. Ali não há templo, só um trecho de tijolo negro."
 
 msgid "柳大哥让你来的？信呢？没有他的信，执法使的佩剑不是你问得的。信丢了，回武馆找他再写一封。"
 msgstr "O Irmão Liu mandou você? E a carta? Sem a carta dele, a espada do Executor não é coisa que você possa perguntar. Se a perdeu, volte ao salão e peça que ele escreva outra."
@@ -25138,7 +25138,7 @@ msgid "衣在不在庄里，我不知道。守它的人不白给——你去了�
 msgstr "Se a túnica está no solar, eu não sei. Quem o guarda não dá nada de graça: vá e você entenderá."
 
 msgid "还有——野羊山那边前夜出了事。一伙黑冠道士摸上山，抓走了寨里两个人，挨个问：那天闯道观的孩子是谁。他们在找你。"
-msgstr "Mais uma coisa: anteontem à noite houve problemas no Morro das Cabras. Um bando de taoístas de gorro negro subiu escondido, levou duas pessoas do forte e foi perguntando, uma por uma, quem era a criança que invadiu o mosteiro aquele dia. Estão procurando você."
+msgstr "Mais uma coisa: anteontem à noite houve problemas no Morro das Cabras. Um bando de taoístas de gorro negro subiu escondido, levou duas pessoas do forte e foi perguntando, uma por uma, quem era a criança que invadiu o templo aquele dia. Estão procurando você."
 
 msgid "执刑使管的是刀，不管衣裳。"
 msgstr "O Executor cuida de lâminas, não de roupas."
