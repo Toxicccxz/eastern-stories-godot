@@ -18850,7 +18850,7 @@ msgid "终章：戴着黑冠下湖。冰龙厅里你站在商玦身后——第�
 msgstr "Final: descer ao lago com o gorro negro. No salão dos dragões de gelo você fica atrás de Shang Jue: o primeiro golpe é seu. Os quatro taoístas dele vão te atacar primeiro."
 
 msgid "你把北麓那座道观交给了官府。官兵上了山，宫里剩下的人一个也没走脱。"
-msgstr "Você entregou às autoridades o mosteiro do sopé norte. Os soldados subiram a montanha, e dos que restavam no palácio nenhum escapou."
+msgstr "Você entregou às autoridades o templo do sopé norte. Os soldados subiram a montanha, e dos que restavam no palácio nenhum escapou."
 
 msgid "把逆灵宫的余孽交给官府去剿"
 msgstr "Entregou às autoridades o que restava do Palácio Negro, para ser arrasado"
@@ -18973,7 +18973,7 @@ msgid "陈剑秋把一趟红货交给了你：两箱，京师振远总局收，�
 msgstr "Chen Jianqiu te confia uma carga de mercadoria valiosa: dois baús, a receber na Sede do Longo Caminho, na Capital, e a entregar ao chefe da agência, Chen Tianxing. O velho Zhou, batedor, empurra o carro."
 
 msgid "老周推着镖车跟你走（在镖局里问他「上路」）。出绮云镇往北到雪亭镇，沿青石官道往西南，过碎石小路，从铁索下到天驼关，再沿黄土大道往南到京师。车马行不拉镖车。镖车落在后头的，回去叫老周「上路」。"
-msgstr "O velho Zhou empurra o carro de escolta e te segue (perguntar a ele sobre \"Partir\" na agência). Sair de Tece-Nuvens para o norte até Pavilhão da Neve, seguir para o sudoeste pela Estrada real de pedra azul, atravessar a Trilha de cascalho, descer pela corrente de ferro até o Passo do Camelo e depois ir para o sul pela Grande estrada de terra amarela até a Capital. O Parada de carruagens não leva carros de escolta. Se o carro ficar para trás, voltar e dizer ao velho Zhou \"Partir\"."
+msgstr "O velho Zhou empurra o carro de escolta e te segue (perguntar a ele sobre \"Partir\" na agência). Sair de Tece-Nuvens para o norte até o Pavilhão da Neve, seguir para o sudoeste pela Estrada real de pedra azul, atravessar a Trilha de cascalho, descer pela corrente de ferro até o Passo do Camelo e depois ir para o sul pela Grande estrada de terra amarela até a Capital. A Parada de carruagens não leva carros de escolta. Se o carro ficar para trás, voltar e dizer ao velho Zhou \"Partir\"."
 
 msgid "碎石小路上有人劫镖。领头的蒙面后生倒在路边，刀扔在一旁。"
 msgstr "Alguém assalta a carga na Trilha de cascalho. O jovem mascarado que os liderava está caído à beira da estrada, com o sabre jogado ao lado."
@@ -19015,10 +19015,10 @@ msgid "把贺长庚的家信交给了陈天星"
 msgstr "Entregou a Chen Tianxing a carta de He Changgeng à família"
 
 msgid "二十年前那趟镖，振远的总账里还有一笔没对上。去京师东街北头的振远总局，问陈天星「旧账」。"
-msgstr "Daquela escolta de vinte anos atrás, ainda há uma soma que não bate no livro-razão do Longo Caminho. Ir à Sede do Longo Caminho, no extremo norte da Rua Leste da Capital, e perguntar a Chen Tianxing sobre \"Contas antigas\"."
+msgstr "Daquela escolta de vinte anos atrás, ainda há uma soma que não bate no livro-mestre do Longo Caminho. Ir à Sede do Longo Caminho, no extremo norte da Rua Leste da Capital, e perguntar a Chen Tianxing sobre \"Contas antigas\"."
 
 msgid "陈天星翻完了振远二十年的总账：绮云分局开张的本钱，是那趟镖之后兵部送来的「抚恤银」。"
-msgstr "Chen Tianxing terminou de revirar vinte anos do livro-razão do Longo Caminho: o dinheiro que abriu a filial de Tece-Nuvens foi a \"prata de indenização\" que o Ministério da Guerra mandou depois daquela escolta."
+msgstr "Chen Tianxing terminou de revirar vinte anos do livro-mestre do Longo Caminho: o dinheiro que abriu a filial de Tece-Nuvens foi a \"prata de indenização\" que o Ministério da Guerra mandou depois daquela escolta."
 
 msgid "绮云分局开张的本钱是兵部的抚恤银，陈剑秋知道。回绮云镇的振远镖局，问陈剑秋「旧账」。"
 msgstr "O dinheiro que abriu a filial de Tece-Nuvens foi prata de indenização do Ministério da Guerra, e Chen Jianqiu sabe disso. Voltar às Escoltas do Longo Caminho de Tece-Nuvens e perguntar a Chen Jianqiu sobre \"Contas antigas\"."
@@ -19027,16 +19027,16 @@ msgid "陈剑秋认了：那年振远死了十一个人，兵部给钱，他拿�
 msgstr "Chen Jianqiu admitiu: naquele ano o Longo Caminho perdeu onze homens, o Ministério da Guerra pagou, e ele aceitou o dinheiro."
 
 msgid "账本在陈天星手里，他要告；陈剑秋要瞒。到此为止（在绮云镇问陈剑秋「到此为止」）：账本烧了，抚恤银的事振远不再提，正月十七振远那一票投颜违；陈剑秋教你春风快意刀，陈天星往后见你只谈生意。查到底（在京师问陈天星「查到底」）：账本押去乔阴县衙，告兵部也告振远自己，陈剑秋关了绮云分局的门；振远那一票投旧盟主，京师的事还没定的，这本账算揭发的一样人证物证。"
-msgstr "O livro-razão está nas mãos de Chen Tianxing, que quer denunciar; Chen Jianqiu quer abafar. Parar por aqui (perguntar a Chen Jianqiu, em Tece-Nuvens, sobre \"Parar por aqui\"): o livro-razão é queimado, o Longo Caminho não fala mais da prata de indenização, e no dia dezessete do primeiro mês o voto do Longo Caminho vai para Yan Wei; Chen Jianqiu te ensina o Sabre alegre da brisa primaveral, e Chen Tianxing passa a falar com você só de negócios. Ir até o fundo (perguntar a Chen Tianxing, na Capital, sobre \"Ir até o fundo\"): o livro-razão vai para o tribunal de Sombra Alta, com acusações contra o Ministério da Guerra e contra o próprio Longo Caminho, e Chen Jianqiu fecha a filial de Tece-Nuvens; o voto do Longo Caminho vai para o antigo Líder da Aliança, e, se o assunto da Capital ainda não estiver resolvido, este livro-razão conta como uma prova para a denúncia."
+msgstr "O livro-mestre está nas mãos de Chen Tianxing, que quer denunciar; Chen Jianqiu quer abafar. Parar por aqui (perguntar a Chen Jianqiu, em Tece-Nuvens, sobre \"Parar por aqui\"): o livro-mestre é queimado, o Longo Caminho não fala mais da prata de indenização, e no dia dezessete do primeiro mês o voto do Longo Caminho vai para Yan Wei; Chen Jianqiu te ensina o Sabre alegre da brisa primaveral, e Chen Tianxing passa a falar com você só de negócios. Ir até o fundo (perguntar a Chen Tianxing, na Capital, sobre \"Ir até o fundo\"): o livro-mestre vai para o tribunal de Sombra Alta, com acusações contra o Ministério da Guerra e contra o próprio Longo Caminho, e Chen Jianqiu fecha a filial de Tece-Nuvens; o voto do Longo Caminho vai para o antigo Líder da Aliança, e, se o assunto da Capital ainda não estiver resolvido, este livro-mestre conta como uma prova para a denúncia."
 
 msgid "你站到了陈剑秋一边：那本总账烧了，二十年前的抚恤银，振远不再提。陈剑秋许你学春风快意刀。"
-msgstr "Você ficou do lado de Chen Jianqiu: o livro-razão foi queimado, e da prata de indenização de vinte anos atrás o Longo Caminho não fala mais. Chen Jianqiu te permitiu aprender o Sabre alegre da brisa primaveral."
+msgstr "Você ficou do lado de Chen Jianqiu: o livro-mestre foi queimado, e da prata de indenização de vinte anos atrás o Longo Caminho não fala mais. Chen Jianqiu te permitiu aprender o Sabre alegre da brisa primaveral."
 
 msgid "劝陈剑秋把振远的旧账烧了：到此为止"
 msgstr "Você convenceu Chen Jianqiu a queimar as contas antigas do Longo Caminho: fica por aqui"
 
 msgid "你站到了陈天星一边：振远的总账押去了乔阴县衙。绮云分局关了门。"
-msgstr "Você ficou do lado de Chen Tianxing: o livro-razão do Longo Caminho foi levado ao tribunal de Sombra Alta. A filial de Tece-Nuvens fechou as portas."
+msgstr "Você ficou do lado de Chen Tianxing: o livro-mestre do Longo Caminho foi levado ao tribunal de Sombra Alta. A filial de Tece-Nuvens fechou as portas."
 
 msgid "跟陈天星把振远的旧账送进了乔阴县衙：查到底"
 msgstr "Você levou com Chen Tianxing as contas antigas do Longo Caminho ao tribunal de Sombra Alta: até o fim"
@@ -19051,7 +19051,7 @@ msgid "庄主蓝止萍在晚月庄的前厅。问她「庄里的事」。"
 msgstr "A senhora do solar, Lan Zhiping, está na sala da frente do Solar da Lua Tardia. Perguntar a ela sobre \"Assuntos do solar\"."
 
 msgid "蓝止萍说：晚月庄失传过一支舞，叫沧海龙吟。步子绣在后院书房的湘绣舞曲图上，曲子在舞曲谱里；两样凑齐，到二楼佛堂，在区冥的神位前跳一回。"
-msgstr "Lan Zhiping diz: o Solar da Lua Tardia perdeu uma dança, o Canto do Dragão sobre o Mar Azul. Os passos estão bordados no Bordado da dança do Escritório do quintal, e a música está na Partitura de dança; com as duas coisas juntas, subir ao Oratório do andar de cima e dançá-la uma vez diante da tabuleta ancestral de Ouming."
+msgstr "Lan Zhiping diz: o Solar da Lua Tardia perdeu uma dança, o Canto do Dragão sobre o Mar Azul. Os passos estão bordados no Bordado Xiang da dança do Escritório do quintal, e a música está na Partitura de dança; com as duas coisas juntas, subir ao Oratório do andar de cima e dançá-la uma vez diante da tabuleta ancestral de Ouming."
 
 msgid "图上的姿势，谱上的曲子，你都记下了：沧海龙吟。"
 msgstr "As posturas do bordado e a música da partitura, você guardou as duas na memória: o Canto do Dragão sobre o Mar Azul."
@@ -19117,13 +19117,13 @@ msgid "老妇的女儿就是内书房里那个蒙面的杀手。问她「娘」�
 msgstr "A filha da velha é a assassina mascarada do Escritório interno. Perguntar a ela sobre \"Mãe\". Lutar também serve: nesta etapa ela só cai, não morre."
 
 msgid "她说了来历：北麓的道观、六阴剑、东方神教，和朱鸿雪派她回晚月庄的缘故。"
-msgstr "Ela contou sua história: o mosteiro do sopé norte, a Espada dos seis yin, a Ordem do Corvo Dourado e por que Zhu Hongxue a mandou de volta ao Solar da Lua Tardia."
+msgstr "Ela contou sua história: o templo do sopé norte, a Espada dos seis yin, a Ordem do Corvo Dourado e por que Zhu Hongxue a mandou de volta ao Solar da Lua Tardia."
 
 msgid "那一夜之后，她藏在庄后山路尽头的竹林里，入夜才在（白天去，竹林里没有人）。走进竹林找到她，问她「娘」。动手也行——这一步她只会倒下，不会死。"
 msgstr "Depois daquela noite, ela se esconde no bambuzal do Fim da estrada da montanha, atrás do solar, e só está lá depois de escurecer (de dia, não há ninguém no bambuzal). Entrar no bambuzal, encontrá-la e perguntar a ela sobre \"Mãe\". Lutar também serve: nesta etapa ela só cai, não morre."
 
 msgid "她说了来历：北麓的道观、六阴剑、东方神教，和朱鸿雪派她回晚月庄的缘故。她回了内书房，在她娘身边。"
-msgstr "Ela contou sua história: o mosteiro do sopé norte, a Espada dos seis yin, a Ordem do Corvo Dourado e por que Zhu Hongxue a mandou de volta ao Solar da Lua Tardia. Ela voltou ao Escritório interno, para junto da mãe."
+msgstr "Ela contou sua história: o templo do sopé norte, a Espada dos seis yin, a Ordem do Corvo Dourado e por que Zhu Hongxue a mandou de volta ao Solar da Lua Tardia. Ela voltou ao Escritório interno, para junto da mãe."
 
 msgid "她的杀手令牌在你手上。两个人要它：内书房的老妇要它为证——递给她，她知道女儿还活着，给你一份谢礼（只给一次）；绮云镇的朱鸿雪要它回神教——问她「还令」，神教的令只从上一个持令人手里接。给了一边，另一边就没有了。"
 msgstr "A placa de assassino dela está nas suas mãos. Duas pessoas a querem: a velha do Escritório interno, como prova (entregá-la a ela: ela fica sabendo que a filha está viva e te dá um presente de agradecimento, uma só vez); e Zhu Hongxue, em Tece-Nuvens, para a Ordem (perguntar a ela sobre \"Devolver a placa\": a placa da Ordem só se recebe das mãos de quem a teve por último). Dada a uma, a outra fica sem."
@@ -19177,7 +19177,7 @@ msgid "卖身契在你身上。回福林大街，递给陆得财。"
 msgstr "Os contratos de servidão estão com você. Voltar à Rua Fulin e entregá-los a Lu Decai."
 
 msgid "陆得财数完了八张契：明天她们就回家。他把皮酒囊递给你数——二十二个结。他是龙头的一个替身。"
-msgstr "Lu Decai termina de contar os oito contratos: amanhã elas voltam para casa. Ele te passa o odre de couro para contar: 22 nós. Ele é um dos testas de ferro do Cabeça do Dragão."
+msgstr "Lu Decai termina de contar os oito contratos: amanhã elas voltam para casa. Ele te passa o odre de couro para contar: 22 nós. Ele é um dos substitutos do Cabeça do Dragão."
 
 msgid "从兵部的管事身上摸回了槐阳八户的卖身契"
 msgstr "Você tirou do intendente do Ministério da Guerra os contratos de servidão de oito famílias de Huaiyang"
@@ -19186,7 +19186,7 @@ msgid "五结弟子"
 msgstr "{jogador:Discípulo de cinco nós|Discípula de cinco nós}"
 
 msgid "真龙头的皮酒囊上二十三个结，替身的都少几个；替身一个只认得下一个。雪亭镇广场墙根下那个老乞丐也叫陆得财，结最少——问他「龙头」。"
-msgstr "O odre de couro do verdadeiro Cabeça do Dragão tem 23 nós, e o de cada testa de ferro tem menos; cada testa de ferro só conhece o seguinte. O velho mendigo ao pé do muro da praça do Pavilhão da Neve também se chama Lu Decai e é o que tem menos nós: perguntar a ele sobre \"Cabeça do Dragão\"."
+msgstr "O odre de couro do verdadeiro Cabeça do Dragão tem 23 nós, e o de cada substituto tem menos; cada substituto só conhece o seguinte. O velho mendigo ao pé do muro da praça do Pavilhão da Neve também se chama Lu Decai e é o que tem menos nós: perguntar a ele sobre \"Cabeça do Dragão\"."
 
 msgid "雪亭的陆得财，二十个结。他指了下一个：绮云镇的渡口。"
 msgstr "O Lu Decai do Pavilhão da Neve: 20 nós. Ele aponta o seguinte: o embarcadouro de Tece-Nuvens."
