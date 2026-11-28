@@ -108,7 +108,8 @@ One picture, one plain word, as in English: maps, quests and the UI use the Port
 * **Places**: as English: a place named for what one sees is translated, a real proper name keeps
   its pinyin; at most three words on the map, in Brazil's naming pattern X da Y (Pavilhão da Neve
   (雪亭镇), Sombra Alta (乔阴), a Capital (京师)). A place takes the article in a sentence when
-  Portuguese gives it one (a Capital, o Passo do Camelo; a pinyin name takes none): its row in the
+  Portuguese gives it one (a Capital, o Passo do Camelo, o Pavilhão da Neve: no Pavilhão da Neve;
+  a pinyin name takes none, nor do Sombra Alta and Tece-Nuvens): its row in the
   noun table says so, with its gender, and the mark contracts it (na Capital, à Capital, do Passo
   do Camelo; to Sombra Alta, with no article, a Sombra Alta).
 * **Schools**: 派 / 门 Escola · 教 Ordem (东方神教 a Ordem do Corvo Dourado) · 帮 / 会 Irmandade
