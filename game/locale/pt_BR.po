@@ -39295,7 +39295,7 @@ msgid "水烟阁七长老"
 msgstr "Sétimo Ancião do Pavilhão da Neblina"
 
 msgid "颜违是水烟阁七位长老中最年轻的，虽然他的武功跟其他六位长老\n相比仍略逊一筹，但是他办事十分精明干练，因此七长老每年都派\n他出外办理武林大会事宜。\n"
-msgstr "Yan Wei é o mais jovem dos sete Anciãos do Pavilhão da Neblina. Embora sua arte marcial fique um pouco abaixo da dos outros seis, ele é muito perspicaz e eficiente, e por isso, todo ano, o Sétimo Ancião o envia para fora para cuidar dos assuntos da Assembleia do Wulin.\n"
+msgstr "Yan Wei é o mais jovem dos sete Anciãos do Pavilhão da Neblina. Embora sua arte marcial fique um pouco abaixo da dos outros seis, ele é muito perspicaz e eficiente, e por isso, todo ano, os sete Anciãos o enviam para fora para cuidar dos assuntos da Assembleia do Wulin.\n"
 
 msgid "正把案上的文书一件件收进匣子里，见你进来，点了点头。"
 msgstr " guarda numa caixa, um a um, os papéis que estavam sobre a mesa; quando você entra, ele assente com a cabeça."
@@ -39382,7 +39382,7 @@ msgid "你现在正走在一条山坡上的小径，往南望去只见山下一�
 msgstr "Você caminha por uma trilha na encosta. Olhando para o sul, vê-se uma escada de pedra branca serpentear montanha acima, rumo a uma plataforma não muito longe a leste; ao norte da plataforma fica o célebre lugar sagrado dos guerreiros, o \"Pavilhão da Neblina\". Ao norte da trilha há uma fileira de bordos bem alinhados; subindo a encosta para o oeste, chega-se ao \"Terraço do Arco-Íris\", no cume.\n"
 
 msgid "你现在正走在一条山坡小径上，东边不远处可以望见水烟阁琉璃色\n的屋瓦，小径东北是一道白石阶梯通往山巅的虹台，往西则是「水烟十\n景」之中最有名的虹谷断崖，小径旁立著一个七、八尺高的石碑。\n"
-msgstr "Você caminha por uma trilha na encosta. Não muito longe a leste, avistam-se as telhas vitrificadas do Pavilhão da Neblina; a nordeste da trilha, uma escada de pedra branca leva ao Terraço do Arco-Íris, no cume; a oeste fica o precipício do Desfiladeiro do Arco-Íris, o mais famoso das \"Dez Paisagens da Neblina\". Ao lado da trilha ergue-se uma estela de pedra de uns dois metros de altura.\n"
+msgstr "Você caminha por uma trilha na encosta. Não muito longe a leste, avistam-se as telhas vitrificadas do Pavilhão da Neblina; a nordeste da trilha, uma escada de pedra branca leva ao Terraço do Arco-Íris, no cume; a oeste fica o precipício do Desfiladeiro do Arco-Íris, o mais famoso das \"Dez Paisagens da Neblina\". Ao lado da trilha ergue-se uma estela de pedra de sete ou oito chi de altura.\n"
 
 msgid "你正走在一道白石阶梯上，这道阶梯依著山壁而建，东边隔著一个\n深不见底的山谷可以望见对面傲立在山巅之上的水烟阁，每当清晨山谷\n中的晨雾慢慢飘起，从这里可以看见水烟阁彷佛飘在云间，这就是水烟\n十景中的「飞天楼阁」，石阶沿著山壁从这里转往北方。\n"
 msgstr "Você sobe uma escada de pedra branca construída rente à parede da montanha. A leste, do outro lado de um vale sem fundo, avista-se o Pavilhão da Neblina, altivo no cume. Quando a névoa da manhã se levanta no vale, vê-se daqui o Pavilhão da Neblina como que flutuando entre as nuvens: é o \"Pavilhão Voador\" das Dez Paisagens da Neblina. Os degraus viram daqui para o norte, rente à parede.\n"
@@ -39418,19 +39418,19 @@ msgid "这里是一间柴房，一捆一捆劈好的柴薪都整齐地堆放在�
 msgstr "Um galpão de lenha. Feixes de lenha rachada estão empilhados com capricho no lado norte, deixando uma passagem que leva ao leste, ao quarto dos criados. Ao sul, volta-se à sala oeste do Pavilhão.\n"
 
 msgid "这里是在水烟阁从事杂役的仆佣所住的卧室，房间相当宽敞，东西\n向一张大通铺最少可以睡二、三十人，东首一张大炕是冬天才用\n的，因为有不少仆役回家过冬，所以比床铺稍小，北边开了几扇窗子，\n南边则是摆放仆役私物的橱柜。\n"
-msgstr "Este é o dormitório dos criados que fazem os serviços gerais do Pavilhão da Neblina. O quarto é bastante amplo: um grande leito comum no sentido leste-oeste acomoda no mínimo vinte ou trinta pessoas; a leste há um grande kang, usado só no inverno, um pouco menor que as camas, porque muitos criados voltam para casa durante o inverno. Ao norte abrem-se várias janelas; ao sul ficam os armários onde se guardam os pertences dos criados.\n"
+msgstr "Este é o dormitório dos criados que fazem os serviços gerais do Pavilhão da Neblina. O quarto é bastante amplo: um grande camastro comum no sentido leste-oeste acomoda no mínimo vinte ou trinta pessoas; a leste há um grande kang, usado só no inverno, um pouco menor que as camas, porque muitos criados voltam para casa durante o inverno. Ao norte abrem-se várias janelas; ao sul ficam os armários onde se guardam os pertences dos criados.\n"
 
 msgid "这里是水烟阁的厨房，东首一座大灶，灶边堆著许多瓦瓮，北边是\n一张方桌，桌上锅碗瓢盆一应俱全，西边则是一个橱柜，往南可以回到\n厅中。\n"
 msgstr "Esta é a cozinha do Pavilhão da Neblina. No lado leste, um grande fogão, e perto dele muitas talhas de barro empilhadas; ao norte, uma mesa quadrada, sobre a qual há panelas, tigelas e colheres de tudo o que se precisa; a oeste fica um armário. Ao sul, volta-se ao salão.\n"
 
 msgid "这里是水烟阁西侧厅的二楼，由于侧厅是挑高建筑，因此这里只有\n一条约七、八尺宽的走道连接楼梯与往东的门。\n"
-msgstr "Este é o segundo andar da sala oeste do Pavilhão da Neblina. Como a sala lateral tem pé-direito alto, aqui só há um corredor de uns dois metros de largura ligando a escada à porta a leste.\n"
+msgstr "Este é o segundo andar da sala oeste do Pavilhão da Neblina. Como a sala lateral tem pé-direito alto, aqui só há um corredor de sete ou oito chi de largura ligando a escada à porta a leste.\n"
 
 msgid "这里是水烟阁二楼的聆啸厅，南面是一个大露台，按著西、西南、\n南、东南、东等方向立著五块灰绿色的怪石，东西各有一个出\n口通往侧厅，往北则是水烟阁主所居的春秋水色斋。\n"
 msgstr "Este é o Salão do Assobio Longo, no segundo andar do Pavilhão da Neblina. Ao sul há um grande terraço, com cinco estranhas pedras verde-acinzentadas postas nas direções oeste, sudoeste, sul, sudeste e leste; a leste e a oeste há uma saída para cada sala lateral, e ao norte fica o Estúdio das Águas da Primavera e do Outono, onde mora o senhor do Pavilhão.\n"
 
 msgid "这里是水烟阁东侧厅的二楼，由于侧厅是挑高建筑，因此这里只有\n一条约七、八尺宽的走道连接楼梯与往西的门。\n"
-msgstr "Este é o segundo andar da sala leste do Pavilhão da Neblina. Como a sala lateral tem pé-direito alto, aqui só há um corredor de uns dois metros de largura ligando a escada à porta a oeste.\n"
+msgstr "Este é o segundo andar da sala leste do Pavilhão da Neblina. Como a sala lateral tem pé-direito alto, aqui só há um corredor de sete ou oito chi de largura ligando a escada à porta a oeste.\n"
 
 msgid "入席"
 msgstr "Tomar assento"
