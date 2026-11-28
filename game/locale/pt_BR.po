@@ -33259,7 +33259,7 @@ msgid "你一进了小轩内，只觉异香扑鼻，那些奇草仙藤，越冷�
 msgstr "Ao entrar no pequeno pavilhão, você sente um perfume estranho invadir o nariz. As ervas raras e as videiras imortais ficam mais verdes quanto mais frio faz, e todas deram frutos como grãos de coral, pendentes e encantadores. O quarto é como uma gruta de neve, fresco e agradável; sobre a mesa, um vaso de barro com alguns ramos de crisântemo, ao lado de dois livros, uma tigela de chá e uma xícara, e nada mais; na cama, só pendem um dossel de gaze verde e as cobertas, também muito simples.\n"
 
 msgid "亭子座落在园内小水池上，亭柱周围以弧形座凳式栏板，内外\n雕刻各种不同样式的梅枝，钻尖式紫琉璃瓦顶，天花板也有雕刻非\n常精细的百花图案。上下担额枋彩画题材是海墁式点金加彩琼花。\n体形别致，色彩丰富。亭边石桥飞架，通萃赏楼，轻灵精巧，为园\n中一大奇景。\n"
-msgstr "O pavilhão se assenta sobre o pequeno tanque do jardim. Em volta das colunas há bancos com balaustrada em arco, entalhados por dentro e por fora com ramos de ameixeira de vários feitios, e o telhado é de telhas de vidrado roxo de ponta aguçada. O forro do teto também tem entalhes finíssimos de cem flores. Nas vigas de cima e de baixo estão pintadas flores de viburno douradas e coloridas, ao estilo do mar de rolos. Tem forma singular e cores ricas. Ao lado do pavilhão, uma ponte de pedra se lança até a Torre Cuishang, leve e delicada, uma das grandes maravilhas do jardim.\n"
+msgstr "O pavilhão se assenta sobre o pequeno tanque do jardim. Em volta das colunas há bancos com balaustrada em arco, entalhados por dentro e por fora com ramos de ameixeira de vários feitios, e o telhado é de telhas de vidrado roxo de ponta aguçada. O forro do teto também tem entalhes finíssimos de cem flores. Nas vigas de cima e de baixo estão pintadas flores de viburno douradas e coloridas, ao estilo do mar de rolos. Tem forma singular e cores ricas. Ao lado do pavilhão, uma ponte de pedra se lança até a Torre do Deleite Seleto, leve e delicada, uma das grandes maravilhas do jardim.\n"
 
 msgid "暖香榭位于水池东岸，秋水山房之西，依岩为屋，结构曲折，\n极幽致，室小而精，尚朴去华，渊然静修，古香袭人。走进这里\n你有一种心源湛澈，天地虚灵，彷佛置身于仙境的感觉。往西面\n望去，水底亭台，历历可鉴。\n"
 msgstr "O Caramanchão do Aroma Morno fica na margem leste do tanque, a oeste da Casa da Montanha de Águas de Outono; foi construído encostado à rocha, de estrutura sinuosa, muito recluso, pequeno mas fino, que prefere a simplicidade ao enfeite, para o recolhimento sereno, com um ar de antiguidade que impregna tudo. Ao entrar aqui, você sente o coração límpido e o céu e a terra vazios e espirituais, como se estivesse num reino de imortais. Olhando para o oeste, vê sob a água os pavilhões e terraços, nítidos um a um.\n"
@@ -33454,7 +33454,7 @@ msgid "这是一个上等木材作成的小橱子，里面放了一些物品。\
 msgstr "Este é um pequeno armário de madeira de primeira, com algumas coisas dentro.\nVocê vê belas roupas e enfeites, um após o outro, e tem vontade de pegá-los para olhar.\n"
 
 msgid "这是一幅湘绣的彩图，上有几名貌美的女子，以不同的姿态\n舞著，其漫妙之处让你著迷。图旁另绣有一曲名『西出阳关』\n与『有凤来仪 』\n"
-msgstr "Este é um quadro colorido de bordado de Xiang, com várias mulheres belas dançando em poses diversas, cuja graça fascina você. Ao lado do quadro estão bordados os nomes de duas peças: 'Saindo de Yangguan' e 'A fênix vem à corte'.\n"
+msgstr "Este é um quadro colorido de bordado de Xiang, com várias mulheres belas dançando em poses diversas, cuja graça fascina você. Ao lado do quadro estão bordados os nomes de duas peças: \"Saindo de Yangguan\" e \"A fênix vem à corte\".\n"
 
 msgid "摘花蕊"
 msgstr "Colher o estame"
@@ -35332,7 +35332,7 @@ msgid "领诵道士道：宫主姓商。别的，不是你该问的。"
 msgstr "O recitador principal diz: \"O senhor do palácio tem o sobrenome Shang. O resto não é para você perguntar.\""
 
 msgid "跟诵"
-msgstr "Recitar junto"
+msgstr "Recitar com eles"
 
 msgid "领诵道士的木鱼没停：前三卷的头三句，他们一天念几百遍。我念上句，你接下句——接不上，回蒲团上听熟了再来。"
 msgstr "O peixe de madeira do recitador principal não para: \"As três primeiras frases dos três primeiros rolos, eles repetem centenas de vezes por dia. Eu digo a primeira metade e você segue com a segunda. Se não conseguir, volte para a almofada e escute até aprender de cor, e então venha de novo.\""
@@ -35404,7 +35404,7 @@ msgid "干活"
 msgstr "Trabalho"
 
 msgid "活干完了就歇着。通铺在货栈里头。夜里别乱走——子时前殿有人巡，后殿不许近。"
-msgstr "Terminado o serviço, descanse. O dormitório comum fica dentro do armazém. De noite não circule por aí: à meia-noite há ronda no salão da frente, e do salão dos fundos não se aproxime."
+msgstr "Terminado o serviço, descanse. O camastro comum fica dentro do armazém. De noite não circule por aí: à meia-noite há ronda no salão da frente, e do salão dos fundos não se aproxime."
 
 msgid "把账册翻过一页，在上头添了一笔。"
 msgstr " vira o livro de contas para a página seguinte e acrescenta uma anotação."
@@ -35521,7 +35521,7 @@ msgid "林真人要一个进得去的人。老子进不去——那张脸，他�
 msgstr "O Sábio Lin quer alguém que consiga entrar. Este velho não consegue: aquele rosto, todos eles conhecem."
 
 msgid "你要是肯，跟老子说一声「眼线」；或者自己去灵心观见他。"
-msgstr "Se você topa, diga a este velho a palavra \"Espião\"; ou vá vê-lo você mesmo no Mosteiro do Coração Claro."
+msgstr "Se você topa, diga a este velho a palavra 'Espião'; ou vá vê-lo você mesmo no Mosteiro do Coração Claro."
 
 msgid "茅山？牛鼻子道士，跟野羊寨没来往。"
 msgstr "Monte Mao? Taoístas narigudos; o Forte das Cabras não tem trato com eles."
