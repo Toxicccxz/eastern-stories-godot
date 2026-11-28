@@ -15451,7 +15451,7 @@ msgid "我在这堵墙底下坐了二十年。墙那边是庾家。二十年前�
 msgstr "Fiquei vinte anos sentado ao pé deste muro. Do outro lado estão os Yu. Vinte anos atrás, Yu Zijian quis limpar os becos de Sombra Alta, e os mendigos foram para a cadeia um por um; então me mudei para cá, para ficar de olho nele."
 
 msgid "乔阴那个，是我的替身里管事的那一个。花紫会这二十年，是他管的。"
-msgstr "O de Sombra Alta é, dos meus sósias, o que mandava. Nestes vinte anos, quem tocou a Irmandade dos Mendigos foi ele."
+msgstr "O de Sombra Alta é, dos meus substitutos, o que mandava. Nestes vinte anos, quem tocou a Irmandade dos Mendigos foi ele."
 
 msgid "墙那边有一样东西，叫花子拿不到。你问我「密信」。"
 msgstr "Do outro lado do muro há uma coisa que mendigo nenhum alcança. Me pergunte sobre 'Carta secreta'."
