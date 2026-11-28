@@ -26059,7 +26059,7 @@ msgid "一把细嘴的铜壶，壶身上敲满了星星似的花纹。装着清�
 msgstr "Uma chaleira de cobre de bico fino, o bojo martelado com desenhos de estrelas. Cheia de água, não derrama nem com todo o balanço da estrada.\n"
 
 msgid "巴掌大的一片铜，边角磨圆了，颜色发黑，拿在手里沉甸甸的。正面刻着几行字，笔画很深，是用剑尖一下一下刻出来的——字是中原字，刻字的人却不大会写，有几个笔画反了。背面一只展翅的鹰。铜是凉的，可刚从火坛底下取出来的时候，是温的。\n"
-msgstr "Uma lâmina de cobre do tamanho de uma palma, os cantos arredondados pelo uso, escura, pesada na mão. Na frente, várias linhas de letras de traços fundos, gravadas a golpes de ponta de espada: são letras da Planície Central, mas quem as gravou mal sabia escrever, e alguns traços saíram ao contrário. No verso, uma águia de asas abertas. O cobre é frio, mas quando foi tirado de baixo do altar de fogo estava morno."
+msgstr "Uma lâmina de cobre do tamanho de uma palma, os cantos arredondados pelo uso, escura, pesada na mão. Na frente, várias linhas de letras de traços fundos, gravadas a golpes de ponta de espada: são letras da Planície Central, mas quem as gravou mal sabia escrever, e alguns traços saíram ao contrário. No verso, uma águia de asas abertas. O cobre é frio, mas quando foi tirado de baixo do altar de fogo estava morno.\n"
 
 msgid "你把铜牒举到亮处，一行一行地认那些刻反了笔画的字：\n"
 msgstr "Você ergue a tabuleta contra a luz e vai lendo, linha por linha, as letras de traços invertidos:\n"
@@ -26083,7 +26083,7 @@ msgid "背面那只鹰的翅膀底下还有一行小字，刻得浅，几乎磨�
 msgstr "Sob a asa da águia, no verso, há ainda uma linha de letras pequenas, rasa, quase apagada: \"Eu vi.\"\n"
 
 msgid "一片狭长的贝叶，两指宽，一尺来长，叶头穿了一个小孔。叶面上用铁笔刻着一行一行天竺字，刻痕里抹了烟灰，是婆萝蜜多心经的第一页。叶边空白处，有人用中原字添了一行小字：「收不收，是山烟寺的事。」\n"
-msgstr "Uma folha de palmeira longa e estreita, de dois dedos de largura e um chi de comprimento, com um furinho na ponta. Na face, gravadas com um estilete de ferro, linhas e mais linhas de letras indianas, com cinza esfregada nos sulcos: é a primeira página do Sutra do Coração. Na margem em branco, alguém acrescentou em letras da Planície Central uma linha pequena: \"Aceitar ou não é assunto do Templo da Bruma.\""
+msgstr "Uma folha de palmeira longa e estreita, de dois dedos de largura e um chi de comprimento, com um furinho na ponta. Na face, gravadas com um estilete de ferro, linhas e mais linhas de letras indianas, com cinza esfregada nos sulcos: é a primeira página do Sutra do Coração. Na margem em branco, alguém acrescentou em letras da Planície Central uma linha pequena: \"Aceitar ou não é assunto do Templo da Bruma.\"\n"
 
 msgid "这是龙若法王托你带回山烟寺的经，不能随便丢。"
 msgstr "É o sutra que o Rei do Dharma Longruo pediu que você levasse de volta ao Templo da Bruma. Não se pode jogar fora assim."
@@ -26158,7 +26158,7 @@ msgid "胡商"
 msgstr "Mercador estrangeiro"
 
 msgid "一个缠着头巾的胡商，正指挥船工把箱子抬上岸。他一会儿用胡话骂，一会儿用中原话骂，骂完了自己先笑。\n"
-msgstr "Um mercador de turbante, dirigindo os barqueiros que sobem as caixas para terra. Ora xinga na língua dele, ora na língua da Planície Central, e quando termina é o primeiro a rir."
+msgstr "Um mercador de turbante, dirigindo os barqueiros que sobem as caixas para terra. Ora xinga na língua dele, ora na língua da Planície Central, e quando termina é o primeiro a rir.\n"
 
 msgid "胡商冲着船工嚷道：慢点！那一箱是琉璃！\n"
 msgstr "O mercador estrangeiro grita para os barqueiros: \"Devagar! Essa caixa é de vidro!\"\n"
@@ -26308,7 +26308,7 @@ msgid "我没坐过船。船是别人的。"
 msgstr "Eu nunca subi num navio. Os navios são de outros."
 
 msgid "一个白胡子的老胡人，坐在街边的一块毡子上，面前一只铜碗。他讲的是中原话，讲得很慢，时不时冒出一个谁也听不懂的词，又自己把它换成中原话。\n"
-msgstr "Um velho estrangeiro de barba branca, sentado num feltro à beira da rua, com uma tigela de cobre à frente. Fala a língua da Planície Central, bem devagar, e de vez em quando escapa uma palavra que ninguém entende, e ele mesmo a troca por outra."
+msgstr "Um velho estrangeiro de barba branca, sentado num feltro à beira da rua, com uma tigela de cobre à frente. Fala a língua da Planície Central, bem devagar, e de vez em quando escapa uma palavra que ninguém entende, e ele mesmo a troca por outra.\n"
 
 msgid "说书的老胡人说道：……那座城有一百道门，门门都有兵守着。可兵是会老的。\n"
 msgstr "O velho contador de histórias estrangeiro diz: \"...Aquela cidade tinha cem portas, e em cada porta, soldados de guarda. Mas os soldados envelhecem.\"\n"
@@ -26440,7 +26440,7 @@ msgid "铁盾会会首"
 msgstr "Líder do Escudo de Ferro"
 
 msgid "一个白头发的异族老人，眼睛是灰的，鼻梁高得像一道脊。他坐着的时候背很直，站起来却慢——左腿有旧伤，先迈左腿。一身中原的布袍，袍子底下露出一截铁片甲的边。他说中原话说得很慢，一个字一个字，省掉的字比说出来的多。\n"
-msgstr "Um velho estrangeiro de cabelos brancos, olhos cinzentos e um nariz alto como uma crista de montanha. Sentado, as costas ficam muito retas, mas ao se levantar é lento: a perna esquerda, ferida de longa data, é a primeira a dar o passo. Veste uma túnica de pano da Planície Central, e sob a túnica aparece a borda de uma couraça de lâminas de ferro. Fala a língua da Planície Central bem devagar, palavra por palavra, e cala mais palavras do que diz."
+msgstr "Um velho estrangeiro de cabelos brancos, olhos cinzentos e um nariz alto como uma crista de montanha. Sentado, as costas ficam muito retas, mas ao se levantar é lento: a perna esquerda, ferida de longa data, é a primeira a dar o passo. Veste uma túnica de pano da Planície Central, e sob a túnica aparece a borda de uma couraça de lâminas de ferro. Fala a língua da Planície Central bem devagar, palavra por palavra, e cala mais palavras do que diz.\n"
 
 msgid "安敦把铜灯的灯芯拨亮了一点。\n"
 msgstr "Andun avança um pouco o pavio da lamparina de cobre.\n"
@@ -27898,7 +27898,7 @@ msgid "兵器贩子突然间出了神，好象想起了他的往事\n"
 msgstr "O vendedor de armas fica de repente absorto, como se lembrasse do passado."
 
 msgid "    这和尚是从南边山烟寺来的，寺院常在此化缘施斋。\n"
-msgstr "Este monge vem do Templo da Bruma, ao sul; o templo costuma vir aqui pedir esmolas e distribuir refeições."
+msgstr " Este monge vem do Templo da Bruma, ao sul; o templo costuma vir aqui pedir esmolas e distribuir refeições."
 
 msgid "和尚道：我佛慈悲，望住持不会怪罪我。\n"
 msgstr "O monge diz: \"Buda misericordioso... espero que o abade não me culpe.\""
@@ -29410,7 +29410,7 @@ msgid "拿下！"
 msgstr "Prendam-nos!"
 
 msgid "六个白衣武官抽了剑围上来。栅栏外马蹄声炸响——王府的六骑冲了进来！\n"
-msgstr "Seis oficiais de branco sacam as espadas e fecham o cerco. Do lado de fora da paliçada explode um galope de cascos: os seis ginetes do príncipe irrompem!\n"
+msgstr "Seis oficiais de branco sacam as espadas e fecham o cerco. Do lado de fora da paliçada explode um galope de cascos: os seis cavaleiros do príncipe irrompem!\n"
 
 msgid "二十年前就该把你们这些人都料理干净。"
 msgstr "Há vinte anos, vocês todos já deviam ter sido eliminados."
@@ -29719,7 +29719,7 @@ msgid "山壁到这里退开了，路面从碎石变成黄土，再往北黄土�
 msgstr "As paredes de rocha recuam aqui, e o chão passa de cascalho a terra amarela; mais ao norte, na terra brotam tufos de capim seco. O vento é forte, a areia corre rente ao chão e bate nas pernas com um chiado. O horizonte, ao longe, é plano: depois de tanto tempo no vale do Passo do Camelo, é difícil se acostumar com um céu tão largo.\n"
 
 msgid "草原从这里开始。路边立着一方青石界碑，刻着「关北封国界」。草是灰绿的，高不过膝，风过去一浪一浪地倒。往北，一座土黄的城墙横在草地尽头，城门楼子上飘着一面旗——那是槐阳城。\n"
-msgstr "A estepe começa aqui. À beira da estrada ergue-se um marco de pedra azulada, com a inscrição \"Limite do feudo\". O capim é verde-acinzentado, não passa do joelho, e o vento o deita em ondas. Ao norte, no fim do capinzal, uma muralha de terra amarela atravessa o horizonte, com uma bandeira sobre a torre do portão: é a cidade de Huaiyang.\n"
+msgstr "A estepe começa aqui. À beira da estrada ergue-se um marco de pedra azulada, com a inscrição \"Limite do feudo do Norte do Passo\". O capim é verde-acinzentado, não passa do joelho, e o vento o deita em ondas. Ao norte, no fim do capinzal, uma muralha de terra amarela atravessa o horizonte, com uma bandeira sobre a torre do portão: é a cidade de Huaiyang.\n"
 
 msgid "夯土的城墙，土黄色，墙头长草。城门洞不高，门楼上的朱漆褪成了砖红，梁上画着石青的卷草纹。门里是一片踩实了的黄土场子，驼队和马车在这儿卸货验货，驼铃叮当地响。守门的兵穿的不是朝廷的白衣，是王府的灰褐短袄。城门旁的木板上钉着一张告示。\n"
 msgstr "Muralha de terra socada, amarela, com capim crescendo no topo. O arco do portão é baixo; a laca vermelha da torre desbotou para vermelho-tijolo e as vigas têm pintadas volutas de folhas em azul-pedra. Dentro do portão há uma esplanada de terra batida onde caravanas e carroças descarregam e conferem a mercadoria, com as campainhas dos camelos tilintando. Os soldados da guarda não vestem o branco da corte, e sim a jaqueta curta cinza-parda da casa do príncipe. Ao lado do portão, pregado numa tábua, há um aviso.\n"
@@ -29731,10 +29731,10 @@ msgid "大街的北头是槐阳王府。朱漆的大门褪得发白，门钉倒�
 msgstr "Na ponta da rua fica a casa do príncipe de Huaiyang. O portão de laca vermelha desbotou até quase branco, mas as tachas continuam pretas e brilhantes; diante dele, um par de tambores de pedra, com a face lustrada de tantas mãos. A fachada não é alta, mas é larga, e as vigas têm pinturas ao estilo da fronteira: azul-pedra e vermelho-ocre, cavalos e águias, não dragões e fênix. A esplanada à frente está varrida: é o único lugar limpo da cidade. Dois guardas vigiam o portão: o príncipe não recebe estranhos.\n"
 
 msgid "进了朱门是一面土坯的影壁，影壁上没有画，只刷了一层白灰，灰上有刀划的道道。绕过影壁是一片夯实的前院，扫得一根草都没有。北边三级石阶上去是正厅，廊下两盏灯笼。东边传来刀劈木头的声音——那边是校场。管家站在影壁下，手里拿着一本账。\n"
-msgstr "Passado o portão vermelho há um muro-biombo de adobe, sem pintura, só uma camada de cal branca com riscos de sabre. Contornando-o chega-se a um pátio da frente de terra batida, tão varrido que não resta uma folha de capim. Ao norte, três degraus de pedra sobem ao salão principal, com duas lanternas sob o beiral. Do leste vem o ruído de sabres cortando madeira: lá fica o campo de treino. O mordomo está de pé junto ao muro-biombo, com um livro de contas na mão.\n"
+msgstr "Passado o portão vermelho há um muro-biombo de adobe, sem pintura, só uma camada de cal branca com riscos de sabre. Contornando-o chega-se a um pátio da frente de terra batida, tão varrido que não resta uma folha de capim. Ao norte, três degraus de pedra sobem ao salão principal, com duas lanternas sob o beiral. Do leste vem o ruído de sabres cortando madeira: lá fica o pátio de armas. O mordomo está de pé junto ao muro-biombo, com um livro de contas na mão.\n"
 
 msgid "前院东边的校场，一排木人，几个箭靶，墙根一溜拴马的桩子。地上的土让马蹄和靴子踩得比石头还硬。王府的兵在这儿练刀——不是花架子，是马上一撩一劈的刀，木人的左肩都让劈去了一块。领着练的那个高个子是骁将郭承。\n"
-msgstr "O campo de treino a leste do pátio da frente: uma fileira de bonecos de madeira, alguns alvos de arco e, junto à parede, uma fileira de estacas para prender cavalos. O chão, pisado por cascos e botas, é mais duro que pedra. Os soldados do príncipe treinam o sabre aqui: não é esgrima de enfeite, é o sabre que sobe e corta de cima do cavalo, e a todos os bonecos falta um pedaço do ombro esquerdo. O homem alto que dirige o treino é o capitão Guo Cheng.\n"
+msgstr "O pátio de armas a leste do pátio da frente: uma fileira de bonecos de madeira, alguns alvos de arco e, junto à parede, uma fileira de estacas para prender cavalos. O chão, pisado por cascos e botas, é mais duro que pedra. Os soldados do príncipe treinam o sabre aqui: não é esgrima de enfeite, é o sabre que sobe e corta de cima do cavalo, e a todos os bonecos falta um pedaço do ombro esquerdo. O homem alto que dirige o treino é o campeão Guo Cheng.\n"
 
 msgid "槐阳王府的正厅，比乔阴县衙的大堂还朴素。上首一把旧的胡床交椅，椅背搭一张磨秃了的虎皮；椅旁一架兵器，刀在上剑在下。两边各站一个侍卫，不说话。地上铺的是砖，不是木板，踩上去有声音。梁上的彩画是石青和赭红的马和鹰。槐阳王程朔就坐在那把交椅上——六十六岁，背挺得笔直。\n"
 msgstr "O salão principal da casa do príncipe de Huaiyang é mais sóbrio que a sala de audiências do tribunal de Sombra Alta. No lugar de honra há uma velha cadeira dobrável, com uma pele de tigre surrada sobre o encosto; ao lado dela, um suporte de armas, o sabre em cima e a espada embaixo. De cada lado há um guarda em pé, sem dizer palavra. O chão é de tijolo, não de tábuas, e os passos soam. As vigas têm pintados cavalos e águias em azul-pedra e vermelho-ocre. Naquela cadeira está sentado o príncipe de Huaiyang, Cheng Shuo: sessenta e seis anos, as costas muito retas.\n"
@@ -29773,7 +29773,7 @@ msgid "三顶帐篷排成一行，两顶是武官住的，帐门口立着兵部�
 msgstr "Três tendas em fila: duas são dos oficiais, com a bandeira branca do Ministério à porta; a da ponta leste, menor, é do capataz, com uma mesa comprida do lado de fora, onde repousam livros de contas e um ábaco. Atrás das tendas empilham-se sacos de grão e baldes de água. À noite só ficam aqui dois de guarda.\n"
 
 msgid "两溜草顶的长棚，棚里铺着烂席子。棚前一排木桩，桩上钉着铁环，环上挂着枷锁——民夫白天挖土，夜里就锁在这儿。棚柱上钉着一张名册。地上是干了的血点子和没吃完的粥。\n"
-msgstr "Dois longos galpões de teto de palha, com esteiras podres no chão. Diante deles, uma fileira de estacas com argolas de ferro de que pendem grilhões: de dia os peões cavam terra e à noite são trancados aqui. Num poste do galpão há um registro pregado. No chão, pingos de sangue seco e mingau que sobrou.\n"
+msgstr "Dois longos galpões de teto de palha, com esteiras podres no chão. Diante deles, uma fileira de estacas com argolas de ferro de que pendem cangas: de dia os peões cavam terra e à noite são trancados aqui. Num poste do galpão há um registro pregado. No chão, pingos de sangue seco e mingau que sobrou.\n"
 
 msgid "挖开的土方一坑连一坑，土堆得比人高，坑里架着木梯和辘轳。土是黄的，往下挖出来的却是灰白的——像是夯过的老土。往东，土方尽头是一座长满草的大土丘，丘脚下挖开了一个口子。\n"
 msgstr "As escavações, um buraco após o outro, com a terra empilhada mais alta que uma pessoa e escadas de madeira e sarilhos nos buracos. A terra é amarela, mas o que sai mais de baixo é cinza-esbranquiçado: como terra velha socada. Para o leste, no fim das escavações, há um grande monte coberto de capim e, ao pé dele, uma abertura escavada.\n"
@@ -29791,7 +29791,7 @@ msgid "回头看，关门是一座石砌的门楼，门洞里嵌着铁栅，这�
 msgstr "Olhando para trás, o portão do passo é uma torre de pedra com uma grade de ferro no arco, agora erguida. Na torre não há placa, só uma bandeira amarela desbotada, pregada, com um caractere: \"Yan\". Dentro do portão fica o vale do Passo do Camelo e fora dele já é o Norte do Passo.\n"
 
 msgid "一方齐人高的青石碑，碑面朝南，刻着「关北封国界」五个大字，字口里的朱漆早褪成了褐色。碑脚堆着过路人放的石子，碑背面有人用刀刻了一行小字：「出了关，就是王法。」\n"
-msgstr "Uma estela de pedra azulada, da altura de uma pessoa, voltada para o sul, com grandes caracteres gravados: \"Limite do feudo\"; o vermelho dos traços desbotou para marrom. Ao pé, um monte de seixos deixados por quem passa; no verso, alguém gravou a faca uma linha pequena: \"Fora do passo, vale a lei do príncipe.\"\n"
+msgstr "Uma estela de pedra azulada, da altura de uma pessoa, voltada para o sul, com grandes caracteres gravados: \"Limite do feudo do Norte do Passo\"; o vermelho dos traços desbotou para marrom. Ao pé, um monte de seixos deixados por quem passa; no verso, alguém gravou a faca uma linha pequena: \"Fora do passo, vale a lei do príncipe.\"\n"
 
 msgid "夯土的城墙，一层一层夯出来的横纹看得清清楚楚，墙根被风沙磨得发白，墙头长着一丛丛枯黄的草。门楼也是土的，木梁朱漆褪成了砖红，梁上画着石青的卷草。这不是京师的城，是塞外的城。\n"
 msgstr "Muralha de terra socada; veem-se com clareza as faixas horizontais de cada camada; o pé do muro, polido pelo vento e pela areia, está esbranquiçado e no alto crescem tufos de capim seco. A torre do portão também é de terra, com as vigas de laca vermelha desbotadas para vermelho-tijolo e volutas de folhas pintadas em azul-pedra. Esta não é uma cidade da Capital: é uma cidade da fronteira.\n"
@@ -29803,7 +29803,7 @@ msgid "一对石鼓，鼓面让几十年的手摸得溜光，鼓身上刻的不�
 msgstr "Um par de tambores de pedra, com a face lustrada pelas mãos de décadas e, no corpo, não leões, mas dois cavalos frente a frente. A pedra da base está rachada e reforçada com uma cinta de ferro.\n"
 
 msgid "校场边一排木人，每个木人的左肩都让刀劈去了一块——王府的骁将练的是马上一撩的刀，撩的都是同一个地方。木人脚下的土踩得比石头还硬。\n"
-msgstr "Uma fileira de bonecos de madeira junto ao campo de treino; a todos falta um pedaço do ombro esquerdo, rachado a sabre: os capitães da casa do príncipe treinam o sabre que sobe a cavalo, e sobem sempre no mesmo lugar. A terra aos pés dos bonecos está mais dura que pedra.\n"
+msgstr "Uma fileira de bonecos de madeira junto ao pátio de armas; a todos falta um pedaço do ombro esquerdo, rachado a sabre: os campeões da casa do príncipe treinam o sabre que sobe a cavalo, e sobem sempre no mesmo lugar. A terra aos pés dos bonecos está mais dura que pedra.\n"
 
 msgid "正厅上首不是龙椅，是一把旧的胡床交椅，椅背上搭一张虎皮，虎皮的毛磨秃了一半。椅子旁立着一架兵器，刀在上，剑在下，都不是摆设——刀口上有新磨的痕。\n"
 msgstr "No lugar de honra do salão não há trono de dragão, mas uma velha cadeira dobrável, com uma pele de tigre sobre o encosto e metade do pelo gasta. Ao lado da cadeira, um suporte de armas: o sabre em cima, a espada embaixo, nenhum de enfeite; no fio do sabre há marcas de amolação recente.\n"
@@ -29890,16 +29890,16 @@ msgid "篝火边坐着等消息的人。你没有要等的事——借了兵的�
 msgstr "Junto à fogueira estão sentados os que esperam notícias. Você não tem o que esperar: se tomou as tropas emprestadas, vá de dia.\n"
 
 msgid "打开枷锁"
-msgstr "Abrir grilhões"
+msgstr "Abrir cangas"
 
 msgid "枷锁都开着，铁环空荡荡地挂在桩上。棚里没有人了。\n"
-msgstr "Os grilhões estão abertos, com as argolas de ferro penduradas vazias nas estacas. Não há mais ninguém nos galpões.\n"
+msgstr "As cangas estão abertas, com as argolas de ferro penduradas vazias nas estacas. Não há mais ninguém nos galpões.\n"
 
 msgid "剩下的四副枷锁还锁着人——老魏、周二牛、陈满仓、马三。白天六个武官在帐外走动，夜里他们加了岗。你救不了第二回。\n"
-msgstr "Os quatro grilhões que restam ainda prendem gente: o velho Wei, Zhou Erniu, Chen Mancang, Ma San. De dia seis oficiais andam fora das tendas e à noite reforçaram a guarda. Você não pode salvá-los uma segunda vez.\n"
+msgstr "As quatro cangas que restam ainda prendem gente: o velho Wei, Zhou Erniu, Chen Mancang, Ma San. De dia seis oficiais andam fora das tendas e à noite reforçaram a guarda. Você não pode salvá-los uma segunda vez.\n"
 
 msgid "武官的尸首横在栅栏门里，吕隼趴在他的名册上。你走到木桩前，一副一副地打开枷锁。\n"
-msgstr "Os corpos dos oficiais jazem dentro do portão da paliçada e Lu Sun está caído sobre o seu registro. Você vai até as estacas e abre os grilhões um a um.\n"
+msgstr "Os corpos dos oficiais jazem dentro do portão da paliçada e Lu Sun está caído sobre o seu registro. Você vai até as estacas e abre as cangas uma a uma.\n"
 
 msgid "铁环「当啷」落在地上。八个人站起来，先是不敢信，然后有人哭了。\n"
 msgstr "As argolas de ferro caem no chão com estrépito. Oito homens se levantam; primeiro não ousam acreditar, depois alguém chora.\n"
@@ -29917,7 +29917,7 @@ msgid "跟着我，别出声。先开西头的，开一个走一个。"
 msgstr "Me siga e não faça barulho. Vamos começar pelo do lado oeste: abre um, sai um."
 
 msgid "你蹲到木桩前。枷锁的铁销锈死了，郭承用刀尖一点一点地撬。第一副开了，王石头爬起来，郭承指了指栅栏门，他弯着腰跑了。\n"
-msgstr "Você se agacha junto às estacas. O pino de ferro do grilhão está enferrujado e Guo Cheng o força com a ponta do sabre, aos poucos. O primeiro se abre e Wang Shitou se levanta; Guo Cheng aponta o portão da paliçada e ele sai correndo, curvado.\n"
+msgstr "Você se agacha junto às estacas. O pino de ferro da canga está enferrujado e Guo Cheng o força com a ponta do sabre, aos poucos. O primeiro se abre e Wang Shitou se levanta; Guo Cheng aponta o portão da paliçada e ele sai correndo, curvado.\n"
 
 msgid "第二副，刘拐子。第三副，巴图。第四副，胡阿大——铁销「咔」的一声响。\n"
 msgstr "O segundo: Liu Guaizi. O terceiro: Batu. O quarto: Hu Ada. O pino de ferro cede com um estalo.\n"
@@ -29929,10 +29929,10 @@ msgid "夜里的工地。郭承不在你身边——他说过，篝火边等他�
 msgstr "As obras à noite. Guo Cheng não está com você: ele disse para esperá-lo junto à fogueira.\n"
 
 msgid "白天。六个武官在帐外走动，吕隼在算账，枷锁上的铁销锈死了，撬一副要半天。郭承说过：夜里。\n"
-msgstr "De dia. Seis oficiais andam fora das tendas, Lu Sun faz contas, os pinos de ferro dos grilhões estão enferrujados e forçar um grilhão leva meio dia. Guo Cheng avisou: à noite.\n"
+msgstr "De dia. Seis oficiais andam fora das tendas, Lu Sun faz contas, os pinos de ferro das cangas estão enferrujados e forçar uma canga leva meio dia. Guo Cheng avisou: à noite.\n"
 
 msgid "枷锁是铁的，锁着。你没有钥匙，也没有理由。\n"
-msgstr "Os grilhões são de ferro e estão trancados. Você não tem chave, nem motivo.\n"
+msgstr "As cangas são de ferro e estão trancadas. Você não tem chave, nem motivo.\n"
 
 msgid "土方东头两个白衣武官横过剑，拦住你：兵部重地，闲人免进。"
 msgstr "Na ponta leste das escavações, dois oficiais de branco cruzam as espadas e barram o seu caminho: \"Zona do Ministério da Guerra. Curiosos não entram.\""
@@ -31252,7 +31252,7 @@ msgid "卢卡老说的那个地方？海边，很远。他说他们的人都在�
 msgstr "Esse lugar de que Luca vive falando? À beira-mar, muito longe. Ele diz que toda a gente dele está lá."
 
 msgid "一个高鼻深目的异族人，头发是褐色的，剪得很短，下巴上一层胡茬。他穿着关北人的羊皮袄，袄底下露出一截铁片缀成的甲。面前铺着一块布，布上放着一把短剑，剑身宽、直，和中原的剑都不一样。\n"
-msgstr "Um estrangeiro de nariz alto e olhos fundos, de cabelo castanho cortado bem curto e uma sombra de barba no queixo. Veste um casaco de pele de ovelha como o dos locais, e por baixo aparece um pedaço de armadura de placas de ferro. À frente dele há um pano estendido, e sobre o pano uma espada curta, de lâmina larga e reta, diferente de todas as espadas das Planícies Centrais.\n"
+msgstr "Um estrangeiro de nariz alto e olhos fundos, de cabelo castanho cortado bem curto e uma sombra de barba no queixo. Veste um casaco de pele de ovelha como o dos locais, e por baixo aparece um pedaço de armadura de placas de ferro. À frente dele há um pano estendido, e sobre o pano uma espada curta, de lâmina larga e reta, diferente de todas as espadas da Planície Central.\n"
 
 msgid "卢卡用一块布擦着短剑，擦得很慢。\n"
 msgstr "Luca limpa a espada curta com um pano, muito devagar.\n"
@@ -31543,7 +31543,7 @@ msgid "我爹让兵部的人押走了。我要去找他，我娘不让。"
 msgstr "Meu pai foi levado pela gente do Ministério da Guerra. Quero ir atrás dele e minha mãe não deixa."
 
 msgid "我去过一回，栅栏外头。白衣的武官不让近。里头在挖一个大坑，坑边上一排排的人戴着枷。"
-msgstr "Fui uma vez, até do lado de fora da cerca. Os oficiais de branco não me deixaram chegar perto. Lá dentro estão cavando um buraco enorme, e à beira dele há fileiras de homens de grilhões."
+msgstr "Fui uma vez, até do lado de fora da cerca. Os oficiais de branco não me deixaram chegar perto. Lá dentro estão cavando um buraco enorme, e à beira dele há fileiras de homens de canga."
 
 msgid "逃回来的民夫"
 msgstr "Peão fugido"
@@ -31714,7 +31714,7 @@ msgid "不奉诏"
 msgstr "Desobedecer ao edito"
 
 msgid "不奉诏？先帝的令只说寻剑。征人、拿人的令，我不接。扣什么帽子随他们——帽子扣不死人，民夫的枷才扣死人。"
-msgstr "Desobedecer ao edito? A ordem do falecido imperador dizia só para procurar a espada. Ordem de recrutar e de prender gente, não aceito. Que me acusem do que quiserem: um rótulo não mata ninguém; o que mata é o grilhão dos peões."
+msgstr "Desobedecer ao edito? A ordem do falecido imperador dizia só para procurar a espada. Ordem de recrutar e de prender gente, não aceito. Que me acusem do que quiserem: um rótulo não mata ninguém; o que mata é a canga dos peões."
 
 msgid "潜入"
 msgstr "Infiltrar-se"
@@ -31735,7 +31735,7 @@ msgid "骑兵"
 msgstr "Cavaleiros"
 
 msgid "关北的骑兵欠你一阵。要用的时候，你开口——不是六骑，是关北所有的马。"
-msgstr "Os cavaleiros do Norte do Passo deve a vocêm uma batalha. Quando precisar deles, fale: não seis cavaleiros, todos os cavalos do Norte do Passo."
+msgstr "Os cavaleiros do Norte do Passo devem a você uma batalha. Quando precisar deles, fale: não seis cavaleiros, todos os cavalos do Norte do Passo."
 
 msgid "关北的马好，关北的骑兵也好。没仗打，他们在校场劈木人。"
 msgstr "O Norte do Passo tem bons cavalos e bons cavaleiros. Sem batalha para lutar, eles racham bonecos de madeira no pátio de armas."
@@ -31747,7 +31747,7 @@ msgid "郭承回来了，六骑一个不少，八个人也一个不少。兵部�
 msgstr "Guo Cheng voltou, com os seis cavaleiros completos e os oito homens também completos. O documento do Ministério da Guerra chegou esta manhã: Huaiyang se rebelou. Deixe que digam."
 
 msgid "关北的骑兵欠你一阵。要用的时候，你开口。"
-msgstr "Os cavaleiros do Norte do Passo deve a vocêm uma batalha. Quando precisar deles, fale."
+msgstr "Os cavaleiros do Norte do Passo devem a você uma batalha. Quando precisar deles, fale."
 
 msgid "看了你一眼，又看了看厅外。"
 msgstr " olha para você e depois para fora do salão."
@@ -31792,7 +31792,7 @@ msgid "王爷的话到了：六骑听你的。马在东门外的营地——我�
 msgstr "Chegou a palavra do príncipe: os seis cavaleiros obedecem a você. Os cavalos estão no acampamento fora do portão leste; vou com você. Nas obras, uma palavra sua e avançamos."
 
 msgid "守夜的两个在火边。开枷的工夫别出声——开一个走一个。"
-msgstr "Os dois de vigia estão junto ao fogo. Enquanto abrimos os grilhões, nada de barulho: abre um, sai um."
+msgstr "Os dois de vigia estão junto ao fogo. Enquanto abrimos as cangas, nada de barulho: abre um, sai um."
 
 msgid "把刀上的血在守夜武官的白衣上擦了，看了一眼棚里剩下的四个人，又看了你一眼。"
 msgstr " limpa o sangue do sabre na roupa branca do oficial de vigia, olha os quatro que restam no galpão e depois para você."
@@ -31804,7 +31804,7 @@ msgid "我回校场。夜里的事，王爷那边我去说——你别跟来。"
 msgstr "Volto ao pátio de armas. Do que houve de noite, falo eu com o príncipe: não me siga."
 
 msgid "把马刀插回鞘里，看着最后一副枷锁落在土里。"
-msgstr " embainha o sabre e vê o último grilhão cair na terra."
+msgstr " embainha o sabre e vê a última canga cair na terra."
 
 msgid "六骑我带回校场。这一阵打完了，王爷那边我去回话——下一阵，你开口。"
 msgstr "Levo os seis cavaleiros de volta ao pátio de armas. Esta batalha acabou. Eu mesmo informo ao príncipe. Na próxima, é você quem fala."
@@ -31942,7 +31942,7 @@ msgid "这块腰牌不能随便丢。"
 msgstr "Você não pode simplesmente jogar fora esta placa."
 
 msgid "一卷黄绫裹着的诏书，只有一行字，先帝的御笔：「寻剑，不得扰民一户。」后头钤着一方御宝，朱色正红。\n"
-msgstr "Um rolo de seda amarela, um édito de uma só linha, de próprio punho do falecido imperador: \"Buscar a espada, sem perturbar uma só família.\" Abaixo, estampado um selo imperial, de um vermelho-cinabre puro.\n"
+msgstr "Um rolo de seda amarela, um édito de uma só linha, de próprio punho do falecido imperador: \"Buscar a espada, sem perturbar uma só casa.\" Abaixo, estampado um selo imperial, de um vermelho-cinabre puro.\n"
 
 msgid "先帝的诏书不能随便丢。"
 msgstr "Você não pode simplesmente jogar fora o édito do falecido imperador."
@@ -31966,7 +31966,7 @@ msgid "皇帝的手诏不能随便丢。"
 msgstr "Você não pode simplesmente jogar fora o édito de próprio punho do imperador."
 
 msgid "一卷先帝的手稿，推敲商句遗书的最后两句，密密麻麻改了好几遍。最后一页只写着：「风自岚来。逆风而行，风止之处，城见。」页角有庾子建的批注：「试过三次，未果。」\n"
-msgstr "Um rolo com o manuscrito do falecido imperador, onde ele revira as duas últimas frases da carta de despedida de Shang Ju, riscadas e reescritas várias vezes em letra apertada. A última página diz apenas: \"O vento vem de Lan. Ande contra o vento; onde o vento parar, a cidade aparece.\" No canto, uma anotação de Yu Zijian: \"Tentei três vezes. Sem resultado.\"\n"
+msgstr "Um rolo com o manuscrito do falecido imperador, onde ele revira as duas últimas frases da carta de despedida de Shang Ju, riscadas e reescritas várias vezes em letra apertada. A última página diz apenas: \"O vento vem da Cidade do Vento. Ande contra o vento; onde o vento parar, a cidade aparece.\" No canto, uma anotação de Yu Zijian: \"Tentei três vezes. Sem resultado.\"\n"
 
 msgid "这卷手稿不能随便丢。"
 msgstr "Você não pode simplesmente jogar fora este manuscrito."
@@ -32152,7 +32152,7 @@ msgid "兵部的事，问兵部去。"
 msgstr "Os assuntos do Ministério da Guerra, pergunte no Ministério da Guerra."
 
 msgid "先帝的寻剑令？老夫当年在场。先帝亲笔，一句话：寻剑，不得扰民一户。后来兵部颁下去的是什么，老夫就不知道了——没人给老夫看。"
-msgstr "O Édito da Espada do falecido imperador? Este velho estava presente. De próprio punho do imperador, uma só frase: buscar a espada, sem perturbar uma só família. O que o Ministério da Guerra promulgou depois, este velho não sabe; ninguém mostrou a ele."
+msgstr "O Édito da Espada do falecido imperador? Este velho estava presente. De próprio punho do imperador, uma só frase: buscar a espada, sem perturbar uma só casa. O que o Ministério da Guerra promulgou depois, este velho não sabe; ninguém mostrou a ele."
 
 msgid "先帝的事。"
 msgstr "Assuntos do falecido imperador."
@@ -32182,7 +32182,7 @@ msgid "接过那卷发黄的抄本，看了很久，手指在最后一个没有�
 msgstr "recebe a cópia amarelada, olha por muito tempo, e o dedo para um instante no último nome que não recebeu ponto de tinta."
 
 msgid "二十年前的抄本。一句话：寻剑，不得扰民一户。——这是先帝的话，老夫认得。"
-msgstr "Uma cópia de vinte anos atrás. Uma só frase: buscar a espada, sem perturbar uma só família. São palavras do falecido imperador; este velho as reconhece."
+msgstr "Uma cópia de vinte anos atrás. Uma só frase: buscar a espada, sem perturbar uma só casa. São palavras do falecido imperador; este velho as reconhece."
 
 msgid "铺开一张折子，提笔写了很久。"
 msgstr "abre uma folha de memorial e escreve por muito tempo com o pincel."
@@ -36361,7 +36361,7 @@ msgid "在这里你可以看到墙上挂满了各式各样的武器，不难明�
 msgstr "Aqui você vê paredes cobertas de armas de toda espécie; não é difícil entender que este é o lugar onde elas são guardadas. Na parede está escrito um enorme caractere: \"Marcial\".\n"
 
 msgid "四周是一大遍的林地，草高于三四十尺，再加上雾盲盲的景象，\n使你不得不沿著黄石铺成的小路快步行走，深恐林草压顶，界时将不\n知所措，向东深入似乎有一奇特的光亮，但距离太远，你看不清楚到\n底是怎么著一回事。\n"
-msgstr "Ao redor se estende um grande bosque, com capim de trinta ou quarenta chi de altura; e com a névoa, você não tem como não andar depressa pela trilha de pedra amarela, com medo de que o capim do bosque caia sobre você e você fique sem saber o que fazer. Mais ao leste, ao fundo, parece haver uma luz estranha, mas está longe demais e você não distingue o que é."
+msgstr "Ao redor se estende um grande bosque, com capim de trinta ou quarenta chi de altura; e com a névoa, você não tem como não andar depressa pela trilha de pedra amarela, com medo de que o capim do bosque caia sobre você e você fique sem saber o que fazer. Mais ao leste, ao fundo, parece haver uma luz estranha, mas está longe demais e você não distingue o que é.\n"
 
 msgid "草压天顶的情况依旧，唯西侧亮光逐渐显明，看来西侧的不远处\n有一出口，黄石斑斑，挟杂著白色的圆点，像是白色光束长期照射的\n结果，蒙胧的景色在此总算完全的清淅了，向东侧仍是回到路口的路\n，而西侧的亮光直直吸引你往深处探索。\n"
 msgstr "O capim ainda pesa sobre o céu, mas a luz do oeste vai ficando mais clara; parece haver uma saída não longe, a oeste. A pedra amarela está salpicada de pontos brancos redondos, como se um feixe de luz branca a tivesse iluminado por muito tempo. A paisagem enevoada enfim se mostra de todo nítida. A leste continua o caminho de volta ao entroncamento, enquanto a luz do oeste atrai você direto para as profundezas.\n"
