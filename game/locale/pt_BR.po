@@ -12988,7 +12988,7 @@ msgid "宝衣出过一回庄，又被人送了回来。池边的人说，护庄�
 msgstr "A túnica saiu do Solar uma vez, e alguém a trouxe de volta. A gente junto ao tanque de pétalas diz que a luz que protege o Solar enfraqueceu um pouco naquele ano, e depois voltou a brilhar."
 
 msgid "后院书房那幅湘绣图前，又有人在学沧海龙吟了。"
-msgstr "No escritório do quintal, diante do bordado da dança, alguém voltou a aprender o Canto do Dragão sobre o Mar Azul."
+msgstr "No escritório do quintal, diante do bordado Xiang, alguém voltou a aprender o Canto do Dragão sobre o Mar Azul."
 
 msgid "内书房的老妇再没有开过口。蓝止萍说，庄规是庄规；那一年起，晚月庄的门关得比从前早。"
 msgstr "A anciã do escritório interno nunca mais abriu a boca. Lan Zhiping diz que as regras do Solar são as regras do Solar; desde aquele ano, o Solar da Lua Tardia fecha as portas mais cedo que antes."
@@ -13000,7 +13000,7 @@ msgid "野羊寨的旗子又插回了山顶。霍铮说，逆灵宫的黑砖，�
 msgstr "A bandeira do Forte das Cabras voltou a tremular no alto do morro. Huo Zheng diz que os tijolos negros do Palácio Negro, desmontados, servem na medida para o muro do forte."
 
 msgid "黄霸还在土地庙里收他的供。北麓的黑砖道观，没人敢上去看一眼。"
-msgstr "Huang Ba continua cobrando seus tributos no Santuário do Deus da Terra. Ninguém se atreve a subir para dar uma olhada no mosteiro de tijolo negro do Sopé norte."
+msgstr "Huang Ba continua cobrando seus tributos no Santuário do Deus da Terra. Ninguém se atreve a subir para dar uma olhada no templo de tijolo negro do Sopé norte."
 
 msgid "有人说在北边的雪里见过商玦：一身黑衣结着霜，说话还像念经。"
 msgstr "Alguém diz que viu Shang Jue na neve do norte: a roupa negra coberta de geada, e ainda falando como quem recita escrituras."
@@ -13048,7 +13048,7 @@ msgid "日照山的流云轩里多了一个拿金刚杖的和尚，抬上山的�
 msgstr "No Recanto das Nuvens Errantes, no Monte Ensolarado, agora há um monge com um bastão de vajra; quem é trazido montanha acima, ele ajuda a passar pela porta. Na câmara de pedra atrás da Aldeia Pedra Azul, só resta Juechenzi, sentado sozinho sob a estátua de Buda."
 
 msgid "那一夜，茅山的人截在北麓下湖的路上。黑砖道观里再没人提起那个新来的道士——只有门房记得，他戴冠的样子不太像。"
-msgstr "Naquela noite, a gente do Monte Mao bloqueou o caminho que desce do Sopé norte ao lago. No mosteiro de tijolo negro, ninguém nunca mais falou daquele taoísta novato; só o porteiro se lembra de que ele não usava o gorro muito direito."
+msgstr "Naquela noite, a gente do Monte Mao bloqueou o caminho que desce do Sopé norte ao lago. No templo de tijolo negro, ninguém nunca mais falou daquele taoísta novato; só o porteiro se lembra de que ele não usava o gorro muito direito."
 
 msgid "冰龙厅里那第一剑，是从商玦背后来的。活着回到北麓的道士说，刺他的人戴着宫里的冠。"
 msgstr "Aquela primeira estocada no salão dos dragões de gelo veio pelas costas de Shang Jue. Os taoístas que voltaram vivos ao Sopé norte dizem que quem o apunhalou usava um gorro do palácio."
@@ -13108,7 +13108,7 @@ msgid "铁盾会的院子空了。鬼笠馆的浪人占了那块地，早川直�
 msgstr "O pátio da Irmandade do Escudo de Ferro está vazio. Os ronin do Salão do Chapéu Fantasma tomaram aquele terreno, e Hayakawa Naoyoshi nunca mais desembainhou."
 
 msgid "拜火祠的火，一年到头没有灭过。"
-msgstr "O fogo do santuário do fogo não se apaga o ano inteiro."
+msgstr "O fogo do Santuário do fogo não se apaga o ano inteiro."
 
 msgid "傅家坡的草顶重新铺过了。渔夫的网挂在他家门口，没有人去收。"
 msgstr "Os telhados de palha da Ladeira dos Fu foram refeitos. A rede do pescador está pendurada na porta dele, e ninguém a recolhe."
@@ -13318,22 +13318,22 @@ msgid "朱鸿雪记住了，那天山道上截住她的人的，是你。"
 msgstr "Zhu Hongxue não esqueceu: quem a barrou no caminho da montanha naquele dia foi você."
 
 msgid "北麓的道观空了，官兵封了山门。"
-msgstr "O mosteiro do Sopé norte está vazio, e os soldados lacraram o portal."
+msgstr "O templo do Sopé norte está vazio, e os soldados lacraram o portal."
 
 msgid "下了山的道士在茅山的田里种地，坛上的火灭了。"
 msgstr "Os taoístas que desceram a montanha cultivam os campos do Monte Mao, e o fogo do altar se apagou."
 
 msgid "九派的人上了北麓。道观里剩下的人，一个也没走脱。"
-msgstr "As nove escolas subiram o Sopé norte. Dos que restavam no mosteiro, nenhum escapou."
+msgstr "As nove escolas subiram o Sopé norte. Dos que restavam no templo, nenhum escapou."
 
 msgid "茅山的人上了北麓，把肯下山的领了回去。"
 msgstr "A gente do Monte Mao subiu o Sopé norte e levou de volta os que aceitaram descer."
 
 msgid "官兵上了北麓，把道观里剩下的人领下了山。卫沧澜说，这一回欠朝廷的。"
-msgstr "Os soldados subiram o Sopé norte e trouxeram montanha abaixo os que restavam no mosteiro. Wei Canglan diz que, desta vez, estamos devendo à corte."
+msgstr "Os soldados subiram o Sopé norte e trouxeram montanha abaixo os que restavam no templo. Wei Canglan diz que, desta vez, estamos devendo à corte."
 
 msgid "北麓的道观里，续灯的火一直没灭。"
-msgstr "No mosteiro do Sopé norte, o fogo da lamparina sempre reabastecida nunca se apagou."
+msgstr "No templo do Sopé norte, o fogo da lamparina sempre reabastecida nunca se apagou."
 
 msgid "林忌那天一路追到北麓，追回了两个放火的孩子。"
 msgstr "Naquele dia, Lin Ji foi atrás deles até o Sopé norte e trouxe de volta duas crianças que tinham posto o fogo."
@@ -18067,13 +18067,13 @@ msgid "陈剑秋说：查到底。正月十七，振远那一票投旧盟主。"
 msgstr "Chen Jianqiu disse: até o fundo. No dia dezessete do primeiro mês, o voto do Longo Caminho vai para o antigo Líder da Aliança."
 
 msgid "陈天星翻了振远二十年的总账：绮云分局开张的本钱，是兵部给的抚恤银。"
-msgstr "Chen Tianxing revirou vinte anos do livro-razão do Longo Caminho: o dinheiro que abriu a filial de Tece-Nuvens foi prata de indenização do Ministério da Guerra."
+msgstr "Chen Tianxing revirou vinte anos do livro-mestre do Longo Caminho: o dinheiro que abriu a filial de Tece-Nuvens foi prata de indenização do Ministério da Guerra."
 
 msgid "你劝住了陈天星：那本总账烧了，抚恤银的事，振远不再提。陈剑秋许你学春风快意刀。"
-msgstr "Você convenceu Chen Tianxing: o livro-razão foi queimado, e o Longo Caminho não fala mais da prata de indenização. Chen Jianqiu te permitiu aprender o Sabre alegre da brisa primaveral."
+msgstr "Você convenceu Chen Tianxing: o livro-mestre foi queimado, e o Longo Caminho não fala mais da prata de indenização. Chen Jianqiu te permitiu aprender o Sabre alegre da brisa primaveral."
 
 msgid "你跟陈天星查到底：振远的总账押去了乔阴县衙。绮云分局关了门，陈剑秋还坐在柜台后面。"
-msgstr "Você foi até o fundo com Chen Tianxing: o livro-razão do Longo Caminho foi parar no tribunal de Sombra Alta. A filial de Tece-Nuvens fechou as portas, e Chen Jianqiu continua sentado atrás do balcão."
+msgstr "Você foi até o fundo com Chen Tianxing: o livro-mestre do Longo Caminho foi parar no tribunal de Sombra Alta. A filial de Tece-Nuvens fechou as portas, e Chen Jianqiu continua sentado atrás do balcão."
 
 msgid "正月十七，振远那一票听你的。"
 msgstr "No dia dezessete do primeiro mês, o voto do Longo Caminho é seu."
