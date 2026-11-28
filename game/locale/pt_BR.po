@@ -4415,7 +4415,7 @@ msgid "花紫"
 msgstr "Mendigos"
 
 msgid "聆啸厅"
-msgstr "Sala do Assobio Longo"
+msgstr "Salão do Assobio Longo"
 
 msgid "野羊山"
 msgstr "Morro das Cabras"
