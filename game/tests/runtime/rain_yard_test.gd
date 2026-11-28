@@ -286,7 +286,7 @@ func _test_stay(tree: SceneTree, session: WorldSessionController) -> void:
 	var shen: NpcRuntimeState = _first(session, &"snow.rain_yard", SHEN)
 	_check(yard.select_npc(shen.character_id) and yard.ask_topics_selected().has("簪子") and not yard.ask_topics_selected().has("竹简"), "「簪子」 to ask of, not 「竹简」")
 	_check(_said(_ask(yard, _first(session, &"snow.rain_yard", HE), "雨"), "什么也没听见"), "何守拙 on 「雨」, 留下: he heard nothing that night")
-	_check(_arts_entry(state, catalog).contains("何守拙说过：「夜雨」就是她那一剑"), "the 见识录 keeps it")
+	_check(_arts_entry(state, catalog).contains("何守拙说过：「夜雨」就是她那一剑") and not _arts_entry(state, catalog).contains("「听雨」是她的剑"), "the 见识录 keeps it, and nothing of 「听雨」")
 
 
 ## TEST-ONLY: the clock put a minute into `phase_id`.
@@ -320,7 +320,6 @@ func _line_with(lines: Array, part: String) -> bool:
 	return lines.any(func(line: String) -> bool: return line.contains(part))
 
 
-## Whether one of the NPC's calls says `part`.
 ## The town's line of hearsay `npc` hangs on `topic`, or null.
 func _hearsay(catalog: ContentCatalog, npc_id: StringName, topic: String) -> FamilyDefinition.Hearsay:
 	for line: FamilyDefinition.Hearsay in catalog.hearsay_for(&"fonxansword"):
@@ -351,6 +350,7 @@ func _arts_entry(state: CharacterState, catalog: ContentCatalog) -> String:
 	return ""
 
 
+## Whether one of the NPC's calls says `part`.
 func _says(npc: NpcDefinition, part: String) -> bool:
 	for call: NpcHooks.Call in npc.hooks().calls:
 		for step: ScriptedAct.Step in call.act.steps:
