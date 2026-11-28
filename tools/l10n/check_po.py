@@ -329,8 +329,8 @@ SPANISH_NAME = re.compile(r"(\{(?:npc|item|target|who|master|teacher|whom|weapon
 # Words one side of the ocean reads as rude or as the other side's slang, and vosotros.
 SPANISH_NEVER = re.compile(r"\b(coger|cog[ei]|concha|pendej\w*|ching\w*|vale|guay|mola|flipa\w*|chido|güey|che|boludo|okey|bro|chévere|vosotr[oa]s|vuestr[oa]s?|habéis|sois|os)\b", re.IGNORECASE)
 SPANISH_WIDE = ("“", "”", "…")
-# Words that read as rude or as Portugal's in Brazil, and the vós forms.
-PORTUGUESE_NEVER = re.compile(r"\b(rapariga\w*|puto|puta|bicha|vós|vosso|vossa|vossos|vossas|sois|tendes|estais|fixe|bué|miúd[oa]s?|autocarro|comboio|pequeno-almoço|okay|parça|véi|tipo assim)\b", re.IGNORECASE)
+# Portugal's words, slurs and coarse words, chat spelling and the vós forms (portuguese_style.md, Tone).
+PORTUGUESE_NEVER = re.compile(r"\b(rapariga\w*|miúd[oa]s?|gaj[oa]s?|fixe|bué|autocarro|comboio|pequeno-almoço|telemóve\w*|frigorífico|casa de banho|facto|factura|eléctric\w*|óptim\w*|puto|puta|bicha|viado|porra|caralho|cacete|vc|cê|vós|vosso|vossa|vossos|vossas|sois|tendes|estais|okay|parça|véi|tipo assim|gringo)\b", re.IGNORECASE)
 SPANISH = {
     "language": "Spanish", "guide": "spanish_style.md", "marks": SPANISH_MARKS, "player": "jugador",
     "definite": "el", "forms": "tú|other, tú|m|f or tú m|tú f|m|f", "you": "tú", "owner": "tu|su",

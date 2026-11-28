@@ -188,7 +188,7 @@ func _shell_screens(tree: SceneTree) -> void:
 	tree.root.add_child(shell)
 	await _frames(tree, 4)
 	# The title's line is the title in the other language, never translated (title_screen.json).
-	var allowed := PackedStringArray(["简体中文", "繁體中文（預覽）", "English (preview)", "한국어 (미리 보기)", "日本語（プレビュー）", "Русский (предварительная версия)", "Español (Latinoamérica) (vista previa)", "Português (Brasil) (prévia)", "伪语言", "东方故事"])
+	var allowed := PackedStringArray(["简体中文", "繁體中文（預覽）", "English (preview)", "한국어 (미리 보기)", "日本語（プレビュー）", "Русский (предварительная версия)", "Español (Latinoamérica) (vista previa)", "Português (Brasil) (versão prévia)", "伪语言", "东方故事"])
 	check(TranslationServer.get_locale() == PseudoLocale.CODE, "the shell starts in the kept language")
 	_scan(shell, allowed, "main menu")
 	check(shell.request_new_game_from_menu() and shell.result_overlay.visible, "New Game over a save asks first")
@@ -209,7 +209,7 @@ func _shell_screens(tree: SceneTree) -> void:
 	shipped.configure_before_start(GameSaveStorageProfile.isolated_test("localization-shipped"), ShellTests.MemoryFiles.new(), null, ShellTests.MemoryFiles.new())
 	tree.root.add_child(shipped)
 	await _frames(tree, 4)
-	check(shipped.request_settings_from_main_menu() and shipped.language_row.visible and shipped.language_option.item_count == 9, "as shipped, Settings lists 跟随系统, 简体中文, 繁體中文（預覽）, English (preview), 한국어 (미리 보기), 日本語（プレビュー）, Русский (предварительная версия), Español (Latinoamérica) (vista previa) and Português (Brasil) (prévia)")
+	check(shipped.request_settings_from_main_menu() and shipped.language_row.visible and shipped.language_option.item_count == 9, "as shipped, Settings lists 跟随系统, 简体中文, 繁體中文（預覽）, English (preview), 한국어 (미리 보기), 日本語（プレビュー）, Русский (предварительная версия), Español (Latinoamérica) (vista previa) and Português (Brasil) (versão prévia)")
 	check(String(shipped.language_option.get_item_metadata(shipped.language_option.selected)) == LocalizationService.FOLLOW_SYSTEM, "following the system by default")
 	shipped.free()
 	await _frames(tree, 2)

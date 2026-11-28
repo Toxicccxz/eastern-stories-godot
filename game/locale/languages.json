@@ -55,7 +55,7 @@
 		},
 		{
 			"code": "pt_BR",
-			"name": "Português (Brasil) (prévia)",
+			"name": "Português (Brasil) (versão prévia)",
 			"translation": "res://locale/pt_BR.po",
 			"preview": true,
 			"fonts": ["Segoe UI", "Helvetica Neue", "Noto Sans", "DejaVu Sans"]
