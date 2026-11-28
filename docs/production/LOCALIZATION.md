@@ -2,8 +2,9 @@
 
 Simplified Chinese (zh_CN) is the source language: every message's ID is its source text
 (gettext). Traditional Chinese (`game/locale/zh_Hant.po`), English (`game/locale/en.po`), Korean
-(`game/locale/ko.po`), Japanese (`game/locale/ja.po`), Russian (`game/locale/ru.po`) and Latin
-American Spanish (`game/locale/es_419.po`) are in preview; the decisions behind this setup are in
+(`game/locale/ko.po`), Japanese (`game/locale/ja.po`), Russian (`game/locale/ru.po`), Latin
+American Spanish (`game/locale/es_419.po`) and Brazilian Portuguese (`game/locale/pt_BR.po`) are in
+preview; the decisions behind this setup are in
 [DECISIONS](../migration/DECISIONS.md#localization-the-source-text-is-the-key-2026-10-03).
 
 ## Writing player text
@@ -63,7 +64,7 @@ choice and the Settings language.
    particle pair only after a slot, no Han character, no Chinese punctuation; in Japanese every
    kanji a Japanese form and no Chinese punctuation; in Russian and Spanish the grammar marks well
    formed and a name slot inside a sentence marked; in Spanish ¿? ¡! paired and no word from the
-   style guide's never list);
+   style guide's never list; in Portuguese the same with its own marks, no ¿ ¡ and its never list);
    `tools/tests/test_translations.py` runs it in the gate.
 
 ## Working on a translation
@@ -111,6 +112,18 @@ adjectives agree with a name's gender and number, so the translation marks the a
 the noun table `game/locale/es_nouns.json` (gender, plural, and the article for el hacha or el Paso
 del Camello), contracts a el and de el and leaves out the subject tú. `spanish_lines_test` fills
 every template and fails on a mark left over or a «a tú».
+
+Brazilian Portuguese (pt_BR): style, você and o senhor, names (pinyin; places as in English), terms
+and the grammar marks are in [portuguese_style.md](portuguese_style.md). It shares Spanish's layer:
+`RomanceText` and `RomanceNouns` hold the mechanism, configured per language (`SpanishText`,
+`PortugueseText`: the marks, the contractions, whether the subject you is left out, the noun table).
+The translation marks the article after a slot (`{npc}{:o}`, `{:um}`, `{:os}`, `{:uns}`, `{:0}`,
+`{count} {item}{:pl}`) and writes the bare preposition before it: the game adds o/a/os/as and
+contracts it (de o → do, em a → na, a a → à, por o → pelo), from `game/locale/pt_BR_nouns.json`;
+agreement and numbers as in Spanish (`{~:ferido|ferida}`, `{#:dia|dias}`,
+`{jogador:cansado|cansada}`); the player is você, whose verb is the third person's, so `$N` needs no
+form, and the player as an object is te (`{n:te golpeia|golpeia $n{:o}}`). `portuguese_lines_test`
+fills every template and fails on a mark left over or a doubled contraction («de do», «no o»).
 
 Japanese: style, voices, the forms of address `{self}` and `{respect}` take, names (kanji in
 Japanese forms), the words Chinese and Japanese write alike but mean differently, numbers and

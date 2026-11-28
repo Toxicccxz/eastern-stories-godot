@@ -20,6 +20,7 @@
 - 繁體中文（预览）：一份台湾正体（教育部字形、台湾标点、台湾的界面用语），设置里能选，台港澳系统也先不自动给；剧情和对话只转字形不换词；繁中用缝合像素 zh_tw 版字形。「繁體中文 (preview)」
 - Русский（预览）：设置里能选，俄语系统也不自动给；旧而不古的文学俄语，旁白称玩家小写 вы，对话按关系用 ты／вы；人名帕拉迪转写，城镇山河寺观音译、描述性地名和房间名意译；名字随句子变格、动词随名字的性和数变，由译文里的记号（{:вин}、{~:…}、{#:…}、{игрок:…}）和名字六格表 ru_nouns.json 在填完后选（RussianText）；像素字自带西里尔字母。「Русский (preview)」
 - Español（预览，es_419）：设置里能选，西语系统也不自动给；一份中性拉美西语兼顾拉美和西班牙（ustedes、不用 vosotros 和 voseo、两边意思不同的词禁用），旧而不古；旁白称玩家 tú 并省掉主语，对话按关系用 tú／usted；人名拼音、地名照英文版意译画面；名字随句子带冠词（a el→al、de el→del）、形容词随名字的性和数、随玩家性别，由译文里的记号（{:el}、{:un}、{~:…}、{#:…}、{jugador:…}）和名字表 es_nouns.json 在填完后选（SpanishText）；像素字自带 á é ñ ¿ ¡。「Español (preview)」
+- Português（预览，pt_BR）：设置里能选，葡语系统也不自动给；巴西葡语（葡萄牙读得懂，但不用葡萄牙独有的词和 vós），旧而不古；旁白和系统称玩家 você（保留主语，宾语用 te，介词后 você），对话按关系 você／o senhor／a senhora，不用 tu；人名拼音、地名照英文版意译画面；名字随句子带冠词并和介词缩合（de o→do、em a→na、a a→à、por o→pelo），形容词随名字的性数、随玩家性别，由译文里的记号（{:o}、{:um}、{~:…}、{#:…}、{jogador:…}）和名字表 pt_BR_nouns.json 在填完后选（PortugueseText，和西语共用 RomanceText）；像素字自带 ã õ ç â ê ô à。「Português (preview)」
 - 日本語（预览）：设置里能选，日语系统也不自动给；中国江湖的日语（不译成日本时代剧），旁白常体、对话按身份给一人称／二人称／语尾，玩家只在旁白里是あなた；专名用汉字的日本新字体（龍、螢留旧字），日常物品译成日语词；标题下一行「東方物語」；缝合像素 ja 版字形。「日本語 (preview)」
 - 한국어（预览）：设置里能选，韩语系统也不自动给；武侠韩语，专名按汉字韩音、撞日常词的改名，玩家在模板里是 당신；助词随填进去的名字由 KoreanParticles 选，韩文按词换行（KoreanText）；缝合像素 ko 版字形。「한국어 (preview)」
 - 英文（预览）：设置里能选，系统是英文也不自动给；口吻、嗓音分级、译名和术语照 [english_style](../production/english_style.md)；ES2 模板的动词形式、代词和 your 由 MessageGrammar 按谁是「你」选，中文输出不变。「English (preview)」
@@ -503,6 +504,19 @@
 - **没做：** 等玩家回答的步骤（问话、选择）和把玩家带走的步骤（`move`）上不能写这三样（内容检查报错），选择之后才播的那些步骤不演动作（它们不在演出的页里读）；配音和专门的音效；口型、表情；多人同时说话；玩家的人走位（只退一步）；骑着马的人和野兽的姿势（只有升起和散去对它们有效）；门在「门开了」那一句才开（这扇门由演出开头写的印记打开，一开场就开了）；别的 39 段演出的动作和镜头（包 C）；长戏拆段（包 D）。
 - **测试：** `scene_cue_test`（每个词读得出、单词写法和列表写法、错词和多余字段报错、玩家的词表、各镜头、该写在哪种步骤上；名字对不上游戏里的东西、同名两义、别的图的点都报错；`scene_stage.json` 每个词有时长）；`scene_staging_test`（真开一局站进后殿：每个词的起止——朝向、姿势的进度、保持到 `rise`／`sheathe`、退一步和走位的身体位置与碰撞、走到人身边停在他来的那一侧；递和抛的东西在两人之间、背包不变；短按后走位到终点、姿势到终态；自己往下走的句子等走位走完；句间动作按住世界、世界时钟不走、按一下演完；演出自然结束时走回原处、`stay` 的留下；框被关、离图时当场复位、该走的已走、召出的显形；四种镜头的落点和远近、柔光、战斗占镜头时不动不还、硬切一两帧到位；小人的跪姿、拔收兵器、发抖、倒下和起来、空中的钥匙有弧线；点名的场面随那一句播一次、印记触发的路单独仍然管用；`comes` 从门口走到玩家身边、`leave` 走到门口才离场且不倒地、升起和散去的进度；不进对话框的话不占一页、演出不卡；手感关时什么都不演、离场即走；最后把唤首整段按过去：十六句、每一拍都演了、镜头照标的来、场面播一次、三个人离场、两个鬼卒在、接着开战）。
 
+
+## Português (preview) (2026-11-27 巴西葡语接在西语之后：剩下的 Steam 玩家里最多、巴西玩家少懂英语、语法离西语最近；基调与 Muse 讨论定，★项等 owner)
+
+简体仍是源语言，葡语是另一份 `game/locale/pt_BR.po`（巴西和葡萄牙的系统都匹配到它），**不改原文和规则**。
+- **文风：** 巴西葡语，葡萄牙读得懂：巴西的词、语法和 1990 年拼写协议（ação、fato、elétrico），不用葡萄牙独有的词（rapariga、miúdo、gajo、autocarro、telemóvel…）、不用 vós 和 mesóclise，粗话和网聊拼写（vc、cê、porra…）由 `check_po.py` 拒收；口语词（tá、pra、né、a gente）只许个别说话人少量用。旧而不古：古风靠词汇（Shifu、benfeitor、este humilde taoísta）不靠代词。新写的剧情短、硬、留白，句数同中文。
+- **玩家：** 旁白和系统称玩家 você 并保留主语（você 的动词同第三人称，省了分不清谁）；连续第二句可省，换人和战斗日志不省。玩家作宾语用 te（O bandido te golpeia，巴西游戏和小说的通行写法），介词后一律 você，物主 seu／sua。对话按关系：上对下、同辈、山贼 você，下对上、店家仆役对客人、和尚对俗人 o senhor／a senhora（对玩家写 `{jogador:o senhor|a senhora}`）；不用 tu。形容词随玩家性别：先改写，改不了写 `{jogador:cansado|cansada}`。
+- **专名：** 人名拼音，绰号意译；地名照英文版意译画面、用巴西的 X da Y 结构（雪亭镇 Pavilhão da Neve、乔阴 Sombra Alta、京师 a Capital、水烟阁 Pavilhão da Neblina、晚月庄 Solar da Lua Tardia）；派 Escola、教 Ordem、帮会 Irmandade、宫 Palácio、庄 Solar（mansão 在巴西是现代豪宅）、武馆 Salão（academia 在巴西是健身房），seita 只在骂人时；东方神教 Ordem do Corvo Dourado、花紫会 Irmandade dos Mendigos、天邪派 Escola Rebelde；精气神 Essência／Qi／Espírito，内力 Força interior，内功 neigong，杀气 Aura assassina，灵力 Energia espiritual，回合 rodada／手 turno，师父 Shifu，掌门 Mestre，店小二 moço da estalagem，捕快 guarda（meirinho 在巴西是送传票的法庭差役）。
+- **冠词、缩合和一致：** 和西语同一层（`RomanceText`／`RomanceNouns`，西语的 `SpanishText` 成了薄外壳，行为不变）：译文在名字槽后写 `{:o}`、`{:um}`、`{:os}`、`{:uns}`、`{:0}`、`{count} {item}{:pl}`，槽前写原形介词，游戏填完名字后查 `game/locale/pt_BR_nouns.json`（性、整个复数形、地名带不带冠词）加冠词并缩合（de o→do、em a→na、a a→à、por o→pelo 及复数，共 16 种；不定冠词不缩），随名字的性写 `{~:ferido|ferida}`，随数字写 `{#:dia|dias}`；`$N/$n` 的动词对 você 和别人同形，宾语 `{n:te golpeia|golpeia $n{:o}}`，玩家那一形可以为空（`em $l{:o}{n:| de $n{:o}}`，MessageGrammar 为此放开）；ES2 的 $p 写成三形 `{n:sua pele|a pele dele|a pele dela}`。`check_po.py` 查记号、禁词、不许 ¿¡ 和 « »；`portuguese_lines_test` 把每条模板填一遍，不许剩记号、不许重复缩合（de do、no o）。
+- **标点和字体：** 直引号 "…"，内层 '…'，书名也用直引号（巴西不用 « »）；对话用引号不用巴西小说的破折号（游戏惯例，说的话填进 "{line}"）；句号在闭引号内；省略号 ...；数字千分点、小数逗号。主题像素字自带 ã õ ç â ê ô à á é í ó ú，不另换字体。
+- **彩蛋：** 魏阮 Mike Rosoft，华工 a Poli（圣保罗大学工学院），八舍 o bloco oito。★
+- **标题：** 暂时同没有自己主标的语言：英文主标加「东方故事」。葡语名 Histórias do Oriente，要不要做毛笔主标由 owner 定。★
+- **怎么做的：** 照英文版的规矩：Muse 新开侧聊定基调写 [portuguese_style](../production/portuguese_style.md)，专名 2,232 条由代理分桶出稿、统一各桶写法后 Muse 逐批审；正文由代理分区出稿（以审过的西语为最近的样板），Muse 另开第二个侧聊按区逐批对照原文审完；窗口截图查溢出。
+- **为什么：** 西语之后，剩下的 Steam 玩家里巴西葡语最多，巴西玩家少懂英语，语法离西语最近、能复用冠词层；owner 要求每门新语言都和 Muse 新开对话交流和审核。
 
 ## Español (preview) (2026-11-27 西语接在俄语之后：Steam 上已做语言之外最大的一块玩家；基调与 Muse 两轮讨论定，★项等 owner)
 

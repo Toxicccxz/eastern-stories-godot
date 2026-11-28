@@ -19,6 +19,8 @@ extends RefCounted
 ##   {N:golpeas|golpea}  Spanish (docs/production/spanish_style.md): tú, then anyone else; three
 ##                      forms tú | m | f ({n:te|lo|la}); four tú m | tú f | m | f. A form may
 ##                      hold an article mark ({n:te golpea|golpea a $n{:el}}).
+##                      Brazilian Portuguese the same (docs/production/portuguese_style.md):
+##                      você, then anyone else ({n:te|o|a}, {n:te golpeia|golpeia $n{:o}}).
 ##
 ## resolve() runs on the translated template before a site fills $N/$n/$P/$p as it always
 ## has, so a Chinese line comes out exactly as before. capitalize() runs on the filled line
@@ -66,8 +68,9 @@ static func resolve(text: String, actor: Role, target: Role = null) -> String:
 	if not text.contains("{") and not text.contains("'s"):
 		return text
 	if _token == null:
-		# A form may hold an article mark of its own (Spanish: {n:te golpea|golpea a $n{:el}}).
-		_token = RegEx.create_from_string("\\{([Nn]):((?:[^{}|]|\\{:[^{}|]*\\})+)(?:\\|((?:[^{}]|\\{:[^{}|]*\\})*))?\\}")
+		# A form may hold an article mark of its own (Spanish: {n:te golpea|golpea a $n{:el}}), and
+		# the player's form may be empty (Portuguese: no $l{:o}{n:| de $n{:o}}).
+		_token = RegEx.create_from_string("\\{([Nn]):((?:[^{}|]|\\{:[^{}|]*\\})*)(?:\\|((?:[^{}]|\\{:[^{}|]*\\})*))?\\}")
 	var out: String = ""
 	var at: int = 0
 	for found: RegExMatch in _token.search_all(text):
@@ -144,23 +147,21 @@ static func _form(role: Role, first: String, second: String, written: String) ->
 	if second.contains("|"):
 		var forms: PackedStringArray = [first]
 		forms.append_array(second.split("|"))
-		var index: int = _spanish_index(role, forms.size()) if _shows_spanish() else (0 if role.is_you else _russian_gender_index(role))
+		var romance: RomanceText = ShownText.romance(TranslationServer.get_locale().get_slice("_", 0))
+		var index: int = _romance_index(role, forms.size(), romance) if romance != null else (0 if role.is_you else _russian_gender_index(role))
 		return forms[index] if index < forms.size() else forms[1]
 	return first if role.is_you else second
 
 
-static func _shows_spanish() -> bool:
-	return TranslationServer.get_locale().get_slice("_", 0) == SpanishText.LANGUAGE
-
-
-## Spanish forms (docs/production/spanish_style.md): three are tú | m | f (an object pronoun:
-## {n:te|lo|la}); four are tú m | tú f | m | f, the player's by SpanishText.player_gender. A
-## name's gender is its Spanish word's when the noun table knows it, else the character's.
-static func _spanish_index(role: Role, count: int) -> int:
+## Spanish and Portuguese forms (docs/production/spanish_style.md, portuguese_style.md): three
+## are you | m | f (an object pronoun: {n:te|lo|la}); four are you m | you f | m | f, the player's
+## by the language's player gender. A name's gender is its word's when the noun table knows it,
+## else the character's.
+static func _romance_index(role: Role, count: int, romance: RomanceText) -> int:
 	if role.is_you:
-		return (1 if SpanishText.player_gender == CharacterState.GENDER_FEMALE else 0) if count >= 4 else 0
+		return (1 if romance.player_gender() == CharacterState.GENDER_FEMALE else 0) if count >= 4 else 0
 	var female: bool = false
-	var gender: String = SpanishNouns.gender_of(role.name)
+	var gender: String = romance.nouns.gender_of(role.name)
 	if gender.is_empty():
 		female = role.gender == CharacterState.GENDER_FEMALE or role.gender == &"雌性"  # NO_TRANSLATE: a gender value
 	else:

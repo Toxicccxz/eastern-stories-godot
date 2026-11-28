@@ -42,6 +42,10 @@ wrong. This catches them. Rules (docs/production/english_style.md):
   needs the article, or none, marked); {~:m|f} or four forms need a marked name, {#:1|other} a
   number; ¿? and ¡! paired; no vosotros, no word from the style guide's never list; no Han
   character, no Chinese punctuation, no full-width “ ” …
+* in Brazilian Portuguese (pt_BR.po, docs/production/portuguese_style.md): the Spanish rules with
+  Portuguese's marks — {:o} {:um} {:os} {:uns} {:0} {:pl}, {jogador:m|f}, {N:você|other} (three
+  forms você|m|f, {n:te|o|a}); no ¿ ¡; no tu-verbs of Portugal (vós, vosso), no word from the
+  style guide's never list
 
 `python tools/l10n/check_po.py [game/locale/en.po ...]` prints the problems; exit 1 if any.
 """
@@ -139,6 +143,7 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
     japanese = po.stem.startswith("ja")
     russian = po.stem.startswith("ru")
     spanish = po.stem.startswith("es")
+    portuguese = po.stem.startswith("pt")
     for ctx, msgid, msgstr in parse(po):
         where = f"{po.name}: {msgid[:40]!r}"
         if (ctx, msgid) not in known:
@@ -168,7 +173,10 @@ def problems_in(po: Path, pot: Path = POT) -> list[str]:
             problems.extend(_russian_problems(where, msgid, msgstr))
             continue
         if spanish:
-            problems.extend(_spanish_problems(where, msgid, msgstr))
+            problems.extend(_romance_problems(where, msgid, msgstr, SPANISH))
+            continue
+        if portuguese:
+            problems.extend(_romance_problems(where, msgid, msgstr, PORTUGUESE))
             continue
         if "$P" in msgstr or re.search(r"\$p(?![a-zA-Z])", msgstr):
             problems.append(f"{where}: $P/$p in a translation: write {{N:his}} / {{n:him}}")
@@ -309,7 +317,8 @@ def _russian_problems(where: str, msgid: str, msgstr: str) -> list[str]:
     return problems
 
 
-# SpanishText (docs/production/spanish_style.md): an article mark, an agreement, a counted word.
+# RomanceText (docs/production/spanish_style.md, portuguese_style.md): an article mark, an
+# agreement, a counted word.
 SPANISH_MARK = re.compile(r"\{:([^{}]*)\}")
 SPANISH_MARKS = ("el", "un", "los", "unos", "0", "pl")
 SPANISH_AGREE = re.compile(r"\{([~#]):([^{}]*)\}")
@@ -320,16 +329,29 @@ SPANISH_NAME = re.compile(r"(\{(?:npc|item|target|who|master|teacher|whom|weapon
 # Words one side of the ocean reads as rude or as the other side's slang, and vosotros.
 SPANISH_NEVER = re.compile(r"\b(coger|cog[ei]|concha|pendej\w*|ching\w*|vale|guay|mola|flipa\w*|chido|güey|che|boludo|okey|bro|chévere|vosotr[oa]s|vuestr[oa]s?|habéis|sois|os)\b", re.IGNORECASE)
 SPANISH_WIDE = ("“", "”", "…")
+# Portugal's words, slurs and coarse words, chat spelling and the vós forms (portuguese_style.md, Tone).
+PORTUGUESE_NEVER = re.compile(r"\b(rapariga\w*|miúd[oa]s?|gaj[oa]s?|fixe|bué|autocarro|comboio|pequeno-almoço|telemóve\w*|frigorífico|casa de banho|facto|factura|eléctric\w*|óptim\w*|puto|puta|bicha|viado|porra|caralho|cacete|vc|cê|vós|vosso|vossa|vossos|vossas|sois|tendes|estais|okay|parça|véi|tipo assim|gringo)\b", re.IGNORECASE)
+SPANISH = {
+    "language": "Spanish", "guide": "spanish_style.md", "marks": SPANISH_MARKS, "player": "jugador",
+    "definite": "el", "forms": "tú|other, tú|m|f or tú m|tú f|m|f", "you": "tú", "owner": "tu|su",
+    "never": SPANISH_NEVER, "inverted": True, "letters": "A-Za-zÁÉÍÓÚáéíóúñÑ",
+}
+PORTUGUESE = {
+    "language": "Portuguese", "guide": "portuguese_style.md", "marks": ("o", "um", "os", "uns", "0", "pl"),
+    "player": "jogador", "definite": "o", "forms": "você|other, você|m|f or você m|você f|m|f", "you": "você",
+    "owner": "seu|seu", "never": PORTUGUESE_NEVER, "inverted": False,
+    "letters": "A-Za-zÁÉÍÓÚÂÊÔÃÕÀÇáéíóúâêôãõàç",
+}
 
 
-def _spanish_problems(where: str, msgid: str, msgstr: str) -> list[str]:
+def _romance_problems(where: str, msgid: str, msgstr: str, language: dict) -> list[str]:
     problems = []
     source_slots = set(SLOT.findall(msgid))
     for slot in SLOT.findall(msgstr):
         if slot not in source_slots:
             problems.append(f"{where}: invents the slot {{{slot}}}")
     if "$P" in msgstr or re.search(r"\$p(?![a-zA-Z])", msgstr):
-        problems.append(f"{where}: $P/$p in Spanish: write {{N:tu|su}} forms")
+        problems.append(f"{where}: $P/$p in {language['language']}: write {{{{N:{language['owner']}}}}} forms")
     for token in TOKENS:
         stands_in = token == "$n" and re.search(r"\$p(?![a-zA-Z])", msgid)
         if _count(msgstr, token) and not _count(msgid, token) and not stands_in:
@@ -337,14 +359,14 @@ def _spanish_problems(where: str, msgid: str, msgstr: str) -> list[str]:
     for role, body in SPANISH_GRAMMAR.findall(msgstr):
         forms = re.sub(r"\{:[^{}|]*\}", "", body).split("|")
         if len(forms) < 2 or len(forms) > 4 or not all(form.strip() or len(forms) == 2 for form in forms):
-            problems.append(f"{where}: bad form {{{role}:{body}}} (tú|other, tú|m|f or tú m|tú f|m|f)")
+            problems.append(f"{where}: bad form {{{role}:{body}}} ({language['forms']})")
         if role == "n" and _count(msgid, "$n") == 0 and not re.search(r"\$p(?![a-zA-Z])", msgid):
             problems.append(f"{where}: {{n:…}} in a line with no $n (nor $p)")
     plain = SPANISH_GRAMMAR.sub(lambda m: re.sub(r"\{:[^{}|]*\}", "", m.group(0)), msgstr)
     marks = list(SPANISH_MARK.finditer(msgstr))
     for mark in marks:
-        if mark.group(1) not in SPANISH_MARKS:
-            problems.append(f"{where}: unknown article mark {mark.group(0)} (el un los unos 0 pl)")
+        if mark.group(1) not in language["marks"]:
+            problems.append(f"{where}: unknown article mark {mark.group(0)} ({' '.join(language['marks'])})")
         elif not CASE_AFTER.search(msgstr[: mark.start()]):
             problems.append(f"{where}: an article mark {mark.group(0)} after written text: write the article")
         if mark.group(1) == "pl" and not NUMBER_SLOT.search(msgstr[: mark.start()]):
@@ -353,7 +375,7 @@ def _spanish_problems(where: str, msgid: str, msgstr: str) -> list[str]:
         forms = mark.group(2).split("|")
         if mark.group(1) == "~":
             if len(forms) not in (2, 3, 4) or not all(forms):
-                problems.append(f"{where}: bad agreement {mark.group(0)} (m|f, tú|m|f or m|f|mp|fp)")
+                problems.append(f"{where}: bad agreement {mark.group(0)} (m|f, {language['you']}|m|f or m|f|mp|fp)")
             if not marks:
                 problems.append(f"{where}: {mark.group(0)} with no marked name to agree with")
         else:
@@ -361,27 +383,30 @@ def _spanish_problems(where: str, msgid: str, msgstr: str) -> list[str]:
                 problems.append(f"{where}: bad count {mark.group(0)} (two forms: 1|other)")
             if not NUMBER_SLOT.search(plain[: mark.start()]) and not re.search(r"\d", plain[: mark.start()]):
                 problems.append(f"{where}: {mark.group(0)} with no number before it")
-    for mark in re.finditer(r"\{jugador:([^{}]*)\}", msgstr):
+    for mark in re.finditer(r"\{" + language["player"] + r":([^{}]*)\}", msgstr):
         forms = mark.group(1).split("|")
         if len(forms) != 2 or not all(forms):
             problems.append(f"{where}: bad player form {mark.group(0)} (two forms: m|f)")
     words = re.sub(r"\{[^{}]*\}|\$\w+|%[sd]|\[[^\]]*\]", "", msgstr)
-    if re.search(r"[A-Za-zÁÉÍÓÚáéíóúñÑ]{2}", words):
+    if re.search("[" + language["letters"] + "]{2}", words):
         for slot in SPANISH_NAME.finditer(msgstr):
-            problems.append(f"{where}: {slot.group(1)} with no article mark (write {{:el}}, {{:un}} or {{:0}})")
+            problems.append(f"{where}: {slot.group(1)} with no article mark (write {{:{language['marks'][0]}}}, {{:{language['marks'][1]}}} or {{:0}})")
             break
-    if msgstr.count("¿") != msgstr.count("?"):
-        problems.append(f"{where}: ¿ and ? not paired")
-    if msgstr.count("¡") != msgstr.count("!"):
-        problems.append(f"{where}: ¡ and ! not paired")
-    never = SPANISH_NEVER.search(words)
+    if language["inverted"]:
+        if msgstr.count("¿") != msgstr.count("?"):
+            problems.append(f"{where}: ¿ and ? not paired")
+        if msgstr.count("¡") != msgstr.count("!"):
+            problems.append(f"{where}: ¡ and ! not paired")
+    elif "¿" in msgstr or "¡" in msgstr:
+        problems.append(f"{where}: ¿ or ¡ in {language['language']}")
+    never = language["never"].search(words)
     if never:
-        problems.append(f"{where}: {never.group(0)} (spanish_style.md, Tone: never)")
+        problems.append(f"{where}: {never.group(0)} ({language['guide']}, Tone: never)")
     if HAN.search(msgstr):
-        problems.append(f"{where}: a Han character ({HAN.search(msgstr).group(0)}) in Spanish")
+        problems.append(f"{where}: a Han character ({HAN.search(msgstr).group(0)}) in {language['language']}")
     chinese = [mark for mark in CHINESE_PUNCTUATION if mark in msgstr]
     if chinese:
-        problems.append(f"{where}: Chinese punctuation {' '.join(chinese)} (write . , : ; ¿? ¡! \" ( ) ...)")
+        problems.append(f"{where}: Chinese punctuation {' '.join(chinese)} (write . , : ; ? ! \" ( ) ...)")
     wide = [mark for mark in SPANISH_WIDE if mark in msgstr]
     if wide:
         problems.append(f"{where}: {' '.join(wide)} is drawn full width (write \" and ...)")
