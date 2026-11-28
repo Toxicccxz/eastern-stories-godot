@@ -7262,7 +7262,7 @@ msgid "一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。"
 msgstr "Uma névoa espessa se dissipa, e você se vê no Templo do Deus da Cidade de Pavilhão da Neve."
 
 msgid "精、气、神都只剩 1：在武学页按「歇到回满」，养足了再上路。"
-msgstr "Essência, Qi e Espírito caíram para 1: na página Artes marciais, pressione \"Repouso pleno\" e recupere as forças antes de seguir viagem."
+msgstr "Essência, Qi e Espírito caíram para 1: na página Artes, pressione \"Repouso pleno\" e recupere as forças antes de seguir viagem."
 
 msgid "留在路上的"
 msgstr "O que ficou na estrada"
@@ -9493,7 +9493,7 @@ msgid "江湖常识"
 msgstr "Noções do jianghu"
 
 msgid "武学"
-msgstr "Artes marciais"
+msgstr "Artes"
 
 msgid "物品"
 msgstr "Itens"
@@ -10387,7 +10387,7 @@ msgid "你必须先把%s弄醒。"
 msgstr "Você precisa acordar %s{:o} primeiro."
 
 msgid "{master}收下了你。\n\n你成了{family}第{generation}代弟子。往后向师父请教，就能学他会的武功；请教页写着每门能学到几级，武学页能打坐练内力。"
-msgstr "{master}{:o} te aceita.\n\nVocê agora faz parte de {family}{:o}, como membro da {generation}.ª geração. Daqui em diante, peça instrução ao seu Shifu para aprender as artes que ele domina; a página Aprender mostra até que nível cada uma pode chegar, e na página Artes marciais você pode meditar para treinar a Força interior."
+msgstr "{master}{:o} te aceita.\n\nVocê agora faz parte de {family}{:o}, como membro da {generation}.ª geração. Daqui em diante, peça instrução ao seu Shifu para aprender as artes que ele domina; a página Aprender mostra até que nível cada uma pode chegar, e na página Artes você pode meditar para treinar a Força interior."
 
 msgid "购买"
 msgstr "Comprar"
@@ -21202,7 +21202,7 @@ msgid "血手"
 msgstr "Mão Sangrenta"
 
 msgid "刘安禄沉默了一会儿：血手刘三是老子。老子认。你放过我一回，野羊寨欠你两条命。"
-msgstr "Liu Anlu fica calado um tempo: \"Liu San, o Mão Sangrenta, sou eu. Eu assumo. Você me poupou uma vez; o Forte das Cabras te deve duas vidas.\""
+msgstr "Liu Anlu fica calado um tempo: \"Liu Mão Sangrenta, sou eu. Eu assumo. Você me poupou uma vez; o Forte das Cabras te deve duas vidas.\""
 
 msgid "刘安禄压低声音：老三纳供的事，大哥没追究。老子也不说。"
 msgstr "Liu Anlu baixa a voz: \"A história do tributo do Terceiro, o Irmão não foi atrás. Eu também não vou abrir a boca.\""
@@ -22288,7 +22288,7 @@ msgid "切磋"
 msgstr "Duelo amistoso"
 
 msgid "( $N{status} )"
-msgstr "( $N{:o} {status} )"
+msgstr "( $N{:o}{status} )"
 
 msgid "$N注视著$n的行动，企图寻找机会出手。"
 msgstr "$N{:o} {n:te vigia|vigia $n{:o}} a cada movimento, à espera de uma chance de atacar."
@@ -38344,7 +38344,7 @@ msgid "你第一次在切磋中胜过了武馆弟子。"
 msgstr "Pela primeira vez, você venceu um discípulo do salão num treino."
 
 msgid "到武学页打坐，把内力练到 10。"
-msgstr "Meditar na página Artes marciais até a Força interior chegar a 10."
+msgstr "Meditar na página Artes até a Força interior chegar a 10."
 
 msgid "你的内力练到了 10。"
 msgstr "Sua Força interior chegou a 10."
@@ -38833,13 +38833,13 @@ msgid "学武"
 msgstr "Aprender artes marciais"
 
 msgid "武功分两层。基本拳脚、基本剑法、基本内功这些「基本功夫」是根基；柳家拳、封山剑法这些「特殊武功」要在武学页「激发」到对应的基本功夫上才用得出来。真打起来，看的是两者合起来的等级。"
-msgstr "As artes marciais têm duas camadas. As \"artes básicas\", como Punho básico, Espada básica e Neigong básico, são a base; as \"artes especiais\", como o Punho da família Liu e a Espada da Montanha Vazia, precisam ser \"ativadas\" sobre a arte básica correspondente, na página Artes marciais, para poderem ser usadas. Numa luta de verdade, conta o nível das duas somadas."
+msgstr "As artes marciais têm duas camadas. As \"artes básicas\", como Punho básico, Espada básica e Neigong básico, são a base; as \"artes especiais\", como o Punho da família Liu e a Espada da Montanha Vazia, precisam ser \"ativadas\" sobre a arte básica correspondente, na página Artes, para poderem ser usadas. Numa luta de verdade, conta o nível das duas somadas."
 
 msgid "向师父或肯教你的人请教，每次耗精和一点潜能，第一次学一门新功夫耗的精加倍。学到的不能超过教你的人，也受实战经验限制：等级越高，要的实战经验越多。请教页写着你能学到几级、卡在哪里。"
 msgstr "Peça lições ao seu Shifu ou a quem esteja disposto a ensinar: cada vez gasta Essência e um ponto de Potencial, e a primeira lição de uma arte nova gasta o dobro de Essência. Você não pode aprender mais do que quem ensina, e a Experiência de combate também limita: quanto mais alto o nível, mais Experiência de combate é preciso. A página Aprender mostra até que nível você pode ir e o que está segurando você."
 
 msgid "激发好的特殊武功可以在武学页练习，耗气。它最多练到和底下的基本功夫一样高，再往上，得先把基本功夫学上去。"
-msgstr "As artes especiais ativadas podem ser praticadas na página Artes marciais, gastando Qi. Podem ser praticadas até o nível da arte básica que têm por baixo; para ir além, primeiro é preciso elevar a arte básica."
+msgstr "As artes especiais ativadas podem ser praticadas na página Artes, gastando Qi. Podem ser praticadas até o nível da arte básica que têm por baixo; para ir além, primeiro é preciso elevar a arte básica."
 
 msgid "基本拳脚、基本剑法、基本刀法、基本杖法、基本招架、基本轻功、基本内功这七门，到了 40 级就能自己琢磨着往上练，耗精和潜能，不必找人。特殊武功不能自学。"
 msgstr "Punho básico, Espada básica, Sabre básico, Bastão básico, Defesa básica, Qinggong básico e Neigong básico: quando essas sete chegam ao nível 40, você pode continuar a aprimorá-las por conta própria, gastando Essência e Potencial, sem precisar de mestre. As artes especiais não podem ser aprendidas por conta própria."
@@ -38887,7 +38887,7 @@ msgid "内力是武者的第二条命，打人和挨打都看它。"
 msgstr "A Força interior é a segunda vida do guerreiro; golpear e ser golpeado dependem dela."
 
 msgid "学了基本内功，再把一门特殊内功激发上去，就能在武学页打坐：耗气，把气炼成内力存起来。存过了上限再坐下去，上限就慢慢往上长；能长多高，看基本内功的等级。连续打坐可以定一个数，练到就停。"
-msgstr "Depois de aprender Neigong básico e ativar sobre ele um neigong especial, você pode Meditar na página Artes marciais: isso gasta Qi e o refina em Força interior, que fica guardada. Se continuar meditando além do limite, o limite sobe aos poucos; até onde pode subir depende do nível do Neigong básico. Em \"Meditar em série\" dá para fixar um número, e a prática para ao chegar nele."
+msgstr "Depois de aprender Neigong básico e ativar sobre ele um neigong especial, você pode Meditar na página Artes: isso gasta Qi e o refina em Força interior, que fica guardada. Se continuar meditando além do limite, o limite sobe aos poucos; até onde pode subir depende do nível do Neigong básico. Em \"Meditar em série\" dá para fixar um número, e a prática para ao chegar nele."
 
 msgid "每一击多灌进一些内力，打得更重，内力也耗得更快。战斗里取「攻」的姿态，会顺手把加力开到一半。"
 msgstr "Pôr mais Força interior em cada golpe: você bate mais forte, e a Força interior se gasta mais rápido. Em luta, a postura de \"Ataque\" sobe de quebra a Força extra até a metade."
@@ -38902,13 +38902,13 @@ msgid "法门在江湖上分两路。一路念咒施法，茅山道术、奇门�
 msgstr "As artes místicas do jianghu seguem dois caminhos. Um recita encantamentos para lançar feitiços, como a Feitiçaria do Monte Mao e o Qimen Dunjia, e gasta Poder arcano; o outro são poderes que nascem da própria prática de quem os cultiva, como o Poder das oito consciências do budismo, e gasta Energia espiritual."
 
 msgid "学了基本咒文才用得上。在武学页冥思，耗神，把法力一点点聚起来；上限看基本咒文。"
-msgstr "Só servem depois de aprender Encantamentos básicos. Contemple na página Artes marciais, gastando Espírito, para juntar o Poder arcano aos poucos; o limite depende dos Encantamentos básicos."
+msgstr "Só servem depois de aprender Encantamentos básicos. Contemple na página Artes, gastando Espírito, para juntar o Poder arcano aos poucos; o limite depende dos Encantamentos básicos."
 
 msgid "学了基本法术才用得上。在武学页修行，耗精，把精炼成灵力；上限看基本法术。"
-msgstr "Só servem depois de aprender Misticismo básico. Cultive na página Artes marciais, gastando Essência, para refinar a Essência em Energia espiritual; o limite depende do Misticismo básico."
+msgstr "Só servem depois de aprender Misticismo básico. Cultive na página Artes, gastando Essência, para refinar a Essência em Energia espiritual; o limite depende do Misticismo básico."
 
 msgid "两样都和内力一样：存过了上限再练，上限就长。灵性高的人长得快。还没学这一路的时候，角色页和武学页都不显示它们。"
-msgstr "Os dois funcionam como a Força interior: se você treina além do limite, o limite cresce. Quem tem muita Espiritualidade cresce mais rápido. Enquanto você não tiver aprendido esse caminho, nem a página Personagem nem a página Artes marciais os mostram."
+msgstr "Os dois funcionam como a Força interior: se você treina além do limite, o limite cresce. Quem tem muita Espiritualidade cresce mais rápido. Enquanto você não tiver aprendido esse caminho, nem a página Personagem nem a página Artes os mostram."
 
 msgid "战斗"
 msgstr "Combate"
