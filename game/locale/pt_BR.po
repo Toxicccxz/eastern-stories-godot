@@ -33229,7 +33229,7 @@ msgid "这是一个小花池，清澈的池水含著淡淡的幽香。池周围�
 msgstr "Este é um pequeno tanque de pétalas. A água límpida guarda um leve perfume recôndito. Em volta do tanque há muitas flores e plantas raras, como se você tivesse entrado num aposento de orquídeas: o perfume sobe à cabeça e aquece a alma. Pétalas coloridas flutuam na água, e entre cortinas de plumas e nuvens se aglomeram muitas irmãs, umas brincando e rindo, outras dançando com leveza. Você também gostaria de se banhar e descansar no tanque.\n"
 
 msgid "你走到前院，你看到几块山石，东面一处假山小池。其上植有藤  \n萝、青芷，异草芬芳荔薛。池中几尾小鱼自在的游来游去。假山外隔\n著围篱，有一种山怀中的小花园的感觉。.\n"
-msgstr "Você chega ao pátio da frente e vê algumas rochas; a leste, uma montanha artificial com um pequeno tanque. Nela crescem trepadeiras, angélica e ervas raras de aroma fragrante. No tanque, alguns peixinhos nadam à vontade. Além da montanha há uma cerca, o que dá a sensação de um pequeno jardim no colo da montanha.\n"
+msgstr "Você chega ao pátio da frente e vê algumas rochas; a leste, uma montanha artificial com um pequeno tanque. Nela crescem trepadeiras, angélica azul e ervas raras de aroma fragrante. No tanque, alguns peixinhos nadam à vontade. Além da montanha há uma cerca, o que dá a sensação de um pequeno jardim no colo da montanha.\n"
 
 msgid "走进月洞门，只见迎面一带翠嶂，挡在南面。只见白石崚嶒，  \n或如鬼怪，或如猛兽，纵横拱立，上边苔藓成斑，藤萝掩映，其\n中微露羊肠小径。往南进入翠嶂，往北是小花厅。\n"
 msgstr "Ao passar pelo portão da lua, você vê de frente uma cortina de picos verdes que bloqueia o sul. Rochas brancas e escarpadas, algumas como espectros, outras como feras, se erguem em fileiras cruzadas, manchadas de musgo e cobertas de trepadeiras; por entre elas assoma uma trilha estreita e tortuosa. Ao sul se entra nas Rochas do Biombo de Jade; ao norte fica a pequena sala das flores.\n"
@@ -37639,7 +37639,7 @@ msgid "衣回了瑷伦身上。守衣人守着它，我也就不急了。"
 msgstr "A túnica voltou para Ailun. Se a guardiã a guarda, não tenho pressa."
 
 msgid "我在等湖上出事的那一天。那一天，衣该在一个配得上它的人身上——瑷伦，你，都行。只是不该在神教手里。"
-msgstr "Espero o dia em que algo acontecer no lago. Nesse dia, a túnica deve estar com alguém digno dela: Ailun, você, qualquer uma de vocês. Só não nas mãos da Ordem."
+msgstr "Espero o dia em que algo acontecer no lago. Nesse dia, a túnica deve estar com alguém digno dela: Ailun, você, qualquer um dos dois. Só não nas mãos da Ordem."
 
 msgid "看了你一眼，像在数你的名字有几个字。"
 msgstr " olha para você como se contasse quantos caracteres tem o seu nome."
@@ -37669,7 +37669,7 @@ msgid "教主令在我这里。神教往后只派该死的人的差事——鸿�
 msgstr "A placa de Líder está comigo. De agora em diante a Ordem só aceitará encargos contra quem merece morrer: Hongxue concordou."
 
 msgid "天山雪影剑、雪影心法，你来学（「请教」）。"
-msgstr "A Espada da sombra de neve de Tianshan e o Método interno da Sombra de Neve: venha aprendê-los (com 'Aprender')."
+msgstr "A Espada da Sombra de Neve de Tianshan e o Método interno da Sombra de Neve: venha aprendê-los (com 'Aprender')."
 
 msgid "门关着。"
 msgstr "A porta está fechada."
