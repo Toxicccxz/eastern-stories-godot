@@ -8338,7 +8338,7 @@ msgid "的眉头动了一下。"
 msgstr " franze o cenho por um instante."
 
 msgid "北麓的道观收孩子，说是收道童。茅山查了二十年，查到的孩子都没有回来过。"
-msgstr "O mosteiro do sopé norte recolhe crianças; diz que são acólitos. O Monte Mao investiga há vinte anos e nenhuma das crianças que encontrou voltou jamais."
+msgstr "O templo do sopé norte recolhe crianças; diz que são acólitos. O Monte Mao investiga há vinte anos e nenhuma das crianças que encontrou voltou jamais."
 
 msgid "晚月庄那个女人是逃出来的？……那她是第一个。六阴剑是逆灵宫的剑，教给孩子，是为了让他们替宫里杀人。"
 msgstr "A mulher do Solar da Lua Tardia escapou? ...Então foi a primeira. A espada dos seis yin é do Palácio Negro: eles a ensinam às crianças para que matem pelo palácio."
@@ -8422,7 +8422,7 @@ msgid "烧"
 msgstr "Queimar"
 
 msgid "跟林忌：《上清符箓》投进殿前的香炉，镇教秘籍从此少一函——茅山宁可没有这本书。花匠下山回京城，守着庾清尘。\n林忌教你谷衣心法。正月十七虹台上，茅山这一票投颜违：主剿，北麓剿干净，不留根（已经入了虹台的席的，这一票不再跟着变）。\n终章之后北麓那座道观里的人还没有去处的，问林忌「剿」，官兵上山。\n要这么办吗？"
-msgstr "Ficar ao lado de Lin Ji: o 'Livro de talismãs da Suprema Clareza' é jogado no incensário diante do salão, e aos manuais secretos do Monte Mao passa a faltar um estojo: o Monte Mao prefere não ter este livro. O jardineiro desce à Capital, para velar por Yu Qingchen.\nLin Ji te ensina o Método interno da Túnica de Grão. No dia 17 do primeiro mês, no Terraço do Arco-Íris, o voto do Monte Mao vai para Yan Wei: pela aniquilação, para limpar o sopé norte sem deixar raízes (para quem já tomou assento no Terraço do Arco-Íris, este voto não muda mais).\nSe, depois do capítulo final, a gente daquele mosteiro do sopé norte ainda não tiver para onde ir, pergunte a Lin Ji sobre 'Aniquilar': os soldados subirão a montanha.\nFazer assim?"
+msgstr "Ficar ao lado de Lin Ji: o 'Livro de talismãs da Suprema Clareza' é jogado no incensário diante do salão, e aos manuais secretos do Monte Mao passa a faltar um estojo: o Monte Mao prefere não ter este livro. O jardineiro desce à Capital, para velar por Yu Qingchen.\nLin Ji te ensina o Método interno da Túnica de Grão. No dia 17 do primeiro mês, no Terraço do Arco-Íris, o voto do Monte Mao vai para Yan Wei: pela aniquilação, para limpar o sopé norte sem deixar raízes (para quem já tomou assento no Terraço do Arco-Íris, este voto não muda mais).\nSe, depois do capítulo final, a gente daquele templo do sopé norte ainda não tiver para onde ir, pergunte a Lin Ji sobre 'Aniquilar': os soldados subirão a montanha.\nFazer assim?"
 
 msgid "书锁回去了。……师弟守着。"
 msgstr "O livro foi trancado de novo. ...Meu irmão mais novo o guarda."
@@ -8470,7 +8470,7 @@ msgid "把拂尘搭在臂弯里，金色的那只眼睛望着北边。"
 msgstr " apoia o espanador de crina na dobra do braço, o olho dourado voltado para o norte."
 
 msgid "湖底的事了了，商玦没有回来。可北麓那座道观里还有人——坛上的火没有灭，他们管这叫续灯。"
-msgstr "O caso do lago acabou, e Shang Jue não voltou. Mas ainda há gente naquele mosteiro do sopé norte: o fogo do altar não se apagou, e eles chamam isso de manter a lâmpada acesa."
+msgstr "O caso do lago acabou, e Shang Jue não voltou. Mas ainda há gente naquele templo do sopé norte: o fogo do altar não se apagou, e eles chamam isso de manter a lâmpada acesa."
 
 msgid "茅山要一个了断。交给官府去剿，还是劝他们下山，交茅山看着。"
 msgstr "O Monte Mao quer um desfecho. Entregá-los às autoridades, para serem aniquilados, ou persuadi-los a descer a montanha, sob a vigilância do Monte Mao."
@@ -8485,7 +8485,7 @@ msgid "你递出来的东西，茅山都用上了。这就够了。"
 msgstr "Tudo o que você passou adiante, o Monte Mao aproveitou. Isso basta."
 
 msgid "你露的破绽太多了。宫里迟早认出你——别再回那座道观。"
-msgstr "Você deixou rastros demais. Cedo ou tarde o palácio vai te descobrir: não volte àquele mosteiro."
+msgstr "Você deixou rastros demais. Cedo ou tarde o palácio vai te descobrir: não volte àquele templo."
 
 msgid "时辰和路，茅山记下了。那一夜，北麓下湖的路上有茅山的人。"
 msgstr "A hora e o caminho, o Monte Mao anotou. Naquela noite, haverá gente do Monte Mao na estrada que desce do sopé norte ao lago."
@@ -8563,13 +8563,13 @@ msgid "进去，先干活。管事派什么，你干什么；他们说什么，�
 msgstr "Entre e trabalhe primeiro. Faça o que o intendente mandar; escute o que disserem."
 
 msgid "野羊山北麓那座黑砖道观，茅山盯了它两年。我要一个进得去的人，戴着他们的冠替我看、替我听。"
-msgstr "O mosteiro de tijolo negro no sopé norte do Morro das Cabras: o Monte Mao o vigia há dois anos. Preciso de alguém que consiga entrar e, com o gorro deles, ver e ouvir por mim."
+msgstr "O templo de tijolo negro no sopé norte do Morro das Cabras: o Monte Mao o vigia há dois anos. Preciso de alguém que consiga entrar e, com o gorro deles, ver e ouvir por mim."
 
 msgid "可你身上有东方神教的令。一个人只藏得住一重身份——这件事，我不能托你。"
 msgstr "Mas você carrega a placa da Ordem do Corvo Dourado. Uma pessoa só consegue esconder uma identidade: isto eu não posso confiar a você."
 
 msgid "野羊山北麓那座黑砖道观，茅山盯了它两年。他们拜的不是神，是劫；收的不是香火，是人。"
-msgstr "O Monte Mao vigia há dois anos aquele mosteiro de tijolo negro no sopé norte do Morro das Cabras. O que eles adoram não é um deus, é a calamidade; o que recolhem não é incenso, é gente."
+msgstr "O Monte Mao vigia há dois anos aquele templo de tijolo negro no sopé norte do Morro das Cabras. O que eles adoram não é um deus, é a calamidade; o que recolhem não é incenso, é gente."
 
 msgid "你进去过，还出来了。茅山的道士进不去——一身符水的味道，隔着三里地，他们就闻得出来。"
 msgstr "Você entrou e saiu. Os taoístas do Monte Mao não conseguem entrar: com aquele cheiro de água de talismã, a três li de distância eles já são farejados."
@@ -8581,7 +8581,7 @@ msgid "这件事做了，就脱不了身。想好了，再问我「眼线」。"
 msgstr "Uma vez feito, não há como sair. Pense bem e depois me pergunte sobre 'Espião'."
 
 msgid "北麓那座道观？与你无关。"
-msgstr "Aquele mosteiro do sopé norte? Não é da sua conta."
+msgstr "Aquele templo do sopé norte? Não é da sua conta."
 
 msgid "眼线"
 msgstr "Espião"
@@ -8734,7 +8734,7 @@ msgid "这一票的事，去藏经楼问他。"
 msgstr "Quanto a este voto, vá perguntar a ele na Biblioteca das escrituras."
 
 msgid "茅山主剿。这一票原该投颜违——他和朝廷走得近，北麓那座道观，他剿得动。"
-msgstr "O Monte Mao é pela aniquilação. Este voto deveria ir para Yan Wei: ele é próximo da corte, e aquele mosteiro do sopé norte, ele consegue arrasar."
+msgstr "O Monte Mao é pela aniquilação. Este voto deveria ir para Yan Wei: ele é próximo da corte, e aquele templo do sopé norte, ele consegue arrasar."
 
 msgid "金色的那只眼睛看着你。"
 msgstr " te olha com aquele olho dourado."
@@ -8749,7 +8749,7 @@ msgid "可那张名单是你从账房抄出来的，名单上的人茅山找回�
 msgstr "Mas aquela lista foi você quem a copiou na contadoria, e o Monte Mao recuperou várias das pessoas que constam nela. O Monte Mao deve uma a você: este voto, se o quiser, é seu."
 
 msgid "茅山主剿。颜违和朝廷走得近，北麓那座道观，他剿得动。"
-msgstr "O Monte Mao é pela aniquilação. Yan Wei é próximo da corte, e aquele mosteiro do sopé norte, ele consegue arrasar."
+msgstr "O Monte Mao é pela aniquilação. Yan Wei é próximo da corte, e aquele templo do sopé norte, ele consegue arrasar."
 
 msgid "这一票投他。"
 msgstr "Este voto vai para ele."
@@ -8779,7 +8779,7 @@ msgid "你已经答应去劝他们下山了。回北麓去，同宫里当家的�
 msgstr "Você já aceitou ir persuadi-los a descer a montanha. Volte ao sopé norte e diga a quem manda no palácio: 'Descer a montanha'."
 
 msgid "提笔写了一封信，把北麓那座道观的门户、上山的绳路一一画在信后。"
-msgstr " escreve uma carta e desenha no verso, um a um, os portões do mosteiro do sopé norte e os caminhos de corda montanha acima."
+msgstr " escreve uma carta e desenha no verso, um a um, os portões do templo do sopé norte e os caminhos de corda montanha acima."
 
 msgid "这封信今晚就到乔阴，程不平会转给兵部。"
 msgstr "Esta carta chega a Sombra Alta hoje à noite; Cheng Buping a passará ao Ministério da Guerra."
