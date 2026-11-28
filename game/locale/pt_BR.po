@@ -28615,7 +28615,7 @@ msgid "商"
 msgstr "Comércio"
 
 msgid "一只青铜小铃，比拇指大不了多少，铃身长满了绿锈，只有铃舌是亮的。铃舌上刻着一个小小的「尘」字。挂绳是一截褪成粉橘色的红绳，打着一个孩子才打得出的死结。\n在寻风地带里，它会跟着风响。\n"
-msgstr "Um pequeno sino de bronze, pouco maior que um polegar, coberto de azinhavre; só o badalo é brilhante. No badalo está gravado um pequeno ideograma: \"Chen\". O cordão é um pedaço de fio vermelho desbotado em rosa-alaranjado, atado com um nó duro, como só uma criança dá.\nNas Terras do Vento, ele toca junto com o vento.\n"
+msgstr "Um pequeno sino de bronze, pouco maior que um polegar, coberto de azinhavre; só o badalo é brilhante. No badalo está gravado um pequeno ideograma: \"Chen\". O cordão é um pedaço de fio vermelho desbotado em rosa-alaranjado, atado com um nó duro, como só uma criança dá.\nNa Zona de Busca do Vento, ele toca junto com o vento.\n"
 
 msgid "这只风铃不能随便丢。"
 msgstr "Este sino de vento não pode ser jogado fora assim."
@@ -29074,61 +29074,61 @@ msgid "雪亭的铃。铃身发暗，刻着「雪亭」两个字，一声不响�
 msgstr "O sino do Pavilhão da Neve. O corpo está escuro, com o nome \"Pavilhão da Neve\" gravado, e não faz som.\n"
 
 msgid "雪亭的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：雪亭。\n岚城的铃认人：雪亭有人信你。\n"
-msgstr "O sino do Pavilhão da Neve. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Pavilhão da Neve.\nOs sinos da Cidade do Vento reconhecem quem merece: no Pavilhão da Neve há quem confie em você.\n"
+msgstr "O sino do Pavilhão da Neve. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Pavilhão da Neve.\nOs sinos da Cidade do Vento reconhecem as pessoas: no Pavilhão da Neve há quem confie em você.\n"
 
 msgid "老松岭的铃。铃身发暗，刻着「老松岭」两个字，一声不响。\n"
 msgstr "O sino da Serra dos Pinheiros Velhos. O corpo está escuro, com o nome \"Serra dos Pinheiros Velhos\" gravado, e não faz som.\n"
 
 msgid "老松岭的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：老松岭。\n岚城的铃认人：老松岭有人信你。\n"
-msgstr "O sino da Serra dos Pinheiros Velhos. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Serra dos Pinheiros Velhos.\nOs sinos da Cidade do Vento reconhecem quem merece: na Serra dos Pinheiros Velhos há quem confie em você.\n"
+msgstr "O sino da Serra dos Pinheiros Velhos. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Serra dos Pinheiros Velhos.\nOs sinos da Cidade do Vento reconhecem as pessoas: na Serra dos Pinheiros Velhos há quem confie em você.\n"
 
 msgid "水烟阁的铃。铃身发暗，刻着「水烟阁」两个字，一声不响。\n"
 msgstr "O sino do Pavilhão da Neblina. O corpo está escuro, com o nome \"Pavilhão da Neblina\" gravado, e não faz som.\n"
 
 msgid "水烟阁的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：水烟阁。\n岚城的铃认人：水烟阁有人信你。\n"
-msgstr "O sino do Pavilhão da Neblina. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Pavilhão da Neblina.\nOs sinos da Cidade do Vento reconhecem quem merece: no Pavilhão da Neblina há quem confie em você.\n"
+msgstr "O sino do Pavilhão da Neblina. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Pavilhão da Neblina.\nOs sinos da Cidade do Vento reconhecem as pessoas: no Pavilhão da Neblina há quem confie em você.\n"
 
 msgid "野羊山的铃。铃身发暗，刻着「野羊山」两个字，一声不响。\n"
 msgstr "O sino do Morro das Cabras. O corpo está escuro, com o nome \"Morro das Cabras\" gravado, e não faz som.\n"
 
 msgid "野羊山的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：野羊山。\n岚城的铃认人：野羊山有人信你。\n"
-msgstr "O sino do Morro das Cabras. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Morro das Cabras.\nOs sinos da Cidade do Vento reconhecem quem merece: no Morro das Cabras há quem confie em você.\n"
+msgstr "O sino do Morro das Cabras. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Morro das Cabras.\nOs sinos da Cidade do Vento reconhecem as pessoas: no Morro das Cabras há quem confie em você.\n"
 
 msgid "晚月庄的铃。铃身发暗，刻着「晚月庄」两个字，一声不响。\n"
 msgstr "O sino do Solar da Lua Tardia. O corpo está escuro, com o nome \"Solar da Lua Tardia\" gravado, e não faz som.\n"
 
 msgid "晚月庄的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：晚月庄。\n岚城的铃认人：晚月庄有人信你。\n"
-msgstr "O sino do Solar da Lua Tardia. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Solar da Lua Tardia.\nOs sinos da Cidade do Vento reconhecem quem merece: no Solar da Lua Tardia há quem confie em você.\n"
+msgstr "O sino do Solar da Lua Tardia. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Solar da Lua Tardia.\nOs sinos da Cidade do Vento reconhecem as pessoas: no Solar da Lua Tardia há quem confie em você.\n"
 
 msgid "乔阴的铃。铃身发暗，刻着「乔阴」两个字，一声不响。\n"
 msgstr "O sino de Sombra Alta. O corpo está escuro, com o nome \"Sombra Alta\" gravado, e não faz som.\n"
 
 msgid "乔阴的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：乔阴。\n岚城的铃认人：乔阴有人信你。\n"
-msgstr "O sino de Sombra Alta. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Sombra Alta.\nOs sinos da Cidade do Vento reconhecem quem merece: em Sombra Alta há quem confie em você.\n"
+msgstr "O sino de Sombra Alta. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Sombra Alta.\nOs sinos da Cidade do Vento reconhecem as pessoas: em Sombra Alta há quem confie em você.\n"
 
 msgid "关北的铃。铃身发暗，刻着「关北」两个字，一声不响。\n"
 msgstr "O sino do Norte do Passo. O corpo está escuro, com o nome \"Norte do Passo\" gravado, e não faz som.\n"
 
 msgid "关北的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：关北。\n岚城的铃认人：关北有人信你。\n"
-msgstr "O sino do Norte do Passo. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Norte do Passo.\nOs sinos da Cidade do Vento reconhecem quem merece: no Norte do Passo há quem confie em você.\n"
+msgstr "O sino do Norte do Passo. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Norte do Passo.\nOs sinos da Cidade do Vento reconhecem as pessoas: no Norte do Passo há quem confie em você.\n"
 
 msgid "番坊的铃。铃身发暗，刻着「番坊」两个字，一声不响。\n"
 msgstr "O sino do Bairro Estrangeiro. O corpo está escuro, com o nome \"Bairro Estrangeiro\" gravado, e não faz som.\n"
 
 msgid "番坊的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：番坊。\n岚城的铃认人：番坊有人信你。\n"
-msgstr "O sino do Bairro Estrangeiro. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Bairro Estrangeiro.\nOs sinos da Cidade do Vento reconhecem quem merece: no Bairro Estrangeiro há quem confie em você.\n"
+msgstr "O sino do Bairro Estrangeiro. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Bairro Estrangeiro.\nOs sinos da Cidade do Vento reconhecem as pessoas: no Bairro Estrangeiro há quem confie em você.\n"
 
 msgid "玉螺湖村的铃。铃身发暗，刻着「玉螺湖村」两个字，一声不响。\n"
 msgstr "O sino da Aldeia Búzio de Jade. O corpo está escuro, com o nome \"Aldeia Búzio de Jade\" gravado, e não faz som.\n"
 
 msgid "玉螺湖村的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：玉螺湖村。\n岚城的铃认人：玉螺湖村有人信你。\n"
-msgstr "O sino da Aldeia Búzio de Jade. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Aldeia Búzio de Jade.\nOs sinos da Cidade do Vento reconhecem quem merece: na Aldeia Búzio de Jade há quem confie em você.\n"
+msgstr "O sino da Aldeia Búzio de Jade. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Aldeia Búzio de Jade.\nOs sinos da Cidade do Vento reconhecem as pessoas: na Aldeia Búzio de Jade há quem confie em você.\n"
 
 msgid "京师的铃。铃身发暗，刻着「京师」两个字，一声不响。\n"
 msgstr "O sino da Capital. O corpo está escuro, com o nome \"Capital\" gravado, e não faz som.\n"
 
 msgid "京师的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：京师。\n岚城的铃认人：京师有人信你。\n"
-msgstr "O sino da Capital. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Capital.\nOs sinos da Cidade do Vento reconhecem quem merece: na Capital há quem confie em você.\n"
+msgstr "O sino da Capital. Está tocando: não é o vento, ele toca mesmo com o vento parado. O nome gravado no corpo brilha: Capital.\nOs sinos da Cidade do Vento reconhecem as pessoas: na Capital há quem confie em você.\n"
 
 msgid "一股旋风，从台心的白石上直卷上去。风里一把剑，剑尖朝下，一圈一圈地转：剑身是白的，转起来像一圈光。\n剑柄上缠着褪了色的红绳，绳头在风里乱飞。\n"
 msgstr "Um redemoinho sobe em espiral da pedra branca do centro do terraço. No vento, uma espada com a ponta para baixo gira em círculos: a lâmina é branca e, girando, parece um anel de luz.\nNo cabo, enrolado, um cordão vermelho desbotado, cujas pontas esvoaçam sem rumo no vento.\n"
@@ -29206,7 +29206,7 @@ msgid "云边有风，会送你回去。"
 msgstr "Na beira das nuvens há um vento que levará você de volta."
 
 msgid "岚翁说道：先接三刃。风认了你，剑才落得下来。\n"
-msgstr "O Ancião do Vento diz: \"Primeiro, as três lâminas. Quando o vento reconhecer você, a espada poderá cair.\"\n"
+msgstr "O Ancião do Vento diz: \"Primeiro, aguente as três lâminas. Quando o vento reconhecer você, a espada poderá cair.\"\n"
 
 msgid "自己拔旋芒？十铃架上信你的铃够了。\n拔了，终章是你持剑；不拔，旋芒归皇叔或萧辟尘，湖畔和冰龙厅那两仗他会跟你并肩打。先要接岚翁的「接风三刃」——三下风刃是真的，接不住会受伤、会昏倒，歇好了可以再来。"
 msgstr "Sacar Gume Giratório você mesmo? Os sinos da estante dos dez sinos que confiam em você bastam.\nSe você a sacar, no capítulo final a espada será sua; se não, Gume Giratório fica com o tio imperial ou com Xiao Bichen, que lutará ao seu lado nas duas batalhas, na margem do lago e no salão dos dragões de gelo. Primeiro é preciso enfrentar as \"Três lâminas do vento\" do Ancião do Vento: as três lâminas são de verdade, e quem não as aguenta se fere e desmaia; depois de descansar, pode tentar de novo."
@@ -29266,7 +29266,7 @@ msgid "岚翁说道：京师那口铃还没响到他身上。手诏送到了，�
 msgstr "O Ancião do Vento diz: \"O sino da Capital ainda não tocou por ele. Quando o édito de próprio punho chegar e ele voltar à corte, o vento poderá encontrá-lo.\"\n"
 
 msgid "岚翁说道：於兰家的人？他还在通缉里，躲在水烟阁，朝廷的事他不碰。风找不到不肯来的人。\n"
-msgstr "O Ancião do Vento diz: \"A família Yulan? Ele ainda está sob mandado de prisão, escondido no Pavilhão da Neblina, e não se mete nos assuntos da corte. O vento não encontra quem não quer vir.\"\n"
+msgstr "O Ancião do Vento diz: \"O homem da família Yulan? Ele ainda está sob mandado de prisão, escondido no Pavilhão da Neblina, e não se mete nos assuntos da corte. O vento não encontra quem não quer vir.\"\n"
 
 msgid "（请皇叔拔：只有第九章请皇上先撤了他的通缉、把手诏送到他手里的那一边，他才在朝上。）\n"
 msgstr "(Pedir ao tio imperial: só no desfecho do capítulo 9 em que você pede ao imperador que primeiro revogue o mandado de prisão dele e entrega o édito de próprio punho a ele, ele estará na corte.)\n"
@@ -29275,7 +29275,7 @@ msgid "让萧辟尘拔"
 msgstr "Deixar Xiao Bichen sacar"
 
 msgid "让萧辟尘来拔？\n岚翁会把他的风铃挂回萧家的钩上，风认得铃上的名字，会把他送回来。剑跟他走：他会拿着它去决战，那一战，他可能回不来。铃也就还给他了。"
-msgstr "Deixar Xiao Bichen sacar a espada?\nO Ancião do Vento pendurará o sino dele de volta no gancho dos Xiao; o vento reconhece o nome no sino e o trará de volta. A espada vai com ele: ele a levará à batalha decisiva, e nessa batalha talvez não volte. O sino fica com ele."
+msgstr "Deixar Xiao Bichen sacar a espada?\nO Ancião do Vento pendurará o sino dele de volta no gancho dos Xiao; o vento reconhece o nome no sino e o trará de volta. A espada vai com ele: ele a levará à batalha decisiva, e nessa batalha talvez não volte. E o sino também volta para ele."
 
 msgid "岚翁接过风铃，拇指在铃舌的「尘」字上摸了一下，朝着白石街的方向摇了摇。\n"
 msgstr "O Ancião do Vento pega o sino de vento, passa o polegar sobre o ideograma \"Chen\" no badalo e o agita na direção da rua de pedra branca.\n"
@@ -29305,7 +29305,7 @@ msgid "岚翁说道：风认铃，不认人。萧家孩子的铃不在你身上�
 msgstr "O Ancião do Vento diz: \"O vento reconhece o sino, não a pessoa. O sino do menino dos Xiao não está com você, e o vento não consegue encontrá-lo.\"\n"
 
 msgid "（让萧辟尘拔：要带着他的青铜风铃——在老松岭石洞的石匣里，对着寻风地带的风才开。）\n"
-msgstr "(Deixar Xiao Bichen sacar: é preciso levar o sino de vento de bronze dele, que está no cofre de pedra da caverna da Serra dos Pinheiros Velhos e só abre diante do vento das Terras do Vento.)\n"
+msgstr "(Deixar Xiao Bichen sacar: é preciso levar o sino de vento de bronze dele, que está no cofre de pedra da caverna da Serra dos Pinheiros Velhos e só abre diante do vento da Zona de Busca do Vento.)\n"
 
 msgid "乘风"
 msgstr "Montar o vento"
@@ -32515,7 +32515,7 @@ msgid "那一卷不是。字学得像，可是「寻」字最后一笔，我从�
 msgstr "Aquele outro não. A letra é uma boa imitação, mas o último traço do caractere \"buscar\", eu nunca o curvo daquele jeito."
 
 msgid "寻剑令是我誊的。先帝口授，一句话：寻剑，不得扰民一户。我誊了一份，先帝用了宝。——后来外头传的那些，不是这一句。"
-msgstr "O Édito da Espada fui eu que copiei. O falecido imperador ditou uma só frase: buscar a espada, sem perturbar uma só família. Fiz uma cópia, e o falecido imperador a selou. O que depois correu por aí não é essa frase."
+msgstr "O Édito da Espada fui eu que copiei. O falecido imperador ditou uma só frase: buscar a espada, sem perturbar uma só casa. Fiz uma cópia, e o falecido imperador a selou. O que depois correu por aí não é essa frase."
 
 msgid "皇上睡得晚。养心殿西暖阁的窗，窗闩是坏的，先帝在时就坏了，没人修。夜里门口有侍卫，窗下没有。"
 msgstr "Sua Majestade dorme tarde. Na janela da Câmara quente oeste do Salão do Cultivo Mental, o trinco está quebrado; já estava assim no tempo do falecido imperador, e ninguém consertou. À noite há guardas na porta, mas sob a janela não há."
@@ -32644,7 +32644,7 @@ msgid "从诗集上抬起头，看了你很久。"
 msgstr "ergue a cabeça do livro de poemas e te olha por muito tempo."
 
 msgid "二十年，第一个不是庾家的人进这道门。"
-msgstr "Vinte anos, e você é o primeiro que não é da família Yu a atravessar esta porta."
+msgstr "Vinte anos, e você é {jogador:o primeiro|a primeira} que não é da família Yu a atravessar esta porta."
 
 msgid "老夫卫沧澜。——你认得这个名字？不认得也好。"
 msgstr "Este velho é Wei Canglan. ... Você conhece esse nome? Melhor se não conhecer."
@@ -32731,7 +32731,7 @@ msgid "你走到御案前，把先帝的原令和兵部的抄本并排摊开，�
 msgstr "Você vai até a escrivaninha imperial, estende lado a lado o édito original do falecido imperador e a cópia do Ministério, e depois dispõe sobre ela, uma por uma, as testemunhas e as provas.\n"
 
 msgid "「寻剑，不得扰民一户。」朝臣们一个一个伸长了脖子。\n"
-msgstr "\"Buscar a espada, sem perturbar uma só família.\" Os cortesãos esticam o pescoço, um após o outro.\n"
+msgstr "\"Buscar a espada, sem perturbar uma só casa.\" Os cortesãos esticam o pescoço, um após o outro.\n"
 
 msgid "槐阳王拒的，是父皇没下过的令。"
 msgstr "O que o Príncipe de Huaiyang recusou foi uma ordem que nosso pai nunca deu."
@@ -32920,7 +32920,7 @@ msgid "你揭开封条。匣子里一卷黄绫裹着的诏书，一卷兵部存�
 msgstr "Você rompe o lacre. Dentro da caixa há um rolo de édito envolto em seda amarela, um rolo da cópia arquivada do Ministério da Guerra e, por baixo, alguns cadernos de anotações.\n"
 
 msgid "诏书只有一行字，先帝的御笔：「寻剑，不得扰民一户。」后头钤着一方御宝，朱色正红。\n"
-msgstr "O édito tem uma só linha, de próprio punho do falecido imperador: \"Buscar a espada, sem perturbar uma só família.\" Abaixo, estampado um selo imperial, de um vermelho-cinabre puro.\n"
+msgstr "O édito tem uma só linha, de próprio punho do falecido imperador: \"Buscar a espada, sem perturbar uma só casa.\" Abaixo, estampado um selo imperial, de um vermelho-cinabre puro.\n"
 
 msgid "兵部的复本同一个日子、同一个开头，「寻剑」之后多出三行：「征民夫，设关卡，拿人。」后头盖着兵部的印，旁边还有一方「镇国大将军」印。\n"
 msgstr "A cópia do Ministério tem a mesma data e o mesmo começo, mas depois de \"A busca da espada\" vêm três linhas a mais: \"Recrutar peões, montar postos de controle, prender gente.\" Abaixo, o selo do Ministério e, ao lado, outro selo: \"Grande General Guardião\".\n"
