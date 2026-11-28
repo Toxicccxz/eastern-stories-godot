@@ -38110,7 +38110,7 @@ msgid "突然房间里好像传来梦忆柔的声音说拿太多小心吃到噎�
 msgstr "De repente, parece que se ouve na sala a voz de Mengyi Rou, dizendo: \"Cuidado para não pegar demais, senão você engasga!\""
 
 msgid "烧饭僧说:阿弥陀佛 !! 施主偷东西是不好的行为哦!!!"
-msgstr "O monge cozinheiro diz: \"Amitabha! {jogador:Benefactor|Benefactora}, roubar é muito feio.\""
+msgstr "O monge cozinheiro diz: \"Amitabha! {jogador:Benfeitor|Benfeitora}, roubar é muito feio.\""
 
 msgid "一个竹藤编成的蒸笼, 阵阵的香味使你想打开来瞧一瞧。\n"
 msgstr "Um cesto de vapor trançado de bambu e vime; o aroma que sai dele dá vontade de abri-lo e espiar."
@@ -38128,7 +38128,7 @@ msgid "药圃一块一块的，哪边种当归，哪边种枸杞，绝不会混�
 msgstr "A horta é dividida em canteiros: aqui se planta angélica, ali goji, e nunca se misturam. Mas, por mais que você olhe, são só ervas comuns, e, sem receita, você não sabe qual colher."
 
 msgid "烧饭僧说:阿弥陀佛 !! 施主请勿动手动脚, 妨碍贫僧煮饭。\n"
-msgstr "O monge cozinheiro diz: \"Amitabha! {jogador:Benefactor|Benefactora}, não mexa em tudo, que atrapalha este humilde monge que cozinha.\""
+msgstr "O monge cozinheiro diz: \"Amitabha! {jogador:Benfeitor|Benfeitora}, não mexa em tudo, que atrapalha este humilde monge que cozinha.\""
 
 msgid "你打开蒸笼的盖子, 一股热气冒向你的脸上。\n你仔细一看, 只见蒸笼里排著一粒粒又白又Ｑ的大馒头。\n"
 msgstr "Você abre a tampa do cesto de vapor, e uma baforada quente bate no seu rosto.\nOlhando bem, vê fileiras de grandes pães brancos e macios dentro do cesto."
