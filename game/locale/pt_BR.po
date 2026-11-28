@@ -11209,7 +11209,7 @@ msgid "步子在后院书房那幅湘绣图上，曲子在舞曲谱里。两样�
 msgstr "Os passos estão no bordado do escritório do quintal; a música, na partitura de dança. Reunidas as duas coisas, vá ao oratório do segundo andar e dance diante da tabuleta de Ouming."
 
 msgid "我们晚月庄是『以舞会友，以神换技』。可庄里失传过一支舞，叫沧海龙吟——寒谷龙舞里的一支，几十年没人跳过了。"
-msgstr "Aqui no Solar da Lua Tardia, 'fazemos amigos pela dança e trocamos Espírito por técnica'. Mas uma dança se perdeu no Solar, o Canto do Dragão sobre o Mar Azul, uma das Dança do Dragão do Vale Frio, que ninguém dança há décadas."
+msgstr "Aqui no Solar da Lua Tardia, 'fazemos amigos pela dança e trocamos Espírito por técnica'. Mas uma dança se perdeu no Solar, o Canto do Dragão sobre o Mar Azul, uma das Danças do Dragão do Vale Frio, que ninguém dança há décadas."
 
 msgid "步子绣在后院书房那幅湘绣舞曲图上，昭仪天天对着它看；曲子在舞曲谱里，欣芳知道谱放在哪。"
 msgstr "Os passos estão bordados no quadro de dança do escritório do quintal, que Zhaoyi contempla todos os dias; a música está na partitura de dança, e Xinfang sabe onde ela fica guardada."
