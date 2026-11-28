@@ -92,6 +92,16 @@ func _test_data() -> void:
 	_check(desk.acts.size() == 6 and desk.acts[3].phase == ([&"night", &"midnight"] as Array[StringName]) and not desk.acts[4].ask.is_empty(), "the desk: three afterwards, the night, waiting for it, nothing")
 	# Their master's one line: to his own (封山), and through 李火狮 to the 北宗.
 	_check(_says(catalog.npc(&"common.npc.swordsman.master"), "最近总往镇外跑") and _says(catalog.npc(&"snow.npc.fist_trainer"), "最近总往镇外跑"), "「最近总往镇外跑」: 柳淳风 to his own, 李火狮 to the 北宗")
+	# 师娘彩蛋 C: the town knows she lives out there (to anyone: no more than that); 何守拙 on 「雨」,
+	# one line for each name, on his list only for one taught it.
+	var town: FamilyDefinition.Hearsay = _hearsay(catalog, &"snow.npc.waiter", "风雨双侠")
+	_check(town != null and town.asker_marks.is_empty() and town.say.contains("师娘") and town.say.contains("黄土小径") and not town.say.contains("沈疏雨"), "店小二 on 「风雨双侠」: a 师娘 out past the 黄土小径, to anyone, unnamed")
+	var guard_talk: NpcTalk = catalog.npc(HE).talk()
+	_check(not guard_talk.listed_for("雨", {}) and guard_talk.listed_for("雨", {TAUGHT: 1}) and guard_talk.listed_for("雨", {TAUGHT_NIGHT: 1}), "何守拙's 「雨」: listed only to one taught it, by either name")
+	var ending: EpilogueDefinition = catalog.epilogue(&"ending")
+	_check(_told(ending, ["告辞了"]).contains("不再一步一停") and not _told(ending, ["告辞了"]).contains("倒扣着"), "the ending, 告辞: her sword no longer waits")
+	_check(_told(ending, ["留下了"]).contains("倒扣着") and not _told(ending, ["留下了"]).contains("一步一停"), "the ending, 留下: the cups turned down, the lamp late")
+	_check(not _told(ending, []).contains("镇外"), "the ending says nothing of her to one who never went")
 
 
 func _test_line(tree: SceneTree, session: WorldSessionController) -> void:
@@ -213,6 +223,9 @@ func _test_line(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	_close_box(ui)
 	_check(_said(_ask(yard, _first(session, &"snow.rain_yard", SHEN), "竹简"), "头一回"), "「竹简」: the first time it was written")
+	_check(_said(_ask(yard, _first(session, &"snow.rain_yard", HE), "雨"), "看着你学的"), "何守拙 on 「雨」, 告辞: he watched it taught")
+	var told: String = _arts_entry(state, catalog)
+	_check(told.contains("何守拙说过：「听雨」是她的剑") and not told.contains("「夜雨」"), "the 见识录's 封山剑法: what 何守拙 said of 「听雨」 (%s)" % told)
 	# 柳淳风, back at the 武馆: his one flat line, once.
 	var hall: WorldMapController = MapPlaces.enter(session, &"snow.schoolhall", &"snow.schoolhall.master.1")
 	await _settle(tree)
@@ -272,6 +285,8 @@ func _test_stay(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(state.marks.get("小院又来过", 0) == 1 and _said(_recent(ui, 12), "你来了") and _said(_recent(ui, 12), "劈他的柴"), "she greets one who came back; 何守拙 looks up")
 	var shen: NpcRuntimeState = _first(session, &"snow.rain_yard", SHEN)
 	_check(yard.select_npc(shen.character_id) and yard.ask_topics_selected().has("簪子") and not yard.ask_topics_selected().has("竹简"), "「簪子」 to ask of, not 「竹简」")
+	_check(_said(_ask(yard, _first(session, &"snow.rain_yard", HE), "雨"), "什么也没听见"), "何守拙 on 「雨」, 留下: he heard nothing that night")
+	_check(_arts_entry(state, catalog).contains("何守拙说过：「夜雨」就是她那一剑") and not _arts_entry(state, catalog).contains("「听雨」是她的剑"), "the 见识录 keeps it, and nothing of 「听雨」")
 
 
 ## TEST-ONLY: the clock put a minute into `phase_id`.
@@ -303,6 +318,36 @@ func desk_lines(catalog: ContentCatalog) -> Array:
 
 func _line_with(lines: Array, part: String) -> bool:
 	return lines.any(func(line: String) -> bool: return line.contains(part))
+
+
+## The town's line of hearsay `npc` hangs on `topic`, or null.
+func _hearsay(catalog: ContentCatalog, npc_id: StringName, topic: String) -> FamilyDefinition.Hearsay:
+	for line: FamilyDefinition.Hearsay in catalog.hearsay_for(&"fonxansword"):
+		if line.npc_id == npc_id and line.topic == topic:
+			return line
+	return null
+
+
+## What the ending tells one who holds `marks`.
+func _told(epilogue: EpilogueDefinition, marks: Array) -> String:
+	var state := CharacterState.new()
+	for mark: String in marks:
+		state.marks[mark] = 1 # TEST-ONLY
+	var temps: Dictionary[String, int] = {}
+	var held: Dictionary[StringName, bool] = {}
+	var test: Callable = func(condition: JournalEntryDefinition) -> bool: return JournalLog.holds(condition, state, temps, held)
+	var lines: Array[String] = []
+	for shown: Array in epilogue.shown(test):
+		lines.append_array(shown[1])
+	return "\n".join(lines)
+
+
+## The 见识录's 封山剑法 entry as text ("" without one).
+func _arts_entry(state: CharacterState, catalog: ContentCatalog) -> String:
+	for entry: CodexContent.Entry in CodexContent.entries(CodexContent.Section.ARTS, state, catalog):
+		if entry.key == "moves/fonxansword":
+			return entry.text()
+	return ""
 
 
 ## Whether one of the NPC's calls says `part`.

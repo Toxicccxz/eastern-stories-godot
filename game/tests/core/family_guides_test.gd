@@ -22,7 +22,7 @@ func run_all() -> Dictionary[String, Variant]:
 func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var family: FamilyDefinition = catalog.family(&"family.fonxan")
-	_check(family != null and family.guides.size() == 2 and family.hearsay.size() == 11 and family.origin.begins_with("native"), "封山剑派: two guides, eleven lines of hearsay, their origin named")
+	_check(family != null and family.guides.size() == 2 and family.hearsay.size() == 14 and family.origin.begins_with("native"), "封山剑派: two guides, fourteen lines of hearsay (three of them 师娘彩蛋 C's), their origin named")
 	var fists: FamilyDefinition.SchoolGuide = catalog.guide_for(&"liuh-ken")
 	var sword: FamilyDefinition.SchoolGuide = catalog.guide_for(&"fonxansword")
 	_check(fists != null and fists.npc_id == &"snow.npc.fist_trainer" and fists.master_id == &"common.npc.swordsman.master" and fists.teach.size() == 4 and fists.rounds.size() == 3 and fists.teach_topic == "打法", "柳家拳's guide is 李火狮, four lines, three rounds, the topic 打法")
@@ -30,7 +30,8 @@ func _test_data() -> void:
 	_check(catalog.guide_of_npc(&"snow.npc.girl") == sword and catalog.guide_of_npc(&"snow.npc.waiter") == null and catalog.guide_for(&"dodge") == null, "the guide by its NPC; nobody else guides")
 	for skill_id: StringName in [&"liuh-ken", &"fonxansword"]:
 		var lines: Array[FamilyDefinition.Hearsay] = catalog.hearsay_for(skill_id)
-		_check(lines.size() == 5 and lines[4].npc_id == &"snow.npc.herbalist" and lines[4].asker_marks == ["wounded_by/" + String(skill_id)] and lines[4].key == "hearsay/%s/5" % skill_id, "%s: five lines, the doctor's last and asking for the wound's mark: %s" % [skill_id, lines.map(func(line: FamilyDefinition.Hearsay) -> String: return String(line.npc_id))])
+		# 师娘彩蛋 C (DECISIONS「师娘彩蛋 C」): 封山剑法's three after the doctor's, the earlier keys kept.
+		_check(lines.size() == (8 if skill_id == &"fonxansword" else 5) and lines[4].npc_id == &"snow.npc.herbalist" and lines[4].asker_marks == ["wounded_by/" + String(skill_id)] and lines[4].key == "hearsay/%s/5" % skill_id, "%s: the doctor's fifth, asking for the wound's mark: %s" % [skill_id, lines.map(func(line: FamilyDefinition.Hearsay) -> String: return String(line.npc_id))])
 		var skill: SkillDefinition = catalog.skill(skill_id)
 		_check(skill.skeleton != null and not skill.skeleton.style_line.is_empty() and not skill.skeleton.style_line.contains("拍"), "%s has its way in one plain sentence, no system word: %s" % [skill_id, skill.skeleton.style_line])
 	for line: FamilyDefinition.Hearsay in family.hearsay:
